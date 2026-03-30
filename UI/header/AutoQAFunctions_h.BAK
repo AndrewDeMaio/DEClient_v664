@@ -1,0 +1,20 @@
+/*-----------------------------------------------------------------------------
+
+	AutoQAFunctions.h
+
+	2009.09.23 chyaya
+
+-----------------------------------------------------------------------------*/
+
+#ifndef __AUTOQAFUNCTIONS_H__
+#define __AUTOQAFUNCTIONS_H__
+
+#include "AutoQA.h"
+
+class AQAFunctions : public aqa::Functions
+{
+public:
+	AQAFunctions();
+};
+
+#endif	//__AUTOQAFUNCTIONS_H__

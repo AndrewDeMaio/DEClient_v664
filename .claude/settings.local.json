@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -rn ServerInformation D:/GitHub/DEClient_v6 --include=*.h --include=*.cpp)",
+      "Bash(grep -v \"//.*ServerInformation\")",
+      "Bash(ls D:GitHubDEClient_v6/*.h)",
+      "Bash(xargs -I{} basename {} .h)",
+      "Bash(sort ls:*)",
+      "Bash(xargs -I{} basename {})",
+      "Bash(ls D:GitHubDEClient_v6Packet/*.h D:GitHubDEClient_v6Packet/*.cpp)",
+      "Bash(grep -oP '[^\\\\\\\\]+\\\\.h')",
+      "Bash(grep -rlE throws*\\\\\\( Packet/*.h Packet/*.cpp --include=*.h --include=*.cpp)",
+      "Bash(perl -i -0pe 's/\\\\s*throw\\\\s*\\\\\\(\\\\s*[A-Za-z_]+\\(\\\\s*,\\\\s*[A-Za-z_]+\\)*\\\\s*\\\\\\)//gs' Packet/SocketAPI.cpp)",
+      "Bash(grep -v '//')",
+      "Bash(ls D:/GitHub/DEClient_v6/NMCrypt/*.cpp)",
+      "Bash(ls D:/GitHub/DEClient_v6/NMCrypt/*.h)",
+      "Bash(ls D:/GitHub/DEClient_v6/NMCrypt/Types/*.h)",
+      "Bash(ls D:/GitHub/DEClient_v6/NMCrypt/PC*)",
+      "Bash(ls D:/GitHub/DEClient_v6/Packet/PCOustersInfo2* D:/GitHub/DEClient_v6/Packet/PCOustersInfo3* D:/GitHub/DEClient_v6/Packet/PCSlayerInfo2* D:/GitHub/DEClient_v6/Packet/PCSlayerInfo3* D:/GitHub/DEClient_v6/Packet/PCVampireInfo2* D:/GitHub/DEClient_v6/Packet/PCVampireInfo3*)",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(mv \"Packet/$f\" \"NMCrypt/$f\")",
+      "Bash(done)",
+      "Bash(ls D:/GitHub/DEClient_v6/NMCrypt/OustersSkillInfo.*)",
+      "Bash(mv NMCrypt/Types/*.h Packet/Types/)",
+      "Bash(rmdir NMCrypt/Types)",
+      "Bash(mv NMCrypt/Types.h Packet/Types.h)",
+      "Bash(mv NMCrypt/Packet.h Packet/Packet.h)",
+      "Bash(mv NMCrypt/SocketInputStream.h Packet/SocketInputStream.h)",
+      "Bash(mv NMCrypt/SocketOutputStream.h Packet/SocketOutputStream.h)",
+      "Bash(ls D:/GitHub/DEClient_v6/SpriteLib/C*PartManager* D:/GitHub/DEClient_v6/SpriteLib/CSpritePal*)",
+      "Bash(grep -rn \"adler32\\\\.c\\\\|compress\\\\.c\\\\|crc32\\\\.c\\\\|deflate\\\\.c\\\\|gzio\\\\.c\\\\|infblock\\\\.c\\\\|infcodes\\\\.c\\\\|inffast\\\\.c\\\\|inflate\\\\.c\\\\|inftrees\\\\.c\\\\|infutil\\\\.c\\\\|trees\\\\.c\\\\|uncompr\\\\.c\" /d/GitHub/DEClient_v664/*.vcxproj)",
+      "Bash(ls /d/GitHub/DEClient_v664/MZLib/*.h)"
+    ]
+  }
+}

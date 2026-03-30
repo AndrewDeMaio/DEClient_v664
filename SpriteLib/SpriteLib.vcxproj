@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{a33c102e-0230-448c-852b-9ac83a7ff03f}</ProjectGuid>
+    <RootNamespace>SpriteLib</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)x86\</OutDir>
+    <TargetName>SP_Debug</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)x64\</OutDir>
+    <TargetName>SP_x64_Debug</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\VirtualFileSystem;..\dxlib;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>..\VirtualFileSystem;..\dxlib;..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)VirtualFileSystem;$(SolutionDir)dxlib;$(SolutionDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>$(SolutionDir)Packet;$(SolutionDir)D3DLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)DXLib;$(SolutionDir)Include;$(ProjectDir);$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="CNormalSpriteTexturePartManager.cpp" />
+    <ClCompile Include="CShadowPartManager.cpp" />
+    <ClCompile Include="CSpriteTexturePartManager.cpp" />
+    <ClCompile Include="CTexturePartManager.cpp" />
+    <ClCompile Include="CAlphaSprite.cpp" />
+    <ClCompile Include="CAlphaSprite555.cpp" />
+    <ClCompile Include="CAlphaSprite565.cpp" />
+    <ClCompile Include="CAlphaSpritePal.cpp" />
+    <ClCompile Include="CFileIndexTable.cpp" />
+    <ClCompile Include="CFilter.cpp" />
+    <ClCompile Include="CIndexSprite.cpp" />
+    <ClCompile Include="CIndexSprite555.cpp" />
+    <ClCompile Include="CIndexSprite565.cpp" />
+    <ClCompile Include="CIndexSpritePack.cpp" />
+    <ClCompile Include="CShadowSprite.cpp" />
+    <ClCompile Include="CSprite.cpp" />
+    <ClCompile Include="CSprite555.cpp" />
+    <ClCompile Include="CSprite565.cpp" />
+    <ClCompile Include="CSpriteDef.cpp" />
+    <ClCompile Include="CSpriteOutlineManager.cpp" />
+    <ClCompile Include="CSpritePack.cpp" />
+    <ClCompile Include="CSpritePackList.cpp" />
+    <ClCompile Include="CSpritePackList555.cpp" />
+    <ClCompile Include="CSpritePackList565.cpp" />
+    <ClCompile Include="CSpritePal.cpp" />
+    <ClCompile Include="CSpritePalBase.cpp" />
+    <ClCompile Include="CSpriteSet.cpp" />
+    <ClCompile Include="CSpriteSetManager.cpp" />
+    <ClCompile Include="CSpriteSurface.cpp" />
+    <ClCompile Include="CStorageSurface.cpp" />
+    <ClCompile Include="MPalette.cpp" />
+    <ClCompile Include="MPalettePack.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CShadowPartManager.h" />
+    <ClInclude Include="CSpriteTexturePartManager.h" />
+    <ClInclude Include="CTexturePartManager.h" />
+    <ClInclude Include="CAlphaSpritePal.h" />
+    <ClInclude Include="CFileIndexTable.h" />
+    <ClInclude Include="CFilter.h" />
+    <ClInclude Include="CIndexSprite.h" />
+    <ClInclude Include="CIndexSprite555.h" />
+    <ClInclude Include="CIndexSprite565.h" />
+    <ClInclude Include="CIndexSpritePack.h" />
+    <ClInclude Include="CSetManager.h" />
+    <ClInclude Include="CShadowSprite.h" />
+    <ClInclude Include="CSprite.h" />
+    <ClInclude Include="CSprite555.h" />
+    <ClInclude Include="CSprite565.h" />
+    <ClInclude Include="CSpriteDef.h" />
+    <ClInclude Include="CSpriteOutlineManager.h" />
+    <ClInclude Include="CSpritePack.h" />
+    <ClInclude Include="CSpritePackList.h" />
+    <ClInclude Include="CSpritePackList555.h" />
+    <ClInclude Include="CSpritePackList565.h" />
+    <ClInclude Include="CSpritePal.h" />
+    <ClInclude Include="CSpritePalBase.h" />
+    <ClInclude Include="CSpriteSet.h" />
+    <ClInclude Include="CSpriteSetManager.h" />
+    <ClInclude Include="CSpriteSurface.h" />
+    <ClInclude Include="CStorageSurface.h" />
+    <ClInclude Include="CTypePack.h" />
+    <ClInclude Include="CTypePackVector.h" />
+    <ClInclude Include="DrawTypeDef.h" />
+    <ClInclude Include="MPalette.h" />
+    <ClInclude Include="MPalettePack.h" />
+    <ClInclude Include="SP.h" />
+    <ClInclude Include="TArray.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

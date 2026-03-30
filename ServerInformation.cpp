@@ -1,0 +1,110 @@
+//----------------------------------------------------------------------
+// ServerInformation.cpp
+//----------------------------------------------------------------------
+#include "Client_PCH.h"
+#include "ServerInformation.h"
+
+//----------------------------------------------------------------------
+// Global
+//----------------------------------------------------------------------
+CServerInformation*	g_pServerInformation = NULL;
+
+//----------------------------------------------------------------------
+//
+// ServerGroup
+// 
+//----------------------------------------------------------------------
+ServerGroup::ServerGroup()
+{
+	m_GroupStatus = 0;
+}
+
+//----------------------------------------------------------------------
+//
+// ServerInformation
+//
+//----------------------------------------------------------------------
+CServerInformation::CServerInformation()
+{
+}
+
+CServerInformation::~CServerInformation()
+{
+	Release();
+}
+
+//----------------------------------------------------------------------
+// Release
+//----------------------------------------------------------------------
+void
+CServerInformation::Release()
+{
+	SERVER_GROUP_MAP::Release();
+
+	m_ServerGroupID = 0;
+	m_ServerGroupStatus = 0;
+	m_ServerID = 0;
+
+	// �̸��� �����ش�.
+	m_ServerGroupName.Release();
+	m_ServerName.Release();
+}
+
+//----------------------------------------------------------------------
+// Set Server GroupID
+//----------------------------------------------------------------------
+bool
+CServerInformation::SetServerGroupID(unsigned int id)	
+{ 
+	//-----------------------------------------------------------
+	// Group�� �̸��� ����صд�.
+	//-----------------------------------------------------------
+	ServerGroup* pGroup = GetData( id );
+
+	if (pGroup==NULL)
+	{
+		m_ServerGroupName.Release();
+
+		return false;
+	}
+	
+	m_ServerGroupID = id; 
+	m_ServerGroupName = pGroup->GetGroupName();	
+	m_ServerGroupStatus = pGroup->GetGroupStatus();
+
+	return true;
+}
+
+//----------------------------------------------------------------------
+// Set ServerID
+//----------------------------------------------------------------------
+bool
+CServerInformation::SetServerID(unsigned int id)		
+{ 
+	//-----------------------------------------------------------
+	// Groupã��
+	//-----------------------------------------------------------
+	ServerGroup* pGroup = GetData( m_ServerGroupID );
+
+	if (pGroup==NULL)
+	{
+		return false;
+	}
+
+	//-----------------------------------------------------------
+	// Server �̸� ã��
+	//-----------------------------------------------------------
+	SERVER_INFO* pInfo = pGroup->GetData( id );
+
+	if (pInfo==NULL)
+	{
+		return false;
+	}
+		
+	m_ServerID		= id; 
+	m_ServerName	= pInfo->ServerName;
+	m_ServerStatus	= pInfo->ServerStatus;
+	m_ServerNonPK	= pInfo->ServerNonPK;
+
+	return true;
+}

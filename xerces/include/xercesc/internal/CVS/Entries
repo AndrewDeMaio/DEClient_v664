@@ -1,0 +1,27 @@
+/BinFileOutputStream.hpp/1.1/Thu Oct 16 08:18:12 2008//
+/CharTypeTables.hpp/1.1/Thu Oct 16 08:18:12 2008//
+/DGXMLScanner.hpp/1.1/Thu Oct 16 08:18:12 2008//
+/ElemStack.hpp/1.1/Thu Oct 16 08:18:12 2008//
+/EndOfEntityException.hpp/1.1/Thu Oct 16 08:18:12 2008//
+/IANAEncodings.hpp/1.1/Thu Oct 16 08:18:12 2008//
+/IGXMLScanner.hpp/1.1/Thu Oct 16 08:18:12 2008//
+/MemoryManagerArrayImpl.hpp/1.1/Thu Oct 16 08:18:12 2008//
+/MemoryManagerImpl.hpp/1.1/Thu Oct 16 08:18:12 2008//
+/ReaderMgr.hpp/1.1/Thu Oct 16 08:18:12 2008//
+/SGXMLScanner.hpp/1.1/Thu Oct 16 08:18:12 2008//
+/ValidationContextImpl.hpp/1.1/Thu Oct 16 08:18:12 2008//
+/VecAttrListImpl.hpp/1.1/Thu Oct 16 08:18:12 2008//
+/VecAttributesImpl.hpp/1.1/Thu Oct 16 08:18:12 2008//
+/WFXMLScanner.hpp/1.1/Thu Oct 16 08:18:13 2008//
+/XMLGrammarPoolImpl.hpp/1.1/Thu Oct 16 08:18:13 2008//
+/XMLInternalErrorHandler.hpp/1.1/Thu Oct 16 08:18:13 2008//
+/XMLReader.hpp/1.1/Thu Oct 16 08:18:13 2008//
+/XMLScannerResolver.hpp/1.1/Thu Oct 16 08:18:13 2008//
+/XObjectComparator.hpp/1.1/Thu Oct 16 08:18:13 2008//
+/XSObjectFactory.hpp/1.1/Thu Oct 16 08:18:13 2008//
+/XSerializable.hpp/1.1/Thu Oct 16 08:18:13 2008//
+/XSerializationException.hpp/1.1/Thu Oct 16 08:18:13 2008//
+/XSerializeEngine.hpp/1.1/Thu Oct 16 08:18:13 2008//
+/XTemplateComparator.hpp/1.1/Thu Oct 16 08:18:13 2008//
+/XTemplateSerializer.hpp/1.1/Thu Oct 16 08:18:13 2008//
+D

@@ -1,0 +1,15556 @@
+//----------------------------------------------------------------------
+// MItemTable.cpp
+//----------------------------------------------------------------------
+// Item떨어지는걸 하고 싶으면..
+// 각 info에다가 DropFrameID( ...)를 제대로 설정하면 된다.
+// 물론 .. MTopView에는 ItemDropFPK와 ItemDropFPK가 제대로 된게 있어야 겠지..
+//----------------------------------------------------------------------
+// Edit Log
+//
+//	- dj 2006.12.21 키케다 물라다라 드라이어드릭 사이렌링 레쉬펜던트 토리드 리스틀릿 이미지 교체를 위한 번호 (변경)할당
+//
+#include "Client_PCH.h"
+#include "MItem.h"
+#include "MItemTable.h"
+#include "AddonDef.h"
+#include "SkillDef.h"
+#include "SoundDef.h"
+#include "MGameStringTable.h"
+
+#ifdef __GAME_CLIENT__
+	#include "DebugInfo.h"
+#endif
+
+//#if !defined(__GAME_CLIENT__) || defined(OUTPUT_DEBUG) || defined(_DEBUG)
+#if defined(__INIT_INFO__) || !defined(__GAME_CLIENT__)
+	#define __INIT_ITEM__
+#endif
+
+#ifdef __INIT_ITEM__
+	#include "InitInfo.h"
+#endif
+
+//----------------------------------------------------------------------
+// Global
+//----------------------------------------------------------------------
+ITEMCLASS_TABLE	*	g_pItemTable = NULL;
+COLORREF g_ELEMENTAL_COLOR[5] = { RGB(255, 100, 100), RGB(100, 100, 255), RGB(255, 180, 100), RGB(100, 100, 255), RGB(192, 192, 255) };
+int g_ELEMENTAL_STRING_ID[5] = { UI_STRING_MESSAGE_ELEMENTAL_FIRE, UI_STRING_MESSAGE_ELEMENTAL_WATER, UI_STRING_MESSAGE_ELEMENTAL_EARTH, UI_STRING_MESSAGE_ELEMENTAL_WIND, UI_STRING_MESSAGE_ELEMENTAL_SUM};
+
+//----------------------------------------------------------------------
+//
+//				ITEMTABLE_INFO
+//
+//----------------------------------------------------------------------
+ITEMTABLE_INFO::ITEMTABLE_INFO()
+{
+	// Frame ID
+	TileFrameID			= FRAMEID_NULL;		// Tile에서의 FrameID
+	InventoryFrameID	= FRAMEID_NULL;		// Inventory에서의 Frame ID
+	GearFrameID			= FRAMEID_NULL;		// Gear에서의 Frame ID
+	AddonMaleFrameID	= FRAMEID_NULL;		// 장착했을 때의 동작 FrameID - 남자
+	AddonFemaleFrameID	= FRAMEID_NULL;		// 장착했을 때의 동작 FrameID - 여자
+
+	// Sound ID
+	UseSoundID			= SOUNDID_NULL;		// Item 사용 SoundID			
+	TileSoundID			= SOUNDID_NULL;		// Item 줍기 SoundID
+	InventorySoundID	= SOUNDID_NULL;		// Inventory에서의 Sound
+	GearSoundID			= SOUNDID_NULL;		// Gear에서의 Sound
+
+	bMaleOnly			= false;
+	bFemaleOnly			= false;
+	
+	// inventory에서의 Grid크기
+	GridWidth			= 1;
+	GridHeight			= 1;
+
+	// item 자체에 대한 고정된 정보
+	Weight				= 0;				// 무게	
+
+	// 값들.. --> Protection, 공격력, 사정거리
+	Value1				= 0;
+	Value2				= 0;
+	Value3				= 0;
+	Value4				= 0;
+	Value5				= 0;
+	Value6				= 0;
+	Value7				= 0;
+
+	// 필요능력
+	RequireSTR			= 0;
+	RequireDEX			= 0;
+	RequireINT			= 0;
+	RequireSUM			= 0;
+	RequireAdvancementLevel = 0;
+	RequireLevel		= 0;
+
+	// 기본 공격 ActionInfo
+	UseActionInfo		= ACTIONINFO_NULL;
+
+	// silver coating
+	SilverMax			= 0;
+
+	ToHit				= 0;
+
+	MaxNumber			= 1;
+
+	CriticalHit			= 0;
+
+	ItemStyle			= 0;
+#if __CONTENTS(__ONIBLA_ITEM)
+	NormalItemGrade		= 0;
+#endif //__ONIBLA_ITEM
+
+	ElementalType		= ELEMENTAL_TYPE_ANY;
+	Elemental			= 0;
+
+	DescriptionFrameID = 0;
+	DropItemNameTag		= 0;
+}
+
+ITEMTABLE_INFO::~ITEMTABLE_INFO()
+{
+}
+
+//----------------------------------------------------------------------
+//
+// member functions
+//
+//----------------------------------------------------------------------
+//----------------------------------------------------------------------
+// Set SoundID
+//----------------------------------------------------------------------
+void	
+ITEMTABLE_INFO::SetSoundID(TYPE_SOUNDID tile, TYPE_SOUNDID inventory, TYPE_SOUNDID gear, TYPE_SOUNDID use)
+{
+	TileSoundID = tile;
+	InventorySoundID = inventory;
+	GearSoundID = gear;
+	UseSoundID = use;	
+}
+
+//----------------------------------------------------------------------
+// Set FrameID
+//----------------------------------------------------------------------
+void	
+ITEMTABLE_INFO::SetFrameID(TYPE_FRAMEID tile, TYPE_FRAMEID inventory, TYPE_FRAMEID gear, TYPE_FRAMEID use)
+{
+	TileFrameID = tile;
+	InventoryFrameID = inventory;
+	GearFrameID = gear;	
+	UseFrameID = use;
+}
+
+//----------------------------------------------------------------------
+// Set DropFrameID
+//----------------------------------------------------------------------
+void	
+ITEMTABLE_INFO::SetDropFrameID(TYPE_FRAMEID drop)
+{
+	DropFrameID	= drop;
+}
+
+//----------------------------------------------------------------------
+// Set Addon FrameID
+//----------------------------------------------------------------------
+void
+ITEMTABLE_INFO::SetAddonFrameID(TYPE_FRAMEID male, TYPE_FRAMEID female)
+{
+	AddonMaleFrameID = male;
+	AddonFemaleFrameID = female;
+}
+
+//----------------------------------------------------------------------
+// Set Grid
+//----------------------------------------------------------------------
+void	
+ITEMTABLE_INFO::SetGrid(BYTE width, BYTE height)
+{
+	GridWidth = width;
+	GridHeight = height;
+}
+
+//----------------------------------------------------------------------
+// Set Values
+//----------------------------------------------------------------------
+void	
+ITEMTABLE_INFO::SetValue(int v1, int v2, int v3, int v4, int v5, int v6, int v7)
+{
+	Value1 = v1;
+	Value2 = v2;
+	Value3 = v3;
+	Value4 = v4;
+	Value5 = v5;
+	Value6 = v6;
+	Value7 = v7;
+}
+
+//----------------------------------------------------------------------
+// Save
+//----------------------------------------------------------------------
+void			
+ITEMTABLE_INFO::SaveToFile(std::ofstream& file)
+{
+	// 이름 저장
+	EName.SaveToFile( file );
+	HName.SaveToFile( file );
+	Description.SaveToFile( file );
+
+	// Frame ID
+	file.write((const char*)&TileFrameID, SIZE_FRAMEID);
+	file.write((const char*)&InventoryFrameID, SIZE_FRAMEID);
+	file.write((const char*)&GearFrameID, SIZE_FRAMEID);
+	file.write((const char*)&DropFrameID, SIZE_FRAMEID);
+	file.write((const char*)&AddonMaleFrameID, SIZE_FRAMEID);
+	file.write((const char*)&AddonFemaleFrameID, SIZE_FRAMEID);
+	file.write((const char*)&UseFrameID, SIZE_FRAMEID);
+	
+	// Sound ID
+	file.write((const char*)&UseSoundID, SIZE_SOUNDID);
+	file.write((const char*)&TileSoundID, SIZE_SOUNDID);
+	file.write((const char*)&InventorySoundID, SIZE_SOUNDID);
+	file.write((const char*)&GearSoundID, SIZE_SOUNDID);
+
+	// inventory에서의 Grid크기
+	file.write((const char*)&GridWidth, 1);
+	file.write((const char*)&GridHeight, 1);
+
+	// 가격
+	file.write((const char*)&Price, SIZE_ITEM_PRICE);
+
+	// 무게
+	file.write((const char*)&Weight, SIZE_ITEM_WEIGHT);
+
+	// 값들
+	file.write((const char*)&Value1, 4);
+	file.write((const char*)&Value2, 4);
+	file.write((const char*)&Value3, 4);
+	file.write((const char*)&Value4, 4);
+	file.write((const char*)&Value5, 4);
+	file.write((const char*)&Value6, 4);
+	file.write((const char*)&Value7, 4);
+	
+	// 필요능력
+	file.write((const char*)&RequireSTR, 1);
+	file.write((const char*)&RequireDEX, 1);
+	file.write((const char*)&RequireINT, 1);		
+	file.write((const char*)&RequireSUM, 2);
+	file.write((const char*)&RequireLevel, 1);
+	file.write((const char*)&RequireAdvancementLevel, 1);
+	file.write((const char*)&bMaleOnly, 1);
+	file.write((const char*)&bFemaleOnly, 1);
+
+	// UseActionInfo
+	file.write((const char*)&UseActionInfo, 4);
+	
+
+	file.write((const char*)&SilverMax, 4);
+
+	file.write((const char*)&ToHit, 4);
+
+	file.write((const char*)&MaxNumber, SIZE_ITEM_NUMBER);
+
+	file.write((const char*)&CriticalHit, 4);	
+
+	BYTE DefaultOptionListSize = DefaultOptionList.size();
+	file.write((const char*)&DefaultOptionListSize, 1);
+	std::list<TYPE_ITEM_OPTION>::iterator itr = DefaultOptionList.begin();
+
+	while(itr != DefaultOptionList.end())
+	{
+		TYPE_ITEM_OPTION Option = *itr;
+		file.write((const char*)&Option, sizeof(TYPE_ITEM_OPTION));
+
+		itr++;
+	}
+
+	file.write((const char*)&ItemStyle, 4);
+
+	file.write((const char*)&ElementalType, 4);
+	file.write((const char*)&Elemental, 2);
+
+	file.write((const char*)&Race, 1);
+
+	// 2005, 1, 14, sobeit add start - ItemDescription.spk 에서 쓰는 frameID
+	file.write((const char*)&DescriptionFrameID, SIZE_FRAMEID);
+	// 2005, 1, 14, sobeit add end
+	
+	// 2006.12.26 chyaya add start - 아이템 이동 제한 속성
+	file.write((const char*)&ItemMoveControl, ItemMoveControl.GetValueSize());
+	// 2006.12.26 chyaya add end
+
+	// by diesirace 20070314 add start
+	file.write((const char*)&ItemCanAdvance, ItemCanAdvance.GetValueSize());
+
+	file.write((const char*)&DropItemNameTag, 4);
+
+#if __CONTENTS(__ONIBLA_ITEM)
+	file.write((const char*)&NormalItemGrade, 4);
+#endif //__ONIBLA_ITEM
+
+	//end
+}
+
+//----------------------------------------------------------------------
+// Load
+//----------------------------------------------------------------------
+void			
+ITEMTABLE_INFO::LoadFromFile(ivfstream& file)
+{
+	EName.LoadFromFile( file );
+	HName.LoadFromFile( file );
+	Description.LoadFromFile( file );
+
+	// Frame ID
+	file.read((char*)&TileFrameID, SIZE_FRAMEID);
+	file.read((char*)&InventoryFrameID, SIZE_FRAMEID);
+	file.read((char*)&GearFrameID, SIZE_FRAMEID);
+	file.read((char*)&DropFrameID, SIZE_FRAMEID);
+	file.read((char*)&AddonMaleFrameID, SIZE_FRAMEID);
+	file.read((char*)&AddonFemaleFrameID, SIZE_FRAMEID);
+	file.read((char*)&UseFrameID, SIZE_FRAMEID);
+
+	// Sound ID
+	file.read((char*)&UseSoundID, SIZE_SOUNDID);
+	file.read((char*)&TileSoundID, SIZE_SOUNDID);
+	file.read((char*)&InventorySoundID, SIZE_SOUNDID);
+	file.read((char*)&GearSoundID, SIZE_SOUNDID);	
+
+	// grid 크기
+	file.read((char*)&GridWidth, 1);	
+	file.read((char*)&GridHeight, 1);	
+
+	// 가격
+	file.read((char*)&Price, SIZE_ITEM_PRICE);
+
+	// 무게
+	file.read((char*)&Weight, SIZE_ITEM_WEIGHT);	
+	
+	// 값들 
+	file.read((char*)&Value1, 4);	
+	file.read((char*)&Value2, 4);
+	file.read((char*)&Value3, 4);
+	file.read((char*)&Value4, 4);
+	file.read((char*)&Value5, 4);
+	file.read((char*)&Value6, 4);
+	file.read((char*)&Value7, 4);
+
+	// 필요능력
+	file.read((char*)&RequireSTR, 1);
+	file.read((char*)&RequireDEX, 1);
+	file.read((char*)&RequireINT, 1);		
+	file.read((char*)&RequireSUM, 2);
+	file.read((char*)&RequireLevel, 1);
+	file.read((char*)&RequireAdvancementLevel, 1);
+	file.read((char*)&bMaleOnly, 1);
+	file.read((char*)&bFemaleOnly, 1);
+	
+	// UseActionInfo
+	file.read((char*)&UseActionInfo, 4);
+
+	file.read((char*)&SilverMax, 4);
+
+	file.read((char*)&ToHit, 4);
+
+	file.read((char*)&MaxNumber, SIZE_ITEM_NUMBER);
+
+	file.read((char*)&CriticalHit, 4);
+
+	BYTE DefaultOptionListSize = 0;
+	file.read((char*)&DefaultOptionListSize, 1);
+	
+	for(int i = 0; i < DefaultOptionListSize; i++)
+	{
+		TYPE_ITEM_OPTION TempOptionType;
+		file.read((char*)&TempOptionType, sizeof(TYPE_ITEM_OPTION));
+		DefaultOptionList.push_back(TempOptionType);
+	}
+
+	file.read((char*)&ItemStyle, 4);
+
+	file.read((char*)&ElementalType, 4);
+	file.read((char*)&Elemental, 2);
+
+	file.read((char*)&Race, 1);
+
+	// 2005, 1, 14, sobeit add start - ItemDescription.spk 에서 쓰는 frameID
+	file.read((char*)&DescriptionFrameID, SIZE_FRAMEID);
+	// 2005, 1, 14, sobeit add end
+
+	// 2006.12.26 chyaya add start - 아이템 이동 제한 속성
+	file.read((char*)&ItemMoveControl, ItemMoveControl.GetValueSize());
+	// 2006.12.26 chyaya add end
+
+	// by diesirace 20070314 add start
+	file.read((char*)&ItemCanAdvance, ItemCanAdvance.GetValueSize());
+	//end
+	file.read((char*)&DropItemNameTag, 4);
+
+#if __CONTENTS(__ONIBLA_ITEM)
+	file.read((char*)&NormalItemGrade, 4);
+#endif //__ONIBLA_ITEM
+}
+
+
+//----------------------------------------------------------------------
+// Save CSV File
+//----------------------------------------------------------------------
+void			
+ITEMTABLE_INFO::SaveToCSVFile(std::ofstream& file, int classIdx, int typeIdx)
+{
+#ifdef __INIT_ITEM__
+
+	SaveNumberToCSVFile(file, classIdx);
+	SaveNumberToCSVFile(file, typeIdx);
+
+	SaveStringToCSVFile(file, EName);
+	SaveStringToCSVFile(file, HName);
+	SaveStringToCSVFile(file, Description);
+
+	// Frame ID
+	SaveNumberToCSVFile(file, TileFrameID);
+	SaveNumberToCSVFile(file, InventoryFrameID);
+	SaveNumberToCSVFile(file, GearFrameID);
+	SaveNumberToCSVFile(file, DropFrameID);
+	SaveNumberToCSVFile(file, AddonMaleFrameID);
+	SaveNumberToCSVFile(file, AddonFemaleFrameID);
+
+	// Sound ID
+	SaveNumberToCSVFile(file, UseSoundID);;
+	SaveNumberToCSVFile(file, InventorySoundID);
+	SaveNumberToCSVFile(file, GearSoundID);
+
+	// inventory에서의 Grid크기
+	SaveNumberToCSVFile(file, GridWidth);
+	SaveNumberToCSVFile(file, GridHeight);
+
+	// 가격
+	SaveNumberToCSVFile(file, Price);
+
+	// 무게
+	SaveNumberToCSVFile(file, Weight);
+	
+	// 값들
+	SaveNumberToCSVFile(file, Value1, -1);
+	SaveNumberToCSVFile(file, Value2, -1);
+	SaveNumberToCSVFile(file, Value3, -1);
+	SaveNumberToCSVFile(file, Value4, -1);
+	SaveNumberToCSVFile(file, Value5, -1);
+	SaveNumberToCSVFile(file, Value6, -1);
+	SaveNumberToCSVFile(file, Value7, -1);
+	
+	// 필요능력
+	SaveNumberToCSVFile(file, RequireSTR);
+	SaveNumberToCSVFile(file, RequireDEX);
+	SaveNumberToCSVFile(file, RequireINT);
+	SaveNumberToCSVFile(file, RequireSUM);
+	SaveNumberToCSVFile(file, RequireLevel);
+	SaveNumberToCSVFile(file, RequireAdvancementLevel);
+	SaveNumberToCSVFile(file, bMaleOnly);
+	SaveNumberToCSVFile(file, bFemaleOnly);
+	
+	// UseActionInfo
+	SaveNumberToCSVFile(file, UseActionInfo);
+
+	SaveNumberToCSVFile(file, SilverMax, -1);
+	SaveNumberToCSVFile(file, ToHit, -1);
+	SaveNumberToCSVFile(file, MaxNumber);
+	SaveNumberToCSVFile(file, CriticalHit);
+
+
+	BYTE DefaultOptionListSize = DefaultOptionList.size();
+	SaveNumberToCSVFile(file, DefaultOptionListSize);
+	
+	std::list<TYPE_ITEM_OPTION>::iterator itr = DefaultOptionList.begin();
+
+	while(itr != DefaultOptionList.end())
+	{
+		TYPE_ITEM_OPTION Option = *itr;
+		file << (int)Option << ' ';
+
+		itr++;
+	}
+
+	file << CSV_TOKEN;
+
+
+	SaveNumberToCSVFile(file, ItemStyle);
+
+	SaveNumberToCSVFile(file, (int)ElementalType, -1);
+	SaveNumberToCSVFile(file, Elemental);
+
+	SaveNumberToCSVFile(file, Race);
+	SaveNumberToCSVFile(file, DescriptionFrameID);
+
+	SaveBoolToCSVFile(file, ItemMoveControl.GetAttr(ITEMMOVE_CANNOT_DROP));
+	SaveBoolToCSVFile(file, ItemMoveControl.GetAttr(ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP));
+	SaveBoolToCSVFile(file, ItemMoveControl.GetAttr(ITEMMOVE_CANNOT_KEEP_STORAGE));
+	SaveBoolToCSVFile(file, ItemMoveControl.GetAttr(ITEMMOVE_CANNOT_TRADE));
+	SaveBoolToCSVFile(file, ItemMoveControl.GetAttr(ITEMMOVE_PICKUP_ONCE));
+
+	SaveBoolToCSVFile(file, ItemCanAdvance.GetAttr(ADVANCE_CANNOT_USE_ITEM));
+	SaveBoolToCSVFile(file, ItemCanAdvance.GetAttr(NONADVANCE_CANNOT_USE_ITEM));
+	SaveBoolToCSVFile(file, DropItemNameTag);
+
+#if __CONTENTS(__ONIBLA_ITEM)
+	SaveNumberToCSVFile(file, NormalItemGrade);
+#endif //__ONIBLA_ITEM
+
+	file << '\n';
+
+#endif
+}
+
+#if __CONTENTS(__ITEMINFO_TABLEATION_PROJECT)
+//----------------------------------------------------------------------
+// Save CSV File
+//----------------------------------------------------------------------
+void			
+ITEMTABLE_INFO::LoadToCSVFile(std::ifstream& file, int classIdx, int typeIdx)
+{
+#ifdef __INIT_ITEM__
+
+	LoadCSVFileToNumber(file, classIdx);
+	LoadCSVFileToNumber(file, typeIdx);
+
+	LoadCSVFileToString(file, EName);
+	LoadCSVFileToString(file, HName);
+	LoadCSVFileToString(file, Description);
+
+	// Frame ID
+	LoadCSVFileToNumber(file, TileFrameID);
+	LoadCSVFileToNumber(file, InventoryFrameID);
+	LoadCSVFileToNumber(file, GearFrameID);
+	LoadCSVFileToNumber(file, DropFrameID);
+	LoadCSVFileToNumber(file, AddonMaleFrameID);
+	LoadCSVFileToNumber(file, AddonFemaleFrameID);
+
+	// Sound ID
+	LoadCSVFileToNumber(file, UseSoundID);
+	LoadCSVFileToNumber(file, TileSoundID);
+	LoadCSVFileToNumber(file, InventorySoundID);
+	LoadCSVFileToNumber(file, GearSoundID);
+
+	// inventory에서의 Grid크기
+	LoadCSVFileToNumber(file, GridWidth);
+	LoadCSVFileToNumber(file, GridHeight);
+
+	// 가격
+	LoadCSVFileToNumber(file, Price);
+
+	// 무게
+	LoadCSVFileToNumber(file, Weight);
+	
+	// 값들
+	LoadCSVFileToNumber(file, Value1, -1);
+	LoadCSVFileToNumber(file, Value2, -1);
+	LoadCSVFileToNumber(file, Value3, -1);
+	LoadCSVFileToNumber(file, Value4, -1);
+	LoadCSVFileToNumber(file, Value5, -1);
+	LoadCSVFileToNumber(file, Value6, -1);
+	LoadCSVFileToNumber(file, Value7, -1);
+	
+	// 필요능력
+	LoadCSVFileToNumber(file, RequireSTR);
+	LoadCSVFileToNumber(file, RequireDEX);
+	LoadCSVFileToNumber(file, RequireINT);
+	LoadCSVFileToNumber(file, RequireSUM);
+	LoadCSVFileToNumber(file, RequireLevel);
+	LoadCSVFileToNumber(file, RequireAdvancementLevel);
+	LoadCSVFileToNumber(file, bMaleOnly);
+	LoadCSVFileToNumber(file, bFemaleOnly);
+	
+	// UseActionInfo
+	LoadCSVFileToNumber(file, UseActionInfo);
+
+	LoadCSVFileToNumber(file, SilverMax, -1);
+	LoadCSVFileToNumber(file, ToHit, -1);
+	LoadCSVFileToNumber(file, MaxNumber);
+	LoadCSVFileToNumber(file, CriticalHit);
+
+
+	BYTE DefaultOptionListSize = DefaultOptionList.size();
+	LoadCSVFileToNumber(file, DefaultOptionListSize);
+	
+	std::list<TYPE_ITEM_OPTION>::iterator itr = DefaultOptionList.begin();
+
+	while(itr != DefaultOptionList.end())
+	{
+		TYPE_ITEM_OPTION Option = *itr;
+		file << (int)Option << ' ';
+
+		itr++;
+	}
+
+	file << CSV_TOKEN;
+
+
+	LoadCSVFileToNumber(file, ItemStyle);
+
+	LoadCSVFileToNumber(file, (int)ElementalType, -1);
+	LoadCSVFileToNumber(file, Elemental);
+
+	LoadCSVFileToNumber(file, Race);
+	LoadCSVFileToNumber(file, DescriptionFrameID);
+
+	LoadCSVFileToBool(file, ItemMoveControl.GetAttr(ITEMMOVE_CANNOT_DROP));
+	LoadCSVFileToBool(file, ItemMoveControl.GetAttr(ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP));
+	LoadCSVFileToBool(file, ItemMoveControl.GetAttr(ITEMMOVE_CANNOT_KEEP_STORAGE));
+	LoadCSVFileToBool(file, ItemMoveControl.GetAttr(ITEMMOVE_CANNOT_TRADE));
+	LoadCSVFileToBool(file, ItemMoveControl.GetAttr(ITEMMOVE_PICKUP_ONCE));
+
+	LoadCSVFileToBool(file, ItemCanAdvance.GetAttr(ADVANCE_CANNOT_USE_ITEM));
+	LoadCSVFileToBool(file, ItemCanAdvance.GetAttr(NONADVANCE_CANNOT_USE_ITEM));
+	LoadCSVFileToBool(file, DropItemNameTag);
+
+#if __CONTENTS(__ONIBLA_ITEM)
+	LoadCSVFileToNumber(file, NormalItemGrade);
+#endif //__ONIBLA_ITEM
+
+	file << '\n';
+
+#endif
+}
+#endif //__ITEMINFO_TABLEATION_PROJECT
+
+
+//----------------------------------------------------------------------
+//
+//							ITEMTYPE_TABLE
+//
+//----------------------------------------------------------------------
+void
+ITEMTYPE_TABLE::LoadFromFile(ivfstream& file)
+{
+	CTypeTable<ITEMTABLE_INFO>::LoadFromFile(file);
+
+	
+	m_AveragePrice = 0;
+
+	int count = 0;
+	for (int i=0; i<m_Size; i++)
+	{
+		if(m_pTypeInfo[i].DefaultOptionList.empty())
+		{
+			m_AveragePrice += m_pTypeInfo[i].Price;
+			count ++;
+		}
+	}
+	if(count)
+	{
+		m_AveragePrice /= count;
+		m_AveragePrice /= 1000;
+		m_AveragePrice *= 100;
+	}
+}
+
+
+void
+ITEMTYPE_TABLE::SaveToCSVFile(std::ofstream& file, int classIdx)
+{
+	// 아무 것도 없는 경우
+	if (m_pTypeInfo==NULL)
+		return;
+
+	// 각각의 정보 저장
+	for (int i=0; i<m_Size; i++)
+	{
+		m_pTypeInfo[i].SaveToCSVFile(file, classIdx, i);
+	}
+}
+
+#if __CONTENTS(__ITEMINFO_TABLEATION_PROJECT)
+void
+ITEMTYPE_TABLE::LoadToCSVFile(std::ifstream& file, int classIdx)
+{
+	// 아무 것도 없는 경우
+	if (m_pTypeInfo==NULL)
+		return;
+
+	// 각각의 정보 저장
+	for (int i=0; i<m_Size; i++)
+	{
+		m_pTypeInfo[i].LoadToCSVFile(file, classIdx, i);
+	}
+}
+#endif //__ITEMINFO_TABLEATION_PROJECT
+
+//----------------------------------------------------------------------
+//
+//							ITEMCLASS_TABLE
+//
+//----------------------------------------------------------------------
+ITEMCLASS_TABLE::ITEMCLASS_TABLE()
+{
+	int itemType = 0;
+	int i = 0, j = 0;
+
+#ifdef __INIT_ITEM__
+	// class 개수 설정
+	Init( MAX_ITEM_CLASS );
+	
+	
+	// (tile, inventory, gear, actionFrame)	
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_MOTORCYCLE
+	//---------------------------------------------------------------------
+	// 내구성(1), 운반가능무게(2)
+	//--------------------------------------------------------------------
+	InitClass(ITEM_CLASS_MOTORCYCLE, 8
+#if __CONTENTS(__FAST_TRANSFORTER)
+		+1
+#endif //__FAST_TRANSFORTER
+#if __CONTENTS(__SECOND_TRANSFORTER_ITEM)
+		+1
+#endif //__SECOND_TRANSFORTER_ITEM
+		);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][0].HName = "스콜피언";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][0].EName = "Scorpion";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][0].Description = "";//오른쪽 버튼을 클릭하면 오토바이를 불러 올 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][0].SetSoundID( SOUND_WORLD_BIKE_STOP, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][0].SetFrameID( 1175, 115, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][0].SetDropFrameID( FRAMEID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][0].SetAddonFrameID( ADDONID_MOTORCYCLE, ADDONID_MOTORCYCLE);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][0].SetValue(300, 80);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][0].Price = 24000;
+
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][1].HName = "호크아이";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][1].EName = "Hawkeye";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][1].SetSoundID( SOUND_WORLD_BIKE_STOP, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][1].SetFrameID( 1175, 115, 0 );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][1].SetDropFrameID( FRAMEID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][1].SetAddonFrameID( ADDONID_MOTORCYCLE, ADDONID_MOTORCYCLE );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][1].SetValue(400, 100);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][1].Price = 40000;
+
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][2].HName = "피닉스";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][2].EName = "Phoenix";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][2].SetSoundID( SOUND_WORLD_BIKE_STOP, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][2].SetFrameID( 1175, 115, 0 );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][2].SetDropFrameID( FRAMEID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][2].SetAddonFrameID( ADDONID_MOTORCYCLE, ADDONID_MOTORCYCLE );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][2].SetValue(400, 100);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][2].Price = 60000;
+
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][3].HName = "썬더버드";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][3].EName = "Thunder Bird";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][3].SetSoundID( SOUND_WORLD_BIKE_STOP, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][3].SetFrameID( 1175, 115, 0 );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][3].SetDropFrameID( FRAMEID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][3].SetAddonFrameID( ADDONID_MOTORCYCLE, ADDONID_MOTORCYCLE );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][3].SetValue(400, 100);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][3].Price = 80000;
+
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][4].HName = "엔젤 윙";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][4].EName = "Angel Wing";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][4].SetSoundID( SOUND_WORLD_BIKE_STOP, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][4].SetFrameID( 1175, 115, 0 );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][4].SetDropFrameID( FRAMEID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][4].SetAddonFrameID( ADDONID_MOTORCYCLE, ADDONID_MOTORCYCLE );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][4].SetValue(400, 100);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][4].Price = 120000;
+
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][5].HName = "루비아떼";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][5].EName = "Rubiate";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][5].SetSoundID( SOUND_WORLD_BIKE_STOP, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][5].SetFrameID( 1175, 115, 0 );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][5].SetDropFrameID( FRAMEID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][5].SetAddonFrameID( ADDONID_MOTORCYCLE, ADDONID_MOTORCYCLE );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][5].SetValue(400, 100);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][5].Price = 120000;
+
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][6].HName = "B2-몬스터";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][6].EName = "B2-Monster";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][6].SetSoundID( SOUND_WORLD_BIKE_STOP, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][6].SetFrameID( 968, 1002, 0 );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][6].SetDropFrameID( FRAMEID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][6].SetAddonFrameID( AC_BIKE_1, AC_BIKE_1 );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][6].SetValue(400, 100);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][6].Price = 120000;
+
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][7].HName = "D-토마호크";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][7].EName = "D-Tomahawk";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][7].SetSoundID( SOUND_WORLD_BIKE_STOP, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][7].SetFrameID( 1129, 1144, 0 );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][7].SetDropFrameID( FRAMEID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][7].SetAddonFrameID( AC_BIKE_2_COLOR, AC_BIKE_2_COLOR );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][7].SetValue(400, 100);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][7].Price = 120000;
+
+#if __CONTENTS(__FAST_TRANSFORTER)
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][8].HName = "헬바이크";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][8].EName = "Hell Bike";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][8].SetSoundID( SOUND_WORLD_BIKE_STOP, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][8].SetFrameID( 1217, 1257, 0 );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][8].SetDropFrameID( FRAMEID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][8].SetAddonFrameID( ADDONID_WING_BIKE, ADDONID_WING_BIKE);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][8].SetValue(400, 100);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][8].Price = 120000;
+#endif //__FAST_TRANSFORTER
+#if __CONTENTS(__SECOND_TRANSFORTER_ITEM)
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][9].HName = "하버 바이클";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][9].EName = "Hover Vehicle";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][9].Description = "빠른 이동을 할 수 있는 슬레이어 전용 하버크래프트 입니다.";
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][9].SetSoundID( SOUND_WORLD_BIKE_STOP, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][9].SetFrameID( 1264, 1264, 0 );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][9].SetDropFrameID( FRAMEID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][9].SetAddonFrameID( ADDONID_WING_BIKE, ADDONID_WING_BIKE);
+#if	__CONTENTS(__SECOND_TRANSFORTER)
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][9].SetAddonFrameID( ADDONID_HOVER_VEHICLE, ADDONID_HOVER_VEHICLE);
+#endif //__SECOND_TRANSFORTER_ITEM
+
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][9].SetValue(400, 100);
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MOTORCYCLE][9].Price = 120000;
+#endif //__SECOND_TRANSFORTER_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_POTION
+	//---------------------------------------------------------------------
+	// 회복수치(1)
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_POTION, 19);
+	m_pTypeInfo[ITEM_CLASS_POTION][0].HName = "미니 힐링 포션";
+	m_pTypeInfo[ITEM_CLASS_POTION][0].EName = "Light Healing Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][0].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_USE_HPOTION );
+	m_pTypeInfo[ITEM_CLASS_POTION][0].SetFrameID( 0, 139, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][0].SetDropFrameID( 0 );
+	m_pTypeInfo[ITEM_CLASS_POTION][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][0].SetValue(40);
+	m_pTypeInfo[ITEM_CLASS_POTION][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][0].Price	= 50;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][1].HName = "라이트 힐링 포션";
+	m_pTypeInfo[ITEM_CLASS_POTION][1].EName = "Light Healing Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][1].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_USE_HPOTION );
+	m_pTypeInfo[ITEM_CLASS_POTION][1].SetFrameID( 0, 139, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][1].SetDropFrameID( 0 );
+	m_pTypeInfo[ITEM_CLASS_POTION][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][1].SetValue(40);
+	m_pTypeInfo[ITEM_CLASS_POTION][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][1].Price	= 50;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][2].HName = "쿼터 힐링 포션";
+	m_pTypeInfo[ITEM_CLASS_POTION][2].EName = "Quarter Healing Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][2].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_USE_HPOTION );
+	m_pTypeInfo[ITEM_CLASS_POTION][2].SetFrameID( 1, 138, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][2].SetDropFrameID( 1 );
+	m_pTypeInfo[ITEM_CLASS_POTION][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][2].SetValue(170);
+	m_pTypeInfo[ITEM_CLASS_POTION][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][2].Price	= 125;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][3].HName = "하프 힐링 포션";
+	m_pTypeInfo[ITEM_CLASS_POTION][3].EName = "Half Healing Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][3].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_USE_HPOTION );
+	m_pTypeInfo[ITEM_CLASS_POTION][3].SetFrameID( 1, 138, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][3].SetDropFrameID( 1 );
+	m_pTypeInfo[ITEM_CLASS_POTION][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][3].SetValue(170);
+	m_pTypeInfo[ITEM_CLASS_POTION][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][3].Price	= 300;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][4].HName = "풀 힐링 포션";
+	m_pTypeInfo[ITEM_CLASS_POTION][4].EName = "Full Healing Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][4].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_USE_HPOTION );
+	m_pTypeInfo[ITEM_CLASS_POTION][4].SetFrameID( 2, 137, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][4].SetDropFrameID( 2 );
+	m_pTypeInfo[ITEM_CLASS_POTION][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][4].SetValue(400);
+	m_pTypeInfo[ITEM_CLASS_POTION][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][4].Price	= 750;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][5].HName = "미니 마나 포션";
+	m_pTypeInfo[ITEM_CLASS_POTION][5].EName = "Light Mana Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][5].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_USE_MPOTION );
+	m_pTypeInfo[ITEM_CLASS_POTION][5].SetFrameID( 3, 142, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][5].SetDropFrameID( 3 );
+	m_pTypeInfo[ITEM_CLASS_POTION][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][5].SetValue(-1, 50);
+	m_pTypeInfo[ITEM_CLASS_POTION][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][5].Price	= 50;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][6].HName = "라이트 마나 포션";
+	m_pTypeInfo[ITEM_CLASS_POTION][6].EName = "Light Mana Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][6].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_USE_MPOTION );
+	m_pTypeInfo[ITEM_CLASS_POTION][6].SetFrameID( 3, 142, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][6].SetDropFrameID( 3 );
+	m_pTypeInfo[ITEM_CLASS_POTION][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][6].SetValue(-1, 50);
+	m_pTypeInfo[ITEM_CLASS_POTION][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][6].Price	= 50;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][7].HName = "쿼터 마나 포션";
+	m_pTypeInfo[ITEM_CLASS_POTION][7].EName = "Half Mana Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][7].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_USE_MPOTION );
+	m_pTypeInfo[ITEM_CLASS_POTION][7].SetFrameID( 4, 141, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][7].SetDropFrameID( 4 );
+	m_pTypeInfo[ITEM_CLASS_POTION][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][7].SetValue(-1, 160);
+	m_pTypeInfo[ITEM_CLASS_POTION][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][7].Price	= 125;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][8].HName = "하프 마나 포션";
+	m_pTypeInfo[ITEM_CLASS_POTION][8].EName = "Half Mana Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][8].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_USE_MPOTION );
+	m_pTypeInfo[ITEM_CLASS_POTION][8].SetFrameID( 4, 141, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][8].SetDropFrameID( 4 );
+	m_pTypeInfo[ITEM_CLASS_POTION][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][8].SetValue(-1, 160);
+	m_pTypeInfo[ITEM_CLASS_POTION][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][8].Price	= 300;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][9].HName = "풀 마나 포션";
+	m_pTypeInfo[ITEM_CLASS_POTION][9].EName = "Full Mana Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][9].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_USE_MPOTION );
+	m_pTypeInfo[ITEM_CLASS_POTION][9].SetFrameID( 5, 140, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][9].SetDropFrameID( 5 );
+	m_pTypeInfo[ITEM_CLASS_POTION][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][9].SetValue(-1, 420);
+	m_pTypeInfo[ITEM_CLASS_POTION][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][9].Price	= 750;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][10].HName = "파란 사탕";
+	m_pTypeInfo[ITEM_CLASS_POTION][10].EName = "Full Mana Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][10].Description = "먹으면 힘이 솟아요";
+	m_pTypeInfo[ITEM_CLASS_POTION][10].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_POTION][10].SetFrameID( 243, 247, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][10].SetDropFrameID( 243 );
+	m_pTypeInfo[ITEM_CLASS_POTION][10].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][10].SetValue(500, 500);
+	m_pTypeInfo[ITEM_CLASS_POTION][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][10].Price	= 750;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][11].HName = "흰색 떡국";
+	m_pTypeInfo[ITEM_CLASS_POTION][11].EName = "Full Mana Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][11].Description = "먹으면 힘이 솟아요";
+	m_pTypeInfo[ITEM_CLASS_POTION][11].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_POTION][11].SetFrameID( 408, 422, 0 );//( 377, 391, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][11].SetDropFrameID( 408 );//( 377 );
+	m_pTypeInfo[ITEM_CLASS_POTION][11].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][11].SetValue(500, 500);
+	m_pTypeInfo[ITEM_CLASS_POTION][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][11].Price	= 750;
+
+//	m_pTypeInfo[ITEM_CLASS_POTION][12].HName = "힐링 보틀"
+//	m_pTypeInfo[ITEM_CLASS_POTION][12].EName = "Healing Bottle";
+//	m_pTypeInfo[ITEM_CLASS_POTION][12].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_POTION][12].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+//	m_pTypeInfo[ITEM_CLASS_POTION][12].SetFrameID( 421, 436, 0 );//( 377, 391, 0 );	
+//	m_pTypeInfo[ITEM_CLASS_POTION][12].SetDropFrameID( 421 );//( 377 );
+//	m_pTypeInfo[ITEM_CLASS_POTION][12].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_POTION][12].SetValue(500, 500);
+//	m_pTypeInfo[ITEM_CLASS_POTION][12].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_POTION][12].Price	= 750;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][12].HName = "하프 힐링 보틀";
+	m_pTypeInfo[ITEM_CLASS_POTION][12].EName = "Half Healing Bottle";
+	m_pTypeInfo[ITEM_CLASS_POTION][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][12].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_POTION][12].SetFrameID( 422, 437, 0 );//( 377, 391, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][12].SetDropFrameID( 422 );//( 377 );
+	m_pTypeInfo[ITEM_CLASS_POTION][12].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][12].SetValue(500, 500);
+	m_pTypeInfo[ITEM_CLASS_POTION][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][12].Price	= 750;
+
+//	m_pTypeInfo[ITEM_CLASS_POTION][14].HName = "마나 보틀";
+//	m_pTypeInfo[ITEM_CLASS_POTION][14].EName = "Mana Bottle";
+//	m_pTypeInfo[ITEM_CLASS_POTION][14].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_POTION][14].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+//	m_pTypeInfo[ITEM_CLASS_POTION][14].SetFrameID( 423, 438, 0 );//( 377, 391, 0 );	
+//	m_pTypeInfo[ITEM_CLASS_POTION][14].SetDropFrameID( 423 );//( 377 );
+//	m_pTypeInfo[ITEM_CLASS_POTION][14].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_POTION][14].SetValue(500, 500);
+//	m_pTypeInfo[ITEM_CLASS_POTION][14].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_POTION][14].Price	= 750;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][13].HName = "하프 마나 보틀";
+	m_pTypeInfo[ITEM_CLASS_POTION][13].EName = "Half Mana Bottle";
+	m_pTypeInfo[ITEM_CLASS_POTION][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][13].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_POTION][13].SetFrameID( 424, 439, 0 );//( 377, 391, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][13].SetDropFrameID( 424 );//( 377 );
+	m_pTypeInfo[ITEM_CLASS_POTION][13].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][13].SetValue(500, 500);
+	m_pTypeInfo[ITEM_CLASS_POTION][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][13].Price	= 750;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][14].HName = "스몰 홀리포션";
+	m_pTypeInfo[ITEM_CLASS_POTION][14].EName = "Small Holy Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][14].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_POTION][14].SetFrameID( 764,778, 0 );
+	m_pTypeInfo[ITEM_CLASS_POTION][14].SetDropFrameID( 764 );
+	m_pTypeInfo[ITEM_CLASS_POTION][14].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][14].SetValue(500,500 );
+	m_pTypeInfo[ITEM_CLASS_POTION][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][14].Price= 0;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][15].HName = "미듐 홀리포션";
+	m_pTypeInfo[ITEM_CLASS_POTION][15].EName = "Medium Holy Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][15].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_POTION][15].SetFrameID( 757,771, 0 );
+	m_pTypeInfo[ITEM_CLASS_POTION][15].SetDropFrameID( 757 );
+	m_pTypeInfo[ITEM_CLASS_POTION][15].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][15].SetValue(500,500 );
+	m_pTypeInfo[ITEM_CLASS_POTION][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][15].Price= 0;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][16].HName = "라지 홀리포션";
+	m_pTypeInfo[ITEM_CLASS_POTION][16].EName = "Large Holy Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][16].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_POTION][16].SetFrameID( 755,769, 0 );
+	m_pTypeInfo[ITEM_CLASS_POTION][16].SetDropFrameID( 755 );
+	m_pTypeInfo[ITEM_CLASS_POTION][16].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][16].SetValue(500,500 );
+	m_pTypeInfo[ITEM_CLASS_POTION][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][16].Price= 0;
+
+	m_pTypeInfo[ITEM_CLASS_POTION][17].HName = "풀 홀리포션";
+	m_pTypeInfo[ITEM_CLASS_POTION][17].EName = "Full Holy Potion";
+	m_pTypeInfo[ITEM_CLASS_POTION][17].Description = "";
+	m_pTypeInfo[ITEM_CLASS_POTION][17].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_POTION][17].SetFrameID( 753,767, 0 );
+	m_pTypeInfo[ITEM_CLASS_POTION][17].SetDropFrameID( 753 );
+	m_pTypeInfo[ITEM_CLASS_POTION][17].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][17].SetValue(500,500 );
+	m_pTypeInfo[ITEM_CLASS_POTION][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][17].Price= 0;
+
+
+	m_pTypeInfo[ITEM_CLASS_POTION][18].HName = "가멸찬 송편";
+	m_pTypeInfo[ITEM_CLASS_POTION][18].EName = "Full Rice Cake";
+	m_pTypeInfo[ITEM_CLASS_POTION][18].Description = "한가위 이벤트 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_POTION][18].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_MOVE_POTION );
+	m_pTypeInfo[ITEM_CLASS_POTION][18].SetFrameID( 1010, 1044, 0 );//( 378, 392, 0 );	
+	m_pTypeInfo[ITEM_CLASS_POTION][18].SetDropFrameID( 1010 );//( 378 );
+	m_pTypeInfo[ITEM_CLASS_POTION][18].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_POTION][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_POTION][18].Price	= 1;
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_WATER
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_WATER, 7 );
+
+	m_pTypeInfo[ITEM_CLASS_WATER][0].HName = "하프 워터 바틀";
+	m_pTypeInfo[ITEM_CLASS_WATER][0].EName = "Half Water Bottle";
+	m_pTypeInfo[ITEM_CLASS_WATER][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_WATER][0].SetSoundID( SOUND_ITEM_MOVE_BOTTLE, SOUND_ITEM_MOVE_BOTTLE, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_WATER][0].SetFrameID( 6, 50, 0 );	
+	m_pTypeInfo[ITEM_CLASS_WATER][0].SetDropFrameID( 6 );
+	m_pTypeInfo[ITEM_CLASS_WATER][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_WATER][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_WATER][0].Price	= 5;
+
+	m_pTypeInfo[ITEM_CLASS_WATER][1].HName = "풀 워터 바틀";
+	m_pTypeInfo[ITEM_CLASS_WATER][1].EName = "Full Water Bottle";
+	m_pTypeInfo[ITEM_CLASS_WATER][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_WATER][1].SetSoundID( SOUND_ITEM_MOVE_BOTTLE, SOUND_ITEM_MOVE_BOTTLE, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_WATER][1].SetFrameID( 7, 52, 0 );	
+	m_pTypeInfo[ITEM_CLASS_WATER][1].SetDropFrameID( 7 );
+	m_pTypeInfo[ITEM_CLASS_WATER][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_WATER][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_WATER][1].Price	= 15;
+
+	m_pTypeInfo[ITEM_CLASS_WATER][2].HName = "라지 워터 바틀";
+	m_pTypeInfo[ITEM_CLASS_WATER][2].EName = "Large Water Bottle";
+	m_pTypeInfo[ITEM_CLASS_WATER][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_WATER][2].SetSoundID( SOUND_ITEM_MOVE_BOTTLE, SOUND_ITEM_MOVE_BOTTLE, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_WATER][2].SetFrameID( 8, 51, 0 );	
+	m_pTypeInfo[ITEM_CLASS_WATER][2].SetDropFrameID( 8 );
+	m_pTypeInfo[ITEM_CLASS_WATER][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_WATER][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_WATER][2].Price	= 40;
+
+	// 포션병의 value2 에는 potion item class 의 itemtype 이 들어간다.
+	m_pTypeInfo[ITEM_CLASS_WATER][3].HName = "스몰 포션병";
+	m_pTypeInfo[ITEM_CLASS_WATER][3].EName = "Small Potion Bottle";
+	m_pTypeInfo[ITEM_CLASS_WATER][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_WATER][3].SetSoundID( SOUND_ITEM_MOVE_BOTTLE, SOUND_ITEM_MOVE_BOTTLE, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_WATER][3].SetFrameID( 765, 779, 0 );	
+	m_pTypeInfo[ITEM_CLASS_WATER][3].SetDropFrameID( 765 );
+	m_pTypeInfo[ITEM_CLASS_WATER][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_WATER][3].Value3 = 14;
+	m_pTypeInfo[ITEM_CLASS_WATER][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_WATER][3].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_WATER][4].HName = "미듐 포션병";
+	m_pTypeInfo[ITEM_CLASS_WATER][4].EName = "Medium Potion Bottle";
+	m_pTypeInfo[ITEM_CLASS_WATER][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_WATER][4].SetSoundID( SOUND_ITEM_MOVE_BOTTLE, SOUND_ITEM_MOVE_BOTTLE, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_WATER][4].SetFrameID( 758, 772, 0 );	
+	m_pTypeInfo[ITEM_CLASS_WATER][4].SetDropFrameID( 758 );
+	m_pTypeInfo[ITEM_CLASS_WATER][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_WATER][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_WATER][4].Value3 = 15;
+	m_pTypeInfo[ITEM_CLASS_WATER][4].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_WATER][5].HName = "라지 포션병";
+	m_pTypeInfo[ITEM_CLASS_WATER][5].EName = "Large Potion Bottle";
+	m_pTypeInfo[ITEM_CLASS_WATER][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_WATER][5].SetSoundID( SOUND_ITEM_MOVE_BOTTLE, SOUND_ITEM_MOVE_BOTTLE, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_WATER][5].SetFrameID( 756, 770, 0 );	
+	m_pTypeInfo[ITEM_CLASS_WATER][5].SetDropFrameID( 756 );
+	m_pTypeInfo[ITEM_CLASS_WATER][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_WATER][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_WATER][5].Value3 = 16;
+	m_pTypeInfo[ITEM_CLASS_WATER][5].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_WATER][6].HName = "풀 포션병";
+	m_pTypeInfo[ITEM_CLASS_WATER][6].EName = "Full Potion Bottle";
+	m_pTypeInfo[ITEM_CLASS_WATER][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_WATER][6].SetSoundID( SOUND_ITEM_MOVE_BOTTLE, SOUND_ITEM_MOVE_BOTTLE, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_WATER][6].SetFrameID( 754, 768, 0 );	
+	m_pTypeInfo[ITEM_CLASS_WATER][6].SetDropFrameID( 754 );
+	m_pTypeInfo[ITEM_CLASS_WATER][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_WATER][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_WATER][6].Value3 = 17;
+	m_pTypeInfo[ITEM_CLASS_WATER][6].Price	= 40;
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_HOLYWATER
+	//---------------------------------------------------------------------
+	// MinDam(1)~MaxDam(2)
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_HOLYWATER, 3 );
+	
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][0].HName = "쿼터 홀리 워터";
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][0].EName = "Quarter Holy Water";
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][0].SetSoundID( SOUND_ITEM_MOVE_BOTTLE, SOUND_ITEM_MOVE_BOTTLE, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][0].SetFrameID( 9, 101, 0 );	
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][0].SetDropFrameID( 9 );
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][0].SetValue(10, 20);
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][0].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][1].HName = "하프 홀리 워터";
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][1].EName = "Half Holy Water";
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][1].SetSoundID( SOUND_ITEM_MOVE_BOTTLE, SOUND_ITEM_MOVE_BOTTLE, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][1].SetFrameID( 10, 100, 0 );	
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][1].SetDropFrameID( 10 );
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][1].SetValue(15, 30);
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][1].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][2].HName = "풀 홀리 워터";
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][2].EName = "Full Holy Water";
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][2].SetSoundID( SOUND_ITEM_MOVE_BOTTLE, SOUND_ITEM_MOVE_BOTTLE, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][2].SetFrameID( 11, 99, 0 );	
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][2].SetDropFrameID( 11 );
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][2].SetValue(20, 40);
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HOLYWATER][2].Price	= 0;
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_MAGAZINE
+	//---------------------------------------------------------------------
+	// 총Class(1), Max탄창수(2)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_MAGAZINE, 24 );
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][0].HName = "SG Shell-8";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][0].EName = "SGS-1";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][0].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][0].SetFrameID( 17, 126, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][0].SetDropFrameID( 17 );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][0].SetValue(ITEM_CLASS_SG, 1, -1, FALSE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][0].Price	= 10;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][1].HName = "SG Shell-16";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][1].EName = "ARM-15";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][1].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][1].SetFrameID( 254, 267, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][1].SetDropFrameID( 254 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][1].SetValue(ITEM_CLASS_SG, 15, -1, FALSE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][1].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][2].HName = "AR Magazine-20";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][2].EName = "SMGM-60";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][2].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][2].SetFrameID( 14, 127, 0 );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][2].SetDropFrameID( 14 );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][2].SetValue(ITEM_CLASS_AR, 60, -1, FALSE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][2].Price	= 70;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][3].HName = "AR Magazine-40";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][3].EName = "SMGM-30";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][3].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][3].SetFrameID( 14, 127, 0 );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][3].SetDropFrameID( 14 );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][3].SetValue(ITEM_CLASS_AR, 30, -1, FALSE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][3].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][4].HName = "SMG Magazine-60";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][4].EName = "TRM-5";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][4].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][4].SetFrameID( 16, 130, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][4].SetDropFrameID( 16 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][4].SetValue(ITEM_CLASS_SMG, 5, -1, FALSE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][4].Price	= 30;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][5].HName = "SMG Magazine-120";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][5].EName = "TRM-8";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][5].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][5].SetFrameID( 15, 131, 0 );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][5].SetDropFrameID( 15 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][5].SetValue(ITEM_CLASS_SMG, 8, -1, FALSE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][5].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][6].HName = "SR Magazine-10";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][6].EName = "SGS-6";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][6].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][6].SetFrameID( 13, 129, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][6].SetDropFrameID( 13 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][6].SetValue(ITEM_CLASS_SR, 1, -1, FALSE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][6].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][7].HName = "SR Magazine-20";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][7].EName = "SGS-6";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][7].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][7].SetFrameID( 12, 128, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][7].SetDropFrameID( 12 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][7].SetValue(ITEM_CLASS_SR, 1, -1, FALSE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][7].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][8].HName = "Silver SG Shell-8";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][8].EName = "SGS-1";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][8].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][8].SetFrameID( 17, 126, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][8].SetDropFrameID( 17 );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][8].SetValue(ITEM_CLASS_SG, 1, -1, TRUE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][8].Price	= 10;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][9].HName = "Silver SG Shell-16";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][9].EName = "ARM-15";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][9].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][9].SetFrameID( 254, 267, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][9].SetDropFrameID( 254 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][9].SetValue(ITEM_CLASS_SG, 15, -1, TRUE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][9].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][10].HName = "Silver AR Magazine-20";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][10].EName = "SMGM-60";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][10].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][10].SetFrameID( 14, 127, 0 );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][10].SetDropFrameID( 14 );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][10].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][10].SetValue(ITEM_CLASS_AR, 60, -1, TRUE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][10].Price	= 70;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][11].HName = "Silver AR Magazine-40";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][11].EName = "SMGM-30";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][11].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][11].SetFrameID( 14, 127, 0 );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][11].SetDropFrameID( 14 );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][11].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][11].SetValue(ITEM_CLASS_AR, 30, -1, TRUE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][11].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][12].HName = "Silver SMG Magazine-60";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][12].EName = "TRM-5";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][12].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][12].SetFrameID( 16, 130, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][12].SetDropFrameID( 16 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][12].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][12].SetValue(ITEM_CLASS_SMG, 5, -1, TRUE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][12].Price	= 30;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][13].HName = "Silver SMG Magazine-120";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][13].EName = "TRM-8";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][13].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][13].SetFrameID( 15, 131, 0 );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][13].SetDropFrameID( 15 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][13].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][13].SetValue(ITEM_CLASS_SMG, 8, -1, TRUE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][13].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][14].HName = "Silver SR Magazine-10";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][14].EName = "SGS-6";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][14].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][14].SetFrameID( 13, 129, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][14].SetDropFrameID( 13 );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][14].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][14].SetValue(ITEM_CLASS_SR, 1, -1, TRUE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][14].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][15].HName = "Silver SR Magazine-20";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][15].EName = "SGS-6";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][15].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][15].SetFrameID( 12, 128, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][15].SetDropFrameID( 12 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][15].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][15].SetValue(ITEM_CLASS_SR, 1, -1, TRUE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][15].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][16].HName = "SG 쉘-32";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][16].EName = "SG Shell-32";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][16].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][16].SetFrameID( 759, 773, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][16].SetDropFrameID( 759 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][16].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][16].SetValue(ITEM_CLASS_SG, 1, SKILL_VIVID_MAGAZINE, FALSE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][16].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][17].HName = "AR 탄창-80";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][17].EName = "AR Magazine-80";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][17].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][17].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][17].SetFrameID( 752, 766, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][17].SetDropFrameID( 752 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][17].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][17].SetValue(ITEM_CLASS_AR, 1, SKILL_VIVID_MAGAZINE, FALSE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][17].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][18].HName = "SMG 탄창-160";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][18].EName = "SMG Magazine-160";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][18].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][18].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][18].SetFrameID( 766, 780, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][18].SetDropFrameID( 766 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][18].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][18].SetValue(ITEM_CLASS_SMG, 1, SKILL_VIVID_MAGAZINE, FALSE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][18].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][19].HName = "SR 탄창-40";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][19].EName = "SR Magazine-40";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][19].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][19].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][19].SetFrameID( 767, 781, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][19].SetDropFrameID( 767 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][19].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][19].SetValue(ITEM_CLASS_SR, 1, SKILL_VIVID_MAGAZINE, FALSE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][19].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][19].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][20].HName = "은제 SG 쉘-32";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][20].EName = "Silver SG Shell-32";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][20].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][20].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][20].SetFrameID( 761, 775, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][20].SetDropFrameID( 761 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][20].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][20].SetValue(ITEM_CLASS_SG, 1, SKILL_VIVID_MAGAZINE, TRUE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][20].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][20].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][21].HName = "은제 AR 탄창-80";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][21].EName = "Silver AR Magazine-80";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][21].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][21].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][21].SetFrameID( 760, 774, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][21].SetDropFrameID( 760 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][21].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][21].SetValue(ITEM_CLASS_AR, 1, SKILL_VIVID_MAGAZINE, TRUE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][21].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][21].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][22].HName = "은제 SMG 탄창-160";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][22].EName = "Silver SMG Magazine-160";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][22].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][22].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][22].SetFrameID( 762, 776, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][22].SetDropFrameID( 762 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][22].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][22].SetValue(ITEM_CLASS_SMG, 1, SKILL_VIVID_MAGAZINE, TRUE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][22].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][22].Price	= 40;
+
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][23].HName = "은제 SR 탄창-40";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][23].EName = "Silver SR Magazine-40";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][23].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][23].SetSoundID( SOUND_ITEM_MOVE_MAGAZINE, SOUND_ITEM_MOVE_MAGAZINE, SOUNDID_NULL, SOUND_ITEM_USE_MAGAZINE );
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][23].SetFrameID( 763, 777, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][23].SetDropFrameID( 763 );	
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][23].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][23].SetValue(ITEM_CLASS_SR, 1, SKILL_VIVID_MAGAZINE, TRUE);
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][23].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MAGAZINE][23].Price	= 40;
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_BOMB_MATERIAL
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_BOMB_MATERIAL, 10 );
+
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][0].HName = "스플린터 재료";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][0].EName = "Splinter Material";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][0].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][0].SetFrameID( 245, 249, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][0].SetDropFrameID( 245 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][0].Price	= 100;
+
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][1].HName = "에이서 재료";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][1].EName = "Acer Material";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][1].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][1].SetFrameID( 246, 251, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][1].SetDropFrameID( 246 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][1].Price	= 100;
+
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][2].HName = "불스 재료";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][2].EName = "Bulls Material";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][2].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][2].SetFrameID( 247, 253, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][2].SetDropFrameID( 247 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][2].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][2].Price	= 100;
+
+
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][3].HName = "스턴 재료";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][3].EName = "Stun Material";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][3].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][3].SetFrameID( 252, 263, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][3].SetDropFrameID( 252 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][3].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][3].Price	= 100;
+
+
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][4].HName = "크로스보우 재료";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][4].EName = "Crossbow Material";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][4].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][4].SetFrameID( 248, 255, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][4].SetDropFrameID( 248 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][4].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][4].Price	= 100;
+
+
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][5].HName = "앵클킬러 재료";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][5].EName = "AnkleKiller Material";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][5].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][5].SetFrameID( 270, 283, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][5].SetDropFrameID( 270 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][5].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][5].Price	= 100;
+
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][6].HName = "폼즈 재료";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][6].EName = "Pomz Material";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][6].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][6].SetFrameID( 249, 257, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][6].SetDropFrameID( 249 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][6].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][6].Price	= 100;
+
+
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][7].HName = "AP-C1 재료";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][7].EName = "AP-C1 Material";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][7].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][7].SetFrameID( 253, 266, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][7].SetDropFrameID( 253 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][7].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][7].Price	= 100;
+
+
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][8].HName = "다이아몬드 백";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][8].EName = "DiamondBack Material";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][8].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][8].SetFrameID( 251, 261, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][8].SetDropFrameID( 251 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][8].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][8].Price	= 100;
+
+	
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][9].HName = "Swift-EX 재료";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][9].EName = "Swift-EX Material";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][9].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][9].SetFrameID( 250, 259, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][9].SetDropFrameID( 250 );
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][9].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB_MATERIAL][9].Price	= 100;
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_ETC
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_ETC, 2 );
+
+	m_pTypeInfo[ITEM_CLASS_ETC][0].HName = "공구 박스";
+	m_pTypeInfo[ITEM_CLASS_ETC][0].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_ETC][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_ETC][0].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_ETC][0].SetFrameID( 19, 25, 0 );	
+	m_pTypeInfo[ITEM_CLASS_ETC][0].SetDropFrameID( 19 );
+	m_pTypeInfo[ITEM_CLASS_ETC][0].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_ETC][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_ETC][0].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_ETC][1].HName = "1회용 번역기";
+	m_pTypeInfo[ITEM_CLASS_ETC][1].EName = "Slayer Translator";
+	m_pTypeInfo[ITEM_CLASS_ETC][1].Description = "10분간 다른 종족의 대화를 모두 알아 들을 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_ETC][1].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_ETC][1].SetFrameID( 579, 593, 0 );
+	m_pTypeInfo[ITEM_CLASS_ETC][1].SetDropFrameID( 579 );
+	m_pTypeInfo[ITEM_CLASS_ETC][1].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_ETC][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_ETC][1].Price = 1;
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_KEY
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_KEY, 17 
+#if __CONTENTS(__QUEST_RENEWAL)
+		+1
+#endif
+#if __CONTENTS(__FAST_TRANSFORTER)
+		+1
+#endif //__FAST_TRANSFORTER
+#if __CONTENTS(__SECOND_TRANSFORTER_ITEM)
+		+1
+#endif //__SECOND_TRANSFORTER_ITEM
+		);
+
+	m_pTypeInfo[ITEM_CLASS_KEY][0].HName = "길트 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][0].EName = "Gilt Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_KEY][0].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][0].SetFrameID( 23, 112, 0 );
+	m_pTypeInfo[ITEM_CLASS_KEY][0].SetDropFrameID( 23 );	
+	m_pTypeInfo[ITEM_CLASS_KEY][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_KEY][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_KEY][0].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_KEY][1].HName = "골드 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][1].EName = "Gold Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_KEY][1].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][1].SetFrameID( 21, 113, 0 );	
+	m_pTypeInfo[ITEM_CLASS_KEY][1].SetDropFrameID( 21 );
+	m_pTypeInfo[ITEM_CLASS_KEY][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_KEY][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_KEY][1].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_KEY][2].HName = "마그넷 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][2].EName = "Margnet Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_KEY][2].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][2].SetFrameID( 22, 115, 0 );	
+	m_pTypeInfo[ITEM_CLASS_KEY][2].SetDropFrameID( 22 );
+	m_pTypeInfo[ITEM_CLASS_KEY][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_KEY][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_KEY][2].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_KEY][3].HName = "스페셜 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][3].EName = "Special Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_KEY][3].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][3].SetFrameID( 20, 114, 0 );	
+	m_pTypeInfo[ITEM_CLASS_KEY][3].SetDropFrameID( 20 );
+	m_pTypeInfo[ITEM_CLASS_KEY][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_KEY][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_KEY][3].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_KEY][4].HName = "초록색 마그넷 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][4].EName = "Green Magnet Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_KEY][4].SetSoundID( SOUND_ITEM_MOVE_KEY,SOUND_ITEM_MOVE_KEY,SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][4].SetFrameID( 709,723,0);
+	m_pTypeInfo[ITEM_CLASS_KEY][4].SetDropFrameID( 709 );
+
+	m_pTypeInfo[ITEM_CLASS_KEY][5].HName = "파란색 마그넷 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][5].EName = "Blue Magnet Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_KEY][5].SetSoundID( SOUND_ITEM_MOVE_KEY,SOUND_ITEM_MOVE_KEY,SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][5].SetFrameID( 712,726,0);
+	m_pTypeInfo[ITEM_CLASS_KEY][5].SetDropFrameID( 712 );
+
+	m_pTypeInfo[ITEM_CLASS_KEY][6].HName = "빨간색 마그넷 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][6].EName = "Red Magnet Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_KEY][6].SetSoundID( SOUND_ITEM_MOVE_KEY,SOUND_ITEM_MOVE_KEY,SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][6].SetFrameID( 713,727,0);
+	m_pTypeInfo[ITEM_CLASS_KEY][6].SetDropFrameID( 713 );
+
+	m_pTypeInfo[ITEM_CLASS_KEY][7].HName = "노란색 마그넷 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][7].EName = "Yellow Magnet Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_KEY][7].SetSoundID( SOUND_ITEM_MOVE_KEY,SOUND_ITEM_MOVE_KEY,SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][7].SetFrameID( 714,728,0);
+	m_pTypeInfo[ITEM_CLASS_KEY][7].SetDropFrameID( 714 );
+
+	m_pTypeInfo[ITEM_CLASS_KEY][8].HName = "주황색 마그넷 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][8].EName = "Orange Magnet Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_KEY][8].SetSoundID( SOUND_ITEM_MOVE_KEY,SOUND_ITEM_MOVE_KEY,SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][8].SetFrameID( 715,729,0);
+	m_pTypeInfo[ITEM_CLASS_KEY][8].SetDropFrameID( 715 );
+
+	m_pTypeInfo[ITEM_CLASS_KEY][9].HName = "하늘색 마그넷 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][9].EName = "Skyblue Magnet Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_KEY][9].SetSoundID( SOUND_ITEM_MOVE_KEY,SOUND_ITEM_MOVE_KEY,SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][9].SetFrameID( 716,730,0);
+	m_pTypeInfo[ITEM_CLASS_KEY][9].SetDropFrameID( 716 );
+
+	m_pTypeInfo[ITEM_CLASS_KEY][10].HName = "보라색 마그넷 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][10].EName = "Violet Magnet Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_KEY][10].SetSoundID( SOUND_ITEM_MOVE_KEY,SOUND_ITEM_MOVE_KEY,SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][10].SetFrameID( 717,731,0);
+	m_pTypeInfo[ITEM_CLASS_KEY][10].SetDropFrameID( 717 );
+
+	m_pTypeInfo[ITEM_CLASS_KEY][11].HName = "검은색 마그넷 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][11].EName = "Black Magnet Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_KEY][11].SetSoundID( SOUND_ITEM_MOVE_KEY,SOUND_ITEM_MOVE_KEY,SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][11].SetFrameID( 718,732,0);
+	m_pTypeInfo[ITEM_CLASS_KEY][11].SetDropFrameID( 718 );
+
+	m_pTypeInfo[ITEM_CLASS_KEY][12].HName = "B2-몬스터 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][12].EName = "B2-Monster Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][12].Description = "승직 전용 이동수단 입니다.";
+	m_pTypeInfo[ITEM_CLASS_KEY][12].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][12].SetFrameID( 966, 1002, 0 );
+	m_pTypeInfo[ITEM_CLASS_KEY][12].SetDropFrameID( 966 );
+	
+	m_pTypeInfo[ITEM_CLASS_KEY][13].HName = "D-토마호크 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][13].EName = "D-Tomahawk Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][13].Description = "승직 전용 이동수단 입니다.";
+	m_pTypeInfo[ITEM_CLASS_KEY][13].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][13].SetFrameID( 1116, 1144, 0 );
+	m_pTypeInfo[ITEM_CLASS_KEY][13].SetDropFrameID( 1116 );
+
+	m_pTypeInfo[ITEM_CLASS_KEY][14].HName = "레드 D-토마호크 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][14].EName = "Red D-Tomahawk Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][14].Description = "승직 전용 이동수단 입니다.";
+	m_pTypeInfo[ITEM_CLASS_KEY][14].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][14].SetFrameID( 1117, 1145, 0 );
+	m_pTypeInfo[ITEM_CLASS_KEY][14].SetDropFrameID( 1117 );
+
+	m_pTypeInfo[ITEM_CLASS_KEY][15].HName = "블루 D-토마호크 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][15].EName = "Blue D-Tomahawk Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][15].Description = "승직 전용 이동수단 입니다.";
+	m_pTypeInfo[ITEM_CLASS_KEY][15].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][15].SetFrameID( 1118, 1146, 0 );
+	m_pTypeInfo[ITEM_CLASS_KEY][15].SetDropFrameID( 1118 );
+	
+	m_pTypeInfo[ITEM_CLASS_KEY][16].HName = "옐로우 D-토마호크 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][16].EName = "Yellow D-Tomahawk Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][16].Description = "승직 전용 이동수단 입니다.";
+	m_pTypeInfo[ITEM_CLASS_KEY][16].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][16].SetFrameID( 1119, 1147, 0 );
+	m_pTypeInfo[ITEM_CLASS_KEY][16].SetDropFrameID( 1119 );
+
+#if __CONTENTS(__QUEST_RENEWAL)
+	itemType = 17;
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].HName = "발키리 스콜피온 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].EName = "Valkirie Scorpion Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].SetFrameID( 22, 115, 0 );	
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].SetDropFrameID( 22 );
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].Price	= 0;
+	itemType++;
+#endif
+
+#if __CONTENTS(__FAST_TRANSFORTER)
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].HName = "헬바이크 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].EName = "Hell Bike Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].Description = "슬레이어 고속이동 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].SetFrameID( 1216, 1257, 0 );	
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].SetDropFrameID( 1216 );
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].Price	= 0;
+	itemType++;
+#endif //__FAST_TRANSFORTER
+#if __CONTENTS(__SECOND_TRANSFORTER_ITEM)
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].HName = "하버 바이클 키";
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].EName = "Hover Vehicle Key";
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].Description = "빠른 이동을 할 수 있는 슬레이어 전용 하버크래프트 입니다.";
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].SetFrameID( 1263, 1306, 0 );	
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].SetDropFrameID( 1263 );
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_KEY][itemType].Price	= 0;
+	itemType++;
+#endif //__SECOND_TRANSFORTER_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_RING
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(2), Def(6)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_RING, 15 
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+#if __CONTENTS(__QUEST_RENEWAL)
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+#if __CONTENTS(__ADVANCEMENT_NEW_UNIQUE_ITEM)
+		+1
+#endif //__ADVANCEMENT_NEW_UNIQUE_ITEM
+		
+		);
+
+	m_pTypeInfo[ITEM_CLASS_RING][0].HName = "브론즈 링";
+	m_pTypeInfo[ITEM_CLASS_RING][0].EName = "Bronze Ring";
+	m_pTypeInfo[ITEM_CLASS_RING][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][0].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][0].SetFrameID( 27, 53, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][0].SetDropFrameID( 27 );
+	m_pTypeInfo[ITEM_CLASS_RING][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][0].SetValue(80, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][0].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_RING][0].SetRequireAbility(0,0, 20);
+	m_pTypeInfo[ITEM_CLASS_RING][0].Price = 500;
+
+	m_pTypeInfo[ITEM_CLASS_RING][1].HName = "블랙 링";
+	m_pTypeInfo[ITEM_CLASS_RING][1].EName = "Black Ring";
+	m_pTypeInfo[ITEM_CLASS_RING][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][1].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][1].SetFrameID( 25, 54, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][1].SetDropFrameID( 25 );
+	m_pTypeInfo[ITEM_CLASS_RING][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][1].SetValue(100, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][1].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_RING][1].SetRequireAbility(0,0, 40);
+	m_pTypeInfo[ITEM_CLASS_RING][1].Price = 1000;
+
+	m_pTypeInfo[ITEM_CLASS_RING][2].HName = "프리스트 링";
+	m_pTypeInfo[ITEM_CLASS_RING][2].EName = "Priest Ring";
+	m_pTypeInfo[ITEM_CLASS_RING][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][2].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][2].SetFrameID( 26, 55, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][2].SetDropFrameID( 26 );
+	m_pTypeInfo[ITEM_CLASS_RING][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][2].SetValue(150, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][2].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_RING][2].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_RING][2].Price = 1600;
+
+	m_pTypeInfo[ITEM_CLASS_RING][3].HName = "골드 링";
+	m_pTypeInfo[ITEM_CLASS_RING][3].EName = "Gold Ring";
+	m_pTypeInfo[ITEM_CLASS_RING][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][3].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][3].SetFrameID( 24, 56, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][3].SetDropFrameID( 24 );
+	m_pTypeInfo[ITEM_CLASS_RING][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][3].SetValue(200, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][3].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_RING][3].SetRequireAbility(0,0, 80);
+	m_pTypeInfo[ITEM_CLASS_RING][3].Price = 6000;
+
+	m_pTypeInfo[ITEM_CLASS_RING][4].HName = "오러스 링";
+	m_pTypeInfo[ITEM_CLASS_RING][4].EName = "Aurous Ring";
+	m_pTypeInfo[ITEM_CLASS_RING][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][4].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][4].SetFrameID( 28, 57, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][4].SetDropFrameID( 28 );
+	m_pTypeInfo[ITEM_CLASS_RING][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][4].SetValue(300, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][4].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_RING][4].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_RING][4].Price = 15000;
+
+	m_pTypeInfo[ITEM_CLASS_RING][5].HName = "행운의 반지";
+	m_pTypeInfo[ITEM_CLASS_RING][5].EName = "Lucky Ring";
+	m_pTypeInfo[ITEM_CLASS_RING][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][5].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][5].SetFrameID( 153, 157, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][5].SetDropFrameID( 153 );
+	m_pTypeInfo[ITEM_CLASS_RING][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][5].SetValue(300, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][5].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_RING][5].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_RING][5].Price = 15000;
+
+	m_pTypeInfo[ITEM_CLASS_RING][6].HName = "로자리오";
+	m_pTypeInfo[ITEM_CLASS_RING][6].EName = "Rosario";
+	m_pTypeInfo[ITEM_CLASS_RING][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][6].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][6].SetFrameID( 152, 156, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][6].SetDropFrameID( 152 );
+	m_pTypeInfo[ITEM_CLASS_RING][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][6].SetValue(300, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][6].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_RING][6].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_RING][6].Price = 15000;
+
+	m_pTypeInfo[ITEM_CLASS_RING][7].HName = "골든 다이아몬드 링";
+	m_pTypeInfo[ITEM_CLASS_RING][7].EName = "Golden Diamond Ring";
+	m_pTypeInfo[ITEM_CLASS_RING][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][7].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][7].SetFrameID( 154, 158, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][7].SetDropFrameID( 154 );
+	m_pTypeInfo[ITEM_CLASS_RING][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][7].SetValue(300, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][7].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_RING][7].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_RING][7].Price = 15000;
+
+	m_pTypeInfo[ITEM_CLASS_RING][8].HName = "플래티넘 스파이럴";
+	m_pTypeInfo[ITEM_CLASS_RING][8].EName = "Platinum Spiral";
+	m_pTypeInfo[ITEM_CLASS_RING][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][8].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][8].SetFrameID( 151, 155, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][8].SetDropFrameID( 151 );
+	m_pTypeInfo[ITEM_CLASS_RING][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][8].SetValue(300, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][8].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_RING][8].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_RING][8].Price = 15000;
+
+	m_pTypeInfo[ITEM_CLASS_RING][9].HName = "앵크 링";
+	m_pTypeInfo[ITEM_CLASS_RING][9].EName = "Ankh Ring";
+	m_pTypeInfo[ITEM_CLASS_RING][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][9].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][9].SetFrameID( 155, 159, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][9].SetDropFrameID( 155 );
+	m_pTypeInfo[ITEM_CLASS_RING][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][9].SetValue(300, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][9].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_RING][9].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_RING][9].Price = 15000;
+
+	m_pTypeInfo[ITEM_CLASS_RING][10].HName = "오페리오 링";
+	m_pTypeInfo[ITEM_CLASS_RING][10].EName = "Operio Ring";
+	m_pTypeInfo[ITEM_CLASS_RING][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][10].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][10].SetFrameID( 355, 369, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][10].SetDropFrameID( 355 );
+	m_pTypeInfo[ITEM_CLASS_RING][10].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][10].SetValue(300, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][10].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_RING][10].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_RING][10].Price = 15000;
+
+	m_pTypeInfo[ITEM_CLASS_RING][11].HName = "이스팀 링";
+	m_pTypeInfo[ITEM_CLASS_RING][11].EName = "Esteem Ring";
+	m_pTypeInfo[ITEM_CLASS_RING][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][11].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][11].SetFrameID( 453, 467, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][11].SetDropFrameID( 453 );
+	m_pTypeInfo[ITEM_CLASS_RING][11].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][11].SetValue(300, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][11].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_RING][11].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_RING][11].Price = 15000;
+
+	m_pTypeInfo[ITEM_CLASS_RING][12].HName = "케볼레타 링";
+	m_pTypeInfo[ITEM_CLASS_RING][12].EName = "Kabollefa";
+	m_pTypeInfo[ITEM_CLASS_RING][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][12].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][12].SetFrameID( 481, 495, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][12].SetDropFrameID( 481 );
+	m_pTypeInfo[ITEM_CLASS_RING][12].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][12].SetValue(300, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][12].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_RING][12].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_RING][12].Price = 15000;
+
+	m_pTypeInfo[ITEM_CLASS_RING][13].HName = "볼라시오 링";
+	m_pTypeInfo[ITEM_CLASS_RING][13].EName = "Volasio";
+	m_pTypeInfo[ITEM_CLASS_RING][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][13].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][13].SetFrameID( 917 , 940 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][13].SetDropFrameID( 917 );
+	m_pTypeInfo[ITEM_CLASS_RING][13].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][13].SetValue(300, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][13].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_RING][12].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_RING][13].Price = 15000;
+
+	m_pTypeInfo[ITEM_CLASS_RING][14].HName = "헬 가든의 반지";
+	m_pTypeInfo[ITEM_CLASS_RING][14].EName = "Ring Of Hellgarden";
+	m_pTypeInfo[ITEM_CLASS_RING][14].Description = "헬 가든의 반지";
+	m_pTypeInfo[ITEM_CLASS_RING][14].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][14].SetFrameID( 917 , 940 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][14].SetDropFrameID( 917 );
+	m_pTypeInfo[ITEM_CLASS_RING][14].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][14].SetValue(300, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_RING][14].Price = 15000;
+	m_pTypeInfo[ITEM_CLASS_RING][14].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_TRADE;
+
+	itemType = 15;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].HName = "칼리 링";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].EName = "Khali's Ring";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetFrameID( 453, 467, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetDropFrameID( 453 );
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetValue(300, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].Price = 75000;
+	itemType++;
+#endif
+
+#if	__CONTENTS(__QUEST_RENEWAL)
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].HName = "발키리 오러스 링";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].EName = "Valkirie Aurous Ring";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetFrameID( 28, 57, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetDropFrameID( 28 );
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetValue(300, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].Weight = 1;
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType++; // 17
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].HName = "쥴란 링";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].EName = "Julien Ring";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetFrameID( 1241, 1284 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetDropFrameID( 1241 );
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetValue(30000, 16, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].Weight = 2;
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].Price = 1000000;
+
+	itemType++; // 18
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].HName = "하피 링";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].EName = "Harpy Ring";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetFrameID( 917 , 940 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetDropFrameID( 917 );
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetValue(35000, 21, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].Weight = 2;
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].Price = 2000000;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+#if __CONTENTS(__ADVANCEMENT_NEW_UNIQUE_ITEM)
+	itemType++; // 19
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].HName = "라파엘의 신성한 반지";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].EName = "Holy Ring of Raphael";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetFrameID( 1337, 1381 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetDropFrameID( 1337 );
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].SetValue(30000, 17, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].Weight = 2;
+	m_pTypeInfo[ITEM_CLASS_RING][itemType].Price = 999999;
+#endif //__ADVANCEMENT_NEW_UNIQUE_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_BRACELET
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(2), Def(6)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_BRACELET, 14 
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+#if __CONTENTS(__ONIBLA_ITEM)
+		+2
+#endif // __ONIBLA_ITEM
+
+		);
+
+	m_pTypeInfo[ITEM_CLASS_BRACELET][0].HName = "메탈 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][0].EName = "Metal Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][0].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][0].SetFrameID( 29, 132, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][0].SetDropFrameID( 29 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][0].SetValue(100, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][0].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_BRACELET][0].SetRequireAbility(0,0, 20);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][0].Price = 750;
+
+	m_pTypeInfo[ITEM_CLASS_BRACELET][1].HName = "스틸 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][1].EName = "Steel Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][1].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][1].SetFrameID( 31, 133, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][1].SetDropFrameID( 31 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][1].SetValue(120, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][1].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_BRACELET][1].SetRequireAbility(0,0, 40);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][1].Price = 1200;
+
+	m_pTypeInfo[ITEM_CLASS_BRACELET][2].HName = "링 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][2].EName = "Ring Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][2].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][2].SetFrameID( 30, 134, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][2].SetDropFrameID( 30 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][2].SetValue(170, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][2].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_BRACELET][2].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][2].Price = 2000;
+
+	m_pTypeInfo[ITEM_CLASS_BRACELET][3].HName = "플레이트 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][3].EName = "Plate Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][3].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][3].SetFrameID( 32, 135, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][3].SetDropFrameID( 32 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][3].SetValue(250, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][3].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_BRACELET][3].SetRequireAbility(0,0, 80);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][3].Price = 8000;
+
+	m_pTypeInfo[ITEM_CLASS_BRACELET][4].HName = "오러스 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][4].EName = "Aurous Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][4].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][4].SetFrameID( 33, 136, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][4].SetDropFrameID( 33 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][4].SetValue(350, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][4].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_BRACELET][4].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][4].Price = 20000;
+
+	m_pTypeInfo[ITEM_CLASS_BRACELET][5].HName = "로럴 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][5].EName = "Aurous Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][5].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][5].SetFrameID( 157, 161, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][5].SetDropFrameID( 157 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][5].SetValue(350, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][5].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_BRACELET][5].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][5].Price = 20000;
+
+	m_pTypeInfo[ITEM_CLASS_BRACELET][6].HName = "욥의 팔찌";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][6].EName = "Aurous Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][6].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][6].SetFrameID( 156, 160, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][6].SetDropFrameID( 156 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][6].SetValue(350, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][6].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_BRACELET][6].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][6].Price = 20000;
+
+	m_pTypeInfo[ITEM_CLASS_BRACELET][7].HName = "슬레이브 뱅글";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][7].EName = "Aurous Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][7].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][7].SetFrameID( 160, 164, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][7].SetDropFrameID( 160 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][7].SetValue(350, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][7].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_BRACELET][7].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][7].Price = 20000;
+
+	m_pTypeInfo[ITEM_CLASS_BRACELET][8].HName = "크로스 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][8].EName = "Cross Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][8].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][8].SetFrameID( 159, 163, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][8].SetDropFrameID( 159 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][8].SetValue(350, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][8].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_BRACELET][8].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][8].Price = 20000;
+
+	m_pTypeInfo[ITEM_CLASS_BRACELET][9].HName = "홀리 스피리트";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][9].EName = "Holy Spirit";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][9].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][9].SetFrameID( 158, 162, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][9].SetDropFrameID( 158 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][9].SetValue(350, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][9].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_BRACELET][9].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][9].Price = 20000;
+
+	m_pTypeInfo[ITEM_CLASS_BRACELET][10].HName = "아퀼라 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][10].EName = "Aquila Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][10].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][10].SetFrameID( 354, 368, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][10].SetDropFrameID( 354 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][10].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][10].SetValue(350, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][10].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_BRACELET][10].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][10].Price = 20000;
+
+	m_pTypeInfo[ITEM_CLASS_BRACELET][11].HName = "솔리스 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][11].EName = "Solis bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][11].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][11].SetFrameID( 452, 466, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][11].SetDropFrameID( 452 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][11].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][11].SetValue(350, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][11].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_BRACELET][11].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][11].Price = 20000;
+
+	m_pTypeInfo[ITEM_CLASS_BRACELET][12].HName = "담피르 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][12].EName = "Dhampir Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][12].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][12].SetFrameID( 480, 494, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][12].SetDropFrameID( 480 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][12].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][12].SetValue(350, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][12].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_BRACELET][12].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][12].Price = 20000;
+
+	m_pTypeInfo[ITEM_CLASS_BRACELET][13].HName = "크루스닉 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][13].EName = "Krsnik Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][13].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][13].SetFrameID( 932 , 955 ,0);	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][13].SetDropFrameID( 932 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][13].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][13].SetValue(350, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][13].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_BRACELET][12].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][13].Price = 20000;
+	
+	itemType = 14;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].HName = "칼리 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].EName = "Khali's Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetFrameID( 452, 466, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetDropFrameID( 452 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetValue(350, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Price = 75000;
+
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType++;	// 15
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].HName = "블루 마린 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].EName = "Blue Marine Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetFrameID( 1236, 1279 ,0);	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetDropFrameID( 1236 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetValue(27000, 16, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Weight = 2;
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Price = 1000000;
+
+	itemType++;	// 16
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].HName = "아리엘 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].EName = "Ariel Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetFrameID( 932 , 955 ,0);	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetDropFrameID( 932 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetValue(30000, 21, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Weight = 2;
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Price = 2000000;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+#if __CONTENTS(__ONIBLA_ITEM)
+	itemType++;	// 17
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].HName = "성약의 가르침";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].EName = "Doctrine of Testament";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetFrameID( 1346 , 1390 ,0);	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetDropFrameID( 1346 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetValue(25000, 17, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Weight = 2;
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Price = 999999;
+
+	itemType++;	// 18
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].HName = "이터널 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].EName = "Eternal Bracelet";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetFrameID( 1354 , 1398 ,0);	
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetDropFrameID( 1354 );
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].SetValue(33000, 11, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Weight = 2;
+	m_pTypeInfo[ITEM_CLASS_BRACELET][itemType].Price = 999999;
+#endif // __ONIBLA_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_NECKLACE
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(2), Def(6)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_NECKLACE, 15 
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+#if __CONTENTS(__ADVANCEMENT_NEW_UNIQUE_ITEM)
+		+1
+#endif //__ADVANCEMENT_NEW_UNIQUE_ITEM
+		);
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][0].HName = "크로스 팬던트";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][0].EName = "Cross Pandent";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][0].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][0].SetFrameID( 36, 45, 0 );	
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][0].SetDropFrameID( 36 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][0].SetValue(80, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][0].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_NECKLACE][0].SetRequireAbility(0,0, 20);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][0].Price = 1000;
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][1].HName = "에머럴드 팬던트";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][1].EName = "Emerald Pandent";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][1].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][1].SetFrameID( 38, 46, 0 );	
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][1].SetDropFrameID( 38 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][1].SetValue(95, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][1].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_NECKLACE][1].SetRequireAbility(0,0, 40);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][1].Price = 2000;
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][2].HName = "플레티넘 팬던트";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][2].EName = "Platinum Pandent";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][2].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][2].SetFrameID( 35, 47, 0 );	
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][2].SetDropFrameID( 35 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][2].SetValue(120, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][2].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_NECKLACE][2].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][2].Price = 7800;
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][3].HName = "오러스 팬던트";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][3].EName = "Aurous Pandent";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][3].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][3].SetFrameID( 37, 48, 0 );	
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][3].SetDropFrameID( 37 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][3].SetValue(150, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][3].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_NECKLACE][3].SetRequireAbility(0,0, 80);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][3].Price = 20000;
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][4].HName = "크레센트 팬던트";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][4].EName = "Crescent Pandent";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][4].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][4].SetFrameID( 34, 49, 0 );	
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][4].SetDropFrameID( 34 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][4].SetValue(200, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][4].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_NECKLACE][4].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][4].Price = 50000;
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][5].HName = "블루 센스";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][5].EName = "Crescent Pandent";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][5].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][5].SetFrameID( 161, 165, 0 );	
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][5].SetDropFrameID( 161 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][5].SetValue(200, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][5].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_NECKLACE][5].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][5].Price = 50000;
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][6].HName = "인리 크로스";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][6].EName = "Crescent Pandent";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][6].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][6].SetFrameID( 163, 167, 0 );	
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][6].SetDropFrameID( 163 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][6].SetValue(200, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][6].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_NECKLACE][6].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][6].Price = 50000;
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][7].HName = "부활의 별";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][7].EName = "Crescent Pandent";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][7].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][7].SetFrameID( 164, 168, 0 );	
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][7].SetDropFrameID( 164 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][7].SetValue(200, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][7].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_NECKLACE][7].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][7].Price = 50000;
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][8].HName = "블러드 크로스";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][8].EName = "Blood Cross";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][8].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][8].SetFrameID( 165, 169, 0 );	
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][8].SetDropFrameID( 165 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][8].SetValue(200, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][8].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_NECKLACE][8].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][8].Price = 50000;
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][9].HName = "실버 네크리스";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][9].EName = "Silver Necklace";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][9].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][9].SetFrameID( 162, 166, 0 );	
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][9].SetDropFrameID( 162 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][9].SetValue(200, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][9].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_NECKLACE][9].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][9].Price = 50000;
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][10].HName = "머씨 네크리스";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][10].EName = "Mercy Necklace";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][10].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][10].SetFrameID( 353, 367, 0 );	
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][10].SetDropFrameID( 353 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][10].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][10].SetValue(200, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][10].Weight = 1;
+	//m_pTypeInfo[ITEM_CLASS_NECKLACE][10].SetRequireAbility(0,0, 90);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][10].Price = 50000;
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][11].HName = "트리니티 네크리스";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][11].EName = "trinity necklace";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][11].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][11].SetFrameID( 451, 465, 0 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][11].SetDropFrameID( 451 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][11].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][11].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][11].Price	= 150000;
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][12].HName = "모건 르 페이";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][12].EName = "Morgan le Fay";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][12].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][12].SetFrameID( 482, 496, 0 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][12].SetDropFrameID( 482 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][12].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][12].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][12].Price	= 150000;
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][13].HName = "라마스 네클리스";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][13].EName = "Lamassu Necklace";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][13].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][13].SetFrameID( 912 , 935 ,0 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][13].SetDropFrameID( 909 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][13].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][13].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][13].Price	= 150000;
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][14].HName = "헬 가든의 목걸이";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][14].EName = "Necklace Of Hellgarden";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][14].Description = "헬 가든의 목걸이";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][14].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][14].SetFrameID( 912 , 935 ,0 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][14].SetDropFrameID( 909 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][14].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][14].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][14].Price	= 150000;
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][14].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_TRADE;
+	itemType = 15;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].HName = "칼리 네크리스";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].EName = "Khali's Necklace";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetFrameID( 451, 465, 0 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetDropFrameID( 451 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].Price	= 75000;
+
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType++;	// 16
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].HName = "디어니스 팬던트";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].EName = "Dionys Pendant";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetFrameID( 1232, 1275 ,0 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetDropFrameID( 1232 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetValue(30000, 17, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].Weight = 2;
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].Price	= 1000000;
+
+	itemType++;	// 17
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].HName = "골드 스파이더 네크리스";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].EName = "Gold Spider Necklace";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetFrameID( 912 , 935 ,0 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetDropFrameID( 909 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetValue(35000, 22, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].Weight = 2;
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].Price	= 2000000;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+#if __CONTENTS(__ADVANCEMENT_NEW_UNIQUE_ITEM)
+	itemType++; // 18
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].HName = "바티칸의 성골함";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].EName = "Reliquary of Vatican";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetFrameID( 1338, 1382 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetDropFrameID( 1338 );
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].SetValue(30000, 17, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].Weight = 2;
+	m_pTypeInfo[ITEM_CLASS_NECKLACE][itemType].Price = 999999;
+#endif //__ADVANCEMENT_NEW_UNIQUE_ITEM	
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_COAT
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(2), Def(6)
+	//---------------------------------------------------------------------	
+	// 121 상의 남구
+	// 122 상의 여구
+	// 123 상의 남신
+	// 124 상의 여신
+	InitClass(ITEM_CLASS_COAT, 28 
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+		+2
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+		+2
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+4
+#endif //__NEW_ADVANCEMENT_ITEM
+
+		);
+
+	m_pTypeInfo[ITEM_CLASS_COAT][0].HName = "남자 플랙 재킷";
+	m_pTypeInfo[ITEM_CLASS_COAT][0].EName = "Combat Mail";
+	m_pTypeInfo[ITEM_CLASS_COAT][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][0].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][0].SetFrameID( 121, 26, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][0].SetDropFrameID( 121 );
+	m_pTypeInfo[ITEM_CLASS_COAT][0].SetAddonFrameID( ADDONID_COAT1, ADDONID_COAT1 );
+	//m_pTypeInfo[ITEM_CLASS_COAT][0].SetAddonFrameID( ADDONID_COAT4, ADDONID_COAT4 );
+
+	m_pTypeInfo[ITEM_CLASS_COAT][0].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][0].SetValue(200, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][0].Price = 1500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][1].HName = "여자 플랙 재킷";
+	m_pTypeInfo[ITEM_CLASS_COAT][1].EName = "Plate Mail";
+	m_pTypeInfo[ITEM_CLASS_COAT][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][1].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][1].SetFrameID( 122, 106, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][1].SetDropFrameID( 122 );
+	m_pTypeInfo[ITEM_CLASS_COAT][1].SetAddonFrameID( ADDONID_COAT1, ADDONID_COAT1 );
+	//m_pTypeInfo[ITEM_CLASS_COAT][1].SetAddonFrameID( ADDONID_COAT4, ADDONID_COAT4 );
+	m_pTypeInfo[ITEM_CLASS_COAT][1].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][1].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][1].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][2].HName = "남자 베스트";
+	m_pTypeInfo[ITEM_CLASS_COAT][2].EName = "Combat Mail";
+	m_pTypeInfo[ITEM_CLASS_COAT][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][2].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][2].SetFrameID( 121, 26, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][2].SetDropFrameID( 121 );
+	m_pTypeInfo[ITEM_CLASS_COAT][2].SetAddonFrameID( ADDONID_COAT1, ADDONID_COAT1 );
+	m_pTypeInfo[ITEM_CLASS_COAT][2].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][2].SetValue(200, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][2].Price = 1500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][3].HName = "여자 베스트";
+	m_pTypeInfo[ITEM_CLASS_COAT][3].EName = "Plate Mail";
+	m_pTypeInfo[ITEM_CLASS_COAT][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][3].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][3].SetFrameID( 122, 106, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][3].SetDropFrameID( 122 );
+	m_pTypeInfo[ITEM_CLASS_COAT][3].SetAddonFrameID( ADDONID_COAT1, ADDONID_COAT1 );
+	m_pTypeInfo[ITEM_CLASS_COAT][3].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][3].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][3].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][4].HName = "남자 배틀슈트";
+	m_pTypeInfo[ITEM_CLASS_COAT][4].EName = "Plate Mail";
+	m_pTypeInfo[ITEM_CLASS_COAT][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][4].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][4].SetFrameID( 123, 29, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][4].SetDropFrameID( 123 );
+	m_pTypeInfo[ITEM_CLASS_COAT][4].SetAddonFrameID( ADDONID_COAT2, ADDONID_COAT2 );
+	m_pTypeInfo[ITEM_CLASS_COAT][4].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][4].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][4].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][5].HName = "여자 배틀슈트";
+	m_pTypeInfo[ITEM_CLASS_COAT][5].EName = "Plate Mail";
+	m_pTypeInfo[ITEM_CLASS_COAT][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][5].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][5].SetFrameID( 124, 109, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][5].SetDropFrameID( 124 );
+	m_pTypeInfo[ITEM_CLASS_COAT][5].SetAddonFrameID( ADDONID_COAT2, ADDONID_COAT2 );
+	m_pTypeInfo[ITEM_CLASS_COAT][5].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][5].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][5].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][6].HName = "남자 컴뱃슈트";
+	m_pTypeInfo[ITEM_CLASS_COAT][6].EName = "Plate Mail";
+	m_pTypeInfo[ITEM_CLASS_COAT][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][6].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][6].SetFrameID( 123, 29, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][6].SetDropFrameID( 123 );
+	m_pTypeInfo[ITEM_CLASS_COAT][6].SetAddonFrameID( ADDONID_COAT2, ADDONID_COAT2 );
+	m_pTypeInfo[ITEM_CLASS_COAT][6].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][6].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][6].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][7].HName = "여자 컴뱃슈트";
+	m_pTypeInfo[ITEM_CLASS_COAT][7].EName = "Plate Mail";
+	m_pTypeInfo[ITEM_CLASS_COAT][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][7].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][7].SetFrameID( 124, 109, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][7].SetDropFrameID( 124 );
+	m_pTypeInfo[ITEM_CLASS_COAT][7].SetAddonFrameID( ADDONID_COAT2, ADDONID_COAT2 );
+	m_pTypeInfo[ITEM_CLASS_COAT][7].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][7].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][7].Price = 2500;
+// 여기부터 3단옷
+	
+	m_pTypeInfo[ITEM_CLASS_COAT][8].HName = "배틀 메일";
+	m_pTypeInfo[ITEM_CLASS_COAT][8].EName = "Battle Mail M";
+	m_pTypeInfo[ITEM_CLASS_COAT][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][8].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][8].SetFrameID( 279, 293, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][8].SetDropFrameID( 279 );
+	m_pTypeInfo[ITEM_CLASS_COAT][8].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][8].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][8].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][8].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][9].HName = "배틀 메일";
+	m_pTypeInfo[ITEM_CLASS_COAT][9].EName = "Battle Mail W";
+	m_pTypeInfo[ITEM_CLASS_COAT][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][9].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][9].SetFrameID( 287, 301, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][9].SetDropFrameID( 287 );
+	m_pTypeInfo[ITEM_CLASS_COAT][9].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][9].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][9].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][9].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][10].HName = "컴뱃 메일";
+	m_pTypeInfo[ITEM_CLASS_COAT][10].EName = "Combat Mail M";
+	m_pTypeInfo[ITEM_CLASS_COAT][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][10].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][10].SetFrameID( 279, 293, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][10].SetDropFrameID( 279 );
+	m_pTypeInfo[ITEM_CLASS_COAT][10].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][10].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][10].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][10].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][11].HName = "컴뱃 메일";
+	m_pTypeInfo[ITEM_CLASS_COAT][11].EName = "Combat Mail W";
+	m_pTypeInfo[ITEM_CLASS_COAT][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][11].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][11].SetFrameID( 287, 301, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][11].SetDropFrameID( 287 );
+	m_pTypeInfo[ITEM_CLASS_COAT][11].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][11].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][11].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][11].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][12].HName = "컴뱃 아머";
+	m_pTypeInfo[ITEM_CLASS_COAT][12].EName = "Combat Armor M";
+	m_pTypeInfo[ITEM_CLASS_COAT][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][12].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][12].SetFrameID( 280, 294, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][12].SetDropFrameID( 280 );
+	m_pTypeInfo[ITEM_CLASS_COAT][12].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][12].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][12].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][12].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][13].HName = "컴뱃 아머";
+	m_pTypeInfo[ITEM_CLASS_COAT][13].EName = "Combat Armor W";
+	m_pTypeInfo[ITEM_CLASS_COAT][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][13].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][13].SetFrameID( 288, 302, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][13].SetDropFrameID( 288 );
+	m_pTypeInfo[ITEM_CLASS_COAT][13].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][13].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][13].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][13].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][14].HName = "워 아머";
+	m_pTypeInfo[ITEM_CLASS_COAT][14].EName = "War Armor M";
+	m_pTypeInfo[ITEM_CLASS_COAT][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][14].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][14].SetFrameID( 280, 294, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][14].SetDropFrameID( 280 );
+	m_pTypeInfo[ITEM_CLASS_COAT][14].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][14].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][14].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][14].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][15].HName = "워 아머";
+	m_pTypeInfo[ITEM_CLASS_COAT][15].EName = "War Armor W";
+	m_pTypeInfo[ITEM_CLASS_COAT][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][15].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][15].SetFrameID( 288, 302, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][15].SetDropFrameID( 288 );
+	m_pTypeInfo[ITEM_CLASS_COAT][15].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][15].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][15].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][15].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][16].HName = "드래곤 코 아머";
+	m_pTypeInfo[ITEM_CLASS_COAT][16].EName = "Dragon's cor Armor M";
+	m_pTypeInfo[ITEM_CLASS_COAT][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][16].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][16].SetFrameID( 366, 380, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][16].SetDropFrameID( 366 );
+	m_pTypeInfo[ITEM_CLASS_COAT][16].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][16].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][16].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][16].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][17].HName = "드래곤 코 아머";
+	m_pTypeInfo[ITEM_CLASS_COAT][17].EName = "Dragon's cor Armor W";
+	m_pTypeInfo[ITEM_CLASS_COAT][17].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][17].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][17].SetFrameID( 367, 381, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][17].SetDropFrameID( 367 );
+	m_pTypeInfo[ITEM_CLASS_COAT][17].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][17].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][17].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][17].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][18].HName = "카라만 아머";
+	m_pTypeInfo[ITEM_CLASS_COAT][18].EName = "Kahraman Armor M";
+	m_pTypeInfo[ITEM_CLASS_COAT][18].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][18].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][18].SetFrameID( 442, 456, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][18].SetDropFrameID( 442 );
+	m_pTypeInfo[ITEM_CLASS_COAT][18].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][18].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][18].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][18].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][19].HName = "카라만 아머";
+	m_pTypeInfo[ITEM_CLASS_COAT][19].EName = "Kahraman Armor W";
+	m_pTypeInfo[ITEM_CLASS_COAT][19].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][19].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][19].SetFrameID( 443, 457, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][19].SetDropFrameID( 443 );
+	m_pTypeInfo[ITEM_CLASS_COAT][19].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][19].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][19].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][19].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][19].Price = 2500;
+
+
+	m_pTypeInfo[ITEM_CLASS_COAT][20].HName = "쿼러시어 아머";
+	m_pTypeInfo[ITEM_CLASS_COAT][20].EName = "Cuirassir Armor M";
+	m_pTypeInfo[ITEM_CLASS_COAT][20].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][20].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][20].SetFrameID( 463, 477, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][20].SetDropFrameID( 463 );
+	m_pTypeInfo[ITEM_CLASS_COAT][20].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	
+	m_pTypeInfo[ITEM_CLASS_COAT][20].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][20].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][20].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][20].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][21].HName = "쿼러시어 아머";
+	m_pTypeInfo[ITEM_CLASS_COAT][21].EName = "Cuirassir Armor W";
+	m_pTypeInfo[ITEM_CLASS_COAT][21].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][21].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][21].SetFrameID( 465, 479, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][21].SetDropFrameID( 465 );
+	m_pTypeInfo[ITEM_CLASS_COAT][21].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+
+	m_pTypeInfo[ITEM_CLASS_COAT][21].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][21].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][21].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][21].Price = 2500;
+
+
+	m_pTypeInfo[ITEM_CLASS_COAT][22].HName = "토너먼트 아머-M";
+	m_pTypeInfo[ITEM_CLASS_COAT][22].EName = "Tournament Armor-M";
+	m_pTypeInfo[ITEM_CLASS_COAT][22].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][22].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][22].SetFrameID( 933 , 956 ,0);	
+	m_pTypeInfo[ITEM_CLASS_COAT][22].SetDropFrameID( 933 );
+	m_pTypeInfo[ITEM_CLASS_COAT][22].SetAddonFrameID( ADDONID_COAT4, ADDONID_COAT4 );
+	m_pTypeInfo[ITEM_CLASS_COAT][22].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][22].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][22].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][22].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][23].HName = "토너먼트 아머-W";
+	m_pTypeInfo[ITEM_CLASS_COAT][23].EName = "Tournament Armor-W";
+	m_pTypeInfo[ITEM_CLASS_COAT][23].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][23].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][23].SetFrameID( 934 , 957 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][23].SetDropFrameID( 934 );
+	m_pTypeInfo[ITEM_CLASS_COAT][23].SetAddonFrameID( ADDONID_COAT4, ADDONID_COAT4 );
+	m_pTypeInfo[ITEM_CLASS_COAT][23].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][23].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][23].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][23].Price = 2500;
+
+
+	m_pTypeInfo[ITEM_CLASS_COAT][24].HName = "메쉬스킨";
+	m_pTypeInfo[ITEM_CLASS_COAT][24].EName = "Mesh Skin M";
+	m_pTypeInfo[ITEM_CLASS_COAT][24].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][24].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_COAT][24].SetFrameID( 956, 992, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][24].SetDropFrameID(956 );
+	m_pTypeInfo[ITEM_CLASS_COAT][24].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][24].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][24].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][24].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][24].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][25].HName = "메쉬스킨";
+	m_pTypeInfo[ITEM_CLASS_COAT][25].EName = "Mesh Skin W";
+	m_pTypeInfo[ITEM_CLASS_COAT][25].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][25].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_COAT][25].SetFrameID( 958, 994, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][25].SetDropFrameID(958 );
+	m_pTypeInfo[ITEM_CLASS_COAT][25].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][25].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][25].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][25].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][25].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][26].HName = "머슬 슈트";
+	m_pTypeInfo[ITEM_CLASS_COAT][26].EName = "Muscle Suit M";
+	m_pTypeInfo[ITEM_CLASS_COAT][26].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][26].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_COAT][26].SetFrameID( 1061, 1095, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][26].SetDropFrameID(1061 );
+	m_pTypeInfo[ITEM_CLASS_COAT][26].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][26].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][26].SetValue(38000, 65 , -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][26].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][26].Price = 6500000;
+
+
+	m_pTypeInfo[ITEM_CLASS_COAT][27].HName = "머슬 슈트";
+	m_pTypeInfo[ITEM_CLASS_COAT][27].EName = "Muscle Suit W";
+	m_pTypeInfo[ITEM_CLASS_COAT][27].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][27].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_COAT][27].SetFrameID( 1063, 1097, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][27].SetDropFrameID(1063 );
+	m_pTypeInfo[ITEM_CLASS_COAT][27].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][27].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][27].SetValue(38000, 65 , -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][27].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][27].Price = 6500000;
+
+	itemType	= 28;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+	
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].HName = "칼리 아머";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].EName = "Khali's Armor M";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetFrameID( 442, 456, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetDropFrameID( 442 );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Price = 400000;
+	itemType++;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].HName = "칼리 아머";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].EName = "Khali's Armor W";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetFrameID( 443, 457, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetDropFrameID( 443 );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Price = 400000;
+	itemType++;
+#endif
+
+
+#if __CONTENTS(__QUEST_RENEWAL)	//아이템 추가		배틀슈트
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].HName = "발키리 배틀 슈트";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].EName = "Valkirie Battle Suit M";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetFrameID( 123, 29, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetDropFrameID( 123 );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetAddonFrameID( ADDONID_COAT2, ADDONID_COAT2 );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Price =  20000;
+	itemType++;
+
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].HName = "발키리 배틀 슈트";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].EName = "Valkirie Battle Suit W";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetFrameID( 124, 109, 0 );	
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetDropFrameID( 124 );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetAddonFrameID( ADDONID_COAT2, ADDONID_COAT2 );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Price =  20000;
+#endif
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][2].HName = "머슬 슈트";
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][2].EName = "Muscle Suit M";
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][2].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][2].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][2].SetFrameID( 939, 975, 0);
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][2].SetDropFrameID(939 );
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][2].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][2].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][2].Price = 0;
+//
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][3].HName = "머슬 슈트";
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][3].EName = "Muscle Suit W";
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][3].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][3].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][3].SetFrameID( 939, 975, 0);
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][3].SetDropFrameID(939 );
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][3].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][3].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_COAT][3].Price = 0;
+
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType++;	// 32
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].HName = "코어링 슈트";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].EName = "Coring Suit M";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetFrameID( 1244, 1287, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetDropFrameID(1244);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetValue(43000, 80 , -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Weight = 6;
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Price = 8000000;
+
+	itemType++;	// 33
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].HName = "코어링 슈트";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].EName = "Coring Suit W";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetFrameID( 1245, 1288, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetDropFrameID(1245);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetValue(43000, 80 , -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Weight = 6;
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Price = 8000000;
+
+	itemType++;	// 34
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].HName = "티타늄 재킷";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].EName = "Titanium Jacket M";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetFrameID( 1063, 1097, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetDropFrameID(1063 );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetValue(45500, 90 , -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Weight = 6;
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Price = 10500000;
+
+	itemType++;	// 35
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].HName = "티타늄 재킷";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].EName = "Titanium Jacket W";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetFrameID( 1063, 1097, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetDropFrameID(1063 );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetAddonFrameID( ADDONID_COAT3, ADDONID_COAT3 );
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].SetValue(45500, 90 , -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Weight = 6;
+	m_pTypeInfo[ITEM_CLASS_COAT][itemType].Price = 10500000;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_TROUSER
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(2), Def(6)
+	//---------------------------------------------------------------------	
+	// 125 하의 남구
+	// 126 하의 여구
+	// 127 하의 남신
+	// 128 하의 여신	
+	InitClass(ITEM_CLASS_TROUSER, 28 
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+		+2
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+		+2
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+4
+#endif //__NEW_ADVANCEMENT_ITEM
+);
+	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][0].HName = "남자 슬랙";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][0].EName = "Combat Pants";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][0].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][0].SetFrameID( 125, 27, 0 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][0].SetDropFrameID( 125 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][0].SetAddonFrameID( ADDONID_TROUSER1, ADDONID_TROUSER1 );
+
+	//m_pTypeInfo[ITEM_CLASS_TROUSER][0].SetAddonFrameID( ADDONID_TROUSER4, ADDONID_TROUSER4 );
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][0].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][0].SetValue(180, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][0].Price = 1400;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][1].HName = "여자 슬랙";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][1].EName = "Plate Trouser";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][1].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][1].SetFrameID( 126, 107, 0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][1].SetDropFrameID( 126 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][1].SetAddonFrameID( ADDONID_TROUSER1, ADDONID_TROUSER1 );
+	//m_pTypeInfo[ITEM_CLASS_TROUSER][1].SetAddonFrameID( ADDONID_TROUSER4, ADDONID_TROUSER4 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][1].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][1].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][1].Price = 1700;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][2].HName = "남자 트라우저";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][2].EName = "Combat Pants";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][2].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][2].SetFrameID( 125, 27, 0 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][2].SetDropFrameID( 125 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][2].SetAddonFrameID( ADDONID_TROUSER1, ADDONID_TROUSER1 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][2].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][2].SetValue(180, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][2].Price = 1400;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][3].HName = "여자 트라우저";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][3].EName = "Plate Trouser";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][3].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][3].SetFrameID( 126, 107, 0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][3].SetDropFrameID( 126 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][3].SetAddonFrameID( ADDONID_TROUSER1, ADDONID_TROUSER1 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][3].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][3].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][3].Price = 1700;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][4].HName = "남자 레깅즈";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][4].EName = "Combat Pants";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][4].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][4].SetFrameID( 127, 30, 0 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][4].SetDropFrameID( 127 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][4].SetAddonFrameID( ADDONID_TROUSER2, ADDONID_TROUSER2 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][4].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][4].SetValue(180, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][4].Price = 1400;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][5].HName = "여자 레깅즈";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][5].EName = "Plate Trouser";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][5].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][5].SetFrameID( 128, 110, 0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][5].SetDropFrameID( 128 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][5].SetAddonFrameID( ADDONID_TROUSER2, ADDONID_TROUSER2 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][5].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][5].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][5].Price = 1700;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][6].HName = "남자 배틀레깅즈";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][6].EName = "Combat Pants";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][6].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][6].SetFrameID( 127, 30, 0 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][6].SetDropFrameID( 127 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][6].SetAddonFrameID( ADDONID_TROUSER2, ADDONID_TROUSER2 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][6].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][6].SetValue(180, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][6].Price = 1400;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][7].HName = "여자 배틀레깅즈";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][7].EName = "Plate Trouser";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][7].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][7].SetFrameID( 128, 110, 0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][7].SetDropFrameID( 128 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][7].SetAddonFrameID( ADDONID_TROUSER2, ADDONID_TROUSER2 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][7].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][7].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][7].Price = 1700;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][8].HName = "배틀 게이터";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][8].EName = "Battle Gaiters M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][8].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][8].SetFrameID( 283, 297, 0 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][8].SetDropFrameID( 283 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][8].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][8].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][8].SetValue(180, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][8].Price = 1400;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][9].HName = "배틀 게이터";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][9].EName = "Battle Gaiters W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][9].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][9].SetFrameID( 291, 305, 0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][9].SetDropFrameID( 291 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][9].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][9].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][9].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][9].Price = 1700;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][10].HName = "컴뱃 게이터";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][10].EName = "Combat Gaiters M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][10].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][10].SetFrameID( 283, 297, 0 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][10].SetDropFrameID( 283 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][10].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][10].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][10].SetValue(180, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][10].Price = 1400;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][11].HName = "컴뱃 게이터";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][11].EName = "Combat Gaiters W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][11].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][11].SetFrameID( 291, 305, 0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][11].SetDropFrameID( 291 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][11].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][11].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][11].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][11].Price = 1700;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][12].HName = "컴뱃 가드";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][12].EName = "Combat Guards M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][12].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][12].SetFrameID( 284, 298, 0 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][12].SetDropFrameID( 284 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][12].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][12].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][12].SetValue(180, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][12].Price = 1400;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][13].HName = "컴뱃 가드";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][13].EName = "Combat Guards W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][13].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][13].SetFrameID( 292, 306, 0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][13].SetDropFrameID( 292 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][13].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][13].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][13].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][13].Price = 1700;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][14].HName = "워 가드";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][14].EName = "War Guards M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][14].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][14].SetFrameID( 284, 298, 0 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][14].SetDropFrameID( 284 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][14].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][14].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][14].SetValue(180, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][14].Price = 1400;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][15].HName = "워 가드";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][15].EName = "War Guards W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][15].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][15].SetFrameID( 292, 306, 0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][15].SetDropFrameID( 292 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][15].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][15].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][15].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][15].Price = 1700;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][16].HName = "드래곤 스케일 가드";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][16].EName = "Dragon's Scale Guards M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][16].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][16].SetFrameID( 368, 382, 0 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][16].SetDropFrameID( 368 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][16].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][16].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][16].SetValue(180, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][16].Price = 1400;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][17].HName = "드래곤 스케일 가드";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][17].EName = "Dragon's Scale Guards W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][17].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][17].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][17].SetFrameID( 369, 383, 0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][17].SetDropFrameID( 369 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][17].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][17].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][17].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][17].Price = 1700;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][18].HName = "카라만 가드";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][18].EName = "Kahraman Guard M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][18].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][18].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][18].SetFrameID( 444, 458, 0 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][18].SetDropFrameID( 444 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][18].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][18].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][18].SetValue(180, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][18].Price = 1400;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][19].HName = "카라만 가드";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][19].EName = "Kahraman Guard W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][19].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][19].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][19].SetFrameID( 445, 459, 0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][19].SetDropFrameID( 445 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][19].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][19].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][19].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][19].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][19].Price = 1700;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][20].HName = "쿼러시어 쿼스";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][20].EName = "Cuirassir Cuisse M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][20].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][20].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][20].SetFrameID( 464, 478, 0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][20].SetDropFrameID( 464 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][20].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][20].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][20].SetValue(2000, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][20].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][20].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][21].HName = "쿼러시어 쿼스";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][21].EName = "Cuirassir Cuisse W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][21].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][21].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][21].SetFrameID( 466, 480, 0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][21].SetDropFrameID( 466 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][21].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][21].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][21].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][21].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][21].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][22].HName = "토너먼트 쿼스-M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][22].EName = "Tournament Cuisse M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][22].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][22].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][22].SetFrameID( 935 , 958 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][22].SetDropFrameID( 935 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][22].SetAddonFrameID( ADDONID_TROUSER4, ADDONID_TROUSER4 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][22].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][22].SetValue(2000, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][22].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][22].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][23].HName = "토너먼트 쿼스-W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][23].EName = "Tournament Cuisse W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][23].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][23].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][23].SetFrameID( 935 , 959 ,0);	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][23].SetDropFrameID( 935 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][23].SetAddonFrameID( ADDONID_TROUSER4, ADDONID_TROUSER4 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][23].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][23].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][23].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][23].Price = 2500;
+	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][24].HName = "클링 슬랙";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][24].EName = "Cling Slack M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][24].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][24].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][24].SetFrameID( 957, 993, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][24].SetDropFrameID(957 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][24].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][24].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][24].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][24].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][24].Price = 2500;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][25].HName = "클링 슬랙";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][25].EName = "Cling Slack W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][25].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][25].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][25].SetFrameID( 959, 995, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][25].SetDropFrameID(959 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][25].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][25].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][25].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][25].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][25].Price = 2500;
+	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][26].HName = "쉘 가드";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][26].EName = "Shell Guardk M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][26].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][26].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][26].SetFrameID( 1062, 1096, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][26].SetDropFrameID(1062 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][26].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][26].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][26].SetValue(34000, 52 -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][26].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][26].Price = 620000;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][27].HName = "쉘 가드";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][27].EName = "Shell Guardk W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][27].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][27].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][27].SetFrameID( 1064, 1098, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][27].SetDropFrameID(1064 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][27].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][27].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][27].SetValue(34000, 52 -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][27].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][27].Price = 62000;
+	
+	itemType	= 28;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].HName = "칼리 가드";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].EName = "Khali's Guard M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetFrameID( 444, 458, 0 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetDropFrameID( 444 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetValue(180, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Price = 250000;
+	itemType++;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].HName = "칼리 가드";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].EName = "Khali's Guard W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetFrameID( 445, 459, 0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetDropFrameID( 445 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Price = 250000;
+	itemType++;
+	
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)	//아이템 추가		남자 레깅즈
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].HName = "발키리 레깅즈";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].EName = "Valkirie Leggings M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetFrameID( 127, 30, 0 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetDropFrameID( 127 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetAddonFrameID( ADDONID_TROUSER2, ADDONID_TROUSER2 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetValue(180, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Price =  16000;
+	itemType++;
+
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].HName = "발키리 레깅즈";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].EName = "Valkirie Leggings W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetFrameID( 128, 110, 0 );	
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetDropFrameID( 128 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetAddonFrameID( ADDONID_TROUSER2, ADDONID_TROUSER2 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetValue(180, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Price =  16000;
+#endif
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][2].HName = "쉘 가드";
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][2].EName = "Shell Guard M";
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][2].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][2].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][2].SetFrameID( 939, 975, 0);
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][2].SetDropFrameID(939 );
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][2].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][2].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][2].Price = 0;
+//
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][3].HName = "쉘 가드";
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][3].EName = "Shell Guard W";
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][3].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][3].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][3].SetFrameID( 939, 975, 0);
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][3].SetDropFrameID(939 );
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][3].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][3].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_ADVANCED_TROUSER][3].Price = 0;
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType++;	// 32
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].HName = "코어링 게이트";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].EName = "Coring Gaiters M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetFrameID( 1242, 1285, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetDropFrameID(1242);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetValue(36000, 74, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Weight = 6;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Price = 7400000;
+
+	itemType++;	// 33
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].HName = "코어링 게이트";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].EName = "Coring Gaiters W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetFrameID( 1243, 1286, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetDropFrameID(1243);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetValue(36000, 74, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Weight = 6;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Price = 7400000;
+
+	itemType++;	// 34
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].HName = "티타늄 레깅스";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].EName = "Titanium Leggings M";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetFrameID( 1064, 1098, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetDropFrameID(1064 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetValue(38000, 84, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Weight = 6;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Price = 8600000;
+
+	itemType++;	// 35
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].HName = "티타늄 레깅스";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].EName = "Titanium Leggings W";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetFrameID( 1064, 1098, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetDropFrameID(1064 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetAddonFrameID( ADDONID_TROUSER3, ADDONID_TROUSER3 );
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].SetValue(38000, 84, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Weight = 6;
+	m_pTypeInfo[ITEM_CLASS_TROUSER][itemType].Price = 8600000;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_SHOES
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(2), Def(6)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_SHOES, 11 
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+		);
+
+	m_pTypeInfo[ITEM_CLASS_SHOES][0].HName = "라이트 슈즈";
+	m_pTypeInfo[ITEM_CLASS_SHOES][0].EName = "Light Shoes";
+	m_pTypeInfo[ITEM_CLASS_SHOES][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHOES][0].SetSoundID( SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHOES][0].SetFrameID( 42, 102, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHOES][0].SetDropFrameID( 42 );
+	m_pTypeInfo[ITEM_CLASS_SHOES][0].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHOES][0].SetValue(120, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHOES][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHOES][0].Price = 700; 
+	//m_pTypeInfo[ITEM_CLASS_SHOES][0].SetRequireAbility(20, 20, 0, ITEMTABLE_INFO::REQ_OR);
+	
+
+	m_pTypeInfo[ITEM_CLASS_SHOES][1].HName = "레더 부츠";
+	m_pTypeInfo[ITEM_CLASS_SHOES][1].EName = "Leather Boots";
+	m_pTypeInfo[ITEM_CLASS_SHOES][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHOES][1].SetSoundID( SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHOES][1].SetFrameID( 40, 103, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHOES][1].SetDropFrameID( 40 );
+	m_pTypeInfo[ITEM_CLASS_SHOES][1].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHOES][1].SetValue(150, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHOES][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHOES][1].Price	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SHOES][1].SetRequireAbility(40, 40, 0, ITEMTABLE_INFO::REQ_OR);
+
+	m_pTypeInfo[ITEM_CLASS_SHOES][2].HName = "스틸 슈즈";
+	m_pTypeInfo[ITEM_CLASS_SHOES][2].EName = "Steel Shoes";
+	m_pTypeInfo[ITEM_CLASS_SHOES][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHOES][2].SetSoundID( SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHOES][2].SetFrameID( 39, 104, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHOES][2].SetDropFrameID( 39 );
+	m_pTypeInfo[ITEM_CLASS_SHOES][2].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHOES][2].SetValue(200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHOES][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHOES][2].Price	= 2000;
+	//m_pTypeInfo[ITEM_CLASS_SHOES][2].SetRequireAbility(60, 60, 0, ITEMTABLE_INFO::REQ_OR);
+
+	m_pTypeInfo[ITEM_CLASS_SHOES][3].HName = "컴뱃 부츠";
+	m_pTypeInfo[ITEM_CLASS_SHOES][3].EName = "Combat Boots";
+	m_pTypeInfo[ITEM_CLASS_SHOES][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHOES][3].SetSoundID( SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHOES][3].SetFrameID( 41, 105, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHOES][3].SetDropFrameID( 41 );
+	m_pTypeInfo[ITEM_CLASS_SHOES][3].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHOES][3].SetValue(500, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHOES][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHOES][3].Price	= 10000;
+	//m_pTypeInfo[ITEM_CLASS_SHOES][3].SetRequireAbility(80, 80, 0, ITEMTABLE_INFO::REQ_OR);
+
+	m_pTypeInfo[ITEM_CLASS_SHOES][4].HName = "어설트 부츠";
+	m_pTypeInfo[ITEM_CLASS_SHOES][4].EName = "Assault Boots";
+	m_pTypeInfo[ITEM_CLASS_SHOES][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHOES][4].SetSoundID( SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHOES][4].SetFrameID( 261, 274, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHOES][4].SetDropFrameID( 261 );
+	m_pTypeInfo[ITEM_CLASS_SHOES][4].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHOES][4].SetValue(500, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHOES][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHOES][4].Price	= 10000;
+	//m_pTypeInfo[ITEM_CLASS_SHOES][4].SetRequireAbility(80, 80, 0, ITEMTABLE_INFO::REQ_OR);
+
+	m_pTypeInfo[ITEM_CLASS_SHOES][5].HName = "사란 부츠";
+	m_pTypeInfo[ITEM_CLASS_SHOES][5].EName = "Saran Boots";
+	m_pTypeInfo[ITEM_CLASS_SHOES][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHOES][5].SetSoundID( SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHOES][5].SetFrameID( 263, 276, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHOES][5].SetDropFrameID( 263 );
+	m_pTypeInfo[ITEM_CLASS_SHOES][5].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHOES][5].SetValue(500, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHOES][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHOES][5].Price	= 10000;
+	//m_pTypeInfo[ITEM_CLASS_SHOES][5].SetRequireAbility(80, 80, 0, ITEMTABLE_INFO::REQ_OR);
+
+	m_pTypeInfo[ITEM_CLASS_SHOES][6].HName = "워 부츠";
+	m_pTypeInfo[ITEM_CLASS_SHOES][6].EName = "War Boots";
+	m_pTypeInfo[ITEM_CLASS_SHOES][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHOES][6].SetSoundID( SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHOES][6].SetFrameID( 262, 275, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHOES][6].SetDropFrameID( 262 );
+	m_pTypeInfo[ITEM_CLASS_SHOES][6].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHOES][6].SetValue(500, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHOES][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHOES][6].Price	= 10000;
+	//m_pTypeInfo[ITEM_CLASS_SHOES][6].SetRequireAbility(80, 80, 0, ITEMTABLE_INFO::REQ_OR);
+
+	m_pTypeInfo[ITEM_CLASS_SHOES][7].HName = "머큐리 부츠";
+	m_pTypeInfo[ITEM_CLASS_SHOES][7].EName = "Mercury Boots";
+	m_pTypeInfo[ITEM_CLASS_SHOES][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHOES][7].SetSoundID( SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHOES][7].SetFrameID( 371, 385, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHOES][7].SetDropFrameID( 371 );
+	m_pTypeInfo[ITEM_CLASS_SHOES][7].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHOES][7].SetValue(500, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHOES][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHOES][7].Price	= 10000;
+	//m_pTypeInfo[ITEM_CLASS_SHOES][7].SetRequireAbility(80, 80, 0, ITEMTABLE_INFO::REQ_OR);
+
+	m_pTypeInfo[ITEM_CLASS_SHOES][8].HName = "솔 부츠";
+	m_pTypeInfo[ITEM_CLASS_SHOES][8].EName = "B&R SEG-1 Sole Boots";
+	m_pTypeInfo[ITEM_CLASS_SHOES][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHOES][8].SetSoundID( SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHOES][8].SetFrameID( 448, 462, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHOES][8].SetDropFrameID( 448 );
+	m_pTypeInfo[ITEM_CLASS_SHOES][8].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHOES][8].SetValue(500, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHOES][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHOES][8].Price	= 10000;
+	//m_pTypeInfo[ITEM_CLASS_SHOES][8].SetRequireAbility(80, 80, 0, ITEMTABLE_INFO::REQ_OR);
+
+	m_pTypeInfo[ITEM_CLASS_SHOES][9].HName = "서배튼 부츠";
+	m_pTypeInfo[ITEM_CLASS_SHOES][9].EName = "Sabbaton Boots";
+	m_pTypeInfo[ITEM_CLASS_SHOES][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHOES][9].SetSoundID( SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHOES][9].SetFrameID( 475, 489, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHOES][9].SetDropFrameID( 475 );
+	m_pTypeInfo[ITEM_CLASS_SHOES][9].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHOES][9].SetValue(500, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHOES][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHOES][9].Price	= 10000;
+	//m_pTypeInfo[ITEM_CLASS_SHOES][9].SetRequireAbility(80, 80, 0, ITEMTABLE_INFO::REQ_OR);
+
+	m_pTypeInfo[ITEM_CLASS_SHOES][10].HName = "살러릿 부츠";
+	m_pTypeInfo[ITEM_CLASS_SHOES][10].EName = "Solleret Boots";
+	m_pTypeInfo[ITEM_CLASS_SHOES][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHOES][10].SetSoundID( SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHOES][10].SetFrameID( 919 , 942 , 0);	
+	m_pTypeInfo[ITEM_CLASS_SHOES][10].SetDropFrameID( 919 );
+	m_pTypeInfo[ITEM_CLASS_SHOES][10].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHOES][10].SetValue(500, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHOES][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHOES][10].Price	= 10000;
+	//m_pTypeInfo[ITEM_CLASS_SHOES][9].SetRequireAbility(80, 80, 0, ITEMTABLE_INFO::REQ_OR);
+	
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+	m_pTypeInfo[ITEM_CLASS_SHOES][11].HName = "칼리 부츠";
+	m_pTypeInfo[ITEM_CLASS_SHOES][11].EName = "Khali's Boots";
+	m_pTypeInfo[ITEM_CLASS_SHOES][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHOES][11].SetSoundID( SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHOES][11].SetFrameID( 448, 462, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHOES][11].SetDropFrameID( 448 );
+	m_pTypeInfo[ITEM_CLASS_SHOES][11].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHOES][11].SetValue(500, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHOES][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHOES][11].Price	= 260000;
+
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType = 12;
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].HName = "헥토르 부츠컷";
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].EName = "Hektor Bootscut";
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].SetSoundID( SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].SetFrameID( 1247, 1290 , 0);	
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].SetDropFrameID( 1247 );
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].SetValue(4500, 26, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].Weight = 3;
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].Price	= 5000000;
+	
+	itemType++; // 13
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].HName = "케레스 부츠컷";
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].EName = "Ceres Bootscut";
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].SetSoundID( SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUND_ITEM_MOVE_SHOES, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].SetFrameID( 919 , 942 , 0);	
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].SetDropFrameID( 919 );
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].SetValue(5500, 31, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].Weight = 3;
+	m_pTypeInfo[ITEM_CLASS_SHOES][itemType].Price	= 6000000;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_SWORD
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(?), MinDam(3)~MaxDam(4), Speed(7)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_SWORD, 19 
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+	+1
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+	+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	+2
+#endif //__NEW_ADVANCEMENT_ITEM
+		);
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][0].HName = "라이트 소드";
+	m_pTypeInfo[ITEM_CLASS_SWORD][0].EName = "Light Sword";
+	m_pTypeInfo[ITEM_CLASS_SWORD][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][0].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][0].SetFrameID( 44, 21, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][0].SetDropFrameID( 44 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][0].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][0].SetGrid(1, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][0].SetValue(700, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][0].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][0].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][0].SetRequireAbility(20);
+	m_pTypeInfo[ITEM_CLASS_SWORD][0].UseActionInfo = SKILL_ATTACK_SWORD;
+	
+	m_pTypeInfo[ITEM_CLASS_SWORD][1].HName = "워 소드";
+	m_pTypeInfo[ITEM_CLASS_SWORD][1].EName = "War Sword";
+	m_pTypeInfo[ITEM_CLASS_SWORD][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][1].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][1].SetFrameID( 43, 20, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][1].SetDropFrameID( 43 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][1].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][1].SetGrid(1, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][1].SetValue(1500, -1, 15, 20, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][1].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][1].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][1].SetRequireAbility(30);
+	m_pTypeInfo[ITEM_CLASS_SWORD][1].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][2].HName = "브로드 소드";
+	m_pTypeInfo[ITEM_CLASS_SWORD][2].EName = "New Gladius";
+	m_pTypeInfo[ITEM_CLASS_SWORD][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][2].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][2].SetFrameID( 46, 22, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][2].SetDropFrameID( 46 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][2].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][2].SetGrid(1, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][2].SetValue(3000, -1, 20, 25, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][2].Price	= 12000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][2].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][2].SetRequireAbility(40);
+	m_pTypeInfo[ITEM_CLASS_SWORD][2].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][3].HName = "바스타드 소드";
+	m_pTypeInfo[ITEM_CLASS_SWORD][3].EName = "Bastard Sword";
+	m_pTypeInfo[ITEM_CLASS_SWORD][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][3].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][3].SetFrameID( 45, 23, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][3].SetDropFrameID( 45 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][3].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][3].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][3].SetValue(5000, -1, 25, 30, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][3].Price	= 50000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][3].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][3].SetRequireAbility(50);
+	m_pTypeInfo[ITEM_CLASS_SWORD][3].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][4].HName = "브로드 레이피어";
+	m_pTypeInfo[ITEM_CLASS_SWORD][4].EName = "Goddess Sword";
+	m_pTypeInfo[ITEM_CLASS_SWORD][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][4].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][4].SetFrameID( 183, 187, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][4].SetDropFrameID( 183 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][4].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][4].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][4].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][4].Price	= 100000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][4].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][4].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_SWORD][4].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][5].HName = "고딕 소드";
+	m_pTypeInfo[ITEM_CLASS_SWORD][5].EName = "Goddess Sword";
+	m_pTypeInfo[ITEM_CLASS_SWORD][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][5].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][5].SetFrameID( 184, 188, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][5].SetDropFrameID( 184 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][5].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][5].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][5].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][5].Price	= 100000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][5].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][5].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_SWORD][5].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][6].HName = "크루세이더 소드";
+	m_pTypeInfo[ITEM_CLASS_SWORD][6].EName = "Goddess Sword";
+	m_pTypeInfo[ITEM_CLASS_SWORD][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][6].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][6].SetFrameID( 182, 186, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][6].SetDropFrameID( 182 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][6].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][6].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][6].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][6].Price	= 100000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][6].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][6].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_SWORD][6].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][7].HName = "그레이트 소드";
+	m_pTypeInfo[ITEM_CLASS_SWORD][7].EName = "Goddess Sword";
+	m_pTypeInfo[ITEM_CLASS_SWORD][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][7].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][7].SetFrameID( 185, 189, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][7].SetDropFrameID( 185 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][7].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][7].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][7].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][7].Price	= 100000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][7].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][7].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_SWORD][7].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][8].HName = "클레이모어";
+	m_pTypeInfo[ITEM_CLASS_SWORD][8].EName = "Goddess Sword";
+	m_pTypeInfo[ITEM_CLASS_SWORD][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][8].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][8].SetFrameID( 181, 185, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][8].SetDropFrameID( 181 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][8].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][8].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][8].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][8].Price	= 100000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][8].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][8].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_SWORD][8].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][9].HName = "가디스 소드";
+	m_pTypeInfo[ITEM_CLASS_SWORD][9].EName = "Goddess Sword";
+	m_pTypeInfo[ITEM_CLASS_SWORD][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][9].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][9].SetFrameID( 47, 24, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][9].SetDropFrameID( 47 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][9].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][9].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][9].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][9].Price	= 100000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][9].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][9].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_SWORD][9].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][10].HName = "카두시우스 소드";
+	m_pTypeInfo[ITEM_CLASS_SWORD][10].EName = "Caduceus Sword";
+	m_pTypeInfo[ITEM_CLASS_SWORD][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][10].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][10].SetFrameID( 346, 360, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][10].SetDropFrameID( 346 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][10].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][10].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][10].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][10].Price	= 100000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][10].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][10].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_SWORD][10].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][11].HName = "바실리스크 소드";
+	m_pTypeInfo[ITEM_CLASS_SWORD][11].EName = "Basilisk Sword";
+	m_pTypeInfo[ITEM_CLASS_SWORD][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][11].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][11].SetFrameID( 434, 448, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][11].SetDropFrameID( 434 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][11].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][11].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][11].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][11].Price	= 100000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][11].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][11].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_SWORD][11].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][12].HName = "글라디우스";
+	m_pTypeInfo[ITEM_CLASS_SWORD][12].EName = "Gladius";
+	m_pTypeInfo[ITEM_CLASS_SWORD][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][12].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][12].SetFrameID( 468, 482, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][12].SetDropFrameID( 468 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][12].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][12].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][12].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][12].Price	= 100000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][12].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][12].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_SWORD][12].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][13].HName = "츠바이한더";
+	m_pTypeInfo[ITEM_CLASS_SWORD][13].EName = "Zweihander";
+	m_pTypeInfo[ITEM_CLASS_SWORD][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][13].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][13].SetFrameID( 928 , 951 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][13].SetDropFrameID( 928 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][13].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][13].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][13].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][13].Price	= 100000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][13].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][12].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_SWORD][13].UseActionInfo = SKILL_ATTACK_SWORD;
+	
+	m_pTypeInfo[ITEM_CLASS_SWORD][14].HName = "니들 엣져";
+	m_pTypeInfo[ITEM_CLASS_SWORD][14].EName = "Niddle Edger";
+	m_pTypeInfo[ITEM_CLASS_SWORD][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][14].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][14].SetFrameID( 946, 982, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][14].SetDropFrameID(946 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][14].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][14].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][14].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][14].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_SWORD][14].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	// Sjheon 2005.06.02 Add
+	m_pTypeInfo[ITEM_CLASS_SWORD][15].HName = "토움 소드";
+	m_pTypeInfo[ITEM_CLASS_SWORD][15].EName = "Tome sword";
+	m_pTypeInfo[ITEM_CLASS_SWORD][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][15].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][15].SetFrameID( 185, 189, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][15].SetDropFrameID( 185 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][15].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][15].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][15].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][15].Price	= 100000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][15].SilverMax	= 1000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][15].UseActionInfo = SKILL_ATTACK_SWORD;
+
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][16].HName = "소드 오브 갓";
+	m_pTypeInfo[ITEM_CLASS_SWORD][16].EName = "Sword of god";
+	m_pTypeInfo[ITEM_CLASS_SWORD][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][16].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][16].SetFrameID( 47, 24, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][16].SetDropFrameID( 47 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][16].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][16].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][16].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][16].Price	= 100000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][16].SilverMax	= 1000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][16].UseActionInfo = SKILL_ATTACK_SWORD;
+
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][17].HName = "마인즈 글라디우스";
+	m_pTypeInfo[ITEM_CLASS_SWORD][17].EName = "Mainz Gladius";
+	m_pTypeInfo[ITEM_CLASS_SWORD][17].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][17].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][17].SetFrameID( 468, 482, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][17].SetDropFrameID( 468 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][17].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][17].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][17].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][17].Price	= 100000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][17].SilverMax	= 1000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][17].UseActionInfo = SKILL_ATTACK_SWORD;
+	// Sjheon 2005.06.02 end
+
+	m_pTypeInfo[ITEM_CLASS_SWORD][18].HName = "피어 브링어";
+	m_pTypeInfo[ITEM_CLASS_SWORD][18].EName = "Fear Bringer";
+	m_pTypeInfo[ITEM_CLASS_SWORD][18].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][18].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][18].SetFrameID( 1056, 1090, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][18].SetDropFrameID( 1056 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][18].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][18].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][18].SetValue(56000, -1, 37, 49, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][18].Price	= 5000000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][18].SilverMax	= 4500;
+	m_pTypeInfo[ITEM_CLASS_SWORD][18].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	itemType = 19;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+	
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].HName = "칼리 소드";
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].EName = "Khali's Sword";
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetFrameID( 434, 448, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetDropFrameID( 434 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].Price	= 1500000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SilverMax	= 28000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].UseActionInfo = SKILL_ATTACK_SWORD;
+	itemType++;
+#endif	//__LEVEL_WAR_RENEWAL_ITEM
+
+#if __CONTENTS(__QUEST_RENEWAL)	// 퀘스트 아이템 추가	고딕 소드
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].HName = "발키리 고딕 소드";
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].EName = "Valkirie Gothic Sword ";
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetFrameID( 184, 188, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetDropFrameID( 184 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetValue(10000, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].Price	= 32000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SilverMax	= 14000;
+	//m_pTypeInfo[ITEM_CLASS_SWORD][5].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType++].UseActionInfo = SKILL_ATTACK_SWORD;
+#endif	// __QUEST_RENEWAL
+//	m_pTypeInfo[ITEM_CLASS_CELOX_CUTTER][1].HName = "앵글커터";
+//	m_pTypeInfo[ITEM_CLASS_CELOX_CUTTER][1].EName = "Angle Cutter";
+//	m_pTypeInfo[ITEM_CLASS_CELOX_CUTTER][1].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_CELOX_CUTTER][1].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+//	m_pTypeInfo[ITEM_CLASS_CELOX_CUTTER][1].SetFrameID( 939, 975, 0);
+//	m_pTypeInfo[ITEM_CLASS_CELOX_CUTTER][1].SetDropFrameID(939 );
+//	m_pTypeInfo[ITEM_CLASS_CELOX_CUTTER][1].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_CELOX_CUTTER][1].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_CELOX_CUTTER][1].Price = 0;
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	// i = 21
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].HName = "발뭉";
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].EName = "Balmung";
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetFrameID( 1235, 1278, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetDropFrameID( 1235 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetValue(58000, -1, 54, 65, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].Price	= 7000000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SilverMax	= 58000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType++].UseActionInfo = SKILL_ATTACK_SWORD;
+
+	// i = 22
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].HName = "소드 앰페러";
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].EName = "Sword Emperor";
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetFrameID( 1056, 1090, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetDropFrameID( 1056 );
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetAddonFrameID( ADDONID_SWORD, ADDONID_SWORD );
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SetValue(58000, -1, 64, 75, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].Price	= 8000000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType].SilverMax	= 59000;
+	m_pTypeInfo[ITEM_CLASS_SWORD][itemType++].UseActionInfo = SKILL_ATTACK_SWORD;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_BLADE
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(?), MinDam(3)~MaxDam(4), Speed(7)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_BLADE, 19 
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+		+1
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+		);
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][0].HName = "커틀래스";
+	m_pTypeInfo[ITEM_CLASS_BLADE][0].EName = "Cutlass";
+	m_pTypeInfo[ITEM_CLASS_BLADE][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][0].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][0].SetFrameID( 49, 32, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][0].SetDropFrameID( 49 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][0].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][0].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][0].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][0].Price	= 1500;
+	m_pTypeInfo[ITEM_CLASS_BLADE][0].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][0].SetRequireAbility(20);
+	m_pTypeInfo[ITEM_CLASS_BLADE][0].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][1].HName = "롱 샴셔";
+	m_pTypeInfo[ITEM_CLASS_BLADE][1].EName = "Long Shamsher";
+	m_pTypeInfo[ITEM_CLASS_BLADE][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][1].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][1].SetFrameID( 50, 33, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][1].SetDropFrameID( 50 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][1].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][1].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][1].SetValue(2000, -1, 15, 20, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][1].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][1].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][1].SetRequireAbility(30);
+	m_pTypeInfo[ITEM_CLASS_BLADE][1].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][2].HName = "펄쳔";
+	m_pTypeInfo[ITEM_CLASS_BLADE][2].EName = "Severd Blade";
+	m_pTypeInfo[ITEM_CLASS_BLADE][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][2].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][2].SetFrameID( 189, 193, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][2].SetDropFrameID( 189 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][2].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][2].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][2].SetValue(3200, -1, 20, 25, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][2].Price	= 15000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][2].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][2].SetRequireAbility(40);
+	m_pTypeInfo[ITEM_CLASS_BLADE][2].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][3].HName = "세버드 블레이드";
+	m_pTypeInfo[ITEM_CLASS_BLADE][3].EName = "Moon Blade";
+	m_pTypeInfo[ITEM_CLASS_BLADE][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][3].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][3].SetFrameID( 48, 34, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][3].SetDropFrameID( 48 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][3].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][3].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][3].SetValue(4000, -1, 25, 30, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][3].Price	= 50000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][3].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][3].SetRequireAbility(50);
+	m_pTypeInfo[ITEM_CLASS_BLADE][3].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][4].HName = "문 블레이드";
+	m_pTypeInfo[ITEM_CLASS_BLADE][4].EName = "Ring Blade";
+	m_pTypeInfo[ITEM_CLASS_BLADE][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][4].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][4].SetFrameID( 51, 35, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][4].SetDropFrameID( 51 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][4].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][4].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][4].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][4].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][4].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][4].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][4].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][5].HName = "세이버";
+	m_pTypeInfo[ITEM_CLASS_BLADE][5].EName = "Ring Blade";
+	m_pTypeInfo[ITEM_CLASS_BLADE][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][5].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][5].SetFrameID( 186, 190, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][5].SetDropFrameID( 186 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][5].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][5].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][5].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][5].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][5].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][5].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][5].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][6].HName = "링 블레이드";
+	m_pTypeInfo[ITEM_CLASS_BLADE][6].EName = "Ring Blade";
+	m_pTypeInfo[ITEM_CLASS_BLADE][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][6].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][6].SetFrameID( 52, 36, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][6].SetDropFrameID( 52 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][6].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][6].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][6].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][6].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][6].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][6].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][6].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][7].HName = "시미터";
+	m_pTypeInfo[ITEM_CLASS_BLADE][7].EName = "Ring Blade";
+	m_pTypeInfo[ITEM_CLASS_BLADE][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][7].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][7].SetFrameID( 187, 191, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][7].SetDropFrameID( 187 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][7].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][7].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][7].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][7].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][7].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][7].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][7].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][8].HName = "코페쉬";
+	m_pTypeInfo[ITEM_CLASS_BLADE][8].EName = "Ring Blade";
+	m_pTypeInfo[ITEM_CLASS_BLADE][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][8].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][8].SetFrameID( 190, 194, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][8].SetDropFrameID( 190 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][8].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][8].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][8].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][8].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][8].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][8].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][8].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][9].HName = "카타나";
+	m_pTypeInfo[ITEM_CLASS_BLADE][9].EName = "Ring Blade";
+	m_pTypeInfo[ITEM_CLASS_BLADE][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][9].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][9].SetFrameID( 188, 192, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][9].SetDropFrameID( 188 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][9].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][9].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][9].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][9].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][9].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][9].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][9].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][10].HName = "본 블래이드";
+	m_pTypeInfo[ITEM_CLASS_BLADE][10].EName = "Bone Blade";
+	m_pTypeInfo[ITEM_CLASS_BLADE][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][10].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][10].SetFrameID( 347, 361, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][10].SetDropFrameID( 347 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][10].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][10].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][10].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][10].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][10].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][10].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][10].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][11].HName = "코라";
+	m_pTypeInfo[ITEM_CLASS_BLADE][11].EName = "Cora";
+	m_pTypeInfo[ITEM_CLASS_BLADE][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][11].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][11].SetFrameID( 435, 449, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][11].SetDropFrameID( 435 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][11].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][11].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][11].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][11].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][11].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][11].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][11].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][12].HName = "롬파이아";
+	m_pTypeInfo[ITEM_CLASS_BLADE][12].EName = "Rhomphaia";
+	m_pTypeInfo[ITEM_CLASS_BLADE][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][12].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][12].SetFrameID( 467, 481, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][12].SetDropFrameID( 467 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][12].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][12].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][12].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][12].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][12].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][12].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][12].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][13].HName = "하르페";
+	m_pTypeInfo[ITEM_CLASS_BLADE][13].EName = "Harpe";
+	m_pTypeInfo[ITEM_CLASS_BLADE][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][13].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][13].SetFrameID( 938 , 961 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][13].SetDropFrameID( 938 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][13].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][13].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][13].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][13].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][13].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][12].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][13].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	
+	m_pTypeInfo[ITEM_CLASS_BLADE][14].HName = "듀오카포";
+	m_pTypeInfo[ITEM_CLASS_BLADE][14].EName = "Duocarpo";
+	m_pTypeInfo[ITEM_CLASS_BLADE][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][14].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][14].SetFrameID( 947, 983, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][14].SetDropFrameID(947 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][14].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][14].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][14].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][14].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][14].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][12].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][14].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	//Sjheon 2005.06.02 Add
+	m_pTypeInfo[ITEM_CLASS_BLADE][15].HName = "베인 시미터";
+	m_pTypeInfo[ITEM_CLASS_BLADE][15].EName = "Bane Scimitar";
+	m_pTypeInfo[ITEM_CLASS_BLADE][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][15].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][15].SetFrameID( 187, 191, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][15].SetDropFrameID( 187 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][15].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][15].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][15].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][15].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][15].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][7].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][15].UseActionInfo = SKILL_ATTACK_BLADE;
+	
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][16].HName = "백제도";
+	m_pTypeInfo[ITEM_CLASS_BLADE][16].EName = "Blade of baekje";
+	m_pTypeInfo[ITEM_CLASS_BLADE][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][16].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][16].SetFrameID( 188, 192, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][16].SetDropFrameID( 188 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][16].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][16].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][16].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][16].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][16].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][9].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][16].UseActionInfo = SKILL_ATTACK_BLADE;
+
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][17].HName = "프람베르그";
+	m_pTypeInfo[ITEM_CLASS_BLADE][17].EName = "Flamberge";
+	m_pTypeInfo[ITEM_CLASS_BLADE][17].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][17].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][17].SetFrameID( 467, 481, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][17].SetDropFrameID( 467 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][17].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][17].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][17].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][17].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][17].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][12].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][17].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	//Sjheon 2005.06.02 Add
+
+	m_pTypeInfo[ITEM_CLASS_BLADE][18].HName = "앵글커터";
+	m_pTypeInfo[ITEM_CLASS_BLADE][18].EName = "Angle Cutter";
+	m_pTypeInfo[ITEM_CLASS_BLADE][18].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][18].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][18].SetFrameID( 1057, 1091, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][18].SetDropFrameID( 1057 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][18].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][18].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][18].SetValue(61000, -1, 47, 62, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][18].Price	= 6000000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][18].SilverMax	= 7300;
+	m_pTypeInfo[ITEM_CLASS_BLADE][18].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	itemType = 19;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].HName = "칼리 코라";
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].EName = "Khali's kora";
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetFrameID( 435, 449, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetDropFrameID( 435 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].Price	= 1450000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SilverMax	= 39000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType++].UseActionInfo = SKILL_ATTACK_BLADE;
+
+#endif	//__LEVEL_WAR_RENEWAL_ITEM
+
+#if __CONTENTS(__QUEST_RENEWAL)	// 퀘스트 아이템 추가	세이버
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].HName = "발키리 세이버";
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].EName = "Valkirie Saver";
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetFrameID( 186, 190, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetDropFrameID( 186 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetValue(9800, -1, 30, 35, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].Price	= 36000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SilverMax	= 22000;
+	//m_pTypeInfo[ITEM_CLASS_BLADE][5].SetRequireAbility(60);
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType++].UseActionInfo = SKILL_ATTACK_BLADE;
+#endif	// __QUEST_RENEWAL
+//	m_pTypeInfo[ITEM_CLASS_GRAVIS_CUTTER][1].HName = "피어 브링어";
+//	m_pTypeInfo[ITEM_CLASS_GRAVIS_CUTTER][1].EName = "Fear Bringer";
+//	m_pTypeInfo[ITEM_CLASS_GRAVIS_CUTTER][1].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_GRAVIS_CUTTER][1].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+//	m_pTypeInfo[ITEM_CLASS_GRAVIS_CUTTER][1].SetFrameID( 939, 975, 0);
+//	m_pTypeInfo[ITEM_CLASS_GRAVIS_CUTTER][1].SetDropFrameID(939 );
+//	m_pTypeInfo[ITEM_CLASS_GRAVIS_CUTTER][1].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_GRAVIS_CUTTER][1].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_GRAVIS_CUTTER][1].Price = 0;
+//
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	// i = 21
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].HName = "마사무네";
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].EName = "Masamune";
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetFrameID( 1234, 1277, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetDropFrameID( 1234 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetValue(62000, -1, 64, 78, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].Price	= 7000000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SilverMax	= 62000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType++].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	// i = 22
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].HName = "퀸즈 커터";
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].EName = "Queen's Cutter";
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetFrameID( 1057, 1091, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetDropFrameID( 1057 );
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetAddonFrameID( ADDONID_BLADE, ADDONID_BLADE );
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SetValue(63000, -1, 74, 88, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].Price	= 8000000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType].SilverMax	= 63000;
+	m_pTypeInfo[ITEM_CLASS_BLADE][itemType++].UseActionInfo = SKILL_ATTACK_BLADE;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_SHIELD
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(2), Def(6)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_SHIELD, 15 
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+		);
+	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][0].HName = "라운드 쉴드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][0].EName = "Round Shield";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][0].SetSoundID( SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][0].SetFrameID( 53, 58, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][0].SetDropFrameID( 53 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][0].SetAddonFrameID( ADDONID_SHIELD1, ADDONID_SHIELD1 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][0].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][0].SetValue(500, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][0].Price	= 2000;
+	//m_pTypeInfo[ITEM_CLASS_SHIELD][0].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_SHIELD][1].HName = "브론즈 쉴드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][1].EName = "Bronze Shield";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][1].SetSoundID( SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][1].SetFrameID( 55, 59, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][1].SetDropFrameID( 55 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][1].SetAddonFrameID( ADDONID_SHIELD1, ADDONID_SHIELD1 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][1].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][1].SetValue(800, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][1].Price	= 3000;
+	//m_pTypeInfo[ITEM_CLASS_SHIELD][1].SetRequireAbility(30);
+
+	m_pTypeInfo[ITEM_CLASS_SHIELD][2].HName = "휠 쉴드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][2].EName = "Whirl Shield";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][2].SetSoundID( SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][2].SetFrameID( 54, 60, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][2].SetDropFrameID( 54 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][2].SetAddonFrameID( ADDONID_SHIELD1, ADDONID_SHIELD1 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][2].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][2].SetValue(1200, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][2].Price	= 7000;
+	//m_pTypeInfo[ITEM_CLASS_SHIELD][2].SetRequireAbility(40);
+
+	m_pTypeInfo[ITEM_CLASS_SHIELD][3].HName = "스네이크 쉴드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][3].EName = "Snake Shield";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][3].SetSoundID( SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][3].SetFrameID( 56, 61, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][3].SetDropFrameID( 56 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][3].SetAddonFrameID( ADDONID_SHIELD1, ADDONID_SHIELD1 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][3].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][3].SetValue(3000, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][3].Price	= 20000;
+	//m_pTypeInfo[ITEM_CLASS_SHIELD][3].SetRequireAbility(50);
+
+	m_pTypeInfo[ITEM_CLASS_SHIELD][4].HName = "소드 쉴드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][4].EName = "Sword Shield";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][4].SetSoundID( SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][4].SetFrameID( 57, 62, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][4].SetDropFrameID( 57 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][4].SetAddonFrameID( ADDONID_SHIELD1, ADDONID_SHIELD1 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][4].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][4].SetValue(4000, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][4].Price	= 50000;
+	//m_pTypeInfo[ITEM_CLASS_SHIELD][4].SetRequireAbility(60);
+
+	m_pTypeInfo[ITEM_CLASS_SHIELD][5].HName = "드래곤 쉴드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][5].EName = "Dragon Shield";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][5].SetSoundID( SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][5].SetFrameID( 58, 63, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][5].SetDropFrameID( 58 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][5].SetAddonFrameID( ADDONID_SHIELD2, ADDONID_SHIELD2 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][5].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][5].SetValue(5000, 6, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][5].Price	= 120000;
+	//m_pTypeInfo[ITEM_CLASS_SHIELD][5].SetRequireAbility(70);
+
+	m_pTypeInfo[ITEM_CLASS_SHIELD][6].HName = "아그리파 쉴드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][6].EName = "Shield of Agrippa";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][6].SetSoundID( SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][6].SetFrameID( 255, 268, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][6].SetDropFrameID( 255 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][6].SetAddonFrameID( ADDONID_SHIELD2, ADDONID_SHIELD2 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][6].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][6].SetValue(5000, 6, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][6].Price	= 120000;
+	//m_pTypeInfo[ITEM_CLASS_SHIELD][6].SetRequireAbility(70);
+
+	m_pTypeInfo[ITEM_CLASS_SHIELD][7].HName = "유니콘 쉴드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][7].EName = "Unicorn Shield";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][7].SetSoundID( SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][7].SetFrameID( 256, 269, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][7].SetDropFrameID( 256 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][7].SetAddonFrameID( ADDONID_SHIELD2, ADDONID_SHIELD2 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][7].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][7].SetValue(5000, 6, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][7].Price	= 120000;
+	//m_pTypeInfo[ITEM_CLASS_SHIELD][7].SetRequireAbility(70);
+
+	m_pTypeInfo[ITEM_CLASS_SHIELD][8].HName = "레오 쉴드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][8].EName = "Leo Shield";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][8].SetSoundID( SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][8].SetFrameID( 257, 270, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][8].SetDropFrameID( 257 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][8].SetAddonFrameID( ADDONID_SHIELD2, ADDONID_SHIELD2 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][8].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][8].SetValue(5000, 6, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][8].Price	= 120000;
+	//m_pTypeInfo[ITEM_CLASS_SHIELD][8].SetRequireAbility(70);
+
+	m_pTypeInfo[ITEM_CLASS_SHIELD][9].HName = "플래머 쉴드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][9].EName = "Flamma Shield";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][9].SetSoundID( SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][9].SetFrameID( 352, 366, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][9].SetDropFrameID( 352 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][9].SetAddonFrameID( ADDONID_SHIELD2, ADDONID_SHIELD2 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][9].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][9].SetValue(5000, 6, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][9].Price	= 120000;
+	//m_pTypeInfo[ITEM_CLASS_SHIELD][9].SetRequireAbility(70);
+
+	m_pTypeInfo[ITEM_CLASS_SHIELD][10].HName = "오블롱 쉴드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][10].EName = "Oblong Shield";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][10].SetSoundID( SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][10].SetFrameID( 450, 464, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][10].SetDropFrameID( 450 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][10].SetAddonFrameID( ADDONID_SHIELD2, ADDONID_SHIELD2 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][10].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][10].SetValue(5000, 6, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][10].Price	= 120000;
+	//m_pTypeInfo[ITEM_CLASS_SHIELD][10].SetRequireAbility(70);
+
+	m_pTypeInfo[ITEM_CLASS_SHIELD][11].HName = "호플론 쉴드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][11].EName = "Hoplon Shield";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][11].SetSoundID( SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][11].SetFrameID( 477, 491, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][11].SetDropFrameID( 477 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][11].SetAddonFrameID( ADDONID_SHIELD2, ADDONID_SHIELD2 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][11].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][11].SetValue(5000, 6, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][11].Price	= 120000;
+	//m_pTypeInfo[ITEM_CLASS_SHIELD][11].SetRequireAbility(70);
+
+	m_pTypeInfo[ITEM_CLASS_SHIELD][12].HName = "아스피스  쉴드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][12].EName = "Aspis Shield";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][12].SetSoundID( SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][12].SetFrameID( 921 , 944 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][12].SetDropFrameID( 921 );//dj 2006.12.13
+	m_pTypeInfo[ITEM_CLASS_SHIELD][12].SetAddonFrameID( ADDONID_SHIELD2, ADDONID_SHIELD2 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][12].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][12].SetValue(5000, 6, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][12].Price	= 120000;
+
+	m_pTypeInfo[ITEM_CLASS_SHIELD][13].HName = "스퍼 버클러";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][13].EName = "Spur Buckler";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][13].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][13].SetFrameID( 949, 985, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][13].SetDropFrameID(949 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][13].SetAddonFrameID( ADDONID_SHIELD2, ADDONID_SHIELD2 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][13].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][13].SetValue(5000, 6, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][13].Price	= 120000;
+	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][14].HName = "스타우트 버클러";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][14].EName = "Stout Bucklerr";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][14].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][14].SetFrameID( 1058, 1092, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][14].SetDropFrameID(1058 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][14].SetAddonFrameID( ADDONID_SHIELD2, ADDONID_SHIELD2 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][14].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][14].SetValue(20800, 20, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][14].Price	= 5900000;
+	itemType = 15;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].HName = "칼리 쉴드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].EName = "Khali's Shield";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetSoundID( SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUND_ITEM_MOVE_SHIELD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetFrameID( 450, 464, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetDropFrameID( 450 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetAddonFrameID( ADDONID_SHIELD2, ADDONID_SHIELD2 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetValue(5000, 6, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].Price = 400000;
+	itemType++;
+#endif
+//	m_pTypeInfo[ITEM_CLASS_BUCKLER][1].HName = "스타우트 버클러";
+//	m_pTypeInfo[ITEM_CLASS_BUCKLER][1].EName = "Stout Buckler";
+//	m_pTypeInfo[ITEM_CLASS_BUCKLER][1].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_BUCKLER][1].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+//	m_pTypeInfo[ITEM_CLASS_BUCKLER][1].SetFrameID( 939, 975, 0);
+//	m_pTypeInfo[ITEM_CLASS_BUCKLER][1].SetDropFrameID(939 );
+//	m_pTypeInfo[ITEM_CLASS_BUCKLER][1].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_BUCKLER][1].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_BUCKLER][1].Price = 0;
+
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	// i = 16
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].HName = "에스터 실드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].EName = "Ester Sheild";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetFrameID( 1238, 1281, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetDropFrameID(1238 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetAddonFrameID( ADDONID_SHIELD2, ADDONID_SHIELD2 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetValue(21600, 34, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].Weight = 15;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].Price	= 6800000;
+	itemType++;
+
+	// i = 17
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].HName = "버팔로 실드";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].EName = "Buffalo Sheild";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetFrameID( 1058, 1092, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetDropFrameID(1058 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetAddonFrameID( ADDONID_SHIELD2, ADDONID_SHIELD2 );
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].SetValue(22400, 39, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].Weight = 15;
+	m_pTypeInfo[ITEM_CLASS_SHIELD][itemType].Price	= 7700000;
+	itemType++;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+
+	//m_pTypeInfo[ITEM_CLASS_SHIELD][11].SetRequireAbility(70);
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_CROSS
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(?), MinDam(3)~MaxDam(4), MP증가(5), Speed(7)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_CROSS, 17
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+		+1
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+		);
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][0].HName = "실버 크로스";
+	m_pTypeInfo[ITEM_CLASS_CROSS][0].EName = "Silver Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][0].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][0].SetFrameID( 146, 150, 0 );	
+	m_pTypeInfo[ITEM_CLASS_CROSS][0].SetDropFrameID( 146 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][0].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][0].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][0].SetValue(300, -1, 3, 6, 5, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][0].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][0].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][0].SetRequireAbility(0,0, 20);
+	m_pTypeInfo[ITEM_CLASS_CROSS][0].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][1].HName = "라틴 크로스";
+	m_pTypeInfo[ITEM_CLASS_CROSS][1].EName = "Latin Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][1].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][1].SetFrameID( 60, 95, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][1].SetDropFrameID( 60 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][1].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][1].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][1].SetValue(500, -1, 6, 9, 10, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][1].Price	= 7000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][1].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][1].SetRequireAbility(0,0, 30);
+	m_pTypeInfo[ITEM_CLASS_CROSS][1].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][2].HName = "패션 크로스";
+	m_pTypeInfo[ITEM_CLASS_CROSS][2].EName = "Passion Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][2].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][2].SetFrameID( 61, 96, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][2].SetDropFrameID( 61 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][2].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][2].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][2].SetValue(700, -1, 9, 12, 20, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][2].Price	= 20000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][2].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][2].SetRequireAbility(0,0, 40);
+	m_pTypeInfo[ITEM_CLASS_CROSS][2].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][3].HName = "기리시단 크로스";
+	m_pTypeInfo[ITEM_CLASS_CROSS][3].EName = "Girisidan Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][3].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][3].SetFrameID( 62, 97, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][3].SetDropFrameID( 62 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][3].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][3].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][3].SetValue(1200, -1, 12, 15, 40, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][3].Price	= 50000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][3].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][3].SetRequireAbility(0,0, 50);
+	m_pTypeInfo[ITEM_CLASS_CROSS][3].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][4].HName = "에피스코펄 크로스";
+	m_pTypeInfo[ITEM_CLASS_CROSS][4].EName = "Episcopal Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][4].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][4].SetFrameID( 63, 98, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][4].SetDropFrameID( 63 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][4].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][4].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][4].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][4].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][4].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][4].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_CROSS][4].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][5].HName = "칼바리아 크로스";
+	m_pTypeInfo[ITEM_CLASS_CROSS][5].EName = "Calvaria Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][5].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][5].SetFrameID( 265, 278, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][5].SetDropFrameID( 265 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][5].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][5].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][5].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][5].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][5].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][5].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_CROSS][5].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][6].HName = "광배의 십자가";
+	m_pTypeInfo[ITEM_CLASS_CROSS][6].EName = "Gloria Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][6].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][6].SetFrameID( 266, 279, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][6].SetDropFrameID( 266 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][6].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][6].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][6].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][6].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][6].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][6].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_CROSS][6].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][7].HName = "성녀 헬레나의 십자가";
+	m_pTypeInfo[ITEM_CLASS_CROSS][7].EName = "St.Helena Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][7].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][7].SetFrameID( 264, 277, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][7].SetDropFrameID( 264 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][7].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][7].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][7].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][7].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][7].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][7].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_CROSS][7].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][8].HName = "조다니안 십자가";
+	m_pTypeInfo[ITEM_CLASS_CROSS][8].EName = "Jordanian Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][8].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][8].SetFrameID( 349, 363, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][8].SetDropFrameID( 349 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][8].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][8].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][8].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][8].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][8].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][8].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_CROSS][8].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][9].HName = "페이펄 크로스";
+	m_pTypeInfo[ITEM_CLASS_CROSS][9].EName = "Papal Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][9].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][9].SetFrameID( 436, 450, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][9].SetDropFrameID( 436 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][9].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][9].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][9].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][9].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][9].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][9].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_CROSS][9].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][10].HName = "로렌의 십자가";
+	m_pTypeInfo[ITEM_CLASS_CROSS][10].EName = "Lorraine's Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][10].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][10].SetFrameID( 474, 488, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][10].SetDropFrameID( 474 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][10].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][10].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][10].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][10].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][10].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][10].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_CROSS][10].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][11].HName = "카타리나의 십자가";
+	m_pTypeInfo[ITEM_CLASS_CROSS][11].EName = "Catharina's Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][11].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][11].SetFrameID( 930 , 953 ,0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][11].SetDropFrameID( 930 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][11].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][11].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][11].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][11].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][11].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][10].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_CROSS][11].UseActionInfo = SKILL_ATTACK_BLADE;
+
+
+	
+	m_pTypeInfo[ITEM_CLASS_CROSS][12].HName = "릴라이언트 크루시스";
+	m_pTypeInfo[ITEM_CLASS_CROSS][12].EName = "Reliant Crucis";
+	m_pTypeInfo[ITEM_CLASS_CROSS][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][12].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][12].SetFrameID( 951, 987, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][12].SetDropFrameID(951 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][12].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][12].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][12].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][12].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][12].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][10].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_CROSS][12].UseActionInfo = SKILL_ATTACK_BLADE;
+
+
+	// Sjheon 2005.06.02 Add
+	m_pTypeInfo[ITEM_CLASS_CROSS][13].HName = "굴갈타 크로스";
+	m_pTypeInfo[ITEM_CLASS_CROSS][13].EName = "Golgotha Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][13].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][13].SetFrameID( 265, 278, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][13].SetDropFrameID( 265 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][13].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][13].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][13].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][13].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][13].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][5].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_CROSS][13].UseActionInfo = SKILL_ATTACK_BLADE;
+
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][14].HName = "성녀 아가페의 십자가";
+	m_pTypeInfo[ITEM_CLASS_CROSS][14].EName = "St.Agape Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][14].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][14].SetFrameID( 264, 277, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][14].SetDropFrameID( 264 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][14].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][14].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][14].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][14].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][14].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][7].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_CROSS][14].UseActionInfo = SKILL_ATTACK_BLADE;
+
+
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][15].HName = "뱁티즘 로렌의 십자가";
+	m_pTypeInfo[ITEM_CLASS_CROSS][15].EName = "baptism Lorraine's Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][15].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][15].SetFrameID( 474, 488, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][15].SetDropFrameID( 474 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][15].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][15].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][15].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][15].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][15].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][10].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_CROSS][15].UseActionInfo = SKILL_ATTACK_BLADE;
+	
+	// Sjheon 2005.06.02 End
+	
+	m_pTypeInfo[ITEM_CLASS_CROSS][16].HName = "어큐트 크루시스";
+	m_pTypeInfo[ITEM_CLASS_CROSS][16].EName = "Acute Crucis";
+	m_pTypeInfo[ITEM_CLASS_CROSS][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][16].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][16].SetFrameID( 1059, 1093, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][16].SetDropFrameID( 1059 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][16].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][16].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][16].SetValue(41000, -1, 26, 41, 155, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][16].Price	= 6000000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][16].SilverMax	= 3300;
+	m_pTypeInfo[ITEM_CLASS_CROSS][16].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	itemType = 17;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].HName = "칼리 크로스";
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].EName = "Khali's cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetFrameID( 436, 450, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetDropFrameID( 436 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].Price	= 1600000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SilverMax	= 19000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType++].UseActionInfo = SKILL_ATTACK_BLADE;
+#endif	//__LEVEL_WAR_RENEWAL_ITEM
+
+#if __CONTENTS(__QUEST_RENEWAL)	//아이템 추가		기리시단 크로스
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].HName = "발키리 기리시단 크로스";
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].EName = "Valkirie Girisidan Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetFrameID( 62, 97, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetDropFrameID( 62 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetValue(1200, -1, 12, 15, 40, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].Price	= 50000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SilverMax	= 8500;
+	//m_pTypeInfo[ITEM_CLASS_CROSS][3].SetRequireAbility(0,0, 50);
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType++].UseActionInfo = SKILL_ATTACK_BLADE;
+#endif	//__QUEST_RENEWAL
+	
+//	m_pTypeInfo[ITEM_CLASS_CRUCIS][1].HName = "어큐트 크루시스";
+//	m_pTypeInfo[ITEM_CLASS_CRUCIS][1].EName = "Acute Crucis";
+//	m_pTypeInfo[ITEM_CLASS_CRUCIS][1].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_CRUCIS][1].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+//	m_pTypeInfo[ITEM_CLASS_CRUCIS][1].SetFrameID( 939, 975, 0);
+//	m_pTypeInfo[ITEM_CLASS_CRUCIS][1].SetDropFrameID(939 );
+//	m_pTypeInfo[ITEM_CLASS_CRUCIS][1].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_CRUCIS][1].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_CRUCIS][1].Price = 0;
+
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	// i = 19
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].HName = "홀리 엔틱 크로스";
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].EName = "Holy Antique Cross";
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetFrameID( 1246, 1289, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetDropFrameID( 1246 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetValue(42000, -1, 44, 59, 160, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].Price	= 7000000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SilverMax	= 42000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType++].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	// i = 20
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].HName = "크로스 오브 나자렛";
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].EName = "Cross Of Nazaret";
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetFrameID( 1059, 1093, 0 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetDropFrameID( 1059 );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetAddonFrameID( ADDONID_CROSS, ADDONID_CROSS );
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SetValue(43000, -1, 54, 69, 165, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].Price	= 8000000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType].SilverMax	= 43000;
+	m_pTypeInfo[ITEM_CLASS_CROSS][itemType++].UseActionInfo = SKILL_ATTACK_BLADE;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_GLOVE
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(2), Def(6)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_GLOVE, 12
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+		);
+
+	m_pTypeInfo[ITEM_CLASS_GLOVE][0].HName = "블랙 글러브";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][0].EName = "Black Glove";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][0].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][0].SetFrameID( 64, 116, 0 );	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][0].SetDropFrameID( 64 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][0].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][0].SetValue(200, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][0].Price	= 800;
+	//m_pTypeInfo[ITEM_CLASS_GLOVE][0].SetRequireAbility(20, 20);
+
+	m_pTypeInfo[ITEM_CLASS_GLOVE][1].HName = "브론즈 글러브";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][1].EName = "Bronze Glove";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][1].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][1].SetFrameID( 65, 117, 0 );	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][1].SetDropFrameID( 65 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][1].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][1].SetValue(250, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][1].Price	= 2000;
+	//m_pTypeInfo[ITEM_CLASS_GLOVE][1].SetRequireAbility(30, 30);
+
+	m_pTypeInfo[ITEM_CLASS_GLOVE][2].HName = "프리스트 글러브";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][2].EName = "Priest Glove";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][2].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][2].SetFrameID( 67, 118, 0 );	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][2].SetDropFrameID( 67 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][2].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][2].SetValue(300, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][2].Price	= 5000;
+	//m_pTypeInfo[ITEM_CLASS_GLOVE][2].SetRequireAbility(0, 0, 40);
+
+	m_pTypeInfo[ITEM_CLASS_GLOVE][3].HName = "나이트 글러브";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][3].EName = "Knight Glove";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][3].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][3].SetFrameID( 66, 119, 0 );	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][3].SetDropFrameID( 66 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][3].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][3].SetValue(400, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][3].Price	= 7000;
+	//m_pTypeInfo[ITEM_CLASS_GLOVE][3].SetRequireAbility(40, 40);
+
+	m_pTypeInfo[ITEM_CLASS_GLOVE][4].HName = "세스터스";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][4].EName = "Cestus";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][4].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][4].SetFrameID( 68, 120, 0 );	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][4].SetDropFrameID( 68 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][4].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][4].SetValue(550, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][4].Price	= 13000;
+	//m_pTypeInfo[ITEM_CLASS_GLOVE][4].SetRequireAbility(50, 50);
+
+	m_pTypeInfo[ITEM_CLASS_GLOVE][5].HName = "틴플레이트 건틀렛";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][5].EName = "Tinplate Gauntlet";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][5].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][5].SetFrameID( 259, 272, 0 );	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][5].SetDropFrameID( 259 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][5].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][5].SetValue(550, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][5].Price	= 13000;
+	//m_pTypeInfo[ITEM_CLASS_GLOVE][5].SetRequireAbility(50, 50);
+
+	m_pTypeInfo[ITEM_CLASS_GLOVE][6].HName = "액티브 건틀렛";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][6].EName = "Active Gauntlet";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][6].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][6].SetFrameID( 260, 273, 0 );	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][6].SetDropFrameID( 260 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][6].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][6].SetValue(550, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][6].Price	= 13000;
+	//m_pTypeInfo[ITEM_CLASS_GLOVE][6].SetRequireAbility(50, 50);
+
+	m_pTypeInfo[ITEM_CLASS_GLOVE][7].HName = "토르의 건틀렛";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][7].EName = "Gauntlet of Thor";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][7].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][7].SetFrameID( 258, 271, 0 );	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][7].SetDropFrameID( 258 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][7].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][7].SetValue(550, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][7].Price	= 13000;
+	//m_pTypeInfo[ITEM_CLASS_GLOVE][7].SetRequireAbility(50, 50);
+
+	m_pTypeInfo[ITEM_CLASS_GLOVE][8].HName = "스틸 건틀렛";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][8].EName = "Steel Gauntlet";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][8].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][8].SetFrameID( 350, 364, 0 );	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][8].SetDropFrameID( 350 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][8].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][8].SetValue(550, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][8].Price	= 13000;
+	//m_pTypeInfo[ITEM_CLASS_GLOVE][8].SetRequireAbility(50, 50);
+
+	m_pTypeInfo[ITEM_CLASS_GLOVE][9].HName = "R-에너제틱 글러브";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][9].EName = "R-energetic Gloves";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][9].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][9].SetFrameID( 447, 461, 0 );	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][9].SetDropFrameID( 447 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][9].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][9].SetValue(550, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][9].Price	= 13000;
+	//m_pTypeInfo[ITEM_CLASS_GLOVE][9].SetRequireAbility(50, 50);
+
+	m_pTypeInfo[ITEM_CLASS_GLOVE][10].HName = "쿼러시어 건틀렛";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][10].EName = "Cuirassir Gauntlet";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][10].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][10].SetFrameID( 479, 493, 0 );	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][10].SetDropFrameID( 479 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][10].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][10].SetValue(550, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][10].Price	= 13000;
+	//m_pTypeInfo[ITEM_CLASS_GLOVE][10].SetRequireAbility(50, 50);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][11].HName = "아몬 건틀릿";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][11].EName = "Amon Gauntlet";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][11].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][11].SetFrameID( 920 , 943 ,0);	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][11].SetDropFrameID( 920 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][11].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][11].SetValue(550, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][11].Price	= 13000;
+	itemType = 12;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].HName = "칼리 글러브";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].EName = "Khali's Gloves";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetFrameID( 447, 461, 0 );	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetDropFrameID( 447 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetValue(550, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].Price	= 270000;
+
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType++;	// 13
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].HName = "루미네선스 건틀렛";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].EName = "Luminescence Guntlet";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetFrameID( 1233, 1276 ,0);	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetDropFrameID( 1233 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetValue(6000, 18, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].Weight = 5;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].Price	= 5000000;
+
+	itemType++;	// 14
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].HName = "레오파드 건틀렛";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].EName = "Leopard Guntlet";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetFrameID( 920 , 943 ,0);	
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetDropFrameID( 920 );
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].SetValue(6800, 23, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].Weight = 5;
+	m_pTypeInfo[ITEM_CLASS_GLOVE][itemType].Price	= 6000000;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_HELM
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(2), Def(6)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_HELM, 15
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+		);
+
+	m_pTypeInfo[ITEM_CLASS_HELM][0].HName = "후드";
+	m_pTypeInfo[ITEM_CLASS_HELM][0].EName = "Hood";
+	m_pTypeInfo[ITEM_CLASS_HELM][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][0].SetSoundID( SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HELM][0].SetFrameID( 69, 40, 0 );	
+	m_pTypeInfo[ITEM_CLASS_HELM][0].SetDropFrameID( 69 );
+	m_pTypeInfo[ITEM_CLASS_HELM][0].SetAddonFrameID( ADDONID_HELM1, ADDONID_HELM1 );
+
+	//m_pTypeInfo[ITEM_CLASS_HELM][0].SetAddonFrameID( ADDONID_HELM4_MALE, ADDONID_HELM4_FEMALE );
+
+	m_pTypeInfo[ITEM_CLASS_HELM][0].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][0].SetValue(210, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][0].Price	= 500;
+	//m_pTypeInfo[ITEM_CLASS_HELM][0].SetRequireAbility(20, 20);
+
+	m_pTypeInfo[ITEM_CLASS_HELM][1].HName = "아이언 헬멧";
+	m_pTypeInfo[ITEM_CLASS_HELM][1].EName = "Iron Helmet";
+	m_pTypeInfo[ITEM_CLASS_HELM][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][1].SetSoundID( SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HELM][1].SetFrameID( 70, 41, 0 );
+	m_pTypeInfo[ITEM_CLASS_HELM][1].SetDropFrameID( 70 );
+	m_pTypeInfo[ITEM_CLASS_HELM][1].SetAddonFrameID( ADDONID_HELM1, ADDONID_HELM1 );
+	//m_pTypeInfo[ITEM_CLASS_HELM][1].SetAddonFrameID( ADDONID_HELM4_MALE, ADDONID_HELM4_FEMALE );
+
+	m_pTypeInfo[ITEM_CLASS_HELM][1].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][1].SetValue(300, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][1].Price	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_HELM][1].SetRequireAbility(40, 40);
+
+	m_pTypeInfo[ITEM_CLASS_HELM][2].HName = "프라레드 헬멧";
+	m_pTypeInfo[ITEM_CLASS_HELM][2].EName = "Frared Helmet";
+	m_pTypeInfo[ITEM_CLASS_HELM][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][2].SetSoundID( SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HELM][2].SetFrameID( 71, 42, 0 );
+	m_pTypeInfo[ITEM_CLASS_HELM][2].SetDropFrameID( 71 );
+	m_pTypeInfo[ITEM_CLASS_HELM][2].SetAddonFrameID( ADDONID_HELM1, ADDONID_HELM1 );
+	m_pTypeInfo[ITEM_CLASS_HELM][2].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][2].SetValue(400, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][2].Price	= 4000;
+	//m_pTypeInfo[ITEM_CLASS_HELM][2].SetRequireAbility(60, 60);
+
+	m_pTypeInfo[ITEM_CLASS_HELM][3].HName = "에임 헬멧";
+	m_pTypeInfo[ITEM_CLASS_HELM][3].EName = "Aim Helmet";
+	m_pTypeInfo[ITEM_CLASS_HELM][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][3].SetSoundID( SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HELM][3].SetFrameID( 72, 43, 0 );
+	m_pTypeInfo[ITEM_CLASS_HELM][3].SetDropFrameID( 72 );
+	m_pTypeInfo[ITEM_CLASS_HELM][3].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][3].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][3].SetValue(550, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][3].Price	= 7000;
+	//m_pTypeInfo[ITEM_CLASS_HELM][3].SetRequireAbility(80, 80);
+
+	m_pTypeInfo[ITEM_CLASS_HELM][4].HName = "컴뱃 헬멧";
+	m_pTypeInfo[ITEM_CLASS_HELM][4].EName = "Combat Helmet";
+	m_pTypeInfo[ITEM_CLASS_HELM][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][4].SetSoundID( SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HELM][4].SetFrameID( 73, 44, 0 );
+	m_pTypeInfo[ITEM_CLASS_HELM][4].SetDropFrameID( 73 );
+	m_pTypeInfo[ITEM_CLASS_HELM][4].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][4].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][4].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][4].Price	= 13000;
+	//m_pTypeInfo[ITEM_CLASS_HELM][4].SetRequireAbility(90, 90);
+
+	m_pTypeInfo[ITEM_CLASS_HELM][5].HName = "헤드기어";
+	m_pTypeInfo[ITEM_CLASS_HELM][5].EName = "HeadGear";
+	m_pTypeInfo[ITEM_CLASS_HELM][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][5].SetSoundID( SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HELM][5].SetFrameID( 299, 313, 0 );
+	m_pTypeInfo[ITEM_CLASS_HELM][5].SetDropFrameID( 299 );
+	m_pTypeInfo[ITEM_CLASS_HELM][5].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][5].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][5].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][5].Price	= 13000;
+	//m_pTypeInfo[ITEM_CLASS_HELM][5].SetRequireAbility(90, 90);
+
+	m_pTypeInfo[ITEM_CLASS_HELM][6].HName = "컴뱃 헤드기어";
+	m_pTypeInfo[ITEM_CLASS_HELM][6].EName = "HeadGear";
+	m_pTypeInfo[ITEM_CLASS_HELM][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][6].SetSoundID( SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HELM][6].SetFrameID( 299, 313, 0 );
+	m_pTypeInfo[ITEM_CLASS_HELM][6].SetDropFrameID( 299 );
+	m_pTypeInfo[ITEM_CLASS_HELM][6].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][6].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][6].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][6].Price	= 13000;
+	//m_pTypeInfo[ITEM_CLASS_HELM][6].SetRequireAbility(90, 90);
+
+	m_pTypeInfo[ITEM_CLASS_HELM][7].HName = "인프라레드 스캐닝 헬멧";
+	m_pTypeInfo[ITEM_CLASS_HELM][7].EName = "Infrared Scanning Helmet";
+	m_pTypeInfo[ITEM_CLASS_HELM][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][7].SetSoundID( SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HELM][7].SetFrameID( 300, 314, 0 );
+	m_pTypeInfo[ITEM_CLASS_HELM][7].SetDropFrameID( 300 );
+	m_pTypeInfo[ITEM_CLASS_HELM][7].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][7].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][7].SetValue(400, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][7].Price	= 4000;
+	//m_pTypeInfo[ITEM_CLASS_HELM][7].SetRequireAbility(60, 60);
+
+	m_pTypeInfo[ITEM_CLASS_HELM][8].HName = "워 플레이트 헬멧";
+	m_pTypeInfo[ITEM_CLASS_HELM][8].EName = "War Plate Helmet";
+	m_pTypeInfo[ITEM_CLASS_HELM][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][8].SetSoundID( SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HELM][8].SetFrameID( 302, 316, 0 );
+	m_pTypeInfo[ITEM_CLASS_HELM][8].SetDropFrameID( 302 );
+	m_pTypeInfo[ITEM_CLASS_HELM][8].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][8].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][8].SetValue(400, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][8].Price	= 4000;
+	//m_pTypeInfo[ITEM_CLASS_HELM][8].SetRequireAbility(60, 60);
+
+	m_pTypeInfo[ITEM_CLASS_HELM][9].HName = "듀크 헬멧";
+	m_pTypeInfo[ITEM_CLASS_HELM][9].EName = "Duke Helmet";
+	m_pTypeInfo[ITEM_CLASS_HELM][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][9].SetSoundID( SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HELM][9].SetFrameID( 365, 379, 0 );
+	m_pTypeInfo[ITEM_CLASS_HELM][9].SetDropFrameID( 365 );
+	m_pTypeInfo[ITEM_CLASS_HELM][9].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][9].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][9].SetValue(400, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][9].Price	= 4000;
+	//m_pTypeInfo[ITEM_CLASS_HELM][9].SetRequireAbility(60, 60);
+
+	m_pTypeInfo[ITEM_CLASS_HELM][10].HName = "컴비네이션 컴벳 헬름";
+	m_pTypeInfo[ITEM_CLASS_HELM][10].EName = "Combination Combat Helm";
+	m_pTypeInfo[ITEM_CLASS_HELM][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][10].SetSoundID( SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HELM][10].SetFrameID( 446, 460, 0 );
+	m_pTypeInfo[ITEM_CLASS_HELM][10].SetDropFrameID( 446 );
+	m_pTypeInfo[ITEM_CLASS_HELM][10].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][10].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][10].SetValue(400, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][10].Price	= 4000;
+	//m_pTypeInfo[ITEM_CLASS_HELM][10].SetRequireAbility(60, 60);
+
+	m_pTypeInfo[ITEM_CLASS_HELM][11].HName = "스팽건 헬멧";
+	m_pTypeInfo[ITEM_CLASS_HELM][11].EName = "Spangen Helmet";
+	m_pTypeInfo[ITEM_CLASS_HELM][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][11].SetSoundID( SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HELM][11].SetFrameID( 476, 490, 0 );
+	m_pTypeInfo[ITEM_CLASS_HELM][11].SetDropFrameID( 476 );
+	m_pTypeInfo[ITEM_CLASS_HELM][11].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][11].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][11].SetValue(400, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][11].Price	= 4000;
+	//m_pTypeInfo[ITEM_CLASS_HELM][11].SetRequireAbility(60, 60);
+
+	
+	m_pTypeInfo[ITEM_CLASS_HELM][12].HName = "버거넷 헬멧";
+	m_pTypeInfo[ITEM_CLASS_HELM][12].EName = "Burgonet Helmet";
+	m_pTypeInfo[ITEM_CLASS_HELM][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][12].SetSoundID( SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HELM][12].SetFrameID( 916 , 939 ,0 );
+	m_pTypeInfo[ITEM_CLASS_HELM][12].SetDropFrameID( 916 );
+	m_pTypeInfo[ITEM_CLASS_HELM][12].SetAddonFrameID( ADDONID_HELM3, ADDONID_HELM3 );
+	//m_pTypeInfo[ITEM_CLASS_HELM][12].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][12].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][12].SetValue(400, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][12].Price	= 4000;
+
+
+	m_pTypeInfo[ITEM_CLASS_HELM][13].HName = "마운트 고글";
+	m_pTypeInfo[ITEM_CLASS_HELM][13].EName = "Mount Goggle";
+	m_pTypeInfo[ITEM_CLASS_HELM][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][13].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_HELM][13].SetFrameID( 952, 988, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][13].SetDropFrameID(952 );
+	m_pTypeInfo[ITEM_CLASS_HELM][13].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][13].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][13].SetValue(400, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][13].Price	= 4000;
+	
+	m_pTypeInfo[ITEM_CLASS_HELM][14].HName = "멀티 스카우터";
+	m_pTypeInfo[ITEM_CLASS_HELM][14].EName = "Multi Scouter";
+	m_pTypeInfo[ITEM_CLASS_HELM][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][14].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_HELM][14].SetFrameID( 1067, 1101, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][14].SetDropFrameID(1067 );
+	m_pTypeInfo[ITEM_CLASS_HELM][14].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][14].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][14].SetValue(15800, 29, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][14].Price	= 5900000;
+	itemType = 15;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].HName = "칼리 헬멧";
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].EName = "Khali's Helm";
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetSoundID( SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUND_ITEM_MOVE_HELM, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetFrameID( 446, 460, 0 );
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetDropFrameID( 446 );
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetValue(400, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].Price	= 50000;
+
+#endif
+//	m_pTypeInfo[ITEM_CLASS_HELMET][1].HName = "멀티 스카우터";
+//	m_pTypeInfo[ITEM_CLASS_HELMET][1].EName = "Multi Scouter";
+//	m_pTypeInfo[ITEM_CLASS_HELMET][1].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_HELMET][1].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+//	m_pTypeInfo[ITEM_CLASS_HELMET][1].SetFrameID( 939, 975, 0);
+//	m_pTypeInfo[ITEM_CLASS_HELMET][1].SetDropFrameID(939 );
+//	m_pTypeInfo[ITEM_CLASS_HELMET][1].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_HELMET][1].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_HELMET][1].Price = 0;
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType++;	// 16
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].HName = "ESS 택티컬 고글";
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].EName = "ESS Tactical Goggles";
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetFrameID( 1229, 1272, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetDropFrameID(1229 );
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetValue(16600, 46, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].Weight = 15;
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].Price = 6800000;
+	
+	itemType++;	// 17
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].HName = "미스릴 헬멧";
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].EName = "Mithril Helm";
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetFrameID( 1067, 1101, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetDropFrameID(1067 );
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetAddonFrameID( ADDONID_HELM2, ADDONID_HELM2 );
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].SetValue(17400, 51, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].Weight = 15;
+	m_pTypeInfo[ITEM_CLASS_HELM][itemType].Price = 7700000;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_SG
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(?), MinDam(3)~MaxDam(4), 사정거리(5), Speed(7)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_SG, 17
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)	
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+		);
+	
+	m_pTypeInfo[ITEM_CLASS_SG][0].HName = "MT-10 슈팅 스타";
+	m_pTypeInfo[ITEM_CLASS_SG][0].EName = "SG-7";
+	m_pTypeInfo[ITEM_CLASS_SG][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][0].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][0].SetFrameID( 76, 5, 0 );
+	m_pTypeInfo[ITEM_CLASS_SG][0].SetDropFrameID( 76 );
+	m_pTypeInfo[ITEM_CLASS_SG][0].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][0].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][0].SetValue(800, -1, 13, 18, 4, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][0].Price	= 1500;
+	//m_pTypeInfo[ITEM_CLASS_SG][0].SetRequireAbility(0, 20);
+	m_pTypeInfo[ITEM_CLASS_SG][0].UseActionInfo = SKILL_ATTACK_GUN_SG;	
+
+	m_pTypeInfo[ITEM_CLASS_SG][1].HName = "MT-21 자이언트 스타";
+	m_pTypeInfo[ITEM_CLASS_SG][1].EName = "SG-AC21";
+	m_pTypeInfo[ITEM_CLASS_SG][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][1].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][1].SetFrameID( 75, 6, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][1].SetDropFrameID( 75 );
+	m_pTypeInfo[ITEM_CLASS_SG][1].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][1].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][1].SetValue(2000, -1, 18, 23, 4, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][1].Price	= 5000;
+	//m_pTypeInfo[ITEM_CLASS_SG][1].SetRequireAbility(0, 40);
+	m_pTypeInfo[ITEM_CLASS_SG][1].UseActionInfo = SKILL_ATTACK_GUN_SG;	
+
+	m_pTypeInfo[ITEM_CLASS_SG][2].HName = "MTB-11 코멧 테일";
+	m_pTypeInfo[ITEM_CLASS_SG][2].EName = "SG-LE97";
+	m_pTypeInfo[ITEM_CLASS_SG][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][2].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][2].SetFrameID( 74, 7, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][2].SetDropFrameID( 74 );
+	m_pTypeInfo[ITEM_CLASS_SG][2].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][2].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][2].SetValue(3200, -1, 23, 27, 5, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][2].Price	= 15000;
+	//m_pTypeInfo[ITEM_CLASS_SG][2].SetRequireAbility(0, 60);
+	m_pTypeInfo[ITEM_CLASS_SG][2].UseActionInfo = SKILL_ATTACK_GUN_SG;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SG][3].HName = "AM-99 맘모스99";
+	m_pTypeInfo[ITEM_CLASS_SG][3].EName = "SG-HA99";
+	m_pTypeInfo[ITEM_CLASS_SG][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][3].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][3].SetFrameID( 78, 8, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][3].SetDropFrameID( 78 );
+	m_pTypeInfo[ITEM_CLASS_SG][3].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][3].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][3].SetValue(5000, -1, 27, 32, 5, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][3].Price	= 50000;
+	//m_pTypeInfo[ITEM_CLASS_SG][3].SetRequireAbility(0, 70);
+	m_pTypeInfo[ITEM_CLASS_SG][3].UseActionInfo = SKILL_ATTACK_GUN_SG;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SG][4].HName = "TND-5 아이언피스트";
+	m_pTypeInfo[ITEM_CLASS_SG][4].EName = "SG-N2000";
+	m_pTypeInfo[ITEM_CLASS_SG][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][4].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][4].SetFrameID( 191, 195, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][4].SetDropFrameID( 191 );
+	m_pTypeInfo[ITEM_CLASS_SG][4].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][4].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][4].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][4].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SG][4].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SG][4].UseActionInfo = SKILL_ATTACK_GUN_SG;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SG][5].HName = "SS-10 노크다운";
+	m_pTypeInfo[ITEM_CLASS_SG][5].EName = "SG-N2000";
+	m_pTypeInfo[ITEM_CLASS_SG][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][5].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][5].SetFrameID( 194, 198, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][5].SetDropFrameID( 194 );
+	m_pTypeInfo[ITEM_CLASS_SG][5].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][5].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][5].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][5].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SG][5].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SG][5].UseActionInfo = SKILL_ATTACK_GUN_SG;
+
+	m_pTypeInfo[ITEM_CLASS_SG][6].HName = "RESS-1 데모니악";
+	m_pTypeInfo[ITEM_CLASS_SG][6].EName = "SG-N2000";
+	m_pTypeInfo[ITEM_CLASS_SG][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][6].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][6].SetFrameID( 195, 199, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][6].SetDropFrameID( 195 );
+	m_pTypeInfo[ITEM_CLASS_SG][6].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][6].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][6].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][6].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SG][6].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SG][6].UseActionInfo = SKILL_ATTACK_GUN_SG;
+
+	m_pTypeInfo[ITEM_CLASS_SG][7].HName = "캐스케이드";
+	m_pTypeInfo[ITEM_CLASS_SG][7].EName = "SG-N2000";
+	m_pTypeInfo[ITEM_CLASS_SG][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][7].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][7].SetFrameID( 193, 197, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][7].SetDropFrameID( 193 );
+	m_pTypeInfo[ITEM_CLASS_SG][7].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][7].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][7].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][7].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SG][7].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SG][7].UseActionInfo = SKILL_ATTACK_GUN_SG;
+
+	m_pTypeInfo[ITEM_CLASS_SG][8].HName = "RESS-4a 앨리게이터";
+	m_pTypeInfo[ITEM_CLASS_SG][8].EName = "SG-N2000";
+	m_pTypeInfo[ITEM_CLASS_SG][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][8].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][8].SetFrameID( 192, 196, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][8].SetDropFrameID( 192 );
+	m_pTypeInfo[ITEM_CLASS_SG][8].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][8].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][8].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][8].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SG][8].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SG][8].UseActionInfo = SKILL_ATTACK_GUN_SG;
+
+	m_pTypeInfo[ITEM_CLASS_SG][9].HName = "S-200 스톰";
+	m_pTypeInfo[ITEM_CLASS_SG][9].EName = "SG-N2000";
+	m_pTypeInfo[ITEM_CLASS_SG][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][9].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][9].SetFrameID( 77, 9, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][9].SetDropFrameID( 77 );
+	m_pTypeInfo[ITEM_CLASS_SG][9].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][9].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][9].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][9].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SG][9].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SG][9].UseActionInfo = SKILL_ATTACK_GUN_SG;
+
+	m_pTypeInfo[ITEM_CLASS_SG][10].HName = "ST-2A 샤크쵸퍼";
+	m_pTypeInfo[ITEM_CLASS_SG][10].EName = "ST-2A SharkChopper";
+	m_pTypeInfo[ITEM_CLASS_SG][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][10].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][10].SetFrameID( 358, 372, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][10].SetDropFrameID( 358 );
+	m_pTypeInfo[ITEM_CLASS_SG][10].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][10].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][10].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][10].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SG][10].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SG][10].UseActionInfo = SKILL_ATTACK_GUN_SG;
+
+	m_pTypeInfo[ITEM_CLASS_SG][11].HName = "Spas-12 하이바인더";
+	m_pTypeInfo[ITEM_CLASS_SG][11].EName = "Spas-12 Highbinder";
+	m_pTypeInfo[ITEM_CLASS_SG][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][11].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][11].SetFrameID( 438, 452, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][11].SetDropFrameID( 438 );
+	m_pTypeInfo[ITEM_CLASS_SG][11].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][11].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][11].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][11].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SG][11].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SG][11].UseActionInfo = SKILL_ATTACK_GUN_SG;
+
+	m_pTypeInfo[ITEM_CLASS_SG][12].HName = "S-EV11";
+	m_pTypeInfo[ITEM_CLASS_SG][12].EName = "Explosion";
+	m_pTypeInfo[ITEM_CLASS_SG][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][12].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][12].SetFrameID( 470, 484, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][12].SetDropFrameID( 470 );
+	m_pTypeInfo[ITEM_CLASS_SG][12].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][12].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][12].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][12].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SG][12].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SG][12].UseActionInfo = SKILL_ATTACK_GUN_SG;
+
+	m_pTypeInfo[ITEM_CLASS_SG][13].HName = "PG-13 로크";
+	m_pTypeInfo[ITEM_CLASS_SG][13].EName = "PG-13 Roc";
+	m_pTypeInfo[ITEM_CLASS_SG][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][13].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][13].SetFrameID( 905, 928 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][13].SetDropFrameID( 905 );
+	m_pTypeInfo[ITEM_CLASS_SG][13].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][13].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][13].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][13].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SG][12].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SG][13].UseActionInfo = SKILL_ATTACK_GUN_SG;
+
+	// Sjheon 2005.06.02 Add
+	m_pTypeInfo[ITEM_CLASS_SG][14].HName = "캐터랙트";
+	m_pTypeInfo[ITEM_CLASS_SG][14].EName = "Cataract";
+	m_pTypeInfo[ITEM_CLASS_SG][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][14].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][14].SetFrameID( 193, 197, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][14].SetDropFrameID( 193 );
+	m_pTypeInfo[ITEM_CLASS_SG][14].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][14].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][14].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][14].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SG][7].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SG][14].UseActionInfo = SKILL_ATTACK_GUN_SG;
+
+
+	m_pTypeInfo[ITEM_CLASS_SG][15].HName = "S-200 스톰 컨버트";
+	m_pTypeInfo[ITEM_CLASS_SG][15].EName = "S-200 Storm convert";
+	m_pTypeInfo[ITEM_CLASS_SG][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][15].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][15].SetFrameID( 77, 9, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][15].SetDropFrameID( 77 );
+	m_pTypeInfo[ITEM_CLASS_SG][15].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][15].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][15].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][15].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SG][9].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SG][15].UseActionInfo = SKILL_ATTACK_GUN_SG;
+
+
+	m_pTypeInfo[ITEM_CLASS_SG][16].HName = "S-EV21 뉴클리어";
+	m_pTypeInfo[ITEM_CLASS_SG][16].EName = "S-EV11 nuclear";
+	m_pTypeInfo[ITEM_CLASS_SG][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][16].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][16].SetFrameID( 470, 484, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][16].SetDropFrameID( 470 );
+	m_pTypeInfo[ITEM_CLASS_SG][16].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][16].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][16].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][16].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SG][12].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SG][16].UseActionInfo = SKILL_ATTACK_GUN_SG;
+
+	itemType = 17;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].HName = "Spas-12 칼리 하이바인더";
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].EName = "Spas-12 Khali's Highbinder";
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetFrameID( 438, 452, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetDropFrameID( 438 );
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].Price	= 1900000;
+	m_pTypeInfo[ITEM_CLASS_SG][itemType++].UseActionInfo = SKILL_ATTACK_GUN_SG;
+#endif
+	// Sjheon 2005.06.02 End
+
+#if __CONTENTS(__QUEST_RENEWAL)	//아이템 추가	SS-10 노크다운
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].HName = "발키리 SS-10 노크다운";
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].EName = "Valkirie SS-10 Knockdown";
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetFrameID( 194, 198, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetDropFrameID( 194 );
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].Price	= 52000;
+	//m_pTypeInfo[ITEM_CLASS_SG][5].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SG][itemType++].UseActionInfo = SKILL_ATTACK_GUN_SG;
+#endif	//	__QUEST_RENEWAL
+//	m_pTypeInfo[ITEM_CLASS_SINGLELOADER][1].HName = "블레이저 LRS";
+//	m_pTypeInfo[ITEM_CLASS_SINGLELOADER][1].EName = "Blaser LRS";
+//	m_pTypeInfo[ITEM_CLASS_SINGLELOADER][1].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_SINGLELOADER][1].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+//	m_pTypeInfo[ITEM_CLASS_SINGLELOADER][1].SetFrameID( 939, 975, 0);
+//	m_pTypeInfo[ITEM_CLASS_SINGLELOADER][1].SetDropFrameID(939 );
+//	m_pTypeInfo[ITEM_CLASS_SINGLELOADER][1].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_SINGLELOADER][1].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_SINGLELOADER][1].Price = 0;
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	// i = 19
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].HName = "S-22 웨스턴";
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].EName = "S-22 Western";
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetFrameID( 1230, 1273 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetDropFrameID( 1230 );
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetValue(33000, -1, 31, 39, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].Price	= 5000000;
+	m_pTypeInfo[ITEM_CLASS_SG][itemType++].UseActionInfo = SKILL_ATTACK_GUN_SG;
+
+	// i = 20
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].HName = "USAS-12 오토";
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].EName = "USAS-12 Auto";
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetFrameID( 905, 928 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetDropFrameID( 905 );
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].SetValue(34000, -1, 41, 49, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SG][itemType].Price	= 6000000;
+	m_pTypeInfo[ITEM_CLASS_SG][itemType++].UseActionInfo = SKILL_ATTACK_GUN_SG;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_SMG
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(?), MinDam(3)~MaxDam(4), 사정거리(5), Speed(7)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_SMG, 17
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+	+1
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+	+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+);
+	
+	m_pTypeInfo[ITEM_CLASS_SMG][0].HName = "MD-4";
+	m_pTypeInfo[ITEM_CLASS_SMG][0].EName = "SMG-5";
+	m_pTypeInfo[ITEM_CLASS_SMG][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][0].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][0].SetFrameID( 79, 10, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SMG][0].SetDropFrameID( 79 );
+	m_pTypeInfo[ITEM_CLASS_SMG][0].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][0].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][0].SetValue(900, -1, 11, 15, 4, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][0].Price	= 1500;
+	//m_pTypeInfo[ITEM_CLASS_SMG][0].SetRequireAbility(0, 20);
+	m_pTypeInfo[ITEM_CLASS_SMG][0].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SMG][1].HName = "IS-100 지그";
+	m_pTypeInfo[ITEM_CLASS_SMG][1].EName = "SMG-BS45";
+	m_pTypeInfo[ITEM_CLASS_SMG][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][1].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][1].SetFrameID( 81, 12, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][1].SetDropFrameID( 81 );
+	//m_pTypeInfo[ITEM_CLASS_SMG][1].SetFrameID( 80, 11, 0 );
+	//m_pTypeInfo[ITEM_CLASS_SMG][1].SetDropFrameID( 80 );
+	m_pTypeInfo[ITEM_CLASS_SMG][1].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][1].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][1].SetValue(2000, -1, 15, 19, 4, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][1].Price	= 6000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][1].SetRequireAbility(0, 40);
+	m_pTypeInfo[ITEM_CLASS_SMG][1].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SMG][2].HName = "M-INTER";
+	m_pTypeInfo[ITEM_CLASS_SMG][2].EName = "SMG-HA85";
+	m_pTypeInfo[ITEM_CLASS_SMG][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][2].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][2].SetFrameID( 200, 204, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][2].SetDropFrameID( 200 );
+	m_pTypeInfo[ITEM_CLASS_SMG][2].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][2].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][2].SetValue(3200, -1, 19, 22, 5, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][2].Price	= 17000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][2].SetRequireAbility(0, 60);
+	m_pTypeInfo[ITEM_CLASS_SMG][2].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SMG][3].HName = "B-INTER";
+	m_pTypeInfo[ITEM_CLASS_SMG][3].EName = "SMG-AM100";
+	m_pTypeInfo[ITEM_CLASS_SMG][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][3].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][3].SetFrameID( 199, 203, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][3].SetDropFrameID( 199 );
+	m_pTypeInfo[ITEM_CLASS_SMG][3].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][3].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][3].SetValue(7000, -1, 22, 28, 5, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][3].Price	= 55000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][3].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SMG][3].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SMG][4].HName = "VK-45 드래곤플라이";
+	m_pTypeInfo[ITEM_CLASS_SMG][4].EName = "SMG-S2000";
+	m_pTypeInfo[ITEM_CLASS_SMG][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][4].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][4].SetFrameID( 80, 14, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][4].SetDropFrameID( 80 );
+	m_pTypeInfo[ITEM_CLASS_SMG][4].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][4].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][4].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][4].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][4].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SMG][4].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+	
+	m_pTypeInfo[ITEM_CLASS_SMG][5].HName = "MD-9 스콜피언";
+	m_pTypeInfo[ITEM_CLASS_SMG][5].EName = "SMG-S2000";
+	m_pTypeInfo[ITEM_CLASS_SMG][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][5].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][5].SetFrameID( 197, 201, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][5].SetDropFrameID( 197 );
+	m_pTypeInfo[ITEM_CLASS_SMG][5].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][5].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][5].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][5].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][5].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SMG][5].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+	
+	m_pTypeInfo[ITEM_CLASS_SMG][6].HName = "Smith 바이러스";
+	m_pTypeInfo[ITEM_CLASS_SMG][6].EName = "SMG-S2000";
+	m_pTypeInfo[ITEM_CLASS_SMG][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][6].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][6].SetFrameID( 82, 11, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][6].SetDropFrameID( 82 );	
+	m_pTypeInfo[ITEM_CLASS_SMG][6].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][6].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][6].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][6].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][6].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SMG][6].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+		
+	m_pTypeInfo[ITEM_CLASS_SMG][7].HName = "P2K 이지라이더";
+	m_pTypeInfo[ITEM_CLASS_SMG][7].EName = "SMG-S2000";
+	m_pTypeInfo[ITEM_CLASS_SMG][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][7].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][7].SetFrameID( 83, 13, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][7].SetDropFrameID( 83 );		
+	m_pTypeInfo[ITEM_CLASS_SMG][7].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][7].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][7].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][7].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][7].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SMG][7].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+	
+	m_pTypeInfo[ITEM_CLASS_SMG][8].HName = "MD-Z 제타";
+	m_pTypeInfo[ITEM_CLASS_SMG][8].EName = "SMG-S2000";
+	m_pTypeInfo[ITEM_CLASS_SMG][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][8].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][8].SetFrameID( 198, 202, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][8].SetDropFrameID( 198 );
+	m_pTypeInfo[ITEM_CLASS_SMG][8].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][8].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][8].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][8].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][8].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SMG][8].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+		
+	m_pTypeInfo[ITEM_CLASS_SMG][9].HName = "MD-000 레비아탄";
+	m_pTypeInfo[ITEM_CLASS_SMG][9].EName = "SMG-S2000";
+	m_pTypeInfo[ITEM_CLASS_SMG][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][9].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][9].SetFrameID( 196, 200, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][9].SetDropFrameID( 196 );
+	m_pTypeInfo[ITEM_CLASS_SMG][9].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][9].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][9].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][9].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][9].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SMG][9].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+	
+	m_pTypeInfo[ITEM_CLASS_SMG][10].HName = "NS-32 네이비";
+	m_pTypeInfo[ITEM_CLASS_SMG][10].EName = "NS-32 Navy";
+	m_pTypeInfo[ITEM_CLASS_SMG][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][10].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][10].SetFrameID( 356, 370, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][10].SetDropFrameID( 356 );
+	m_pTypeInfo[ITEM_CLASS_SMG][10].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][10].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][10].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][10].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][10].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SMG][10].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+
+	m_pTypeInfo[ITEM_CLASS_SMG][11].HName = "OICW-플링거";
+	m_pTypeInfo[ITEM_CLASS_SMG][11].EName = "OICW-Flinger";
+	m_pTypeInfo[ITEM_CLASS_SMG][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][11].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][11].SetFrameID( 439, 453, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][11].SetDropFrameID( 439 );
+	m_pTypeInfo[ITEM_CLASS_SMG][11].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][11].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][11].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][11].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][11].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SMG][11].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+
+	m_pTypeInfo[ITEM_CLASS_SMG][12].HName = "KH-03A1";
+	m_pTypeInfo[ITEM_CLASS_SMG][12].EName = "Mobius";
+	m_pTypeInfo[ITEM_CLASS_SMG][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][12].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][12].SetFrameID( 472, 486, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][12].SetDropFrameID( 472 );
+	m_pTypeInfo[ITEM_CLASS_SMG][12].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][12].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][12].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][12].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][12].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SMG][12].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+
+
+	m_pTypeInfo[ITEM_CLASS_SMG][13].HName = "MG-90 실프";
+	m_pTypeInfo[ITEM_CLASS_SMG][13].EName = "MG-90 Shylph";
+	m_pTypeInfo[ITEM_CLASS_SMG][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][13].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][13].SetFrameID(  904,927 ,0);
+	m_pTypeInfo[ITEM_CLASS_SMG][13].SetDropFrameID( 904 );
+	m_pTypeInfo[ITEM_CLASS_SMG][13].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][13].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][13].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][13].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][12].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SMG][13].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+
+
+
+	// Sjheon 2005.06.02 Add
+	m_pTypeInfo[ITEM_CLASS_SMG][14].HName = "P2K 소울스파우트";
+	m_pTypeInfo[ITEM_CLASS_SMG][14].EName = "P2K Soul spout";
+	m_pTypeInfo[ITEM_CLASS_SMG][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][14].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][14].SetFrameID( 83, 13, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][14].SetDropFrameID( 83 );		
+	m_pTypeInfo[ITEM_CLASS_SMG][14].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][14].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][14].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][14].Price	= 110000;
+	m_pTypeInfo[ITEM_CLASS_SMG][14].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+
+
+	m_pTypeInfo[ITEM_CLASS_SMG][15].HName = "MD-000 크라켄";
+	m_pTypeInfo[ITEM_CLASS_SMG][15].EName = "MD-000 Kraken";
+	m_pTypeInfo[ITEM_CLASS_SMG][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][15].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][15].SetFrameID( 196, 200, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][15].SetDropFrameID( 196 );
+	m_pTypeInfo[ITEM_CLASS_SMG][15].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][15].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][15].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][15].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][9].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SMG][15].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+
+
+	m_pTypeInfo[ITEM_CLASS_SMG][16].HName = "KH-05A1 뫼비우스";
+	m_pTypeInfo[ITEM_CLASS_SMG][16].EName = "KH-05A1 Mobius";
+	m_pTypeInfo[ITEM_CLASS_SMG][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][16].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][16].SetFrameID( 472, 486, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][16].SetDropFrameID( 472 );
+	m_pTypeInfo[ITEM_CLASS_SMG][16].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][16].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][16].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][16].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][12].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SMG][16].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+
+	itemType	= 17;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].HName = "칼리 플린저";
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].EName = "Khali's Flinger";
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetFrameID( 439, 453, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetDropFrameID( 439 );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].Price	= 1950000;
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType++].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)	//아이템 추가		MD-9 스콜피언
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].HName = "발키리 MD-9 스콜피언";
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].EName = "Valkirie MD-9 Scorpion";
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetFrameID( 197, 201, 0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetDropFrameID( 197 );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].Price	= 42000;
+	//m_pTypeInfo[ITEM_CLASS_SMG][5].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType++].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+#endif	// __QUEST_RENEWAL
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	// i = 19
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].HName = "우지";
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].EName = "UZI";
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetFrameID( 1239, 1282 ,0 );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetDropFrameID( 1239 );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetValue(33000, -1, 28, 34, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].Price	= 5000000;
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType++].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+
+	// i = 20
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].HName = "톰슨";
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].EName = "Thomson";
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetFrameID(  904,927 ,0);
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetDropFrameID( 904 );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].SetValue(34000, -1, 38, 44, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType].Price	= 6000000;
+	m_pTypeInfo[ITEM_CLASS_SMG][itemType++].UseActionInfo = SKILL_ATTACK_GUN_SMG;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_AR
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(?), MinDam(3)~MaxDam(4), 사정거리(5), Speed(7)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_AR, 19
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+		);
+
+	m_pTypeInfo[ITEM_CLASS_AR][0].HName = "MK-74 비셔스";
+	m_pTypeInfo[ITEM_CLASS_AR][0].EName = "AR-95";
+	m_pTypeInfo[ITEM_CLASS_AR][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][0].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][0].SetFrameID( 84, 0, 0 );	
+	m_pTypeInfo[ITEM_CLASS_AR][0].SetDropFrameID( 84 );
+	m_pTypeInfo[ITEM_CLASS_AR][0].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][0].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][0].SetValue(850, -1, 11, 15, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][0].Weight = 1;	
+	m_pTypeInfo[ITEM_CLASS_AR][0].Price	= 1700;
+	//m_pTypeInfo[ITEM_CLASS_AR][0].SetRequireAbility(0, 20);
+	m_pTypeInfo[ITEM_CLASS_AR][0].UseActionInfo = SKILL_ATTACK_GUN_AR;
+	
+
+	m_pTypeInfo[ITEM_CLASS_AR][1].HName = "P-1A 폴란";
+	m_pTypeInfo[ITEM_CLASS_AR][1].EName = "AR-L591";
+	m_pTypeInfo[ITEM_CLASS_AR][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][1].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][1].SetFrameID( 85, 1, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][1].SetDropFrameID( 85 );
+	m_pTypeInfo[ITEM_CLASS_AR][1].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][1].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][1].SetValue(2150, -1, 15, 18, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][1].Price	= 6000;
+	//m_pTypeInfo[ITEM_CLASS_AR][1].SetRequireAbility(0, 40);
+	m_pTypeInfo[ITEM_CLASS_AR][1].UseActionInfo = SKILL_ATTACK_GUN_AR;
+	
+
+	m_pTypeInfo[ITEM_CLASS_AR][2].HName = "MK-101 구스";
+	m_pTypeInfo[ITEM_CLASS_AR][2].EName = "AR-LA";
+	m_pTypeInfo[ITEM_CLASS_AR][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][2].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][2].SetFrameID( 86, 2, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][2].SetDropFrameID( 86 );
+	m_pTypeInfo[ITEM_CLASS_AR][2].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][2].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][2].SetValue(3300, -1, 18, 22, 7, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][2].Price	= 20000;
+	//m_pTypeInfo[ITEM_CLASS_AR][2].SetRequireAbility(0, 60);
+	m_pTypeInfo[ITEM_CLASS_AR][2].UseActionInfo = SKILL_ATTACK_GUN_AR;	
+
+	m_pTypeInfo[ITEM_CLASS_AR][3].HName = "MK-2 G2";
+	m_pTypeInfo[ITEM_CLASS_AR][3].EName = "AR-C2000";
+	m_pTypeInfo[ITEM_CLASS_AR][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][3].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][3].SetFrameID( 203, 207, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][3].SetDropFrameID( 203 );
+	m_pTypeInfo[ITEM_CLASS_AR][3].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][3].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][3].SetValue(7500, -1, 22, 28, 7, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][3].Price	= 54000;
+	//m_pTypeInfo[ITEM_CLASS_AR][3].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_AR][3].UseActionInfo = SKILL_ATTACK_GUN_AR;
+	
+
+	m_pTypeInfo[ITEM_CLASS_AR][4].HName = "MK-2000 G2000";
+	m_pTypeInfo[ITEM_CLASS_AR][4].EName = "AR-NU01";
+	m_pTypeInfo[ITEM_CLASS_AR][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][4].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][4].SetFrameID( 88, 3, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][4].SetDropFrameID( 88 );
+	m_pTypeInfo[ITEM_CLASS_AR][4].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][4].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][4].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][4].Price	= 115000;
+	//m_pTypeInfo[ITEM_CLASS_AR][4].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_AR][4].UseActionInfo = SKILL_ATTACK_GUN_AR;
+	
+	m_pTypeInfo[ITEM_CLASS_AR][5].HName = "P-61S 미네르바";
+	m_pTypeInfo[ITEM_CLASS_AR][5].EName = "AR-NU01";
+	m_pTypeInfo[ITEM_CLASS_AR][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][5].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][5].SetFrameID( 87, 4, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][5].SetDropFrameID( 87 );
+	m_pTypeInfo[ITEM_CLASS_AR][5].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][5].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][5].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][5].Price	= 115000;
+	//m_pTypeInfo[ITEM_CLASS_AR][5].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_AR][5].UseActionInfo = SKILL_ATTACK_GUN_AR;
+	
+	m_pTypeInfo[ITEM_CLASS_AR][6].HName = "IS-200 퓨리";
+	m_pTypeInfo[ITEM_CLASS_AR][6].EName = "AR-NU01";
+	m_pTypeInfo[ITEM_CLASS_AR][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][6].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][6].SetFrameID( 202, 206, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][6].SetDropFrameID( 202 );
+	m_pTypeInfo[ITEM_CLASS_AR][6].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][6].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][6].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][6].Price	= 115000;
+	//m_pTypeInfo[ITEM_CLASS_AR][6].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_AR][6].UseActionInfo = SKILL_ATTACK_GUN_AR;
+	
+	m_pTypeInfo[ITEM_CLASS_AR][7].HName = "MK-2002 워해머";
+	m_pTypeInfo[ITEM_CLASS_AR][7].EName = "AR-NU01";
+	m_pTypeInfo[ITEM_CLASS_AR][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][7].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][7].SetFrameID( 201, 205, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][7].SetDropFrameID( 201 );
+	m_pTypeInfo[ITEM_CLASS_AR][7].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][7].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][7].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][7].Price	= 115000;
+	//m_pTypeInfo[ITEM_CLASS_AR][7].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_AR][7].UseActionInfo = SKILL_ATTACK_GUN_AR;
+	
+	m_pTypeInfo[ITEM_CLASS_AR][8].HName = "P-38 소돔";
+	m_pTypeInfo[ITEM_CLASS_AR][8].EName = "AR-NU01";
+	m_pTypeInfo[ITEM_CLASS_AR][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][8].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][8].SetFrameID( 205, 209, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][8].SetDropFrameID( 205 );
+	m_pTypeInfo[ITEM_CLASS_AR][8].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][8].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][8].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][8].Price	= 115000;
+	//m_pTypeInfo[ITEM_CLASS_AR][8].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_AR][8].UseActionInfo = SKILL_ATTACK_GUN_AR;
+	
+	m_pTypeInfo[ITEM_CLASS_AR][9].HName = "P-40 엘 캐슬";
+	m_pTypeInfo[ITEM_CLASS_AR][9].EName = "AR-NU01";
+	m_pTypeInfo[ITEM_CLASS_AR][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][9].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][9].SetFrameID( 204, 208, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][9].SetDropFrameID( 204 );
+	m_pTypeInfo[ITEM_CLASS_AR][9].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][9].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][9].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][9].Price	= 115000;
+	//m_pTypeInfo[ITEM_CLASS_AR][9].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_AR][9].UseActionInfo = SKILL_ATTACK_GUN_AR;
+	
+	m_pTypeInfo[ITEM_CLASS_AR][10].HName = "AR-파이어스톰";
+	m_pTypeInfo[ITEM_CLASS_AR][10].EName = "AR-FireStorm";
+	m_pTypeInfo[ITEM_CLASS_AR][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][10].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][10].SetFrameID( 357, 371, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][10].SetDropFrameID( 357 );
+	m_pTypeInfo[ITEM_CLASS_AR][10].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][10].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][10].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][10].Price	= 115000;
+	//m_pTypeInfo[ITEM_CLASS_AR][10].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_AR][10].UseActionInfo = SKILL_ATTACK_GUN_AR;
+
+	m_pTypeInfo[ITEM_CLASS_AR][11].HName = "AR-파이어버그";
+	m_pTypeInfo[ITEM_CLASS_AR][11].EName = "AR-FireBug";
+	m_pTypeInfo[ITEM_CLASS_AR][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][11].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][11].SetFrameID( 440, 454, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][11].SetDropFrameID( 440 );
+	m_pTypeInfo[ITEM_CLASS_AR][11].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][11].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][11].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][11].Price	= 115000;
+	//m_pTypeInfo[ITEM_CLASS_AR][11].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_AR][11].UseActionInfo = SKILL_ATTACK_GUN_AR;
+
+	m_pTypeInfo[ITEM_CLASS_AR][12].HName = "EA-V1";
+	m_pTypeInfo[ITEM_CLASS_AR][12].EName = "Angel Guard";
+	m_pTypeInfo[ITEM_CLASS_AR][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][12].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][12].SetFrameID( 469, 483, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][12].SetDropFrameID( 469 );
+	m_pTypeInfo[ITEM_CLASS_AR][12].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][12].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][12].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][12].Price	= 115000;
+	//m_pTypeInfo[ITEM_CLASS_AR][12].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_AR][12].UseActionInfo = SKILL_ATTACK_GUN_AR;
+
+	m_pTypeInfo[ITEM_CLASS_AR][13].HName = "LM-700 카라";
+	m_pTypeInfo[ITEM_CLASS_AR][13].EName = "LM-700 Kar";
+	m_pTypeInfo[ITEM_CLASS_AR][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][13].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][13].SetFrameID( 903, 926, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][13].SetDropFrameID( 903 );
+	m_pTypeInfo[ITEM_CLASS_AR][13].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][13].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][13].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][13].Price	= 115000;
+	//m_pTypeInfo[ITEM_CLASS_AR][12].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_AR][13].UseActionInfo = SKILL_ATTACK_GUN_AR;
+
+	m_pTypeInfo[ITEM_CLASS_AR][14].HName = "바탈리온";
+	m_pTypeInfo[ITEM_CLASS_AR][14].EName = "Battalion";
+	m_pTypeInfo[ITEM_CLASS_AR][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][14].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_AR][14].SetFrameID( 953, 989, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][14].SetDropFrameID(953 );
+	m_pTypeInfo[ITEM_CLASS_AR][14].SetAddonFrameID( ADDONID_GUN_SMG, ADDONID_GUN_SMG );
+	m_pTypeInfo[ITEM_CLASS_AR][14].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_AR][14].SetValue(9900, -1, 28, 35, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][14].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_AR][14].UseActionInfo = SKILL_ATTACK_GUN_AR; //SKILL_ATTACK_GUN_SMG;
+
+
+	// Sjheon 2005.06.02 Add
+	m_pTypeInfo[ITEM_CLASS_AR][15].HName = "MK-2002 워해머 컨버트";
+	m_pTypeInfo[ITEM_CLASS_AR][15].EName = "MK-2002 Warhammer convert";
+	m_pTypeInfo[ITEM_CLASS_AR][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][15].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][15].SetFrameID( 201, 205, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][15].SetDropFrameID( 201 );
+	m_pTypeInfo[ITEM_CLASS_AR][15].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][15].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][15].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][15].Price	= 115000;
+	//m_pTypeInfo[ITEM_CLASS_AR][7].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_AR][15].UseActionInfo = SKILL_ATTACK_GUN_AR;
+
+
+	m_pTypeInfo[ITEM_CLASS_AR][16].HName = "P-40 엘 캐슬 컨버트";
+	m_pTypeInfo[ITEM_CLASS_AR][16].EName = "P-40 El Castle convert";
+	m_pTypeInfo[ITEM_CLASS_AR][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][16].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][16].SetFrameID( 204, 208, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][16].SetDropFrameID( 204 );
+	m_pTypeInfo[ITEM_CLASS_AR][16].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][16].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][16].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][16].Price	= 115000;
+	//m_pTypeInfo[ITEM_CLASS_AR][9].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_AR][16].UseActionInfo = SKILL_ATTACK_GUN_AR;
+
+
+	m_pTypeInfo[ITEM_CLASS_AR][17].HName = "EA-V4 루시페르";
+	m_pTypeInfo[ITEM_CLASS_AR][17].EName = "EA-V4 Luxferre";
+	m_pTypeInfo[ITEM_CLASS_AR][17].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][17].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][17].SetFrameID( 469, 483, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][17].SetDropFrameID( 469 );
+	m_pTypeInfo[ITEM_CLASS_AR][17].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][17].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][17].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][17].Price	= 115000;
+	//m_pTypeInfo[ITEM_CLASS_AR][12].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_AR][17].UseActionInfo = SKILL_ATTACK_GUN_AR;
+
+
+	// Sjheon 2005.06.02 En
+	m_pTypeInfo[ITEM_CLASS_AR][18].HName = "카발";
+	m_pTypeInfo[ITEM_CLASS_AR][18].EName = "Cabal";
+	m_pTypeInfo[ITEM_CLASS_AR][18].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][18].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][18].SetFrameID( 1055, 1089, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][18].SetDropFrameID( 1055 );
+	m_pTypeInfo[ITEM_CLASS_AR][18].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][18].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][18].SetValue(34000 , -1, 32, 38, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][18].Price	= 6000000;
+	m_pTypeInfo[ITEM_CLASS_AR][18].UseActionInfo = SKILL_ATTACK_GUN_AR;
+	
+	itemType	= 19;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].HName = "칼리 파이어버그";
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].EName = "Khali's Firebug";
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetFrameID( 440, 454, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetDropFrameID( 440 );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].Price	= 2200000;
+	m_pTypeInfo[ITEM_CLASS_AR][itemType++].UseActionInfo = SKILL_ATTACK_GUN_AR;
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)	//아이템 추가		P-61S 미네르바
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].HName = "발키리 P-61S 미네르바";
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].EName = "Valkirie P-61S Minerva";
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetFrameID( 87, 4, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetDropFrameID( 87 );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetValue(10000, -1, 28, 33, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].Price	= 47000;
+	//m_pTypeInfo[ITEM_CLASS_AR][5].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_AR][itemType++].UseActionInfo = SKILL_ATTACK_GUN_AR;
+#endif	// __QUEST_RENEWAL
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	// i = 21
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].HName = "AK-47 헬파이어";
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].EName = "AK-47 Hellfire";
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetFrameID( 1228, 1271, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetDropFrameID( 1228 );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetValue(35000 , -1, 52, 58, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].Price	= 7000000;
+	m_pTypeInfo[ITEM_CLASS_AR][itemType++].UseActionInfo = SKILL_ATTACK_GUN_AR;
+
+	// i = 22
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].HName = "K-3 데들리존";
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].EName = "K-3 Deadlyzone";
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetFrameID( 1055, 1089, 0 );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetDropFrameID( 1055 );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetAddonFrameID( ADDONID_GUN_AR, ADDONID_GUN_AR );
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].SetValue(36000 , -1, 62, 41, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_AR][itemType].Price	= 8000000;
+	m_pTypeInfo[ITEM_CLASS_AR][itemType++].UseActionInfo = SKILL_ATTACK_GUN_AR;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_SR
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(?), MinDam(3)~MaxDam(4), 사정거리(5), Speed(7)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_SR, 19
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+		);
+
+	m_pTypeInfo[ITEM_CLASS_SR][0].HName = "X-31M 밀라노";
+	m_pTypeInfo[ITEM_CLASS_SR][0].EName = "TR-33";
+	m_pTypeInfo[ITEM_CLASS_SR][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][0].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][0].SetFrameID( 89, 15, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SR][0].SetDropFrameID( 89 );
+	m_pTypeInfo[ITEM_CLASS_SR][0].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][0].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][0].SetValue(900, -1, 10, 16, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][0].Price	= 1700;
+	//m_pTypeInfo[ITEM_CLASS_SR][0].SetRequireAbility(0, 20);
+	m_pTypeInfo[ITEM_CLASS_SR][0].UseActionInfo = SKILL_ATTACK_GUN_SR;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SR][1].HName = "X-55 V2";
+	m_pTypeInfo[ITEM_CLASS_SR][1].EName = "TR-R59";
+	m_pTypeInfo[ITEM_CLASS_SR][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][1].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][1].SetFrameID( 90, 16, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][1].SetDropFrameID( 90 );
+	m_pTypeInfo[ITEM_CLASS_SR][1].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][1].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][1].SetValue(2300, -1, 16, 18, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][1].Price	= 6000;
+	//m_pTypeInfo[ITEM_CLASS_SR][1].SetRequireAbility(0, 40);
+	m_pTypeInfo[ITEM_CLASS_SR][1].UseActionInfo = SKILL_ATTACK_GUN_SR;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SR][2].HName = "페룬";
+	m_pTypeInfo[ITEM_CLASS_SR][2].EName = "TR-L61";
+	m_pTypeInfo[ITEM_CLASS_SR][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][2].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][2].SetFrameID( 92, 17, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][2].SetDropFrameID( 92 );
+	m_pTypeInfo[ITEM_CLASS_SR][2].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][2].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][2].SetValue(4200, -1, 18, 23, 7, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][2].Price	= 20000;
+	//m_pTypeInfo[ITEM_CLASS_SR][2].SetRequireAbility(0, 60);
+	m_pTypeInfo[ITEM_CLASS_SR][2].UseActionInfo = SKILL_ATTACK_GUN_SR;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SR][3].HName = "X-45T 토마호크";
+	m_pTypeInfo[ITEM_CLASS_SR][3].EName = "TR-P99";
+	m_pTypeInfo[ITEM_CLASS_SR][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][3].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][3].SetFrameID( 208, 212, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][3].SetDropFrameID( 208 );
+	m_pTypeInfo[ITEM_CLASS_SR][3].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][3].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][3].SetValue(6000, -1, 23, 28, 7, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][3].Price	= 60000;
+	//m_pTypeInfo[ITEM_CLASS_SR][3].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SR][3].UseActionInfo = SKILL_ATTACK_GUN_SR;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SR][4].HName = "IS-99 하피";
+	m_pTypeInfo[ITEM_CLASS_SR][4].EName = "TR-TS900";
+	m_pTypeInfo[ITEM_CLASS_SR][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][4].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][4].SetFrameID( 93, 18, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][4].SetDropFrameID( 93 );
+	//m_pTypeInfo[ITEM_CLASS_SR][4].SetFrameID( 91, 19, 0 );
+	//m_pTypeInfo[ITEM_CLASS_SR][4].SetDropFrameID( 91 );
+	m_pTypeInfo[ITEM_CLASS_SR][4].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][4].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][4].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][4].Price	= 140000;
+	//m_pTypeInfo[ITEM_CLASS_SR][4].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SR][4].UseActionInfo = SKILL_ATTACK_GUN_SR;
+	
+	m_pTypeInfo[ITEM_CLASS_SR][5].HName = "SR-1 톨스토이";
+	m_pTypeInfo[ITEM_CLASS_SR][5].EName = "TR-TS900";
+	m_pTypeInfo[ITEM_CLASS_SR][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][5].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][5].SetFrameID( 210, 214, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][5].SetDropFrameID( 210 );
+	m_pTypeInfo[ITEM_CLASS_SR][5].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][5].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][5].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][5].Price	= 140000;
+	//m_pTypeInfo[ITEM_CLASS_SR][5].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SR][5].UseActionInfo = SKILL_ATTACK_GUN_SR;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SR][6].HName = "GX90 홀트";
+	m_pTypeInfo[ITEM_CLASS_SR][6].EName = "TR-TS900";
+	m_pTypeInfo[ITEM_CLASS_SR][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][6].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][6].SetFrameID( 209, 213, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][6].SetDropFrameID( 209 );
+	m_pTypeInfo[ITEM_CLASS_SR][6].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][6].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][6].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][6].Price	= 140000;
+	//m_pTypeInfo[ITEM_CLASS_SR][6].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SR][6].UseActionInfo = SKILL_ATTACK_GUN_SR;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SR][7].HName = "톰보이";
+	m_pTypeInfo[ITEM_CLASS_SR][7].EName = "TR-TS900";
+	m_pTypeInfo[ITEM_CLASS_SR][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][7].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][7].SetFrameID( 207, 211, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][7].SetDropFrameID( 207 );
+	m_pTypeInfo[ITEM_CLASS_SR][7].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][7].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][7].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][7].Price	= 140000;
+	//m_pTypeInfo[ITEM_CLASS_SR][7].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SR][7].UseActionInfo = SKILL_ATTACK_GUN_SR;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SR][8].HName = "하야부사";
+	m_pTypeInfo[ITEM_CLASS_SR][8].EName = "TR-TS900";
+	m_pTypeInfo[ITEM_CLASS_SR][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][8].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][8].SetFrameID( 91, 19, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][8].SetDropFrameID( 91 );
+	m_pTypeInfo[ITEM_CLASS_SR][8].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][8].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][8].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][8].Price	= 140000;
+	//m_pTypeInfo[ITEM_CLASS_SR][8].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SR][8].UseActionInfo = SKILL_ATTACK_GUN_SR;
+	
+
+	m_pTypeInfo[ITEM_CLASS_SR][9].HName = "IS-101 모데라토";
+	m_pTypeInfo[ITEM_CLASS_SR][9].EName = "TR-TS900";
+	m_pTypeInfo[ITEM_CLASS_SR][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][9].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][9].SetFrameID( 206, 210, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][9].SetDropFrameID( 206 );
+	m_pTypeInfo[ITEM_CLASS_SR][9].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][9].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][9].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][9].Price	= 140000;
+	//m_pTypeInfo[ITEM_CLASS_SR][9].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SR][9].UseActionInfo = SKILL_ATTACK_GUN_SR;
+	
+	m_pTypeInfo[ITEM_CLASS_SR][10].HName = "BFG-50";
+	m_pTypeInfo[ITEM_CLASS_SR][10].EName = "BFG-50";
+	m_pTypeInfo[ITEM_CLASS_SR][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][10].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][10].SetFrameID( 359, 373, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][10].SetDropFrameID( 359 );
+	m_pTypeInfo[ITEM_CLASS_SR][10].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][10].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][10].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][10].Price	= 140000;
+	//m_pTypeInfo[ITEM_CLASS_SR][10].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SR][10].UseActionInfo = SKILL_ATTACK_GUN_SR;
+	
+	m_pTypeInfo[ITEM_CLASS_SR][11].HName = "BFG-50 데쓰니들";
+	m_pTypeInfo[ITEM_CLASS_SR][11].EName = "BFG-50 DeathNeedle";
+	m_pTypeInfo[ITEM_CLASS_SR][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][11].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][11].SetFrameID( 441, 455, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][11].SetDropFrameID( 441 );
+	m_pTypeInfo[ITEM_CLASS_SR][11].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][11].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][11].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][11].Price	= 140000;
+	//m_pTypeInfo[ITEM_CLASS_SR][11].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SR][11].UseActionInfo = SKILL_ATTACK_GUN_SR;
+
+	m_pTypeInfo[ITEM_CLASS_SR][12].HName = "T-03";
+	m_pTypeInfo[ITEM_CLASS_SR][12].EName = "Nightmare";
+	m_pTypeInfo[ITEM_CLASS_SR][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][12].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][12].SetFrameID( 471, 485, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][12].SetDropFrameID( 471 );
+	m_pTypeInfo[ITEM_CLASS_SR][12].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][12].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][12].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][12].Price	= 140000;
+	//m_pTypeInfo[ITEM_CLASS_SR][12].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SR][12].UseActionInfo = SKILL_ATTACK_GUN_SR;
+
+
+	m_pTypeInfo[ITEM_CLASS_SR][13].HName = "v-03 케모스";
+	m_pTypeInfo[ITEM_CLASS_SR][13].EName = "V-03 Chmos";
+	m_pTypeInfo[ITEM_CLASS_SR][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][13].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][13].SetFrameID( 906, 929 ,0 );
+	m_pTypeInfo[ITEM_CLASS_SR][13].SetDropFrameID( 906 );
+	m_pTypeInfo[ITEM_CLASS_SR][13].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][13].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][13].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][13].Price	= 140000;
+	//m_pTypeInfo[ITEM_CLASS_SR][12].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SR][13].UseActionInfo = SKILL_ATTACK_GUN_SR;
+
+
+	m_pTypeInfo[ITEM_CLASS_SR][14].HName = "택티컬 스카우트";
+	m_pTypeInfo[ITEM_CLASS_SR][14].EName = "Tactical Scout";
+	m_pTypeInfo[ITEM_CLASS_SR][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][14].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_SR][14].SetFrameID( 955, 991, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][14].SetDropFrameID(955 );
+	m_pTypeInfo[ITEM_CLASS_SR][14].SetAddonFrameID( ADDONID_GUN_SG, ADDONID_GUN_SG );
+	m_pTypeInfo[ITEM_CLASS_SR][14].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][14].SetValue(10000, -1, 32, 40, 6, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][14].Price	= 110000;
+	//m_pTypeInfo[ITEM_CLASS_SG][12].SetRequireAbility(0, 80);
+	m_pTypeInfo[ITEM_CLASS_SR][14].UseActionInfo = SKILL_ATTACK_GUN_SR;
+	
+
+
+	// Sjheon 2005.06.02 Add
+
+	m_pTypeInfo[ITEM_CLASS_SR][15].HName = "RR.웬디";
+	m_pTypeInfo[ITEM_CLASS_SR][15].EName = "RR.wendy";
+	m_pTypeInfo[ITEM_CLASS_SR][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][15].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][15].SetFrameID( 207, 211, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][15].SetDropFrameID( 207 );
+	m_pTypeInfo[ITEM_CLASS_SR][15].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][15].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][15].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][15].Price	= 140000;
+	//m_pTypeInfo[ITEM_CLASS_SR][7].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SR][15].UseActionInfo = SKILL_ATTACK_GUN_SR;
+
+	
+	m_pTypeInfo[ITEM_CLASS_SR][16].HName = "IS-112 모데라토";
+	m_pTypeInfo[ITEM_CLASS_SR][16].EName = "IS-112 Moderato";
+	m_pTypeInfo[ITEM_CLASS_SR][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][16].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][16].SetFrameID( 206, 210, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][16].SetDropFrameID( 206 );
+	m_pTypeInfo[ITEM_CLASS_SR][16].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][16].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][16].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][16].Price	= 140000;
+	//m_pTypeInfo[ITEM_CLASS_SR][9].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SR][16].UseActionInfo = SKILL_ATTACK_GUN_SR;
+
+
+	m_pTypeInfo[ITEM_CLASS_SR][17].HName = "T-03 나이트메어 컨버트";
+	m_pTypeInfo[ITEM_CLASS_SR][17].EName = "T-03 Nightmare convert";
+	m_pTypeInfo[ITEM_CLASS_SR][17].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][17].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][17].SetFrameID( 471, 485, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][17].SetDropFrameID( 471 );
+	m_pTypeInfo[ITEM_CLASS_SR][17].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][17].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][17].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][17].Price	= 140000;
+	//m_pTypeInfo[ITEM_CLASS_SR][12].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SR][17].UseActionInfo = SKILL_ATTACK_GUN_SR;
+
+
+	m_pTypeInfo[ITEM_CLASS_SR][18].HName = "블레이저 LRS";
+	m_pTypeInfo[ITEM_CLASS_SR][18].EName = "Blaser LRS";
+	m_pTypeInfo[ITEM_CLASS_SR][18].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][18].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][18].SetFrameID( 1054, 1088, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][18].SetDropFrameID( 1054 );
+	m_pTypeInfo[ITEM_CLASS_SR][18].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][18].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][18].SetValue(34000 , -1, 46, 57, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][18].Price	= 6000000;
+	m_pTypeInfo[ITEM_CLASS_SR][18].UseActionInfo = SKILL_ATTACK_GUN_SR;
+
+	itemType	= 19;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].HName = "BFG-50 칼리 데쓰니들";
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].EName = "BFG-50 Khali's DeathNeedle";
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetFrameID( 441, 455, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetDropFrameID( 441 );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].Price = 2750000;
+	m_pTypeInfo[ITEM_CLASS_SR][itemType++].UseActionInfo = SKILL_ATTACK_GUN_SR;
+#endif
+	// Sjheon 2005.06.02 End
+
+#if __CONTENTS(__QUEST_RENEWAL)	//아이템 추가		SR-1 톨스토이;
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].HName = "발키리 SR-1 톨스토이";
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].EName = "Valkirie SR-1 Tolstoi";
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetFrameID( 210, 214, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetDropFrameID( 210 );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetValue(10500, -1, 30, 35, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].Price	= 79000;
+	//m_pTypeInfo[ITEM_CLASS_SR][5].SetRequireAbility(0, 90);
+	m_pTypeInfo[ITEM_CLASS_SR][itemType++].UseActionInfo = SKILL_ATTACK_GUN_SR;
+#endif	// __QUEST_RENEWAL
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	// i = 21
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].HName = "드라그노프 레이너";
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].EName = "Dragunov Rayner";
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetFrameID( 1231, 1274, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetDropFrameID( 1231 );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetValue(33000 , -1, 65, 74, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].Price	= 7000000;
+	m_pTypeInfo[ITEM_CLASS_SR][itemType++].UseActionInfo = SKILL_ATTACK_GUN_SR;
+
+	// i = 22
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].HName = "PSG-1 헬게이트";
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].EName = "PSG-1 Hellgate";
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetSoundID( SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUND_ITEM_MOVE_GUN, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetFrameID( 1054, 1088, 0 );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetDropFrameID( 1054 );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetAddonFrameID( ADDONID_GUN_SR, ADDONID_GUN_SR );
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].SetValue(36000 , -1, 75, 84, 8, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SR][itemType].Price	= 8000000;
+	m_pTypeInfo[ITEM_CLASS_SR][itemType++].UseActionInfo = SKILL_ATTACK_GUN_SR;
+#endif //__NEW_ADVANCEMENT_ITEM
+	
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_BOMB
+	//---------------------------------------------------------------------
+	// MinDam(1)~MaxDam(2)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_BOMB, 5 );
+
+	m_pTypeInfo[ITEM_CLASS_BOMB][0].HName = "스플린터";
+	m_pTypeInfo[ITEM_CLASS_BOMB][0].EName = "Splinter";
+	m_pTypeInfo[ITEM_CLASS_BOMB][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB][0].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BOMB][0].SetFrameID( 245, 250, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB][0].SetDropFrameID( 245 );
+	m_pTypeInfo[ITEM_CLASS_BOMB][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BOMB][0].SetValue(5, 10);
+	m_pTypeInfo[ITEM_CLASS_BOMB][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB][0].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_BOMB][0].UseActionInfo = BOMB_SPLINTER;
+
+	m_pTypeInfo[ITEM_CLASS_BOMB][1].HName = "에이서";
+	m_pTypeInfo[ITEM_CLASS_BOMB][1].EName = "Acer";
+	m_pTypeInfo[ITEM_CLASS_BOMB][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB][1].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BOMB][1].SetFrameID( 246, 252, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB][1].SetDropFrameID( 246 );
+	m_pTypeInfo[ITEM_CLASS_BOMB][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BOMB][1].SetValue(7, 14);
+	m_pTypeInfo[ITEM_CLASS_BOMB][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB][1].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_BOMB][1].UseActionInfo = BOMB_ACER;
+
+	m_pTypeInfo[ITEM_CLASS_BOMB][2].HName = "불스";
+	m_pTypeInfo[ITEM_CLASS_BOMB][2].EName = "Bulls";
+	m_pTypeInfo[ITEM_CLASS_BOMB][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB][2].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BOMB][2].SetFrameID( 247, 254, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB][2].SetDropFrameID( 247 );
+	m_pTypeInfo[ITEM_CLASS_BOMB][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BOMB][2].SetValue(12, 20);
+	m_pTypeInfo[ITEM_CLASS_BOMB][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB][2].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_BOMB][2].UseActionInfo = BOMB_BULLS;
+
+	m_pTypeInfo[ITEM_CLASS_BOMB][3].HName = "스턴";
+	m_pTypeInfo[ITEM_CLASS_BOMB][3].EName = "Stun";
+	m_pTypeInfo[ITEM_CLASS_BOMB][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB][3].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BOMB][3].SetFrameID( 252, 264, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB][3].SetDropFrameID( 252 );
+	m_pTypeInfo[ITEM_CLASS_BOMB][3].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_BOMB][3].SetValue(18, 23);
+	m_pTypeInfo[ITEM_CLASS_BOMB][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB][3].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_BOMB][3].UseActionInfo = BOMB_STUN;
+
+	m_pTypeInfo[ITEM_CLASS_BOMB][4].HName = "크로스보우";
+	m_pTypeInfo[ITEM_CLASS_BOMB][4].EName = "Crossbow";
+	m_pTypeInfo[ITEM_CLASS_BOMB][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB][4].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BOMB][4].SetFrameID( 248, 256, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB][4].SetDropFrameID( 248 );
+	m_pTypeInfo[ITEM_CLASS_BOMB][4].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_BOMB][4].SetValue(20, 30);
+	m_pTypeInfo[ITEM_CLASS_BOMB][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB][4].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_BOMB][4].UseActionInfo = BOMB_CROSSBOW;
+
+	/*
+	m_pTypeInfo[ITEM_CLASS_BOMB][5].HName = "트위스터";
+	m_pTypeInfo[ITEM_CLASS_BOMB][5].EName = "Twister";
+	m_pTypeInfo[ITEM_CLASS_BOMB][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BOMB][5].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BOMB][5].SetFrameID( 99, 148, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BOMB][5].SetDropFrameID( 99 );
+	m_pTypeInfo[ITEM_CLASS_BOMB][5].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_BOMB][5].SetValue(28, 35);
+	m_pTypeInfo[ITEM_CLASS_BOMB][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BOMB][5].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_BOMB][5].UseActionInfo = BOMB_TWISTER;
+	*/
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_MINE
+	//---------------------------------------------------------------------
+	// MinDam(1)~MaxDam(2)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_MINE, 5 );
+	
+	m_pTypeInfo[ITEM_CLASS_MINE][0].HName = "앵클킬러";
+	m_pTypeInfo[ITEM_CLASS_MINE][0].EName = "AnkleKiller";
+	m_pTypeInfo[ITEM_CLASS_MINE][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MINE][0].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MINE][0].SetFrameID( 270, 284, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MINE][0].SetDropFrameID( 270 );
+	m_pTypeInfo[ITEM_CLASS_MINE][0].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_MINE][0].SetValue(12, 20);
+	m_pTypeInfo[ITEM_CLASS_MINE][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MINE][0].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_MINE][0].UseActionInfo = MINE_ANKLE_KILLER;
+
+	m_pTypeInfo[ITEM_CLASS_MINE][1].HName = "폼즈";
+	m_pTypeInfo[ITEM_CLASS_MINE][1].EName = "Pomz";
+	m_pTypeInfo[ITEM_CLASS_MINE][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MINE][1].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MINE][1].SetFrameID( 249, 258, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MINE][1].SetDropFrameID( 249 );
+	m_pTypeInfo[ITEM_CLASS_MINE][1].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_MINE][1].SetValue(18, 25);
+	m_pTypeInfo[ITEM_CLASS_MINE][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MINE][1].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_MINE][1].UseActionInfo = MINE_POMZ;
+
+	m_pTypeInfo[ITEM_CLASS_MINE][2].HName = "AP-C1";
+	m_pTypeInfo[ITEM_CLASS_MINE][2].EName = "AP-C1";
+	m_pTypeInfo[ITEM_CLASS_MINE][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MINE][2].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MINE][2].SetFrameID( 253, 265, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MINE][2].SetDropFrameID( 253 );
+	m_pTypeInfo[ITEM_CLASS_MINE][2].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_MINE][2].SetValue(22, 27);
+	m_pTypeInfo[ITEM_CLASS_MINE][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MINE][2].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_MINE][2].UseActionInfo = MINE_AP_C1;
+
+	m_pTypeInfo[ITEM_CLASS_MINE][3].HName = "다이아몬드백";
+	m_pTypeInfo[ITEM_CLASS_MINE][3].EName = "DiamondBack";
+	m_pTypeInfo[ITEM_CLASS_MINE][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MINE][3].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MINE][3].SetFrameID( 251, 262, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MINE][3].SetDropFrameID( 251 );
+	m_pTypeInfo[ITEM_CLASS_MINE][3].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_MINE][3].SetValue(25, 35);
+	m_pTypeInfo[ITEM_CLASS_MINE][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MINE][3].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_MINE][3].UseActionInfo = MINE_DIAMONDBACK;
+
+	m_pTypeInfo[ITEM_CLASS_MINE][4].HName = "Swift-EX";
+	m_pTypeInfo[ITEM_CLASS_MINE][4].EName = "Swift-EX";
+	m_pTypeInfo[ITEM_CLASS_MINE][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MINE][4].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MINE][4].SetFrameID( 250, 260, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MINE][4].SetDropFrameID( 250 );
+	m_pTypeInfo[ITEM_CLASS_MINE][4].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_MINE][4].SetValue(25, 35);
+	m_pTypeInfo[ITEM_CLASS_MINE][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MINE][4].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_MINE][4].UseActionInfo = MINE_SWIFT_EX;
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_BELT
+	//---------------------------------------------------------------------
+	// 내구성(?), Protection(2), 포켓수(3), Def(6)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_BELT, 8 
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+		);
+
+	m_pTypeInfo[ITEM_CLASS_BELT][0].HName = "벨트";
+	m_pTypeInfo[ITEM_CLASS_BELT][0].EName = "Belt";
+	m_pTypeInfo[ITEM_CLASS_BELT][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BELT][0].SetSoundID( SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BELT][0].SetFrameID( 104, 90, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BELT][0].SetDropFrameID( 104 );
+	m_pTypeInfo[ITEM_CLASS_BELT][0].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BELT][0].SetValue(1000, 0, 2, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BELT][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BELT][0].Price	= 2000;
+
+	m_pTypeInfo[ITEM_CLASS_BELT][1].HName = "벨트";
+	m_pTypeInfo[ITEM_CLASS_BELT][1].EName = "Belt(4)";
+	m_pTypeInfo[ITEM_CLASS_BELT][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BELT][1].SetSoundID( SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BELT][1].SetFrameID( 105, 91, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BELT][1].SetDropFrameID( 105 );
+	m_pTypeInfo[ITEM_CLASS_BELT][1].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BELT][1].SetValue(2000, 0, 4, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BELT][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BELT][1].Price	= 10000;
+
+	m_pTypeInfo[ITEM_CLASS_BELT][2].HName = "벨트";
+	m_pTypeInfo[ITEM_CLASS_BELT][2].EName = "Belt(6)";
+	m_pTypeInfo[ITEM_CLASS_BELT][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BELT][2].SetSoundID( SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BELT][2].SetFrameID( 106, 92, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BELT][2].SetDropFrameID( 106 );
+	m_pTypeInfo[ITEM_CLASS_BELT][2].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BELT][2].SetValue(3000, 0, 6, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BELT][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BELT][2].Price	= 50000;
+
+	m_pTypeInfo[ITEM_CLASS_BELT][3].HName = "벨트";
+	m_pTypeInfo[ITEM_CLASS_BELT][3].EName = "Belt(8)";
+	m_pTypeInfo[ITEM_CLASS_BELT][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BELT][3].SetSoundID( SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BELT][3].SetFrameID( 107, 93, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BELT][3].SetDropFrameID( 107 );
+	m_pTypeInfo[ITEM_CLASS_BELT][3].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BELT][3].SetValue(4000, 0, 8, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BELT][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BELT][3].Price	= 250000;
+
+	m_pTypeInfo[ITEM_CLASS_BELT][4].HName = "V-벨트";
+	m_pTypeInfo[ITEM_CLASS_BELT][4].EName = "v-belt";
+	m_pTypeInfo[ITEM_CLASS_BELT][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BELT][4].SetSoundID( SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BELT][4].SetFrameID( 351, 365, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BELT][4].SetDropFrameID( 351 );
+	m_pTypeInfo[ITEM_CLASS_BELT][4].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BELT][4].SetValue(4000, 0, 8, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BELT][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BELT][4].Price	= 250000;
+
+	m_pTypeInfo[ITEM_CLASS_BELT][5].HName = "워 벨트";
+	m_pTypeInfo[ITEM_CLASS_BELT][5].EName = "War Belt";
+	m_pTypeInfo[ITEM_CLASS_BELT][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BELT][5].SetSoundID( SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BELT][5].SetFrameID( 449, 463, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BELT][5].SetDropFrameID( 449 );
+	m_pTypeInfo[ITEM_CLASS_BELT][5].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BELT][5].SetValue(4000, 0, 8, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BELT][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BELT][5].Price	= 250000;
+
+	m_pTypeInfo[ITEM_CLASS_BELT][6].HName = "숄더 벨트";
+	m_pTypeInfo[ITEM_CLASS_BELT][6].EName = "Shoulder Belt";
+	m_pTypeInfo[ITEM_CLASS_BELT][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BELT][6].SetSoundID( SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BELT][6].SetFrameID( 478, 492, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BELT][6].SetDropFrameID( 478 );
+	m_pTypeInfo[ITEM_CLASS_BELT][6].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BELT][6].SetValue(4000, 0, 8, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BELT][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BELT][6].Price	= 250000;
+
+	m_pTypeInfo[ITEM_CLASS_BELT][7].HName = "웨스턴  벨트";
+	m_pTypeInfo[ITEM_CLASS_BELT][7].EName = "Western Belt";
+	m_pTypeInfo[ITEM_CLASS_BELT][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BELT][7].SetSoundID( SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BELT][7].SetFrameID( 926 , 949 ,0);	
+	m_pTypeInfo[ITEM_CLASS_BELT][7].SetDropFrameID( 926 );//DJ 2006.12.14
+	m_pTypeInfo[ITEM_CLASS_BELT][7].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BELT][7].SetValue(4000, 0, 8, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BELT][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BELT][7].Price	= 250000;
+	itemType	= 8;
+
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].HName = "칼리 벨트";
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].EName = "Khali's Belt";
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetSoundID( SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetFrameID( 449, 463, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetDropFrameID( 449 );
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetValue(4000, 0, 8, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].Price	= 45000;
+	itemType++;
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].HName = "벨트";
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].EName = "Belt(6)";
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetSoundID( SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetFrameID( 106, 92, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetDropFrameID( 106 );
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetValue(3000, 0, 6, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].Price	=  12000;
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType++;	// 10
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].HName = "워렛트 체인";
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].EName = "Warret Chain";
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetSoundID( SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetFrameID( 1240, 1283, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetDropFrameID( 1240 );
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetValue(10000, 15, 9, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].Weight = 6;
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].Price = 5000000;
+
+	itemType++;	// 11
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].HName = "다이아나 레더 벨트";
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].EName = "Diana Leather Belt";
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetSoundID( SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUND_ITEM_MOVE_BELT, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetFrameID( 449, 463, 0 );	
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetDropFrameID( 449 );
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].SetValue(10800, 20, 9, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].Weight = 6;
+	m_pTypeInfo[ITEM_CLASS_BELT][itemType].Price = 6000000;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_LEARNINGITEM
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_LEARNINGITEM, 9 );
+
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][0].HName = "스크롤";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][0].EName = "Scroll";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][0].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_USE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][0].SetFrameID( 108, 70, 0 );	
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][0].SetDropFrameID( 108 );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][0].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][1].HName = "컴퓨터 디스켓";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][1].EName = "Diskette";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][1].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_USE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][1].SetFrameID( 109, 65, 0 );	
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][1].SetDropFrameID( 109 );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][1].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][2].HName = "집 드라이브";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][2].EName = "Zip Drive";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][2].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_USE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][2].SetFrameID( 110, 66, 0 );	
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][2].SetDropFrameID( 110 );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][2].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][3].HName = "CD";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][3].EName = "CD";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][3].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_USE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][3].SetFrameID( 111, 64, 0 );	
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][3].SetDropFrameID( 111 );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][3].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][4].HName = "뱀부 피스";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][4].EName = "Trite Bamboo";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][4].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_USE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][4].SetFrameID( 112, 68, 0 );	
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][4].SetDropFrameID( 112 );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][4].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][4].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][5].HName = "오리엔탈 북";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][5].EName = "Oriental Book";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][5].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_USE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][5].SetFrameID( 113, 67, 0 );	
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][5].SetDropFrameID( 113 );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][5].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][5].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][6].HName = "바이블";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][6].EName = "Bible";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][6].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_USE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][6].SetFrameID( 114, 69, 0 );	
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][6].SetDropFrameID( 114 );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][6].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][6].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][7].HName = "에이션트 북";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][7].EName = "Ancient Book";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][7].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_USE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][7].SetFrameID( 115, 71, 0 );	
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][7].SetDropFrameID( 115 );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][7].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][7].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][8].HName = "파일";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][8].EName = "File";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][8].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_USE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][8].SetFrameID( 116, 72, 0 );	
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][8].SetDropFrameID( 116 );
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][8].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_LEARNINGITEM][8].Price	= 0;
+
+
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_MONEY
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_MONEY, 3 );
+
+	m_pTypeInfo[ITEM_CLASS_MONEY][0].HName = "레이";
+	m_pTypeInfo[ITEM_CLASS_MONEY][0].EName = "Lei";
+	m_pTypeInfo[ITEM_CLASS_MONEY][0].Description = "슬레이어의 화폐";
+	m_pTypeInfo[ITEM_CLASS_MONEY][0].SetSoundID( SOUND_ITEM_MOVE_MONEY, SOUND_ITEM_MOVE_MONEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MONEY][0].SetFrameID( 117, 37, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MONEY][0].SetDropFrameID( 117 );
+	m_pTypeInfo[ITEM_CLASS_MONEY][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MONEY][0].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_MONEY][1].HName = "겔드";
+	m_pTypeInfo[ITEM_CLASS_MONEY][1].EName = "Geld";
+	m_pTypeInfo[ITEM_CLASS_MONEY][1].Description = "뱀파이어의 화폐";
+	m_pTypeInfo[ITEM_CLASS_MONEY][1].SetSoundID( SOUND_ITEM_MOVE_MONEY, SOUND_ITEM_MOVE_MONEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MONEY][1].SetFrameID( 304, 318, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MONEY][1].SetDropFrameID( 304 );
+	m_pTypeInfo[ITEM_CLASS_MONEY][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MONEY][1].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_MONEY][2].HName = "돈";
+	m_pTypeInfo[ITEM_CLASS_MONEY][2].EName = "Money";
+	m_pTypeInfo[ITEM_CLASS_MONEY][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MONEY][2].SetSoundID( SOUND_ITEM_MOVE_MONEY, SOUND_ITEM_MOVE_MONEY, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MONEY][2].SetFrameID( 681, 695, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MONEY][2].SetDropFrameID( 681 );
+	m_pTypeInfo[ITEM_CLASS_MONEY][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_MONEY][2].Weight = 1;
+
+//	m_pTypeInfo[ITEM_CLASS_MONEY][3].HName = "자드";
+//	m_pTypeInfo[ITEM_CLASS_MONEY][3].EName = "Zard";
+//	m_pTypeInfo[ITEM_CLASS_MONEY][3].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_MONEY][3].SetSoundID( SOUND_ITEM_MOVE_MONEY, SOUND_ITEM_MOVE_MONEY, SOUNDID_NULL, SOUNDID_NULL );
+//	m_pTypeInfo[ITEM_CLASS_MONEY][3].SetFrameID( 118, 39, 0 );	
+//	m_pTypeInfo[ITEM_CLASS_MONEY][3].SetDropFrameID( 118 );
+//	m_pTypeInfo[ITEM_CLASS_MONEY][3].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_MONEY][3].Weight = 1;
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_CORPSE
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_CORPSE, 1 );
+
+	m_pTypeInfo[ITEM_CLASS_CORPSE][0].HName = "시체";
+	m_pTypeInfo[ITEM_CLASS_CORPSE][0].EName = "Corpse";
+	m_pTypeInfo[ITEM_CLASS_CORPSE][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_CORPSE][0].SetSoundID( SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_CORPSE][0].SetFrameID( 0, 500, 0 );	
+	m_pTypeInfo[ITEM_CLASS_CORPSE][0].SetDropFrameID( 0 );
+	m_pTypeInfo[ITEM_CLASS_CORPSE][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_CORPSE][0].Weight = 1;
+
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_VAMPIRE_RING
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(2), Def(6)
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_VAMPIRE_RING, 15
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+#if __CONTENTS(__ADVANCEMENT_NEW_UNIQUE_ITEM)
+		+1
+#endif //__ADVANCEMENT_NEW_UNIQUE_ITEM
+		);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][0].HName = "아이언 링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][0].EName = "Iron Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][0].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][0].SetFrameID( 134, 78, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][0].SetDropFrameID( 134 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][0].SetValue(250, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][0].Price	= 1000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][1].HName = "실버 링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][1].EName = "Silver Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][1].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][1].SetFrameID( 138, 79, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][1].SetDropFrameID( 138 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][1].SetValue(300, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][1].Price	= 2500;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][2].HName = "윙클 링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][2].EName = "Winkle Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][2].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][2].SetFrameID( 137, 80, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][2].SetDropFrameID( 137 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][2].SetValue(410, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][2].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][3].HName = "길트 링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][3].EName = "Gilt Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][3].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][3].SetFrameID( 136, 81, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][3].SetDropFrameID( 136 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][3].SetValue(550, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][3].Price	= 10000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][4].HName = "앤티 썬 링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][4].EName = "Anti Sun Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][4].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][4].SetFrameID( 135, 82, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][4].SetDropFrameID( 135 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][4].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][4].Price	= 50000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][5].HName = "블루 시듀선";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][5].EName = "Anti Sun Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][5].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][5].SetFrameID( 166, 170, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][5].SetDropFrameID( 166 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][5].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][5].Price	= 50000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][6].HName = "블러드 서커";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][6].EName = "Anti Sun Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][6].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][6].SetFrameID( 167, 171, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][6].SetDropFrameID( 167 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][6].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][6].Price	= 50000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][7].HName = "언홀리 쉴드";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][7].EName = "Anti Sun Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][7].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][7].SetFrameID( 168, 172, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][7].SetDropFrameID( 168 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][7].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][7].Price	= 50000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][8].HName = "링 오브 스컬즈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][8].EName = "Ring of Skulls";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][8].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][8].SetFrameID( 170, 174, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][8].SetDropFrameID( 170 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][8].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][8].Price	= 50000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][9].HName = "스파이더 아이즈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][9].EName = "Spider Eyes";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][9].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][9].SetFrameID( 169, 173, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][9].SetDropFrameID( 169 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][9].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][9].Price	= 50000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][10].HName = "모탈 링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][10].EName = "Mortal Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][10].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][10].SetFrameID( 362, 376, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][10].SetDropFrameID( 362 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][10].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][10].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][10].Price	= 50000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][11].HName = "펜릴 링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][11].EName = "Fenrir Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][11].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][11].SetFrameID( 459, 473, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][11].SetDropFrameID( 459 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][11].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][11].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][11].Price	= 50000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][12].HName = "아스프 링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][12].EName = "Asp Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][12].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][12].SetFrameID( 486, 500, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][12].SetDropFrameID( 486 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][12].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][12].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][12].Price	= 50000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][13].HName = "알렉산드라이트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][13].EName = "Alexandrite";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][13].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][13].SetFrameID( 924 , 947 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][13].SetDropFrameID( 924 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][13].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][13].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][13].Price	= 50000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][14].HName = "헬 가든의 반지";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][14].EName = "Ring Of Hellgarden";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][14].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][14].SetFrameID( 924 , 947 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][14].SetDropFrameID( 924 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][14].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][14].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][14].Price	= 50000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][14].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_TRADE;
+
+	itemType	= 15;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].HName = "오시리스 링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].EName = "Osiris Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetFrameID( 459, 473, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetDropFrameID( 459 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Price	= 125000;
+	itemType++;
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].HName = "릴리스 앤티 썬 링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].EName = "Lilith Anti-Sun Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetFrameID( 135, 82, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetDropFrameID( 135 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetValue(700, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Price	= 13000;
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType++;	// 17
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].HName = "해저드 링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].EName = "Hazard Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetFrameID( 1226, 1269 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetDropFrameID( 1226 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetValue(30000, 17, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Weight = 2;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Price	= 1000000;
+
+	itemType++;	// 18
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].HName = "데몬 스컬 링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].EName = "Demon Skull Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetFrameID( 924 , 947 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetDropFrameID( 924 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetValue(35000, 22, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Weight = 2;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Price	= 2000000;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+#if __CONTENTS(__ADVANCEMENT_NEW_UNIQUE_ITEM)
+	itemType++; // 19
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].HName = "피의 맹세";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].EName = "Pledge in Blood";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetFrameID( 1341, 1385 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetDropFrameID( 1341 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].SetValue(35000, 22, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Weight = 2;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_RING][itemType].Price = 999999;
+#endif //__ADVANCEMENT_NEW_UNIQUE_ITEM	
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_VAMPIRE_BRACELET
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(2), Def(6)
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_VAMPIRE_BRACELET, 13
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+		);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][0].HName = "레이스 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][0].EName = "Lace Bracelet";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][0].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][0].SetFrameID( 141, 86, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][0].SetDropFrameID( 141 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][0].SetValue(300, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][0].Price	= 1000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][1].HName = "아머리얼 블레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][1].EName = "Armorial Bracelet";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][1].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][1].SetFrameID( 140, 85, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][1].SetDropFrameID( 140 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][1].SetValue(450, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][1].Price	= 2500;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][2].HName = "쥬웰 블레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][2].EName = "Jewel Bracelet";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][2].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][2].SetFrameID( 142, 87, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][2].SetDropFrameID( 142 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][2].SetValue(600, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][2].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][3].HName = "마스터 블레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][3].EName = "Master Bracelet";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][3].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][3].SetFrameID( 139, 88, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][3].SetDropFrameID( 139 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][3].SetValue(800, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][3].Price	= 12000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][4].HName = "모거나이트 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][4].EName = "Master Bracelet";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][4].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][4].SetFrameID( 175, 179, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][4].SetDropFrameID( 175 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][4].SetValue(800, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][4].Price	= 12000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][5].HName = "블루 모노아이";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][5].EName = "Master Bracelet";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][5].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][5].SetFrameID( 174, 178, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][5].SetDropFrameID( 174 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][5].SetValue(800, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][5].Price	= 12000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][6].HName = "블루워터";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][6].EName = "Master Bracelet";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][6].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][6].SetFrameID( 173, 177, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][6].SetDropFrameID( 173 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][6].SetValue(800, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][6].Price	= 12000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][7].HName = "바이퍼 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][7].EName = "Master Bracelet";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][7].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][7].SetFrameID( 171, 175, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][7].SetDropFrameID( 171 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][7].SetValue(800, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][7].Price	= 12000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][8].HName = "어비스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][8].EName = "the Abyss";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][8].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][8].SetFrameID( 172, 176, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][8].SetDropFrameID( 172 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][8].SetValue(800, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][8].Price	= 12000;
+	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][9].HName = "어페피 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][9].EName = "Apepi Braclet";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][9].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][9].SetFrameID( 361, 375, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][9].SetDropFrameID( 361 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][9].SetValue(800, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][9].Price	= 12000;
+	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][10].HName = "킨 블레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][10].EName = "Keen Bracelet";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][10].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][10].SetFrameID( 458, 472, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][10].SetDropFrameID( 458 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][10].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][10].SetValue(800, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][10].Price	= 12000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][11].HName = "라피스 라즐리";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][11].EName = "Lapis Lazuli";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][11].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][11].SetFrameID( 487, 501, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][11].SetDropFrameID( 487 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][11].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][11].SetValue(800, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][11].Price	= 12000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][12].HName = "벨라돈나";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][12].EName = "Belladonna";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][12].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][12].SetFrameID( 915 , 938 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][12].SetDropFrameID( 915 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][12].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][12].SetValue(800, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][12].Price	= 12000;
+	itemType = 13;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].HName = "오시리스 블레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].EName = "Osiris Bracelet";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetFrameID( 458, 472, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetDropFrameID( 458 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetValue(800, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].Price	= 12000;
+
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType++;	// 14
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].HName = "할로우 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].EName = "Hallow Bracelet";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetFrameID( 1225, 1268 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetDropFrameID( 1225 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetValue(30000, 16, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].Price	= 1000000;
+
+	itemType++;	// 14
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].HName = "바스카 브레이슬릿";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].EName = "Baska Bracelet";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetSoundID( SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUND_ITEM_MOVE_BRACELET, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetFrameID( 915 , 938 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetDropFrameID( 915 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].SetValue(35000, 21, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_BRACELET][itemType].Price	= 2000000;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_VAMPIRE_NECKLACE
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(2), Def(6)
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_VAMPIRE_NECKLACE, 15
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+#if __CONTENTS(__ADVANCEMENT_NEW_UNIQUE_ITEM)
+		+1
+#endif //__ADVANCEMENT_NEW_UNIQUE_ITEM
+		);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][0].HName = "부메랑 네크리스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][0].EName = "Boomerang Necklace";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][0].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][0].SetFrameID( 129, 73, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][0].SetDropFrameID( 129 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][0].SetValue(200, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][0].Price	= 2000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][1].HName = "스컬 네크리스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][1].EName = "Skull Necklace";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][1].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][1].SetFrameID( 132, 74, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][1].SetDropFrameID( 132 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][1].SetValue(300, 2, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][1].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][2].HName = "커스피드 네크리스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][2].EName = "Spid Necklace";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][2].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][2].SetFrameID( 133, 77, 0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][2].SetDropFrameID( 133 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][2].SetValue(450, 3, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][2].Price	= 12000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][3].HName = "젯 네크리스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][3].EName = "Jet Necklace";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][3].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][3].SetFrameID( 130, 76, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][3].SetDropFrameID( 130 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][3].SetValue(700, 4, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][3].Price	= 50000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][4].HName = "아이돌 네크리스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][4].EName = "Idol Necklace";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][4].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][4].SetFrameID( 131, 75, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][4].SetDropFrameID( 131 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][4].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][4].Price	= 150000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][5].HName = "앤티 크로스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][5].EName = "Idol Necklace";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][5].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][5].SetFrameID( 180, 181, 0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][5].SetDropFrameID( 180 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][5].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][5].Price	= 150000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][6].HName = "데스 스타";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][6].EName = "Idol Necklace";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][6].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][6].SetFrameID( 179, 182, 0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][6].SetDropFrameID( 179 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][6].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][6].Price	= 150000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][7].HName = "오멘 아뮬렛";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][7].EName = "Idol Necklace";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][7].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][7].SetFrameID( 178, 183, 0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][7].SetDropFrameID( 178 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][7].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][7].Price	= 150000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][8].HName = "블랙 앵크";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][8].EName = "Black Ankh";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][8].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][8].SetFrameID( 176, 180, 0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][8].SetDropFrameID( 176 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][8].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][8].Price	= 150000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][9].HName = "죽은 자의 날개";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][9].EName = "Wing of the Dead";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][9].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][9].SetFrameID( 177, 184, 0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][9].SetDropFrameID( 177 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][9].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][9].Price	= 150000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][10].HName = "골든윙";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][10].EName = "Golden Wings";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][10].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][10].SetFrameID( 360, 374, 0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][10].SetDropFrameID( 360 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][10].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][10].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][10].Price	= 150000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][11].HName = "이블 아이";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][11].EName = "Evil Eye";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][11].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][11].SetFrameID( 457, 471, 0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][11].SetDropFrameID( 457 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][11].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][11].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][11].Price	= 150000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][12].HName = "파프니르 네클리스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][12].EName = "Fegfnir Necklace";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][12].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][12].SetFrameID( 489, 503, 0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][12].SetDropFrameID( 489 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][12].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][12].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][12].Price	= 150000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][13].HName = "우자트 네클리스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][13].EName = "Uzat Necklace";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][13].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][13].SetFrameID( 925 , 948 ,0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][13].SetDropFrameID( 925 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][13].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][13].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][13].Price	= 150000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][14].HName = "헬 가든의 목걸이";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][14].EName = "Necklace Of Hellgarden";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][14].Description = "헬 가든의 목걸이";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][14].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][14].SetFrameID( 925 , 948 ,0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][14].SetDropFrameID( 925 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][14].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][14].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][14].Price	= 150000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][14].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_TRADE;
+	itemType = 15;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].HName = "오시리스 아이";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].EName = "Osiris Eye";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetFrameID( 457, 471, 0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetDropFrameID( 457 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].Price	= 125000;
+
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType++;	// 16
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].HName = "레이어드 페이틀";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].EName = "Layard Fatal";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetFrameID( 1221, 1264 ,0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetDropFrameID( 1221 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetValue(30000, 17, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].Price	= 1000000;
+
+	itemType++;	// 17
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].HName = "블러드 토르말린";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].EName = "Blood Tourmaline";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetFrameID( 925 , 948 ,0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetDropFrameID( 925 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetValue(35000, 22, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].Price	= 1000000;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+#if __CONTENTS(__ADVANCEMENT_NEW_UNIQUE_ITEM)
+	itemType++; // 18
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].HName = "애메시스트 세르펜트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].EName = "Amethyst Serpent";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetSoundID( SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUND_ITEM_MOVE_NECKLACE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetFrameID( 1339, 1383 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetDropFrameID( 1339 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].SetValue(30000, 22, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_NECKLACE][itemType].Price = 999999;
+#endif //__ADVANCEMENT_NEW_UNIQUE_ITEM
+
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_VAMPIRE_COAT
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(2), Def(6)
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_VAMPIRE_COAT, 24
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+2
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+		+2
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+4
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][0].HName = "스윙 코트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][0].EName = "Swing Coat";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][0].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][0].SetFrameID( 144, 83, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][0].SetDropFrameID( 144 );	//DJ 2006 12 13 144 제외 되어 있었음 
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][0].SetAddonFrameID( 2, 3 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][0].SetAddonFrameID( 2, 3 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][0].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][0].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][0].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][1].HName = "바디 슈트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][1].EName = "Body Suit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][1].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][1].SetFrameID( 145, 84, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][1].SetDropFrameID( 145 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][1].SetAddonFrameID( 2, 3 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][1].SetAddonFrameID( 2, 3 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][1].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][1].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][1].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][2].HName = "프록 코트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][2].EName = "Frock Coat";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][2].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][2].SetFrameID( 144, 83, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][2].SetDropFrameID( 144 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][2].SetAddonFrameID( 2, 3 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][2].SetAddonFrameID( 2, 3 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][2].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][2].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][2].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][3].HName = "점프 슈트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][3].EName = "Jump Suit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][3].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][3].SetFrameID( 145, 84, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][3].SetDropFrameID( 145 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][3].SetAddonFrameID( 2, 3 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][3].SetAddonFrameID( 2, 3 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][3].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][3].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][3].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][4].HName = "슬리퍼리 로브";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][4].EName = "Slipery Robe";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][4].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][4].SetFrameID( 462, 476, 0 );//( 402, 416, 0);//	//
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][4].SetDropFrameID( 462 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][4].SetAddonFrameID( 4, 5 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][4].SetAddonFrameID( 514, 515 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][4].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][4].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][4].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][5].HName = "플룸 클록";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][5].EName = "Plume Cloak";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][5].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][5].SetFrameID( 403, 417, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][5].SetDropFrameID( 403 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][5].SetAddonFrameID( 4, 5 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][5].SetAddonFrameID( 514, 515 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][5].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][5].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][5].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][6].HName = "하이딩 로브";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][6].EName = "Hiding Robe";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][6].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][6].SetFrameID( 462, 476, 0 );//( 402, 416, 0);	//	//
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][6].SetDropFrameID( 462 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][6].SetAddonFrameID( 4, 5 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][6].SetAddonFrameID( 514, 515 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][6].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][6].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][6].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][7].HName = "레비테이트디 클록";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][7].EName = "Levitated Cloak";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][7].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][7].SetFrameID( 403, 417, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][7].SetDropFrameID( 403 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][7].SetAddonFrameID( 4, 5 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][7].SetAddonFrameID( 514, 515 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][7].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][7].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][7].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][8].HName = "안티-썬 폴";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][8].EName = "Anti-Sun Pall";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][8].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][8].SetFrameID( 430, 444, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][8].SetDropFrameID( 430 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][8].SetAddonFrameID( 6, 7 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][8].SetAddonFrameID( 558, 559 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][8].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][8].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][8].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][9].HName = "안티-썬 코프";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][9].EName = "Anti-Sun Cope";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][9].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][9].SetFrameID( 431, 445, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][9].SetDropFrameID( 431 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][9].SetAddonFrameID( 6, 7 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][9].SetAddonFrameID( 558, 559 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][9].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][9].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][9].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][10].HName = "마스터 폴";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][10].EName = "Master Pall";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][10].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][10].SetFrameID( 430, 444, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][10].SetDropFrameID( 430 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][10].SetAddonFrameID( 6, 7 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][10].SetAddonFrameID( 558, 559 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][10].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][10].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][10].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][11].HName = "마스터 코프";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][11].EName = "Master Cope";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][11].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][11].SetFrameID( 431, 445, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][11].SetDropFrameID( 431 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][11].SetAddonFrameID( 6, 7 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][11].SetAddonFrameID( 558, 559 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][11].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][11].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][11].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][12].HName = "커맨더 코트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][12].EName = "Commander Coat M";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][12].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][12].SetFrameID( 363, 377, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][12].SetDropFrameID( 363 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][12].SetAddonFrameID( 6, 7 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][12].SetAddonFrameID( 558, 559 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][12].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][12].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][12].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][13].HName = "커맨더 코트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][13].EName = "Commander Coat W";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][13].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][13].SetFrameID( 364, 378, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][13].SetDropFrameID( 364 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][13].SetAddonFrameID( 6, 7 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][13].SetAddonFrameID( 558, 559 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][13].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][13].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][13].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][14].HName = "블러드 폴";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][14].EName = "Blood pall";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][14].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][14].SetFrameID( 454, 468, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][14].SetDropFrameID( 454 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][14].SetAddonFrameID( 6, 7 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][14].SetAddonFrameID( 558, 559 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][14].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][14].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][14].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][15].HName = "블러드 콥";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][15].EName = "Blood cope";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][15].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][15].SetFrameID( 455, 469, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][15].SetDropFrameID( 455 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][15].SetAddonFrameID( 6, 7 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][15].SetAddonFrameID( 558, 559 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][15].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][15].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][15].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][16].HName = "로리카 코트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][16].EName = "Lorica Coat M";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][16].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][16].SetFrameID( 484, 498, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][16].SetDropFrameID( 484 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][16].SetAddonFrameID( 6, 7 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][16].SetAddonFrameID( 558, 559 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][16].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][16].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][16].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][17].HName = "로리카 코트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][17].EName = "Lorica Coat W";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][17].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][17].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][17].SetFrameID( 483, 497, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][17].SetDropFrameID( 483 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][17].SetAddonFrameID( 6, 7 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][17].SetAddonFrameID( 558, 559 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][17].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][17].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][17].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][18].HName = "아퀘튼 코트-M";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][18].EName = "Aqueton Coat M";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][18].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][18].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][18].SetFrameID( 922 , 945 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][18].SetDropFrameID( 922 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][18].SetAddonFrameID( 8, 9 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][18].SetAddonFrameID( 804, 805 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][18].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][18].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][18].Weight = 1;
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][19].HName = "아퀘튼 코트-W";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][19].EName = "Aqueton Coat W";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][19].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][19].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][19].SetFrameID( 923 , 946 ,0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][19].SetDropFrameID( 923 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][19].SetAddonFrameID( 8, 9 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][19].SetAddonFrameID( 804, 805 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][19].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][19].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][19].Weight = 1;//	// 뱀파 코트 2단 임시막기용
+
+	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][20].HName = "디파이언스 클록";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][20].EName = "Defiance cloak";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][20].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][20].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][20].SetFrameID( 944, 980, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][20].SetDropFrameID(944 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][20].SetAddonFrameID( 6, 7 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][20].SetAddonFrameID( 558, 559 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][20].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][20].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][20].Weight = 1;//	// 뱀파 코트 2단 임시막기용
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][21].HName = "알루어 어페럴";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][21].EName = "Allure apparel";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][21].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][21].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][21].SetFrameID( 945, 981, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][21].SetDropFrameID(945 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][21].SetAddonFrameID( 6, 7 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][21].SetAddonFrameID( 558, 559 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][21].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][21].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][21].Weight = 1;//	// 뱀파 코트 2단 임시막기용
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][22].HName = "이모랄 클록";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][22].EName = "Immoral cloak";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][22].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][22].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][22].SetFrameID( 1069, 1103, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][22].SetDropFrameID(1069 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][22].SetAddonFrameID( 6, 7 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][22].SetAddonFrameID( 558, 559 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][22].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][22].SetValue(35000, 60, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][22].Weight = 1;//	// 뱀파 코트 2단 임시막기용
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][23].HName = "프라우드 어페럴";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][23].EName = "Proud apparel";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][23].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][23].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][23].SetFrameID( 1070, 1104, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][23].SetDropFrameID(1070 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][23].SetAddonFrameID( 6, 7 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][23].SetAddonFrameID( 558, 559 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][23].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][23].SetValue(35000, 60, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][23].Weight = 1;//	// 뱀파 코트 2단 임시막기용
+	
+	itemType	= 24;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].HName = "오시리스 폴";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].EName = "Blood pall";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetFrameID( 454, 468, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetDropFrameID( 454 );	// 
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetAddonFrameID( 6, 7 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Weight = 1;
+	itemType++;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].HName = "오시리스 콥";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].EName = "Osiris cope";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetFrameID( 455, 469, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetDropFrameID( 455 );	// 
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetAddonFrameID( 6, 7 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Weight = 1;
+	itemType++;
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].HName = "릴리스 슬리퍼리 로브";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].EName = "Lilith Slipery Robe";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetFrameID( 462, 476, 0 );//( 402, 416, 0);//	//
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetDropFrameID( 462 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetAddonFrameID( 4, 5 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][4].SetAddonFrameID( 514, 515 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Price	=  200000;
+	itemType++;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].HName = "릴리스 플룸 클록";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].EName = "Lilith Plume Cloak";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUND_ITEM_MOVE_CLOTH, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetFrameID( 403, 417, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetDropFrameID( 403 );	// 145는 여자옷
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetAddonFrameID( 4, 5 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][5].SetAddonFrameID( 514, 515 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetValue(880, 5, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Price	=  200000;	
+#endif
+//	m_pTypeInfo[ITEM_CLASS_VESTON][2].HName = "이모랄 클록";
+//	m_pTypeInfo[ITEM_CLASS_VESTON][2].EName = "Immoral cloak";
+//	m_pTypeInfo[ITEM_CLASS_VESTON][2].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_VESTON][2].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+//	m_pTypeInfo[ITEM_CLASS_VESTON][2].SetFrameID( 939, 975, 0);
+//	m_pTypeInfo[ITEM_CLASS_VESTON][2].SetDropFrameID(939 );
+//	m_pTypeInfo[ITEM_CLASS_VESTON][2].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_VESTON][2].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_VESTON][2].Price = 0;
+//
+//	m_pTypeInfo[ITEM_CLASS_VESTON][3].HName = "프라우드 어페럴";
+//	m_pTypeInfo[ITEM_CLASS_VESTON][3].EName = "Proud apparel";
+//	m_pTypeInfo[ITEM_CLASS_VESTON][3].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_VESTON][3].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+//	m_pTypeInfo[ITEM_CLASS_VESTON][3].SetFrameID( 939, 975, 0);
+//	m_pTypeInfo[ITEM_CLASS_VESTON][3].SetDropFrameID(939 );
+//	m_pTypeInfo[ITEM_CLASS_VESTON][3].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_VESTON][3].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_VESTON][3].Price = 0;
+
+
+
+//	for(int i = 4; i < 14; i+=2)
+//	{
+//		m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetFrameID( 144, 83, 0 );	
+//		m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetDropFrameID( 144 );	// 145는 여자옷
+//		m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetAddonFrameID( 2, 3 );
+//
+//		m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][i+1].SetFrameID( 145, 84, 0 );	
+//		m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][i+1].SetDropFrameID( 145 );	// 145는 여자옷
+//		m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][i+1].SetAddonFrameID( 2, 3 );
+//	}
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType++;	// 28
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].HName = "엘록 시크 코트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].EName = "Eloq Chic Coat";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetFrameID( 1224, 1267, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetDropFrameID( 1224 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetAddonFrameID( 6, 7 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetValue(36500, 90, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Weight = 6;
+
+	itemType++;	// 29
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].HName = "숄 카라 코트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].EName = "Shawl Collar Coat";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetFrameID( 1222, 1265, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetDropFrameID( 1222 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetAddonFrameID( 6, 7 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetValue(36500, 90, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Weight = 6;
+
+	itemType++;	// 30
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].HName = "엘룩 샤이닝 코트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].EName = "Eloq Shining Coat";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetFrameID( 1069, 1103, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetDropFrameID(1069 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetAddonFrameID( 6, 7 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetValue(38000, 100, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Weight = 6;
+
+	itemType++;	// 31
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].HName = "숄 리스크 코트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].EName = "Shawl Risk Coat";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetFrameID( 1069, 1103, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetDropFrameID(1069 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetAddonFrameID( 6, 7 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].SetValue(38000, 100, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COAT][itemType].Weight = 6;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_SKULL
+	//---------------------------------------------------------------------
+	// 
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_SKULL, 76
+#if __CONTENTS(__MENEGROTH_ITEM)
+		+6
+#endif //__MENEGROTH_ITEM
+#if __CONTENTS(__TIPOJYU_CASTLE_ITEM)
+		+6
+#endif // __TIPOJYU_CASTLE_ITEM
+		);
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][0].HName = "해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][0].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][0].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][0].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][0].SetDropFrameID( 120 );
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_SHOES][0].SetAddonFrameID( 0, 0 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][0].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][1].HName = "더티스트라이더";
+	m_pTypeInfo[ITEM_CLASS_SKULL][1].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][1].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][1].SetFrameID( 211, 215, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][1].SetDropFrameID( 211 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][1].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][2].HName = "블러드워록";
+	m_pTypeInfo[ITEM_CLASS_SKULL][2].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][2].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][2].SetFrameID( 212, 216, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][2].SetDropFrameID( 212 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][2].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][3].HName = "뮤턴트";
+	m_pTypeInfo[ITEM_CLASS_SKULL][3].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][3].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][3].SetFrameID( 213, 217, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][3].SetDropFrameID( 213 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][3].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][4].HName = "터닝소울";
+	m_pTypeInfo[ITEM_CLASS_SKULL][4].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][4].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][4].SetFrameID( 214, 218, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][4].SetDropFrameID( 214 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][4].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][5].HName = "터닝데드";
+	m_pTypeInfo[ITEM_CLASS_SKULL][5].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][5].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][5].SetFrameID( 215, 219, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][5].SetDropFrameID( 215 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][5].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][6].HName = "키드";
+	m_pTypeInfo[ITEM_CLASS_SKULL][6].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][6].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][6].SetFrameID( 216, 220, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][6].SetDropFrameID( 216 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][6].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][7].HName = "캡틴";
+	m_pTypeInfo[ITEM_CLASS_SKULL][7].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][7].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][7].SetFrameID( 217, 221, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][7].SetDropFrameID( 217 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][7].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][8].HName = "알칸";
+	m_pTypeInfo[ITEM_CLASS_SKULL][8].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][8].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][8].SetFrameID( 218, 222, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][8].SetDropFrameID( 218 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][8].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][9].HName = "솔져";
+	m_pTypeInfo[ITEM_CLASS_SKULL][9].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][9].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][9].SetFrameID( 219, 223, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][9].SetDropFrameID( 219 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][9].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][10].HName = "레드아이";
+	m_pTypeInfo[ITEM_CLASS_SKULL][10].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][10].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][10].SetFrameID( 220, 224, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][10].SetDropFrameID( 220 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][10].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][10].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][11].HName = "데드바디";
+	m_pTypeInfo[ITEM_CLASS_SKULL][11].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][11].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][11].SetFrameID( 221, 225, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][11].SetDropFrameID( 221 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][11].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][11].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][12].HName = "골든스컬";
+	m_pTypeInfo[ITEM_CLASS_SKULL][12].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][12].SetSoundID( SOUND_EVENT_FANFARE, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][12].SetFrameID( 225, 229, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][12].SetDropFrameID( 225 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][12].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][12].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][13].HName = "자수정스컬";
+	m_pTypeInfo[ITEM_CLASS_SKULL][13].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][13].SetSoundID( SOUND_EVENT_FANFARE, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][13].SetFrameID( 226, 230, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][13].SetDropFrameID( 226 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][13].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][13].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][14].HName = "블랙스컬";
+	m_pTypeInfo[ITEM_CLASS_SKULL][14].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][14].SetSoundID( SOUND_EVENT_FANFARE, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][14].SetFrameID( 227, 231, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][14].SetDropFrameID( 227 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][14].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][14].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][15].HName = "크리스탈스컬";
+	m_pTypeInfo[ITEM_CLASS_SKULL][15].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][15].SetSoundID( SOUND_EVENT_FANFARE, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][15].SetFrameID( 228, 232, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][15].SetDropFrameID( 228 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][15].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][15].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][16].HName = "에메랄드스컬";
+	m_pTypeInfo[ITEM_CLASS_SKULL][16].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][16].SetSoundID( SOUND_EVENT_FANFARE, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][16].SetFrameID( 229, 233, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][16].SetDropFrameID( 229 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][16].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][16].Weight = 1;
+
+	// 반델라이저 머리
+	m_pTypeInfo[ITEM_CLASS_SKULL][17].HName = "반델라이저";
+	m_pTypeInfo[ITEM_CLASS_SKULL][17].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][17].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][17].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][17].SetFrameID( 230, 234, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][17].SetDropFrameID( 230 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][17].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][17].Weight = 1;
+	
+	m_pTypeInfo[ITEM_CLASS_SKULL][18].HName = "크림슨슬로터";
+	m_pTypeInfo[ITEM_CLASS_SKULL][18].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][18].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][18].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][18].SetFrameID( 233, 237, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][18].SetDropFrameID( 233 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][18].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][18].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][19].HName = "아이언티쓰";
+	m_pTypeInfo[ITEM_CLASS_SKULL][19].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][19].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][19].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][19].SetFrameID( 234, 238, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][19].SetDropFrameID( 234 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][19].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][19].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][20].HName = "모데라스";
+	m_pTypeInfo[ITEM_CLASS_SKULL][20].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][20].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][20].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][20].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][20].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][20].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][20].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][21].HName = "에스트로이더";
+	m_pTypeInfo[ITEM_CLASS_SKULL][21].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][21].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][21].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][21].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][21].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][21].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][21].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][22].HName = "위도우즈";
+	m_pTypeInfo[ITEM_CLASS_SKULL][22].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][22].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][22].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][22].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][22].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][22].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][22].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][23].HName = "호블";
+	m_pTypeInfo[ITEM_CLASS_SKULL][23].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][23].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][23].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][23].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][23].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][23].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][23].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][24].HName = "빅팽";
+	m_pTypeInfo[ITEM_CLASS_SKULL][24].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][24].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][24].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][24].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][24].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][24].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][24].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][25].HName = "골레머";
+	m_pTypeInfo[ITEM_CLASS_SKULL][25].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][25].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][25].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][25].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][25].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][25].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][25].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][26].HName = "쉐도우윙";
+	m_pTypeInfo[ITEM_CLASS_SKULL][26].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][26].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][26].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][26].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][26].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][26].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][26].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][27].HName = "리퍼";
+	m_pTypeInfo[ITEM_CLASS_SKULL][27].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][27].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][27].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][27].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][27].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][27].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][27].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][28].HName = "카오스나이트";
+	m_pTypeInfo[ITEM_CLASS_SKULL][28].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][28].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][28].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][28].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][28].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][28].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][28].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][29].HName = "헬위자드";
+	m_pTypeInfo[ITEM_CLASS_SKULL][29].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][29].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][29].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][29].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][29].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][29].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][29].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][30].HName = "다크스크리머";
+	m_pTypeInfo[ITEM_CLASS_SKULL][30].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][30].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][30].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][30].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][30].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][30].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][30].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][31].HName = "카오스가디언";
+	m_pTypeInfo[ITEM_CLASS_SKULL][31].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][31].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][31].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][31].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][31].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][31].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][31].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][32].HName = "헬가디언";
+	m_pTypeInfo[ITEM_CLASS_SKULL][32].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][32].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][32].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][32].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][32].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][32].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][32].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][33].HName = "로드다크니스";
+	m_pTypeInfo[ITEM_CLASS_SKULL][33].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][33].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][33].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][33].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][33].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][33].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][33].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][34].HName = "다크가디언";
+	m_pTypeInfo[ITEM_CLASS_SKULL][34].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][34].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][34].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][34].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][34].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][34].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][34].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][35].HName = "로드카오스";
+	m_pTypeInfo[ITEM_CLASS_SKULL][35].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][35].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][35].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][35].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][35].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][35].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][35].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][36].HName = "카오스그리드";
+	m_pTypeInfo[ITEM_CLASS_SKULL][36].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][36].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][36].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][36].SetFrameID( 303, 317, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][36].SetDropFrameID( 303 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][36].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][36].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][37].HName = "헬핀드";
+	m_pTypeInfo[ITEM_CLASS_SKULL][37].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][37].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][37].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][37].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][37].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][37].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][37].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][38].HName = "darkhaze";
+	m_pTypeInfo[ITEM_CLASS_SKULL][38].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][38].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][38].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][38].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][38].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][38].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][38].Weight = 1;
+
+	// 에에.. 넣을때 drop이랑 tile이랑 순서 잘못넣었다.
+	m_pTypeInfo[ITEM_CLASS_SKULL][39].HName = "Dun Wolfarch";
+	m_pTypeInfo[ITEM_CLASS_SKULL][39].EName = "던 울프아크";
+	m_pTypeInfo[ITEM_CLASS_SKULL][39].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][39].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][39].SetFrameID( 385, 397, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][39].SetDropFrameID( 383 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][39].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][39].Weight = 1;
+
+	// 에에.. 넣을때 drop이랑 tile이랑 순서 잘못넣었다.
+	m_pTypeInfo[ITEM_CLASS_SKULL][40].HName = "멈 림먼";
+	m_pTypeInfo[ITEM_CLASS_SKULL][40].EName = "Mum Rimmon";
+	m_pTypeInfo[ITEM_CLASS_SKULL][40].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][40].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][40].SetFrameID( 383, 399, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][40].SetDropFrameID( 385 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][40].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][40].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][41].HName = "샤먼 오프";
+	m_pTypeInfo[ITEM_CLASS_SKULL][41].EName = "Shaman Oaf";
+	m_pTypeInfo[ITEM_CLASS_SKULL][41].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][41].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][41].SetFrameID( 384, 398, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][41].SetDropFrameID( 384 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][41].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][41].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][42].HName = "다크베리트";
+	m_pTypeInfo[ITEM_CLASS_SKULL][42].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][42].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][42].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][42].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][42].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][42].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][42].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][43].HName = "리치젤";
+	m_pTypeInfo[ITEM_CLASS_SKULL][43].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][43].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][43].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][43].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][43].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][43].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][43].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][44].HName = "마운트크래그";
+	m_pTypeInfo[ITEM_CLASS_SKULL][44].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][44].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][44].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][44].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][44].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][44].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][44].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][45].HName = "자이언트오스";
+	m_pTypeInfo[ITEM_CLASS_SKULL][45].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][45].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][45].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][45].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][45].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][45].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][45].Weight = 1;
+	
+	m_pTypeInfo[ITEM_CLASS_SKULL][46].HName = "딤가고일";
+	m_pTypeInfo[ITEM_CLASS_SKULL][46].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][46].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][46].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][46].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][46].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][46].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][46].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][47].HName = "볼바메두사";
+	m_pTypeInfo[ITEM_CLASS_SKULL][47].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][47].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][47].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][47].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][47].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][47].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][47].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][48].HName = "애쉬발록";
+	m_pTypeInfo[ITEM_CLASS_SKULL][48].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][48].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][48].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][48].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][48].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][48].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][48].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][49].HName = "다크울프 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][49].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][49].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][49].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][49].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][49].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][49].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][49].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][50].HName = "블러드울프 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][50].EName = "Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][50].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][50].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][50].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][50].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][50].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][50].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][51].HName = "불런트트래그 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][51].EName = "Blunt Crag Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][51].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][51].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][51].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][51].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][51].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][51].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][52].HName = "뮤턴트엣져 머리";
+	m_pTypeInfo[ITEM_CLASS_SKULL][52].EName = "Mutant Edger Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][52].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][52].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][52].SetFrameID( 213, 217, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][52].SetDropFrameID( 213 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][52].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][52].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][53].HName = "본가디언";
+	m_pTypeInfo[ITEM_CLASS_SKULL][53].EName = "Bone Guardian Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][53].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][53].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][53].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][53].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][53].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][53].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][54].HName = "럼가더 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][54].EName = "Rum Guarder Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][54].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][54].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][54].SetFrameID( 120, 149, 0 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][54].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][54].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][54].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][55].HName = "아이시 러피언 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][55].EName = "Icy Ruffian Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][55].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][55].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][55].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][55].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][55].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][55].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][56].HName = "플리거 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][56].EName = "Flieger Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][56].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][56].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][56].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][56].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][56].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][56].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][57].HName = "기프레이터 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][57].EName = "Gefreiter Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][57].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][57].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][57].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][57].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][57].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][57].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][58].HName = "트라슬라 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][58].EName = "Trasla Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][58].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][58].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][58].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][58].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][58].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][58].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][59].HName = "푸스카 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][59].EName = "Pusca Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][59].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][59].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][59].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][59].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][59].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][59].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][60].HName = "칼드오메네스크 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][60].EName = "Clad Omenesc Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][60].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][60].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][60].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][60].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][60].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][60].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][61].HName = "노드코피라 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][61].EName = "Nod Copila Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][61].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][61].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][61].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][61].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][61].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][61].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][62].HName = "레이저 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][62].EName = "Razor Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][62].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][62].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][62].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][62].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][62].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][62].Weight = 1;
+	
+	m_pTypeInfo[ITEM_CLASS_SKULL][63].HName = "뚱땡이 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][63].EName = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][63].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][63].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][63].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][63].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][63].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][63].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][64].HName = "터그렉 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][64].EName = "Tug Leg Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][64].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][64].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][64].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][64].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][64].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][64].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][65].HName = "터그레거 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][65].EName = "Tug Legger Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][65].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][65].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][65].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][65].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][65].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][65].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][66].HName = "로이카다브루 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][66].EName = "Roi Cadavru Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][66].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][66].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][66].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][66].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][66].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][66].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][67].HName = "시아메스 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][67].EName = "Siamese Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][67].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][67].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][67].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][67].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][67].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][67].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][68].HName = "룽가테스타 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][68].EName = "Lunga Testa Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][68].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][68].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][68].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][68].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][68].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][68].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][69].HName = "오베르슈츠 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][69].EName = "Obersculze Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][69].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][69].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][69].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][69].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][69].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][69].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][70].HName = "스터르만 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][70].EName = "Stummann Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][70].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][70].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][70].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][70].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][70].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][70].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][71].HName = "하우트만 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][71].EName = "Hauptmann Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][71].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][71].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][71].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][71].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][71].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][71].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][72].HName = "오베르스트 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][72].EName = "Oberst Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][72].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][72].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][72].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][72].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][72].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][72].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][73].HName = "운터펠트베벨 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][73].EName = "Unterfeldwebel Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][73].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][73].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][73].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][73].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][73].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][73].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][74].HName = "펠트베벨 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][74].EName = "Feldwebel Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][74].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][74].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][74].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][74].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][74].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][74].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][75].HName = "라클 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][75].EName = "Rakel Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][75].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][75].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][75].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][75].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][75].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][75].Weight = 1;
+
+#if __CONTENTS(__MENEGROTH_ITEM)
+	
+	m_pTypeInfo[ITEM_CLASS_SKULL][76].HName = "케르베로스 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][76].EName = "Rakel Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][76].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][76].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][76].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][76].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][76].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][76].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][77].HName = "맨티코아트 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][77].EName = "Rakel Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][77].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][77].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][77].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][77].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][77].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][77].Weight = 1;
+	
+	m_pTypeInfo[ITEM_CLASS_SKULL][78].HName = "보글트 H 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][78].EName = "Rakel Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][78].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][78].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][78].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][78].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][78].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][78].Weight = 1;
+	
+	m_pTypeInfo[ITEM_CLASS_SKULL][79].HName = "보글트 B 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][79].EName = "Rakel Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][79].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][79].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][79].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][79].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][79].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][79].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][80].HName = "매서커 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][80].EName = "Rakel Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][80].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][80].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][80].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][80].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][80].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][80].Weight = 1;
+
+	
+	m_pTypeInfo[ITEM_CLASS_SKULL][81].HName = "플럼피 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][81].EName = "Rakel Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][81].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][81].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][81].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][81].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][81].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][81].Weight = 1;
+#endif //__MENEGROTH_ITEM
+
+#if __CONTENTS(__TIPOJYU_CASTLE_ITEM)
+	m_pTypeInfo[ITEM_CLASS_SKULL][82].HName = "발베리드 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][82].EName = "Balberith Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][82].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][82].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][82].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][82].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][82].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][82].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][83].HName = "베리드 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][83].EName = "Berith Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][83].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][83].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][83].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][83].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][83].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][83].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][84].HName = "발퀴레 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][84].EName = "Valkyrja Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][84].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][84].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][84].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][84].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][84].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][84].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][85].HName = "고모리 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][85].EName = "Gomory Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][85].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][85].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][85].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][85].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][85].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][85].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][86].HName = "크루소닉 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][86].EName = "Krsnik Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][86].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][86].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][86].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][86].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][86].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][86].Weight = 1;
+
+	m_pTypeInfo[ITEM_CLASS_SKULL][87].HName = "파이몬 해골";
+	m_pTypeInfo[ITEM_CLASS_SKULL][87].EName = "Paimon Skull";
+	m_pTypeInfo[ITEM_CLASS_SKULL][87].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SKULL][87].SetSoundID( SOUND_ITEM_MOVE_SKULL, SOUND_ITEM_MOVE_SKULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_SKULL][87].SetFrameID( 120, 149, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SKULL][87].SetDropFrameID( 120 );
+	m_pTypeInfo[ITEM_CLASS_SKULL][87].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SKULL][87].Weight = 1;
+#endif // __TIPOJYU_CASTLE_ITEM 
+
+	
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_MACE
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(?), MinDam(3)~MaxDam(4), MP증가(5), Speed(7)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_MACE, 17
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+		);
+
+	m_pTypeInfo[ITEM_CLASS_MACE][0].HName = "아이언 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][0].EName = "Iron Mace";
+	m_pTypeInfo[ITEM_CLASS_MACE][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][0].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][0].SetFrameID( 59, 94, 0 );	
+	m_pTypeInfo[ITEM_CLASS_MACE][0].SetDropFrameID( 59 );
+	m_pTypeInfo[ITEM_CLASS_MACE][0].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][0].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][0].SetValue(300, -1, 3, 6, 5, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][0].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_MACE][0].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][0].SetRequireAbility(0,0, 20);
+	m_pTypeInfo[ITEM_CLASS_MACE][0].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_MACE][1].HName = "실버 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][1].EName = "Latin MACE";
+	m_pTypeInfo[ITEM_CLASS_MACE][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][1].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][1].SetFrameID( 148, 152, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][1].SetDropFrameID( 148 );
+	m_pTypeInfo[ITEM_CLASS_MACE][1].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][1].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][1].SetValue(500, -1, 6, 9, 10, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][1].Price	= 7000;
+	m_pTypeInfo[ITEM_CLASS_MACE][1].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][1].SetRequireAbility(0,0, 30);
+	m_pTypeInfo[ITEM_CLASS_MACE][1].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_MACE][2].HName = "그릭 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][2].EName = "Passion MACE";
+	m_pTypeInfo[ITEM_CLASS_MACE][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][2].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][2].SetFrameID( 149, 153, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][2].SetDropFrameID( 149 );
+	m_pTypeInfo[ITEM_CLASS_MACE][2].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][2].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][2].SetValue(700, -1, 9, 12, 20, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][2].Price	= 20000;
+	m_pTypeInfo[ITEM_CLASS_MACE][2].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][2].SetRequireAbility(0,0, 40);
+	m_pTypeInfo[ITEM_CLASS_MACE][2].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_MACE][3].HName = "아크비숍 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][3].EName = "Girisidan MACE";
+	m_pTypeInfo[ITEM_CLASS_MACE][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][3].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][3].SetFrameID( 150, 154, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][3].SetDropFrameID( 150 );
+	m_pTypeInfo[ITEM_CLASS_MACE][3].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][3].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][3].SetValue(1200, -1, 12, 15, 40, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][3].Price	= 50000;
+	m_pTypeInfo[ITEM_CLASS_MACE][3].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][3].SetRequireAbility(0,0, 50);
+	m_pTypeInfo[ITEM_CLASS_MACE][3].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_MACE][4].HName = "폰티프 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][4].EName = "Episcopal MACE";
+	m_pTypeInfo[ITEM_CLASS_MACE][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][4].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][4].SetFrameID( 147, 151, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][4].SetDropFrameID( 147 );
+	m_pTypeInfo[ITEM_CLASS_MACE][4].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][4].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][4].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][4].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_MACE][4].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][4].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_MACE][4].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_MACE][5].HName = "코그휠 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][5].EName = "Cogwheel MACE";
+	m_pTypeInfo[ITEM_CLASS_MACE][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][5].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][5].SetFrameID( 268, 281, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][5].SetDropFrameID( 268 );
+	m_pTypeInfo[ITEM_CLASS_MACE][5].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][5].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][5].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][5].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_MACE][5].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][5].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_MACE][5].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_MACE][6].HName = "케파 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][6].EName = "Cephas MACE";
+	m_pTypeInfo[ITEM_CLASS_MACE][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][6].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][6].SetFrameID( 267, 280, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][6].SetDropFrameID( 267 );
+	m_pTypeInfo[ITEM_CLASS_MACE][6].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][6].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][6].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][6].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_MACE][6].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][6].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_MACE][6].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_MACE][7].HName = "칼릭스 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][7].EName = "Calix MACE";
+	m_pTypeInfo[ITEM_CLASS_MACE][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][7].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][7].SetFrameID( 269, 282, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][7].SetDropFrameID( 269 );
+	m_pTypeInfo[ITEM_CLASS_MACE][7].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][7].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][7].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][7].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_MACE][7].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][7].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_MACE][7].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_MACE][8].HName = "오스프레이 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][8].EName = "Osprey Mace";
+	m_pTypeInfo[ITEM_CLASS_MACE][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][8].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][8].SetFrameID( 348, 362, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][8].SetDropFrameID( 269 );
+	m_pTypeInfo[ITEM_CLASS_MACE][8].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][8].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][8].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][8].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_MACE][8].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][8].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_MACE][8].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_MACE][9].HName = "푼고 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][9].EName = "Pungo MACE";
+	m_pTypeInfo[ITEM_CLASS_MACE][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][9].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][9].SetFrameID( 437, 451, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][9].SetDropFrameID( 437 );
+	m_pTypeInfo[ITEM_CLASS_MACE][9].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][9].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][9].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][9].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_MACE][9].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][9].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_MACE][9].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_MACE][10].HName = "부라와 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][10].EName = "Bulawa MACE";
+	m_pTypeInfo[ITEM_CLASS_MACE][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][10].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][10].SetFrameID( 473, 487, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][10].SetDropFrameID( 473 );
+	m_pTypeInfo[ITEM_CLASS_MACE][10].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][10].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][10].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][10].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_MACE][10].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][10].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_MACE][10].UseActionInfo = SKILL_ATTACK_BLADE;
+
+		m_pTypeInfo[ITEM_CLASS_MACE][11].HName = "구르즈 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][11].EName = "Gruz Mace";
+	m_pTypeInfo[ITEM_CLASS_MACE][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][11].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][11].SetFrameID( 907 , 930 ,0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][11].SetDropFrameID( 907 );
+	m_pTypeInfo[ITEM_CLASS_MACE][11].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][11].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][11].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][11].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_MACE][11].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][10].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_MACE][11].UseActionInfo = SKILL_ATTACK_BLADE;
+	
+	m_pTypeInfo[ITEM_CLASS_MACE][12].HName = "세일리언스 앳서";
+	m_pTypeInfo[ITEM_CLASS_MACE][12].EName = "Salience Asser";
+	m_pTypeInfo[ITEM_CLASS_MACE][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][12].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_MACE][12].SetFrameID( 948, 984, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][12].SetDropFrameID(948 );
+	m_pTypeInfo[ITEM_CLASS_MACE][12].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][12].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][12].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][12].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_MACE][12].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][10].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_MACE][12	].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	// Sjheon 2005.06.02 Add
+	m_pTypeInfo[ITEM_CLASS_MACE][13].HName = "쇼오눈 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][13].EName = "Sonun's MACE";
+	m_pTypeInfo[ITEM_CLASS_MACE][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][13].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][13].SetFrameID( 268, 281, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][13].SetDropFrameID( 268 );
+	m_pTypeInfo[ITEM_CLASS_MACE][13].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][13].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][13].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][13].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_MACE][13].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][5].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_MACE][13].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	m_pTypeInfo[ITEM_CLASS_MACE][14].HName = "뱁티즘 칼릭스 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][14].EName = "baptism Calix MACE";
+	m_pTypeInfo[ITEM_CLASS_MACE][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][14].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][14].SetFrameID( 269, 282, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][14].SetDropFrameID( 269 );
+	m_pTypeInfo[ITEM_CLASS_MACE][14].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][14].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][14].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][14].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_MACE][14].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][7].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_MACE][14].UseActionInfo = SKILL_ATTACK_BLADE;
+
+
+	m_pTypeInfo[ITEM_CLASS_MACE][15].HName = "버건디 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][15].EName = "Buzdygan MACE";
+	m_pTypeInfo[ITEM_CLASS_MACE][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][15].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][15].SetFrameID( 473, 487, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][15].SetDropFrameID( 473 );
+	m_pTypeInfo[ITEM_CLASS_MACE][15].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][15].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][15].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][15].Price	= 250000;
+	m_pTypeInfo[ITEM_CLASS_MACE][15].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][10].SetRequireAbility(0,0, 60);
+	m_pTypeInfo[ITEM_CLASS_MACE][15].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	// Sjheon 2005.06.02 End 
+	m_pTypeInfo[ITEM_CLASS_MACE][16].HName = "크룩 앳서";
+	m_pTypeInfo[ITEM_CLASS_MACE][16].EName = "Crook Asser";
+	m_pTypeInfo[ITEM_CLASS_MACE][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][16].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][16].SetFrameID( 1060, 1094, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][16].SetDropFrameID( 1060 );
+	m_pTypeInfo[ITEM_CLASS_MACE][16].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][16].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][16].SetValue(41000, -1, 26, 41, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][16].Price	= 6000000;
+	m_pTypeInfo[ITEM_CLASS_MACE][16].SilverMax	= 3300;
+	m_pTypeInfo[ITEM_CLASS_MACE][16].UseActionInfo = SKILL_ATTACK_BLADE;
+	
+	itemType	= 17;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].HName = "칼리 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].EName = "Khali's Mace";
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetFrameID( 437, 451, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetDropFrameID( 437 );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetValue(3000, -1, 15, 20, 60, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].Price	= 1720000;
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SilverMax	= 19000;
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType++].UseActionInfo = SKILL_ATTACK_BLADE;
+#endif	
+
+#if __CONTENTS(__QUEST_RENEWAL) //아이템 추가		아크비숍 메이스
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].HName = "발키리 아크비숍 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].EName = "Valkirie Archbishop Mace";
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetFrameID( 150, 154, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetDropFrameID( 150 );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetValue(1200, -1, 12, 15, 40, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].Price	= 55000;
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SilverMax	= 9000;
+	//m_pTypeInfo[ITEM_CLASS_MACE][3].SetRequireAbility(0,0, 50);
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType++].UseActionInfo = SKILL_ATTACK_BLADE;
+#endif	//__QUEST_RENEWAL
+
+//	m_pTypeInfo[ITEM_CLASS_ASSER][1].HName = "크룩 앳서";
+//	m_pTypeInfo[ITEM_CLASS_ASSER][1].EName = "Crook Asser";
+//	m_pTypeInfo[ITEM_CLASS_ASSER][1].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_ASSER][1].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+//	m_pTypeInfo[ITEM_CLASS_ASSER][1].SetFrameID( 939, 975, 0);
+//	m_pTypeInfo[ITEM_CLASS_ASSER][1].SetDropFrameID(939 );
+//	m_pTypeInfo[ITEM_CLASS_ASSER][1].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_ASSER][1].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_ASSER][1].Price = 0;
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	// i = 19
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].HName = "스톰 볼트 메이스";
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].EName = "Storm Volt Mace";
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetFrameID( 1237, 1280, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetDropFrameID( 1237 );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetValue(42000, -1, 43, 61, 160, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].Price	= 7000000;
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SilverMax	= 42000;
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType++].UseActionInfo = SKILL_ATTACK_BLADE;
+
+	// i = 20
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].HName = "묠니르";
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].EName = "Mjolnir";
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetSoundID( SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUND_ITEM_MOVE_SWORD, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetFrameID( 1060, 1094, 0 );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetDropFrameID( 1060 );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetAddonFrameID( ADDONID_MACE, ADDONID_MACE );
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SetValue(43000, -1, 53, 71, 165, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType].Price	= 8000000;
+//	m_pTypeInfo[ITEM_CLASS_MACE][itemType].SilverMax	= 42000;
+	m_pTypeInfo[ITEM_CLASS_MACE][itemType++].UseActionInfo = SKILL_ATTACK_BLADE;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_SERUM
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_SERUM, 8);
+
+	m_pTypeInfo[ITEM_CLASS_SERUM][0].HName = "혈청";
+	m_pTypeInfo[ITEM_CLASS_SERUM][0].EName = "Serum";
+	m_pTypeInfo[ITEM_CLASS_SERUM][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SERUM][0].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_MOVE_POTION );
+	m_pTypeInfo[ITEM_CLASS_SERUM][0].SetFrameID( 224, 228, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SERUM][0].SetDropFrameID( 224 );
+	m_pTypeInfo[ITEM_CLASS_SERUM][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SERUM][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SERUM][0].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_SERUM][1].HName = "혈청";
+	m_pTypeInfo[ITEM_CLASS_SERUM][1].EName = "Serum";
+	m_pTypeInfo[ITEM_CLASS_SERUM][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SERUM][1].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_MOVE_POTION );
+	m_pTypeInfo[ITEM_CLASS_SERUM][1].SetFrameID( 224, 228, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SERUM][1].SetDropFrameID( 224 );
+	m_pTypeInfo[ITEM_CLASS_SERUM][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SERUM][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SERUM][1].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_SERUM][2].HName = "혈청";
+	m_pTypeInfo[ITEM_CLASS_SERUM][2].EName = "Serum";
+	m_pTypeInfo[ITEM_CLASS_SERUM][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SERUM][2].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_MOVE_POTION );
+	m_pTypeInfo[ITEM_CLASS_SERUM][2].SetFrameID( 224, 228, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SERUM][2].SetDropFrameID( 224 );
+	m_pTypeInfo[ITEM_CLASS_SERUM][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SERUM][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SERUM][2].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_SERUM][3].HName = "혈청";
+	m_pTypeInfo[ITEM_CLASS_SERUM][3].EName = "Serum";
+	m_pTypeInfo[ITEM_CLASS_SERUM][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SERUM][3].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_MOVE_POTION );
+	m_pTypeInfo[ITEM_CLASS_SERUM][3].SetFrameID( 224, 228, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SERUM][3].SetDropFrameID( 224 );
+	m_pTypeInfo[ITEM_CLASS_SERUM][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SERUM][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SERUM][3].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_SERUM][4].HName = "빨강 사탕";
+	m_pTypeInfo[ITEM_CLASS_SERUM][4].EName = "Serum";
+	m_pTypeInfo[ITEM_CLASS_SERUM][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SERUM][4].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX);
+	m_pTypeInfo[ITEM_CLASS_SERUM][4].SetFrameID( 244, 248, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SERUM][4].SetDropFrameID( 244 );
+	m_pTypeInfo[ITEM_CLASS_SERUM][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SERUM][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SERUM][4].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_SERUM][5].HName = "노란 떡국";
+	m_pTypeInfo[ITEM_CLASS_SERUM][5].EName = "Serum";
+	m_pTypeInfo[ITEM_CLASS_SERUM][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SERUM][5].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX);
+	m_pTypeInfo[ITEM_CLASS_SERUM][5].SetFrameID( 409, 423, 0 );//( 378, 392, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SERUM][5].SetDropFrameID( 409 );//( 378 );
+	m_pTypeInfo[ITEM_CLASS_SERUM][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SERUM][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SERUM][5].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_SERUM][6].HName = "활성화 혈청";
+	m_pTypeInfo[ITEM_CLASS_SERUM][6].EName = "Active Serum";
+	m_pTypeInfo[ITEM_CLASS_SERUM][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SERUM][6].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_MOVE_POTION );
+	m_pTypeInfo[ITEM_CLASS_SERUM][6].SetFrameID( 224, 228, 0 );//( 378, 392, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SERUM][6].SetDropFrameID( 224 );//( 378 );
+	m_pTypeInfo[ITEM_CLASS_SERUM][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SERUM][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SERUM][6].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_SERUM][7].HName = "가멸찬 송편";
+	m_pTypeInfo[ITEM_CLASS_SERUM][7].EName = "Full Rice Cake";
+	m_pTypeInfo[ITEM_CLASS_SERUM][7].Description = "한가위 이벤트 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_SERUM][7].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_ITEM_MOVE_POTION );
+	m_pTypeInfo[ITEM_CLASS_SERUM][7].SetFrameID( 1010, 1044, 0 );//( 378, 392, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SERUM][7].SetDropFrameID( 1010 );//( 378 );
+	m_pTypeInfo[ITEM_CLASS_SERUM][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_SERUM][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SERUM][7].Price	= 1;
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_VAMPIRE_ETC
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_VAMPIRE_ETC, 3);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][0].HName = "늑대발톱";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][0].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][0].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][0].SetFrameID( 223, 227, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][0].SetDropFrameID( 223 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][0].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][1].HName = "박쥐날개";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][1].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][1].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][1].SetFrameID( 222, 226, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][1].SetDropFrameID( 222 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][1].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][2].HName = "1회용 번역기";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][2].EName = "Vampire Translator";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][2].Description = "10분간 다른 종족의 대화를 모두 알아 들을 수 있습니다. ";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][2].SetSoundID( SOUND_ITEM_MOVE_C4, SOUND_ITEM_MOVE_C4, SOUNDID_NULL, SOUND_ITEM_USE_C4 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][2].SetFrameID( 578, 592, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][2].SetDropFrameID( 578 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][2].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_ETC][2].Price	= 5000;
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_SLAYER_PORTAL_ITEM
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_SLAYER_PORTAL_ITEM, 5 );
+
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][0].HName = "무전기5";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][0].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][0].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_WORLD_WALKIETALKIE );
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][0].SetFrameID( 232, 236, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][0].SetDropFrameID( 232 );
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][0].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][0].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][0].MaxNumber = 5;
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][0].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_TRADE;
+
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][1].HName = "무전기10";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][1].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][1].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_WORLD_WALKIETALKIE );
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][1].SetFrameID( 232, 236, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][1].SetDropFrameID( 232 );
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][1].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][1].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][1].MaxNumber = 10;
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][1].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_TRADE;
+
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][2].HName = "무전기20";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][2].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][2].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_WORLD_WALKIETALKIE );
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][2].SetFrameID( 232, 236, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][2].SetDropFrameID( 232 );
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][2].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][2].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][2].MaxNumber = 20;
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][2].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_TRADE;
+	
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][3].HName = "UVT-7000";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][3].EName = "UVT-7000";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][3].Description = "마우스 오른쪽 클릭으로 사용";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][3].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_WORLD_WALKIETALKIE );
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][3].SetFrameID( 1030, 1064, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][3].SetDropFrameID( 1030 );
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][3].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][3].Price	= 1;
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][3].MaxNumber = 30;
+	
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][4].HName = "UVT-슈프림";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][4].EName = "UVT-supremet";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][4].Description = "마우스 오른쪽 클릭으로 사용";
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][4].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_WORLD_WALKIETALKIE );
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][4].SetFrameID( 232, 236, 0 );	
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][4].SetDropFrameID( 232 );
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][4].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][4].Price	= 1;
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][4].MaxNumber = 25;
+	m_pTypeInfo[ITEM_CLASS_SLAYER_PORTAL_ITEM][4].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_TRADE;
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_VAMPIRE_PORTAL_ITEM
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_VAMPIRE_PORTAL_ITEM, 24);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][0].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][0].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][0].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][0].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][0].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][0].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][0].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][0].MaxNumber = 5;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][1].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][1].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][1].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][1].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][1].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][1].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][1].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][1].MaxNumber = 10;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][2].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][2].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][2].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][2].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][2].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][2].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][2].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][2].MaxNumber = 20;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][3].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][3].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][3].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][3].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][3].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][3].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][3].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][3].MaxNumber = 5;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][4].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][4].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][4].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][4].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][4].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][4].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][4].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][4].MaxNumber = 10;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][5].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][5].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][5].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][5].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][5].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][5].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][5].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][5].MaxNumber = 20;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][6].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][6].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][6].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][6].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][6].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][6].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][6].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][6].MaxNumber = 5;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][7].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][7].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][7].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][7].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][7].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][7].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][7].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][7].MaxNumber = 10;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][8].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][8].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][8].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][8].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][8].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][8].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][8].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][8].MaxNumber = 20;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][9].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][9].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][9].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][9].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][9].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][9].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][9].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][9].MaxNumber = 5;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][10].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][10].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][10].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][10].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][10].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][10].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][10].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][10].MaxNumber = 10;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][11].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][11].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][11].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][11].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][11].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][11].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][11].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][11].MaxNumber = 20;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][12].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][12].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][12].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][12].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][12].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][12].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][12].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][12].MaxNumber = 20;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][13].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][13].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][13].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][13].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][13].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][13].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][13].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][13].MaxNumber = 20;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][14].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][14].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][14].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][14].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][14].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][14].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][14].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][14].MaxNumber = 20;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][15].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][15].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][15].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][15].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][15].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][15].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][15].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][15].MaxNumber = 20;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][16].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][16].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][16].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][16].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][16].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][16].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][16].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][16].MaxNumber = 20;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][17].HName = "뱀파이어포탈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][17].EName = "Tool kit";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][17].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][17].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][17].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][17].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][17].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][17].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][17].MaxNumber = 20;
+
+	
+	// Sjheon 2005.06.02 Add
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][18].HName = "프라임 컴팩트 실";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][18].EName = "Prime Compact Seal";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][18].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][18].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][18].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][18].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][18].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][18].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][18].MaxNumber = 20;
+
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][19].HName = "컴팩트 실";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][19].EName = "Compact Seal";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][19].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][19].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][19].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][19].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][19].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][19].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][19].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][19].MaxNumber = 20;
+
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][20].HName = "컴팩트 실";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][20].EName = "Compact Seal";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][20].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][20].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][20].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][20].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][20].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][20].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][20].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][20].MaxNumber = 20;
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][21].HName = "컴팩트 실";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][21].EName = "Compact Seal";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][21].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][21].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][21].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][21].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][21].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][21].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][21].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][21].MaxNumber = 20;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][22].HName = "컴팩트 실";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][22].EName = "Compact Seal";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][22].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][22].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][22].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][22].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][22].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][22].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][22].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][22].MaxNumber = 20;
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][23].HName = "컴팩트 실";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][23].EName = "Compact Seal";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][23].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][23].SetSoundID( SOUND_ITEM_MOVE_JEWEL, SOUND_ITEM_MOVE_JEWEL, SOUNDID_NULL, SOUND_ITEM_MOVE_JEWEL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][23].SetFrameID( 231, 235, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][23].SetDropFrameID( 231 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][23].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][23].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][23].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_PORTAL_ITEM][23].MaxNumber = 20;
+
+	// Sjheon 2005.06.02 End 	
+
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_EVENT_GIFT_BOX
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_EVENT_GIFT_BOX, 28 
+#if __CONTENTS(__2008_NEW_YEAR_EVENT)
+										+1
+#endif //	__2008_NEW_YEAR_EVENT
+#if __CONTENTS(__2008_WHITEDAY_LOVECANDY)
+										+1
+#endif //__2008_WHITEDAY_LOVECANDY
+#if __CONTENTS(__CLOVER_EVENT)
+										+2
+#endif	// __CLOVER_EVENT
+#if __CONTENTS(__2008_JUNE_EVENT_EX_STONE)
+										+1
+#endif //__2008_JUNE_EVENT_EX_STONE
+
+#if __CONTENTS(__TIPOJYU_CASTLE_ITEM)
+										+2
+#endif // __TIPOJYU_CASTLE_ITEM
+#if __CONTENTS(__HALLOWEEN)
+										+1
+#endif //__HALLOWEEN
+#if __CONTENTS(__PREMIUM_LOTTER)
+										+1
+#endif //__PREMIUM_LOTTER
+#if __CONTENTS(__GLOBAL_NPC)
+										+2
+#endif //__GLOBAL_NPC
+#if __CONTENTS(__CHRISTMAS_SOCKS_EVENT)
+										+1
+#endif //__CHRISTMAS_SOCKS_EVENT
+
+#if __CONTENTS(__PREMIUM_LOTTER_A)
+										+1
+#endif //__PREMIUM_LOTTER_AB
+#if __CONTENTS(__PREMIUM_LOTTER_B)
+										+1
+#endif //__PREMIUM_LOTTER_AB
+#if __CONTENTS(__ONIBLA_ITEM)
+										+5
+#endif // __ONIBLA_ITEM
+#if __CONTENTS(__SUMMER_VACTATION_COOL_EVENT)
+										+1
+#endif // __SUMMER_VACTATION_COOL_EVENT
+#if __CONTENTS(__MOONLIGHT_FESTIVAL_EVENT)
+										+1
+#endif //__MOONLIGHT_FESTIVAL_EVENT
+#if __CONTENTS(__PET_CATS_UPGRADED)
+										+3
+#endif // __PET_CATS_UPGRADED
+#if __CONTENTS(__UPGRADE_MONSTER_PET)
+										+1
+#endif //__UPGRADE_MONSTER_PET
+#if __CONTENTS(__CRIMSON_EVENT)
+										+1
+#endif //__CRIMSON_EVENT
+		);
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][0].HName = "주고 싶은 선물상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][0].EName = "My Heart Box";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][0].Description = "누군가에게 건네고 싶은 예쁜 선물상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][0].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][0].SetFrameID( 235, 239, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][0].SetDropFrameID( 235 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][0].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][0].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][0].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][1].HName = "마음 받은 선물상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][1].EName = "Your Heart Box";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][1].Description = "무엇이 들었을지 두근거리는 예쁜 선물상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][1].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][1].SetFrameID( 236, 240, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][1].SetDropFrameID( 236 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][1].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][1].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][1].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][2].HName = "빨강색 선물 상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][2].EName = "Red Gift Box";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][2].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][2].SetFrameID( 833, 856, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][2].SetDropFrameID( 833 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][2].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][2].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][2].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][3].HName = "파란색 선물 상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][3].EName = "Blue Gift Box";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][3].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][3].SetFrameID( 834, 857, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][3].SetDropFrameID( 834 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][3].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][3].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][3].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][4].HName = "초록색 선물 상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][4].EName = "Green Gift Box";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][4].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][4].SetFrameID( 835, 858, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][4].SetDropFrameID( 835 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][4].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][4].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][4].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][5].HName = "노란색 선물 상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][5].EName = "Yellow Gift Box";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][5].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][5].SetFrameID( 836, 859, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][5].SetDropFrameID( 836 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][5].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][5].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][5].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+
+	for(itemType = 6; itemType < 16; itemType++)
+	{
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "검은색 선물 상자";
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Black Gift Box";
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "";
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 837, 860, 0 );	
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 837 );
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetGrid(2, 2);
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Weight = 1;
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Price	= 5000;
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+	}
+
+	// 2004, 04, 28 sobeit add 마켓 이벤트 선물상자 start
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][16].HName = "빨강색 마켓 이벤트 선물 상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][16].EName = "Red Gift Box";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][16].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][16].SetFrameID( 833, 856, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][16].SetDropFrameID( 833 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][16].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][16].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][16].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][17].HName = "파란색 마켓 이벤트 선물 상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][17].EName = "Blue Gift Box";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][17].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][17].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][17].SetFrameID( 834, 857, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][17].SetDropFrameID( 834 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][17].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][17].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][17].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][18].HName = "노란색 마켓 이벤트 선물 상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][18].EName = "Yellow Gift Box";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][18].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][18].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][18].SetFrameID( 836, 859, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][18].SetDropFrameID( 836 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][18].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][18].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][18].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+
+	for( itemType = 19; itemType < 22; itemType++)
+	{
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "검은색 선물 상자";
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Black Gift Box";
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "";
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 837, 860, 0 );	
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 837 );
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetGrid(2, 2);
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Weight = 1;
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Price	= 5000;
+		m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+	}
+	// 2004, 04, 28 sobeit add 마켓 이벤트 선물상자 end
+
+	// 2004, 6, 18 sobeit add start - naming pen (864, 887)
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][22].HName = "네이밍 펜";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][22].EName = "Naming Pen";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][22].Description = "닉네임을 변경할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][22].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][22].SetFrameID( 865, 888, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][22].SetDropFrameID( 865 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][22].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][22].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][22].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][22].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][23].HName = "펫 네이밍 펜";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][23].EName = "Pet Naming Pen";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][23].Description = "펫의 닉네임을 변경할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][23].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][23].SetFrameID( 866, 889, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][23].SetDropFrameID( 866 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][23].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][23].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][23].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][23].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+	// 2004, 6, 18 sobeit add end - naming pen
+
+	// 2004, 6, 26 sobeit add start - 추가 네이밍 펜
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][24].HName = "엑스트라 네이밍 펜";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][24].EName = "Extra Naming Pen";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][24].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][24].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][24].SetFrameID( 865, 888, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][24].SetDropFrameID( 865 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][24].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][24].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][24].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][24].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][25].HName = "리미티드 네이밍 펜";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][25].EName = "Limited Naming Pen";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][25].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][25].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][25].SetFrameID( 865, 888, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][25].SetDropFrameID( 865 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][25].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][25].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][25].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][25].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][26].HName = "고정핀";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][26].EName = "Push-Pin";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][26].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][26].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][26].SetFrameID( 865, 888, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][26].SetDropFrameID( 865 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][26].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][26].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][26].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][26].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+	// 2004, 6, 26 sobeit add end - 추가 네이밍 펜
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][27].HName = "감사의 선물 상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][27].EName = "Gift Box";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][27].Description = "마우스의 오른쪽 클릭을 하면 아이템으로 교환 할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][27].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][27].SetFrameID( 833, 856, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][27].SetDropFrameID( 833 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][27].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][27].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][27].Price	= 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][27].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+
+	itemType	= 28;
+#if __CONTENTS(__2008_NEW_YEAR_EVENT)
+	//28
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "복주머니";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Lucky Bag";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "2008년 설날 이벤트 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1195, 1236, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1195 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Price	= 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType++].ItemMoveControl = ITEMMOVE_CANNOT_DROP;
+
+#endif	//__2008_NEW_YEAR_EVENT
+
+#if __CONTENTS(__2008_WHITEDAY_LOVECANDY)
+	//29
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "사랑의 사탕";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Love Candy";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "2008년 화이트데이 이벤트 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1205, 1246, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1205 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType++].Price = 1;
+
+#endif	//__2008_NEW_YEAR_EVENT
+
+#if __CONTENTS(__CLOVER_EVENT)
+	//30
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "행복의 세잎 클로버";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Three-leaf clover";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "이벤트 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1212, 1253, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1212 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Price = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType++].ItemMoveControl = ITEMMOVE_CANNOT_DROP;
+
+	//31
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "행운의 네잎 클로버";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Four-leaf clover";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "이벤트 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1211, 1252, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1211 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Price = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType++].ItemMoveControl = ITEMMOVE_CANNOT_DROP;
+
+#endif	//__CLOVER_EVENT
+#if __CONTENTS(__2008_JUNE_EVENT_EX_STONE)
+	//32
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "핏빛 선물상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Blood Gift Box";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "이벤트 아이템 입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 833, 856, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 833 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Price	= 5000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType++].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+#endif //__2008_JUNE_EVENT_EX_STONE
+
+#if __CONTENTS(__TIPOJYU_CASTLE_ITEM)
+	//33
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "모르고스의 유물";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Morgoth's reliquary";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "모르고스 보상 아이템";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1266, 1308, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1266 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Price = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType++].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+	
+	//34
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "구시온의 유물";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Gusion's reliquary";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "구시온 보상 아이템";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1265, 1307, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1265 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Price = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType++].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP;
+#endif //__TIPOJYU_CASTLE_ITEM
+
+#if __CONTENTS(__HALLOWEEN)
+	//35
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "잭오랜턴";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "jacko'lantern";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "할로윈데이 이벤트 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUNDID_NULL, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1299, 1343, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1299 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Price = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType++].ItemMoveControl = ITEMMOVE_CANNOT_DROP;
+#endif //__HALLOWEEN
+
+#if __CONTENTS(__PREMIUM_LOTTER)
+	//36
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "프리미엄 복권";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Premium Lotter";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "프리미엄 카드 결제자 에게만 드리는 토요일의 특별한 복권입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1301, 1345, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType++].SetDropFrameID( 1301 );
+#endif //__PREMIUM_LOTTER
+#if __CONTENTS(__GLOBAL_NPC)
+	//37
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "상점 NPC호출 아이템 교환권";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Merchant Coupon";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "개봉하면 상점 NPC 호출 아이템으로 교환됩니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1308, 1352, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1308 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Price = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType++].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_TRADE;
+	//38
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "수리 NPC호출 아이템 교환권";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Repair Coupon";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "개봉하면 수리 NPC 호출 아이템으로 교환됩니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1309, 1353, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1309 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Price = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType++].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_TRADE;
+#endif //__GLOBAL_NPC
+#if __CONTENTS(__CHRISTMAS_SOCKS_EVENT)
+	//39
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "양말 문양";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Socks Pattern";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "산타의 잃어버린 양말 이벤트에서 조각을 조합하여 수집하는 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1322, 1366, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1322 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType++].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_KEEP_STORAGE;
+#endif //__CHRISTMAS_SOCKS_EVENT
+#if __CONTENTS(__PREMIUM_LOTTER_A)
+	//40
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "프리미엄 복권 A";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Premium Lotter A";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "프리미엄 카드 사용자에게만 드리는 특별한 복권입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1301, 1345, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType++].SetDropFrameID( 13010 );
+#endif //__PREMIUM_LOTTER_A
+#if __CONTENTS(__PREMIUM_LOTTER_B)
+	//41
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "프리미엄 복권 B";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Premium Lotter B";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "프리미엄 카드 사용자에게만 드리는 특별한 복권입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1301, 1345, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType++].SetDropFrameID( 13010 );
+#endif //__PREMIUM_LOTTER_B
+#if __CONTENTS(__ONIBLA_ITEM)
+	//42
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "아스트랄 보물상자(블랙)";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Astral's Chest";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "아스트랄 피의 계약서\'를 담고 있는 보물 상자입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1347, 1391, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1347 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].ItemMoveControl = ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_PICKUP_ONCE | ITEMMOVE_CANNOT_KEEP_STORAGE;
+	itemType++;
+	//43
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "아스트랄 보물상자(화이트)";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Astral's Chest";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "아스트랄 피의 계약서\'를 담고 있는 보물 상자입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1347, 1391, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1347 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].ItemMoveControl = ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_PICKUP_ONCE | ITEMMOVE_CANNOT_KEEP_STORAGE;
+	itemType++;
+	//44
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "오니블라 보물상자(영구)";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Onibls's Chest(Forever)";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "오니블라 피의 계약서\'를 담고 있는 보물 상자입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1359, 1403, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1359 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].ItemMoveControl = ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_PICKUP_ONCE | ITEMMOVE_CANNOT_KEEP_STORAGE;
+	itemType++;
+	//45
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "오니블라 상자(시간제)";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Onibls's Chest(Limited)";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "시간제 \'오니블라 피의 계약서\'를 담고 있는 보물 상자입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1359, 1403, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1359 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].ItemMoveControl = ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_PICKUP_ONCE | ITEMMOVE_CANNOT_KEEP_STORAGE;
+	itemType++;
+	//46
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "오니블라 선물상자(이벤트)";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Onibls's Chest(Event)";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "여러가지 선물을 담고 있는 선물 상자입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1359, 1403, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1359 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].ItemMoveControl = ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_PICKUP_ONCE | ITEMMOVE_CANNOT_KEEP_STORAGE;
+	itemType++;
+#endif // __ONIBLA_ITEM
+#if __CONTENTS(__SUMMER_VACTATION_COOL_EVENT)
+	//47
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "부밍 케이스";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Booming Case";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "무엇이 나올지 모르는 부밍 케이스";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1359, 1406, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1359 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].ItemMoveControl = ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_PICKUP_ONCE | ITEMMOVE_CANNOT_DROP;
+	itemType++;
+#endif // __SUMMER_VACTATION_COOL_EVENT
+#if __CONTENTS(__PET_CATS_UPGRADED)
+	//48
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "태비 미스테리 인젝션";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Tabby Mistery Injection";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "무엇이 나올지 모르는 펫 인젝션";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1400, 1444, 0 );	// (ItemTile.ispk, Item.ispk, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1400 );		// (ItemTile.ispk);
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].ItemMoveControl = ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_PICKUP_ONCE | ITEMMOVE_CANNOT_DROP;
+	itemType++;
+
+	//49
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "웰시 미스테리 인젝션";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Wealthy Mistery Injection";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "무엇이 나올지 모르는 펫 인젝션";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1399, 1443, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1399 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].ItemMoveControl = ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_PICKUP_ONCE | ITEMMOVE_CANNOT_DROP;
+	itemType++;
+
+	//50
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "샤밍 미스테리 인젝션";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Siaming Mistery Injection";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "무엇이 나올지 모르는 펫 인젝션";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1398, 1442, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1398 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].ItemMoveControl = ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_PICKUP_ONCE | ITEMMOVE_CANNOT_DROP;
+	itemType++;
+
+#endif	// __PET_CATS_UPGRADED
+#if __CONTENTS(__MOONLIGHT_FESTIVAL_EVENT)
+	//51
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "달빛 상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Moonlight  Box";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "달빛 결정을 모으면 받을 수 있는 이벤트 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1392, 1436, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1392 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].ItemMoveControl = ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_DROP;
+	itemType++;
+#endif //__MOONLIGHT_FESTIVAL_EVENT
+#if __CONTENTS(__UPGRADE_MONSTER_PET)
+	//52
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "미스터리 데빌 인젝션";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Mistery Devil Injection";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "악마의 기운이 봉인된 신비한 인젝션입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1425, 1469, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1425 );
+	itemType++;
+#endif //__UPGRADE_MONSTER_PET
+#if __CONTENTS(__CRIMSON_EVENT)
+	//53
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].HName = "크림슨의 선물상자";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].EName = "Crimson`s Gift Box";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].Description = "13일의 금요일에만 나타나는 크림슨의 선물상자입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetSoundID( SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX, SOUND_XMAS_GIFTBOX );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetFrameID( 1445, 1489, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].SetDropFrameID( 1445 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_GIFT_BOX][itemType].ItemMoveControl = ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_DROP;
+	itemType++;
+#endif //__CRIMSON_EVENT	
+
+
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_EVENT_STAR
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_EVENT_STAR, 58
+#if __CONTENTS(__2008_FIRST_CHARGE_ITEM)
+		+1
+#endif	//__2008_FIRST_CHARGE_ITEM
+//#if __CONTENTS(__JAPAN_REVERSE_DEVELOP)
+		+1
+//#endif //__JAPAN_REVERSE_DEVELOP
+#if __CONTENTS(__THIRD_ENCHANT_2)
+		+3
+#endif //__THIRD_ENCHANT_2
+#if __CONTENTS(__IMI_LOW_LEVEL_ITEM)
+		+7
+#endif //__IMI_LOW_LEVEL_ITEM
+#if __CONTENTS(__IMI_NEW_ENCHANT_ITEM)
+		+8
+#endif //__IMI_NEW_ENCHANT_ITEM
+#if __CONTENTS(__20091119_ADD_ENCHANT_ITEM)
+		+2
+#endif //__20091119_ADD_ENCHANT_ITEM
+		) ;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][0].HName = "이벤트별 검정";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][0].EName = "Black Star";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][0].Description = "아이템을 Enchant할 수 있습니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][0].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][0].SetFrameID( 237, 241, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][0].SetDropFrameID( 237 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][0].Price	= 5000;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][1].HName = "이벤트별 빨강";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][1].EName = "Red Star";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][1].Description = "아이템을 Enchant할 수 있습니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][1].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][1].SetFrameID( 238, 242, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][1].SetDropFrameID( 238 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][1].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][2].HName = "이벤트별 파랑";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][2].EName = "Blue Star";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][2].Description = "아이템을 Enchant할 수 있습니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][2].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][2].SetFrameID( 239, 243, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][2].SetDropFrameID( 239 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][2].Price	= 5000;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][3].HName = "이벤트별 초록";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][3].EName = "Green Star";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][3].Description = "아이템을 Enchant할 수 있습니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][3].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][3].SetFrameID( 240, 244, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][3].SetDropFrameID( 240 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][3].Price	= 5000;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][4].HName = "이벤트별 하늘";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][4].EName = "Cyan Star";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][4].Description = "아이템을 Enchant할 수 있습니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][4].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][4].SetFrameID( 241, 245, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][4].SetDropFrameID( 241 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][4].Price	= 5000;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][5].HName = "이벤트별 흰색";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][5].EName = "White Star";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][5].Description = "아이템을 Enchant할 수 있습니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][5].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][5].SetFrameID( 242, 246, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][5].SetDropFrameID( 242 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][5].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][6].HName = "훌리건 축구공";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][6].EName = "Soccer Ball";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][6].Description = "많이 모으면 붉은 악마를 상징하는 붉은색 아이템을 받을 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][6].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][6].SetFrameID( 272, 286, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][6].SetDropFrameID( 272 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][6].Price	= 40000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][7].HName = "블루 드롭";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][7].EName = "Blue Drop";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][7].Description = "아이템을 Enchant할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][7].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][7].SetFrameID( 315, 329, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][7].SetDropFrameID( 315 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][7].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][8].HName = "빨간 떡국";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][8].EName = "Red SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][8].Description = "옵션이 없는 아이템을 Str옵션으로 Enchant할 수 있습니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][8].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][8].SetFrameID( 404, 418, 0 ); //( 379, 393, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][8].SetDropFrameID( 404 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][8].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][9].HName = "녹색 떡국";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][9].EName = "Green SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][9].Description = "옵션이 없는 아이템을 Dex옵션으로 Enchant할 수 있습니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][9].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][9].SetFrameID( 405, 419, 0 );//( 380, 394, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][9].SetDropFrameID( 405 );//( 380 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][9].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][10].HName = "파란 떡국";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][10].EName = "Blue SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][10].Description = "옵션이 없는 아이템을 Int옵션으로 Enchant할 수 있습니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][10].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][10].SetFrameID( 406, 420, 0 );//( 381, 395, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][10].SetDropFrameID( 406 );//( 381 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][10].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][10].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][11].HName = "검은 떡국";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][11].EName = "Black SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][11].Description = "옵션이 없는 아이템을 Damage옵션으로 Enchant할 수 있습니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][11].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][11].SetFrameID( 407, 421, 0 );//( 382, 396, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][11].SetDropFrameID( 407 );//( 382 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][11].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][11].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][12].HName = "블루 버드";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][12].EName = "Blue Bird";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][12].Description = "레어 아이템을 Enchant할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][12].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][12].SetFrameID( 519, 533, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][12].SetDropFrameID( 519 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][12].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][12].Price	= 2000000000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][13].HName = "청녹 떡국";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][13].EName = "Bluish Green Rice Cake Soup";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][13].Description = "옵션이 없는 아이템을 모든능력치+1 옵션으로 Enchant 할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][13].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][13].SetFrameID( 591, 605, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][13].SetDropFrameID( 591 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][13].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][13].Price	= 2000000000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][14].HName = "쑥색 떡국";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][14].EName = "Mugwort Rice Cake Soup";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][14].Description = "옵션이 없는 아이템을 Lucky+1 옵션으로 Enchant 할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][14].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][14].SetFrameID( 590, 604, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][14].SetDropFrameID( 590 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][14].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][14].Price	= 2000000000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][15].HName = "블루 드롭 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][15].EName = "Blue Drop 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][15].Description = "일반 블루드롭보다 높은 확률로 Enchant 할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][15].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][15].SetFrameID ( 586, 600, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][15].SetDropFrameID( 586 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][15].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][15].Price = 2000000000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][16].HName = "트랜스 아이템 키트";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][16].EName = "Trans Item Kit";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][16].Description = "아이템이 가지고 있는 착용 제한 성별을 전환 시켜 줍니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][16].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][16].SetFrameID ( 593, 607, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][16].SetDropFrameID( 593 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][16].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][16].Price = 2000000000;
+
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][17].HName = "이벤트 빨간 떡국";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][17].EName = "Event Red SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][17].Description = "무옵션 아이템에 str+1 옵션을 100% 인챈트합니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][17].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][17].SetFrameID( 404, 418, 0 ); //( 379, 393, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][17].SetDropFrameID( 404 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][17].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][17].Price	= 1;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][18].HName = "이벤트 녹색 떡국";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][18].EName = "Event Green SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][18].Description = "무옵션 아이템에 dex+1 옵션을 100% 인챈트합니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][18].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][18].SetFrameID( 405, 419, 0 );//( 380, 394, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][18].SetDropFrameID( 405 );//( 380 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][18].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][18].Price	= 1;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][19].HName = "이벤트 파란 떡국";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][19].EName = "Event Blue SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][19].Description = "무옵션 아이템에 int+1 옵션을 100% 인챈트합니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][19].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][19].SetFrameID( 406, 420, 0 );//( 381, 395, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][19].SetDropFrameID( 406 );//( 381 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][19].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][19].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][19].Price	= 1;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][20].HName = "이벤트 검은 떡국";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][20].EName = "Event Black SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][20].Description = "무옵션 아이템에 dam+1 옵션을 100% 인챈트합니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][20].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][20].SetFrameID( 407, 421, 0 );//( 382, 396, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][20].SetDropFrameID( 407 );//( 382 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][20].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][20].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][20].Price	= 1;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][21].HName = "이벤트 쑥색 떡국";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][21].EName = "Event Mugwort Rice Cake Soup";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][21].Description = "무옵션 아이템에 행운+1 옵션을 100% 인챈트합니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][21].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][21].SetFrameID( 590, 604, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][21].SetDropFrameID( 590 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][21].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][21].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][21].Price	= 1;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][22].HName = "옐로우 드롭";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][22].EName = "Yellow Drop";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][22].Description = "아이템의 급수를 일정 확률로 높여줍니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][22].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][22].SetFrameID( 980,1014, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][22].SetDropFrameID( 980 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][22].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][22].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][22].Price	= 1;
+
+	// 2005.08.14 sjheon  8월 신규 마켓 아이템  add	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][23].HName = "파이어 오너먼츠";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][23].EName = "Fire Ornaments";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][23].Description = "일정시간 무기에 불 속성이 부여되어 공격 시 일정확률로 불 공격이 더해집니다. (6일간 사용)";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][23].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][23].SetFrameID( 1004,1038, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][23].SetDropFrameID( 1004 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][23].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][23].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][23].Price	= 1;
+
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][24].HName = "포이즌 오너먼츠";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][24].EName = "Poison Ornaments";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][24].Description = "일정시간 무기에 독 속성이 부여되어 공격 시 일정확률로 지속형 독 공격이 더해집니다. (6일간 사용)";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][24].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][24].SetFrameID( 1006,1040, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][24].SetDropFrameID( 1006 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][24].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][24].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][24].Price	= 1;
+
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][25].HName = "아이스 오너먼츠";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][25].EName = "Ice Ornaments";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][25].Description = "일정시간 무기에 얼음 속성이 부여되어 공격 시 일정확률로 적의 공격속도를 느리게 만듭니다. (6일간 사용)";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][25].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][25].SetFrameID( 1003,1037, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][25].SetDropFrameID( 1003 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][25].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][25].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][25].Price	= 1;
+	// 2005.08.14 sjheon  8월 신규 마켓 아이템  End
+
+	
+	// 2005.09.07 sjheon  추석 이벤트 아이템  add	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][26].HName = "몸놀림이 잽싸지는 송편 SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][26].EName = "Korean rice cake of Defense SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][26].Description = "무옵션 장비에 회피율+1 옵션을 부여하는 강화아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][26].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][26].SetFrameID( 1012,1046,0);	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][26].SetDropFrameID( 1012 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][26].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][26].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][26].Price	= 1;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][27].HName = "피부가 단단해지는 송편 SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][27].EName = "Korean rice cake of Protection SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][27].Description = "무옵션 장비에 방어율+1 옵션을 부여하는 강화아이템입니다. ";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][27].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][27].SetFrameID( 1009,1043 ,0);	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][27].SetDropFrameID( 1009 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][27].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][27].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][27].Price	= 1;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][28].HName = "손짓이 빨라지는 송편 SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][28].EName = "Korean rice cake of Attack Speed SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][28].Description = "무옵션 장비에 공격속도+5 옵션을 부여하는 강화아이템입니다..";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][28].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][28].SetFrameID( 1007,1041,0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][28].SetDropFrameID( 1007 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][28].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][28].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][28].Price	= 1;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][29].HName = "맞으면 더 아픈 송편 SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][29].EName = "Korean rice cake of Damage SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][29].Description = "무옵션 장비에 데미지+2 옵션을 부여하는 강화아이템입니다";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][29].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][29].SetFrameID( 1008,1042 ,0);	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][29].SetDropFrameID( 1008 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][29].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][29].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][29].Price	= 1;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][30].HName = "운발이 오르는 송편 SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][30].EName = "Korean rice cake of Luck SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][30].Description = "무옵션 장비에 행운+3 옵션을 부여하는 강화아이템입니다. ";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][30].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][30].SetFrameID( 1011,1045 ,0);	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][30].SetDropFrameID( 1011 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][30].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][30].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][30].Price	= 1;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][31].HName = "눈이 맑이자는 송편 SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][31].EName = "Korean rice cake of Sight SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][31].Description = "무옵션 장비에 시야+3 옵션을 부여하는 강화아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][31].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][31].SetFrameID( 1010,1044,0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][31].SetDropFrameID( 1010 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][31].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][31].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][31].Price	= 1;
+
+
+	// 2005.09.07 sjheon  추석 이벤트 아이템  End
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][32].HName = "남색 변성의 돌";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][32].EName = "Indigo Denature Stone";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][32].Description = "옵션이 없는 아이템에 STR TO DEX 10% 옵션을 부여할수 있다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][32].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][32].SetFrameID( 1042, 1076, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][32].SetDropFrameID( 1042 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][32].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][32].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][32].Price = 200000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][33].HName = "적갈 변성의 돌";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][33].EName = "Crimson Denature Stone";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][33].Description = "옵션이 없는 아이템에 STR TO INT 10% 옵션을 부여할수 있다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][33].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][33].SetFrameID( 1043, 1077, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][33].SetDropFrameID( 1043 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][33].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][33].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][33].Price = 200000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][34].HName = "주황 변성의 돌";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][34].EName = "Coral Denature Stone";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][34].Description = "옵션이 없는 아이템에 DEX TO STR 10% 옵션을 부여할수 있다..";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][34].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][34].SetFrameID( 1044, 1078, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][34].SetDropFrameID( 1044 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][34].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][34].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][34].Price = 200000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][35].HName = "자홍 변성의 돌";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][35].EName = "Fuchsia Denature Stone";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][35].Description = "옵션이 없는 아이템에 DEX TO INT 10% 옵션을 부여할수 있다..";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][35].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][35].SetFrameID( 1045, 1079, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][35].SetDropFrameID( 1045 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][35].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][35].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][35].Price = 200000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][36].HName = "남청 변성의 돌";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][36].EName = "Navy Denature Stone";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][36].Description = "옵션이 없는 아이템에 INT TO STR 10% 옵션을 부여할수 있다..";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][36].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][36].SetFrameID( 1046, 1080, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][36].SetDropFrameID( 1046 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][36].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][36].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][36].Price = 200000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][37].HName = "은색 변성의 돌";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][37].EName = "Silver Denature Stone";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][37].Description = "옵션이 없는 아이템에 INT TO DEX 10% 옵션을 부여할수 있다..";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][37].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][37].SetFrameID( 1047, 1081, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][37].SetDropFrameID( 1047);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][37].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][37].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][37].Price = 200000;
+	
+	// 2006.09.25 추석 이벤트 아이템
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][38].HName = "감자 송편" ; //"몸놀림이 잽싸지는 송편 SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][38].EName = "Potato rice cake" ; //"Korean rice cake of Defense SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][38].Description = "옵션이 없는 아이템에 회피율 +2 옵션을 부여할 수 있다." ;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][38].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][38].SetFrameID( 1012,1046,0);	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][38].SetDropFrameID( 1012 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][38].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][38].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][38].Price	= 1;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][39].HName = "콩 송편" ; //"피부가 단단해지는 송편 SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][39].EName = "Soybean rice cake" ; //"Korean rice cake of Protection SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][39].Description = "옵션이 없는 아이템에 방어율 +2 옵션을 부여할 수 있다." ;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][39].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][39].SetFrameID( 1009,1043 ,0);	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][39].SetDropFrameID( 1009 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][39].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][39].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][39].Price	= 1;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][40].HName = "도토리 송편" ;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][40].EName = "Acorn rice cake" ;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][40].Description = "옵션이 없는 아이템에 공격속도 +10 옵션을 부여할 수 있다." ;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][40].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][40].SetFrameID( 1007,1041,0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][40].SetDropFrameID( 1007 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][40].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][40].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][40].Price	= 1;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][41].HName = "밤 송편" ;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][41].EName = "Chestnut rice cake" ;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][41].Description = "옵션이 없는 아이템에 데미지 +2 옵션을 부여할 수 있다." ;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][41].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][41].SetFrameID( 1008,1042 ,0);	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][41].SetDropFrameID( 1008 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][41].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][41].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][41].Price	= 1;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][42].HName = "쑥 송편" ; //"운발이 오르는 송편 SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][42].EName = "Crown daisy rice cake" ; //"Korean rice cake of Luck SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][42].Description = "옵션이 없는 아이템에 행운 +2 옵션을 부여할 수 있다." ;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][42].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][42].SetFrameID( 1011,1045 ,0);	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][42].SetDropFrameID( 1011 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][42].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][42].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][42].Price	= 1;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][43].HName = "호박 송편" ; //"눈이 맑이자는 송편 SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][43].EName = "Pumpkin rice cake" ;//"Korean rice cake of Sight SP";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][43].Description = "옵션이 없는 아이템에 시야 +2 옵션을 부여할 수 있다." ;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][43].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][43].SetFrameID( 1010,1044,0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][43].SetDropFrameID( 1010 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][43].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][43].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][43].Price  = 1 ;
+		
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][44].HName = "팥 송편";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][44].EName = "Red bean rice cake";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][44].Description = "옵션이 없는 아이템에 STR  +2 옵션을 부여할 수 있다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][44].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][44].SetFrameID( 1085,1119 ,0);	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][44].SetDropFrameID( 1085 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][44].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][44].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][44].Price	= 1;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][45].HName = "깨 송편";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][45].EName = "Sesame rice cake";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][45].Description = "옵션이 없는 아이템에 DEX  +2 옵션을 부여할 수 있다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][45].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][45].SetFrameID( 1086,1120 ,0);	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][45].SetDropFrameID( 1086 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][45].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][45].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][45].Price	= 1;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][46].HName = "대추 송편";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][46].EName = "Date rice cake";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][46].Description = "옵션이 없는 아이템에 INT  +2 옵션을 부여할 수 있다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][46].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][46].SetFrameID( 1087,1121 ,0);	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][46].SetDropFrameID( 1087 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][46].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][46].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][46].Price	= 1;
+
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][47].HName = "찹쌀 반죽" ;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][47].EName = "Glutinous Rice Kneading" ;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][47].Description = "한가위 이벤트 아이템입니다." ;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][47].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][47].SetFrameID( 1088,1122,0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][47].SetDropFrameID( 1088 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][47].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][47].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][47].Price	= 1;
+	
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][48].HName = "옐로우 드롭 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][48].EName = "Yellow Drop 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][48].Description = "아이템의 급수를 일정 확률로 높여줍니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][48].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][48].SetFrameID( 980,1014, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][48].SetDropFrameID( 980 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][48].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][48].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][48].Price = 1;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][49].HName = "레드 코랄";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][49].EName = "Red Coral";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][49].Description = "옵션이 없는 아이템을 힘 옵션으로 enchant할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][49].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][49].SetFrameID( 1159, 1186, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][49].SetDropFrameID( 1159 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][49].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][49].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][49].Price	= 5000;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][50].HName = "그린 코랄";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][50].EName = "Green Coral";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][50].Description = "옵션이 없는 아이템을 민첩성 옵션으로 enchant할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][50].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][50].SetFrameID( 1160, 1187, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][50].SetDropFrameID( 1160 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][50].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][50].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][50].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][51].HName = "블루 코랄";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][51].EName = "Blue Coral";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][51].Description = "옵션이 없는 아이템을 지식 옵션으로 enchant할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][51].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][51].SetFrameID( 1162, 1189, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][51].SetDropFrameID( 1162 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][51].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][51].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][51].Price	= 5000;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][52].HName = "블랙 코랄";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][52].EName = "Black Coral";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][52].Description = "옵션이 없는 아이템을 데미지 옵션으로 enchant할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][52].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][52].SetFrameID( 1161, 1188, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][52].SetDropFrameID( 1161 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][52].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][52].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][52].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][53].HName = "블루그린 코랄";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][53].EName = "Bluegreen Coral";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][53].Description = "옵션이 없는 아이템을 모든 능력치 옵션으로 enchant할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][53].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][53].SetFrameID( 1163, 1190, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][53].SetDropFrameID( 1163 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][53].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][53].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][53].Price	= 5000;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][54].HName = "릴리스 윌";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][54].EName = "Lilith will";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][54].Description = "레어 옵션 무기 아이템에 3차 옵션을 인챈트 할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][54].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][54].SetFrameID( 1174, 1204, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][54].SetDropFrameID( 1174 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][54].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][54].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][54].Price	= 2000000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][54].DropItemNameTag = 255;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][55].HName = "릴리스 스피릿";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][55].EName = "Lilith Spirit";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][55].Description = "레어 옵션 마법무기 아이템에 3차 옵션을 인챈트 할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][55].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][55].SetFrameID( 1173, 1203, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][55].SetDropFrameID( 1173 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][55].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][55].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][55].Price	= 2000000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][55].DropItemNameTag = 16737280;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][56].HName = "릴리스 드롭";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][56].EName = "Lilith Drop";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][56].Description = "레어 옵션 방어구 아이템에 3차 옵션을 인챈트 할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][56].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][56].SetFrameID( 1172, 1202, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][56].SetDropFrameID( 1172 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][56].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][56].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][56].Price	= 2000000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][56].DropItemNameTag = 13783195;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][57].HName = "옐로우 드롭 3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][57].EName = "Yellow Drop 3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][57].Description = "레어 아이템의 급수를 올릴 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][57].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][57].SetFrameID( 980,1014, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][57].SetDropFrameID( 980 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][57].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][57].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][57].Price = 1;
+
+#if __CONTENTS(__2008_FIRST_CHARGE_ITEM)
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][58].HName = "크리스탈";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][58].EName = "CRYSTAL";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][58].Description = "옵션이 없는 아이템에 새로운 옵션을 부여하거나, 기존에 부여되어 있는 1옵션을 새로 변경할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][58].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][58].SetFrameID( 1201,1242, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][58].SetDropFrameID( 1201 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][58].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][58].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][58].Price = 1;
+#endif	//__2008_FIRST_CHARGE_ITEM
+
+//#if __CONTENTS(__JAPAN_REVERSE_DEVELOP)
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][59].HName = "올리브그린 코랄";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][59].EName = "Olivegreen Coral";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][59].Description = "옵션이 없는 아이템을 행운 옵션으로 enchant할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][59].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][59].SetFrameID( 1219, 1262, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][59].SetDropFrameID(1219);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][59].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][59].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][59].Price	= 5000;
+//#endif //__JAPAN_REVERSE_DEVELOP
+
+#if __CONTENTS(__THIRD_ENCHANT_2)
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][60].HName = "릴리스 윌";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][60].EName = "Lilith will 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][60].Description = "레어 옵션 무기 아이템에 3차 옵션을 인챈트 할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][60].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][60].SetFrameID( 1333, 1377, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][60].SetDropFrameID( 1333 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][60].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][60].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][60].Price	= 2000000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][60].DropItemNameTag = 255;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][61].HName = "릴리스 스피릿";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][61].EName = "Lilith Spirit 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][61].Description = "레어 옵션 마법무기 아이템에 3차 옵션을 인챈트 할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][61].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][61].SetFrameID( 1332, 1376, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][61].SetDropFrameID( 1332 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][61].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][61].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][61].Price	= 2000000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][61].DropItemNameTag = 16737280;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][62].HName = "릴리스 드롭";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][62].EName = "Lilith Drop 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][62].Description = "레어 옵션 방어구 아이템에 3차 옵션을 인챈트 할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][62].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][62].SetFrameID( 1331, 1375, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][62].SetDropFrameID( 1331 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][62].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][62].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][62].Price	= 2000000;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][62].DropItemNameTag = 13783195;
+
+#endif //__THIRD_ENCHANT_2
+
+#if __CONTENTS(__IMI_LOW_LEVEL_ITEM)
+	itemType = 63;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "오디너리 레드 코랄";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Ordinary Red Coral";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "옵션이 없는 아이템을 힘 옵션으로 enchant할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1159, 1186, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1159 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price	= 5000;
+
+	itemType++; //64
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "오디너리 그린 코랄";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Ordinary Green Coral";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "옵션이 없는 아이템을 민첩성 옵션으로 enchant할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1160, 1187, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1160 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price	= 5000;
+
+	itemType++; //65
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "오디너리 블루 코랄";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Ordinary Blue Coral";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "옵션이 없는 아이템을 지식 옵션으로 enchant할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1162, 1189, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1162 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price	= 5000;
+	
+	itemType++; //66
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "오디너리 블루그린 코랄";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Ordinary Bluegreen Coral";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "옵션이 없는 아이템을 모든 능력치 옵션으로 enchant할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1163, 1190, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1163 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price	= 5000;
+
+	itemType++; //67
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "오디너리 블랙 코랄";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Ordinary Black Coral";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "옵션이 없는 아이템을 데미지 옵션으로 enchant할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1161, 1188, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1161 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price	= 5000;
+
+	itemType++; //68
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "오디너리 크리스탈";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Ordinary CRYSTAL";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "옵션이 없는 아이템에 새로운 옵션을 부여하거나, 기존에 부여되어 있는 1옵션을 새로 변경할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1201,1242, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1201 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price = 1;
+
+	itemType++; //69
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "오디너리 옐로우 드랍";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Ordinary Yellow Drop";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "아이템의 급수를 일정 확률로 높여줍니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 980,1014, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 980 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price = 1;
+#endif //__IMI_LOW_LEVEL_ITEM
+#if __CONTENTS(__IMI_NEW_ENCHANT_ITEM)
+	itemType++; //70
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "오디너리 릴리스 윌";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Ordinary Lilith Will";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "레어 옵션의 물리 무기에 3차 옵션을 인챈트 할 수 있는 소모성 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1389,1433, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1389 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price = 1;
+
+	itemType++; //71
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "오디너리 릴리스 스피릿";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Ordinary Lilith Spirit";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "레어 옵션의 마법 무기에 3차 옵션을 인챈트 할 수 있는 소모성 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1388,1432, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1388 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price = 1;
+
+	itemType++; //72
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "오디너리 릴리스 드롭";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Ordinary Lilith Drop";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "레어 옵션의 방어구 에 3차 옵션을 인챈트 할 수 있는 소모성 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1390,1434, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1390 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price = 1;
+
+	itemType++; //73
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "어센트 옐로우 코어";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Ascent Yellow Core";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1386,1430, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1386 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price = 1;
+
+	itemType++; //74
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "리타드 옐로우 코어";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Retard Yellow Core";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "오디너리 옐로우 드롭의 아이템 급수 하락 확률을 경감해주는 소모성 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1384,1428, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1384 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price = 1;
+
+	itemType++; //75
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "어센트 릴리스 코어";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Retard Lilith Core";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1385,1429, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1385 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price = 1;
+
+	itemType++; //76
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "리타드 릴리스 코어";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Retard Lilith Core";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "오디너리 릴리스 계열의 릴리스 옵션 삭제 확률을 경감해주는 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1383,1427, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1383 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price = 1;
+
+	itemType++; //77
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "어센트 코랄 코어";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Ascent Coral Core";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1387,1431, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1387 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price = 1;
+#endif //__IMI_NEW_ENCHANT_ITEM
+#if __CONTENTS(__20091119_ADD_ENCHANT_ITEM)
+	itemType++; //78
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "블루 드롭 샤인";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Blue Drop Shine";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "1옵션(매직) 아이템에 인챈트 할 수 있는 소모성 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1446,1490, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1446 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price = 1;
+
+	itemType++; //79
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].HName = "블루 드롭 엣지";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].EName = "Blue Drop Edge";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Description = "1옵션(매직) 아이템에 인챈트 할 수 있는 소모성 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetFrameID( 1447,1491, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetDropFrameID( 1447 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_STAR][itemType].Price = 1;
+#endif //__20091119_ADD_ENCHANT_ITEM
+
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_VAMPIRE_EARRING
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_VAMPIRE_EARRING, 14 
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+#if __CONTENTS(__ONIBLA_ITEM)
+		+2
+#endif // __ONIBLA_ITEM
+
+);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][0].HName = "브론즈 이어링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][0].EName = "Bronze Earring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][0].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][0].SetFrameID( 305, 319, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][0].SetDropFrameID( 305 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][0].Price	= 3000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][1].HName = "실버 이어링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][1].EName = "Silver Earring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][1].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][1].SetFrameID( 306, 320, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][1].SetDropFrameID( 306 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][1].Price	= 4000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][2].HName = "골드 이어링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][2].EName = "Gold Earring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][2].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][2].SetFrameID( 307, 321, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][2].SetDropFrameID( 307 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][2].Price	= 6000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][3].HName = "데쓰 썬 이어링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][3].EName = "Death Sun Earring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][3].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][3].SetFrameID( 308, 322, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][3].SetDropFrameID( 308 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][3].Price	= 9000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][4].HName = "베츠 서클 이어링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][4].EName = "Bats Circle Earring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][4].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][4].SetFrameID( 309, 323, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][4].SetDropFrameID( 309 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][4].Price	= 13000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][5].HName = "쉴드오브 다크니스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][5].EName = "Shield of Darkness";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][5].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][5].SetFrameID( 310, 324, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][5].SetDropFrameID( 310 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][5].Price	= 19000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][6].HName = "블러디 피스트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][6].EName = "Bloody Feast";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][6].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][6].SetFrameID( 311, 325, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][6].SetDropFrameID( 311 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][6].Price	= 28000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][7].HName = "이어링 오브 이터널 라이프";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][7].EName = "Earring of Eternal Life";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][7].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][7].SetFrameID( 312, 326, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][7].SetDropFrameID( 312 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][7].Price	= 42000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][8].HName = "더 캣츠 아이즈";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][8].EName = "The Cats Eyes";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][8].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][8].SetFrameID( 313, 327, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][8].SetDropFrameID( 313 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][8].Price	= 63000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][9].HName = "스컬 오브 디스트럭션";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][9].EName = "Skull of Destruction";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][9].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][9].SetFrameID( 314, 328, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][9].SetDropFrameID( 314 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][9].Price	= 94000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][10].HName = "에잇 이어링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][10].EName = "Ate's Earring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][10].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][10].SetFrameID( 370, 384, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][10].SetDropFrameID( 370 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][10].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][10].Price	= 94000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][11].HName = "화합의 서약";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][11].EName = "The Oath of Harmony";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][11].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][11].SetFrameID( 460, 474, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][11].SetDropFrameID( 460 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][11].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][11].Price	= 94000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][12].HName = "히아신스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][12].EName = "Hyacinth";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][12].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][12].SetFrameID( 490, 504, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][12].SetDropFrameID( 490 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][12].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][12].Price	= 94000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][13].HName = "카넬리안";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][13].EName = "Carnelian";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][13].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][13].SetFrameID( 929 , 952 ,0);	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][13].SetDropFrameID( 929 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][13].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][13].Price	= 94000;
+	itemType = 14;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].HName = "오시리스의 서약";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].EName = "The Oath of Osiris";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetFrameID( 460, 474, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetDropFrameID( 460 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Price	= 125000;
+
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType++;	// 15
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].HName = "아틸라 이어링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].EName = "Attila Ring";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetFrameID( 1223, 1266 ,0);	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetDropFrameID( 1223 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Weight = 3;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Price	= 2000000;
+
+	itemType++;	// 16
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].HName = "피어즈 서클";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].EName = "Fears Circle";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetFrameID( 929 , 952 ,0);	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetDropFrameID( 929 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Weight = 3;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Price	= 2000000;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+#if __CONTENTS(__ONIBLA_ITEM)
+	itemType++;	// 17
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].HName = "핏빛 속삭임";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].EName = "Bloody Whisper";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetFrameID( 1358 , 1402 ,0);	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetDropFrameID( 1358 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Weight = 3;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Price	= 999999;
+
+	itemType++;	// 18
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].HName = "더 스네이크 아이";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].EName = "The Snake Eye";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetFrameID( 1345 , 1389 ,0);	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetDropFrameID( 1345 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Weight = 3;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_EARRING][itemType].Price	= 25000000;
+#endif // __ONIBLA_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_RELIC
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_RELIC, 2 );
+
+	m_pTypeInfo[ITEM_CLASS_RELIC][0].HName = "롬멜의훈장";
+	m_pTypeInfo[ITEM_CLASS_RELIC][0].EName = "Rommels Tag";
+	m_pTypeInfo[ITEM_CLASS_RELIC][0].Description = "슬레이어의 성물";
+	m_pTypeInfo[ITEM_CLASS_RELIC][0].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_RELIC][0].SetFrameID( 274, 288, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RELIC][0].SetDropFrameID( 274 );
+	m_pTypeInfo[ITEM_CLASS_RELIC][0].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_RELIC][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_RELIC][0].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_RELIC][0].ItemMoveControl = ITEMMOVE_CANNOT_DROP;
+
+//	m_pTypeInfo[ITEM_CLASS_RELIC][1].HName = "성의";
+//	m_pTypeInfo[ITEM_CLASS_RELIC][1].EName = "The Holy Linen";
+//	m_pTypeInfo[ITEM_CLASS_RELIC][1].Description = "슬레이어의 성물";
+//	m_pTypeInfo[ITEM_CLASS_RELIC][1].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+//	m_pTypeInfo[ITEM_CLASS_RELIC][1].SetFrameID( 275, 289, 0 );	
+//	m_pTypeInfo[ITEM_CLASS_RELIC][1].SetDropFrameID( 275 );
+//	m_pTypeInfo[ITEM_CLASS_RELIC][1].SetGrid(2, 2);
+//	m_pTypeInfo[ITEM_CLASS_RELIC][1].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_RELIC][1].Price	= 0;
+//
+	m_pTypeInfo[ITEM_CLASS_RELIC][1].HName = "처녀의피";
+	m_pTypeInfo[ITEM_CLASS_RELIC][1].EName = "The Blood of Virgin";
+	m_pTypeInfo[ITEM_CLASS_RELIC][1].Description = "뱀파이어의 성물";
+	m_pTypeInfo[ITEM_CLASS_RELIC][1].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+	m_pTypeInfo[ITEM_CLASS_RELIC][1].SetFrameID( 273, 287, 0 );	
+	m_pTypeInfo[ITEM_CLASS_RELIC][1].SetDropFrameID( 273 );
+	m_pTypeInfo[ITEM_CLASS_RELIC][1].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_RELIC][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_RELIC][1].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_RELIC][1].ItemMoveControl = ITEMMOVE_CANNOT_DROP;
+
+//	m_pTypeInfo[ITEM_CLASS_RELIC][3].HName = "역십자가";
+//	m_pTypeInfo[ITEM_CLASS_RELIC][3].EName = "The Anti-Cross";
+//	m_pTypeInfo[ITEM_CLASS_RELIC][3].Description = "뱀파이어의 성물";
+//	m_pTypeInfo[ITEM_CLASS_RELIC][3].SetSoundID( SOUND_XMAS_STAR, SOUND_XMAS_STAR, SOUNDID_NULL, SOUND_XMAS_STAR );
+//	m_pTypeInfo[ITEM_CLASS_RELIC][3].SetFrameID( 276, 290, 0 );	
+//	m_pTypeInfo[ITEM_CLASS_RELIC][3].SetDropFrameID( 276 );
+//	m_pTypeInfo[ITEM_CLASS_RELIC][3].SetGrid(2, 3);
+//	m_pTypeInfo[ITEM_CLASS_RELIC][3].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_RELIC][3].Price	= 0;
+
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_VAMPIRE_WEAPON
+	//---------------------------------------------------------------------
+	// 내구성(1), Protection(?), MinDam(3)~MaxDam(4), Speed(7)
+	//---------------------------------------------------------------------	
+	InitClass(ITEM_CLASS_VAMPIRE_WEAPON, 24
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+		);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][0].HName = "너클 파트";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][0].EName = "Knuckle part";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][0].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][0].SetFrameID( 316, 330, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][0].SetDropFrameID( 316 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][0].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][0].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][0].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][0].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][0].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][1].HName = "썸 그랩";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][1].EName = "Thumb Grab";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][1].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][1].SetFrameID( 317, 331, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][1].SetDropFrameID( 317 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][1].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][1].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][1].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][1].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][1].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][2].HName = "포스 너클";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][2].EName = "Force Knuckle";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][2].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][2].SetFrameID( 318, 333, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][2].SetDropFrameID( 318 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][2].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][2].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][2].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][2].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][2].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][3].HName = "제미널링 너클";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][3].EName = "Geminal ring Knuckle";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][3].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][3].SetFrameID( 319, 335, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][3].SetDropFrameID( 319 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][3].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][3].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][3].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][3].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][3].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][4].HName = "예티 크로우";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][4].EName = "Yetis Craw";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][4].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][4].SetFrameID( 326, 340, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][4].SetDropFrameID( 326 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][4].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][4].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][4].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][4].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][4].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][5].HName = "켓츠 크로우";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][5].EName = "Cats Craw";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][5].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][5].SetFrameID( 327, 341, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][5].SetDropFrameID( 327 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][5].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][5].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][5].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][5].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][5].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][6].HName = "피스트 너클";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][6].EName = "Fist Knuckle";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][6].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][6].SetFrameID( 320, 336, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][6].SetDropFrameID( 320 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][6].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][6].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][6].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][6].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][6].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][7].HName = "에이프 너클";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][7].EName = "Ape Knuckle";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][7].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][7].SetFrameID( 321, 334, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][7].SetDropFrameID( 321 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][7].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][7].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][7].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][7].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][7].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][8].HName = "사브 너클";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][8].EName = "Sav Knuckle";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][8].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][8].SetFrameID( 322, 339, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][8].SetDropFrameID( 322 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][8].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][8].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][8].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][8].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][8].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][9].HName = "지프 핸즈 너클";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][9].EName = "Sifs Hand Knuckle";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][9].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][9].SetFrameID( 323, 338, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][9].SetDropFrameID( 323 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][9].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][9].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][9].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][9].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][9].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][10].HName = "룬 다이버 너클";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][10].EName = "Loon Diver Knuckle";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][10].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][10].SetFrameID( 324, 337, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][10].SetDropFrameID( 324 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][10].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][10].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][10].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][10].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][10].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][11].HName = "마이트 너클";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][11].EName = "Might Knuckle";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][11].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][11].SetFrameID( 325, 332, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][11].SetDropFrameID( 325 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][11].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][11].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][11].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][11].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][11].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][12].HName = "자마다르";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][12].EName = "Zamadar";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][12].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][12].SetFrameID( 328, 342, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][12].SetDropFrameID( 328 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][12].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][12].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][12].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][12].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][12].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][13].HName = "카타르";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][13].EName = "Katar";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][13].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][13].SetFrameID( 329, 343, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][13].SetDropFrameID( 329 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][13].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][13].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][13].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][13].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][13].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][14].HName = "아메메트 크로우";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][14].EName = "Amemets Craw";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][14].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][14].SetFrameID( 330, 344, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][14].SetDropFrameID( 330 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][14].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][14].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][14].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][14].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][14].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][15].HName = "마락스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][15].EName = "MARAX";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][15].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][15].SetFrameID( 332, 346, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][15].SetDropFrameID( 332 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][15].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][15].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][15].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][15].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][15].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][16].HName = "자간";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][16].EName = "Zagan";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][16].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][16].SetFrameID( 456, 470, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][16].SetDropFrameID( 456 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][16].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][16].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][16].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][16].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][16].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][17].HName = "바그나우";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][17].EName = "Bagh Nakh";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][17].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][17].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][17].SetFrameID( 485, 499, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][17].SetDropFrameID( 485 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][17].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][17].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][17].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][17].SilverMax	= 1000;
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][18].HName = "칸자르 크로우";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][18].EName = "Khanjar Crow";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][18].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][18].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][18].SetFrameID( 931 , 954 ,0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][18].SetDropFrameID( 931 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][18].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][18].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][18].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][18].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][17].SetRequireAbility(20);
+	
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][19].HName = "에시즈 네일";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][19].EName = "Acies Nail";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][19].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][19].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][19].SetFrameID( 943, 979, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][19].SetDropFrameID(943 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][19].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][19].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][19].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][19].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][19].SilverMax	= 1000;
+
+
+	// Sjheon 2005.06.02 Add
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][20].HName = "린퍼스 자마다르 ";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][20].EName = "Reinforce Zamadar";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][20].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][20].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][20].SetFrameID( 328, 342, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][20].SetDropFrameID( 328 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][20].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][20].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][20].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][20].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][20].SilverMax	= 1000;
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][21].HName = "대쓰 마쉬 크로우";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][21].EName = "Death marsh Craw";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][21].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][21].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][21].SetFrameID( 330, 344, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][21].SetDropFrameID( 330 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][21].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][21].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][21].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][21].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][21].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][14].SetRequireAbility(20);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][22].HName = "린퍼스 바그나우 ";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][22].EName = "Reinforce Bagh Nakh";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][22].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][22].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][22].SetFrameID( 485, 499, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][22].SetDropFrameID( 485 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][22].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][22].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][22].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][22].Price	= 2000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][22].SilverMax	= 1000;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][23].HName = "본 클리브";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][23].EName = "Bone Cleaveh";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][23].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][23].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][23].SetFrameID( 1068, 1102, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][23].SetDropFrameID( 1068 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][23].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][23].SetValue(800, -1, 22, 31, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][23].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][23].Price	= 600000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][23].SilverMax	= 1000;
+
+	itemType	= 24;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].HName = "오시리스 자간";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].EName = "Osiris Zagan";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetFrameID( 456, 470, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetDropFrameID( 456 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].Price = 1080000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType++].SilverMax = 58500;
+#endif
+	// Sjheon 2005.06.02 End
+
+#if __CONTENTS(__QUEST_RENEWAL)	//아이템 추가		사브 너클
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].HName = "릴리스 사브 너클";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].EName = "Lilith SAV Knuckle";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetFrameID( 322, 339, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetDropFrameID( 322 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetValue(800, -1, 10, 15, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].Price	= 16800;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType++].SilverMax	= 1000;
+	//m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][8].SetRequireAbility(20);
+#endif	// 	
+//	m_pTypeInfo[ITEM_CLASS_CLAW][1].HName = "본 클리브";
+//	m_pTypeInfo[ITEM_CLASS_CLAW][1].EName = "Bone Cleave";
+//	m_pTypeInfo[ITEM_CLASS_CLAW][1].Description = "";
+//	m_pTypeInfo[ITEM_CLASS_CLAW][1].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+//	m_pTypeInfo[ITEM_CLASS_CLAW][1].SetFrameID( 939, 975, 0);
+//	m_pTypeInfo[ITEM_CLASS_CLAW][1].SetDropFrameID(939 );
+//	m_pTypeInfo[ITEM_CLASS_CLAW][1].SetGrid(1, 1);
+//	m_pTypeInfo[ITEM_CLASS_CLAW][1].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_CLAW][1].Price = 0;
+
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	// i = 26
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].HName = "헬 브레스 너클";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].EName = "Hell breath Knuckles";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetFrameID( 1227, 1270, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetDropFrameID( 1227 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetValue(800, -1, 41, 49, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SilverMax	= 1000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType++].Price	= 7000000;
+
+	// i = 27
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].HName = "발라카스 크로우";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].EName = "Claw Of Valakas";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetSoundID( SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUND_ITEM_MOVE_GLOVE, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetFrameID( 1068, 1102, 0 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetDropFrameID( 1068 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SetValue(65000, -1, 51, 59, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].Weight = 1;
+//	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType].SilverMax	= 1000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_WEAPON][itemType++].Price	= 8000000;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_VAMPIRE_AMULET
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_VAMPIRE_AMULET, 14 
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+		+1
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+		+1
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+		+2
+#endif //__NEW_ADVANCEMENT_ITEM
+
+		);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][0].HName = "라드";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][0].EName = "Rad";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][0].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][0].SetFrameID( 336, 350, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][0].SetDropFrameID( 336 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][0].Price	= 3000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][0].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][1].HName = "켄";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][1].EName = "Ken";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][1].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][1].SetFrameID( 337, 351, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][1].SetDropFrameID( 337 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][1].Price	= 4000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][1].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][2].HName = "제라";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][2].EName = "Jera";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][2].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][2].SetFrameID( 338, 352, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][2].SetDropFrameID( 338 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][2].Price	= 6000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][2].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][3].HName = "에오르";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][3].EName = "Eolh";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][3].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][3].SetFrameID( 339, 353, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][3].SetDropFrameID( 339 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][3].Price	= 9000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][3].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][4].HName = "만";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][4].EName = "Man";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][4].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][4].SetFrameID( 340, 354, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][4].SetDropFrameID( 340 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][4].Price	= 13000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][4].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][5].HName = "부만";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][5].EName = "Bu Man";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][5].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][5].SetFrameID( 341, 355, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][5].SetDropFrameID( 341 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][5].Price	= 19000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][5].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][6].HName = "잉그";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][6].EName = "Ing";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][6].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][6].SetFrameID( 342, 356, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][6].SetDropFrameID( 342 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][6].Price	= 28000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][6].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][7].HName = "오셀";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][7].EName = "Othel";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][7].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][7].SetFrameID( 343, 357, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][7].SetDropFrameID( 343 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][7].Price	= 42000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][7].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][8].HName = "오달";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][8].EName = "Odal";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][8].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][8].SetFrameID( 344, 358, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][8].SetDropFrameID( 344 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][8].Price	= 63000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][8].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][9].HName = "다에그";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][9].EName = "Daeg";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][9].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][9].SetFrameID( 345, 359, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][9].SetDropFrameID( 345 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][9].Price	= 94000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][9].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][10].HName = "시겔";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][10].EName = "Sigel";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][10].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][10].SetFrameID( 372, 386, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][10].SetDropFrameID( 372 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][10].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][10].Price	= 94000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][10].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][11].HName = "이스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][11].EName = "IS";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][11].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][11].SetFrameID( 461, 475, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][11].SetDropFrameID( 461 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][11].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][11].Price	= 94000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][11].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][12].HName = "페오";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][12].EName = "Feoh";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][12].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][12].SetFrameID( 488, 502, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][12].SetDropFrameID( 488 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][12].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][12].Price	= 94000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][12].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][13].HName = "니이드";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][13].EName = "Nied";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][13].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][13].SetFrameID( 910,	933, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][13].SetDropFrameID( 910 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][13].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][13].Price	= 94000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][13].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	itemType	= 14;
+#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM )
+//#if __CONTENTS(__LEVEL_WAR_RENEWAL_ITEM)
+
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].HName = "오시리스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].EName = "Osiris";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetFrameID( 461, 475, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetDropFrameID( 461 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].Price	= 125000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+	itemType++;
+
+#endif
+
+#if __CONTENTS(__QUEST_RENEWAL)
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].HName = "릴리스 제라";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].EName = "Lilith Jera";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetFrameID( 338, 352, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetDropFrameID( 338 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].Price	= 6000;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+#endif
+
+#if __CONTENTS(__NEW_ADVANCEMENT_ITEM)
+	itemType++;	// 16
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].HName = "라스";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].EName = "Ras";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetFrameID( 1220, 1263, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetDropFrameID( 1220 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].Weight = 3;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].Price	= 1000000;
+//	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	itemType++;	// 17
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].HName = "임팰러";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].EName = "Impeller";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].Description = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetFrameID( 910,	933, 0 );	
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetDropFrameID( 910 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].Weight = 3;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].Price	= 2000000;
+//	m_pTypeInfo[ITEM_CLASS_VAMPIRE_AMULET][itemType].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+#endif //__NEW_ADVANCEMENT_ITEM
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_QUEST_ITEM
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_QUEST_ITEM, 16);
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][0].HName = "바토리 목걸이";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][0].EName = "Bathory Necklace";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][0].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][0].SetFrameID( 374, 388, 0 );	
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][0].SetDropFrameID( 374 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][0].Price	= 3000;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][1].HName = "바토리 펜던트";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][1].EName = "Bathory Pendant";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][1].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][1].SetFrameID( 373, 387, 0 );	
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][1].SetDropFrameID( 373 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][1].Price	= 4000;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][2].HName = "테페즈 목걸이";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][2].EName = "Tepez Necklace";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][2].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][2].SetFrameID( 376, 390, 0 );	
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][2].SetDropFrameID( 376 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][2].Price	= 6000;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][3].HName = "테페즈 펜던트";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][3].EName = "Tepez Pendant";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][3].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][3].SetFrameID( 375, 389, 0 );	
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][3].SetDropFrameID( 375 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][3].Price	= 9000;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][4].HName = "젬스톤";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][4].EName = "Gemstone";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][4].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][4].SetFrameID( 751, 765, 0 );	
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][4].SetDropFrameID( 751 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][4].Price	= 9000;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][5].HName = "보름달 카드";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][5].EName = "The Full Moon Card";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][5].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][5].SetFrameID( 771, 785, 0 );	
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][5].SetDropFrameID( 771 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][5].Price	= 9000;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][6].HName = "그믐달 카드";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][6].EName = "The Old Moon Card";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][6].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][6].SetFrameID( 768, 782, 0 );	
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][6].SetDropFrameID( 768 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][6].Price	= 9000;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][7].HName = "빨간색 복주머니";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][7].EName = "The Red Lucky Bag";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][7].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][7].SetFrameID( 829, 852, 0 );	
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][7].SetDropFrameID( 829 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][7].Price	= 9000;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][8].HName = "질드레 비쥬";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][8].EName = "Gilles de Rais Beads";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][8].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][8].SetFrameID( 867, 890, 0 );	
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][8].SetDropFrameID( 867 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][8].Price	= 9000;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][9].HName = "질드레 펜던트";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][9].EName = "Gilles de Rais Pendant";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][9].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][9].SetFrameID( 868, 891, 0 );	
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][9].SetDropFrameID( 868 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][9].Price	= 9000;
+	
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][10].HName = "봉인석";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][10].EName = "Sealing Stone";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][10].Description = "미클리즈가 봉인된 지역으로 진입하기 위한 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][10].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][10].SetFrameID( 1079,1113, 0);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][10].SetDropFrameID(1079 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][10].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][10].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][11].HName = "헬 가든의 열쇠";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][11].EName = "Key Of Hellgarden";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][11].Description = "헬 가든 1층의 타워에 입장 할 수 있는 열쇠입니다.";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][11].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][11].SetFrameID( 1134, 1161, 0);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][11].SetDropFrameID( 1134 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][11].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][11].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][11].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_TRADE;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][12].HName = "예지의 열쇠";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][12].EName = "Key Of Foresight";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][12].Description = "헬 가든 2층의 타워에 입장 할 수 있는 열쇠입니다.";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][12].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][12].SetFrameID( 1135, 1162, 0);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][12].SetDropFrameID( 1135 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][12].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][12].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][12].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_TRADE;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][13].HName = "심안의 열쇠";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][13].EName = "Key Of Mind`s eye";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][13].Description = "헬 가든 3층의 타워에 입장 할 수 있는 열쇠입니다.";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][13].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][13].SetFrameID( 1136, 1163, 0);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][13].SetDropFrameID( 1136 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][13].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][13].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][13].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_TRADE;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][14].HName = "결계의 열쇠";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][14].EName = "Key Of Guard";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][14].Description = "헬 가든 4층의 타워에 입장 할 수 있는 열쇠입니다.";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][14].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][14].SetFrameID( 1137, 1164, 0);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][14].SetDropFrameID( 1137 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][14].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][14].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][14].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_TRADE;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].HName = "침묵의 열쇠";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].EName = "Key Of Silence";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].Description = "헬 가든 5층의 타워에 입장 할 수 있는 열쇠입니다.";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].SetFrameID( 1138, 1165, 0);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].SetDropFrameID( 1138 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_TRADE;
+
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].HName = "침묵의 열쇠";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].EName = "Key Of Silence";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].Description = "헬 가든 5층의 타워에 입장 할 수 있는 열쇠입니다.";
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].SetSoundID( SOUND_ITEM_MOVE_KEY, SOUND_ITEM_MOVE_KEY, SOUNDID_NULL, SOUND_ITEM_MOVE_KEY );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].SetFrameID( 1138, 1165, 0);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].SetDropFrameID( 1138 );
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_QUEST_ITEM][15].Price = 0;
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_EVENT_TREE
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_EVENT_TREE, 55 
+#if __CONTENTS(__BLITZ_COUPON_EVENT)
+		+13
+#endif //__NEW_ADVANCEMENT_ITEM
+#if __CONTENTS(__2008_AUTUMN_LEAVES_EVENT)
+		+13
+#endif //__2008_AUTUMN_LEAVES_EVENT
+#if __CONTENTS(__CHRISTMAS_SOCKS_EVENT)
+		+9
+#endif //__CHRISTMAS_SOCKS_EVENT
+		);
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][0].HName = "예쁜 크리스마스 트리 조각1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][0].EName = "Cute Cristmas Tree Part1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][0].Description = "예쁜 크리스마스 트리의 조각을 12개 모아 보세요!";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][0].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][0].SetFrameID( 390, 404, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][0].SetDropFrameID( 390 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][0].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][1].HName = "예쁜 크리스마스 트리 조각2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][1].EName = "Cute Cristmas Tree Part2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][1].Description = "예쁜 크리스마스 트리의 조각을 12개 모아 보세요!";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][1].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][1].SetFrameID( 391, 405, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][1].SetDropFrameID( 391 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][1].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][2].HName = "예쁜 크리스마스 트리 조각3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][2].EName = "Cute Cristmas Tree Part3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][2].Description = "예쁜 크리스마스 트리의 조각을 12개 모아 보세요!";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][2].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][2].SetFrameID( 392, 406, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][2].SetDropFrameID( 392 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][2].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][3].HName = "예쁜 크리스마스 트리 조각4";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][3].EName = "Cute Cristmas Tree Part4";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][3].Description = "예쁜 크리스마스 트리의 조각을 12개 모아 보세요!";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][3].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][3].SetFrameID( 393, 407, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][3].SetDropFrameID( 393 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][3].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][4].HName = "예쁜 크리스마스 트리 조각5";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][4].EName = "Cute Cristmas Tree Part5";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][4].Description = "예쁜 크리스마스 트리의 조각을 12개 모아 보세요!";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][4].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][4].SetFrameID( 394, 408, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][4].SetDropFrameID( 394 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][4].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][4].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][5].HName = "예쁜 크리스마스 트리 조각6";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][5].EName = "Cute Cristmas Tree Part6";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][5].Description = "예쁜 크리스마스 트리의 조각을 12개 모아 보세요!";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][5].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][5].SetFrameID( 395, 409, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][5].SetDropFrameID( 395 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][5].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][5].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][6].HName = "예쁜 크리스마스 트리 조각7";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][6].EName = "Cute Cristmas Tree Part7";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][6].Description = "예쁜 크리스마스 트리의 조각을 12개 모아 보세요!";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][6].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][6].SetFrameID( 396, 410, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][6].SetDropFrameID( 396 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][6].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][6].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][7].HName = "예쁜 크리스마스 트리 조각8";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][7].EName = "Cute Cristmas Tree Part8";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][7].Description = "예쁜 크리스마스 트리의 조각을 12개 모아 보세요!";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][7].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][7].SetFrameID( 397, 411, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][7].SetDropFrameID( 397 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][7].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][7].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][8].HName = "예쁜 크리스마스 트리 조각9";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][8].EName = "Cute Cristmas Tree Part9";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][8].Description = "예쁜 크리스마스 트리의 조각을 12개 모아 보세요!";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][8].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][8].SetFrameID( 398, 412, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][8].SetDropFrameID( 398 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][8].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][8].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][9].HName = "예쁜 크리스마스 트리 조각10";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][9].EName = "Cute Cristmas Tree Part10";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][9].Description = "예쁜 크리스마스 트리의 조각을 12개 모아 보세요!";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][9].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][9].SetFrameID( 399, 413, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][9].SetDropFrameID( 399 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][9].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][9].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][10].HName = "예쁜 크리스마스 트리 조각11";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][10].EName = "Cute Cristmas Tree Part11";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][10].Description = "예쁜 크리스마스 트리의 조각을 12개 모아 보세요!";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][10].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][10].SetFrameID( 400, 414, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][10].SetDropFrameID( 400 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][10].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][10].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][11].HName = "예쁜 크리스마스 트리 조각12";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][11].EName = "Cute Cristmas Tree Part12";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][11].Description = "예쁜 크리스마스 트리의 조각을 12개 모아 보세요!";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][11].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][11].SetFrameID( 401, 415, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][11].SetDropFrameID( 401 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][11].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][11].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][12].HName = "예쁜 크리스마스 트리";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][12].EName = "Cute Cristmas Tree";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][12].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][12].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][12].SetFrameID( 389, 403, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][12].SetDropFrameID( 389 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][12].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][12].Price	= 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][13].HName = "고대 문헌 조각 1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][13].EName = "Part Of Ancient Document";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][13].Description = "12개의 고대 문헌 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][13].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][13].SetFrameID( 492, 506, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][13].SetDropFrameID( 492 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][13].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][13].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][13].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][14].HName = "고대 문헌 조각 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][14].EName = "Part Of Acient Document";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][14].Description = "12개의 고대 문헌 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][14].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][14].SetFrameID( 493, 507, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][14].SetDropFrameID( 493 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][14].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][14].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][14].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][15].HName = "고대 문헌 조각 3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][15].EName = "Part Of Acient Document";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][15].Description = "12개의 고대 문헌 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][15].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][15].SetFrameID( 494, 508, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][15].SetDropFrameID( 494 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][15].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][15].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][15].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][16].HName = "고대 문헌 조각 4";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][16].EName = "Part Of Acient Document";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][16].Description = "12개의 고대 문헌 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][16].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][16].SetFrameID( 495, 509, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][16].SetDropFrameID( 495 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][16].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][16].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][16].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][17].HName = "고대 문헌 조각 5";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][17].EName = "Part Of Acient Document";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][17].Description = "12개의 고대 문헌 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][17].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][17].SetFrameID( 496, 510, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][17].SetDropFrameID( 496 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][17].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][17].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][17].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][18].HName = "고대 문헌 조각 6";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][18].EName = "Part Of Acient Document";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][18].Description = "12개의 고대 문헌 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][18].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][18].SetFrameID( 497, 511, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][18].SetDropFrameID( 497 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][18].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][18].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][18].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][19].HName = "고대 문헌 조각 7";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][19].EName = "Part Of Acient Document";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][19].Description = "12개의 고대 문헌 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][19].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][19].SetFrameID( 498, 512, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][19].SetDropFrameID( 498 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][19].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][19].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][19].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][19].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][20].HName = "고대 문헌 조각 8";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][20].EName = "Part Of Acient Document";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][20].Description = "12개의 고대 문헌 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][20].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][20].SetFrameID( 499, 513, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][20].SetDropFrameID( 499 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][20].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][20].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][20].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][20].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][21].HName = "고대 문헌 조각 9";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][21].EName = "Part Of Acient Document";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][21].Description = "12개의 고대 문헌 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][21].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][21].SetFrameID( 500, 514, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][21].SetDropFrameID( 500 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][21].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][21].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][21].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][21].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][22].HName = "고대 문헌 조각 10";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][22].EName = "Part Of Acient Document";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][22].Description = "12개의 고대 문헌 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][22].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][22].SetFrameID( 501, 515, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][22].SetDropFrameID( 501 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][22].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][22].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][22].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][22].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][23].HName = "고대 문헌 조각 11";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][23].EName = "Part Of Acient Document";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][23].Description = "12개의 고대 문헌 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][23].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][23].SetFrameID( 502, 516, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][23].SetDropFrameID( 502 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][23].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][23].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][23].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][23].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][24].HName = "고대 문헌 조각 12";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][24].EName = "Part Of Acient Document";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][24].Description = "12개의 고대 문헌 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][24].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][24].SetFrameID( 503, 517, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][24].SetDropFrameID( 503 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][24].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][24].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][24].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][24].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][25].HName = "고대 문헌";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][25].EName = "Acient Document";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][25].Description = "NPC 에게 가져가면 퀘스트를 완료할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][25].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][25].SetFrameID( 491, 505, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][25].SetDropFrameID( 491 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][25].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][25].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][25].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][25].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][26].HName = "푯말 1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][26].EName = "Signpost 1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][26].Description = "알림 글을 작성하여 임의의 장소에 푯말로 세워 둘 수 있습니다.(6시간)";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][26].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][26].SetFrameID( 592, 606, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][26].SetDropFrameID( 592 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][26].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][26].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][26].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][26].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][27].HName = "푯말 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][27].EName = "Signpost 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][27].Description = "알림 글을 작성하여 임의의 장소에 푯말로 세워 둘 수 있습니다.(12시간)";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][27].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][27].SetFrameID( 592, 606, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][27].SetDropFrameID( 592 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][27].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][27].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][27].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][27].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][28].HName = "푯말 3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][28].EName = "Signpost 3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][28].Description = "알림 글을 작성하여 임의의 장소에 푯말로 세워 둘 수 있습니다.(24시간)";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][28].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][28].SetFrameID( 592, 606, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][28].SetDropFrameID( 592 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][28].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][28].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][28].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][28].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][29].HName = "점토인형의 조각 1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][29].EName = "Part Of Clay Doll";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][29].Description = "12개의 점토인형의 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][29].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][29].SetFrameID( 728, 742, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][29].SetDropFrameID( 728 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][29].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][29].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][29].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][29].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][30].HName = "점토인형의 조각 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][30].EName = "Part Of Clay Doll";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][30].Description = "12개의 점토인형의 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][30].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][30].SetFrameID( 729, 743, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][30].SetDropFrameID( 729 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][30].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][30].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][30].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][30].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][31].HName = "점토인형의 조각 3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][31].EName = "Part Of Clay Doll";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][31].Description = "12개의 점토인형의 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][31].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][31].SetFrameID( 730, 744, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][31].SetDropFrameID( 730 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][31].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][31].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][31].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][31].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][32].HName = "점토인형의 조각 4";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][32].EName = "Part Of Clay Doll";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][32].Description = "12개의 점토인형의 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][32].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][32].SetFrameID( 731, 745, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][32].SetDropFrameID( 731 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][32].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][32].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][32].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][32].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][33].HName = "점토인형의 조각 5";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][33].EName = "Part Of Clay Doll";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][33].Description = "12개의 점토인형의 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][33].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][33].SetFrameID( 732, 746, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][33].SetDropFrameID( 732 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][33].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][33].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][33].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][33].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][34].HName = "점토인형의 조각 6";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][34].EName = "Part Of Clay Doll";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][34].Description = "12개의 점토인형의 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][34].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][34].SetFrameID( 733, 747, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][34].SetDropFrameID( 733 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][34].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][34].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][34].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][34].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][35].HName = "점토인형의 조각 7";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][35].EName = "Part Of Clay Doll";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][35].Description = "12개의 점토인형의 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][35].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][35].SetFrameID( 734, 748, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][35].SetDropFrameID( 734 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][35].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][35].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][35].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][35].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][36].HName = "점토인형의 조각 8";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][36].EName = "Part Of Clay Doll";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][36].Description = "12개의 점토인형의 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][36].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][36].SetFrameID( 735, 749, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][36].SetDropFrameID( 735 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][36].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][36].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][36].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][36].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][37].HName = "점토인형의 조각 9";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][37].EName = "Part Of Clay Doll";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][37].Description = "12개의 점토인형의 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][37].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][37].SetFrameID( 736, 750, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][37].SetDropFrameID( 736 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][37].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][37].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][37].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][37].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][38].HName = "점토인형의 조각 10";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][38].EName = "Part Of Clay Doll";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][38].Description = "12개의 점토인형의 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][38].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][38].SetFrameID( 737, 751, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][38].SetDropFrameID( 737 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][38].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][38].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][38].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][38].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][39].HName = "점토인형의 조각 11";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][39].EName = "Part Of Clay Doll";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][39].Description = "12개의 점토인형의 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][39].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][39].SetFrameID( 738, 752, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][39].SetDropFrameID( 738 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][39].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][39].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][39].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][39].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][40].HName = "점토인형의 조각 12";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][40].EName = "Part Of Clay Doll";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][40].Description = "12개의 점토인형의 조각을 모아야 합니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][40].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][40].SetFrameID( 739, 753, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][40].SetDropFrameID( 739 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][40].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][40].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][40].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][40].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][41].HName = "점토 인형";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][41].EName = "Clay Doll";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][41].Description = "NPC 에게 가져가면 퀘스트를 완료할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][41].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][41].SetFrameID( 727, 741, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][41].SetDropFrameID( 727 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][41].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][41].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][41].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][41].ItemMoveControl = ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][42].HName = "터프한 눈사람 조각1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][42].EName = "Cute Cristmas Tree Part1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][42].Description = "몹시 터프할 것만 같은 눈사람의 조각입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][42].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][42].SetFrameID( 1089, 1123, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][42].SetDropFrameID( 1089 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][42].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][42].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][42].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][43].HName = "터프한 눈사람 조각2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][43].EName = "Tough Snowman Part2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][43].Description = "몹시 터프할 것만 같은 눈사람의 조각입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][43].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][43].SetFrameID( 1090, 1124, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][43].SetDropFrameID( 1090 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][43].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][43].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][43].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][44].HName = "터프한 눈사람 조각3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][44].EName = "Tough Snowman Part3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][44].Description = "몹시 터프할 것만 같은 눈사람의 조각입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][44].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][44].SetFrameID( 1091, 1125, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][44].SetDropFrameID( 1091 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][44].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][44].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][44].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][45].HName = "터프한 눈사람 조각4";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][45].EName = "Tough Snowman Part4";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][45].Description = "몹시 터프할 것만 같은 눈사람의 조각입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][45].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][45].SetFrameID( 1092, 1126, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][45].SetDropFrameID( 1092 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][45].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][45].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][45].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][46].HName = "터프한 눈사람 조각5";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][46].EName = "Tough Snowman Part5";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][46].Description = "몹시 터프할 것만 같은 눈사람의 조각입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][46].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][46].SetFrameID( 1093, 1127, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][46].SetDropFrameID( 1093 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][46].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][46].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][46].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][47].HName = "터프한 눈사람 조각6";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][47].EName = "Tough Snowman Part6";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][47].Description = "몹시 터프할 것만 같은 눈사람의 조각입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][47].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][47].SetFrameID( 1094, 1128, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][47].SetDropFrameID( 1094 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][47].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][47].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][47].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][48].HName = "터프한 눈사람 조각7";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][48].EName = "Tough Snowman Part7";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][48].Description = "몹시 터프할 것만 같은 눈사람의 조각입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][48].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][48].SetFrameID( 1095, 1129, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][48].SetDropFrameID( 1095 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][48].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][48].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][48].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][49].HName = "터프한 눈사람 조각8";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][49].EName = "Tough Snowman Part8";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][49].Description = "몹시 터프할 것만 같은 눈사람의 조각입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][49].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][49].SetFrameID( 1096, 1130, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][49].SetDropFrameID( 1096 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][49].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][49].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][49].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][50].HName = "터프한 눈사람 조각9";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][50].EName = "Tough Snowman Part9";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][50].Description = "몹시 터프할 것만 같은 눈사람의 조각입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][50].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][50].SetFrameID( 1097, 1131, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][50].SetDropFrameID( 1097 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][50].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][50].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][50].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][51].HName = "터프한 눈사람 조각10";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][51].EName = "Tough Snowman Part10";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][51].Description = "몹시 터프할 것만 같은 눈사람의 조각입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][51].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][51].SetFrameID( 1098, 1132, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][51].SetDropFrameID( 1098 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][51].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][51].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][51].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][52].HName = "터프한 눈사람 조각11";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][52].EName = "Tough Snowman Part11";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][52].Description = "몹시 터프할 것만 같은 눈사람의 조각입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][52].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][52].SetFrameID( 1099, 1133, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][52].SetDropFrameID( 1099 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][52].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][52].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][52].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][53].HName = "터프한 눈사람 조각12";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][53].EName = "Tough Snowman Part12";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][53].Description = "몹시 터프할 것만 같은 눈사람의 조각입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][53].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][53].SetFrameID( 1100, 1134, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][53].SetDropFrameID( 1100 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][53].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][53].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][53].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][54].HName = "터프한 눈사람";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][54].EName = "Tough Snowman";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][54].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][54].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][54].SetFrameID( 1101, 1135, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][54].SetDropFrameID( 1101 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][54].SetGrid(2, 3);
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][54].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][54].Price	= 0;
+
+#if __CONTENTS(__BLITZ_COUPON_EVENT)
+	i = 1271; // 타일
+	j = 1313; // 인벤
+
+	itemType = 55;
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "블리츠 문양 조각 1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Blitz Pattern 1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "블리츠 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 56
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "블리츠 문양 조각 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Blitz Pattern 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "블리츠 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 57
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "블리츠 문양 조각 3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Blitz Pattern 3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "블리츠 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 58
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "블리츠 문양 조각 4";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Blitz Pattern 4";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "블리츠 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 59
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "블리츠 문양 조각 5";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Blitz Pattern 5";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "블리츠 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 60
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "블리츠 문양 조각 6";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Blitz Pattern 6";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "블리츠 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 61
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "블리츠 문양 조각 7";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Blitz Pattern 7";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "블리츠 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 62
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "블리츠 문양 조각 8";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Blitz Pattern 8";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "블리츠 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 63
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "블리츠 문양 조각 9";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Blitz Pattern 9";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "블리츠 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 64
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "블리츠 문양 조각 10";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Blitz Pattern 10";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "블리츠 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 65
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "블리츠 문양 조각 11";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Blitz Pattern 11";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "블리츠 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 66
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "블리츠 문양 조각 12";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Blitz Pattern 12";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "블리츠 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 67
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "블리츠 문양";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Blitz Pattern";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "블리츠 문양 이벤트에서 조각을 조합하여 수집하는 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_KEEP_STORAGE;
+#endif //__BLITZ_COUPON_EVENT
+
+#if __CONTENTS(__2008_AUTUMN_LEAVES_EVENT)
+	i = 1285; // 타일
+	j = 1328; // 인벤
+
+	itemType++; // 68
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "낙엽 문양 조각 1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Fallen Leaves Pattern 1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "낙엽 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 69
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "낙엽 문양 조각 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Fallen Leaves Pattern 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "낙엽 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 70
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "낙엽 문양 조각 3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Fallen Leaves Pattern 3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "낙엽 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 71
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "낙엽 문양 조각 4";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Fallen Leaves Pattern 4";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "낙엽 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 72
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "낙엽 문양 조각 5";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Fallen Leaves Pattern 5";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "낙엽 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 73
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "낙엽 문양 조각 6";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Fallen Leaves Pattern 6";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "낙엽 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 74
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "낙엽 문양 조각 7";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Fallen Leaves Pattern 7";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "낙엽 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 75
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "낙엽 문양 조각 8";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Fallen Leaves Pattern 8";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "낙엽 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 76
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "낙엽 문양 조각 9";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Fallen Leaves Pattern 9";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "낙엽 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 77
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "낙엽 문양 조각 10";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Fallen Leaves Pattern 10";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "낙엽 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 78
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "낙엽 문양 조각 11";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Fallen Leaves Pattern 11";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "낙엽 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 79
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "낙엽 문양 조각 12";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part Of Fallen Leaves Pattern 12";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "낙엽 문양 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+
+	itemType++; // 80
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "낙엽 문양";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Fallen Leaves Pattern";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "낙엽 문양 이벤트에서 조각을 조합하여 수집하는 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( i, j++, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( i++ );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_TRADE | ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP | ITEMMOVE_CANNOT_KEEP_STORAGE;
+#endif //__2008_AUTUMN_LEAVES_EVENT
+#if __CONTENTS(__CHRISTMAS_SOCKS_EVENT)
+
+	itemType++; // 81
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "양말 문양 조각 1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part of Socks Pattern 1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "산타의 잃어버린 양말 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( 1313, 1357, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( 1313 );
+
+	itemType++; // 82
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "양말 문양 조각 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part of Socks Pattern 2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "산타의 잃어버린 양말 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( 1314, 1358, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( 1314 );
+
+	itemType++; // 83
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "양말 문양 조각 3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part of Socks Pattern 3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "산타의 잃어버린 양말 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( 1315, 1359, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( 1315 );
+
+	itemType++; // 84
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "양말 문양 조각 4";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part of Socks Pattern 4";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "산타의 잃어버린 양말 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( 1316, 1360, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( 1316 );
+
+	itemType++; // 85
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "양말 문양 조각 5";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part of Socks Pattern 5";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "산타의 잃어버린 양말 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( 1317, 1361, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( 1317 );
+
+	itemType++; // 86
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "양말 문양 조각 6";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part of Socks Pattern 6";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "산타의 잃어버린 양말 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( 1318, 1362, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( 1318 );
+
+	itemType++; // 87
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "양말 문양 조각 7";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part of Socks Pattern 7";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "산타의 잃어버린 양말 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( 1319, 1363, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( 1319 );
+
+	itemType++; // 88
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "양말 문양 조각 8";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part of Socks Pattern 8";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "산타의 잃어버린 양말 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( 1320, 1364, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( 1320 );
+
+	itemType++; // 89
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].HName = "양말 문양 조각 9";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].EName = "Part of Socks Pattern 9";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].Description = "산타의 잃어버린 양말 이벤트의 문양 조합에 사용되는 재료 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetFrameID( 1321, 1365, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_TREE][itemType].SetDropFrameID( 1321);
+
+#endif //__CHRISTMAS_SOCKS_EVENT
+
+	//---------------------------------------------------------------------
+	// ITEM_CLASS_EVENT_ETC
+	//---------------------------------------------------------------------
+	InitClass(ITEM_CLASS_EVENT_ETC, 20);
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][0].HName = "하늘색 폭죽";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][0].EName = "FireCracker1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][0].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][0].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][0].SetFrameID( 386, 400, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][0].SetDropFrameID( 386 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][0].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][1].HName = "녹색 폭죽";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][1].EName = "FireCracker2";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][1].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][1].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][1].SetFrameID( 387, 401, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][1].SetDropFrameID( 387 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][1].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][2].HName = "보라색 폭죽";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][2].EName = "FireCracker3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][2].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][2].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][2].SetFrameID( 388, 402, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][2].SetDropFrameID( 388 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][2].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][3].HName = "드래곤 폭죽";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][3].EName = "Dragon FireCracker";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][3].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][3].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][3].SetFrameID( 515,529,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][3].SetDropFrameID( 515 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][3].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][3].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][4].HName = "주황색 폭죽";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][4].EName = "Orange FireCracker";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][4].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][4].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][4].SetFrameID( 516,530,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][4].SetDropFrameID( 516 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][4].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][4].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][5].HName = "하늘색 3연발 폭죽";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][5].EName = "Skyblue Triple FireCracker";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][5].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][5].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][5].SetFrameID( 571,585,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][5].SetDropFrameID( 571 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][5].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][5].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][6].HName = "녹색 3연발 폭죽";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][6].EName = "Green Triple FireCracker";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][6].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][6].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][6].SetFrameID( 572,586,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][6].SetDropFrameID( 572 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][6].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][6].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][7].HName = "보라색 3연발 폭죽";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][7].EName = "Purple Triple FireCracker";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][7].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][7].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][7].SetFrameID( 573,587,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][7].SetDropFrameID( 573 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][7].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][7].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][8].HName = "주황색 3연발 폭죽";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][8].EName = "Orange Triple FireCracker";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][8].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][8].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][8].SetFrameID( 517,531,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][8].SetDropFrameID( 517 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][8].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][8].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][9].HName = "하늘색 광역 3연발 폭죽";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][9].EName = "Skyblue Triple Wide FireCracker";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][9].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][9].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][9].SetFrameID( 574,588,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][9].SetDropFrameID( 574 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][9].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][9].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][10].HName = "녹색 광역 3연발 폭죽";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][10].EName = "Green Triple Wide FireCracker";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][10].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][10].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][10].SetFrameID( 575,589,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][10].SetDropFrameID( 575 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][10].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][10].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][11].HName = "보라색 광역 3연발 폭죽";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][11].EName = "Purple Triple Wide FireCracker";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][11].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][11].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][11].SetFrameID( 576,590,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][11].SetDropFrameID( 576 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][11].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][11].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][12].HName = "주황색 광역 3연발 폭죽";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][12].EName = "Orange Triple Wide FireCracker";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][12].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][12].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][12].SetFrameID( 518,532,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][12].SetDropFrameID( 518 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][12].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][12].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][13].HName = "스톰 폭죽";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][13].EName = "Storm FireCracker";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][13].Description = "오른쪽 클릭으로 사용하실 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][13].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][13].SetFrameID( 587,601,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][13].SetDropFrameID( 587 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][13].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][13].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][14].HName = "노란 사탕";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][14].EName = "Yellow Candy";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][14].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_OUSTERS_PUPA);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][14].SetFrameID(883, 906, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][14].SetDropFrameID(883);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][14].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][14].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][15].HName = "흰 송편";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][15].EName = "White Rice Cake";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][15].Description = "HP/MP + 200";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][15].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_OUSTERS_PUPA);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][15].SetFrameID(902, 925, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][15].SetDropFrameID(902);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][15].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][15].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][16].HName = "쑥 송편";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][16].EName = "Mugwort Rice Cake";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][16].Description = "HP/MP + 500";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][16].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_OUSTERS_PUPA);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][16].SetFrameID(901, 924, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][16].SetDropFrameID(901);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][16].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][16].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][17].HName = "꿀 송편";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][17].EName = "Honey Rice Cake";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][17].Description = "HP/MP + 1000";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][17].SetSoundID( SOUND_ITEM_MOVE_POTION, SOUND_ITEM_MOVE_POTION, SOUNDID_NULL, SOUND_OUSTERS_PUPA);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][17].SetFrameID(900, 923, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][17].SetDropFrameID(900);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][17].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][17].Price = 0;
+	
+	// 2005.04.29 sjheon  가정의 달 이벤트 아이템 add
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][18].HName = "패밀리 코인";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][18].EName = "Family Coin";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][18].Description = "NPC에게 코인을 주고 뽑기를 할수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][18].SetSoundID(SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL, SOUNDID_NULL);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][18].SetFrameID(985, 1019, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][18].SetDropFrameID(985);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][18].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][18].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][18].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_KEEP_STORAGE;
+	// 2005.04.29 sjheon  가정의 달 이벤트 아이템 add
+
+	// 2007 05 11 by diesirace 백업 잘못해서 다시 작성
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][19].HName = "솜사탕";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][19].EName = "Cotton candy";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][19].Description = "장미의 축복 이벤트 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][19].SetSoundID(SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL, SOUNDID_NULL);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][19].SetFrameID(1157, 1130, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][19].SetDropFrameID(1130);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][19].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][19].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][19].Price = 1;
+//발랜타인은 그래픽 리소스만 들어간 상태 필요하면 서버 db에 추가해서 살린후 쓰자.
+/*	i	= 20;
+#if __CONTENTS(__2008_VALENTINE_EVENT)
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].HName = "고형 초콜릿";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].EName = "Solid Chocolate";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].Description = "발렌타인 데이 이벤트 아이템입니다. 초콜릿을 만들기 위해 필요한 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetSoundID(SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL, SOUNDID_NULL);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetFrameID(1198, 1239, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetDropFrameID(1198);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].Price = 1;
+	itemType++;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].HName = "연유";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].EName = "Rice Cake of Acceleration";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].Description = "발렌타인 데이 이벤트 아이템입니다. 초콜릿을 만들기 위해 필요한 아이템입니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetSoundID(SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL, SOUNDID_NULL);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetFrameID(1201, 1242, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetDropFrameID(1201);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].Price = 1;
+	itemType++;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].HName = "밀크 초콜릿";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].EName = "Milk Chocolate";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].Description = "발렌타인 데이 이벤트 아이템입니다. 방어율 +30 or 회피율 +30 or 모든저항력 +9 중 랜덤하게 
+															버프가 부여되며, 효과는 중복되지 않습니다. 지속시간 : 15분";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetSoundID(SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL, SOUNDID_NULL);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetFrameID(1200, 1241, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetDropFrameID(1200);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].Price = 1;
+	itemType++;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].HName = "다크 초콜릿";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].EName = "Dark Chocolate";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].Description = "발렌타인 데이 이벤트 아이템입니다. 사용 시 공격 / 방어 폭주 게이지가 랜덤하게 회복됩니다.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetSoundID(SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUNDID_NULL, SOUNDID_NULL);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetFrameID(1199, 1240, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetDropFrameID(1199);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ETC][itemType].Price = 1;
+	itemType++;
+
+#endif	//__2008_VALENTINE_EVENT
+//*/
+	//-----------------------------------------------------------------------
+	// 피의 성서 아이템 테이블
+	//-----------------------------------------------------------------------
+
+	InitClass(ITEM_CLASS_BLOOD_BIBLE, 12
+#if __CONTENTS(__CONTRIBUTE_SYSTEM_ITEM )
+//#if __CONTENTS(__CONTRIBUTE_SYSTEM_ITEM)
+		+ 72
+#endif	//__CONTRIBUTE_SYSTEM_ITEM
+		);
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][0].HName = "아르메가";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][0].EName = "Armega";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][0].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][0].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][0].SetFrameID( 419, 433, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][0].SetDropFrameID(419 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][0].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][0].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][1].HName = "미호레";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][1].EName = "Mihole";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][1].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][1].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][1].SetFrameID( 420, 434, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][1].SetDropFrameID(420 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][1].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][1].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][2].HName = "키로";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][2].EName = "Kiro";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][2].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][2].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][2].SetFrameID( 421, 435, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][2].SetDropFrameID(421 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][2].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][2].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][3].HName = "아이니";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][3].EName = "Ini";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][3].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][3].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][3].SetFrameID( 416, 430, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][3].SetDropFrameID(416 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][3].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][3].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][4].HName = "그레고리";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][4].EName = "Gregori";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][4].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][4].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][4].SetFrameID( 418, 432, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][4].SetDropFrameID(418 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][4].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][4].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][5].HName = "콘칠리아";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][5].EName = "Concilia";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][5].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][5].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][5].SetFrameID( 417, 431, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][5].SetDropFrameID(417 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][5].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][5].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][6].HName = "레지오스";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][6].EName = "Legios";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][6].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][6].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][6].SetFrameID( 410, 424, 0);	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][6].SetDropFrameID(410 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][6].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][6].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][7].HName = "힐릴";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][7].EName = "Hillel";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][7].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][7].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][7].SetFrameID( 412, 426, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][7].SetDropFrameID(412 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][7].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][7].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][8].HName = "쟈브";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][8].EName = "Jave";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][8].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][8].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][8].SetFrameID( 411, 425, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][8].SetDropFrameID(411 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][8].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][8].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][9].HName = "네마";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][9].EName = "Nema";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][9].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][9].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][9].SetFrameID( 414, 428, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][9].SetDropFrameID(414 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][9].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][9].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][10].HName = "아로사";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][10].EName = "Arosa";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][10].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][10].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][10].SetFrameID( 415, 429, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][10].SetDropFrameID(415 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][10].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][10].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][11].HName = "차스파";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][11].EName = "Chaspa";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][11].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][11].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][11].SetFrameID( 413, 427, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][11].SetDropFrameID(413 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][11].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][11].Price = 0;
+
+#if __CONTENTS(__CONTRIBUTE_SYSTEM_ITEM )
+//#if __CONTENTS(__CONTRIBUTE_SYSTEM_ITEM)
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][12].HName = "그룬 아르메가";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][12].EName = "Grun Armega";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][12].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][12].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][12].SetFrameID( 419, 963, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][12].SetDropFrameID(419 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][12].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][12].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][13].HName = "그룬 미호레";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][13].EName = "Grun Mihole";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][13].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][13].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][13].SetFrameID( 420, 964, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][13].SetDropFrameID(420 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][13].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][13].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][14].HName = "그룬 키로";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][14].EName = "Grun Kiro";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][14].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][14].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][14].SetFrameID( 421, 965, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][14].SetDropFrameID(421 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][14].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][14].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][15].HName = "그룬 아이니";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][15].EName = "Grun Ini";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][15].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][15].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][15].SetFrameID( 416, 966, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][15].SetDropFrameID(416 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][15].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][15].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][16].HName = "그룬 그레고리";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][16].EName = "Grun Gregori";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][16].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][16].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][16].SetFrameID( 418, 967, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][16].SetDropFrameID(418 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][16].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][16].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][17].HName = "그룬 콘칠리아";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][17].EName = "Grun Concilia";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][17].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][17].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][17].SetFrameID( 417, 968, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][17].SetDropFrameID(417 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][17].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][17].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][18].HName = "그룬 레지오스";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][18].EName = "Grun Legios";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][18].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][18].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][18].SetFrameID( 410, 969, 0);	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][18].SetDropFrameID(410 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][18].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][18].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][19].HName = "그룬 힐릴";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][19].EName = "Grun Hillel";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][19].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][19].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][19].SetFrameID( 412, 970, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][19].SetDropFrameID(412 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][19].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][19].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][19].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][20].HName = "그룬 쟈브";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][20].EName = "Grun Jave";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][20].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][20].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][20].SetFrameID( 411, 971, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][20].SetDropFrameID(411 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][20].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][20].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][20].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][21].HName = "그룬 네마";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][21].EName = "Grun Nema";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][21].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][21].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][21].SetFrameID( 414, 972, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][21].SetDropFrameID(414 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][21].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][21].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][21].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][22].HName = "그룬 아로사";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][22].EName = "Grun Arosa";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][22].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][22].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][22].SetFrameID( 415, 973, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][22].SetDropFrameID(415 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][22].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][22].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][22].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][23].HName = "그룬 차스파";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][23].EName = "Grun Chaspa";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][23].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][23].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][23].SetFrameID( 413, 974, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][23].SetDropFrameID(413 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][23].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][23].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][23].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][24].HName = "칸 아르메가";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][24].EName = "Khan Armega";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][24].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][24].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][24].SetFrameID( 419, 963, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][24].SetDropFrameID(419 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][24].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][24].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][24].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][25].HName = "칸 미호레";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][25].EName = "Khan Mihole";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][25].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][25].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][25].SetFrameID( 420, 964, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][25].SetDropFrameID(420 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][25].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][25].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][25].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][26].HName = "칸 키로";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][26].EName = "Khan Kiro";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][26].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][26].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][26].SetFrameID( 421, 965, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][26].SetDropFrameID(421 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][26].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][26].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][26].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][27].HName = "칸 아이니";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][27].EName = "Khan Ini";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][27].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][27].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][27].SetFrameID( 416, 966, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][27].SetDropFrameID(416 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][27].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][27].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][27].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][28].HName = "칸 그레고리";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][28].EName = "Khan Gregori";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][28].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][28].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][28].SetFrameID( 418, 967, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][28].SetDropFrameID(418 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][28].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][28].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][28].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][29].HName = "칸 콘칠리아";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][29].EName = "Concilia";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][29].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][29].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][29].SetFrameID( 417, 968, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][29].SetDropFrameID(417 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][29].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][29].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][29].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][30].HName = "칸 레지오스";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][30].EName = "Khan Legios";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][30].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][30].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][30].SetFrameID( 410, 969, 0);	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][30].SetDropFrameID(410 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][30].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][30].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][30].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][31].HName = "칸 힐릴";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][31].EName = "Khan Hillel";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][31].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][31].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][31].SetFrameID( 412, 970, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][31].SetDropFrameID(412 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][31].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][31].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][31].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][32].HName = "칸 쟈브";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][32].EName = "Khan Jave";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][32].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][32].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][32].SetFrameID( 411, 971, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][32].SetDropFrameID(411 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][32].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][32].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][32].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][33].HName = "칸 네마";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][33].EName = "Khan Nema";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][33].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][33].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][33].SetFrameID( 414, 972, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][33].SetDropFrameID(414 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][33].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][33].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][33].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][34].HName = "칸 아로사";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][34].EName = "Khan Arosa";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][34].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][34].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][34].SetFrameID( 415, 973, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][34].SetDropFrameID(415 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][34].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][34].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][34].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][35].HName = "칸 차스파";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][35].EName = "Khan Chaspa";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][35].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][35].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][35].SetFrameID( 413, 974, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][35].SetDropFrameID(413 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][35].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][35].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][35].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][36].HName = "가브리 아르메가";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][36].EName = "Gabri Armega";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][36].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][36].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][36].SetFrameID( 419, 963, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][36].SetDropFrameID(419 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][36].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][36].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][36].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][37].HName = "가브리 미호레";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][37].EName = "Gabri Mihole";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][37].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][37].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][37].SetFrameID( 420, 964, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][37].SetDropFrameID(420 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][37].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][37].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][37].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][38].HName = "가브리 키로";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][38].EName = "Gabri Kiro";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][38].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][38].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][38].SetFrameID( 421, 965, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][38].SetDropFrameID(421 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][38].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][38].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][38].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][39].HName = "가브리 아이니";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][39].EName = "Gabri Ini";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][39].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][39].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][39].SetFrameID( 416, 966, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][39].SetDropFrameID(416 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][39].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][39].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][39].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][40].HName = "가브리 그레고리";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][40].EName = "Gabri Gregori";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][40].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][40].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][40].SetFrameID( 418, 967, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][40].SetDropFrameID(418 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][40].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][40].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][40].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][41].HName = "가브리 콘칠리아";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][41].EName = "Gabri Concilia";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][41].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][41].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][41].SetFrameID( 417, 968, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][41].SetDropFrameID(417 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][41].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][41].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][41].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][42].HName = "가브리 레지오스";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][42].EName = "Gabri Legios";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][42].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][42].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][42].SetFrameID( 410, 969, 0);	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][42].SetDropFrameID(410 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][42].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][42].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][42].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][43].HName = "가브리 힐릴";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][43].EName = "Gabri Hillel";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][43].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][43].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][43].SetFrameID( 412, 970, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][43].SetDropFrameID(412 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][43].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][43].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][43].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][44].HName = "가브리 쟈브";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][44].EName = "Gabri Jave";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][44].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][44].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][44].SetFrameID( 411, 971, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][44].SetDropFrameID(411 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][44].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][44].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][44].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][45].HName = "가브리 네마";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][45].EName = "Gabri Nema";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][45].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][45].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][45].SetFrameID( 414, 972, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][45].SetDropFrameID(414 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][45].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][45].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][45].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][46].HName = "가브리 아로사";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][46].EName = "Gabri Arosa";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][46].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][46].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][46].SetFrameID( 415, 973, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][46].SetDropFrameID(415 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][46].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][46].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][46].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][47].HName = "가브리 차스파";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][47].EName = "Gabri Chaspa";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][47].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][47].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][47].SetFrameID( 413, 974, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][47].SetDropFrameID(413 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][47].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][47].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][47].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][48].HName = "팬텀 아르메가";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][48].EName = "Phantom Armega";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][48].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][48].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][48].SetFrameID( 419, 963, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][48].SetDropFrameID(419 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][48].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][48].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][48].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][49].HName = "팬텀 미호레";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][49].EName = "Phantom Mihole";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][49].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][49].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][49].SetFrameID( 420, 964, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][49].SetDropFrameID(420 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][49].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][49].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][49].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][50].HName = "팬텀 키로";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][50].EName = "Phantom Kiro";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][50].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][50].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][50].SetFrameID( 421, 965, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][50].SetDropFrameID(421 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][50].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][50].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][50].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][51].HName = "팬텀 아이니";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][51].EName = "Phantom Ini";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][51].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][51].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][51].SetFrameID( 416, 966, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][51].SetDropFrameID(416 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][51].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][51].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][51].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][52].HName = "팬텀 그레고리";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][52].EName = "Phantom Gregori";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][52].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][52].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][52].SetFrameID( 418, 967, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][52].SetDropFrameID(418 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][52].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][52].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][52].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][53].HName = "팬텀 콘칠리아";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][53].EName = "Phantom Concilia";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][53].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][53].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][53].SetFrameID( 417, 968, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][53].SetDropFrameID(417 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][53].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][53].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][53].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][54].HName = "팬텀 레지오스";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][54].EName = "Phantom Legios";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][54].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][54].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][54].SetFrameID( 410, 969, 0);	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][54].SetDropFrameID(410 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][54].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][54].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][54].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][55].HName = "팬텀 힐릴";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][55].EName = "Phantom Hillel";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][55].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][55].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][55].SetFrameID( 412, 970, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][55].SetDropFrameID(412 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][55].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][55].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][55].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][56].HName = "팬텀 쟈브";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][56].EName = "Phantom Jave";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][56].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][56].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][56].SetFrameID( 411, 971, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][56].SetDropFrameID(411 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][56].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][56].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][56].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][57].HName = "팬텀 네마";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][57].EName = "Phantom Nema";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][57].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][57].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][57].SetFrameID( 414, 972, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][57].SetDropFrameID(414 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][57].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][57].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][57].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][58].HName = "팬텀 아로사";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][58].EName = "Phantom Arosa";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][58].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][58].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][58].SetFrameID( 415, 973, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][58].SetDropFrameID(415 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][58].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][58].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][58].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][59].HName = "팬텀 차스파";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][59].EName = "Phantom Chaspa";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][59].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][59].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][59].SetFrameID( 413, 974, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][59].SetDropFrameID(413 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][59].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][59].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][59].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][60].HName = "아르메가";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][60].EName = "Led Armega";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][60].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][60].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][60].SetFrameID( 419, 963, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][60].SetDropFrameID(419 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][60].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][60].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][60].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][61].HName = "레드 미호레";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][61].EName = "Led Mihole";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][61].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][61].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][61].SetFrameID( 420, 964, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][61].SetDropFrameID(420 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][61].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][61].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][61].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][62].HName = "레드 키로";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][62].EName = "Led Kiro";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][62].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][62].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][62].SetFrameID( 421, 965, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][62].SetDropFrameID(421 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][62].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][62].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][62].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][63].HName = "레드 아이니";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][63].EName = "Led Ini";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][63].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][63].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][63].SetFrameID( 416, 966, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][63].SetDropFrameID(416 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][63].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][63].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][63].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][64].HName = "레드 그레고리";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][64].EName = "Led Gregori";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][64].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][64].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][64].SetFrameID( 418, 967, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][64].SetDropFrameID(418 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][64].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][64].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][64].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][65].HName = "레드 콘칠리아";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][65].EName = "Led Concilia";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][65].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][65].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][65].SetFrameID( 417, 968, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][65].SetDropFrameID(417 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][65].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][65].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][65].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][66].HName = "레드 레지오스";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][66].EName = "Led Legios";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][66].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][66].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][66].SetFrameID( 410, 969, 0);	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][66].SetDropFrameID(410 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][66].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][66].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][66].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][67].HName = "레드 힐릴";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][67].EName = "Led Hillel";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][67].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][67].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][67].SetFrameID( 412, 970, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][67].SetDropFrameID(412 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][67].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][67].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][67].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][68].HName = "레드 쟈브";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][68].EName = "Led Jave";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][68].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][68].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][68].SetFrameID( 411, 971, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][68].SetDropFrameID(411 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][68].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][68].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][68].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][69].HName = "레드 네마";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][69].EName = "Led Nema";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][69].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][69].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][69].SetFrameID( 414, 972, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][69].SetDropFrameID(414 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][69].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][69].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][69].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][70].HName = "레드 아로사";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][70].EName = "Led Arosa";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][70].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][70].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][70].SetFrameID( 415, 973, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][70].SetDropFrameID(415 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][70].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][70].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][70].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][71].HName = "레드 차스파";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][71].EName = "Led Chaspa";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][71].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][71].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][71].SetFrameID( 413, 974, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][71].SetDropFrameID(413 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][71].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][71].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][71].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][72].HName = "오제 아르메가";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][72].EName = "Auge Armega";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][72].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][72].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][72].SetFrameID( 419, 963, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][72].SetDropFrameID(419 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][72].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][72].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][72].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][73].HName = "오제 미호레";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][73].EName = "Auge Mihole";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][73].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][73].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][73].SetFrameID( 420, 964, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][73].SetDropFrameID(420 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][73].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][73].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][73].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][74].HName = "오제 키로";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][74].EName = "Auge Kiro";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][74].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][74].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][74].SetFrameID( 421, 965, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][74].SetDropFrameID(421 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][74].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][74].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][74].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][75].HName = "오제 아이니";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][75].EName = "Auge Ini";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][75].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][75].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][75].SetFrameID( 416, 966, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][75].SetDropFrameID(416 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][75].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][75].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][75].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][76].HName = "오제 그레고리";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][76].EName = "Auge Gregori";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][76].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][76].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][76].SetFrameID( 418, 967, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][76].SetDropFrameID(418 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][76].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][76].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][76].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][77].HName = "오제 콘칠리아";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][77].EName = "Auge Concilia";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][77].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][77].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][77].SetFrameID( 417, 968, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][77].SetDropFrameID(417 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][77].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][77].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][77].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][78].HName = "오제 레지오스";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][78].EName = "Auge Legios";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][78].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][78].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][78].SetFrameID( 410, 969, 0);	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][78].SetDropFrameID(410 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][78].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][78].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][78].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][79].HName = "오제 힐릴";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][79].EName = "Auge Hillel";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][79].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][79].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][79].SetFrameID( 412, 970, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][79].SetDropFrameID(412 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][79].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][79].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][79].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][80].HName = "오제 쟈브";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][80].EName = "Auge Jave";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][80].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][80].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][80].SetFrameID( 411, 971, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][80].SetDropFrameID(411 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][80].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][80].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][80].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][81].HName = "오제 네마";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][81].EName = "Auge Nema";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][81].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][81].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][81].SetFrameID( 414, 972, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][81].SetDropFrameID(414 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][81].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][81].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][81].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][82].HName = "오제 아로사";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][82].EName = "Auge Arosa";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][82].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][82].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][82].SetFrameID( 415, 973, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][82].SetDropFrameID(415 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][82].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][82].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][82].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][83].HName = "오제 차스파";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][83].EName = "Auge Chaspa";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][83].Description = "피의 성서";
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][83].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][83].SetFrameID( 413, 974, 0);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][83].SetDropFrameID(413 );
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][83].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][83].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_BLOOD_BIBLE][83].Price = 0;
+#endif	//__CONTRIBUTE_SYSTEM_ITEM
+
+
+	//-----------------------------------------------------------------------
+	// 성 상징물 아이템 테이블
+	//-----------------------------------------------------------------------
+
+	InitClass(ITEM_CLASS_CASTLE_SYMBOL, 6);
+
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][0].HName = "수호의 엠버";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][0].EName = "Amber of Guard";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][0].Description = "옥타부스 성의 상징물";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][0].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][0].SetFrameID( 426, 440, 0);
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][0].SetDropFrameID(426 );
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][0].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][0].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][1].HName = "저주의 엠버";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][1].EName = "Amber of Curse";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][1].Description = "테르티우스 성의 상징물";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][1].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][1].SetFrameID( 428, 442, 0);
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][1].SetDropFrameID(428 );
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][1].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][1].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][2].HName = "복수의 엠버";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][2].EName = "Amber of Avenger";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][2].Description = "셉티무스 성의 상징물";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][2].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][2].SetFrameID( 427, 441, 0);
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][2].SetDropFrameID(427 );
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][2].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][2].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][3].HName = "영원의 엠버";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][3].EName = "Amber of Immortal";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][3].Description = "쿠아르투스 성의 상징물";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][3].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][3].SetFrameID( 429, 443, 0);
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][3].SetDropFrameID(429 );
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][3].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][3].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][4].HName = "생명의 엠버";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][4].EName = "Amber of Life";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][4].Description = "펜타누스 성의 상징물";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][4].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][4].SetFrameID( 859, 882, 0);
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][4].SetDropFrameID(859 );
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][4].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][4].Price = 0;
+
+
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][5].HName = "빛의 엠버";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][5].EName = "Amber of Light";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][5].Description = "헥시리우스 성의 상징물";
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][5].SetSoundID( SOUND_ITEM_MOVE_SCROLL, SOUND_ITEM_MOVE_SCROLL, SOUNDID_NULL, SOUND_ITEM_MOVE_SCROLL );
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][5].SetFrameID( 860, 883, 0);
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][5].SetDropFrameID(860 );
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][5].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_CASTLE_SYMBOL][5].Price = 0;
+
+
+	//-----------------------------------------------------------------------
+	// 커플링 아이템 테이블
+	//-----------------------------------------------------------------------
+
+	InitClass(ITEM_CLASS_COUPLE_RING, 4);
+
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][0].HName = "남자용 커플링";
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][0].EName = "";
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][0].Description = "장착하신 후 오른쪽 클릭을 하시면 상대편 커플이 있는 위치로 이동 할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][0].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][0].SetFrameID( 432, 446, 0);
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][0].SetDropFrameID(432 );
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][0].SetValue(3, 1, -1, -1, -1, 0);	
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][0].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][0].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][1].HName = "여자용 커플링";
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][1].EName = "";
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][1].Description = "장착하신 후 오른쪽 클릭을 하시면 상대편 커플이 있는 위치로 이동 할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][1].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][1].SetFrameID( 433, 447, 0);
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][1].SetDropFrameID(433 );
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][1].SetValue(3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][1].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][1].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][2].HName = "남자용 결혼반지";
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][2].EName = "";
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][2].Description = "결혼식 반지 입니다.";
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][2].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][2].SetFrameID( 997, 1031, 0);
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][2].SetDropFrameID(997);
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][2].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][2].SetValue(3, 1, -1, -1, -1, 0);	
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][2].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][2].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][3].HName = "여자용 결혼반지";
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][3].EName = "";
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][3].Description = "결혼식 반지 입니다.";
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][3].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][3].SetFrameID( 997, 1031, 0);
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][3].SetDropFrameID(997 );
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][3].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][3].SetValue(3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][3].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_COUPLE_RING][3].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+
+	//-----------------------------------------------------------------------
+	// 뱀파이어커플링 아이템 테이블
+	//-----------------------------------------------------------------------
+
+	InitClass(ITEM_CLASS_VAMPIRE_COUPLE_RING, 2);
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][0].HName = "남자용 커플링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][0].EName = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][0].Description = "장착하신 후 오른쪽 클릭을 하시면 상대편 커플이 있는 위치로 이동 할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][0].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][0].SetFrameID( 432, 446, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][0].SetDropFrameID(432 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][0].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][0].SetValue(3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][0].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][0].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][1].HName = "여자용 커플링";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][1].EName = "";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][1].Description = "장착하신 후 오른쪽 클릭을 하시면 상대편 커플이 있는 위치로 이동 할 수 있습니다.";
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][1].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][1].SetFrameID( 433, 447, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][1].SetDropFrameID(433 );
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][1].SetValue(3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][1].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][1].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_VAMPIRE_COUPLE_RING][1].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_KEEP_STORAGE;
+
+	//--------------------------------------------------------------------------
+	// 이벤트 퀘스트 아이템 
+	//--------------------------------------------------------------------------
+	InitClass(ITEM_CLASS_EVENT_ITEM, 37	);
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][0].HName = "물의 정령";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][0].EName = "Soul Stone Of Water";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][0].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][0].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][0].SetFrameID( 504, 518,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][0].SetDropFrameID ( 504 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][0].SetValue( 3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][0].SetGrid( 1, 1 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][0].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][0].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][1].HName = "물의 정령";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][1].EName = "Soul Stone Of Water";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][1].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][1].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][1].SetFrameID( 505,519 ,0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][1].SetDropFrameID ( 505 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][1].SetValue( 3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][1].SetGrid( 1, 1 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][1].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][1].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][2].HName = "물의 정령";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][2].EName = "Soul Stone Of Water";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][2].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][2].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][2].SetFrameID( 506, 520 ,0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][2].SetDropFrameID ( 506 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][2].SetValue( 3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][2].SetGrid( 1, 1 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][2].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][2].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][3].HName = "물의 정령";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][3].EName = "Soul Stone Of Water";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][3].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][3].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][3].SetFrameID( 507, 521 ,0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][3].SetDropFrameID ( 507 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][3].SetValue( 3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][3].SetGrid( 1, 1 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][3].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][3].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][4].HName = "물의 정령";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][4].EName = "Soul Stone Of Water";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][4].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][4].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][4].SetFrameID( 508, 522 ,0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][4].SetDropFrameID ( 508 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][4].SetValue( 3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][4].SetGrid( 1, 1 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][4].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][4].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][5].HName = "불의 정령";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][5].EName = "Soul Stone Of Fire";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][5].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][5].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][5].SetFrameID( 509, 523 ,0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][5].SetDropFrameID ( 509 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][5].SetValue( 3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][5].SetGrid( 1, 1 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][5].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][5].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][6].HName = "불의 정령";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][6].EName = "Soul Stone Of Fire";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][6].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][6].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][6].SetFrameID( 510, 524 ,0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][6].SetDropFrameID ( 510 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][6].SetValue( 3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][6].SetGrid( 1, 1 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][6].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][6].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][7].HName = "불의 정령";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][7].EName = "Soul Stone Of Fire";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][7].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][7].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][7].SetFrameID( 511, 525 ,0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][7].SetDropFrameID ( 511 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][7].SetValue( 3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][7].SetGrid( 1, 1 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][7].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][7].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][8].HName = "불의 정령";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][8].EName = "Soul Stone Of Fire";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][8].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][8].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][8].SetFrameID( 512, 526 ,0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][8].SetDropFrameID ( 512 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][8].SetValue( 3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][8].SetGrid( 1, 1 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][8].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][8].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][9].HName = "불의 정령";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][9].EName = "Soul Stone Of Fire";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][9].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][9].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][9].SetFrameID( 513, 527 ,0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][9].SetDropFrameID ( 513 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][9].SetValue( 3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][9].SetGrid( 1, 1 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][9].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][9].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][10].HName = "지도";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][10].EName = "Map";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][10].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][10].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][10].SetFrameID( 514, 528 ,0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][10].SetDropFrameID ( 514 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][10].SetValue( 3, 1, -1, -1, -1, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][10].SetGrid( 1, 1 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][10].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][10].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][11].HName = "옐로우 지마트";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][11].EName = "Yellow Zimott";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][11].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][11].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][11].SetFrameID( 740,754,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][11].SetDropFrameID( 740);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][11].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][11].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][11].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][11].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][12].HName = "그린 지마트";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][12].EName = "Green Zimott";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][12].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][12].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][12].SetFrameID( 741,755,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][12].SetDropFrameID( 741 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][12].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][12].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][12].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][12].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][13].HName = "블루 지마트";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][13].EName = "Blue Zimott";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][13].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][13].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][13].SetFrameID( 742,756,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][13].SetDropFrameID( 742 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][13].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][13].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][13].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][13].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][14].HName = "레드 지마트";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][14].EName = "Red Zimott";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][14].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][14].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][14].SetFrameID( 743,757,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][14].SetDropFrameID( 743 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][14].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][14].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][14].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][14].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][15].HName = "블랙 지마트";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][15].EName = "Black Zimott";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][15].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][15].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][15].SetFrameID( 744,758,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][15].SetDropFrameID( 744 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][15].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][15].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][15].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][15].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][16].HName = "옐로우 지르콘";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][16].EName = "Yellow Zircon";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][16].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][16].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][16].SetFrameID( 745,759,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][16].SetDropFrameID( 745 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][16].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][16].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][16].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][16].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][17].HName = "그린 지르콘";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][17].EName = "Green Zircon";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][17].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][17].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][17].SetFrameID( 746,760,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][17].SetDropFrameID( 746 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][17].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][17].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][17].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][17].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][18].HName = "블루 지르콘";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][18].EName = "Blue Zircon";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][18].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][18].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][18].SetFrameID( 747,761,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][18].SetDropFrameID( 747 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][18].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][18].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][18].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][18].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][19].HName = "레드 지르콘";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][19].EName = "Red Zircon";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][19].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][19].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][19].SetFrameID( 748,762,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][19].SetDropFrameID( 748 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][19].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][19].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][19].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][19].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][20].HName = "블랙 지르콘";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][20].EName = "Black Zircon";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][20].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][20].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][20].SetFrameID( 749,763,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][20].SetDropFrameID( 749 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][20].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][20].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][20].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][20].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][21].HName = "리피니움";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][21].EName = "Refinium";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][21].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][21].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][21].SetFrameID( 722,736,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][21].SetDropFrameID( 722 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][21].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][21].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][21].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][21].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][22].HName = "쑤리사즈 마석";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][22].EName = "Thurisaz Magic Pebble";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][22].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][22].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][22].SetFrameID( 723,737,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][22].SetDropFrameID( 723 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][22].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][22].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][22].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][22].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][23].HName = "게보 마석";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][23].EName = "Gebo Magic Pebble";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][23].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][23].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][23].SetFrameID( 719,733,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][23].SetDropFrameID( 719 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][23].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][23].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][23].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][23].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][24].HName = "운조 마석";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][24].EName = "Wunjo Magic Pebble";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][24].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][24].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][24].SetFrameID( 724,738,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][24].SetDropFrameID( 724 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][24].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][24].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][24].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][24].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][25].HName = "제라 마석";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][25].EName = "Jera Magic Pebble";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][25].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][25].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][25].SetFrameID( 721,735,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][25].SetDropFrameID( 721 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][25].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][25].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][25].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][25].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][26].HName = "하갈라즈 마석";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][26].EName = "Hagalaz Magic Pebble";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][26].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][26].SetSoundID( SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING, SOUND_ITEM_MOVE_RING );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][26].SetFrameID( 720,734,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][26].SetDropFrameID( 720 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][26].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][26].SetGrid( 1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][26].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][26].Price = 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][27].HName = "깃발";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][27].EName = "Flag";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][27].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][27].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][27].SetFrameID( 750,764,0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][27].SetDropFrameID( 750 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][27].SetValue( 3, 1, -1, -1, -1, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][27].SetGrid( 1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][27].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][27].Price = 0;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][28].HName = "프리미엄 1주일 교환권";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][28].EName = "Ticket to the Premium Zone";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][28].Description = "Ticket to the Premium Zone";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][28].SetSoundID( SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUND_ITEM_MOVE_BOMB, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][28].SetFrameID( 854, 877, 0 );	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][28].SetDropFrameID( 854 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][28].SetGrid(1, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][28].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][28].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][28].ItemMoveControl = ITEMMOVE_CANNOT_DROP;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][29].HName = "맹인의 피리";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][29].EName = "Pipe of the Blind";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][29].Description = "Pipe of the Blind";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][29].SetSoundID( SOUND_PIPE_ROUTING, SOUND_PIPE_DROP, SOUND_PIPE_DROP, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][29].SetFrameID( 861, 884, 0 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][29].SetDropFrameID( 861 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][29].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][29].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][29].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][30].HName = "대박 기원 부적";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][30].EName = "Luck Charm";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][30].Description = "수험생의 고득점을 비는 기원이 담긴 부적.";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][30].SetSoundID( SOUND_PIPE_ROUTING, SOUND_PIPE_DROP, SOUND_PIPE_DROP, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][30].SetFrameID( 940, 976, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][30].SetDropFrameID(940 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][30].SetGrid(2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][30].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][30].Price	= 0;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][31].HName = "생명의 나선";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][31].EName = "Life Spiral";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][31].Description = "";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][31].SetSoundID( SOUND_PIPE_ROUTING, SOUND_PIPE_DROP, SOUND_PIPE_DROP, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][31].SetFrameID( 977, 1011, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][31].SetDropFrameID( 977 );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][31].SetGrid(1, 1);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][31].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][31].Price	= 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][31].ItemMoveControl = ITEMMOVE_CANNOT_DROP;
+	
+	// 2005.04.29 sjheon  가정의 달 이벤트 아이템 add
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][32].HName = "빨강 풍선 머리띠";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][32].EName = "Red balloon headband";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][32].Description = "STR+1, MP+10, 시야+3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][32].SetSoundID( SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][32].SetFrameID(989, 1023, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][32].SetDropFrameID(989);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][32].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][32].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][32].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][32].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_TRADE;
+	
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][33].HName = "노랑 풍선 머리띠";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][33].EName = "Yellow balloon headband";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][33].Description = "저주+5, 공속+10, 크리티컬 히트+4";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][33].SetSoundID( SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][33].SetFrameID(988, 1022, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][33].SetDropFrameID(988);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][33].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][33].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][33].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][33].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_TRADE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][34].HName = "파랑 풍선 머리띠";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][34].EName = "Blue balloon headband";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][34].Description = "INT+1, HP+15, 명중률+3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][34].SetSoundID( SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][34].SetFrameID(990, 1024, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][34].SetDropFrameID(990);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][34].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][34].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][34].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][34].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_TRADE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][35].HName = "보라 풍선 머리띠";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][35].EName = "Violet balloon headband";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][35].Description = "DEX+1, 블러드저항+5, 모든 능력치+1";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][35].SetSoundID( SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][35].SetFrameID(987, 1021, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][35].SetDropFrameID(987);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][35].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][35].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][35].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][35].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_TRADE;
+
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][36].HName = "검정 풍선 머리띠";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][36].EName = "Black balloon headband";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][36].Description = "DAM+2, 프텍+3, 행운+3";
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][36].SetSoundID( SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL, SOUNDID_NULL );
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][36].SetFrameID(986, 1020, 0);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][36].SetDropFrameID(986);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][36].SetGrid( 2, 2);
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][36].Weight = 1;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][36].Price = 0;
+	m_pTypeInfo[ITEM_CLASS_EVENT_ITEM][36].ItemMoveControl = ITEMMOVE_CANNOT_DROP | ITEMMOVE_CANNOT_KEEP_STORAGE | ITEMMOVE_CANNOT_TRADE;
+	// 2005.04.29 sjheon  가정의 달 이벤트 아이템 add
+
+	InitItem2();
+
+	//
+	// [ 마지막 그림 ]
+	//
+
+	// 해골 대체용 보석			(271, 285) 2002.5.25
+	// 월드컵 이벤트용 축구공	(272, 286) 
+
+	// 2002.6.7 성물들
+	// 롬멜의 훈장				(274, 288)
+	// 성의						(275, 289)
+	// 처녀의피					(273, 287)
+	// 역십자가					(276, 290)
+
+	// 새의상 아이템 상의+하의 4벌씩*2 = 16 + 뱀파옷 6 + 헬맷 4 = 26
+	// 남자상의					(280, 294)
+	// 남자하의					(284, 298)
+	// 여자상의					(288, 302)
+	// 여자하의					(292, 306)
+	// 남자뱀파코트				(295, 309)
+	// 여자뱀파코트				(298, 312)
+	// 헬맷						(302, 316)
+	// 카오스 그리드 머리		(303, 317)
+	// 뱀파이어 돈				(304, 318)
+
+	// 뱀파이어 귀걸이			(314, 328)
+	// 블루 드롭				(315, 329);
+
+	// 뱀파이어 너클			(325, 339)
+	// 뱀파이어 크로우			(335, 349)
+	// 뱀파이어 아뮬렛			(345, 359)
+
+	// 유니크 아이템			(372, 386)
+
+	// 2002.9.11
+	// 레어마스터 퀘스트 아이템	(376, 390)
+	// 송편6개					(382, 396)
+
+	// 2002.9.25
+	// 몬스터 3종 머리			(385, 399)
+
+	// 2002.12.9
+	// 폭죽 3개					(388, 402)
+	// 크리스마스트리 13개		(401, 415)
+	// 뱀파옷 두개				(403, 417)
+
+	// 2003.1.27
+	// 떡국	6종					(409, 423)
+
+	// 2003.1.29
+	// 피의 성서 12종			(421, 435)
+	// 성수 4종					(425, 439)
+
+	// 2003.2.12
+	// 성상징물 4종				(429, 443)
+
+	// 뱀파 3단 옷 2개			(431, 445)
+
+	// 커플링2 추가 아이템 합30	(461, 475)
+	// 뱀파 남자 2단옷			(462, 476)
+
+	// 슬레 아이템 20종			(482, 496)
+	// 뱀파 아이템 8종			(490, 504)
+
+	// 고대문헌					(491, 505)
+	// 고대 문헌 조각 12개		(503, 517)
+	// 정령석 물 5개			(508, 522)
+	// 정령석 불 5개			(513, 527)
+	// 지도						(514, 528)
+	// 이것저것					(596, 610)
+	
+	// 아우스터즈 펜던트,서클릿,암스밴드 (626, 640);
+	// 아우스터즈 이것저것 53	(679, 693)
+	// 아우스터즈 젬			(680, 694)
+	// 아우스터즈 돈			(681, 695)
+	// 중간에 먼가 잔뜩			(791, 814)
+	// 펫 관련 아이템			(801, 824)
+	// 옐로우 드롭, 패키지개목걸이, 푸대7일용 (804, 827)
+	// 아우스터즈 11,12단 + 유니크 (828, 851)
+	// 설날 이벤트 아이템		(837, 860)
+	// 넷마블카드				(838, 861)
+	// 2차펫 아이템				(853, 876)
+	// 프리미엄 교환권2종		(855, 878)
+	// 태극기1종				(856, 879)
+	// 펫 변신 아이템			(857, 880)
+	// 네잎 크로바				(858, 881)
+	// 아우스터즈 공성전 관련 2종 (860, 883)
+	// 질드레 아이템(맹인의피리1종) (861, 884)
+	// sms 충전 아이템 3종		 (864, 887)
+	// 네이밍 펜아이템 2종		 (866, 889)
+	// 질드레 펜턴트등 2종 		 (868, 891)
+	// 질드레 코어잽 4종 		 (872, 895)
+	// 퀘스트 아이템 9종		 (881, 904);	
+	// 손의 월계관				 (882, 905);	
+	// 노란 사탕, 녹색사탕		 (884, 907)
+	// 공성전 트랩,장애물 11종	 (895, 918) 드럼통, 삼각대a, 삼각대b, 삼각대c, 장애물a, 장애물b, 오토터렛, 크레이모어, 랜드마인,플레져스테이, 몬스터볼
+	//음 이벤트상자 4종, 송편3종   (902, 925) 검정색선물상자,남색선물상자,보라색선물상자,주황색선물상자,꿀송편,쑥송편,흰송편
+	// 130 레벨 슬레이이 아이템 추가      
+	// 130 레벨 뱀파이어 아이템 추가       
+	// 130 레벨 아우스터즈 아이템 추가       
+	// 블러드바이블사인 12종 추가 (939, 975) // 인벤 이미지만 추가 했음
+	// 드래곤 아이(940,976)
+	// 수능 대박 기원아이템(941,977)
+	// 2차 전직 Gravis Cutter (941,978)
+
+	// d- 토마호크까지 969, 1003
+	// 모래시계 3종( 972,1006) 까지
+
+	// 승직 퀘스트 관련 아이템 5종( 977,1011) 까지
+
+	// 복조리( 978,1012) 까지
+	// 마켓 추가 아이템 6종( 멀티팩,  옐로우 스톤, 오오라 스톤 4종(보통,녹색,노랑,보라))- ( 984,1018) 까지
+#endif
+}
+
+ITEMCLASS_TABLE::~ITEMCLASS_TABLE()
+{
+}
+
+//---------------------------------------------------------------------
+// c class를 size개만큼 초기화한다.
+//---------------------------------------------------------------------
+void
+ITEMCLASS_TABLE::InitClass( int c, int size )
+{
+	// class에 size개만큼 type을 생성	
+	m_pTypeInfo[c].Init( size );
+}
+
+
+void
+ITEMCLASS_TABLE::SaveToCSVFile(std::ofstream& file)
+{
+	// 아무 것도 없는 경우
+	if (m_pTypeInfo==NULL)
+		return;
+
+	// 각각의 정보 저장
+	for (int i=0; i<m_Size; i++)
+	{
+		m_pTypeInfo[i].SaveToCSVFile(file, i);
+	}
+}
+
+#if __CONTENTS(__ITEMINFO_TABLEATION_PROJECT)
+void
+ITEMCLASS_TABLE::LoadToCSVFile(std::ifstream& file)
+{
+	// 아무 것도 없는 경우
+	if (m_pTypeInfo==NULL)
+		return;
+
+	// 각각의 정보 저장
+	for (int i=0; i<m_Size; i++)
+	{
+		m_pTypeInfo[i].LoadToCSVFile(file, i);
+	}
+}
+#endif //__ITEMINFO_TABLEATION_PROJECT

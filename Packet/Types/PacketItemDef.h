@@ -1,0 +1,125 @@
+#ifndef __PACKETITEMDEF_H__
+#define __PACKETITEMDEF_H__
+
+enum HelmetType { 
+	HELMET_NONE , 
+	HELMET1 ,
+	HELMET2 ,
+	HELMET3 ,
+	HELMET_OSIRIS, // 1차 승직 오시리스 투구
+	HELMET_MAX
+};
+
+enum JacketType { 
+	JACKET_BASIC , 
+	JACKET1 , 
+	JACKET2 ,
+	JACKET3 ,
+	JACKET4 ,
+	JACKET_OSIRIS, // 1차 승직 오시리스 상의
+	JACKET_MAX
+};
+
+enum PantsType { 
+	PANTS_BASIC , 
+	PANTS1 , 
+	PANTS2 ,
+	PANTS3 ,
+	PANTS4 ,
+	PANTS_OSIRIS,	// 1차 승직 오시리스 하의
+	PANTS_MAX
+};
+
+
+enum WeaponType { 
+	WEAPON_NONE ,
+	WEAPON_SWORD ,
+	WEAPON_BLADE ,
+	WEAPON_SR ,
+	WEAPON_AR ,
+	WEAPON_SG ,
+	WEAPON_SMG ,
+	WEAPON_CROSS ,
+	WEAPON_MACE ,
+//	WEAPON_SHIELD ,
+//	WEAPON_SWORD_SHIELD ,
+	WEAPON_OSIRIS_SWORD ,	// 검
+	WEAPON_OSIRIS_BLADE ,	// 도
+	WEAPON_OSIRIS_SR ,		// 총
+	WEAPON_OSIRIS_AR ,		// 총
+	WEAPON_OSIRIS_CROSS ,	// 십자가
+	WEAPON_OSIRIS_MACE ,	// 메이스
+	WEAPON_MAX
+};
+
+enum ShieldType { 
+	SHIELD_NONE ,
+	SHIELD1 ,
+	SHIELD2 ,
+	SHIELD_OSIRIS,	// 1차 승직 오시리스 방패
+	SHIELD_MAX
+};
+
+enum MotorcycleType {
+	MOTORCYCLE_NONE ,
+	MOTORCYCLE1 ,
+	MOTORCYCLE2 ,
+	MOTORCYCLE3 ,
+	MOTORCYCLE4 ,
+	MOTORCYCLE5 ,
+	MOTORCYCLE_MAX
+};
+
+enum ShoulderType{
+	SHOULDER_NONE ,
+	SHOULDER1 ,
+	SHOULDER_MAX
+};
+
+enum VampireCoatType 
+{ 
+	VAMPIRE_COAT_BASIC , 
+	VAMPIRE_COAT1 , 
+	VAMPIRE_COAT2 ,
+	VAMPIRE_COAT3 ,
+	VAMPIRE_COAT4 ,
+	VAMPIRE_OSIRIS_COAT ,	//Day 2010.01.05, ID: shootkj 1차 승직 오시리스 외형
+	VAMPIRE_COAT_MAX
+};
+
+enum VampireArmType
+{
+	VAMPIRE_ARM_NONE,
+	VAMPIRE_ARM_WEAPON,
+	VAMPIRE_ARM_OSIRIS_WEAPON,		// 1차 승직 오시리스 무기 외형
+	VAMPIRE_ARM_MAX
+};
+
+enum OustersCoatType 
+{ 
+	OUSTERS_COAT_BASIC , 
+	OUSTERS_COAT1 , 
+	OUSTERS_COAT2 ,
+	OUSTERS_COAT3 ,
+	OUSTERS_COAT4 ,
+	OUSTERS_OSIRIS_COAT ,	// 1차 승직 오시리스 외형
+	OUSTERS_COAT_MAX
+};
+
+enum OustersArmType
+{
+	OUSTERS_ARM_GAUNTLET,
+	OUSTERS_ARM_CHAKRAM,
+	OUSTERS_ARM_OSIRIS_CHAKRAM,		// 1차 승직 오시리스 무기 외형
+	OUSTERS_ARM_MAX
+};
+
+enum OustersSylphType
+{
+	OUSTERS_SYLPH_OFF,
+	OUSTERS_SYLPH_ON,
+	OUSTERS_SYLPH_MAX
+};
+
+
+#endif
