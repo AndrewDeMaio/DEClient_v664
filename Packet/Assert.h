@@ -22,10 +22,13 @@ void __assert__ ( const char * file , uint line , const char * func , const char
 
 #if defined(NDEBUG)
 	#define Assert(expr) ((void)0)
+	#define assert(expr) ((void)0)
 #elif __LINUX__
 	#define Assert(expr) ((void)((expr)?0:(__assert__(__FILE__,__LINE__,__PRETTY_FUNCTION__,#expr),0)))
-#elif __WIN_CONSOLE__ || __WIN32__ 
+	#define assert(expr) ((void)((expr)?0:(__assert__(__FILE__,__LINE__,__PRETTY_FUNCTION__,#expr),0)))
+#elif _WIN32 || _WIN64 
 	#define Assert(expr) ((void)((expr)?0:(__assert__(__FILE__,__LINE__,"",#expr),0)))
+	#define assert(expr) ((void)((expr)?0:(__assert__(__FILE__,__LINE__,"",#expr),0)))
 #elif __MFC__
 	#define Assert(expr) ASSERT(expr)
 #endif

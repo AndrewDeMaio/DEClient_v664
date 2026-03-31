@@ -63,7 +63,10 @@
       "Bash(awk 'NR>=7430 && NR<=7475' \"D:/GitHub/DEClient_v664/UI/MTopView.cpp\")",
       "Bash(awk 'NR>=7380 && NR<=7432' \"D:/GitHub/DEClient_v664/UI/MTopView.cpp\")",
       "Bash(awk 'NR>=7392 && NR<=7412' \"D:/GitHub/DEClient_v664/UI/MTopView.cpp\")",
-      "Bash(grep -v \"//\")"
+      "Bash(grep -v \"//\")",
+      "Bash(grep -rn 'undef assert' D:/GitHub/DEClient_v664/ --include=*.h)",
+      "Bash(grep -v \"//.*char_t\")",
+      "Bash(grep -rn \"typedef.*char_t\\\\|#define char_t\\\\|using char_t\" D:/GitHub/DEClient_v664/ --include=*.h)"
     ]
   }
 }
