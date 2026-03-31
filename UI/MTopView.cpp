@@ -16301,7 +16301,7 @@ MTopView::DrawZone(int firstPointX, int firstPointY)
 									CDirectDraw::Color(0, colorValue16, 0));
 
 								char szBuf[8];
-								itoa(range, szBuf, 10);
+								_itoa(range, szBuf, 10);
 
 								m_pSurface->GDI_Text(
 									tilePointTemp.x + 2,
@@ -16719,7 +16719,7 @@ MTopView::DrawZone(int firstPointX, int firstPointY)
 										CDirectDraw::Color(0, colorValue16, 0));
 
 									char szBuf[8];
-									itoa(range, szBuf, 10);
+									_itoa(range, szBuf, 10);
 
 									m_pSurface->GDI_Text(
 										tilePointTemp.x + 2,

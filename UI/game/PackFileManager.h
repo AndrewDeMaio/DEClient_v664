@@ -143,7 +143,7 @@ PackFileManager<FileInfoType>::Release()
 	// ID map
 	// 같은 pointer를 사용하므로...
 	//----------------------------------------------------------
-	FILEINFO_ID_MAP::iterator iInfo = m_IDInfos.begin();
+	auto iInfo = m_IDInfos.begin();
 
 	while (iInfo != m_IDInfos.end())
 	{
@@ -168,7 +168,7 @@ template <class FileInfoType>
 bool
 PackFileManager<FileInfoType>::AddInfo(DWORD id, FileInfoType* pInfo)
 {
-	FILEINFO_ID_MAP::iterator iInfo = m_IDInfos.find( id );
+	auto iInfo = m_IDInfos.find( id );
 
 	if (iInfo != m_IDInfos.end())
 	{
@@ -192,7 +192,7 @@ template <class FileInfoType>
 bool		
 PackFileManager<FileInfoType>::HasInfo(DWORD id)
 {
-	FILEINFO_ID_MAP::iterator iInfo = m_IDInfos.find( id );
+	auto iInfo = m_IDInfos.find( id );
 
 	if (iInfo != m_IDInfos.end())
 	{
@@ -209,7 +209,7 @@ template <class FileInfoType>
 bool		
 PackFileManager<FileInfoType>::HasInfo(const char* pFilename)
 {
-	FILEINFO_ID_MAP::iterator iInfo = m_NameInfos.find( std::string(pFilename) );
+	auto iInfo = m_NameInfos.find( std::string(pFilename) );
 
 	if (iInfo != m_IDInfos.end())
 	{
@@ -226,7 +226,7 @@ template <class FileInfoType>
 FileInfoType*	
 PackFileManager<FileInfoType>::GetInfo(DWORD id) const
 {
-	FILEINFO_ID_MAP::const_iterator iInfo = m_IDInfos.find( id );
+	auto iInfo = m_IDInfos.find( id );
 
 	if (iInfo != m_IDInfos.end())
 	{
@@ -260,13 +260,13 @@ template <class FileInfoType>
 bool					
 PackFileManager<FileInfoType>::RemoveInfo(DWORD id)
 {
-	FILEINFO_ID_MAP::iterator iInfo = m_IDInfos.find( id );
+	auto iInfo = m_IDInfos.find( id );
 
 	if (iInfo != m_IDInfos.end())
 	{
 		FileInfoType* pInfo = iInfo->second;
 
-		FILEINFO_NAME_MAP::iterator iNameInfo = m_NameInfos.find( pInfo->GetFilename() );
+		auto iNameInfo = m_NameInfos.find( pInfo->GetFilename() );
 
 		if (iNameInfo!=m_NameInfos.end())
 		{
@@ -298,13 +298,13 @@ PackFileManager<FileInfoType>::RemoveInfo(const char* pFilename)
 		return false;
 	}
 
-	FILEINFO_NAME_MAP::iterator iNameInfo = m_NameInfos.find( std::string(pFilename) );
+	auto iNameInfo = m_NameInfos.find( std::string(pFilename) );
 
 	if (iInfo != m_NameInfos.end())
 	{
 		FileInfoType* pInfo = iInfo->second;
 
-		FILEINFO_ID_MAP::iterator iInfo = m_IDInfos.find( pInfo->GetID() );
+		auto iInfo = m_IDInfos.find( pInfo->GetID() );
 
 		if (iInfo!=m_IDInfos.end())
 		{
@@ -348,14 +348,14 @@ template <class FileInfoType>
 bool					
 PackFileManager<FileInfoType>::SaveToFileInfo(const char* pFilename)
 {
-	std::ofstream file(pFilename, ios::binary | ios::trunc);
+	std::ofstream file(pFilename, std::ios::binary | std::ios::trunc);
 
 	// 개수
 	WORD num = m_IDInfos.size();
 	file.write((const char*)&num, 2);
 
 	// Header 저장
-	FILEINFO_ID_MAP::iterator iInfo = m_IDInfos.begin();
+	auto iInfo = m_IDInfos.begin();
 
 	while (iInfo != m_IDInfos.end())
 	{
@@ -380,7 +380,7 @@ PackFileManager<FileInfoType>::LoadFromFileInfo(const char* pFilename)
 {
 	Release();
 
-	std::ifstream file(pFilename, ios::binary | ios::nocreate);
+	std::ifstream file(pFilename, std::ios::binary);
 
 	// 개수
 	if (file.is_open())
@@ -420,7 +420,7 @@ PackFileManager<FileInfoType>::SaveToFileData(const char* pFilename)
 	file.write((const char*)&num, 2);	
 
 	// data
-	FILEINFO_ID_MAP::iterator iInfo = m_IDInfos.begin();
+	auto iInfo = m_IDInfos.begin();
 
 	while  (iInfo != m_IDInfos.end())
 	{
@@ -454,13 +454,13 @@ PackFileManager<FileInfoType>::GetInputFileStream(const char* pFilename, std::if
 		return false;
 	}
 
-	FILEINFO_NAME_MAP::iterator iInfo = m_NameInfos.find( std::string(pFilename) );
+	auto iInfo = m_NameInfos.find( std::string(pFilename) );
 
 	if (iInfo != m_NameInfos.end())
 	{
 		FileInfoType* pInfo = iInfo->second;
 
-		file.open(m_DataFilename.c_str(), ios::binary);
+		file.open(m_DataFilename.c_str(), std::ios::binary);
 
 		file.seekg( pInfo->GetFilePosition() );
 
@@ -482,13 +482,13 @@ PackFileManager<FileInfoType>::GetInputFileStream(DWORD id, std::ifstream& file)
 		return;
 	}
 
-	FILEINFO_ID_MAP::iterator iInfo = m_IDInfos.find( id );
+	auto iInfo = m_IDInfos.find( id );
 
 	if (iInfo != m_IDInfos.end())
 	{
 		FileInfoType* pInfo = iInfo->second;
 
-		file.open(m_DataFilename.c_str(), ios::binary);
+		file.open(m_DataFilename.c_str(), std::ios::binary);
 
 		file.seekg( pInfo->GetFilePosition() );
 

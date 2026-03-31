@@ -2688,17 +2688,23 @@ MPlayer::SelfSpecialAction()
 											if(pItem == NULL)
 					#endif //__SECOND_TRANSFORTER
 												pItem = ((MItemManager*)g_pInventory)->FindItemAll( MOustersSummonGemItemFinder(), pSubInventory );*/
-					MItem*
+					
+					MItem* pItem = nullptr;
 #if __CONTENTS(__FAST_TRANSFORTER || __SECOND_TRANSFORTER)
-						// by jin. 
-						// 1. �ű� �̵������� ���, ���� �����۵� ���� �켱�Ѵ�. ����, �ű� �̵������� �� ���� �̻� ������ ���, �켱������ �ʿ��ϴ�.
-						//	������ FindItemAll �Լ��� ���� �κ��丮 ���� ��ġ ������ �ƴ϶� ���� �������� �������� ������ ���� �켱������ �����ȴ�.
-						//	�̴�, �������� ���������� �� �� �����Ƿ� �κ��丮 ���� ��ġ ������ �������� �տ� ��ġ�� �������� ã�� �ִ� �Լ��� ���� ����� ����Ѵ�.
-						// 2. �ű� �̵������� �����κ��� ���� ���� ����� �Ұ��� �ϴ�. ����, �����κ����� ������ ��ġ ������ ���� ������ ã�� �Լ��� ������� ���Ѵ�.
-						//	�Ŀ�, �����κ��� ���� �뵵 ����� �����ϰ� �� ���� ����� ������ ���̹Ƿ� �ּ� ó���Ͽ� ���� ���ܵд�. (FindItemAllOrderByIndex)
+
+/* 1. When moving an item, we need to update the positions of other items accordingly.
+    The FindItemAll function only updates items that exist in the list, so it may
+    not automatically update positions of other related items. Therefore, in some
+    cases, we must manually update positions of linked or affected items depending
+    on where the moved item is.
+
+ 2. Moving an item can also affect linked or child items. We need a function that
+    finds and updates the positions of these linked items as well. For example,
+    if a child item is moved along with its parent, we should call
+    FindItemAllOrderByIndex to correctly update their positions. */
 //							pItem = ((MItemManager*)g_pInventory)->FindItemAll( MOustersWingItemFinder(), pSubInventory );
 //							pItem = ((MItemManager*)g_pInventory)->FindItemAllOrderByIndex( MOustersWingItemFinder(), pSubInventory);
-pItem = ((MItemManager*)g_pInventory)->FindItemOrderByIndex(MOustersWingItemFinder());
+					MItem* pItem = ((MItemManager*)g_pInventory)->FindItemOrderByIndex(MOustersWingItemFinder());
 					if (pItem == NULL)
 #endif
 						MOustersSummonGemItemFinder finder_summon_gem;

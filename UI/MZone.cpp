@@ -28,7 +28,7 @@
 #include "CMessageArray.h"
 #include "DebugInfo.h"
 #include "ServerInfo.h"
-//#include "Client.h"
+#include "Client.h"
 #include "EffectSpriteTypeDef.h"
 #include "SoundDef.h"
 #include "MEffectSpriteTypeTable.h"
@@ -5852,7 +5852,7 @@ MZone::UpdateSound()
 	// ����� �Ҹ�..
 	// �ϵ��ڵ�.. ������.. ���߿� ���ߵȴ�.
 	//----------------------------------------------------------------
-	int zoneID = (g_bZonePlayerInLarge? g_nZoneLarge : g_nZoneSmall);
+	int zoneID = (g_bZonePlayerInLarge ? g_nZoneLarge : g_nZoneSmall);
 			
 	if (zoneID==2106 || zoneID==2004 || zoneID==2014 || zoneID==2024)
 	{
