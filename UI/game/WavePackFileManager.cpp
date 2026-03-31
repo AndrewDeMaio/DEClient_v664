@@ -117,11 +117,11 @@ WavePackFileInfo::LoadFromFileData(std::ifstream& file)
 	unsigned long length2;
 
 	buffer->Lock(0, cksize, &write1, &length1, &write2, &length2, 0);
-	if(write1 > 0)
+	if(write1)
 	{
 		file.read((char*)write1, length1);
 	}
-	if(write2 > 0)
+	if(write2)
 	{
 		file.read((char*)write2, length2);
 	}

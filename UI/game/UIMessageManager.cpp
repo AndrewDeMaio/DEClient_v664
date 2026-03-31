@@ -225,25 +225,25 @@ int g_C2G = 0;
 // extern
 //-----------------------------------------------------------------------------
 #if defined(OUTPUT_DEBUG) && defined(_DEBUG)
-	extern int g_ShowImageObjectID;
+extern int g_ShowImageObjectID;
 #endif
 
 #ifdef OUTPUT_DEBUG
-	extern MString g_ProfileInfoName;
+extern MString g_ProfileInfoName;
 #endif
 
 bool							g_bEventQuestEnding = false;
 extern bool		LoadingAddonSPK(bool bLoading);
-extern CGameUpdate*		g_pCGameUpdate;
+extern CGameUpdate* g_pCGameUpdate;
 
 #if __CONTENTS(__MOVE_ZONE)
-extern C_VS_UI_GPS		*gpC_Gps;
+extern C_VS_UI_GPS* gpC_Gps;
 #endif //__MOVE_ZONE
 
 //-----------------------------------------------------------------------------
 // Global
 //-----------------------------------------------------------------------------
-UIMessageManager*	g_pUIMessageManager = NULL;
+UIMessageManager* g_pUIMessageManager = NULL;
 
 extern BOOL g_bEnable3DHAL;
 extern BOOL g_bSetHotKey;
@@ -264,7 +264,7 @@ ExecuteLogout()
 	//--------------------------------------------------
 	// 살아있는 경우
 	//--------------------------------------------------
-	if (g_Mode==MODE_GAME)
+	if (g_Mode == MODE_GAME)
 	{
 		DEBUG_ADD("ExecuteLogout");
 
@@ -278,8 +278,8 @@ ExecuteLogout()
 		if (!g_pPlayer->IsAlive())
 		{
 			CGResurrect _CGResurrect;
-				
-			g_pSocket->sendPacket( &_CGResurrect );				
+
+			g_pSocket->sendPacket(&_CGResurrect);
 
 			gC_vs_ui.FinishRequestDie();
 			gC_vs_ui.FinishRequestResurrect();
@@ -293,14 +293,14 @@ ExecuteLogout()
 			//--------------------------------------------------
 			if (g_pUserOption->PlayWaveMusic)
 			{
-//				g_pDXSoundStream->Stop();
+				//				g_pDXSoundStream->Stop();
 				DEBUG_ADD("MP3 STOP7");
 #ifdef __USE_MP3__
 				g_pMP3->Stop();
 #else
-				if( g_DXSound.IsInit() )
+				if (g_DXSound.IsInit())
 					BGMManager::Instance()->StopMusic();
-					//g_pOGG->streamClose();
+				//g_pOGG->streamClose();
 #endif
 				DEBUG_ADD("MP3 STOP7 OK");
 			}
@@ -320,65 +320,65 @@ ExecuteLogout()
 			//--------------------------------------------------
 			// 게임 서버로 CGLogout 패킷을 보낸다.
 			//--------------------------------------------------
-				UI_SaveHotKeyToServer();
+			UI_SaveHotKeyToServer();
 
-				CGLogout cgLogout;
-			
-				g_pSocket->sendPacket( &cgLogout );
-				//g_pSocket->setPlayerStatus( CPS_END_SESSION );
+			CGLogout cgLogout;
 
-				g_pSocket->processOutput();
+			g_pSocket->sendPacket(&cgLogout);
+			//g_pSocket->setPlayerStatus( CPS_END_SESSION );
 
-				g_pSocket->setPlayerStatus( CPS_WAITING_FOR_GC_RECONNECT_LOGIN );	
+			g_pSocket->processOutput();
 
-				
-				//g_pSocket->disconnect();
+			g_pSocket->setPlayerStatus(CPS_WAITING_FOR_GC_RECONNECT_LOGIN);
 
-				// 2001.6.12 : release하지 않고 재접한다.
-				//ReleaseSocket();
 
-			/*
-			if (g_pZone != NULL)
-			{
-				g_pZone->RemovePlayer();
-				g_pPlayer->SetStop();
-				g_pPlayer->SetAction( ACTION_STAND );
-				//g_pZone->UnSetLight(g_pPlayer->GetX(), g_pPlayer->GetY(), g_pPlayer->GetLightSight());	// 시야 제거
-			}
-			*/
+			//g_pSocket->disconnect();
 
-			// 캐릭터 선택창으로 간다는 message
-			/*
-			if (g_pCGameUpdate!=NULL)
-			{
-				gC_vs_ui.CloseGameMenu();
+			// 2001.6.12 : release하지 않고 재접한다.
+			//ReleaseSocket();
 
-				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_WAIT_FOR_CHARACTER_SELECT_MODE].GetString(), -1, -1, 0 );			
-				
-				g_pCGameUpdate->UpdateDraw();				
-				CDirectDraw::Flip();
+		/*
+		if (g_pZone != NULL)
+		{
+			g_pZone->RemovePlayer();
+			g_pPlayer->SetStop();
+			g_pPlayer->SetAction( ACTION_STAND );
+			//g_pZone->UnSetLight(g_pPlayer->GetX(), g_pPlayer->GetY(), g_pPlayer->GetLightSight());	// 시야 제거
+		}
+		*/
 
-				g_pCGameUpdate->UpdateDraw();				
-				CDirectDraw::Flip();
-			}
-			*/
+		// 캐릭터 선택창으로 간다는 message
+		/*
+		if (g_pCGameUpdate!=NULL)
+		{
+			gC_vs_ui.CloseGameMenu();
 
-			// 날씨 멈춤..
-			//SetWeather(WEATHER_CLEAR, 0);
+			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_WAIT_FOR_CHARACTER_SELECT_MODE].GetString(), -1, -1, 0 );
+
+			g_pCGameUpdate->UpdateDraw();
+			CDirectDraw::Flip();
+
+			g_pCGameUpdate->UpdateDraw();
+			CDirectDraw::Flip();
+		}
+		*/
+
+		// 날씨 멈춤..
+		//SetWeather(WEATHER_CLEAR, 0);
 			ReleaseGameObject();
 
 			// 2001.6.12 : 재접속~
 			//SetMode( MODE_MAINMENU );	
-			SetMode( MODE_WAIT_RECONNECT_LOGIN );
+			SetMode(MODE_WAIT_RECONNECT_LOGIN);
 
 			//------------------------------------------------------
 			// [ TEST CODE ]
 			// 여기서 sound를 초기화해도 되남??
 			//------------------------------------------------------
 			//InitSound();
-			g_CurrentFrame		= 0;
+			g_CurrentFrame = 0;
 
-			g_bSetHotKey	= FALSE;
+			g_bSetHotKey = FALSE;
 
 			//------------------------------------------------------
 			// ui dialog
@@ -393,18 +393,18 @@ ExecuteLogout()
 			g_pChatManager->ClearID();
 			g_pChatManager->SetAcceptMode();
 
-//			gC_vs_ui.ServerDisconnectMessage();
-//			gC_vs_ui.CloseAllDialog();
+			//			gC_vs_ui.ServerDisconnectMessage();
+			//			gC_vs_ui.CloseAllDialog();
 
-			// Title화면 UI시작
-			//gC_vs_ui.EndTitle();
-			//20070703 타이틀 화면 리뉴얼중 종료 물음 메세지창 버그 수정
-			//캐릭터 선택 창을 페이크로 먼저 띄움으로 패킷이 올때까지 시간동안 타이틀로 
-			//키보드 컨트롤이 넘어가는 것을 막는다. 진짜 컨트롤은 패킷이 온후에 받기 때문에
-			//그 이전의 키 입력은 페이크가 받고 씹어 먹는다.
+						// Title화면 UI시작
+						//gC_vs_ui.EndTitle();
+						//20070703 타이틀 화면 리뉴얼중 종료 물음 메세지창 버그 수정
+						//캐릭터 선택 창을 페이크로 먼저 띄움으로 패킷이 올때까지 시간동안 타이틀로 
+						//키보드 컨트롤이 넘어가는 것을 막는다. 진짜 컨트롤은 패킷이 온후에 받기 때문에
+						//그 이전의 키 입력은 페이크가 받고 씹어 먹는다.
 			gC_vs_ui.StartTitle();
 			UI_StartCharacterManager(0);
-	
+
 			gC_vs_ui.DropItem();
 
 			g_bUIInput = FALSE;
@@ -424,14 +424,14 @@ ExecuteLogout()
 			//------------------------------------------------------
 			if (g_pUserOption->PlayWaveMusic)
 			{
-//				g_pDXSoundStream->Stop();			
+				//				g_pDXSoundStream->Stop();			
 				DEBUG_ADD("MP3 STOP8");
 #ifdef __USE_MP3__
 				g_pMP3->Stop();
 #else
-				if( g_DXSound.IsInit() )
+				if (g_DXSound.IsInit())
 					BGMManager::Instance()->StopMusic();
-					//g_pOGG->streamClose();
+				//g_pOGG->streamClose();
 #endif
 				DEBUG_ADD("MP3 STOP8 OK");
 
@@ -439,58 +439,58 @@ ExecuteLogout()
 				{
 					int musicID = g_pClientConfig->MUSIC_THEME;
 
-					if (musicID!=MUSICID_NULL)
+					if (musicID != MUSICID_NULL)
 					{
 #ifdef __USE_MP3__					
-//						g_pDXSoundStream->Load( (*g_pMusicTable)[ musicID ].FilenameWav );
-//						g_pDXSoundStream->Play( FALSE );
+						//						g_pDXSoundStream->Load( (*g_pMusicTable)[ musicID ].FilenameWav );
+						//						g_pDXSoundStream->Play( FALSE );
 						DEBUG_ADD("MP3 OPEN2");
-						g_pMP3->Open( (*g_pMusicTable)[ musicID ].FilenameWav );
+						g_pMP3->Open((*g_pMusicTable)[musicID].FilenameWav);
 						DEBUG_ADD("MP3 OPEN2 OK");
 						DEBUG_ADD("MP3 PLAY4");
-						g_pMP3->Play( false );
+						g_pMP3->Play(false);
 						DEBUG_ADD("MP3 PLAY4 OK");
 #else
-// 						if( g_oggfile != NULL )
-// 							fclose(g_oggfile);
-// 						
-// 						g_oggfile = NULL;
-// 
-// 						if( g_DXSound.IsInit() )
-// 						{
-// 							g_oggfile = fopen( (*g_pMusicTable)[ musicID ].FilenameWav ,"rb");
-// 							if( g_oggfile != NULL )
-// 							{
-// 								g_pOGG->streamLoad( g_oggfile, NULL );
-// 								g_pOGG->streamPlay( SOUND_PLAY_ONCE );
-// 								int volume = (g_pUserOption->VolumeMusic - 15) * 250;
-// 								g_pOGG->streamVolume( max( -10000, min( -1, volume ) ) );
-// 							}
-// 						}
+						// 						if( g_oggfile != NULL )
+						// 							fclose(g_oggfile);
+						// 						
+						// 						g_oggfile = NULL;
+						// 
+						// 						if( g_DXSound.IsInit() )
+						// 						{
+						// 							g_oggfile = fopen( (*g_pMusicTable)[ musicID ].FilenameWav ,"rb");
+						// 							if( g_oggfile != NULL )
+						// 							{
+						// 								g_pOGG->streamLoad( g_oggfile, NULL );
+						// 								g_pOGG->streamPlay( SOUND_PLAY_ONCE );
+						// 								int volume = (g_pUserOption->VolumeMusic - 15) * 250;
+						// 								g_pOGG->streamVolume( max( -10000, min( -1, volume ) ) );
+						// 							}
+						// 						}
 
-						BGMManager::Instance()->PlayMusic((*g_pMusicTable)[ musicID ].FilenameWav);
+						BGMManager::Instance()->PlayMusic((*g_pMusicTable)[musicID].FilenameWav);
 #endif
 					}
 				}
 			}
 			else
 			{
-				g_Music.Stop();			
+				g_Music.Stop();
 
 				if (g_pUserOption->PlayMusic)
 				{
 					int musicID = g_pClientConfig->MUSIC_THEME;
 
-					if (musicID!=MUSICID_NULL)
+					if (musicID != MUSICID_NULL)
 					{
-						g_Music.Play( (*g_pMusicTable)[ musicID ].Filename );
+						g_Music.Play((*g_pMusicTable)[musicID].Filename);
 					}
 				}
 			}
 		}
 		else
 		{
-			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_LOGOUT_DIED].GetString() );
+			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_LOGOUT_DIED].GetString());
 		}
 	}
 	else
@@ -506,7 +506,7 @@ ExecuteQuitExit()
 	//--------------------------------------------------
 	// 살아있는 경우
 	//--------------------------------------------------
-	if (g_Mode==MODE_GAME)
+	if (g_Mode == MODE_GAME)
 	{
 		DEBUG_ADD("ExecuteQuitExit");
 
@@ -520,15 +520,15 @@ ExecuteQuitExit()
 		if (!g_pPlayer->IsAlive())
 		{
 			CGResurrect _CGResurrect;
-				
-			g_pSocket->sendPacket( &_CGResurrect );
+
+			g_pSocket->sendPacket(&_CGResurrect);
 
 			gC_vs_ui.FinishRequestDie();
 			gC_vs_ui.FinishRequestResurrect();
 			gC_vs_ui.CloseRequestShrineMinimap();
 		}
 
-		if(1)//g_pPlayer->IsAlive())
+		if (1)//g_pPlayer->IsAlive())
 		{
 			//--------------------------------------------------
 			// 게임 서버로 CGLogout 패킷을 보낸다.
@@ -536,16 +536,16 @@ ExecuteQuitExit()
 			UI_SaveHotKeyToServer();
 
 			CGLogout cgLogout;
-			g_pSocket->sendPacket( &cgLogout );
+			g_pSocket->sendPacket(&cgLogout);
 			g_pSocket->processOutput();
-			g_pSocket->setPlayerStatus( CPS_WAITING_FOR_GC_RECONNECT_LOGIN );	
+			g_pSocket->setPlayerStatus(CPS_WAITING_FOR_GC_RECONNECT_LOGIN);
 
 			ReleaseGameObject();
-			SetMode( MODE_QUIT );
+			SetMode(MODE_QUIT);
 
-			g_CurrentFrame		= 0;
+			g_CurrentFrame = 0;
 
-			g_bSetHotKey	= FALSE;
+			g_bSetHotKey = FALSE;
 
 			//------------------------------------------------------
 			// ui dialog
@@ -569,7 +569,7 @@ ExecuteQuitExit()
 		}
 		else
 		{
-			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_LOGOUT_DIED].GetString() );
+			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_LOGOUT_DIED].GetString());
 		}
 	}
 	else
@@ -596,56 +596,56 @@ PlayTitleMusic()
 		{
 			int musicID = g_pClientConfig->MUSIC_THEME;
 
-			if (musicID!=MUSICID_NULL)
+			if (musicID != MUSICID_NULL)
 			{
 #ifdef __USE_MP3__
-				LONG volume = g_pUserOption->VolumeMusic*16*257;//*SOUND_DEGREE + SOUND_MIN;
-//				g_pDXSoundStream->SetVolumeLimit( volume );
+				LONG volume = g_pUserOption->VolumeMusic * 16 * 257;//*SOUND_DEGREE + SOUND_MIN;
+				//				g_pDXSoundStream->SetVolumeLimit( volume );
 				DEBUG_ADD("MP3 SetVolume2");
-				g_pMP3->SetVolume( volume );
+				g_pMP3->SetVolume(volume);
 				DEBUG_ADD("MP3 SetVolume2 OK");
 
 				DEBUG_ADD("MP3 OPEN3");
-				g_pMP3->Open( (*g_pMusicTable)[ musicID ].FilenameWav );
+				g_pMP3->Open((*g_pMusicTable)[musicID].FilenameWav);
 				DEBUG_ADD("MP3 OPEN3 OK");
 				DEBUG_ADD("MP3 PLAY5");
-				g_pMP3->Play( false );				
+				g_pMP3->Play(false);
 				DEBUG_ADD("MP3 PLAY5 OK");
-//				g_pDXSoundStream->Load( (*g_pMusicTable)[ musicID ].FilenameWav );
-//				g_pDXSoundStream->Play( FALSE );				
+				//				g_pDXSoundStream->Load( (*g_pMusicTable)[ musicID ].FilenameWav );
+				//				g_pDXSoundStream->Play( FALSE );				
 #else
-// 				if( g_oggfile != NULL )
-// 					fclose(g_oggfile);
-// 
-// 				g_oggfile = NULL;
-// 
-// 				if( g_DXSound.IsInit() )
-// 				{
-// 					g_oggfile = fopen( (*g_pMusicTable)[ musicID ].FilenameWav, "rb") ;
-// 					if( g_oggfile != NULL )
-// 					{					
-// 						int volume = (g_pUserOption->VolumeMusic - 15) * 250;
-// 
-// 						g_pOGG->streamVolume( max( -10000, min( -1, volume ) ) );
-// 						g_pOGG->streamLoad( g_oggfile,NULL );
-// 						g_pOGG->streamPlay( SOUND_PLAY_ONCE );					
-// 					}
-// 				}
+				// 				if( g_oggfile != NULL )
+				// 					fclose(g_oggfile);
+				// 
+				// 				g_oggfile = NULL;
+				// 
+				// 				if( g_DXSound.IsInit() )
+				// 				{
+				// 					g_oggfile = fopen( (*g_pMusicTable)[ musicID ].FilenameWav, "rb") ;
+				// 					if( g_oggfile != NULL )
+				// 					{					
+				// 						int volume = (g_pUserOption->VolumeMusic - 15) * 250;
+				// 
+				// 						g_pOGG->streamVolume( max( -10000, min( -1, volume ) ) );
+				// 						g_pOGG->streamLoad( g_oggfile,NULL );
+				// 						g_pOGG->streamPlay( SOUND_PLAY_ONCE );					
+				// 					}
+				// 				}
 
-				BGMManager::Instance()->PlayMusic((*g_pMusicTable)[ musicID ].FilenameWav);
+				BGMManager::Instance()->PlayMusic((*g_pMusicTable)[musicID].FilenameWav);
 #endif
-			}									
+			}
 		}
 		else
 		{
-//			g_pDXSoundStream->Stop();
+			//			g_pDXSoundStream->Stop();
 			DEBUG_ADD("MP3 STOP9");
 #ifdef __USE_MP3__
 			g_pMP3->Stop();
 #else
-			if( g_DXSound.IsInit() )
+			if (g_DXSound.IsInit())
 				BGMManager::Instance()->StopMusic();
-				//g_pOGG->streamClose();
+			//g_pOGG->streamClose();
 #endif
 			DEBUG_ADD("MP3 STOP9 OK");
 		}
@@ -655,14 +655,14 @@ PlayTitleMusic()
 	//----------------------------------------------------------------
 	else
 	{
-//		g_pDXSoundStream->Stop();
+		//		g_pDXSoundStream->Stop();
 		DEBUG_ADD("MP3 STOP10");
 #ifdef __USE_MP3__
 		g_pMP3->Stop();
 #else
-		if( g_DXSound.IsInit() )
+		if (g_DXSound.IsInit())
 			BGMManager::Instance()->StopMusic();
-//			g_pOGG->streamClose();
+		//			g_pOGG->streamClose();
 #endif
 		DEBUG_ADD("MP3 STOP10 OK");
 
@@ -673,28 +673,28 @@ PlayTitleMusic()
 				g_Music.Resume();
 			}
 			else //if (g_Mode==MODE_GAME)
-			{	
-				WORD volume = g_pUserOption->VolumeMusic*0x1000 + 0x0FFF;
+			{
+				WORD volume = g_pUserOption->VolumeMusic * 0x1000 + 0x0FFF;
 
 				if (g_Music.IsPause())
 				{
-					g_Music.SetVolume( volume );					
+					g_Music.SetVolume(volume);
 					g_Music.Resume();
 				}
 				else
 				{
 					g_Music.Pause();
-					g_Music.SetVolume( volume );
-					g_Music.Resume();					
+					g_Music.SetVolume(volume);
+					g_Music.Resume();
 
 					int musicID = g_pClientConfig->MUSIC_THEME;
 
-					if (musicID!=MUSICID_NULL)
+					if (musicID != MUSICID_NULL)
 					{
-						g_Music.Play( (*g_pMusicTable)[ musicID ].Filename );
+						g_Music.Play((*g_pMusicTable)[musicID].Filename);
 					}
-				}					
-			}				
+				}
+			}
 		}
 		else
 		{
@@ -726,33 +726,33 @@ PlayGameMusic()
 		if (g_pUserOption->PlayMusic)
 		{
 #ifdef __USE_MP3__
-			LONG volume = g_pUserOption->VolumeMusic*16*257;//*SOUND_DEGREE + SOUND_MIN;
-//			g_pDXSoundStream->SetVolumeLimit( volume );
+			LONG volume = g_pUserOption->VolumeMusic * 16 * 257;//*SOUND_DEGREE + SOUND_MIN;
+			//			g_pDXSoundStream->SetVolumeLimit( volume );
 			DEBUG_ADD("MP3 SetVolume3");
-			g_pMP3->SetVolume( volume );
+			g_pMP3->SetVolume(volume);
 			DEBUG_ADD("MP3 SetVolume3 OK");
 #else
-			if( g_DXSound.IsInit() )
+			if (g_DXSound.IsInit())
 			{
 				int volume = (g_pUserOption->VolumeMusic - 15) * 250;
 
-//				g_pOGG->streamVolume( max( -10000, min( -1, volume ) ) );
-				BGMManager::Instance()->SetVolume(max( -10000, min( -1, volume ) ));
+				//				g_pOGG->streamVolume( max( -10000, min( -1, volume ) ) );
+				BGMManager::Instance()->SetVolume(max(-10000, min(-1, volume)));
 			}
 #endif
 
-			PlayMusicCurrentZone();				
+			PlayMusicCurrentZone();
 		}
 		else
-		{					
-//			g_pDXSoundStream->Stop();				
+		{
+			//			g_pDXSoundStream->Stop();				
 			DEBUG_ADD("MP3 STOP11");
 #ifdef __USE_MP3__
 			g_pMP3->Stop();
 #else
-			if( g_DXSound.IsInit() )
+			if (g_DXSound.IsInit())
 				BGMManager::Instance()->StopMusic();
-				//g_pOGG->streamClose();
+			//g_pOGG->streamClose();
 #endif
 			DEBUG_ADD("MP3 STOP11 OK");
 		}
@@ -762,16 +762,16 @@ PlayGameMusic()
 	//----------------------------------------------------------------
 	else
 	{
-//		g_pDXSoundStream->Stop();
+		//		g_pDXSoundStream->Stop();
 		DEBUG_ADD("MP3 STOP12");
 #ifdef __USE_MP3__
 		g_pMP3->Stop();
 #else
-		if( g_DXSound.IsInit() )
+		if (g_DXSound.IsInit())
 			BGMManager::Instance()->StopMusic();
-			//g_pOGG->streamClose();
+		//g_pOGG->streamClose();
 #endif
-		
+
 		DEBUG_ADD("MP3 STOP12 OK");
 
 		if (g_pUserOption->PlayMusic)
@@ -784,16 +784,16 @@ PlayGameMusic()
 				DEBUG_ADD("MP3 STOP12 RESUME OK");
 			}
 			else //if (g_Mode==MODE_GAME)
-			{				
+			{
 				DEBUG_ADD("MP3 STOP12 pp");
-				WORD volume = g_pUserOption->VolumeMusic*0x1000 + 0x0FFF;
+				WORD volume = g_pUserOption->VolumeMusic * 0x1000 + 0x0FFF;
 				DEBUG_ADD("MP3 STOP12 pp1");
-				g_Music.SetVolume( volume );
+				g_Music.SetVolume(volume);
 				DEBUG_ADD("MP3 STOP12 pp2");
-				
+
 				PlayMusicCurrentZone();
 				DEBUG_ADD("MP3 STOP12 PlayMusicCurrentZone OK");
-			}				
+			}
 		}
 		else
 		{
@@ -817,7 +817,7 @@ PlayGameMusic()
 //-----------------------------------------------------------------------------
 UIMessageManager::UIMessageManager()
 {
-	for (int i=0; i<MAX_UI_MESSAGE; i++)
+	for (int i = 0; i < MAX_UI_MESSAGE; i++)
 	{
 		m_UIMessageFunction[i] = NULL;
 	}
@@ -826,7 +826,7 @@ UIMessageManager::UIMessageManager()
 UIMessageManager::~UIMessageManager()
 {
 	// 단지 테스트용.. - -;
-	for (int i=0; i<MAX_UI_MESSAGE; i++)
+	for (int i = 0; i < MAX_UI_MESSAGE; i++)
 	{
 		m_UIMessageFunction[i] = NULL;
 	}
@@ -842,14 +842,14 @@ UIMessageManager::~UIMessageManager()
 //-----------------------------------------------------------------------------
 void
 UIMessageManager::Init()
-{	
+{
 	m_UIMessageFunction[UI_STORAGE_BUY] = Execute_UI_STORAGE_BUY;
 	m_UIMessageFunction[UI_SELECT_STORAGE_SLOT] = Execute_UI_SELECT_STORAGE_SLOT;
 	m_UIMessageFunction[UI_RUNNING_GAMEMENU] = Execute_UI_RUNNING_GAMEMENU;
 	m_UIMessageFunction[UI_FINISH_LEVELUP_BUTTON] = Execute_UI_FINISH_LEVELUP_BUTTON;
 	m_UIMessageFunction[UI_CLICK_BONUS_POINT] = Execute_UI_CLICK_BONUS_POINT;
 	m_UIMessageFunction[UI_INFO] = Execute_UI_INFO;
-//	m_UIMessageFunction[UI_MINIMAP_TOGGLE] = Execute_UI_MINIMAP_TOGGLE;
+	//	m_UIMessageFunction[UI_MINIMAP_TOGGLE] = Execute_UI_MINIMAP_TOGGLE;
 	m_UIMessageFunction[UI_DROP_MONEY] = Execute_UI_DROP_MONEY;
 	m_UIMessageFunction[UI_EXCHANGE_REQUEST_CANCEL] = Execute_UI_EXCHANGE_REQUEST_CANCEL;
 	m_UIMessageFunction[UI_EXCHANGE_ACCEPT] = Execute_UI_EXCHANGE_ACCEPT;
@@ -912,7 +912,7 @@ UIMessageManager::Init()
 	//m_UIMessageFunction[UI_NEW_USER_REGISTRATION] = Execute_UI_NEW_USER_REGISTRATION;			// 새 사용자 등록 요청
 	m_UIMessageFunction[UI_CONNECT] = Execute_UI_CONNECT;							   // Game connection.
 	m_UIMessageFunction[UI_CHAT_RETURN] = Execute_UI_CHAT_RETURN;						// 채팅창 입력.
-//	m_UIMessageFunction[UI_CHAT_SELECT_NAME] = Execute_UI_CHAT_SELECT_NAME;						// 채팅창 이름 선택.
+	//	m_UIMessageFunction[UI_CHAT_SELECT_NAME] = Execute_UI_CHAT_SELECT_NAME;						// 채팅창 이름 선택.
 	m_UIMessageFunction[UI_SELECT_SKILL] = Execute_UI_SELECT_SKILL;						// Skill selection.
 	m_UIMessageFunction[UI_CANCEL_SELECT_SKILL] = Execute_UI_CANCEL_SELECT_SKILL;				// Skill 선택이 취소되었다.
 
@@ -989,7 +989,7 @@ UIMessageManager::Init()
 	m_UIMessageFunction[UI_CLOSE_TEAM_MEMBER_INFO] = Execute_UI_CLOSE_TEAM_MEMBER_INFO;
 	m_UIMessageFunction[UI_CLOSE_TEAM_REGIST] = Execute_UI_CLOSE_TEAM_REGIST;
 	m_UIMessageFunction[UI_CLOSE_TEAM_MEMBER_LIST] = Execute_UI_CLOSE_TEAM_MEMBER_LIST;
-	
+
 	m_UIMessageFunction[UI_REQUEST_GUILD_INFO] = Execute_UI_REQUEST_GUILD_INFO;
 	m_UIMessageFunction[UI_REQUEST_GUILD_MEMBER_LIST] = Execute_UI_REQUEST_GUILD_MEMBER_LIST;
 	m_UIMessageFunction[UI_MODIFY_GUILD_MEMBER] = Execute_UI_MODIFY_GUILD_MEMBER;
@@ -1011,9 +1011,9 @@ UIMessageManager::Init()
 	m_UIMessageFunction[UI_CLOSE_SERVER_SELECT] = Execute_UI_CLOSE_SERVER_SELECT;
 
 	m_UIMessageFunction[UI_NEWCHARACTER_CHECK] = Execute_UI_NEWCHARACTER_CHECK;
-	
-//	m_UIMessageFunction[UI_SELECT_EXPLOSIVE] = Execute_UI_SELECT_EXPLOSIVE;
-//	m_UIMessageFunction[UI_CLOSE_SELECT_EXPLOSIVE] = Execute_UI_CLOSE_SELECT_EXPLOSIVE;
+
+	//	m_UIMessageFunction[UI_SELECT_EXPLOSIVE] = Execute_UI_SELECT_EXPLOSIVE;
+	//	m_UIMessageFunction[UI_CLOSE_SELECT_EXPLOSIVE] = Execute_UI_CLOSE_SELECT_EXPLOSIVE;
 
 	m_UIMessageFunction[UI_ENCHANT_ACCEPT] = Execute_UI_ENCHANT_ACCEPT;
 	m_UIMessageFunction[UI_ENCHANT_CANCEL] = Execute_UI_ENCHANT_CANCEL;
@@ -1051,10 +1051,10 @@ UIMessageManager::Init()
 
 	m_UIMessageFunction[UI_CLOSE_LOTTERY_CARD] = Execute_UI_CLOSE_LOTTERY_CARD;
 	m_UIMessageFunction[UI_LOTTERY_CARD_STATUS] = Execute_UI_LOTTERY_CARD_STATUS;
-	m_UIMessageFunction[UI_FINISH_SCRATCH_LOTTERY]	= Execute_UI_FINISH_SCRATCH_LOTTERY;
+	m_UIMessageFunction[UI_FINISH_SCRATCH_LOTTERY] = Execute_UI_FINISH_SCRATCH_LOTTERY;
 	m_UIMessageFunction[UI_CLOSE_IMAGE_NOTICE] = Execute_UI_CLOSE_IMAGE_NOTICE;
 
-	m_UIMessageFunction[UI_CLOSE_ITEM_LIST]	= Execute_UI_CLOSE_ITEM_LIST;
+	m_UIMessageFunction[UI_CLOSE_ITEM_LIST] = Execute_UI_CLOSE_ITEM_LIST;
 	m_UIMessageFunction[UI_SELECT_ITEM_FROM_SHOP] = Execute_UI_SELECT_ITEM_FROM_SHOP;
 	m_UIMessageFunction[UI_CLOSE_BULLETIN_BOARD_WINDOW] = Execute_UI_CLOSE_BULLETIN_BOARD;
 
@@ -1073,8 +1073,8 @@ UIMessageManager::Init()
 
 	m_UIMessageFunction[UI_RUN_LEVELUP] = Execute_UI_RUN_LEVELUP;
 	m_UIMessageFunction[UI_CLOSE_HORN] = Execute_UI_CLOSE_HORN;
-	m_UIMessageFunction[UI_OUSTERS_DOWN_SKILL] = Execute_UI_OUSTERS_DOWN_SKILL;	
-	
+	m_UIMessageFunction[UI_OUSTERS_DOWN_SKILL] = Execute_UI_OUSTERS_DOWN_SKILL;
+
 	m_UIMessageFunction[UI_CLEAR_ALL_STAGE] = Execute_UI_CLEAR_ALL_STAGE;
 	m_UIMessageFunction[UI_CLOSE_FINDING_MINE] = Execute_UI_CLOSE_FINDING_MINE;
 	m_UIMessageFunction[UI_CLOSE_NEMONEMO] = Execute_UI_CLOSE_NEMONEMO;
@@ -1137,62 +1137,62 @@ UIMessageManager::Init()
 	m_UIMessageFunction[UI_ITEM_USE_GQUEST_ITEM] = Execute_UI_ITEM_USE_GQUEST_ITEM;
 
 	// 2004,10.9 csm guild 관련 
-	m_UIMessageFunction[UI_REQUEST_UNION] =	 Execute_UI_ITEM_USE_REQUEST_UNION;
-	m_UIMessageFunction[UI_REQUEST_UNION_QUIT] =	 Execute_UI_ITEM_USE_QUIT;
-	m_UIMessageFunction[UI_REQUEST_UNION_EXPERGUILD] =	 Execute_UI_ITEM_USE_EXPER;
-	m_UIMessageFunction[UI_REQUEST_UNION_REQUEST_INFO] =   Execute_UI_ITEM_USE_UNION_INFO;
-	m_UIMessageFunction[UI_REQUEST_UNION_REQUEST_GUILD_LIST] =		Execute_UI_ITEM_USE_REQUEST_GUILD_LIST;
-	m_UIMessageFunction[UI_REQUEST_UNION_ACCEPT] =		Execute_UI_ITEM_USE_UNION_ACCEPT;
-	m_UIMessageFunction[UI_REQUEST_UNION_DENY] =	Execute_UI_ITEM_USE_UNION_DENY;
-	m_UIMessageFunction[UI_REQUEST_UNION_QUIT_ACCEPT] =		Execute_UI_ITEM_USE_UNION_QUIT_ACCEPT;
-	m_UIMessageFunction[UI_REQUEST_UNION_QUIT_DENY] =	Execute_UI_ITEM_USE_UNION_QUIT_DENY;
+	m_UIMessageFunction[UI_REQUEST_UNION] = Execute_UI_ITEM_USE_REQUEST_UNION;
+	m_UIMessageFunction[UI_REQUEST_UNION_QUIT] = Execute_UI_ITEM_USE_QUIT;
+	m_UIMessageFunction[UI_REQUEST_UNION_EXPERGUILD] = Execute_UI_ITEM_USE_EXPER;
+	m_UIMessageFunction[UI_REQUEST_UNION_REQUEST_INFO] = Execute_UI_ITEM_USE_UNION_INFO;
+	m_UIMessageFunction[UI_REQUEST_UNION_REQUEST_GUILD_LIST] = Execute_UI_ITEM_USE_REQUEST_GUILD_LIST;
+	m_UIMessageFunction[UI_REQUEST_UNION_ACCEPT] = Execute_UI_ITEM_USE_UNION_ACCEPT;
+	m_UIMessageFunction[UI_REQUEST_UNION_DENY] = Execute_UI_ITEM_USE_UNION_DENY;
+	m_UIMessageFunction[UI_REQUEST_UNION_QUIT_ACCEPT] = Execute_UI_ITEM_USE_UNION_QUIT_ACCEPT;
+	m_UIMessageFunction[UI_REQUEST_UNION_QUIT_DENY] = Execute_UI_ITEM_USE_UNION_QUIT_DENY;
 
-	m_UIMessageFunction[UI_RECALL_BY_NAME] =	 Execute_UI_RECALL_BY_NAME;
+	m_UIMessageFunction[UI_RECALL_BY_NAME] = Execute_UI_RECALL_BY_NAME;
 
-	m_UIMessageFunction[UI_MODIFY_TAX] =	 Execute_UI_UI_MODIFY_TAX;
+	m_UIMessageFunction[UI_MODIFY_TAX] = Execute_UI_UI_MODIFY_TAX;
 
-	m_UIMessageFunction[UI_APPOINT_SUBMASTER] =	 Execute_UI_APPOINT_SUBMASTER;
+	m_UIMessageFunction[UI_APPOINT_SUBMASTER] = Execute_UI_APPOINT_SUBMASTER;
 
 
-	m_UIMessageFunction[UI_DISPLAY_ITEM] =	             Execute_UI_DISPLAY_ITEM;        
-    m_UIMessageFunction[UI_UNDISPLAY_ITEM] =	         Execute_UI_UNDISPLAY_ITEM;
-    m_UIMessageFunction[UI_STORE_SIGN] =	             Execute_UI_STORE_SIGN;
-    m_UIMessageFunction[UI_STORE_OPEN] =				 Execute_UI_STORE_OPEN;
-    m_UIMessageFunction[UI_STORE_CLOSE] =				 Execute_UI_STORE_CLOSE;
-	m_UIMessageFunction[UI_REQUEST_STORE_INFO] =		 Execute_UI_REQUEST_STORE_INFO;
-	m_UIMessageFunction[UI_MY_STORE_INFO] =				 Execute_UI_MY_STORE_INFO;
-    m_UIMessageFunction[UI_OTHER_STORE_INFO] =			Execute_UI_OTHER_STORE_INFO;
-    m_UIMessageFunction[UI_BUY_STORE_ITEM] =			Execute_UI_BUY_STORE_ITEM;
-    m_UIMessageFunction[UI_REMOVE_STORE_ITEM] =			Execute_UI_REMOVE_STORE_ITEM;
-    m_UIMessageFunction[UI_ADD_STORE_ITEM] =			Execute_UI_ADD_STORE_ITEM;
-	m_UIMessageFunction[UI_CLOSE_PERSNALSHOP] =			Execute_UI_CLOSE_PERSNALSHOP;
-	
-	m_UIMessageFunction[UI_CLOSE_POWER_JJANG]			=	 Execute_UI_CLOSE_POWER_JJANG;
-	m_UIMessageFunction[UI_REQUEST_POWER_JJANG_POINT]	=	 Execute_UI_REQUEST_POWER_JJANG_POINT;
-	m_UIMessageFunction[UI_POWER_JJANG_GAMBLE]			=	 Execute_UI_POWER_JJANG_GAMBLE;
+	m_UIMessageFunction[UI_DISPLAY_ITEM] = Execute_UI_DISPLAY_ITEM;
+	m_UIMessageFunction[UI_UNDISPLAY_ITEM] = Execute_UI_UNDISPLAY_ITEM;
+	m_UIMessageFunction[UI_STORE_SIGN] = Execute_UI_STORE_SIGN;
+	m_UIMessageFunction[UI_STORE_OPEN] = Execute_UI_STORE_OPEN;
+	m_UIMessageFunction[UI_STORE_CLOSE] = Execute_UI_STORE_CLOSE;
+	m_UIMessageFunction[UI_REQUEST_STORE_INFO] = Execute_UI_REQUEST_STORE_INFO;
+	m_UIMessageFunction[UI_MY_STORE_INFO] = Execute_UI_MY_STORE_INFO;
+	m_UIMessageFunction[UI_OTHER_STORE_INFO] = Execute_UI_OTHER_STORE_INFO;
+	m_UIMessageFunction[UI_BUY_STORE_ITEM] = Execute_UI_BUY_STORE_ITEM;
+	m_UIMessageFunction[UI_REMOVE_STORE_ITEM] = Execute_UI_REMOVE_STORE_ITEM;
+	m_UIMessageFunction[UI_ADD_STORE_ITEM] = Execute_UI_ADD_STORE_ITEM;
+	m_UIMessageFunction[UI_CLOSE_PERSNALSHOP] = Execute_UI_CLOSE_PERSNALSHOP;
 
-	m_UIMessageFunction[UI_CLOSE_SWAPADVANCEMENTITEM]			=	 Execute_UI_CLOSE_SWAPADVANCEMENTITEM;
-	m_UIMessageFunction[UI_SWAPADVANCEMENTITEM]			=	 Execute_UI_SWAPADVANCEMENTITEM;
+	m_UIMessageFunction[UI_CLOSE_POWER_JJANG] = Execute_UI_CLOSE_POWER_JJANG;
+	m_UIMessageFunction[UI_REQUEST_POWER_JJANG_POINT] = Execute_UI_REQUEST_POWER_JJANG_POINT;
+	m_UIMessageFunction[UI_POWER_JJANG_GAMBLE] = Execute_UI_POWER_JJANG_GAMBLE;
 
-	m_UIMessageFunction[UI_LEARN_ADVANCE_SKILL]			=	 Execute_UI_LEARN_ADVANCE_SKILL;
-	
-	
-	m_UIMessageFunction[UI_CAMPAIGN_HELP] =	 Execute_UI_CAMPAIGN_HELP;
+	m_UIMessageFunction[UI_CLOSE_SWAPADVANCEMENTITEM] = Execute_UI_CLOSE_SWAPADVANCEMENTITEM;
+	m_UIMessageFunction[UI_SWAPADVANCEMENTITEM] = Execute_UI_SWAPADVANCEMENTITEM;
 
-	m_UIMessageFunction[UI_RUN_NEXT_GQUEST_EXCUTE_ELEMENT] =	 Execute_UI_RUN_NEXT_GQUEST_EXCUTE_ELEMENT;
+	m_UIMessageFunction[UI_LEARN_ADVANCE_SKILL] = Execute_UI_LEARN_ADVANCE_SKILL;
 
-	m_UIMessageFunction[UI_GQUEST_SET_ACTION] =	 Execute_UI_GQUEST_SET_ACTION;
-	m_UIMessageFunction[UI_GQUEST_ENDING_EVENT] =	 Execute_UI_GQUEST_ENDING_EVENT;
 
-	m_UIMessageFunction[UI_REQUEST_EVENT_ITEM] =	 Execute_UI_REQUEST_EVENT_ITEM;
+	m_UIMessageFunction[UI_CAMPAIGN_HELP] = Execute_UI_CAMPAIGN_HELP;
 
-	m_UIMessageFunction[UI_CLOSE_INVENTORY_SUB]			=	 Execute_UI_CLOSE_INVENTORY_SUB;
-	m_UIMessageFunction[UI_ITEM_DROP_TO_INVENTORY_SUB]		=	 Execute_UI_ITEM_DROP_TO_INVENTORY_SUB;
-	m_UIMessageFunction[UI_ITEM_INSERT_TO_INVENTORY_SUB]	=	Execute_UI_ITEM_INSERT_TO_INVENTORY_SUB;//20070330 by diesirace
-	m_UIMessageFunction[UI_ITEM_PICKUP_FROM_INVENTORY_SUB]	=	 Execute_UI_ITEM_PICKUP_FROM_INVENTORY_SUB;
-	m_UIMessageFunction[UI_ITEM_USE_SUBINVENTORY]	=	 Execute_UI_ITEM_USE_SUBINVENTORY;
-	
-	m_UIMessageFunction[UI_WEDDING_CONTRIBUTION]	=	 Execute_UI_WEDDING_CONTRIBUTION;
+	m_UIMessageFunction[UI_RUN_NEXT_GQUEST_EXCUTE_ELEMENT] = Execute_UI_RUN_NEXT_GQUEST_EXCUTE_ELEMENT;
+
+	m_UIMessageFunction[UI_GQUEST_SET_ACTION] = Execute_UI_GQUEST_SET_ACTION;
+	m_UIMessageFunction[UI_GQUEST_ENDING_EVENT] = Execute_UI_GQUEST_ENDING_EVENT;
+
+	m_UIMessageFunction[UI_REQUEST_EVENT_ITEM] = Execute_UI_REQUEST_EVENT_ITEM;
+
+	m_UIMessageFunction[UI_CLOSE_INVENTORY_SUB] = Execute_UI_CLOSE_INVENTORY_SUB;
+	m_UIMessageFunction[UI_ITEM_DROP_TO_INVENTORY_SUB] = Execute_UI_ITEM_DROP_TO_INVENTORY_SUB;
+	m_UIMessageFunction[UI_ITEM_INSERT_TO_INVENTORY_SUB] = Execute_UI_ITEM_INSERT_TO_INVENTORY_SUB;//20070330 by diesirace
+	m_UIMessageFunction[UI_ITEM_PICKUP_FROM_INVENTORY_SUB] = Execute_UI_ITEM_PICKUP_FROM_INVENTORY_SUB;
+	m_UIMessageFunction[UI_ITEM_USE_SUBINVENTORY] = Execute_UI_ITEM_USE_SUBINVENTORY;
+
+	m_UIMessageFunction[UI_WEDDING_CONTRIBUTION] = Execute_UI_WEDDING_CONTRIBUTION;
 
 
 	m_UIMessageFunction[UI_NETMARBLE_AGREEMENT] = Execute_UI_NETMARBLE_AGREEMENT;
@@ -1200,7 +1200,7 @@ UIMessageManager::Init()
 	m_UIMessageFunction[UI_BLOOD_BURST] = Execute_UI_BLOOD_BURST;
 	m_UIMessageFunction[UI_CLIENT_REMOVE_EFFECT_STATUS] = Execute_UI_CLIENT_REMOVE_EFFECT_STATUS;
 	m_UIMessageFunction[UI_MARKET_ACCOUNT] = Execute_UI_MARKET_ACCOUNT;
-	
+
 	m_UIMessageFunction[UI_NONPK_SERVER_USE] = Execute_UI_NONPK_SERVER_USE;
 
 	m_UIMessageFunction[UI_PLAYER_PETINFO] = Execute_UI_PLAYER_PETINFO;
@@ -1259,19 +1259,19 @@ UIMessageManager::Init()
 //-----------------------------------------------------------------------------
 // message와 연결되어 있는 적절한 처리 함수를 호출한다.
 //-----------------------------------------------------------------------------
-void			
+void
 UIMessageManager::Execute(DWORD message, int left, int right, void* void_ptr)
 {
 	// 기본적으로 MODE_GAME이면
 	// NULL이 아니어야 하는 값들이 있다..
-	if (g_Mode==MODE_GAME
-		&& (g_pZone==NULL
-			|| g_pPlayer==NULL
-			|| g_pInventory==NULL
-			|| g_pPlayer->IsSlayer() && g_pSlayerGear==NULL
-			|| g_pPlayer->IsVampire() && g_pVampireGear==NULL
-			|| g_pPlayer->IsOusters() && g_pOustersGear==NULL
-			|| g_pTempInformation==NULL
+	if (g_Mode == MODE_GAME
+		&& (g_pZone == NULL
+			|| g_pPlayer == NULL
+			|| g_pInventory == NULL
+			|| g_pPlayer->IsSlayer() && g_pSlayerGear == NULL
+			|| g_pPlayer->IsVampire() && g_pVampireGear == NULL
+			|| g_pPlayer->IsOusters() && g_pOustersGear == NULL
+			|| g_pTempInformation == NULL
 			// 2004, 12, 17, sobeit add start
 			|| message >= MAX_UI_MESSAGE
 			// 2004, 12, 17, sobeit add end
@@ -1282,8 +1282,8 @@ UIMessageManager::Execute(DWORD message, int left, int right, void* void_ptr)
 
 		return;
 	}
-		
-	if (m_UIMessageFunction[message]==NULL)
+
+	if (m_UIMessageFunction[message] == NULL)
 	{
 		DEBUG_ADD_FORMAT("[Error] NO UI_MessageFunction. msg=%d", message);
 	}
@@ -1291,7 +1291,7 @@ UIMessageManager::Execute(DWORD message, int left, int right, void* void_ptr)
 	{
 		(*m_UIMessageFunction[message])(left, right, void_ptr);
 
-	//	aqa::Robot::Instance().GuiMessageExcuted(message);
+		//	aqa::Robot::Instance().GuiMessageExcuted(message);
 
 		DEBUG_ADD("[UI] Execute OK");
 	}
@@ -1307,7 +1307,7 @@ void
 UIMessageManager::Execute_UI_NEW_CHARACTER(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("UI_NEW_CHARACTER");
-	if (g_Mode!=MODE_WAIT_SELECTPC)
+	if (g_Mode != MODE_WAIT_SELECTPC)
 	{
 		DEBUG_ADD("Not Mode MODE_WAIT_SELECTPC");
 		return;
@@ -1328,20 +1328,20 @@ UIMessageManager::Execute_UI_NEW_CHARACTER(int left, int right, void* void_ptr)
 	//	int		coat_color;
 	//	int		trouser_color;
 	//
-	NEW_CHARACTER* pChar = (NEW_CHARACTER *)void_ptr;
-	
+	NEW_CHARACTER* pChar = (NEW_CHARACTER*)void_ptr;
+
 	BOOL bAllOK = TRUE;
 
 	//---------------------------------------------
 	// 이름 길이 체크
 	//---------------------------------------------
-	int len = strlen(pChar->sz_name);	
-	
+	int len = strlen(pChar->sz_name);
+
 	if (len<PlayerInfo::minIDLength || len>PlayerInfo::maxIDLength)
 	{
 		char strTemp[128];
 		sprintf(strTemp, (*g_pGameStringTable)[STRING_USER_REGISTER_ID_LENGTH].GetString(), PlayerInfo::minIDLength, PlayerInfo::maxIDLength);
-		g_pUIDialog->PopupFreeMessageDlg( strTemp, -1, -1, UI_DIALOG_TITLE_OK );
+		g_pUIDialog->PopupFreeMessageDlg(strTemp, -1, -1, UI_DIALOG_TITLE_OK);
 		bAllOK = FALSE;
 	}
 
@@ -1352,7 +1352,7 @@ UIMessageManager::Execute_UI_NEW_CHARACTER(int left, int right, void* void_ptr)
 			//---------------------------------------------
 			// 잘못된 ID인 경우
 			//---------------------------------------------						
-			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString(), -1, -1, UI_DIALOG_TITLE_OK );
+			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString(), -1, -1, UI_DIALOG_TITLE_OK);
 			bAllOK = FALSE;
 		}
 		else
@@ -1363,17 +1363,17 @@ UIMessageManager::Execute_UI_NEW_CHARACTER(int left, int right, void* void_ptr)
 			// 안 좋은 말이 들어있는 경우는 허용이 안된다
 			if (g_pChatManager->RemoveCurse(strName))
 			{
-				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString(), -1, -1, UI_DIALOG_TITLE_OK );
+				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString(), -1, -1, UI_DIALOG_TITLE_OK);
 				bAllOK = FALSE;
 			}
 			else
 			{
 				MChatManager badNameManager;
-				badNameManager.LoadFromFile( g_pFileDef->getProperty("FILE_INFO_CHAT_2").c_str());
+				badNameManager.LoadFromFile(g_pFileDef->getProperty("FILE_INFO_CHAT_2").c_str());
 
 				if (badNameManager.RemoveCurse(strName))
 				{
-					g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString(), -1, -1, UI_DIALOG_TITLE_OK );
+					g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString(), -1, -1, UI_DIALOG_TITLE_OK);
 					bAllOK = FALSE;
 				}
 			}
@@ -1386,49 +1386,49 @@ UIMessageManager::Execute_UI_NEW_CHARACTER(int left, int right, void* void_ptr)
 	if (bAllOK)
 	{
 
-			//char wansungName[16];
+		//char wansungName[16];
 
-			//---------------------------------------------
-			// 조합형 --> 완성형
-			//---------------------------------------------
-			//UI_JohapToWansung( pChar->sz_name, wansungName );
+		//---------------------------------------------
+		// 조합형 --> 완성형
+		//---------------------------------------------
+		//UI_JohapToWansung( pChar->sz_name, wansungName );
 
-			CLCreatePC	_CLCreatePC;
-			_CLCreatePC.setName ( pChar->sz_name );//wansungName );
-			
-			g_pUserInformation->Character[pChar->slot] = pChar->sz_name;
-			//g_pUserInformation->CharacterW[pChar->slot] = wansungName;
+		CLCreatePC	_CLCreatePC;
+		_CLCreatePC.setName(pChar->sz_name);//wansungName );
 
-			HairStyle hairStyle[3] =
-			{
-				HAIR_STYLE1,
-				HAIR_STYLE2,
-				HAIR_STYLE3
-			};
+		g_pUserInformation->Character[pChar->slot] = pChar->sz_name;
+		//g_pUserInformation->CharacterW[pChar->slot] = wansungName;
 
-			// 색깔 확인
-			pChar->hair_color = max(0, min(pChar->hair_color, MAX_COLORSET-1));
-			pChar->skin_color = max(0, min(pChar->skin_color, MAX_COLORSET-1));
-			
-			_CLCreatePC.setSlot ( pChar->slot==0? SLOT1 : pChar->slot==1? SLOT2 : SLOT3 );
-			_CLCreatePC.setRace ( pChar->race );
-			_CLCreatePC.setSex ( pChar->bl_female? FEMALE : MALE );
-			_CLCreatePC.setHairStyle ( hairStyle[pChar->face] );
-			_CLCreatePC.setHairColor ( pChar->hair_color );					
-			_CLCreatePC.setSkinColor ( pChar->skin_color );
-			_CLCreatePC.setShirtColor ( pChar->coat_color, MAIN_COLOR );
-			_CLCreatePC.setShirtColor ( pChar->coat_color, SUB_COLOR );
-			_CLCreatePC.setJeansColor ( pChar->trouser_color, MAIN_COLOR );
-			_CLCreatePC.setJeansColor ( pChar->trouser_color, SUB_COLOR );
-			_CLCreatePC.setSTR( pChar->STR );
-			_CLCreatePC.setDEX( pChar->DEX );
-			_CLCreatePC.setINT( pChar->INT );
+		HairStyle hairStyle[3] =
+		{
+			HAIR_STYLE1,
+			HAIR_STYLE2,
+			HAIR_STYLE3
+		};
 
-			g_pSocket->sendPacket( &_CLCreatePC );
+		// 색깔 확인
+		pChar->hair_color = max(0, min(pChar->hair_color, MAX_COLORSET - 1));
+		pChar->skin_color = max(0, min(pChar->skin_color, MAX_COLORSET - 1));
 
-			g_pSocket->setPlayerStatus( CPS_AFTER_SENDING_CL_CREATE_PC );	
+		_CLCreatePC.setSlot(pChar->slot == 0 ? SLOT1 : pChar->slot == 1 ? SLOT2 : SLOT3);
+		_CLCreatePC.setRace(pChar->race);
+		_CLCreatePC.setSex(pChar->bl_female ? FEMALE : MALE);
+		_CLCreatePC.setHairStyle(hairStyle[pChar->face]);
+		_CLCreatePC.setHairColor(pChar->hair_color);
+		_CLCreatePC.setSkinColor(pChar->skin_color);
+		_CLCreatePC.setShirtColor(pChar->coat_color, MAIN_COLOR);
+		_CLCreatePC.setShirtColor(pChar->coat_color, SUB_COLOR);
+		_CLCreatePC.setJeansColor(pChar->trouser_color, MAIN_COLOR);
+		_CLCreatePC.setJeansColor(pChar->trouser_color, SUB_COLOR);
+		_CLCreatePC.setSTR(pChar->STR);
+		_CLCreatePC.setDEX(pChar->DEX);
+		_CLCreatePC.setINT(pChar->INT);
 
-			
+		g_pSocket->sendPacket(&_CLCreatePC);
+
+		g_pSocket->setPlayerStatus(CPS_AFTER_SENDING_CL_CREATE_PC);
+
+
 
 		SetMode(MODE_WAIT_CREATEPCOK);
 	}
@@ -1444,62 +1444,62 @@ void
 UIMessageManager::Execute_UI_RUN_NEWUSER_REGISTRATION(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_RUN_NEWUSER_REGISTRATION");
-	
+
 	switch (g_pClientConfig->NEW_USER_REGISTERATION_MODE)
 	{
 		//-----------------------------------------------------------
 		// CLIENT - 새 사용자 등록 가능
 		//-----------------------------------------------------------
-		case ClientConfig::NUR_CLIENT :
-		{
-//			gC_vs_ui.RunNewUserRegistration();
-		}
-//		break;
+	case ClientConfig::NUR_CLIENT:
+	{
+		//			gC_vs_ui.RunNewUserRegistration();
+	}
+	//		break;
 
-		//-----------------------------------------------------------
-		// HOMEPAGE - 홈페이지를 띄워주면서 등록
-		//-----------------------------------------------------------
-		case ClientConfig::NUR_HOMEPAGE :		
-		{
-			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_HOMEPAGE].GetString(), -1, -1, UI_DIALOG_TITLE_OK );			
+			//-----------------------------------------------------------
+			// HOMEPAGE - 홈페이지를 띄워주면서 등록
+			//-----------------------------------------------------------
+	case ClientConfig::NUR_HOMEPAGE:
+	{
+		g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_USER_REGISTER_HOMEPAGE].GetString(), -1, -1, UI_DIALOG_TITLE_OK);
 
-			// 종료..
-			SetMode( MODE_QUIT );
+		// 종료..
+		SetMode(MODE_QUIT);
 
-			char str[256];
+		char str[256];
 
-			GetWindowsDirectory(
-				str,  // address of buffer for Windows directory
-				255        // size of directory buffer
-			);
+		GetWindowsDirectory(
+			str,  // address of buffer for Windows directory
+			255        // size of directory buffer
+		);
 
-			sprintf(str, "%s\\Explorer.exe", str);
-			
-			CDirectDraw::GetDD()->RestoreDisplayMode();
-			if(g_pUserInformation->IsNetmarble)
-				_spawnl(_P_NOWAIT, str, "Explorer.exe", g_pClientConfig->URL_HOMEPAGE_NEW_USER_NETMARBLE.GetString(), NULL);
-			else
-				_spawnl(_P_NOWAIT, str, "Explorer.exe", g_pClientConfig->URL_HOMEPAGE_NEW_USER.GetString(), NULL);
-		}
-		break;
+		sprintf(str, "%s\\Explorer.exe", str);
 
-		//-----------------------------------------------------------
-		// MESSAGE_HOMEPAGE - 홈페이지에서 등록하라는 message
-		//-----------------------------------------------------------
-		case ClientConfig::NUR_MESSAGE_HOMEPAGE :	
-		{
-			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_HOMEPAGE].GetString(), -1, -1, UI_DIALOG_TITLE_OK);			
-		}
-		break;
-		
-		//-----------------------------------------------------------
-		// DENY - 새 사용자 등록 불가		
-		//-----------------------------------------------------------
-		case ClientConfig::NUR_DENY :				
-		{
-			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_DENY].GetString(), -1, -1, UI_DIALOG_TITLE_OK );						
-		}
-		break;	
+		CDirectDraw::GetDD()->RestoreDisplayMode();
+		if (g_pUserInformation->IsNetmarble)
+			_spawnl(_P_NOWAIT, str, "Explorer.exe", g_pClientConfig->URL_HOMEPAGE_NEW_USER_NETMARBLE.GetString(), NULL);
+		else
+			_spawnl(_P_NOWAIT, str, "Explorer.exe", g_pClientConfig->URL_HOMEPAGE_NEW_USER.GetString(), NULL);
+	}
+	break;
+
+	//-----------------------------------------------------------
+	// MESSAGE_HOMEPAGE - 홈페이지에서 등록하라는 message
+	//-----------------------------------------------------------
+	case ClientConfig::NUR_MESSAGE_HOMEPAGE:
+	{
+		g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_USER_REGISTER_HOMEPAGE].GetString(), -1, -1, UI_DIALOG_TITLE_OK);
+	}
+	break;
+
+	//-----------------------------------------------------------
+	// DENY - 새 사용자 등록 불가		
+	//-----------------------------------------------------------
+	case ClientConfig::NUR_DENY:
+	{
+		g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_USER_REGISTER_DENY].GetString(), -1, -1, UI_DIALOG_TITLE_OK);
+	}
+	break;
 	}
 
 }
@@ -1513,14 +1513,14 @@ void
 UIMessageManager::Execute_UI_INFO_CLOSE(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_INFO_CLOSE");
-	
-	if (g_Mode!=MODE_WAIT_SELECTPC
-		&& g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_WAIT_SELECTPC
+		&& g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_WAIT_SELECTPC");
 		return;
 	}
-	
+
 	gC_vs_ui.CloseInfo();
 }
 
@@ -1536,7 +1536,7 @@ UIMessageManager::Execute_UI_CHECK_EXIST_ID(int left, int right, void* void_ptr)
 	// left = id
 	//
 	DEBUG_ADD("[UI] UI_CHECK_EXIST_ID");
-	
+
 	const char* pName = (const char*)void_ptr;
 
 	//--------------------------------------------------
@@ -1544,13 +1544,13 @@ UIMessageManager::Execute_UI_CHECK_EXIST_ID(int left, int right, void* void_ptr)
 	//--------------------------------------------------
 	if (IsValidID(pName, NULL))
 	{
-		int len = strlen(pName);	
-		
+		int len = strlen(pName);
+
 		if (len<PlayerInfo::minIDLength || len>PlayerInfo::maxIDLength)
 		{
 			char strTemp[128];
 			sprintf(strTemp, "ID는 %d~%d자입니다", PlayerInfo::minIDLength, PlayerInfo::maxIDLength);
-			g_pUIDialog->PopupFreeMessageDlg( strTemp );						
+			g_pUIDialog->PopupFreeMessageDlg(strTemp);
 		}
 		else
 		{
@@ -1558,18 +1558,18 @@ UIMessageManager::Execute_UI_CHECK_EXIST_ID(int left, int right, void* void_ptr)
 			// socket 초기화
 			//--------------------------------------------------
 			if (!InitSocket())
-			{						
+			{
 				//InitFail("[Error] Can't init Socket");
 				return;
 			}
 
-				CLQueryPlayerID _CLQueryPlayerID;
-				//_CLDeletePC.setName( g_pUserInformation->CharacterW[pChar->slot].GetString() );
-				_CLQueryPlayerID.setPlayerID( pName );
+			CLQueryPlayerID _CLQueryPlayerID;
+			//_CLDeletePC.setName( g_pUserInformation->CharacterW[pChar->slot].GetString() );
+			_CLQueryPlayerID.setPlayerID(pName);
 
-				g_pSocket->sendPacket( &_CLQueryPlayerID );
+			g_pSocket->sendPacket(&_CLQueryPlayerID);
 
-				g_pSocket->setPlayerStatus( CPS_AFTER_SENDING_CL_QUERY_PLAYER_ID );
+			g_pSocket->setPlayerStatus(CPS_AFTER_SENDING_CL_QUERY_PLAYER_ID);
 
 
 			//gC_vs_ui.AleadyExistIdMessage(); // 사용불가
@@ -1578,11 +1578,11 @@ UIMessageManager::Execute_UI_CHECK_EXIST_ID(int left, int right, void* void_ptr)
 	}
 	else
 	{
-		g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString() );
+		g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString());
 	}
 
 	// 지워도 되는게 맞는지.. 흠 *_*;
-	DeleteNewArray( void_ptr );
+	DeleteNewArray(void_ptr);
 }
 
 
@@ -1595,14 +1595,14 @@ void
 UIMessageManager::Execute_UI_DELETE_CHARACTER(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_DELETE_CHARACTER");
-	
-	if (g_Mode!=MODE_WAIT_SELECTPC)
+
+	if (g_Mode != MODE_WAIT_SELECTPC)
 	{
 		DEBUG_ADD("Not Mode MODE_WAIT_SELECTPC");
 		return;
 	}
-	
-	DELETE_CHARACTER *pChar = (DELETE_CHARACTER*)void_ptr;
+
+	DELETE_CHARACTER* pChar = (DELETE_CHARACTER*)void_ptr;
 
 	//--------------------------------------------------
 	// 주민등록번호 체크
@@ -1610,47 +1610,48 @@ UIMessageManager::Execute_UI_DELETE_CHARACTER(int left, int right, void* void_pt
 	// 넷마블용
 	//if (g_pUserInformation->IsNetmarble || g_pUserInformation->bChinese || IsValidSSN( pChar->sz_part1, pChar->sz_part2 ))
 	//if (!(g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin) || g_pUserInformation->bChinese || IsValidSSN( pChar->sz_part1, pChar->sz_part2 ))
-	if (!(g_pUserInformation->IsNetmarble) || g_pUserInformation->bChinese || IsValidSSN( pChar->sz_part1, pChar->sz_part2 ))
+	if (!(g_pUserInformation->IsNetmarble) || g_pUserInformation->bChinese || IsValidSSN(pChar->sz_part1, pChar->sz_part2))
 	{
 #if __CONTENTS(__CHAR_DELETE)
 		char strTemp[20];
-		sprintf(strTemp,"%s",pChar->sz_part1);      
+		sprintf(strTemp, "%s", pChar->sz_part1);
 		CLDeletePC _CLDeletePC;
-		_CLDeletePC.setName( g_pUserInformation->Character[pChar->slot].GetString() );
-		_CLDeletePC.setSlot( pChar->slot==0? SLOT1 : pChar->slot==1? SLOT2 : SLOT3 );
-		_CLDeletePC.setSSN( strTemp );  
-		g_pSocket->sendPacket( &_CLDeletePC ); 
-		g_pSocket->setPlayerStatus( CPS_AFTER_SENDING_CL_DELETE_PC );
-		DeleteNewArray( pChar->sz_part1 );
+		_CLDeletePC.setName(g_pUserInformation->Character[pChar->slot].GetString());
+		_CLDeletePC.setSlot(pChar->slot == 0 ? SLOT1 : pChar->slot == 1 ? SLOT2 : SLOT3);
+		_CLDeletePC.setSSN(strTemp);
+		g_pSocket->sendPacket(&_CLDeletePC);
+		g_pSocket->setPlayerStatus(CPS_AFTER_SENDING_CL_DELETE_PC);
+		DeleteNewArray(pChar->sz_part1);
 
 		g_pUserInformation->Slot = pChar->slot;
-		SetMode( MODE_WAIT_DELETEPCOK );
+		SetMode(MODE_WAIT_DELETEPCOK);
 #else
 		char strTemp[20];
-		
-		if( g_pUserInformation->bChinese )
+
+		if (g_pUserInformation->bChinese)
 		{
 			//sprintf(strTemp,"%s",pChar->sz_part1);
-		} else
-		if(!(g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin))
-		{
-			// xxxxxx-xxxxxxx 형식으로 만든다.
-			sprintf(strTemp, "%s-%s", pChar->sz_part1, pChar->sz_part2);
 		}
 		else
-			sprintf(strTemp, "1");
+			if (!(g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin))
+			{
+				// xxxxxx-xxxxxxx 형식으로 만든다.
+				sprintf(strTemp, "%s-%s", pChar->sz_part1, pChar->sz_part2);
+			}
+			else
+				sprintf(strTemp, "1");
 
-			CLDeletePC _CLDeletePC;
-			//_CLDeletePC.setName( g_pUserInformation->CharacterW[pChar->slot].GetString() );
-			_CLDeletePC.setName( g_pUserInformation->Character[pChar->slot].GetString() );
-			_CLDeletePC.setSlot( pChar->slot==0? SLOT1 : pChar->slot==1? SLOT2 : SLOT3 );
-			
-			_CLDeletePC.setSSN( strTemp );
+		CLDeletePC _CLDeletePC;
+		//_CLDeletePC.setName( g_pUserInformation->CharacterW[pChar->slot].GetString() );
+		_CLDeletePC.setName(g_pUserInformation->Character[pChar->slot].GetString());
+		_CLDeletePC.setSlot(pChar->slot == 0 ? SLOT1 : pChar->slot == 1 ? SLOT2 : SLOT3);
 
-			g_pSocket->sendPacket( &_CLDeletePC );
+		_CLDeletePC.setSSN(strTemp);
 
-			g_pSocket->setPlayerStatus( CPS_AFTER_SENDING_CL_DELETE_PC );
-			
+		g_pSocket->sendPacket(&_CLDeletePC);
+
+		g_pSocket->setPlayerStatus(CPS_AFTER_SENDING_CL_DELETE_PC);
+
 
 		// 주민등록번호
 		//pChar->sz_part1
@@ -1681,37 +1682,37 @@ UIMessageManager::Execute_UI_DELETE_CHARACTER(int left, int right, void* void_pt
 		//--------------------------------------------
 		g_pUserInformation->Slot = pChar->slot;
 
-		SetMode( MODE_WAIT_DELETEPCOK );
+		SetMode(MODE_WAIT_DELETEPCOK);
 #endif	//__CHAR_DELETE
 	}
 	//else  if(g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin)
-	else  if(g_pUserInformation->IsNetmarble)
+	else  if (g_pUserInformation->IsNetmarble)
 	{
 		char strTemp[20];
-		sprintf(strTemp,"%s",pChar->sz_part1);      
+		sprintf(strTemp, "%s", pChar->sz_part1);
 		CLDeletePC _CLDeletePC;
-		_CLDeletePC.setName( g_pUserInformation->Character[pChar->slot].GetString() );
-		_CLDeletePC.setSlot( pChar->slot==0? SLOT1 : pChar->slot==1? SLOT2 : SLOT3 );
-		_CLDeletePC.setSSN( strTemp );  
-		g_pSocket->sendPacket( &_CLDeletePC ); 
-		g_pSocket->setPlayerStatus( CPS_AFTER_SENDING_CL_DELETE_PC );
-		DeleteNewArray( pChar->sz_part1 );
+		_CLDeletePC.setName(g_pUserInformation->Character[pChar->slot].GetString());
+		_CLDeletePC.setSlot(pChar->slot == 0 ? SLOT1 : pChar->slot == 1 ? SLOT2 : SLOT3);
+		_CLDeletePC.setSSN(strTemp);
+		g_pSocket->sendPacket(&_CLDeletePC);
+		g_pSocket->setPlayerStatus(CPS_AFTER_SENDING_CL_DELETE_PC);
+		DeleteNewArray(pChar->sz_part1);
 
 		g_pUserInformation->Slot = pChar->slot;
-		SetMode( MODE_WAIT_DELETEPCOK );
+		SetMode(MODE_WAIT_DELETEPCOK);
 	}
 	else
 	{
-		if(!g_pUserInformation->IsNetmarble)
-			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_SSN].GetString(), -1, -1, UI_DIALOG_TITLE_OK);
+		if (!g_pUserInformation->IsNetmarble)
+			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_SSN].GetString(), -1, -1, UI_DIALOG_TITLE_OK);
 		else
-			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_ERROR_INVALID_DELETE].GetString(), -1, -1, UI_DIALOG_TITLE_OK);
+			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_ERROR_INVALID_DELETE].GetString(), -1, -1, UI_DIALOG_TITLE_OK);
 	}
-	
-	
+
+
 }
 
-	
+
 //-----------------------------------------------------------------------------
 //
 //		프로그램 종료
@@ -1721,14 +1722,14 @@ void
 UIMessageManager::Execute_UI_TERMINATION(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_TERMINATION");
-	
-	if (g_Mode!=MODE_MAINMENU)		
+
+	if (g_Mode != MODE_MAINMENU)
 	{
 		DEBUG_ADD("Not Mode MODE_MAINMENU");
 		return;
 	}
 
-	SetMode( MODE_QUIT );
+	SetMode(MODE_QUIT);
 }
 
 //-----------------------------------------------------------------------------
@@ -1741,7 +1742,7 @@ void
 UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_NEW_USER_REGISTRATION");
-	
+
 	//
 	// ((NEW_REGISTRATION *)void_ptr) = ...
 	//
@@ -1763,7 +1764,7 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 	//	bool		bl_female;
 	//	bool		bl_announce_my_info;
 	//};
-	//			
+	//
 
 	NEW_REGISTRATION* pReg = (NEW_REGISTRATION *)void_ptr;
 
@@ -1772,7 +1773,7 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 	//--------------------------------------------------
 	// string 길이 체크
 	//--------------------------------------------------
-	if (pReg->sz_id==NULL 
+	if (pReg->sz_id==NULL
 		|| pReg->sz_password==NULL
 		|| pReg->sz_name==NULL
 		|| pReg->sz_ssn_number_part1==NULL
@@ -1788,13 +1789,13 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 	{
 		int len;
 		char strTemp[128];
-			
-		
+
+
 		//--------------------------------------------------
 		// ID 길이 체크
 		//--------------------------------------------------
-		len = strlen(pReg->sz_id);	
-		
+		len = strlen(pReg->sz_id);
+
 		if (len<PlayerInfo::minIDLength || len>PlayerInfo::maxIDLength)
 		{
 			sprintf(strTemp, (*g_pGameStringTable)[STRING_USER_REGISTER_ID_LENGTH].GetString(), PlayerInfo::minIDLength, PlayerInfo::maxIDLength);
@@ -1804,7 +1805,7 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 
 		//---------------------------------------------
 		// 잘못된 ID인지 체크한다.
-		//---------------------------------------------						
+		//---------------------------------------------
 		if (AllOK)
 		{
 			if (!IsValidID(pReg->sz_id, NULL))
@@ -1822,17 +1823,17 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 				{
 					g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString() );
 					AllOK = FALSE;
-				}								
+				}
 			}
 		}
-		
+
 		//--------------------------------------------------
 		// Password 길이 체크
 		//--------------------------------------------------
 		if (AllOK)
 		{
-			len = strlen(pReg->sz_password);	
-			
+			len = strlen(pReg->sz_password);
+
 			if (len<PlayerInfo::minPasswordLength || len>PlayerInfo::maxPasswordLength)
 			{
 				sprintf(strTemp, (*g_pGameStringTable)[STRING_USER_REGISTER_PASSWORD_LENGTH].GetString(), PlayerInfo::minPasswordLength, PlayerInfo::maxPasswordLength);
@@ -1846,7 +1847,7 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 				// ID에 특수문자가 들어간 경우
 				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_ID_SPECIAL].GetString() );
 				AllOK = FALSE;
-			}			
+			}
 			else if (!IsValidPassword(pReg->sz_password))
 			{
 				// 패스워드가 잘못된 경우
@@ -1859,7 +1860,7 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 				// 숫자만 사용하면 안된다.
 				//--------------------------------------------------
 				char* str = pReg->sz_password;
-				
+
 				char ch;
 
 				bool AllNumber = TRUE;
@@ -1887,14 +1888,14 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 		//--------------------------------------------------
 		if (AllOK)
 		{
-			len = strlen(pReg->sz_name);	
-			
+			len = strlen(pReg->sz_name);
+
 			if (len>PlayerInfo::maxNameLength)
 			{
 				sprintf(strTemp, (*g_pGameStringTable)[STRING_USER_REGISTER_NAME_LENGTH].GetString(), PlayerInfo::maxNameLength);
 				g_pUIDialog->PopupFreeMessageDlg( strTemp );
 				AllOK = FALSE;
-			}		
+			}
 		}
 
 		//--------------------------------------------------
@@ -1910,13 +1911,13 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 				char ssn1[7];
 				char ssn2[8];
 
-				
+
 				//pReg->sz_ssn_number[6] = '\0';
 				//strcpy(ssn1, pReg->sz_ssn_number);
 
 				//pReg->sz_ssn_number[6] = '-';
 				//strcpy(ssn2, pReg->sz_ssn_number + 7);
-				
+
 				strcpy(ssn1, pReg->sz_ssn_number_part1);
 				strcpy(ssn2, pReg->sz_ssn_number_part2);
 
@@ -1929,8 +1930,8 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 					g_pUIDialog->PopupFreeMessageDlg( strTemp );
 					AllOK = FALSE;
 				}
-				
-			}		
+
+			}
 			//else
 			//{
 			//	sprintf(strTemp, (*g_pGameStringTable)[STRING_USER_REGISTER_SSN_FORMAT].GetString());
@@ -1946,7 +1947,7 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 	if (AllOK)
 	{
 		if (!InitSocket())
-		{						
+		{
 			//InitFail("[Error] Can't init Socket");
 			return;
 		}
@@ -1972,18 +1973,18 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 
 					g_pSocket->sendPacket( &_CLVersionCheck );
 				}
-				
+
 			#endif
-			
+
 			char ssnAll[20];
 
-			sprintf(ssnAll, "%s-%s", pReg->sz_ssn_number_part1, pReg->sz_ssn_number_part2);							
-			
+			sprintf(ssnAll, "%s-%s", pReg->sz_ssn_number_part1, pReg->sz_ssn_number_part2);
+
 			//--------------------------------------------------
 			// CLRegisterPlayer
 			//--------------------------------------------------
 			CLRegisterPlayer	_CLRegisterPlayer;
-			
+
 			//--------------------------------------------------
 			// 필수항목
 			//--------------------------------------------------
@@ -1991,9 +1992,9 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 			_CLRegisterPlayer.setPassword( pReg->sz_password );
 			_CLRegisterPlayer.setName( pReg->sz_name );
 			_CLRegisterPlayer.setSSN( ssnAll );
-			_CLRegisterPlayer.setEmail( pReg->sz_email );						
+			_CLRegisterPlayer.setEmail( pReg->sz_email );
 			_CLRegisterPlayer.setSex( pReg->bl_female? FEMALE:MALE );
-			
+
 			//--------------------------------------------------
 			// default
 			//--------------------------------------------------
@@ -2029,7 +2030,7 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 			{
 				_CLRegisterPlayer.setHomepage( "NULL" );
 			}
-			
+
 			if (pReg->sz_phone!=NULL)
 			{
 				_CLRegisterPlayer.setTelephone( pReg->sz_phone );
@@ -2049,15 +2050,15 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 			}
 
 			//--------------------------------------------------
-			// 지금 없다.. 
+			// 지금 없다..
 			//--------------------------------------------------
 			_CLRegisterPlayer.setProfile( "profile" );
 
 			g_pSocket->setPlayerStatus( CPS_AFTER_SENDING_CL_REGISTER_PLAYER );
 
 			g_pSocket->sendPacket( &_CLRegisterPlayer );
-			
-		#endif	
+
+		#endif
 
 		// id기억
 		g_pUserInformation->UserID = pReg->sz_id;
@@ -2081,7 +2082,7 @@ UIMessageManager::Execute_UI_NEW_USER_REGISTRATION(int left, int right, void* vo
 		//gC_vs_ui.StartCharacterManager();
 		//gC_vs_ui.ClearAllCharacter();
 	}
-	
+
 }
 */
 
@@ -2104,27 +2105,27 @@ UIMessageManager::Execute_UI_LOGIN(int left, int right, void* void_ptr)
 	//
 	// !string ptr을 저장하면 안된다.
 	//
-	LOGIN*	login = (LOGIN*)void_ptr;
+	LOGIN* login = (LOGIN*)void_ptr;
 
-	if (g_Mode!=MODE_MAINMENU)
+	if (g_Mode != MODE_MAINMENU)
 	{
 		DeleteNewArray(login->sz_id);
 		DeleteNewArray(login->sz_password);
 
 		DEBUG_ADD("Not Mode MODE_MAINMENU");
 		return;
-	}	
+	}
 
 	// 슬레이어 그림 일부 로딩 - 2001.8.20
-	LoadingAddonSPK( false );
+	LoadingAddonSPK(false);
 
-	if (login->sz_id!=NULL && login->sz_password!=NULL)
+	if (login->sz_id != NULL && login->sz_password != NULL)
 	{
 		//if (IsValidID(login->sz_id, NULL))
 		{
 			// ID기억
 			//UI_BackupLoginID(((LOGIN *)void_ptr)->sz_id);
-			
+
 			if (IsValidPassword(login->sz_password))
 			{
 				{
@@ -2137,7 +2138,7 @@ UIMessageManager::Execute_UI_LOGIN(int left, int right, void* void_ptr)
 						DeleteNewArray(login->sz_password);
 						DEBUG_ADD("[Execute_UI_LOGIN] Can't init Socket2");
 						return;
-					} 
+					}
 
 					//char wansungID[16];
 
@@ -2145,7 +2146,7 @@ UIMessageManager::Execute_UI_LOGIN(int left, int right, void* void_ptr)
 					// 조합형 --> 완성형
 					//---------------------------------------------
 					//UI_JohapToWansung( login->sz_id, wansungID );
-	
+
 					//--------------------------------------------------
 					// 로그인 서버에 연결한 후 
 					// 가장 먼저 보내야 하는 패킷은 CLLogin 패킷이다.
@@ -2155,26 +2156,26 @@ UIMessageManager::Execute_UI_LOGIN(int left, int right, void* void_ptr)
 					//--------------------------------------------------
 					// CLVersionCheck
 					//--------------------------------------------------
-					#if !defined(_DEBUG) && !defined(OUTPUT_DEBUG)
-						int version = g_pUserInformation->GameVersion;
-//						std::ifstream versionFile;//(FILE_INFO_ACTION, ios::binary);
-//						if (!FileOpenBinary(FILE_INFO_VERSION, versionFile))
-//						{
-//							DeleteNewArray(login->sz_id);
-//							DeleteNewArray(login->sz_password);
-//							return;
-//						}
-//						versionFile.read((char*)&version, 4);
-//						versionFile.close();
+#if !defined(_DEBUG) && !defined(OUTPUT_DEBUG)
+					int version = g_pUserInformation->GameVersion;
+					//						std::ifstream versionFile;//(FILE_INFO_ACTION, ios::binary);
+					//						if (!FileOpenBinary(FILE_INFO_VERSION, versionFile))
+					//						{
+					//							DeleteNewArray(login->sz_id);
+					//							DeleteNewArray(login->sz_password);
+					//							return;
+					//						}
+					//						versionFile.read((char*)&version, 4);
+					//						versionFile.close();
 
-						CLVersionCheck _CLVersionCheck;
-						_CLVersionCheck.setVersion( version );
+					CLVersionCheck _CLVersionCheck;
+					_CLVersionCheck.setVersion(version);
 
-						g_pSocket->sendPacket( &_CLVersionCheck );
+					g_pSocket->sendPacket(&_CLVersionCheck);
 
-						
-					#endif
-					
+
+#endif
+
 
 					//--------------------------------------------------
 					// CLLogin
@@ -2187,17 +2188,17 @@ UIMessageManager::Execute_UI_LOGIN(int left, int right, void* void_ptr)
 					// 넷마블용
 					std::string temp_id;
 					DEBUG_ADD("[Execute_UI_LOGIN] #");
-					#ifdef __METROTECH_TEST__
-						temp_id = "#";
-					#endif
-					
+#ifdef __METROTECH_TEST__
+					temp_id = "#";
+#endif
+
 					//if(g_pUserInformation->IsNetmarble)
 					//	temp_id += "@";
-					
+
 					temp_id += login->sz_id;
-										
-					clLogin.setID( temp_id );//wansungID);
-					clLogin.setPassword(login->sz_password);			
+
+					clLogin.setID(temp_id);//wansungID);
+					clLogin.setPassword(login->sz_password);
 
 					// 2004,03,16 sobeit add start - mac address
 //					BYTE MacAddress[6];
@@ -2208,11 +2209,11 @@ UIMessageManager::Execute_UI_LOGIN(int left, int right, void* void_ptr)
 					// 2004,03,16 sobeit add end - mac address
 
 					clLogin.SetLoginMode(g_pUserInformation->IsAutoLogIn);
-					
+
 					if (g_pSocket)
 					{
-						g_pSocket->sendPacket( &clLogin );
-						g_pSocket->setPlayerStatus( CPS_AFTER_SENDING_CL_LOGIN );
+						g_pSocket->sendPacket(&clLogin);
+						g_pSocket->setPlayerStatus(CPS_AFTER_SENDING_CL_LOGIN);
 					}
 					DEBUG_ADD("[Execute_UI_LOGIN] SendPacket OK");
 
@@ -2222,18 +2223,18 @@ UIMessageManager::Execute_UI_LOGIN(int left, int right, void* void_ptr)
 					g_pUserInformation->UserID = login->sz_id;
 					//g_pUserInformation->UserIDW = wansungID;
 				}
-				
+
 				DEBUG_ADD("[Execute_UI_LOGIN] ClearAllCharacter");
 				gC_vs_ui.ClearAllCharacter();
 				DEBUG_ADD("[Execute_UI_LOGIN] ClearAllCharacter OK");
-				if(false == g_pUserInformation->IsAutoLogIn) 
-					SetMode( MODE_WAIT_LOGINOK );
+				if (false == g_pUserInformation->IsAutoLogIn)
+					SetMode(MODE_WAIT_LOGINOK);
 				DEBUG_ADD("[Execute_UI_LOGIN] SetMode OK");
 			}
 			else
 			{
 				// 패스워드가 잘못된 경우
-				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_PASSWORD_SPECIAL].GetString(), -1, -1, UI_DIALOG_TITLE_OK );
+				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_USER_REGISTER_PASSWORD_SPECIAL].GetString(), -1, -1, UI_DIALOG_TITLE_OK);
 			}
 		}
 		//---------------------------------------------
@@ -2244,7 +2245,7 @@ UIMessageManager::Execute_UI_LOGIN(int left, int right, void* void_ptr)
 			//g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString() );							
 		//}
 	}
-	
+
 
 	// (!) 원래는 캐릭터 선택 창을 띄워야 한다.
 
@@ -2266,7 +2267,7 @@ UIMessageManager::Execute_UI_CHARACTER_MANAGER_FINISHED(int left, int right, voi
 {
 	DEBUG_ADD("[UI] UI_CHARACTER_MANAGER_FINISHED");
 
-	if (g_Mode!=MODE_WAIT_SELECTPC)
+	if (g_Mode != MODE_WAIT_SELECTPC)
 	{
 		DEBUG_ADD("g_Mode not MODE_WAIT_SELECTPC");
 
@@ -2275,12 +2276,12 @@ UIMessageManager::Execute_UI_CHARACTER_MANAGER_FINISHED(int left, int right, voi
 
 	// 넷마블용
 #ifdef __DESIGNED_JAPAN
-	if(g_pUserInformation->IsNetmarble && !g_pUserInformation->IsNetmarbleJapan)
+	if (g_pUserInformation->IsNetmarble && !g_pUserInformation->IsNetmarbleJapan)
 #else	
-	if(g_pUserInformation->IsNetmarble)
+	if (g_pUserInformation->IsNetmarble)
 #endif
 	{
-		SetMode( MODE_MAINMENU );
+		SetMode(MODE_MAINMENU);
 		return;
 	}
 
@@ -2291,19 +2292,19 @@ UIMessageManager::Execute_UI_CHARACTER_MANAGER_FINISHED(int left, int right, voi
 	// Login 서버로 CLLogout 패킷을 보낸다.
 	//--------------------------------------------------
 	/*
-	#ifdef	CONNECT_SERVER		
-		
+	#ifdef	CONNECT_SERVER
+
 		// hot key save한다.
 		//UI_SaveHotKeyToServer();
 
 		CLLogout clLogout;
-	
+
 		g_pSocket->sendPacket( &clLogout );
 		//g_pSocket->setPlayerStatus( CPS_END_SESSION );
 		//g_pSocket->disconnect();
 
 		ReleaseSocket();
-	#endif					
+	#endif
 
 
 	SetMode( MODE_MAINMENU );
@@ -2313,10 +2314,10 @@ UIMessageManager::Execute_UI_CHARACTER_MANAGER_FINISHED(int left, int right, voi
 	//20081224 크리스마스 이브 입니다. 반복수행 패킷 공격 방어 해봅시다.
 	Sleep(500);
 	UI_SetWorldList();
-	SetMode( MODE_WAIT_SELECT_WORLD );
+	SetMode(MODE_WAIT_SELECT_WORLD);
 #else	// __TITLE_UI_RENWEAL
 	UI_SetServerList();
-	SetMode( MODE_WAIT_SELECT_SERVER );
+	SetMode(MODE_WAIT_SELECT_SERVER);
 #endif	//__TITLE_UI_RENWEAL
 
 }
@@ -2331,15 +2332,15 @@ void
 UIMessageManager::Execute_UI_CONNECT(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_CONNECT");
-	
-	if (g_Mode!=MODE_WAIT_SELECTPC)
+
+	if (g_Mode != MODE_WAIT_SELECTPC)
 	{
 		DEBUG_ADD("Not MODE_WAIT_SELECTPC");
 		return;
 	}
 
 #if __CONTENTS(__PREMIUM_GIVE_ITEM_UI)
-	if(g_pPremiumGiveItemInfoList!=NULL)
+	if (g_pPremiumGiveItemInfoList != NULL)
 	{
 		// 프리미엄 지급 아이템 목록 초기화
 		g_pPremiumGiveItemInfoList->Give_Item_List_ClearAll();
@@ -2349,14 +2350,14 @@ UIMessageManager::Execute_UI_CONNECT(int left, int right, void* void_ptr)
 	//------------------------------------------------------------
 	// 음악 중지 - 2001.8.20
 	//------------------------------------------------------------
-	if (g_pUserOption!=NULL)
+	if (g_pUserOption != NULL)
 	{
 		if (g_pUserOption->PlayWaveMusic)
 		{
-//			if (g_pDXSoundStream!=NULL)
-//			{
-//				g_pDXSoundStream->Stop();
-//			}
+			//			if (g_pDXSoundStream!=NULL)
+			//			{
+			//				g_pDXSoundStream->Stop();
+			//			}
 #ifdef __USE_MP3__
 			if (g_pMP3 != NULL)
 			{
@@ -2367,12 +2368,12 @@ UIMessageManager::Execute_UI_CONNECT(int left, int right, void* void_ptr)
 #else
 // 			if (g_pOGG != NULL)
 // 			{
-				DEBUG_ADD("MP3 STOP13");
-				if( g_DXSound.IsInit() )
-					BGMManager::Instance()->StopMusic();
-					//g_pOGG->streamClose();
-				DEBUG_ADD("MP3 STOP13 OK");
-//			}
+			DEBUG_ADD("MP3 STOP13");
+			if (g_DXSound.IsInit())
+				BGMManager::Instance()->StopMusic();
+			//g_pOGG->streamClose();
+			DEBUG_ADD("MP3 STOP13 OK");
+			//			}
 		}
 		else
 		{
@@ -2383,22 +2384,22 @@ UIMessageManager::Execute_UI_CONNECT(int left, int right, void* void_ptr)
 	//------------------------------------------------------------
 	// 접속해야된다고 출력해준다.
 	//------------------------------------------------------------
-	if (g_pUIDialog!=NULL)
+	if (g_pUIDialog != NULL)
 	{
 		//g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_LOGOUT_DIED].GetString() );
-		g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CONNECTING_SERVER].GetString(), -1, -1, DIALOG_TITLE_NO_BUTTON);
+		g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CONNECTING_SERVER].GetString(), -1, -1, DIALOG_TITLE_NO_BUTTON);
 
-//		if (CDirect3D::IsHAL())
-//		{
-//			DEBUG_ADD("UI show1");
-//			gC_vs_ui.Show();
-//			//gC_vs_ui.DrawMousePointer();		
-//			DEBUG_ADD("UI show1 OK");
-//		}
-//		else
+		//		if (CDirect3D::IsHAL())
+		//		{
+		//			DEBUG_ADD("UI show1");
+		//			gC_vs_ui.Show();
+		//			//gC_vs_ui.DrawMousePointer();		
+		//			DEBUG_ADD("UI show1 OK");
+		//		}
+		//		else
 		{
 			POINT point;
-			
+
 			DEBUG_ADD("UI show2");
 			gC_vs_ui.Show();
 			DEBUG_ADD("UI show2 OK");
@@ -2411,7 +2412,7 @@ UIMessageManager::Execute_UI_CONNECT(int left, int right, void* void_ptr)
 			point.x = 0;
 			point.y = 0;
 			RECT rect = { 0, 0, SURFACE_WIDTH, SURFACE_HEIGHT };
-			g_pBack->BltNoColorkey( &point, g_pLast, &rect );	
+			g_pBack->BltNoColorkey(&point, g_pLast, &rect);
 		}
 		CDirectDraw::Flip();
 
@@ -2427,16 +2428,16 @@ UIMessageManager::Execute_UI_CONNECT(int left, int right, void* void_ptr)
 	//------------------------------------------------------------
 	// 캐릭 선택 후에 바로
 	// 슬레이어 그림 일부 로딩 - 2001.8.20
-	LoadingAddonSPK( false );
-	
+	LoadingAddonSPK(false);
+
 
 	DEBUG_ADD_FORMAT("CLSelectPC(%d)", left);
 
 	CLSelectPC clSelectPC;
 	// CGConnect 때 사용하려면 여기서 저장해둬야 한다.					
 	//clSelectPC.setPCName( (const char *)g_pUserInformation->CharacterW[left] );//"sigi");
-	clSelectPC.setPCName( (const char *)g_pUserInformation->Character[left] );//"sigi");
-	clSelectPC.setPCType( (PCType)(g_pUserInformation->Race[left]));
+	clSelectPC.setPCName((const char*)g_pUserInformation->Character[left]);//"sigi");
+	clSelectPC.setPCType((PCType)(g_pUserInformation->Race[left]));
 
 	DEBUG_ADD_FORMAT("socket Set PC type");
 
@@ -2446,47 +2447,47 @@ UIMessageManager::Execute_UI_CONNECT(int left, int right, void* void_ptr)
 	DEBUG_ADD_FORMAT("user Information");
 
 	g_pUserInformation->CharacterID = g_pUserInformation->Character[left];
-	g_pUserInformation->FaceStyle = g_pUserInformation->FaceStyleSlot[left];	
-	g_pUserInformation->IsMaster = 
-		strncmp( g_pUserInformation->CharacterID, (*g_pGameStringTable)[UI_STRING_MESSAGE_MASTER_NAME].GetString(), (*g_pGameStringTable)[UI_STRING_MESSAGE_MASTER_NAME].GetLength() ) == 0 
-//		(strstr(g_pUserInformation->CharacterID, "운영자")!=NULL)
+	g_pUserInformation->FaceStyle = g_pUserInformation->FaceStyleSlot[left];
+	g_pUserInformation->IsMaster =
+		strncmp(g_pUserInformation->CharacterID, (*g_pGameStringTable)[UI_STRING_MESSAGE_MASTER_NAME].GetString(), (*g_pGameStringTable)[UI_STRING_MESSAGE_MASTER_NAME].GetLength()) == 0
+		//		(strstr(g_pUserInformation->CharacterID, "운영자")!=NULL)
 		|| g_pInventory->FindItem(ITEM_CLASS_ETC, 0);
-//		|| g_pPlayer->GetCreatureType()==CREATURETYPE_SLAYER_OPERATOR
-//		|| g_pPlayer->GetCreatureType()==CREATURETYPE_VAMPIRE_OPERATOR;
-//		g_pPlayer 가 없어서 뻑나네 검사할까...생각했지만..쌩~
+	//		|| g_pPlayer->GetCreatureType()==CREATURETYPE_SLAYER_OPERATOR
+	//		|| g_pPlayer->GetCreatureType()==CREATURETYPE_VAMPIRE_OPERATOR;
+	//		g_pPlayer 가 없어서 뻑나네 검사할까...생각했지만..쌩~
 
-	#ifdef OUTPUT_DEBUG
-		DEBUG_ADD("MasterCheck");
-		std::ifstream file("master.txt");
+#ifdef OUTPUT_DEBUG
+	DEBUG_ADD("MasterCheck");
+	std::ifstream file("master.txt");
 
-		char str[256];
-		while (!file.eof())
-		{
-			file.getline(str, 256);
-			
-			int n = file.gcount();
+	char str[256];
+	while (!file.eof())
+	{
+		file.getline(str, 256);
 
-			if (n <= 0)
-				break;
-			
-			str[n] = '\0';
+		int n = file.gcount();
 
-			g_pUserInformation->IsMaster |= (strstr(g_pUserInformation->CharacterID, str)!=NULL);
-		}
-		
-		file.close();
-		DEBUG_ADD("MasterCheck OK");
-	#endif
-	
+		if (n <= 0)
+			break;
+
+		str[n] = '\0';
+
+		g_pUserInformation->IsMaster |= (strstr(g_pUserInformation->CharacterID, str) != NULL);
+	}
+
+	file.close();
+	DEBUG_ADD("MasterCheck OK");
+#endif
+
 	//g_pUserInformation->CharacterIDW = g_pUserInformation->CharacterW[left];
 	DEBUG_ADD("send CLSelectPC");
-	g_pSocket->sendPacket( &clSelectPC );
-	g_pSocket->setPlayerStatus( CPS_AFTER_SENDING_CL_SELECT_PC );
+	g_pSocket->sendPacket(&clSelectPC);
+	g_pSocket->setPlayerStatus(CPS_AFTER_SENDING_CL_SELECT_PC);
 
 	// 바로 보낸다.
 	UpdateSocketOutput();
 
-	SaveLastSelectedCharacter( left );
+	SaveLastSelectedCharacter(left);
 
 	DEBUG_ADD("set mode MODE_WAIT_RECONNECT");
 	SetMode(MODE_WAIT_RECONNECT);
@@ -2495,7 +2496,7 @@ UIMessageManager::Execute_UI_CONNECT(int left, int right, void* void_ptr)
 	// 게임 UI
 	//------------------------------
 	//gC_vs_ui.StartGame();
-					
+
 	//
 	// Skill은 StartGame()이 실행된 이후에 추가해야 한다.
 	//
@@ -2508,7 +2509,7 @@ struct ToUpperFunctor
 {
 	void operator()(char& ch)
 	{
-		if(ch >= 'a' && ch <= 'z')
+		if (ch >= 'a' && ch <= 'z')
 			ch -= ('a' - 'A');
 	}
 };
@@ -2535,94 +2536,94 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 
 	DEBUG_ADD("[UI] UI_CHAT_RETURN");
 
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
-	
-	DEBUG_ADD_FORMAT("[Original] %s", (char*)void_ptr );
-	
-	char* chatString = (char*)void_ptr; 
-//	g_pChatManager->RemoveCurse(chatString);
-	//-------------------------------------------------------------
-	// 파티 채팅인 경우
-	//-------------------------------------------------------------
-	if (chatString!=NULL 
-		&& chatString[0]!=SYMBOL_WHISPER	// 귓속말이 아닌 경우에..
+
+	DEBUG_ADD_FORMAT("[Original] %s", (char*)void_ptr);
+
+	char* chatString = (char*)void_ptr;
+	//	g_pChatManager->RemoveCurse(chatString);
+		//-------------------------------------------------------------
+		// 파티 채팅인 경우
+		//-------------------------------------------------------------
+	if (chatString != NULL
+		&& chatString[0] != SYMBOL_WHISPER	// 귓속말이 아닌 경우에..
 		//&& chatString[0]!=SYMBOL_MASTER_COMMAND
-		&& left==CLD_PARTY)
+		&& left == CLD_PARTY)
 	{
-		if (g_pParty!=NULL )
+		if (g_pParty != NULL)
 		{
-			if(g_pUserInformation->bKorean == true && g_pClientCommunicationManager!=NULL)
+			if (g_pUserInformation->bKorean == true && g_pClientCommunicationManager != NULL)
 			{
 				RCSay _RCSay;
-				_RCSay.setName( g_pUserInformation->CharacterID.GetString() );
-				_RCSay.setMessage( chatString );
-				_RCSay.setColor( right );
+				_RCSay.setName(g_pUserInformation->CharacterID.GetString());
+				_RCSay.setMessage(chatString);
+				_RCSay.setColor(right);
 
-				if (g_pParty->GetSize()==0)
+				if (g_pParty->GetSize() == 0)
 				{
 					DEBUG_ADD("PartySize==0");
 				}
-			
-				for (int i=0; i<g_pParty->GetSize(); i++)
+
+				for (int i = 0; i < g_pParty->GetSize(); i++)
 				{
-					PARTY_INFO* pInfo = g_pParty->GetMemberInfo( i );
-					
-					if (pInfo!=NULL)										
+					PARTY_INFO* pInfo = g_pParty->GetMemberInfo(i);
+
+					if (pInfo != NULL)
 					{
 						int port = g_pClientConfig->CLIENT_COMMUNICATION_UDP_PORT;
 
-						RequestUserInfo* pUserInfo = g_pRequestUserManager->GetUserInfo( pInfo->Name.GetString() );
+						RequestUserInfo* pUserInfo = g_pRequestUserManager->GetUserInfo(pInfo->Name.GetString());
 
-						if (pUserInfo!=NULL)
+						if (pUserInfo != NULL)
 						{
-							if (pUserInfo->UDPPort!=0)
+							if (pUserInfo->UDPPort != 0)
 								port = pUserInfo->UDPPort;
 						}
-						
-						g_pClientCommunicationManager->sendPacket( 
-								pInfo->IP, 
-								port,
-								&_RCSay );
+
+						g_pClientCommunicationManager->sendPacket(
+							pInfo->IP,
+							port,
+							&_RCSay);
 					}
 					else
 					{
 						DEBUG_ADD_FORMAT("pInfo[%d]==NULL", i);
 					}
-				}			
-				UI_AddChatToHistory( chatString, g_pUserInformation->CharacterID.GetString(), CLD_PARTY, right );
+				}
+				UI_AddChatToHistory(chatString, g_pUserInformation->CharacterID.GetString(), CLD_PARTY, right);
 			}
 			else	// 한국어가 아닐때
 			{
 				CGPartySay _CGPartySay;
 				_CGPartySay.setColor(right);
 				_CGPartySay.setMessage(chatString);
-				g_pSocket->sendPacket( &_CGPartySay );
+				g_pSocket->sendPacket(&_CGPartySay);
 			}
 		}
 	}
 	// 길드 채팅
-	else if (chatString!=NULL 
-		&& chatString[0]!=SYMBOL_WHISPER	// 귓속말이 아닌 경우에..
-		&& chatString[0]!=SYMBOL_MASTER_COMMAND
-		&& (left==CLD_GUILD || left == CLD_UNION))
+	else if (chatString != NULL
+		&& chatString[0] != SYMBOL_WHISPER	// 귓속말이 아닌 경우에..
+		&& chatString[0] != SYMBOL_MASTER_COMMAND
+		&& (left == CLD_GUILD || left == CLD_UNION))
 	{
-		if(g_pUserInformation->GuildName.GetLength() > 0)
+		if (g_pUserInformation->GuildName.GetLength() > 0)
 		{
 			CGGuildChat _CGGuildChat;
 			// 2004, 11, 11, sobeit add start
-			if(left==CLD_GUILD)
+			if (left == CLD_GUILD)
 				_CGGuildChat.SetType(0);
 			else
 				_CGGuildChat.SetType(1);
 			// 2004, 11, 11, sobeit add end
-			_CGGuildChat.setMessage( std::string(chatString) );
-			_CGGuildChat.setColor( right );
-			
-			g_pSocket->sendPacket( &_CGGuildChat );
+			_CGGuildChat.setMessage(std::string(chatString));
+			_CGGuildChat.setColor(right);
+
+			g_pSocket->sendPacket(&_CGGuildChat);
 		}
 	}
 	//-------------------------------------------------------------
@@ -2630,9 +2631,9 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 	//-------------------------------------------------------------
 	else //if (g_pPlayer->IsAlive())
 	{
-		BOOL bZoneChat = (left==CLD_ZONECHAT);
-	
-		/*	
+		BOOL bZoneChat = (left == CLD_ZONECHAT);
+
+		/*
 		#ifdef __GAME_CLIENT__
 			if (g_pSystemMessage!=NULL)
 			{
@@ -2663,21 +2664,21 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 					_CGPhoneSay.setSlotID( slot );
 					_CGPhoneSay.setMessage( strUI );
 
-					g_pSocket->sendPacket( &_CGPhoneSay );					
+					g_pSocket->sendPacket( &_CGPhoneSay );
 				#endif
 
 				char temp[128];
 				sprintf(temp, "[%s] %s", g_pUserInformation->CharacterID.GetString(), strUI);
-				UI_AddChatToHistory( temp );								
+				UI_AddChatToHistory( temp );
 			}
 			*/
-		//}
-		//-------------------------------------------------------------
-		//
-		// 일반 채팅
-		//
-		//-------------------------------------------------------------
-		//else
+			//}
+			//-------------------------------------------------------------
+			//
+			// 일반 채팅
+			//
+			//-------------------------------------------------------------
+			//else
 		{
 			//
 			// chat history Window에 보내기... 일단 바로 보내보자.
@@ -2691,49 +2692,49 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 			char* strOrg = new char[128];
 			char* str = strOrg;
 
-			strcpy( strOrg, strUI );
+			strcpy(strOrg, strUI);
 
-			if (str!=NULL && str[0]!=NULL)
+			if (str != NULL && str[0] != NULL)
 			{
-				RemoveStringSpace( str );							
+				RemoveStringSpace(str);
 
-				DEBUG_ADD_FORMAT("[After RemoveSpace] %s", str );
-					
-				if (str!=NULL && str[0]!=NULL)
+				DEBUG_ADD_FORMAT("[After RemoveSpace] %s", str);
+
+				if (str != NULL && str[0] != NULL)
 				{
 					// 2004, 10, 25, sobeit add start - 드레곤 아이 관련
-					if(g_pPlayer->HasEffectStatus(EFFECTSTATUS_DRAGON_EYES)
-#if __CONTENTS(__HERO_SYSTEM
-//						|| g_pPlayer->HasEffectStatus(EFFECTSTATUS_SLAYER_HERO) 
-//						|| g_pPlayer->HasEffectStatus(EFFECTSTATUS_VAMPIRE_HERO)
-//						|| g_pPlayer->HasEffectStatus(EFFECTSTATUS_OUSTERS_HERO)
+					if (g_pPlayer->HasEffectStatus(EFFECTSTATUS_DRAGON_EYES)
+#if __CONTENTS(__HERO_SYSTEM)
+	//						|| g_pPlayer->HasEffectStatus(EFFECTSTATUS_SLAYER_HERO) 
+	//						|| g_pPlayer->HasEffectStatus(EFFECTSTATUS_VAMPIRE_HERO)
+	//						|| g_pPlayer->HasEffectStatus(EFFECTSTATUS_OUSTERS_HERO)
 #endif //__HERO_SYSTEM
-						)
+)
 					{
-						if(0 == strncmp(str, (*g_pGameStringTable)[UI_STRING_MESSAGE_RANGER_SAY].GetString(),(*g_pGameStringTable)[UI_STRING_MESSAGE_RANGER_SAY].GetLength()))
+						if (0 == strncmp(str, (*g_pGameStringTable)[UI_STRING_MESSAGE_RANGER_SAY].GetString(), (*g_pGameStringTable)[UI_STRING_MESSAGE_RANGER_SAY].GetLength()))
 						{
-							char TempBuffer[128]; 
-							strcpy(TempBuffer, str+(*g_pGameStringTable)[UI_STRING_MESSAGE_RANGER_SAY].GetLength());
+							char TempBuffer[128];
+							strcpy(TempBuffer, str + (*g_pGameStringTable)[UI_STRING_MESSAGE_RANGER_SAY].GetLength());
 							CGRangerSay _CGRangerSay;
 							_CGRangerSay.setMessage(TempBuffer);
 
-							g_pSocket->sendPacket( &_CGRangerSay );
-										
+							g_pSocket->sendPacket(&_CGRangerSay);
+
 							// Player의 Chat pWansungStringing에 추가
-							g_pPlayer->SetChatString( str );//+1 );
+							g_pPlayer->SetChatString(str);//+1 );
 
 							// history에 추가
 							char temp[128];
-							strcpy(temp, str );//+1);
+							strcpy(temp, str);//+1);
 							//sprintf(temp, "[%s] %s", g_pUserInformation->CharacterID.GetString(), str+1);
 							//UI_AddChatToHistory( temp );								
-							UI_AddChatToHistory( temp, g_pUserInformation->CharacterID.GetString(), CLD_ZONECHAT, right );
+							UI_AddChatToHistory(temp, g_pUserInformation->CharacterID.GetString(), CLD_ZONECHAT, right);
 							return;
 						}
 					}
 					// 2004, 10, 25, sobeit add end - 드레곤 아이 관련
-					if (bZoneChat && str[0]!=SYMBOL_WHISPER
-						&& str[0]!=SYMBOL_COMMAND && str[0]!=SYMBOL_MASTER_COMMAND)			
+					if (bZoneChat && str[0] != SYMBOL_WHISPER
+						&& str[0] != SYMBOL_COMMAND && str[0] != SYMBOL_MASTER_COMMAND)
 					{
 						// system message test
 						//------------------------------------------------------------
@@ -2744,22 +2745,22 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 						//case SYMBOL_GLOBALCHAT :	//if (str[0]=='!')//pWansungString[0]=='/')
 						{
 							//if (strlen(str) > 1 )	//pWansungString) > 1)
-							{		
+							{
 								//---------------------------------------------------------
 								// 숨어 있을때는 말 못한다.
 								// 늑대나 박쥐인 경우 말 못한다.
 								//---------------------------------------------------------
 								if (g_pPlayer->IsUndergroundCreature()
 									|| g_pPlayer->IsInCasket()
-									|| g_pPlayer->GetCreatureType()==CREATURETYPE_BAT
-									|| g_pPlayer->GetCreatureType()==CREATURETYPE_VAMPIRE_GHOST
-									|| g_pPlayer->GetCreatureType()==CREATURETYPE_WOLF
-									|| g_pPlayer->GetCreatureType()==CREATURETYPE_WER_WOLF
+									|| g_pPlayer->GetCreatureType() == CREATURETYPE_BAT
+									|| g_pPlayer->GetCreatureType() == CREATURETYPE_VAMPIRE_GHOST
+									|| g_pPlayer->GetCreatureType() == CREATURETYPE_WOLF
+									|| g_pPlayer->GetCreatureType() == CREATURETYPE_WER_WOLF
 #if __CONTENTS(__FAST_TRANSFORTER)
-									|| g_pPlayer->GetCreatureType()==CREATURETYPE_FLITTERMOUSE
+									|| g_pPlayer->GetCreatureType() == CREATURETYPE_FLITTERMOUSE
 #endif //__FAST_TRANSFORTER
 #if __CONTENTS(__SECOND_TRANSFORTER)
-									|| g_pPlayer->GetCreatureType()==CREATURETYPE_SHAPE_OF_DEMON
+									|| g_pPlayer->GetCreatureType() == CREATURETYPE_SHAPE_OF_DEMON
 #endif //__SECOND_TRANSFORTER
 									)
 								{
@@ -2767,7 +2768,7 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 									//char temp[128];
 									//sprintf(temp, "[%s] .....", g_pUserInformation->CharacterID.GetString());
 									//UI_AddChatToHistory( temp );								
-									UI_AddChatToHistory( ".....", g_pUserInformation->CharacterID.GetString(), CLD_NORMAL, right );
+									UI_AddChatToHistory(".....", g_pUserInformation->CharacterID.GetString(), CLD_NORMAL, right);
 								}
 								//---------------------------------------------------------
 								// global say
@@ -2784,20 +2785,20 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 										//)
 									{
 										CGGlobalChat _CGGlobalChat;
-										_CGGlobalChat.setMessage( str );//+ 1 );	//pWansungString+1 );
-										_CGGlobalChat.setColor( right );
-										g_pSocket->sendPacket( &_CGGlobalChat );
+										_CGGlobalChat.setMessage(str);//+ 1 );	//pWansungString+1 );
+										_CGGlobalChat.setColor(right);
+										g_pSocket->sendPacket(&_CGGlobalChat);
 
-										
+
 										// Player의 Chat pWansungStringing에 추가
-										g_pPlayer->SetChatString( str, right );//+1 );
+										g_pPlayer->SetChatString(str, right);//+1 );
 
 										// history에 추가
 										char temp[128];
-										strcpy(temp, str );//+1);
+										strcpy(temp, str);//+1);
 										//sprintf(temp, "[%s] %s", g_pUserInformation->CharacterID.GetString(), str+1);
 										//UI_AddChatToHistory( temp );								
-										UI_AddChatToHistory( temp, g_pUserInformation->CharacterID.GetString(), CLD_ZONECHAT, right );
+										UI_AddChatToHistory(temp, g_pUserInformation->CharacterID.GetString(), CLD_ZONECHAT, right);
 
 										// 현재 시간을 설정해둔다.
 										//g_pUserInformation->GlobalSayTime = g_CurrentTime;
@@ -2817,37 +2818,37 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 						}
 						//break;
 
-					}					
+					}
 					else // 으음.. 이 부분 코드가 안 이쁘네.. - -;;
-					switch ( str[0] )
-					{
-						//------------------------------
-						// 조합형 --> 완성형
-						//------------------------------
-						//char* pWansungString = new char [strlen(str)+1];
+						switch (str[0])
+						{
+							//------------------------------
+							// 조합형 --> 완성형
+							//------------------------------
+							//char* pWansungString = new char [strlen(str)+1];
 
-						//UI_JohapToWansung( str, pWansungString );
+							//UI_JohapToWansung( str, pWansungString );
 
-						//------------------------------------------------------------
-						//
-						// '/'를 입력하면 whisper다.
-						//
-						//------------------------------------------------------------
-						case SYMBOL_WHISPER :						
+							//------------------------------------------------------------
+							//
+							// '/'를 입력하면 whisper다.
+							//
+							//------------------------------------------------------------
+						case SYMBOL_WHISPER:
 						{
 							// Vampire인 경우에						
 							//else if (//g_pPlayer->IsVampire() && 
 									//str[0]=='/')
 
-							if (strlen(str) > 1 )
+							if (strlen(str) > 1)
 							{
 								const int ChatCommandCnt = 2;
 
-								char *szEnglishCommand[ChatCommandCnt] = {
+								const char* szEnglishCommand[ChatCommandCnt] = {
 									"/DJEL", "/W",
 								};
-				
-								char *szKoreanCommand[ChatCommandCnt] = {
+
+								const char* szKoreanCommand[ChatCommandCnt] = {
 									"/어디", "/ㅈ",
 								};
 
@@ -2859,21 +2860,21 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 								STRING_VEC	ChatCommandStr;
 								CToken		strToken(str);
 
-								for(const char* pCommand = strToken.GetToken();
+								for (const char* pCommand = strToken.GetToken();
 									pCommand != NULL;
 									pCommand = strToken.GetToken())
 								{
 									ChatCommandStr.push_back(pCommand);
 								}
-								
+
 								STRING_VEC::iterator CommandPos = ChatCommandStr.begin();
 
 								std::for_each(CommandPos->begin(), CommandPos->end(), ToUpperFunctor());
-																
-								for(int i = 0; i < ChatCommandCnt; ++i)
+
+								for (int i = 0; i < ChatCommandCnt; ++i)
 								{
-									if(*CommandPos == szEnglishCommand[i] ||
-									   *CommandPos == szKoreanCommand[i])
+									if (*CommandPos == szEnglishCommand[i] ||
+										*CommandPos == szKoreanCommand[i])
 									{
 										(*pCommandFunction[i])(ChatCommandStr, strUI, right);
 									}
@@ -2883,21 +2884,21 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 
 						break;
 
-						
+
 
 						//------------------------------------------------------------
 						//
 						// '@'를 입력하면 특수 명령어다.
 						//
 						//------------------------------------------------------------
-						case SYMBOL_COMMAND :
-						//else if (//g_pPlayer->IsVampire() && 
-						//			str[0]=='@')
+						case SYMBOL_COMMAND:
+							//else if (//g_pPlayer->IsVampire() && 
+							//			str[0]=='@')
 						{
-							if (strlen(str) > 1 )
+							if (strlen(str) > 1)
 							{
 								// '@'빼고 나머지 추가..
-								CToken strToken(str+1);
+								CToken strToken(str + 1);
 
 								// [명령]+[ ]+[내용] 으로 이루어져있다고 보면 된다.										
 								const char* pCommand = strToken.GetToken();
@@ -2907,29 +2908,29 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 								strcpy(pLwrCommand, pCommand);
 								strcpy(pLwrCommand, _strlwr(pLwrCommand));
 
-								
+
 								DEBUG_ADD_FORMAT("[Command] %s %s", pCommand, pData);
-								
+
 								//-------------------------------------------------------
 								// 대화 거부
 								//-------------------------------------------------------
-								if (strcmp(pCommand, STRING_IGNORE)==0
-									|| strcmp(pLwrCommand, STRING_IGNORE_ENG)==0)
+								if (strcmp(pCommand, STRING_IGNORE) == 0
+									|| strcmp(pLwrCommand, STRING_IGNORE_ENG) == 0)
 								{
 									//-------------------------------------------------------
 									// 모든 사람의 대화를 거부한다.
 									//-------------------------------------------------------
-									if (pData==NULL)
+									if (pData == NULL)
 									{
 										g_pChatManager->ClearID();
-										g_pChatManager->SetIgnoreMode();	
+										g_pChatManager->SetIgnoreMode();
 
 										// 자기 ID는 추가해둔다.
-										g_pChatManager->AddID( g_pUserInformation->CharacterID.GetString() );
+										g_pChatManager->AddID(g_pUserInformation->CharacterID.GetString());
 
 										char strTemp[128];
 										sprintf(strTemp, (*g_pGameStringTable)[STRING_MESSAGE_CHAT_IGNORE_ALL].GetString(), pData);
-										UI_AddChatToHistory( strTemp, NULL, CLD_INFO, right );
+										UI_AddChatToHistory(strTemp, NULL, CLD_INFO, right);
 
 										// [도움말] 대화거부
 //										__BEGIN_HELP_EVENT
@@ -2941,7 +2942,7 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 									//-------------------------------------------------------
 									else
 									{
-										int nameLen = strlen( pData );
+										int nameLen = strlen(pData);
 
 										//------------------------------------------------------
 										// ID길이가 잘못된 경우										
@@ -2949,11 +2950,11 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 										if (nameLen<PlayerInfo::minIDLength || nameLen>PlayerInfo::maxIDLength)
 										{
 											char strTemp[256];
-											sprintf(strTemp, (*g_pGameStringTable)[STRING_USER_REGISTER_ID_LENGTH].GetString(), 
-													PlayerInfo::minIDLength,
-													nameLen>PlayerInfo::maxIDLength);
+											sprintf(strTemp, (*g_pGameStringTable)[STRING_USER_REGISTER_ID_LENGTH].GetString(),
+												PlayerInfo::minIDLength,
+												nameLen > PlayerInfo::maxIDLength);
 
-											UI_AddChatToHistory( strTemp, NULL, CLD_INFO, right );
+											UI_AddChatToHistory(strTemp, NULL, CLD_INFO, right);
 										}
 										//------------------------------------------------------
 										// 정상
@@ -2962,16 +2963,16 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 										{
 											if (g_pChatManager->IsAcceptMode())
 											{
-												g_pChatManager->AddID( pData );
+												g_pChatManager->AddID(pData);
 											}
 											else
 											{
-												g_pChatManager->RemoveID( pData );
+												g_pChatManager->RemoveID(pData);
 											}
 
 											char strTemp[128];
 											sprintf(strTemp, (*g_pGameStringTable)[STRING_MESSAGE_CHAT_IGNORE].GetString(), pData);
-											UI_AddChatToHistory( strTemp, NULL, CLD_INFO, right );
+											UI_AddChatToHistory(strTemp, NULL, CLD_INFO, right);
 
 											// [도움말] 대화거부 한 명
 //											__BEGIN_HELP_EVENT
@@ -2983,27 +2984,27 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 								//-------------------------------------------------------
 								// 대화 허용
 								//-------------------------------------------------------
-								else if (strcmp(pCommand, STRING_ACCEPT)==0
-										|| strcmp(pLwrCommand, STRING_ACCEPT_ENG)==0)
+								else if (strcmp(pCommand, STRING_ACCEPT) == 0
+									|| strcmp(pLwrCommand, STRING_ACCEPT_ENG) == 0)
 								{
 									//-------------------------------------------------------
 									// 모든 사람의 대화를 허용한다.
 									//-------------------------------------------------------
-									if (pData==NULL)
+									if (pData == NULL)
 									{
 										g_pChatManager->ClearID();
-										g_pChatManager->SetAcceptMode();	
+										g_pChatManager->SetAcceptMode();
 
 										char strTemp[128];
 										sprintf(strTemp, (*g_pGameStringTable)[STRING_MESSAGE_CHAT_ACCEPT_ALL].GetString(), pData);
-										UI_AddChatToHistory( strTemp, NULL, CLD_INFO, right );
+										UI_AddChatToHistory(strTemp, NULL, CLD_INFO, right);
 									}
 									//-------------------------------------------------------
 									// 한 사람의 대화를 허용한다.
 									//-------------------------------------------------------
 									else
 									{
-										int nameLen = strlen( pData );
+										int nameLen = strlen(pData);
 
 										//------------------------------------------------------
 										// ID길이가 잘못된 경우										
@@ -3011,11 +3012,11 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 										if (nameLen<PlayerInfo::minIDLength || nameLen>PlayerInfo::maxIDLength)
 										{
 											char strTemp[256];
-											sprintf(strTemp, (*g_pGameStringTable)[STRING_USER_REGISTER_ID_LENGTH].GetString(), 
-													PlayerInfo::minIDLength,
-													nameLen>PlayerInfo::maxIDLength);
+											sprintf(strTemp, (*g_pGameStringTable)[STRING_USER_REGISTER_ID_LENGTH].GetString(),
+												PlayerInfo::minIDLength,
+												nameLen > PlayerInfo::maxIDLength);
 
-											UI_AddChatToHistory( strTemp, NULL, CLD_INFO, right );
+											UI_AddChatToHistory(strTemp, NULL, CLD_INFO, right);
 										}
 										//------------------------------------------------------
 										// 정상
@@ -3024,189 +3025,189 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 										{
 											if (g_pChatManager->IsAcceptMode())
 											{
-												g_pChatManager->RemoveID( pData );
+												g_pChatManager->RemoveID(pData);
 											}
 											else
-											{	
-												g_pChatManager->AddID( pData );
+											{
+												g_pChatManager->AddID(pData);
 											}
 
 											char strTemp[128];
 											sprintf(strTemp, (*g_pGameStringTable)[STRING_MESSAGE_CHAT_ACCEPT].GetString(), pData);
-											UI_AddChatToHistory( strTemp, NULL, CLD_INFO, right );
+											UI_AddChatToHistory(strTemp, NULL, CLD_INFO, right);
 										}
 									}
 								}
 								//-------------------------------------------------------
 								// 나쁜말도 보기
 								//-------------------------------------------------------
-								else if (strcmp(pCommand, STRING_ACCEPT_CURSE)==0
-										|| strcmp(pLwrCommand, STRING_ACCEPT_CURSE_ENG)==0)
+								else if (strcmp(pCommand, STRING_ACCEPT_CURSE) == 0
+									|| strcmp(pLwrCommand, STRING_ACCEPT_CURSE_ENG) == 0)
 								{
 									g_pUserOption->FilteringCurse = FALSE;
 
 									char strTemp[128];
 									sprintf(strTemp, (*g_pGameStringTable)[STRING_MESSAGE_CHAT_ACCEPT_CURSE].GetString(), pData);
-									UI_AddChatToHistory( strTemp, NULL, CLD_INFO, right );
+									UI_AddChatToHistory(strTemp, NULL, CLD_INFO, right);
 								}
 								//-------------------------------------------------------
 								// 바른말만 보기
 								//-------------------------------------------------------
-								else if (strcmp(pCommand, STRING_FILTER_CURSE)==0
-										|| strcmp(pLwrCommand, STRING_FILTER_CURSE_ENG)==0)
+								else if (strcmp(pCommand, STRING_FILTER_CURSE) == 0
+									|| strcmp(pLwrCommand, STRING_FILTER_CURSE_ENG) == 0)
 								{
 									g_pUserOption->FilteringCurse = TRUE;
 
 									char strTemp[128];
 									sprintf(strTemp, (*g_pGameStringTable)[STRING_MESSAGE_CHAT_FILTER_CURSE].GetString(), pData);
-									UI_AddChatToHistory( strTemp, NULL, CLD_INFO, right );
+									UI_AddChatToHistory(strTemp, NULL, CLD_INFO, right);
 								}
 
-								#if defined(OUTPUT_DEBUG) //&& defined(_DEBUG)
-									//-------------------------------------------------------
-									// 접속하기
-									//-------------------------------------------------------
-									else if (strcmp(pCommand, "connect")==0
-											|| strcmp(pLwrCommand, "connect")==0)
+#if defined(OUTPUT_DEBUG) //&& defined(_DEBUG)
+								//-------------------------------------------------------
+								// 접속하기
+								//-------------------------------------------------------
+								else if (strcmp(pCommand, "connect") == 0
+									|| strcmp(pLwrCommand, "connect") == 0)
+								{
+									CToken strToken(pData);
+
+									// [IP]+[]+[Name]
+									const char* pIP = strToken.GetToken();
+									const char* pName = strToken.GetEnd();
+
+									//RequestConnect( pIP, pName );
+									if (g_pParty != NULL)
 									{
-										CToken strToken(pData);
+										PARTY_INFO* pInfo = g_pParty->GetMemberInfo(pName);
 
-										// [IP]+[]+[Name]
-										const char* pIP = strToken.GetToken();
-										const char* pName = strToken.GetEnd();
-
-										//RequestConnect( pIP, pName );
-										if (g_pParty!=NULL)
+										if (pInfo != NULL)
 										{
-											PARTY_INFO* pInfo = g_pParty->GetMemberInfo( pName );
-
-											if (pInfo!=NULL)
-											{
-												pInfo->IP = pIP;
-											}
+											pInfo->IP = pIP;
 										}
 									}
-									//-------------------------------------------------------
-									// 접속끊기
-									//-------------------------------------------------------
-									else if (strcmp(pCommand, "disconnect")==0
-											|| strcmp(pLwrCommand, "disconnect")==0)
+								}
+								//-------------------------------------------------------
+								// 접속끊기
+								//-------------------------------------------------------
+								else if (strcmp(pCommand, "disconnect") == 0
+									|| strcmp(pLwrCommand, "disconnect") == 0)
+								{
+									const char* pName = pData;
+									//RequestDisconnect( pData );
+									if (g_pParty != NULL)
 									{
-										const char* pName = pData;
-										//RequestDisconnect( pData );
-										if (g_pParty!=NULL)
-										{
-											PARTY_INFO* pInfo = g_pParty->GetMemberInfo( pName );
+										PARTY_INFO* pInfo = g_pParty->GetMemberInfo(pName);
 
-											if (pInfo!=NULL)
-											{
-												pInfo->IP = "0.0.0.0";
-											}
+										if (pInfo != NULL)
+										{
+											pInfo->IP = "0.0.0.0";
 										}
 									}
-									//-------------------------------------------------------
-									// Profile 요청 테스트
-									//-------------------------------------------------------
-									else if (strcmp(pCommand, "profile")==0
-											|| strcmp(pLwrCommand, "profile")==0)
-									{
-										const char* pName = pData;
+								}
+								//-------------------------------------------------------
+								// Profile 요청 테스트
+								//-------------------------------------------------------
+								else if (strcmp(pCommand, "profile") == 0
+									|| strcmp(pLwrCommand, "profile") == 0)
+								{
+									const char* pName = pData;
 
-										if (!g_pProfileManager->HasProfile(pName)
-											&& !g_pProfileManager->HasProfileNULL(pName))
-										{
-											g_pProfileManager->RequestProfile(pName);
-										}
-									}
-									//-------------------------------------------------------
-									// 말하기
-									//-------------------------------------------------------
-									else if (strcmp(pCommand, "say")==0
-											|| strcmp(pLwrCommand, "say")==0)
+									if (!g_pProfileManager->HasProfile(pName)
+										&& !g_pProfileManager->HasProfileNULL(pName))
 									{
-										if (g_pParty!=NULL
-											&& g_pClientCommunicationManager!=NULL)
+										g_pProfileManager->RequestProfile(pName);
+									}
+								}
+								//-------------------------------------------------------
+								// 말하기
+								//-------------------------------------------------------
+								else if (strcmp(pCommand, "say") == 0
+									|| strcmp(pLwrCommand, "say") == 0)
+								{
+									if (g_pParty != NULL
+										&& g_pClientCommunicationManager != NULL)
+									{
+										RCSay _RCSay;
+										_RCSay.setName(g_pUserInformation->CharacterID.GetString());
+										_RCSay.setMessage(pData);
+										_RCSay.setColor(right);
+
+										for (int i = 0; i < g_pParty->GetSize(); i++)
 										{
-											RCSay _RCSay;
-											_RCSay.setName( g_pUserInformation->CharacterID.GetString() );
-											_RCSay.setMessage( pData );
-											_RCSay.setColor( right );
-										
-											for (int i=0; i<g_pParty->GetSize(); i++)
+											PARTY_INFO* pInfo = g_pParty->GetMemberInfo(i);
+
+											if (pInfo != NULL)
 											{
-												PARTY_INFO* pInfo = g_pParty->GetMemberInfo( i );
-												
-												if (pInfo!=NULL)										
+												int port = g_pClientConfig->CLIENT_COMMUNICATION_UDP_PORT;
+
+												RequestUserInfo* pUserInfo = g_pRequestUserManager->GetUserInfo(pInfo->Name.GetString());
+
+												if (pUserInfo != NULL)
 												{
-													int port = g_pClientConfig->CLIENT_COMMUNICATION_UDP_PORT;
-
-													RequestUserInfo* pUserInfo = g_pRequestUserManager->GetUserInfo( pInfo->Name.GetString() );
-
-													if (pUserInfo!=NULL)
-													{
-														if (pUserInfo->UDPPort!=0)
-															port = pUserInfo->UDPPort;
-													}
-
-													g_pClientCommunicationManager->sendPacket( 
-															pInfo->IP, 
-															port, 
-															&_RCSay );
+													if (pUserInfo->UDPPort != 0)
+														port = pUserInfo->UDPPort;
 												}
-											}	
-										}
-									}
-									//-------------------------------------------------------
-									// npc 수 설정
-									//-------------------------------------------------------
-									else if (strcmp(pCommand, "npc")==0
-											|| strcmp(pLwrCommand, "npc")==0)
-									{
-										g_MaxNPC = atoi( pData );
-									}									
-									//-------------------------------------------------------
-									// ProfilerInfoName 설정
-									//-------------------------------------------------------
-									else if (strcmp(pCommand, "profileName")==0
-											|| strcmp(pLwrCommand, "profilename")==0)
-									{
-										if (g_pProfiler!=NULL)
-										{
-											g_ProfileInfoName = pData;
-										}
-									}
-									//-------------------------------------------------------
-									// ProfilerInfoName 설정
-									//-------------------------------------------------------
-									else if (strcmp(pCommand, "profileClear")==0
-											|| strcmp(pLwrCommand, "profileclear")==0)
-									{
-										if (g_pProfiler!=NULL)
-										{
-											g_pProfiler->Release();
-										}
-									}
-									//-------------------------------------------------------
-									// 감마 설정
-									//-------------------------------------------------------
-									else if (strcmp(pCommand, "gamma")==0
-											|| strcmp(pLwrCommand, "gamma")==0)
-									{
-										const char* pValue = pData;
 
-										int value = atoi( pValue );
-
-										if (value==999)
-										{
-											CDirectDraw::RestoreGammaRamp();
-										}
-										else
-										{
-											CDirectDraw::SetGammaRamp( value );
+												g_pClientCommunicationManager->sendPacket(
+													pInfo->IP,
+													port,
+													&_RCSay);
+											}
 										}
 									}
-									
-								#endif
+								}
+								//-------------------------------------------------------
+								// npc 수 설정
+								//-------------------------------------------------------
+								else if (strcmp(pCommand, "npc") == 0
+									|| strcmp(pLwrCommand, "npc") == 0)
+								{
+									g_MaxNPC = atoi(pData);
+								}
+								//-------------------------------------------------------
+								// ProfilerInfoName 설정
+								//-------------------------------------------------------
+								else if (strcmp(pCommand, "profileName") == 0
+									|| strcmp(pLwrCommand, "profilename") == 0)
+								{
+									if (g_pProfiler != NULL)
+									{
+										g_ProfileInfoName = pData;
+									}
+								}
+								//-------------------------------------------------------
+								// ProfilerInfoName 설정
+								//-------------------------------------------------------
+								else if (strcmp(pCommand, "profileClear") == 0
+									|| strcmp(pLwrCommand, "profileclear") == 0)
+								{
+									if (g_pProfiler != NULL)
+									{
+										g_pProfiler->Release();
+									}
+								}
+								//-------------------------------------------------------
+								// 감마 설정
+								//-------------------------------------------------------
+								else if (strcmp(pCommand, "gamma") == 0
+									|| strcmp(pLwrCommand, "gamma") == 0)
+								{
+									const char* pValue = pData;
+
+									int value = atoi(pValue);
+
+									if (value == 999)
+									{
+										CDirectDraw::RestoreGammaRamp();
+									}
+									else
+									{
+										CDirectDraw::SetGammaRamp(value);
+									}
+								}
+
+#endif
 							}
 						}
 						break;
@@ -3215,12 +3216,12 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 							static std::vector<std::string> vMasterCommand;
 							static std::string	strTempCommand;
 
-							char *pMessage = str;
+							char* pMessage = str;
 							bool bInvincible = g_pPlayer->GetInvincible();//static이여서 버그 나던거 수정
 
-							if(strcmp(str, "*iddqd") == 0 || strcmp(str, "*Tnrrkt") == 0 || strcmp(str, "*쑥갓") == 0)
+							if (strcmp(str, "*iddqd") == 0 || strcmp(str, "*Tnrrkt") == 0 || strcmp(str, "*쑥갓") == 0)
 							{
-								if(bInvincible == true)
+								if (bInvincible == true)
 									strTempCommand = "*command invincible off";
 								else
 									strTempCommand = "*command invincible on";
@@ -3228,51 +3229,51 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 
 								pMessage = const_cast<char*>(strTempCommand.c_str());
 							}
-							else if(strcmp(str, "*gaonashi") == 0 || strcmp(str, "*gaonasi") == 0 || strcmp(str, "*rkdhsktl") == 0 || strcmp(str, "*가오나시") == 0 || strcmp(str,"*ghost") == 0)
+							else if (strcmp(str, "*gaonashi") == 0 || strcmp(str, "*gaonasi") == 0 || strcmp(str, "*rkdhsktl") == 0 || strcmp(str, "*가오나시") == 0 || strcmp(str, "*ghost") == 0)
 							{
-								if(g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST))
+								if (g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST))
 									strTempCommand = "*command ghost off";
 								else
 									strTempCommand = "*command ghost on";
 								pMessage = const_cast<char*>(strTempCommand.c_str());
 							}
-							else if(strcmp(str, "*goes") == 0 )
+							else if (strcmp(str, "*goes") == 0)
 							{
 								strTempCommand = "*warp 8000 75 77";
 								pMessage = const_cast<char*>(strTempCommand.c_str());
 							}
-							else if(strncmp(str, "*mc", 3) == 0 && isdigit(str[4]))
+							else if (strncmp(str, "*mc", 3) == 0 && isdigit(str[4]))
 							{
-//								if(vMasterCommand.empty())
+								//								if(vMasterCommand.empty())
 								{
 									std::string filename = "MasterCommand";
 									filename += str[4];
 									filename += ".txt";
-									if(!_access(filename.c_str(), 0))
+									if (!_access(filename.c_str(), 0))
 									{
-										FILE *fp;
+										FILE* fp;
 
 										fp = fopen(filename.c_str(), "rt");
 
-										if(fp != NULL)
+										if (fp != NULL)
 										{
 											char szTemp[512];
-											while(fgets(szTemp, 512, fp))
+											while (fgets(szTemp, 512, fp))
 											{
-												if( strlen(szTemp) > 0 )
+												if (strlen(szTemp) > 0)
 												{
-													if(szTemp[strlen(szTemp)-1] == '\n')
-													szTemp[strlen(szTemp)-1] = '\0';
-													char *pszTemp = new char[strlen(szTemp)+1];
-													strcpy( pszTemp, szTemp );
-													
-													Execute_UI_CHAT_RETURN(left, right, (void *)pszTemp);
+													if (szTemp[strlen(szTemp) - 1] == '\n')
+														szTemp[strlen(szTemp) - 1] = '\0';
+													char* pszTemp = new char[strlen(szTemp) + 1];
+													strcpy(pszTemp, szTemp);
+
+													Execute_UI_CHAT_RETURN(left, right, (void*)pszTemp);
 												}
 
-//												CGSay _CGSay;
-//												_CGSay.setMessage( szTemp );	//pWansungString );
-//												_CGSay.setColor( right );
-//												g_pSocket->sendPacket( &_CGSay );
+												//												CGSay _CGSay;
+												//												_CGSay.setMessage( szTemp );	//pWansungString );
+												//												_CGSay.setColor( right );
+												//												g_pSocket->sendPacket( &_CGSay );
 											}
 										}
 										else
@@ -3286,9 +3287,9 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 									}
 								}
 							}
-							else if(strncmp(str, "*C2G", 4) == 0 )
+							else if (strncmp(str, "*C2G", 4) == 0)
 							{
-								if( strcmp(str+5, "on") == 0 )
+								if (strcmp(str + 5, "on") == 0)
 								{
 									g_C2G = 1;
 								}
@@ -3296,61 +3297,61 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 								{
 									g_C2G--;
 								}
-//								for( int grid_y = 0; grid_y < g_pInventory->GetHeight(); grid_y++ )
-//								for( int grid_x = 0; grid_x < g_pInventory->GetWidth(); grid_x++ )
-//								{
-//									C_VS_UI_INVENTORY::AutoMove( grid_x, grid_y );
-//									gpC_base->DispatchMessage();
-//								}
+								//								for( int grid_y = 0; grid_y < g_pInventory->GetHeight(); grid_y++ )
+								//								for( int grid_x = 0; grid_x < g_pInventory->GetWidth(); grid_x++ )
+								//								{
+								//									C_VS_UI_INVENTORY::AutoMove( grid_x, grid_y );
+								//									gpC_base->DispatchMessage();
+								//								}
 							}
-							else if( g_C2G > 0 && strncmp(str, "*create", 7 ) == 0 )
+							else if (g_C2G > 0 && strncmp(str, "*create", 7) == 0)
 							{
 								g_C2G++;
 							}
 
-//							{
-//								std::string aaaa[4];
-//								aaaa[0] = "*set war_active off";
-//								aaaa[1] = "*command removeRaceWar";
-//								aaaa[2] = "*set war_active on";
-//								aaaa[3] = "*set war_active off";
-//
-//								CGSay _CGSay;
-//
-//								_CGSay.setColor( right );
-//
-//								for(int i=0;i<4;i++)
-//								{
-//									_CGSay.setMessage( aaaa[i].c_str() );									
-//									g_pSocket->sendPacket( &_CGSay );
-//								}
-//							}
+							//							{
+							//								std::string aaaa[4];
+							//								aaaa[0] = "*set war_active off";
+							//								aaaa[1] = "*command removeRaceWar";
+							//								aaaa[2] = "*set war_active on";
+							//								aaaa[3] = "*set war_active off";
+							//
+							//								CGSay _CGSay;
+							//
+							//								_CGSay.setColor( right );
+							//
+							//								for(int i=0;i<4;i++)
+							//								{
+							//									_CGSay.setMessage( aaaa[i].c_str() );									
+							//									g_pSocket->sendPacket( &_CGSay );
+							//								}
+							//							}
 
 							bool bSay = true;
 #ifndef __METROTECH_TEST
-							if(g_pUserInformation->bCompetence == true && g_pUserInformation->bCompetenceShape != true)
+							if (g_pUserInformation->bCompetence == true && g_pUserInformation->bCompetenceShape != true)
 							{
-								if(g_pZoneTable->Get( g_pZone->GetID() )->CompetenceZone == true)
+								if (g_pZoneTable->Get(g_pZone->GetID())->CompetenceZone == true)
 								{
 								}
 								else
 								{
-									if(strstr(pMessage, "*command ghost off") != NULL)
+									if (strstr(pMessage, "*command ghost off") != NULL)
 										bSay = false;
 								}
 							}
 #endif
 
-							if(bSay == true)
+							if (bSay == true)
 							{
-//테스트 코드
+								//테스트 코드
 #if __CONTENTS(__AUTO_ITEM_ROOTING)
-								if(g_pPlayer != NULL)
+								if (g_pPlayer != NULL)
 								{
 									memset((char*)g_pPlayer->arrchRootingTest, NULL, sizeof(g_pPlayer->arrchRootingTest));
 
 									strcat(g_pPlayer->arrchRootingTest, str);
-									if(strstr(g_pPlayer->arrchRootingTest, "*command autoItemRooting") == NULL)
+									if (strstr(g_pPlayer->arrchRootingTest, "*command autoItemRooting") == NULL)
 									{
 										memset((char*)g_pPlayer->arrchSummon, NULL, sizeof(g_pPlayer->arrchRootingTest));
 										strcat(g_pPlayer->arrchSummon, str);
@@ -3359,11 +3360,11 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 #endif // __AUTO_ITEM_ROOTING
 
 								CGSay _CGSay;
-								_CGSay.setMessage( pMessage );	//pWansungString );
-								_CGSay.setColor( right );
-								g_pSocket->sendPacket( &_CGSay );
-								
-//								UI_AddChatToHistory( pMessage, g_pUserInformation->CharacterID.GetString(), CLD_NORMAL, right );
+								_CGSay.setMessage(pMessage);	//pWansungString );
+								_CGSay.setColor(right);
+								g_pSocket->sendPacket(&_CGSay);
+
+								//								UI_AddChatToHistory( pMessage, g_pUserInformation->CharacterID.GetString(), CLD_NORMAL, right );
 							}
 							break;
 						}
@@ -3373,7 +3374,7 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 						//	일반 대화
 						//
 						//------------------------------------------------------------
-						default :
+						default:
 						{
 							//------------------------------
 							// 숨어 있을때는 말 못한다.
@@ -3381,15 +3382,15 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 							//------------------------------
 							if (g_pPlayer->IsUndergroundCreature()
 								|| g_pPlayer->IsInCasket()
-								|| g_pPlayer->GetCreatureType()==CREATURETYPE_BAT
-								|| g_pPlayer->GetCreatureType()==CREATURETYPE_VAMPIRE_GHOST
-								|| g_pPlayer->GetCreatureType()==CREATURETYPE_WOLF
-								|| g_pPlayer->GetCreatureType()==CREATURETYPE_WER_WOLF
+								|| g_pPlayer->GetCreatureType() == CREATURETYPE_BAT
+								|| g_pPlayer->GetCreatureType() == CREATURETYPE_VAMPIRE_GHOST
+								|| g_pPlayer->GetCreatureType() == CREATURETYPE_WOLF
+								|| g_pPlayer->GetCreatureType() == CREATURETYPE_WER_WOLF
 #if __CONTENTS(__FAST_TRANSFORTER)
-									|| g_pPlayer->GetCreatureType()==CREATURETYPE_FLITTERMOUSE
+								|| g_pPlayer->GetCreatureType() == CREATURETYPE_FLITTERMOUSE
 #endif //__FAST_TRANSFORTER
 #if __CONTENTS(__SECOND_TRANSFORTER)
-									|| g_pPlayer->GetCreatureType()==CREATURETYPE_SHAPE_OF_DEMON
+								|| g_pPlayer->GetCreatureType() == CREATURETYPE_SHAPE_OF_DEMON
 #endif //__SECOND_TRANSFORTER
 								)
 							{
@@ -3397,42 +3398,42 @@ UIMessageManager::Execute_UI_CHAT_RETURN(int left, int right, void* void_ptr)
 								//char temp[128];
 								//sprintf(temp, "[%s] .....", g_pUserInformation->CharacterID.GetString());
 								//UI_AddChatToHistory( temp );
-								UI_AddChatToHistory( ".....", g_pUserInformation->CharacterID.GetString(), CLD_NORMAL, right );
+								UI_AddChatToHistory(".....", g_pUserInformation->CharacterID.GetString(), CLD_NORMAL, right);
 							}
 							else
 							{
 								CGSay _CGSay;
-								_CGSay.setMessage( str );	//pWansungString );
-								_CGSay.setColor( right );
-								g_pSocket->sendPacket( &_CGSay );
+								_CGSay.setMessage(str);	//pWansungString );
+								_CGSay.setColor(right);
+								g_pSocket->sendPacket(&_CGSay);
 
-									
+
 								// Player의 Chat pWansungStringing에 추가
-								g_pPlayer->SetChatString( str, right );
+								g_pPlayer->SetChatString(str, right);
 
 								// history에 추가
 								//char temp[256];
 								//sprintf(temp, "%s> %s", g_pUserInformation->CharacterID.GetString(), str);
 								//UI_AddChatToHistory( temp );
-								UI_AddChatToHistory( str, g_pUserInformation->CharacterID.GetString(), CLD_NORMAL, right );
+								UI_AddChatToHistory(str, g_pUserInformation->CharacterID.GetString(), CLD_NORMAL, right);
 							}
-						}	
-						
+						}
+
 						//delete [] str;
 						//delete [] pWansungString;
-					}
+						}
 				}
 			}
 
 			DeleteNewArray(strOrg);
-		}					
+		}
 	}
 
 	DeleteNewArray(void_ptr);
 
-//	__BEGIN_HELP_EVENT
-		ExecuteHelpEvent( HELP_EVENT_CHAT );
-//	__END_HELP_EVENT
+	//	__BEGIN_HELP_EVENT
+	ExecuteHelpEvent(HELP_EVENT_CHAT);
+	//	__END_HELP_EVENT
 
 }
 
@@ -3447,26 +3448,26 @@ UIMessageManager::Execute_UI_LOGOUT(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_LOGOUT");
 
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
-	
+
 	if (g_pPlayer->IsWaitVerify())
 	{
 		DEBUG_ADD_FORMAT("WaitVerify %d", g_pPlayer->GetWaitVerify());
 		return;
 	}
-	
+
 	//-------------------------------------------------------------------
 	// Logout 시간이 설정되어 있지 않으면 설정하고
 	// 설정되어있다면 남은 시간을 출력해준다.
 	//-------------------------------------------------------------------
-	int zoneID	= (g_bZonePlayerInLarge?g_nZoneLarge : g_nZoneSmall);
+	int zoneID = (g_bZonePlayerInLarge ? g_nZoneLarge : g_nZoneSmall);
 
 	//ZONETABLE_INFO* pZoneInfo = g_pZoneTable->Get( zoneID );
-	
+
 	//-------------------------------------------------------------------
 	// 안전지대면 바로 logout시킨다.
 	// 자기 혼자 있을때..
@@ -3488,17 +3489,17 @@ UIMessageManager::Execute_UI_LOGOUT(int left, int right, void* void_ptr)
 	//-------------------------------------------------------------------
 	// 아니면 5초후 logout 시킨다.
 	//-------------------------------------------------------------------
-	else if (g_pPlayer!=NULL && g_pPlayer->IsAlive())
-	{		
+	else if (g_pPlayer != NULL && g_pPlayer->IsAlive())
+	{
 		if (g_pUserInformation->LogoutTime == 0)
 		{
 			// 5초 후 강제 Logout 시킨다.
-			
-			#ifdef _DEBUG
-				g_pUserInformation->LogoutTime = g_CurrentTime + 2000;
-			#else
-				g_pUserInformation->LogoutTime = g_CurrentTime + 5000;
-			#endif
+
+#ifdef _DEBUG
+			g_pUserInformation->LogoutTime = g_CurrentTime + 2000;
+#else
+			g_pUserInformation->LogoutTime = g_CurrentTime + 5000;
+#endif
 
 			MEvent event;
 			event.eventID = EVENTID_LOGOUT;
@@ -3510,7 +3511,7 @@ UIMessageManager::Execute_UI_LOGOUT(int left, int right, void* void_ptr)
 			g_pEventManager->AddEvent(event);
 
 			g_pPlayer->SetWaitVerify(MPlayer::WAIT_VERIFY_LOGOUT);
-//			g_pSystemMessage->AddFormat((*g_pGameStringTable)[STRING_MESSAGE_LOGOUT_AFTER_SECOND].GetString(), 5);
+			//			g_pSystemMessage->AddFormat((*g_pGameStringTable)[STRING_MESSAGE_LOGOUT_AFTER_SECOND].GetString(), 5);
 		}
 		else if (g_pUserInformation->LogoutTime > g_CurrentTime)
 		{
@@ -3520,15 +3521,15 @@ UIMessageManager::Execute_UI_LOGOUT(int left, int right, void* void_ptr)
 			{
 				MEvent event;
 				event.eventID = EVENTID_LOGOUT;
-				event.eventDelay = sec*1000;
+				event.eventDelay = sec * 1000;
 				event.eventFlag = EVENTFLAG_SHOW_DELAY_STRING;
 				event.eventType = EVENTTYPE_ZONE;
 				event.m_StringsID.push_back(STRING_MESSAGE_LOGOUT_AFTER_SECOND);
-				
+
 				g_pEventManager->AddEvent(event);
 				g_pPlayer->SetWaitVerify(MPlayer::WAIT_VERIFY_LOGOUT);
 
-//				g_pSystemMessage->AddFormat((*g_pGameStringTable)[STRING_MESSAGE_LOGOUT_AFTER_SECOND].GetString(), sec);
+				//				g_pSystemMessage->AddFormat((*g_pGameStringTable)[STRING_MESSAGE_LOGOUT_AFTER_SECOND].GetString(), sec);
 			}
 		}
 
@@ -3539,10 +3540,10 @@ UIMessageManager::Execute_UI_LOGOUT(int left, int right, void* void_ptr)
 	//-------------------------------------------------------------------
 	else
 	{
-		g_pSystemMessage->Add( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_LOGOUT_DIED].GetString() );
+		g_pSystemMessage->Add((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_LOGOUT_DIED].GetString());
 
 		gC_vs_ui.HotKey_ESC();
-	}	
+	}
 }
 
 #if __CONTENTS(__080405_FIREST_UI_UPDATE)
@@ -3556,26 +3557,26 @@ UIMessageManager::Execute_UI_QUITEXIT(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_LOGOUT");
 
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
-	
+
 	if (g_pPlayer->IsWaitVerify())
 	{
 		DEBUG_ADD_FORMAT("WaitVerify %d", g_pPlayer->GetWaitVerify());
 		return;
 	}
-	
+
 	//-------------------------------------------------------------------
 	// Logout 시간이 설정되어 있지 않으면 설정하고
 	// 설정되어있다면 남은 시간을 출력해준다.
 	//-------------------------------------------------------------------
-	int zoneID	= (g_bZonePlayerInLarge?g_nZoneLarge : g_nZoneSmall);
+	int zoneID = (g_bZonePlayerInLarge ? g_nZoneLarge : g_nZoneSmall);
 
 	//ZONETABLE_INFO* pZoneInfo = g_pZoneTable->Get( zoneID );
-	
+
 	//-------------------------------------------------------------------
 	// 안전지대면 바로 logout시킨다.
 	// 자기 혼자 있을때..
@@ -3597,17 +3598,17 @@ UIMessageManager::Execute_UI_QUITEXIT(int left, int right, void* void_ptr)
 	//-------------------------------------------------------------------
 	// 아니면 5초후 logout 시킨다.
 	//-------------------------------------------------------------------
-	else if (g_pPlayer!=NULL && g_pPlayer->IsAlive())
-	{		
+	else if (g_pPlayer != NULL && g_pPlayer->IsAlive())
+	{
 		if (g_pUserInformation->QuitExitTime == 0)
 		{
 			// 5초 후 강제 Logout 시킨다.
-			
-			#ifdef _DEBUG
-				g_pUserInformation->QuitExitTime = g_CurrentTime + 2000;
-			#else
-				g_pUserInformation->QuitExitTime = g_CurrentTime + 5000;
-			#endif
+
+#ifdef _DEBUG
+			g_pUserInformation->QuitExitTime = g_CurrentTime + 2000;
+#else
+			g_pUserInformation->QuitExitTime = g_CurrentTime + 5000;
+#endif
 
 			MEvent event;
 			event.eventID = EVENTID_LOGOUT;
@@ -3619,7 +3620,7 @@ UIMessageManager::Execute_UI_QUITEXIT(int left, int right, void* void_ptr)
 			g_pEventManager->AddEvent(event);
 
 			g_pPlayer->SetWaitVerify(MPlayer::WAIT_VERIFY_LOGOUT);
-//			g_pSystemMessage->AddFormat((*g_pGameStringTable)[STRING_MESSAGE_QUITEXIT_AFTER_SECOND].GetString(), 5);
+			//			g_pSystemMessage->AddFormat((*g_pGameStringTable)[STRING_MESSAGE_QUITEXIT_AFTER_SECOND].GetString(), 5);
 		}
 		else if (g_pUserInformation->QuitExitTime > g_CurrentTime)
 		{
@@ -3629,15 +3630,15 @@ UIMessageManager::Execute_UI_QUITEXIT(int left, int right, void* void_ptr)
 			{
 				MEvent event;
 				event.eventID = EVENTID_LOGOUT;
-				event.eventDelay = sec*1000;
+				event.eventDelay = sec * 1000;
 				event.eventFlag = EVENTFLAG_SHOW_DELAY_STRING;
 				event.eventType = EVENTTYPE_ZONE;
 				event.m_StringsID.push_back(STRING_MESSAGE_QUITEXIT_AFTER_SECOND);
-				
+
 				g_pEventManager->AddEvent(event);
 				g_pPlayer->SetWaitVerify(MPlayer::WAIT_VERIFY_LOGOUT);
 
-//				g_pSystemMessage->AddFormat((*g_pGameStringTable)[STRING_MESSAGE_QUITEXIT_AFTER_SECOND].GetString(), sec);
+				//				g_pSystemMessage->AddFormat((*g_pGameStringTable)[STRING_MESSAGE_QUITEXIT_AFTER_SECOND].GetString(), sec);
 			}
 		}
 
@@ -3648,10 +3649,10 @@ UIMessageManager::Execute_UI_QUITEXIT(int left, int right, void* void_ptr)
 	//-------------------------------------------------------------------
 	else
 	{
-		g_pSystemMessage->Add( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_LOGOUT_DIED].GetString() );
+		g_pSystemMessage->Add((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_LOGOUT_DIED].GetString());
 
 		gC_vs_ui.HotKey_ESC();
-	}	
+	}
 }
 #endif //__080405_FIREST_UI_UPDATE
 
@@ -3665,7 +3666,7 @@ UIMessageManager::Execute_UI_SELECT_SKILL(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD_FORMAT("[UI] UI_SELECT_SKILL(%d)", left);
 
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
@@ -3674,14 +3675,14 @@ UIMessageManager::Execute_UI_SELECT_SKILL(int left, int right, void* void_ptr)
 	//
 	// dw_left = Skill ID
 	//
-	if (g_pPlayer!=NULL)
+	if (g_pPlayer != NULL)
 	{
 		//left = SKILL_OUSTERS_COMBO ; 
 
 		//if(gC_vs_ui.IsRunningPersnalShop()  && left == SKILL_LOVE_CHAIN)	return ; 
 
-		g_pPlayer->SetSpecialActionInfo( left );
-		
+		g_pPlayer->SetSpecialActionInfo(left);
+
 		// 반복동작중에 actionCount가 이상해지는 경우가 있어서
 		// 이거 해야되는데.. 기술쓸때 답답하다는 이유로.. 일단.. - -;
 		//g_pPlayer->UnSetRepeatAction();
@@ -3703,7 +3704,7 @@ UIMessageManager::Execute_UI_CANCEL_SELECT_SKILL(int left, int right, void* void
 {
 	DEBUG_ADD("[UI] UI_CANCEL_SELECT_SKILL");
 
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
@@ -3712,7 +3713,7 @@ UIMessageManager::Execute_UI_CANCEL_SELECT_SKILL(int left, int right, void* void
 	//
 	// Skill 선택 취소.
 	//
-	if (g_pPlayer!=NULL)
+	if (g_pPlayer != NULL)
 	{
 		g_pPlayer->SetSpecialActionInfoNULL();
 	}
@@ -3726,20 +3727,20 @@ bool IsExistCorpseFromPlayer(MCreature* OriginCreature, int creature_type)
 	sx = OriginCreature->GetX();
 	sy = OriginCreature->GetY();
 
-	for(int i=-1;i<=1;i++)
+	for (int i = -1; i <= 1; i++)
 	{
-		for(int j=-1;j<=1;j++)
+		for (int j = -1; j <= 1; j++)
 		{
-			if( sx+i < 0 || sy + j < 0 || sx+i >= g_pZone->GetWidth() || sy+j >= g_pZone->GetHeight() )
+			if (sx + i < 0 || sy + j < 0 || sx + i >= g_pZone->GetWidth() || sy + j >= g_pZone->GetHeight())
 				continue;
 
-			const MSector& sector = g_pZone->GetSector( sx+i, sy+j );
+			const MSector& sector = g_pZone->GetSector(sx + i, sy + j);
 			MItem* pItem = sector.GetItem();
-			
-			if( pItem != NULL && pItem->GetItemClass() == ITEM_CLASS_CORPSE)
+
+			if (pItem != NULL && pItem->GetItemClass() == ITEM_CLASS_CORPSE)
 			{
 				MCreature* pCreature = (dynamic_cast<MCorpse*>(pItem))->GetCreature();
-				if( pCreature != NULL && pCreature->GetCreatureType() == creature_type )
+				if (pCreature != NULL && pCreature->GetCreatureType() == creature_type)
 					return true;
 			}
 		}
@@ -3758,7 +3759,7 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_CLIENT(int left, int right, void* void
 {
 	DEBUG_ADD("[UI] UI_ITEM_DROP_TO_CLIENT");
 
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
@@ -3770,15 +3771,15 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_CLIENT(int left, int right, void* void
 	// 나를 주변으로 3타일을 검사한다.		
 	// 깃발 아이템이 아니면 검사한다.
 
-	if(!( pItem != NULL && pItem->GetItemClass() == ITEM_CLASS_EVENT_ITEM && pItem->GetItemType() == 27 ) )
+	if (!(pItem != NULL && pItem->GetItemClass() == ITEM_CLASS_EVENT_ITEM && pItem->GetItemType() == 27))
 	{
-		if( IsExistCorpseFromPlayer( dynamic_cast<MCreature*>( g_pPlayer ), 670 ) )
+		if (IsExistCorpseFromPlayer(dynamic_cast<MCreature*>(g_pPlayer), 670))
 		{
-			g_pSystemMessage->Add( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_DROP_ITEM_BY_FLAG].GetString() );
+			g_pSystemMessage->Add((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_DROP_ITEM_BY_FLAG].GetString());
 			return;
 		}
 	}
-				
+
 	if (!g_bWatchMode
 		// 교환 중에는 버릴 수 없다.
 		&& !UI_IsRunningExchange()
@@ -3787,16 +3788,16 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_CLIENT(int left, int right, void* void
 	{
 		//void_ptr = MItem *
 
-		if( pItem != NULL && 
-				(
-					gC_vs_ui.IsRunningRemoveOptionFromRareItem() && pItem->GetItemClass() == ITEM_CLASS_MIXING_ITEM 
+		if (pItem != NULL &&
+			(
+				gC_vs_ui.IsRunningRemoveOptionFromRareItem() && pItem->GetItemClass() == ITEM_CLASS_MIXING_ITEM
 				)
 			)
-//			pItem != NULL && pItem->GetItemClass() == ITEM_CLASS_QUEST_ITEM && pItem->GetItemType() == 4 )
+			//			pItem != NULL && pItem->GetItemClass() == ITEM_CLASS_QUEST_ITEM && pItem->GetItemType() == 4 )
 			return;
-				
+
 		if (pItem != NULL && (pItem->GetItemClass() == ITEM_CLASS_RELIC ||
-			pItem->GetItemClass() == ITEM_CLASS_BLOOD_BIBLE || 
+			pItem->GetItemClass() == ITEM_CLASS_BLOOD_BIBLE ||
 			pItem->GetItemClass() == ITEM_CLASS_CASTLE_SYMBOL ||
 			pItem->GetItemClass() == ITEM_CLASS_EVENT_ITEM && (pItem->GetItemType() == 27 || pItem->GetItemType() == 31) ||
 			pItem->GetItemClass() == ITEM_CLASS_SWEEPER || pItem->GetItemClass() == ITEM_CLASS_PET_FOOD
@@ -3805,18 +3806,18 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_CLIENT(int left, int right, void* void
 			// 성물을 성물 보관대에 클릭하면 ??-_-;
 			int CreatureID = g_pTopView->GetSelectedCreature();
 
-			MCreature *pCreature = NULL;
+			MCreature* pCreature = NULL;
 			bool		bCorpse = false;
 
-			if(CreatureID == -1)
+			if (CreatureID == -1)
 			{
 				CreatureID = g_pTopView->GetSelectedItemID();
-				MItem *selectedItem = g_pZone->GetItem(CreatureID);
-				if(selectedItem != NULL)
+				MItem* selectedItem = g_pZone->GetItem(CreatureID);
+				if (selectedItem != NULL)
 				{
-					if(selectedItem->GetItemClass() == ITEM_CLASS_CORPSE)
+					if (selectedItem->GetItemClass() == ITEM_CLASS_CORPSE)
 					{
-						MCorpse *pCorpse = (MCorpse *)selectedItem;
+						MCorpse* pCorpse = (MCorpse*)selectedItem;
 						pCreature = pCorpse->GetCreature();
 						bCorpse = true;
 					}
@@ -3824,29 +3825,29 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_CLIENT(int left, int right, void* void
 			}
 			else
 			{
-//				((g_pPlayer->IsSlayer() && pCreature->GetCreatureType() >= 371 && pCreature->GetCreatureType() <= 373)
-//				|| (g_pPlayer->IsVampire() && pCreature->GetCreatureType() >= 374 && pCreature->GetCreatureType() <= 376))
+				//				((g_pPlayer->IsSlayer() && pCreature->GetCreatureType() >= 371 && pCreature->GetCreatureType() <= 373)
+				//				|| (g_pPlayer->IsVampire() && pCreature->GetCreatureType() >= 374 && pCreature->GetCreatureType() <= 376))
 				pCreature = g_pZone->GetCreature(CreatureID);
 			}
 
-			if(g_pPlayer->IsItemCheckBufferNULL() && pCreature != NULL)
+			if (g_pPlayer->IsItemCheckBufferNULL() && pCreature != NULL)
 			{
-				if(bCorpse)	// 시체에 아이템을 넣쟈
+				if (bCorpse)	// 시체에 아이템을 넣쟈
 				{
-					if(pCreature->GetCreatureType() >= 371 && pCreature->GetCreatureType() <= 376 || 
+					if (pCreature->GetCreatureType() >= 371 && pCreature->GetCreatureType() <= 376 ||
 						pCreature->GetCreatureType() >= 560 && pCreature->GetCreatureType() <= 563 ||
 						pCreature->GetCreatureType() >= 526 && pCreature->GetCreatureType() <= 549 ||
-						pCreature->GetCreatureType() == 670	&& pItem->GetItemClass() == ITEM_CLASS_EVENT_ITEM || // 깃발일경우
+						pCreature->GetCreatureType() == 670 && pItem->GetItemClass() == ITEM_CLASS_EVENT_ITEM || // 깃발일경우
 						pCreature->GetCreatureType() == 672 && pItem->GetItemClass() == ITEM_CLASS_SWEEPER
-					)
+						)
 					{
-						if(abs(g_pPlayer->GetX()-pCreature->GetX()) < 3 && abs(g_pPlayer->GetY()-pCreature->GetY()) < 3)
+						if (abs(g_pPlayer->GetX() - pCreature->GetX()) < 3 && abs(g_pPlayer->GetY() - pCreature->GetY()) < 3)
 						{
 							CGRelicToObject _CGRelicToObject;
 							_CGRelicToObject.setItemObjectID(pItem->GetID());
 							_CGRelicToObject.setObjectID(CreatureID);
-							g_pSocket->sendPacket( &_CGRelicToObject );
-							g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_DROP_TO_RELICTABLE );
+							g_pSocket->sendPacket(&_CGRelicToObject);
+							g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_DROP_TO_RELICTABLE);
 						}
 						else
 						{
@@ -3857,15 +3858,15 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_CLIENT(int left, int right, void* void
 				}
 				else	// 몬스터에 아이템을 넣쟈
 				{
-					if(pItem->GetItemClass() == ITEM_CLASS_PET_FOOD &&
+					if (pItem->GetItemClass() == ITEM_CLASS_PET_FOOD &&
 						pCreature->GetCreatureType() == 687 && pItem->GetNumber() == 1)	// 나중에 크리쳐 타입을 넣어주쟈
 					{
-						if(abs(g_pPlayer->GetX()-pCreature->GetX()) < 3 && abs(g_pPlayer->GetY()-pCreature->GetY()) < 3)
+						if (abs(g_pPlayer->GetX() - pCreature->GetX()) < 3 && abs(g_pPlayer->GetY() - pCreature->GetY()) < 3)
 						{
 							CGTameMonster _CGTameMonster;
 							_CGTameMonster.setObjectID(CreatureID);
-							g_pSocket->sendPacket( &_CGTameMonster );
-							g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_DROP_TO_CREATURE );
+							g_pSocket->sendPacket(&_CGTameMonster);
+							g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_DROP_TO_CREATURE);
 						}
 						else
 						{
@@ -3874,14 +3875,14 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_CLIENT(int left, int right, void* void
 						return;
 					}
 					// 퀘스트용 생명의 나선 아이템 일 때
-					else if(pItem->GetItemClass() == ITEM_CLASS_EVENT_ITEM && pItem->GetItemType() == 31 &&
+					else if (pItem->GetItemClass() == ITEM_CLASS_EVENT_ITEM && pItem->GetItemType() == 31 &&
 						(pCreature->GetCreatureType() == 793 || pCreature->GetCreatureType() == 794 || pCreature->GetCreatureType() == 795))
 					{
 						CGRelicToObject _CGRelicToObject;
 						_CGRelicToObject.setItemObjectID(pItem->GetID());
 						_CGRelicToObject.setObjectID(CreatureID);
-						g_pSocket->sendPacket( &_CGRelicToObject );
-						g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_DROP_TO_RELICTABLE );
+						g_pSocket->sendPacket(&_CGRelicToObject);
+						g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_DROP_TO_RELICTABLE);
 						pCreature->RemoveCauseCriticalWoundsEffect();
 
 					}
@@ -3896,81 +3897,81 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_CLIENT(int left, int right, void* void
 
 
 		/*
-		if (pItem!=NULL 
+		if (pItem!=NULL
 			&& !pItem->IsQuestItem()
 			&& g_pPlayer->IsItemCheckBufferNULL()
 			// 빨간색 Event GiftBox 아이템인 경우 못 버린다.
 			&& !(pItem->GetItemClass()==ITEM_CLASS_EVENT_GIFT_BOX&& pItem->GetItemType()==1)
 			&& !(pItem->GetItemClass()==ITEM_CLASS_COUPLE_RING)
-			&& !(pItem->GetItemClass()==ITEM_CLASS_OUSTERS_HARMONIC_PENDENT) 
-			
-			&& !(pItem->GetItemClass()==ITEM_CLASS_VAMPIRE_COUPLE_RING 
+			&& !(pItem->GetItemClass()==ITEM_CLASS_OUSTERS_HARMONIC_PENDENT)
+
+			&& !(pItem->GetItemClass()==ITEM_CLASS_VAMPIRE_COUPLE_RING
 			&& (pItem->GetItemClass() == ITEM_CLASS_CODE_SHEET && !gC_vs_ui.IsRunningQuestInventory() ) )
 			&& !(pItem->GetItemClass() == ITEM_CLASS_LUCKY_BAG && pItem->GetItemType() == 3)
 			&& !(pItem->GetItemClass() == ITEM_CLASS_EVENT_ITEM && (pItem->GetItemType() == 28||pItem->GetItemType() == 31))
-			
+
 
 			// sjheon 풍선 머리띠  이벤트 아이템인 경우 못 버린다. 2005.05.02 Add
-			//&& !(pItem->GetItemClass() == ITEM_CLASS_EVENT_ETC && (pItem->GetItemType() == 18))		// 패밀리 코인 
-			&& !(pItem->GetItemClass() == ITEM_CLASS_EVENT_ITEM && (pItem->GetItemType() >= 32 && pItem->GetItemType() <= 36))		// 풍선 머리띠 
-			&& !(pItem->GetItemClass() == ITEM_CLASS_SLAYER_PORTAL_ITEM) 		// 무전기 
-			// sjheon 봄나들이 이벤트 아이템인 경우 못 버린다. 2005.05.02 End 
-			// Sjheon 2006.03.08 
-			&& !(pItem->GetItemClass() == ITEM_CLASS_COMMON_QUEST_ITEM)  
-			&& !(pItem->GetItemClass() == ITEM_CLASS_ETHEREAL_CHAIN) 
-			&& !(pItem->GetItemClass() == ITEM_CLASS_CHECK_MONEY) 
+			//&& !(pItem->GetItemClass() == ITEM_CLASS_EVENT_ETC && (pItem->GetItemType() == 18))		// 패밀리 코인
+			&& !(pItem->GetItemClass() == ITEM_CLASS_EVENT_ITEM && (pItem->GetItemType() >= 32 && pItem->GetItemType() <= 36))		// 풍선 머리띠
+			&& !(pItem->GetItemClass() == ITEM_CLASS_SLAYER_PORTAL_ITEM) 		// 무전기
+			// sjheon 봄나들이 이벤트 아이템인 경우 못 버린다. 2005.05.02 End
+			// Sjheon 2006.03.08
+			&& !(pItem->GetItemClass() == ITEM_CLASS_COMMON_QUEST_ITEM)
+			&& !(pItem->GetItemClass() == ITEM_CLASS_ETHEREAL_CHAIN)
+			&& !(pItem->GetItemClass() == ITEM_CLASS_CHECK_MONEY)
 
 			&& !(pItem->GetItemClass() == ITEM_CLASS_EVENT_GIFT_BOX && (pItem->GetItemType() == 27))		//감사의 선물 상자
 			&& !(pItem->GetItemClass() == ITEM_CLASS_EFFECT_ITEM && (pItem->GetItemType() >= 20 && pItem->GetItemType() <= 23))		// // 광폭의 향 ~ 철벽의 향
 			)
 			*/
 
-		//-----------------------------------------------------------------
-		// 검증받을 게 없는 경우
-		//-----------------------------------------------------------------
-		if(pItem != NULL && !pItem->IsQuestItem() && g_pPlayer->IsItemCheckBufferNULL() &&
-		   (
+			//-----------------------------------------------------------------
+			// 검증받을 게 없는 경우
+			//-----------------------------------------------------------------
+		if (pItem != NULL && !pItem->IsQuestItem() && g_pPlayer->IsItemCheckBufferNULL() &&
+			(
 #if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-		   !pItem->GetCashItem() && 
+				!pItem->GetCashItem() &&
 #endif
-		   !pItem->GetItemMoveContorl().GetAttr(ITEMMOVE_CANNOT_DROP) || // 못 버리는 아이템은 패스
-		    pItem->GetItemClass() == ITEM_CLASS_CODE_SHEET && !gC_vs_ui.IsRunningQuestInventory())
+				!pItem->GetItemMoveContorl().GetAttr(ITEMMOVE_CANNOT_DROP) || // 못 버리는 아이템은 패스
+				pItem->GetItemClass() == ITEM_CLASS_CODE_SHEET && !gC_vs_ui.IsRunningQuestInventory())
 			) // 코드 시트는 어쩔 수 없다. -_-;;
 		{
 			//-----------------------------------------------------------------------
 			// 교환중이 아닐 때만 떨어뜨린다.
 			//-----------------------------------------------------------------------
-			if (g_pTradeManager==NULL)
+			if (g_pTradeManager == NULL)
 			{
+				//---------------------------------------------------
+				// item을 가지고 검증받을 일이 없는 경우..
+				//---------------------------------------------------
+				//if (g_pPlayer->IsItemCheckBufferNULL())
+				{
 					//---------------------------------------------------
-					// item을 가지고 검증받을 일이 없는 경우..
+					// Server로 item을 떨어뜨린다는 packet을 보낸다.
+					// 실제로 떨어지는 것은.. 
+					// server에서 item을 zone으로 추가한 경우이다.
 					//---------------------------------------------------
-					//if (g_pPlayer->IsItemCheckBufferNULL())
-					{
-						//---------------------------------------------------
-						// Server로 item을 떨어뜨린다는 packet을 보낸다.
-						// 실제로 떨어지는 것은.. 
-						// server에서 item을 zone으로 추가한 경우이다.
-						//---------------------------------------------------
-						CGAddMouseToZone _CGAddMouseToZone;
-						_CGAddMouseToZone.setObjectID( pItem->GetID() );
+					CGAddMouseToZone _CGAddMouseToZone;
+					_CGAddMouseToZone.setObjectID(pItem->GetID());
 
-						g_pSocket->sendPacket( &_CGAddMouseToZone );
+					g_pSocket->sendPacket(&_CGAddMouseToZone);
 
-						
-						//---------------------------------------------------
-						// 이 부분은.. 나중에 AddNewItem을 받고 해야하는게 아닐까..
-						// timing 문제가 애매하다.
-						//---------------------------------------------------
-						// mouse에서 item을 없애고
-						//gC_vs_ui.DropItem();
 
-						// buffer에 item을 저장해둔다. (새로운 item을 생성한다)
-						g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_DROP_TO_ZONE );
+					//---------------------------------------------------
+					// 이 부분은.. 나중에 AddNewItem을 받고 해야하는게 아닐까..
+					// timing 문제가 애매하다.
+					//---------------------------------------------------
+					// mouse에서 item을 없애고
+					//gC_vs_ui.DropItem();
 
-						// item을 삭제한다.
-						//delete pItem;
-					}
+					// buffer에 item을 저장해둔다. (새로운 item을 생성한다)
+					g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_DROP_TO_ZONE);
+
+					// item을 삭제한다.
+					//delete pItem;
+				}
 
 			}
 			//-----------------------------------------------------------------------
@@ -3986,12 +3987,12 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_CLIENT(int left, int right, void* void
 		//-----------------------------------------------------------------
 		else
 		{
-			DEBUG_ADD( "[Error] There is another item in ItemCheckBuffer or Mouse NULL");
+			DEBUG_ADD("[Error] There is another item in ItemCheckBuffer or Mouse NULL");
 		}
 	}
 	else
 	{
-		DEBUG_ADD( "Can't Drop");
+		DEBUG_ADD("Can't Drop");
 	}
 }
 
@@ -4005,8 +4006,8 @@ void
 UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_ITEM_DROP_TO_INVENTORY");
-	
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
@@ -4021,22 +4022,22 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY(int left, int right, void* v
 
 	// pMouseItem을 pItem과 바꾸던지..
 	// pMouseItem이 그냥 들어가던지...
-	
-	BOOL bAcceptMyTrade = (g_pTradeManager!=NULL && g_pTradeManager->IsAcceptMyTrade());
-	BOOL bAcceptOtherTrade = (g_pTradeManager!=NULL && g_pTradeManager->IsAcceptOtherTrade());
+
+	BOOL bAcceptMyTrade = (g_pTradeManager != NULL && g_pTradeManager->IsAcceptMyTrade());
+	BOOL bAcceptOtherTrade = (g_pTradeManager != NULL && g_pTradeManager->IsAcceptOtherTrade());
 
 	//-----------------------------------------------------------------
 	// 검증받을게 없는 경우
 	//-----------------------------------------------------------------
-	if (g_pPlayer->IsItemCheckBufferNULL() && pMouseItem!=NULL
-		&& g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
-	{		
+	if (g_pPlayer->IsItemCheckBufferNULL() && pMouseItem != NULL
+		&& g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
+	{
 		BOOL bSendPacketTradeRemove = FALSE;	// 기존에꺼 제거
 		BOOL bSendPacket = TRUE;				// mouse --> inventory
 		BOOL bSendPacketTradeAdd = FALSE;		// 추가된거 교환할걸로 설정
-		
+
 		TYPE_OBJECTID removeItemID = OBJECTID_NULL;
-		TYPE_OBJECTID toInventoryItemID = (pMouseItem==NULL)? OBJECTID_NULL : pMouseItem->GetID();
+		TYPE_OBJECTID toInventoryItemID = (pMouseItem == NULL) ? OBJECTID_NULL : pMouseItem->GetID();
 
 		//---------------------------------------------------
 		// 교환 상태에서는 검증받아야 한다.
@@ -4045,24 +4046,24 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY(int left, int right, void* v
 		{
 			if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL
 				&& g_pPlayer->IsItemCheckBufferNULL())
-			{	
+			{
 				g_pTempInformation->SetMode(TempInformation::MODE_TRADE_VERIFY_DROP_TO_INVENTORY);
 				g_pTempInformation->Value1 = pMouseItem->GetID();
 				g_pTempInformation->Value2 = left;
 				g_pTempInformation->Value3 = right;
 				g_pTempInformation->pValue = pMouseItem;
 
-				g_pPlayer->SetItemCheckBuffer( pMouseItem, MPlayer::ITEM_CHECK_BUFFER_DROP_TO_INVENTORY );
+				g_pPlayer->SetItemCheckBuffer(pMouseItem, MPlayer::ITEM_CHECK_BUFFER_DROP_TO_INVENTORY);
 
 				//toInventoryItemID = pMouseItem->GetID();
 
 				//-------------------------------------------------------------
 				// inventory에 있는 item이 교환할려고 선택된 것이면 제거한다.
 				//-------------------------------------------------------------
-				if (pItem!=NULL && pItem->IsTrade())
+				if (pItem != NULL && pItem->IsTrade())
 				{
-					removeItemID = pItem->GetID();				
-					
+					removeItemID = pItem->GetID();
+
 					bSendPacketTradeRemove = TRUE;
 				}
 
@@ -4072,7 +4073,7 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY(int left, int right, void* v
 			{
 				bSendPacket = FALSE;
 			}
-		}	
+		}
 		//---------------------------------------------------
 		// 놓은 아이템이 교환할려고 선택된 것인 경우
 		//---------------------------------------------------
@@ -4081,7 +4082,7 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY(int left, int right, void* v
 			//---------------------------------------------------
 			// 기존에 있던 아이템 교환할 것에서 제거..
 			//---------------------------------------------------
-			if (pItem!=NULL && pItem->IsTrade())
+			if (pItem != NULL && pItem->IsTrade())
 			{
 				removeItemID = pItem->GetID();
 
@@ -4124,13 +4125,13 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY(int left, int right, void* v
 		//---------------------------------------------------------
 		if (bSendPacketTradeRemove)
 		{
-				CGTradeRemoveItem _CGTradeRemoveItem;
-				_CGTradeRemoveItem.setTargetObjectID( g_pTradeManager->GetOtherID() );
-				_CGTradeRemoveItem.setItemObjectID( removeItemID );
+			CGTradeRemoveItem _CGTradeRemoveItem;
+			_CGTradeRemoveItem.setTargetObjectID(g_pTradeManager->GetOtherID());
+			_CGTradeRemoveItem.setItemObjectID(removeItemID);
 
-				g_pSocket->sendPacket( &_CGTradeRemoveItem );
+			g_pSocket->sendPacket(&_CGTradeRemoveItem);
 
-				g_pTradeManager->SetNextAcceptTime();
+			g_pTradeManager->SetNextAcceptTime();
 		}
 
 		//---------------------------------------------------
@@ -4139,17 +4140,17 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY(int left, int right, void* v
 		if (bSendPacket)
 		{
 
-				//---------------------------------------------------
-				// mouse에 있던 item을 Inventory에 추가했다고
-				// server로 packet을 보낸다.
-				// pItem의 grid좌표가 inventory에서의 좌표이다.
-				//---------------------------------------------------
-				CGAddMouseToInventory _CGAddMouseToInventory;
-				_CGAddMouseToInventory.setObjectID( toInventoryItemID );
-				_CGAddMouseToInventory.setInvenX( left );//pItem->GetGridX() );
-				_CGAddMouseToInventory.setInvenY( right );//pItem->GetGridY() );
+			//---------------------------------------------------
+			// mouse에 있던 item을 Inventory에 추가했다고
+			// server로 packet을 보낸다.
+			// pItem의 grid좌표가 inventory에서의 좌표이다.
+			//---------------------------------------------------
+			CGAddMouseToInventory _CGAddMouseToInventory;
+			_CGAddMouseToInventory.setObjectID(toInventoryItemID);
+			_CGAddMouseToInventory.setInvenX(left);//pItem->GetGridX() );
+			_CGAddMouseToInventory.setInvenY(right);//pItem->GetGridY() );
 
-				g_pSocket->sendPacket( &_CGAddMouseToInventory );
+			g_pSocket->sendPacket(&_CGAddMouseToInventory);
 
 		}
 
@@ -4158,12 +4159,12 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY(int left, int right, void* v
 		//---------------------------------------------------
 		if (bSendPacketTradeAdd)
 		{
-				CGTradeAddItem _CGTradeAddItem;
-				_CGTradeAddItem.setTargetObjectID( g_pTradeManager->GetOtherID() );
-				_CGTradeAddItem.setItemObjectID( pMouseItem->GetID() );
+			CGTradeAddItem _CGTradeAddItem;
+			_CGTradeAddItem.setTargetObjectID(g_pTradeManager->GetOtherID());
+			_CGTradeAddItem.setItemObjectID(pMouseItem->GetID());
 
-				g_pSocket->sendPacket( &_CGTradeAddItem );
-				
+			g_pSocket->sendPacket(&_CGTradeAddItem);
+
 		}
 
 		//---------------------------------------------------
@@ -4173,12 +4174,12 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY(int left, int right, void* v
 		{
 			MItem* pOldItem = NULL;
 			if (g_pInventory->ReplaceItem(pMouseItem,		// 추가할 item
-												left, right,	// 추가할 위치 
-												pOldItem))		// 원래있던 item
+				left, right,	// 추가할 위치 
+				pOldItem))		// 원래있던 item
 			{
 				if (pOldItem != NULL) // replace 되었는가?
-				{				
-					UI_PickUpItem( pOldItem );
+				{
+					UI_PickUpItem(pOldItem);
 				}
 				else
 				{
@@ -4187,7 +4188,7 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY(int left, int right, void* v
 			}
 
 			// 크리스마스 트리용 하드코딩
-			if(pMouseItem->GetItemClass() == ITEM_CLASS_EVENT_TREE 
+			if (pMouseItem->GetItemClass() == ITEM_CLASS_EVENT_TREE
 				&& pMouseItem->GetItemType() != 12
 				&& pMouseItem->GetItemType() != 25
 				&& pMouseItem->GetItemType() != 26
@@ -4203,30 +4204,30 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY(int left, int right, void* v
 #endif //__2008_AUTUMN_LEAVES_EVENT
 				)
 			{
-				int mx,my;
-				
+				int mx, my;
+
 				int offset = 0;
-// 싸이즈가 다른 트리가 생길땐 아래 값을 바꿔 주자
-				int TreeSizeX = 3,TreeSizeY = 4;
-				
-				if(pMouseItem->GetItemType() < 12)
+				// 싸이즈가 다른 트리가 생길땐 아래 값을 바꿔 주자
+				int TreeSizeX = 3, TreeSizeY = 4;
+
+				if (pMouseItem->GetItemType() < 12)
 					offset = 0;
-				else if( pMouseItem->GetItemType() < 25 )
-					offset = 13; 
-				else if( pMouseItem->GetItemType() < 41 )
+				else if (pMouseItem->GetItemType() < 25)
+					offset = 13;
+				else if (pMouseItem->GetItemType() < 41)
 					offset = 29;
-				else if( pMouseItem->GetItemType() < 54 )
+				else if (pMouseItem->GetItemType() < 54)
 					offset = 42;
 #if __CONTENTS(__BLITZ_COUPON_EVENT)
-				else if( pMouseItem->GetItemType() < 67 )
+				else if (pMouseItem->GetItemType() < 67)
 					offset = 55;
 #endif //__BLITZ_COUPON_EVENT
 #if __CONTENTS(__2008_AUTUMN_LEAVES_EVENT)
-				else if( pMouseItem->GetItemType() < 80 )
+				else if (pMouseItem->GetItemType() < 80)
 					offset = 68;
 #endif //__2008_AUTUMN_LEAVES_EVENT
 #if __CONTENTS(__CHRISTMAS_SOCKS_EVENT)
-				else if( pMouseItem->GetItemType() < 90 )
+				else if (pMouseItem->GetItemType() < 90)
 				{
 					offset = 81;
 					TreeSizeY = 3;
@@ -4238,15 +4239,15 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY(int left, int right, void* v
 
 				const int pointX = pMouseItem->GetGridX() - mx;
 				const int pointY = pMouseItem->GetGridY() - my;
-				
+
 				bool bTree = true;
 
-				for(int y = 0; y < TreeSizeY; y++)
+				for (int y = 0; y < TreeSizeY; y++)
 				{
-					for(int x = 0; x < TreeSizeX; x++)
+					for (int x = 0; x < TreeSizeX; x++)
 					{
-						MItem *pPartOfTree = g_pInventory->GetItem(x+pointX, y+pointY);
-						if(pPartOfTree != NULL && 
+						MItem* pPartOfTree = g_pInventory->GetItem(x + pointX, y + pointY);
+						if (pPartOfTree != NULL &&
 							pPartOfTree->GetItemClass() == ITEM_CLASS_EVENT_TREE &&
 							pPartOfTree->GetItemType() == y * TreeSizeX + x + offset
 #if __CONTENTS(__EVENTTREE_PILE)
@@ -4262,7 +4263,7 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY(int left, int right, void* v
 					}
 				}
 
-				if(bTree)
+				if (bTree)
 					g_pPlayer->SetItemCheckBuffer(NULL, MPlayer::ITEM_CHECK_BUFFER_TREE_MERGE);
 			}
 		}
@@ -4272,13 +4273,13 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY(int left, int right, void* v
 	//-----------------------------------------------------------------
 	else
 	{
-		DEBUG_ADD( "[Error] There is another item in ItemCheckBuffer or Mouse NULL");		
+		DEBUG_ADD("[Error] There is another item in ItemCheckBuffer or Mouse NULL");
 
-		if(!g_pPlayer->IsItemCheckBufferNULL())
+		if (!g_pPlayer->IsItemCheckBufferNULL())
 			DEBUG_ADD_FORMAT("[ITEMDROP] !g_pPlayer->IsItemCheckBufferNULL() %d", g_pPlayer->GetItemCheckBufferStatus());
-		if(pMouseItem == NULL)
+		if (pMouseItem == NULL)
 			DEBUG_ADD("[ITEMDROP] pMouseItem == NULL)");
-		if(g_pTempInformation->GetMode()!=TempInformation::MODE_NULL)
+		if (g_pTempInformation->GetMode() != TempInformation::MODE_NULL)
 			DEBUG_ADD_FORMAT("[ITEMPDROP] g_pTempInformation->Mode!=TempInformation::MODE_NULL %d", g_pTempInformation->Mode);
 	}
 
@@ -4296,32 +4297,32 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_QUICKSLOT(int left, int right, void* v
 {
 	DEBUG_ADD("[UI] UI_ITEM_DROP_TO_QUICKSLOT");
 
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
 	}
-	
+
 	MOustersArmsBand* pQuickSlot = NULL;
 
 	int slot = left;
-	
-	if( g_pPlayer->IsOusters() )
+
+	if (g_pPlayer->IsOusters())
 	{
-		if( g_pArmsBand1 == NULL )
+		if (g_pArmsBand1 == NULL)
 			pQuickSlot = g_pArmsBand2;
 		else
 		{
-			if( g_pArmsBand1->GetPocketNumber() > slot )
+			if (g_pArmsBand1->GetPocketNumber() > slot)
 				pQuickSlot = g_pArmsBand1;
-			else				
+			else
 			{
 				pQuickSlot = g_pArmsBand2;
 				slot -= g_pArmsBand1->GetPocketNumber();
 			}
 		}
 
-		if( pQuickSlot == NULL )
+		if (pQuickSlot == NULL)
 			return;
 	}
 
@@ -4335,26 +4336,26 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_QUICKSLOT(int left, int right, void* v
 	// 그러므로, 두 개를 바꿔서 읽어야 한다. - -;
 	// 였으나 클라이언트에서 처리해주는걸로 바꿈 by larosel
 	//---------------------------------------------------
-	MItem* pSlotItem = NULL ;// = (MItem*)g_pQuickSlot->GetItem( left );;//gpC_mouse_pointer->GetPickUpItem();
-	if( g_pPlayer->IsSlayer() )
-		pSlotItem = (MItem*)g_pQuickSlot->GetItem( left );
+	MItem* pSlotItem = NULL;// = (MItem*)g_pQuickSlot->GetItem( left );;//gpC_mouse_pointer->GetPickUpItem();
+	if (g_pPlayer->IsSlayer())
+		pSlotItem = (MItem*)g_pQuickSlot->GetItem(left);
 	else
-		pSlotItem = (MItem*)pQuickSlot->GetItem( slot );
-	
+		pSlotItem = (MItem*)pQuickSlot->GetItem(slot);
+
 	MItem* pMouseItem = gpC_mouse_pointer->GetPickUpItem();//g_pQuickSlot->GetItem( left );
-	
+
 	bool	Replace = FALSE;
-	
-	if( g_pPlayer->IsSlayer() )
-		Replace = g_pQuickSlot->ReplaceItem( pMouseItem, left, pSlotItem );
+
+	if (g_pPlayer->IsSlayer())
+		Replace = g_pQuickSlot->ReplaceItem(pMouseItem, left, pSlotItem);
 	else
-		Replace = pQuickSlot->ReplaceItem( pMouseItem, slot, pSlotItem );
+		Replace = pQuickSlot->ReplaceItem(pMouseItem, slot, pSlotItem);
 
 	if (Replace)
 	{
 		if (pSlotItem) // replace 되었는가?
 		{
-			gpC_mouse_pointer->PickUpItem((MItem *)pSlotItem);
+			gpC_mouse_pointer->PickUpItem((MItem*)pSlotItem);
 		}
 		else
 		{
@@ -4362,52 +4363,52 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_QUICKSLOT(int left, int right, void* v
 			gpC_mouse_pointer->DropItem();
 		}
 	}
-	
+
 	//-----------------------------------------------------------------
 	// 검증받을게 없는 경우
 	//-----------------------------------------------------------------
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)//g_pPlayer->IsItemCheckBufferNULL())
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)//g_pPlayer->IsItemCheckBufferNULL())
 	{
 		// 무조건 packet을 보내면 된다.
 		if (1)//g_pQuickSlot->GetItem( left )==NULL)
 		{
 
-				//MItem* pItem = (MItem*)void_ptr;
+			//MItem* pItem = (MItem*)void_ptr;
 
-				//---------------------------------------------------
-				// mouse에 있던 item을 QuickSlot에 추가했다고
-				// server로 packet을 보낸다.
-				//---------------------------------------------------
-				CGAddMouseToQuickSlot _CGAddMouseToQuickSlot;
-				_CGAddMouseToQuickSlot.setObjectID( pMouseItem->GetID() );
-				
-				if( g_pPlayer->IsSlayer() )
-					_CGAddMouseToQuickSlot.setSlotID( left );//pItem->GetItemSlot() );
+			//---------------------------------------------------
+			// mouse에 있던 item을 QuickSlot에 추가했다고
+			// server로 packet을 보낸다.
+			//---------------------------------------------------
+			CGAddMouseToQuickSlot _CGAddMouseToQuickSlot;
+			_CGAddMouseToQuickSlot.setObjectID(pMouseItem->GetID());
+
+			if (g_pPlayer->IsSlayer())
+				_CGAddMouseToQuickSlot.setSlotID(left);//pItem->GetItemSlot() );
+			else
+			{
+				if (pQuickSlot == g_pArmsBand2)
+					_CGAddMouseToQuickSlot.setSlotID(slot + 3);
 				else
-				{
-					if( pQuickSlot == g_pArmsBand2 )
-						_CGAddMouseToQuickSlot.setSlotID( slot + 3 );
-					else
-						_CGAddMouseToQuickSlot.setSlotID( slot );
-				}
-				
-				g_pSocket->sendPacket( &_CGAddMouseToQuickSlot );
-		
-				//---------------------------------------------------
-				// UI에서 하기 때문에.. 하면 안된다.
-				//---------------------------------------------------
-				// 바로 QuickSlot에 추가한다.
-				//g_pQuickSlot->AddItem( pItem, left );
-				
-				//UI_DropItem();
+					_CGAddMouseToQuickSlot.setSlotID(slot);
+			}
 
-			PlaySound( pMouseItem->GetInventorySoundID() );
+			g_pSocket->sendPacket(&_CGAddMouseToQuickSlot);
+
+			//---------------------------------------------------
+			// UI에서 하기 때문에.. 하면 안된다.
+			//---------------------------------------------------
+			// 바로 QuickSlot에 추가한다.
+			//g_pQuickSlot->AddItem( pItem, left );
+
+			//UI_DropItem();
+
+			PlaySound(pMouseItem->GetInventorySoundID());
 		}
 		//---------------------------------------------------
 		// 뭔가 이미 있는 경우.. 
 		//---------------------------------------------------
 		else
-		{						
+		{
 			DEBUG_ADD_FORMAT("[Error] Can't add item to quickslot, already exist slot=%d", left);
 		}
 	}
@@ -4416,7 +4417,7 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_QUICKSLOT(int left, int right, void* v
 	//-----------------------------------------------------------------
 	else
 	{
-		DEBUG_ADD( "[Error] There is another item in ItemCheckBuffer");
+		DEBUG_ADD("[Error] There is another item in ItemCheckBuffer");
 	}
 }
 
@@ -4430,8 +4431,8 @@ void
 UIMessageManager::Execute_UI_ITEM_DROP_TO_GEAR(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_ADD_ITEM_TO_GEAR");
-	
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
@@ -4447,15 +4448,15 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_GEAR(int left, int right, void* void_p
 		// 검증받을게 없는 경우
 		//-----------------------------------------------------------------
 		if (g_pPlayer->IsItemCheckBufferNULL()
-			&& g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+			&& g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 		{
 			MItem* pMouseItem = (MItem*)gpC_mouse_pointer->GetPickUpItem();	// 들고 있는 item
 			MItem* pGearItem = (MItem*)void_ptr;	// gear에 있다면.. 교환될 아이템
-			
+
 			//-----------------------------------------------------------------
 			// mouse에 뭔가를 들고 있어야 한다.
 			//-----------------------------------------------------------------
-			if (pMouseItem!=NULL)
+			if (pMouseItem != NULL)
 			{
 				//-----------------------------------------------------------------
 				// 착용할 수 있는 상황이 되면..
@@ -4466,16 +4467,16 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_GEAR(int left, int right, void* void_p
 //외형 적용은 GCRealWearingInfoHandler.cpp에서 처리하도록 했다.
 //특히나 아이템의 m_bAffectStatus는 서버에게서 갱신된 데이터를 받기 때문에 정상적으로 처리하기 위해서도 서버에서 받은후 적용하는것이 옳다.
 				//if(g_pPlayer->SetAddonItem(pMouseItem))
-				if(pMouseItem->IsQuestItem() || pMouseItem->IsAffectStatus())
-				{				
+				if (pMouseItem->IsQuestItem() || pMouseItem->IsAffectStatus())
+				{
 					MItem* pRemovedItem = NULL;
 
 					// mouse --> gear
-					switch(g_pPlayer->GetRace())
+					switch (g_pPlayer->GetRace())
 					{
 					case RACE_SLAYER:
-						g_pSlayerGear->ReplaceItem( pMouseItem, (MSlayerGear::GEAR_SLAYER)left, pRemovedItem );
-						
+						g_pSlayerGear->ReplaceItem(pMouseItem, (MSlayerGear::GEAR_SLAYER)left, pRemovedItem);
+
 						//-----------------------------------------------------------
 						// belt를 놓거나 집었을 경우는 quick item을 reset해야 한다.
 						//-----------------------------------------------------------
@@ -4486,11 +4487,11 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_GEAR(int left, int right, void* void_p
 						break;
 
 					case RACE_VAMPIRE:
-						g_pVampireGear->ReplaceItem( pMouseItem, (MVampireGear::GEAR_VAMPIRE)left, pRemovedItem );
+						g_pVampireGear->ReplaceItem(pMouseItem, (MVampireGear::GEAR_VAMPIRE)left, pRemovedItem);
 						break;
 
 					case RACE_OUSTERS:
-						g_pOustersGear->ReplaceItem( pMouseItem, (MVampireGear::GEAR_VAMPIRE)left, pRemovedItem );
+						g_pOustersGear->ReplaceItem(pMouseItem, (MVampireGear::GEAR_VAMPIRE)left, pRemovedItem);
 						break;
 					}
 
@@ -4499,44 +4500,44 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_GEAR(int left, int right, void* void_p
 					//-----------------------------------------------------------
 					// 교환되는 경우
 					//-----------------------------------------------------------
-					if (pRemovedItem!=NULL)
+					if (pRemovedItem != NULL)
 					{
-						UI_PickUpItem( pRemovedItem );
-					}								
+						UI_PickUpItem(pRemovedItem);
+					}
 
 					//----------------------------------------------------
 					// Skill 체크
 					//----------------------------------------------------
 					g_pSkillAvailable->SetAvailableSkills();
 
-						//---------------------------------------------------
-						// mouse에 있던 item1을 Gear에 추가했다고
-						// server로 packet을 보낸다.
-						//---------------------------------------------------
-						CGAddMouseToGear _CGAddMouseToGear;
-						_CGAddMouseToGear.setObjectID( pMouseItem->GetID() );
-						_CGAddMouseToGear.setSlotID( pMouseItem->GetItemSlot() );//pItem->GetItemSlot() );	
+					//---------------------------------------------------
+					// mouse에 있던 item1을 Gear에 추가했다고
+					// server로 packet을 보낸다.
+					//---------------------------------------------------
+					CGAddMouseToGear _CGAddMouseToGear;
+					_CGAddMouseToGear.setObjectID(pMouseItem->GetID());
+					_CGAddMouseToGear.setSlotID(pMouseItem->GetItemSlot());//pItem->GetItemSlot() );	
 
 #if __CONTENTS(__GEAR_SWAP_CHANGE)	//_CGAddMouseToGear.setSlotID(right);
-						DWORD	dwGearID	= 0;
-						switch(g_pPlayer->GetRace())
-						{
-						case RACE_SLAYER:
-							dwGearID	= g_pSlayerGear->GetAccepGearID();
-							break;
+					DWORD	dwGearID = 0;
+					switch (g_pPlayer->GetRace())
+					{
+					case RACE_SLAYER:
+						dwGearID = g_pSlayerGear->GetAccepGearID();
+						break;
 
-						case RACE_VAMPIRE:
-							dwGearID	= g_pVampireGear->GetAccepGearID();
-							break;
-				
-						case RACE_OUSTERS:
-							dwGearID	= g_pOustersGear->GetAccepGearID();
-							break;
-						}
-						_CGAddMouseToGear.setGearSlotID(dwGearID);
+					case RACE_VAMPIRE:
+						dwGearID = g_pVampireGear->GetAccepGearID();
+						break;
+
+					case RACE_OUSTERS:
+						dwGearID = g_pOustersGear->GetAccepGearID();
+						break;
+					}
+					_CGAddMouseToGear.setGearSlotID(dwGearID);
 #endif	// __GEAR_SWAP_CHANGE
 
-						g_pSocket->sendPacket( &_CGAddMouseToGear );
+					g_pSocket->sendPacket(&_CGAddMouseToGear);
 
 
 					//----------------------------------------------------
@@ -4594,11 +4595,11 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_GEAR(int left, int right, void* void_p
 ////							ExecuteHelpEvent( HE_ITEM_WEAR_MACE );
 //						}				
 //					__END_HELP_EVENT
-				}		
+				}
 			}
 			else
 			{
-				DEBUG_ADD( "[Error] Mouse Item is NULL" );
+				DEBUG_ADD("[Error] Mouse Item is NULL");
 			}
 		}
 		//-----------------------------------------------------------------
@@ -4606,12 +4607,12 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_GEAR(int left, int right, void* void_p
 		//-----------------------------------------------------------------
 		else
 		{
-			DEBUG_ADD( "[Error] There is another item in ItemCheckBuffer");
+			DEBUG_ADD("[Error] There is another item in ItemCheckBuffer");
 		}
 	}
 	else
 	{
-		DEBUG_ADD( "[Watch Mode]");
+		DEBUG_ADD("[Watch Mode]");
 	}
 
 	//-------------------------------------------------
@@ -4631,7 +4632,7 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_GEAR(int left, int right, void* void_p
 	}
 	//else
 	{
-	//	(*g_pSlayerGear).AddItem( pItem, (enum MSlayerGear::GEAR_SLAYER)left );
+		//	(*g_pSlayerGear).AddItem( pItem, (enum MSlayerGear::GEAR_SLAYER)left );
 	}
 }
 
@@ -4645,8 +4646,8 @@ void
 UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_QUICKSLOT(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_ITEM_PICKUP_FROM_QUICKSLOT");
-	
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
@@ -4657,52 +4658,53 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_QUICKSLOT(int left, int right, voi
 	// void_ptr = MItem *
 	//
 	MOustersArmsBand* pQuickSlot = NULL;
-		
-	if( g_pPlayer->IsOusters() )
+
+	if (g_pPlayer->IsOusters())
 	{
-		if( g_pArmsBand1 == NULL )
+		if (g_pArmsBand1 == NULL)
 			pQuickSlot = g_pArmsBand2;
 		else
 		{
-			if( g_pArmsBand1->GetPocketNumber() > left )
+			if (g_pArmsBand1->GetPocketNumber() > left)
 				pQuickSlot = g_pArmsBand1;
 			else
 				pQuickSlot = g_pArmsBand2;
 		}
-		
-		if( pQuickSlot == NULL )
+
+		if (pQuickSlot == NULL)
 			return;
 	}
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		MItem* pItem = (MItem*)void_ptr;
 
-			//---------------------------------------------------
-			// QuickSlot에 있던 item을 mouse에 붙였다(-_-;)고
-			// server로 packet을 보낸다.
-			//---------------------------------------------------
-			CGAddQuickSlotToMouse _CGAddQuickSlotToMouse;
-			_CGAddQuickSlotToMouse.setObjectID( pItem->GetID() );
-			if( pQuickSlot != NULL)
-			{
-				if( pQuickSlot == g_pArmsBand2 )
-					_CGAddQuickSlotToMouse.setSlotID( pItem->GetItemSlot() + 3 );
-				else
-					_CGAddQuickSlotToMouse.setSlotID( pItem->GetItemSlot() );
-			} else
-				_CGAddQuickSlotToMouse.setSlotID( pItem->GetItemSlot() );
-			
-			g_pSocket->sendPacket( &_CGAddQuickSlotToMouse );
-			
+		//---------------------------------------------------
+		// QuickSlot에 있던 item을 mouse에 붙였다(-_-;)고
+		// server로 packet을 보낸다.
+		//---------------------------------------------------
+		CGAddQuickSlotToMouse _CGAddQuickSlotToMouse;
+		_CGAddQuickSlotToMouse.setObjectID(pItem->GetID());
+		if (pQuickSlot != NULL)
+		{
+			if (pQuickSlot == g_pArmsBand2)
+				_CGAddQuickSlotToMouse.setSlotID(pItem->GetItemSlot() + 3);
+			else
+				_CGAddQuickSlotToMouse.setSlotID(pItem->GetItemSlot());
+		}
+		else
+			_CGAddQuickSlotToMouse.setSlotID(pItem->GetItemSlot());
+
+		g_pSocket->sendPacket(&_CGAddQuickSlotToMouse);
+
 
 		// 바로 QuickSlot에서 제거하고 mouse에 들게 한다.
-		
-		if( g_pPlayer->IsSlayer() )
-			g_pQuickSlot->RemoveItem( pItem->GetID() );
+
+		if (g_pPlayer->IsSlayer())
+			g_pQuickSlot->RemoveItem(pItem->GetID());
 		else
 		{
-			if( pQuickSlot != NULL )
-				pQuickSlot->RemoveItem( pItem->GetID() );
+			if (pQuickSlot != NULL)
+				pQuickSlot->RemoveItem(pItem->GetID());
 		}
 
 		UI_PickUpItem(pItem);
@@ -4718,9 +4720,9 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_QUICKSLOT(int left, int right, voi
 void
 UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_INVENTORY(int left, int right, void* void_ptr)
 {
-	DEBUG_ADD("[UI] UI_ITEM_PICKUP_FROM_INVENTORY"); 
-	
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+	DEBUG_ADD("[UI] UI_ITEM_PICKUP_FROM_INVENTORY");
+
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
@@ -4734,11 +4736,11 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_INVENTORY(int left, int right, voi
 	MItem* pItem = (MItem*)void_ptr;
 	{
 		BOOL bSendPacket = TRUE;
-		
+
 		BOOL bSendPacketTradeRemove = FALSE;
 
-		BOOL bAcceptMyTrade = (g_pTradeManager!=NULL && g_pTradeManager->IsAcceptMyTrade());
-		BOOL bAcceptOtherTrade = (g_pTradeManager!=NULL && g_pTradeManager->IsAcceptOtherTrade());
+		BOOL bAcceptMyTrade = (g_pTradeManager != NULL && g_pTradeManager->IsAcceptMyTrade());
+		BOOL bAcceptOtherTrade = (g_pTradeManager != NULL && g_pTradeManager->IsAcceptOtherTrade());
 
 		//---------------------------------------------------------
 		// 교환중에 OK 눌렀을때는 검증을 받아야 한다.
@@ -4747,14 +4749,14 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_INVENTORY(int left, int right, voi
 		{
 			if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL
 				&& g_pPlayer->IsItemCheckBufferNULL())
-			{	
+			{
 				g_pTempInformation->SetMode(TempInformation::MODE_TRADE_VERIFY_PICKUP_FROM_INVENTORY);
 				g_pTempInformation->Value1 = pItem->GetID();
 				g_pTempInformation->Value2 = left;
 				g_pTempInformation->Value3 = right;
 				g_pTempInformation->pValue = pItem;
 
-				g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_PICKUP_FROM_INVENTORY );
+				g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_PICKUP_FROM_INVENTORY);
 
 				if (pItem->IsTrade())
 				{
@@ -4776,10 +4778,10 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_INVENTORY(int left, int right, voi
 			//---------------------------------------------------
 			if (pItem->IsTrade())
 			{
-				UI_PickUpItem( pItem );
+				UI_PickUpItem(pItem);
 
 				bSendPacketTradeRemove = TRUE;
-				
+
 				// 다른 사람이 OK누른 상태라면..
 				if (bAcceptOtherTrade)
 				{
@@ -4791,7 +4793,7 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_INVENTORY(int left, int right, voi
 			//---------------------------------------------------
 			else
 			{
-				UI_PickUpItem( pItem );
+				UI_PickUpItem(pItem);
 
 				/*
 				if (bAcceptMyTrade)
@@ -4801,7 +4803,7 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_INVENTORY(int left, int right, voi
 						_CGTradeFinish.setTargetObjectID( g_pTradeManager->GetOtherID() );
 						_CGTradeFinish.setCode( CG_TRADE_FINISH_RECONSIDER );
 
-						g_pSocket->sendPacket( &_CGTradeFinish );					
+						g_pSocket->sendPacket( &_CGTradeFinish );
 					#endif
 				}
 				*/
@@ -4809,7 +4811,7 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_INVENTORY(int left, int right, voi
 		}
 		else
 		{
-			UI_PickUpItem( pItem );
+			UI_PickUpItem(pItem);
 		}
 
 		//---------------------------------------------------------
@@ -4817,13 +4819,13 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_INVENTORY(int left, int right, voi
 		//---------------------------------------------------------
 		if (bSendPacketTradeRemove)
 		{
-				CGTradeRemoveItem _CGTradeRemoveItem;
-				_CGTradeRemoveItem.setTargetObjectID( g_pTradeManager->GetOtherID() );
-				_CGTradeRemoveItem.setItemObjectID( pItem->GetID() );
+			CGTradeRemoveItem _CGTradeRemoveItem;
+			_CGTradeRemoveItem.setTargetObjectID(g_pTradeManager->GetOtherID());
+			_CGTradeRemoveItem.setItemObjectID(pItem->GetID());
 
-				g_pSocket->sendPacket( &_CGTradeRemoveItem );
+			g_pSocket->sendPacket(&_CGTradeRemoveItem);
 
-				g_pTradeManager->SetNextAcceptTime();
+			g_pTradeManager->SetNextAcceptTime();
 		}
 
 		//---------------------------------------------------------
@@ -4831,36 +4833,36 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_INVENTORY(int left, int right, voi
 		//---------------------------------------------------------
 		if (bSendPacket)
 		{
-				//---------------------------------------------------
-				// Inventory에 있던 item을 mouse에 붙였다(-_-;)고
-				// server로 packet을 보낸다.
-				//---------------------------------------------------
-				CGAddInventoryToMouse _CGAddInventoryToMouse;
-				_CGAddInventoryToMouse.setObjectID( pItem->GetID() );
-				_CGAddInventoryToMouse.setX( pItem->GetGridX() );
-				_CGAddInventoryToMouse.setY( pItem->GetGridY() );
-				
-				g_pSocket->sendPacket( &_CGAddInventoryToMouse );				
+			//---------------------------------------------------
+			// Inventory에 있던 item을 mouse에 붙였다(-_-;)고
+			// server로 packet을 보낸다.
+			//---------------------------------------------------
+			CGAddInventoryToMouse _CGAddInventoryToMouse;
+			_CGAddInventoryToMouse.setObjectID(pItem->GetID());
+			_CGAddInventoryToMouse.setX(pItem->GetGridX());
+			_CGAddInventoryToMouse.setY(pItem->GetGridY());
+
+			g_pSocket->sendPacket(&_CGAddInventoryToMouse);
 		}
 	}
 
 #if __CONTENTS(__GEAR_SWAP_CHANGE)	//UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_INVENTORY
-	if(pItem != NULL)
+	if (pItem != NULL)
 	{
-		switch(g_pPlayer->GetRace())
+		switch (g_pPlayer->GetRace())
 		{
-			case RACE_SLAYER:
-				if(!g_pSlayerGear->GetActive())
-					pItem->UnSetAffectStatus();
-				break;
-			case RACE_VAMPIRE:
-				if(!g_pVampireGear->GetActive())
-					pItem->UnSetAffectStatus();
-				break;
-			case RACE_OUSTERS:
-				if(!g_pOustersGear->GetActive())
-					pItem->UnSetAffectStatus();
-				break;
+		case RACE_SLAYER:
+			if (!g_pSlayerGear->GetActive())
+				pItem->UnSetAffectStatus();
+			break;
+		case RACE_VAMPIRE:
+			if (!g_pVampireGear->GetActive())
+				pItem->UnSetAffectStatus();
+			break;
+		case RACE_OUSTERS:
+			if (!g_pOustersGear->GetActive())
+				pItem->UnSetAffectStatus();
+			break;
 		}
 	}
 #endif // __GEAR_SWAP_CHANGE
@@ -4876,8 +4878,8 @@ void
 UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_GEAR(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_REMOVE_ITEM_FROM_GEAR");
-	
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
@@ -4892,7 +4894,7 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_GEAR(int left, int right, void* vo
 	{
 		int itemSlot = left;
 
-		if (pItem!=NULL)
+		if (pItem != NULL)
 		{
 			//-------------------------------------------------
 			// Player가 정지해 있는 경우에만.
@@ -4902,34 +4904,34 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_GEAR(int left, int right, void* vo
 				//---------------------------------------------
 				// AddonItem을 장착 해제한다.
 				//---------------------------------------------
-				if (g_pPlayer->RemoveAddonItem( pItem ))
+				if (g_pPlayer->RemoveAddonItem(pItem))
 				{
 					MItem* pRemovedItem = NULL;
 
 					//---------------------------------------------
 					// gear에서 제거한다.
 					//---------------------------------------------
-					switch(g_pPlayer->GetRace())
+					switch (g_pPlayer->GetRace())
 					{
 					case RACE_SLAYER:
-						pRemovedItem = g_pSlayerGear->RemoveItem( (MSlayerGear::GEAR_SLAYER)itemSlot );
-						
+						pRemovedItem = g_pSlayerGear->RemoveItem((MSlayerGear::GEAR_SLAYER)itemSlot);
+
 						//-----------------------------------------------------------
 						// belt를 놓거나 집었을 경우는 quick item을 reset해야 한다.
 						//-----------------------------------------------------------
-						if (pRemovedItem!=NULL 
+						if (pRemovedItem != NULL
 							&& pRemovedItem->GetItemSlot() == MSlayerGear::GEAR_SLAYER_BELT)
 						{
 							gC_vs_ui.ResetSlayerQuickItemSize();
-						}					
+						}
 						break;
 
 					case RACE_VAMPIRE:
-						pRemovedItem = g_pVampireGear->RemoveItem( (MVampireGear::GEAR_VAMPIRE)itemSlot );
+						pRemovedItem = g_pVampireGear->RemoveItem((MVampireGear::GEAR_VAMPIRE)itemSlot);
 						break;
 
 					case RACE_OUSTERS:
-						pRemovedItem = g_pOustersGear->RemoveItem( (MOustersGear::GEAR_OUSTERS)itemSlot );
+						pRemovedItem = g_pOustersGear->RemoveItem((MOustersGear::GEAR_OUSTERS)itemSlot);
 						break;
 					}
 
@@ -4937,56 +4939,56 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_GEAR(int left, int right, void* vo
 					//---------------------------------------------
 					// UI에서 Gear의 Item을 pickup하게 한다.
 					//---------------------------------------------
-					if (pRemovedItem!=NULL)
+					if (pRemovedItem != NULL)
 					{
-						UI_PickUpItem( pRemovedItem );
-						
-							//---------------------------------------------------
-							// Inventory에 있던 item을 mouse에 붙였다(-_-;)고
-							// server로 packet을 보낸다.
-							//---------------------------------------------------
-							CGAddGearToMouse _CGAddGearToMouse;
-							_CGAddGearToMouse.setObjectID( pRemovedItem->GetID() );
-							_CGAddGearToMouse.setSlotID( pRemovedItem->GetItemSlot() );
-							
-							g_pSocket->sendPacket( &_CGAddGearToMouse );							
+						UI_PickUpItem(pRemovedItem);
+
+						//---------------------------------------------------
+						// Inventory에 있던 item을 mouse에 붙였다(-_-;)고
+						// server로 packet을 보낸다.
+						//---------------------------------------------------
+						CGAddGearToMouse _CGAddGearToMouse;
+						_CGAddGearToMouse.setObjectID(pRemovedItem->GetID());
+						_CGAddGearToMouse.setSlotID(pRemovedItem->GetItemSlot());
+
+						g_pSocket->sendPacket(&_CGAddGearToMouse);
 					}
 
 					//----------------------------------------------------
 					// Skill 체크
 					//----------------------------------------------------
 					g_pSkillAvailable->SetAvailableSkills();
-				}			
+				}
 			}
 			//else
 			{
-			//	(*g_pSlayerGear).AddItem( pItem, (enum MSlayerGear::GEAR_SLAYER)left );
+				//	(*g_pSlayerGear).AddItem( pItem, (enum MSlayerGear::GEAR_SLAYER)left );
 			}
 		}
 	}
 	else
 	{
-		DEBUG_ADD( "[Watch Mode]");		
+		DEBUG_ADD("[Watch Mode]");
 	}
 
 #if __CONTENTS(__GEAR_SWAP_CHANGE)			// UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_GEAR
-	if(pItem != NULL)
+	if (pItem != NULL)
 	{
 		pItem->SetAffectStatus();
-		switch(g_pPlayer->GetRace())
+		switch (g_pPlayer->GetRace())
 		{
-			case RACE_SLAYER:
-				if(!g_pSlayerGear->GetActive())
-					pItem->UnSetAffectStatus();
-				break;
-			case RACE_VAMPIRE:
-				if(!g_pVampireGear->GetActive())
-					pItem->UnSetAffectStatus();
-				break;
-			case RACE_OUSTERS:
-				if(!g_pOustersGear->GetActive())
-					pItem->UnSetAffectStatus();
-				break;
+		case RACE_SLAYER:
+			if (!g_pSlayerGear->GetActive())
+				pItem->UnSetAffectStatus();
+			break;
+		case RACE_VAMPIRE:
+			if (!g_pVampireGear->GetActive())
+				pItem->UnSetAffectStatus();
+			break;
+		case RACE_OUSTERS:
+			if (!g_pOustersGear->GetActive())
+				pItem->UnSetAffectStatus();
+			break;
 		}
 	}
 #endif		// __CONTENTS
@@ -5001,8 +5003,8 @@ void
 UIMessageManager::Execute_UI_ITEM_USE(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_ITEM_USE");
-	
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
@@ -5010,15 +5012,15 @@ UIMessageManager::Execute_UI_ITEM_USE(int left, int right, void* void_ptr)
 	//
 	// void_ptr = MItem *
 	//
-	MItem* pItem = g_pInventory->GetItemToModify( left );//(MItem*)void_ptr;
+	MItem* pItem = g_pInventory->GetItemToModify(left);//(MItem*)void_ptr;
 
 	//BYTE PlayerAction = g_pPlayer->GetAction();
 	if ( /*( PlayerAction == ACTION_STAND ||	// 가만히 있을때 혹은 걷고 있을 때만 아이템 사용 가능
 		   PlayerAction == ACTION_MOVE ) &&*/
-		 g_pPlayer->IsItemCheckBufferNULL() )
+		g_pPlayer->IsItemCheckBufferNULL())
 	{
 		// 자기종족 아이템만 쓰쟈-ㅅ-;
-		if(	g_pPlayer->IsSlayer() && pItem->IsSlayerItem() ||
+		if (g_pPlayer->IsSlayer() && pItem->IsSlayerItem() ||
 			g_pPlayer->IsVampire() && pItem->IsVampireItem() ||
 			g_pPlayer->IsOusters() && pItem->IsOustersItem())
 		{
@@ -5030,16 +5032,16 @@ UIMessageManager::Execute_UI_ITEM_USE(int left, int right, void* void_ptr)
 	//----------------------------------------------------
 	else
 	{
-		#ifdef OUTPUT_DEBUG
-			if (pItem==NULL)
-			{
-				DEBUG_ADD("[Wait] Item is NULL");
-			}
-			else 
-			{
-				DEBUG_ADD("[Wait] Item Check Buffer is Not NULL");
-			}
-		#endif
+#ifdef OUTPUT_DEBUG
+		if (pItem == NULL)
+		{
+			DEBUG_ADD("[Wait] Item is NULL");
+		}
+		else
+		{
+			DEBUG_ADD("[Wait] Item Check Buffer is Not NULL");
+		}
+#endif
 	}
 }
 
@@ -5053,7 +5055,7 @@ UIMessageManager::Execute_UI_ITEM_USE_QUICKSLOT(int left, int right, void* void_
 {
 	DEBUG_ADD("[UI] UI_ITEM_USE_QUICKSLOT");
 
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
@@ -5063,23 +5065,23 @@ UIMessageManager::Execute_UI_ITEM_USE_QUICKSLOT(int left, int right, void* void_
 	// right = by FunctionKey
 	//
 	//MItem* pItem = (MItem*)void_ptr;
-	if (g_pPlayer!=NULL && (g_pQuickSlot!=NULL && g_pPlayer->IsSlayer() || 
-		g_pPlayer->IsOusters() && (g_pArmsBand1 != NULL || g_pArmsBand2 != NULL) ) )
+	if (g_pPlayer != NULL && (g_pQuickSlot != NULL && g_pPlayer->IsSlayer() ||
+		g_pPlayer->IsOusters() && (g_pArmsBand1 != NULL || g_pArmsBand2 != NULL)))
 	{
 		int bByFunctionKey = right;	// by FunctionKey
-		MSlotItemManager *pQuickSlot = g_pQuickSlot;
+		MSlotItemManager* pQuickSlot = g_pQuickSlot;
 
 		int slot = left;
-//		const MItem* pSlotItem = g_pQuickSlot->GetItem( left );
-		MItem * pSlotItem = NULL;
-		
-		if( g_pPlayer->IsOusters() )
+		//		const MItem* pSlotItem = g_pQuickSlot->GetItem( left );
+		MItem* pSlotItem = NULL;
+
+		if (g_pPlayer->IsOusters())
 		{
-			if( g_pArmsBand1 == NULL )
+			if (g_pArmsBand1 == NULL)
 				pQuickSlot = g_pArmsBand2;
 			else
 			{
-				if( g_pArmsBand1->GetPocketNumber() > slot )
+				if (g_pArmsBand1->GetPocketNumber() > slot)
 					pQuickSlot = g_pArmsBand1;
 				else
 				{
@@ -5089,29 +5091,29 @@ UIMessageManager::Execute_UI_ITEM_USE_QUICKSLOT(int left, int right, void* void_
 			}
 		}
 
-		if( pQuickSlot == NULL )
+		if (pQuickSlot == NULL)
 			return;
 
-		pSlotItem = pQuickSlot->GetItem( slot );
+		pSlotItem = pQuickSlot->GetItem(slot);
 
-		if (pSlotItem!=NULL)
+		if (pSlotItem != NULL)
 		{
-			MItem *pItem = NULL;
-			
-			pItem = pQuickSlot->GetItemToModify( pSlotItem->GetID() );
+			MItem* pItem = NULL;
+
+			pItem = pQuickSlot->GetItemToModify(pSlotItem->GetID());
 
 			if (g_pPlayer->IsItemCheckBufferNULL())
 			{
-//				__BEGIN_HELP_EVENT
-//					if (bByFunctionKey)
-//					{
-//						// [도움말] functionKey로 사용한 아이템인가?
-////						ExecuteHelpEvent( HE_PRESSED_FUNCTION_KEY_FOR_QUICKITEM );
-//					}
-//				__END_HELP_EVENT
+				//				__BEGIN_HELP_EVENT
+				//					if (bByFunctionKey)
+				//					{
+				//						// [도움말] functionKey로 사용한 아이템인가?
+				////						ExecuteHelpEvent( HE_PRESSED_FUNCTION_KEY_FOR_QUICKITEM );
+				//					}
+				//				__END_HELP_EVENT
 
-				// 자기종족 아이템만 쓰쟈-ㅅ-;
-				if(g_pPlayer->IsSlayer() && pItem->IsSlayerItem() ||
+								// 자기종족 아이템만 쓰쟈-ㅅ-;
+				if (g_pPlayer->IsSlayer() && pItem->IsSlayerItem() ||
 					g_pPlayer->IsVampire() && pItem->IsVampireItem() ||
 					g_pPlayer->IsOusters() && pItem->IsOustersItem())
 				{
@@ -5152,7 +5154,7 @@ UIMessageManager::Execute_UI_ITEM_INSERT_FROM_INVENTORY(int left, int right, voi
 {
 	DEBUG_ADD("[UI] UI_ITEM_INSERT_FROM_INVENTORY");
 
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
@@ -5164,48 +5166,48 @@ UIMessageManager::Execute_UI_ITEM_INSERT_FROM_INVENTORY(int left, int right, voi
 	MItem* pItem = (MItem*)void_ptr;
 	MItem* pMouseItem = gpC_mouse_pointer->GetPickUpItem();
 
-	if (pMouseItem==NULL)
+	if (pMouseItem == NULL)
 	{
 		DEBUG_ADD("[Error] Mouse Item is NULL");
 		return;
 	}
 
-	if (pItem==NULL)
+	if (pItem == NULL)
 	{
 		DEBUG_ADD("[Error] InvenItem is NULL");
 		return;
 	}
 
-	TYPE_OBJECTID mouseItemID = ((pMouseItem==NULL)?OBJECTID_NULL : pMouseItem->GetID());
+	TYPE_OBJECTID mouseItemID = ((pMouseItem == NULL) ? OBJECTID_NULL : pMouseItem->GetID());
 
 	if (pItem->IsPileItem())
 	{
-		if (pItem->GetItemClass()==pMouseItem->GetItemClass()
-			&& pItem->GetItemType()==pMouseItem->GetItemType()
+		if (pItem->GetItemClass() == pMouseItem->GetItemClass()
+			&& pItem->GetItemType() == pMouseItem->GetItemType()
 			&& pItem->GetNumber() < pItem->GetMaxNumber())
 		{
 			BOOL bSendPacket = TRUE;
 
-			BOOL bAcceptMyTrade = (g_pTradeManager!=NULL && g_pTradeManager->IsAcceptMyTrade());
-			BOOL bAcceptOtherTrade = (g_pTradeManager!=NULL && g_pTradeManager->IsAcceptOtherTrade());
+			BOOL bAcceptMyTrade = (g_pTradeManager != NULL && g_pTradeManager->IsAcceptMyTrade());
+			BOOL bAcceptOtherTrade = (g_pTradeManager != NULL && g_pTradeManager->IsAcceptOtherTrade());
 
 			//---------------------------------------------------------
 			// 교환중에 OK 눌렀을때는 검증을 받아야 한다.
 			//---------------------------------------------------------
 			if (bAcceptMyTrade)
-			{	
+			{
 				// 이 상태에서는 UI에서 바로 넣지 않는다.
 				// pItem은 들고 있는 item이다.
 				if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL
 					&& g_pPlayer->IsItemCheckBufferNULL())
-				{	
+				{
 					g_pTempInformation->SetMode(TempInformation::MODE_TRADE_VERIFY_INSERT_TO_INVENTORY);
 					g_pTempInformation->Value1 = pItem->GetID();
 					g_pTempInformation->Value2 = left;
 					g_pTempInformation->Value3 = right;
 					g_pTempInformation->pValue = pItem;
 
-					g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_INSERT_FROM_INVENTORY );
+					g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_INSERT_FROM_INVENTORY);
 				}
 				else
 				{
@@ -5221,16 +5223,16 @@ UIMessageManager::Execute_UI_ITEM_INSERT_FROM_INVENTORY(int left, int right, voi
 				// pMouseItem을 pItem에 추가시킨다.
 				//----------------------------------------------------
 				int total = pMouseItem->GetNumber() + pItem->GetNumber();
-				if ( total > pItem->GetMaxNumber() )
+				if (total > pItem->GetMaxNumber())
 				{
 					// 한계 수치를 넘어갈 경우
-					pMouseItem->SetNumber( total - pItem->GetMaxNumber() );
-					pItem->SetNumber( pItem->GetMaxNumber() );
+					pMouseItem->SetNumber(total - pItem->GetMaxNumber());
+					pItem->SetNumber(pItem->GetMaxNumber());
 				}
 				else
 				{
 					// 모두 pItem에 추가될 수 있는 경우
-					pItem->SetNumber( total );
+					pItem->SetNumber(total);
 					UI_DropItem();
 
 					delete pMouseItem;
@@ -5242,72 +5244,72 @@ UIMessageManager::Execute_UI_ITEM_INSERT_FROM_INVENTORY(int left, int right, voi
 				// Remove and Add - -;
 				if (gC_vs_ui.IsRunningExchange() && pItem->IsTrade())
 				{
-						//----------------------------------------------------
-						// 놓여 있던거 제거
-						//----------------------------------------------------
-						CGTradeRemoveItem _CGTradeRemoveItem;
-						_CGTradeRemoveItem.setTargetObjectID( g_pTradeManager->GetOtherID() );
-						_CGTradeRemoveItem.setItemObjectID( pItem->GetID() );
+					//----------------------------------------------------
+					// 놓여 있던거 제거
+					//----------------------------------------------------
+					CGTradeRemoveItem _CGTradeRemoveItem;
+					_CGTradeRemoveItem.setTargetObjectID(g_pTradeManager->GetOtherID());
+					_CGTradeRemoveItem.setItemObjectID(pItem->GetID());
 
-						g_pSocket->sendPacket( &_CGTradeRemoveItem );
+					g_pSocket->sendPacket(&_CGTradeRemoveItem);
 
-						g_pTradeManager->SetNextAcceptTime();
+					g_pTradeManager->SetNextAcceptTime();
 
-						
-						//----------------------------------------------------
-						// 아이템 추가 --> 개수 증가
-						//----------------------------------------------------
-						CGAddMouseToInventory _CGAddMouseToInventory;
-						_CGAddMouseToInventory.setObjectID( mouseItemID );
-						_CGAddMouseToInventory.setInvenX( pItem->GetGridX() );
-						_CGAddMouseToInventory.setInvenY( pItem->GetGridY() );								
 
-						g_pSocket->sendPacket( &_CGAddMouseToInventory );
+					//----------------------------------------------------
+					// 아이템 추가 --> 개수 증가
+					//----------------------------------------------------
+					CGAddMouseToInventory _CGAddMouseToInventory;
+					_CGAddMouseToInventory.setObjectID(mouseItemID);
+					_CGAddMouseToInventory.setInvenX(pItem->GetGridX());
+					_CGAddMouseToInventory.setInvenY(pItem->GetGridY());
 
-						bSendPacket = FALSE;
+					g_pSocket->sendPacket(&_CGAddMouseToInventory);
 
-						
-						//----------------------------------------------------
-						// 다시 교환창에 아이템 추가
-						//----------------------------------------------------
-						CGTradeAddItem _CGTradeAddItem;
-						_CGTradeAddItem.setTargetObjectID( g_pTradeManager->GetOtherID() );
-						_CGTradeAddItem.setItemObjectID( pItem->GetID() );
+					bSendPacket = FALSE;
 
-						g_pSocket->sendPacket( &_CGTradeAddItem );
-						
+
+					//----------------------------------------------------
+					// 다시 교환창에 아이템 추가
+					//----------------------------------------------------
+					CGTradeAddItem _CGTradeAddItem;
+					_CGTradeAddItem.setTargetObjectID(g_pTradeManager->GetOtherID());
+					_CGTradeAddItem.setItemObjectID(pItem->GetID());
+
+					g_pSocket->sendPacket(&_CGTradeAddItem);
+
 
 					// 다른 사람이 OK누른 상태라면..
-					if (bAcceptOtherTrade) 
+					if (bAcceptOtherTrade)
 					{
 						g_pTradeManager->RefuseOtherTrade();
 					}
 				}
 
-				PlaySound( pItem->GetInventorySoundID() );
+				PlaySound(pItem->GetInventorySoundID());
 			}
 
 			//----------------------------------------------------
 			// Server에 접속한 경우
 			//----------------------------------------------------
-				if (bSendPacket)
-				{
-					CGAddMouseToInventory _CGAddMouseToInventory;
-					_CGAddMouseToInventory.setObjectID( mouseItemID );
-					_CGAddMouseToInventory.setInvenX( pItem->GetGridX() );
-					_CGAddMouseToInventory.setInvenY( pItem->GetGridY() );								
+			if (bSendPacket)
+			{
+				CGAddMouseToInventory _CGAddMouseToInventory;
+				_CGAddMouseToInventory.setObjectID(mouseItemID);
+				_CGAddMouseToInventory.setInvenX(pItem->GetGridX());
+				_CGAddMouseToInventory.setInvenY(pItem->GetGridY());
 
-					g_pSocket->sendPacket( &_CGAddMouseToInventory );
+				g_pSocket->sendPacket(&_CGAddMouseToInventory);
 
-					
-					//----------------------------------------------------
-					// 각 Item class에 따른 처리
-					//----------------------------------------------------
-					//if (pItem->GetItemClass()==ITEM_CLASS_MONEY)
-					//{
-					//}
-				}
-				
+
+				//----------------------------------------------------
+				// 각 Item class에 따른 처리
+				//----------------------------------------------------
+				//if (pItem->GetItemClass()==ITEM_CLASS_MONEY)
+				//{
+				//}
+			}
+
 		}
 	}
 }
@@ -5322,7 +5324,7 @@ UIMessageManager::Execute_UI_ITEM_INSERT_FROM_GEAR(int left, int right, void* vo
 {
 	DEBUG_ADD("[UI] UI_ITEM_INSERT_FROM_GEAR");
 
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
@@ -5341,7 +5343,7 @@ UIMessageManager::Execute_UI_ITEM_INSERT_FROM_GEAR(int left, int right, void* vo
 		//----------------------------------------------------
 		// Magazine
 		//----------------------------------------------------
-		if (pItem->GetItemClass()==ITEM_CLASS_MAGAZINE)
+		if (pItem->GetItemClass() == ITEM_CLASS_MAGAZINE)
 		{
 			//----------------------------------------------------
 			// Server에 접속한 경우
@@ -5350,36 +5352,36 @@ UIMessageManager::Execute_UI_ITEM_INSERT_FROM_GEAR(int left, int right, void* vo
 				// mouse에 있던 item을 Gear에 추가했다고
 				// server로 packet을 보낸다.
 				//---------------------------------------------------
-				CGAddMouseToGear _CGAddMouseToGear;
-				_CGAddMouseToGear.setObjectID( pMouseItem->GetID() );
-				_CGAddMouseToGear.setSlotID( pItem->GetItemSlot() );
+			CGAddMouseToGear _CGAddMouseToGear;
+			_CGAddMouseToGear.setObjectID(pMouseItem->GetID());
+			_CGAddMouseToGear.setSlotID(pItem->GetItemSlot());
 
 #if __CONTENTS(__GEAR_SWAP_CHANGE)		//_CGAddMouseToGear.setSlotID(right);
-				DWORD	dwGearID	= 0;
-				switch(g_pPlayer->GetRace())
-				{
-				case RACE_SLAYER:
-					dwGearID	= g_pSlayerGear->GetSendGearID();
-					break;
+			DWORD	dwGearID = 0;
+			switch (g_pPlayer->GetRace())
+			{
+			case RACE_SLAYER:
+				dwGearID = g_pSlayerGear->GetSendGearID();
+				break;
 
-				case RACE_VAMPIRE:
-					dwGearID	= g_pVampireGear->GetSendGearID();
-					break;
-				
-				case RACE_OUSTERS:
-					dwGearID	= g_pOustersGear->GetSendGearID();
-					break;
-				}
-				_CGAddMouseToGear.setGearSlotID(dwGearID);
+			case RACE_VAMPIRE:
+				dwGearID = g_pVampireGear->GetSendGearID();
+				break;
+
+			case RACE_OUSTERS:
+				dwGearID = g_pOustersGear->GetSendGearID();
+				break;
+			}
+			_CGAddMouseToGear.setGearSlotID(dwGearID);
 #endif	//__GEAR_SWAP_CHANGE			
 
-				g_pSocket->sendPacket( &_CGAddMouseToGear );
+			g_pSocket->sendPacket(&_CGAddMouseToGear);
 
-				
-				// 검증받기를 기다려야한다.
-				g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_INSERT_FROM_GEAR );
 
-				// 검증받으면 m_p_current_pickup_item을 pItem을 추가해야한다.
+			// 검증받기를 기다려야한다.
+			g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_INSERT_FROM_GEAR);
+
+			// 검증받으면 m_p_current_pickup_item을 pItem을 추가해야한다.
 		}
 		//----------------------------------------------------
 		// 아닌 경우.
@@ -5391,7 +5393,7 @@ UIMessageManager::Execute_UI_ITEM_INSERT_FROM_GEAR(int left, int right, void* vo
 	}
 	else
 	{
-		DEBUG_ADD( "[Watch Mode]");
+		DEBUG_ADD("[Watch Mode]");
 	}
 }
 
@@ -5403,16 +5405,16 @@ UIMessageManager::Execute_UI_ITEM_INSERT_FROM_GEAR(int left, int right, void* vo
 //-----------------------------------------------------------------------------
 void
 UIMessageManager::Execute_UI_ITEM_INSERT_FROM_QUICKSLOT(int left, int right, void* void_ptr)
-{				
+{
 	DEBUG_ADD("[UI] UI_ITEM_INSERT_FROM_QUICKSLOT");
-	
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
 	}
 
-	
+
 	if (g_pPlayer->IsItemCheckBufferNULL())
 	{
 		// gpC_mouse_pointer->GetPickUpItem()		// 들고 있는 것
@@ -5421,64 +5423,64 @@ UIMessageManager::Execute_UI_ITEM_INSERT_FROM_QUICKSLOT(int left, int right, voi
 		MItem* pItem = (MItem*)void_ptr;
 		MItem* pMouseItem = (MItem*)gpC_mouse_pointer->GetPickUpItem();
 
-		if (pItem->GetItemClass()==pMouseItem->GetItemClass()
-			&& pItem->GetItemType()==pMouseItem->GetItemType())
+		if (pItem->GetItemClass() == pMouseItem->GetItemClass()
+			&& pItem->GetItemType() == pMouseItem->GetItemType())
 		{
 			//----------------------------------------------------
 			// Server에 접속한 경우
 			//----------------------------------------------------
-				CGAddMouseToQuickSlot _CGAddMouseToQuickSlot;
-				_CGAddMouseToQuickSlot.setObjectID( pMouseItem->GetID() );
-				if ( g_pPlayer->IsOusters() )
-				{
-					int slotID = left;
-					
-					if( g_pArmsBand1 != NULL &&g_pArmsBand1->GetPocketNumber() > slotID )
-						_CGAddMouseToQuickSlot.setSlotID( slotID );
-					else
-					{
-						_CGAddMouseToQuickSlot.setSlotID( pItem->GetItemSlot() + 3);
-					}
-				}
-				else
-					_CGAddMouseToQuickSlot.setSlotID( pItem->GetItemSlot() );
+			CGAddMouseToQuickSlot _CGAddMouseToQuickSlot;
+			_CGAddMouseToQuickSlot.setObjectID(pMouseItem->GetID());
+			if (g_pPlayer->IsOusters())
+			{
+				int slotID = left;
 
-				g_pSocket->sendPacket( &_CGAddMouseToQuickSlot );
-
-				
-				// 검증받기 위해서 기다려야 한다.
-				// 검증받으면 m_p_current_pickup_item을 pItem을 추가해야한다.
-				//g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_INSERT_FROM_INVENTORY );
-				//MItem* pMouseItem = (MItem*)gpC_mouse_pointer->GetPickUpItem();
-
-				//----------------------------------------------------
-				// pMouseItem을 pItem에 추가시킨다.
-				//----------------------------------------------------
-				int total = pMouseItem->GetNumber() + pItem->GetNumber();
-				if ( total > pItem->GetMaxNumber() )
-				{
-					// 한계 수치를 넘어갈 경우
-					pMouseItem->SetNumber( total - pItem->GetMaxNumber() );
-					pItem->SetNumber( pItem->GetMaxNumber() );
-				}
+				if (g_pArmsBand1 != NULL && g_pArmsBand1->GetPocketNumber() > slotID)
+					_CGAddMouseToQuickSlot.setSlotID(slotID);
 				else
 				{
-					// 모두 pItem에 추가될 수 있는 경우
-					pItem->SetNumber( total );
-					UI_DropItem();
-
-					delete pMouseItem;
+					_CGAddMouseToQuickSlot.setSlotID(pItem->GetItemSlot() + 3);
 				}
+			}
+			else
+				_CGAddMouseToQuickSlot.setSlotID(pItem->GetItemSlot());
 
-				PlaySound( pItem->GetInventorySoundID() );
+			g_pSocket->sendPacket(&_CGAddMouseToQuickSlot);
 
-				//----------------------------------------------------
-				// 각 Item class에 따른 처리
-				//----------------------------------------------------
-				//if (pItem->GetItemClass()==ITEM_CLASS_MONEY)
-				//{
-				//}
-				
+
+			// 검증받기 위해서 기다려야 한다.
+			// 검증받으면 m_p_current_pickup_item을 pItem을 추가해야한다.
+			//g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_INSERT_FROM_INVENTORY );
+			//MItem* pMouseItem = (MItem*)gpC_mouse_pointer->GetPickUpItem();
+
+			//----------------------------------------------------
+			// pMouseItem을 pItem에 추가시킨다.
+			//----------------------------------------------------
+			int total = pMouseItem->GetNumber() + pItem->GetNumber();
+			if (total > pItem->GetMaxNumber())
+			{
+				// 한계 수치를 넘어갈 경우
+				pMouseItem->SetNumber(total - pItem->GetMaxNumber());
+				pItem->SetNumber(pItem->GetMaxNumber());
+			}
+			else
+			{
+				// 모두 pItem에 추가될 수 있는 경우
+				pItem->SetNumber(total);
+				UI_DropItem();
+
+				delete pMouseItem;
+			}
+
+			PlaySound(pItem->GetInventorySoundID());
+
+			//----------------------------------------------------
+			// 각 Item class에 따른 처리
+			//----------------------------------------------------
+			//if (pItem->GetItemClass()==ITEM_CLASS_MONEY)
+			//{
+			//}
+
 		}
 	}
 }
@@ -5490,23 +5492,23 @@ UIMessageManager::Execute_UI_ITEM_INSERT_FROM_QUICKSLOT(int left, int right, voi
 //
 //-----------------------------------------------------------------------------
 void
-UIMessageManager::Execute_UI_CLOSE_SHOP(int left, int right, void* void_ptr) 
+UIMessageManager::Execute_UI_CLOSE_SHOP(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_CLOSE_SHOP");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.CloseShop();
 
 		// shop을 없앤다.
-		gC_vs_ui.SetShop( NULL );
+		gC_vs_ui.SetShop(NULL);
 
 
 		// 다시 뭔가를?선택할 수 있게 한다.
@@ -5526,36 +5528,36 @@ UIMessageManager::Execute_UI_CLOSE_SHOP(int left, int right, void* void_ptr)
 //
 void
 UIMessageManager::Execute_UI_BUY_ITEM(int left, int right, void* void_ptr)
-{				
+{
 	DEBUG_ADD("[UI] UI_BUY_ITEM");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
 	// 검증할게 없는 경우
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		int index = left;					// 살려는 아이템의 위치
 		int number = right;					// 살려는 개수
 		MShop* pShop = (MShop*)void_ptr;	// 상점
-		int npcID = (*g_pPCTalkBox).GetNPCID();					
+		int npcID = (*g_pPCTalkBox).GetNPCID();
 
-		if (pShop!=NULL)
-		{					
+		if (pShop != NULL)
+		{
 			MShopShelf* pShopShelf = pShop->GetCurrentShelf();
-			
-			if (pShopShelf!=NULL)
+
+			if (pShopShelf != NULL)
 			{
-				MItem* pItem = pShopShelf->GetItem( index );
-				
-				if (pItem!=NULL)
+				MItem* pItem = pShopShelf->GetItem(index);
+
+				if (pItem != NULL)
 				{
 					POINT point;
-					
-					int oldNumber = pItem->GetNumber();					
+
+					int oldNumber = pItem->GetNumber();
 
 					//-------------------------------------------------
 					// 살 수 있는지 체크한다.
@@ -5569,75 +5571,75 @@ UIMessageManager::Execute_UI_BUY_ITEM(int left, int right, void* void_ptr)
 						//-------------------------------------------------
 						// 보통 상점
 						//-------------------------------------------------
-						case MShop::SHOP_NORMAL :
+					case MShop::SHOP_NORMAL:
+					{
+						int price = number * (*g_pPriceManager).GetItemPrice(pItem, MPriceManager::NPC_TO_PC, pShopShelf->GetShelfType() == MShopShelf::SHELF_UNKNOWN);
+						int money = (*g_pMoneyManager).GetMoney();
+
+						bBuyPossible = (price <= money);
+
+						buyImpossibleMessage = STRING_MESSAGE_CANNOT_BUY_NO_MONEY;
+					}
+					break;
+
+					//-------------------------------------------------
+					// 이벤트별 상점
+					//-------------------------------------------------
+					case MShop::SHOP_EVENT_STAR:
+					{
+						STAR_ITEM_PRICE starPrice;
+
+						g_pPriceManager->GetItemPrice(pItem, starPrice);
+
+						if (starPrice.type != -1 && starPrice.number != 0)
 						{
-							int price = number * (*g_pPriceManager).GetItemPrice(pItem, MPriceManager::NPC_TO_PC, pShopShelf->GetShelfType()==MShopShelf::SHELF_UNKNOWN);
-							int money = (*g_pMoneyManager).GetMoney();
+							// 몇개나 있는지 찾아본다.
+							MItemClassTypeNumberFinder starFinder(ITEM_CLASS_EVENT_STAR,
+								starPrice.type);
 
-							bBuyPossible = (price <= money);
 
-							buyImpossibleMessage = STRING_MESSAGE_CANNOT_BUY_NO_MONEY;
+							((MItemManager*)g_pInventory)->FindItem(starFinder);
+
+							// 가지고 있는게 더 많아야 한다.
+							bBuyPossible = (starFinder.GetTotalNumber() >= starPrice.number);
+
+							buyImpossibleMessage = STRING_MESSAGE_CANNOT_BUY_NO_STAR;
 						}
-						break;
 
-						//-------------------------------------------------
-						// 이벤트별 상점
-						//-------------------------------------------------
-						case MShop::SHOP_EVENT_STAR :
-						{
-							STAR_ITEM_PRICE starPrice;
-
-							g_pPriceManager->GetItemPrice( pItem, starPrice );
-
-							if (starPrice.type!=-1 && starPrice.number!=0)
-							{
-								// 몇개나 있는지 찾아본다.
-								MItemClassTypeNumberFinder starFinder(ITEM_CLASS_EVENT_STAR, 
-																		starPrice.type);
-
-
-								((MItemManager*)g_pInventory)->FindItem( starFinder );
-
-								// 가지고 있는게 더 많아야 한다.
-								bBuyPossible = (starFinder.GetTotalNumber() >= starPrice.number);
-
-								buyImpossibleMessage = STRING_MESSAGE_CANNOT_BUY_NO_STAR;
-							}							
-							
-						}
-						break;
+					}
+					break;
 					}
 
 					//-------------------------------------------------
 					// 돈이 충분한 경우
 					//-------------------------------------------------
 					if (bBuyPossible)
-					{								
+					{
 						//-------------------------------------------------
 						// inventory에 넣을 위치를 찾는다.
 						//-------------------------------------------------
-						pItem->SetNumber( number );
+						pItem->SetNumber(number);
 
 						if (g_pInventory->GetFitPosition(pItem, point))
 						{
 							CGShopRequestBuy _CGShopRequestBuy;
-							_CGShopRequestBuy.setObjectID( npcID );
+							_CGShopRequestBuy.setObjectID(npcID);
 
-							_CGShopRequestBuy.setShopType( pShop->GetCurrent() );
-							_CGShopRequestBuy.setShopIndex( index );
+							_CGShopRequestBuy.setShopType(pShop->GetCurrent());
+							_CGShopRequestBuy.setShopIndex(index);
 
 							_CGShopRequestBuy.setX(point.x);
 							_CGShopRequestBuy.setY(point.y);
 
-							_CGShopRequestBuy.setItemNum( number );
+							_CGShopRequestBuy.setItemNum(number);
 
-							g_pSocket->sendPacket( &_CGShopRequestBuy );
+							g_pSocket->sendPacket(&_CGShopRequestBuy);
 
-							
+
 							//-------------------------------------------------
 							// 검증을 위한 Temp Information설정
 							//-------------------------------------------------
-							(*g_pTempInformation).Mode	= TempInformation::MODE_SHOP_BUY;
+							(*g_pTempInformation).Mode = TempInformation::MODE_SHOP_BUY;
 							(*g_pTempInformation).Value1 = pShop->GetCurrent();
 							(*g_pTempInformation).Value2 = index;
 							(*g_pTempInformation).Value3 = point.x;
@@ -5652,14 +5654,14 @@ UIMessageManager::Execute_UI_BUY_ITEM(int left, int right, void* void_ptr)
 						else
 						{
 							// inventory가 꽉차서 못 산다!
-							g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_BUY_NO_SPACE ].GetString());
-							
+							g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_BUY_NO_SPACE].GetString());
+
 							// 2004, 5, 7 , sobeit add start - 인벤에 자리가 없으면 보관함 사라고 도움말 보여줌
-							ExecuteHelpEvent( HELP_EVENT_STORAGE_BUY );
+							ExecuteHelpEvent(HELP_EVENT_STORAGE_BUY);
 							// 2004, 5, 6, sobeit add end
 						}
 
-						pItem->SetNumber( oldNumber );
+						pItem->SetNumber(oldNumber);
 
 					}
 					//-------------------------------------------------
@@ -5667,7 +5669,7 @@ UIMessageManager::Execute_UI_BUY_ITEM(int left, int right, void* void_ptr)
 					//-------------------------------------------------					
 					else
 					{
-						g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[buyImpossibleMessage].GetString());
+						g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[buyImpossibleMessage].GetString());
 					}
 				}
 				else
@@ -5699,16 +5701,16 @@ void
 UIMessageManager::Execute_UI_ITEM_SELL_FINISHED(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_ITEM_SELL_FINISHED");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
-	if (g_pTempInformation!=NULL
-		&& g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+
+	if (g_pTempInformation != NULL
+		&& g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.FinishItemSelling();
 
@@ -5728,55 +5730,55 @@ UIMessageManager::Execute_UI_ITEM_SELL_FINISHED(int left, int right, void* void_
 //
 void
 UIMessageManager::Execute_UI_SELL_ITEM(int left, int right, void* void_ptr)
-{				
+{
 	DEBUG_ADD("[UI] UI_SELL_ITEM");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	//MItem* pItem = (MItem*)void_ptr;
 	// 검증할게 없는 경우
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
-		const MItem* pItem = g_pInventory->GetItem( left, right );
+		const MItem* pItem = g_pInventory->GetItem(left, right);
 
-		if (pItem!=NULL && g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+		if (pItem != NULL && g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 		{
 			// Event GiftBox 아이템인 경우 못 놓는다.
-			
+
 			if (//pItem->GetItemClass()!=ITEM_CLASS_EVENT_GIFT_BOX &&
-				!pItem->IsUniqueItem() || (g_pTimeItemManager->IsExist( pItem->GetID())))
+				!pItem->IsUniqueItem() || (g_pTimeItemManager->IsExist(pItem->GetID())))
 			{
 				//-----------------------------------------------------
 				// 아이템을 팔기 위한 packet을 보낸다.
 				//-----------------------------------------------------
-					CGShopRequestSell	_CGShopRequestSell;
+				CGShopRequestSell	_CGShopRequestSell;
 
-					_CGShopRequestSell.setObjectID( (*g_pPCTalkBox).GetNPCID() );		// NPC ID	
-					_CGShopRequestSell.setOpCode( SHOP_REQUEST_SELL_NORMAL );
-					_CGShopRequestSell.setItemObjectID( pItem->GetID() );	// Item Object ID
+				_CGShopRequestSell.setObjectID((*g_pPCTalkBox).GetNPCID());		// NPC ID	
+				_CGShopRequestSell.setOpCode(SHOP_REQUEST_SELL_NORMAL);
+				_CGShopRequestSell.setItemObjectID(pItem->GetID());	// Item Object ID
 
-					g_pSocket->sendPacket( &_CGShopRequestSell );
-			
-						
-					//-------------------------------------------------
-					// 검증을 위한 Temp Information설정
-					//-------------------------------------------------
-					(*g_pTempInformation).Mode	= TempInformation::MODE_SHOP_SELL;
-					(*g_pTempInformation).pValue = (void*)pItem;
+				g_pSocket->sendPacket(&_CGShopRequestSell);
 
-					//-------------------------------------------------
-					// 다른 아이템에 접근 못하도록..
-					//-------------------------------------------------
-					UI_LockItemTrade();
+
+				//-------------------------------------------------
+				// 검증을 위한 Temp Information설정
+				//-------------------------------------------------
+				(*g_pTempInformation).Mode = TempInformation::MODE_SHOP_SELL;
+				(*g_pTempInformation).pValue = (void*)pItem;
+
+				//-------------------------------------------------
+				// 다른 아이템에 접근 못하도록..
+				//-------------------------------------------------
+				UI_LockItemTrade();
 			}
 			else
 			{
-				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_SELL ].GetString());
+				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_SELL].GetString());
 			}
 		}
 		else
@@ -5798,41 +5800,41 @@ UIMessageManager::Execute_UI_SELL_ITEM(int left, int right, void* void_ptr)
 //
 void
 UIMessageManager::Execute_UI_SELL_ALL_ITEM(int left, int right, void* void_ptr)
-{				
+{
 	DEBUG_ADD("[UI] UI_SELL_ALL_ITEM");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	//MItem* pItem = (MItem*)void_ptr;
 	// 검증할게 없는 경우
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		//-----------------------------------------------------
 		// 아이템을 팔기 위한 packet을 보낸다.
 		//-----------------------------------------------------
-			CGShopRequestSell	_CGShopRequestSell;
+		CGShopRequestSell	_CGShopRequestSell;
 
-			_CGShopRequestSell.setObjectID( (*g_pPCTalkBox).GetNPCID() );		// NPC ID	
-			_CGShopRequestSell.setOpCode( SHOP_REQUEST_SELL_ALL_SKULL );
-			_CGShopRequestSell.setItemObjectID( 0 );	// Item Object ID
+		_CGShopRequestSell.setObjectID((*g_pPCTalkBox).GetNPCID());		// NPC ID	
+		_CGShopRequestSell.setOpCode(SHOP_REQUEST_SELL_ALL_SKULL);
+		_CGShopRequestSell.setItemObjectID(0);	// Item Object ID
 
-			g_pSocket->sendPacket( &_CGShopRequestSell );
-	
-				
-			//-------------------------------------------------
-			// 검증을 위한 Temp Information설정
-			//-------------------------------------------------
-			(*g_pTempInformation).Mode	= TempInformation::MODE_SHOP_SELL_ALL_SKULL;
-			
-			//-------------------------------------------------
-			// 다른 아이템에 접근 못하도록..
-			//-------------------------------------------------
-			UI_LockItemTrade();
+		g_pSocket->sendPacket(&_CGShopRequestSell);
+
+
+		//-------------------------------------------------
+		// 검증을 위한 Temp Information설정
+		//-------------------------------------------------
+		(*g_pTempInformation).Mode = TempInformation::MODE_SHOP_SELL_ALL_SKULL;
+
+		//-------------------------------------------------
+		// 다른 아이템에 접근 못하도록..
+		//-------------------------------------------------
+		UI_LockItemTrade();
 	}
 }
 
@@ -5843,8 +5845,8 @@ UIMessageManager::Execute_UI_SELL_ALL_ITEM(int left, int right, void* void_ptr)
 //-----------------------------------------------------------------------------
 void
 UIMessageManager::Execute_UI_REMOVE_BACKGROUND_MOUSE_FOCUS(int left, int right, void* void_ptr)
-{	
-	if (g_Mode!=MODE_GAME)
+{
+	if (g_Mode != MODE_GAME)
 	{
 		return;
 	}
@@ -5854,8 +5856,8 @@ UIMessageManager::Execute_UI_REMOVE_BACKGROUND_MOUSE_FOCUS(int left, int right, 
 
 void
 UIMessageManager::Execute_UI_BACKGROUND_MOUSE_FOCUS(int left, int right, void* void_ptr)
-{	
-	if (g_Mode!=MODE_GAME)
+{
+	if (g_Mode != MODE_GAME)
 	{
 		return;
 	}
@@ -5875,14 +5877,14 @@ void
 UIMessageManager::Execute_UI_CLOSE_SKILL_VIEW(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_CLOSE_SKILL_VIEW");
-	
+
 	if (g_Mode!=MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	gC_vs_ui.CloseSkillView();
 
 	// 다시 뭔가를?선택할 수 있게 한다.
@@ -5906,28 +5908,28 @@ UIMessageManager::Execute_UI_LEARN_SLAYER_SKILL(int left, int right, void* void_
 	//
 	DEBUG_ADD("[UI] UI_LEARN_SLAYER_SKILL");
 
-	
+
 	if (g_Mode!=MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	if ((*g_pTempInformation).Mode == TempInformation::MODE_SKILL_LEARN)
 	{
 		(*g_pTempInformation).Value3 = left;
 
 		#ifdef	CONNECT_SERVER
 			CGLearnSkill _CGLearnSkill;
-			
+
 			//_CGLearnSkill.setObjectID( (*g_pPCTalkBox).GetNPCID() );
 			_CGLearnSkill.setSkillType( left );
 			_CGLearnSkill.setSkillDomainType( (*g_pTempInformation).Value1 );
 
 			g_pSocket->sendPacket( &_CGLearnSkill );
 
-			
+
 		#endif
 	}
 }
@@ -5942,7 +5944,7 @@ void
 UIMessageManager::Execute_UI_PDS_CLOSED(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_PDS_CLOSED");
-	
+
 	gC_vs_ui.AcquirePDSClosedMessage();
 }
 */
@@ -5957,7 +5959,7 @@ void
 UIMessageManager::Execute_UI_PLEASE_SET_SLAYER_VALUE(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_PLEASE_SET_SLAYER_VALUE");
-	
+
 	//C_VS_UI_SLAYER_PDS::m_str		= g_pPlayer->GetSTR();
 	//C_VS_UI_SLAYER_PDS::m_dex		= g_pPlayer->GetDEX();
 	//C_VS_UI_SLAYER_PDS::m_int		= g_pPlayer->GetINT();
@@ -5973,7 +5975,7 @@ UIMessageManager::Execute_UI_PLEASE_SET_SLAYER_VALUE(int left, int right, void* 
 	//C_VS_UI_SLAYER_PDS::m_MP_MAX	= g_pPlayer->GetMAX_MP();
 	//C_VS_UI_SLAYER_PDS::m_th_max	= g_pPlayer->GetTOHIT(); // (!)
 	//C_VS_UI_SLAYER_PDS::m_ac_max	= g_pPlayer->GetAC();	 // (!)
-	//C_VS_UI_SLAYER_PDS::m_cc_max	= g_pPlayer->GetCARRYWEIGHT(); // (!)	
+	//C_VS_UI_SLAYER_PDS::m_cc_max	= g_pPlayer->GetCARRYWEIGHT(); // (!)
 }
 */
 
@@ -5990,7 +5992,7 @@ UIMessageManager::Execute_UI_SEND_PCS_NUMBER(int left, int right, void* void_ptr
 	// left = pcs number
 	//
 	DEBUG_ADD("[UI] UI_SEND_PCS_NUMBER");
-	
+
 	int pcsNumber = left;
 
 
@@ -6003,7 +6005,7 @@ UIMessageManager::Execute_UI_SEND_PCS_NUMBER(int left, int right, void* void_ptr
 
 		g_pSocket->sendPacket( &_CGDialUp );
 
-		
+
 	//-------------------------------------------
 	// Client Only
 	//-------------------------------------------
@@ -6017,158 +6019,158 @@ UIMessageManager::Execute_UI_SEND_PCS_NUMBER(int left, int right, void* void_ptr
 }
  */
 
-//-----------------------------------------------------------------------------
-//
-// 접속 됐을 때
-//
-//-----------------------------------------------------------------------------
-/*
-case UI_PCS_CONNECTOR_GRANTED:
-//
-// 대기방에 있는 사람과 연결함.
-//
-// left = pcs number
-//
-DEBUG_ADD("[UI] UI_PCS_CONNECTOR_GRANTED");
+ //-----------------------------------------------------------------------------
+ //
+ // 접속 됐을 때
+ //
+ //-----------------------------------------------------------------------------
+ /*
+ case UI_PCS_CONNECTOR_GRANTED:
+ //
+ // 대기방에 있는 사람과 연결함.
+ //
+ // left = pcs number
+ //
+ DEBUG_ADD("[UI] UI_PCS_CONNECTOR_GRANTED");
 
-UI_OnLinePCS();
-break;
-*/
+ UI_OnLinePCS();
+ break;
+ */
 
-//-----------------------------------------------------------------------------
-//
-// PCS 접속중에 끝낼때..
-//
-//-----------------------------------------------------------------------------
-// PCS 창에서 PCS number를 send하고 connecting 중에 END를 눌렀다.
-/*
-void
-UIMessageManager::Execute_UI_END_PCS(int left, int right, void* void_ptr) 
-{
-	DEBUG_ADD("[UI] UI_END_PCS");
-	
-	//------------------------------------------------
-	// 모든 접속을 다 끊는다.
-	//------------------------------------------------
-	#ifdef	CONNECT_SERVER			
-		CGPhoneDisconnect _CGPhoneDisconnect;
-			
-		for (int i=0; i<3; i++)
-		{
-			if (g_pUserInformation->OtherPCSNumber[i] != 0)
-			{
-				_CGPhoneDisconnect.setSlotID( i );
+ //-----------------------------------------------------------------------------
+ //
+ // PCS 접속중에 끝낼때..
+ //
+ //-----------------------------------------------------------------------------
+ // PCS 창에서 PCS number를 send하고 connecting 중에 END를 눌렀다.
+ /*
+ void
+ UIMessageManager::Execute_UI_END_PCS(int left, int right, void* void_ptr)
+ {
+	 DEBUG_ADD("[UI] UI_END_PCS");
 
-				g_pSocket->sendPacket( &_CGPhoneDisconnect );
+	 //------------------------------------------------
+	 // 모든 접속을 다 끊는다.
+	 //------------------------------------------------
+	 #ifdef	CONNECT_SERVER
+		 CGPhoneDisconnect _CGPhoneDisconnect;
 
-			}
-		}
-	#endif
-}
-*/
+		 for (int i=0; i<3; i++)
+		 {
+			 if (g_pUserInformation->OtherPCSNumber[i] != 0)
+			 {
+				 _CGPhoneDisconnect.setSlotID( i );
 
-//-----------------------------------------------------------------------------
-//
-// Online 상태에서 PCS끝낼때
-//
-//-----------------------------------------------------------------------------
-/*
-void
-UIMessageManager::Execute_UI_QUIT_PCS_ONLINE_MODE(int left, int right, void* void_ptr)
-{
-	//
-	// PCS online mode에서 quit 버튼을 눌렀다.
-	//
-	DEBUG_ADD("[UI] UI_QUIT_PCS_ONLINE_MODE");
-	
-	//------------------------------------------------
-	// 모든 접속을 다 끊는다.
-	//------------------------------------------------
-	#ifdef	CONNECT_SERVER			
-		CGPhoneDisconnect _CGPhoneDisconnect;
-			
-		for (int i=0; i<3; i++)
-		{
-			if (g_pUserInformation->OtherPCSNumber[i] != 0)
-			{
-				_CGPhoneDisconnect.setSlotID( i );
+				 g_pSocket->sendPacket( &_CGPhoneDisconnect );
 
-				g_pSocket->sendPacket( &_CGPhoneDisconnect );
+			 }
+		 }
+	 #endif
+ }
+ */
 
-			}
-		}
-	#endif
+ //-----------------------------------------------------------------------------
+ //
+ // Online 상태에서 PCS끝낼때
+ //
+ //-----------------------------------------------------------------------------
+ /*
+ void
+ UIMessageManager::Execute_UI_QUIT_PCS_ONLINE_MODE(int left, int right, void* void_ptr)
+ {
+	 //
+	 // PCS online mode에서 quit 버튼을 눌렀다.
+	 //
+	 DEBUG_ADD("[UI] UI_QUIT_PCS_ONLINE_MODE");
 
-	UI_AcquireQuitPCSOnlineModeMessage();
-}
-*/
+	 //------------------------------------------------
+	 // 모든 접속을 다 끊는다.
+	 //------------------------------------------------
+	 #ifdef	CONNECT_SERVER
+		 CGPhoneDisconnect _CGPhoneDisconnect;
 
-//-----------------------------------------------------------------------------
-//
-// 다른 사람으로 바꿈.
-//
-//-----------------------------------------------------------------------------
-/*
-void
-UIMessageManager::Execute_UI_CHANGE_PCS_CONNECTED_SLOT(int left, int right, void* void_ptr)
-{
-	//
-	// 또 다른 연결된 사람으로 바꿈.
-	//
-	// left = pcs number
-	// right = slot 
-	//
-	DEBUG_ADD("[UI] UI_CHANGE_PCS_CONNECTED_SLOT");
-	
-	int slot = right;
+		 for (int i=0; i<3; i++)
+		 {
+			 if (g_pUserInformation->OtherPCSNumber[i] != 0)
+			 {
+				 _CGPhoneDisconnect.setSlotID( i );
 
-	gC_vs_ui.GrantPCSWaitRoomToDuplex( slot );
-}
-*/
+				 g_pSocket->sendPacket( &_CGPhoneDisconnect );
 
-//-----------------------------------------------------------------------------
-//
-// Online 상태에서 PCS끝낼때
-//
-//-----------------------------------------------------------------------------
-// 대기방 click! (이미 연결-duplex-되지 않았음)
-/*
-void
-UIMessageManager::Execute_UI_PLEASE_PCS_CONNECT_ME(int left, int right, void* void_ptr)
-{
-	//
-	// 사람이 있는 대기방을 클릭하였다. (메시지를 송신 하기 위해서)
-	//
-	// left = pcs number
-	// right = slot 
-	//
-	DEBUG_ADD("[UI] UI_PLEASE_PCS_CONNECT_ME");
-	
-	int slot = right;
+			 }
+		 }
+	 #endif
 
-	// 클릭된 slot과 연결함.
-	gC_vs_ui.GrantPCSWaitRoomToDuplex( slot );
-}
-*/
+	 UI_AcquireQuitPCSOnlineModeMessage();
+ }
+ */
 
-//-----------------------------------------------------------------------------
-//
-// GameMenu Continue
-//
-//-----------------------------------------------------------------------------
+ //-----------------------------------------------------------------------------
+ //
+ // 다른 사람으로 바꿈.
+ //
+ //-----------------------------------------------------------------------------
+ /*
+ void
+ UIMessageManager::Execute_UI_CHANGE_PCS_CONNECTED_SLOT(int left, int right, void* void_ptr)
+ {
+	 //
+	 // 또 다른 연결된 사람으로 바꿈.
+	 //
+	 // left = pcs number
+	 // right = slot
+	 //
+	 DEBUG_ADD("[UI] UI_CHANGE_PCS_CONNECTED_SLOT");
+
+	 int slot = right;
+
+	 gC_vs_ui.GrantPCSWaitRoomToDuplex( slot );
+ }
+ */
+
+ //-----------------------------------------------------------------------------
+ //
+ // Online 상태에서 PCS끝낼때
+ //
+ //-----------------------------------------------------------------------------
+ // 대기방 click! (이미 연결-duplex-되지 않았음)
+ /*
+ void
+ UIMessageManager::Execute_UI_PLEASE_PCS_CONNECT_ME(int left, int right, void* void_ptr)
+ {
+	 //
+	 // 사람이 있는 대기방을 클릭하였다. (메시지를 송신 하기 위해서)
+	 //
+	 // left = pcs number
+	 // right = slot
+	 //
+	 DEBUG_ADD("[UI] UI_PLEASE_PCS_CONNECT_ME");
+
+	 int slot = right;
+
+	 // 클릭된 slot과 연결함.
+	 gC_vs_ui.GrantPCSWaitRoomToDuplex( slot );
+ }
+ */
+
+ //-----------------------------------------------------------------------------
+ //
+ // GameMenu Continue
+ //
+ //-----------------------------------------------------------------------------
 void
 UIMessageManager::Execute_UI_GAMEMENU_CONTINUE(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_GAMEMENU_CONTINUE");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	gC_vs_ui.CloseGameMenu();
 }
 
@@ -6182,7 +6184,7 @@ void
 UIMessageManager::Execute_UI_MINIMAP_TOGGLE(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_MINIMAP_TOGGLE");
-	
+
 	g_pUserOption->DrawMinimap = !g_pUserOption->DrawMinimap;
 }
 */
@@ -6203,32 +6205,32 @@ UIMessageManager::Execute_UI_DROP_MONEY(int left, int right, void* void_ptr)
 	//
 	DEBUG_ADD("[UI] UI_DROP_MONEY");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	//-----------------------------------------------------------------------------
 	// 돈이 0이면 안된다.
 	//-----------------------------------------------------------------------------
 	if (left > 0)
 	{
-		if (g_pMoneyManager!=NULL)
+		if (g_pMoneyManager != NULL)
 		{
-				CGDropMoney _CGDropMoney;
-				_CGDropMoney.setAmount( left );
+			CGDropMoney _CGDropMoney;
+			_CGDropMoney.setAmount(left);
 
-				g_pSocket->sendPacket( &_CGDropMoney );
+			g_pSocket->sendPacket(&_CGDropMoney);
 
-				
+
 
 			//-----------------------------------------------
 			// 돈 줄여버린다.
 			//-----------------------------------------------
-			g_pMoneyManager->UseMoney( left );
+			g_pMoneyManager->UseMoney(left);
 		}
 		else
 		{
@@ -6254,14 +6256,14 @@ UIMessageManager::Execute_UI_CLICK_BONUS_POINT(int left, int right, void* void_p
 	//
 	DEBUG_ADD("[UI] UI_CLICK_BONUS_POINT");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	const int bonusPart[] =
 	{
 		INC_STR,
@@ -6270,7 +6272,7 @@ UIMessageManager::Execute_UI_CLICK_BONUS_POINT(int left, int right, void* void_p
 	};
 
 	// 기억해두기 위해서...
-	if ((*g_pTempInformation).Mode==TempInformation::MODE_NULL)
+	if ((*g_pTempInformation).Mode == TempInformation::MODE_NULL)
 	{
 		int bonusPoint = g_pPlayer->GetBonusPoint();
 
@@ -6280,24 +6282,24 @@ UIMessageManager::Execute_UI_CLICK_BONUS_POINT(int left, int right, void* void_p
 		// 2005, 1, 18, sobeit modify start - 승직 슬레는 보너스 포인트가 있다.
 //		if (!g_pPlayer->IsSlayer()// || g_pPlayer->IsOusters()
 //			&& bonusPoint > 0)
-		if(bonusPoint > 0)
-		// 2005, 1, 18, sobeit modify end - 승직 슬레는 보너스 포인트가 있다.
+		if (bonusPoint > 0)
+			// 2005, 1, 18, sobeit modify end - 승직 슬레는 보너스 포인트가 있다.
 		{
-			
-				CGUseBonusPoint _CGUseBonusPoint;
 
-				_CGUseBonusPoint.setWhich( bonusPart[left] );
+			CGUseBonusPoint _CGUseBonusPoint;
 
-				g_pSocket->sendPacket( &_CGUseBonusPoint );
+			_CGUseBonusPoint.setWhich(bonusPart[left]);
 
-				
-				//----------------------------------------------
-				// 선택한 부분 기억
-				//----------------------------------------------
-				(*g_pTempInformation).Mode = TempInformation::MODE_BONUSPOINT_USE;
-				(*g_pTempInformation).Value1 = bonusPart[left];				
-		
-				
+			g_pSocket->sendPacket(&_CGUseBonusPoint);
+
+
+			//----------------------------------------------
+			// 선택한 부분 기억
+			//----------------------------------------------
+			(*g_pTempInformation).Mode = TempInformation::MODE_BONUSPOINT_USE;
+			(*g_pTempInformation).Value1 = bonusPart[left];
+
+
 		}
 	}
 }
@@ -6473,19 +6475,19 @@ UIMessageManager::Execute_UI_INFO(int left, int right, void* void_ptr)
 //
 void
 UIMessageManager::Execute_UI_REPAIR_ITEM(int left, int right, void* void_ptr)
-{				
+{
 	DEBUG_ADD("[UI] UI_REPAIR_ITEM");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	// 검증할게 없는 경우
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		MItem* pItem = NULL;// = (MItem*)void_ptr;
 		int itemID = left;
@@ -6493,29 +6495,29 @@ UIMessageManager::Execute_UI_REPAIR_ITEM(int left, int right, void* void_ptr)
 		//-------------------------------------------------------------
 		// itemID가 0인 경우는 전체 다 수리
 		//-------------------------------------------------------------
-		if (itemID==0)
+		if (itemID == 0)
 		{
 			//-----------------------------------------------------
 			// 아이템을 수리하기 위한 packet을 보낸다.
 			//-----------------------------------------------------
-				CGRequestRepair	_CGRequestRepair;
+			CGRequestRepair	_CGRequestRepair;
 
-				_CGRequestRepair.setObjectID( 0 );
-				
-				g_pSocket->sendPacket( &_CGRequestRepair );
-			
-				//-------------------------------------------------
-				// 검증을 위한 Temp Information설정
-				//-------------------------------------------------
-				(*g_pTempInformation).Mode		= TempInformation::MODE_SHOP_REPAIR;
-				(*g_pTempInformation).Value1	= false;	// inventory에 있는 item인가?
-				(*g_pTempInformation).Value2	= true;		// gear에 있는 item인가?
-				(*g_pTempInformation).pValue	= NULL;
+			_CGRequestRepair.setObjectID(0);
 
-				//-------------------------------------------------
-				// 다른 아이템에 접근 못하도록..
-				//-------------------------------------------------
-				UI_LockItemTrade();
+			g_pSocket->sendPacket(&_CGRequestRepair);
+
+			//-------------------------------------------------
+			// 검증을 위한 Temp Information설정
+			//-------------------------------------------------
+			(*g_pTempInformation).Mode = TempInformation::MODE_SHOP_REPAIR;
+			(*g_pTempInformation).Value1 = false;	// inventory에 있는 item인가?
+			(*g_pTempInformation).Value2 = true;		// gear에 있는 item인가?
+			(*g_pTempInformation).pValue = NULL;
+
+			//-------------------------------------------------
+			// 다른 아이템에 접근 못하도록..
+			//-------------------------------------------------
+			UI_LockItemTrade();
 		}
 		//-------------------------------------------------------------
 		// item 하나만 수리
@@ -6528,37 +6530,37 @@ UIMessageManager::Execute_UI_REPAIR_ITEM(int left, int right, void* void_ptr)
 			//------------------------------------------------------------------------------
 			// inventory에서 찾는다.
 			//------------------------------------------------------------------------------
-			pItem = g_pInventory->GetItemToModify( itemID );
+			pItem = g_pInventory->GetItemToModify(itemID);
 
-			if (pItem==NULL)
+			if (pItem == NULL)
 			{
 				//------------------------------------------------------------------------------
 				// gear에서 찾는다.
 				//------------------------------------------------------------------------------
-				switch(g_pPlayer->GetRace())
+				switch (g_pPlayer->GetRace())
 				{
 				case RACE_SLAYER:
-					pItem = g_pSlayerGear->GetItemToModify( itemID );
-					
-					if (pItem!=NULL)
+					pItem = g_pSlayerGear->GetItemToModify(itemID);
+
+					if (pItem != NULL)
 					{
 						bInGear = TRUE;
 					}
 					break;
 
 				case RACE_VAMPIRE:
-					pItem = g_pVampireGear->GetItemToModify( itemID );
-					
-					if (pItem!=NULL)
+					pItem = g_pVampireGear->GetItemToModify(itemID);
+
+					if (pItem != NULL)
 					{
 						bInGear = TRUE;
 					}
 					break;
 
 				case RACE_OUSTERS:
-					pItem = g_pOustersGear->GetItemToModify( itemID );
-					
-					if (pItem!=NULL)
+					pItem = g_pOustersGear->GetItemToModify(itemID);
+
+					if (pItem != NULL)
 					{
 						bInGear = TRUE;
 					}
@@ -6583,7 +6585,7 @@ UIMessageManager::Execute_UI_REPAIR_ITEM(int left, int right, void* void_ptr)
 					|| !pItem->IsUniqueItem()
 					|| !pItem->IsQuestItem()
 					|| pItem->GetMaxDurability() != -1
-					|| pItem->GetItemClass()==ITEM_CLASS_KEY
+					|| pItem->GetItemClass() == ITEM_CLASS_KEY
 					|| pItem->IsChargeItem())
 				{
 					//-------------------------------------------------
@@ -6599,41 +6601,41 @@ UIMessageManager::Execute_UI_REPAIR_ITEM(int left, int right, void* void_ptr)
 					// 가격이 0이면 수리할 필요가 없다.
 					// 단, key는 오토바이 수리에 이용된다.
 					//-------------------------------------------------					
-					if (price!=0 || pItem->GetItemClass()==ITEM_CLASS_KEY)
+					if (price != 0 || pItem->GetItemClass() == ITEM_CLASS_KEY)
 					{
 						//-------------------------------------------------
 						// 돈이 충분한 경우
 						//-------------------------------------------------
-						if (money!=0 && price <= money)
-						{														
+						if (money != 0 && price <= money)
+						{
 							//-----------------------------------------------------
 							// 아이템을 수리하기 위한 packet을 보낸다.
 							//-----------------------------------------------------
-								CGRequestRepair	_CGRequestRepair;
+							CGRequestRepair	_CGRequestRepair;
 
-								_CGRequestRepair.setObjectID( pItem->GetID() );
-								
-								g_pSocket->sendPacket( &_CGRequestRepair );
-							
-								//-------------------------------------------------
-								// 검증을 위한 Temp Information설정
-								//-------------------------------------------------
-								(*g_pTempInformation).Mode		= TempInformation::MODE_SHOP_REPAIR;
-								(*g_pTempInformation).Value1	= bInInventory;	// inventory에 있는 item인가?
-								(*g_pTempInformation).Value2	= bInGear;		// gear에 있는 item인가?
-								(*g_pTempInformation).pValue	= (void*)pItem;
+							_CGRequestRepair.setObjectID(pItem->GetID());
 
-								//-------------------------------------------------
-								// 다른 아이템에 접근 못하도록..
-								//-------------------------------------------------
-								UI_LockItemTrade();
+							g_pSocket->sendPacket(&_CGRequestRepair);
+
+							//-------------------------------------------------
+							// 검증을 위한 Temp Information설정
+							//-------------------------------------------------
+							(*g_pTempInformation).Mode = TempInformation::MODE_SHOP_REPAIR;
+							(*g_pTempInformation).Value1 = bInInventory;	// inventory에 있는 item인가?
+							(*g_pTempInformation).Value2 = bInGear;		// gear에 있는 item인가?
+							(*g_pTempInformation).pValue = (void*)pItem;
+
+							//-------------------------------------------------
+							// 다른 아이템에 접근 못하도록..
+							//-------------------------------------------------
+							UI_LockItemTrade();
 						}
 						//-------------------------------------------------
 						// 돈이 부족한 경우
 						//-------------------------------------------------					
 						else
 						{
-							g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_BUY_NO_MONEY ].GetString());
+							g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_BUY_NO_MONEY].GetString());
 						}
 					}
 					//-------------------------------------------------
@@ -6641,7 +6643,7 @@ UIMessageManager::Execute_UI_REPAIR_ITEM(int left, int right, void* void_ptr)
 					//-------------------------------------------------
 					else
 					{
-						g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_REPAIR].GetString());
+						g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_REPAIR].GetString());
 					}
 				}
 				//-------------------------------------------------
@@ -6649,9 +6651,9 @@ UIMessageManager::Execute_UI_REPAIR_ITEM(int left, int right, void* void_ptr)
 				//-------------------------------------------------
 				else
 				{
-					g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_REPAIR].GetString());
+					g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_REPAIR].GetString());
 				}
-			}		
+			}
 		}
 	}
 }
@@ -6666,19 +6668,19 @@ UIMessageManager::Execute_UI_REPAIR_ITEM(int left, int right, void* void_ptr)
 //
 void
 UIMessageManager::Execute_UI_SILVERING_ITEM(int left, int right, void* void_ptr)
-{				
+{
 	DEBUG_ADD("[UI] UI_SILVERING_ITEM");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	// 검증할게 없는 경우
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		MItem* pItem = NULL;// = (MItem*)void_ptr;
 		int itemID = left;
@@ -6689,37 +6691,37 @@ UIMessageManager::Execute_UI_SILVERING_ITEM(int left, int right, void* void_ptr)
 		//------------------------------------------------------------------------------
 		// inventory에서 찾는다.
 		//------------------------------------------------------------------------------
-		pItem = g_pInventory->GetItemToModify( itemID );
+		pItem = g_pInventory->GetItemToModify(itemID);
 
-		if (pItem==NULL)
+		if (pItem == NULL)
 		{
 			//------------------------------------------------------------------------------
 			// gear에서 찾는다.
 			//------------------------------------------------------------------------------
-			switch(g_pPlayer->GetRace())
+			switch (g_pPlayer->GetRace())
 			{
 			case RACE_SLAYER:
-				pItem = g_pSlayerGear->GetItemToModify( itemID );
-				
-				if (pItem!=NULL)
+				pItem = g_pSlayerGear->GetItemToModify(itemID);
+
+				if (pItem != NULL)
 				{
 					bInGear = TRUE;
 				}
 				break;
 
 			case RACE_VAMPIRE:
-				pItem = g_pVampireGear->GetItemToModify( itemID );
-				
-				if (pItem!=NULL)
+				pItem = g_pVampireGear->GetItemToModify(itemID);
+
+				if (pItem != NULL)
 				{
 					bInGear = TRUE;
 				}
 				break;
 
 			case RACE_OUSTERS:
-				pItem = g_pOustersGear->GetItemToModify( itemID );
-				
-				if (pItem!=NULL)
+				pItem = g_pOustersGear->GetItemToModify(itemID);
+
+				if (pItem != NULL)
 				{
 					bInGear = TRUE;
 				}
@@ -6750,41 +6752,41 @@ UIMessageManager::Execute_UI_SILVERING_ITEM(int left, int right, void* void_ptr)
 				//-------------------------------------------------					
 				// 가격이 0이면 silvering 할 필요가 없다.
 				//-------------------------------------------------					
-				if (price!=0)
+				if (price != 0)
 				{
 					//-------------------------------------------------
 					// 돈이 충분한 경우
 					//-------------------------------------------------
-					if (money!=0 && price <= money)
-					{														
+					if (money != 0 && price <= money)
+					{
 						//-----------------------------------------------------
 						// 아이템을 silverig하기 위한 packet을 보낸다.
 						//-----------------------------------------------------
-							CGSilverCoating	_CGSilverCoating;
+						CGSilverCoating	_CGSilverCoating;
 
-							_CGSilverCoating.setObjectID( pItem->GetID() );
-							
-							g_pSocket->sendPacket( &_CGSilverCoating );
-						
-							//-------------------------------------------------
-							// 검증을 위한 Temp Information설정
-							//-------------------------------------------------
-							(*g_pTempInformation).Mode		= TempInformation::MODE_SHOP_SILVERING;
-							(*g_pTempInformation).Value1	= bInInventory;	// inventory에 있는 item인가?
-							(*g_pTempInformation).Value2	= bInGear;		// gear에 있는 item인가?
-							(*g_pTempInformation).pValue	= (void*)pItem;
+						_CGSilverCoating.setObjectID(pItem->GetID());
 
-							//-------------------------------------------------
-							// 다른 아이템에 접근 못하도록..
-							//-------------------------------------------------
-							UI_LockItemTrade();
+						g_pSocket->sendPacket(&_CGSilverCoating);
+
+						//-------------------------------------------------
+						// 검증을 위한 Temp Information설정
+						//-------------------------------------------------
+						(*g_pTempInformation).Mode = TempInformation::MODE_SHOP_SILVERING;
+						(*g_pTempInformation).Value1 = bInInventory;	// inventory에 있는 item인가?
+						(*g_pTempInformation).Value2 = bInGear;		// gear에 있는 item인가?
+						(*g_pTempInformation).pValue = (void*)pItem;
+
+						//-------------------------------------------------
+						// 다른 아이템에 접근 못하도록..
+						//-------------------------------------------------
+						UI_LockItemTrade();
 					}
 					//-------------------------------------------------
 					// 돈이 부족한 경우
 					//-------------------------------------------------					
 					else
 					{
-						g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_BUY_NO_MONEY ].GetString());
+						g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_BUY_NO_MONEY].GetString());
 					}
 				}
 				//-------------------------------------------------
@@ -6792,7 +6794,7 @@ UIMessageManager::Execute_UI_SILVERING_ITEM(int left, int right, void* void_ptr)
 				//-------------------------------------------------
 				else
 				{
-					g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_SILVERING].GetString());
+					g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_SILVERING].GetString());
 				}
 			}
 			//-------------------------------------------------
@@ -6800,9 +6802,9 @@ UIMessageManager::Execute_UI_SILVERING_ITEM(int left, int right, void* void_ptr)
 			//-------------------------------------------------
 			else
 			{
-				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_SILVERING].GetString());
+				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_SILVERING].GetString());
 			}
-		}		
+		}
 	}
 }
 
@@ -6815,16 +6817,16 @@ void
 UIMessageManager::Execute_UI_ITEM_REPAIR_FINISHED(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_ITEM_REPAIR_FINISHED");
-	
-	
-	if (g_Mode!=MODE_GAME)
+
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation!=NULL
-		&& g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation != NULL
+		&& g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.FinishItemRepairing();
 
@@ -6843,16 +6845,16 @@ UIMessageManager::Execute_UI_ITEM_SILVERING_FINISHED(int left, int right, void* 
 {
 	DEBUG_ADD("[UI] UI_ITEM_SILVERING_FINISHED");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
 
-	if (g_pTempInformation!=NULL
-		&& g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation != NULL
+		&& g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.FinishItemSilvering();
 
@@ -6871,14 +6873,14 @@ UIMessageManager::Execute_UI_FINISH_LEVELUP_BUTTON(int left, int right, void* vo
 {
 	DEBUG_ADD("[UI] Execute_UI_FINISH_LEVELUP_BUTTON");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	gC_vs_ui.FinishLevelUp();
 }
 
@@ -6892,15 +6894,15 @@ UIMessageManager::Execute_UI_RUNNING_GAMEMENU(int left, int right, void* void_pt
 {
 	DEBUG_ADD("[UI] UI_RUNNING_GAMEMENU");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
-//	g_pUIDialog->CloseHelpDlg();
+
+	//	g_pUIDialog->CloseHelpDlg();
 	g_pUIDialog->CloseMessageDlg();
 	g_pUIDialog->ClosePCTalkDlg();
 }
@@ -6916,14 +6918,14 @@ UIMessageManager::Execute_UI_STORAGE_BUY(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_STORAGE_BUY");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	BOOL buy = (BOOL)left;
 
 	//-----------------------------------------------------------------------------
@@ -6931,16 +6933,16 @@ UIMessageManager::Execute_UI_STORAGE_BUY(int left, int right, void* void_ptr)
 	//-----------------------------------------------------------------------------
 	if (buy)
 	{
-		if (g_pTempInformation->GetMode()==TempInformation::MODE_STORAGE_BUY)
-		{		
+		if (g_pTempInformation->GetMode() == TempInformation::MODE_STORAGE_BUY)
+		{
 			//--------------------------------------------------------
 			// 돈 체크
 			//--------------------------------------------------------
 			if (g_pMoneyManager->GetMoney() >= g_pTempInformation->Value1)
 			{
-					CGStashRequestBuy _CGStashRequestBuy;
-					
-					g_pSocket->sendPacket( &_CGStashRequestBuy );					
+				CGStashRequestBuy _CGStashRequestBuy;
+
+				g_pSocket->sendPacket(&_CGStashRequestBuy);
 
 				// mode 설정
 				g_pTempInformation->SetMode(TempInformation::MODE_STORAGE_BUY_WAIT);
@@ -6954,8 +6956,8 @@ UIMessageManager::Execute_UI_STORAGE_BUY(int left, int right, void* void_ptr)
 				// 다시 뭔가를?선택할 수 있게 한다.
 				g_pUIDialog->ShowPCTalkDlg();
 
-				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_BUY_NO_MONEY ].GetString());
-				
+				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_BUY_NO_MONEY].GetString());
+
 				g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 			}
 		}
@@ -6976,7 +6978,7 @@ UIMessageManager::Execute_UI_STORAGE_BUY(int left, int right, void* void_ptr)
 		g_pUIDialog->ShowPCTalkDlg();
 
 		g_pTempInformation->SetMode(TempInformation::MODE_NULL);
-	}					
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -6992,63 +6994,63 @@ UIMessageManager::Execute_UI_SELECT_STORAGE_SLOT(int left, int right, void* void
 {
 	DEBUG_ADD("[UI] UI_SELECT_STORAGE_SLOT");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if(g_pStorage == NULL)
+	if (g_pStorage == NULL)
 		return;
 
-	g_pStorage->SetCurrent( left );	// 확인용
+	g_pStorage->SetCurrent(left);	// 확인용
 
 	int slot = right;
 
 	MItem* pMouseItem = (MItem*)gpC_mouse_pointer->GetPickUpItem();
-	const MItem* pStorageItem = g_pStorage->GetItem( slot );
+	const MItem* pStorageItem = g_pStorage->GetItem(slot);
 
 	//-----------------------------------------------------------------------------
 	// 보관함에서 뭔가를 집을려는 경우
 	//-----------------------------------------------------------------------------
-	if (pMouseItem==NULL)
+	if (pMouseItem == NULL)
 	{
 		//---------------------------------------------------
 		// 선택한 slot에 item이 있으면 집는다.
 		//---------------------------------------------------
-		if (pStorageItem!=NULL)
+		if (pStorageItem != NULL)
 		{
-			MItem* pRemovedItem = g_pStorage->RemoveItem( slot );
+			MItem* pRemovedItem = g_pStorage->RemoveItem(slot);
 
-			if (pRemovedItem!=NULL)
+			if (pRemovedItem != NULL)
 			{
-				 UI_PickUpItem( (MItem*)pStorageItem );
+				UI_PickUpItem((MItem*)pStorageItem);
 
-					CGStashToMouse _CGStashToMouse;
-					_CGStashToMouse.setObjectID( pStorageItem->GetID() );
-					_CGStashToMouse.setRack( g_pStorage->GetCurrent() );
-					_CGStashToMouse.setIndex( slot );									
+				CGStashToMouse _CGStashToMouse;
+				_CGStashToMouse.setObjectID(pStorageItem->GetID());
+				_CGStashToMouse.setRack(g_pStorage->GetCurrent());
+				_CGStashToMouse.setIndex(slot);
 
-					g_pSocket->sendPacket( &_CGStashToMouse );					
+				g_pSocket->sendPacket(&_CGStashToMouse);
 			}
 		}
 	}
 	//-----------------------------------------------------------------------------
 	// 들고 있는 item을 보관함에 놓을려는 경우
 	//-----------------------------------------------------------------------------
-	else 
+	else
 	{
 		BOOL bSendPacket = TRUE;
 
-		TYPE_OBJECTID mouseItemID = pMouseItem->GetID();		
+		TYPE_OBJECTID mouseItemID = pMouseItem->GetID();
 
-		if(pMouseItem->GetItemClass() == ITEM_CLASS_SUB_INVENTORY && pMouseItem->GetEnchantLevel()>0) 
+		if (pMouseItem->GetItemClass() == ITEM_CLASS_SUB_INVENTORY && pMouseItem->GetEnchantLevel() > 0)
 		{
-			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_STORAGE].GetString());
-			return ;
+			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_STORAGE].GetString());
+			return;
 		}
-	
+
 		// 아래의 하드코딩을 MItemTable의 ItemMoveControl 변수에 통합
 		// 나중에 문제 생기면 필요할까봐 남겨둠
 		// 2006.12.26 by chyaya
@@ -7059,8 +7061,8 @@ UIMessageManager::Execute_UI_SELECT_STORAGE_SLOT(int left, int right, void* void
 			&& pMouseItem->GetItemClass()!=ITEM_CLASS_VAMPIRE_AMULET
 			&& pMouseItem->GetItemClass()!=ITEM_CLASS_COUPLE_RING
 			&& pMouseItem->GetItemClass()!=ITEM_CLASS_VAMPIRE_COUPLE_RING
-			&& pMouseItem->GetItemClass()!=ITEM_CLASS_OUSTERS_HARMONIC_PENDENT 
-			
+			&& pMouseItem->GetItemClass()!=ITEM_CLASS_OUSTERS_HARMONIC_PENDENT
+
 			&& !pMouseItem->IsQuestItem()
 			&& pMouseItem->IsNormalItem()
 
@@ -7069,35 +7071,35 @@ UIMessageManager::Execute_UI_SELECT_STORAGE_SLOT(int left, int right, void* void
 			&& pMouseItem->GetItemClass() != ITEM_CLASS_CODE_SHEET
 			&& !(pMouseItem->GetItemClass() == ITEM_CLASS_LUCKY_BAG && pMouseItem->GetItemType() == 3)
 
-			
-			// Sjheon 2006.03.10 
+
+			// Sjheon 2006.03.10
 			//&& pMouseItem->GetItemClass()   != ITEM_CLASS_COMMON_QUEST_ITEM
 			&& !(pMouseItem->GetItemClass() == ITEM_CLASS_EVENT_GIFT_BOX && (pMouseItem->GetItemType() == 27))		//감사의 선물 상자
-			
+
 			&& !(pMouseItem->GetItemClass() == ITEM_CLASS_EFFECT_ITEM && (pMouseItem->GetItemType() >= 20 && pMouseItem->GetItemType() <= 23))
 
-			// sjheo 2005.05.02 풍선 아이템 일때 보관함 처리  Add 
+			// sjheo 2005.05.02 풍선 아이템 일때 보관함 처리  Add
 			&& !(pMouseItem->GetItemClass() == ITEM_CLASS_EVENT_ETC && (pMouseItem->GetItemType() == 18))
 			&& !(pMouseItem->GetItemClass() == ITEM_CLASS_EVENT_ITEM && (pMouseItem->GetItemType() >= 32 && pMouseItem->GetItemType() <= 36))
 
-			&& !(pMouseItem->GetItemClass() == ITEM_CLASS_CHECK_MONEY) 
+			&& !(pMouseItem->GetItemClass() == ITEM_CLASS_CHECK_MONEY)
 
 			// sjheo 2005.05.02 풍선 아이템 일때 보관함 처리 End
 			)
 			*/
 
 
-		if(!pMouseItem->IsQuestItem() && pMouseItem->IsNormalItem() &&			// 퀘스트 아이템인 경우에는 안됨
-		   !pMouseItem->GetItemMoveContorl().GetAttr(ITEMMOVE_CANNOT_KEEP_STORAGE))	// 보관함에 못 넣는 아이템은 패스
+		if (!pMouseItem->IsQuestItem() && pMouseItem->IsNormalItem() &&			// 퀘스트 아이템인 경우에는 안됨
+			!pMouseItem->GetItemMoveContorl().GetAttr(ITEMMOVE_CANNOT_KEEP_STORAGE))	// 보관함에 못 넣는 아이템은 패스
 		{
 			//---------------------------------------------------
 			// 그 자리에 아무것도 없으면 item 넣는다.
 			//---------------------------------------------------
-			if (pStorageItem==NULL)
+			if (pStorageItem == NULL)
 			{
 				UI_DropItem();	// mouse에서 item뗀다.
 
-				g_pStorage->SetItem( slot, pMouseItem );							
+				g_pStorage->SetItem(slot, pMouseItem);
 			}
 			//---------------------------------------------------
 			// 뭔가 있다면...
@@ -7108,42 +7110,42 @@ UIMessageManager::Execute_UI_SELECT_STORAGE_SLOT(int left, int right, void* void
 				// 쌓일 수 있는 아이템인 경우
 				//---------------------------------------------------
 				if (pStorageItem->IsPileItem()
-					&& pStorageItem->GetItemClass()==pMouseItem->GetItemClass()
-					&& pStorageItem->GetItemType()==pMouseItem->GetItemType())
+					&& pStorageItem->GetItemClass() == pMouseItem->GetItemClass()
+					&& pStorageItem->GetItemType() == pMouseItem->GetItemType())
 				{
 					//---------------------------------------------------
 					// 더 쌓일 수 있다면
 					//---------------------------------------------------
 					if (pStorageItem->GetNumber() < pStorageItem->GetMaxNumber())
 					{
-						PlaySound( pMouseItem->GetInventorySoundID() );
-						
-						MItem* pModifyStorageItem = g_pStorage->RemoveItem( slot );
+						PlaySound(pMouseItem->GetInventorySoundID());
+
+						MItem* pModifyStorageItem = g_pStorage->RemoveItem(slot);
 
 						//----------------------------------------------------
 						// pMouseItem을 pStorageItem에 추가시킨다.
 						//----------------------------------------------------
 						int total = pMouseItem->GetNumber() + pStorageItem->GetNumber();
-						if ( total > pStorageItem->GetMaxNumber() )
+						if (total > pStorageItem->GetMaxNumber())
 						{
 							// 한계 수치를 넘어갈 경우
-							pMouseItem->SetNumber( total - pStorageItem->GetMaxNumber() );
-							pModifyStorageItem->SetNumber( pStorageItem->GetMaxNumber() );
+							pMouseItem->SetNumber(total - pStorageItem->GetMaxNumber());
+							pModifyStorageItem->SetNumber(pStorageItem->GetMaxNumber());
 						}
 						else
 						{
 							// 모두 pItem에 추가될 수 있는 경우
-							pModifyStorageItem->SetNumber( total );
+							pModifyStorageItem->SetNumber(total);
 							UI_DropItem();
 
 							delete pMouseItem;
-						}	
+						}
 
 						//----------------------------------------------------
 						// 바꾼거를 다시 설정한다.
 						//----------------------------------------------------
-						g_pStorage->SetItem( slot, pModifyStorageItem );					
-						
+						g_pStorage->SetItem(slot, pModifyStorageItem);
+
 					}
 					//---------------------------------------------------
 					// 더 쌓일 수 없다면.. 기냥 둔다.
@@ -7157,30 +7159,30 @@ UIMessageManager::Execute_UI_SELECT_STORAGE_SLOT(int left, int right, void* void
 				// 쌓일 수 없는 아이템인 경우 --> 바꾼다.
 				//---------------------------------------------------				
 				else
-				{				
+				{
 					MItem* pTempItem = pMouseItem;
-					
-					UI_PickUpItem( (MItem*)pStorageItem );
 
-					g_pStorage->RemoveItem( slot );	// 이게 실패하면.. - -;
+					UI_PickUpItem((MItem*)pStorageItem);
 
-					g_pStorage->SetItem( slot, pTempItem );
+					g_pStorage->RemoveItem(slot);	// 이게 실패하면.. - -;
+
+					g_pStorage->SetItem(slot, pTempItem);
 				}
 			}
 
-				if (bSendPacket)
-				{		
-					CGMouseToStash _CGMouseToStash;
-					_CGMouseToStash.setObjectID( mouseItemID );
-					_CGMouseToStash.setRack( g_pStorage->GetCurrent() );
-					_CGMouseToStash.setIndex( slot );									
+			if (bSendPacket)
+			{
+				CGMouseToStash _CGMouseToStash;
+				_CGMouseToStash.setObjectID(mouseItemID);
+				_CGMouseToStash.setRack(g_pStorage->GetCurrent());
+				_CGMouseToStash.setIndex(slot);
 
-					g_pSocket->sendPacket( &_CGMouseToStash );				
-				}
+				g_pSocket->sendPacket(&_CGMouseToStash);
+			}
 		}
 		else
 		{
-			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_STORAGE].GetString());
+			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_STORAGE].GetString());
 		}
 
 
@@ -7199,31 +7201,31 @@ UIMessageManager::Execute_UI_DEPOSIT_MONEY(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_DEPOSIT_MONEY");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	//-----------------------------------------------------------------------------
 	// 돈이 0이면 안된다.
 	//-----------------------------------------------------------------------------
 	if (left > 0)
 	{
-		if (g_pMoneyManager!=NULL && g_pStorage!=NULL)
+		if (g_pMoneyManager != NULL && g_pStorage != NULL)
 		{
-				CGStashDeposit _CGStashDeposit;
-				_CGStashDeposit.setAmount( left );
+			CGStashDeposit _CGStashDeposit;
+			_CGStashDeposit.setAmount(left);
 
-				g_pSocket->sendPacket( &_CGStashDeposit );				
+			g_pSocket->sendPacket(&_CGStashDeposit);
 
 			//-----------------------------------------------
 			// 돈을 보관함으로 옮긴다.
 			//-----------------------------------------------
-			g_pMoneyManager->UseMoney( left );
-			g_pStorage->GetMoneyManager()->AddMoney( left );
+			g_pMoneyManager->UseMoney(left);
+			g_pStorage->GetMoneyManager()->AddMoney(left);
 		}
 		else
 		{
@@ -7244,31 +7246,31 @@ UIMessageManager::Execute_UI_WITHDRAW_MONEY(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_WITHDRAW_MONEY");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	//-----------------------------------------------------------------------------
 	// 돈이 0이면 안된다.
 	//-----------------------------------------------------------------------------
 	if (left > 0)
 	{
-		if (g_pMoneyManager!=NULL && g_pStorage!=NULL)
+		if (g_pMoneyManager != NULL && g_pStorage != NULL)
 		{
-				CGStashWithdraw _CGStashWithdraw;
-				_CGStashWithdraw.setAmount( left );
+			CGStashWithdraw _CGStashWithdraw;
+			_CGStashWithdraw.setAmount(left);
 
-				g_pSocket->sendPacket( &_CGStashWithdraw );				
+			g_pSocket->sendPacket(&_CGStashWithdraw);
 
 			//-----------------------------------------------
 			// 보관함의 돈을 player에게 옮긴다.
 			//-----------------------------------------------
-			g_pStorage->GetMoneyManager()->UseMoney( left );
-			g_pMoneyManager->AddMoney( left );						
+			g_pStorage->GetMoneyManager()->UseMoney(left);
+			g_pMoneyManager->AddMoney(left);
 		}
 		else
 		{
@@ -7286,15 +7288,15 @@ void
 UIMessageManager::Execute_UI_CLOSE_STORAGE(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_CLOSE_STORAGE");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
-	UI_CloseStorage();		
+
+	UI_CloseStorage();
 
 	// 다시 뭔가를?선택할 수 있게 한다.
 	g_pUIDialog->ShowPCTalkDlg();
@@ -7312,28 +7314,28 @@ void
 UIMessageManager::Execute_UI_EXCHANGE_MONEY(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_EXCHANGE_MONEY");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
-	if (g_pTradeManager!=NULL)
+
+	if (g_pTradeManager != NULL)
 	{
 		BOOL bGive = left;
 		int money = right;
-			
+
 		BOOL bAcceptMyTrade = g_pTradeManager->IsAcceptMyTrade();
 
-		int code;		
+		int code;
 
 		//---------------------------------------------------------
 		// 교환중에 OK 눌렀을때는 검증을 받아야 한다.
 		//---------------------------------------------------------
 		if (bAcceptMyTrade)
-		{	
+		{
 			if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 			{
 				if (bGive)
@@ -7347,7 +7349,7 @@ UIMessageManager::Execute_UI_EXCHANGE_MONEY(int left, int right, void* void_ptr)
 					g_pTradeManager->SetNextAcceptTime();
 				}
 
-				g_pTempInformation->Value1	= money;
+				g_pTempInformation->Value1 = money;
 			}
 		}
 		//---------------------------------------------------------
@@ -7361,7 +7363,7 @@ UIMessageManager::Execute_UI_EXCHANGE_MONEY(int left, int right, void* void_ptr)
 			//-----------------------------------------------------------
 			g_pTradeManager->RefuseOtherTrade();
 			g_pTradeManager->RefuseMyTrade();
-		
+
 			//-----------------------------------------------------------
 			// client 돈 이동
 			//-----------------------------------------------------------
@@ -7378,7 +7380,7 @@ UIMessageManager::Execute_UI_EXCHANGE_MONEY(int left, int right, void* void_ptr)
 			else
 			{
 				g_pTradeManager->GetMyMoneyManager()->UseMoney( money );
-				g_pMoneyManager->AddMoney( money );	
+				g_pMoneyManager->AddMoney( money );
 			}
 			*/
 
@@ -7386,7 +7388,7 @@ UIMessageManager::Execute_UI_EXCHANGE_MONEY(int left, int right, void* void_ptr)
 			{
 				g_pTradeManager->SetNextAcceptTime();
 			}
-		}	
+		}
 
 		//-----------------------------------------------------------
 		// client 돈 이동
@@ -7399,22 +7401,22 @@ UIMessageManager::Execute_UI_EXCHANGE_MONEY(int left, int right, void* void_ptr)
 		{
 			code = CG_TRADE_MONEY_DECREASE;
 		}
-		
+
 		//-----------------------------------------------------------
 		// server에 알림
 		//-----------------------------------------------------------
-			CGTradeMoney _CGTradeMoney;
-			_CGTradeMoney.setTargetObjectID( g_pTradeManager->GetOtherID() );
-			_CGTradeMoney.setAmount( money );
-			_CGTradeMoney.setCode( code );				
+		CGTradeMoney _CGTradeMoney;
+		_CGTradeMoney.setTargetObjectID(g_pTradeManager->GetOtherID());
+		_CGTradeMoney.setAmount(money);
+		_CGTradeMoney.setCode(code);
 
-			g_pSocket->sendPacket( &_CGTradeMoney );			
+		g_pSocket->sendPacket(&_CGTradeMoney);
 
-//			g_pTradeManager->SetNextAcceptTime();
+		//			g_pTradeManager->SetNextAcceptTime();
 	}
 	else
 	{
-		DEBUG_ADD( "[Error] TradeManager is NULL");
+		DEBUG_ADD("[Error] TradeManager is NULL");
 	}
 
 
@@ -7436,7 +7438,7 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_TRADEGRID(int left, int right, voi
 	//        dw_right는 item의 screen 좌표이다.
 	//
 	DEBUG_ADD("[UI] UI_ITEM_PICKUP_FROM_TRADEGRID");
-	
+
 	int		gridX = left;
 	int		gridY = right;
 	MItem*	pItem = (MItem *)void_ptr;
@@ -7457,7 +7459,7 @@ void
 UIMessageManager::Execute_UI_ITEM_INSERT_FROM_TRADEGRID(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_ITEM_INSERT_FROM_TRADEGRID");
-	
+
 	int		gridX = left;
 	int		gridY = right;
 	MItem*	pItem = (MItem *)void_ptr;
@@ -7477,7 +7479,7 @@ void
 UIMessageManager::Execute_UI_ITEM_DROP_TO_TRADEGRID(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_ITEM_DROP_TO_TRADEGRID");
-	
+
 	int		gridX = left;
 	int		gridY = right;
 	MItem*	pItem = (MItem *)void_ptr;
@@ -7495,26 +7497,26 @@ void
 UIMessageManager::Execute_UI_ITEM_SELECT_EXCHANGE(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_ITEM_SELECT_EXCHANGE");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTradeManager!=NULL)
+	if (g_pTradeManager != NULL)
 	{
 		int		gridX = left;
 		int		gridY = right;
-		MItem*	pItem = (MItem *)void_ptr;
+		MItem* pItem = (MItem*)void_ptr;
 
-		BOOL bAcceptMyTrade = g_pTradeManager->IsAcceptMyTrade();		
+		BOOL bAcceptMyTrade = g_pTradeManager->IsAcceptMyTrade();
 
 		// 아래의 하드코딩을 MItemTable의 ItemMoveControl 변수에 통합
 		// 나중에 문제 생기면 필요할까봐 남겨둠
 		// 2006.12.26 by chyaya
 		/*
-		else if((pItem->GetItemClass() == ITEM_CLASS_SUB_INVENTORY && pItem->GetEnchantLevel()>0) 
+		else if((pItem->GetItemClass() == ITEM_CLASS_SUB_INVENTORY && pItem->GetEnchantLevel()>0)
 			   || (pItem->GetItemClass() == ITEM_CLASS_EVENT_ITEM && (pItem->GetItemType() >= 32 && pItem->GetItemType() <= 36))
 			   || (pItem->GetItemClass() == ITEM_CLASS_SLAYER_PORTAL_ITEM)
 				// Sjheon 2006.03.10
@@ -7528,32 +7530,33 @@ UIMessageManager::Execute_UI_ITEM_SELECT_EXCHANGE(int left, int right, void* voi
 			   )
 	   */
 
-		// 선물 상자 하드 코딩-ㅅ-;
-		// 부밍 케이스나 달빛 상자, 크림슨의 선물 상자등..거래가 되지 않아야 하는 기프트 박스 중 거래를 시도하면 입력이 아무것도 먹지 않는다.
-		// 그러므로 이 부분은 예외로 수정
-		if(pItem->GetItemClass()	== ITEM_CLASS_EVENT_GIFT_BOX	&&
-		   pItem->IsTrade()			== false						&&
-		   pItem->GetItemType()		!= 1							&&
-		   pItem->GetItemType()		!= 27							&&
-		   pItem->GetItemType()		!= 47							&&
-		   pItem->GetItemType()		!= 51							&&
-		   pItem->GetItemType()		!= 53)
+	   // 선물 상자 하드 코딩-ㅅ-;
+	   // 부밍 케이스나 달빛 상자, 크림슨의 선물 상자등..거래가 되지 않아야 하는 기프트 박스 중 거래를 시도하면 입력이 아무것도 먹지 않는다.
+	   // 그러므로 이 부분은 예외로 수정
+		if (pItem->GetItemClass() == ITEM_CLASS_EVENT_GIFT_BOX &&
+			pItem->IsTrade() == false &&
+			pItem->GetItemType() != 1 &&
+			pItem->GetItemType() != 27 &&
+			pItem->GetItemType() != 47 &&
+			pItem->GetItemType() != 51 &&
+			pItem->GetItemType() != 53)
 		{
-			MItem* pFindItem = ((MItemManager*)g_pInventory)->FindItem( MEventGiftBoxItemFinder() );
-			if(pFindItem != NULL)
+			MEventGiftBoxItemFinder finder;
+			MItem* pFindItem = ((MItemManager*)g_pInventory)->FindItem(finder);
+			if (pFindItem != NULL)
 			{
 				// 이미 교환에 올라간게 있다
 				return;
 			}
 		}
-		else if(pItem->GetItemClass() == ITEM_CLASS_SUB_INVENTORY && pItem->GetEnchantLevel() > 0 ||
+		else if (pItem->GetItemClass() == ITEM_CLASS_SUB_INVENTORY && pItem->GetEnchantLevel() > 0 ||
 			pItem->GetItemMoveContorl().GetAttr(ITEMMOVE_CANNOT_TRADE)
 #if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-			||pItem->GetCashItem()
+			|| pItem->GetCashItem()
 #endif
 			)
 		{
-			UI_PopupMessage( STRING_MESSAGE_CANNOT_TRADE );
+			UI_PopupMessage(STRING_MESSAGE_CANNOT_TRADE);
 			return;
 		}
 
@@ -7561,7 +7564,7 @@ UIMessageManager::Execute_UI_ITEM_SELECT_EXCHANGE(int left, int right, void* voi
 		// 교환중에 OK 눌렀을때는 검증을 받아야 한다.
 		//---------------------------------------------------------
 		if (bAcceptMyTrade)
-		{	
+		{
 			if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL
 				&& g_pPlayer->IsItemCheckBufferNULL())
 			{
@@ -7577,15 +7580,15 @@ UIMessageManager::Execute_UI_ITEM_SELECT_EXCHANGE(int left, int right, void* voi
 				{
 					g_pTempInformation->SetMode(TempInformation::MODE_TRADE_VERIFY_REMOVE_ITEM);
 
-					g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_TRADE_REMOVE );
+					g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_TRADE_REMOVE);
 
-						CGTradeRemoveItem _CGTradeRemoveItem;
-						_CGTradeRemoveItem.setTargetObjectID( g_pTradeManager->GetOtherID() );
-						_CGTradeRemoveItem.setItemObjectID( pItem->GetID() );
+					CGTradeRemoveItem _CGTradeRemoveItem;
+					_CGTradeRemoveItem.setTargetObjectID(g_pTradeManager->GetOtherID());
+					_CGTradeRemoveItem.setItemObjectID(pItem->GetID());
 
-						g_pSocket->sendPacket( &_CGTradeRemoveItem );
+					g_pSocket->sendPacket(&_CGTradeRemoveItem);
 
-						g_pTradeManager->SetNextAcceptTime();
+					g_pTradeManager->SetNextAcceptTime();
 
 					// [도움말] 교환 중 - 아이템 취소
 //					__BEGIN_HELP_EVENT
@@ -7597,29 +7600,29 @@ UIMessageManager::Execute_UI_ITEM_SELECT_EXCHANGE(int left, int right, void* voi
 				//-----------------------------------------------------------
 				else
 				{
-						g_pTempInformation->SetMode(TempInformation::MODE_TRADE_VERIFY_ADD_ITEM);
-						g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_TRADE_ADD );
-						g_pTempInformation->pValue_Cannot_ItemExchange	= pItem;						//2008.09.25 shootkj	팩 가방 거래
+					g_pTempInformation->SetMode(TempInformation::MODE_TRADE_VERIFY_ADD_ITEM);
+					g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_TRADE_ADD);
+					g_pTempInformation->pValue_Cannot_ItemExchange = pItem;						//2008.09.25 shootkj	팩 가방 거래
 
-						CGTradeAddItem _CGTradeAddItem;
-						_CGTradeAddItem.setTargetObjectID( g_pTradeManager->GetOtherID() );
-						_CGTradeAddItem.setItemObjectID( pItem->GetID() );
+					CGTradeAddItem _CGTradeAddItem;
+					_CGTradeAddItem.setTargetObjectID(g_pTradeManager->GetOtherID());
+					_CGTradeAddItem.setItemObjectID(pItem->GetID());
 
-						g_pSocket->sendPacket( &_CGTradeAddItem );
-						
+					g_pSocket->sendPacket(&_CGTradeAddItem);
+
 
 					// [도움말] 교환 중 - 아이템 선택
 //					__BEGIN_HELP_EVENT
 ////						ExecuteHelpEvent( HE_TRADE_ITEM_ADD );	
 //					__END_HELP_EVENT
-				}				
-			}			
+				}
+			}
 		}
 		//---------------------------------------------------------
 		// OK 안 눌려있는 보통 때..
 		//---------------------------------------------------------
 		else
-		{		
+		{
 			//-----------------------------------------------------------
 			// 선택되어 있던 아이템 --> 취소
 			//-----------------------------------------------------------
@@ -7631,15 +7634,15 @@ UIMessageManager::Execute_UI_ITEM_SELECT_EXCHANGE(int left, int right, void* voi
 				g_pTradeManager->RefuseOtherTrade();
 				g_pTradeManager->RefuseMyTrade();
 
-				pItem->UnSetTrade();		
+				pItem->UnSetTrade();
 
-					CGTradeRemoveItem _CGTradeRemoveItem;
-					_CGTradeRemoveItem.setTargetObjectID( g_pTradeManager->GetOtherID() );
-					_CGTradeRemoveItem.setItemObjectID( pItem->GetID() );
+				CGTradeRemoveItem _CGTradeRemoveItem;
+				_CGTradeRemoveItem.setTargetObjectID(g_pTradeManager->GetOtherID());
+				_CGTradeRemoveItem.setItemObjectID(pItem->GetID());
 
-					g_pSocket->sendPacket( &_CGTradeRemoveItem );
+				g_pSocket->sendPacket(&_CGTradeRemoveItem);
 
-					g_pTradeManager->SetNextAcceptTime();
+				g_pTradeManager->SetNextAcceptTime();
 
 				// [도움말] 교환 중 - 아이템 취소
 //				__BEGIN_HELP_EVENT
@@ -7652,19 +7655,19 @@ UIMessageManager::Execute_UI_ITEM_SELECT_EXCHANGE(int left, int right, void* voi
 			else
 			{
 				// 빨간색 선물상자는 교환되지 않는다.
-				if (pItem->GetItemClass()==ITEM_CLASS_EVENT_GIFT_BOX
-					&& pItem->GetItemType()==1)
+				if (pItem->GetItemClass() == ITEM_CLASS_EVENT_GIFT_BOX
+					&& pItem->GetItemType() == 1)
 				{
 				}
 				else
 				{
 					// 선물상자인 경우는 검증이 필요하다.
-					if (pItem->GetItemClass()==ITEM_CLASS_EVENT_GIFT_BOX)// && pItem->GetItemClass() < 2)
+					if (pItem->GetItemClass() == ITEM_CLASS_EVENT_GIFT_BOX)// && pItem->GetItemClass() < 2)
 					{
 						g_pTempInformation->SetMode(TempInformation::MODE_TRADE_VERIFY_ADD_ITEM);
-						g_pTempInformation->pValue	= pItem;
-						
-						g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_TRADE_ADD );
+						g_pTempInformation->pValue = pItem;
+
+						g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_TRADE_ADD);
 					}
 					// 그 외에는 그냥 넣으면 된다.
 					else
@@ -7675,29 +7678,29 @@ UIMessageManager::Execute_UI_ITEM_SELECT_EXCHANGE(int left, int right, void* voi
 						g_pTradeManager->RefuseOtherTrade();
 						g_pTradeManager->RefuseMyTrade();
 
-						pItem->SetTrade();		
+						pItem->SetTrade();
 					}
-						g_pTempInformation->SetMode(TempInformation::MODE_TRADE_VERIFY_ADD_ITEM);
-						g_pTempInformation->pValue_Cannot_ItemExchange	= pItem;						//2008.09.25 shootkj	팩 가방 거래
+					g_pTempInformation->SetMode(TempInformation::MODE_TRADE_VERIFY_ADD_ITEM);
+					g_pTempInformation->pValue_Cannot_ItemExchange = pItem;						//2008.09.25 shootkj	팩 가방 거래
 
-						CGTradeAddItem _CGTradeAddItem;
-						_CGTradeAddItem.setTargetObjectID( g_pTradeManager->GetOtherID() );
-						_CGTradeAddItem.setItemObjectID( pItem->GetID() );
+					CGTradeAddItem _CGTradeAddItem;
+					_CGTradeAddItem.setTargetObjectID(g_pTradeManager->GetOtherID());
+					_CGTradeAddItem.setItemObjectID(pItem->GetID());
 
-						g_pSocket->sendPacket( &_CGTradeAddItem );
-						
+					g_pSocket->sendPacket(&_CGTradeAddItem);
+
 
 					// [도움말] 교환 중 - 아이템 선택
 //					__BEGIN_HELP_EVENT
 ////						ExecuteHelpEvent( HE_TRADE_ITEM_ADD );	
 //					__END_HELP_EVENT
 				}
-			}	
+			}
 		}
 	}
 	else
 	{
-		DEBUG_ADD( "[Error] TradeManager is NULL");
+		DEBUG_ADD("[Error] TradeManager is NULL");
 	}
 }
 
@@ -7711,15 +7714,15 @@ void
 UIMessageManager::Execute_UI_OK_EXCHANGE(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_OK_EXCHANGE");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
-	if (g_pTradeManager!=NULL
+
+	if (g_pTradeManager != NULL
 		&& g_pTradeManager->IsAcceptTime())
 	{
 		MItem* pMouseItem = UI_GetMouseItem();
@@ -7728,17 +7731,17 @@ UIMessageManager::Execute_UI_OK_EXCHANGE(int left, int right, void* void_ptr)
 		// 교환이 가능한 경우
 		// 선물상자를 들고 있으면 교환이 안된다.
 		//--------------------------------------------------------
-		if ((pMouseItem==NULL || pMouseItem->GetItemClass()!=ITEM_CLASS_EVENT_GIFT_BOX)
+		if ((pMouseItem == NULL || pMouseItem->GetItemClass() != ITEM_CLASS_EVENT_GIFT_BOX)
 			&& g_pTradeManager->CanTrade())
 		{
 			g_pTradeManager->AcceptMyTrade();
-			
-				CGTradeFinish _CGTradeFinish;
-				_CGTradeFinish.setTargetObjectID( g_pTradeManager->GetOtherID() );
-				_CGTradeFinish.setCode( CG_TRADE_FINISH_ACCEPT );
 
-				g_pSocket->sendPacket( &_CGTradeFinish );
-				
+			CGTradeFinish _CGTradeFinish;
+			_CGTradeFinish.setTargetObjectID(g_pTradeManager->GetOtherID());
+			_CGTradeFinish.setCode(CG_TRADE_FINISH_ACCEPT);
+
+			g_pSocket->sendPacket(&_CGTradeFinish);
+
 		}
 		//--------------------------------------------------------
 		// 교환이 불가능한 경우
@@ -7747,12 +7750,12 @@ UIMessageManager::Execute_UI_OK_EXCHANGE(int left, int right, void* void_ptr)
 		{
 			// 교환할 수 없다면..
 			// 일단은.. 공간 부족이라고 본다.
-			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_TRADE_NO_SPACE].GetString() );
+			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_TRADE_NO_SPACE].GetString());
 		}
 	}
 	else
 	{
-		DEBUG_ADD( "[Error] TradeManager is NULL or NotAcceptTime");
+		DEBUG_ADD("[Error] TradeManager is NULL or NotAcceptTime");
 	}
 }
 
@@ -7765,18 +7768,18 @@ void
 UIMessageManager::Execute_UI_CANCEL_EXCHANGE(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_CANCEL_EXCHANGE");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	BOOL bSendPacket = FALSE;
 
-	if (g_pTradeManager!=NULL)
-	{	
+	if (g_pTradeManager != NULL)
+	{
 		BOOL bAcceptMyTrade = g_pTradeManager->IsAcceptMyTrade();
 
 		//---------------------------------------------------------------
@@ -7792,12 +7795,12 @@ UIMessageManager::Execute_UI_CANCEL_EXCHANGE(int left, int right, void* void_ptr
 			}
 			else
 			{
-				DEBUG_ADD( "[Error] Mode is not MODE_NULL");
+				DEBUG_ADD("[Error] Mode is not MODE_NULL");
 
 				// 2009.08.18 neclipse 추가..
 				// 버그 내용 : 교환시 승인 버튼을 누른후 취소 버튼을 누르게 되면 취소가 되지 않는다.
 				g_pTradeManager->RefuseMyTrade();
-			
+
 				bSendPacket = TRUE;
 			}
 		}
@@ -7805,18 +7808,18 @@ UIMessageManager::Execute_UI_CANCEL_EXCHANGE(int left, int right, void* void_ptr
 		// 그냥 거부 (있을 수 없는 경우잖아 - -;;)
 		//---------------------------------------------------------------
 		else
-		{		
+		{
 			//---------------------------------------------------------------
 			// 교환 거부당..
 			//---------------------------------------------------------------
 			g_pTradeManager->RefuseMyTrade();
-			
+
 			bSendPacket = TRUE;
 		}
-	}	
+	}
 	else
 	{
-		DEBUG_ADD( "[Error] TradeManager is NULL");
+		DEBUG_ADD("[Error] TradeManager is NULL");
 	}
 
 	//---------------------------------------------------------------
@@ -7824,12 +7827,12 @@ UIMessageManager::Execute_UI_CANCEL_EXCHANGE(int left, int right, void* void_ptr
 	//---------------------------------------------------------------
 	if (bSendPacket)
 	{
-			CGTradeFinish _CGTradeFinish;
-			_CGTradeFinish.setTargetObjectID( g_pTradeManager->GetOtherID() );
-			_CGTradeFinish.setCode( CG_TRADE_FINISH_RECONSIDER );
+		CGTradeFinish _CGTradeFinish;
+		_CGTradeFinish.setTargetObjectID(g_pTradeManager->GetOtherID());
+		_CGTradeFinish.setCode(CG_TRADE_FINISH_RECONSIDER);
 
-			g_pSocket->sendPacket( &_CGTradeFinish );
-			
+		g_pSocket->sendPacket(&_CGTradeFinish);
+
 	}
 }
 
@@ -7842,15 +7845,15 @@ void
 UIMessageManager::Execute_UI_CLOSE_EXCHANGE(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_CLOSE_EXCHANGE");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
-	BOOL bAcceptMyTrade = (g_pTradeManager!=NULL && g_pTradeManager->IsAcceptMyTrade());
+
+	BOOL bAcceptMyTrade = (g_pTradeManager != NULL && g_pTradeManager->IsAcceptMyTrade());
 
 	BOOL bSendPacket = FALSE;
 
@@ -7864,19 +7867,19 @@ UIMessageManager::Execute_UI_CLOSE_EXCHANGE(int left, int right, void* void_ptr)
 		if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 		{
 			g_pTempInformation->SetMode(g_pTempInformation->MODE_TRADE_VERIFY_CLOSE);
-			
+
 			otherID = g_pTradeManager->GetOtherID();
 
 			bSendPacket = TRUE;
 		}
 		else
 		{
-			DEBUG_ADD( "[Error] Mode is not MODE_NULL");
+			DEBUG_ADD("[Error] Mode is not MODE_NULL");
 
 			// 2009.08.18 neclipse 추가..
 			// 버그 내용 : 교환시 승인 버튼을 누른후 취소 버튼을 누르게 되면 취소가 되지 않는다.
-			if (g_pTradeManager!=NULL)
-			{			
+			if (g_pTradeManager != NULL)
+			{
 				otherID = g_pTradeManager->GetOtherID();
 
 				g_pTradeManager->CancelTrade();
@@ -7887,16 +7890,16 @@ UIMessageManager::Execute_UI_CLOSE_EXCHANGE(int left, int right, void* void_ptr)
 			//---------------------------------------------------------------
 			// 교환 안 해~~ 끝~이당
 			//---------------------------------------------------------------
-			UI_CloseExchange();	
+			UI_CloseExchange();
 		}
 	}
 	//---------------------------------------------------------------
 	// 그냥 취소..
 	//---------------------------------------------------------------
 	else
-	{		
-		if (g_pTradeManager!=NULL)
-		{			
+	{
+		if (g_pTradeManager != NULL)
+		{
 			otherID = g_pTradeManager->GetOtherID();
 
 			g_pTradeManager->CancelTrade();
@@ -7907,19 +7910,19 @@ UIMessageManager::Execute_UI_CLOSE_EXCHANGE(int left, int right, void* void_ptr)
 		//---------------------------------------------------------------
 		// 교환 안 해~~ 끝~이당
 		//---------------------------------------------------------------
-		UI_CloseExchange();	
+		UI_CloseExchange();
 	}
-	
+
 	//---------------------------------------------------------------
 	// 교환을 끝내는 packet
 	//---------------------------------------------------------------
 	if (bSendPacket)
 	{
-			CGTradeFinish _CGTradeFinish;
-			_CGTradeFinish.setTargetObjectID( otherID );
-			_CGTradeFinish.setCode( CG_TRADE_FINISH_REJECT );
+		CGTradeFinish _CGTradeFinish;
+		_CGTradeFinish.setTargetObjectID(otherID);
+		_CGTradeFinish.setCode(CG_TRADE_FINISH_REJECT);
 
-			g_pSocket->sendPacket( &_CGTradeFinish );
+		g_pSocket->sendPacket(&_CGTradeFinish);
 	}
 }
 
@@ -7935,11 +7938,11 @@ void
 UIMessageManager::Execute_UI_CHAT_SELECT_NAME(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_CHAT_SELECT_NAME");
-	
+
 	char str[80];
 
 	const char* pID = (const char*)void_ptr;
-		
+
 	switch (left)
 	{
 		case M_LEFTBUTTON_DOWN :
@@ -7970,14 +7973,14 @@ void
 UIMessageManager::Execute_UI_EXCHANGE_ACCEPT(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_EXCHANGE_ACCEPT");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	BOOL accept = (BOOL)left;
 
 	int code;
@@ -7997,24 +8000,24 @@ UIMessageManager::Execute_UI_EXCHANGE_ACCEPT(int left, int right, void* void_ptr
 			//---------------------------------------------------------
 			// 교환창을 띄운다.
 			//---------------------------------------------------------
-			UI_RunExchange( g_pTempInformation->Value1 );	// otherID 설정
+			UI_RunExchange(g_pTempInformation->Value1);	// otherID 설정
 
 			CGRequestInfo _CGRequestInfo;
-			_CGRequestInfo.setValue( g_pTempInformation->Value1 );
-			_CGRequestInfo.setCode( CGRequestInfo::REQUEST_CHARACTER_INFO );
-			
-			g_pSocket->sendPacket( &_CGRequestInfo );
+			_CGRequestInfo.setValue(g_pTempInformation->Value1);
+			_CGRequestInfo.setCode(CGRequestInfo::REQUEST_CHARACTER_INFO);
+
+			g_pSocket->sendPacket(&_CGRequestInfo);
 
 			MCreature* pCreature = g_pZone->GetCreature(g_pTempInformation->Value1);
-			if(pCreature != NULL)
+			if (pCreature != NULL)
 				UI_RunOtherInfo(pCreature);
 		}
 		//---------------------------------------------------------
 		// 거부
 		//---------------------------------------------------------
 		else
-		{	
-			if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_TRADE)
+		{
+			if (g_pPlayer->GetWaitVerify() == MPlayer::WAIT_VERIFY_TRADE)
 			{
 				g_pPlayer->SetWaitVerifyNULL();
 			}
@@ -8022,14 +8025,14 @@ UIMessageManager::Execute_UI_EXCHANGE_ACCEPT(int left, int right, void* void_ptr
 			code = CG_TRADE_PREPARE_CODE_REJECT;
 		}
 
-			CGTradePrepare _CGTradePrepare;
-			_CGTradePrepare.setTargetObjectID( g_pTempInformation->Value1 );
-			_CGTradePrepare.setCode( code );				
+		CGTradePrepare _CGTradePrepare;
+		_CGTradePrepare.setTargetObjectID(g_pTempInformation->Value1);
+		_CGTradePrepare.setCode(code);
 
-			g_pSocket->sendPacket( &_CGTradePrepare );			
-	
-		g_pTempInformation->SetMode(TempInformation::MODE_NULL);		
-	}	
+		g_pSocket->sendPacket(&_CGTradePrepare);
+
+		g_pTempInformation->SetMode(TempInformation::MODE_NULL);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -8041,35 +8044,35 @@ void
 UIMessageManager::Execute_UI_EXCHANGE_REQUEST_CANCEL(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_EXCHANGE_REQUEST_CANCEL");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	//---------------------------------------------------------
 	// 교환할래? Y/N에 대한 응답
 	//---------------------------------------------------------
 	if (g_pTempInformation->GetMode() == TempInformation::MODE_TRADE_REQUEST)
-	{	
-		if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_TRADE)
+	{
+		if (g_pPlayer->GetWaitVerify() == MPlayer::WAIT_VERIFY_TRADE)
 		{
 			g_pPlayer->SetWaitVerifyNULL();
 		}
 
-			CGTradePrepare _CGTradePrepare;
-			_CGTradePrepare.setTargetObjectID( g_pTempInformation->Value1 );
-			_CGTradePrepare.setCode( CG_TRADE_PREPARE_CODE_CANCEL );				
+		CGTradePrepare _CGTradePrepare;
+		_CGTradePrepare.setTargetObjectID(g_pTempInformation->Value1);
+		_CGTradePrepare.setCode(CG_TRADE_PREPARE_CODE_CANCEL);
 
-			g_pSocket->sendPacket( &_CGTradePrepare );			
-	
+		g_pSocket->sendPacket(&_CGTradePrepare);
+
 		g_pTempInformation->SetMode(TempInformation::MODE_NULL);
-		
+
 		// 교환 취소할래?를 제거한다.
 		UI_CloseExchangeCancel();
-	}	
+	}
 }
 
 /*
@@ -8084,7 +8087,7 @@ void
 UIMessageManager::Execute_UI_CHANGE_GAME_OPTION(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD_FORMAT("[UI] Execute_UI_CHANGE_GAME_OPTION[%d] = %d", left, right);
-	
+
 	if (g_Mode!=MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
@@ -8092,12 +8095,12 @@ UIMessageManager::Execute_UI_CHANGE_GAME_OPTION(int left, int right, void* void_
 	}
 
 	int value = right;
-	
+
 	switch (left)
 	{
 		//-------------------------------------------------------------------
 		// DRAW_MINIMAP
-		//-------------------------------------------------------------------		
+		//-------------------------------------------------------------------
 		//case C_VS_UI_GAMEMENU_OPTION::DRAW_MINIMAP :
 		//	g_pUserOption->DrawMinimap = (BOOL)value;
 		//break;
@@ -8129,7 +8132,7 @@ UIMessageManager::Execute_UI_CHANGE_GAME_OPTION(int left, int right, void* void_
 		case C_VS_UI_GAMEMENU_OPTION::PLAY_WAV :
 			g_pUserOption->PlayWaveMusic = (BOOL)value;
 
-			PlayGameMusic();			
+			PlayGameMusic();
 		break;
 
 		//-------------------------------------------------------------------
@@ -8155,7 +8158,7 @@ UIMessageManager::Execute_UI_CHANGE_GAME_OPTION(int left, int right, void* void_
 				{
 					g_pSoundManager->Stop();
 				}
-				
+
 				g_DXSound.SetMute();
 			}
 		break;
@@ -8175,29 +8178,29 @@ UIMessageManager::Execute_UI_CHANGE_GAME_OPTION(int left, int right, void* void_
 		case C_VS_UI_GAMEMENU_OPTION::VOLUME_SOUND :
 			if (value>=0 && value<16)
 			{
-				g_pUserOption->VolumeSound = value;	
+				g_pUserOption->VolumeSound = value;
 
 				LONG volume = value*SOUND_DEGREE + SOUND_MIN;
 
-				g_DXSound.SetVolumeLimit( volume );			
+				g_DXSound.SetVolumeLimit( volume );
 			}
 		break;
 
 		//-------------------------------------------------------------------
-		// VOLUME_MUSIC 
+		// VOLUME_MUSIC
 		//-------------------------------------------------------------------
 		case C_VS_UI_GAMEMENU_OPTION::VOLUME_MUSIC :
 
 			if (value>=0 && value<16)
 			{
 				g_pUserOption->VolumeMusic = value;
-				
+
 				if (g_pUserOption->PlayWaveMusic)
 				{
 					LONG volume = value*SOUND_DEGREE + SOUND_MIN;
 
 					DEBUG_ADD_FORMAT("Change VOLUME_MUSIC = %ld", volume);
-					
+
 					//LONG maxVolume = g_DXSound.GetVolumeLimit();
 
 					//g_DXSound.SetVolumeLimit( volume );
@@ -8210,7 +8213,7 @@ UIMessageManager::Execute_UI_CHANGE_GAME_OPTION(int left, int right, void* void_
 				else
 				{
 					WORD volume = value*0x1000 + 0x0FFF;
-				
+
 					if (!g_pUserOption->PlayMusic || g_Music.IsPause())
 					{
 						g_Music.SetVolume( volume );
@@ -8226,12 +8229,12 @@ UIMessageManager::Execute_UI_CHANGE_GAME_OPTION(int left, int right, void* void_
 		break;
 
 		//-------------------------------------------------------------------
-		// 캐릭터 HP바 투명/불투명 
+		// 캐릭터 HP바 투명/불투명
 		//-------------------------------------------------------------------
 		case C_VS_UI_GAMEMENU_OPTION::PARTY_HPBAR_ALPHA :
 			g_pUserOption->DrawTransHPBar = (BOOL)value;
 		break;
-		
+
 	}
 }
 
@@ -8245,14 +8248,14 @@ void
 UIMessageManager::Execute_UI_CLOSE_GAME_OPTION(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_CLOSE_GAME_OPTION");
-	
+
 	if (g_Mode!=MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	gC_vs_ui.CloseGameMenuOption();
 
 	//---------------------------------------------------------------
@@ -8273,14 +8276,14 @@ void
 UIMessageManager::Execute_UI_CHANGE_OPTION(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_CHANGE_TITLE_OPTION");
-	
-//	if (g_Mode!=MODE_MAINMENU)
-//	{
-//		DEBUG_ADD("Not Mode MODE_MAINMENU");
-//		return;
-//	}
 
-	
+	//	if (g_Mode!=MODE_MAINMENU)
+	//	{
+	//		DEBUG_ADD("Not Mode MODE_MAINMENU");
+	//		return;
+	//	}
+
+
 	int value = right;
 
 	switch (left)
@@ -8323,13 +8326,13 @@ UIMessageManager::Execute_UI_CHANGE_OPTION(int left, int right, void* void_ptr)
 		//-------------------------------------------------------------------
 		// PLAY_WAV
 		//-------------------------------------------------------------------
-		case C_VS_UI_OPTION::CHECK_WAV :
-			g_pUserOption->PlayWaveMusic = (BOOL)value;
+	case C_VS_UI_OPTION::CHECK_WAV:
+		g_pUserOption->PlayWaveMusic = (BOOL)value;
 
-			if(g_Mode == MODE_MAINMENU)
-				PlayTitleMusic();			
-			else 
-				PlayGameMusic();			
+		if (g_Mode == MODE_MAINMENU)
+			PlayTitleMusic();
+		else
+			PlayGameMusic();
 		break;
 
 		//-------------------------------------------------------------------
@@ -8342,129 +8345,129 @@ UIMessageManager::Execute_UI_CHANGE_OPTION(int left, int right, void* void_ptr)
 		//-------------------------------------------------------------------
 		// PLAY_SOUND
 		//-------------------------------------------------------------------
-		case C_VS_UI_OPTION::CHECK_SOUND :
-			g_pUserOption->PlaySound = (BOOL)value;
+	case C_VS_UI_OPTION::CHECK_SOUND:
+		g_pUserOption->PlaySound = (BOOL)value;
 
-			if (g_pUserOption->PlaySound)
+		if (g_pUserOption->PlaySound)
+		{
+			g_DXSound.UnSetMute();
+			g_pSystemMessage->Add((*g_pGameStringTable)[STRING_MESSAGE_EFFECTSOUND_ENABLE].GetString());
+		}
+		else
+		{
+			if (g_pSoundManager != NULL)
 			{
-				g_DXSound.UnSetMute();
-				g_pSystemMessage->Add((*g_pGameStringTable)[STRING_MESSAGE_EFFECTSOUND_ENABLE].GetString());
+				g_pSoundManager->Stop();
 			}
-			else
-			{
-				if (g_pSoundManager != NULL)
-				{
-					g_pSoundManager->Stop();
-				}
-				
-				g_DXSound.SetMute();
-				g_pSystemMessage->Add((*g_pGameStringTable)[STRING_MESSAGE_EFFECTSOUND_DISABLE].GetString());
-			}
+
+			g_DXSound.SetMute();
+			g_pSystemMessage->Add((*g_pGameStringTable)[STRING_MESSAGE_EFFECTSOUND_DISABLE].GetString());
+		}
 		break;
 
 		//-------------------------------------------------------------------
 		// PLAY_MUSIC
 		//-------------------------------------------------------------------
-		case C_VS_UI_OPTION::CHECK_MUSIC :
-			g_pUserOption->PlayMusic = (BOOL)value;
+	case C_VS_UI_OPTION::CHECK_MUSIC:
+		g_pUserOption->PlayMusic = (BOOL)value;
 
-			//Wlzzi 수정. -- 배경음 오류 
-			//				: Music Off 한 후에, 다시 On 할 때, 현재 존의 음악이 아니라.. 타이틀이 나왔다.
-			//				: 원인은.. 아래 g_pUserOption->PlayWaveMusic 으로 체크 했기 때문.
-			if( g_Mode == MODE_GAME && g_pUserOption->PlayMusic)
+		//Wlzzi 수정. -- 배경음 오류 
+		//				: Music Off 한 후에, 다시 On 할 때, 현재 존의 음악이 아니라.. 타이틀이 나왔다.
+		//				: 원인은.. 아래 g_pUserOption->PlayWaveMusic 으로 체크 했기 때문.
+		if (g_Mode == MODE_GAME && g_pUserOption->PlayMusic)
+		{
+			PlayMusicCurrentZone();
+		}
+		else
+		{
+			PlayTitleMusic();
+			if (value)
 			{
-				PlayMusicCurrentZone();
+				g_pSystemMessage->Add((*g_pGameStringTable)[STRING_MESSAGE_BACKGROUNDSOUND_ENABLE].GetString());
 			}
 			else
 			{
-				PlayTitleMusic();
-				if(value)
-				{
-					g_pSystemMessage->Add((*g_pGameStringTable)[STRING_MESSAGE_BACKGROUNDSOUND_ENABLE].GetString());
-				}
-				else
-				{
-					g_pSystemMessage->Add((*g_pGameStringTable)[STRING_MESSAGE_BACKGROUNDSOUND_DISABLE].GetString());
-				}
+				g_pSystemMessage->Add((*g_pGameStringTable)[STRING_MESSAGE_BACKGROUNDSOUND_DISABLE].GetString());
 			}
+		}
 		break;
 
 		//-------------------------------------------------------------------
 		// VOLUME_SOUND
 		//-------------------------------------------------------------------
-		case C_VS_UI_OPTION::CHECK_VALUE_SOUND_VOLUME :
-			if (value>=0 && value<16)
-			{
-				g_pUserOption->VolumeSound = value;	
+	case C_VS_UI_OPTION::CHECK_VALUE_SOUND_VOLUME:
+		if (value >= 0 && value < 16)
+		{
+			g_pUserOption->VolumeSound = value;
 
-				LONG volume = value*SOUND_DEGREE + SOUND_MIN;
+			LONG volume = value * SOUND_DEGREE + SOUND_MIN;
 
-				g_DXSound.SetVolumeLimit( volume );	
-				
-				PlaySound(SOUND_SLAYER_BUTTON);
-			}
+			g_DXSound.SetVolumeLimit(volume);
+
+			PlaySound(SOUND_SLAYER_BUTTON);
+		}
 		break;
 
 		//-------------------------------------------------------------------
 		// VOLUME_MUSIC 
 		//-------------------------------------------------------------------
-		case C_VS_UI_OPTION::CHECK_VALUE_MUSIC_VOLUME :
+	case C_VS_UI_OPTION::CHECK_VALUE_MUSIC_VOLUME:
 
-			if (value>=0 && value<16)
+		if (value >= 0 && value < 16)
+		{
+			g_pUserOption->VolumeMusic = value;
+
+			if (g_pUserOption->PlayWaveMusic)
 			{
-				g_pUserOption->VolumeMusic = value;
-				
-				if (g_pUserOption->PlayWaveMusic)
-				{
-					/*
-					LONG volume = value*SOUND_DEGREE + SOUND_MIN;
+				/*
+				LONG volume = value*SOUND_DEGREE + SOUND_MIN;
 
-					LONG maxVolume = g_DXSound.GetVolumeLimit();
+				LONG maxVolume = g_DXSound.GetVolumeLimit();
 
-					g_DXSound.SetVolumeLimit( volume );
-					g_DXSound.AddVolume( g_pDXSoundStream->GetBuffer(), 0 );
+				g_DXSound.SetVolumeLimit( volume );
+				g_DXSound.AddVolume( g_pDXSoundStream->GetBuffer(), 0 );
 
-					// 원래의 max volume으로 돌린다.
-					g_DXSound.SetVolumeLimit( maxVolume );
-					*/
-//					LONG volume = value*16*257;//*SOUND_DEGREE + SOUND_MIN;
+				// 원래의 max volume으로 돌린다.
+				g_DXSound.SetVolumeLimit( maxVolume );
+				*/
+				//					LONG volume = value*16*257;//*SOUND_DEGREE + SOUND_MIN;
 
-//					DEBUG_ADD_FORMAT("Change VOLUME_MUSIC = %ld", volume);
-					
-//					g_pDXSoundStream->SetVolumeLimit( volume );
-					DEBUG_ADD("MP3 SetVolume4");
+				//					DEBUG_ADD_FORMAT("Change VOLUME_MUSIC = %ld", volume);
+
+				//					g_pDXSoundStream->SetVolumeLimit( volume );
+				DEBUG_ADD("MP3 SetVolume4");
 #ifdef __USE_MP3__
-					g_pMP3->SetVolume( volume );
+				g_pMP3->SetVolume(volume);
 #else
-					//if( g_DXSound.IsInit() && g_pOGG != NULL )
-					if(g_DXSound.IsInit())
-					{
-						//int step = (DSBVOLUME_MIN) / 16;
-						int volume = (value - 15) * 250;
+				//if( g_DXSound.IsInit() && g_pOGG != NULL )
+				if (g_DXSound.IsInit())
+				{
+					//int step = (DSBVOLUME_MIN) / 16;
+					int volume = (value - 15) * 250;
 
-						//g_pOGG->streamVolume( max( -10000, min( -1, volume ) ) );
+					//g_pOGG->streamVolume( max( -10000, min( -1, volume ) ) );
 
-						BGMManager::Instance()->SetVolume(max( -10000, min( -1, volume ) ));
-					}
+					BGMManager::Instance()->SetVolume(max(-10000, min(-1, volume)));
+				}
 #endif
-					DEBUG_ADD("MP3 SetVolume4 OK");
+				DEBUG_ADD("MP3 SetVolume4 OK");
+			}
+			else
+			{
+				WORD volume = (value) * 0x1000 + 0x0FFF;
+
+				if (!g_pUserOption->PlayMusic || g_Music.IsPause())
+				{
+					g_Music.SetVolume(volume);
 				}
 				else
 				{
-					WORD volume = (value)*0x1000 + 0x0FFF;
-
-					if (!g_pUserOption->PlayMusic || g_Music.IsPause())
-					{
-						g_Music.SetVolume( volume );
-					}
-					else
-					{
-						g_Music.Pause();
-						g_Music.SetVolume( volume );
-						g_Music.Resume();
-					}				
+					g_Music.Pause();
+					g_Music.SetVolume(volume);
+					g_Music.Resume();
 				}
 			}
+		}
 		break;
 
 		//-------------------------------------------------------------------
@@ -8487,22 +8490,22 @@ UIMessageManager::Execute_UI_CLOSE_OPTION(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_CLOSE_TITLE_OPTION");
 
-//	if (g_Mode!=MODE_MAINMENU)
-//	{
-//		DEBUG_ADD("Not Mode MODE_MAINMENU");
-//		return;
-//	}
+	//	if (g_Mode!=MODE_MAINMENU)
+	//	{
+	//		DEBUG_ADD("Not Mode MODE_MAINMENU");
+	//		return;
+	//	}
 
-	
+
 	gC_vs_ui.CloseOption();
 
 	//---------------------------------------------------------------
 	// 그냥 저장해버린다. - -;
 	//---------------------------------------------------------------
-	g_pClientConfig->SaveToFile( g_pFileDef->getProperty("FILE_INFO_CLIENTCONFIG").c_str());
-	g_pUserOption->SaveToFile( g_pFileDef->getProperty("FILE_INFO_USEROPTION").c_str());
+	g_pClientConfig->SaveToFile(g_pFileDef->getProperty("FILE_INFO_CLIENTCONFIG").c_str());
+	g_pUserOption->SaveToFile(g_pFileDef->getProperty("FILE_INFO_USEROPTION").c_str());
 
-	if (g_Mode==MODE_MAINMENU)
+	if (g_Mode == MODE_MAINMENU)
 	{
 		if (CDirect3D::IsHAL())
 		{
@@ -8544,14 +8547,14 @@ UIMessageManager::Execute_UI_CLOSE_BOOKCASE(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_CLOSE_BOOKCASE");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	UI_CloseBookcase();
 }
 
@@ -8565,14 +8568,14 @@ UIMessageManager::Execute_UI_CLOSE_BRIEFING(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_CLOSE_BRIEFING");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	UI_CloseBriefing();
 }
 
@@ -8585,14 +8588,14 @@ void
 UIMessageManager::Execute_UI_CLOSE_COMPUTER(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_CLOSE_COMPUTER");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	UI_CloseComputer();
 }
 
@@ -8606,19 +8609,19 @@ UIMessageManager::Execute_UI_CLOSE_TUTORIAL_EXIT(int left, int right, void* void
 {
 	DEBUG_ADD("[UI] Execute_UI_CLOSE_TUTORIAL_EXIT");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
-		return; 
+		return;
 	}
 
-	
+
 	UI_CloseTutorialExit();
 
 	int arms = left;	// 0: 도 1: 검 2: 메이스 3: 십자가 4: AR 5: TR 6: SMG 7:SG
 
-	if (arms >= 0 && arms <=7)
+	if (arms >= 0 && arms <= 7)
 	{
 		ITEM_CLASS itemClass[] =
 		{
@@ -8631,14 +8634,14 @@ UIMessageManager::Execute_UI_CLOSE_TUTORIAL_EXIT(int left, int right, void* void
 			ITEM_CLASS_SMG,
 			ITEM_CLASS_SG
 		};
-		
 
-			CGRequestNewbieItem _CGRequestNewbieItem;
-		
-			_CGRequestNewbieItem.setItemClass( itemClass[arms] );
-			
-			g_pSocket->sendPacket( &_CGRequestNewbieItem );
-			
+
+		CGRequestNewbieItem _CGRequestNewbieItem;
+
+		_CGRequestNewbieItem.setItemClass(itemClass[arms]);
+
+		g_pSocket->sendPacket(&_CGRequestNewbieItem);
+
 	}
 }
 
@@ -8648,18 +8651,18 @@ UIMessageManager::Execute_UI_CLOSE_TUTORIAL_EXIT(int left, int right, void* void
 // Desc Dialog 닫을 때
 //
 //-----------------------------------------------------------------------------
-void	
+void
 UIMessageManager::Execute_UI_CLOSE_DESC_DIALOG(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_CLOSE_DESC_DIALOG");
 
-	
+
 	//if (g_Mode!=MODE_GAME)
 	{
-	//	DEBUG_ADD("Not Mode MODE_GAME");
-	//	return;
+		//	DEBUG_ADD("Not Mode MODE_GAME");
+		//	return;
 	}
-	
+
 	// Close	
 	gC_vs_ui.CloseDescDialog();
 }
@@ -8669,13 +8672,13 @@ UIMessageManager::Execute_UI_CLOSE_DESC_DIALOG(int left, int right, void* void_p
 // Elevator닫을 때
 //
 //-----------------------------------------------------------------------------
-void	
+void
 UIMessageManager::Execute_UI_CLOSE_ELEVATOR(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_CLOSE_ELEVATOR");
-	
-	
-	if (g_Mode!=MODE_GAME)
+
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
@@ -8690,25 +8693,25 @@ UIMessageManager::Execute_UI_CLOSE_ELEVATOR(int left, int right, void* void_ptr)
 // Elevator 선택할 때
 //
 //-----------------------------------------------------------------------------
-void	
+void
 UIMessageManager::Execute_UI_SELECT_ELEVATOR(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_SELECT_ELEVATOR");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	// left 0 : 4층 ....
 	//		1 : 3
 	//		2 : 2
 	//		3 : 1
 	//		4 : 지하 1층
-	int selectPortal = 4-left;
+	int selectPortal = 4 - left;
 
 	if (selectPortal <= 4)
 	{
@@ -8716,16 +8719,16 @@ UIMessageManager::Execute_UI_SELECT_ELEVATOR(int left, int right, void* void_ptr
 
 		if (sector.IsPortal())
 		{
-			int numPortal = sector.GetPortalSize();		
-			
+			int numPortal = sector.GetPortalSize();
+
 			selectPortal = min(selectPortal, numPortal);
 
 			PORTAL_LIST::const_iterator	iPortal = sector.GetPortalBegin();
 
-			for (int i=0; i<selectPortal; i++)
+			for (int i = 0; i < selectPortal; i++)
 			{
-				iPortal++;		
-			}		
+				iPortal++;
+			}
 
 			PORTAL_INFO portalInfo = *iPortal;
 
@@ -8735,11 +8738,11 @@ UIMessageManager::Execute_UI_SELECT_ELEVATOR(int left, int right, void* void_ptr
 			//-----------------------------------------------------
 			// Packet 보내기
 			//-----------------------------------------------------
-				CGSelectPortal _CGSelectPortal;
+			CGSelectPortal _CGSelectPortal;
 
-				_CGSelectPortal.setZoneID( zoneID );
+			_CGSelectPortal.setZoneID(zoneID);
 
-				g_pSocket->sendPacket( &_CGSelectPortal );
+			g_pSocket->sendPacket(&_CGSelectPortal);
 		}
 	}
 
@@ -8752,19 +8755,19 @@ UIMessageManager::Execute_UI_SELECT_ELEVATOR(int left, int right, void* void_ptr
 //
 //-----------------------------------------------------------------------------
 /*
-void	
+void
 UIMessageManager::Execute_UI_SELECT_SERVER(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_SELECT_SERVER");
 
-	
+
 	if (g_Mode!=MODE_WAIT_SELECTPC)
 	{
 		DEBUG_ADD("Not Mode MODE_WAIT_SELECTPC");
 		return;
 	}
 
-	
+
 	// left : serverGroupID
 	int selectedGroup = left;
 
@@ -8789,12 +8792,12 @@ UIMessageManager::Execute_UI_SELECT_SERVER(int left, int right, void* void_ptr)
 			if (pGroupName != g_pServerInformation->GetServerGroupName())
 			{
 				char str[80];
-				strcpy(str, pGroupName);	
-				
+				strcpy(str, pGroupName);
+
 				// UI에 설정
 				//gC_vs_ui.SetServerDefault( str, selectedGroup );
 
-			
+
 				//-----------------------------------------------------
 				// Packet 보내기
 				//-----------------------------------------------------
@@ -8809,7 +8812,7 @@ UIMessageManager::Execute_UI_SELECT_SERVER(int left, int right, void* void_ptr)
 				#endif
 
 				// Server정보에 설정
-				g_pServerInformation->SetServerGroupName( pGroupName );			
+				g_pServerInformation->SetServerGroupName( pGroupName );
 			}
 		}
 	}
@@ -8822,24 +8825,24 @@ UIMessageManager::Execute_UI_SELECT_SERVER(int left, int right, void* void_ptr)
 //
 //-----------------------------------------------------------------------------
 /*
-void	
+void
 UIMessageManager::Execute_UI_REQUEST_SERVER_LIST(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_REQUEST_SERVER_LIST");
 
-	
+
 	if (g_Mode!=MODE_WAIT_SELECTPC)
 	{
 		DEBUG_ADD("Not Mode MODE_WAIT_SELECTPC");
 		return;
 	}
 
-	
+
 	#ifdef CONNECT_SERVER
 		if (gC_vs_ui.IsCharManagerEnable())
 		{
-			CLGetServerList _CLGetServerList;					
-			
+			CLGetServerList _CLGetServerList;
+
 			g_pSocket->sendPacket( &_CLGetServerList );
 
 			gC_vs_ui.CharManagerDisable();
@@ -8853,208 +8856,208 @@ UIMessageManager::Execute_UI_REQUEST_SERVER_LIST(int left, int right, void* void
 // Inventory --> QuickSlot
 //
 //-----------------------------------------------------------------------------
-void	
+void
 UIMessageManager::Execute_UI_ITEM_TO_QUICKITEMSLOT(int left, int right, void* void_ptr)
 {
-//	DEBUG_ADD("[UI] UI_ITEM_TO_QUICKITEMSLOT");
-//	// focus_grid_x, focus_grid_y, (MItem *)p_item
-//
-//	
-//	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
-//	{
-//		DEBUG_ADD("Not Mode MODE_GAME or Dead");
-//		return;
-//	}
-//				
-//	//-----------------------------------------------------------------
-//	// 검증받을게 없는 경우
-//	//-----------------------------------------------------------------
-//	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL
-//		&& g_pPlayer->IsItemCheckBufferNULL())
-//	{
-//		if (gC_vs_ui.IsRunningExchange())
-//		{
-//			// 교환 중에는 그냥 Mouse에 붙인다.
-//			Execute_UI_ITEM_PICKUP_FROM_INVENTORY(left, right, void_ptr);
-//		}
-//		else
-//		{
-//			MItem* pItem = (MItem*)void_ptr;
-//
-//			//---------------------------------------------------------
-//			// 쌓일 수 있는 아이템이고..
-//			// QuickSlot이 있는지 확인
-//			//---------------------------------------------------------
-//			if (pItem->IsQuickItem() && g_pQuickSlot!=NULL)
-//			{		
-//				int itemID = pItem->GetID();
-//				int itemX = pItem->GetGridX();
-//				int itemY = pItem->GetGridY();
-//
-//				int num = g_pQuickSlot->GetSize();
-//				int addTotal = -1;
-//
-//				int addIndex = -1;
-//
-//				//---------------------------------------------------------
-//				// QuickSlot의 어디에 들어갈 수 있을까?
-//				//---------------------------------------------------------
-//				for (int i=0; i<num; i++)
-//				{
-//					MItem* pQuickItem = g_pQuickSlot->GetItem( i );
-//
-//					//---------------------------------------------------------
-//					// 아무것도 없는 곳이면 그냥 넣으면 된다.
-//					//---------------------------------------------------------
-//					if (pQuickItem==NULL)
-//					{						
-//						addIndex = i;
-//
-//						MItem* pRemoveItem = g_pInventory->RemoveItem( itemX, itemY );
-//
-//						g_pQuickSlot->AddItem( pRemoveItem, addIndex );
-//
-//						PlaySound( pRemoveItem->GetInventorySoundID() );
-//
-//						break;
-//					}
-//					//---------------------------------------------------------
-//					// 뭔가 있으면.. 그곳에 쌓일 수 있는지 알아본다.
-//					//---------------------------------------------------------
-//					else
-//					{
-//						//--------------------------------------------------------
-//						// 쌓일 수 있는 item인지 검증해 준다.
-//						//--------------------------------------------------------
-//						if (pQuickItem->GetItemClass()==pItem->GetItemClass()
-//							&& pQuickItem->GetItemType()==pItem->GetItemType())
-//						{
-//							//----------------------------------------------------
-//							// 더한 개수가 max를 넘지 않아야 한다.
-//							//----------------------------------------------------
-//							addTotal = pQuickItem->GetNumber() + pItem->GetNumber();
-//							if ( addTotal <= pQuickItem->GetMaxNumber() )
-//							{
-//								// i번째에 추가 가능하다고 판단한다.								
-//								addIndex = i;
-//
-//								//---------------------------------------------------
-//								// Inventory의 아이템은 제거한다.
-//								//---------------------------------------------------
-//								MItem* pRemoveItem = g_pInventory->RemoveItem( itemX, itemY );
-//								if (pRemoveItem!=NULL)
-//								{
-//									// assert( pRemoveItem==pItem );
-//									delete pRemoveItem;
-//								}
-//
-//								pQuickItem->SetNumber( addTotal );
-//
-//								PlaySound( pQuickItem->GetInventorySoundID() );
-//								
-//								break;
-//							}
-//						}
-//					}
-//				}
-//
-//				if (addIndex != -1)
-//				{
-//					//---------------------------------------------------------
-//					// SendPacket - Inventory to QuickItem
-//					// 실제로는 Inventory --> Mouse --> QuickItem이다.
-//					//---------------------------------------------------------
-//						//---------------------------------------------------
-//						// Inventory에 있던 item을 mouse에 붙였다(-_-;)고
-//						// server로 packet을 보낸다.
-//						//---------------------------------------------------
-//						CGAddInventoryToMouse _CGAddInventoryToMouse;
-//						_CGAddInventoryToMouse.setObjectID( itemID );
-//						_CGAddInventoryToMouse.setX( itemX );
-//						_CGAddInventoryToMouse.setY( itemY );
-//						
-//						g_pSocket->sendPacket( &_CGAddInventoryToMouse );
-//
-//						//---------------------------------------------------
-//						// mouse에 있던 item을 QuickSlot에 추가했다고
-//						// server로 packet을 보낸다.
-//						//---------------------------------------------------
-//						CGAddMouseToQuickSlot _CGAddMouseToQuickSlot;
-//						_CGAddMouseToQuickSlot.setObjectID( itemID );
-//						_CGAddMouseToQuickSlot.setSlotID( addIndex );
-//						
-//						g_pSocket->sendPacket( &_CGAddMouseToQuickSlot );
-//						
-//				}
-//
-//			}
-//			//---------------------------------------------------------
-//			// Quick slot에 안 들어가는 거면..
-//			// Gear로 넣어버리자. -_-;
-//			//---------------------------------------------------------
-//			else
-//			{
-//				//---------------------------------------------------------
-//				// 일단..  mouse로 들고..
-//				//---------------------------------------------------------
-//				g_pInventory->RemoveItem( pItem->GetID() );
-//				Execute_UI_ITEM_PICKUP_FROM_INVENTORY(left, right, void_ptr);
-//
-//				int maxSlot;
-//
-//				//---------------------------------------------------------
-//				// gear에 들어갈 수 있는지 체크
-//				//---------------------------------------------------------
-//				if (g_pPlayer->IsSlayer())
-//				{
-//					maxSlot = MSlayerGear::MAX_GEAR_SLAYER;
-//				}
-//				else
-//				{
-//					maxSlot = MVampireGear::MAX_GEAR_VAMPIRE;
-//				}
-//
-//				MItem* pGearItem = NULL;
-//				MItem* pChangeItem = NULL;
-//				int addSlot = -1;
-//
-//				for (int slot=0; slot<maxSlot; slot++)
-//				{
-//					MItem* pGearItem = NULL;
-//
-//					if (g_pPlayer->IsSlayer() && g_pSlayerGear->CanReplaceItem(pItem, (MSlayerGear::GEAR_SLAYER)slot, pGearItem)
-//						|| g_pPlayer->IsVampire() && g_pVampireGear->CanReplaceItem(pItem, (MVampireGear::GEAR_VAMPIRE)slot, pGearItem)
-//						|| g_pPlayer->IsOusters() && g_pOustersGear->CanReplaceItem(pItem, (MOustersGear::GEAR_OUSTERS)slot, pGearItem))
-//					{
-//						addSlot = slot;
-//						pChangeItem = pGearItem;
-//
-//						// 빈 곳이면 바로 넣어버리면 된다.
-//						// 빈 곳이 아니라면.. 다음걸 찾는다.
-//						if (pGearItem==NULL)
-//						{
-//							break;
-//						}							
-//					} 
-//				}
-//				
-//				//---------------------------------------------------------
-//				// gear에 넣자..
-//				//---------------------------------------------------------
-//				if (addSlot != -1)
-//				{
-//					Execute_UI_ITEM_DROP_TO_GEAR(addSlot, 0, pChangeItem);
-//				}
-//			}
-//		}		
-//	}
-//	//-----------------------------------------------------------------
-//	// 검증 받아야할 다른 아이템이 있는 경우
-//	//-----------------------------------------------------------------
-//	else
-//	{
-//		DEBUG_ADD( "[Error] There is another item in ItemCheckBuffer");
-//	}
+	//	DEBUG_ADD("[UI] UI_ITEM_TO_QUICKITEMSLOT");
+	//	// focus_grid_x, focus_grid_y, (MItem *)p_item
+	//
+	//	
+	//	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+	//	{
+	//		DEBUG_ADD("Not Mode MODE_GAME or Dead");
+	//		return;
+	//	}
+	//				
+	//	//-----------------------------------------------------------------
+	//	// 검증받을게 없는 경우
+	//	//-----------------------------------------------------------------
+	//	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL
+	//		&& g_pPlayer->IsItemCheckBufferNULL())
+	//	{
+	//		if (gC_vs_ui.IsRunningExchange())
+	//		{
+	//			// 교환 중에는 그냥 Mouse에 붙인다.
+	//			Execute_UI_ITEM_PICKUP_FROM_INVENTORY(left, right, void_ptr);
+	//		}
+	//		else
+	//		{
+	//			MItem* pItem = (MItem*)void_ptr;
+	//
+	//			//---------------------------------------------------------
+	//			// 쌓일 수 있는 아이템이고..
+	//			// QuickSlot이 있는지 확인
+	//			//---------------------------------------------------------
+	//			if (pItem->IsQuickItem() && g_pQuickSlot!=NULL)
+	//			{		
+	//				int itemID = pItem->GetID();
+	//				int itemX = pItem->GetGridX();
+	//				int itemY = pItem->GetGridY();
+	//
+	//				int num = g_pQuickSlot->GetSize();
+	//				int addTotal = -1;
+	//
+	//				int addIndex = -1;
+	//
+	//				//---------------------------------------------------------
+	//				// QuickSlot의 어디에 들어갈 수 있을까?
+	//				//---------------------------------------------------------
+	//				for (int i=0; i<num; i++)
+	//				{
+	//					MItem* pQuickItem = g_pQuickSlot->GetItem( i );
+	//
+	//					//---------------------------------------------------------
+	//					// 아무것도 없는 곳이면 그냥 넣으면 된다.
+	//					//---------------------------------------------------------
+	//					if (pQuickItem==NULL)
+	//					{						
+	//						addIndex = i;
+	//
+	//						MItem* pRemoveItem = g_pInventory->RemoveItem( itemX, itemY );
+	//
+	//						g_pQuickSlot->AddItem( pRemoveItem, addIndex );
+	//
+	//						PlaySound( pRemoveItem->GetInventorySoundID() );
+	//
+	//						break;
+	//					}
+	//					//---------------------------------------------------------
+	//					// 뭔가 있으면.. 그곳에 쌓일 수 있는지 알아본다.
+	//					//---------------------------------------------------------
+	//					else
+	//					{
+	//						//--------------------------------------------------------
+	//						// 쌓일 수 있는 item인지 검증해 준다.
+	//						//--------------------------------------------------------
+	//						if (pQuickItem->GetItemClass()==pItem->GetItemClass()
+	//							&& pQuickItem->GetItemType()==pItem->GetItemType())
+	//						{
+	//							//----------------------------------------------------
+	//							// 더한 개수가 max를 넘지 않아야 한다.
+	//							//----------------------------------------------------
+	//							addTotal = pQuickItem->GetNumber() + pItem->GetNumber();
+	//							if ( addTotal <= pQuickItem->GetMaxNumber() )
+	//							{
+	//								// i번째에 추가 가능하다고 판단한다.								
+	//								addIndex = i;
+	//
+	//								//---------------------------------------------------
+	//								// Inventory의 아이템은 제거한다.
+	//								//---------------------------------------------------
+	//								MItem* pRemoveItem = g_pInventory->RemoveItem( itemX, itemY );
+	//								if (pRemoveItem!=NULL)
+	//								{
+	//									// assert( pRemoveItem==pItem );
+	//									delete pRemoveItem;
+	//								}
+	//
+	//								pQuickItem->SetNumber( addTotal );
+	//
+	//								PlaySound( pQuickItem->GetInventorySoundID() );
+	//								
+	//								break;
+	//							}
+	//						}
+	//					}
+	//				}
+	//
+	//				if (addIndex != -1)
+	//				{
+	//					//---------------------------------------------------------
+	//					// SendPacket - Inventory to QuickItem
+	//					// 실제로는 Inventory --> Mouse --> QuickItem이다.
+	//					//---------------------------------------------------------
+	//						//---------------------------------------------------
+	//						// Inventory에 있던 item을 mouse에 붙였다(-_-;)고
+	//						// server로 packet을 보낸다.
+	//						//---------------------------------------------------
+	//						CGAddInventoryToMouse _CGAddInventoryToMouse;
+	//						_CGAddInventoryToMouse.setObjectID( itemID );
+	//						_CGAddInventoryToMouse.setX( itemX );
+	//						_CGAddInventoryToMouse.setY( itemY );
+	//						
+	//						g_pSocket->sendPacket( &_CGAddInventoryToMouse );
+	//
+	//						//---------------------------------------------------
+	//						// mouse에 있던 item을 QuickSlot에 추가했다고
+	//						// server로 packet을 보낸다.
+	//						//---------------------------------------------------
+	//						CGAddMouseToQuickSlot _CGAddMouseToQuickSlot;
+	//						_CGAddMouseToQuickSlot.setObjectID( itemID );
+	//						_CGAddMouseToQuickSlot.setSlotID( addIndex );
+	//						
+	//						g_pSocket->sendPacket( &_CGAddMouseToQuickSlot );
+	//						
+	//				}
+	//
+	//			}
+	//			//---------------------------------------------------------
+	//			// Quick slot에 안 들어가는 거면..
+	//			// Gear로 넣어버리자. -_-;
+	//			//---------------------------------------------------------
+	//			else
+	//			{
+	//				//---------------------------------------------------------
+	//				// 일단..  mouse로 들고..
+	//				//---------------------------------------------------------
+	//				g_pInventory->RemoveItem( pItem->GetID() );
+	//				Execute_UI_ITEM_PICKUP_FROM_INVENTORY(left, right, void_ptr);
+	//
+	//				int maxSlot;
+	//
+	//				//---------------------------------------------------------
+	//				// gear에 들어갈 수 있는지 체크
+	//				//---------------------------------------------------------
+	//				if (g_pPlayer->IsSlayer())
+	//				{
+	//					maxSlot = MSlayerGear::MAX_GEAR_SLAYER;
+	//				}
+	//				else
+	//				{
+	//					maxSlot = MVampireGear::MAX_GEAR_VAMPIRE;
+	//				}
+	//
+	//				MItem* pGearItem = NULL;
+	//				MItem* pChangeItem = NULL;
+	//				int addSlot = -1;
+	//
+	//				for (int slot=0; slot<maxSlot; slot++)
+	//				{
+	//					MItem* pGearItem = NULL;
+	//
+	//					if (g_pPlayer->IsSlayer() && g_pSlayerGear->CanReplaceItem(pItem, (MSlayerGear::GEAR_SLAYER)slot, pGearItem)
+	//						|| g_pPlayer->IsVampire() && g_pVampireGear->CanReplaceItem(pItem, (MVampireGear::GEAR_VAMPIRE)slot, pGearItem)
+	//						|| g_pPlayer->IsOusters() && g_pOustersGear->CanReplaceItem(pItem, (MOustersGear::GEAR_OUSTERS)slot, pGearItem))
+	//					{
+	//						addSlot = slot;
+	//						pChangeItem = pGearItem;
+	//
+	//						// 빈 곳이면 바로 넣어버리면 된다.
+	//						// 빈 곳이 아니라면.. 다음걸 찾는다.
+	//						if (pGearItem==NULL)
+	//						{
+	//							break;
+	//						}							
+	//					} 
+	//				}
+	//				
+	//				//---------------------------------------------------------
+	//				// gear에 넣자..
+	//				//---------------------------------------------------------
+	//				if (addSlot != -1)
+	//				{
+	//					Execute_UI_ITEM_DROP_TO_GEAR(addSlot, 0, pChangeItem);
+	//				}
+	//			}
+	//		}		
+	//	}
+	//	//-----------------------------------------------------------------
+	//	// 검증 받아야할 다른 아이템이 있는 경우
+	//	//-----------------------------------------------------------------
+	//	else
+	//	{
+	//		DEBUG_ADD( "[Error] There is another item in ItemCheckBuffer");
+	//	}
 }
 
 //-----------------------------------------------------------------------------
@@ -9062,28 +9065,28 @@ UIMessageManager::Execute_UI_ITEM_TO_QUICKITEMSLOT(int left, int right, void* vo
 // Close Slayer Portal
 //
 //-----------------------------------------------------------------------------
-void	
+void
 UIMessageManager::Execute_UI_CLOSE_SLAYER_PORTAL(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_CLOSE_SLAYER_PORTAL");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
 
-		CGSelectWayPoint _CGSelectWayPoint;
-		
-		_CGSelectWayPoint.setZoneID( 0 );
-		_CGSelectWayPoint.setX( 0 );
-		_CGSelectWayPoint.setY( 0 );
+	CGSelectWayPoint _CGSelectWayPoint;
 
-		g_pSocket->sendPacket( &_CGSelectWayPoint );
+	_CGSelectWayPoint.setZoneID(0);
+	_CGSelectWayPoint.setX(0);
+	_CGSelectWayPoint.setY(0);
 
-	g_pZone->RemoveHelicopter( g_pPlayer->GetID() );
+	g_pSocket->sendPacket(&_CGSelectWayPoint);
+
+	g_pZone->RemoveHelicopter(g_pPlayer->GetID());
 
 	UI_CloseSelectWayPoint();
 }
@@ -9093,13 +9096,13 @@ UIMessageManager::Execute_UI_CLOSE_SLAYER_PORTAL(int left, int right, void* void
 // Slayer Portal
 //
 //-----------------------------------------------------------------------------
-void	
+void
 UIMessageManager::Execute_UI_SLAYER_PORTAL(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_SLAYER_PORTAL");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
@@ -9109,32 +9112,32 @@ UIMessageManager::Execute_UI_SLAYER_PORTAL(int left, int right, void* void_ptr)
 	int zoneID = left;
 	int zoneX = HIWORD(right);
 	int zoneY = LOWORD(right);
-	
-	int cost = int( pow(g_pPlayer->GetLEVEL(), 1.3) * 100 );
 
-//	if( g_pMoneyManager->GetMoney() < cost && g_pPlayer->IsOusters() )
-//	{
-//		UI_PopupMessage( STRING_MESSAGE_WAR_NOT_ENOUGH_MONEY );
-//		return;
-//	}
-	
-		CGSelectWayPoint _CGSelectWayPoint;
-		
-		_CGSelectWayPoint.setZoneID( zoneID );
-		_CGSelectWayPoint.setX( zoneX );
-		_CGSelectWayPoint.setY( zoneY );
+	int cost = int(pow(g_pPlayer->GetLEVEL(), 1.3) * 100);
 
-		g_pSocket->sendPacket( &_CGSelectWayPoint );
+	//	if( g_pMoneyManager->GetMoney() < cost && g_pPlayer->IsOusters() )
+	//	{
+	//		UI_PopupMessage( STRING_MESSAGE_WAR_NOT_ENOUGH_MONEY );
+	//		return;
+	//	}
+
+	CGSelectWayPoint _CGSelectWayPoint;
+
+	_CGSelectWayPoint.setZoneID(zoneID);
+	_CGSelectWayPoint.setX(zoneX);
+	_CGSelectWayPoint.setY(zoneY);
+
+	g_pSocket->sendPacket(&_CGSelectWayPoint);
 
 
-	if(g_pPlayer->IsSlayer())
+	if (g_pPlayer->IsSlayer())
 	{
-		g_pZone->RemoveHelicopter( g_pPlayer->GetID() );
+		g_pZone->RemoveHelicopter(g_pPlayer->GetID());
 		UI_CloseSelectWayPoint();
 	}
-	else if(g_pPlayer->IsOusters())
+	else if (g_pPlayer->IsOusters())
 		gC_vs_ui.CloseHorn();
-		
+
 }
 
 //-----------------------------------------------------------------------------
@@ -9142,13 +9145,13 @@ UIMessageManager::Execute_UI_SLAYER_PORTAL(int left, int right, void* void_ptr)
 // 파티 요청받은거 닫을때
 //
 //-----------------------------------------------------------------------------
-void	
+void
 UIMessageManager::Execute_UI_FINISH_REQUEST_PARTY_BUTTON(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_FINISH_REQUEST_PARTY_BUTTON");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
@@ -9161,14 +9164,14 @@ UIMessageManager::Execute_UI_FINISH_REQUEST_PARTY_BUTTON(int left, int right, vo
 
 	if (bTimeout)
 	{
-			// 파티 초대를 거부한다.
-			CGPartyInvite _CGPartyInvite;
-			_CGPartyInvite.setTargetObjectID( g_pTempInformation->PartyInviter );
-			_CGPartyInvite.setCode( CG_PARTY_INVITE_REJECT );	
+		// 파티 초대를 거부한다.
+		CGPartyInvite _CGPartyInvite;
+		_CGPartyInvite.setTargetObjectID(g_pTempInformation->PartyInviter);
+		_CGPartyInvite.setCode(CG_PARTY_INVITE_REJECT);
 
-			g_pSocket->sendPacket( &_CGPartyInvite );		
+		g_pSocket->sendPacket(&_CGPartyInvite);
 	}
-//	OutputDebugString("party 2\n");
+	//	OutputDebugString("party 2\n");
 }
 
 //-----------------------------------------------------------------------------
@@ -9176,41 +9179,41 @@ UIMessageManager::Execute_UI_FINISH_REQUEST_PARTY_BUTTON(int left, int right, vo
 // 파티 요청받은거 취소
 //
 //-----------------------------------------------------------------------------
-void	
+void
 UIMessageManager::Execute_UI_PARTY_REQUEST_CANCEL(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_PARTY_REQUEST_CANCEL");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
 
-	
+
 	//---------------------------------------------------------
 	// 파티할래? Y/N에 대한 응답
 	//---------------------------------------------------------
 	if (g_pTempInformation->GetMode() == TempInformation::MODE_PARTY_REQUEST)
-	{	
-		if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_PARTY)
+	{
+		if (g_pPlayer->GetWaitVerify() == MPlayer::WAIT_VERIFY_PARTY)
 		{
 			g_pPlayer->SetWaitVerifyNULL();
 		}
 
-			CGPartyInvite _CGPartyInvite;
-			_CGPartyInvite.setTargetObjectID( g_pTempInformation->Value1 );
-			_CGPartyInvite.setCode( CG_PARTY_INVITE_CANCEL );				
+		CGPartyInvite _CGPartyInvite;
+		_CGPartyInvite.setTargetObjectID(g_pTempInformation->Value1);
+		_CGPartyInvite.setCode(CG_PARTY_INVITE_CANCEL);
 
-			g_pSocket->sendPacket( &_CGPartyInvite );			
-	
+		g_pSocket->sendPacket(&_CGPartyInvite);
+
 		g_pTempInformation->SetMode(TempInformation::MODE_NULL);
-		
+
 		// 파티 취소할래?를 제거한다.
 		UI_ClosePartyCancel();
-	}	
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -9218,13 +9221,13 @@ UIMessageManager::Execute_UI_PARTY_REQUEST_CANCEL(int left, int right, void* voi
 // 파티 요청 응답
 //
 //-----------------------------------------------------------------------------
-void	
+void
 UIMessageManager::Execute_UI_PARTY_ACCEPT(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_PARTY_ACCEPT");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
@@ -9251,21 +9254,21 @@ UIMessageManager::Execute_UI_PARTY_ACCEPT(int left, int right, void* void_ptr)
 		// 거부
 		//---------------------------------------------------------
 		else
-		{	
+		{
 			//if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_TRADE)
 			{
-			//	g_pPlayer->SetWaitVerifyNULL();
+				//	g_pPlayer->SetWaitVerifyNULL();
 			}
 
 			code = CG_PARTY_INVITE_REJECT;
 		}
 
-			CGPartyInvite _CGPartyInvite;
-			_CGPartyInvite.setTargetObjectID( g_pTempInformation->PartyInviter );
-			_CGPartyInvite.setCode( code );				
+		CGPartyInvite _CGPartyInvite;
+		_CGPartyInvite.setTargetObjectID(g_pTempInformation->PartyInviter);
+		_CGPartyInvite.setCode(code);
 
-			g_pSocket->sendPacket( &_CGPartyInvite );			
-	
+		g_pSocket->sendPacket(&_CGPartyInvite);
+
 		//g_pTempInformation->Mode = TempInformation::MODE_NULL;		
 	}
 }
@@ -9275,13 +9278,13 @@ UIMessageManager::Execute_UI_PARTY_ACCEPT(int left, int right, void* void_ptr)
 // Close Party Manager
 //
 //-----------------------------------------------------------------------------
-void	
+void
 UIMessageManager::Execute_UI_CLOSE_PARTY_MANAGER(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_CLOSE_PARTY_MANAGER");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
@@ -9296,13 +9299,13 @@ UIMessageManager::Execute_UI_CLOSE_PARTY_MANAGER(int left, int right, void* void
 // 파티 탈퇴/추방
 //
 //-----------------------------------------------------------------------------
-void	
+void
 UIMessageManager::Execute_UI_AWAY_PARTY(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_AWAY_PARTY");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
@@ -9311,7 +9314,7 @@ UIMessageManager::Execute_UI_AWAY_PARTY(int left, int right, void* void_ptr)
 
 	// 파티 탈퇴 추방 
 	// left :: -1 == 탈퇴, 0~4 == 추방
-	BOOL bLeftParty = (left==-1);
+	BOOL bLeftParty = (left == -1);
 
 	if (g_pPlayer->IsWaitVerifyNULL())
 	{
@@ -9322,13 +9325,13 @@ UIMessageManager::Execute_UI_AWAY_PARTY(int left, int right, void* void_ptr)
 		{
 			if (g_pParty->GetSize() > 0)
 			{
-					CGPartyLeave _CGPartyLeave;
-				
-					_CGPartyLeave.setTargetName( g_pUserInformation->CharacterID.GetString() );
-					
-					g_pSocket->sendPacket( &_CGPartyLeave );
-					
-					g_pPlayer->SetWaitVerify( MPlayer::WAIT_VERIFY_PARTY_LEAVE );
+				CGPartyLeave _CGPartyLeave;
+
+				_CGPartyLeave.setTargetName(g_pUserInformation->CharacterID.GetString());
+
+				g_pSocket->sendPacket(&_CGPartyLeave);
+
+				g_pPlayer->SetWaitVerify(MPlayer::WAIT_VERIFY_PARTY_LEAVE);
 			}
 		}
 		//-----------------------------------------------------------------
@@ -9340,24 +9343,24 @@ UIMessageManager::Execute_UI_AWAY_PARTY(int left, int right, void* void_ptr)
 			{
 				int kickIndex = left;
 
-				PARTY_INFO*	pInfo = g_pParty->GetMemberInfo( kickIndex );
+				PARTY_INFO* pInfo = g_pParty->GetMemberInfo(kickIndex);
 
-				if (pInfo!=NULL)
+				if (pInfo != NULL)
 				{
-						CGPartyLeave _CGPartyLeave;
-					
-						_CGPartyLeave.setTargetName( pInfo->Name.GetString() );
-						
-						g_pSocket->sendPacket( &_CGPartyLeave );			
+					CGPartyLeave _CGPartyLeave;
 
-						g_pPlayer->SetWaitVerify( MPlayer::WAIT_VERIFY_PARTY_LEAVE );
+					_CGPartyLeave.setTargetName(pInfo->Name.GetString());
+
+					g_pSocket->sendPacket(&_CGPartyLeave);
+
+					g_pPlayer->SetWaitVerify(MPlayer::WAIT_VERIFY_PARTY_LEAVE);
 				}
 			}
 			else
 			{
-				g_pGameMessage->Add( (*g_pGameStringTable)[STRING_MESSAGE_NO_AUTHORITY].GetString() );
+				g_pGameMessage->Add((*g_pGameStringTable)[STRING_MESSAGE_NO_AUTHORITY].GetString());
 			}
-		}		
+		}
 	}
 }
 
@@ -9367,13 +9370,13 @@ UIMessageManager::Execute_UI_AWAY_PARTY(int left, int right, void* void_ptr)
 // 파티 탈퇴/추방
 //
 //-----------------------------------------------------------------------------
-void	
+void
 UIMessageManager::Execute_UI_FINISH_REQUEST_DIE_BUTTON(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_FINISH_REQUEST_DIE_BUTTON");
 
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
@@ -9386,26 +9389,26 @@ UIMessageManager::Execute_UI_FINISH_REQUEST_DIE_BUTTON(int left, int right, void
 	if (g_pPlayer->IsDead() && !g_pPlayer->IsWaitVerify())
 	{
 		int TempZoneID = g_pPlayer->GetResurrectZoneID();
-		if(TempZoneID)
+		if (TempZoneID)
 		{
 			CGSelectWayPoint _CGSelectWayPoint;
 
-			_CGSelectWayPoint.setZoneID( TempZoneID );
-			_CGSelectWayPoint.setX( 0 );
-			_CGSelectWayPoint.setY( 0 );
+			_CGSelectWayPoint.setZoneID(TempZoneID);
+			_CGSelectWayPoint.setX(0);
+			_CGSelectWayPoint.setY(0);
 
-			g_pSocket->sendPacket( &_CGSelectWayPoint );
+			g_pSocket->sendPacket(&_CGSelectWayPoint);
 
 			g_pPlayer->SetResurrectZoneID(0);
 		}
 		else
 		{
 			CGResurrect _CGResurrect;
-			g_pSocket->sendPacket( &_CGResurrect );
-		}	
-			// 이거말고 Verify를 하나 만들어야 되는데
-			// 컴파일 하기 싫어서 일단... - -;
-		g_pPlayer->SetWaitVerify( MPlayer::WAIT_VERIFY_RESURRECT );
+			g_pSocket->sendPacket(&_CGResurrect);
+		}
+		// 이거말고 Verify를 하나 만들어야 되는데
+		// 컴파일 하기 싫어서 일단... - -;
+		g_pPlayer->SetWaitVerify(MPlayer::WAIT_VERIFY_RESURRECT);
 
 		gC_vs_ui.FinishRequestDie();
 		gC_vs_ui.FinishRequestResurrect();
@@ -9423,15 +9426,15 @@ UIMessageManager::Execute_UI_FINISH_REQUEST_DIE_BUTTON(int left, int right, void
 #if __CONTENTS(__TITLE_UI_RENWEAL)
 void	UIMessageManager::Execute_UI_CONNECT_SERVER(int left, int right, void* void_ptr)
 {
-//	DEBUG_ADD_FORMAT("[UI] UI_CONNECT_SERVER. %s(%d)", (left? "group" : "server"), right);
+	//	DEBUG_ADD_FORMAT("[UI] UI_CONNECT_SERVER. %s(%d)", (left? "group" : "server"), right);
 
-	// left == true : group
-	//         false : server
-    //  right : id
+		// left == true : group
+		//         false : server
+		//  right : id
 
-	if(NULL == g_pSocket)
+	if (NULL == g_pSocket)
 		return;
-	
+
 	BOOL bSelectGroup = left;
 	int	selectID = right;
 
@@ -9440,23 +9443,23 @@ void	UIMessageManager::Execute_UI_CONNECT_SERVER(int left, int right, void* void
 	//-------------------------------------------------------
 	if (bSelectGroup)
 	{
-//		if (g_Mode==MODE_WAIT_SELECT_WORLD)
+		//		if (g_Mode==MODE_WAIT_SELECT_WORLD)
 		{
 			// CLSelectWorld
-				CLSelectWorld clSelectWorld;
-			
-				clSelectWorld.setWorldID( selectID );				
-				g_pUserInformation->WorldID = selectID;
+			CLSelectWorld clSelectWorld;
 
-				g_pSocket->sendPacket( &clSelectWorld );				
+			clSelectWorld.setWorldID(selectID);
+			g_pUserInformation->WorldID = selectID;
 
-			g_pServerInformation->SetServerGroupID( selectID );
+			g_pSocket->sendPacket(&clSelectWorld);
 
-			SetMode( MODE_WAIT_SERVER_LIST );
+			g_pServerInformation->SetServerGroupID(selectID);
+
+			SetMode(MODE_WAIT_SERVER_LIST);
 		}
-//		else
+		//		else
 		{
-//			DEBUG_ADD("Not MODE_WAIT_SELECT_WORLD");
+			//			DEBUG_ADD("Not MODE_WAIT_SELECT_WORLD");
 		}
 	}
 	//-------------------------------------------------------
@@ -9464,21 +9467,21 @@ void	UIMessageManager::Execute_UI_CONNECT_SERVER(int left, int right, void* void
 	//-------------------------------------------------------
 	else
 	{
-		if (g_Mode==MODE_WAIT_SELECT_SERVER)
+		if (g_Mode == MODE_WAIT_SELECT_SERVER)
 		{
 			// CLSelectServer
-				CLSelectServer clSelectServer;
-			
-				clSelectServer.setServerGroupID( selectID );				
-				g_pUserInformation->ServerID = selectID;
+			CLSelectServer clSelectServer;
 
-				g_pSocket->sendPacket( &clSelectServer );				
+			clSelectServer.setServerGroupID(selectID);
+			g_pUserInformation->ServerID = selectID;
 
-				g_pSocket->setPlayerStatus( CPS_AFTER_SENDING_CL_GET_PC_LIST );
+			g_pSocket->sendPacket(&clSelectServer);
 
-			g_pServerInformation->SetServerID( selectID );			
+			g_pSocket->setPlayerStatus(CPS_AFTER_SENDING_CL_GET_PC_LIST);
 
-			SetMode( MODE_WAIT_PCLIST );
+			g_pServerInformation->SetServerID(selectID);
+
+			SetMode(MODE_WAIT_PCLIST);
 			//20081224 크리스마스 이브 입니다. 반복수행 패킷 공격 방어 해봅시다.
 			Sleep(500);
 		}
@@ -9487,22 +9490,22 @@ void	UIMessageManager::Execute_UI_CONNECT_SERVER(int left, int right, void* void
 			DEBUG_ADD("Not MODE_WAIT_SELECT_SERVER");
 		}
 	}
-		
+
 }
 
 #else// __TITLE_UI_RENWEAL
 
 void UIMessageManager::Execute_UI_CONNECT_SERVER(int left, int right, void* void_ptr)
 {
-//	DEBUG_ADD_FORMAT("[UI] UI_CONNECT_SERVER. %s(%d)", (left? "group" : "server"), right);
+	//	DEBUG_ADD_FORMAT("[UI] UI_CONNECT_SERVER. %s(%d)", (left? "group" : "server"), right);
 
-	// left == true : group
-	//         false : server
-    //  right : id
+		// left == true : group
+		//         false : server
+		//  right : id
 
-	if(NULL == g_pSocket)
+	if (NULL == g_pSocket)
 		return;
-	
+
 	BOOL bSelectGroup = left;
 	int	selectID = right;
 
@@ -9511,19 +9514,19 @@ void UIMessageManager::Execute_UI_CONNECT_SERVER(int left, int right, void* void
 	//-------------------------------------------------------
 	if (bSelectGroup)
 	{
-		if (g_Mode==MODE_WAIT_SELECT_WORLD)
+		if (g_Mode == MODE_WAIT_SELECT_WORLD)
 		{
 			// CLSelectWorld
-				CLSelectWorld clSelectWorld;
-			
-				clSelectWorld.setWorldID( selectID );				
-				g_pUserInformation->WorldID = selectID;
+			CLSelectWorld clSelectWorld;
 
-				g_pSocket->sendPacket( &clSelectWorld );				
+			clSelectWorld.setWorldID(selectID);
+			g_pUserInformation->WorldID = selectID;
 
-			g_pServerInformation->SetServerGroupID( selectID );
+			g_pSocket->sendPacket(&clSelectWorld);
 
-			SetMode( MODE_WAIT_SERVER_LIST );
+			g_pServerInformation->SetServerGroupID(selectID);
+
+			SetMode(MODE_WAIT_SERVER_LIST);
 		}
 		else
 		{
@@ -9535,28 +9538,28 @@ void UIMessageManager::Execute_UI_CONNECT_SERVER(int left, int right, void* void
 	//-------------------------------------------------------
 	else
 	{
-		if (g_Mode==MODE_WAIT_SELECT_SERVER)
+		if (g_Mode == MODE_WAIT_SELECT_SERVER)
 		{
 			// CLSelectServer
-				CLSelectServer clSelectServer;
-			
-				clSelectServer.setServerGroupID( selectID );				
-				g_pUserInformation->ServerID = selectID;
+			CLSelectServer clSelectServer;
 
-				g_pSocket->sendPacket( &clSelectServer );				
+			clSelectServer.setServerGroupID(selectID);
+			g_pUserInformation->ServerID = selectID;
 
-				g_pSocket->setPlayerStatus( CPS_AFTER_SENDING_CL_GET_PC_LIST );
+			g_pSocket->sendPacket(&clSelectServer);
 
-			g_pServerInformation->SetServerID( selectID );			
+			g_pSocket->setPlayerStatus(CPS_AFTER_SENDING_CL_GET_PC_LIST);
 
-			SetMode( MODE_WAIT_PCLIST );
+			g_pServerInformation->SetServerID(selectID);
+
+			SetMode(MODE_WAIT_PCLIST);
 		}
 		else
 		{
 			DEBUG_ADD("Not MODE_WAIT_SELECT_SERVER");
 		}
 	}
-		
+
 }
 
 #endif //__TITLE_UI_RENWEAL
@@ -9566,7 +9569,7 @@ void UIMessageManager::Execute_UI_CONNECT_SERVER(int left, int right, void* void
 // server 선택 닫을 때
 //
 //-----------------------------------------------------------------------------
-void	
+void
 UIMessageManager::Execute_UI_CLOSE_SERVER_SELECT(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_CLOSE_SERVER_SELECT");
@@ -9580,7 +9583,7 @@ UIMessageManager::Execute_UI_CLOSE_SERVER_SELECT(int left, int right, void* void
 	//------------------------------------------------------------
 	if (bSelectGroup)
 	{
-		SetMode( MODE_MAINMENU );
+		SetMode(MODE_MAINMENU);
 	}
 	//------------------------------------------------------------
 	// server선택에서 back하면 group선택으로..
@@ -9588,9 +9591,9 @@ UIMessageManager::Execute_UI_CLOSE_SERVER_SELECT(int left, int right, void* void
 	else
 	{
 		UI_SetWorldList();
-		
-		SetMode( MODE_WAIT_SELECT_WORLD );
-	}	
+
+		SetMode(MODE_WAIT_SELECT_WORLD);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -9598,29 +9601,29 @@ UIMessageManager::Execute_UI_CLOSE_SERVER_SELECT(int left, int right, void* void
 // 캐릭터 이름 확인할때
 //
 //-----------------------------------------------------------------------------
-void	
+void
 UIMessageManager::Execute_UI_NEWCHARACTER_CHECK(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_NEWCHARACTER_CHECK");
 
 	char* pName = (char*)void_ptr;
 
-	if (pName!=NULL)
+	if (pName != NULL)
 	{
-		if (g_pUserInformation->WhisperID.GetLength()==0)
+		if (g_pUserInformation->WhisperID.GetLength() == 0)
 		{
 			//---------------------------------------------
 			// 이름 길이 체크
 			//---------------------------------------------
 			BOOL bAllOK = TRUE;
 
-			int len = strlen(pName);	
-			
+			int len = strlen(pName);
+
 			if (len<PlayerInfo::minIDLength || len>PlayerInfo::maxIDLength)
 			{
 				char strTemp[128];
 				sprintf(strTemp, (*g_pGameStringTable)[STRING_USER_REGISTER_ID_LENGTH].GetString(), PlayerInfo::minIDLength, PlayerInfo::maxIDLength);
-				g_pUIDialog->PopupFreeMessageDlg( strTemp, -1, -1, UI_DIALOG_TITLE_OK );
+				g_pUIDialog->PopupFreeMessageDlg(strTemp, -1, -1, UI_DIALOG_TITLE_OK);
 				bAllOK = FALSE;
 			}
 
@@ -9631,7 +9634,7 @@ UIMessageManager::Execute_UI_NEWCHARACTER_CHECK(int left, int right, void* void_
 					//---------------------------------------------
 					// 잘못된 ID인 경우
 					//---------------------------------------------						
-					g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString(), -1, -1, UI_DIALOG_TITLE_OK );
+					g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString(), -1, -1, UI_DIALOG_TITLE_OK);
 					bAllOK = FALSE;
 				}
 				else
@@ -9642,17 +9645,17 @@ UIMessageManager::Execute_UI_NEWCHARACTER_CHECK(int left, int right, void* void_
 					// 안 좋은 말이 들어있는 경우는 허용이 안된다
 					if (g_pChatManager->RemoveCurse(strName))
 					{
-						g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString() , -1, -1, UI_DIALOG_TITLE_OK);
+						g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString(), -1, -1, UI_DIALOG_TITLE_OK);
 						bAllOK = FALSE;
 					}
 					else
 					{
 						MChatManager badNameManager;
-						badNameManager.LoadFromFile( g_pFileDef->getProperty("FILE_INFO_CHAT_2").c_str());
+						badNameManager.LoadFromFile(g_pFileDef->getProperty("FILE_INFO_CHAT_2").c_str());
 
 						if (badNameManager.RemoveCurse(strName))
 						{
-							g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString(), -1, -1, UI_DIALOG_TITLE_OK );
+							g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString(), -1, -1, UI_DIALOG_TITLE_OK);
 							bAllOK = FALSE;
 						}
 					}
@@ -9661,14 +9664,14 @@ UIMessageManager::Execute_UI_NEWCHARACTER_CHECK(int left, int right, void* void_
 
 			if (bAllOK)
 			{
-					CLQueryCharacterName clQueryCharacterName;
+				CLQueryCharacterName clQueryCharacterName;
 
-					clQueryCharacterName.setCharacterName( pName );
+				clQueryCharacterName.setCharacterName(pName);
 
-					g_pSocket->sendPacket( &clQueryCharacterName );
+				g_pSocket->sendPacket(&clQueryCharacterName);
 
-					// 임시로.. -_-;;
-					g_pUserInformation->WhisperID = pName;
+				// 임시로.. -_-;;
+				g_pUserInformation->WhisperID = pName;
 			}
 		}
 	}
@@ -9685,7 +9688,7 @@ void
 UIMessageManager::Execute_UI_SELECT_EXPLOSIVE(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_SELECT_EXPLOSIVE");
-	
+
 	int type = left;		// 지뢰(2) / 폭탄(3)
 	int itemType = right;	// 종류(지뢰:0~3, 폭탄:0~5)
 
@@ -9703,16 +9706,16 @@ UIMessageManager::Execute_UI_SELECT_EXPLOSIVE(int left, int right, void* void_pt
 			|| type==3 && itemType>=0 && itemType<4)
 		{
 			int itemClass = ((type==2)? ITEM_CLASS_MINE : ITEM_CLASS_BOMB);
-				
+
 			#ifdef CONNECT_SERVER
 				CGMakeItem _CGMakeItem;
-			
+
 				_CGMakeItem.setItemClass( itemClass );
 				_CGMakeItem.setItemType( itemType );
 
 				g_pSocket->sendPacket( &_CGMakeItem );
-				
-			#endif	
+
+			#endif
 
 			// item 기억
 			g_pTempInformation->Mode = TempInformation::MODE_SKILL_MAKE_ITEM;
@@ -9721,7 +9724,7 @@ UIMessageManager::Execute_UI_SELECT_EXPLOSIVE(int left, int right, void* void_pt
 
 			// 못 움직이게 막기
 			UI_LockItem();
-			
+
 			// 선택창을 닫는다.
 			UI_CloseSelectExplosive();
 		}
@@ -9751,7 +9754,7 @@ void
 UIMessageManager::Execute_UI_CLOSE_SELECT_EXPLOSIVE(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_CLOSE_SELECT_EXPLOSIVE");
-	
+
 	UI_CloseSelectExplosive();
 }
 */
@@ -9760,30 +9763,30 @@ void
 UIMessageManager::Execute_UI_CLOSE_TEAM_LIST(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_CLOSE_TEAM_LIST");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.CloseTeamList();
 
 		g_pUIDialog->UnSetLockInputPCTalk();
-//		g_pUIDialog->ClosePCTalkDlg();
-//		g_pPlayer->SetWaitVerifyNULL();
-		// 다시 뭔가를?선택할 수 있게 한다.
-		//g_pUIDialog->ShowPCTalkDlg();
+		//		g_pUIDialog->ClosePCTalkDlg();
+		//		g_pPlayer->SetWaitVerifyNULL();
+				// 다시 뭔가를?선택할 수 있게 한다.
+				//g_pUIDialog->ShowPCTalkDlg();
 	}
 }
 
 void
 UIMessageManager::Execute_UI_CLOSE_TEAM_INFO(int left, int right, void* void_ptr)
 {
-	gC_vs_ui.CloseTeamInfo(); 
+	gC_vs_ui.CloseTeamInfo();
 }
 
 void
@@ -9796,18 +9799,18 @@ void
 UIMessageManager::Execute_UI_CLOSE_TEAM_REGIST(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_CLOSE_TEAM_REGIST");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		// 다시 뭔가를?선택할 수 있게 한다.
-		if(!gC_vs_ui.ReturnTeamRegistMember())
+		if (!gC_vs_ui.ReturnTeamRegistMember())
 			g_pUIDialog->ShowPCTalkDlg();
 
 		gC_vs_ui.CloseTeamRegist();
@@ -9818,68 +9821,68 @@ void
 UIMessageManager::Execute_UI_CLOSE_TEAM_MEMBER_LIST(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_CLOSE_TEAM_MEMBER_LIST");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	
+
 	gC_vs_ui.CloseTeamMemberList();
-//	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
-//	{
-//
-//		// 다시 뭔가를?선택할 수 있게 한다.
-//		g_pUIDialog->ShowPCTalkDlg();
-//	}
+	//	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	//	{
+	//
+	//		// 다시 뭔가를?선택할 수 있게 한다.
+	//		g_pUIDialog->ShowPCTalkDlg();
+	//	}
 }
 
 void
 UIMessageManager::Execute_UI_REQUEST_GUILD_INFO(int left, int right, void* void_ptr)
 {
-		CGSelectGuild  _CGSelectGuild ;
-			
-		_CGSelectGuild.setGuildID(g_pPlayer->GetGuildNumber());
-		g_pSocket->sendPacket( &_CGSelectGuild  );				
+	CGSelectGuild  _CGSelectGuild;
+
+	_CGSelectGuild.setGuildID(g_pPlayer->GetGuildNumber());
+	g_pSocket->sendPacket(&_CGSelectGuild);
 
 }
 
-	
+
 void
 UIMessageManager::Execute_UI_REQUEST_GUILD_MEMBER_LIST(int left, int right, void* void_ptr)
 {
-		CGRequestGuildMemberList  _CGRequestGuildMemberList ;
-			
-		g_pSocket->sendPacket( &_CGRequestGuildMemberList  );				
+	CGRequestGuildMemberList  _CGRequestGuildMemberList;
+
+	g_pSocket->sendPacket(&_CGRequestGuildMemberList);
 
 }
 
 void
 UIMessageManager::Execute_UI_MODIFY_GUILD_MEMBER(int left, int right, void* void_ptr)
 {
-		CGModifyGuildMember _CGModifyGuildMember;
+	CGModifyGuildMember _CGModifyGuildMember;
 
-		_CGModifyGuildMember.setGuildID(left);
-		_CGModifyGuildMember.setGuildMemberRank(right);
-		_CGModifyGuildMember.setName(std::string((char *)void_ptr));
+	_CGModifyGuildMember.setGuildID(left);
+	_CGModifyGuildMember.setGuildMemberRank(right);
+	_CGModifyGuildMember.setName(std::string((char*)void_ptr));
 
-		g_pSocket->sendPacket( &_CGModifyGuildMember );				
+	g_pSocket->sendPacket(&_CGModifyGuildMember);
 
-		gC_vs_ui.CloseTeamMemberInfo();
+	gC_vs_ui.CloseTeamMemberInfo();
 }
 
 void
 UIMessageManager::Execute_UI_SELECT_TEAM_MEMBER_LIST(int left, int right, void* void_ptr)
 {
-	char *pName = (char *)void_ptr;
+	char* pName = (char*)void_ptr;
 
-	if(pName != NULL)
+	if (pName != NULL)
 	{
-			CGSelectGuildMember  _CGSelectGuildMember ;
-			
-			_CGSelectGuildMember.setName(std::string(pName));
-			g_pSocket->sendPacket( &_CGSelectGuildMember  );				
+		CGSelectGuildMember  _CGSelectGuildMember;
+
+		_CGSelectGuildMember.setName(std::string(pName));
+		g_pSocket->sendPacket(&_CGSelectGuildMember);
 	}
 }
 
@@ -9887,39 +9890,39 @@ UIMessageManager::Execute_UI_SELECT_TEAM_MEMBER_LIST(int left, int right, void* 
 void
 UIMessageManager::Execute_UI_SELECT_READY_TEAM_LIST(int left, int right, void* void_ptr)		// void_ptr = TEAM_NAME
 {
-	char *pName = (char *)void_ptr;
+	char* pName = (char*)void_ptr;
 
-	if(pName != NULL)
+	if (pName != NULL)
 	{
-			CGSelectGuild  _CGSelectGuild ;
-			
-			_CGSelectGuild.setGuildID(left);
-			g_pSocket->sendPacket( &_CGSelectGuild  );				
+		CGSelectGuild  _CGSelectGuild;
+
+		_CGSelectGuild.setGuildID(left);
+		g_pSocket->sendPacket(&_CGSelectGuild);
 	}
 }
 
 void
 UIMessageManager::Execute_UI_SELECT_REGIST_TEAM_LIST(int left, int right, void* void_ptr)		// void_ptr = TEAM_NAME
 {
-	char *pName = (char *)void_ptr;
+	char* pName = (char*)void_ptr;
 
-	if(pName != NULL)
+	if (pName != NULL)
 	{
-			CGSelectGuild  _CGSelectGuild ;
-			
-			_CGSelectGuild.setGuildID(left);
-			g_pSocket->sendPacket( &_CGSelectGuild  );				
+		CGSelectGuild  _CGSelectGuild;
+
+		_CGSelectGuild.setGuildID(left);
+		g_pSocket->sendPacket(&_CGSelectGuild);
 	}
 }
 
-	
+
 void
 UIMessageManager::Execute_UI_JOIN_READY_TEAM(int left, int right, void* void_ptr)				// void_ptr = TEAM_NAME
 {
 	CGTryJoinGuild _CGTryJoinGuild;
 	_CGTryJoinGuild.setGuildID(left);
 	_CGTryJoinGuild.setGuildMemberRank(2);
-	g_pSocket->sendPacket( &_CGTryJoinGuild );
+	g_pSocket->sendPacket(&_CGTryJoinGuild);
 }
 
 void
@@ -9928,26 +9931,26 @@ UIMessageManager::Execute_UI_JOIN_REGIST_TEAM(int left, int right, void* void_pt
 	CGTryJoinGuild _CGTryJoinGuild;
 	_CGTryJoinGuild.setGuildID(left);
 	_CGTryJoinGuild.setGuildMemberRank(3);
-	g_pSocket->sendPacket( &_CGTryJoinGuild );
+	g_pSocket->sendPacket(&_CGTryJoinGuild);
 }
 
-	
+
 void
 UIMessageManager::Execute_UI_REGIST_GUILD_MEMBER(int left, int right, void* void_ptr)			// void_ptr = introduction max:150byte 창 닫아줄것!
 {
 
-	if(void_ptr == NULL)
+	if (void_ptr == NULL)
 	{
 		// 에러메세지 출력
-		g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_GUILD_REGIST_FAIL_INTRO].GetString() );
+		g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_GUILD_REGIST_FAIL_INTRO].GetString());
 		return;
 	}
 
 	CGJoinGuild _CGJoinGuild;
 	_CGJoinGuild.setGuildID(left);
 	_CGJoinGuild.setGuildMemberRank(right);
-	_CGJoinGuild.setGuildMemberIntro(std::string((char *)void_ptr));
-	g_pSocket->sendPacket( &_CGJoinGuild );
+	_CGJoinGuild.setGuildMemberIntro(std::string((char*)void_ptr));
+	g_pSocket->sendPacket(&_CGJoinGuild);
 
 	gC_vs_ui.CloseTeamRegist();
 	gC_vs_ui.CloseTeamInfo();
@@ -9957,14 +9960,14 @@ void
 UIMessageManager::Execute_UI_REGIST_GUILD_TEAM(int left, int right, void* void_ptr)			// left = TEAM_NAME, void_ptr = introduction max:150byte 창 닫아줄것!
 {
 
-	if(void_ptr == NULL || (char *)left == NULL)
+	if (void_ptr == NULL || (char*)left == NULL)
 	{
 		// 에러메세지 출력
-		g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_GUILD_REGIST_FAIL_INTRO].GetString() );
+		g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_GUILD_REGIST_FAIL_INTRO].GetString());
 		return;
 	}
-//20090130 길드 네임에 욕설이 포함되 있으면 등록 할 수 없다.
-	bool bYokName = g_pChatManager->RemoveCurse((char *)left);
+	//20090130 길드 네임에 욕설이 포함되 있으면 등록 할 수 없다.
+	bool bYokName = g_pChatManager->RemoveCurse((char*)left);
 	if (bYokName)
 	{
 		g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[UI_STRING_MESSAGE_GUILDNAMEYOK].GetString());
@@ -9972,37 +9975,37 @@ UIMessageManager::Execute_UI_REGIST_GUILD_TEAM(int left, int right, void* void_p
 	}
 
 	CGRegistGuild _CGRegistGuild;
-	_CGRegistGuild.setGuildName(std::string((char *)left));
-	_CGRegistGuild.setGuildIntro(std::string((char *)void_ptr));
-	g_pSocket->sendPacket( &_CGRegistGuild );
+	_CGRegistGuild.setGuildName(std::string((char*)left));
+	_CGRegistGuild.setGuildIntro(std::string((char*)void_ptr));
+	g_pSocket->sendPacket(&_CGRegistGuild);
 
 	gC_vs_ui.CloseTeamRegist();
 }
 
-	
+
 void
 UIMessageManager::Execute_UI_CLOSE_FILE_DIALOG(int left, int right, void* void_ptr)
 {
-	switch(left)
+	switch (left)
 	{
 	case C_VS_UI_FILE_DIALOG::MODE_PROFILE_SELECT:
-		if(void_ptr != NULL)
+		if (void_ptr != NULL)
 		{
-			char *p_str = (char *)void_ptr;
+			char* p_str = (char*)void_ptr;
 			const int str_size = strlen(p_str);
 
-			if(str_size > 4)
+			if (str_size > 4)
 			{
 				const POINT bigSize = { 55, 70 };
-				
+
 				CDirectDrawSurface surface;
 
-				surface.InitOffsurface( bigSize.x, bigSize.y, DDSCAPS_SYSTEMMEMORY );
-				
+				surface.InitOffsurface(bigSize.x, bigSize.y, DDSCAPS_SYSTEMMEMORY);
+
 				RECT destBigRect = { 0, 0, bigSize.x, bigSize.y };
 
 				CDirectDrawSurface bmpSurface;
-				
+
 				if (LoadImageToSurface(p_str, bmpSurface))
 				{
 					// surface의 크기가 default Profile크기와 다르다면
@@ -10010,7 +10013,7 @@ UIMessageManager::Execute_UI_CLOSE_FILE_DIALOG(int left, int right, void* void_p
 					RECT bmpRect = { 0, 0, bmpSurface.GetWidth(), bmpSurface.GetHeight() };
 
 					// BigSize
-					surface.FillSurface( 0 );
+					surface.FillSurface(0);
 					surface.Blt(&destBigRect, &bmpSurface, &bmpRect);
 
 					char saveBmpName[512];
@@ -10042,7 +10045,7 @@ UIMessageManager::Execute_UI_ENCHANT_ACCEPT(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_ENCHANT_ACCEPT");
 
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
@@ -10054,44 +10057,44 @@ UIMessageManager::Execute_UI_ENCHANT_ACCEPT(int left, int right, void* void_ptr)
 	MItem* pItem = (MItem*)void_ptr;
 	MItem* pMouseItem = gpC_mouse_pointer->GetPickUpItem();
 
-	if (pMouseItem==NULL)
+	if (pMouseItem == NULL)
 	{
 		DEBUG_ADD("[Error] Mouse Item is NULL");
 		return;
 	}
 
-	if (pItem==NULL)
+	if (pItem == NULL)
 	{
 		DEBUG_ADD("[Error] InvenItem is NULL");
 		return;
 	}
 
-	TYPE_OBJECTID mouseItemID = ((pMouseItem==NULL)?OBJECTID_NULL : pMouseItem->GetID());
+	TYPE_OBJECTID mouseItemID = ((pMouseItem == NULL) ? OBJECTID_NULL : pMouseItem->GetID());
 
 	// 교환중일때는 Enchant할 수 없다!
-	if (g_pTradeManager!=NULL)
+	if (g_pTradeManager != NULL)
 		return;
-	
+
 	//g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_INSERT_FROM_INVENTORY );
-	
+
 	//----------------------------------------------------
 	// Server에 접속한 경우
 	//----------------------------------------------------
-	if(g_pTempInformation->GetMode() == TempInformation::MODE_NULL && g_pPlayer->IsItemCheckBufferNULL())
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL && g_pPlayer->IsItemCheckBufferNULL())
 	{
-		CGAddItemToItem _CGAddItemToItem; 
-		_CGAddItemToItem.setObjectID( mouseItemID );
-		_CGAddItemToItem.setX( pItem->GetGridX() );
-		_CGAddItemToItem.setY( pItem->GetGridY() );								
-		
-		g_pSocket->sendPacket( &_CGAddItemToItem );
-		
-		g_pPlayer->SetItemCheckBuffer( pMouseItem, MPlayer::ITEM_CHECK_BUFFER_ITEM_TO_ITEM );
+		CGAddItemToItem _CGAddItemToItem;
+		_CGAddItemToItem.setObjectID(mouseItemID);
+		_CGAddItemToItem.setX(pItem->GetGridX());
+		_CGAddItemToItem.setY(pItem->GetGridY());
+
+		g_pSocket->sendPacket(&_CGAddItemToItem);
+
+		g_pPlayer->SetItemCheckBuffer(pMouseItem, MPlayer::ITEM_CHECK_BUFFER_ITEM_TO_ITEM);
 		g_pTempInformation->SetMode(TempInformation::MODE_ITEM_TO_ITEM);
 		g_pTempInformation->Value1 = pItem->GetGridX();
 		g_pTempInformation->Value2 = pItem->GetGridY();
 
-//		UI_LockItem();
+		//		UI_LockItem();
 	}
 }
 
@@ -10101,15 +10104,15 @@ UIMessageManager::Execute_UI_ENCHANT_CANCEL(int left, int right, void* void_ptr)
 	UI_CloseEnchant();
 }
 
-void 
+void
 UIMessageManager::Execute_UI_MESSAGE_BOX(int left, int right, void* void_ptr)
 {
-	if(left < MAX_GAME_STRING)
-		g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[left].GetString() );
+	if (left < MAX_GAME_STRING)
+		g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[left].GetString());
 }
 
 
-void 
+void
 UIMessageManager::Execute_UI_CLOSE_OTHER_INFO(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseOtherInfo();
@@ -10117,68 +10120,68 @@ UIMessageManager::Execute_UI_CLOSE_OTHER_INFO(int left, int right, void* void_pt
 
 void UIMessageManager::Execute_UI_MODIFY_TEAM_INFO(int left, int right, void* void_ptr)
 {
-	if(void_ptr != NULL)
+	if (void_ptr != NULL)
 	{
 		CGModifyGuildIntro _CGModifyGuildIntro;
 		_CGModifyGuildIntro.setGuildID(left);
-		_CGModifyGuildIntro.setGuildIntro(std::string((char *)void_ptr));
-		g_pSocket->sendPacket( &_CGModifyGuildIntro );
+		_CGModifyGuildIntro.setGuildIntro(std::string((char*)void_ptr));
+		g_pSocket->sendPacket(&_CGModifyGuildIntro);
 	}
 }
 
 void UIMessageManager::Execute_UI_MODIFY_GUILD_MEMBER_INTRO(int left, int right, void* void_ptr)
 {
-	if(void_ptr != NULL)
+	if (void_ptr != NULL)
 	{
 		CGModifyGuildMemberIntro _CGModifyGuildMemberIntro;
 		_CGModifyGuildMemberIntro.setGuildID(left);
-		_CGModifyGuildMemberIntro.setGuildMemberIntro(std::string((char *)void_ptr));
+		_CGModifyGuildMemberIntro.setGuildMemberIntro(std::string((char*)void_ptr));
 
-		g_pSocket->sendPacket( &_CGModifyGuildMemberIntro );
+		g_pSocket->sendPacket(&_CGModifyGuildMemberIntro);
 	}
 }
 
 void UIMessageManager::Execute_UI_SEND_NAME_FOR_SOUL_CHAIN(int left, int right, void* void_ptr)
 {
 	// 이미 추적버튼을 누른상태일경우
-	if(g_pPlayer->IsWaitVerify())
+	if (g_pPlayer->IsWaitVerify())
 		return;
 
-	if(void_ptr != NULL)
+	if (void_ptr != NULL)
 	{
 		CGSkillToNamed _CGSkillToNamed;
 		_CGSkillToNamed.setSkillType(SKILL_SOUL_CHAIN);
-		_CGSkillToNamed.setTargetName(std::string((char *)void_ptr));
+		_CGSkillToNamed.setTargetName(std::string((char*)void_ptr));
 		_CGSkillToNamed.setCEffectID(0);
 
-		g_pSocket->sendPacket( &_CGSkillToNamed );
+		g_pSocket->sendPacket(&_CGSkillToNamed);
 		g_pPlayer->SetWaitVerify(MPlayer::WAIT_VERIFY_SKILL_SUCCESS);
 
-//		(*g_pSkillInfoTable)[SKILL_SOUL_CHAIN].SetNextAvailableTime();
+		//		(*g_pSkillInfoTable)[SKILL_SOUL_CHAIN].SetNextAvailableTime();
 	}
 }
 
 void UIMessageManager::Execute_UI_CLOSE_TRACE_WINDOW(int left, int right, void* void_ptr)
 {
-//	//------------------------------------------------------------------
-//	// Player가 기다리던 skill의 성공유무를 검증받았다.
-//	//------------------------------------------------------------------	
-//	if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_SKILL_SUCCESS)
-//	{		
-//		g_pPlayer->SetWaitVerifyNULL();
-//	}
-//	else
-//	{
-//		DEBUG_ADD("[Error] Player is not WaitVerifySkillSuccess");
-//	}
-//
-//	//------------------------------------------------------------------
-//	// Item Lock을 푼다.
-//	//------------------------------------------------------------------
-//	if (g_pPlayer->GetItemCheckBufferStatus()==MPlayer::ITEM_CHECK_BUFFER_SKILL_TO_INVENTORY)
-//	{
-//		g_pPlayer->ClearItemCheckBuffer();
-//	}
+	//	//------------------------------------------------------------------
+	//	// Player가 기다리던 skill의 성공유무를 검증받았다.
+	//	//------------------------------------------------------------------	
+	//	if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_SKILL_SUCCESS)
+	//	{		
+	//		g_pPlayer->SetWaitVerifyNULL();
+	//	}
+	//	else
+	//	{
+	//		DEBUG_ADD("[Error] Player is not WaitVerifySkillSuccess");
+	//	}
+	//
+	//	//------------------------------------------------------------------
+	//	// Item Lock을 푼다.
+	//	//------------------------------------------------------------------
+	//	if (g_pPlayer->GetItemCheckBufferStatus()==MPlayer::ITEM_CHECK_BUFFER_SKILL_TO_INVENTORY)
+	//	{
+	//		g_pPlayer->ClearItemCheckBuffer();
+	//	}
 
 	gC_vs_ui.CloseTraceWindow();
 	g_pUIDialog->UnSetLockInputPCTalk();
@@ -10192,13 +10195,13 @@ void UIMessageManager::Execute_UI_RUN_CONNECT(int left, int right, void* void_pt
 
 void UIMessageManager::Excute_UI_SELECT_GRADE_SKILL(int left, int right, void* void_ptr)
 {
-	if(left >= g_pRankBonusTable->GetSize() || (*g_pRankBonusTable)[left].GetStatus() == RankBonusInfo::STATUS_CANNOT_LEARN || (*g_pRankBonusTable)[left].GetStatus() == RankBonusInfo::STATUS_LEARNED
+	if (left >= g_pRankBonusTable->GetSize() || (*g_pRankBonusTable)[left].GetStatus() == RankBonusInfo::STATUS_CANNOT_LEARN || (*g_pRankBonusTable)[left].GetStatus() == RankBonusInfo::STATUS_LEARNED
 		|| !g_pPlayer->IsWaitVerifyNULL() || g_pTempInformation->GetMode() != TempInformation::MODE_NULL)
 		return;
 
 	CGSelectRankBonus _CGSelectRankBonus;
 	_CGSelectRankBonus.setRankBonusType(left);
-	g_pSocket->sendPacket( &_CGSelectRankBonus );
+	g_pSocket->sendPacket(&_CGSelectRankBonus);
 	g_pTempInformation->SetMode(TempInformation::MODE_SKILL_LEARN);
 
 }
@@ -10206,35 +10209,35 @@ void UIMessageManager::Excute_UI_SELECT_GRADE_SKILL(int left, int right, void* v
 void UIMessageManager::Excute_UI_USE_XMAS_TREE(int left, int right, void* void_ptr)				// left = to, right = from, void_ptr = message
 {
 	DEBUG_ADD("Excute_UI_USE_XMAS_TREE");
-	MItem *pItem = (MItem *)left;
+	MItem* pItem = (MItem*)left;
 
-	if(pItem == NULL  || !g_pPlayer->IsItemCheckBufferNULL())
+	if (pItem == NULL || !g_pPlayer->IsItemCheckBufferNULL())
 		return;
 
-	char *sz_ptr = (char *)void_ptr;
+	char* sz_ptr = (char*)void_ptr;
 
-	if(sz_ptr == NULL)
+	if (sz_ptr == NULL)
 	{
 		// 빈항목이 있습니다.
-		g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_XMAS_CARD_CANNOT_USE].GetString() );
+		g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_XMAS_CARD_CANNOT_USE].GetString());
 		return;
 	}
 
 	CGUseMessageItemFromInventory _CGUseMessageItemFromInventory;
-	_CGUseMessageItemFromInventory.setObjectID( pItem->GetID() );
-	_CGUseMessageItemFromInventory.setX( pItem->GetGridX() );
-	_CGUseMessageItemFromInventory.setY( pItem->GetGridY() );
+	_CGUseMessageItemFromInventory.setObjectID(pItem->GetID());
+	_CGUseMessageItemFromInventory.setX(pItem->GetGridX());
+	_CGUseMessageItemFromInventory.setY(pItem->GetGridY());
 	_CGUseMessageItemFromInventory.setMessage(sz_ptr);
-					
-	g_pSocket->sendPacket( &_CGUseMessageItemFromInventory );
-					
-	g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY);
 
-	if(right == 1)
+	g_pSocket->sendPacket(&_CGUseMessageItemFromInventory);
+
+	g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY);
+
+	if (right == 1)
 		gC_vs_ui.CloseBulletinBoardWindow();
 	else
 		gC_vs_ui.CloseXmasCardWindow();
-	
+
 	DEBUG_ADD("Excute_UI_USE_XMAS_TREE OK");
 }
 
@@ -10244,10 +10247,10 @@ void UIMessageManager::Excute_UI_CLOSE_XMAS_CARD_WINDOW(int left, int right, voi
 }
 
 
-void UIMessageManager::Excute_UI_SEND_BRING_FEE(int left,int right, void* void_ptr)
+void UIMessageManager::Excute_UI_SEND_BRING_FEE(int left, int right, void* void_ptr)
 {
 	// 검증할게 있으면 리턴.
-	if(g_pTempInformation->GetMode() != TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() != TempInformation::MODE_NULL)
 	{
 		DEBUG_ADD("Excute_UI_SEND_BRING_FEE TempInformation is not NULL");
 		return;
@@ -10262,58 +10265,58 @@ void UIMessageManager::Excute_UI_SEND_BRING_FEE(int left,int right, void* void_p
 	CGWithdrawTax _CGWithdrawTax;
 
 	_CGWithdrawTax.setGold((DWORD)left);
-	g_pSocket->sendPacket( &_CGWithdrawTax );
+	g_pSocket->sendPacket(&_CGWithdrawTax);
 
 	DEBUG_ADD("Excute_UI_SEND_BRING_FEE OK");
 }
 
-void UIMessageManager::Excute_UI_CLOSE_BRING_FEE_WINDOW(int left,int right, void* void_ptr)
+void UIMessageManager::Excute_UI_CLOSE_BRING_FEE_WINDOW(int left, int right, void* void_ptr)
 {
 	// 검증할게 없을경우
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.CloseBringFeeWindow();
 		g_pUIDialog->ShowPCTalkDlg();
 	}
 }
 
-void UIMessageManager::Excute_UI_CLOSE_WAR_LIST(int left, int right, void *void_ptr)
+void UIMessageManager::Excute_UI_CLOSE_WAR_LIST(int left, int right, void* void_ptr)
 {
-	gC_vs_ui.CloseWarListWindow();	
+	gC_vs_ui.CloseWarListWindow();
 }
 
-void UIMessageManager::Execute_UI_CLOSE_BLOOD_BIBLE_STATUS(int left, int right, void *void_ptr)
+void UIMessageManager::Execute_UI_CLOSE_BLOOD_BIBLE_STATUS(int left, int right, void* void_ptr)
 {
-	gC_vs_ui.CloseBloodBibleStatus();	
+	gC_vs_ui.CloseBloodBibleStatus();
 }
 
-void UIMessageManager::Execute_UI_SEND_NAME_FOR_COUPLE(int left, int right, void *void_ptr)
-{	
-	if( g_pPlayer->GetWaitVerify() != MPlayer::WAIT_VERIFY_NULL 
-		&& g_pTempInformation->GetMode()!=TempInformation::MODE_NULL)
+void UIMessageManager::Execute_UI_SEND_NAME_FOR_COUPLE(int left, int right, void* void_ptr)
+{
+	if (g_pPlayer->GetWaitVerify() != MPlayer::WAIT_VERIFY_NULL
+		&& g_pTempInformation->GetMode() != TempInformation::MODE_NULL)
 	{
 		g_pUIDialog->ClosePCTalkDlg();
 		return;
 	}
 
 
-	if(!strcmp(g_char_slot_ingame.sz_name.c_str() , (char*)void_ptr))
+	if (!strcmp(g_char_slot_ingame.sz_name.c_str(), (char*)void_ptr))
 	{
-		UI_PopupMessage( UI_STRING_MESSAGE_NOT_USER );
-		return ; 
+		UI_PopupMessage(UI_STRING_MESSAGE_NOT_USER);
+		return;
 	}
 
 	int npcID = (*g_pPCTalkBox).GetNPCID();
-	
+
 	CGTypeStringList _CGTypeStringList;
 
-	_CGTypeStringList.setType((CGTypeStringList::StringType) left);
-	_CGTypeStringList.addString( std::string((char*) void_ptr) );	
-	_CGTypeStringList.setParam( npcID );
-	
-	g_pSocket->sendPacket( &_CGTypeStringList );
+	_CGTypeStringList.setType((CGTypeStringList::StringType)left);
+	_CGTypeStringList.addString(std::string((char*)void_ptr));
+	_CGTypeStringList.setParam(npcID);
 
-//	gC_vs_ui.CloseInputNameWindow();
+	g_pSocket->sendPacket(&_CGTypeStringList);
+
+	//	gC_vs_ui.CloseInputNameWindow();
 	gC_vs_ui.SetDisableInputName();
 
 	g_pPlayer->SetWaitVerify(MPlayer::WAIT_VERIFY_NPC_ASK);
@@ -10321,25 +10324,26 @@ void UIMessageManager::Execute_UI_SEND_NAME_FOR_COUPLE(int left, int right, void
 	g_pTempInformation->Value1 = (int)timeGetTime();
 }
 
-void UIMessageManager::Execute_UI_CLOSE_INPUT_NAME_WINDOW(int left, int right, void *void_ptr)
+void UIMessageManager::Execute_UI_CLOSE_INPUT_NAME_WINDOW(int left, int right, void* void_ptr)
 {
-	if( g_pPlayer->GetWaitVerify() != MPlayer::WAIT_VERIFY_NPC_ASK	)
+	if (g_pPlayer->GetWaitVerify() != MPlayer::WAIT_VERIFY_NPC_ASK)
 	{
 		g_pUIDialog->ClosePCTalkDlg();
 		gC_vs_ui.CloseInputNameWindow();
-		g_pPlayer->SetWaitVerify( MPlayer::WAIT_VERIFY_NULL );
-	}  else
+		g_pPlayer->SetWaitVerify(MPlayer::WAIT_VERIFY_NULL);
+	}
+	else
 	{
-		if(g_pTempInformation->GetMode() == TempInformation::MODE_INPUT_NAME)
+		if (g_pTempInformation->GetMode() == TempInformation::MODE_INPUT_NAME)
 		{
-			DWORD dwTime = (DWORD) g_pTempInformation->Value1;
-			
-			if( timeGetTime() - dwTime >= 1000*60 )
+			DWORD dwTime = (DWORD)g_pTempInformation->Value1;
+
+			if (timeGetTime() - dwTime >= 1000 * 60)
 			{
 				g_pUIDialog->ClosePCTalkDlg();
 				gC_vs_ui.CloseInputNameWindow();
-				g_pPlayer->SetWaitVerify( MPlayer::WAIT_VERIFY_NULL );
-				g_pTempInformation->SetMode( TempInformation::MODE_NULL );
+				g_pPlayer->SetWaitVerify(MPlayer::WAIT_VERIFY_NULL);
+				g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 			}
 		}
 	}
@@ -10356,7 +10360,7 @@ UIMessageManager::Execute_UI_ITEM_USE_GEAR(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_ITEM_USE_GEAR");
 
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
@@ -10366,17 +10370,17 @@ UIMessageManager::Execute_UI_ITEM_USE_GEAR(int left, int right, void* void_ptr)
 	// right = by FunctionKey
 	//
 	//MItem* pItem = (MItem*)void_ptr;
-	if (g_pPlayer!=NULL && (g_pPlayer->IsSlayer() && g_pSlayerGear!=NULL || g_pPlayer->IsVampire() && g_pVampireGear!= NULL || g_pPlayer->IsOusters() && g_pOustersGear!= NULL))
+	if (g_pPlayer != NULL && (g_pPlayer->IsSlayer() && g_pSlayerGear != NULL || g_pPlayer->IsVampire() && g_pVampireGear != NULL || g_pPlayer->IsOusters() && g_pOustersGear != NULL))
 	{
 		MItem* pSlotItem = static_cast<MItem*>(void_ptr);
 
-		if (pSlotItem!=NULL && pSlotItem->IsAffectStatus())
+		if (pSlotItem != NULL && pSlotItem->IsAffectStatus())
 		{
 
 			if (g_pPlayer->IsItemCheckBufferNULL())
 			{
 				// 자기종족 아이템만 쓰쟈-ㅅ-;
-				if(g_pPlayer->IsSlayer() && pSlotItem->IsSlayerItem() ||
+				if (g_pPlayer->IsSlayer() && pSlotItem->IsSlayerItem() ||
 					g_pPlayer->IsVampire() && pSlotItem->IsVampireItem() ||
 					g_pPlayer->IsOusters() && pSlotItem->IsOustersItem())
 				{
@@ -10389,7 +10393,7 @@ UIMessageManager::Execute_UI_ITEM_USE_GEAR(int left, int right, void* void_ptr)
 			else
 			{
 				DEBUG_ADD("[Wait] Item Check Buffer is Not NULL");
-			} 
+			}
 		}
 		else
 		{
@@ -10406,128 +10410,128 @@ UIMessageManager::Execute_UI_ITEM_USE_GEAR(int left, int right, void* void_ptr)
 void
 UIMessageManager::Execute_GO_BILING_PAGE(int left, int right, void* void_ptr)
 {
-	if(left == TRUE)
+	if (left == TRUE)
 	{
 		// 종료..
-		SetMode( MODE_QUIT );
-		
+		SetMode(MODE_QUIT);
+
 		char str[256];
-		
+
 		GetWindowsDirectory(
 			str,  // address of buffer for Windows directory
 			255        // size of directory buffer
-			);
-		
+		);
+
 		sprintf(str, "%s\\Explorer.exe", str);
-		
+
 		CDirectDraw::GetDD()->RestoreDisplayMode();
-		
+
 		_spawnl(_P_NOWAIT, str, "Explorer.exe", g_pClientConfig->URL_HOMEPAGE_BILING.GetString(), NULL);
-	}	
+	}
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_POPUP_MESSAGE(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_POPUP_MESSAGE(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.ClosePopupMessage();
 }
 
 
-void 
-UIMessageManager::Execute_UI_CLOSE_QUEST_STATUS(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_QUEST_STATUS(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseQuestStatusWindow();
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_LOTTERY_CARD(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_LOTTERY_CARD(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseLotteryCard();
 	gC_vs_ui.SetQuestStatusInit();
 
-	if(g_bEventQuestEnding && right == 5)
+	if (g_bEventQuestEnding && right == 5)
 	{
 		UI_CloseAllDialog();
 		MEvent event;
 		event.eventID = EVENTID_OUSTERS_FIN;
 		event.eventType = EVENTTYPE_ZONE;
-		event.eventFlag = EVENTFLAG_ONLY_EVENT_BACKGROUND | EVENTFLAG_NOT_DRAW_UI | EVENTFLAG_NOT_DRAW_CREATURE | 
-			EVENTFLAG_NOT_DRAW_INFORMATION | EVENTFLAG_NOT_DRAW_CREATURE_SHADOW | EVENTFLAG_NOT_DRAW_ITEM | 
-			EVENTFLAG_NOT_DRAW_MOUSE_POINTER | EVENTFLAG_NOT_DRAW_EFFECT | EVENTFLAG_DENY_INPUT | 
+		event.eventFlag = EVENTFLAG_ONLY_EVENT_BACKGROUND | EVENTFLAG_NOT_DRAW_UI | EVENTFLAG_NOT_DRAW_CREATURE |
+			EVENTFLAG_NOT_DRAW_INFORMATION | EVENTFLAG_NOT_DRAW_CREATURE_SHADOW | EVENTFLAG_NOT_DRAW_ITEM |
+			EVENTFLAG_NOT_DRAW_MOUSE_POINTER | EVENTFLAG_NOT_DRAW_EFFECT | EVENTFLAG_DENY_INPUT |
 			EVENTFLAG_NOT_FADE_SCREEN | EVENTFLAG_NOT_PLAY_SOUND;
 		event.parameter1 = 0;
 		event.parameter4 = EVENTBACKGROUNDID_QUEST_2;
-		g_pEventManager->AddEvent(event);			
+		g_pEventManager->AddEvent(event);
 	}
-	g_bEventQuestEnding = false;	
+	g_bEventQuestEnding = false;
 }
 
-void 
-UIMessageManager::Execute_UI_LOTTERY_CARD_STATUS(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_LOTTERY_CARD_STATUS(int left, int right, void* void_ptr)
 {
 	// left = step, right = 상품 ID
-	
-	CGLotterySelect _CGLotterySelect;
-	
-	_CGLotterySelect.setType( TYPE_SELECT_LOTTERY );
-	_CGLotterySelect.setQuestLevel ( (DWORD) left-1 );
-	_CGLotterySelect.setGiftID ( (DWORD) right );
 
-	g_pSocket->sendPacket( &_CGLotterySelect );
+	CGLotterySelect _CGLotterySelect;
+
+	_CGLotterySelect.setType(TYPE_SELECT_LOTTERY);
+	_CGLotterySelect.setQuestLevel((DWORD)left - 1);
+	_CGLotterySelect.setGiftID((DWORD)right);
+
+	g_pSocket->sendPacket(&_CGLotterySelect);
 }
 
-void 
-UIMessageManager::Execute_UI_FINISH_SCRATCH_LOTTERY(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_FINISH_SCRATCH_LOTTERY(int left, int right, void* void_ptr)
 {
 	CGLotterySelect _CGLotterySelect;
-	
-	_CGLotterySelect.setType( TYPE_FINISH_SCRATCH );
-	_CGLotterySelect.setQuestLevel ( 0 );
-	_CGLotterySelect.setGiftID ( 0 );
 
-	g_pSocket->sendPacket( &_CGLotterySelect );
-	
+	_CGLotterySelect.setType(TYPE_FINISH_SCRATCH);
+	_CGLotterySelect.setQuestLevel(0);
+	_CGLotterySelect.setGiftID(0);
+
+	g_pSocket->sendPacket(&_CGLotterySelect);
+
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_IMAGE_NOTICE(int left,int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_IMAGE_NOTICE(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseImageNotice();
 }
 
-void 
-UIMessageManager::Execute_UI_SELECT_ITEM_FROM_SHOP(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_SELECT_ITEM_FROM_SHOP(int left, int right, void* void_ptr)
 {
 	CGTakeOutGood _CGTakeOutGood;
 
-	_CGTakeOutGood.setObjectID( (DWORD) left );
+	_CGTakeOutGood.setObjectID((DWORD)left);
 
-	g_pSocket->sendPacket( &_CGTakeOutGood );
+	g_pSocket->sendPacket(&_CGTakeOutGood);
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_ITEM_LIST( int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_ITEM_LIST(int left, int right, void* void_ptr)
 {
-	g_pUIDialog->ClosePCTalkDlg();	
+	g_pUIDialog->ClosePCTalkDlg();
 	gC_vs_ui.CloseItemListWindow();
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_BULLETIN_BOARD(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_BULLETIN_BOARD(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseBulletinBoardWindow();
 }
 
-void 
-UIMessageManager::Execute_UI_TRANS_ITEM_CANCEL(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_TRANS_ITEM_CANCEL(int left, int right, void* void_ptr)
 {
 	UI_CloseTransItem();
 }
 
-void 
-UIMessageManager::Execute_UI_TRANS_ITEM_ACCEPT(int left, int right, void *void_ptr)
-{	
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+void
+UIMessageManager::Execute_UI_TRANS_ITEM_ACCEPT(int left, int right, void* void_ptr)
+{
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
@@ -10538,418 +10542,419 @@ UIMessageManager::Execute_UI_TRANS_ITEM_ACCEPT(int left, int right, void *void_p
 	MItem* pItem = (MItem*)void_ptr;
 	MItem* pMouseItem = gpC_mouse_pointer->GetPickUpItem();
 
-	if (pMouseItem==NULL)
+	if (pMouseItem == NULL)
 	{
 		DEBUG_ADD("[Error] Mouse Item is NULL");
 		return;
 	}
-	if (pItem==NULL)
+	if (pItem == NULL)
 	{
 		DEBUG_ADD("[Error] InvenItem is NULL");
 		return;
 	}
-	TYPE_OBJECTID mouseItemID = ((pMouseItem==NULL)?OBJECTID_NULL : pMouseItem->GetID());
+	TYPE_OBJECTID mouseItemID = ((pMouseItem == NULL) ? OBJECTID_NULL : pMouseItem->GetID());
 
 	// 교환중일때는 Enchant할 수 없다!
-	if (g_pTradeManager!=NULL)
+	if (g_pTradeManager != NULL)
 		return;
-	
+
 	//g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_INSERT_FROM_INVENTORY );
-	
+
 	//----------------------------------------------------
 	// Server에 접속한 경우
 	//----------------------------------------------------
-	if(g_pTempInformation->GetMode() == TempInformation::MODE_NULL && g_pPlayer->IsItemCheckBufferNULL())
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL && g_pPlayer->IsItemCheckBufferNULL())
 	{
 		CGAddItemToItem _CGAddItemToItem;
-		_CGAddItemToItem.setObjectID( mouseItemID );
-		_CGAddItemToItem.setX( pItem->GetGridX() );
-		_CGAddItemToItem.setY( pItem->GetGridY() );								
-		
-		g_pSocket->sendPacket( &_CGAddItemToItem );
-		
-		g_pPlayer->SetItemCheckBuffer( pMouseItem, MPlayer::ITEM_CHECK_BUFFER_ITEM_TO_ITEM );
+		_CGAddItemToItem.setObjectID(mouseItemID);
+		_CGAddItemToItem.setX(pItem->GetGridX());
+		_CGAddItemToItem.setY(pItem->GetGridY());
+
+		g_pSocket->sendPacket(&_CGAddItemToItem);
+
+		g_pPlayer->SetItemCheckBuffer(pMouseItem, MPlayer::ITEM_CHECK_BUFFER_ITEM_TO_ITEM);
 		g_pTempInformation->SetMode(TempInformation::MODE_ITEM_TO_ITEM);
 		g_pTempInformation->Value1 = pItem->GetGridX();
 		g_pTempInformation->Value2 = pItem->GetGridY();
 
-//		UI_LockItem();
+		//		UI_LockItem();
 	}
 }
 
-void 
-UIMessageManager::Execute_UI_REQUEST_RESURRECT(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_REQUEST_RESURRECT(int left, int right, void* void_ptr)
 {
-	if( left == 0 || left == 1)
+	if (left == 0 || left == 1)
 	{
 		// Resurrect Scroll
-		MItem* pItem = g_pInventory->FindItem( ITEM_CLASS_RESURRECT_ITEM, left );
-		if( pItem == NULL )
+		MItem* pItem = g_pInventory->FindItem(ITEM_CLASS_RESURRECT_ITEM, left);
+		if (pItem == NULL)
 		{
 			return;
 		}
-		
+
 		CGUseItemFromInventory _CGUseItemFromInventory;
-		_CGUseItemFromInventory.setObjectID( pItem->GetID() );
-		_CGUseItemFromInventory.setX( pItem->GetGridX() );
-		_CGUseItemFromInventory.setY( pItem->GetGridY() );
-		
-		g_pSocket->sendPacket( &_CGUseItemFromInventory );				
-		g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY);
+		_CGUseItemFromInventory.setObjectID(pItem->GetID());
+		_CGUseItemFromInventory.setX(pItem->GetGridX());
+		_CGUseItemFromInventory.setY(pItem->GetGridY());
+
+		g_pSocket->sendPacket(&_CGUseItemFromInventory);
+		g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY);
 	}
 	else
-	if( left == 2 )
-	{
-		// Eternity
-		CGSkillToSelf			_CGSkillToSelf;
+		if (left == 2)
+		{
+			// Eternity
+			CGSkillToSelf			_CGSkillToSelf;
 
-		_CGSkillToSelf.setSkillType( SKILL_ETERNITY );
-		g_pSocket->sendPacket( &_CGSkillToSelf );
-	}
-	else if(left == 3)
-	{
-		CGSelectRegenZone _CGSelectRegenZone;
-		_CGSelectRegenZone.setRegenZoneID(14);
-		g_pSocket->sendPacket( &_CGSelectRegenZone );
-	}
-	else if(left == 4)
-	{
-		CGSkillToSelf			_CGSkillToSelf;
+			_CGSkillToSelf.setSkillType(SKILL_ETERNITY);
+			g_pSocket->sendPacket(&_CGSkillToSelf);
+		}
+		else if (left == 3)
+		{
+			CGSelectRegenZone _CGSelectRegenZone;
+			_CGSelectRegenZone.setRegenZoneID(14);
+			g_pSocket->sendPacket(&_CGSelectRegenZone);
+		}
+		else if (left == 4)
+		{
+			CGSkillToSelf			_CGSkillToSelf;
 
-		_CGSkillToSelf.setSkillType( SKILL_REQUEST_RESURRECT );
-		g_pSocket->sendPacket( &_CGSkillToSelf );
+			_CGSkillToSelf.setSkillType(SKILL_REQUEST_RESURRECT);
+			g_pSocket->sendPacket(&_CGSkillToSelf);
 
-		g_pPlayer->SetStatus( MODIFY_CURRENT_HP, HP);
-		g_pPlayer->SetStatus( MODIFY_CURRENT_MP, MP);
-	}
-	
+			g_pPlayer->SetStatus(MODIFY_CURRENT_HP, HP);
+			g_pPlayer->SetStatus(MODIFY_CURRENT_MP, MP);
+		}
+
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_MIXING_FORGE(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_MIXING_FORGE(int left, int right, void* void_ptr)
 {
-	if(left == 0 )
+	if (left == 0)
 	{
 		gC_vs_ui.CloseMixingForge();
 		g_pPlayer->ClearItemCheckBuffer();
-		g_pTempInformation->SetMode( TempInformation::MODE_NULL );
-	} else
+		g_pTempInformation->SetMode(TempInformation::MODE_NULL);
+	}
+	else
 	{
-		g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[left].GetString() );		
+		g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[left].GetString());
 	}
 }
 
-void 
+void
 UIMessageManager::Execute_UI_MIXING_FORGE(int left, int right, void* void_ptr)
 {
-	if( g_pPlayer->GetItemCheckBufferStatus() != MPlayer::ITEM_CHECK_BUFFER_USE_MIXING_ITEM ||
-		g_pTempInformation->GetMode() != TempInformation::MODE_NULL )
+	if (g_pPlayer->GetItemCheckBufferStatus() != MPlayer::ITEM_CHECK_BUFFER_USE_MIXING_ITEM ||
+		g_pTempInformation->GetMode() != TempInformation::MODE_NULL)
 		return;
 
-	MItem *pFirstItem = g_pInventory->GetItemToModify( left );
-	MItem *pSecondItem = g_pInventory->GetItemToModify( right );
+	MItem* pFirstItem = g_pInventory->GetItemToModify(left);
+	MItem* pSecondItem = g_pInventory->GetItemToModify(right);
 
-	if( pFirstItem == NULL || pSecondItem == NULL )
+	if (pFirstItem == NULL || pSecondItem == NULL)
 	{
 		return;
 	}
 
-	if( pFirstItem->GetItemClass() == pSecondItem->GetItemClass() &&
+	if (pFirstItem->GetItemClass() == pSecondItem->GetItemClass() &&
 		pFirstItem->GetItemType() == pSecondItem->GetItemType() &&
 		pFirstItem->GetItemOptionListCount() == 1 &&
 		pSecondItem->GetItemOptionListCount() == 1 &&
-		!pFirstItem->IsUniqueItem() && ! pSecondItem->IsUniqueItem() &&
-		!pFirstItem->IsQuestItem() && ! pSecondItem->IsQuestItem() )
-	{		
+		!pFirstItem->IsUniqueItem() && !pSecondItem->IsUniqueItem() &&
+		!pFirstItem->IsQuestItem() && !pSecondItem->IsQuestItem())
+	{
 		MItem* pMixingItem = g_pPlayer->GetItemCheckBuffer();
 
 		CGMixItem _CGMixItem;
 
-		_CGMixItem.setObjectID( pMixingItem->GetID() );
-		_CGMixItem.setX( pMixingItem->GetGridX() );
-		_CGMixItem.setY( pMixingItem->GetGridY() );
-		_CGMixItem.setTargetObjectID( 0, pFirstItem->GetID() );
-		_CGMixItem.setTargetObjectID( 1, pSecondItem->GetID() );
-		
-		g_pSocket->sendPacket( &_CGMixItem );
-		g_pPlayer->SetItemCheckBuffer( pMixingItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY );
-		
-		g_pTempInformation->SetMode( TempInformation::MODE_ITEM_MIXING );
+		_CGMixItem.setObjectID(pMixingItem->GetID());
+		_CGMixItem.setX(pMixingItem->GetGridX());
+		_CGMixItem.setY(pMixingItem->GetGridY());
+		_CGMixItem.setTargetObjectID(0, pFirstItem->GetID());
+		_CGMixItem.setTargetObjectID(1, pSecondItem->GetID());
+
+		g_pSocket->sendPacket(&_CGMixItem);
+		g_pPlayer->SetItemCheckBuffer(pMixingItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY);
+
+		g_pTempInformation->SetMode(TempInformation::MODE_ITEM_MIXING);
 		g_pTempInformation->Value1 = pFirstItem->GetGridX();
 		g_pTempInformation->Value2 = pFirstItem->GetGridY();
 
 		g_pTempInformation->Value3 = pSecondItem->GetGridX();
 		g_pTempInformation->Value4 = pSecondItem->GetGridY();
-		
-		g_pTempInformation->pValue = (void*) pMixingItem;
-	}		
+
+		g_pTempInformation->pValue = (void*)pMixingItem;
+	}
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_REMOVE_OPTION(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_REMOVE_OPTION(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseRemoveOptionFromRareItem();
 }
 
-void 
-UIMessageManager::Execute_UI_SEND_REMOVE_OPTION(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_SEND_REMOVE_OPTION(int left, int right, void* void_ptr)
 {
-	MItem *pMouseItem = (MItem*) void_ptr;
-	MItem *pCurItem = g_pInventory->GetItemToModify( right );
+	MItem* pMouseItem = (MItem*)void_ptr;
+	MItem* pCurItem = g_pInventory->GetItemToModify(right);
 
 
-	if( left < 0 || left > 1 || pMouseItem == NULL || pCurItem == NULL)
+	if (left < 0 || left > 1 || pMouseItem == NULL || pCurItem == NULL)
 	{
 		g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_ERROR_ETC_ERROR].GetString());
 		return;
 	}
 
 	CGMixItem _CGMixItem;
-	_CGMixItem.setObjectID( pMouseItem->GetID() );
-	_CGMixItem.setX( pCurItem->GetGridX() );
-	_CGMixItem.setY( pCurItem->GetGridY() );
-	_CGMixItem.setTargetObjectID( 0, pCurItem->GetID() );
-	_CGMixItem.setTargetObjectID( 1, left );
-	g_pSocket->sendPacket( &_CGMixItem );
+	_CGMixItem.setObjectID(pMouseItem->GetID());
+	_CGMixItem.setX(pCurItem->GetGridX());
+	_CGMixItem.setY(pCurItem->GetGridY());
+	_CGMixItem.setTargetObjectID(0, pCurItem->GetID());
+	_CGMixItem.setTargetObjectID(1, left);
+	g_pSocket->sendPacket(&_CGMixItem);
 	gC_vs_ui.CloseRemoveOptionFromRareItem();
 
-	g_pPlayer->SetItemCheckBuffer( pMouseItem, MPlayer::ITEM_CHECK_BUFFER_ITEM_TO_ITEM );
-	
+	g_pPlayer->SetItemCheckBuffer(pMouseItem, MPlayer::ITEM_CHECK_BUFFER_ITEM_TO_ITEM);
+
 	g_pTempInformation->SetMode(TempInformation::MODE_ITEM_TO_ITEM);
 	g_pTempInformation->Value1 = pCurItem->GetGridX();
 	g_pTempInformation->Value2 = pCurItem->GetGridY();
 	g_pTempInformation->Value3 = left;
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_OUSTERS_SKILL_INFO(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_OUSTERS_SKILL_INFO(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseOustersSkillInfo();
 }
 
-void 
-UIMessageManager::Execute_UI_LEARN_OUSTERS_SKILL(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_LEARN_OUSTERS_SKILL(int left, int right, void* void_ptr)
 {
-	if( g_pTempInformation->GetMode() != TempInformation::MODE_NULL )
-		return;		
-		
+	if (g_pTempInformation->GetMode() != TempInformation::MODE_NULL)
+		return;
+
 	DEBUG_ADD("[UI] UI_LEARN_OUSTERS_SKILL");
-	
-	
-	if (g_Mode!=MODE_GAME)
+
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
-	
-	
+
+
 	g_pTempInformation->SetMode(TempInformation::MODE_SKILL_LEARN);
 	{
 		(*g_pTempInformation).Value3 = left;
-		
+
 		CGLearnSkill _CGLearnSkill;
-		
+
 		//_CGLearnSkill.setObjectID( (*g_pPCTalkBox).GetNPCID() );
-		_CGLearnSkill.setSkillType( left );
-		_CGLearnSkill.setSkillDomainType( SKILLDOMAIN_OUSTERS );
-		
-		g_pSocket->sendPacket( &_CGLearnSkill );
-		
+		_CGLearnSkill.setSkillType(left);
+		_CGLearnSkill.setSkillDomainType(SKILLDOMAIN_OUSTERS);
+
+		g_pSocket->sendPacket(&_CGLearnSkill);
+
 	}
 }
 
-void 
-UIMessageManager::Execute_UI_RUN_LEVELUP(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_RUN_LEVELUP(int left, int right, void* void_ptr)
 {
 	UI_LevelUp();
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_HORN(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_HORN(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseHorn();
 }
 
 
-void 
-UIMessageManager::Execute_UI_OUSTERS_DOWN_SKILL(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_OUSTERS_DOWN_SKILL(int left, int right, void* void_ptr)
 {
-	if( left < 0 || left >= MAX_ACTIONINFO)
+	if (left < 0 || left >= MAX_ACTIONINFO)
 		return;
 
 	int curLevel = (*g_pSkillInfoTable)[left].GetExpLevel();
 
 	// 2004, 11, 8, sobeit modify start - 아우스터즈 스킬에 따라 0레벨로도 만들수 있다.
-	if( curLevel > 30 || (curLevel == 1 && (*g_pSkillInfoTable)[left].CanDelete == 0) )
-		return;	
+	if (curLevel > 30 || (curLevel == 1 && (*g_pSkillInfoTable)[left].CanDelete == 0))
+		return;
 	// 2004, 11, 8, sobeit modify end
-	
+
 	CGDownSkill	_CGDownSkill;
 
-	_CGDownSkill.setSkillType( (SkillType_t) left );
+	_CGDownSkill.setSkillType((SkillType_t)left);
 
-	g_pSocket->sendPacket( &_CGDownSkill );
+	g_pSocket->sendPacket(&_CGDownSkill);
 
-	DEBUG_ADD("[UI] Execute_UI_OUSTERS_DOWN_SKILL"); 
+	DEBUG_ADD("[UI] Execute_UI_OUSTERS_DOWN_SKILL");
 }
 
-void 
-UIMessageManager::Execute_UI_CLEAR_ALL_STAGE(int left, int right, void *void_ptr)
-{	
+void
+UIMessageManager::Execute_UI_CLEAR_ALL_STAGE(int left, int right, void* void_ptr)
+{
 	// LEFT = GAMETYPE
-	switch( left )
+	switch (left)
 	{
-	case 0 :				// 다꺴다!!!!
+	case 0:				// 다꺴다!!!!
 		break;
-	case 1 :
+	case 1:
 		break;
 	}
 	gC_vs_ui.CloseArrowTile();
 	gC_vs_ui.CloseCrazyMine();
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_FINDING_MINE(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_FINDING_MINE(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseFindingMine();
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_NEMONEMO(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_NEMONEMO(int left, int right, void* void_ptr)
 {
 	//gC_vs_ui.CloseNemo
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_PUSHPUSH(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_PUSHPUSH(int left, int right, void* void_ptr)
 {
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_CRAZY_MINE(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_CRAZY_MINE(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseCrazyMine();
 
 	CGFailQuest _CGFailQuest;
 
-	_CGFailQuest.setFail( false );
+	_CGFailQuest.setFail(false);
 
-	g_pSocket->sendPacket( &_CGFailQuest );
+	g_pSocket->sendPacket(&_CGFailQuest);
 	gC_vs_ui.SetQuestStatusInit();
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_ARROW_TILE(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_ARROW_TILE(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseArrowTile();
 	CGFailQuest _CGFailQuest;
 
-	_CGFailQuest.setFail( false );
+	_CGFailQuest.setFail(false);
 
-	g_pSocket->sendPacket( &_CGFailQuest );
+	g_pSocket->sendPacket(&_CGFailQuest);
 	gC_vs_ui.SetQuestStatusInit();
 }
 
-void 
-UIMessageManager::Execute_UI_CLEAR_STAGE(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLEAR_STAGE(int left, int right, void* void_ptr)
 {
 	WORD	GameType = HIWORD(left);
 	WORD	Stage = LOWORD(left);
 	DWORD	Time = (DWORD)right;
 
-	Time/=10;
+	Time /= 10;
 
-	Time = min(65535,Time);
-	DEBUG_ADD_FORMAT("[Execute_UI_CLEAR_STAGE] GameType:%d Stage:%d Time:%d", GameType, Stage,Time);	
-	
+	Time = min(65535, Time);
+	DEBUG_ADD_FORMAT("[Execute_UI_CLEAR_STAGE] GameType:%d Stage:%d Time:%d", GameType, Stage, Time);
+
 	CGSubmitScore _CGSubmitScore;
 
-	_CGSubmitScore.setGameType( GameType == 0 ? GAME_ARROW : GAME_MINE );
-	_CGSubmitScore.setLevel( Stage );
-	_CGSubmitScore.setScore( WORD(Time) );
-	g_pSocket->sendPacket( &_CGSubmitScore );
+	_CGSubmitScore.setGameType(GameType == 0 ? GAME_ARROW : GAME_MINE);
+	_CGSubmitScore.setLevel(Stage);
+	_CGSubmitScore.setScore(WORD(Time));
+	g_pSocket->sendPacket(&_CGSubmitScore);
 }
 
 void
-UIMessageManager::Execute_UI_FORCE_DIE(int left, int right, void *void_ptr)
+UIMessageManager::Execute_UI_FORCE_DIE(int left, int right, void* void_ptr)
 {
 	// 나를 죽여죠
 	gC_vs_ui.CloseAllDialog();
-	
-	switch(left)
+
+	switch (left)
 	{
-	case 10 :						// ArrowTile 하다가 죽었을때
+	case 10:						// ArrowTile 하다가 죽었을때
 		break;
-	case 11 :						// CrazyMine 하다가 죽었을때			
+	case 11:						// CrazyMine 하다가 죽었을때			
 		break;
 	}
-	
+
 	// 서버에 나 죽여죠 패킷을 보낸다.
 	CGFailQuest		_CGFailQuest;
-	
-	_CGFailQuest.setFail( true );
-	g_pSocket->sendPacket( &_CGFailQuest );
+
+	_CGFailQuest.setFail(true);
+	g_pSocket->sendPacket(&_CGFailQuest);
 	gC_vs_ui.SetQuestStatusInit();
 }
 
-void 
-UIMessageManager::Execute_UI_ADD_ITEM_TO_CODE_SHEET(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_ADD_ITEM_TO_CODE_SHEET(int left, int right, void* void_ptr)
 {
 	MItem* pItem = (MItem*)void_ptr;
 
-	if( pItem == NULL || right < 0 || right >= 5)
+	if (pItem == NULL || right < 0 || right >= 5)
 		return;
 
 	CGAddItemToCodeSheet _CGAddItemToCodeSheet;
 
-	_CGAddItemToCodeSheet.setX( HIWORD( left ) );
-	_CGAddItemToCodeSheet.setY( LOWORD( left ) );
-	_CGAddItemToCodeSheet.setObjectID( pItem->GetID() );
-	
-	g_pSocket->sendPacket( &_CGAddItemToCodeSheet );
-	g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_ITEM_TO_ITEM );	
+	_CGAddItemToCodeSheet.setX(HIWORD(left));
+	_CGAddItemToCodeSheet.setY(LOWORD(left));
+	_CGAddItemToCodeSheet.setObjectID(pItem->GetID());
+
+	g_pSocket->sendPacket(&_CGAddItemToCodeSheet);
+	g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_ITEM_TO_ITEM);
 
 	g_pTempInformation->SetMode(TempInformation::MODE_ITEM_CODE_SHEET);
-	g_pTempInformation->Value1 = right;	
+	g_pTempInformation->Value1 = right;
 	g_pTempInformation->Value2 = left;
 	g_pTempInformation->pValue = (void*)gpC_mouse_pointer->GetPickUpItem();
 }
 
 
-void 
-UIMessageManager::Execute_UI_SEND_BUG_REPORT(int left,int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_SEND_BUG_REPORT(int left, int right, void* void_ptr)
 {
-	SendBugReport("[UI_BUG] %d, %s", left, reinterpret_cast<char*>( void_ptr ) );
+	SendBugReport("[UI_BUG] %d, %s", left, reinterpret_cast<char*>(void_ptr));
 }
 
-void 
+void
 UIMessageManager::Execute_UI_GO_BEGINNER_ZONE(int left, int right, void* void_ptr)
 {
-//	Execute_UI_CLOSE_POPUP_MESSAGE(left,right,void_ptr);
-//
-//	CGSelectWayPoint _CGSelectWayPoint;
-//
-//	_CGSelectWayPoint.setZoneID( 1122 );
-//	_CGSelectWayPoint.setX( 0 );
-//	_CGSelectWayPoint.setY( 0 );
-//
-//	g_pSocket->sendPacket( &_CGSelectWayPoint );
+	//	Execute_UI_CLOSE_POPUP_MESSAGE(left,right,void_ptr);
+	//
+	//	CGSelectWayPoint _CGSelectWayPoint;
+	//
+	//	_CGSelectWayPoint.setZoneID( 1122 );
+	//	_CGSelectWayPoint.setX( 0 );
+	//	_CGSelectWayPoint.setY( 0 );
+	//
+	//	g_pSocket->sendPacket( &_CGSelectWayPoint );
 }
 
 void
 UIMessageManager::Execute_UI_POPUP_MESSAGE_OK(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseMailBox();
-	
-	Execute_UI_CLOSE_POPUP_MESSAGE(left,right,void_ptr);
 
-	DWORD recvID = (DWORD) left;
-	
+	Execute_UI_CLOSE_POPUP_MESSAGE(left, right, void_ptr);
+
+	DWORD recvID = (DWORD)left;
+
 	int zoneID = 0;
 
-	switch(recvID)
+	switch (recvID)
 	{
-	// 초보존
+		// 초보존
 	case 1:
 		zoneID = 1122;
 		break;
@@ -10957,13 +10962,13 @@ UIMessageManager::Execute_UI_POPUP_MESSAGE_OK(int left, int right, void* void_pt
 	case 2:
 		zoneID = 1122;
 		break;
-		
-	// 레벨 전쟁 시작
+
+		// 레벨 전쟁 시작
 	case 4:
 		zoneID = 1131;
 		break;
 
-	// 종족 전쟁 시작
+		// 종족 전쟁 시작
 	case 6:
 		zoneID = 72;
 		break;
@@ -10971,64 +10976,64 @@ UIMessageManager::Execute_UI_POPUP_MESSAGE_OK(int left, int right, void* void_pt
 	}
 
 	CGSelectWayPoint _CGSelectWayPoint;
-	
-	_CGSelectWayPoint.setZoneID( zoneID );
-	_CGSelectWayPoint.setX( 0 );
-	_CGSelectWayPoint.setY( 0 );
-	
-	g_pSocket->sendPacket( &_CGSelectWayPoint );
+
+	_CGSelectWayPoint.setZoneID(zoneID);
+	_CGSelectWayPoint.setX(0);
+	_CGSelectWayPoint.setY(0);
+
+	g_pSocket->sendPacket(&_CGSelectWayPoint);
 }
 
-void 
+void
 UIMessageManager::Execute_UI_CLOSE_SHRINE_MINIMAP(int left, int right, void* void_ptr)
 {
 	// Random-_- 으로 보내자. 강제로 닫은 경우이다. 
 
 	bool bSended = false;
 
-	for(int i = 0; i < g_pRegenTowerInfoManager->GetSize(); i++ )
+	for (int i = 0; i < g_pRegenTowerInfoManager->GetSize(); i++)
 	{
 		const RegenTowerInfo* pInfo = &g_pRegenTowerInfoManager->Get(i);
-		
-		if( pInfo->owner == (int)g_pPlayer->GetRace() )
+
+		if (pInfo->owner == (int)g_pPlayer->GetRace())
 		{
 			CGSelectRegenZone _CGSelectRegenZone;
-			_CGSelectRegenZone.setRegenZoneID( i );
-			g_pSocket->sendPacket( &_CGSelectRegenZone );
+			_CGSelectRegenZone.setRegenZoneID(i);
+			g_pSocket->sendPacket(&_CGSelectRegenZone);
 			bSended = true;
 			break;
 		}
 	}
 	gC_vs_ui.CloseRequestShrineMinimap();
 
-	if( bSended == false )
+	if (bSended == false)
 	{
 		Execute_UI_FINISH_REQUEST_DIE_BUTTON(left, right, void_ptr);
 	}
 	gC_vs_ui.FinishRequestDie();
-	gC_vs_ui.FinishRequestResurrect();	
+	gC_vs_ui.FinishRequestResurrect();
 }
 
-void 
+void
 UIMessageManager::Execute_UI_WARP_TO_REGEN_TOWER(int left, int right, void* void_ptr)
 {
-	if( g_pRegenTowerInfoManager == NULL || left < 0 || 
-		left >= g_pRegenTowerInfoManager->GetSize() || 
-		g_pRegenTowerInfoManager->Get(left).owner != g_pPlayer->GetRace() )
+	if (g_pRegenTowerInfoManager == NULL || left < 0 ||
+		left >= g_pRegenTowerInfoManager->GetSize() ||
+		g_pRegenTowerInfoManager->Get(left).owner != g_pPlayer->GetRace())
 		return;
 
 	CGSelectRegenZone _CGSelectRegenZone;
-	
-	_CGSelectRegenZone.setRegenZoneID( left );
 
-	g_pSocket->sendPacket( &_CGSelectRegenZone );
+	_CGSelectRegenZone.setRegenZoneID(left);
+
+	g_pSocket->sendPacket(&_CGSelectRegenZone);
 	gC_vs_ui.CloseRequestShrineMinimap();
 	gC_vs_ui.FinishRequestDie();
-	gC_vs_ui.FinishRequestResurrect();	
+	gC_vs_ui.FinishRequestResurrect();
 }
 
-void 
-UIMessageManager::Execute_UI_CLOSE_MAILBOX(int left, int right, void *void_ptr)
+void
+UIMessageManager::Execute_UI_CLOSE_MAILBOX(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseMailBox();
 }
@@ -11039,11 +11044,11 @@ UIMessageManager::Execute_UI_CLOSE_PET_INFO(int left, int right, void* void_ptr)
 	gC_vs_ui.ClosePetInfo();
 }
 
-void	
+void
 UIMessageManager::Execute_UI_PET_GAMBLE(int left, int right, void* void_ptr)
 {
 	CGPetGamble _CGPetGamble;
-	g_pSocket->sendPacket( &_CGPetGamble );
+	g_pSocket->sendPacket(&_CGPetGamble);
 	// 겜블하는동안 아이템 못빼게
 	UI_LockItem();
 }
@@ -11051,7 +11056,7 @@ UIMessageManager::Execute_UI_PET_GAMBLE(int left, int right, void* void_ptr)
 void
 UIMessageManager::Execute_UI_CLOSE_USE_PET_FOOD(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
@@ -11059,50 +11064,50 @@ UIMessageManager::Execute_UI_CLOSE_USE_PET_FOOD(int left, int right, void* void_
 	gC_vs_ui.CloseUsePetFood();
 }
 
-void	 
+void
 UIMessageManager::Execute_UI_CLOSE_PETSTORAGE(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
 	gC_vs_ui.ClosePetStorage();
-	
+
 	// 보관함 중지
-	if (g_pStorage!=NULL)
+	if (g_pStorage != NULL)
 	{
 		delete g_pStorage;
 		g_pStorage = NULL;
 	}
 
 	// storage를 없앤다.
-	gC_vs_ui.SetPetStorage( NULL );
+	gC_vs_ui.SetPetStorage(NULL);
 
-//	// 다시 뭔가를?선택할 수 있게 한다.
-//	g_pUIDialog->ShowPCTalkDlg();
+	//	// 다시 뭔가를?선택할 수 있게 한다.
+	//	g_pUIDialog->ShowPCTalkDlg();
 	g_pUIDialog->UnSetLockInputPCTalk();
 	g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
 }
-void	 
+void
 UIMessageManager::Execute_UI_CLOSE_KEEP_PETITEM(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseKeepPetItemDialog();
 }
-void	 
+void
 UIMessageManager::Execute_UI_CLOSE_GET_KEEP_PETITEM(int left, int right, void* void_ptr)
 {
 	gC_vs_ui.CloseGetKeepPetItemDialog();
 }
 
-void	 
+void
 UIMessageManager::Execute_UI_KEEP_PETITEM(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_KEEP_PETITEM");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
@@ -11111,30 +11116,30 @@ UIMessageManager::Execute_UI_KEEP_PETITEM(int left, int right, void* void_ptr)
 		return;
 	MItem* pItem = (MItem*)void_ptr;
 
-	if(NULL == pItem)
+	if (NULL == pItem)
 		return;
 
 	CGDepositPet _CGDepositPet;
 	_CGDepositPet.setObjectID(pItem->GetID());
-	if(-1 != right)
+	if (-1 != right)
 		_CGDepositPet.setIndex(right);
 	else
 		return;
-	g_pSocket->sendPacket( &_CGDepositPet );	
+	g_pSocket->sendPacket(&_CGDepositPet);
 
 	g_pTempInformation->SetMode(TempInformation::MODE_PETITEM_MOVETO_PETSTORAGE);
 	g_pTempInformation->Value1 = right;
 	g_pTempInformation->Value2 = pItem->GetGridX();
 	g_pTempInformation->Value3 = pItem->GetGridY();
 	g_pTempInformation->pValue = pItem;
-	UI_LockItem(); 
+	UI_LockItem();
 }
-void	 
+void
 UIMessageManager::Execute_UI_GET_KEEP_PETITEM(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_GET_KEEP_PETITEM");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
@@ -11143,16 +11148,16 @@ UIMessageManager::Execute_UI_GET_KEEP_PETITEM(int left, int right, void* void_pt
 		return;
 	MItem* pItem = (MItem*)void_ptr;
 
-	if(NULL == pItem)
+	if (NULL == pItem)
 		return;
 
 	CGWithdrawPet _CGWithdrawPet;
 	_CGWithdrawPet.setObjectID(pItem->GetID());
-	if(right<20 &&right>-1)
+	if (right<20 && right>-1)
 		_CGWithdrawPet.setIndex(right);
 	else
 		return;
-	g_pSocket->sendPacket( &_CGWithdrawPet );	
+	g_pSocket->sendPacket(&_CGWithdrawPet);
 	g_pTempInformation->SetMode(TempInformation::MODE_PETITEM_MOVETO_INVENTORY);
 	g_pTempInformation->Value1 = right;
 	g_pTempInformation->Value2 = pItem->GetGridX();
@@ -11162,30 +11167,30 @@ UIMessageManager::Execute_UI_GET_KEEP_PETITEM(int left, int right, void* void_pt
 }
 
 
-void	 
+void
 UIMessageManager::Execute_UI_CLOSE_SMS_MESSAGE(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
-		if(gC_vs_ui.IsRunningSMSRecord())
+		if (gC_vs_ui.IsRunningSMSRecord())
 			gC_vs_ui.CloseSMSRecord();
-		if(gC_vs_ui.IsRunningSMSList())
+		if (gC_vs_ui.IsRunningSMSList())
 			gC_vs_ui.CloseSMSList();
-		gC_vs_ui.CloseSMSMessage(); 
-		
+		gC_vs_ui.CloseSMSMessage();
+
 	}
 
 }
 void
 UIMessageManager::Execute_UI_SEND_SMS_MESSAGE(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
@@ -11193,66 +11198,66 @@ UIMessageManager::Execute_UI_SEND_SMS_MESSAGE(int left, int right, void* void_pt
 	if (g_pTempInformation->GetMode() != TempInformation::MODE_NULL)
 		return;
 
-	std::list<std::string> *TempStr = (std::list<std::string>*)(void_ptr);
+	std::list<std::string>* TempStr = (std::list<std::string>*)(void_ptr);
 
-	if(NULL == TempStr || TempStr->size()>5)
-		return ;
-	
+	if (NULL == TempStr || TempStr->size() > 5)
+		return;
+
 	CGSMSSend _CGSMSSend;
-	_CGSMSSend.setCallerNumber(std::string((char *)left));
-	_CGSMSSend.setMessage(std::string((char *)right));
-	_CGSMSSend.clearString(); 
+	_CGSMSSend.setCallerNumber(std::string((char*)left));
+	_CGSMSSend.setMessage(std::string((char*)right));
+	_CGSMSSend.clearString();
 	std::list<std::string>::iterator itr = TempStr->begin();
-	while(itr != TempStr->end())
+	while (itr != TempStr->end())
 	{
 		string str = (*itr);
 		_CGSMSSend.addString(str);
 		itr++;
 	}
-	g_pSocket->sendPacket( &_CGSMSSend );
-	
+	g_pSocket->sendPacket(&_CGSMSSend);
+
 	gC_vs_ui.CloseSMSMessage();
-	if(gC_vs_ui.IsRunningSMSList())
+	if (gC_vs_ui.IsRunningSMSList())
 		gC_vs_ui.CloseSMSList();
-	if(gC_vs_ui.IsRunningSMSRecord())
+	if (gC_vs_ui.IsRunningSMSRecord())
 		gC_vs_ui.CloseSMSRecord();
 }
 
 
-void	 
+void
 UIMessageManager::Execute_UI_SMS_OPEN_LIST(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.RunSMSList();
 		// sms 주소 요청 패킷 보냄
 		CGSMSAddressList _CGSMSAddressList;
-		g_pSocket->sendPacket( &_CGSMSAddressList );
+		g_pSocket->sendPacket(&_CGSMSAddressList);
 	}
 }
 
-void	 
+void
 UIMessageManager::Execute_UI_SMS_RECORD(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		CGAddSMSAddress	_CGAddSMSAddress;
-		_CGAddSMSAddress.setCharacterName(std::string((char *)left));
-		_CGAddSMSAddress.setCustomName((std::string((char *)right)));
-		_CGAddSMSAddress.setNumber((std::string((char *)void_ptr)));
-		g_pSocket->sendPacket( &_CGAddSMSAddress );
+		_CGAddSMSAddress.setCharacterName(std::string((char*)left));
+		_CGAddSMSAddress.setCustomName((std::string((char*)right)));
+		_CGAddSMSAddress.setNumber((std::string((char*)void_ptr)));
+		g_pSocket->sendPacket(&_CGAddSMSAddress);
 
 		g_pTempInformation->SetMode(TempInformation::MODE_SMS_ADD_ADDRESS);
 		g_pTempInformation->Value1 = (int)left;
@@ -11264,364 +11269,364 @@ UIMessageManager::Execute_UI_SMS_RECORD(int left, int right, void* void_ptr)
 }
 
 
-void	 
+void
 UIMessageManager::Execute_UI_SMS_DELETE(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
 	// 등록 요청 패킷 보냄
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		CGDeleteSMSAddress	_CGDeleteSMSAddress;
 		_CGDeleteSMSAddress.setElementID((DWORD)left);
-		g_pSocket->sendPacket( &_CGDeleteSMSAddress );
+		g_pSocket->sendPacket(&_CGDeleteSMSAddress);
 
 		g_pTempInformation->SetMode(TempInformation::MODE_SMS_DELETE_ADDRESS);
 		g_pTempInformation->Value1 = left;
 	}
 }
 
-void	 
+void
 UIMessageManager::Execute_UI_CLOSE_SMS_LIST(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.CloseSMSList();
 	}
 }
 
-void	 
+void
 UIMessageManager::Execute_UI_CLOSE_SMS_RECORD(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.CloseSMSRecord();
 	}
 }
-void	 
+void
 UIMessageManager::Execute_UI_SMS_ADD_SEND_LIST(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.AddSMSSendList((char*)left);
 	}
 }
 
 
-void	 
+void
 UIMessageManager::Execute_UI_CLOSE_NAMING(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.CloseNaming();
 	}
 }
 
-void	 
+void
 UIMessageManager::Execute_UI_SELECT_NAMING(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		CGSelectNickname	_CGSelectNickName;
 		_CGSelectNickName.setNicknameID((WORD)left);
-		g_pSocket->sendPacket( &_CGSelectNickName );
+		g_pSocket->sendPacket(&_CGSelectNickName);
 
-//		g_pTempInformation->SetMode(TempInformation::MODE_NICKNAME_CHANGE_CUSTOM);
-//		g_pTempInformation->Value1 = left;
+		//		g_pTempInformation->SetMode(TempInformation::MODE_NICKNAME_CHANGE_CUSTOM);
+		//		g_pTempInformation->Value1 = left;
 	}
 }
 
 
-void	 
+void
 UIMessageManager::Execute_UI_CLOSE_NAMING_CHANGE(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.CloseNamingChange();
 	}
 }
 
 
-void	 
+void
 UIMessageManager::Execute_UI_CHANGE_CUSTOM_NAMING(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
 	// left : name, right : item ID(0=울버린) void_ptr:penitem pointer
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		char szTemp[22];
-		strcpy(szTemp, (char*) left);
-		if(strlen(szTemp) == 0)
+		strcpy(szTemp, (char*)left);
+		if (strlen(szTemp) == 0)
 			return;
-//		if (!IsValidID(szTemp, "-_"))
-//		{
-//			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString() );
-//			bAllOK = FALSE;
-//		}
-//		else
-//		{
-//			char strName[80];
-//			strcpy(strName, pChar->sz_name);
-//
-//			// 안 좋은 말이 들어있는 경우는 허용이 안된다
-//			if (g_pChatManager->RemoveCurse(strName))
-//			{
-//				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString() );
-//				bAllOK = FALSE;
-//			}
-//		}
-		g_pChatManager->RemoveCurse(szTemp );
+		//		if (!IsValidID(szTemp, "-_"))
+		//		{
+		//			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString() );
+		//			bAllOK = FALSE;
+		//		}
+		//		else
+		//		{
+		//			char strName[80];
+		//			strcpy(strName, pChar->sz_name);
+		//
+		//			// 안 좋은 말이 들어있는 경우는 허용이 안된다
+		//			if (g_pChatManager->RemoveCurse(strName))
+		//			{
+		//				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_USER_REGISTER_INVALID_ID].GetString() );
+		//				bAllOK = FALSE;
+		//			}
+		//		}
+		g_pChatManager->RemoveCurse(szTemp);
 
 		// 이쯤에서 effect status를 검색 해서 아이템 사용 패킷을 보내는게 좋을듯..
-		MItem* pItem = NULL;	
-		
-		if(right != 0)
-			pItem = g_pInventory->GetItemToModify( right );//(MItem*)void_ptr;
-		
-		if(pItem!= NULL || right == 0)
-		{
-			CGModifyNickname	_CGModifyNickname; 
-			_CGModifyNickname.setNickname(std::string((char *)szTemp));
+		MItem* pItem = NULL;
 
-			if(right != 0)
-			{ 
+		if (right != 0)
+			pItem = g_pInventory->GetItemToModify(right);//(MItem*)void_ptr;
+
+		if (pItem != NULL || right == 0)
+		{
+			CGModifyNickname	_CGModifyNickname;
+			_CGModifyNickname.setNickname(std::string((char*)szTemp));
+
+			if (right != 0)
+			{
 				// 먼저 아이템 썼다고 패킷 보내고 - 안보내기루 설정
 			//	Execute_UI_ITEM_USE(pItem->GetID(), 0, (void*)pItem);
 				// 닉네임 체인지 패킷을 보내장..
 				_CGModifyNickname.setNicknameID(pItem->GetID());
-				g_pSocket->sendPacket( &_CGModifyNickname );
+				g_pSocket->sendPacket(&_CGModifyNickname);
 
 				g_pTempInformation->SetMode(TempInformation::MODE_NICKNAME_CHANGE_CUSTOM);
 				g_pTempInformation->Value1 = left;					// 바뀐 닉네임 아이디
 				g_pTempInformation->Value2 = pItem->GetItemType();  // 아이템 타입
 
-				if(25 != g_pTempInformation->Value2)  // 시간제 ㅏㅇ이템
-					g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY);
+				if (25 != g_pTempInformation->Value2)  // 시간제 ㅏㅇ이템
+					g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY);
 			}
 			else
 			{
 				// 울버린일땐 아이템 없이 바꾼당..
 				_CGModifyNickname.setNicknameID(0);
-				g_pSocket->sendPacket( &_CGModifyNickname );
+				g_pSocket->sendPacket(&_CGModifyNickname);
 				g_pTempInformation->SetMode(TempInformation::MODE_NICKNAME_CHANGE_CUSTOM);
 				g_pTempInformation->Value1 = left;					// 바뀐 닉네임 아이디
 				g_pTempInformation->Value2 = 0;  // 
 			}
 		}
 		else
-			UI_PopupMessage (UI_STRING_MESSAGE_FAIL_SEARCH_ITEM);
+			UI_PopupMessage(UI_STRING_MESSAGE_FAIL_SEARCH_ITEM);
 	}
 }
 
-void	 
+void
 UIMessageManager::Execute_UI_RUN_NAMING_CHANGE(int left, int right, void* void_ptr)
-{ 
-	if (g_Mode!=MODE_GAME)
+{
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		MItem* pItem = (MItem*)left;
-		if(pItem->GetItemClass() != ITEM_CLASS_EVENT_GIFT_BOX)
+		if (pItem->GetItemClass() != ITEM_CLASS_EVENT_GIFT_BOX)
 			return;
 		// pItem 이 캐릭터 닉네임 바꾸는 아이템 이면
 			// 1회용 (2가지) - 기존닉네임 수정, 새로운 닉네임 추가
 			// 시간제 (1가지) - 특정 시간동안 기존 닉네임 무제한 수정가능
 		// pItem이 펫 닉네임 바꾸는 아이템이면 펫이 소환 상태여야만 사용 가능
 			// 울버린의 경우 아이템이 필요 없음
-		
-		if(pItem->GetItemType() == 22 || pItem->GetItemType() == 25) // 유저 닉네임 수정
+
+		if (pItem->GetItemType() == 22 || pItem->GetItemType() == 25) // 유저 닉네임 수정
 			gC_vs_ui.RunNamingChange(pItem, (char*)g_pPlayer->GetNickName().c_str());
-//		// 닉네임 추가
-		else if(pItem->GetItemType() == 24) // extra naming pen // 네이밍 추가 아이템
+		//		// 닉네임 추가
+		else if (pItem->GetItemType() == 24) // extra naming pen // 네이밍 추가 아이템
 			gC_vs_ui.RunNamingChange(pItem, (char*)(*g_pGameStringTable)[UI_STRING_MESSAGE_ADD_PLAYER_NICKNAME].GetString());
-//		// 시간제 아이템
-//		else if(pItem->GetItemType() == 25) // limited naming pen // 네이밍 변경 시간 아이템
-//			gC_vs_ui.RunNamingChange(pItem, (char*)g_pPlayer->GetNickName().c_str());
-		else if(pItem->GetItemType() == 23) // 펫 닉네임 수정
+		//		// 시간제 아이템
+		//		else if(pItem->GetItemType() == 25) // limited naming pen // 네이밍 변경 시간 아이템
+		//			gC_vs_ui.RunNamingChange(pItem, (char*)g_pPlayer->GetNickName().c_str());
+		else if (pItem->GetItemType() == 23) // 펫 닉네임 수정
 		{
-			MFakeCreature *pFakeCreature = (MFakeCreature *)g_pZone->GetFakeCreature(g_pPlayer->GetPetID());
-			if(NULL != pFakeCreature)
+			MFakeCreature* pFakeCreature = (MFakeCreature*)g_pZone->GetFakeCreature(g_pPlayer->GetPetID());
+			if (NULL != pFakeCreature)
 			{
-				MPetItem *pPetItem = pFakeCreature->GetPetItem();
-				if(pPetItem != NULL)
+				MPetItem* pPetItem = pFakeCreature->GetPetItem();
+				if (pPetItem != NULL)
 				{
-					if(2 == pPetItem->GetItemType()) // 울버린 일땐 펜 아이템 필요 없음
-						UI_PopupMessage( UI_STRING_MESSAGE_PET_NAMING_WOLVERINE );
+					if (2 == pPetItem->GetItemType()) // 울버린 일땐 펜 아이템 필요 없음
+						UI_PopupMessage(UI_STRING_MESSAGE_PET_NAMING_WOLVERINE);
 					else
 						gC_vs_ui.RunNamingChange(pItem, (char*)pFakeCreature->GetNickName().c_str());
 				}
 			}
 			else
-				UI_PopupMessage( UI_STRING_MESSAGE_PET_NAMING_SUMMON );
+				UI_PopupMessage(UI_STRING_MESSAGE_PET_NAMING_SUMMON);
 		}
 		//gC_vs_ui.RunNamingChange(pItem, char* szCustom);
 
 	}
 }
 
-void	 
+void
 UIMessageManager::Execute_UI_CLOSE_QUEST_MANAGER(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.CloseQuestManager();
 	}
 }
-void	 
+void
 UIMessageManager::Execute_UI_CLOSE_QUEST_LIST(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.CloseQuestList();
 	}
 }
-void	 
+void
 UIMessageManager::Execute_UI_CLOSE_QUEST_DETAIL(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.CloseQuestDetail();
 	}
 }
-void	 
+void
 UIMessageManager::Execute_UI_CLOSE_QUEST_MISSION(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.CloseQuestMission();
 	}
 }
-void	 
+void
 UIMessageManager::Execute_UI_CLOSE_QUEST_ITEM(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.CloseQuestItem();
 	}
 }
-void	 
+void
 UIMessageManager::Execute_UI_CLOSE_QUEST_ICON(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		gC_vs_ui.CloseQuestIcon(left);
 	}
 }
-void	 
+void
 UIMessageManager::Execute_UI_GQUEST_ACCEPT(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		CGGQuestAccept	_CGGQuestAccept;
 		_CGGQuestAccept.setQuestID((DWORD)left);
-		g_pSocket->sendPacket( &_CGGQuestAccept );
+		g_pSocket->sendPacket(&_CGGQuestAccept);
 	}
 }
-void	 
+void
 UIMessageManager::Execute_UI_GQUEST_GIVEUP(int left, int right, void* void_ptr)
 {
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
 
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 	{
 		CGGQuestCancel	_CGGQuestCancel;
 		_CGGQuestCancel.setQuestID((DWORD)left);
-		g_pSocket->sendPacket( &_CGGQuestCancel );
+		g_pSocket->sendPacket(&_CGGQuestCancel);
 	}
 }
 //-----------------------------------------------------------------------------
@@ -11633,22 +11638,22 @@ void
 UIMessageManager::Execute_UI_ITEM_USE_GQUEST_ITEM(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_ITEM_USE_GQUEST_ITEM");
-	
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead())
+
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
 	}
-	MItem* pItem =  (MItem*)void_ptr ;//(MItem*)void_ptr; 
+	MItem* pItem = (MItem*)void_ptr;//(MItem*)void_ptr; 
 
-	if(NULL != pItem)
+	if (NULL != pItem)
 	{
 		CGUseItemFromGQuestInventory _CGUseItemFromGQuestInventory;
-		_CGUseItemFromGQuestInventory.setIndex( left );
-		
-		g_pSocket->sendPacket( &_CGUseItemFromGQuestInventory );
-		
-		g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_GQUEST_INVENTORY);
+		_CGUseItemFromGQuestInventory.setIndex(left);
+
+		g_pSocket->sendPacket(&_CGUseItemFromGQuestInventory);
+
+		g_pPlayer->SetItemCheckBuffer(pItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_GQUEST_INVENTORY);
 	}
 }
 
@@ -11658,9 +11663,9 @@ UIMessageManager::Execute_UI_ITEM_USE_REQUEST_GUILD_LIST(int left, int right, vo
 {
 
 	DEBUG_ADD("[UI] Execute_UI_ITEM_USE_REQUEST_GUILD_LIST");
-	CGRequestGuildList _CGRequestGuildlist;	
+	CGRequestGuildList _CGRequestGuildlist;
 	_CGRequestGuildlist.setGuildType(left);
-	g_pSocket->sendPacket(&_CGRequestGuildlist); 
+	g_pSocket->sendPacket(&_CGRequestGuildlist);
 
 }
 
@@ -11670,8 +11675,8 @@ UIMessageManager::Execute_UI_ITEM_USE_UNION_INFO(int left, int right, void* void
 {
 
 	DEBUG_ADD("[UI] Execute_UI_ITEM_USE_UNION_INFO");
-	CGRequestUnionInfo _CGRequestUnioninfo;	
-	g_pSocket->sendPacket(&_CGRequestUnioninfo); 
+	CGRequestUnionInfo _CGRequestUnioninfo;
+	g_pSocket->sendPacket(&_CGRequestUnioninfo);
 
 }
 
@@ -11680,29 +11685,29 @@ void
 UIMessageManager::Execute_UI_ITEM_USE_REQUEST_UNION(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_ITEM_USE_REQUEST_UNION");
-	
-	if(g_pUserInformation->GuildGrade != 1) // 길드마스터가 아니라면
+
+	if (g_pUserInformation->GuildGrade != 1) // 길드마스터가 아니라면
 	{
 		UI_PopupMessage(UI_STRING_MESSAGE_REQUEST_UNION_ERROR_1);
 		return;
 	}
-	else if(g_pUserInformation->dwUnionID != 0)
+	else if (g_pUserInformation->dwUnionID != 0)
 	{
 		UI_PopupMessage(UI_STRING_MESSAGE_REQUEST_UNION_ERROR_2);
 		return;
 	}
-	CGRequestUnion _CGRequestUnion;	
+	CGRequestUnion _CGRequestUnion;
 	_CGRequestUnion.setGuildID(left);
-	g_pSocket->sendPacket(&_CGRequestUnion); 
+	g_pSocket->sendPacket(&_CGRequestUnion);
 
 	gC_vs_ui.CloseTeamInfoDialogBox();
 }
 void
 UIMessageManager::Execute_UI_ITEM_USE_QUIT(int left, int right, void* void_ptr)
-{	
+{
 	DEBUG_ADD("[UI] Execute_UI_ITEM_USE_REQUEST_DENY");
 
-	if(g_pUserInformation->GuildGrade != 1) // 길드마스터가 아니라면
+	if (g_pUserInformation->GuildGrade != 1) // 길드마스터가 아니라면
 	{
 		UI_PopupMessage(UI_STRING_MESSAGE_REQUEST_UNION_ERROR_1);
 		return;
@@ -11711,7 +11716,7 @@ UIMessageManager::Execute_UI_ITEM_USE_QUIT(int left, int right, void* void_ptr)
 	CGQuitUnion   _CGQuitUnion;
 	_CGQuitUnion.setGuildID(left);
 	_CGQuitUnion.setQuitMethod(right);
-	g_pSocket->sendPacket(&_CGQuitUnion); 
+	g_pSocket->sendPacket(&_CGQuitUnion);
 
 	gC_vs_ui.ClosePopupMessage();
 	gC_vs_ui.CloseTeamInfoDialogBox();
@@ -11719,20 +11724,20 @@ UIMessageManager::Execute_UI_ITEM_USE_QUIT(int left, int right, void* void_ptr)
 void
 UIMessageManager::Execute_UI_ITEM_USE_EXPER(int left, int right, void* void_ptr)
 {
-	DEBUG_ADD("[UI] Execute_UI_ITEM_USE_EXPER"); 
-	if(g_pUserInformation->GuildGrade != 1) // 길드마스터가 아니라면
+	DEBUG_ADD("[UI] Execute_UI_ITEM_USE_EXPER");
+	if (g_pUserInformation->GuildGrade != 1) // 길드마스터가 아니라면
 	{
 		UI_PopupMessage(UI_STRING_MESSAGE_REQUEST_UNION_ERROR_1);
 		return;
 	}
-	else if(g_pUserInformation->bUnionGrade != 0)
+	else if (g_pUserInformation->bUnionGrade != 0)
 	{
 		UI_PopupMessage(UI_STRING_MESSAGE_REQUEST_UNION_ERROR_3);
 		return;
 	}
 	CGExpelGuild  _CGExpelGuild;
 	_CGExpelGuild.setGuildID(left);
-	g_pSocket->sendPacket(&_CGExpelGuild); 
+	g_pSocket->sendPacket(&_CGExpelGuild);
 
 	gC_vs_ui.CloseTeamInfoDialogBox();
 	gC_vs_ui.CloseTeamInfo();
@@ -11745,7 +11750,7 @@ UIMessageManager::Execute_UI_ITEM_USE_UNION_ACCEPT(int left, int right, void* vo
 	DEBUG_ADD("[UI] Execute_UI_ITEM_USE_UNION_ACCEPT");
 	CGAcceptUnion  _CGAcceptUnion;
 	_CGAcceptUnion.setGuildID(left);
-	g_pSocket->sendPacket(&_CGAcceptUnion); 
+	g_pSocket->sendPacket(&_CGAcceptUnion);
 
 	gC_vs_ui.CloseMailBoxDialogBox();
 }
@@ -11756,7 +11761,7 @@ UIMessageManager::Execute_UI_ITEM_USE_UNION_DENY(int left, int right, void* void
 	DEBUG_ADD("[UI] Execute_UI_ITEM_USE_UNION_DENY");
 	CGDenyUnion  _CGDenyUnion;
 	_CGDenyUnion.setGuildID(left);
-	g_pSocket->sendPacket(&_CGDenyUnion); 
+	g_pSocket->sendPacket(&_CGDenyUnion);
 
 	gC_vs_ui.CloseMailBoxDialogBox();
 
@@ -11769,7 +11774,7 @@ UIMessageManager::Execute_UI_ITEM_USE_UNION_QUIT_ACCEPT(int left, int right, voi
 	DEBUG_ADD("[UI] Execute_UI_ITEM_USE_UNION_QUIT_ACCEPT");
 	CGQuitUnionAccept _CGQuitUnionAccept;
 	_CGQuitUnionAccept.setGuildID(left);
-	g_pSocket->sendPacket(&_CGQuitUnionAccept); 
+	g_pSocket->sendPacket(&_CGQuitUnionAccept);
 
 	gC_vs_ui.CloseMailBoxDialogBox();
 }
@@ -11780,7 +11785,7 @@ UIMessageManager::Execute_UI_ITEM_USE_UNION_QUIT_DENY(int left, int right, void*
 	DEBUG_ADD("[UI] Execute_UI_ITEM_USE_UNION_QUIT_DENY");
 	CGQuitUnionDeny _CGQuitUnionDeny;
 	_CGQuitUnionDeny.setGuildID(left);
-	g_pSocket->sendPacket(&_CGQuitUnionDeny); 
+	g_pSocket->sendPacket(&_CGQuitUnionDeny);
 
 	gC_vs_ui.CloseMailBoxDialogBox();
 }
@@ -11792,15 +11797,15 @@ void
 UIMessageManager::Execute_UI_RECALL_BY_NAME(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_RECALL_BY_NAME");
-	char *szSelectedID = gC_vs_ui.GetTeamMember_SelectedID();
-	if(szSelectedID != NULL && strlen(szSelectedID)>0)
+	char* szSelectedID = gC_vs_ui.GetTeamMember_SelectedID();
+	if (szSelectedID != NULL && strlen(szSelectedID) > 0)
 	{
 		char szBuf[128];
-		sprintf(szBuf, "*recall %s", szSelectedID );
+		sprintf(szBuf, "*recall %s", szSelectedID);
 		CGSay _CGSay;
-		_CGSay.setMessage( szBuf );	//pWansungString );
-		_CGSay.setColor( 0 );
-		g_pSocket->sendPacket( &_CGSay );
+		_CGSay.setMessage(szBuf);	//pWansungString );
+		_CGSay.setColor(0);
+		g_pSocket->sendPacket(&_CGSay);
 	}
 }
 
@@ -11811,7 +11816,7 @@ UIMessageManager::Execute_UI_UI_MODIFY_TAX(int left, int right, void* void_ptr)
 
 	CGModifyTaxRatio _CGModifyTaxRatio;
 	_CGModifyTaxRatio.setRatio(left);
-	g_pSocket->sendPacket( &_CGModifyTaxRatio );
+	g_pSocket->sendPacket(&_CGModifyTaxRatio);
 
 }
 
@@ -11823,8 +11828,8 @@ UIMessageManager::Execute_UI_APPOINT_SUBMASTER(int left, int right, void* void_p
 
 	CGAppointSubmaster _CGAppointSubmaster;
 	_CGAppointSubmaster.setGuildID(left);
-	_CGAppointSubmaster.setName(std::string((char *)void_ptr));
-	g_pSocket->sendPacket( &_CGAppointSubmaster );
+	_CGAppointSubmaster.setName(std::string((char*)void_ptr));
+	g_pSocket->sendPacket(&_CGAppointSubmaster);
 
 }
 
@@ -11833,30 +11838,30 @@ void
 UIMessageManager::Execute_UI_DISPLAY_ITEM(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] UI_SELECT_PERSNALSHOP_SLOT");
-	
-	
-	if (g_Mode!=MODE_GAME)
+
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
-	if(g_pStorage2 == NULL)
-		return;	
-	
-	
+	if (g_pStorage2 == NULL)
+		return;
+
+
 	MItem* pItem = (MItem*)void_ptr;
-	g_pStorage2->SetCurrent( 0 );	// 확인용
-	
+	g_pStorage2->SetCurrent(0);	// 확인용
+
 	int slot = right;
-	
-	
-	const MItem* pStorageItem = g_pStorage2->GetItem( slot );
+
+
+	const MItem* pStorageItem = g_pStorage2->GetItem(slot);
 	//TYPE_OBJECTID mouseItemID = pMouseItem->GetID();		
-	
+
 	// 아래의 하드코딩을 MItemTable의 ItemMoveControl 변수에 통합
 	// 나중에 문제 생기면 필요할까봐 남겨둠
 	// 2006.12.26 by chyaya
-	
+
 	/*
 	// Event GiftBox 아이템인 경우 못 놓는다.
 	if (pItem->GetItemClass()!=ITEM_CLASS_EVENT_GIFT_BOX
@@ -11871,8 +11876,8 @@ UIMessageManager::Execute_UI_DISPLAY_ITEM(int left, int right, void* void_ptr)
 	//		&& !(pItem->GetItemClass() == ITEM_CLASS_LUCKY_BAG && pItem->GetItemType() == 3)
 	)
 	*/
-	
-	if(!pItem->GetItemMoveContorl().GetAttr(ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP)
+
+	if (!pItem->GetItemMoveContorl().GetAttr(ITEMMOVE_CANNOT_DISPLAY_PERSNALSHOP)
 #if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
 		&& !pItem->GetCashItem()
 #endif
@@ -11881,193 +11886,193 @@ UIMessageManager::Execute_UI_DISPLAY_ITEM(int left, int right, void* void_ptr)
 		int current_storage = g_pStorage2->GetCurrent();
 		const int storage_size = g_pStorage2->GetSize();
 		const int storage_max = STORAGE_SLOT;
-		
-		
-		for(int i = 0; i < storage_max; i++)
+
+
+		for (int i = 0; i < storage_max; i++)
 		{
-			const MItem *p_slot_item = g_pStorage2->GetItem(i);
-			
+			const MItem* p_slot_item = g_pStorage2->GetItem(i);
+
 			// 슬랏이 비었으면 걍~ 넣는다
-			if(p_slot_item == NULL)
+			if (p_slot_item == NULL)
 			{
 				CGDisplayItem _CGDisplayItem;
 				_CGDisplayItem.setIndex(i);
 				_CGDisplayItem.setItemObjectID(pItem->GetID());
 				_CGDisplayItem.setPrice(pItem->GetPersnalPrice());
 				//_CGDisplayItem.setXY(pMouseItem->GetGridX(),pMouseItem->GetGridY());
-				_CGDisplayItem.setXY(pItem->GetGridX(),pItem->GetGridY());
-				g_pSocket->sendPacket( &_CGDisplayItem ); 
+				_CGDisplayItem.setXY(pItem->GetGridX(), pItem->GetGridY());
+				g_pSocket->sendPacket(&_CGDisplayItem);
 				break;
 			}
 		}
-		current_storage ++;
-		if(current_storage >= storage_size)
+		current_storage++;
+		if (current_storage >= storage_size)
 			current_storage = 0;
-		
+
 	}
 	else
 	{
-		g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[UI_STRING_CANNOT_DISPLAY_PERSNALSHOP].GetString());
+		g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[UI_STRING_CANNOT_DISPLAY_PERSNALSHOP].GetString());
 	}
 }
 
 void
 UIMessageManager::Execute_UI_UNDISPLAY_ITEM(int left, int right, void* void_ptr)
 {
-	
+
 	MItem* pMouseItem = (MItem*)void_ptr;
-	const MItem* pStorageItem = g_pStorage2->GetItem( right );
-	
-	if (pMouseItem!=NULL)
+	const MItem* pStorageItem = g_pStorage2->GetItem(right);
+
+	if (pMouseItem != NULL)
 	{
-//		if (pStorageItem!=NULL)
-//		{
-			MItem* pRemovedItem = g_pStorage2->RemoveItem( left );
-			
-			if (pRemovedItem!=NULL)
-			{
-				CGUndisplayItem _CGUndisplayItem;
-				_CGUndisplayItem.setIndex(left);
-				_CGUndisplayItem.setItemObjectID(pRemovedItem->GetID());
-				//_CGUndisplayItem.setXY(left,right);
-				_CGUndisplayItem.setXY(pMouseItem->GetGridX(),pMouseItem->GetGridY());
-				
-				g_pSocket->sendPacket( &_CGUndisplayItem );
-			}
-//		}
+		//		if (pStorageItem!=NULL)
+		//		{
+		MItem* pRemovedItem = g_pStorage2->RemoveItem(left);
+
+		if (pRemovedItem != NULL)
+		{
+			CGUndisplayItem _CGUndisplayItem;
+			_CGUndisplayItem.setIndex(left);
+			_CGUndisplayItem.setItemObjectID(pRemovedItem->GetID());
+			//_CGUndisplayItem.setXY(left,right);
+			_CGUndisplayItem.setXY(pMouseItem->GetGridX(), pMouseItem->GetGridY());
+
+			g_pSocket->sendPacket(&_CGUndisplayItem);
+		}
+		//		}
 	}
 	DEBUG_ADD("[UI] Execute_UI_UNDISPLAY_ITEM");
 }
 
- void
+void
 UIMessageManager::Execute_UI_STORE_SIGN(int left, int right, void* void_ptr)
- {
-	 DEBUG_ADD("[UI] Execute_UI_STORE_SIGN");
+{
+	DEBUG_ADD("[UI] Execute_UI_STORE_SIGN");
 
-	DEBUG_ADD_FORMAT("[Original] %s", (char*)void_ptr );
+	DEBUG_ADD_FORMAT("[Original] %s", (char*)void_ptr);
 
-	char * pernalshop_message = (char*)void_ptr;
-    CGStoreSign _CGStoreSign;
-	
+	char* pernalshop_message = (char*)void_ptr;
+	CGStoreSign _CGStoreSign;
+
 	char str[250];
-	memset(str,0,250);
+	memset(str, 0, 250);
 	strcpy(str, (char*)void_ptr);
-	
-	g_pChatManager->RemoveCurse( str );
+
+	g_pChatManager->RemoveCurse(str);
 	_CGStoreSign.setSign(str);
-	g_pSocket->sendPacket( &_CGStoreSign );
+	g_pSocket->sendPacket(&_CGStoreSign);
 
 	gC_vs_ui.ClosePersnalShopMessage();
- }
+}
 
- void
- UIMessageManager::Execute_UI_STORE_OPEN(int left, int right, void* void_ptr)
- {
-	 	
-		if(g_pPlayer->HasEffectStatus(EFFECTSTATUS_LOVE_CHAIN)) return  ; 
+void
+UIMessageManager::Execute_UI_STORE_OPEN(int left, int right, void* void_ptr)
+{
 
-		DEBUG_ADD("[UI] Execute_UI_STORE_OPEN");
-		
-		CGStoreOpen _CGCGStoreOpen;
-		gC_vs_ui.SetPersnalShoptoUI(2);
-		g_pSocket->sendPacket( &_CGCGStoreOpen );
-				
- }
- 
- void
+	if (g_pPlayer->HasEffectStatus(EFFECTSTATUS_LOVE_CHAIN)) return;
+
+	DEBUG_ADD("[UI] Execute_UI_STORE_OPEN");
+
+	CGStoreOpen _CGCGStoreOpen;
+	gC_vs_ui.SetPersnalShoptoUI(2);
+	g_pSocket->sendPacket(&_CGCGStoreOpen);
+
+}
+
+void
 UIMessageManager::Execute_UI_STORE_CLOSE(int left, int right, void* void_ptr)
- {
-	 DEBUG_ADD("[UI] Execute_UI_STORE_CLOSE");
-	 
-	 CGStoreClose _CGStoreClose;
-	 gC_vs_ui.SetPersnalShoptoUI(3);
-	 
-	 g_pSocket->sendPacket( &_CGStoreClose );
+{
+	DEBUG_ADD("[UI] Execute_UI_STORE_CLOSE");
+
+	CGStoreClose _CGStoreClose;
+	gC_vs_ui.SetPersnalShoptoUI(3);
+
+	g_pSocket->sendPacket(&_CGStoreClose);
 
 
- }
+}
 
- void
+void
 UIMessageManager::Execute_UI_REQUEST_STORE_INFO(int left, int right, void* void_ptr)
- {
-	 DEBUG_ADD("[UI] Execute_UI_REQUEST_STORE_INFO");
-	 
-	 if(g_pPlayer->IsFlyingCreature() 
-		 || g_pPlayer->IsUndergroundCreature() 
-		 //|| g_pPlayer->IsGroundCreature() 
-		 || g_pPlayer->IsFakeCreature() 
-		 || g_pPlayer->GetMoveDevice()== 1
-		 || g_pPlayer->GetMoveDevice()== 2
-		 || gC_vs_ui.IsRunningSlayerPortal()
-		 || gC_vs_ui.IsRunningHorn()
+{
+	DEBUG_ADD("[UI] Execute_UI_REQUEST_STORE_INFO");
+
+	if (g_pPlayer->IsFlyingCreature()
+		|| g_pPlayer->IsUndergroundCreature()
+		//|| g_pPlayer->IsGroundCreature() 
+		|| g_pPlayer->IsFakeCreature()
+		|| g_pPlayer->GetMoveDevice() == 1
+		|| g_pPlayer->GetMoveDevice() == 2
+		|| gC_vs_ui.IsRunningSlayerPortal()
+		|| gC_vs_ui.IsRunningHorn()
 		)
-	 {
-		 DEBUG_ADD("[UI] Execute_DON'T OPEN PERSNAL SHOP Cuz your's type can't open PersnalShop./......");
-	 }
-	 else
-	 {
-		 if(right == 1)
-			 gC_vs_ui.SetPersnalShoptoUI(1); 
-	 
+	{
+		DEBUG_ADD("[UI] Execute_DON'T OPEN PERSNAL SHOP Cuz your's type can't open PersnalShop./......");
+	}
+	else
+	{
+		if (right == 1)
+			gC_vs_ui.SetPersnalShoptoUI(1);
 
-		 CGRequestStoreInfo _CGRequestStoreInfo;
-		 _CGRequestStoreInfo.setOwnerObjectID(left);
-		 g_pSocket->sendPacket( &_CGRequestStoreInfo );
-	 }
 
- }
+		CGRequestStoreInfo _CGRequestStoreInfo;
+		_CGRequestStoreInfo.setOwnerObjectID(left);
+		g_pSocket->sendPacket(&_CGRequestStoreInfo);
+	}
 
- void
+}
+
+void
 UIMessageManager::Execute_UI_MY_STORE_INFO(int left, int right, void* void_ptr)
- {
+{
 
-	 DEBUG_ADD("[UI] Execute_UI_MY_STORE_INFO"); // 아이템 정보 리스트 
-	 
-	 GCMyStoreInfo _GCMyStoreInfo;
-	 _GCMyStoreInfo.getStoreInfo();
+	DEBUG_ADD("[UI] Execute_UI_MY_STORE_INFO"); // 아이템 정보 리스트 
 
-//	 if (g_pStorage2!=NULL)
-//		 delete g_pStorage2;
-//	 
-//	 g_pStorage2 = new MStorage;
-//	 
-//	 g_pStorage2->Init( left ); 
-//	 gC_vs_ui.RunPersnalShop();
-//	 gC_vs_ui.SetPersnalShop( g_pStorage2 );
-//	 
-	 
-	 g_pSocket->sendPacket( &_GCMyStoreInfo );
+	GCMyStoreInfo _GCMyStoreInfo;
+	_GCMyStoreInfo.getStoreInfo();
 
- }
+	//	 if (g_pStorage2!=NULL)
+	//		 delete g_pStorage2;
+	//	 
+	//	 g_pStorage2 = new MStorage;
+	//	 
+	//	 g_pStorage2->Init( left ); 
+	//	 gC_vs_ui.RunPersnalShop();
+	//	 gC_vs_ui.SetPersnalShop( g_pStorage2 );
+	//	 
+
+	g_pSocket->sendPacket(&_GCMyStoreInfo);
+
+}
 
 void
 UIMessageManager::Execute_UI_OTHER_STORE_INFO(int left, int right, void* void_ptr)
 {
 	// not sure
-		 DEBUG_ADD("[UI] Execute_UI_OTHER_STORE_INFO");
-	 
-	  GCOtherStoreInfo _GCOtherStoreInfo;
-	 _GCOtherStoreInfo.setObjectID(g_pTopView->GetSelectedCreature());
-	  g_pSocket->sendPacket( &_GCOtherStoreInfo );
+	DEBUG_ADD("[UI] Execute_UI_OTHER_STORE_INFO");
+
+	GCOtherStoreInfo _GCOtherStoreInfo;
+	_GCOtherStoreInfo.setObjectID(g_pTopView->GetSelectedCreature());
+	g_pSocket->sendPacket(&_GCOtherStoreInfo);
 }
 
 void
 UIMessageManager::Execute_UI_BUY_STORE_ITEM(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_BUY_STORE_ITEM");
-	
-	if(g_pTopView->GetSelectedCreature() == NULL)
+
+	if (g_pTopView->GetSelectedCreature() == NULL)
 		return;
 	MItem* pItem = (MItem*)void_ptr;		// inventory에 있는 아이템(NULL일 수도 있다)
-	
-	if(pItem != NULL)		
+
+	if (pItem != NULL)
 	{
 		CGBuyStoreItem _CGBuyStoreItem;
 		_CGBuyStoreItem.setIndex(left);
 		_CGBuyStoreItem.setItemObjectID(pItem->GetID());
 		_CGBuyStoreItem.setOwnerObjectID(gC_vs_ui.GetOtherObjectID());
-		
-		g_pSocket->sendPacket( &_CGBuyStoreItem );
+
+		g_pSocket->sendPacket(&_CGBuyStoreItem);
 	}
 
 }
@@ -12075,12 +12080,12 @@ UIMessageManager::Execute_UI_BUY_STORE_ITEM(int left, int right, void* void_ptr)
 void
 UIMessageManager::Execute_UI_REMOVE_STORE_ITEM(int left, int right, void* void_ptr)
 {
-	 DEBUG_ADD("[UI] Execute_UI_REMOVE_STORE_ITEM");
-	 
-	 GCRemoveStoreItem _GCRemoveStoreItem;
-	 _GCRemoveStoreItem.setIndex(0);
-	 _GCRemoveStoreItem.setOwnerObjectID(g_pPlayer->GetID());
-	 g_pSocket->sendPacket( &_GCRemoveStoreItem );
+	DEBUG_ADD("[UI] Execute_UI_REMOVE_STORE_ITEM");
+
+	GCRemoveStoreItem _GCRemoveStoreItem;
+	_GCRemoveStoreItem.setIndex(0);
+	_GCRemoveStoreItem.setOwnerObjectID(g_pPlayer->GetID());
+	g_pSocket->sendPacket(&_GCRemoveStoreItem);
 }
 
 void
@@ -12088,11 +12093,11 @@ UIMessageManager::Execute_UI_ADD_STORE_ITEM(int left, int right, void* void_ptr)
 {
 
 	DEBUG_ADD("[UI] Execute_UI_ADD_STORE_ITEM");
-	 
-	 GCAddStoreItem _GCAddStoreItem;
-	 _GCAddStoreItem.setIndex(0);
-	 _GCAddStoreItem.setOwnerObjectID(g_pPlayer->GetID());
-	 g_pSocket->sendPacket( &_GCAddStoreItem );
+
+	GCAddStoreItem _GCAddStoreItem;
+	_GCAddStoreItem.setIndex(0);
+	_GCAddStoreItem.setOwnerObjectID(g_pPlayer->GetID());
+	g_pSocket->sendPacket(&_GCAddStoreItem);
 }
 
 
@@ -12100,15 +12105,15 @@ void
 UIMessageManager::Execute_UI_CLOSE_PERSNALSHOP(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_CLOSE_PERSNALSHOP");
-	gC_vs_ui.ClosePersnalShop();	
-	
-	if (g_pStorage2!=NULL)
+	gC_vs_ui.ClosePersnalShop();
+
+	if (g_pStorage2 != NULL)
 	{
 		delete g_pStorage2;
 		g_pStorage2 = NULL;
 	}
-	 
-	gC_vs_ui.SetPersnalShop( NULL );
+
+	gC_vs_ui.SetPersnalShop(NULL);
 }
 
 void
@@ -12119,12 +12124,12 @@ UIMessageManager::Execute_UI_CLOSE_POWER_JJANG(int left, int right, void* void_p
 }
 void
 UIMessageManager::Execute_UI_REQUEST_POWER_JJANG_POINT(int left, int right, void* void_ptr)
-{ 
+{
 	DEBUG_ADD("[UI] Execute_UI_REQUEST_POWER_JJANG_POINT");
 
 	CGRequestPowerPoint _CGRequestPowerPoint;
-	_CGRequestPowerPoint.setCellNum(std::string((char *)void_ptr));
-	g_pSocket->sendPacket( &_CGRequestPowerPoint );
+	_CGRequestPowerPoint.setCellNum(std::string((char*)void_ptr));
+	g_pSocket->sendPacket(&_CGRequestPowerPoint);
 }
 void
 UIMessageManager::Execute_UI_POWER_JJANG_GAMBLE(int left, int right, void* void_ptr)
@@ -12132,7 +12137,7 @@ UIMessageManager::Execute_UI_POWER_JJANG_GAMBLE(int left, int right, void* void_
 	DEBUG_ADD("[UI] Execute_UI_POWER_JJANG_GAMBLE");
 
 	CGUsePowerPoint _CGUsePowerPoint;
-	g_pSocket->sendPacket( &_CGUsePowerPoint );
+	g_pSocket->sendPacket(&_CGUsePowerPoint);
 }
 
 
@@ -12148,49 +12153,49 @@ void
 UIMessageManager::Execute_UI_SWAPADVANCEMENTITEM(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_SWAPADVANCEMENTITEM");
-	
-	if (g_Mode!=MODE_GAME)
+
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
-	
-	if (g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
-	{
-		const MItem* pItem = g_pInventory->GetItem( left, right );
 
-		if (pItem!=NULL && g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
+	if (g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
+	{
+		const MItem* pItem = g_pInventory->GetItem(left, right);
+
+		if (pItem != NULL && g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
 		{
 			// Event GiftBox 아이템인 경우 못 놓는다.
-			
+
 			if (!pItem->IsUniqueItem() && !pItem->IsQuestItem())
 			{
 				//-----------------------------------------------------
 				// 아이템을 팔기 위한 packet을 보낸다.
 				//-----------------------------------------------------
-					CGShopRequestSell	_CGShopRequestSell;
+				CGShopRequestSell	_CGShopRequestSell;
 
-					_CGShopRequestSell.setObjectID( (*g_pPCTalkBox).GetNPCID() );		// NPC ID	
-					_CGShopRequestSell.setOpCode( SHOP_REQUEST_SWAP_ADVANCEMENT_ITEM );
-					_CGShopRequestSell.setItemObjectID( pItem->GetID() );	// Item Object ID
+				_CGShopRequestSell.setObjectID((*g_pPCTalkBox).GetNPCID());		// NPC ID	
+				_CGShopRequestSell.setOpCode(SHOP_REQUEST_SWAP_ADVANCEMENT_ITEM);
+				_CGShopRequestSell.setItemObjectID(pItem->GetID());	// Item Object ID
 
-					g_pSocket->sendPacket( &_CGShopRequestSell );
-			
-						
-					//-------------------------------------------------
-					// 검증을 위한 Temp Information설정
-					//-------------------------------------------------
-					(*g_pTempInformation).Mode	= TempInformation::MODE_SHOP_SELL;
-					(*g_pTempInformation).pValue = (void*)pItem;
+				g_pSocket->sendPacket(&_CGShopRequestSell);
 
-					//-------------------------------------------------
-					// 다른 아이템에 접근 못하도록..
-					//-------------------------------------------------
-					UI_LockItemTrade();
+
+				//-------------------------------------------------
+				// 검증을 위한 Temp Information설정
+				//-------------------------------------------------
+				(*g_pTempInformation).Mode = TempInformation::MODE_SHOP_SELL;
+				(*g_pTempInformation).pValue = (void*)pItem;
+
+				//-------------------------------------------------
+				// 다른 아이템에 접근 못하도록..
+				//-------------------------------------------------
+				UI_LockItemTrade();
 			}
 			else
 			{
-				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[UI_STRING_MESSAGE_SWAP_ADVANCEMENT_ITEM_ERROR ].GetString());
+				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[UI_STRING_MESSAGE_SWAP_ADVANCEMENT_ITEM_ERROR].GetString());
 			}
 		}
 		else
@@ -12205,11 +12210,11 @@ UIMessageManager::Execute_UI_LEARN_ADVANCE_SKILL(int left, int right, void* void
 {
 	DEBUG_ADD("[UI] Execute_UI_LEARN_ADVANCE_SKILL");
 	CGLearnSkill _CGLearnSkill;
-	
-	_CGLearnSkill.setSkillType( left );
-	_CGLearnSkill.setSkillDomainType( right );
-	
-	g_pSocket->sendPacket( &_CGLearnSkill );
+
+	_CGLearnSkill.setSkillType(left);
+	_CGLearnSkill.setSkillDomainType(right);
+
+	g_pSocket->sendPacket(&_CGLearnSkill);
 }
 
 // 2005, 1, 11, sobeit add start - 불우이웃 돕기 성금 관련
@@ -12217,17 +12222,17 @@ void
 UIMessageManager::Execute_UI_CAMPAIGN_HELP(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_CAMPAIGN_HELP");
-	
+
 	// 성금 관련 패킷 보내기 - 금액 * 10000
 
-	if(left>0)
+	if (left > 0)
 	{
 		CGDonationMoney _CGDonationMoney;
-		_CGDonationMoney.setGold(left*10000);
+		_CGDonationMoney.setGold(left * 10000);
 		_CGDonationMoney.setDonationType(right);
-		g_pSocket->sendPacket( &_CGDonationMoney );
+		g_pSocket->sendPacket(&_CGDonationMoney);
 	}
-// 2005, 1, 11, sobeit add end - 불우이웃 돕기 성금 관련
+	// 2005, 1, 11, sobeit add end - 불우이웃 돕기 성금 관련
 }
 
 // 2005, 1, 20, sobeit add start - 퀘스트 관련 
@@ -12244,7 +12249,7 @@ UIMessageManager::Execute_UI_GQUEST_SET_ACTION(int left, int right, void* void_p
 {
 	DEBUG_ADD("[UI] Execute_UI_GQUEST_SET_ACTION");
 	// 특정 element 실행 시 특정 동작을 한다.
-	if(left == 1) // dead
+	if (left == 1) // dead
 	{
 		g_pPlayer->SetDead();
 		g_pPlayer->SetResurrectZoneID(right);
@@ -12260,7 +12265,7 @@ UIMessageManager::Execute_UI_GQUEST_ENDING_EVENT(int left, int right, void* void
 	event.eventID = EVENTID_ADVANCEMENT_QUEST_ENDING;
 	event.eventType = EVENTTYPE_ZONE;
 	event.eventFlag = EVENTFLAG_ONLY_EVENT_BACKGROUND | EVENTFLAG_NOT_DRAW_UI | EVENTFLAG_NOT_DRAW_CREATURE | EVENTFLAG_NOT_DRAW_INFORMATION | EVENTFLAG_NOT_DRAW_CREATURE_SHADOW | EVENTFLAG_NOT_DRAW_ITEM | EVENTFLAG_NOT_DRAW_MOUSE_POINTER | EVENTFLAG_NOT_DRAW_EFFECT | EVENTFLAG_DENY_INPUT | EVENTFLAG_NOT_FADE_SCREEN | EVENTFLAG_NOT_PLAY_SOUND;
-	switch(left)
+	switch (left)
 	{
 	case 1: // 슬레이어 승직 퀘스트 엔딩 이벤트
 		event.parameter1 = 0;
@@ -12278,7 +12283,7 @@ UIMessageManager::Execute_UI_GQUEST_ENDING_EVENT(int left, int right, void* void
 		g_pEventManager->AddEvent(event);
 		break;
 	}
-	
+
 }
 // 2005, 1, 20, sobeit add end - 퀘스트 관련 
 
@@ -12290,7 +12295,7 @@ UIMessageManager::Execute_UI_REQUEST_EVENT_ITEM(int left, int right, void* void_
 	{
 		CGGetEventItem _CGGetEventItem;
 		_CGGetEventItem.setEventType(left);
-		g_pSocket->sendPacket( &_CGGetEventItem );
+		g_pSocket->sendPacket(&_CGGetEventItem);
 	}
 }
 // 2005, 1, 24, sobeit add end - 아이템 받기 이벤트 관련
@@ -12315,8 +12320,8 @@ UIMessageManager::Execute_UI_ITEM_INSERT_TO_INVENTORY_SUB(int left, int right, v
 	TYPE_OBJECTID subInventoryID = left;
 
 	DEBUG_ADD("[UI] Execute_UI_ITEM_INSERT_TO_INVENTORY_SUB");
-	
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead() ||
+
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead() ||
 		!gC_vs_ui.IsRunningSubInventory(subInventoryID))
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
@@ -12326,51 +12331,51 @@ UIMessageManager::Execute_UI_ITEM_INSERT_TO_INVENTORY_SUB(int left, int right, v
 	MItem* pItem = (MItem*)void_ptr;
 	MItem* pMouseItem = UI_GetMouseItem();	// 현재 mouse의 item
 
-	if (pMouseItem==NULL)
+	if (pMouseItem == NULL)
 	{
 		DEBUG_ADD("[Error] Mouse Item is NULL");
 		return;
 	}
 
-	if (pItem==NULL)
+	if (pItem == NULL)
 	{
 		DEBUG_ADD("[Error] InvenItem is NULL");
 		return;
 	}
 
-	TYPE_OBJECTID mouseItemID = ((pMouseItem==NULL)?OBJECTID_NULL : pMouseItem->GetID());
+	TYPE_OBJECTID mouseItemID = ((pMouseItem == NULL) ? OBJECTID_NULL : pMouseItem->GetID());
 
 	if (pItem->IsPileItem())
 	{
-		if (pItem->GetItemClass()==pMouseItem->GetItemClass()
-			&& pItem->GetItemType()==pMouseItem->GetItemType()
+		if (pItem->GetItemClass() == pMouseItem->GetItemClass()
+			&& pItem->GetItemType() == pMouseItem->GetItemType()
 			&& pItem->GetNumber() < pItem->GetMaxNumber())
 		{
 			//----------------------------------------------------
 			// pMouseItem을 pItem에 추가시킨다.
 			//----------------------------------------------------
 			int total = pMouseItem->GetNumber() + pItem->GetNumber();
-			if ( total > pItem->GetMaxNumber() )
+			if (total > pItem->GetMaxNumber())
 			{
 				// 한계 수치를 넘어갈 경우
-				pMouseItem->SetNumber( total - pItem->GetMaxNumber() );
-				pItem->SetNumber( pItem->GetMaxNumber() );
+				pMouseItem->SetNumber(total - pItem->GetMaxNumber());
+				pItem->SetNumber(pItem->GetMaxNumber());
 			}
 			else
 			{
 				// 모두 pItem에 추가될 수 있는 경우
-				pItem->SetNumber( total );
+				pItem->SetNumber(total);
 				UI_DropItem();
 			}
 			//----------------------------------------------------
 			// Server에 접속한 경우
 			//----------------------------------------------------
 			CGAddMouseToInventory _CGAddMouseToInventory;
-			_CGAddMouseToInventory.setObjectID( mouseItemID );
-			_CGAddMouseToInventory.setInvenX( pItem->GetGridX() );
-			_CGAddMouseToInventory.setInvenY( pItem->GetGridY() );
+			_CGAddMouseToInventory.setObjectID(mouseItemID);
+			_CGAddMouseToInventory.setInvenX(pItem->GetGridX());
+			_CGAddMouseToInventory.setInvenY(pItem->GetGridY());
 			_CGAddMouseToInventory.setInventoryItemObjectID(subInventoryID);
-			g_pSocket->sendPacket( &_CGAddMouseToInventory );
+			g_pSocket->sendPacket(&_CGAddMouseToInventory);
 
 		}
 	}
@@ -12383,8 +12388,8 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY_SUB(int left, int right, voi
 	TYPE_OBJECTID subInventoryID = left;
 
 	DEBUG_ADD("[UI] Execute_UI_ITEM_DROP_TO_INVENTORY_SUB");
-	
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead() ||
+
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead() ||
 		!gC_vs_ui.IsRunningSubInventory(subInventoryID))
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
@@ -12393,43 +12398,43 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY_SUB(int left, int right, voi
 
 	MItem* pMouseItem = UI_GetMouseItem();	// 현재 mouse의 item
 
-	if (pMouseItem==NULL)
+	if (pMouseItem == NULL)
 	{
 		DEBUG_ADD("[Error] Mouse Item is NULL");
 		return;
 	}
 
-	TYPE_OBJECTID mouseItemID = ((pMouseItem==NULL)?OBJECTID_NULL : pMouseItem->GetID());
+	TYPE_OBJECTID mouseItemID = ((pMouseItem == NULL) ? OBJECTID_NULL : pMouseItem->GetID());
 
 
 	//-----------------------------------------------------------------
 	// 검증받을게 없는 경우
 	//-----------------------------------------------------------------
-	if (g_pPlayer->IsItemCheckBufferNULL() && pMouseItem!=NULL
-		&& g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
-	{		
-		if(pMouseItem->GetItemClass() == ITEM_CLASS_SUB_INVENTORY)
+	if (g_pPlayer->IsItemCheckBufferNULL() && pMouseItem != NULL
+		&& g_pTempInformation->GetMode() == TempInformation::MODE_NULL)
+	{
+		if (pMouseItem->GetItemClass() == ITEM_CLASS_SUB_INVENTORY)
 			return;
 
-		TYPE_OBJECTID toInventoryItemID = (pMouseItem==NULL)? OBJECTID_NULL : pMouseItem->GetID();
-		
+		TYPE_OBJECTID toInventoryItemID = (pMouseItem == NULL) ? OBJECTID_NULL : pMouseItem->GetID();
+
 		CGAddMouseToInventory _CGAddMouseToInventory;
-		_CGAddMouseToInventory.setObjectID( toInventoryItemID );
-		_CGAddMouseToInventory.setInvenX( dropX );//pItem->GetGridX() );
-		_CGAddMouseToInventory.setInvenY( dropY );//pItem->GetGridY() );
+		_CGAddMouseToInventory.setObjectID(toInventoryItemID);
+		_CGAddMouseToInventory.setInvenX(dropX);//pItem->GetGridX() );
+		_CGAddMouseToInventory.setInvenY(dropY);//pItem->GetGridY() );
 		_CGAddMouseToInventory.setInventoryItemObjectID(subInventoryID);
 
-		g_pSocket->sendPacket( &_CGAddMouseToInventory );
+		g_pSocket->sendPacket(&_CGAddMouseToInventory);
 
 		MItem* pOldItem = NULL;
 		if (gC_vs_ui.ReplaceSubInventoryItem(subInventoryID,
-											pMouseItem,		// 추가할 item
-											dropX, dropY,	// 추가할 위치 
-											pOldItem))		// 원래있던 item
+			pMouseItem,		// 추가할 item
+			dropX, dropY,	// 추가할 위치 
+			pOldItem))		// 원래있던 item
 		{
 			if (pOldItem != NULL) // replace 되었는가?
-			{				
-				UI_PickUpItem( pOldItem );
+			{
+				UI_PickUpItem(pOldItem);
 			}
 			else
 			{
@@ -12442,13 +12447,13 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY_SUB(int left, int right, voi
 	//-----------------------------------------------------------------
 	else
 	{
-		DEBUG_ADD( "[Error] There is another item in ItemCheckBuffer or Mouse NULL");		
+		DEBUG_ADD("[Error] There is another item in ItemCheckBuffer or Mouse NULL");
 
-		if(!g_pPlayer->IsItemCheckBufferNULL())
+		if (!g_pPlayer->IsItemCheckBufferNULL())
 			DEBUG_ADD_FORMAT("[ITEMDROP] !g_pPlayer->IsItemCheckBufferNULL() %d", g_pPlayer->GetItemCheckBufferStatus());
-		if(pMouseItem == NULL)
+		if (pMouseItem == NULL)
 			DEBUG_ADD("[ITEMDROP] pMouseItem == NULL)");
-		if(g_pTempInformation->GetMode()!=TempInformation::MODE_NULL)
+		if (g_pTempInformation->GetMode() != TempInformation::MODE_NULL)
 			DEBUG_ADD_FORMAT("[ITEMPDROP] g_pTempInformation->Mode!=TempInformation::MODE_NULL %d", g_pTempInformation->Mode);
 	}
 }
@@ -12457,33 +12462,33 @@ UIMessageManager::Execute_UI_ITEM_DROP_TO_INVENTORY_SUB(int left, int right, voi
 void
 UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_INVENTORY_SUB(int left, int right, void* void_ptr)
 {
-	DEBUG_ADD("[UI] UI_ITEM_PICKUP_FROM_INVENTORY"); 
-	
+	DEBUG_ADD("[UI] UI_ITEM_PICKUP_FROM_INVENTORY");
+
 	MItem* pItem = (MItem*)void_ptr;
-	
+
 	MSubInventory* pSubInventory = dynamic_cast<MSubInventory*>(pItem->GetParentInventory());
 
 	TYPE_OBJECTID subInventoryID = pSubInventory ? pSubInventory->GetID() : OBJECTID_NULL;
 
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead() ||
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead() ||
 		!gC_vs_ui.IsRunningSubInventory(subInventoryID))
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
 	}
 
-	UI_PickUpItem( pItem );
+	UI_PickUpItem(pItem);
 	//---------------------------------------------------
 	// Inventory에 있던 item을 mouse에 붙였다(-_-;)고
 	// server로 packet을 보낸다.
 	//---------------------------------------------------
 	CGAddInventoryToMouse _CGAddInventoryToMouse;
-	_CGAddInventoryToMouse.setObjectID( pItem->GetID() );
-	_CGAddInventoryToMouse.setX( pItem->GetGridX() );
-	_CGAddInventoryToMouse.setY( pItem->GetGridY() );
+	_CGAddInventoryToMouse.setObjectID(pItem->GetID());
+	_CGAddInventoryToMouse.setX(pItem->GetGridX());
+	_CGAddInventoryToMouse.setY(pItem->GetGridY());
 	_CGAddInventoryToMouse.setInventoryItemObjectID(subInventoryID);
-	
-	g_pSocket->sendPacket( &_CGAddInventoryToMouse );				
+
+	g_pSocket->sendPacket(&_CGAddInventoryToMouse);
 }
 
 // 2005, 2, 25, sobeit add end - 서브 인벤토리를 닫는다.
@@ -12493,24 +12498,24 @@ UIMessageManager::Execute_UI_ITEM_PICKUP_FROM_INVENTORY_SUB(int left, int right,
 void
 UIMessageManager::Execute_UI_ITEM_USE_SUBINVENTORY(int left, int right, void* void_ptr)
 {
-	DEBUG_ADD("[UI] Execute_UI_ITEM_USE_SUBINVENTORY"); 
-	
-	if (g_Mode!=MODE_GAME || g_pPlayer->IsDead() )
+	DEBUG_ADD("[UI] Execute_UI_ITEM_USE_SUBINVENTORY");
+
+	if (g_Mode != MODE_GAME || g_pPlayer->IsDead())
 	{
 		DEBUG_ADD("Not Mode MODE_GAME or Dead");
 		return;
 	}
 	MItem* pSubInventory = g_pInventory->GetItem(right);
 
-	if(NULL == pSubInventory)
+	if (NULL == pSubInventory)
 		return;
 
-	MItem* pItem = ((MSubInventory*)pSubInventory)->GetItemToModify( left );//(MItem*)void_ptr;
-	
-	if (pItem!=NULL && g_pPlayer->IsItemCheckBufferNULL())
+	MItem* pItem = ((MSubInventory*)pSubInventory)->GetItemToModify(left);//(MItem*)void_ptr;
+
+	if (pItem != NULL && g_pPlayer->IsItemCheckBufferNULL())
 	{
 		// 자기종족 아이템만 쓰쟈-ㅅ-;
-		if(g_pPlayer->IsSlayer() && pItem->IsSlayerItem() ||
+		if (g_pPlayer->IsSlayer() && pItem->IsSlayerItem() ||
 			g_pPlayer->IsVampire() && pItem->IsVampireItem() ||
 			g_pPlayer->IsOusters() && pItem->IsOustersItem())
 		{
@@ -12524,16 +12529,16 @@ UIMessageManager::Execute_UI_ITEM_USE_SUBINVENTORY(int left, int right, void* vo
 	//----------------------------------------------------
 	else
 	{
-		#ifdef OUTPUT_DEBUG
-			if (pItem==NULL)
-			{
-				DEBUG_ADD("[Wait] Item is NULL");
-			}
-			else 
-			{
-				DEBUG_ADD("[Wait] Item Check Buffer is Not NULL");
-			}
-		#endif
+#ifdef OUTPUT_DEBUG
+		if (pItem == NULL)
+		{
+			DEBUG_ADD("[Wait] Item is NULL");
+		}
+		else
+		{
+			DEBUG_ADD("[Wait] Item Check Buffer is Not NULL");
+		}
+#endif
 	}
 }
 
@@ -12546,36 +12551,36 @@ void
 UIMessageManager::Execute_UI_WEDDING_CONTRIBUTION(int left, int right, void* void_ptr)
 {
 	DEBUG_ADD("[UI] Execute_UI_WEDDING_CONTRIBUTION");
-	
+
 	// 결혼  축의금 
 
-	if(left>0)
+	if (left > 0)
 	{
 		CGDonationMoney _CGDonationMoney;
-		_CGDonationMoney.setGold(left*10000);
+		_CGDonationMoney.setGold(left * 10000);
 		_CGDonationMoney.setDonationType(right);
-		g_pSocket->sendPacket( &_CGDonationMoney );
+		g_pSocket->sendPacket(&_CGDonationMoney);
 	}
-// 2005, 4, 21, sjheon add end - 결혼축의금  관련
+	// 2005, 4, 21, sjheon add end - 결혼축의금  관련
 }
 
-void 
-UIMessageManager::Execute_UI_NETMARBLE_AGREEMENT( int left, int right, void* void_ptr )
+void
+UIMessageManager::Execute_UI_NETMARBLE_AGREEMENT(int left, int right, void* void_ptr)
 {
-	CLAgreement _CLAgreement;	
-	_CLAgreement.setAgree( left == 1 );
+	CLAgreement _CLAgreement;
+	_CLAgreement.setAgree(left == 1);
 
-	g_pSocket->sendPacket( &_CLAgreement);
+	g_pSocket->sendPacket(&_CLAgreement);
 }
 
-void 
-UIMessageManager::Execute_UI_BLOOD_BURST( int left, int right, void* void_ptr )
+void
+UIMessageManager::Execute_UI_BLOOD_BURST(int left, int right, void* void_ptr)
 {
 	int SkillType = 0;
 
-	if(left == 1)
+	if (left == 1)
 	{
-		if(g_pPlayer->IsSlayer())
+		if (g_pPlayer->IsSlayer())
 		{
 			int domain_level_Sword = (*g_pSkillManager)[SKILLDOMAIN_SWORD].GetDomainLevel();
 			int domain_level_Blade = (*g_pSkillManager)[SKILLDOMAIN_BLADE].GetDomainLevel();
@@ -12583,141 +12588,141 @@ UIMessageManager::Execute_UI_BLOOD_BURST( int left, int right, void* void_ptr )
 			int domain_level_Heal = (*g_pSkillManager)[SKILLDOMAIN_HEAL].GetDomainLevel();
 			int domain_level_Enchant = (*g_pSkillManager)[SKILLDOMAIN_ENCHANT].GetDomainLevel();
 
-			int domainLevel = 0 ;			
-			domainLevel = max(domain_level_Sword , domain_level_Blade)  ;
-			domainLevel = max(domainLevel , domain_level_Gun)  ;
-			domainLevel = max(domainLevel , domain_level_Heal)  ;
-			domainLevel = max(domainLevel , domain_level_Enchant)  ; 
-		
-			if(domainLevel == domain_level_Sword)
-				SkillType = SKILL_HOLY_SWORD ; 
-			else if(domainLevel == domain_level_Blade)
-				SkillType = SKILL_HOLY_BLADE ; 
-			else if(domainLevel == domain_level_Gun)
-				SkillType = SKILL_BURST_GUN ; 
-			else if(domainLevel == domain_level_Enchant)
-				SkillType = SKILL_HOLY_MACE ; 
-			else if(domainLevel == domain_level_Heal)
-				SkillType = SKILL_HOLY_CROSS ; 
-			
+			int domainLevel = 0;
+			domainLevel = max(domain_level_Sword, domain_level_Blade);
+			domainLevel = max(domainLevel, domain_level_Gun);
+			domainLevel = max(domainLevel, domain_level_Heal);
+			domainLevel = max(domainLevel, domain_level_Enchant);
+
+			if (domainLevel == domain_level_Sword)
+				SkillType = SKILL_HOLY_SWORD;
+			else if (domainLevel == domain_level_Blade)
+				SkillType = SKILL_HOLY_BLADE;
+			else if (domainLevel == domain_level_Gun)
+				SkillType = SKILL_BURST_GUN;
+			else if (domainLevel == domain_level_Enchant)
+				SkillType = SKILL_HOLY_MACE;
+			else if (domainLevel == domain_level_Heal)
+				SkillType = SKILL_HOLY_CROSS;
+
 			//SkillType = SKILL_HOLY_CROSS ; 
 		}
-		else if(g_pPlayer->IsVampire())
-			SkillType = SKILL_DARK_FORCE ; 
-		
-		else if(g_pPlayer->IsOusters())
+		else if (g_pPlayer->IsVampire())
+			SkillType = SKILL_DARK_FORCE;
+
+		else if (g_pPlayer->IsOusters())
 		{
-		
-			MCreatureWear *pCreatureWear = (MCreatureWear *)g_pPlayer;
+
+			MCreatureWear* pCreatureWear = (MCreatureWear*)g_pPlayer;
 			const MCreatureWear::ADDON_INFO& addonInfoChakram = g_pPlayer->GetAddonInfo(ADDON_RIGHTHAND);
 			bool bChakram = addonInfoChakram.bAddon && addonInfoChakram.ItemClass == ITEM_CLASS_OUSTERS_CHAKRAM;
 
 			bool bWristlet = addonInfoChakram.bAddon && addonInfoChakram.ItemClass == ITEM_CLASS_OUSTERS_WRISTLET;
-			
-			
-			if(bChakram)
-				SkillType = SKILL_NATURAL_FORCE ; 
-			else if(bWristlet)
+
+
+			if (bChakram)
+				SkillType = SKILL_NATURAL_FORCE;
+			else if (bWristlet)
 			{
-				int ItemClass = addonInfoChakram.ItemClass	; 
-				int ItemType  = addonInfoChakram.ItemType	;
+				int ItemClass = addonInfoChakram.ItemClass;
+				int ItemType = addonInfoChakram.ItemType;
 				ITEMTABLE_INFO iInfo = (*g_pItemTable)[ItemClass][ItemType];
-				
-				if(iInfo.ElementalType == ITEMTABLE_INFO::ELEMENTAL_TYPE_FIRE)
-					SkillType = SKILL_FIRE_FORCE ; 
-				else if(iInfo.ElementalType == ITEMTABLE_INFO::ELEMENTAL_TYPE_WATER)
-					SkillType = SKILL_WATER_FORCE ; 
-				else if(iInfo.ElementalType == ITEMTABLE_INFO::ELEMENTAL_TYPE_EARTH)
-					SkillType = SKILL_EARTH_FORCE ; 
+
+				if (iInfo.ElementalType == ITEMTABLE_INFO::ELEMENTAL_TYPE_FIRE)
+					SkillType = SKILL_FIRE_FORCE;
+				else if (iInfo.ElementalType == ITEMTABLE_INFO::ELEMENTAL_TYPE_WATER)
+					SkillType = SKILL_WATER_FORCE;
+				else if (iInfo.ElementalType == ITEMTABLE_INFO::ELEMENTAL_TYPE_EARTH)
+					SkillType = SKILL_EARTH_FORCE;
 
 			}
-			else return ;
+			else return;
 		}
 	}
-	else if(left ==  2)
+	else if (left == 2)
 	{
-		if(g_pPlayer->IsSlayer())
-			SkillType = SKILL_LOSE_SIGHT ; 
-		else if(g_pPlayer->IsVampire())
-			SkillType = SKILL_WIDE_BLOOD_DRAIN ; 
-		else if(g_pPlayer->IsOusters())
-			SkillType = SKILL_NATURAL_PEACE ; 
+		if (g_pPlayer->IsSlayer())
+			SkillType = SKILL_LOSE_SIGHT;
+		else if (g_pPlayer->IsVampire())
+			SkillType = SKILL_WIDE_BLOOD_DRAIN;
+		else if (g_pPlayer->IsOusters())
+			SkillType = SKILL_NATURAL_PEACE;
 	}
-	else if(left ==  3)
+	else if (left == 3)
 	{
-		SkillType = SKILL_PARTY_AURA ; 
+		SkillType = SKILL_PARTY_AURA;
 	}
 
-	CGSkillToSelf _CGSkillToSelf; 
-	_CGSkillToSelf.setSkillType( SkillType );
-	_CGSkillToSelf.setCEffectID( 0 );
-	g_pSocket->sendPacket( &_CGSkillToSelf );
+	CGSkillToSelf _CGSkillToSelf;
+	_CGSkillToSelf.setSkillType(SkillType);
+	_CGSkillToSelf.setCEffectID(0);
+	g_pSocket->sendPacket(&_CGSkillToSelf);
 
 
 	// 2001.8.20 주석처리
-	g_pPlayer->SetWaitVerify( MPlayer::WAIT_VERIFY_SKILL_SUCCESS, SkillType );
+	g_pPlayer->SetWaitVerify(MPlayer::WAIT_VERIFY_SKILL_SUCCESS, SkillType);
 }
 
-void 
-UIMessageManager::Execute_UI_CLIENT_REMOVE_EFFECT_STATUS( int left, int right, void* void_ptr )
+void
+UIMessageManager::Execute_UI_CLIENT_REMOVE_EFFECT_STATUS(int left, int right, void* void_ptr)
 {
-	int iEffectState = 0 ; 
-	if(left == SKILL_CLIENT_MAGICAL_PET_CHANGER)
-	{	
-		UI_RemoveEffectStatus(EFFECTSTATUS_CLIENT_MAGICAL_PET_CHANGER) ; 
+	int iEffectState = 0;
+	if (left == SKILL_CLIENT_MAGICAL_PET_CHANGER)
+	{
+		UI_RemoveEffectStatus(EFFECTSTATUS_CLIENT_MAGICAL_PET_CHANGER);
 	}
 #if __CONTENTS(__EXPERT_PET_CHANGER)
-	else if(left == SKILL_CLIENT_EXPERT_PET_CHANGER)
-	{	
-		UI_RemoveEffectStatus(EFFECTSTATUS_CLIENT_EXPERT_PET_CHANGER) ; 
+	else if (left == SKILL_CLIENT_EXPERT_PET_CHANGER)
+	{
+		UI_RemoveEffectStatus(EFFECTSTATUS_CLIENT_EXPERT_PET_CHANGER);
 	}
 #endif //__EXPERT_PET_CHANGER
 }
 
 
-void 
-UIMessageManager::Execute_UI_MARKET_ACCOUNT( int button, int state, void* void_ptr )
+void
+UIMessageManager::Execute_UI_MARKET_ACCOUNT(int button, int state, void* void_ptr)
 {
-	if(button == 0 && state == 0)
+	if (button == 0 && state == 0)
 	{
-		CGRequestWebMarket	_CGRequestWebMarket	;
-		_CGRequestWebMarket.setCode(CGRequestWebMarket::REQUEST_WEB_MARKET)	; 
-		g_pSocket->sendPacket( &_CGRequestWebMarket );
+		CGRequestWebMarket	_CGRequestWebMarket;
+		_CGRequestWebMarket.setCode(CGRequestWebMarket::REQUEST_WEB_MARKET);
+		g_pSocket->sendPacket(&_CGRequestWebMarket);
 	}
-	
-	else if(button == 0 && state == 1)
-	{
-		CGRequestWebMarket	_CGRequestWebMarket	;
-		_CGRequestWebMarket.setCode(CGRequestWebMarket::REQUEST_BUY_COMPLETE)	; 
-		g_pSocket->sendPacket( &_CGRequestWebMarket );
-	}	
 
-	
-	else if(button == 1 && state == 0 )
+	else if (button == 0 && state == 1)
 	{
-		CGRequestWebMarket	_CGRequestWebMarket	; 
-		_CGRequestWebMarket.setCode(CGRequestWebMarket::REQUEST_GOODS_LIST)	; 
-		g_pSocket->sendPacket( &_CGRequestWebMarket );	
+		CGRequestWebMarket	_CGRequestWebMarket;
+		_CGRequestWebMarket.setCode(CGRequestWebMarket::REQUEST_BUY_COMPLETE);
+		g_pSocket->sendPacket(&_CGRequestWebMarket);
 	}
-	
+
+
+	else if (button == 1 && state == 0)
+	{
+		CGRequestWebMarket	_CGRequestWebMarket;
+		_CGRequestWebMarket.setCode(CGRequestWebMarket::REQUEST_GOODS_LIST);
+		g_pSocket->sendPacket(&_CGRequestWebMarket);
+	}
+
 }
 
-void 
-UIMessageManager::Execute_UI_NONPK_SERVER_USE( int left, int right, void* void_ptr )
+void
+UIMessageManager::Execute_UI_NONPK_SERVER_USE(int left, int right, void* void_ptr)
 {
-	UI_PopupMessage(UI_STRING_MESSAGE_NONPKSERVER_USE, -1 ,-1, UI_DIALOG_TITLE_OK);
-}	
+	UI_PopupMessage(UI_STRING_MESSAGE_NONPKSERVER_USE, -1, -1, UI_DIALOG_TITLE_OK);
+}
 
-void 
-UIMessageManager::Execute_UI_PLAYER_PETINFO( int left, int right, void* void_ptr )
+void
+UIMessageManager::Execute_UI_PLAYER_PETINFO(int left, int right, void* void_ptr)
 {
-	MPetItem *pPetItem = NULL;
-	PETINFO petInfo;	
-	MFakeCreature *pFakeCreature = (MFakeCreature *)g_pZone->GetFakeCreature(g_pPlayer->GetPetID());
-	if(pFakeCreature != NULL)
+	MPetItem* pPetItem = NULL;
+	PETINFO petInfo;
+	MFakeCreature* pFakeCreature = (MFakeCreature*)g_pZone->GetFakeCreature(g_pPlayer->GetPetID());
+	if (pFakeCreature != NULL)
 	{
 		pPetItem = pFakeCreature->GetPetItem();
-		if(pPetItem != NULL)
+		if (pPetItem != NULL)
 		{
 			petInfo.HP = pPetItem->GetCurrentDurability();
 			petInfo.ATTR = pPetItem->GetEnchantLevel();
@@ -12726,9 +12731,9 @@ UIMessageManager::Execute_UI_PLAYER_PETINFO( int left, int right, void* void_ptr
 			petInfo.FOODTYPE = pPetItem->GetPetFoodType();
 			petInfo.EXP_REMAIN = pPetItem->GetPetExpRemain();
 			petInfo.CUT_HEAD = pPetItem->IsCanCutHead();
-			petInfo.GAMBLE = pPetItem->IsCanGamble();		
-	
-			if(pPetItem->GetItemOptionListCount() == 0)
+			petInfo.GAMBLE = pPetItem->IsCanGamble();
+
+			if (pPetItem->GetItemOptionListCount() == 0)
 #if __CONTENTS(!__NEW_PET_INCUBUS)
 				petInfo.OPTION = -1;
 			else
@@ -12739,12 +12744,12 @@ UIMessageManager::Execute_UI_PLAYER_PETINFO( int left, int right, void* void_ptr
 			}
 			else
 			{
-				const std::list<TYPE_ITEM_OPTION> &optionList = pPetItem->GetItemOptionList();
-				std::list<TYPE_ITEM_OPTION>::const_iterator itr= optionList.begin();
-				
-				for (; itr!=optionList.end() && *itr < g_pItemOptionTable->GetSize(); itr++)
+				const std::list<TYPE_ITEM_OPTION>& optionList = pPetItem->GetItemOptionList();
+				std::list<TYPE_ITEM_OPTION>::const_iterator itr = optionList.begin();
+
+				for (; itr != optionList.end() && *itr < g_pItemOptionTable->GetSize(); itr++)
 				{
-					petInfo.OPTION_LIST.push_back( *itr );
+					petInfo.OPTION_LIST.push_back(*itr);
 				}
 			}
 #endif //__NEW_PET_INCUBUS
@@ -12759,12 +12764,12 @@ UIMessageManager::Execute_UI_PLAYER_PETINFO( int left, int right, void* void_ptr
 			petInfo.FUNCTION_PETFOODTYPE = pPetItem->getFunctionPetfoodType();
 #endif //__FUNCTION_PETFOOD
 #if __CONTENTS(__PET_MIXINGFORGE)
-			const std::list<TYPE_ITEM_OPTION> &petMixingOption = pPetItem->GetPetMixingOptionList();
+			const std::list<TYPE_ITEM_OPTION>& petMixingOption = pPetItem->GetPetMixingOptionList();
 			std::list<TYPE_ITEM_OPTION>::const_iterator itr = petMixingOption.begin();
-			
-			for(;itr != petMixingOption.end(); ++itr)
+
+			for (; itr != petMixingOption.end(); ++itr)
 			{
-				petInfo.MIXINGOPTION.push_back( *itr );
+				petInfo.MIXINGOPTION.push_back(*itr);
 			}
 #endif //__PET_MIXINGFORGE
 			gC_vs_ui.SetPetInfo(&petInfo);
@@ -12783,7 +12788,7 @@ void
 UIMessageManager::Execute_UI_FORCEATTACK_SET(int left, int right, void* void_ptr)
 {
 	bool ForceAttack = g_pCGameUpdate->GetForceAttack();
-	
+
 	if (ForceAttack)
 	{
 		g_pSystemMessage->Add((*g_pGameStringTable)[STRING_MESSAGE_FORCE_ATTACK_DISABLE].GetString());
@@ -12820,7 +12825,7 @@ UIMessageManager::Execute_UI_RELOAD_INFO_FILE(int left, int right, void* void_pt
 void
 UIMessageManager::ChatCommand_Where(STRING_VEC& ChatCommandStr, LPCTSTR pOrgMsg, int right)
 {
-	if(ChatCommandStr.size() < 2)
+	if (ChatCommandStr.size() < 2)
 	{
 		return;
 	}
@@ -12830,30 +12835,30 @@ UIMessageManager::ChatCommand_Where(STRING_VEC& ChatCommandStr, LPCTSTR pOrgMsg,
 
 	std::fill_n(CommandPos, 1, "*어디");
 
-	for(; CommandPos != ChatCommandStr.end(); ++CommandPos)
+	for (; CommandPos != ChatCommandStr.end(); ++CommandPos)
 	{
 		strSum += *CommandPos;
-		if(CommandPos+1 != (ChatCommandStr.end()))
+		if (CommandPos + 1 != (ChatCommandStr.end()))
 		{
 			strSum += ' ';
 		}
-		
+
 	}
 	str = strSum.c_str();
 
-	const char *pMessage = str;
+	const char* pMessage = str;
 
 	CGSay _CGSay;
-	_CGSay.setMessage( pMessage );	//pWansungString );
-	_CGSay.setColor( right );
-	g_pSocket->sendPacket( &_CGSay );
+	_CGSay.setMessage(pMessage);	//pWansungString );
+	_CGSay.setColor(right);
+	g_pSocket->sendPacket(&_CGSay);
 
 }
 
 void
 UIMessageManager::ChatCommand_Whisper(STRING_VEC& ChatCommandStr, LPCTSTR pOrgMsg, int right)
 {
-	if(ChatCommandStr.size() < 3)
+	if (ChatCommandStr.size() < 3)
 	{
 		return;
 	}
@@ -12862,36 +12867,36 @@ UIMessageManager::ChatCommand_Whisper(STRING_VEC& ChatCommandStr, LPCTSTR pOrgMs
 	strcpy(szBuffer, pOrgMsg);
 
 	CToken strToken(szBuffer + 2);
-	
+
 	// [이름]+[ ]+[할말] 로 이루어져있다고 보면 된다.
-	const char* pName		= strToken.GetToken();
-	const char* pMessage	= strToken.GetEnd();									
-	
-	if (pName!=NULL && pMessage!=NULL)
-	{									
+	const char* pName = strToken.GetToken();
+	const char* pMessage = strToken.GetEnd();
+
+	if (pName != NULL && pMessage != NULL)
+	{
 		int nameLen = strlen(pName);
-		
+
 		//------------------------------------------------------
 		// ID길이가 잘못된 경우										
 		//------------------------------------------------------
 		if (nameLen<PlayerInfo::minIDLength || nameLen>PlayerInfo::maxIDLength)
 		{
 			char strTemp[256];
-			sprintf(strTemp, (*g_pGameStringTable)[STRING_USER_REGISTER_ID_LENGTH].GetString(), 
+			sprintf(strTemp, (*g_pGameStringTable)[STRING_USER_REGISTER_ID_LENGTH].GetString(),
 				PlayerInfo::minIDLength,
 				PlayerInfo::maxIDLength);
-			
-			UI_AddChatToHistory( strTemp, NULL, CLD_INFO, right );
+
+			UI_AddChatToHistory(strTemp, NULL, CLD_INFO, right);
 		}
 		//------------------------------------------------------
 		// 정상적인 귓속말...일까?
 		//------------------------------------------------------
 		else
 		{
-			if (g_pUserInformation->CharacterID==pName)
+			if (g_pUserInformation->CharacterID == pName)
 			{
 				// 자신에게 귓속말하는 경우
-				UI_AddChatToHistory( (*g_pGameStringTable)[STRING_MESSAGE_WHISPER_SELF].GetString(), NULL, CLD_INFO, right );
+				UI_AddChatToHistory((*g_pGameStringTable)[STRING_MESSAGE_WHISPER_SELF].GetString(), NULL, CLD_INFO, right);
 			}
 			else
 			{
@@ -12899,17 +12904,17 @@ UIMessageManager::ChatCommand_Whisper(STRING_VEC& ChatCommandStr, LPCTSTR pOrgMs
 				char strWhisperID[128];
 				sprintf(strWhisperID, "%s ", pName);
 				g_pUserInformation->WhisperID = strWhisperID;
-				
+
 				/*
 				CGWhisper _CGWhisper;
 				_CGWhisper.setName( pName );
 				_CGWhisper.setMessage( pMessage );
-				
+
 				  g_pSocket->sendPacket( &_CGWhisper );
 				*/
-				g_pWhisperManager->SendWhisperMessage( pName, pMessage, right );
-				
-				
+				g_pWhisperManager->SendWhisperMessage(pName, pMessage, right);
+
+
 				char strMessage[128];
 				char strName[128];
 				//sprintf(temp, "[%s] <%s> %s", g_pUserInformation->CharacterID.GetString(), pName, pMessage);
@@ -12917,8 +12922,8 @@ UIMessageManager::ChatCommand_Whisper(STRING_VEC& ChatCommandStr, LPCTSTR pOrgMs
 				strcpy(strMessage, pMessage);
 				// "[내가] 누구에게> 뭐라고"라는 식으로 표현된다.
 				sprintf(strName, "[%s] %s", g_pUserInformation->CharacterID.GetString(), pName);
-				UI_AddChatToHistory( strMessage, strName, CLD_WHISPER, right );
-				
+				UI_AddChatToHistory(strMessage, strName, CLD_WHISPER, right);
+
 				// [도움말] 귓속말 할 때
 				//											__BEGIN_HELP_EVENT
 				////												ExecuteHelpEvent( HE_CHAT_WHISPER );	
@@ -12933,61 +12938,61 @@ void
 UIMessageManager::Execute_UI_GEAR_CHANGE_SEND_PACKET(int left, int right, void* void_ptr)
 {
 	CGChangeGearSlot _ChageGearSlot;
-	DWORD	dwGearID	= 0;
+	DWORD	dwGearID = 0;
 
-	switch(g_pPlayer->GetRace())
+	switch (g_pPlayer->GetRace())
 	{
 	case RACE_SLAYER:
-		dwGearID	= g_pSlayerGear->GetSendGearID();
+		dwGearID = g_pSlayerGear->GetSendGearID();
 		g_pSlayerGear->SetProcessingGearChange(true);
 		break;
 
 	case RACE_VAMPIRE:
-		dwGearID	= g_pVampireGear->GetSendGearID();
+		dwGearID = g_pVampireGear->GetSendGearID();
 		g_pVampireGear->SetProcessingGearChange(true);
 		break;
-				
+
 	case RACE_OUSTERS:
-		dwGearID	= g_pOustersGear->GetSendGearID();
+		dwGearID = g_pOustersGear->GetSendGearID();
 		g_pOustersGear->SetProcessingGearChange(true);
 		break;
 	}
 
-/*	DWORD	dwGearSize	= gC_vs_ui.GetGearSize();
-	
-	MItem* pItem	= NULL;
-	for(int i = 0; i < dwGearSize; i++)
-	{
-		if(i	!= 0)	// ID 0이 머리 색 인가 보다.
-		{
-			g_pPlayer->RemoveAddon(i);
-			pItem	=	g_pPlayer->GetGearItemIndexFromAddonInfo(i);
+	/*	DWORD	dwGearSize	= gC_vs_ui.GetGearSize();
 
-			if(pItem)
+		MItem* pItem	= NULL;
+		for(int i = 0; i < dwGearSize; i++)
+		{
+			if(i	!= 0)	// ID 0이 머리 색 인가 보다.
 			{
-				g_pPlayer->SetAddonItem(pItem);			
+				g_pPlayer->RemoveAddon(i);
+				pItem	=	g_pPlayer->GetGearItemIndexFromAddonInfo(i);
+
+				if(pItem)
+				{
+					g_pPlayer->SetAddonItem(pItem);
+				}
 			}
 		}
-	}
-*/
+	*/
 	_ChageGearSlot.setGearID(dwGearID);
-	g_pSocket->sendPacket( &_ChageGearSlot );	
+	g_pSocket->sendPacket(&_ChageGearSlot);
 
-/*	switch(g_pPlayer->GetRace())
-	{
-	case RACE_SLAYER:
-		g_pSlayerGear->SetProcessingGearChange(false);
-		break;
+	/*	switch(g_pPlayer->GetRace())
+		{
+		case RACE_SLAYER:
+			g_pSlayerGear->SetProcessingGearChange(false);
+			break;
 
-	case RACE_VAMPIRE:
-		g_pVampireGear->SetProcessingGearChange(false);
-		break;
-				
-	case RACE_OUSTERS:
-		g_pOustersGear->SetProcessingGearChange(false);
-		break;
-	}
-*/
+		case RACE_VAMPIRE:
+			g_pVampireGear->SetProcessingGearChange(false);
+			break;
+
+		case RACE_OUSTERS:
+			g_pOustersGear->SetProcessingGearChange(false);
+			break;
+		}
+	*/
 }
 #endif	// __GEAR_SWAP_CHANGE
 
@@ -13002,7 +13007,7 @@ UIMessageManager::Execute_UI_TIPOJYU_MOVE_SEND_PACKET(int left, int right, void*
 	_InstanceDoungeonEnter.setObjectID(left);				//NPC ID
 	_InstanceDoungeonEnter.setSelectDoungeonIndex(right);
 
-	g_pSocket->sendPacket( &_InstanceDoungeonEnter );
+	g_pSocket->sendPacket(&_InstanceDoungeonEnter);
 }
 #endif	//__TIPOJYU_CASTLE
 
@@ -13013,9 +13018,9 @@ UIMessageManager::Execute_UI_ITEM_SHOW_AND_CREATE_ITEM(int left, int right, void
 	CGSay _CGSay;
 	char Message[256];
 
-	sprintf(Message,"*create %d %d",left,right);
-	_CGSay.setMessage( Message );
-	g_pSocket->sendPacket( &_CGSay );
+	sprintf(Message, "*create %d %d", left, right);
+	_CGSay.setMessage(Message);
+	g_pSocket->sendPacket(&_CGSay);
 
 	gC_vs_ui.CloseInventory();
 	gC_vs_ui.HotKey_Inventory(true);
@@ -13027,9 +13032,9 @@ UIMessageManager::Execute_UI_ITEM_SHOW_AND_CLEAR_ITEM(int left, int right, void*
 	CGSay _CGSay;
 	char Message[256];
 
-	sprintf(Message,"*command clearinventory");
-	_CGSay.setMessage( Message );
-	g_pSocket->sendPacket( &_CGSay );
+	sprintf(Message, "*command clearinventory");
+	_CGSay.setMessage(Message);
+	g_pSocket->sendPacket(&_CGSay);
 
 	gC_vs_ui.CloseInventory();
 	gC_vs_ui.HotKey_Inventory(true);
@@ -13042,14 +13047,14 @@ UIMessageManager::Execute_UI_MOVE_ZONE(int left, int right, void* void_ptr)
 {
 	CGSay _CGSay;
 	char Message[256];
-	
-	sprintf(Message,"*warp %s",(char *)void_ptr);
-	_CGSay.setMessage( Message );
-	g_pSocket->sendPacket( &_CGSay );
-	
-	if(gpC_Gps != NULL)
+
+	sprintf(Message, "*warp %s", (char*)void_ptr);
+	_CGSay.setMessage(Message);
+	g_pSocket->sendPacket(&_CGSay);
+
+	if (gpC_Gps != NULL)
 	{
-		if(gpC_Gps->GetGpsShow())
+		if (gpC_Gps->GetGpsShow())
 			gpC_Gps->NonActive();
 	}
 	gC_vs_ui.CloseWorldMap();
@@ -13059,22 +13064,22 @@ UIMessageManager::Execute_UI_MOVE_ZONE(int left, int right, void* void_ptr)
 #if __CONTENTS(__PREMIUM_GIVE_ITEM_UI)
 void
 UIMessageManager::Execute_UI_SELECT_WEEKITEM(int left, int right, void* void_ptr)
-{	
+{
 	DEBUG_ADD("[UI] UI_SELECT_WEEKITEM");
 
 	CGSelectWeekItem _CGSelectWeekItem;
 	_CGSelectWeekItem.setSelectID(left);
 
-	g_pSocket->sendPacket( &_CGSelectWeekItem );
+	g_pSocket->sendPacket(&_CGSelectWeekItem);
 }
 
 void
 UIMessageManager::Execute_UI_SELECT_ALL_WEEKITEM(int left, int right, void* void_ptr)
-{	
+{
 	DEBUG_ADD("[UI] UI_SELECT_ALL_WEEKITEM");
 
 	CGSelectAllWeekItem _CGSelectAllWeekItem;
-	g_pSocket->sendPacket( &_CGSelectAllWeekItem );
+	g_pSocket->sendPacket(&_CGSelectAllWeekItem);
 }
 
 void
@@ -13082,12 +13087,12 @@ UIMessageManager::Execute_UI_FINISH_PREMIUM_GIVEITEM_BUTTON(int left, int right,
 {
 	DEBUG_ADD("[UI] Execute_UI_FINISH_PREMIUM_GIVEITEM_BUTTON");
 
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
-	
+
 	gC_vs_ui.FinishRequest_PremiumGiveItem();
 }
 #endif //__PREMIUM_GIVE_ITEM_UI
@@ -13098,22 +13103,22 @@ UIMessageManager::Execute_UI_REQUEST_REPAIRINFO(int left, int right, void* void_
 {
 	DEBUG_ADD("[UI] Execute_UI_REQUEST_REPAIRINFO");
 
-	if (g_Mode!=MODE_GAME)
+	if (g_Mode != MODE_GAME)
 	{
 		DEBUG_ADD("Not Mode MODE_GAME");
 		return;
 	}
-	MItem* p_selected_item =  (MItem *)void_ptr;
+	MItem* p_selected_item = (MItem*)void_ptr;
 
 	CGRequestRepairInfo _CGRequestRepairInfo;
-	if(p_selected_item)
+	if (p_selected_item)
 		_CGRequestRepairInfo.setObjectID(p_selected_item->GetID());
 	else
 		_CGRequestRepairInfo.setObjectID(0);
-	g_pSocket->sendPacket( &_CGRequestRepairInfo );	
-//20090323여기서 잡아준 UI_LockItemTrade는 수리가 완료되는 시점 
-//혹은 중간에 수리 가격을 확인한 이후에 수리 여부를 결정하는 부분에서 취소 했을 때 이다.
-	if(p_selected_item == NULL)
+	g_pSocket->sendPacket(&_CGRequestRepairInfo);
+	//20090323여기서 잡아준 UI_LockItemTrade는 수리가 완료되는 시점 
+	//혹은 중간에 수리 가격을 확인한 이후에 수리 여부를 결정하는 부분에서 취소 했을 때 이다.
+	if (p_selected_item == NULL)
 		UI_LockItemTrade();
 
 }
@@ -13121,55 +13126,56 @@ UIMessageManager::Execute_UI_REQUEST_REPAIRINFO(int left, int right, void* void_
 
 #if __CONTENTS(__PET_MIXINGFORGE)
 void
-UIMessageManager::Execute_UI_CLOSE_PET_MIXING_FORGE(int left, int right, void *void_ptr)
+UIMessageManager::Execute_UI_CLOSE_PET_MIXING_FORGE(int left, int right, void* void_ptr)
 {
-	if(left == 0 )
+	if (left == 0)
 	{
 		gC_vs_ui.ClosePetMixingForge();
 		g_pPlayer->ClearItemCheckBuffer();
-		g_pTempInformation->SetMode( TempInformation::MODE_NULL );
-	} else
+		g_pTempInformation->SetMode(TempInformation::MODE_NULL);
+	}
+	else
 	{
-		g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[left].GetString() );		
+		g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[left].GetString());
 	}
 }
 
-void 
+void
 UIMessageManager::Execute_UI_USE_PET_MIXING_FORGE(int left, int right, void* void_ptr)
 {
-	if( g_pPlayer->GetItemCheckBufferStatus() != MPlayer::ITEM_CHECK_BUFFER_USE_MIXING_ITEM ||
-		g_pTempInformation->GetMode() != TempInformation::MODE_NULL )
+	if (g_pPlayer->GetItemCheckBufferStatus() != MPlayer::ITEM_CHECK_BUFFER_USE_MIXING_ITEM ||
+		g_pTempInformation->GetMode() != TempInformation::MODE_NULL)
 		return;
 
-	MItem *pFirstItem = g_pInventory->GetItemToModify( left );
-	MItem *pSecondItem = g_pInventory->GetItemToModify( right );
+	MItem* pFirstItem = g_pInventory->GetItemToModify(left);
+	MItem* pSecondItem = g_pInventory->GetItemToModify(right);
 
-	if( pFirstItem == NULL || pSecondItem == NULL )
+	if (pFirstItem == NULL || pSecondItem == NULL)
 	{
 		return;
 	}
 
 	MItem* pMixingItem = g_pPlayer->GetItemCheckBuffer();
-	
+
 	CGMixItem _CGMixItem;
-	
-	_CGMixItem.setObjectID( pMixingItem->GetID() );
-	_CGMixItem.setX( pMixingItem->GetGridX() );
-	_CGMixItem.setY( pMixingItem->GetGridY() );
-	_CGMixItem.setTargetObjectID( 0, pFirstItem->GetID() );
-	_CGMixItem.setTargetObjectID( 1, pSecondItem->GetID() );
-	
-	g_pSocket->sendPacket( &_CGMixItem );
-	g_pPlayer->SetItemCheckBuffer( pMixingItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY );
-	
-	g_pTempInformation->SetMode( TempInformation::MODE_ITEM_MIXING );
+
+	_CGMixItem.setObjectID(pMixingItem->GetID());
+	_CGMixItem.setX(pMixingItem->GetGridX());
+	_CGMixItem.setY(pMixingItem->GetGridY());
+	_CGMixItem.setTargetObjectID(0, pFirstItem->GetID());
+	_CGMixItem.setTargetObjectID(1, pSecondItem->GetID());
+
+	g_pSocket->sendPacket(&_CGMixItem);
+	g_pPlayer->SetItemCheckBuffer(pMixingItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY);
+
+	g_pTempInformation->SetMode(TempInformation::MODE_ITEM_MIXING);
 	g_pTempInformation->Value1 = pFirstItem->GetGridX();
 	g_pTempInformation->Value2 = pFirstItem->GetGridY();
-	
+
 	g_pTempInformation->Value3 = pSecondItem->GetGridX();
 	g_pTempInformation->Value4 = pSecondItem->GetGridY();
-	
-	g_pTempInformation->pValue = (void*) pMixingItem;
+
+	g_pTempInformation->pValue = (void*)pMixingItem;
 
 }
 #endif //__PET_MIXINGFORGE
@@ -13200,7 +13206,7 @@ UIMessageManager::Execute_UI_FRIEND_INFO_DATA(int left, int right, void* void_pt
 
 	CGFriendViewInfo _CGFriendInfoData;
 	_CGFriendInfoData.SetPCName((char*)void_ptr);
-	g_pSocket->sendPacket( &_CGFriendInfoData );
+	g_pSocket->sendPacket(&_CGFriendInfoData);
 }
 
 void
@@ -13212,7 +13218,7 @@ UIMessageManager::Execute_UI_FRIEND_SYSTEM_OPTION(int left, int right, void* voi
 	FriendGlobalOptionInfo* _OptionInfo = (FriendGlobalOptionInfo*)void_ptr;
 	CGFriendUpdateGlobalOption _CGFriendGlobalOption;
 	_CGFriendGlobalOption.SetFriendGlobalOptionInfo(*_OptionInfo);
-	g_pSocket->sendPacket( &_CGFriendGlobalOption );
+	g_pSocket->sendPacket(&_CGFriendGlobalOption);
 }
 
 void
@@ -13231,7 +13237,7 @@ UIMessageManager::Execute_UI_FRIEND_INFO_OPTION(int left, int right, void* void_
 	CGFriendUpdateIndividualOption _CGFriendIndividualOption;
 	_CGFriendIndividualOption.SetFriendName(_InfoData->m_user_name);
 	_CGFriendIndividualOption.SetFriendIndividualOptionInfo(_InfoData->m_option_info);
-	g_pSocket->sendPacket( &_CGFriendIndividualOption );
+	g_pSocket->sendPacket(&_CGFriendIndividualOption);
 }
 
 void
@@ -13243,7 +13249,7 @@ UIMessageManager::Execute_UI_FRIEND_ADD(int left, int right, void* void_ptr)
 	CGFriendReqToAdd _CGFriendAdd;
 	_CGFriendAdd.setPCName((char*)void_ptr);
 	DeleteNew(void_ptr);
-	g_pSocket->sendPacket( &_CGFriendAdd );
+	g_pSocket->sendPacket(&_CGFriendAdd);
 }
 
 void
@@ -13255,7 +13261,7 @@ UIMessageManager::Execute_UI_FRIEND_DEL(int left, int right, void* void_ptr)
 	CGFriendReqToDel _CGFriendDel;
 	_CGFriendDel.setPCName((char*)void_ptr);
 	DeleteNew(void_ptr);
-	g_pSocket->sendPacket( &_CGFriendDel );
+	g_pSocket->sendPacket(&_CGFriendDel);
 }
 
 void
@@ -13273,7 +13279,7 @@ UIMessageManager::Execute_UI_FRIEND_RES_ADD(int left, int right, void* void_ptr)
 	else if (right == 1)
 		_CGFriendResAdd.SetResponse(FRIEND_ADD_RESPONSE_CODE_REJECT);
 	_CGFriendResAdd.SetPCName((char*)void_ptr);
-	g_pSocket->sendPacket( &_CGFriendResAdd );
+	g_pSocket->sendPacket(&_CGFriendResAdd);
 }
 #endif //__FRIEND_ADDITION
 

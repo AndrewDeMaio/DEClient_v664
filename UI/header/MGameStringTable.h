@@ -20,13 +20,11 @@
 
 #include "MStringArray.h"
 
-extern MStringArray*		g_pGameStringTable;
+extern MStringArray*	g_pGameStringTable;
 //2004, 6, 18, sobeit add start - about nick name string table
-extern MStringArray*		g_pNickNameStringTable;
+extern MStringArray*	g_pNickNameStringTable;
 //2004, 6, 18, sobeit add end - about nick name string table
-#ifndef __GAME_CLIENT__
-	extern void				InitGameStringTable();
-#endif
+extern void				InitGameStringTable();
 
 //----------------------------------------------------------------------
 // String ID Á¤ÀÇ

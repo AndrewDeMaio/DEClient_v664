@@ -22,7 +22,7 @@ DWORD		g_OsVersion[2];
 MYCHECKNPMON *pCheckNPMON = NULL;
 
 //#ifdef __REAL_SERVER__
-//20081223 °¢ ±¹°¡ ¹öÁ¯ º°·Î .iniÆÄÀÏ ÀÌ¸§À» ´Ù¸£°Ô ¼³Á¤ÇÒ°æ¿ì ¾Æ·¡ ÀÎÀÚ°ªÀ» º¯°æ ÇÏ¿© ÀÌ¿ëÇÑ´Ù.
+//20081223 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ .iniï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½ï¿½ ï¿½Æ·ï¿½ ï¿½ï¿½ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¿ï¿½ ï¿½Ì¿ï¿½ï¿½Ñ´ï¿½.
 #if __CONTENTS(__NPROTECT)
 #ifdef __DESIGNED_KOREA
 	CNPGameLib npgl("DarkEden");
@@ -37,7 +37,7 @@ MYCHECKNPMON *pCheckNPMON = NULL;
 //	CNPGameLib npgl("DarkEdenTest");
 //#endif
 
-DWORD	g_delayTime_npmon = 60000;			// 20ÃÊ ÈÄºÎÅÍ Ã¼Å© ½ÃÀÛ	
+DWORD	g_delayTime_npmon = 60000;			// 20ï¿½ï¿½ ï¿½Äºï¿½ï¿½ï¿½ Ã¼Å© ï¿½ï¿½ï¿½ï¿½	
 
 extern	HWND				g_hWnd;
 extern void Send_nProtect_Auth(DWORD dwVal);
@@ -46,24 +46,23 @@ BOOL CALLBACK NPGameMonCallback(DWORD dwMsg, DWORD dwArg);
 
 bool	CheckWindowVersion()
 {
-	OSVERSIONINFO VersionInfo;
+	OSVERSIONINFOEXW VersionInfo = {};
+	VersionInfo.dwOSVersionInfoSize = sizeof(VersionInfo);
 
-	VersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-	
-	if( GetVersionEx(&VersionInfo) == FALSE )
+	typedef NTSTATUS(WINAPI* RtlGetVersionFn)(PRTL_OSVERSIONINFOW);
+	RtlGetVersionFn pfnRtlGetVersion = (RtlGetVersionFn)GetProcAddress(GetModuleHandleW(L"ntdll.dll"), "RtlGetVersion");
+
+	if (!pfnRtlGetVersion || pfnRtlGetVersion((PRTL_OSVERSIONINFOW)&VersionInfo) != 0)
 	{
-		MessageBox(NULL, "Áö¿øµÇÁö ¾Ê´Â À©µµ¿ì ¹öÀüÀÔ´Ï´Ù.","Execute Error", MB_OK);
+		MessageBox(NULL, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.","Execute Error", MB_OK);
 		return false;
 	}
 
-	if(VersionInfo.dwPlatformId == VER_PLATFORM_WIN32_NT )
-		g_bIsNT = true;
-	else
-		g_bIsNT = false;
+	g_bIsNT = (VersionInfo.dwPlatformId == VER_PLATFORM_WIN32_NT);
 
 	g_OsVersion[0] = VersionInfo.dwPlatformId;
 	g_OsVersion[1] = VersionInfo.dwMajorVersion;
-	
+
 	return true;
 }
 //
@@ -118,7 +117,7 @@ int		CheckNPROTECT(int CurTime)
 	//	}
 	if (npgl.Check() != NPGAMEMON_SUCCESS) 
 	{
-		MessageBox(g_hWnd, "°ÔÀÓ°¡µå°¡ ½ÇÇà Áß ÀÌÁö ¾Ê½À´Ï´Ù. ºñÁ¤»óÀûÀ¸·Î Á¾·á µË´Ï´Ù.", "Error", MB_OK|MB_ICONERROR);
+		MessageBox(g_hWnd, "ï¿½ï¿½ï¿½Ó°ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë´Ï´ï¿½.", "Error", MB_OK|MB_ICONERROR);
 		return NPROTECT_ERROR;
 	}
 
@@ -127,7 +126,7 @@ int		CheckNPROTECT(int CurTime)
 
 int		RunNPROTECT()
 {	
-	//zzi - Å¬·Î¹ú ¼­ºñ½º¿¡´Â nProtect¸¦ ¾È ¾´´Ù°í ÇÑ´Ù. ¹«Á¶°Ç.. OK....
+	//zzi - Å¬ï¿½Î¹ï¿½ ï¿½ï¿½ï¿½ñ½º¿ï¿½ï¿½ï¿½ nProtectï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ù°ï¿½ ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. OK....
 #ifdef __DESIGNED_INTERNATION
 	return NPROTECT_OK;
 #endif
@@ -136,41 +135,41 @@ int		RunNPROTECT()
 	int		ExecuteResult;
 
 
-	g_nProtectMessage[NPROTECT_NORMAL]= "¾Ë ¼ö ¾ø´Â ¿À·ù ÀÔ´Ï´Ù. ´ÙÅ©¿¡µ§À» Á¾·áÇÕ´Ï´Ù.";
-	g_nProtectMessage[NPROTECT_EXIT_TWO] = "nProtect ¿¡ ÀÇÇØ ´ÙÅ©¿¡µ§ÀÌ Á¾·áµË´Ï´Ù.(1)";
-	g_nProtectMessage[NPROTECT_FORCE_EXIT] = "nProtect ¿¡ ÀÇÇØ ´ÙÅ©¿¡µ§ÀÌ Á¾·áµË´Ï´Ù.(2)";
-	g_nProtectMessage[NPROTECT_SPEEDHACK] = "½ºÇÇµåÇÙÀÌ ¹ß°ßµÇ¾î ´ÙÅ©¿¡µ§ÀÌ Á¾·áµË´Ï´Ù.";
-	g_nProtectMessage[NPROTECT_SOFTICE] = "°ÔÀÓÇÙÀÌ ¹ß°ßµÇ¾î ´ÙÅ©¿¡µ§ÀÌ Á¾·áµË´Ï´Ù.";
-	g_nProtectMessage[NPROTECT_SH_ERROR] ="nProtect ¿¡ ÀÇÇØ ´ÙÅ©¿¡µ§ÀÌ Á¾·áµË´Ï´Ù(SHERROR)";
-	g_nProtectMessage[NPROTECT_CHECK_ERROR] = "nProtect Check ¿¡·¯¿¡ ÀÇÇØ ´ÙÅ©¿¡µ§ÀÌ Á¾·áµË´Ï´Ù.";	
+	g_nProtectMessage[NPROTECT_NORMAL]= "ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô´Ï´ï¿½. ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.";
+	g_nProtectMessage[NPROTECT_EXIT_TWO] = "nProtect ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ë´Ï´ï¿½.(1)";
+	g_nProtectMessage[NPROTECT_FORCE_EXIT] = "nProtect ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ë´Ï´ï¿½.(2)";
+	g_nProtectMessage[NPROTECT_SPEEDHACK] = "ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ßµÇ¾ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ë´Ï´ï¿½.";
+	g_nProtectMessage[NPROTECT_SOFTICE] = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ßµÇ¾ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ë´Ï´ï¿½.";
+	g_nProtectMessage[NPROTECT_SH_ERROR] ="nProtect ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ë´Ï´ï¿½(SHERROR)";
+	g_nProtectMessage[NPROTECT_CHECK_ERROR] = "nProtect Check ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ë´Ï´ï¿½.";	
 	
 	DEBUG_ADD("[nProtect] Execute nProtect");
 	ExecuteResult = spawnl(P_WAIT, "findhack.exe","findhack.exe",NULL);
 	
 	switch(ExecuteResult)
 	{
-	case 1024 :				// ¸Þ¸ð¸®»ó¿¡ ÇØÅ·ÅøÀÌ Á¸ÀçÇÏÁö ¾ÊÀ» °æ¿ì
+	case 1024 :				// ï¿½Þ¸ð¸®»ï¿½ ï¿½ï¿½Å·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		DEBUG_ADD("[nProtect] Cannot Find Hacking program");
 		break;
-	case 1025 :				// ¸Þ¸ð¸®»ó¿¡ ÇØÅ·ÅøÀÌ Á¸ÀçÇÏ³ª Á¤»óÀûÀ¸·Î Ä¡·á¸¦ ÇßÀ» °æ¿ì
+	case 1025 :				// ï¿½Þ¸ð¸®»ï¿½ ï¿½ï¿½Å·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä¡ï¿½á¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		DEBUG_ADD("[nProtect] Find Hacking program. - fixed it.");
 		break;
-	case 1026 :				// ¸Þ¸ð¸®»óÀÇ ÇØÅ·ÅøÀ» °¨ÁöÇßÀ¸³ª »ç¿ëÀÚ°¡ Ä¡·á¸¦ ¼±ÅÃÇÏÁö ¾Ê°Å³ª ÇÁ·Î±×·¥¿¡¼­ Á¤»óÀûÀ¸·Î Ä¡·á¸¦ ÇÏÁö ¸øÇßÀ» °æ¿ì
+	case 1026 :				// ï¿½Þ¸ð¸®»ï¿½ï¿½ï¿½ ï¿½ï¿½Å·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ Ä¡ï¿½á¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°Å³ï¿½ ï¿½ï¿½ï¿½Î±×·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä¡ï¿½á¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		DEBUG_ADD("[nProtect] did not Fix Hacking program.");		
 		return NPROTECT_EXECUTE_ERROR_DID_NOT_FIX;		
-	case 1027 :				// ÇØÅ·Åø Áø´Ü ÇÁ·Î±×·¥ÀÌ Á¤»óÀûÀ¸·Î ´Ù¿î·Îµå µÇÁö ¾Ê¾ÒÀ» °æ¿ì(URLÀÌ Àß¸øµÇ¾ú°Å³ª ¼­¹ö°¡ Á¤»óÀûÀ¸·Î µ¿ÀÛÇÏÁö ¾ÊÀ» °æ¿ì)
+	case 1027 :				// ï¿½ï¿½Å·ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î±×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½(URLï¿½ï¿½ ï¿½ß¸ï¿½ï¿½Ç¾ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½)
 		DEBUG_ADD("[nProtect] Can not download check program");
 		return NPROTECT_EXECUTE_ERROR_CANNOT_DOWNLOAD;		
-	case 1028 :				// NPX.DLL µî·Ï ¿¡·¯ ¹× nProtect ±¸µ¿¿¡ ÇÊ¿äÇÑ ÆÄÀÏÀÌ ¾øÀ» °æ¿ì
+	case 1028 :				// NPX.DLL ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ nProtect ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		DEBUG_ADD("[nProtect] Cannot Find DLL File");
 		return NPROTECT_EXECUTE_ERROR_CANNOT_FIND_DLL;
-	case 1029 :				// ÇÁ·Î±×·¥³»¿¡¼­ ¿¹¿Ü»çÇ×ÀÌ ¹ß»ýÇßÀ» °æ¿ì
+	case 1029 :				// ï¿½ï¿½ï¿½Î±×·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ü»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		DEBUG_ADD("[nProtect] Occured Exception in nProtect");
 		return NPROTECT_EXECUTE_ERROR_EXCEPTION;
-	case 1030 :				// »ç¿ëÀÚ°¡ Á¾·á ¹öÆ°À» Å¬·¢ÇßÀ» °æ¿ìÀÇ Ã³¸®°ª
+	case 1030 :				// ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½
 		DEBUG_ADD("[nProtect] Quit nProtect by user");
 		return NPROTECT_EXECUTE_ERROR;
-	case 1031 :				// ¾÷µ¥ÀÌÆ® ¼­¹ö Á¢¼ÓÀ» ½ÇÆÐÇÑ °æ¿ì
+	case 1031 :				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		DEBUG_ADD("[nProtect] Cannot connect updateserver");
 		return NPROTECT_CANNOT_UPDATE;
 	}
@@ -209,13 +208,13 @@ int		RunNPROTECT()
 #endif // __OLD_VERSION__
 
 #ifndef __OLD_VERSION__
-//	g_nProtectMessage[NPGAMEMON_COMM_ERROR] = "[NPGAMEMON_COMM_ERROR] nProtect¿ÍÀÇ Åë½Å¿¡ ¿¡·¯°¡ ¹ß»ýÇÏ¿© ´ÙÅ©¿¡µ§À» Á¾·áÇÕ´Ï´Ù.";
-//	g_nProtectMessage[NPGAMEMON_COMM_CLOSE] = "[NPGAMEMON_COMM_CLOSE] nProtect¿ÍÀÇ Åë½ÅÀÌ ´ÝÇô ´ÙÅ©¿¡µ§À» Á¾·áÇÕ´Ï´Ù.";
-//	g_nProtectMessage[NPGAMEMON_INIT_ERROR] = "[NPGAMEMON_INIT_ERROR] ÃÊ±âÈ­ ¿¡·¯ÀÔ´Ï´Ù. ´ÙÅ©¿¡µ§À» Á¾·áÇÕ´Ï´Ù.";
-//	g_nProtectMessage[NPGAMEMON_SPEEDHACK] = "[NPGAMEMON_SPEEDHACK] ½ºÇÇµåÇÙÀÌ ¹ß°ßµÇ¾î ´ÙÅ©¿¡µ§À» Á¾·áÇÕ´Ï´Ù.";
-//	g_nProtectMessage[NPGAMEMON_GAMEHACK_KILLED] = "[NPGAMEMON_GAMEHACK_KILLED] °ÔÀÓÇÙÀÌ ¹ß°ßµÇ¾ú½À´Ï´Ù. ´ÙÅ©¿¡µ§À» Á¾·áÇÕ´Ï´Ù.";
-//	g_nProtectMessage[NPGAMEMON_GAMEHACK_DETECT] = "[NPGAMEMON_GAMEHACK_DETECT] °ÔÀÓÇÙÀÌ °¨ÁöµÇ¾î ´ÙÅ©¿¡µ§À» Á¾·áÇÕ´Ï´Ù.";
-//	g_nProtectMessage[NPGAMEMON_UNDEFINED] = "[NPGAMEMON_UNDEFINED] nProtect °ü·Ã ¹®Á¦°¡ ¹ß»ýÇÏ¿© ´ÙÅ©¿¡µ§ÀÌ Á¾·áµË´Ï´Ù.";
+//	g_nProtectMessage[NPGAMEMON_COMM_ERROR] = "[NPGAMEMON_COMM_ERROR] nProtectï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.";
+//	g_nProtectMessage[NPGAMEMON_COMM_CLOSE] = "[NPGAMEMON_COMM_CLOSE] nProtectï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.";
+//	g_nProtectMessage[NPGAMEMON_INIT_ERROR] = "[NPGAMEMON_INIT_ERROR] ï¿½Ê±ï¿½È­ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½. ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.";
+//	g_nProtectMessage[NPGAMEMON_SPEEDHACK] = "[NPGAMEMON_SPEEDHACK] ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ßµÇ¾ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.";
+//	g_nProtectMessage[NPGAMEMON_GAMEHACK_KILLED] = "[NPGAMEMON_GAMEHACK_KILLED] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ßµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.";
+//	g_nProtectMessage[NPGAMEMON_GAMEHACK_DETECT] = "[NPGAMEMON_GAMEHACK_DETECT] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.";
+//	g_nProtectMessage[NPGAMEMON_UNDEFINED] = "[NPGAMEMON_UNDEFINED] nProtect ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ë´Ï´ï¿½.";
 
 	g_nProtectMessage[NPGAMEMON_COMM_ERROR] = "[NPGAMEMON_COMM_ERROR] ";
 	g_nProtectMessage[NPGAMEMON_COMM_CLOSE] = "[NPGAMEMON_COMM_CLOSE] ";
@@ -235,22 +234,22 @@ int		RunNPROTECT()
 	DWORD dwResult = npgl.Init();
 	if (dwResult != NPGAMEMON_SUCCESS)
     {
-		// ÀûÀýÇÑ Á¾·á ¸Þ½ÃÁö Ãâ·Â
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		TCHAR msg[512];
 		
 //		switch( dwResult )
 		{
 /*		case 110 :
-			wsprintf(msg, "[110] ÀÌ¹Ì nProtect°¡ ½ÇÇàµÇ¾î ÀÖ½À´Ï´Ù.\r\n´Ù½Ã DarkEdenÀ» ½ÇÇàÇØ ÁÖ¼¼¿ä.");
+			wsprintf(msg, "[110] ï¿½Ì¹ï¿½ nProtectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.\r\nï¿½Ù½ï¿½ DarkEdenï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½.");
 			break;		
 		case 112 :
-			wsprintf(msg, "[112] ¹ÙÀÌ·¯½º ¹× ÇØÅ· Åø °Ë»ç ¸ðµâ ·Îµù¿¡ ½ÇÆÐÇß½À´Ï´Ù.\r\n¹ÙÀÌ·¯½º¿¡ °¨¿°µÇ¾î ÀÖÀ» ¼öµµ ÀÖÀ¸´Ï ÃÖ½Å ¹é½ÅÀ¸·Î °Ë»çÇØº¸½Ã±â ¹Ù¶ø´Ï´Ù.");
+			wsprintf(msg, "[112] ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Å· ï¿½ï¿½ ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.\r\nï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Øºï¿½ï¿½Ã±ï¿½ ï¿½Ù¶ï¿½ï¿½Ï´ï¿½.");
 			break;
 		case 122 :
-			wsprintf(msg, "[122] nProtect ÀÇ GameMon ÆÄÀÏÀÌ Á¤»óÀûÀÌÁö ¾Ê½À´Ï´Ù.");
+			wsprintf(msg, "[122] nProtect ï¿½ï¿½ GameMon ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 			break;
 		case 140 :
-			wsprintf(msg, "[140] nProtect¸¦ Update ÇÒ ¼ö ¾ø½À´Ï´Ù.\r\nÇöÀç ÀÎÅÍ³Ý ¿¬°áÀÌ ¿Ã¹Ù¸¥Áö È®ÀÎÇÏ¿© ÁÖ½Ã°í\r\n±×·¡µµ ¹®Á¦°¡ ¾øÀ¸¸é ¿î¿µÆÀ¿¡ ¹®ÀÇÇØÁÖ¼¼¿ä.");
+			wsprintf(msg, "[140] nProtectï¿½ï¿½ Update ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\r\nï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¹Ù¸ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ö½Ã°ï¿½\r\nï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½î¿µï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
 			break;		
 		case 120 :
 		case 150 :
@@ -258,47 +257,47 @@ int		RunNPROTECT()
 			{
 				char szBuffer[256];
 				GetCurrentDirectory(255, szBuffer );
-				wsprintf(msg, "ErrorCode[%d] ¿¡·¯ ÀÔ´Ï´Ù.\r\nnProtect¸¦ ½ÇÇàÇÏ´Âµ¥ ÇÊ¿äÇÑ ÆÄÀÏÀ» Ã£À»¼ö ¾ø½À´Ï´Ù.\r\n´ÙÅ©¿¡µ§È¨ÆäÀÌÁö(http://www.darkeden.com)¿¡¼­ Á÷Á¢ ´Ù¿î·Îµå¹Þ¾Æ\r\n%s Æú´õ¿¡ ¾ÐÃàÀ» Ç®¸é ÇØ°áµÉ ¼ö ÀÖ½À´Ï´Ù.",dwResult,szBuffer);
+				wsprintf(msg, "ErrorCode[%d] ï¿½ï¿½ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.\r\nnProtectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Âµï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\r\nï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(http://www.darkeden.com)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Îµï¿½Þ¾ï¿½\r\n%s ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½ ï¿½Ø°ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.",dwResult,szBuffer);
 			}
 			break;
 		case 151 :
-			wsprintf(msg, "[151] °ÔÀÓ°¡µå ¾÷µ¥ÀÌÆ® ¸ðµâÀÌ ¾ø°Å³ª º¯Á¶µÇ¾ú½À´Ï´Ù. ¹ÙÀÌ·¯½º °Ë»ç¸¦ ÇØº¸½Å ÈÄ\r\n°ÔÀÓ°¡µå ¼Â¾÷ÆÄÀÏÀ» ´Ù¿î¹Þ¾Æ °ÔÀÓ °¡µå Æú´õ¿¡ ´Ù½Ã ¼³Ä¡ ÇØÁÖ¼¼¿ä.");
+			wsprintf(msg, "[151] ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½Ë»ç¸¦ ï¿½Øºï¿½ï¿½ï¿½ ï¿½ï¿½\r\nï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ ï¿½Â¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Þ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
 			break;
 		case 210 :			
 		case 220 :
 		case 230 :
 			CheckWindowVersion();
-			wsprintf(msg, "[%d][%d/%d] nProtect GameGuard ÃÊ±âÈ­ ¿¡·¯ ÀÔ´Ï´Ù.\r\n°ÔÀÓÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.\r\nDarkEdenÆú´õÀÇ GameGuardÆú´õ¿¡ ÀÖ´Â ÆÄÀÏµéÀ» ¾ÐÃàÇÏ¿©\r\nnprotect_help@inca.co.kr·Î º¸³»ÁÖ¼¼¿ä.", dwResult,g_OsVersion[0],g_OsVersion[1]);
+			wsprintf(msg, "[%d][%d/%d] nProtect GameGuard ï¿½Ê±ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.\r\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\r\nDarkEdenï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ GameGuardï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½\r\nnprotect_help@inca.co.krï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.", dwResult,g_OsVersion[0],g_OsVersion[1]);
 			break;
 		case 340 :
-			wsprintf(msg, "[340] nProtect ÀÇ ´Ù¿î·Îµå¿¡ ½ÇÆÐÇÏ¿´½À´Ï´Ù. \r\n³×Æ®¿öÅ© »óÅÂ°¡ ÁÁÁö ¾Ê°Å³ª, ÀÎÅÍ³Ý ¼³Á¤¿¡ ¹®Á¦°¡ ÀÖÀ» ¼ö ÀÖ½À´Ï´Ù.");
+			wsprintf(msg, "[340] nProtect ï¿½ï¿½ ï¿½Ù¿ï¿½Îµå¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. \r\nï¿½ï¿½Æ®ï¿½ï¿½Å© ï¿½ï¿½ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°Å³ï¿½, ï¿½ï¿½ï¿½Í³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.");
 			break;
 		case 360 :
-			wsprintf(msg, "[360] ¹ÙÀÌ·¯½º°¡ ÀÖ¾î¼­ °ÔÀÓÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.\r\nÃÖ½Å ¹é½ÅÀ¸·Î ¹ÙÀÌ·¯½º¸¦ Ä¡·áÇÏ½ÅÈÄ¿¡ °ÔÀÓÀ»\r\n½ÇÇàÇØÁÖ¼¼¿ä.");
+			wsprintf(msg, "[360] ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾î¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\r\nï¿½Ö½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½ Ä¡ï¿½ï¿½ï¿½Ï½ï¿½ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\r\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
 			break;
 		case NPGMUP_ERROR_DECRYPT :
 			wsprintf(msg, "[370] nProtect Decrypt Error");			
 			break;
 		case 380 :
-			wsprintf(msg, "[380] °ÔÀÓ°¡µå ¾÷µ¥ÀÌÆ® ¼­¹ö Á¢¼Ó¿¡ ½ÇÆÐÇÏ¿´½À´Ï´Ù.\r\nÀá½Ã ÈÄ ´Ù½Ã ½ÃµµÇØÁÖ¼¼¿ä.");			
+			wsprintf(msg, "[380] ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\r\nï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");			
 			break;
 		case 390 :
-			wsprintf(msg, "[390] INI ÆÄÀÏ¿¡ ¹®Á¦°¡ ÀÖ½À´Ï´Ù.");
+			wsprintf(msg, "[390] INI ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.");
 			break;
 		default :
-			wsprintf(msg, "nProtect GameGuard ½ÇÇà ¿¡·¯ : %lu", dwResult);
+			wsprintf(msg, "nProtect GameGuard ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : %lu", dwResult);
 			break;
 		case 110 :
-			wsprintf(msg, "[110] ÀÌ¹Ì nProtect°¡ ½ÇÇàµÇ¾î ÀÖ½À´Ï´Ù.\r\n´Ù½Ã DarkEdenÀ» ½ÇÇàÇØ ÁÖ¼¼¿ä.");
+			wsprintf(msg, "[110] ï¿½Ì¹ï¿½ nProtectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.\r\nï¿½Ù½ï¿½ DarkEdenï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½.");
 			break;		
 		case 112 :
-			wsprintf(msg, "[112] ¹ÙÀÌ·¯½º ¹× ÇØÅ· Åø °Ë»ç ¸ðµâ ·Îµù¿¡ ½ÇÆÐÇß½À´Ï´Ù.\r\n¹ÙÀÌ·¯½º¿¡ °¨¿°µÇ¾î ÀÖÀ» ¼öµµ ÀÖÀ¸´Ï ÃÖ½Å ¹é½ÅÀ¸·Î °Ë»çÇØº¸½Ã±â ¹Ù¶ø´Ï´Ù.");
+			wsprintf(msg, "[112] ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Å· ï¿½ï¿½ ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.\r\nï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Øºï¿½ï¿½Ã±ï¿½ ï¿½Ù¶ï¿½ï¿½Ï´ï¿½.");
 			break;
 		case 122 :
-			wsprintf(msg, "[122] nProtect ÀÇ GameMon ÆÄÀÏÀÌ Á¤»óÀûÀÌÁö ¾Ê½À´Ï´Ù.");
+			wsprintf(msg, "[122] nProtect ï¿½ï¿½ GameMon ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.");
 			break;
 		case 140 :
-			wsprintf(msg, "[140] nProtect¸¦ Update ÇÒ ¼ö ¾ø½À´Ï´Ù.\r\nÇöÀç ÀÎÅÍ³Ý ¿¬°áÀÌ ¿Ã¹Ù¸¥Áö È®ÀÎÇÏ¿© ÁÖ½Ã°í\r\n±×·¡µµ ¹®Á¦°¡ ¾øÀ¸¸é ¿î¿µÆÀ¿¡ ¹®ÀÇÇØÁÖ¼¼¿ä.");
+			wsprintf(msg, "[140] nProtectï¿½ï¿½ Update ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\r\nï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¹Ù¸ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ö½Ã°ï¿½\r\nï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½î¿µï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
 			break;		
 		case 120 :
 		case 150 :
@@ -306,41 +305,41 @@ int		RunNPROTECT()
 			{
 				char szBuffer[256];
 				GetCurrentDirectory(255, szBuffer );
-				wsprintf(msg, "ErrorCode[%d] ¿¡·¯ ÀÔ´Ï´Ù.\r\nnProtect¸¦ ½ÇÇàÇÏ´Âµ¥ ÇÊ¿äÇÑ ÆÄÀÏÀ» Ã£À»¼ö ¾ø½À´Ï´Ù.\r\n´ÙÅ©¿¡µ§È¨ÆäÀÌÁö(http://www.darkeden.com)¿¡¼­ Á÷Á¢ ´Ù¿î·Îµå¹Þ¾Æ\r\n%s Æú´õ¿¡ ¾ÐÃàÀ» Ç®¸é ÇØ°áµÉ ¼ö ÀÖ½À´Ï´Ù.",dwResult,szBuffer);
+				wsprintf(msg, "ErrorCode[%d] ï¿½ï¿½ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.\r\nnProtectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Âµï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\r\nï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(http://www.darkeden.com)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Îµï¿½Þ¾ï¿½\r\n%s ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½ ï¿½Ø°ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.",dwResult,szBuffer);
 			}
 			break;
 		case 151 :
-			wsprintf(msg, "[151] °ÔÀÓ°¡µå ¾÷µ¥ÀÌÆ® ¸ðµâÀÌ ¾ø°Å³ª º¯Á¶µÇ¾ú½À´Ï´Ù. ¹ÙÀÌ·¯½º °Ë»ç¸¦ ÇØº¸½Å ÈÄ\r\n°ÔÀÓ°¡µå ¼Â¾÷ÆÄÀÏÀ» ´Ù¿î¹Þ¾Æ °ÔÀÓ °¡µå Æú´õ¿¡ ´Ù½Ã ¼³Ä¡ ÇØÁÖ¼¼¿ä.");
+			wsprintf(msg, "[151] ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½Ë»ç¸¦ ï¿½Øºï¿½ï¿½ï¿½ ï¿½ï¿½\r\nï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ ï¿½Â¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Þ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
 			break;
 		case 210 :			
 		case 220 :
 		case 230 :
 			CheckWindowVersion();
-			wsprintf(msg, "[%d][%d/%d] nProtect GameGuard ÃÊ±âÈ­ ¿¡·¯ ÀÔ´Ï´Ù.\r\n°ÔÀÓÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.\r\nDarkEdenÆú´õÀÇ GameGuardÆú´õ¿¡ ÀÖ´Â ÆÄÀÏµéÀ» ¾ÐÃàÇÏ¿©\r\nnprotect_help@inca.co.kr·Î º¸³»ÁÖ¼¼¿ä.", dwResult,g_OsVersion[0],g_OsVersion[1]);
+			wsprintf(msg, "[%d][%d/%d] nProtect GameGuard ï¿½Ê±ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô´Ï´ï¿½.\r\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\r\nDarkEdenï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ GameGuardï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½\r\nnprotect_help@inca.co.krï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.", dwResult,g_OsVersion[0],g_OsVersion[1]);
 			break;
 		case 340 :
-			wsprintf(msg, "[340] nProtect ÀÇ ´Ù¿î·Îµå¿¡ ½ÇÆÐÇÏ¿´½À´Ï´Ù. \r\n³×Æ®¿öÅ© »óÅÂ°¡ ÁÁÁö ¾Ê°Å³ª, ÀÎÅÍ³Ý ¼³Á¤¿¡ ¹®Á¦°¡ ÀÖÀ» ¼ö ÀÖ½À´Ï´Ù.");
+			wsprintf(msg, "[340] nProtect ï¿½ï¿½ ï¿½Ù¿ï¿½Îµå¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. \r\nï¿½ï¿½Æ®ï¿½ï¿½Å© ï¿½ï¿½ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°Å³ï¿½, ï¿½ï¿½ï¿½Í³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.");
 			break;
 		case 360 :
-			wsprintf(msg, "[360] ¹ÙÀÌ·¯½º°¡ ÀÖ¾î¼­ °ÔÀÓÀ» ½ÇÇàÇÒ ¼ö ¾ø½À´Ï´Ù.\r\nÃÖ½Å ¹é½ÅÀ¸·Î ¹ÙÀÌ·¯½º¸¦ Ä¡·áÇÏ½ÅÈÄ¿¡ °ÔÀÓÀ»\r\n½ÇÇàÇØÁÖ¼¼¿ä.");
+			wsprintf(msg, "[360] ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾î¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\r\nï¿½Ö½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½ Ä¡ï¿½ï¿½ï¿½Ï½ï¿½ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\r\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");
 			break;
 		case NPGMUP_ERROR_DECRYPT :
 			wsprintf(msg, "[370] nProtect Decrypt Error");			
 			break;
 		case 380 :
-			wsprintf(msg, "[380] °ÔÀÓ°¡µå ¾÷µ¥ÀÌÆ® ¼­¹ö Á¢¼Ó¿¡ ½ÇÆÐÇÏ¿´½À´Ï´Ù.\r\nÀá½Ã ÈÄ ´Ù½Ã ½ÃµµÇØÁÖ¼¼¿ä.");			
+			wsprintf(msg, "[380] ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ó¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.\r\nï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½.");			
 			break;
 		case 390 :
-			wsprintf(msg, "[390] INI ÆÄÀÏ¿¡ ¹®Á¦°¡ ÀÖ½À´Ï´Ù.");
+			wsprintf(msg, "[390] INI ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.");
 			break;
 		default :
-			wsprintf(msg, "nProtect GameGuard ½ÇÇà ¿¡·¯ : %lu", dwResult);
+			wsprintf(msg, "nProtect GameGuard ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : %lu", dwResult);
 			break;
 */
 //		default :
 			//wsprintf(msg, "nProtect GameGuard Error : %lu", dwResult);
 
-			wsprintf(msg, "°ÔÀÓ°¡µå ½ÇÇà Áß ¿¡·¯°¡ ¹ß»ýÇÏ¿´½À´Ï´Ù. °ÔÀÓ Æú´õ ¾ÈÀÇ GameGuard Æú´õ¿¡ ÀÖ´Â *.erl ÆÄÀÏµéÀ» Game1@inca.co.kr·Î Ã·ºÎÇÏ¿© ¸ÞÀÏ º¸³»ÁÖ½Ã±â ¹Ù¶ø´Ï´Ù.") ; 
+			wsprintf(msg, "ï¿½ï¿½ï¿½Ó°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ GameGuard ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ *.erl ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ Game1@inca.co.krï¿½ï¿½ Ã·ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö½Ã±ï¿½ ï¿½Ù¶ï¿½ï¿½Ï´ï¿½.") ; 
 
 //			break;
 		} 
@@ -486,29 +485,29 @@ BOOL CALLBACK NPGameMonCallback(DWORD dwMsg, DWORD dwArg)
 	case NPGAMEMON_COMM_ERROR:
 	case NPGAMEMON_COMM_CLOSE:
 		g_bForceExitBynProtect = true;
-		return false; // ¹Ýµå½Ã Á¾·á
+		return false; // ï¿½Ýµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
 	case NPGAMEMON_INIT_ERROR:
-//		wsprintf(msg, "nProtect GameGuard ÃÊ±âÈ­ ¿¡·¯ : %lu", dwArg);
+//		wsprintf(msg, "nProtect GameGuard ï¿½Ê±ï¿½È­ ï¿½ï¿½ï¿½ï¿½ : %lu", dwArg);
 //		MessageBox(hWnd, msg, "Error", MB_OK);
 		g_bForceExitBynProtect = true;
-		return false; // ¹Ýµå½Ã Á¾·á
+		return false; // ï¿½Ýµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
 	case NPGAMEMON_SPEEDHACK:
-//		MessageBox(hWnd, "½ºÇÇµåÇÙÀÌ °¨ÁöµÇ¾ú½À´Ï´Ù.", "Warning", MB_OK);
+//		MessageBox(hWnd, "ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.", "Warning", MB_OK);
 		g_bForceExitBynProtect = true;
-		return false; // Á¾·á
+		return false; // ï¿½ï¿½ï¿½ï¿½
 		
 	case NPGAMEMON_GAMEHACK_KILLED:
-//		MessageBox(hWnd, "°ÔÀÓÇÙÀÌ ¹ß°ßµÇ¾ú½À´Ï´Ù.", "Warning", MB_OK);
-		return true; // °è¼Ó ÁøÇà
+//		MessageBox(hWnd, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ßµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.", "Warning", MB_OK);
+		return true; // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
 	case NPGAMEMON_GAMEHACK_DETECT:
-//		MessageBox(hWnd, "°ÔÀÓÇÙÀÌ °¨ÁöµÇ¾ú½À´Ï´Ù.", "Warning", MB_OK);
+//		MessageBox(hWnd, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.", "Warning", MB_OK);
 		g_bForceExitBynProtect = true;
-		return false; // Á¾·á
+		return false; // ï¿½ï¿½ï¿½ï¿½
 	case NPGAMEMON_CHECK_CSAUTH:
-		//MessageBox(g_hWnd, "NPGAMEMON_CHECK_CSAUTH¹ÞÀ½", "Warning", MB_OK);
+		//MessageBox(g_hWnd, "NPGAMEMON_CHECK_CSAUTHï¿½ï¿½ï¿½ï¿½", "Warning", MB_OK);
 		Send_nProtect_Auth(dwArg);
 		return true;
 	}	

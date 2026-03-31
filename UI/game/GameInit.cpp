@@ -82,6 +82,7 @@
 #include "ServerInfoFileParser.h"
 #include "MWorkThreadGlobal.h"
 #include "BGMManager.h"
+#include "IVolume.h"
 
 #if __CONTENTS(__PREMIUM_GIVE_ITEM_UI)
 #include "MPremiumGiveItemInfo.h"

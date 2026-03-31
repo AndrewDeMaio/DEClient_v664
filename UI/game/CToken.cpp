@@ -12,8 +12,8 @@
 //------------------------------------------------------------------------
 CToken::CToken(const char* str)
 {
-   m_pString = NULL;
-   m_pCurrent = NULL;
+   m_pString = nullptr;
+   m_pCurrent = nullptr;
 
    SetString(str);
 }
@@ -36,7 +36,7 @@ CToken::~CToken()
 void
 CToken::Release()
 {
-   if (m_pString!=NULL)
+   if (m_pString)
       delete [] m_pString;
 }
 
@@ -48,7 +48,7 @@ CToken::SetString(const char *str)
 {
 	Release();
 	  
-   if (str!=NULL)
+   if (str)
    {
 	   m_nStringLenght	= strlen(str);
 
@@ -67,10 +67,10 @@ CToken::SetString(const char *str)
 const char*
 CToken::GetToken(const char* delimiter)
 {
-	if (m_pCurrent==NULL ||
+	if (!m_pCurrent ||
 		m_pCurrent > m_pString + m_nStringLenght - 1)
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	SkipSpace();
@@ -81,9 +81,9 @@ CToken::GetToken(const char* delimiter)
 	char* pFound = strpbrk(m_pCurrent, delimiter);
 	
 	// last token
-	if (pFound==NULL)
+	if (!pFound)
 	{
-		m_pCurrent = NULL;
+		m_pCurrent = nullptr;
 	}
 	// else
 	else
@@ -106,7 +106,7 @@ CToken::GetEnd()
 
    char* pTemp = m_pCurrent;
 
-   m_pCurrent = NULL;
+   m_pCurrent = nullptr;
 
    return pTemp;
 }
@@ -117,9 +117,9 @@ CToken::GetEnd()
 void
 CToken::SkipSpace()
 {
-	while (m_pCurrent!=NULL && m_pCurrent!='\0' && *m_pCurrent == ' ')
-    {
-        m_pCurrent += 1;
-    }
+	while (m_pCurrent != nullptr && *m_pCurrent != '\0' && *m_pCurrent == ' ')
+	{
+		m_pCurrent += 1;
+	}
 }
 

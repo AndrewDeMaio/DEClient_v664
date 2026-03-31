@@ -41,7 +41,7 @@
 #include "MGuildInfoMapper.h"
 #include "UserInformation.h"
 #include "UtilityFunction.h"
-#include "MGameStringTable.H"
+#include "MGameStringTable.h"
 #include "MTimeItemManager.h"
 #include "MMonsterKillQuestInfo.h"
 
@@ -50,7 +50,6 @@
 #include "RankBonusTable.h"
 #include "FameInfo.h"
 #include "MQuestInfo.h"
-#include "MMonsterKillQuestInfo.h"
 #include "Packet/Properties.h"
 #include "SystemAvailabilities.h"
 #include "ShrineInfoManager.h"

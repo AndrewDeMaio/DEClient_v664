@@ -326,9 +326,9 @@ IsValidID(const char* strID, const char* strPermit)
 			// 숫자거나 
 			// 허용된 문자인 경우는 괜찮다..
 			//--------------------------------------------------------
-			else if (ch>='0' && ch<='9'
-					|| strPermit!=NULL && strchr(strPermit, ch)!='\0')
-			{				
+			else if (ch >= '0' && ch <= '9'
+				|| strPermit && *strchr(strPermit, ch) != '\0')
+			{
 			}
 			//--------------------------------------------------------
 			// 이상한 문자 쓰면 안된다.				

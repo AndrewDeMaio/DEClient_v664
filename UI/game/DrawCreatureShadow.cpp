@@ -796,7 +796,7 @@ void	MTopView::DrawShadowSlayerCharacter( POINT *pPoint, MCreature* pCreature, i
 				clothes = addonInfo.FrameID;
 				
 				CCreatureFramePack& addonShadowFPK = pCreature->IsMale() ? m_AddonManShadowFPK : m_AddonWomanShadowFPK;
-				CShadowSpritePack&	addonSSPK = pCreature->IsMale() ? m_AddonManSSPK : m_AddonWomanSSPK;
+				CShadowSpriteTypePack&	addonSSPK = pCreature->IsMale() ? m_AddonManSSPK : m_AddonWomanSSPK;
 				
 				FRAME_ARRAY &FA = addonShadowFPK[clothes][action][direction];
 				
@@ -1214,7 +1214,7 @@ void	MTopView::DrawShadowAdvancementClassSlayerCharacter( POINT *pPoint, MCreatu
 		BYTE clothesType;
 
 		CCreatureFramePack& slayerFPK = pCreature->IsMale() ? m_AdvancementSlayerManShadowFPK : m_AdvancementSlayerWomanShadowFPK;
-		CShadowSpritePack& addonSSPK = pCreature->IsMale() ? m_AdvancementSlayerManSSPK : m_AdvancementSlayerWomanSSPK;
+		CShadowSpriteTypePack& addonSSPK = pCreature->IsMale() ? m_AdvancementSlayerManSSPK : m_AdvancementSlayerWomanSSPK;
 		
 		int Frame_Save = frame ; 
 		int Action_Save= action;
@@ -1290,7 +1290,7 @@ void	MTopView::DrawShadowAdvancementClassSlayerCharacter( POINT *pPoint, MCreatu
 void	MTopView::DrawShadowAdvancementClassVampireCharacter( POINT *pPoint, MCreature* pCreature, int action, int direction, int frame, int body, bool bBlendingShadow , bool bSlayerPet_ShowTurret )
 {		
 	CCreatureFramePack& advanceVampireFPK = pCreature->IsMale() ? m_AdvancementVampireManShadowFPK : m_AdvancementVampireWomanShadowFPK;
-	CShadowSpritePack& advanceVampireSSPK = pCreature->IsMale() ? m_AdvancementVampireManSSPK : m_AdvancementVampireWomanSSPK;
+	CShadowSpriteTypePack& advanceVampireSSPK = pCreature->IsMale() ? m_AdvancementVampireManSSPK : m_AdvancementVampireWomanSSPK;
 
 	action = GetAdvancementVampireActionFromVampireAction( action, pCreature );
 

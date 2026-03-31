@@ -242,12 +242,13 @@ class MCreature : public MObject, public MStatus
 		static int	Unicorn_Color_Kind(int status);
 #endif //__SECOND_TRANSFORTER
 
-#if __CONTENTS(__TIPOJYU_CASTLE)
 		void		SetAlpha(BOOL bAlpha) {m_bAlpha = bAlpha;}
 		BOOL		GetAlpha() {return m_bAlpha;}
 
 		void		SetAlphaShadow(BOOL bAlphaShadow) {m_bAlphaShadow = bAlphaShadow;}
 		BOOL		GetAlphaShdow() {return m_bAlphaShadow;}
+
+#if __CONTENTS(__TIPOJYU_CASTLE)
 #endif // __TIPOJYU_CASTLE
 		
 		// 2005, 2, 21, sobeit add start
@@ -974,9 +975,9 @@ class MCreature : public MObject, public MStatus
 #endif	//__SECOND_TRANSFORTER
 #endif //__FAST_TRANSFORTER||__SECOND_TRANSFORTER
 
-#if __CONTENTS(__TIPOJYU_CASTLE)
 		BOOL					m_bAlpha;
 		BOOL					m_bAlphaShadow;
+#if __CONTENTS(__TIPOJYU_CASTLE)
 #endif // __TIPOJYU_CASTLE
 		// 2005, 2, 21, sobeit add start
 		BYTE					m_MasterEffectType;

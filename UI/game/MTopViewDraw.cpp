@@ -59,7 +59,7 @@
 #include "MItemOptionTable.h"
 #include "Client.h"
 #include "SkillDef.h"
-//#include "vs_ui_item.h"
+#include "vs_ui_item.h"
 #include "MTopViewDraw.inl"
 
 #include "OperatorOption.h"
@@ -1687,8 +1687,8 @@ MTopView::DrawCreature(POINT* pPoint, MCreature* pCreature)
 		if(gpC_item != NULL && pCreature != NULL && pCreature->GetHeadSkin() != 0)
 		{
 			int spriteID = pCreature->GetHeadSkin();
-			int pX = pCreature->GetPixelX() - m_FirstZonePixel.x + TILE_X_HALF-gpC_item->GetWidth(spriteID)/2;
-			int pY = pCreature->GetPixelY() - m_FirstZonePixel.y - TILE_Y -18-gpC_item->GetHeight(spriteID);
+			int pX = pCreature->GetPixelX() - m_FirstZonePixel.x + TILE_X_HALF - gpC_item->GetWidth(spriteID) / 2;
+			int pY = pCreature->GetPixelY() - m_FirstZonePixel.y - TILE_Y - 18 - gpC_item->GetHeight(spriteID);
 			CIndexSprite::SetUsingColorSet(377, 0);
 			gpC_item->BltLocked(pX, pY, spriteID);
 		}

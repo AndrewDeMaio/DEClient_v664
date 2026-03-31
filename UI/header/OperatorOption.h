@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
 // OperatorOption.h
 //----------------------------------------------------------------------
-// ¿î¿µÀÚ¿ë ¿É¼Ç
+// ï¿½î¿µï¿½Ú¿ï¿½ ï¿½É¼ï¿½
 //----------------------------------------------------------------------
 
 #ifndef	__OPERATOROPTION_H__
@@ -21,18 +21,18 @@ public :
 	bool	LoadFromFile(const char* filename);
 
 public :
-	bool	bShowModifyHP;			// HP º¯È­·® Ã¤ÆÃÃ¢¿¡ º¸±â
-	bool	bShowCreatureInfo;		// Å©¸®Ã³ oid º¸±â
-	bool	bShowImageObjectInfo;	// Á¤Áö ¿ÀºêÁ§Æ® iid, sid, vp º¸±â
-	bool	bHideAttachEffect;		// ¸ö¿¡ ºÙ´Â ÀÌÆÑÆ® ¼û±â±â
-	bool	bHideSpeechBalloon;		// ¸»Ç³¼± ¼û±â±â
-	bool	bShowAddEffect;			// EffectStatus Ãß°¡µÇ´Â°Å º¸±â
-	bool	bShowModifyEXP;			// EXP º¯È­·® º¸±â
-	bool	bSlideScreenShot;		// ½½¶óÀÌµå ½ºÅ©¸°¼¦ Âï±â
-	bool	bShowSkillRange;		// ½ºÅ³ »ç¿ë ¹üÀ§ º¸±â
-	bool	bShowModifyRANKEXP;		// °è±Þ°æÇèÄ¡ º¯È­·® º¸±â
-	bool	bRecordCharName;		// Ä³¸¯ÅÍ ÀÌ¸§ txtÆÄÀÏ·Î ÀúÀåÇÏ±â
-	bool	bCanRootingGhost;		// °í½ºÆ® ¸ðµåÀÏ ¶§ ¾ÆÀÌÅÛ ·çÆÃ °¡´É
+	bool	bShowModifyHP;			// HP ï¿½ï¿½È­ï¿½ï¿½ Ã¤ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	bool	bShowCreatureInfo;		// Å©ï¿½ï¿½Ã³ oid ï¿½ï¿½ï¿½ï¿½
+	bool	bShowImageObjectInfo;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® iid, sid, vp ï¿½ï¿½ï¿½ï¿½
+	bool	bHideAttachEffect;		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½
+	bool	bHideSpeechBalloon;		// ï¿½ï¿½Ç³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+	bool	bShowAddEffect;			// EffectStatus ï¿½ß°ï¿½ï¿½Ç´Â°ï¿½ ï¿½ï¿½ï¿½ï¿½
+	bool	bShowModifyEXP;			// EXP ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	bool	bSlideScreenShot;		// ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+	bool	bShowSkillRange;		// ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	bool	bShowModifyRANKEXP;		// ï¿½ï¿½Þ°ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	bool	bRecordCharName;		// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ txtï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
+	bool	bCanRootingGhost;		// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	aqa::Robot* pAutoQARobot;		// AutoQA Robot
 };
@@ -40,7 +40,7 @@ public :
 
 extern	OperatorOption*		g_pOperatorOption;
 
-extern	void	UI_AddChatToHistory(char* str, char* sz_id, int cond, DWORD color);
+extern	void	UI_AddChatToHistory(const char* str, char* sz_id, int cond, DWORD color);
 
 
 #endif

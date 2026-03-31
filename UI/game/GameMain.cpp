@@ -3043,7 +3043,7 @@ LoadZone(int n)
 		g_pZoneTable->Get( g_pZone->GetID() )->CompetenceZone == false
 		)
 	{
-		gpC_base->SendMessage(UI_CHAT_RETURN, CLD_NORMAL, 0, "*command ghost on");
+		gpC_base->SendMessage(UI_CHAT_RETURN, CLD_NORMAL, 0, (void*)"*command ghost on");
 	}
 #endif
 	
@@ -3155,7 +3155,7 @@ LoadZoneInfo(int n)
 			{			
 				portal.LoadFromFile( zoneInfoFile );
 
-				std::vector<WORD>& zoneID = portal.GetZoneID();
+				std::vector<WORD> zoneID = portal.GetZoneID();
 
 				int numZoneID = zoneID.size();
 
@@ -3209,18 +3209,18 @@ LoadZoneInfo(int n)
 			Race MyRace = g_pPlayer->GetRace();
 			DEBUG_ADD("bSlayer OK");
 
-			for (i=0; i<numSafe; i++)
-			{			
+			for (int i = 0; i < numSafe; i++)
+			{
 				zoneInfoFile.read((char*)&rect2, SIZE_B_RECT);
 
-				RECT safeRect = 
-				{ 
+				RECT safeRect =
+				{
 					rect2.left,
 					rect2.top,
 					rect2.right,
 					rect2.bottom
 				};
-				
+
 				DEBUG_ADD_FORMAT("UI SetSafety. f=%d, (%d, %d, %d, %d)", rect2.flag, safeRect.left, safeRect.top, safeRect.right, safeRect.bottom);
 
 				if (rect2.flag != 0)
@@ -3231,7 +3231,7 @@ LoadZoneInfo(int n)
 					{
 						fSafe = FLAG_SECTOR_SAFE_COMMON;
 					}
-					
+
 					if (rect2.flag & FLAG_MIP_SAFE_SLAYER)
 					{
 						fSafe |= FLAG_SECTOR_SAFE_SLAYER;
@@ -3245,22 +3245,22 @@ LoadZoneInfo(int n)
 					{
 						fSafe |= FLAG_SECTOR_SAFE_OUSTERS;
 					}
-					
-					g_pZone->SetSafeSector( safeRect, fSafe );
+
+					g_pZone->SetSafeSector(safeRect, fSafe);
 
 					// ���� ������ ��ġ�ΰ�?
 
-					if(MyRace == RACE_OUSTERS && ( rect2.flag & FLAG_MIP_SAFE_OUSTERS ) ||
-						MyRace == RACE_VAMPIRE && ( rect2.flag & FLAG_MIP_SAFE_VAMPIRE) ||
+					if (MyRace == RACE_OUSTERS && (rect2.flag & FLAG_MIP_SAFE_OUSTERS) ||
+						MyRace == RACE_VAMPIRE && (rect2.flag & FLAG_MIP_SAFE_VAMPIRE) ||
 						MyRace == RACE_SLAYER && (rect2.flag & FLAG_MIP_SAFE_SLAYER) ||
-						(rect2.flag & FLAG_MIP_SAFE_COMMON) )
+						(rect2.flag & FLAG_MIP_SAFE_COMMON))
 					{
-						gC_vs_ui.SetSafetyZone( safeRect, true );						
+						gC_vs_ui.SetSafetyZone(safeRect, true);
 					}
 					// �ٸ� ������ ������ ��ġ�ΰ�?
 					else
 					{
-						gC_vs_ui.SetSafetyZone( safeRect, false );
+						gC_vs_ui.SetSafetyZone(safeRect, false);
 					}
 				}
 			}
@@ -3274,7 +3274,7 @@ LoadZoneInfo(int n)
 			// ousters horn�� �ʿ� �ɴ´�
 			UI_PORTAL_LIST portalList;
 			
-			for(i = 0; i < g_pZone->GetHorn().size(); i++)
+			for(int i = 0; i < g_pZone->GetHorn().size(); i++)
 			{
 				portalList = g_pZone->GetHorn()[i];
 				
@@ -3504,7 +3504,7 @@ LoadWorldMapInfo()
 			{			
 				portal.LoadFromFile(zoneInfoFile);
 				
-				std::vector<WORD>& zoneID = portal.GetZoneID();
+				std::vector<WORD> zoneID = portal.GetZoneID();
 				
 				int numZoneID = zoneID.size();
 				

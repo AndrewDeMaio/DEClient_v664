@@ -407,7 +407,7 @@ UI_SetWorldList()
 
 		const int numGroup = g_pServerInformation->size();
 
-		char** groupName = new char* [numGroup];
+		std::string* groupName = new std::string[numGroup];
 		int* groupID = new int [numGroup];
 		int* groupStatus = new int [numGroup];
 
@@ -421,10 +421,8 @@ UI_SetWorldList()
 			const char* groupNameOrg = iGroup->second->GetGroupName();
 			int status = iGroup->second->GetGroupStatus();
 		
-			groupName[i] = new char[strlen(groupNameOrg) + 1];
-
-			groupID[i] = iGroup->first;			
-			strcpy(groupName[i], groupNameOrg);
+			groupID[i] = iGroup->first;
+			groupName[i] = groupNameOrg;
 			groupStatus[i] = status;
 
 			iGroup ++;
@@ -438,11 +436,6 @@ UI_SetWorldList()
 		//-----------------------------------------------------
 		// �޸𸮿��� ����
 		//-----------------------------------------------------
-		for (i=0; i<numGroup; i++)
-		{
-			delete [] groupName[i];
-		}
-
 		delete [] groupName;
 		delete [] groupID;
 		delete [] groupStatus;
@@ -480,7 +473,7 @@ UI_SetServerList()
 
 		const int numServer = pServerGroup->size();
 
-		char** serverName = new char* [numServer];
+		std::string* serverName = new std::string[numServer];
 		int* serverID = new int [numServer];
 		int* serverStatus = new int [numServer];
 		bool* serverNonPK = new bool [numServer];
@@ -503,10 +496,8 @@ UI_SetServerList()
 			const char* serverNameOrg = pServerInfo->ServerName.GetString();
 			int status = pServerInfo->ServerStatus;
 
-			serverName[i] = new char[strlen(serverNameOrg) + 1];
-
-			serverID[i] = iServer->first;			
-			strcpy(serverName[i], serverNameOrg);
+			serverID[i] = iServer->first;
+			serverName[i] = serverNameOrg;
 			serverStatus[i] = status;
 			serverNonPK[i]	= pServerInfo->ServerNonPK;
 #if __CONTENTS(__SERVER_SELECT_REVEWAL)
@@ -529,11 +520,6 @@ UI_SetServerList()
 		//-----------------------------------------------------
 		// �޸𸮿��� ����
 		//-----------------------------------------------------
-		for (i=0; i<numServer; i++)
-		{
-			delete [] serverName[i];
-		}
-
 		delete [] serverName;
 		delete [] serverID;
 		delete [] serverStatus;
@@ -2960,7 +2946,7 @@ UI_SetMP(int current, int max)
 // Add Chat To History
 //-----------------------------------------------------------------------------
 void
-UI_AddChatToHistory(char* str, char* sz_id, int cond, DWORD color) // const�� �ϸ� �ȵ�! (6/23, KJTINC)
+UI_AddChatToHistory(const char* str, char* sz_id, int cond, DWORD color)
 {
 	if(g_pUserOption->ChatWhite)
 		color = gpC_base->m_chatting_pi.text_color;
@@ -3013,7 +2999,7 @@ const char g_sz_chat_id_divisor[CLD_TOTAL][3] =
 #endif
 */	
 
-	gC_vs_ui.AddChatToHistory(str, sz_id, condition, color);
+	gC_vs_ui.AddChatToHistory(const_cast<char*>(str), sz_id, condition, color);
 }
 
 //-----------------------------------------------------------------------------

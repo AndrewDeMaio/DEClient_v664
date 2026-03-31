@@ -118,7 +118,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;__GAME_CLIENT__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Packet;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)OggLib;$(SolutionDir)Include;$(SolutionDir)MLib;$(ProjectDir)game;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Packet;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)OggLib;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>

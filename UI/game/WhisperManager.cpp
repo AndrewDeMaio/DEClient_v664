@@ -24,7 +24,7 @@ WhisperManager*		g_pWhisperManager = NULL;
 //----------------------------------------------------------------------
 	extern ClientPlayer*		g_pSocket;
 
-extern void		UI_AddChatToHistory(char* str, char* sz_id, int cond, DWORD color);
+extern void		UI_AddChatToHistory(const char* str, char* sz_id, int cond, DWORD color);
 
 
 //----------------------------------------------------------------------
@@ -43,7 +43,7 @@ WhisperInfo::SendToGameServer() const
 	CGWhisper _CGWhisper;
 	_CGWhisper.setName( Name.c_str() );
 
-	// ¸ðµç message º¸³»±â
+	// ï¿½ï¿½ï¿½ message ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	while (iMessage != Messages.end())
 	{		
 		_CGWhisper.setMessage( (*iMessage).msg.c_str() );
@@ -134,10 +134,10 @@ WhisperManager::SendWhisperMessage(const char* pName, const char* pMessage, DWOR
 	//_CRWhisper.setMessage( pMessage );
 	//Packet* pPacket = NULL;
 
-	if( 0 && g_pUserInformation->bKorean == true )	// ÇÑ±¹¹öÀüÀÌ¸é p2p
+	if( 0 && g_pUserInformation->bKorean == true )	// ï¿½Ñ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ p2p
 	{
 		//-------------------------------------------------------
-		// Á¢¼ÓÁßÀÌ°Å³ª Á¢¼Ó ½Ãµµ ÁßÀÎ °æ¿ì..
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 		//-------------------------------------------------------
 		if (g_pRequestClientPlayerManager->HasConnection(pName)
 			|| g_pRequestClientPlayerManager->HasTryingConnection(pName))//!g_pRequestClientPlayerManager->SendPacket(pName, pPacket))
@@ -145,23 +145,23 @@ WhisperManager::SendWhisperMessage(const char* pName, const char* pMessage, DWOR
 			AddWhisperMessage( pName, pMessage, color );
 		}
 		//-------------------------------------------------------
-		// Á¢¼ÓÁßÀÌ ¾Æ´Ñ °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 		//-------------------------------------------------------
 		else
 		{
 			RequestUserInfo* pUserInfo = g_pRequestUserManager->GetUserInfo(pName);
 
 			//-------------------------------------------------------
-			// »ç¿ëÀÚ Á¤º¸°¡ ÀÖ´Ù¸é Á¢¼Ó ½Ãµµ¸¦ ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 			//-------------------------------------------------------
 			if (pUserInfo!=NULL)
 			{
 				//-------------------------------------------------------
-				// Á¢¼Ó ºÒ°¡ »óÅÂÀÎ °æ¿ì
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 				//-------------------------------------------------------
 				if (pUserInfo->IsStatusUnable())
 				{
-					// GameServer·Î ±×³É º¸³½´Ù.
+					// GameServerï¿½ï¿½ ï¿½×³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 						CGWhisper _CGWhisper;
 						_CGWhisper.setName( pName );
 
@@ -171,7 +171,7 @@ WhisperManager::SendWhisperMessage(const char* pName, const char* pMessage, DWOR
 						g_pSocket->sendPacket( &_CGWhisper );
 				}
 				//-------------------------------------------------------
-				// Á¤»óÀûÀÎ Á¢¼ÓÀÌ µÇ´Â °æ¿ì..
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½..
 				//-------------------------------------------------------
 				else
 				{
@@ -180,7 +180,7 @@ WhisperManager::SendWhisperMessage(const char* pName, const char* pMessage, DWOR
 				}
 			}
 			//-------------------------------------------------------
-			// »ç¿ëÀÚ Á¤º¸°¡ ¾ø´Ù¸é ... ¼­¹ö¿¡ IP¸¦ ¿äÃ»ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ... ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IPï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ñ´ï¿½.
 			//-------------------------------------------------------
 			else
 			{
@@ -188,7 +188,7 @@ WhisperManager::SendWhisperMessage(const char* pName, const char* pMessage, DWOR
 				{
 					if( g_pUserInformation->bKorean == true )
 					{
-						// ¼­¹ö¿¡ IP¸¦ ¿äÃ»ÇÑ´Ù.
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IPï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ñ´ï¿½.
 						CGRequestIP _CGRequestIP;
 						_CGRequestIP.setName( pName );
 
@@ -198,14 +198,14 @@ WhisperManager::SendWhisperMessage(const char* pName, const char* pMessage, DWOR
 					}
 				}
 
-				// IP¸¦ ¹Þ°í ³ª¼­ message¸¦ º¸³»ÁÖ±â À§ÇØ¼­ ÀúÀåÇØµÐ´Ù.
+				// IPï¿½ï¿½ ï¿½Þ°ï¿½ ï¿½ï¿½ï¿½ï¿½ messageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ØµÐ´ï¿½.
 				AddWhisperMessage( pName, pMessage, color );
 			}
 		}	
 	}
-	else	// ÇÑ±¹ ¹öÀüÀÌ ¾Æ´Ï¸é
+	else	// ï¿½Ñ±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½
 	{
-		// GameServer·Î ±×³É º¸³½´Ù.
+		// GameServerï¿½ï¿½ ï¿½×³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 		CGWhisper _CGWhisper;
 		_CGWhisper.setName( pName );
 		
@@ -227,7 +227,7 @@ WhisperManager::AddWhisperMessage(const char* pName, const char* pMessage, DWORD
 	WHISPER_INFO_MAP::iterator iInfo = m_WhisperInfos.find( std::string(pName) );
 
 	//------------------------------------------------
-	// ¾ø´Ù¸é »ý¼ºÇÑ´Ù.
+	// ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//------------------------------------------------
 	if (iInfo == m_WhisperInfos.end())
 	{
@@ -241,7 +241,7 @@ WhisperManager::AddWhisperMessage(const char* pName, const char* pMessage, DWORD
 		m_WhisperInfos[pInfo->Name] = pInfo;
 	}
 	//------------------------------------------------
-	// ÀÌ¹Ì ÀÖ´Ù¸é Ãß°¡ÇØµÐ´Ù.
+	// ï¿½Ì¹ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ß°ï¿½ï¿½ØµÐ´ï¿½.
 	//------------------------------------------------
 	else
 	{
@@ -284,12 +284,12 @@ WhisperManager::TryToSendWhisperMessage(const char* pName)
 
 	if (iInfo != m_WhisperInfos.end())
 	{
-		// ½Ãµµ È¸¼ö Áõ°¡
+		// ï¿½Ãµï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		iInfo->second->TryingCount++;		
 	}
 	else
 	{
-		// ±Ó¼Ó¸»À» º¸³¾·Á°í ½ÃµµÇÏ´Â ÁßÀÌ ¾Æ´Ï¶ó¸é Á¤º¸¸¦ ¾ø¾Ø´Ù.
+		// ï¿½Ó¼Ó¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 //		g_pRequestUserManager->RemoveRequestUserLater( pName );
 	}
 
@@ -324,7 +324,7 @@ WhisperManager::RemoveWhisperMessage(const char* pName)
 //----------------------------------------------------------------------
 // Update
 //----------------------------------------------------------------------
-// ½×¿© ÀÖ´Â messageµéÀ» Ã³¸®ÇÑ´Ù.
+// ï¿½×¿ï¿½ ï¿½Ö´ï¿½ messageï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 void
 WhisperManager::Update()
@@ -343,21 +343,21 @@ WhisperManager::Update()
 		WhisperInfo* pInfo = iInfo->second;
 
 		//-------------------------------------------------------
-		// ½Ãµµ¸¦ ¸¹ÀÌ ÇÑ °æ¿ì´Â... Æ÷±â~ÇØ¾ß ÇÑ´Ù.
-		// ±×·² È®·üÀº °ÅÀÇ ¾øÁö¸¸..
-		// ¼­¹ö¿¡¼­ Àß¸øµÈ IP°¡ ³Ñ¾î¿À´Â °æ¿ì°¡ ÀÖ´Ù.
+		// ï¿½Ãµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½... ï¿½ï¿½ï¿½ï¿½~ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
+		// ï¿½×·ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß¸ï¿½ï¿½ï¿½ IPï¿½ï¿½ ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì°¡ ï¿½Ö´ï¿½.
 		//-------------------------------------------------------
 		if (pInfo->TryingCount > 2)		// 2 _-_;
 		{
 			WHISPER_INFO_MAP::iterator iTemp = iInfo ++;
 
-			// ±Ó¼Ó¸» ÀüÇØÁöÁö ¾Ê¾Ò´Ù°í Ãâ·ÂÇØÁÖ°í
+			// ï¿½Ó¼Ó¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö°ï¿½
 			//UI_AddChatToHistory( (*g_pGameStringTable)[STRING_MESSAGE_WHISPER_FAILED].GetString(), NULL, 5 );
 
-			// ¼­¹ö·Î º¸³½´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 			pInfo->SendToGameServer();
 
-			// »ç¿ëÀÚ Á¤º¸¸¦ Á¢¼Ó ºÒ°¡ »óÅÂ·Î ¼³Á¤ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			RequestUserInfo* pUserInfo = g_pRequestUserManager->GetUserInfo(pInfo->Name.c_str());
 
 			if (pUserInfo!=NULL)
@@ -365,35 +365,35 @@ WhisperManager::Update()
 				pUserInfo->SetStatusUnable();
 			}
 
-			// Á¤º¸¸¦ Á¦°ÅÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			delete pInfo;
 			m_WhisperInfos.erase( iTemp );
 
 			continue;
 		}
 		//-------------------------------------------------------
-		// ±Ó¼Ó¸» º¸³»±â À§ÇÑ Á¢¼Ó ¿äÃ»..
+		// ï¿½Ó¼Ó¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»..
 		//-------------------------------------------------------
 		else
 		{			
 			const char* pName = pInfo->Name.c_str();
 
 			//-------------------------------------------------------
-			// Á¢¼ÓÁßÀÌ°Å³ª Á¢¼Ó ½Ãµµ ÁßÀÎ °æ¿ì..
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 			//-------------------------------------------------------
 			if (g_pRequestClientPlayerManager->HasTryingConnection(pName)
 				|| g_pRequestClientPlayerManager->HasConnection(pName))			
 			{			
 			}
 			//-------------------------------------------------------
-			// Á¢¼ÓÁßÀÌ ¾Æ´Ñ °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 			//-------------------------------------------------------
 			else
 			{
 				RequestUserInfo* pUserInfo = g_pRequestUserManager->GetUserInfo(pName);
 				
 				//-------------------------------------------------------
-				// »ç¿ëÀÚ Á¤º¸°¡ ÀÖ´Ù¸é Á¢¼Ó ½Ãµµ¸¦ ÇÑ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ãµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 				//-------------------------------------------------------
 				if (pUserInfo!=NULL)
 				{
@@ -401,7 +401,7 @@ WhisperManager::Update()
 					{
 						pInfo->SendToGameServer();
 						
-						// Á¤º¸¸¦ Á¦°ÅÇÑ´Ù.
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 						WHISPER_INFO_MAP::iterator iTemp = iInfo ++;
 						delete pInfo;
 						m_WhisperInfos.erase( iTemp );
@@ -414,7 +414,7 @@ WhisperManager::Update()
 				}
 				
 				//-------------------------------------------------------
-				// »ç¿ëÀÚ Á¤º¸°¡ ¾ø´Ù¸é ... ¼­¹ö¿¡ IP¸¦ ¿äÃ»ÇÑ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ... ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IPï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ñ´ï¿½.
 				//-------------------------------------------------------
 				else
 				{
@@ -422,7 +422,7 @@ WhisperManager::Update()
 					{
 						if( 0 && g_pUserInformation->bKorean == true )
 						{
-							// ¼­¹ö¿¡ IP¸¦ ¿äÃ»ÇÑ´Ù.
+							// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IPï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ñ´ï¿½.
 							CGRequestIP _CGRequestIP;
 							_CGRequestIP.setName( pName );
 

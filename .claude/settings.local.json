@@ -66,7 +66,8 @@
       "Bash(grep -v \"//\")",
       "Bash(grep -rn 'undef assert' D:/GitHub/DEClient_v664/ --include=*.h)",
       "Bash(grep -v \"//.*char_t\")",
-      "Bash(grep -rn \"typedef.*char_t\\\\|#define char_t\\\\|using char_t\" D:/GitHub/DEClient_v664/ --include=*.h)"
+      "Bash(grep -rn \"typedef.*char_t\\\\|#define char_t\\\\|using char_t\" D:/GitHub/DEClient_v664/ --include=*.h)",
+      "Bash(python3 -:*)"
     ]
   }
 }

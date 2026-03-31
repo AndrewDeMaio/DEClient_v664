@@ -28,32 +28,32 @@
 // Data화일을 먼저 저장하고 Index를 저장해야 한다.
 //--------------------------------------------------------------------------
 class PackFileInfo {
-	public :
-		PackFileInfo(DWORD id=0, const char* pFilename=NULL);
-		virtual ~PackFileInfo();
+public:
+	PackFileInfo(DWORD id = 0, const char* pFilename = NULL);
+	virtual ~PackFileInfo();
 
-		//-------------------------------------------------------------
-		// Set / Get
-		//-------------------------------------------------------------
-		void				SetID(DWORD id)						{ m_ID = id; }
-		void				SetFilePosition(long fp)			{ m_FP = fp; }
-		void				SetFilename(const char* pFilename)	{ m_Filename = pFilename; }
+	//-------------------------------------------------------------
+	// Set / Get
+	//-------------------------------------------------------------
+	void				SetID(DWORD id) { m_ID = id; }
+	void				SetFilePosition(long fp) { m_FP = fp; }
+	void				SetFilename(const char* pFilename) { m_Filename = pFilename; }
 
-		DWORD				GetID()	const				{ return m_ID; }
-		const std::string&	GetFilename() const			{ return m_Filename; }
-		long				GetFilePosition() const		{ return m_FP; }
+	DWORD				GetID()	const { return m_ID; }
+	const std::string& GetFilename() const { return m_Filename; }
+	long				GetFilePosition() const { return m_FP; }
 
-		//-------------------------------------------------------------
-		// File I/O
-		//-------------------------------------------------------------
-		virtual void		SaveToFile(std::ofstream& file);
-		virtual void		LoadFromFile(ivfstream& file);
-		virtual bool		SaveToFileData(std::ofstream& file);
+	//-------------------------------------------------------------
+	// File I/O
+	//-------------------------------------------------------------
+	virtual void		SaveToFile(std::ofstream& file);
+	virtual void		LoadFromFile(ivfstream& file);
+	virtual bool		SaveToFileData(std::ofstream& file);
 
-	protected :
-		DWORD				m_ID;			// ID
-		std::string			m_Filename;		// 화일이름
-		long				m_FP;			// File Position
+protected:
+	DWORD				m_ID;			// ID
+	std::string			m_Filename;		// 화일이름
+	long				m_FP;			// File Position
 };
 
 //--------------------------------------------------------------------------
@@ -61,58 +61,58 @@ class PackFileInfo {
 //--------------------------------------------------------------------------
 template <class FileInfoType>
 class PackFileManager {
-	public :
-		typedef std::map<DWORD, FileInfoType*>			FILEINFO_ID_MAP;
-		typedef std::map<std::string, FileInfoType*>	FILEINFO_NAME_MAP;
+public:
+	typedef std::map<DWORD, FileInfoType*>			FILEINFO_ID_MAP;
+	typedef std::map<std::string, FileInfoType*>	FILEINFO_NAME_MAP;
 
-	public :
-		PackFileManager();
-		virtual ~PackFileManager();
+public:
+	PackFileManager();
+	virtual ~PackFileManager();
 
-		void				Release();
+	void				Release();
 
-		bool				AddFile( DWORD id, const char* pFilename );
-		
-		//---------------------------------------------------------------
-		// Info File
-		//---------------------------------------------------------------
-		bool				SaveToFileInfo(const char* pFilename);
-		bool				LoadFromFileInfo(const char* pFilename);
+	bool				AddFile(DWORD id, const char* pFilename);
 
-		//---------------------------------------------------------------
-		// Save Data
-		//---------------------------------------------------------------
-		virtual bool		SaveToFileData(const char* pFilename);
-		
-		//---------------------------------------------------------------
-		// Load Data
-		//---------------------------------------------------------------
-		void				SetDataFilename(const char* pFilename)	{ m_DataFilename = pFilename; }
-		bool				GetInputFileStream(const char* pFilename, std::ifstream& file) const;
-		bool				GetInputFileStream(DWORD id, std::ifstream& file) const;
+	//---------------------------------------------------------------
+	// Info File
+	//---------------------------------------------------------------
+	bool				SaveToFileInfo(const char* pFilename);
+	bool				LoadFromFileInfo(const char* pFilename);
 
-		//---------------------------------------------------------------
-		// Merge
-		//---------------------------------------------------------------
-		//static bool			Merge(const char* pInfoFilenameOrg,
-		//								const char* pDataFilenameOrg,
-		//								const char* pInfoFilenameApp,
-		//								const char* pDataFilenameApp);
+	//---------------------------------------------------------------
+	// Save Data
+	//---------------------------------------------------------------
+	virtual bool		SaveToFileData(const char* pFilename);
+
+	//---------------------------------------------------------------
+	// Load Data
+	//---------------------------------------------------------------
+	void				SetDataFilename(const char* pFilename) { m_DataFilename = pFilename; }
+	bool				GetInputFileStream(const char* pFilename, std::ifstream& file) const;
+	bool				GetInputFileStream(DWORD id, std::ifstream& file) const;
+
+	//---------------------------------------------------------------
+	// Merge
+	//---------------------------------------------------------------
+	//static bool			Merge(const char* pInfoFilenameOrg,
+	//								const char* pDataFilenameOrg,
+	//								const char* pInfoFilenameApp,
+	//								const char* pDataFilenameApp);
 
 
-	protected :
-		bool					AddInfo(DWORD id, FileInfoType* pInfo);
-		bool					HasInfo(DWORD id);
-		bool					HasInfo(const char* pFilename);
-		FileInfoType*			GetInfo(DWORD id) const;
-		FileInfoType*			GetInfo(const char* pFilename) const;
-		bool					RemoveInfo(DWORD id);
-		bool					RemoveInfo(const char* pFilename);
+protected:
+	bool					AddInfo(DWORD id, FileInfoType* pInfo);
+	bool					HasInfo(DWORD id);
+	bool					HasInfo(const char* pFilename);
+	FileInfoType* GetInfo(DWORD id) const;
+	FileInfoType* GetInfo(const char* pFilename) const;
+	bool					RemoveInfo(DWORD id);
+	bool					RemoveInfo(const char* pFilename);
 
-	protected :
-		std::string				m_DataFilename;
-		FILEINFO_ID_MAP			m_IDInfos;
-		FILEINFO_NAME_MAP		m_NameInfos;
+protected:
+	std::string				m_DataFilename;
+	FILEINFO_ID_MAP			m_IDInfos;
+	FILEINFO_NAME_MAP		m_NameInfos;
 };
 
 
@@ -149,12 +149,12 @@ PackFileManager<FileInfoType>::Release()
 	{
 		PackFileInfo* pFileInfo = iInfo->second;
 
-		if (pFileInfo!=NULL)
+		if (pFileInfo != NULL)
 		{
 			delete pFileInfo;
 		}
 
-		iInfo ++;
+		iInfo++;
 	}
 
 	m_IDInfos.clear();
@@ -168,16 +168,16 @@ template <class FileInfoType>
 bool
 PackFileManager<FileInfoType>::AddInfo(DWORD id, FileInfoType* pInfo)
 {
-	auto iInfo = m_IDInfos.find( id );
+	auto iInfo = m_IDInfos.find(id);
 
 	if (iInfo != m_IDInfos.end())
 	{
-		RemoveInfo( id );		
+		RemoveInfo(id);
 	}
-	
+
 	m_IDInfos[id] = pInfo;
 
-	if (pInfo->GetFilename().c_str()!=NULL)
+	if (pInfo->GetFilename().c_str() != NULL)
 	{
 		m_NameInfos[pInfo->GetFilename()] = pInfo;
 	}
@@ -189,10 +189,10 @@ PackFileManager<FileInfoType>::AddInfo(DWORD id, FileInfoType* pInfo)
 // HasInfo
 //--------------------------------------------------------------------------
 template <class FileInfoType>
-bool		
+bool
 PackFileManager<FileInfoType>::HasInfo(DWORD id)
 {
-	auto iInfo = m_IDInfos.find( id );
+	auto iInfo = m_IDInfos.find(id);
 
 	if (iInfo != m_IDInfos.end())
 	{
@@ -206,10 +206,10 @@ PackFileManager<FileInfoType>::HasInfo(DWORD id)
 // HasInfo
 //--------------------------------------------------------------------------
 template <class FileInfoType>
-bool		
+bool
 PackFileManager<FileInfoType>::HasInfo(const char* pFilename)
 {
-	auto iInfo = m_NameInfos.find( std::string(pFilename) );
+	auto iInfo = m_NameInfos.find(std::string(pFilename));
 
 	if (iInfo != m_IDInfos.end())
 	{
@@ -223,10 +223,10 @@ PackFileManager<FileInfoType>::HasInfo(const char* pFilename)
 // Get Info
 //--------------------------------------------------------------------------
 template <class FileInfoType>
-FileInfoType*	
+FileInfoType*
 PackFileManager<FileInfoType>::GetInfo(DWORD id) const
 {
-	auto iInfo = m_IDInfos.find( id );
+	auto iInfo = m_IDInfos.find(id);
 
 	if (iInfo != m_IDInfos.end())
 	{
@@ -240,10 +240,10 @@ PackFileManager<FileInfoType>::GetInfo(DWORD id) const
 // Get Info
 //--------------------------------------------------------------------------
 template <class FileInfoType>
-FileInfoType*	
+FileInfoType*
 PackFileManager<FileInfoType>::GetInfo(const char* pFilename) const
 {
-	FILEINFO_NAME_MAP::const_iterator iInfo = m_IDInfos.find( std::string(pFilename) );
+	auto iInfo = m_IDInfos.find(std::string(pFilename));
 
 	if (iInfo != m_IDInfos.end())
 	{
@@ -257,28 +257,28 @@ PackFileManager<FileInfoType>::GetInfo(const char* pFilename) const
 // Remove Info
 //--------------------------------------------------------------------------
 template <class FileInfoType>
-bool					
+bool
 PackFileManager<FileInfoType>::RemoveInfo(DWORD id)
 {
-	auto iInfo = m_IDInfos.find( id );
+	auto iInfo = m_IDInfos.find(id);
 
 	if (iInfo != m_IDInfos.end())
 	{
 		FileInfoType* pInfo = iInfo->second;
 
-		auto iNameInfo = m_NameInfos.find( pInfo->GetFilename() );
+		auto iNameInfo = m_NameInfos.find(pInfo->GetFilename());
 
-		if (iNameInfo!=m_NameInfos.end())
+		if (iNameInfo != m_NameInfos.end())
 		{
-			m_NameInfos.erase( iNameInfo );
+			m_NameInfos.erase(iNameInfo);
 		}
 
-		m_IDInfos.erase( iInfo );
+		m_IDInfos.erase(iInfo);
 
-		if (pInfo!=NULL)
+		if (pInfo != NULL)
 		{
 			delete pInfo;
-		}		
+		}
 
 		return true;
 	}
@@ -290,33 +290,33 @@ PackFileManager<FileInfoType>::RemoveInfo(DWORD id)
 // Remove Info
 //--------------------------------------------------------------------------
 template <class FileInfoType>
-bool					
+bool
 PackFileManager<FileInfoType>::RemoveInfo(const char* pFilename)
 {
-	if (pFilename==NULL)
+	if (pFilename == NULL)
 	{
 		return false;
 	}
 
-	auto iNameInfo = m_NameInfos.find( std::string(pFilename) );
+	auto iNameInfo = m_NameInfos.find(std::string(pFilename));
 
-	if (iInfo != m_NameInfos.end())
+	if (iNameInfo != m_NameInfos.end())
 	{
-		FileInfoType* pInfo = iInfo->second;
+		FileInfoType* pInfo = iNameInfo->second;
 
-		auto iInfo = m_IDInfos.find( pInfo->GetID() );
+		auto iInfo = m_IDInfos.find(pInfo->GetID());
 
-		if (iInfo!=m_IDInfos.end())
+		if (iInfo != m_IDInfos.end())
 		{
-			m_IDInfos.erase( iInfo );
+			m_IDInfos.erase(iInfo);
 		}
 
-		m_NameInfos.erase( iNameInfo );
+		m_NameInfos.erase(iNameInfo);
 
-		if (pInfo!=NULL)
+		if (pInfo != NULL)
 		{
 			delete pInfo;
-		}		
+		}
 
 		return true;
 	}
@@ -328,15 +328,15 @@ PackFileManager<FileInfoType>::RemoveInfo(const char* pFilename)
 // Add File
 //--------------------------------------------------------------------------
 template <class FileInfoType>
-bool					
-PackFileManager<FileInfoType>::AddFile( DWORD id, const char* pFilename )
+bool
+PackFileManager<FileInfoType>::AddFile(DWORD id, const char* pFilename)
 {
 	FileInfoType* pInfo = new FileInfoType;
 
-	pInfo->SetID( id );
-	pInfo->SetFilename( pFilename );
+	pInfo->SetID(id);
+	pInfo->SetFilename(pFilename);
 
-	AddInfo( id, pInfo );
+	AddInfo(id, pInfo);
 
 	return true;
 }
@@ -345,7 +345,7 @@ PackFileManager<FileInfoType>::AddFile( DWORD id, const char* pFilename )
 // Save To File Info
 //--------------------------------------------------------------------------
 template <class FileInfoType>
-bool					
+bool
 PackFileManager<FileInfoType>::SaveToFileInfo(const char* pFilename)
 {
 	std::ofstream file(pFilename, std::ios::binary | std::ios::trunc);
@@ -361,13 +361,13 @@ PackFileManager<FileInfoType>::SaveToFileInfo(const char* pFilename)
 	{
 		FileInfoType* pInfo = iInfo->second;
 
-		pInfo->SaveToFile( file );
+		pInfo->SaveToFile(file);
 
-		iInfo ++;
+		iInfo++;
 	}
 
 	file.close();
-	
+
 	return true;
 }
 
@@ -375,7 +375,7 @@ PackFileManager<FileInfoType>::SaveToFileInfo(const char* pFilename)
 // Load From File Info
 //--------------------------------------------------------------------------
 template <class FileInfoType>
-bool					
+bool
 PackFileManager<FileInfoType>::LoadFromFileInfo(const char* pFilename)
 {
 	Release();
@@ -388,18 +388,18 @@ PackFileManager<FileInfoType>::LoadFromFileInfo(const char* pFilename)
 		WORD num;
 		file.read((char*)&num, 2);
 
-		for (int i=0; i<num; i++)
+		for (int i = 0; i < num; i++)
 		{
 			// Header 읽기
 			FileInfoType* pInfo = new FileInfoType;
 
-			pInfo->LoadFromFile( file );
+			pInfo->LoadFromFile(file);
 
-			AddInfo( pInfo->GetID(), pInfo );
+			AddInfo(pInfo->GetID(), pInfo);
 		}
 
 		file.close();
-	
+
 		return true;
 	}
 
@@ -410,32 +410,32 @@ PackFileManager<FileInfoType>::LoadFromFileInfo(const char* pFilename)
 // Save To File Data
 //--------------------------------------------------------------------------
 template <class FileInfoType>
-bool					
+bool
 PackFileManager<FileInfoType>::SaveToFileData(const char* pFilename)
 {
 	std::ofstream file(pFilename, std::ios::binary | std::ios::trunc);
 
 	// 개수
 	WORD num = m_IDInfos.size();
-	file.write((const char*)&num, 2);	
+	file.write((const char*)&num, 2);
 
 	// data
 	auto iInfo = m_IDInfos.begin();
 
-	while  (iInfo != m_IDInfos.end())
+	while (iInfo != m_IDInfos.end())
 	{
 		FileInfoType* pInfo = iInfo->second;
 
-		if (pInfo!=NULL)
+		if (pInfo != NULL)
 		{
 			long fp = file.tellp();
 
-			pInfo->SetFilePosition( fp );
+			pInfo->SetFilePosition(fp);
 
-			pInfo->SaveToFileData( file );
+			pInfo->SaveToFileData(file);
 		}
 
-		iInfo ++;
+		iInfo++;
 	}
 
 	return true;
@@ -448,13 +448,13 @@ template <class FileInfoType>
 bool
 PackFileManager<FileInfoType>::GetInputFileStream(const char* pFilename, std::ifstream& file) const
 {
-	if (m_DataFilename.c_str()==NULL 
-		|| pFilename==NULL)
+	if (m_DataFilename.c_str() == NULL
+		|| pFilename == NULL)
 	{
 		return false;
 	}
 
-	auto iInfo = m_NameInfos.find( std::string(pFilename) );
+	auto iInfo = m_NameInfos.find(std::string(pFilename));
 
 	if (iInfo != m_NameInfos.end())
 	{
@@ -462,9 +462,9 @@ PackFileManager<FileInfoType>::GetInputFileStream(const char* pFilename, std::if
 
 		file.open(m_DataFilename.c_str(), std::ios::binary);
 
-		file.seekg( pInfo->GetFilePosition() );
+		file.seekg(pInfo->GetFilePosition());
 
-		return true;				
+		return true;
 	}
 
 	return false;
@@ -477,12 +477,12 @@ template <class FileInfoType>
 bool
 PackFileManager<FileInfoType>::GetInputFileStream(DWORD id, std::ifstream& file) const
 {
-	if (m_DataFilename.c_str()==NULL)
+	if (m_DataFilename.c_str() == NULL)
 	{
 		return;
 	}
 
-	auto iInfo = m_IDInfos.find( id );
+	auto iInfo = m_IDInfos.find(id);
 
 	if (iInfo != m_IDInfos.end())
 	{
@@ -490,7 +490,7 @@ PackFileManager<FileInfoType>::GetInputFileStream(DWORD id, std::ifstream& file)
 
 		file.open(m_DataFilename.c_str(), std::ios::binary);
 
-		file.seekg( pInfo->GetFilePosition() );
+		file.seekg(pInfo->GetFilePosition());
 
 		return true;
 	}
@@ -509,7 +509,7 @@ PackFileManager<FileInfoType>::Merge(const char* pInfoFilenameOrg,
 						const char* pInfoFilenameApp,
 						const char* pDataFilenameApp)
 {
-	//class fstream fileInfoOrg(pInfoFilenameOrg, ios::in | ios::out | ios::binary | ios::ate);	
+	//class fstream fileInfoOrg(pInfoFilenameOrg, ios::in | ios::out | ios::binary | ios::ate);
 	//class fstream fileDataOrg(pDataFilenameOrg, ios::in | ios::out | ios::binary | ios::ate);
 	//std::ifstream fileInfoApp(pInfoFilenameApp, ios::binary);
 	//std::ifstream fileDataApp(pDataFilenameApp, ios::binary);

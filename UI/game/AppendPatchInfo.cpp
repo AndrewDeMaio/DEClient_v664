@@ -4,8 +4,8 @@
 #include "Client_PCH.h"
 #include "AppendPatchInfo.h"
 
-#include "UpdateUtility.h"
-#include "PackageUpdateUtility.h"
+//#include "UpdateUtility.h"
+//#include "PackageUpdateUtility.h"
 
 
 #if !defined(__GAME_CLIENT__) && !defined(__INIT_INFO__)
@@ -27,13 +27,13 @@ APPEND_PATCH_NODE::Append(const char* orgFilename) const
 	//	UpdateProgressBar();
 	#endif
 
-	if(!access(appendFilename.GetString(), 0))	
+	if(!_access(appendFilename.GetString(), 0))	
 	{
-		if(PUUFAppendPackImpl<WORD>(appendFilename.GetString(), orgFilename))
+		/*if (PUUFAppendPackImpl<WORD>(appendFilename.GetString(), orgFilename))
 		{
 			remove( appendFilename.GetString() );
 			return true;
-		}
+		}*/
 
 		return false;
 	}
@@ -213,7 +213,7 @@ AppendPatch::SetFinalInfo(long finalFilesize, WORD finalSpkSize)
 bool		
 AppendPatch::SetFinalInfo(const char* currentFilename)
 {
-	if(access(currentFilename, 0)) return false;
+	if(_access(currentFilename, 0)) return false;
 
 	std::ifstream file(currentFilename, std::ios::binary);
 
@@ -283,7 +283,7 @@ AppendPatch::AddAppendInfo(const char* appendFilename, long appendFilesize, WORD
 bool
 AppendPatch::AddAppendInfo(const char* currentFilename)
 {
-	if(access(currentFilename, 0)) return false;
+	if(_access(currentFilename, 0)) return false;
 
 	//------------------------------------------------------------
 	// 필요한 정보
@@ -310,15 +310,14 @@ AppendPatch::AddAppendInfo(const char* currentFilename)
 
 	// appendFilename
 	strcpy(appendFilename, m_orgFilename.GetString());
-	char* pBS = strrchr(appendFilename, '\\');
-	if (pBS==NULL)
+	const char* pBS = strrchr(appendFilename, '\\');
+	if (pBS == NULL)
 	{
-		// ? -_-;;
 		return false;
 	}
 	else
 	{
-		*(pBS+1) = '\0';		// 'Data\\Image\\' 까지
+		//*(pBS+1) = '\0';		// 'Data\\Image\\' 까지
 	}
 
 	pBS = strrchr(currentFilename, '\\');	// '\\NewXX.spk'

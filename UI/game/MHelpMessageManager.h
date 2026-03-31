@@ -14,11 +14,10 @@
 #include "MString.h"
 #include "RaceType.h"
 #include <vector>
-#include "MString.h"
 //#include "stdafx.h"
 #include <fstream>
 #include "RarFile.h"
-//#include "VS_UI_filepath.h"
+#include "VS_UI_filepath.h"
 
 enum HELPMESSAGE_ID
 {

@@ -11,12 +11,15 @@ BOOL GetWinVersion(char *szVersion)
    ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
    osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
+#pragma warning(push)
+#pragma warning(disable: 4996)
    if( !(bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO *) &osvi)) )
    {
       osvi.dwOSVersionInfoSize = sizeof (OSVERSIONINFO);
-      if (! GetVersionEx ( (OSVERSIONINFO *) &osvi) ) 
+      if (! GetVersionEx ( (OSVERSIONINFO *) &osvi) )
          return FALSE;
    }
+#pragma warning(pop)
    char szTemp[512];
 
    switch (osvi.dwPlatformId)

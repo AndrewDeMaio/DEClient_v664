@@ -1,8 +1,8 @@
  //-----------------------------------------------------------------------------
 // UI Function.h
 //-----------------------------------------------------------------------------
-// packetºÎºÐ¿¡ includeÇÏ¸é warningÀÌ ÁÃ~~³­´Ù.. 
-// ¾îÂ¿ ¼ö ¾øÀÌ... 
+// packetï¿½ÎºÐ¿ï¿½ includeï¿½Ï¸ï¿½ warningï¿½ï¿½ ï¿½ï¿½~~ï¿½ï¿½ï¿½ï¿½.. 
+// ï¿½ï¿½Â¿ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½... 
 //-----------------------------------------------------------------------------
 
 #include "RaceType.h"
@@ -44,7 +44,7 @@ extern void		UI_SetWorldList();
 extern void		UI_SetCurrentServerName(const char *name, int status);
 
 //-----------------------------------------------------------------------------
-// Interface º¯°æ
+// Interface ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 extern Race		UI_GetInterfaceRace();
 extern void		UI_ChangeInterfaceRace(Race race);
@@ -93,7 +93,7 @@ extern void		UI_SetCharInfoFAME(int value);
 //extern void		UI_SetCharInfoNOTERITY(int value);
 
 //-----------------------------------------------------------------------------
-// ÁÂÇ¥ 
+// ï¿½ï¿½Ç¥ 
 //-----------------------------------------------------------------------------
 extern POINT	UI_GetInventoryGridPosition(int x, int y);
 extern POINT	UI_GetInventoryPosition();
@@ -118,7 +118,7 @@ extern void		UI_UnlockGear();
 //-----------------------------------------------------------------------------
 // Chat
 //-----------------------------------------------------------------------------
-extern void		UI_AddChatToHistory(char* str, char* sz_id, int cond, DWORD color);
+extern void		UI_AddChatToHistory(const char* str, char* sz_id, int cond, DWORD color);
 
 //-----------------------------------------------------------------------------
 // Tutorial
@@ -140,7 +140,7 @@ extern void		UI_CloseTutorialExit();
 
 
 //-----------------------------------------------------------------------------
-// Shop, º¸°ü, ±³È¯
+// Shop, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½È¯
 //-----------------------------------------------------------------------------
 extern BOOL		UI_IsRunningStorage();
 extern BOOL		UI_IsRunningExchange();
@@ -183,7 +183,7 @@ extern void		UI_RunPetStorage();
 extern void		UI_SetPetStorage(MStorage* pStorage);
 
 //-----------------------------------------------------------------------------
-// Æ÷Å» °ü·Ã
+// ï¿½ï¿½Å» ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 extern bool		UI_IsRunningSelectWayPoint();
 extern void		UI_RunSelectWayPoint( int nExtendLevel );
@@ -224,7 +224,7 @@ extern void		UI_SetHotKey(int hotkey, int id);
 extern int		UI_GetHotKey(int hotkey);
 
 //-----------------------------------------------------------------------------
-// ID±â¾ï
+// IDï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 extern void		UI_BackupLoginID(char *);
 
@@ -239,7 +239,7 @@ extern MItem*	UI_GetMouseItem();
 extern void		UI_RemoveDescriptor(void* pPtr=NULL);
 
 //-----------------------------------------------------------------------------
-// ¿Ï¼ºÇü <--> Á¶ÇÕÇü
+// ï¿½Ï¼ï¿½ï¿½ï¿½ <--> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 //extern void		UI_WansungToJohap(const char* wansung, char* johap);
 //extern void		UI_JohapToWansung(const char* johap, char* wansung);
@@ -281,7 +281,7 @@ extern void		UI_SetGuild(WORD guild_id, BYTE guild_rank, std::string guild_name)
 extern void		UI_RunOtherInfo(MCreature *pCreature = NULL);
 extern const char *UI_GetOtherInfoName();
 
-// ³Ý¸¶ºí¿ë
+// ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½
 extern void		UI_RunConnect();
 
 extern void		UI_SetCharInfoSilverDamage(int min_damage, int max_damage);

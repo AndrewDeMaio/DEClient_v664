@@ -62,8 +62,12 @@ void MHelpMessageManager::SaveToFile(const char * filename)
 bool MHelpMessageManager::LoadHelpMessageRpk(const char *helprpkfilename)
 {
 	m_pack_file.SetRAR(RPK_HELP, RPK_PASSWORD);
-	if(!m_pack_file.IsSet())return false;
-	if(!m_pack_file.Open(helprpkfilename)){	return false;}
+
+	if (!m_pack_file.IsSet())
+		return false;
+
+	if (!m_pack_file.Open(helprpkfilename))
+		return false;
 
 	MHelpMessage message;
 	MString		 m_sender;
@@ -73,28 +77,28 @@ bool MHelpMessageManager::LoadHelpMessageRpk(const char *helprpkfilename)
 	char *token;
 	int  levtemp[7],i,Sendercnt;
 	bool detail_flag = false;
-	char * iskeyword = NULL,* isMessagetype = NULL,* isEvent = NULL ,* isTitle = NULL;
-	char * isLevel = NULL,	* isDetail= NULL,   * isDetailEnd= NULL,* isSender = NULL;
+	const char* iskeyword = NULL, * isMessagetype = NULL, * isEvent = NULL, * isTitle = NULL;
+	const char* isLevel = NULL, * isDetail = NULL, * isDetailEnd = NULL, * isSender = NULL;
 	m_pack_file.GetString(sztemp, dSTRING_LEN);
 	Sendercnt = atoi(sztemp);
 	m_pack_file.GetString(sztemp, dSTRING_LEN);
 
-	for(i = 0; i<Sendercnt; i++)		// 보내는 사람 숫자를 센다
+	for (i = 0; i < Sendercnt; i++)		// 보내는 사람 숫자를 센다
 	{
 		m_pack_file.GetString(sztemp, dSTRING_LEN);
-		temp = sztemp;		
+		temp = sztemp;
 		int nCharToDel2 = 0;
 		int len2 = temp.length();
 		for (std::string::reverse_iterator itor = temp.rbegin(); itor != temp.rend(); itor++) // 보내는 사람뒤에 공백이나 개행처리
 		{
 			char c = *itor;
-			if (c=='\r')
+			if (c == '\r')
 				nCharToDel2++;
 			else break;
 		}
 		temp.erase(len2 - nCharToDel2, len2);
 		m_sender = temp.c_str();
-//		MHelpMessageManager::Instance().addSender(m_sender);
+		//MHelpMessageManager::Instance().addSender(m_sender);
 		addSender(m_sender);
 		temp = "";
 
@@ -249,8 +253,8 @@ void MHelpMessageManager::LoadFromFile(ivfstream &file)
 	int  levtemp[7];
 	int i;
 	bool detail_flag = false;
-	char * iskeyword = NULL,* isMessagetype = NULL,* isEvent = NULL ,* isTitle = NULL;
-	char * isLevel = NULL,	* isDetail= NULL,   * isDetailEnd= NULL,* isSender = NULL;
+	const char* iskeyword = NULL, * isMessagetype = NULL, * isEvent = NULL, * isTitle = NULL;
+	const char* isLevel = NULL, * isDetail = NULL, * isDetailEnd = NULL, * isSender = NULL;
 
 	file.getline(sztemp, dSTRING_LEN);			
 	m_SenderCnt = atoi(sztemp);

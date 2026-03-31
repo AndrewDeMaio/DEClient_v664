@@ -1,12 +1,13 @@
 //-----------------------------------------------------------------------------
 // UIDialog.h
 //-----------------------------------------------------------------------------
-// Client¿¡¼­ »ç¿ëÇÏ´Â UI Dilaog ¸ðÀ½..
+// Clientï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ UI Dilaog ï¿½ï¿½ï¿½ï¿½..
 //-----------------------------------------------------------------------------
 
 #ifndef __UIDIALOG_H__
 #define __UIDIALOG_H__
 
+#include <string>
 #include "DebugInfo.h"
 class C_VS_UI_DIALOG;
 class C_VS_UI_NPC_DIALOG;
@@ -61,7 +62,7 @@ class UIDialog {
 		//---------------------------------------------------------
 		// PC Talk Dlg
 		//---------------------------------------------------------
-		void			PopupPCTalkDlg(int x=-1, int y=-1);		// -1Àº center¸¦ ÀÇ¹ÌÇÑ´Ù.(default)
+		void			PopupPCTalkDlg(int x=-1, int y=-1);		// -1ï¿½ï¿½ centerï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½Ñ´ï¿½.(default)
 		void			HidePCTalkDlg();
 		void			ShowPCTalkDlg();
 		static void		ProcessPCTalkDlg(C_VS_UI_DIALOG * pDlg, unsigned long id);
@@ -71,49 +72,49 @@ class UIDialog {
 		//---------------------------------------------------------
 		// Message Dlg
 		//---------------------------------------------------------
-		//void			PopupMessageDlg(UIDIALOG_MESSAGE msg, int x=-1, int y=-1);		// -1Àº center¸¦ ÀÇ¹ÌÇÑ´Ù.(default)		
-		void			PopupFreeMessageDlg(const char* msg, int x=-1, int y=-1, WORD fButton = UI_DIALOG_OK, bool IsAfterExit = false);		// -1Àº center¸¦ ÀÇ¹ÌÇÑ´Ù.(default)				
+		//void			PopupMessageDlg(UIDIALOG_MESSAGE msg, int x=-1, int y=-1);		// -1ï¿½ï¿½ centerï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½Ñ´ï¿½.(default)		
+		void			PopupFreeMessageDlg(const char* msg, int x=-1, int y=-1, WORD fButton = UI_DIALOG_OK, bool IsAfterExit = false);		// -1ï¿½ï¿½ centerï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½Ñ´ï¿½.(default)				
 		static void		ProcessMessageDlg(C_VS_UI_DIALOG * pDlg, unsigned long id);
 		void			CloseMessageDlg();
 #if __CONTENTS(__DYNAMIC_UI)
 		bool			Is_ActiveMessageDlg();
-		void			PopupFreeMessageAndItemDlg(const char* msg, int Item_FrameID, int x=-1, int y=-1, WORD fButton = UI_DIALOG_OK, bool IsAfterExit = false);		// -1Àº center¸¦ ÀÇ¹ÌÇÑ´Ù.(default)
+		void			PopupFreeMessageAndItemDlg(const char* msg, int Item_FrameID, int x=-1, int y=-1, WORD fButton = UI_DIALOG_OK, bool IsAfterExit = false);		// -1ï¿½ï¿½ centerï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½Ñ´ï¿½.(default)
 #endif //__DYNAMIC_UI
 
 		//---------------------------------------------------------
 		// Message Dlg
 		//---------------------------------------------------------
-		//void			PopupHelpDlg(int x=-1, int y=-1);		// -1Àº center¸¦ ÀÇ¹ÌÇÑ´Ù.(default)		
+		//void			PopupHelpDlg(int x=-1, int y=-1);		// -1ï¿½ï¿½ centerï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½Ñ´ï¿½.(default)		
 		//static void		ProcessHelpDlg(C_VS_UI_DIALOG * pDlg, unsigned long id);
 		//void			CloseHelpDlg();
 
 	protected :
-		static DWORD	s_LockGameInput;	// client·ÎÀÇ ÀÔ·ÂÀ» ¸·´Â´Ù.
+		static DWORD	s_LockGameInput;	// clientï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
 
-		// PC TalkBox¿¡ ÀÖ´Â ¸»µé Áß¿¡¼­ ÇÏ³ª¸¦ ¼±ÅÃÇÏ°Ô ÇÏ´Â °Í..
+		// PC TalkBoxï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß¿ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½..
 		C_VS_UI_NPC_DIALOG*			m_pPCTalkDlg;
 		//C_VS_UI_DIALOG*			m_pHelpDlg;
 		C_VS_UI_DIALOG*			m_pMessageDlg;
 
 
 		int 			m_ppDlgMessageSize[MAX_MESSAGE];
-		char **			m_ppDlgMessage[MAX_MESSAGE];
+		std::string*	m_ppDlgMessage[MAX_MESSAGE];
 
 
 
 #ifdef OUTPUT_DEBUG
 		//---------------------------------------------------------
-		// Test Client¿ë
+		// Test Clientï¿½ï¿½
 		//---------------------------------------------------------
 	public :
 
-		void				PopupAddonSelectDlg(int x=-1, int y=-1);		// -1Àº center¸¦ ÀÇ¹ÌÇÑ´Ù.(default)
+		void				PopupAddonSelectDlg(int x=-1, int y=-1);		// -1ï¿½ï¿½ centerï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½Ñ´ï¿½.(default)
 		static void			ProcessAddonSelectDlg(C_VS_UI_DIALOG * pDlg, unsigned long id);
 
-		void				PopupActionSelectDlg(int x=-1, int y=-1);		// -1Àº center¸¦ ÀÇ¹ÌÇÑ´Ù.(default)
+		void				PopupActionSelectDlg(int x=-1, int y=-1);		// -1ï¿½ï¿½ centerï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½Ñ´ï¿½.(default)
 		static void			ProcessActionSelectDlg(C_VS_UI_DIALOG * pDlg, unsigned long id);
 
-		void				PopupDirectionSelectDlg(int x=-1, int y=-1);		// -1Àº center¸¦ ÀÇ¹ÌÇÑ´Ù.(default)
+		void				PopupDirectionSelectDlg(int x=-1, int y=-1);		// -1ï¿½ï¿½ centerï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½Ñ´ï¿½.(default)
 		static void			ProcessDirectionSelectDlg(C_VS_UI_DIALOG * pDlg, unsigned long id);
 
 	protected :

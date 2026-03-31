@@ -12,10 +12,10 @@
 // #	pragma comment(lib, "vorbisenc_static.lib")
 // #	pragma comment(lib, "vorbisfile_static.lib")
 
-#pragma comment(lib, "ogg.lib")
-#pragma comment(lib, "vorbis.lib")
-#pragma comment(lib, "vorbisenc.lib")
-#pragma comment(lib, "vorbisfile.lib")
+// #pragma comment(lib, "ogg.lib")
+// #pragma comment(lib, "vorbis.lib")
+// #pragma comment(lib, "vorbisenc.lib")
+// #pragma comment(lib, "vorbisfile.lib")
 
 #pragma pack(push, 8)
 
