@@ -1100,7 +1100,7 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 	}
 }
 
-BOOL g_bLButtonDown = false;
+extern BOOL g_bLButtonDown;
 
 /*-----------------------------------------------------------------------------
 - MouseEventReceiver

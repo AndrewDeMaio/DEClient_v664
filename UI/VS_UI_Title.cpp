@@ -11,7 +11,7 @@
 #include "UserOption.h"
 #include "ClientConfig.h"
 
-//#include "ExperienceTable.h"	//char_infoÁö¿ï¶§ Áö¿ï°Í
+//#include "ExperienceTable.h"	//char_infoï¿½ï¿½ï¿½ï¶§ ï¿½ï¿½ï¿½ï¿½ï¿½
 #include "MGuildMarkManager.h"
 #include "KeyAccelerator.h"
 #include "UserInformation.h"
@@ -26,7 +26,7 @@
 #if __CONTENTS(__TITLE_UI_RENWEAL)
 #else //__TITLE_UI_RENWEAL
 
-#define LOGIN_ID_X 7 // »ó´ë°ª
+#define LOGIN_ID_X 7 // ï¿½ï¿½ë°ª
 #define LOGIN_ID_Y 3
 #define LOGIN_PASSWORD_X 7
 #define LOGIN_PASSWORD_Y 34
@@ -39,11 +39,7 @@
 #define MAX_ALPHA_DEPTH			31
 //bool gbl_option_running = false;
 
-#ifdef _LIB
 extern BOOL g_bEnable3DHAL;
-#else
-BOOL g_bEnable3DHAL = TRUE;
-#endif
 
 extern bool	 g_bFamily;
 extern DWORD g_CurrentFrame;
@@ -144,10 +140,10 @@ const int TITLE_X = 400, TITLE_Y = 21;
 #define HEART_Y				166
 int g_heart_rect[] = { 254, 441, 628 };
 
-namespace					// 2003.9.29		by sonee µıµ¥¼± ¾È¾´´Ù ¤¾¤¾ 
+namespace					// 2003.9.29		by sonee ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 {
-	int			g_vs_ui_title_only_premium_x = 517;			// ÇÁ¸®¹Ì¾ö Á¤º¸ ÂïÈ÷´Â À§Ä¡
-	int			g_vs_ui_title_only_premium_y = 499;			// ÇÁ¸®¹Ì¾ö Á¤º¸ ÂïÈ÷´Â À§Ä¡
+	int			g_vs_ui_title_only_premium_x = 517;			// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+	int			g_vs_ui_title_only_premium_y = 499;			// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 };
 
 int C_VS_UI_NEWCHAR::m_hair_color_array[COLOR_LIST_X][COLOR_LIST_Y] = {
@@ -162,7 +158,7 @@ int C_VS_UI_NEWCHAR::m_hair_color_array[COLOR_LIST_X][COLOR_LIST_Y] = {
 	{45, 135, 300},
 	{315, 330, 345},
 	*/
-	// »ö±ò ¹Ù²¼¾î¿ä.. by sigi
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ï¿½.. by sigi
 	{ 57, 70, 86 },
 	{ 101, 115, 130 },
 	{ 145, 159, 174 },
@@ -198,7 +194,7 @@ int ga_blink_color_table[INTERFACE_BLINK_VALUE_MAX] = {
 	LIGHT_BLUE, LIGHT_BLUE, WHITE, WHITE
 };
 
-// ! m_item_search_sequence ¼ø¼­°¡ °°¾Æ¾ß ÇÑ´Ù.
+// ! m_item_search_sequence ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ¾ï¿½ ï¿½Ñ´ï¿½.
 /*
 S_RECT C_VS_UI_NEWUSER::m_item_rect[ISS_COUNT] = {
 	{237, 145, 141, 22}, // ISS_ID
@@ -222,7 +218,7 @@ C_VS_UI_NEWUSER::ITEM_SEARCH_SEQUENCE	C_VS_UI_NEWUSER::m_item_search_sequence[IS
 	ISS_STATE,
 	ISS_SSN,
 	ISS_ADDRESS,
-	ISS_WOO, // ¿ìÆí¹øÈ£
+	ISS_WOO, // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
 	ISS_PHONE,
 	ISS_HOMEPAGE,
 	ISS_EMAIL,
@@ -295,7 +291,7 @@ bool C_VS_UI_CHAR_APPEARANCE::IsPixel(int _x, int _y)
 /*-----------------------------------------------------------------------------
 - Show
 -
-  `(m_focused_x, m_focused_y)¿¡ focusµÈ Ç¥½Ã¸¦ ÇÑ´Ù.
+  `(m_focused_x, m_focused_y)ï¿½ï¿½ focusï¿½ï¿½ Ç¥ï¿½Ã¸ï¿½ ï¿½Ñ´ï¿½.
 -----------------------------------------------------------------------------*/
 /*
 void C_VS_UI_CHAR_APPEARANCE::Show()
@@ -327,7 +323,7 @@ void C_VS_UI_CHAR_APPEARANCE::Show()
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 
-	// color Ç¥ ´ÙÀ½¿¡ Âï¾î¾ß...-.-
+	// color Ç¥ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½...-.-
 	m_pC_appearance_spk->Blt(x, y);
 
 	// show face
@@ -553,11 +549,11 @@ void C_VS_UI_CHAR_APPEARANCE::Process()
 //-----------------------------------------------------------------------------
 void C_VS_UI_CHAR_DELETE::SendCharacterDeleteToClient()
 {
-	// staticÀ¸·Î ÇÏ°í ¿ÜºÎ¿¡¼­ stringÀº deleteÇØÁØ´Ù.
+	// staticï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ stringï¿½ï¿½ deleteï¿½ï¿½ï¿½Ø´ï¿½.
 
 	static DELETE_CHARACTER S_delete_char;
 
-	// ³İ¸¶ºí¿ë
+	// ï¿½İ¸ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (!(g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin))
 	{
 		g_Convert_DBCS_Ascii2SingleByte(m_lev_ssn_part1.GetString(), m_lev_ssn_part1.Size(), S_delete_char.sz_part1);
@@ -587,7 +583,7 @@ C_VS_UI_CHAR_DELETE::C_VS_UI_CHAR_DELETE()
 	AttrTopmost(true);
 	AttrKeyboardControl(true);
 
-	// ³İ¸¶ºí¿ë
+	// ï¿½İ¸ï¿½ï¿½ï¿½ï¿½ï¿½
 	int w_h = 207;
 	//if((g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin))
 	//	w_h = 127;
@@ -779,7 +775,7 @@ void C_VS_UI_CHAR_DELETE::Process()
 void C_VS_UI_CHAR_DELETE::Show()
 {
 	//	m_pC_image_spk->Blt(x, y, DELETE_WINDOW);
-	// 20070702 »Ñ¸®´Â ±×¸² º¯°æ ÈÊ³¯ ÀÌÀüÀ¸·Î µ¹¾Æ°¡¸é ¾Æ·¡ ÁÖ¼® ÇØÁ¦
+	// 20070702 ï¿½Ñ¸ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//	gpC_global_resource->DrawDialog(x, y, w, h, GetAttributes()->alpha);
 
 	RECT mssageBox;
@@ -795,7 +791,7 @@ void C_VS_UI_CHAR_DELETE::Show()
 	g_FL2_GetDC();
 	g_PrintColorStr(x + w / 2 - g_GetStringWidth((*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_DELETE_CONFIRM].GetString(), gpC_base->m_char_name_pi.hfont) / 2,
 		y + 30, (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_DELETE_CONFIRM].GetString(), gpC_base->m_char_name_pi, RGB_WHITE);
-	// ³İ¸¶ºí¿ë
+	// ï¿½İ¸ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (!(g_pUserInformation->IsNetmarble)) // && g_pUserInformation->IsNetmarbleLogin))
 	{
 
@@ -833,7 +829,7 @@ void C_VS_UI_CHAR_DELETE::Show()
 
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		// ³İ¸¶ºí¿ë
+		// ï¿½İ¸ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (!(g_pUserInformation->IsNetmarble)) // && g_pUserInformation->IsNetmarbleLogin))
 		{
 			//			if( gC_ci->IsChinese() )
@@ -864,7 +860,7 @@ void C_VS_UI_CHAR_DELETE::Show()
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 
-	// ³İ¸¶ºí¿ë
+	// ï¿½İ¸ï¿½ï¿½ï¿½ï¿½ï¿½
 	//if(!( g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin) )
 	Window::ShowWidget();
 
@@ -1004,7 +1000,7 @@ void C_VS_UI_CHAR_DELETE::KeyboardControl(UINT message, UINT key, long extra)
 //-----------------------------------------------------------------------------
 // RollDice
 //
-// ÁÖ»çÀ§¸¦ ´øÁ®¼­ point¸¦ Á¤ÇÑ´Ù.
+// ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ pointï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_NEWCHAR::RollDice(bool load)
 {
@@ -1038,7 +1034,7 @@ void C_VS_UI_NEWCHAR::RollDice(bool load)
 				a = rand() % 3;
 				b = rand() % 3;
 
-				c = s[a]; s[a] = s[b]; s[b] = c;//½º¿Ò½º¿Ò-_-;
+				c = s[a]; s[a] = s[b]; s[b] = c;//ï¿½ï¿½ï¿½Ò½ï¿½ï¿½ï¿½-_-;
 			}
 
 			m_p_slot->STR_PURE = s[0];
@@ -1087,7 +1083,7 @@ void C_VS_UI_NEWCHAR::RollDice(bool load)
 	m_p_slot->HP = m_p_slot->STR_PURE * 2;
 	m_p_slot->MP = m_p_slot->INT_PURE * 2;
 
-	m_p_slot->HP_MAX = 20 * 2; // ÀÌ°É ... const int·Î ÇÏ´Ï±î SetEnergy()¿¡¼­ ÀÌ °ªÀÌ º¯Çß´Ù!
+	m_p_slot->HP_MAX = 20 * 2; // ï¿½Ì°ï¿½ ... const intï¿½ï¿½ ï¿½Ï´Ï±ï¿½ SetEnergy()ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´ï¿½!
 	m_p_slot->MP_MAX = 20 * 2;
 
 	//	SetEnergy(m_p_slot->HP, m_p_slot->HP_MAX, m_p_slot->hp_percent, m_p_slot->hp_cur_line);
@@ -1102,9 +1098,9 @@ void C_VS_UI_NEWCHAR::RollDice(bool load)
 void C_VS_UI_NEWCHAR::SendNewCharacterToClient()
 {
 	//
-	// !¿ÜºÎ¿¡ sz_nameÀ» deleteÇÏ¸é ¾ÈµÈ´Ù.
+	// !ï¿½ÜºÎ¿ï¿½ sz_nameï¿½ï¿½ deleteï¿½Ï¸ï¿½ ï¿½ÈµÈ´ï¿½.
 	//
-	static NEW_CHARACTER S_new_character; // ¹İµå½Ã staticÀ¸·Î..
+	static NEW_CHARACTER S_new_character; // ï¿½İµï¿½ï¿½ staticï¿½ï¿½ï¿½ï¿½..
 
 	//	DeleteNew(m_p_slot->sz_name);
 
@@ -1259,7 +1255,7 @@ C_VS_UI_NEWCHAR::C_VS_UI_NEWCHAR()
 	int convx = (g_pUserInformation->iResolution_x - 800) / 2;
 	int convy = (g_pUserInformation->iResolution_y - 600) / 2;
 
-	//#ifdef CONVERT_1024_768// »õ·Î¿î ui°¡ ³ª¿ÔÀ»¶§ ¾Æ·¡ÀÇ ÀÓ½ÃÄÚµå »èÁ¦ ¿ä¸Á.
+	//#ifdef CONVERT_1024_768// ï¿½ï¿½ï¿½Î¿ï¿½ uiï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½Ó½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
 	//	int convx = 112 , convy = 84;
 	//#else
 	//	int convx = 0 , convy = 0;
@@ -1294,7 +1290,7 @@ C_VS_UI_NEWCHAR::C_VS_UI_NEWCHAR()
 	//check button
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(skinnum).x + convx, convy + pSkin->GetPoint(skinnum).y, m_image_spk.GetWidth(CHECK_BUTTON), m_image_spk.GetHeight(CHECK_BUTTON), CHECK_ID, this, CHECK_BUTTON)); skinnum++;
 
-	//¾Æ¿ì½ºÅÍÁî +, - ¹öÆ°
+	//ï¿½Æ¿ì½ºï¿½ï¿½ï¿½ï¿½ +, - ï¿½ï¿½Æ°
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(skinnum).x + convx, convy + pSkin->GetPoint(skinnum).y, m_image_spk.GetWidth(PLUS_BUTTON), m_image_spk.GetHeight(PLUS_BUTTON), STR_PLUS_ID, this, PLUS_BUTTON)); skinnum++;
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(skinnum).x + convx, convy + pSkin->GetPoint(skinnum).y, m_image_spk.GetWidth(MINUS_BUTTON), m_image_spk.GetHeight(MINUS_BUTTON), STR_MINUS_ID, this, MINUS_BUTTON)); skinnum++;
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(skinnum).x + convx, convy + pSkin->GetPoint(skinnum).y, m_image_spk.GetWidth(PLUS_BUTTON), m_image_spk.GetHeight(PLUS_BUTTON), DEX_PLUS_ID, this, PLUS_BUTTON)); skinnum++;
@@ -1431,7 +1427,7 @@ C_VS_UI_NEWCHAR::C_VS_UI_NEWCHAR()
 //	m_p_hp_buf = new WORD[m_hp_width*m_hp_height];
 //	m_p_mp_buf = new WORD[m_mp_width*m_mp_height];
 
-	// energy cylinder¸¦ plain buffer¿¡ bltÇÑ´Ù.
+	// energy cylinderï¿½ï¿½ plain bufferï¿½ï¿½ bltï¿½Ñ´ï¿½.
 //	m_pC_etc.BltOffscreen(0, 0, HP);
 
 	// blt from offscreen
@@ -1449,7 +1445,7 @@ C_VS_UI_NEWCHAR::C_VS_UI_NEWCHAR()
 //		gpC_base->m_DDSurface_offscreen.Unlock();
 //	}
 //
-//	// energy cylinder¸¦ plain buffer¿¡ bltÇÑ´Ù.
+//	// energy cylinderï¿½ï¿½ plain bufferï¿½ï¿½ bltï¿½Ñ´ï¿½.
 //	m_pC_etc.BltOffscreen(0, 0, MP);
 //
 //	// blt from offscreen
@@ -1546,8 +1542,8 @@ void C_VS_UI_NEWCHAR::UnacquireMouseFocus()
 //-----------------------------------------------------------------------------
 // ChangeColor
 //
-// (x, y) À§Ä¡ÀÇ color table color·Î color¸¦ changeÇÑ´Ù.
-// ¹Ù²åÀ¸¸é true¸¦ ¹İÈ¯ÇÑ´Ù.
+// (x, y) ï¿½ï¿½Ä¡ï¿½ï¿½ color table colorï¿½ï¿½ colorï¿½ï¿½ changeï¿½Ñ´ï¿½.
+// ï¿½Ù²ï¿½ï¿½ï¿½ï¿½ï¿½ trueï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 bool C_VS_UI_NEWCHAR::ChangeColor(int _x, int _y)
 {
@@ -1607,7 +1603,7 @@ bool C_VS_UI_NEWCHAR::ChangeColor(int _x, int _y)
 //-----------------------------------------------------------------------------
 // GetPoint
 //
-// color array¿¡¼­ colorsetÀÇ point¸¦ ¹İÈ¯ÇÑ´Ù.
+// color arrayï¿½ï¿½ï¿½ï¿½ colorsetï¿½ï¿½ pointï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 Point C_VS_UI_NEWCHAR::GetPoint(int colorset, bool bl_skin_color)
 {
@@ -1643,7 +1639,7 @@ Point C_VS_UI_NEWCHAR::GetPoint(int colorset, bool bl_skin_color)
 //-----------------------------------------------------------------------------
 // GetColor
 //
-// color array¿¡¼­ (x, y)ÀÇ color setÀ¸·Î color¸¦ ±¸ÇØ¼­ ¹İÈ¯ÇÑ´Ù.
+// color arrayï¿½ï¿½ï¿½ï¿½ (x, y)ï¿½ï¿½ color setï¿½ï¿½ï¿½ï¿½ colorï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 int C_VS_UI_NEWCHAR::GetColor(int _x, int _y, bool bl_skin_color)
 {
@@ -1661,7 +1657,7 @@ int C_VS_UI_NEWCHAR::GetColor(int _x, int _y, bool bl_skin_color)
 //-----------------------------------------------------------------------------
 // ResetFaceList
 //
-// selected_face¸¦ ¸Ç ¾ÕÀ¸·Î ÇÑ´Ù.
+// selected_faceï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 //void C_VS_UI_NEWCHAR::ResetFaceList(int * p_face_list, int selected_face)
 //{
@@ -1827,7 +1823,7 @@ void C_VS_UI_NEWCHAR::SetCharacterToThisSlot(int slot, S_SLOT* p_slot)
 {
 	assert(p_slot->bl_set == false);
 
-	//assert(p_slot->sz_name == NULL); // 2000.12.15. ; ÇÏÁö ¸»°Í. Áßº¹µÈ IDÀÏ °æ¿ì¿¡´Â NULLÀÌ ¾Æ´Ï´Ù.
+	//assert(p_slot->sz_name == NULL); // 2000.12.15. ; ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ßºï¿½ï¿½ï¿½ IDï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ NULLï¿½ï¿½ ï¿½Æ´Ï´ï¿½.
 
 	m_p_slot = p_slot;
 	m_selected_slot = slot;
@@ -1861,10 +1857,10 @@ void C_VS_UI_NEWCHAR::SetCharacterToThisSlot(int slot, S_SLOT* p_slot)
 	m_p_slot->man_info.right = M_NO_WEAR;//M_BLADE;
 	m_p_slot->man_info.left = M_NO_WEAR;//M_DRAGON_SHIELD;
 
-	// default colorµµ ¹Ù²¼¾î¿ä.. by sigi
+	// default colorï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ï¿½.. by sigi
 
 
-	// »ı¼º½Ã ·£´ıÀ¸·Î ¼±ÅÃµÇµµ·Ï ¼öÁ¤.		2002.11  by sonee
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÃµÇµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.		2002.11  by sonee
 //	m_p_slot->hair_color = m_hair_color_array[rand()%COLOR_LIST_X][rand()%COLOR_LIST_Y];
 //	m_p_slot->skin_color = m_skin_color_array[rand()%COLOR_LIST_X][rand()%COLOR_LIST_Y];
 
@@ -1917,7 +1913,7 @@ void C_VS_UI_NEWCHAR::KeyboardControl(UINT message, UINT key, long extra)
 	//
 	// character Name
 	//
-	// Æ¯¼ö¹®ÀÚ, °ø¹é, Ã¹¹®ÀÚ ¼ıÀÚ¸¦ ¸·´Â´Ù.
+	// Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½, Ã¹ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
 	//
 	if (message == WM_CHAR)
 	{
@@ -1966,12 +1962,12 @@ void C_VS_UI_NEWCHAR::KeyboardControl(UINT message, UINT key, long extra)
 			// part
 			switch (position)
 			{
-				case 0: // Åõ±¸ ¾øÀ½
+				case 0: // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					m_p_slot->man_info.helmet = M_NO_WEAR;
 					m_p_slot->woman_info.helmet = W_NO_WEAR;
 					break;
 
-				case 1: // Åõ±¸
+				case 1: // ï¿½ï¿½ï¿½ï¿½
 					if (bl_old)
 					{
 						m_p_slot->man_info.helmet = M_OLD_HELMET;
@@ -1984,7 +1980,7 @@ void C_VS_UI_NEWCHAR::KeyboardControl(UINT message, UINT key, long extra)
 					}
 					break;
 
-				case 2: // »óÀÇ
+				case 2: // ï¿½ï¿½ï¿½ï¿½
 					if (bl_old)
 					{
 						m_p_slot->man_info.coat = M_OLD_COAT;
@@ -1997,7 +1993,7 @@ void C_VS_UI_NEWCHAR::KeyboardControl(UINT message, UINT key, long extra)
 					}
 					break;
 
-				case 3: // ÇÏÀÇ
+				case 3: // ï¿½ï¿½ï¿½ï¿½
 					if (bl_old)
 					{
 						m_p_slot->man_info.trouser = M_OLD_TROUSER;
@@ -2025,7 +2021,7 @@ void C_VS_UI_NEWCHAR::KeyboardControl(UINT message, UINT key, long extra)
 //	switch (m_man_face_list[0])
 //	{
 //		case 0:
-//			// face¿Í hair´Â ÇÑ ½ÖÀÌ´Ù.
+//			// faceï¿½ï¿½ hairï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
 //			m_p_slot->man_info.face	= M_FACE1;
 //			m_p_slot->man_info.hair = M_HAIR1;
 //			break;
@@ -2044,7 +2040,7 @@ void C_VS_UI_NEWCHAR::KeyboardControl(UINT message, UINT key, long extra)
 //	switch (m_woman_face_list[0])
 //	{
 //		case 0:
-//			// face¿Í hair´Â ÇÑ ½ÖÀÌ´Ù.
+//			// faceï¿½ï¿½ hairï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
 //			m_p_slot->woman_info.face = W_FACE1;
 //			m_p_slot->woman_info.hair = W_HAIR1;
 //			break;
@@ -2412,7 +2408,7 @@ bool C_VS_UI_NEWCHAR::MouseControl(UINT message, int _x, int _y)
 //		float t = n;
 //		float r = f - t;
 //		if (r > 0.)
-//			n += 1; // ¹İ¿Ã¸².
+//			n += 1; // ï¿½İ¿Ã¸ï¿½.
 //
 //		if (percent < 100 && n >= TOTAL_ENERGY_LINE)
 //			n = TOTAL_ENERGY_LINE - 1;
@@ -2489,17 +2485,17 @@ bool C_VS_UI_NEWCHAR::MouseControl(UINT message, int _x, int _y)
 //-----------------------------------------------------------------------------
 // ShowCharacter
 //
-// (x, y)¿¡ ³²/¿© Ä³¸¯ÅÍ ÇÏ³ª¸¦ Ãâ·ÂÇÑ´Ù. µû¶ó¼­ ¾î´À ÇÏ³ª´Â null·Î µÇ¾ß ÇÏ´Ù.
+// (x, y)ï¿½ï¿½ ï¿½ï¿½/ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ nullï¿½ï¿½ ï¿½Ç¾ï¿½ ï¿½Ï´ï¿½.
 //
-// »ìºÎºĞ : i1
-// ¿ÊºÎºĞ : i2
+// ï¿½ï¿½Îºï¿½ : i1
+// ï¿½ÊºÎºï¿½ : i2
 //-----------------------------------------------------------------------------
 void	C_VS_UI_NEWCHAR::ShowCharacter(int _x, int _y, S_SLOT* p_slot, int index, int enable, int dark)
 {
 	//
-	// Ãâ·Â¼ø¼­
+	// ï¿½ï¿½Â¼ï¿½ï¿½ï¿½
 	//
-	// ¹ÙÁö -> »óÀÇ -> ¸Ó¸®Ä«¶ô -> Åõ±¸ -> ¿À¸¥¼ÕÀåÂø -> ¿Ş¼ÕÀåÂø
+	// ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ -> ï¿½Ó¸ï¿½Ä«ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -> ï¿½Ş¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	//
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
@@ -2551,7 +2547,7 @@ void C_VS_UI_NEWCHAR::Show()
 	int convx = (g_pUserInformation->iResolution_x - 800) / 2;
 	int convy = (g_pUserInformation->iResolution_y - 600) / 2;
 
-	//#ifdef CONVERT_1024_768 //convx,convy ÀÌÈÄÄÚµå´Â ÀÓ½ÃÄÚµå Ãß°¡ÇÑ°ÅÀÓ. uiº¯°æ½Ã »èÁ¦ ¿ä¸Á
+	//#ifdef CONVERT_1024_768 //convx,convy ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ ï¿½Ó½ï¿½ï¿½Úµï¿½ ï¿½ß°ï¿½ï¿½Ñ°ï¿½ï¿½ï¿½. uiï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//	int convx = 112, convy = 84;
 	//#else
 	//	int convx = 0 , convy = 0;
@@ -2598,7 +2594,7 @@ void C_VS_UI_NEWCHAR::Show()
 		//		m_common_spk.BltLocked(0, 0);
 		//#endif
 
-				// °¡¿îµ¥ ±âº» ¼³Á¤µÈ ¾ó±¼
+				// ï¿½ï¿½ï¿½îµ¥ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		switch (m_p_slot->Race)
 		{
 		case RACE_SLAYER:
@@ -2606,7 +2602,7 @@ void C_VS_UI_NEWCHAR::Show()
 				m_face_spk.BltLocked(456 + convx, convy + 219, m_p_slot->man_info.hair - M_HAIR1 + GENDER_OFFSET);
 			else
 				m_face_spk.BltLocked(456 + convx, convy + 219, m_p_slot->man_info.hair - M_HAIR1);
-			//20070627 ¾ó±¼ ¼±ÅÃ ¹öÆ°
+			//20070627 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
 			m_image_spk.BltLocked(455 + convx, 345 + convy, FACE_BACK_BUTTON);
 			m_image_spk.BltLocked(554 + convx, 345 + convy, FACE_NEXT_BUTTON);
 			break;
@@ -2630,7 +2626,7 @@ void C_VS_UI_NEWCHAR::Show()
 
 		m_image_spk.BltLocked(TITLE_X - m_image_spk.GetWidth(TITLE) / 2 + convx, convy + TITLE_Y, TITLE);
 		m_image_spk.BltLocked(618 + convx, 141 + convy, ABILITY_DISPLAY_TOOL);
-		//Fillrect¸¦ ÀÌ¿ëÇÏ±â À§ÇØ Unlock
+		//Fillrectï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ Unlock
 		gpC_base->m_p_DDSurface_back->Unlock();
 		RECT rect = { 68 + convx, convy + 355, 171, 475 };
 		gpC_base->m_p_DDSurface_back->FillRect(&rect, 0);
@@ -2646,13 +2642,13 @@ void C_VS_UI_NEWCHAR::Show()
 		{
 			m_image_spk.BltLocked(645 + convx, convy + 169, BONUS_LINE);
 		}
-		// ½ºÅ² ÄÃ·¯
+		// ï¿½ï¿½Å² ï¿½Ã·ï¿½
 		if (m_p_slot->Race != RACE_OUSTERS)
 		{
 			m_image_spk.BltLocked(455 + convx, convy + 385, SKIN_COLOR_SELECT);
 		}
 
-		//Çì¾î ÄÃ·¯
+		//ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½
 		if (m_p_slot->Race != RACE_VAMPIRE)
 		{
 			m_image_spk.BltLocked(281 + convx, convy + 385, HAIR_COLOR_SELECT);
@@ -2664,7 +2660,7 @@ void C_VS_UI_NEWCHAR::Show()
 		if (m_pC_use_grade != NULL && !g_pUserInformation->bChinese)
 		{
 			drowx -= m_pC_use_grade->GetWidth(ADULT);
-			//20070420 Ãß°¡ 12, 19¼¼ Ç¥½Ã ¾ÈµÇ°Ô... by diesirace
+			//20070420 ï¿½ß°ï¿½ 12, 19ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ÈµÇ°ï¿½... by diesirace
 			if (g_pUserInformation->GoreLevel)
 			{
 				//m_pC_use_grade->BltLocked(g_pUserInformation->iResolution_x-m_pC_use_grade->GetWidth(ADULT)-30,50,ADULT);
@@ -2693,7 +2689,7 @@ void C_VS_UI_NEWCHAR::Show()
 
 		//
 		// color table
-		//¾Æ¿ì ÀÏ¶© ¼ºº° Ç¥½Ã¸¦ ÇÏÁö ¾Ê´Â´Ù.
+		//ï¿½Æ¿ï¿½ ï¿½Ï¶ï¿½ ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½Ã¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 	if (m_p_slot->Race != RACE_OUSTERS)
 	{
 		m_image_spk.Blt(281 + convx, convy + 310, SEX_DISPLAY_TOOL);
@@ -2815,7 +2811,7 @@ void C_VS_UI_NEWCHAR::Show()
 
 
 	/*
-		// ¹®ÀÚ¿­ Ãâ·Â
+		// ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½
 		if (gpC_base->m_p_DDSurface_back->Lock())
 		{
 			S_SURFACEINFO	surfaceinfo;
@@ -2957,7 +2953,7 @@ void C_VS_UI_NEWCHAR::Show()
 //-----------------------------------------------------------------------------
 // NewCharacterCreateOk
 //
-// ÀÌ¹Ì slotÀÌ ¼³Á¤µÇ¾î ÀÖÀ¸¹Ç·Î, ¸¶Áö¸·À¸·Î bl_set = true¸¸ ÇØÁØ´Ù.
+// ï¿½Ì¹ï¿½ slotï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ bl_set = trueï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_CHAR_MANAGER::NewCharacterCreateOk()
 {
@@ -3035,7 +3031,7 @@ void C_VS_UI_CHAR_MANAGER::SetCharacter(int slot, S_SLOT& S_slot)
 			m_slot[slot].sz_guild_name = S_slot.sz_guild_name;
 		}
 
-		// HP/MP¸¦ Ãâ·ÂÇÏ±â À§ÇØ ÇÊ¿äÇÑ °ªµéÀº ¿©±â¼­ ¼³Á¤µÈ´Ù.
+		// HP/MPï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½ï¿½ï¿½ï¿½È´ï¿½.
 //		m_pC_newchar->SetEnergy(m_slot[slot].HP, m_slot[slot].HP_MAX, m_slot[slot].hp_percent, m_slot[slot].hp_cur_line);
 //		m_pC_newchar->SetEnergy(m_slot[slot].MP, m_slot[slot].MP_MAX, m_slot[slot].mp_percent, m_slot[slot].mp_cur_line);
 
@@ -3100,7 +3096,7 @@ void C_VS_UI_CHAR_MANAGER::DeleteCharacter(int slot)
 
 	DeleteNew(m_pC_char_delete);
 
-	//20070628Ä³¸¯ÅÍ¸¦ Áö¿ì¸é ¸¸µé±â ¹öÆ°À» ¸¸µç´Ù.
+	//20070628Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 	m_pC_button_group->Delete(m_pC_button_create_char[slot]);
 	DeleteNew(m_pC_button_create_char[slot]);
 
@@ -3224,7 +3220,7 @@ C_VS_UI_CHAR_MANAGER::C_VS_UI_CHAR_MANAGER()
 		m_image_spk.Open(SPK_CHAR_MANAGER);
 	}
 
-	// ³İ¸¶ºíÀÌ ¾Æ´Ñ°æ¿ì
+	// ï¿½İ¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ñ°ï¿½ï¿½
 	if (g_pUserInformation != NULL)
 	{
 		if (!g_pUserInformation->bChinese)
@@ -3286,8 +3282,8 @@ C_VS_UI_CHAR_MANAGER::C_VS_UI_CHAR_MANAGER()
 	//#endif	
 
 		//
-		// character ani timer´Â char manager object°¡ »ı¼ºµÇ¸é °è¼Ó ÀÛµ¿ÇÑ´Ù.
-		// °¢ characterÀÇ Ã³À½ frame index¸¦ ´Ù¸§À¸·Î½á ÀÚ¿¬½º·¯¿òÀ» ±¸ÇöÇÑ´Ù.
+		// character ani timerï¿½ï¿½ char manager objectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ ï¿½Ûµï¿½ï¿½Ñ´ï¿½.
+		// ï¿½ï¿½ characterï¿½ï¿½ Ã³ï¿½ï¿½ frame indexï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ï¿½Î½ï¿½ ï¿½Ú¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		//
 	g_char_update_tid = gC_timer2.Add(ANI_MILLISEC, _Timer_CharUpdate);
 	gC_timer2.Continue(g_char_update_tid);
@@ -3318,7 +3314,7 @@ C_VS_UI_CHAR_MANAGER::~C_VS_UI_CHAR_MANAGER()
 {
 	g_UnregisterWindow(this);
 
-	// !Window¸¦ ùÀú deleteÇØ¾ß ÇÑ´Ù.
+	// !Windowï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ deleteï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 	DeleteNew(m_pC_biling);
 	DeleteNew(m_pC_char_delete);
 	DeleteNew(m_pC_newchar);
@@ -3375,7 +3371,7 @@ C_VS_UI_CHAR_MANAGER::~C_VS_UI_CHAR_MANAGER()
 //-----------------------------------------------------------------------------
 // C_VS_UI_CHAR_MANAGER::SelectSlot
 //
-// selectµÇ¾úÀ¸¸é true¸¦ ¹İÈ¯ÇÑ´Ù.
+// selectï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ trueï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 bool C_VS_UI_CHAR_MANAGER::SelectSlot(int n)
 {
@@ -3444,7 +3440,7 @@ void C_VS_UI_CHAR_MANAGER::Run(id_t id)
 	{
 	case CREATE_1_ID:
 		//
-		// ¼±ÅÃÇÑ Ä³¸¯ÅÍ Ä­ÀÌ ºñ¾î ÀÖÀ¸¸é ±× Ä­¿¡ Ä³¸¯ÅÍ¸¦ ¸¸µç´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ Ä­ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ä­ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 		//
 
 		// search empty slot
@@ -3453,7 +3449,7 @@ void C_VS_UI_CHAR_MANAGER::Run(id_t id)
 			m_select_heart_temp = 0;
 			m_pC_newchar->Start();
 			m_pC_newchar->SetCharacterToThisSlot(0, &m_slot[0]);
-			m_pC_newchar->RollDice(); // Start()¿¡ ³ÖÀ¸¸é ¾ÈµÈ´Ù. - SetCharacterToThisSlot()¸¦ ±× µÚ¿¡ ÇÏ±â ¶§¹®.
+			m_pC_newchar->RollDice(); // Start()ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÈ´ï¿½. - SetCharacterToThisSlot()ï¿½ï¿½ ï¿½ï¿½ ï¿½Ú¿ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			Finish();
 			return;
 		}
@@ -3489,7 +3485,7 @@ void C_VS_UI_CHAR_MANAGER::Run(id_t id)
 		//		case CHARINFO:
 		//			if (m_slot[m_select_heart].bl_set == true)
 		//			{
-		//				//assert(m_pC_char_info == NULL); // ÇÏÁö¸»°Í. WindowManager¿¡¼­ cancel push stateÇÏ¸é µÎ ¹ø ½ÇÇàµÊ.
+		//				//assert(m_pC_char_info == NULL); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. WindowManagerï¿½ï¿½ï¿½ï¿½ cancel push stateï¿½Ï¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 		//				if (m_pC_char_info != NULL)
 		//				{
 		//					DeleteNew(m_pC_char_info);
@@ -3512,7 +3508,7 @@ void C_VS_UI_CHAR_MANAGER::Run(id_t id)
 		//			break;
 
 	case NEXT_ID:
-		// ¸ğµç slotÀÌ ºñ¾î ÀÖ´Â°¡?
+		// ï¿½ï¿½ï¿½ slotï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´Â°ï¿½?
 		if (m_slot[SLOT_LEFT].bl_set == false &&
 			m_slot[SLOT_CENTER].bl_set == false &&
 			m_slot[SLOT_RIGHT].bl_set == false)
@@ -3529,7 +3525,7 @@ void C_VS_UI_CHAR_MANAGER::Run(id_t id)
 
 	case BACK_ID:
 		//Finish();
-		gpC_base->SendMessage(UI_CHARACTER_MANAGER_FINISHED); // Finish()¿¡ µÎÁö ¸»°Í.
+		gpC_base->SendMessage(UI_CHARACTER_MANAGER_FINISHED); // Finish()ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		break;
 
 	case DELETE_1_ID:
@@ -3727,7 +3723,7 @@ void C_VS_UI_CHAR_MANAGER::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 				m_common_spk.BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 1);
 			else
 			{
-				//¹öÆ°À» ¼­¼­È÷ È°¼ºÈ­ ½ÃÅ°±â À§ÇØ¼­ ±âº» ±×¸²À» »Ñ¸°´Ù ¿ÏÀü Åõ¸íÀÏ¶§ ¹öÆ°ÀÌ ¾ø¾îÁ® ¹ö¸²
+				//ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È°ï¿½ï¿½È­ ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½âº» ï¿½×¸ï¿½ï¿½ï¿½ ï¿½Ñ¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				m_common_spk.BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
 				m_common_spk.BltLockedAlpha(x + p_button->x, y + p_button->y, p_button->m_image_index + 2, p_button->m_alpha);
 			}
@@ -3830,7 +3826,7 @@ void C_VS_UI_CHAR_MANAGER::Show()
 		if (m_pC_use_grade != NULL && !g_pUserInformation->bChinese)
 		{
 			drowx -= m_pC_use_grade->GetWidth(ADULT);
-			//20070420 Ãß°¡ 12, 19¼¼ Ç¥½Ã ¾ÈµÇ°Ô... by diesirace
+			//20070420 ï¿½ß°ï¿½ 12, 19ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ÈµÇ°ï¿½... by diesirace
 			if (g_pUserInformation->GoreLevel)
 			{
 				//m_pC_use_grade->BltLocked(g_pUserInformation->iResolution_x-m_pC_use_grade->GetWidth(ADULT)-30,50,ADULT);
@@ -3900,11 +3896,11 @@ void C_VS_UI_CHAR_MANAGER::Show()
 
 	if (m_focused_help < HELP_MAX)
 	{
-		ShowDesc(convx, convy);//»õ ui°¡ ³ª¿À±â Àü±îÁö ÀÓ½Ã ÄÚµå
+		ShowDesc(convx, convy);//ï¿½ï¿½ uiï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ó½ï¿½ ï¿½Úµï¿½
 	}
 
 	//#ifdef CONVERT_1024_768
-	//		ShowDesc(112,84);//»õ ui°¡ ³ª¿À±â Àü±îÁö ÀÓ½Ã ÄÚµå
+	//		ShowDesc(112,84);//ï¿½ï¿½ uiï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ó½ï¿½ ï¿½Úµï¿½
 	//#else
 	//		ShowDesc();
 	//#endif
@@ -3994,7 +3990,7 @@ void C_VS_UI_CHAR_MANAGER::Show()
 
 				std::string sstr;
 
-				// ¼ıÀÚ»çÀÌ¿¡ ,³Ö±â
+				// ï¿½ï¿½ï¿½Ú»ï¿½ï¿½Ì¿ï¿½ ,ï¿½Ö±ï¿½
 				wsprintf(str, "%d", m_p_slot->FAME);
 				sstr = str;
 				for (unsigned int i = 3; i <= 13; i += 4)
@@ -4014,7 +4010,7 @@ void C_VS_UI_CHAR_MANAGER::Show()
 					py += 16;
 				}
 
-				// °è±Ş °æÇèÄ¡ 
+				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ 
 				//px = g_PrintColorStr(29,py,(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_GRADE_EXP].GetString(),gpC_base->m_chatting_pi, RGB(160,160,160));
 				//char tempstr[100];
 				//wsprintf(tempstr,"%d",m_p_slot->GRADE_EXP);
@@ -4047,7 +4043,7 @@ void C_VS_UI_CHAR_MANAGER::Show()
 					py += 16;
 				}
 
-				// °è±Ş °æÇèÄ¡ 
+				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ 
 				//px = g_PrintColorStr(29,py,(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_GRADE_EXP].GetString(),gpC_base->m_chatting_pi, RGB(160,160,160));
 				//char tempstr[100];
 				//wsprintf(tempstr,"%d",m_p_slot->GRADE_EXP);
@@ -4137,7 +4133,7 @@ void C_VS_UI_CHAR_MANAGER::Show()
 
 
 		m_image_spk.Blt(g_heart_rect[0] + convx, 457 + convy, GRADE_DISCUSSION_DISPLAY);
-		// 20070626 -38Àº À¯¹«·á Ç¥½Ã·Î ºÎÅÍ 38 ÇÈ¼¿ ¶³¾îÁ® ÀÖ´Ü ¶æ
+		// 20070626 -38ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½ 38 ï¿½È¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½
 		g_PrintColorStr(g_vs_ui_title_only_premium_x + convx - szBufferLen, g_vs_ui_title_only_premium_y + convy - 38,
 			szBuffer, gpC_base->m_desc_menu_pi, RGB_WHITE);
 
@@ -4250,7 +4246,7 @@ C_VS_UI_SERVER_SELECT::C_VS_UI_SERVER_SELECT()
 	int convx = (g_pUserInformation->iResolution_x - 800) / 2;
 	int convy = (g_pUserInformation->iResolution_y - 600) / 2;
 
-	//¼­¹ö ¸®½ºÆ® Ãâ·ÂÀ§Ä¡
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½Ä¡
 	m_server_x = 350 + convx;//+112;
 	m_server_y = 191 + convy;//+84;
 
@@ -4318,7 +4314,7 @@ C_VS_UI_SERVER_SELECT::~C_VS_UI_SERVER_SELECT()
 {
 	g_UnregisterWindow(this);
 
-	// !Window¸¦ ùÀú deleteÇØ¾ß ÇÑ´Ù.
+	// !Windowï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ deleteï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 	DeleteNew(m_pAnimationTimer);
 	DeleteNew(m_pC_button_group);
 #if	__CONTENTS(__USER_GRADE)
@@ -4696,7 +4692,7 @@ void C_VS_UI_SERVER_SELECT::SetServerList(LPSTR * name, int* id, int* status, in
 	m_server_vampirenum.clear();
 	m_server_oustersenum.clear();
 
-	m_server_size = size;			//Ã¤³ÎÀÇ °³¼ö
+	m_server_size = size;			//Ã¤ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	for (int i = 0; i < size; i++)
 	{
 		m_server_name.push_back(name[i]);
@@ -4720,7 +4716,7 @@ void C_VS_UI_SERVER_SELECT::SetServerList(LPSTR * name, int* id, int* status, in
 	}
 	CharBarCount();
 
-	//	if(m_bl_group	== true)	//trueÀÏ ¶§°¡ ¿ùµå ¼±ÅÃ
+	//	if(m_bl_group	== true)	//trueï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//		gpC_base->SendMessage(UI_CONNECT_SERVER, m_bl_group, m_server_id[m_server_select]); m_bl_group 
 }
 #else
@@ -4803,7 +4799,7 @@ void C_VS_UI_SERVER_SELECT::Show()
 		if (m_pC_use_grade != NULL && !g_pUserInformation->bChinese)
 		{
 			drowx -= m_pC_use_grade->GetWidth(ADULT);
-			//20070420 Ãß°¡ 12, 19¼¼ Ç¥½Ã ¾ÈµÇ°Ô... by diesirace
+			//20070420 ï¿½ß°ï¿½ 12, 19ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ÈµÇ°ï¿½... by diesirace
 			if (g_pUserInformation->GoreLevel)
 			{
 				//m_pC_use_grade->BltLocked(g_pUserInformation->iResolution_x-m_pC_use_grade->GetWidth(ADULT)-30,50,ADULT);
@@ -4820,7 +4816,7 @@ void C_VS_UI_SERVER_SELECT::Show()
 			m_pC_use_grade->BltLocked(drowx, drowy, FEAR);
 		}
 #endif	//__USER_GRADE
-		if (m_server_name.size() > 12)	// scroll tag Ç¥½Ã
+		if (m_server_name.size() > 12)	// scroll tag Ç¥ï¿½ï¿½
 		{
 			if (m_bl_scrolling)
 				m_image_spk.BltLocked(SCROLL_X, min(max(gpC_mouse_pointer->GetY(), SCROLL_Y + m_image_spk.GetHeight(SCROLL_TAG) / 2), SCROLL_Y + SCROLL_HEIGHT + m_image_spk.GetHeight(SCROLL_TAG) / 2) - m_image_spk.GetHeight(SCROLL_TAG) / 2, SCROLL_TAG_HILIGHTED);
@@ -4837,7 +4833,7 @@ void C_VS_UI_SERVER_SELECT::Show()
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 
-	//¼­¹ö¸®½ºÆ® Ç¥½Ã
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Ç¥ï¿½ï¿½
 	g_FL2_GetDC();
 	ServerNameView();
 
@@ -5318,9 +5314,9 @@ void	C_VS_UI_SERVER_SELECT::ChannelCharBarView()
 	{
 		for (int i = 0; i < m_server_size; i++)
 		{
-			CharBarView(10, BLACK_BAR, i, 0);	//ºí·¢¹Ù´Â ¹«Á¶°Ç 10°³		
-			CharBarView(10, BLACK_BAR, i, 1);	//ºí·¢¹Ù´Â ¹«Á¶°Ç 10°³		
-			CharBarView(10, BLACK_BAR, i, 2);	//ºí·¢¹Ù´Â ¹«Á¶°Ç 10°³		
+			CharBarView(10, BLACK_BAR, i, 0);	//ï¿½ï¿½ï¿½ï¿½ï¿½Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 10ï¿½ï¿½		
+			CharBarView(10, BLACK_BAR, i, 1);	//ï¿½ï¿½ï¿½ï¿½ï¿½Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 10ï¿½ï¿½		
+			CharBarView(10, BLACK_BAR, i, 2);	//ï¿½ï¿½ï¿½ï¿½ï¿½Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 10ï¿½ï¿½		
 			CharBarView(m_pserver_slayernum_barcount[i], SLAYER_BAR, i, 0);
 			CharBarView(m_pserver_vampirenum_barcount[i], VAMPIRES_BAR, i, 1);
 			CharBarView(m_pserver_ousters_barcount[i], OUSTERS_BAR, i, 2);
@@ -5341,9 +5337,9 @@ void	C_VS_UI_SERVER_SELECT::ChannelCharBarView()
 -----------------------------------------------------------------------------*/
 int S_SLOT::Init()
 {
-	bl_set = false; // slotÀÌ ¼³Á¤µÇ¾ú´Â°¡?
+	bl_set = false; // slotï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½Â°ï¿½?
 	bl_female = false;
-	bl_drained = false; //ÈíÇ÷µÈ »óÅÂÀÎ°¡?
+	bl_drained = false; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½?
 
 	ZeroMemory(&man_info, sizeof(MAN_INFO));
 
@@ -5378,7 +5374,7 @@ int S_SLOT::Init()
 	DAM2 = 0;	// min
 	SILVER_DAM = 0;	// max
 	SILVER_DAM2 = 0;	// min
-	CHANGE_VAMPIRE = 0;	// ¹ìÆÄÀÌ¾î·Î º¯ÇÏ´Â ³²Àº ½Ã°£ ºĞ
+	CHANGE_VAMPIRE = 0;	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½
 	DEFENSE = 0;
 	PROTECTION = 0;
 	TOHIT = 0;
@@ -5424,7 +5420,7 @@ int S_SLOT::Init()
 
 	m_SMS_Charge = 0;
 	m_Powerjjang_Point = 0;
-	m_AdvancementLevel = 0;	// ÀüÁ÷ ·¹º§ 
+	m_AdvancementLevel = 0;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 
 	SlayerAdvancedStr = 0;
 	SlayerAdvancedDex = 0;
@@ -5503,7 +5499,7 @@ C_VS_UI_LOGIN::C_VS_UI_LOGIN()
 //-----------------------------------------------------------------------------
 // ReadySend
 //
-// ºñ¾îÀÖÁö¾Ê°í ÀÔ·ÂÀÌ ´Ù µÇ¾úÀ¸¸é true¸¦ ¹İÈ¯ÇÏ°í ±×·¸Áö ¾ÊÀ¸¸é false¸¦ ¹İÈ¯ÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê°ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ trueï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ï°ï¿½ ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ falseï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 bool C_VS_UI_LOGIN::ReadySend()
 {
@@ -5766,14 +5762,14 @@ bool C_VS_UI_LOGIN::MouseControl(UINT message, int _x, int _y)
 //-----------------------------------------------------------------------------
 // NextFocus
 //
-// ID or Password µÑ Áß ¾î´À ÇÏ³ª°¡ ÀÔ·ÂÀÌ ÀüÇô ¾ø¾ú´Ù¸é, ´ÙÀ½ÀÇ ±×°÷À¸·Î ÀÌµ¿ÇÑ´Ù.
+// ID or Password ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ñ´ï¿½.
 //
-// `ºñ¾îÀÖ´Â °÷ÀÌ ¾øÀ¸¸é true¸¦ ¹İÈ¯ÇÑ´Ù.
+// `ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ trueï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 /*
 bool C_VS_UI_LOGIN::NextFocus()
 {
-	// gC_font ³»ºÎ¿¡¼­ tabÀº ¾Æ¹«°Íµµ ¾Æ´Ï´Ù.
+	// gC_font ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ tabï¿½ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½Æ´Ï´ï¿½.
 	gC_font.ForceShowCursor();
 
 	if (m_e_ip == ID)
@@ -5795,7 +5791,7 @@ bool C_VS_UI_LOGIN::NextFocus()
 		gC_font.SetInputLine(m_string_line_ID.c_str());
 	}
 
-	// no empty? - ¸¶Áö¸·¿¡ °Ë»çÇÑ´Ù.
+	// no empty? - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ñ´ï¿½.
 	if (m_string_line_ID.length() > 0 && m_string_line_PASSWORD.length() > 0)
 		return true;
 
@@ -5805,7 +5801,7 @@ bool C_VS_UI_LOGIN::NextFocus()
 //-----------------------------------------------------------------------------
 // SendLoginToClient
 //
-// ID/Password¸¦ Client·Î º¸³½´Ù.
+// ID/Passwordï¿½ï¿½ Clientï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_LOGIN::SendLoginToClient()
 {
@@ -5822,7 +5818,7 @@ void C_VS_UI_LOGIN::SendLoginToClient()
 	}
 */
 //
-// ¹İµå½Ã staticÀ¸·Î ÇÏ°í member¸¦ login check°¡ ³¡³ª°í delete ÇØÁØ´Ù.
+// ï¿½İµï¿½ï¿½ staticï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ memberï¿½ï¿½ login checkï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ delete ï¿½ï¿½ï¿½Ø´ï¿½.
 //
 	static LOGIN S_login;
 	//S_login.sz_id = (char *)m_string_line_ID.c_str();
@@ -5836,7 +5832,7 @@ void C_VS_UI_LOGIN::SendLoginToClient()
 
 /*-----------------------------------------------------------------------------
 - KeyboardControl
-- Log-In ID¿Í Password¸¦ ÀÔ·Â¹Ş´Â´Ù.
+- Log-In IDï¿½ï¿½ Passwordï¿½ï¿½ ï¿½Ô·Â¹Ş´Â´ï¿½.
 -----------------------------------------------------------------------------*/
 void C_VS_UI_LOGIN::KeyboardControl(UINT message, UINT key, long extra)
 {
@@ -5863,7 +5859,7 @@ void C_VS_UI_LOGIN::KeyboardControl(UINT message, UINT key, long extra)
 	{
 	case WM_KEYDOWN:
 		// 
-		// input position º¯°æ.
+		// input position ï¿½ï¿½ï¿½ï¿½.
 		//
 		if (key == VK_TAB)
 		{
@@ -5876,7 +5872,7 @@ void C_VS_UI_LOGIN::KeyboardControl(UINT message, UINT key, long extra)
 		}
 		else if (key == VK_RETURN) // ok
 		{
-			//if (focus_end) // ºñ¾î ÀÖ´Â °÷ÀÌ ¾øÀ¸¸é send!
+			//if (focus_end) // ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ send!
 			//{
 
 			if (ReadySend() == true)
@@ -5916,7 +5912,7 @@ void C_VS_UI_LOGIN::Show()
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 	/*
-		// login ¹®ÀÚ¿­ Ãâ·Â.
+		// login ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½.
 		if (gpC_base->m_p_DDSurface_back->Lock())
 		{
 			S_SURFACEINFO	surfaceinfo;
@@ -5924,7 +5920,7 @@ void C_VS_UI_LOGIN::Show()
 
 			gpC_base->SelectFont(FONT_SLAYER);
 
-			// cursor´Â ÇöÀç ÀÔ·Â line¿¡¸¸ ÀÖ°Ô ÇØ¾ß ÇÑ´Ù.
+			// cursorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ lineï¿½ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 			if (m_e_ip == ID)
 				gC_font.Update(&surfaceinfo, x+LOGIN_ID_X, y+LOGIN_ID_Y, WHITE);
 			else
@@ -6076,15 +6072,15 @@ C_VS_UI_TITLE::C_VS_UI_TITLE()
 	/*	m_pC_dialog = new C_VS_UI_DIALOG(50, 20, 6, 2, A);//, DIALOG_OK);//|DIALOG_CANCEL);
 
 		DIALOG_MENU d_menu[] = {
-			{"»ç±â & asldkfsldjald", 0},
-			{"ÆÈ±â / 26387638127638263", 1},
-			{"³¡³»±â", DIALOG_EXECID_EXIT},
+			{"ï¿½ï¿½ï¿½ & asldkfsldjald", 0},
+			{"ï¿½È±ï¿½ / 26387638127638263", 1},
+			{"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", DIALOG_EXECID_EXIT},
 		};
 		m_pC_dialog->SetMenu(d_menu, 3);
 
 		static char * pp_dmsg[] = {
-			"¾È³çÇÏ¼¼¿ä? Àú´Â ÁøÅÂ¶ó°íÇÕ´Ï´Ù.",
-			"³×? ¾Æ, Âü ÁÁÀº ÀÌ¸§ÀÌ±º¿ä^^Çì..",
+			"ï¿½È³ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¶ï¿½ï¿½ï¿½Õ´Ï´ï¿½.",
+			"ï¿½ï¿½? ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½Ì±ï¿½ï¿½ï¿½^^ï¿½ï¿½..",
 			"m_pC_newuser = new C_VS_UI_NEWUSER;",
 			" ",
 			"m_title_spk.Open(SPK_TITLE);",
@@ -6172,7 +6168,7 @@ C_VS_UI_TITLE::C_VS_UI_TITLE()
 
 	//int iStartRangeX = RESOLUTION_X - 159 , iStartRangeY  = RESOLUTION_Y - 238 ;
 	//20070517 by diesirace
-	//¿©±â°¡ ¹öÆ°À» µî·ÏÇÏ°í À§Ä¡¸¦ Á¤ÇÏ´Â°÷
+	//ï¿½ï¿½ï¿½â°¡ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´Â°ï¿½
 	int iStartRangeX = 0, iStartRangeY = g_pUserInformation->iResolution_y - m_title_spk.GetHeight(1);
 
 	int	offsetX = 0;
@@ -6240,7 +6236,7 @@ C_VS_UI_TITLE::C_VS_UI_TITLE()
 		Attach(&m_lev_id);
 		Attach(&m_lev_password);
 	}
-	//	//20090311 Å×½ºÆ® ÄÚµå ²À Áö¿ó½Ã´Ù.
+	//	//20090311 ï¿½×½ï¿½Æ® ï¿½Úµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã´ï¿½.
 	//	m_lev_id.EraseAll();
 	//	m_lev_password.EraseAll();
 	//	m_lev_id.AddString("JM0002694158");
@@ -6267,10 +6263,10 @@ C_VS_UI_TITLE::~C_VS_UI_TITLE()
 #endif
 
 	//
-	// !¸ÕÀú child WindowµéÀ» deleteÇØ¾ß ÇÑ´Ù.
+	// !ï¿½ï¿½ï¿½ï¿½ child Windowï¿½ï¿½ï¿½ï¿½ deleteï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 	//
-	// ±×·¸°Ô ÇÏÁö ¾ÊÀ¸¸é child WindowÀÌ Á¦°ÅµÉ ¶§´Â ÀÌ¹Ì C_VS_UI_TITLE::IsPIxel()À»
-	// ÇÒ ¼ö ¾ø´Â »óÅÂ(m_title_spk°¡ deleteµÈ ÀÌÈÄ)ÀÌ±â ¶§¹®ÀÌ´Ù.
+	// ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ child Windowï¿½ï¿½ ï¿½ï¿½ï¿½Åµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ C_VS_UI_TITLE::IsPIxel()ï¿½ï¿½
+	// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(m_title_spkï¿½ï¿½ deleteï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)ï¿½Ì±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 	//
 	DeleteNew(m_pC_login);
 	DeleteNew(m_pC_char_manager);
@@ -6316,7 +6312,7 @@ C_VS_UI_TITLE::~C_VS_UI_TITLE()
 //-----------------------------------------------------------------------------
 // RunTitleOption
 //
-// ±³È¯ÇÒ°Å³Ä°í ¹¯´Â´Ù.
+// ï¿½ï¿½È¯ï¿½Ò°Å³Ä°ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_TITLE::RunOption()
 {
@@ -6340,7 +6336,7 @@ void C_VS_UI_TITLE::RunOption()
 //-----------------------------------------------------------------------------
 // CloseTitleOption
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_TITLE::CloseOption()
 {
@@ -6448,7 +6444,7 @@ void C_VS_UI_TITLE::Process()
 //-----------------------------------------------------------------------------
 // Start
 //
-// TitleÀ» Àç½ÃÀÛÇÑ´Ù. ±×·¡¼­ Title ÇÏÀ§¸Ş´º¸¦ ¸ğµÎ Á¾·áÇØ¾ß ÇÑ´Ù.
+// Titleï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. ï¿½×·ï¿½ï¿½ï¿½ Title ï¿½ï¿½ï¿½ï¿½ï¿½Ş´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_TITLE::Start()
 {
@@ -6484,7 +6480,7 @@ void C_VS_UI_TITLE::Start()
 			ChangeFocus();
 		}
 	}
-	//	//20090311 Å×½ºÆ® ÄÚµå ²À Áö¿ó½Ã´Ù.
+	//	//20090311 ï¿½×½ï¿½Æ® ï¿½Úµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã´ï¿½.
 	//	m_lev_id.EraseAll();
 	//	m_lev_password.EraseAll();
 	//	m_lev_id.AddString("JM0002694158");
@@ -6502,8 +6498,8 @@ void C_VS_UI_TITLE::Start()
 //-----------------------------------------------------------------------------
 // Finish
 //
-// Title/Login/Characters ... ¸ğµç Window°¡ µ¶¸³µÈ °ÍÀÌ¹Ç·Î ¾î´À ÇÏ³ª°¡ FinishµÇ¾î¼­
-// ´Ù¸¥ °Íµµ FinishµÇ¸é ¾ÈµÈ´Ù.
+// Title/Login/Characters ... ï¿½ï¿½ï¿½ Windowï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¹Ç·ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ Finishï¿½Ç¾î¼­
+// ï¿½Ù¸ï¿½ ï¿½Íµï¿½ Finishï¿½Ç¸ï¿½ ï¿½ÈµÈ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_TITLE::Finish()
 {
@@ -6589,8 +6585,8 @@ void C_VS_UI_TITLE::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
 //-----------------------------------------------------------------------------
 // Show
 //
-// [Âü°í] ¸¸¾à descriptor¸¦ Title¿¡¼­ »ç¿ëÇÏ·Á¸é, ±×°ÍÀÇ Show()¸¦ ¿©±â¼­ ½ÇÇàÇÑ´Ù.
-//			 ÀÌ°ÍÀº Game class¿¡µµ ÀÖ´Ù. C_VS_UI::Show()¿¡´Ù ³õÀ¸¸é ¾ÈµÈ´Ù.
+// [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ descriptorï¿½ï¿½ Titleï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½, ï¿½×°ï¿½ï¿½ï¿½ Show()ï¿½ï¿½ ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+//			 ï¿½Ì°ï¿½ï¿½ï¿½ Game classï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½. C_VS_UI::Show()ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÈ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_TITLE::Show()
 {
@@ -6647,7 +6643,7 @@ void C_VS_UI_TITLE::Show()
 		else
 		{
 			//20070517 by diesirace 
-			//¿©±â°¡ 1024/800±×¸² »Ñ¸®´Â°÷ »Ñ¸®´Â ¹æ½ÄÀÌ ´Ş¶úÀ¸³ª ÀÌ¹ÌÁö ¸®´º¾ó ÇÏ¸é¼­ ÅëÇÕ
+			//ï¿½ï¿½ï¿½â°¡ 1024/800ï¿½×¸ï¿½ ï¿½Ñ¸ï¿½ï¿½Â°ï¿½ ï¿½Ñ¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ş¶ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¸é¼­ ï¿½ï¿½ï¿½ï¿½
 //			if(g_pUserInformation->IsResolution1024)
 			//			{
 			m_title_spk.BltLocked(g_pUserInformation->iResolution_x / 2 - m_title_spk.GetWidth() / 2, g_pUserInformation->iResolution_y / 2 - m_title_spk.GetHeight() / 2);
@@ -6666,8 +6662,8 @@ void C_VS_UI_TITLE::Show()
 
 			m_title_spk.BltLocked(g_pUserInformation->iResolution_x - m_title_spk.GetWidth(2), g_pUserInformation->iResolution_y - m_title_spk.GetHeight(2), 2);
 
-			//Å¸¿À¸£´Â ´«¾ËÀ» Á¤È®ÇÑ À§Ä¡¿¡ »Ñ¸°´Ù.
-			//Å¸¿À¸£´Â ´«¾ËÀ» ±¸Çö 
+			//Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È®ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ñ¸ï¿½ï¿½ï¿½.
+			//Å¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 			if (m_pAnimationTimer->IsTimeLimit())
 			{
 				if (m_bAniArphaUp)
@@ -6744,8 +6740,8 @@ void C_VS_UI_TITLE::Show()
 			//					//m_pC_use_grade->BltLocked(RESOLUTION_X-m_pC_use_grade->GetWidth(ADULT)-30,30,ADULT);
 			//					m_pC_use_grade->BltLocked(g_pUserInformation->iResolution_x-m_pC_use_grade->GetWidth(ADULT)-30,30,ADULT);
 			//				}
-			//				//Å¸ÀÌÆ² ÂÊ¿¡ ½ÉÀÇ µî±Ş °ü·Ã 
-			//				//Ç¥½Ã°¡ ÀÖ¾ú´øµí Áö±İÀº m_pC_use_grade°¡ ³Î·Î µé¾î ¿Â´Ù ÆÄÀÏÀ» ÀĞÁö ¾Ê´Â´Ù´Â ÀÌ¾ß±â
+			//				//Å¸ï¿½ï¿½Æ² ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+			//				//Ç¥ï¿½Ã°ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ m_pC_use_gradeï¿½ï¿½ ï¿½Î·ï¿½ ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´Ù´ï¿½ ï¿½Ì¾ß±ï¿½
 			//				else
 			//				{
 			//					//m_pC_use_grade->BltLocked(RESOLUTION_X-m_pC_use_grade->GetWidth(CHILD)-30,30,CHILD);
@@ -6761,12 +6757,12 @@ void C_VS_UI_TITLE::Show()
 			{
 				drowx -= m_pC_use_grade->GetWidth(ADULT);
 				/*
-								//20070420 Ãß°¡ 12, 19¼¼ Ç¥½Ã ¾ÈµÇ°Ô... by diesirace
+								//20070420 ï¿½ß°ï¿½ 12, 19ï¿½ï¿½ Ç¥ï¿½ï¿½ ï¿½ÈµÇ°ï¿½... by diesirace
 				//				m_pC_use_grade->BltLocked(drowx,drowy,ADULT);
 				//				drowx -= m_pC_use_grade->GetWidth(CHILD);
 				//				m_pC_use_grade->BltLocked(drowx,drowy,CHILD);
 
-				*//* -- NetmarbleÀÇ °æ¿ì, ½ÇÇàÀÎÀÚ·Î À¯ÀúÀÇ ³ªÀÌ°ªÀ» ¹Ş¾Æ, GoreLevel°ªÀ» ÃÊ±âÈ­ ÇÒ ¼ö ÀÖÀ¸¹Ç·Î.. ·Î±äÃ¢¿¡¼­ÀÇ ÀÌ¿ëÁ¦ÇÑUIÇ¥½Ã¿¡ ¹İ¿µÇØ¾ß ÇÑ´Ù. --*/
+				*//* -- Netmarbleï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ï¿½ï¿½ ï¿½Ş¾ï¿½, GoreLevelï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½.. ï¿½Î±ï¿½Ã¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ï¿½ï¿½UIÇ¥ï¿½Ã¿ï¿½ ï¿½İ¿ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½. --*/
 				if (g_pUserInformation->IsNetmarble)
 				{
 					if (g_pUserInformation->GoreLevel)
@@ -6795,7 +6791,7 @@ void C_VS_UI_TITLE::Show()
 #endif	//__USER_GRADE
 			POINT	testpoint;
 
-			//Å¸ÀÌÆ² ÀÌÆåÆ®
+			//Å¸ï¿½ï¿½Æ² ï¿½ï¿½ï¿½ï¿½Æ®
 //			testpoint.x	= 400;
 //			testpoint.y	= 400;
 //			g_pTopView->DrawTitleEffect(&testpoint);
@@ -6970,7 +6966,7 @@ void C_VS_UI_TITLE::KeyboardControl(UINT message, UINT key, long extra)
 	{
 	case WM_KEYDOWN:
 		// 
-		// input position º¯°æ.
+		// input position ï¿½ï¿½ï¿½ï¿½.
 		//
 		if (key == VK_TAB)
 		{
@@ -6988,7 +6984,7 @@ void C_VS_UI_TITLE::KeyboardControl(UINT message, UINT key, long extra)
 		}
 		else if (key == VK_RETURN) // ok
 		{
-			//if (focus_end) // ºñ¾î ÀÖ´Â °÷ÀÌ ¾øÀ¸¸é send!
+			//if (focus_end) // ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ send!
 			//{
 			if (false == g_pUserInformation->IsAutoLogIn &&
 				false == g_pUserInformation->IsNetmarbleLogin)
@@ -7008,7 +7004,7 @@ void C_VS_UI_TITLE::KeyboardControl(UINT message, UINT key, long extra)
 		break;
 	}
 
-	// ¸¸¾à IME toggleµÇ¾î ÀÖÀ» °æ¿ì¸¦ ´ëºñÇÏ¿© scan code·Î ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ IME toggleï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¸¦ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ scan codeï¿½ï¿½ ï¿½Ñ´ï¿½.
 
 /*	id_t id = INVALID_ID;
 	if (message == WM_KEYDOWN)
@@ -7057,7 +7053,7 @@ void C_VS_UI_TITLE::Run(id_t id)
 	{
 	case CONNECT:
 	{
-		// ³İ¸¶ºí¿ë
+		// ï¿½İ¸ï¿½ï¿½ï¿½ï¿½ï¿½
 //			m_pC_login->Start();
 		if (false == g_pUserInformation->IsAutoLogIn &&
 			false == g_pUserInformation->IsNetmarbleLogin)
@@ -7171,7 +7167,7 @@ void C_VS_UI_TITLE::ChangeFocus()
 void C_VS_UI_TITLE::SendLoginToClient()
 {
 	//
-	// ¹İµå½Ã staticÀ¸·Î ÇÏ°í member¸¦ login check°¡ ³¡³ª°í delete ÇØÁØ´Ù.
+	// ï¿½İµï¿½ï¿½ staticï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ memberï¿½ï¿½ login checkï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ delete ï¿½ï¿½ï¿½Ø´ï¿½.
 	//
 	static LOGIN S_login;
 	//S_login.sz_id = (char *)m_string_line_ID.c_str();
@@ -7205,7 +7201,7 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 		m_check[CHECK_ENTER_CHAT] = CHECK_NOT;
 	}
 
-	// ÇØ»óµµ ¼±ÅÃ RADIO ¹öÆ°
+	// ï¿½Ø»ï¿½ ï¿½ï¿½ï¿½ï¿½ RADIO ï¿½ï¿½Æ°
 	if (IsTitle)
 	{
 		m_check[CHECK_RESOLUTION_1024x768] = CHECK_TYPE(g_pUserOption->Resolution1024);
@@ -7347,7 +7343,7 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 		m_pC_scroll_bar = new C_VS_UI_SCROLL_BAR(0, Rect(378, 90, -1, 112), false, SPK_TITLE_OPTION_SCROLL, 2, 2, 2);
 
 		//Set(RESOLUTION_X /2 - m_pC_main_spk->GetWidth()/2, RESOLUTION_Y /2 - m_pC_main_spk->GetHeight()/2 , m_pC_main_spk->GetWidth(), m_pC_main_spk->GetHeight());
-		//ÀÌ¹ÌÁö Áß¾Ó¿¡ ¬ÃÆÁö¸¸ 1ÇÈ¼¿¾¿ ´ç°Ü¾ß ÇßÀ½
+		//ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ß¾Ó¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½È¼ï¿½ï¿½ï¿½ ï¿½ï¿½Ü¾ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 		Set(g_pUserInformation->iResolution_x / 2 - m_pC_main_spk->GetWidth() / 2 - 1,
 			g_pUserInformation->iResolution_y / 2 - m_pC_main_spk->GetHeight() / 2 - 1,
@@ -7361,13 +7357,13 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 	const InterfaceInformation* pSkin = &g_pSkinManager->Get(SkinManager::OPTION);
 	m_pC_button_group = new ButtonGroup(this);
 
-	// ÇÏ´Ü µğÆúÆ®µîµî ¹öÆ°
+	// ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
 //	int default_button_x = 174, default_button_y = 282, load_button_x = 246, save_button_x = 303;
 //	m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(default_button_x, default_button_y, m_pC_etc_spk->GetWidth(DEFAULT_BUTTON_HILIGHTED), m_pC_etc_spk->GetHeight(DEFAULT_BUTTON_HILIGHTED), DEFAULT_ID, this, DEFAULT_BUTTON_HILIGHTED) );
 //	m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(load_button_x, default_button_y, m_pC_etc_spk->GetWidth(LOAD_BUTTON_HILIGHTED), m_pC_etc_spk->GetHeight(LOAD_BUTTON_HILIGHTED), LOAD_ID, this, LOAD_BUTTON_HILIGHTED) );
 //	m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(save_button_x, default_button_y, m_pC_etc_spk->GetWidth(SAVE_BUTTON_HILIGHTED), m_pC_etc_spk->GetHeight(SAVE_BUTTON_HILIGHTED), SAVE_ID, this, SAVE_BUTTON_HILIGHTED) );
 
-	// close¹öÆ°
+	// closeï¿½ï¿½Æ°
 	//int close_button_x = pSkin->GetPoint(0).x, close_button_y = pSkin->GetPoint(0).y;
 	int i = 0;
 
@@ -7381,7 +7377,7 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 
 		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(0).x, pSkin->GetPoint(0).y, m_pC_etc_spk->GetWidth(BUTTON_CLOSE), m_pC_etc_spk->GetHeight(BUTTON_CLOSE), CLOSE_ID, this, BUTTON_CLOSE));
 
-		// tab¹öÆ°
+		// tabï¿½ï¿½Æ°
 		//int tab_control_x = 116, tab_y = 20, tab_graphic_x = 170, tab_sound_x = 224, tab_game_x = 278;
 		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(1).x, pSkin->GetPoint(1).y, m_pC_main_spk->GetWidth(TAB_CONTROL), m_pC_main_spk->GetHeight(TAB_CONTROL), CONTROL_ID, this, TAB_CONTROL));
 		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(2).x, pSkin->GetPoint(2).y, m_pC_main_spk->GetWidth(TAB_GRAPHIC), m_pC_main_spk->GetHeight(TAB_GRAPHIC), GRAPHIC_ID, this, TAB_GRAPHIC));
@@ -7390,7 +7386,7 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 
 		m_check_x = pSkin->GetPoint(5).x, m_check_y = pSkin->GetPoint(5).y, m_check_gap = 20;
 
-		// control_tab ¹öÆ°µé
+		// control_tab ï¿½ï¿½Æ°ï¿½ï¿½
 	//	int list_button_x = 341, list_button_y = 54;
 		m_pC_control_button_group = new ButtonGroup(this);
 		m_pC_control_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x + 10, m_check_y, m_pC_etc_spk->GetWidth(RADIO_BACK_DISABLE), m_pC_etc_spk->GetHeight(RADIO_BACK_DISABLE), CHECK_NORMAL_CHAT, this, RADIO_BACK_DISABLE));
@@ -7403,19 +7399,19 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 		m_pC_control_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, pSkin->GetPoint(6).y, m_pC_main_spk->GetWidth(RESET_OPTION), m_pC_main_spk->GetHeight(RESET_OPTION), RESET_ID, this, RESET_OPTION));
 #endif //__080405_FIREST_UI_UPDATE
 
-		// graphic_tab ¹öÆ°µé
+		// graphic_tab ï¿½ï¿½Æ°ï¿½ï¿½
 		m_pC_graphic_button_group = new ButtonGroup(this);
 		m_pC_graphic_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x + 10, m_check_y, m_pC_etc_spk->GetWidth(RADIO_BACK_DISABLE), m_pC_etc_spk->GetHeight(RADIO_BACK_DISABLE), CHECK_RESOLUTION_800x600, this, RADIO_BACK_DISABLE));
 		m_pC_graphic_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x + 120, m_check_y, m_pC_etc_spk->GetWidth(RADIO_BACK_DISABLE), m_pC_etc_spk->GetHeight(RADIO_BACK_DISABLE), CHECK_RESOLUTION_1024x768, this, RADIO_BACK_DISABLE));
 		for (i = 0; i < CHECK_GRAPHIC_MAX; i++)
 			m_pC_graphic_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y + m_check_gap * (1 + i), m_pC_etc_spk->GetWidth(CHECK_BACK_DISABLE), m_pC_etc_spk->GetHeight(CHECK_BACK_DISABLE), CHECK_GRAPHIC_TAB + i + 2, this, CHECK_BACK_DISABLE));
 
-		// sound_tab ¹öÆ°µé
+		// sound_tab ï¿½ï¿½Æ°ï¿½ï¿½
 		m_pC_sound_button_group = new ButtonGroup(this);
 		for (i = 0; i < CHECK_SOUND_MAX; i++)
 			m_pC_sound_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y + m_check_gap * i, m_pC_etc_spk->GetWidth(CHECK_BACK_DISABLE), m_pC_etc_spk->GetHeight(CHECK_BACK_DISABLE), CHECK_SOUND_TAB + i, this, CHECK_BACK_DISABLE));
 
-		// game_tab ¹öÆ°µé
+		// game_tab ï¿½ï¿½Æ°ï¿½ï¿½
 		m_pC_game_button_group = new ButtonGroup(this);
 		for (i = 0; i < CHECK_GAME_MAX; i++)
 			m_pC_game_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y + m_check_gap * i, m_pC_etc_spk->GetWidth(CHECK_BACK_DISABLE), m_pC_etc_spk->GetHeight(CHECK_BACK_DISABLE), CHECK_GAME_TAB + i, this, CHECK_BACK_DISABLE));
@@ -7446,7 +7442,7 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 		m_check_x = 20, m_check_y = 35, m_check_gap = 20;
 
 
-		// control_tab ¹öÆ°µé
+		// control_tab ï¿½ï¿½Æ°ï¿½ï¿½
 		//	int list_button_x = 341, list_button_y = 54;
 		m_pC_control_button_group = new ButtonGroup(this);
 		m_pC_control_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x + 10, m_check_y, m_pC_main_spk->GetWidth(TITLE_RADIO_BACK), m_pC_main_spk->GetHeight(TITLE_RADIO_BACK), CHECK_NORMAL_CHAT, this, TITLE_RADIO_BACK));
@@ -7477,18 +7473,18 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 
 
 
-				// graphic_tab ¹öÆ°µé
+				// graphic_tab ï¿½ï¿½Æ°ï¿½ï¿½
 		m_pC_graphic_button_group = new ButtonGroup(this);
 		m_pC_graphic_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x + 10, m_check_y, m_pC_main_spk->GetWidth(TITLE_RADIO_BACK), m_pC_main_spk->GetHeight(TITLE_RADIO_BACK), CHECK_RESOLUTION_800x600, this, TITLE_RADIO_BACK));
 		m_pC_graphic_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x + 120, m_check_y, m_pC_main_spk->GetWidth(TITLE_RADIO_BACK), m_pC_main_spk->GetHeight(TITLE_RADIO_BACK), CHECK_RESOLUTION_1024x768, this, TITLE_RADIO_BACK));
 
 		for (i = 0; i < CHECK_GRAPHIC_MAX; i++)
 			m_pC_graphic_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y + m_check_gap * (1 + i), m_pC_main_spk->GetWidth(TITLE_CHECK_BACK), m_pC_main_spk->GetHeight(TITLE_CHECK_BACK), CHECK_GRAPHIC_TAB + i + 2, this, TITLE_CHECK_BACK));
-		// sound_tab ¹öÆ°µé
+		// sound_tab ï¿½ï¿½Æ°ï¿½ï¿½
 		m_pC_sound_button_group = new ButtonGroup(this);
 		for (i = 0; i < CHECK_SOUND_MAX; i++)
 			m_pC_sound_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y + m_check_gap * i, m_pC_main_spk->GetWidth(TITLE_CHECK_BACK), m_pC_main_spk->GetHeight(TITLE_CHECK_BACK), CHECK_SOUND_TAB + i, this, TITLE_CHECK_BACK));
-		// game_tab ¹öÆ°µé
+		// game_tab ï¿½ï¿½Æ°ï¿½ï¿½
 		m_pC_game_button_group = new ButtonGroup(this);
 		for (i = 0; i < CHECK_GAME_MAX; i++)
 			m_pC_game_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y + m_check_gap * i, m_pC_main_spk->GetWidth(TITLE_CHECK_BACK), m_pC_main_spk->GetHeight(TITLE_CHECK_BACK), CHECK_GAME_TAB + i, this, TITLE_CHECK_BACK));
@@ -7549,7 +7545,7 @@ C_VS_UI_OPTION::~C_VS_UI_OPTION()
 void	C_VS_UI_OPTION::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 {
 
-	//Ã¼Å©&¶óµğ¿À ¹öÆ°µé
+	//Ã¼Å©&ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½
 	if (false == m_IsTitle)
 	{
 		if (p_button->m_image_index == CHECK_BACK_DISABLE || p_button->m_image_index == RADIO_BACK_DISABLE)
@@ -7576,7 +7572,7 @@ void	C_VS_UI_OPTION::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + radio_plus_x + p_button->x + 2, y + m_vampire_plus_y + radio_plus_y + p_button->y + 2, p_button->m_image_index + 2);
 			}
 		}
-		//tab¹öÆ°µé
+		//tabï¿½ï¿½Æ°ï¿½ï¿½
 		else if (p_button->GetID() == CONTROL_ID || p_button->GetID() == GRAPHIC_ID || p_button->GetID() == SOUND_ID || p_button->GetID() == GAME_ID)
 		{
 			if (p_button->GetFocusState())
@@ -7592,7 +7588,7 @@ void	C_VS_UI_OPTION::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 				}
 			}
 		}
-		//Close¹öÆ°
+		//Closeï¿½ï¿½Æ°
 		else if (p_button->GetID() == CLOSE_ID)
 		{
 			if (p_button->GetFocusState())
@@ -7628,7 +7624,7 @@ void	C_VS_UI_OPTION::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 		}
 #endif //__080405_FIREST_UI_UPDATE
 
-		//Hotkey List¹öÆ°
+		//Hotkey Listï¿½ï¿½Æ°
 		else if (p_button->GetID() == LIST_ID)
 		{
 			if (p_button->GetFocusState())
@@ -7696,7 +7692,7 @@ void	C_VS_UI_OPTION::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 				//					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+radio_plus_x+p_button->x+2, y+m_vampire_plus_y+radio_plus_y+p_button->y+2, p_button->m_image_index+2);
 			}
 		}
-		//tab¹öÆ°µé
+		//tabï¿½ï¿½Æ°ï¿½ï¿½
 		else if (p_button->GetID() == CONTROL_ID || p_button->GetID() == GRAPHIC_ID || p_button->GetID() == SOUND_ID || p_button->GetID() == GAME_ID)
 		{
 			if (p_button->GetFocusState())
@@ -7711,7 +7707,7 @@ void	C_VS_UI_OPTION::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 				}
 			}
 		}
-		//Close¹öÆ°
+		//Closeï¿½ï¿½Æ°
 		else if (p_button->GetID() == CLOSE_ID)
 		{
 			if (p_button->GetFocusState())
@@ -7736,7 +7732,7 @@ void	C_VS_UI_OPTION::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 				m_pC_main_spk->BltLocked(x + p_button->x, y + p_button->y, TITLE_BUTTON_RESET);
 
 		}
-		//Hotkey List¹öÆ°
+		//Hotkey Listï¿½ï¿½Æ°
 		else if (p_button->GetID() == LIST_ID)
 		{
 			if (p_button->GetFocusState())
@@ -7835,12 +7831,12 @@ void C_VS_UI_OPTION::Start()
 	//			m_pC_etc_spk = new C_SPRITE_PACK(SPK_OPTION);
 	//		}
 	//	}
-		// ³İ¸¶ºíÀÏ°æ¿ì¿¡´Â g_pUserInformation ÀÇ bNetmarbleGoreLevel ¸¦ »ç¿ëÇÏÀÚ.
-		// false ÀÏ °æ¿ì°¡ teenversion.
+		// ï¿½İ¸ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ì¿¡ï¿½ï¿½ g_pUserInformation ï¿½ï¿½ bNetmarbleGoreLevel ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+		// false ï¿½ï¿½ ï¿½ï¿½ì°¡ teenversion.
 
 	if (!gC_vs_ui.IsGameMode())
 	{
-		// ¸Ş´º¿¡¼­ ³İ¸¶ºí Æ¾¹öÁ¯ÀÌ¸é °­Á¦ ¼³Á¤ÈÄ Disable ±×·¸Áö ¾ÊÀ¸¸é ¿É¼Ç¿¡ µû¸¥´Ù.
+		// ï¿½Ş´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½İ¸ï¿½ï¿½ï¿½ Æ¾ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Disable ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¼Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 		if (!g_pUserInformation->bNetmarbleGoreLevel && g_pUserInformation->IsNetmarble)
 			m_check[CHECK_TEEN_VERSION] = CHECK_CHECK_DISABLE;
 		else
@@ -7848,10 +7844,10 @@ void C_VS_UI_OPTION::Start()
 	}
 	else
 	{
-		// ³İ¸¶ºí Æ¾¹öÁ¯ÀÌ¸é °­Á¦ ¼³Á¤. ±×·¸Áö ¾ÊÀ¸¸é ¿É¼Ç¿¡ µû¸¥´Ù.
+		// ï¿½İ¸ï¿½ï¿½ï¿½ Æ¾ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¼Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 		if (!g_pUserInformation->bNetmarbleGoreLevel && g_pUserInformation->IsNetmarble)
 		{
-			// °×ÁßÀÌ¸é
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½
 			m_check[CHECK_TEEN_VERSION] = g_pUserInformation->bNetmarbleGoreLevel ? CHECK_DISABLE : CHECK_CHECK_DISABLE;
 
 		}
@@ -7903,11 +7899,11 @@ void C_VS_UI_OPTION::Run(id_t id)
 {
 	switch (id)
 	{
-	case KEY_DEFAULT_INIT:	// Å¸ÀÌÆ² ¹öÆ° ÃÊ±âÈ­
+	case KEY_DEFAULT_INIT:	// Å¸ï¿½ï¿½Æ² ï¿½ï¿½Æ° ï¿½Ê±ï¿½È­
 	{
 #if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		// Ã¹È­¸é ¿É¼ÇÃ¢¿¡¼­ ¼³Á¤ÃÊ±âÈ­ ´ÙÀÌ¾ó·Î±× ¶ç¿ì±âÀü¿¡ ¿É¼ÇÃ¢ ¾Æ¹«°÷ÀÌ³ª Å¬¸¯ÇÑÈÄ ¼³Á¤ÃÊ±âÈ­Ã¢ ¶ç¿ì¸é
-		// È®ÀÎ Ãë¼Ò ¹öÆ°ÀÌ È°¼º¾ÈµÇ´ø ¹ö±×¼öÁ¤
+		// Ã¹È­ï¿½ï¿½ ï¿½É¼ï¿½Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½È­ ï¿½ï¿½ï¿½Ì¾ï¿½Î±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½Ã¢ ï¿½Æ¹ï¿½ï¿½ï¿½ï¿½Ì³ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½È­Ã¢ ï¿½ï¿½ï¿½ï¿½
+		// È®ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ È°ï¿½ï¿½ï¿½ÈµÇ´ï¿½ ï¿½ï¿½ï¿½×¼ï¿½ï¿½ï¿½
 		ClearInputState();
 #endif //__080405_FIREST_UI_UPDATE
 
@@ -7923,7 +7919,7 @@ void C_VS_UI_OPTION::Run(id_t id)
 	break;
 
 #if __CONTENTS(__080405_FIREST_UI_UPDATE)
-	case RESET_ID:	// °ÔÀÓ³» ¹öÆ° ÃÊ±âÈ­
+	case RESET_ID:	// ï¿½ï¿½ï¿½Ó³ï¿½ ï¿½ï¿½Æ° ï¿½Ê±ï¿½È­
 	{
 		ClearInputState();
 
@@ -8112,7 +8108,7 @@ void C_VS_UI_OPTION::Run(id_t id)
 	//		}
 	//		break;
 
-	case CHECK_SOUND://È¿°úÀ½
+	case CHECK_SOUND://È¿ï¿½ï¿½ï¿½ï¿½
 		Effect_Music_ONOFF(CHECK_SOUND);
 		/*	if(m_check[CHECK_SOUND] != CHECK_DISABLE)
 			{
@@ -8126,7 +8122,7 @@ void C_VS_UI_OPTION::Run(id_t id)
 			}*/
 		break;
 
-	case CHECK_MUSIC://¹è°æÀ½
+	case CHECK_MUSIC://ï¿½ï¿½ï¿½ï¿½ï¿½
 		Background_Music_ONOFF(CHECK_MUSIC);
 		/*	if(m_check[CHECK_MUSIC] != CHECK_DISABLE)
 			{
@@ -8475,7 +8471,7 @@ bool C_VS_UI_OPTION::MouseControl(UINT message, int _x, int _y)
 -----------------------------------------------------------------------------*/
 void C_VS_UI_OPTION::KeyboardControl(UINT message, UINT key, long extra)
 {
-	// ¸¸¾à IME toggleµÇ¾î ÀÖÀ» °æ¿ì¸¦ ´ëºñÇÏ¿© scan code·Î ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ IME toggleï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¸¦ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ scan codeï¿½ï¿½ ï¿½Ñ´ï¿½.
 
 	if (message == WM_KEYDOWN)
 	{
@@ -8904,7 +8900,7 @@ void C_VS_UI_OPTION::Show()
 
 		g_FL2_GetDC();
 
-		// ÇØ»óµµ
+		// ï¿½Ø»ï¿½
 		g_PrintColorStr(x + m_vampire_plus_x + m_check_x + 30, y + m_vampire_plus_y + m_check_y,
 			(*g_pGameStringTable)[UI_STRING_MESSAGE_800x600].GetString(), gpC_base->m_user_id_pi, strColor);
 
@@ -8947,7 +8943,7 @@ void C_VS_UI_OPTION::Show()
 	{
 		const char* check_string[CHECK_SOUND_MAX] =
 		{
-			//				"±âÇÕ ¼Ò¸® µè±â",
+			//				"ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½",
 							(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_SOUND_VOLUME].GetString(),
 							(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_MUSIC_VOLUME].GetString(),
 		};
@@ -9006,15 +9002,15 @@ void C_VS_UI_OPTION::Show()
 #endif	//__LANGUAGE
 
 				//				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_NOT_SEND_MY_INFO].GetString(),
-				/*				"ÃÊº¸ÀÚ¿ë µµ¿ò¸» º¸±â",
-								"³ª»Û¸» µèÁö ¾Ê±â",
-				//				"Á¾Á· º¯ÇÏ°Ô ÇÏ±â",
-				//				"ÆÄÆ¼ ÃÊ´ë °ÅºÎ",
-				//				"ÆÄÆ¼ °¡ÀÔ ½ÅÃ» °ÅºÎ",
-								"¸ÊÀÌµ¿ÇÒ ¶§ ¸ó½ºÅÍ ÀÌ¹ÌÁö ºÒ·¯¿À±â",
-								"Ã¤ÆÃ ¸ğµÎ Èò»öÀ¸·Î º¸±â",
-								"Æ¾¹öÁ¯À¸·Î º¸±â",
-								"±Ó¼Ó¸» ¿ÔÀ»¶§ Ã¤ÆÃÃ¢ ¶ç¿ì±â",*/
+				/*				"ï¿½Êºï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+								"ï¿½ï¿½ï¿½Û¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½",
+				//				"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ï±ï¿½",
+				//				"ï¿½ï¿½Æ¼ ï¿½Ê´ï¿½ ï¿½Åºï¿½",
+				//				"ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½Åºï¿½",
+								"ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½",
+								"Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+								"Æ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+								"ï¿½Ó¼Ó¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½",*/
 		};
 
 		g_FL2_GetDC();
@@ -9210,7 +9206,7 @@ C_VS_UI_GO_BILING_PAGE::C_VS_UI_GO_BILING_PAGE(BILING_MSG_LIST msg)
 	AttrKeyboardControl(true);
 	m_biling_mode = msg;
 
-	// ³İ¸¶ºí¿ë
+	// ï¿½İ¸ï¿½ï¿½ï¿½ï¿½ï¿½
 	int w_w = 350;
 	int w_h = 200;
 
@@ -9366,7 +9362,7 @@ void C_VS_UI_GO_BILING_PAGE::Show()
 
 		char* sz_string2 = sz_string;
 
-		while (*sz_string2 == ' ')		// ¾ÕÀÇ °ø¹éÁ¦°Å
+		while (*sz_string2 == ' ')		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		{
 			sz_string2++;
 			next++;
@@ -9379,7 +9375,7 @@ void C_VS_UI_GO_BILING_PAGE::Show()
 		sz_string2[cut_pos] = NULL;
 
 		char* return_char = NULL;
-		if ((return_char = strchr(sz_string2, '\n')) != NULL)	// return Ã³¸®
+		if ((return_char = strchr(sz_string2, '\n')) != NULL)	// return Ã³ï¿½ï¿½
 		{
 			cut_pos = return_char - sz_string2 + 1;
 			sz_string2[cut_pos - 1] = NULL;
@@ -9466,7 +9462,7 @@ C_VS_UI_NETMARBLE_AGREEMENT::C_VS_UI_NETMARBLE_AGREEMENT()
 	AttrTopmost(true);
 	AttrKeyboardControl(true);
 
-	// ³İ¸¶ºí¿ë
+	// ï¿½İ¸ï¿½ï¿½ï¿½ï¿½ï¿½
 	int w_w = 400;
 	int w_h = 300;
 
@@ -9620,7 +9616,7 @@ void C_VS_UI_NETMARBLE_AGREEMENT::Show()
 
 		char* sz_string2 = sz_string;
 
-		while (*sz_string2 == ' ')		// ¾ÕÀÇ °ø¹éÁ¦°Å
+		while (*sz_string2 == ' ')		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		{
 			sz_string2++;
 			next++;
@@ -9633,7 +9629,7 @@ void C_VS_UI_NETMARBLE_AGREEMENT::Show()
 		sz_string2[cut_pos] = NULL;
 
 		char* return_char = NULL;
-		if ((return_char = strchr(sz_string2, '\n')) != NULL)	// return Ã³¸®
+		if ((return_char = strchr(sz_string2, '\n')) != NULL)	// return Ã³ï¿½ï¿½
 		{
 			cut_pos = return_char - sz_string2 + 1;
 			sz_string2[cut_pos - 1] = NULL;

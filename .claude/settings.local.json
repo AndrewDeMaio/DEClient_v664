@@ -67,7 +67,18 @@
       "Bash(grep -rn 'undef assert' D:/GitHub/DEClient_v664/ --include=*.h)",
       "Bash(grep -v \"//.*char_t\")",
       "Bash(grep -rn \"typedef.*char_t\\\\|#define char_t\\\\|using char_t\" D:/GitHub/DEClient_v664/ --include=*.h)",
-      "Bash(python3 -:*)"
+      "Bash(python3 -:*)",
+      "Bash(awk 'NR>=3278 && NR<=3400' \"D:/GitHub/DEClient_v664/UI/WinMain.cpp\")",
+      "Bash(awk 'NR>=3380 && NR<=3430' \"D:/GitHub/DEClient_v664/UI/WinMain.cpp\")",
+      "Bash(awk 'NR>=2800 && NR<=2830' \"D:/GitHub/DEClient_v664/UI/WinMain.cpp\")",
+      "Bash(awk 'NR>=1700 && NR<=1760' \"D:/GitHub/DEClient_v664/UI/WinMain.cpp\")",
+      "Bash(awk 'NR>=3230 && NR<=3285' \"D:/GitHub/DEClient_v664/UI/WinMain.cpp\")",
+      "Bash(awk 'NR>=3100 && NR<=3130' \"D:/GitHub/DEClient_v664/UI/WinMain.cpp\")",
+      "Bash(awk 'NR>=3040 && NR<=3060' \"D:/GitHub/DEClient_v664/UI/WinMain.cpp\")",
+      "Bash(where node:*)",
+      "Bash(where py:*)",
+      "Bash(where pwsh:*)",
+      "Bash(where powershell:*)"
     ]
   }
 }
