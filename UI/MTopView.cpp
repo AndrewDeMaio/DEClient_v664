@@ -18,12 +18,14 @@
 #pragma warning(disable:4786)
 
 #include <time.h>
-#include "DX3D.h"
 #include <math.h>
 #include <list>
 #include <stdio.h>
 #include <fstream>
 #include <numeric>
+#include <random>
+
+#include "DX3D.h"
 #include "MZone.h"
 #include "MCreature.h"
 #include "MFakeCreature.h"

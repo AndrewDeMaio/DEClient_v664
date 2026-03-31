@@ -19,10 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Assert.cpp" />
     <ClCompile Include="Crypt.cpp" />
-    <ClCompile Include="Datagram.cpp" />
-    <ClCompile Include="DatagramSocket.cpp" />
     <ClCompile Include="EffectInfo.cpp" />
     <ClCompile Include="Encrypter.cpp" />
     <ClCompile Include="ExtraInfo.cpp" />
@@ -37,23 +34,10 @@
     <ClCompile Include="InventorySlotInfo.cpp" />
     <ClCompile Include="LevelWarInfo.cpp" />
     <ClCompile Include="ModifyInfo.cpp" />
-    <ClCompile Include="PacketIDSet.cpp" />
-    <ClCompile Include="PCItemInfo.cpp" />
-    <ClCompile Include="PetInfo.cpp" />
-    <ClCompile Include="Properties.cpp" />
-    <ClCompile Include="QuestStatusInfo.cpp" />
-    <ClCompile Include="RideMotorcycleInfo.cpp" />
-    <ClCompile Include="RideMotorcycleSlotInfo.cpp" />
-    <ClCompile Include="ScriptParameter.cpp" />
-    <ClCompile Include="ServerGroupInfo.cpp" />
-    <ClCompile Include="StringStream.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Assert.h" />
     <ClInclude Include="Crypt.h" />
-    <ClInclude Include="Datagram.h" />
     <ClInclude Include="DatagramPacket.h" />
-    <ClInclude Include="DatagramSocket.h" />
     <ClInclude Include="EffectInfo.h" />
     <ClInclude Include="Encrypter.h" />
     <ClInclude Include="EncryptUtility.h" />
@@ -69,13 +53,6 @@
     <ClInclude Include="InventorySlotInfo.h" />
     <ClInclude Include="LevelWarInfo.h" />
     <ClInclude Include="ModifyInfo.h" />
-    <ClInclude Include="PacketIDSet.h" />
-    <ClInclude Include="PetInfo.h" />
-    <ClInclude Include="QuestStatusInfo.h" />
-    <ClInclude Include="RideMotorcycleInfo.h" />
-    <ClInclude Include="RideMotorcycleSlotInfo.h" />
-    <ClInclude Include="ScriptParameter.h" />
-    <ClInclude Include="ServerGroupInfo.h" />
     <ClInclude Include="ValueList.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

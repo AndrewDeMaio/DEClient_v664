@@ -9,16 +9,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Assert.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Crypt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Datagram.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DatagramSocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EffectInfo.cpp">
@@ -63,51 +54,12 @@
     <ClCompile Include="ModifyInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PacketIDSet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PCItemInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PetInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Properties.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QuestStatusInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RideMotorcycleInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RideMotorcycleSlotInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScriptParameter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerGroupInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StringStream.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Assert.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Crypt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Datagram.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DatagramPacket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DatagramSocket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EffectInfo.h">
@@ -153,27 +105,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ModifyInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketIDSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PetInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="QuestStatusInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RideMotorcycleInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RideMotorcycleSlotInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScriptParameter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerGroupInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ValueList.h">
