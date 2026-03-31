@@ -17,15 +17,11 @@
 #include "CSystemInfo.h"
 
 #pragma warning( disable : 4035 )		// disable 시켜버리자-_-;
-#pragma warning( disable: 4800 ) //'int' : forcing value to bool 'true' or 'false' (performance warning)
+#pragma warning( disable: 4800 )		//'int' : forcing value to bool 'true' or 'false' (performance warning)
 
 inline unsigned __int64 theCycleCount(void)
 {
-    
-    _asm    _emit 0x0F
-    _asm    _emit 0x31
-    
-    // -_- return 은 없지만 _emits 는 __int64를 리턴합니다-_-;
+	return __rdtsc();
 }
 
 static bool cpuid(unsigned long function, unsigned long& out_eax, unsigned long& out_ebx, unsigned long& out_ecx, unsigned long& out_edx)
@@ -35,39 +31,18 @@ static bool cpuid(unsigned long function, unsigned long& out_eax, unsigned long&
 	return true;
 #else
 	bool retval = true;
+	int regs[4];
 	unsigned long local_eax, local_ebx, local_ecx, local_edx;
-	_asm pushad;
 
-	__try
-	{
-        _asm
-		{
-			xor edx, edx		// Clue the compiler that EDX is about to be used.
-            mov eax, function   // set up CPUID to return processor version and features
-								// 0 = vendor string, 1 = version info, 2 = cache info
-            cpuid				// code bytes = 0fh,  0a2h
-            mov local_eax, eax	// features returned in eax
-            mov local_ebx, ebx	// features returned in ebx
-            mov local_ecx, ecx	// features returned in ecx
-            mov local_edx, edx	// features returned in edx
-		}
-    } 
-	__except(EXCEPTION_EXECUTE_HANDLER) 
-	{ 
-		retval = false; 
-	}
-
-	out_eax = local_eax;
-	out_ebx = local_ebx;
-	out_ecx = local_ecx;
-	out_edx = local_edx;
-
-	_asm popad
+	__cpuid(regs, function);
+	
+	out_eax = regs[0];
+	out_ebx = regs[1];
+	out_ecx = regs[2];
+	out_edx = regs[3];
 
 	return retval;
 #endif
-
-
 }
 
 long CSystemInfo::GetCpuClock()
@@ -87,59 +62,10 @@ long CSystemInfo::GetCpuClock()
 // --------------------------------------------------------------------------
 bool CSystemInfo::CheckMMXTechnology()
 {
-    BOOL retval = TRUE;
-    DWORD RegEDX;
-
-#ifdef CPUID
-	_asm pushad;
-#endif
-
-    __try
-	{
-        _asm
-		{
-#ifdef CPUID
-			xor edx, edx	// Clue the compiler that EDX is about to be used.
-#endif
-            mov eax, 1      // set up CPUID to return processor version and features
-                            //      0 = vendor string, 1 = version info, 2 = cache info
-            CPUID           // code bytes = 0fh,  0a2h
-            mov RegEDX, edx // features returned in edx
-		}
-    } 
-	__except(EXCEPTION_EXECUTE_HANDLER) 
-	{ 
-		retval = FALSE; 
-	}
-
-	// If CPUID not supported, then certainly no MMX extensions.
-    if (retval)
-	{
-		if (RegEDX & 0x800000)          // bit 23 is set for MMX technology
-		{
-		   __try 
-		   { 
-				// try executing the MMX instruction "emms"
-			   _asm EMMS
-		   } 
-		   __except(EXCEPTION_EXECUTE_HANDLER) 
-		   { 
-			   retval = FALSE; 
-		   }
-		}
-
-		else
-			retval = FALSE;           // processor supports CPUID but does not support MMX technology
-
-		// if retval == 0 here, it means the processor has MMX technology but
-		// floating-point emulation is on; so MMX technology is unavailable
-	}
-
-#ifdef CPUID
-	_asm popad;
-#endif
-
-    return retval;
+	// All modern OS Windows XP and above support MMX Technology.
+	int regs[4];
+	__cpuid(regs, 1);
+	return (regs[3] & (1 << 23)) != 0;
 }
 
 
@@ -274,65 +200,19 @@ bool CSystemInfo::CheckSSE2Technology()
 // --------------------------------------------------------------------------
 bool CSystemInfo::Check3DNowTechnology()
 {
-    BOOL retval = TRUE;
-    DWORD RegEAX;
+	// AMD 3DNow! is obsolete technology, but we will check for it anyway.  99% of the time it will return false.
+	int regs[4];
 
-#ifdef CPUID
-	_asm pushad;
-#endif
+	// Get highest extended function
+	__cpuid(regs, 0x80000000);
+	if ((unsigned int)regs[0] <= 0x80000000)
+		return false;
 
-    // First see if we can execute CPUID at all
-	__try
-	{
-        _asm
-		{
-#ifdef CPUID
-//			xor edx, edx			// Clue the compiler that EDX is about to be used.
-#endif
-            mov eax, 0x80000000     // setup CPUID to return whether AMD >0x80000000 function are supported.
-									// 0x80000000 = Highest 0x80000000+ function, 0x80000001 = 3DNow support
-            CPUID					// code bytes = 0fh,  0a2h
-            mov RegEAX, eax			// result returned in eax
-		}
-    } 
-	__except(EXCEPTION_EXECUTE_HANDLER) 
-	{ 
-		retval = FALSE; 
-	}
+	// Get extended features
+	__cpuid(regs, 0x80000001);
 
-	// If CPUID not supported, then there is definitely no 3DNow support
-    if (retval)
-	{
-		// Are there any "higher" AMD CPUID functions?
-		if (RegEAX > 0x80000000L )				
-		{
-		   __try 
-			{
-			_asm
-				{
-					mov			eax, 0x80000001		// setup to test for CPU features
-					CPUID							// code bytes = 0fh,  0a2h
-					shr			edx, 31				// If bit 31 is set, we have 3DNow support!
-					mov			retval, edx			// Save the return value for end of function
-				}
-			}
-			__except(EXCEPTION_EXECUTE_HANDLER) 
-			{ 
-				retval = FALSE; 
-			}
-		}
-		else
-		{
-			// processor supports CPUID but does not support AMD CPUID functions
-			retval = FALSE;					
-		}
-	}
-
-#ifdef CPUID
-	_asm popad;
-#endif
-
-    return retval;
+	// EDX bit 31 = 3DNow!
+	return (regs[3] & (1u << 31)) != 0;
 }
 
 // Returns non-zero if Hyper-Threading Technology is supported on the processors and zero if not.  This does not mean that 

@@ -5862,7 +5862,7 @@ MZone::UpdateSound()
 			x = g_pPlayer->GetX();// + ((rand()%2)? 1 : -1) * (rand()%7 + 4);
 			y = g_pPlayer->GetY();// + ((rand()%2)? 1 : -1) * (rand()%6 + 2);
 
-			PlaySound( SOUND_WORLD_PROPELLER, true, x, y );
+			PlaySound( SOUND_WORLD_PROPELLER ); /* true, x, y */
 			g_bPlayPropeller = TRUE;
 
 			//g_ZoneRandomSoundTime = 0x0FFFFFFF;		// -_-;;

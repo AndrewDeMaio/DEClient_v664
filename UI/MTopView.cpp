@@ -22539,7 +22539,7 @@ MTopView::DrawCreatureName(POINT* pPoint, MCreature* pCreature)
 			//---------------------------------------------------------------
 			if (IsRequestTrade())
 			{
-				const maxRequestFrames = SPRITEID_ITEM_TRADE_LAST - SPRITEID_ITEM_TRADE + 1;
+				const int maxRequestFrames = SPRITEID_ITEM_TRADE_LAST - SPRITEID_ITEM_TRADE + 1;
 				RequestSpriteID = SPRITEID_ITEM_TRADE + ((g_CurrentFrame >> 1) % (maxRequestFrames << 1));
 
 				if (RequestSpriteID > SPRITEID_ITEM_TRADE_LAST)
@@ -22557,7 +22557,7 @@ MTopView::DrawCreatureName(POINT* pPoint, MCreature* pCreature)
 			//---------------------------------------------------------------
 			else if (IsRequestParty())
 			{
-				const maxRequestFrames = SPRITEID_PARTY_REQUEST_LAST - SPRITEID_PARTY_REQUEST + 1;
+				const int maxRequestFrames = SPRITEID_PARTY_REQUEST_LAST - SPRITEID_PARTY_REQUEST + 1;
 				RequestSpriteID = SPRITEID_PARTY_REQUEST + ((g_CurrentFrame >> 1) % (maxRequestFrames + 4));
 
 				if (RequestSpriteID > SPRITEID_PARTY_REQUEST_LAST)
@@ -22570,7 +22570,7 @@ MTopView::DrawCreatureName(POINT* pPoint, MCreature* pCreature)
 			//---------------------------------------------------------------
 			else if (IsRequestInfo())
 			{
-				const maxRequestFrames = SPRITEID_INFO_REQUEST_LAST - SPRITEID_INFO_REQUEST + 1;
+				const int maxRequestFrames = SPRITEID_INFO_REQUEST_LAST - SPRITEID_INFO_REQUEST + 1;
 				RequestSpriteID = SPRITEID_INFO_REQUEST + ((g_CurrentFrame >> 1) % (maxRequestFrames + 4));
 
 				if (RequestSpriteID > SPRITEID_INFO_REQUEST_LAST)
@@ -23294,7 +23294,7 @@ MTopView::DrawRequestModeMousePointer(POINT* pPoint, MCreature* pCreature)
 			//---------------------------------------------------------------
 			if (IsRequestTrade())
 			{
-				const maxRequestFrames = SPRITEID_ITEM_TRADE_LAST - SPRITEID_ITEM_TRADE + 1;
+				const int maxRequestFrames = SPRITEID_ITEM_TRADE_LAST - SPRITEID_ITEM_TRADE + 1;
 				RequestSpriteID = SPRITEID_ITEM_TRADE + ((g_CurrentFrame >> 1) % (maxRequestFrames << 1));
 
 				if (RequestSpriteID > SPRITEID_ITEM_TRADE_LAST)
@@ -23312,7 +23312,7 @@ MTopView::DrawRequestModeMousePointer(POINT* pPoint, MCreature* pCreature)
 			//---------------------------------------------------------------
 			else if (IsRequestParty())
 			{
-				const maxRequestFrames = SPRITEID_PARTY_REQUEST_LAST - SPRITEID_PARTY_REQUEST + 1;
+				const int maxRequestFrames = SPRITEID_PARTY_REQUEST_LAST - SPRITEID_PARTY_REQUEST + 1;
 				RequestSpriteID = SPRITEID_PARTY_REQUEST + ((g_CurrentFrame >> 1) % (maxRequestFrames + 4));
 
 				if (RequestSpriteID > SPRITEID_PARTY_REQUEST_LAST)
@@ -23325,7 +23325,7 @@ MTopView::DrawRequestModeMousePointer(POINT* pPoint, MCreature* pCreature)
 			//---------------------------------------------------------------
 			else if (IsRequestInfo())
 			{
-				const maxRequestFrames = SPRITEID_INFO_REQUEST_LAST - SPRITEID_INFO_REQUEST + 1;
+				const int maxRequestFrames = SPRITEID_INFO_REQUEST_LAST - SPRITEID_INFO_REQUEST + 1;
 				RequestSpriteID = SPRITEID_INFO_REQUEST + ((g_CurrentFrame >> 1) % (maxRequestFrames + 4));
 
 				if (RequestSpriteID > SPRITEID_INFO_REQUEST_LAST)

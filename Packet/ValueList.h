@@ -29,11 +29,11 @@ public:
 	static uint 	getPacketMaxSize() 	{ return szBYTE + sizeof(T) * 255; }
 
 #ifdef __GAME_CLIENT__
-	std::string toString () const;
-	std::list<T>&					GetList() { return m_Values; }
-	std::list<T>::const_iterator		Begin() { return m_Values.begin(); }
-	std::list<T>::const_iterator		End() { return m_Values.end(); }
-	bool						IsEmpty() { return m_Values.empty(); }
+	std::string								toString () const;
+	typename std::list<T>&					GetList()	{ return m_Values; }
+	typename std::list<T>::const_iterator	Begin()		{ return m_Values.begin(); }
+	typename std::list<T>::const_iterator	End()		{ return m_Values.end(); }
+	bool									IsEmpty()	{ return m_Values.empty(); }
 #endif
 
 public:
