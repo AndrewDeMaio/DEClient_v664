@@ -75,7 +75,7 @@ void
 ProfilerInfo::WriteToFile(std::ofstream& file) const
 {	
 	char str[256];
-	sprintf(str, "%10d  %10d  %7.3f", m_Times, m_TotalTime, GetAverageTime());
+	sprintf_s(str, sizeof(str), "%10d  %10d  %7.3f", m_Times, m_TotalTime, GetAverageTime());
 
 	file << str;
 }
@@ -229,7 +229,7 @@ Profiler::WriteToFile(const char* pFilename, bool bAppend) const
 
 	char str[256];
 
-	sprintf(str, "%-20s ", "ProfilerName");
+	sprintf_s(str, sizeof(str), "%-20s ", "ProfilerName");
 	file << "\n\n"
 		<< str
 		<< " LoopTimes   TotalTime   AverageTime"
@@ -237,7 +237,7 @@ Profiler::WriteToFile(const char* pFilename, bool bAppend) const
 
 	while (iInfo != m_mapProfile.end())
 	{
-		sprintf(str, "%-20s ", (const char*)iInfo->first.c_str());
+		sprintf_s(str, sizeof(str), "%-20s ", (const char*)iInfo->first.c_str());
 
 		file << str;
 

@@ -12,7 +12,7 @@
 #define __MWARMANAGER_H__
 
 //#include "types.h"
-#include "Packet\WarInfo.h"
+#include "WarInfo.h"
 
 #include <map>
 #include <list>

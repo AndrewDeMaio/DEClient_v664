@@ -10,7 +10,7 @@
 #include "ClientConfig.h"
 #include "PacketValidator.h"
 #include "DebugInfo.h"
-#include "MTestDef.h"
+//#include "MTestDef.h"
 
 //--------------------------------------------------------------------------------
 // Global

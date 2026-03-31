@@ -86,10 +86,10 @@ void ProgramLoop();
   GLOBALS
 -----------------------------------------------------------------------------*/
 HWND						g_hWnd;
-HINSTANCE					g_hInst;
+HINSTANCE					g_hInstance;
 int							g_Dimension = 0;
 
-bool						gbl_ui_input_state; // UI°¡ ÀÔ·ÂÀ» ¹Þ¾Ò´Â°¡?
+bool	gbl_ui_input_state; // UIï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Þ¾Ò´Â°ï¿½?
 int		g_LeftPremiumDays = 10;
 
 extern EventButton* g_EventButton;
@@ -239,7 +239,7 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 				//						static DWORD counter;
 				//
 				//						sprintf(buf, "@%d", counter++);
-				//						gC_vs_ui.AddChatToHistory(buf, "´ÙÅ©¿¡µ§");
+				//						gC_vs_ui.AddChatToHistory(buf, "ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½");
 				//					}
 				hp++;
 			//gC_vs_ui.SetHP(hp, 100);
@@ -275,12 +275,12 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 // 						PARTY_INFO *temp_party = new PARTY_INFO;
 // 						temp_party->bMale = false;
 // 						temp_party->hairStyle = W_FACE1;
-// 						temp_party->Name = "ÂßÂß»§»§";
+// 						temp_party->Name = "ï¿½ï¿½ï¿½ß»ï¿½ï¿½ï¿½";
 // 						g_pParty->AddMember(temp_party);
 // 						
 // 						//temp_party->bMale = false;
 // 						//temp_party->hairStyle = W_FACE1;
-// 						//temp_party->Name = "ÂßÂß»§»§1234";
+// 						//temp_party->Name = "ï¿½ï¿½ï¿½ß»ï¿½ï¿½ï¿½1234";
 // 						//g_pParty->AddMember(temp_party);
 // 
 // 						g_char_slot_ingame.AttackBloodBurstPoint = 3000;
@@ -321,23 +321,23 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 //						
 
 //						C_VS_UI_TEAM_INFO::READY_TEAM_INFO info;
-//						info.TEAM_NAME = "¾¦°«µéÀÌ¾ß";
-//						info.LEADER_NAME = "¾¦°«";
+//						info.TEAM_NAME = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½";
+//						info.LEADER_NAME = "ï¿½ï¿½ï¿½ï¿½";
 //			//			info.REGISTERD_DATE = "2001-12-31 06:30";
 //			//			info.MEMBERS = 30;
 //						info.REG_FEE = 100000;
 //						info.EXPIRE_DATE = "2002-01-05 06:40";
-//						info.MEMBERS_NAME.push_back("¾¦°«");
-//						info.MEMBERS_NAME.push_back("Ä¡¾ÆÇªÇª");
-//						info.MEMBERS_NAME.push_back("Çª¸®¸°");
-//						info.MEMBERS_NAME.push_back("·Îº¿¸Å´Ï¾ß");
-//						info.MEMBERS_NAME.push_back("±ñµû»ß¾ß");
+//						info.MEMBERS_NAME.push_back("ï¿½ï¿½ï¿½ï¿½");
+//						info.MEMBERS_NAME.push_back("Ä¡ï¿½ï¿½ÇªÇª");
+//						info.MEMBERS_NAME.push_back("Çªï¿½ï¿½ï¿½ï¿½");
+//						info.MEMBERS_NAME.push_back("ï¿½Îºï¿½ï¿½Å´Ï¾ï¿½");
+//						info.MEMBERS_NAME.push_back("ï¿½ï¿½ï¿½ï¿½ß¾ï¿½");
 //						info.MEMBERS_MAX = 5;
-//						info.INTRODUCTION = "¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»";
+//						info.INTRODUCTION = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 //						gC_vs_ui.RunTeamInfo(true, &info);	
 
-						//gC_vs_ui.RunTeamRegist(true, 100000, 1,"2002-01-01", "¾¦°«ÆÀÀÌ´Ù",100);
-					//	gC_vs_ui.RunTeamRegist(false, 100000, 2,"2002-01-01", "¾¦°«ÆÀÀÌ´Ù",100);
+						//gC_vs_ui.RunTeamRegist(true, 100000, 1,"2002-01-01", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½",100);
+					//	gC_vs_ui.RunTeamRegist(false, 100000, 2,"2002-01-01", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½",100);
 
 		}
 
@@ -370,8 +370,8 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 			//						else
 			//							petInfo.OPTION = pPetItem->GetItemOptionList().front();
 			//						petInfo.ITEM_TYPE = pPetItem->GetItemType();
-			//						petInfo.NAME = "ÇìÇì";//pPetItem->GetPetName();
-			//						petInfo.NICK_NAME = "¹Ùº¸ Æê^^;";
+			//						petInfo.NAME = "ï¿½ï¿½ï¿½ï¿½";//pPetItem->GetPetName();
+			//						petInfo.NICK_NAME = "ï¿½Ùºï¿½ ï¿½ï¿½^^;";
 			//						gC_vs_ui.SetPetInfo( &petInfo );
 			////						gC_vs_ui.RefreshPet();
 			//						gC_vs_ui.RunPetInfo(&petInfo);
@@ -537,11 +537,11 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 //						{
 //							C_VS_UI_WAR_LIST::WarInfo warlist;
 //							warlist.reinforceGuildID = rand()%1000;
-//							warlist.reinforceGuildName = "¼Ò´Ï  ±æµå";
+//							warlist.reinforceGuildName = "ï¿½Ò´ï¿½  ï¿½ï¿½ï¿½";
 //							for(int j = 0; j<5; j++)
 //							{
 //								warlist.challengerGuildID[j] = rand()%1000;
-//								warlist.challengerGuildName[j] = "¼Ò´Ï  ±æµå(°ø°Ý)";
+//								warlist.challengerGuildName[j] = "ï¿½Ò´ï¿½  ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)";
 //							}
 //							warlist.year = 2003;
 //							warlist.month = 12;
@@ -590,7 +590,7 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 //						srand(GetTickCount());
 //						
 ////						if(rand()&1)
-////							info.TEAM_NAME="ÇÏÇÏÇÏÅ×½ºÆ®ÆÀ";
+////							info.TEAM_NAME="ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½";
 ////						else
 ////							info.TEAM_NAME = "TETETS";
 //						gC_vs_ui.RunOtherInfo();
@@ -605,17 +605,17 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 //					gC_vs_ui.RunSMSMessage();					
 
 //					gC_vs_ui.RunTe
-//					gC_vs_ui.SetWhisperID("¾¦°«");
-		//			gC_vs_ui.AddChatToHistory("º¸Åë Ã¤Æ®Áö¿ä..È«È«..", "¿î¿µÀÚ0", CLD_ZONECHAT);
+//					gC_vs_ui.SetWhisperID("ï¿½ï¿½ï¿½ï¿½");
+		//			gC_vs_ui.AddChatToHistory("ï¿½ï¿½ï¿½ï¿½ Ã¤Æ®ï¿½ï¿½ï¿½ï¿½..È«È«..", "ï¿½î¿µï¿½ï¿½0", CLD_ZONECHAT);
 //					gC_vs_ui.OpenInventoryToRepair();
 //					gC_vs_ui.RequestDie();
 //					gC_vs_ui.SetAccelMode(ACCEL_CHARINFO);
-//					gC_vs_ui.RequestParty("¾¦°«");
+//					gC_vs_ui.RequestParty("ï¿½ï¿½ï¿½ï¿½");
 
 //					gC_vs_ui.OpenInventoryToSell();
 /*					{
 						gC_vs_ui.StartProgress();
-						gC_vs_ui.SetCurrentServerName("ÆÄ¶óÆÄ¶ó¿ùµå", "»þ¸¶ÀÎ", C_VS_UI_SERVER_SELECT::STATUS_VERY_GOOD);
+						gC_vs_ui.SetCurrentServerName("ï¿½Ä¶ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", C_VS_UI_SERVER_SELECT::STATUS_VERY_GOOD);
 						for (int i=0; i<=200; i++)
 						{
 							gC_vs_ui.SetProgress(i, 200);
@@ -631,22 +631,22 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 										//					gC_vs_ui.RunEnchantSkillTree();
 										//gC_vs_ui.ServerDisconnectMessage();
 										//gC_vs_ui.LevelUp();
-					//					gC_vs_ui.AddChatToHistory("º¸Åë Ã¤Æ®Áö¿ä..È«È«..", "´ÙÅ©¿¡µ§");
-					//					gC_vs_ui.AddChatToHistory("¸¶Áö¸· 4¹ø µ¸¿òÀÔ´Ï´Ù.. ¹ú½á ¸¶Áö¸·ÀÌ³Ä±¸¿ä? À©µµ ±âº»ÆùÆ®°¡ ÀÌ°Å ¹Ù²² ¾ö³×¿ä¤Ñ.¤Ñ ¿ì¿ö~ µ¸¾Æ³ª¶ó-_-a", "Ä¡¾ÆÇªÇª", CLD_ZONECHAT);
+					//					gC_vs_ui.AddChatToHistory("ï¿½ï¿½ï¿½ï¿½ Ã¤Æ®ï¿½ï¿½ï¿½ï¿½..È«È«..", "ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½");
+					//					gC_vs_ui.AddChatToHistory("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 4ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì³Ä±ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½ï¿½ ï¿½âº»ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½×¿ï¿½ï¿½.ï¿½ï¿½ ï¿½ï¿½ï¿½~ ï¿½ï¿½ï¿½Æ³ï¿½ï¿½ï¿½-_-a", "Ä¡ï¿½ï¿½ÇªÇª", CLD_ZONECHAT);
 					//					gC_vs_ui.RunTutorialExit();
 		break;
 
 		case DIK_F2:
 		{
-			//gC_vs_ui.AddInputString("Å×½ºÆ®2");
-			//gC_vs_ui.AddChatToHistory("Å×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓÅ×½ºÆ®ÀÓ", "¾ÆÀÌµðÀÓ", CLD_INFO, RGB(255, 255, 255));
+			//gC_vs_ui.AddInputString("ï¿½×½ï¿½Æ®2");
+			//gC_vs_ui.AddChatToHistory("ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½×½ï¿½Æ®ï¿½ï¿½", "ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½", CLD_INFO, RGB(255, 255, 255));
 
 			//gC_vs_ui.Run_Campaign_Help_Unfortunate_Neighbors(5000); 
 			//gC_vs_ui.RunModifyTax() ;
-			//	gC_vs_ui.RunDelegation_Of_Power("¿µÃ¤¹Ùº¸") ; 
+			//	gC_vs_ui.RunDelegation_Of_Power("ï¿½ï¿½Ã¤ï¿½Ùºï¿½") ; 
 
 			//gC_vs_ui.RunTaxRate(-20)  ; 
-			//gC_vs_ui.RunPartyCancel("¾¦°«");
+			//gC_vs_ui.RunPartyCancel("ï¿½ï¿½ï¿½ï¿½");
 			//gC_vs_ui.PopupNetmarbleAgreementMessage() ;
 
 			//gC_vs_ui.RunCTFStatusWindow() ; 
@@ -660,15 +660,15 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 
 			//gC_vs_ui.RunSlayerPortal(2); 
 			//gC_vs_ui.PopupSummerComBack(1)  ; 
-			//gC_vs_ui.RunTeamRegist(true, 100000, 1,"2002-01-01", "¾¦°«ÆÀÀÌ´Ù",100);
+			//gC_vs_ui.RunTeamRegist(true, 100000, 1,"2002-01-01", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½",100);
 
 			//gC_vs_ui.PopupSummerComBack(3)  ; 
 			//gC_vs_ui.PopupSummerComBack(4)  ; 
-			//char  strMsg[256] = "assadfsaf¤±¾È¤±¾ÆÇ×³²ÇÏ" ; 
+			//char  strMsg[256] = "assadfsafï¿½ï¿½ï¿½È¤ï¿½ï¿½ï¿½ï¿½×³ï¿½ï¿½ï¿½" ; 
 
 			//SendMessage(g_hWnd , WM_COPYDATA ,  (LPARAM)(LPCTSTR)strMsg , 0 ) ;
 
-			//gC_vs_ui.RunExchangeCancel("¹Ùº¸");
+			//gC_vs_ui.RunExchangeCancel("ï¿½Ùºï¿½");
 
 //					gC_vs_ui.RunBookcase();
 //					if((*g_pSkillInfoTable)[SKILL_BACK_STAB].IsEnable())
@@ -684,13 +684,13 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 					//gC_vs_ui.RunComputer();
 //					{
 //						C_VS_UI_NicknameInfo nik;
-//						nik.setNickname("¹Ùº¸");
+//						nik.setNickname("ï¿½Ùºï¿½");
 //						nik.setNicknameID(100);
 //						nik.setNicknameIndex(10);
 //						nik.setNicknameType(2);
 //						gC_vs_ui.AddNickNameList((void*)&nik);
 //					}
-					//gC_vs_ui.RunNamingChange(NULL, "¿ì¾Æ~");
+					//gC_vs_ui.RunNamingChange(NULL, "ï¿½ï¿½ï¿½~");
 					//g_hInst = hInst ; 
 					//gC_vs_ui.RunStorage();
 		}
@@ -715,7 +715,7 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 //						if(NULL == quest.Title)
 //						{
 //							char *szBuf = new char[128];
-//							sprintf(szBuf, "°¡³ª´Ù%d¶ó¸¶¹Ù\\nÁ¦±æ..%shh", 3, "ÇÏÇÏ");
+//							sprintf(szBuf, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½%dï¿½ó¸¶¹ï¿½\\nï¿½ï¿½ï¿½ï¿½..%shh", 3, "ï¿½ï¿½ï¿½ï¿½");
 //							quest.Title = szBuf;
 //
 //
@@ -729,7 +729,7 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 					//gC_vs_ui.RunBringFeeWindow(1000000000,0);
 //					gpC_Imm->ForceAction(SOUND_ITEM_USE_C4);
 //					gpC_Imm->ForceSound("kaka");
-					//gC_vs_ui.RunExchangeAsk("¾¦°«¿¹~¾Æ");
+					//gC_vs_ui.RunExchangeAsk("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½ï¿½");
 //					gpC_Imm->ForceAction(CImm::FORCE_ACTION_DAMAGED);
 //					gC_vs_ui.RunTeamList(false);
 //					{
@@ -747,16 +747,16 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 //							gC_vs_ui.AddRegistTeamInfo(son);					
 //						}
 //				 	}					
-////					gC_vs_ui.AddChatToHistory("º¸Åë Ã¤Æ®Áö¿ä..È«È«..", "¿î¿µÀÚ0", CLD_NORMAL, RGB(0, 0, 255));
+////					gC_vs_ui.AddChatToHistory("ï¿½ï¿½ï¿½ï¿½ Ã¤Æ®ï¿½ï¿½ï¿½ï¿½..È«È«..", "ï¿½î¿µï¿½ï¿½0", CLD_NORMAL, RGB(0, 0, 255));
 					//gC_vs_ui.HotKey_F2();
-//					gC_vs_ui.RunPartyAsk("¾¦°«", (C_VS_UI_REQUEST_PARTY::REQUEST_PARTY)0);
+//					gC_vs_ui.RunPartyAsk("ï¿½ï¿½ï¿½ï¿½", (C_VS_UI_REQUEST_PARTY::REQUEST_PARTY)0);
 //					gC_vs_ui.RunHealSkillTree();
-//					gC_vs_ui.AddChatToHistory("±æµåÃ¤ÆÃÀÌÁö¿ä..È£Èª..", "´ÙÅ©¿¡µ§", CLD_GUILD);
+//					gC_vs_ui.AddChatToHistory("ï¿½ï¿½ï¿½Ã¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..È£Èª..", "ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½", CLD_GUILD);
 
-//					gC_vs_ui.AddChatToHistory("¸¶Áö¸· 4¹ø µ¸¿òÀÔ´Ï´Ù.. ¹ú½á ¸¶Áö¸·ÀÌ³Ä±¸¿ä? À©µµ ±âº»ÆùÆ®°¡ ÀÌ°Å ¹Ù²² ¾ö³×¿ä¤Ñ.¤Ñ ¿ì¿ö~ µ¸¾Æ³ª¶ó-_-a", "Ä¡¾ÆÇªÇª", CLD_NORMAL);
+//					gC_vs_ui.AddChatToHistory("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 4ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì³Ä±ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½ï¿½ ï¿½âº»ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½×¿ï¿½ï¿½.ï¿½ï¿½ ï¿½ï¿½ï¿½~ ï¿½ï¿½ï¿½Æ³ï¿½ï¿½ï¿½-_-a", "Ä¡ï¿½ï¿½ÇªÇª", CLD_NORMAL);
 					//gC_vs_ui.RunBookcase();
 //					gC_vs_ui.RunSlayerPortal();
-//					gC_vs_ui.RunPartyCancel("¾¦°«");
+//					gC_vs_ui.RunPartyCancel("ï¿½ï¿½ï¿½ï¿½");
 
 		break;
 
@@ -799,12 +799,12 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 							//
 							//gC_vs_ui.HotKey_F3();
 		//					gC_vs_ui.RunBladeSkillTree();
-							//gC_vs_ui.AddChatToHistory("\"±Ó¼Ó¸»À» Àü´ÞÇÒ ¼ö ¾ø½À´Ï´Ù\"~~ -> info", "´ÙÅ©¿¡µ§", CLD_INFO);
-		//					gC_vs_ui.AddChatToHistory("ÆÄÆ¼Ã¤ÆÃÀÌÁö¿ä..È£Èª..", "´ÙÅ©¿¡µ§", CLD_PARTY);
-		//					gC_vs_ui.RunExchangeAsk("½Ã±â");
+							//gC_vs_ui.AddChatToHistory("\"ï¿½Ó¼Ó¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½\"~~ -> info", "ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½", CLD_INFO);
+		//					gC_vs_ui.AddChatToHistory("ï¿½ï¿½Æ¼Ã¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..È£Èª..", "ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½", CLD_PARTY);
+		//					gC_vs_ui.RunExchangeAsk("ï¿½Ã±ï¿½");
 							//gC_vs_ui.RunBriefing();
 		//					gC_vs_ui.RunElevator();
-		//					gC_vs_ui.RunExchangeCancel("½Ã±â");
+		//					gC_vs_ui.RunExchangeCancel("ï¿½Ã±ï¿½");
 		//					gC_vs_ui.RunPartyManager();
 		//					gC_vs_ui.RequestDie();
 		//					gC_vs_ui.ResetOustersQuickItemSize();
@@ -839,17 +839,17 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 //			gC_vs_ui.OpenInventoryToSell();
 				//	gC_vs_ui.RunItemListWindow();
 
-//				gC_vs_ui.AddChatToHistory("¿ÜÄ¡±âÁö¿ä..È£Èª..", "´ÙÅ©¿¡µ§", CLD_ZONECHAT);
+//				gC_vs_ui.AddChatToHistory("ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..È£Èª..", "ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½", CLD_ZONECHAT);
 //					gC_vs_ui.RunSwordSkillTree();
 					//gC_vs_ui.HotKey_F4();
 //					gC_vs_ui.RunVampireSkillTree();
 				//	gC_vs_ui.RunComputer();
-//					gC_vs_ui.AddChatToHistory("±Ó¼Ó¸» ±æµåÁö¿ä..È£Èª..", "´ÙÅ©¿¡µ§", CLD_WHISPER);
+//					gC_vs_ui.AddChatToHistory("ï¿½Ó¼Ó¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..È£Èª..", "ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½", CLD_WHISPER);
 					//					gC_vs_ui.ServerDisconnectMessage();
 					//					gC_vs_ui.StartTitle();
-					//					gC_vs_ui.RequestParty("¾¦¾¦");
+					//					gC_vs_ui.RequestParty("ï¿½ï¿½ï¿½ï¿½");
 					//					gC_vs_ui.OpenInventoryToSell();
-					//gC_vs_ui.RequestParty("¾¦¾¦");
+					//gC_vs_ui.RequestParty("ï¿½ï¿½ï¿½ï¿½");
 			{
 				//	g_pSlayerGear->RemoveItem((MSlayerGear::GEAR_SLAYER)10);
 			}
@@ -859,21 +859,21 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 		{
 			// C_VS_UI_TIMECOUNT	testTimer(300000);
 			//gC_vs_ui.OpenInventoryToRepair();
-			//					gC_vs_ui.AddChatToHistory("±Ó¸» ÀÏ¹ÝÀÌÁö¿ä..È£Èª..", "´ÙÅ©¿¡µ§", CLD_WHISPER);
+			//					gC_vs_ui.AddChatToHistory("ï¿½Ó¸ï¿½ ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..È£Èª..", "ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½", CLD_WHISPER);
 			//	PARTY_INFO *temp_party = new PARTY_INFO;
 			//	temp_party->bMale = false;
 			//	temp_party->hairStyle = W_FACE1;
-			//	temp_party->Name = "ÂßÂß»§»§";
+			//	temp_party->Name = "ï¿½ï¿½ï¿½ß»ï¿½ï¿½ï¿½";
 			//	g_pParty->AddMember(temp_party);
 			//					gC_vs_ui.OpenInventoryToRepair();
 
 
-			//					gC_vs_ui.RequestParty("¾¦¾¦", C_VS_UI_REQUEST_PARTY::REQUEST);
+			//					gC_vs_ui.RequestParty("ï¿½ï¿½ï¿½ï¿½", C_VS_UI_REQUEST_PARTY::REQUEST);
 			//gC_vs_ui.OpenInventoryToSell();
 //						{
 //							DWORD id = 101;
 //							gC_vs_ui.RunImageNotice();
-//							gC_vs_ui.AddNotice( "¼ÕÈñ½Â", id );
+//							gC_vs_ui.AddNotice( "ï¿½ï¿½ï¿½ï¿½ï¿½", id );
 //							int step = 1;
 ////							gC_vs_ui.RunLotteryCard(step);
 //						}
@@ -881,12 +881,12 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 						//gC_vs_ui.HotKey_F5();
 						//					gC_vs_ui.RunSkillView();
 
-						// pcs ¿¬°áÀ» Èñ¸ÁÇÑ´Ù...
+						// pcs ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½...
 						//					gC_vs_ui.RunStorageBuy(1000000);
 						//gC_vs_ui.PleaseConnectPCS("KJTINC", 1234567, 1);
 
 						/*
-						// ¿ÜÄ¡±â Á¦ÇÑ »ö±ò Å×½ºÆ®
+						// ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×½ï¿½Æ®
 					const char* pString = gC_vs_ui.GetInputString();
 
 					if (pString!=NULL && pString[0]=='!')
@@ -915,7 +915,7 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 			/*
 			{
 				DWORD id = 11;
-					gC_vs_ui.AddNotice( "¼ÕÈñ½Â", id );
+					gC_vs_ui.AddNotice( "ï¿½ï¿½ï¿½ï¿½ï¿½", id );
 			}
 			gC_vs_ui.OpenInventoryToSilvering();
 			{
@@ -930,30 +930,30 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 					*/
 					/*
 					static num = 431;
-					m_pC_dialog = new C_VS_UI_NPC_DIALOG(kk, num, "¾¦°«");
+					m_pC_dialog = new C_VS_UI_NPC_DIALOG(kk, num, "ï¿½ï¿½ï¿½ï¿½");
 
 					DIALOG_MENU d_menu[] = {
-						{"ÆÈ±â´Ï±î´Ï±î´Ï±î´Ï±î¶ó´Ï±î´Ï±î´Ï±î´Ï±î´Ï±î¶ó´Ï?", 0},
-						{"ÆÈ±â´Ï±î´Ï±î¶ó´Ï±î´Ï±î´Ï±î´Ï±î´Ï±î¶ó´Ï?", 1},
-						{"ÆÈ±â±î´Ï±î´Ï±î¶ó´Ï±î´Ï±î´Ï±î´Ï±î´Ï±î¶ó´Ï?", 2},
-						{"³¡³»±â", DIALOG_EXECID_EXIT},
+						{"ï¿½È±ï¿½Ï±ï¿½Ï±ï¿½Ï±ï¿½Ï±ï¿½ï¿½Ï±ï¿½Ï±ï¿½Ï±ï¿½Ï±ï¿½Ï±ï¿½ï¿½ï¿½?", 0},
+						{"ï¿½È±ï¿½Ï±ï¿½Ï±ï¿½ï¿½Ï±ï¿½Ï±ï¿½Ï±ï¿½Ï±ï¿½Ï±ï¿½ï¿½ï¿½?", 1},
+						{"ï¿½È±ï¿½ï¿½Ï±ï¿½Ï±ï¿½ï¿½Ï±ï¿½Ï±ï¿½Ï±ï¿½Ï±ï¿½Ï±ï¿½ï¿½ï¿½?", 2},
+						{"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", DIALOG_EXECID_EXIT},
 						};
 					m_pC_dialog->SetMenu(d_menu, 4, false);
 
-					static char * pp_dmsg[] = { // Message´Â ¹Ýµå½Ã static or global·Î ÇØ¾ß ÇÑ´Ù.
-						"¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ",
-						"¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ",
-						"¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ",
-						"¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ",
-						"¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ",
-						"¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ",
-						"¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ",
-						"¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ",
-						"¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ",
-						"¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ",
-						"¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ",
-						"¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ",
-						"¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ¾Æ¹«°Å³ª °ñ¶ó º¾¼õ",
+					static char * pp_dmsg[] = { // Messageï¿½ï¿½ ï¿½Ýµï¿½ï¿½ static or globalï¿½ï¿½ ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
+						"ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+						"ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+						"ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+						"ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+						"ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+						"ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+						"ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+						"ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+						"ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+						"ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+						"ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+						"ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+						"ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¹ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
 					};
 
 					m_pC_dialog->SetMessage(pp_dmsg, sizeof(pp_dmsg)/sizeof(char *));//, SMO_NOFIT);
@@ -995,13 +995,13 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 			//}
 			break;
 
-		case DIK_F10: // ¸¶¿ì½º Á¤ÁöÇö»ó ÀÏ¾î³².
+		case DIK_F10: // ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¾î³².
 			gC_vs_ui.RunOtherInfo();
 			//gC_vs_ui.OpenInventoryToRepair();
 
 			//
-			// F10¸¸ ÀÌ»óÇÏ°Ô virtual key·Î ¹ÞÀ» ¼ö ¾ø´Ù.. À½...
-			// ±×·¡¼­ ÀÌ°Í¸¸ dinputÀ¸·Î ¹Þ´Â´Ù.
+			// F10ï¿½ï¿½ ï¿½Ì»ï¿½ï¿½Ï°ï¿½ virtual keyï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½...
+			// ï¿½×·ï¿½ï¿½ï¿½ ï¿½Ì°Í¸ï¿½ dinputï¿½ï¿½ï¿½ï¿½ ï¿½Þ´Â´ï¿½.
 			//
 			//gC_vs_ui.HotKey_F10();
 //					gC_vs_ui.RunStorage();
@@ -1063,7 +1063,7 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 
 		case DIK_3:
 			if (bl_ctrl)
-				gpC_mouse_pointer->SetCursorPickUp("½ºÄÃ ³×Å©¸®½º", RGB_YELLOW);
+				gpC_mouse_pointer->SetCursorPickUp("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½", RGB_YELLOW);
 			break;
 
 		case DIK_5:
@@ -1083,7 +1083,7 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 
 		case DIK_8:
 			if (bl_ctrl)
-				gpC_mouse_pointer->SetCursorPortal(11, 10, 10, "¹ìÆÄÅ×½ºÅÍ");
+				gpC_mouse_pointer->SetCursorPortal(11, 10, 10, "ï¿½ï¿½ï¿½ï¿½ï¿½×½ï¿½ï¿½ï¿½");
 			break;
 
 		}
@@ -1112,8 +1112,8 @@ void MouseEventReceiver(CDirectInput::E_MOUSE_EVENT event, int x, int y, int z)
 	static DWORD	last_click_time;
 	static int		double_click_x, double_click_y;
 
-	// Window mode debug ÇÒ ¶§´Â DI¾²¸é pointer°¡ Window ¹ÛÀ¸·Î ³ª°¡¹Ç·Î ÀÌ¶§´Â
-	// WindowProc()À¸·Î ³Ñ¾î¿À´Â ÁÂÇ¥¸¦ »ç¿ëÇÑ´Ù.
+	// Window mode debug ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ DIï¿½ï¿½ï¿½ï¿½ pointerï¿½ï¿½ Window ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½Ì¶ï¿½ï¿½ï¿½
+	// WindowProc()ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 #ifndef _FULLSCREEN
 	POINT point;
 	GetCursorPos(&point);
@@ -1298,14 +1298,14 @@ WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 }
 
 //.......................................................................................
-// ·£Áî È¿°ú¿¡ ÇÊ¿äÇÑ tan °ª.
+// ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ tan ï¿½ï¿½.
 float dtan(float deg) {
 	if (deg > 360 || deg < 0)    return((float)tan(-1));
 	return((float)((3.141592 * deg) / 180));
 }
 ////////////////////////////////////////////////////////////////////
-// ·£Áî È¿°ú(Ç¥¸é flip ÀÌÀü¿¡ Ãâ·ÂÇÑ´Ù)...........
-// ½ÇÇà: Lenz( 200,200, 50 ); // À§Ä¡, ¹ÝÁö¸§...(È­¸é:640*480)...
+// ï¿½ï¿½ï¿½ï¿½ È¿ï¿½ï¿½(Ç¥ï¿½ï¿½ flip ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½)...........
+// ï¿½ï¿½ï¿½ï¿½: Lenz( 200,200, 50 ); // ï¿½ï¿½Ä¡, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...(È­ï¿½ï¿½:640*480)...
 void    Lenz(int x, int y, int radius) {
 	static int sx, sy;
 	static int xsize, ysize;
@@ -1319,7 +1319,7 @@ void    Lenz(int x, int y, int radius) {
 	if (x + radius >= 640)    x = 639 - radius;
 	if (y + radius >= 480)    y = 479 - radius;
 	/*
-	// ·£Áî µ¹¾Æ´Ù´Ï±â...
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ´Ù´Ï±ï¿½...
 	static int dir=0, x=300, y=200;
 	switch( dir )    {
 	case 0:            // move(right,down)
@@ -1391,16 +1391,16 @@ void    Lenz(int x, int y, int radius) {
 	delete data;
 }
 
-// °£´ÜÈ÷ 1¹ø¸¸ ½ÇÇàÇÏµµ·Ï ÇÏ¿´À½...(¾Ë°í¸®Áò ÀÚÃ¼´Â º¹ÇÕ ÆÄµ¿ÀÌ °¡´ÉÇÑ °Å±¸¿°-Á»¸¸ ¼öÁ¤ÇÏ¸é...)
-// °¡·Î,¼¼·Î(640,480)...
-// ¹°¹æ¿ïÀÇ ½ÃÀÛ,¹Ðµµ, ³ôÀÌ °¢...
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ï¿ï¿½ï¿½ï¿½...(ï¿½Ë°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Äµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½...)
+// ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½(640,480)...
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½,ï¿½Ðµï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½...
 void Water(int xx, int yy, char Density, char Radius)
 {
 	gpC_base->m_p_DDSurface_back->Lock();//m_DDSBack->Unlock(NULL);
 	WORD* m_pBackSpace = (WORD*)gpC_base->m_p_DDSurface_back->GetSurfacePointer();//(WORD*)m_ddsd.lpSurface;
-	static int Height[2][307200], hkind = 0;    // ¹°¹æ¿ïÀÇ ³ôÀÌ °ªÀ» ÀúÀåÇÑ ¸Þ	¸ð¸®...
+	static int Height[2][307200], hkind = 0;    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½	ï¿½ï¿½...
 	static WORD WaveScr[307200];
-	static WORD Color2; // Ç¥¸éÀÇ ÇÈ¼¿Àº WORD Çü...
+	static WORD Color2; // Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½È¼ï¿½ï¿½ï¿½ WORD ï¿½ï¿½...
 	static int cx, cy, cnt;
 	static int addr1, addr2;
 	static int HiCurr, HiNext;
@@ -1410,7 +1410,7 @@ void Water(int xx, int yy, char Density, char Radius)
 	static bool bStarted = false;
 
 	if (bStarted) {
-		// Height °ªÀ» Ã£¾Æ¼­ Waver ½ÇÇà...
+		// Height ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Æ¼ï¿½ Waver ï¿½ï¿½ï¿½ï¿½...
 		HiNext = Height[0][1];
 		for (cnt = 1; cnt < 306560; cnt++) {
 			HiCurr = HiNext;
@@ -1427,8 +1427,8 @@ void Water(int xx, int yy, char Density, char Radius)
 			OPos = (WcntY2 << 10) + WcntX2;
 			OPos = OPos >= 0 ? OPos : 0;
 			OPos = OPos < 307200 ? OPos : 307199;
-			addr1 = OPos / 640; // y À§Ä¡ Ã£À½...
-			addr2 = OPos - addr1 * 640; // x À§Ä¡ Ã£À½...
+			addr1 = OPos / 640; // y ï¿½ï¿½Ä¡ Ã£ï¿½ï¿½...
+			addr2 = OPos - addr1 * 640; // x ï¿½ï¿½Ä¡ Ã£ï¿½ï¿½...
 			WORD color = m_pBackSpace[addr1 * 800 + addr2];
 			WORD rr = (((color & 0xf800) >> 8) * Chdif) >> 7;
 			WORD gg = (((color & 0x7e0) >> 3) * Chdif) >> 7;
@@ -1438,8 +1438,8 @@ void Water(int xx, int yy, char Density, char Radius)
 			WaveScr[cnt] = ((rr & 0xf8) << 8) | ((gg & 0xfc) << 3) | ((bb & 0xf8) >> 3);
 		}
 
-		// »óÈ£ »ó¼è, Ãæµ¹ ÀÛ¿ë±îÁ¤ Ã³¸®(Smoothing 2°³...)
-		// Smooth¸¦ 2°³ÀÇ ¸Þ¸ð¸®·Î ¹Ýµå½Ã ½á¾ßÇÔ...(±×·¯Áö ¾ÊÀ¸¸é, ÀüÃ¼ ÀÌ¹ÌÁö ¿µ¿ªÀ¸·Î		¹øÁü...)
+		// ï¿½ï¿½È£ ï¿½ï¿½ï¿½, ï¿½æµ¹ ï¿½Û¿ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½(Smoothing 2ï¿½ï¿½...)
+		// Smoothï¿½ï¿½ 2ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ð¸®·ï¿½ ï¿½Ýµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½...(ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Ã¼ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		ï¿½ï¿½ï¿½ï¿½...)
 		switch (hkind) {
 		case 0:
 			for (cnt = 642; cnt < 306559; cnt++) {
@@ -1475,7 +1475,7 @@ void Water(int xx, int yy, char Density, char Radius)
 			break;
 		}
 
-		// ÀÌ¹ÌÁö Back ¹öÆÛ¿¡ º¹»çÇÑ´Ù...
+		// ï¿½Ì¹ï¿½ï¿½ï¿½ Back ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½...
 		addr1 = 0;        addr2 = 0;
 		for (cy = 0; cy < 480; cy++) {
 			memcpy(&m_pBackSpace[addr1], &WaveScr[addr2], 1280);
@@ -1518,7 +1518,7 @@ void Water(int xx, int yy, char Density, char Radius)
 
 void ProgramLoop()
 {
-	//	if (gC_vs_ui.UpdateState()) //!½² ¸¶¿ì½ºÆ÷ÀÎÅÍ´Â~
+	//	if (gC_vs_ui.UpdateState()) //!ï¿½ï¿½ ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ï¿½ï¿½ï¿½Í´ï¿½~
 	if (gbl_game_back)
 	{
 		static C_SPRITE_PACK m_game_back(SPK_GAME_BACK);
@@ -1531,9 +1531,9 @@ void ProgramLoop()
 
 	gC_vs_ui.Process(); // at last
 	gC_vs_ui.Show();
-	gC_vs_ui.DrawMousePointer(); // ClientÀÇ ¿äÃ»À¸·Î ¹ÛÀ¸·Î »©¾ú´Ù.
+	gC_vs_ui.DrawMousePointer(); // Clientï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 
-	//	gC_vs_ui.SetZoneName("¿¡½½¶ó´Ï¾Æ NW");
+	//	gC_vs_ui.SetZoneName("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¾ï¿½ NW");
 	//	gC_vs_ui.SetTime("23:00:05");
 
 	if (gbl_info_show == true)
@@ -1546,7 +1546,7 @@ void ProgramLoop()
 		sprintf(buf, "%dx%dx%d", g_pUserInformation->iResolution_x, g_pUserInformation->iResolution_y, gC_DD.Get_BPP());
 		gC_DDSurface.GDI_Text(90, 0, buf, RGB(255, 255, 255), RGB(128, 0, 128), false);
 
-		// mouse ÁÂÇ¥Ç¥½Ã
+		// mouse ï¿½ï¿½Ç¥Ç¥ï¿½ï¿½
 		sprintf(buf, "(%d, %d)", g_mouse_x, g_mouse_y);
 		gC_DDSurface.GDI_Text(500, 0, buf, RGB(255, 255, 255), RGB(128, 0, 128), false);
 
@@ -1567,9 +1567,9 @@ void ProgramLoop()
 - UI_ResultReceiver
 -
 
-  dw_left¿Í dw_right´Â LOWORD, HIWORD·Î °Ë»öÇÒ ¼ö ÀÖ´Ù. WORDÀÌÇÏÀÇ °ªÀº ÀüºÎ
-  ±×·±½ÄÀ¸·Î µé¾î¿Â´Ù.
-  ¸¸¾à DWORDÀÇ °ªÀÌ¶ó¸é ±×°ÍÀ» »ç¿ëÇÏÁö ¾Ê´Â´Ù.
+  dw_leftï¿½ï¿½ dw_rightï¿½ï¿½ LOWORD, HIWORDï¿½ï¿½ ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½. WORDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+  ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
+  ï¿½ï¿½ï¿½ï¿½ DWORDï¿½ï¿½ ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½×°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 -----------------------------------------------------------------------------*/
 void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 {
@@ -1638,8 +1638,8 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 
 					if (LoadImageToSurface(p_str, bmpSurface))
 					{
-						// surfaceÀÇ Å©±â°¡ default ProfileÅ©±â¿Í ´Ù¸£´Ù¸é
-						// size¸¦ º¯°æ½ÃÄÑÁà¾ß ÇÑ´Ù..	
+						// surfaceï¿½ï¿½ Å©ï¿½â°¡ default ProfileÅ©ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½Ù¸ï¿½
+						// sizeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½..	
 						RECT bmpRect = { 0, 0, bmpSurface.GetWidth(), bmpSurface.GetHeight() };
 
 						// BigSize
@@ -1688,7 +1688,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		switch (dw_left)
 		{
 		case STRING_MESSAGE_CANNOT_REPAIR:
-			MessageBox(NULL, "¿¡°Å... ÀÌ°Å ¿ø·¡ Å¬¶óÀÌ¾ðÆ®¿¡¼­¹Û¿¡ ¸ø¶ç¿ì´Â ´ÙÀÌ¾Ë·Î±×¶ó ÀÌ·¸°Ô ¹é¾÷!\r\n¾ÆÀÌÅÛ ¸®ÆÐ¾î ¸øÇØ¿°!", "-_-; °ÔÀÓ»ó¿£ Á¦´ë·Î ³ª¿À´Â ´ÙÀÌ¾Ë·Î±×¹Ú½º", MB_OK);
+			MessageBox(NULL, "ï¿½ï¿½ï¿½ï¿½... ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾Ë·Î±×¶ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½!\r\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð¾ï¿½ ï¿½ï¿½ï¿½Ø¿ï¿½!", "-_-; ï¿½ï¿½ï¿½Ó»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾Ë·Î±×¹Ú½ï¿½", MB_OK);
 			break;
 		}
 		break;
@@ -1696,8 +1696,8 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 	case UI_REQUEST_GUILD_MEMBER_LIST:
 	{
 		C_VS_UI_TEAM_MEMBER_LIST::TEAM_MEMBER_LIST member_info;
-		member_info.MEMBER_NAME = "°¡³ª´Ù¶ó¸¶¹Ù";
-		member_info.SERVER_NAME = "¾Æ¹Ù·Î½º(pk±ÝÁö)";
+		member_info.MEMBER_NAME = "ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ó¸¶¹ï¿½";
+		member_info.SERVER_NAME = "ï¿½Æ¹Ù·Î½ï¿½(pkï¿½ï¿½ï¿½ï¿½)";
 		member_info.member_grade = 1;
 		member_info.bLogOn = 1;
 		gC_vs_ui.AddTeamMemberInfo(member_info);
@@ -1763,7 +1763,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		C_VS_UI_TEAM_MEMBER_INFO::MEMBER_INFO info;
 		info.NAME = "asdasfasdfa";
 		info.GRADE = 0;
-		info.INTRODUCTION = "¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»";
+		info.INTRODUCTION = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 		info.guild_id = 102;
 		gC_vs_ui.RunTeamMemberInfo(&info);
 	}
@@ -1774,19 +1774,19 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 	case UI_SELECT_READY_TEAM_LIST:
 	{
 		C_VS_UI_TEAM_INFO::READY_TEAM_INFO info;
-		info.TEAM_NAME = "¾¦°«µéÀÌ¾ß";
-		info.LEADER_NAME = "¾¦°«";
+		info.TEAM_NAME = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½";
+		info.LEADER_NAME = "ï¿½ï¿½ï¿½ï¿½";
 		//			info.REGISTERD_DATE = "2001-12-31 06:30";
 		//			info.MEMBERS = 30;
 		info.REG_FEE = 100000;
 		info.EXPIRE_DATE = "2002-01-05 06:40";
-		info.MEMBERS_NAME.push_back("¾¦°«");
-		info.MEMBERS_NAME.push_back("Ä¡¾ÆÇªÇª");
-		info.MEMBERS_NAME.push_back("Çª¸®¸°");
-		info.MEMBERS_NAME.push_back("·Îº¿¸Å´Ï¾ß");
-		info.MEMBERS_NAME.push_back("±ñµû»ß¾ß");
+		info.MEMBERS_NAME.push_back("ï¿½ï¿½ï¿½ï¿½");
+		info.MEMBERS_NAME.push_back("Ä¡ï¿½ï¿½ÇªÇª");
+		info.MEMBERS_NAME.push_back("Çªï¿½ï¿½ï¿½ï¿½");
+		info.MEMBERS_NAME.push_back("ï¿½Îºï¿½ï¿½Å´Ï¾ï¿½");
+		info.MEMBERS_NAME.push_back("ï¿½ï¿½ï¿½ï¿½ß¾ï¿½");
 		info.MEMBERS_MAX = 5;
-		info.INTRODUCTION = "¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»";
+		info.INTRODUCTION = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 		gC_vs_ui.RunTeamInfo(true, &info);
 	}
 	break;
@@ -1794,14 +1794,14 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 	case UI_SELECT_REGIST_TEAM_LIST:
 	{
 		C_VS_UI_TEAM_INFO::REGIST_TEAM_INFO info;
-		info.TEAM_NAME = "¾¦°«µéÀÌ¾ß";
-		info.LEADER_NAME = "¾¦°«";
+		info.TEAM_NAME = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½";
+		info.LEADER_NAME = "ï¿½ï¿½ï¿½ï¿½";
 		info.REGISTERED_DATE = "2001-12-31 06:30";
 		info.MEMBERS = 130;
 		info.REG_FEE = 100000;
 		info.RANKING = 1;
 		info.guild_id = 101;
-		info.INTRODUCTION = "¿ì¸®ÆÀÀº¿©~ Àý¶ó ¸ÚÁ®¿° ¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»¤»\n±Û±¸¿© ¾ð´É ¿Í¿©~\n¹æ°¡¹æ°¡~";
+		info.INTRODUCTION = "ï¿½ì¸®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\nï¿½Û±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Í¿ï¿½~\nï¿½æ°¡ï¿½æ°¡~";
 		gC_vs_ui.RunTeamInfo(FALSE, &info);
 	}
 	break;
@@ -1886,7 +1886,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		//		{
 		//			gC_vs_ui.CloseTutorialExit();
 		//			
-		//			int arms = dw_left;	// 0: µµ 1: °Ë 2: ¸ÞÀÌ½º 3: ½ÊÀÚ°¡ 4: AR 5: TR 6: SMG 7:SG
+		//			int arms = dw_left;	// 0: ï¿½ï¿½ 1: ï¿½ï¿½ 2: ï¿½ï¿½ï¿½Ì½ï¿½ 3: ï¿½ï¿½ï¿½Ú°ï¿½ 4: AR 5: TR 6: SMG 7:SG
 		//		}
 		//		break;
 
@@ -1923,7 +1923,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 	}
 	break;
 	//
-	// ±³È¯Ã¢¿¡ µ·À» ³Ö´Â´Ù.
+	// ï¿½ï¿½È¯Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Â´ï¿½.
 	//
 	// left = (BOOL)bGive
 	// right = money
@@ -1954,13 +1954,13 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		if (p_item->IsTrade())
 		{
 			p_item->UnSetTrade();
-			// ¹º°¡ ¹Ù²ï´Ù¸é... OKÃë¼Ò
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½Ù¸ï¿½... OKï¿½ï¿½ï¿½
 			g_pTradeManager->RefuseMyTrade();
 		}
 		else
 		{
 			p_item->SetTrade();
-			// ¹º°¡ ¹Ù²ï´Ù¸é... OKÃë¼Ò
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½Ù¸ï¿½... OKï¿½ï¿½ï¿½
 			g_pTradeManager->RefuseMyTrade();
 		}
 	}
@@ -1985,7 +1985,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 
 
 		//
-		// º¸°üÇÔ¿¡ µ·À» ÀúÀåÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		//
 		//	left = money
 		//
@@ -1996,7 +1996,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 	break;
 
 	//
-	// º¸°üÇÔ¿¡ µ·À» Ã£´Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 	//
 	//	left = money
 	//
@@ -2007,7 +2007,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 	break;
 
 	//
-	// º¸°üÇÔÀÇ slotÀ» ¼±ÅÃÇÏ¿´´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ slotï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½.
 	//
 	// left = tab (0, 1, 2)
 	// right = slot
@@ -2031,7 +2031,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		//			break;
 
 				//
-				// Game Menu°¡ ½ÇÇàµÇ¾ú´Ù. ´Ù¸¥ ¸ðµç Ã¢À» ´Ý¾Æ¾ß ÇÑ´Ù.
+				// Game Menuï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½. ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½Ý¾Æ¾ï¿½ ï¿½Ñ´ï¿½.
 				//
 	case UI_RUNNING_GAMEMENU:
 		break;
@@ -2097,9 +2097,9 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 
 	case UI_CLICK_BONUS_POINT:
 		//
-		// vampire bonus point¸¦ ¿Ã¸®±â À§ÇØ ¹öÆ°À» ´­·¶´Ù.
+		// vampire bonus pointï¿½ï¿½ ï¿½Ã¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 		//
-		// g_char_slot_ingameÀÇ bonus point¸¦ °Ë»öÇÏ¸é ¾ó¸¶³ª ³²¾Ò´ÂÁö ¾Ë ¼ö ÀÖ´Ù.
+		// g_char_slot_ingameï¿½ï¿½ bonus pointï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ï¸ï¿½ ï¿½ó¸¶³ï¿½ ï¿½ï¿½ï¿½Ò´ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
 		//
 		// left = { 0:STR, 1:DEX, 2:INT }
 		//
@@ -2131,7 +2131,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 
 	case UI_INFO:
 		//
-		// character info buttonÀ» ´­·¶´Ù. ÀÚ½ÅÀÇ Á¤º¸¸¦ º¸¿©Áà¾ß ÇÑ´Ù!
+		// character info buttonï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½!
 		//
 		if (gC_vs_ui.IsRunningCharInfo())
 		{
@@ -2141,9 +2141,9 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		{
 			// set slot
 
-			// g_char_slot_ingame °ÔÀÓ½ÇÇà Áß °Ô¼Ó ¼³Á¤ÇØÁà¾ß ÇÑ´Ù.
-			g_char_slot_ingame.sz_name = "¾¦°«";
-			g_char_slot_ingame.sz_guild_name = "";//µå¸²¸¶½ºÅÍ¶ó´Ï±î";
+			// g_char_slot_ingame ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+			g_char_slot_ingame.sz_name = "ï¿½ï¿½ï¿½ï¿½";
+			g_char_slot_ingame.sz_guild_name = "";//ï¿½å¸²ï¿½ï¿½ï¿½ï¿½ï¿½Í¶ï¿½Ï±ï¿½";
 			g_char_slot_ingame.Race = g_eRaceInterface;
 			g_char_slot_ingame.bl_drained = true;
 			g_char_slot_ingame.MP_MAX = 100;
@@ -2234,7 +2234,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 
 	case UI_DROP_MONEY:
 		//
-		// ÀÎº¥Åä¸®¿¡¼­ µ·À» dropÇÑ´Ù.
+		// ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ dropï¿½Ñ´ï¿½.
 		//
 		// left = money
 		//
@@ -2245,13 +2245,13 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		// (char *)void_ptr = id string
 		//
 		DeleteNewArray(void_ptr);
-		//gC_vs_ui.AleadyExistIdMessage(); // »ç¿ëºÒ°¡
-		gC_vs_ui.NoAleadyExistIdMessage(); // »ç¿ë°¡´É
+		//gC_vs_ui.AleadyExistIdMessage(); // ï¿½ï¿½ï¿½Ò°ï¿½
+		gC_vs_ui.NoAleadyExistIdMessage(); // ï¿½ï¿½ë°¡ï¿½ï¿½
 		break;
 		/*
 				case UI_CHANGE_PCS_CONNECTED_SLOT:
 					//
-					// ¶Ç ´Ù¸¥ ¿¬°áµÈ »ç¶÷À¸·Î ¹Ù²Þ.
+					// ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½.
 					//
 					// left = pcs number
 					// right = slot
@@ -2259,32 +2259,32 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 					gC_vs_ui.GrantPCSWaitRoomToDuplex(dw_right);
 					break;
 
-				case UI_PLEASE_PCS_CONNECT_ME: // ´ë±â¹æ click! (ÀÌ¹Ì ¿¬°á-duplex-µÇÁö ¾Ê¾ÒÀ½)
+				case UI_PLEASE_PCS_CONNECT_ME: // ï¿½ï¿½ï¿½ï¿½ click! (ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½-duplex-ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ï¿½ï¿½)
 					//
-					// »ç¶÷ÀÌ ÀÖ´Â ´ë±â¹æÀ» Å¬¸¯ÇÏ¿´´Ù. (¸Þ½ÃÁö¸¦ ¼Û½Å ÇÏ±â À§ÇØ¼­)
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½. (ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û½ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½)
 					//
 					// left = pcs number
 					// right = slot
 					//
 
-					// Å¬¸¯µÈ slot°ú ¿¬°áÇÔ.
+					// Å¬ï¿½ï¿½ï¿½ï¿½ slotï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 					gC_vs_ui.GrantPCSWaitRoomToDuplex(dw_right);
 					break;
 
 				//case UI_PCS_CONNECTOR_GRANTED:
 					//
-					// ´ë±â¹æ¿¡ ÀÖ´Â »ç¶÷°ú ¿¬°áÇÔ.
+					// ï¿½ï¿½ï¿½æ¿¡ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 					//
 					// left = pcs number
 					// right = slot
 					//
 				//	break;
 		*/
-	case UI_CHAT_RETURN: // Ã¤ÆÃÃ¢ ÀÔ·Â // by larosel
+	case UI_CHAT_RETURN: // Ã¤ï¿½ï¿½Ã¢ ï¿½Ô·ï¿½ // by larosel
 
 		//			if (dw_right)
 		//			{
-		//				gC_vs_ui.AddChatToHistory((char *)void_ptr, "´ÙÅ©¿¡µ§", CLD_NORMAL, true);	// ±æµåÃ¤ÆÃ
+		//				gC_vs_ui.AddChatToHistory((char *)void_ptr, "ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½", CLD_NORMAL, true);	// ï¿½ï¿½ï¿½Ã¤ï¿½ï¿½
 		//			}
 		//			else
 	{
@@ -2306,7 +2306,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		gC_vs_ui.CloseGameMenu();
 		break;
 		/*
-				case UI_END_PCS: // PCS Ã¢¿¡¼­ PCS number¸¦ sendÇÏ°í connecting Áß¿¡ END¸¦ ´­·¶´Ù.
+				case UI_END_PCS: // PCS Ã¢ï¿½ï¿½ï¿½ï¿½ PCS numberï¿½ï¿½ sendï¿½Ï°ï¿½ connecting ï¿½ß¿ï¿½ ENDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 					break;
 
 				case UI_SEND_PCS_NUMBER:
@@ -2315,23 +2315,23 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 					//
 
 					//
-					// ¿¬°áÇÏ±â¸¦ ¿øÇÏ´Â pcs numberÀÇ Á¤º¸¸¦ ¼³Á¤ÇØÁà¾ß ÇÑ´Ù.
+					// ï¿½ï¿½ï¿½ï¿½ï¿½Ï±â¸¦ ï¿½ï¿½ï¿½Ï´ï¿½ pcs numberï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 					//
-					gC_vs_ui.OnLinePCS(NULL, dw_left); // ¿¬°á¼º°ø
+					gC_vs_ui.OnLinePCS(NULL, dw_left); // ï¿½ï¿½ï¿½á¼ºï¿½ï¿½
 
-					//gC_vs_ui.ConnectionFailed(); // ¿¬°á½ÇÆÐ.
+					//gC_vs_ui.ConnectionFailed(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 					break;
 
 				case UI_PDS_CLOSED:
 					//
-					// PDS°¡ ´ÝÇû´Ù. PCS ¿¬°áÀº ²÷À»ÇÊ¿ä°¡ ¾ø°ÚÁö..
+					// PDSï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. PCS ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ê¿ä°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
 					//
 					gC_vs_ui.AcquirePDSClosedMessage();
 					break;
 
 				case UI_QUIT_PCS_ONLINE_MODE:
 					//
-					// PCS online mode¿¡¼­ quit ¹öÆ°À» ´­·¶´Ù.
+					// PCS online modeï¿½ï¿½ï¿½ï¿½ quit ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 					//
 					gC_vs_ui.AcquireQuitPCSOnlineModeMessage();
 					break;
@@ -2361,7 +2361,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 
 		//		case UI_LEARN_SLAYER_SKILL:
 					//
-					// skillÀ» ¹è¿ü´Ù.
+					// skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 					//
 					// left = ACTIONINFO
 					//
@@ -2397,7 +2397,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		gC_vs_ui.StartServerSelect(false);
 		{
 			gC_vs_ui.StartServerSelect(false);
-			std::string server_name[20] = { "À±ÀÏ¼·", "ÀÌÃ¢¼·", "¹éÀÏ¼·", "±¤¼·", "Á¾¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "»ª¼·" };
+			std::string server_name[20] = { "ï¿½ï¿½ï¿½Ï¼ï¿½", "ï¿½ï¿½Ã¢ï¿½ï¿½", "ï¿½ï¿½ï¿½Ï¼ï¿½", "ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½ï¿½ï¿½ï¿½" };
 			int server_id[20] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19 };
 
 			int server_status[20] = { 0, 1, 2, 3, 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
@@ -2409,8 +2409,8 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		//
 		// dw_left	= gird_x
 		// dw_right = grid_y
-		// void_ptr = ´ë»ó Item
-		// µé°í ÀÖ´Â Item = InsertÇÒ Item
+		// void_ptr = ï¿½ï¿½ï¿½ Item
+		// ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Item = Insertï¿½ï¿½ Item
 		//
 	{ int z = 0; }
 	break;
@@ -2418,13 +2418,13 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 	case UI_ITEM_INSERT_FROM_GEAR:
 		//
 		// dw_left	= slot
-		// void_ptr = ´ë»ó Item
+		// void_ptr = ï¿½ï¿½ï¿½ Item
 		//
 	{ int z = 0; }
 	break;
 
 	case UI_CLOSE_BBS:
-		// µý °Ç ¾ø´Ù. ±×³É ÇÏÀÚ.
+		// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½×³ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		//gC_vs_ui.CloseBBS();
 		break;
 	case UI_CLOSE_INPUT_NAME:
@@ -2454,7 +2454,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 
 		//				if (gC_vs_ui.IsRunningExchange())
 		//				{
-		//					// ¹º°¡ ¹Ù²ï´Ù¸é... OKÃë¼Ò
+		//					// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½Ù¸ï¿½... OKï¿½ï¿½ï¿½
 		//					g_pTradeManager->RefuseMyTrade();
 		//				}
 
@@ -2477,11 +2477,11 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		//				}
 		//
 		//				{
-		//					if (g_pOustersGear->ReplaceItem(pMouseItem,		// Ãß°¡ÇÒ item
-		//						dw_left,	// Ãß°¡ÇÒ À§Ä¡ 
-		//						pOldItem))		// ¿ø·¡ÀÖ´ø item
+		//					if (g_pOustersGear->ReplaceItem(pMouseItem,		// ï¿½ß°ï¿½ï¿½ï¿½ item
+		//						dw_left,	// ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ 
+		//						pOldItem))		// ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ item
 		//					{
-		//						if (pOldItem != NULL) // replace µÇ¾ú´Â°¡?
+		//						if (pOldItem != NULL) // replace ï¿½Ç¾ï¿½ï¿½Â°ï¿½?
 		//						{				
 		//							gC_vs_ui.PickUpItem( pOldItem );
 		//						}
@@ -2494,11 +2494,11 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		switch (g_eRaceInterface)
 		{
 		case RACE_SLAYER:
-			if (g_pSlayerGear->ReplaceItem(pMouseItem,		// Ãß°¡ÇÒ item
-				dw_left,	// Ãß°¡ÇÒ À§Ä¡ 
-				pOldItem))		// ¿ø·¡ÀÖ´ø item
+			if (g_pSlayerGear->ReplaceItem(pMouseItem,		// ï¿½ß°ï¿½ï¿½ï¿½ item
+				dw_left,	// ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ 
+				pOldItem))		// ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ item
 			{
-				if (pOldItem != NULL) // replace µÇ¾ú´Â°¡?
+				if (pOldItem != NULL) // replace ï¿½Ç¾ï¿½ï¿½Â°ï¿½?
 				{
 					gC_vs_ui.PickUpItem(pOldItem);
 				}
@@ -2510,11 +2510,11 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 			break;
 
 		case RACE_VAMPIRE:
-			if (g_pVampireGear->ReplaceItem(pMouseItem,		// Ãß°¡ÇÒ item
-				dw_left,	// Ãß°¡ÇÒ À§Ä¡ 
-				pOldItem))		// ¿ø·¡ÀÖ´ø item
+			if (g_pVampireGear->ReplaceItem(pMouseItem,		// ï¿½ß°ï¿½ï¿½ï¿½ item
+				dw_left,	// ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ 
+				pOldItem))		// ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ item
 			{
-				if (pOldItem != NULL) // replace µÇ¾ú´Â°¡?
+				if (pOldItem != NULL) // replace ï¿½Ç¾ï¿½ï¿½Â°ï¿½?
 				{
 					gC_vs_ui.PickUpItem(pOldItem);
 				}
@@ -2526,11 +2526,11 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 			break;
 
 		case RACE_OUSTERS:
-			if (g_pOustersGear->ReplaceItem(pMouseItem,		// Ãß°¡ÇÒ item
-				dw_left,	// Ãß°¡ÇÒ À§Ä¡ 
-				pOldItem))		// ¿ø·¡ÀÖ´ø item
+			if (g_pOustersGear->ReplaceItem(pMouseItem,		// ï¿½ß°ï¿½ï¿½ï¿½ item
+				dw_left,	// ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ 
+				pOldItem))		// ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ item
 			{
-				if (pOldItem != NULL) // replace µÇ¾ú´Â°¡?
+				if (pOldItem != NULL) // replace ï¿½Ç¾ï¿½ï¿½Â°ï¿½?
 				{
 					gC_vs_ui.PickUpItem(pOldItem);
 				}
@@ -2582,10 +2582,10 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 
 		}
 		else
-			if (g_pQuickSlot->ReplaceItem(pMouseItem,		// Ãß°¡ÇÒ item
-				dw_left, pOldItem))		// ¿ø·¡ÀÖ´ø item
+			if (g_pQuickSlot->ReplaceItem(pMouseItem,		// ï¿½ß°ï¿½ï¿½ï¿½ item
+				dw_left, pOldItem))		// ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ item
 			{
-				if (pOldItem != NULL) // replace µÇ¾ú´Â°¡?
+				if (pOldItem != NULL) // replace ï¿½Ç¾ï¿½ï¿½Â°ï¿½?
 				{
 					gC_vs_ui.PickUpItem(pOldItem);
 				}
@@ -2603,16 +2603,16 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 
 		if (gC_vs_ui.IsRunningExchange())
 		{
-			// ¹º°¡ ¹Ù²ï´Ù¸é... OKÃë¼Ò
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½Ù¸ï¿½... OKï¿½ï¿½ï¿½
 			g_pTradeManager->RefuseMyTrade();
 		}
 
 		MItem* pOldItem = NULL;
-		if (g_pInventory->ReplaceItem(pMouseItem,		// Ãß°¡ÇÒ item
-			dw_left, dw_right,	// Ãß°¡ÇÒ À§Ä¡ 
-			pOldItem))		// ¿ø·¡ÀÖ´ø item
+		if (g_pInventory->ReplaceItem(pMouseItem,		// ï¿½ß°ï¿½ï¿½ï¿½ item
+			dw_left, dw_right,	// ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ 
+			pOldItem))		// ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ item
 		{
-			if (pOldItem != NULL) // replace µÇ¾ú´Â°¡?
+			if (pOldItem != NULL) // replace ï¿½Ç¾ï¿½ï¿½Â°ï¿½?
 			{
 				gC_vs_ui.PickUpItem(pOldItem);
 			}
@@ -2632,14 +2632,14 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 
 	case UI_ITEM_PICKUP_FROM_INVENTORY:
 		//
-		// hi/low dw_left´Â grid (x, y)°ªÀÌ´Ù.
-		//        dw_right´Â itemÀÇ screen ÁÂÇ¥ÀÌ´Ù.
+		// hi/low dw_leftï¿½ï¿½ grid (x, y)ï¿½ï¿½ï¿½Ì´ï¿½.
+		//        dw_rightï¿½ï¿½ itemï¿½ï¿½ screen ï¿½ï¿½Ç¥ï¿½Ì´ï¿½.
 		//
 		gC_vs_ui.PickUpItem((MItem*)void_ptr, HIWORD(dw_right), LOWORD(dw_right));
 
 		if (gC_vs_ui.IsRunningExchange())
 		{
-			// ¹º°¡ ¹Ù²ï´Ù¸é... OKÃë¼Ò
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½Ù¸ï¿½... OKï¿½ï¿½ï¿½
 			g_pTradeManager->RefuseMyTrade();
 		}
 
@@ -2647,23 +2647,23 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 
 	case UI_ITEM_PICKUP_FROM_QUICKSLOT:
 		//
-		// dw_leftÀÇ low´Â slotÀ§Ä¡ÀÌ´Ù.
-		// dw_right´Â itemÀÇ screen ÁÂÇ¥ÀÌ´Ù.
+		// dw_leftï¿½ï¿½ lowï¿½ï¿½ slotï¿½ï¿½Ä¡ï¿½Ì´ï¿½.
+		// dw_rightï¿½ï¿½ itemï¿½ï¿½ screen ï¿½ï¿½Ç¥ï¿½Ì´ï¿½.
 		//
 		gC_vs_ui.PickUpItem((MItem*)void_ptr, HIWORD(dw_right), LOWORD(dw_right));
 		break;
 
 	case UI_ITEM_PICKUP_FROM_GEAR:
 		//
-		// dw_leftÀÇ low´Â slotÀ§Ä¡ÀÌ´Ù.
-		// dw_right´Â itemÀÇ screen ÁÂÇ¥ÀÌ´Ù.
+		// dw_leftï¿½ï¿½ lowï¿½ï¿½ slotï¿½ï¿½Ä¡ï¿½Ì´ï¿½.
+		// dw_rightï¿½ï¿½ itemï¿½ï¿½ screen ï¿½ï¿½Ç¥ï¿½Ì´ï¿½.
 		//
 		gC_vs_ui.PickUpItem((MItem*)void_ptr, HIWORD(dw_right), LOWORD(dw_right));
 
 		switch (g_eRaceInterface)
 		{
 		case RACE_SLAYER:
-			g_pSlayerGear->RemoveItem((MSlayerGear::GEAR_SLAYER)dw_left);		// ¿ø·¡ÀÖ´ø item
+			g_pSlayerGear->RemoveItem((MSlayerGear::GEAR_SLAYER)dw_left);		// ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ item
 			break;
 
 		case RACE_VAMPIRE:
@@ -2709,7 +2709,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 	}
 	break;
 
-	case UI_TERMINATION: // Á¾·á
+	case UI_TERMINATION: // ï¿½ï¿½ï¿½ï¿½
 		PostMessage(g_hWnd, WM_CLOSE, 0, 0);
 		break;
 
@@ -2721,7 +2721,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		DeleteNewArray(((LOGIN*)void_ptr)->sz_password);
 
 		gC_vs_ui.StartServerSelect(true);
-		std::string group_name[5] = { "±×·ì1", "±×·ì2", "±×·ì3", "±×·ì4", "±×·ì5" };
+		std::string group_name[5] = { "ï¿½×·ï¿½1", "ï¿½×·ï¿½2", "ï¿½×·ï¿½3", "ï¿½×·ï¿½4", "ï¿½×·ï¿½5" };
 		int server_id[5] = { 0,1,2,3,4 };
 
 		int server_status[5] = { 0, 1, 1, 1, 1 };
@@ -2737,7 +2737,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		else		//server
 		{
 			gC_vs_ui.StartServerSelect(true);
-			std::string group_name[5] = { "±×·ì1", "±×·ì2", "±×·ì3", "±×·ì4", "±×·ì5" };
+			std::string group_name[5] = { "ï¿½×·ï¿½1", "ï¿½×·ï¿½2", "ï¿½×·ï¿½3", "ï¿½×·ï¿½4", "ï¿½×·ï¿½5" };
 			int server_id[5] = { 0,1,2,3,4 };
 
 			int server_status[5] = { 0, 1, 1, 1, 1 };
@@ -2749,7 +2749,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		if (dw_left)	//group
 		{
 			gC_vs_ui.StartServerSelect(false);
-			std::string server_name[20] = { "À±ÀÏ¼·", "ÀÌÃ¢¼·", "¹éÀÏ¼·", "±¤¼·", "Á¾¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "¹é¼·", "»ª¼·" };
+			std::string server_name[20] = { "ï¿½ï¿½ï¿½Ï¼ï¿½", "ï¿½ï¿½Ã¢ï¿½ï¿½", "ï¿½ï¿½ï¿½Ï¼ï¿½", "ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½é¼·", "ï¿½ï¿½ï¿½ï¿½" };
 			int server_id[20] = { 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19 };
 
 			int server_status[20] = { 0, 1, 2, 3, 4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
@@ -2759,7 +2759,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		//
 		// ((C_VS_UI::LOGIN *)void_ptr) = id, password
 		//
-		// !string ptrÀ» ÀúÀåÇÏ¸é ¾ÈµÈ´Ù.
+		// !string ptrï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ÈµÈ´ï¿½.
 		//
 		//{
 		//char sz_str[200];
@@ -2771,8 +2771,8 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 			gC_vs_ui.ClearAllCharacter();
 			// set character
 			S_SLOT slot;
-			slot.sz_name = "¾¦°«";
-			slot.sz_guild_name = "µå¸²¸¶½ºÅÍ";
+			slot.sz_name = "ï¿½ï¿½ï¿½ï¿½";
+			slot.sz_guild_name = "ï¿½å¸²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 			slot.GUILD_ID = 102;
 			slot.Race = RACE_SLAYER;
 			slot.m_AdvancementLevel = 1;
@@ -2821,8 +2821,8 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 
 			gC_vs_ui.SetCharacter(0, slot);
 
-			slot.sz_name = "¾Æ¿ì¼Ò´Ï";
-			slot.sz_guild_name = "¼Ò´Ï±æµå";
+			slot.sz_name = "ï¿½Æ¿ï¿½Ò´ï¿½";
+			slot.sz_guild_name = "ï¿½Ò´Ï±ï¿½ï¿½";
 			slot.GUILD_ID = 102;
 			slot.m_AdvancementLevel = 1;
 			slot.Race = RACE_VAMPIRE;
@@ -2888,7 +2888,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 					//
 					// ((NEW_REGISTRATION *)void_ptr) = ...
 					//
-					// // !string ptrÀ» ÀúÀåÇÏ¸é ¾ÈµÈ´Ù.
+					// // !string ptrï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ÈµÈ´ï¿½.
 					//
 					//struct NEW_REGISTRATION
 					//{
@@ -2898,8 +2898,8 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 					//	char *	sz_name;
 					//	char *	sz_email;
 					//	char *	sz_address;
-					//	char *	sz_ssn_number_part1; // ÁÖ¹Î¹øÈ£
-					//	char *	sz_ssn_number_part2; // ÁÖ¹Î¹øÈ£
+					//	char *	sz_ssn_number_part1; // ï¿½Ö¹Î¹ï¿½È£
+					//	char *	sz_ssn_number_part2; // ï¿½Ö¹Î¹ï¿½È£
 					//	char *	sz_homepage;
 					//	char *	sz_woo;
 					//	char *	sz_phone;
@@ -2926,18 +2926,18 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 					gC_vs_ui.ClearAllCharacter();
 					break;
 		*/
-	case UI_CONNECT: // Game Á¢¼Ó.
+	case UI_CONNECT: // Game ï¿½ï¿½ï¿½ï¿½.
 		gC_vs_ui.StartGame();
 
 		//
-		// SkillÀº StartGame()ÀÌ ½ÇÇàµÈ ÀÌÈÄ¿¡ Ãß°¡ÇØ¾ß ÇÑ´Ù.
+		// Skillï¿½ï¿½ StartGame()ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ä¿ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 		//
 		//gC_vs_ui.AddSlayerSkill(SKILL_FLASH_SLASHER);
 		break;
 
 	case UI_LOGOUT:
 		//
-		// Client, Server¿¡ logout packet º¸³¿.
+		// Client, Serverï¿½ï¿½ logout packet ï¿½ï¿½ï¿½ï¿½.
 		//
 		gC_vs_ui.StartTitle();
 		break;
@@ -2950,7 +2950,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 
 	case UI_CANCEL_SELECT_SKILL:
 		//
-		// Skill ¼±ÅÃ Ãë¼Ò.
+		// Skill ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
 		//
 		break;
 
@@ -2995,7 +2995,7 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		gC_vs_ui.CloseNamingChange();
 		break;
 	case UI_RUN_NAMING_CHANGE:
-		gC_vs_ui.RunNamingChange((MItem*)dw_left, "¿ìÇìÇì^^");
+		gC_vs_ui.RunNamingChange((MItem*)dw_left, "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½^^");
 		break;
 
 	case UI_CLOSE_QUEST_MANAGER:
@@ -3014,16 +3014,16 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 		gC_vs_ui.CloseQuestItem();
 		break;
 	case UI_GQUEST_ACCEPT:
-		MessageBox(NULL, "¼ö¶ô º¸³¿", "^^", MB_OK);
+		MessageBox(NULL, "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½", "^^", MB_OK);
 		break;
 	case UI_GQUEST_GIVEUP:
-		MessageBox(NULL, "Æ÷±â º¸³¿", "^^", MB_OK);
+		MessageBox(NULL, "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½", "^^", MB_OK);
 		break;
 	case UI_CLOSE_QUEST_ICON:
 		gC_vs_ui.CloseQuestIcon(dw_left);
 		break;
 	case UI_REQUEST_UNION:
-		MessageBox(NULL, "¿¬ÇÕ±æµå ¿äÃ» ¸Þ½ÃÁö º¸³À ", "^^", MB_OK);
+		MessageBox(NULL, "ï¿½ï¿½ï¿½Õ±ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ", "^^", MB_OK);
 		break;
 	case UI_REQUEST_UNION_ACCEPT:
 		break;
@@ -3034,10 +3034,10 @@ void UI_ResultReceiver(DWORD message, int dw_left, int dw_right, void* void_ptr)
 	case UI_REQUEST_UNION_REQUEST_INFO:
 		break;
 	case UI_REQUEST_UNION_EXPERGUILD:
-		MessageBox(NULL, "Ãß¹æ   ¿äÃ» ¸Þ½ÃÁö º¸³À ", "^^", MB_OK);
+		MessageBox(NULL, "ï¿½ß¹ï¿½   ï¿½ï¿½Ã» ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ", "^^", MB_OK);
 		break;
 	case UI_REQUEST_UNION_QUIT:
-		MessageBox(NULL, "Áï½Ã Å»Åð  ", "^^", MB_OK);
+		MessageBox(NULL, "ï¿½ï¿½ï¿½ Å»ï¿½ï¿½  ", "^^", MB_OK);
 		break;
 	case UI_REQUEST_UNION_QUIT_ACCEPT:
 		break;
@@ -3292,7 +3292,7 @@ LoadWorldMapInfo()
 		//------------------------------------------------
 		ZONETABLE_INFO* pZoneInfo = pos->second;
 
-		// ¿ùµå¸Ê¿¡¼­ º¸ÀÌÁö ¾Ê´Â ´Ù¸é ½ºÅµ
+		// ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½Åµ
 		if (!pZoneInfo->IsShownInWorldMap()) continue;
 
 		if (pZoneInfo == NULL)
@@ -3316,7 +3316,7 @@ LoadWorldMapInfo()
 		WORLDMAP_UI_INFO& rWorldMapUIInfo = C_VS_UI_WORLD_MAP::GetWorldMapUIInfo(pZoneInfo->ID);
 
 		//------------------------------------------------
-		// FileÀÌ ÀÖ´Â °æ¿ì¸¸ loadingÇÑ´Ù.
+		// Fileï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ì¸¸ loadingï¿½Ñ´ï¿½.
 		//------------------------------------------------
 
 		ivfstream zoneInfoFile(pZoneInfo->InfoFilename.GetString(), std::ios::binary);
@@ -3336,8 +3336,8 @@ LoadWorldMapInfo()
 			DEBUG_ADD("[Load Zone] Load PortalInfo");
 
 			//------------------------------------------------
-			// Æ÷Å» Á¤º¸¸¦ loadingÇÑ´Ù.
-			// ³»ºÎ¿¡¼­ ÇØÁÖ´Â°Ô ÁÁÁö¸¸... ÀÏ´Ü..
+			// ï¿½ï¿½Å» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ loadingï¿½Ñ´ï¿½.
+			// ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö´Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½... ï¿½Ï´ï¿½..
 			//------------------------------------------------
 			int numPortal;
 
@@ -3365,20 +3365,20 @@ LoadWorldMapInfo()
 
 				const int skipEdge = 2;
 
-				// È­¸é ³¡ºÎºÐÀÇ Æ÷Å»Á¤º¸´Â Ãâ·ÂÇÏÁö ¾Ê´Â´Ù.
+				// È­ï¿½ï¿½ ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 				if (rect.left >= skipEdge && rect.top >= skipEdge &&
 					rect.right <= width - skipEdge - 1 && rect.bottom <= height - skipEdge - 1)
 				{
 					//------------------------------------------------
-					// UI¿¡ ¼³Á¤ÇÑ´Ù.
+					// UIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 					//------------------------------------------------
-					if (numZoneID == 1)	// °Á Æ÷Å»
+					if (numZoneID == 1)	// ï¿½ï¿½ ï¿½ï¿½Å»
 					{
 						DEBUG_ADD("UI SetPortal");
 
 						rWorldMapUIInfo.SetPortal(rect, zoneID[0]);
 					}
-					else				// ¸ÖÆ¼ Æ÷Å»
+					else				// ï¿½ï¿½Æ¼ ï¿½ï¿½Å»
 					{
 						DEBUG_ADD("UI SetPortal - 60001");
 						rWorldMapUIInfo.SetPortal(rect, 60001);
@@ -3389,7 +3389,7 @@ LoadWorldMapInfo()
 
 				/*&
 				//------------------------------------------------
-				// ¾ÈÀüÁö´ë Á¤º¸ - Skip
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - Skip
 				//------------------------------------------------
 				int numSafe;
 
@@ -3415,7 +3415,7 @@ LoadWorldMapInfo()
 
 
 //----------------------------------------------------------
-// ÇØ»óµµ Á¤º¸¸¦ ·Îµå/¼¼ÀÌºê ÇÑ´Ù.
+// ï¿½Ø»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½/ï¿½ï¿½ï¿½Ìºï¿½ ï¿½Ñ´ï¿½.
 //----------------------------------------------------------
 void InitResolutionConfig()
 {
@@ -3425,7 +3425,7 @@ void InitResolutionConfig()
 	int		nResolutionX = ResolutionConfig.getPropertyInt("ResolutionX");
 	int		nResolutionY = ResolutionConfig.getPropertyInt("ResolutionY");
 
-	// VS_UI¿Í Client Àü¿ª¿¡¼­ »ç¿ëµÉ Á¤º¸¸¦ ¼¼ÆÃ
+	// VS_UIï¿½ï¿½ Client ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //	g_pUserInformation->IsResolution1024	= ( nResolutionX == 1024 );
 	g_pUserInformation->iResolution_x = nResolutionX;
 	g_pUserInformation->iResolution_y = nResolutionY;
@@ -3468,7 +3468,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 	WNDCLASSEX wcl;
 
 	//-------------------------------------
-	// client¿ë global ÃÊ±âÈ­ by sigi
+	// clientï¿½ï¿½ global ï¿½Ê±ï¿½È­ by sigi
 	//-------------------------------------	
 	g_pClientConfig = new ClientConfig;
 	//		g_pClientConfig->Use3DHAL			= TRUE;
@@ -3477,17 +3477,17 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 	g_pUserOption = new UserOption;
 	g_pUserOption->Use3DHAL = TRUE;
 	g_pUserOption->UseSmoothCursor = FALSE;	//TRUE;
-	g_pUserOption->DrawMinimap = FALSE;	// minimapÀ» ±×¸±±î?
-	g_pUserOption->DrawZoneName = TRUE;		// ZoneÀÌ¸§ Ãâ·Â
-	g_pUserOption->DrawGameTime = TRUE;		// °ÔÀÓ ½Ã°£ Ãâ·Â
+	g_pUserOption->DrawMinimap = FALSE;	// minimapï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½?
+	g_pUserOption->DrawZoneName = TRUE;		// Zoneï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½
+	g_pUserOption->DrawGameTime = TRUE;		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½
 	g_pUserOption->DrawInterface = FALSE;	// interface
 	g_pUserOption->DrawFPS = FALSE;	// FPS
-	g_pUserOption->BlendingShadow = FALSE;	//TRUE;			// ±×¸²ÀÚ ¹ÝÅõ¸í
-	g_pUserOption->FilteringCurse = TRUE;		// ³ª»Û ¸» Á¦°Å
-	g_pUserOption->PlayMusic = TRUE;		// À½¾Ç Ãâ·Â
-	g_pUserOption->PlaySound = TRUE;		// È¿°úÀ½ Ãâ·Â
-	g_pUserOption->VolumeMusic = 10;		// À½¾Ç ¼Ò¸® Å©±â
-	g_pUserOption->VolumeSound = 10;		// È¿°úÀ½ ¼Ò¸® Å©±â
+	g_pUserOption->BlendingShadow = FALSE;	//TRUE;			// ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	g_pUserOption->FilteringCurse = TRUE;		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	g_pUserOption->PlayMusic = TRUE;		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+	g_pUserOption->PlaySound = TRUE;		// È¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+	g_pUserOption->VolumeMusic = 10;		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ Å©ï¿½ï¿½
+	g_pUserOption->VolumeSound = 10;		// È¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ Å©ï¿½ï¿½
 	g_pUserOption->UseEnterChat = true;
 	//	g_pUserOption->Resolution1024		= g_pUserInformation->IsResolution1024;
 
@@ -3519,7 +3519,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 	g_pAcceleratorManager = new AcceleratorManager;
 	g_pKeyAccelerator = new KeyAccelerator;
 	g_pKeyAccelerator->Init(MAX_ACCELERATOR);
-	SetDefaultAccelerator();		// ÀÏ´ÜÀº..
+	SetDefaultAccelerator();		// ï¿½Ï´ï¿½ï¿½ï¿½..
 
 	g_pSystemAvailableManager = new SystemAvailabilitiesManager;
 
@@ -3552,7 +3552,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 	g_pMoneyManager = new MMoneyManager;
 	g_pPriceManager = new MPriceManager;
 
-	// infoÈ­ÀÏ ÀÌ¸§Àº MFileDef.h ÂüÁ¶	// test
+	// infoÈ­ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ MFileDef.h ï¿½ï¿½ï¿½ï¿½	// test
 	g_pDXInput = new CDirectInput;
 
 	g_pParty = new MParty;
@@ -3577,14 +3577,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 
 	//---------------------------------------------------------------------
 	//
-	//    SkillInfoTable¿¡ ´ëÇÑ Á¤º¸ ¼³Á¤
+	//    SkillInfoTableï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//
 	//---------------------------------------------------------------------
 	g_pSkillInfoTable = new MSkillInfoTable;
 	g_pSkillInfoTable->Init();
 
 	//------------------------------------------------
-	// Server Á¤º¸¸¦ loadingÇÑ´Ù.
+	// Server ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ loadingï¿½Ñ´ï¿½.
 	//------------------------------------------------
 	ivfstream serverSkillInfoFile(FILE_INFO_SKILL_INFO, std::ios::binary);
 	g_pSkillInfoTable->LoadFromFileServerSkillInfo(serverSkillInfoFile);
@@ -3592,7 +3592,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 
 	//---------------------------------------------------------------------
 	//
-	//    SkillManager¿¡ ´ëÇÑ Á¤º¸ ¼³Á¤
+	//    SkillManagerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//
 	//---------------------------------------------------------------------
 
@@ -3600,7 +3600,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 	g_pSkillManager->Init();
 
 	//------------------------------------------------
-	// Server Á¤º¸¸¦ loadingÇÑ´Ù.
+	// Server ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ loadingï¿½Ñ´ï¿½.
 	//------------------------------------------------
 	ivfstream serverDomainInfoFile(FILE_INFO_SKILL_DOMAIN_EXP, std::ios::binary);
 	g_pSkillManager->LoadFromFileServerDomainInfo(serverDomainInfoFile);
@@ -3608,7 +3608,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 
 
 	//---------------------------------------------------
-	// ¸í¼º¿¡ ÀÇÇÑ ·¹º§ Á¦ÇÑ °ü·Ã Info ÆÄÀÏÀ» ·ÎµåÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Info ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½Ñ´ï¿½.
 	//---------------------------------------------------
 	g_pFameInfoTable = new FameInfoTable;
 	ivfstream FameLimit("Data\\Info\\FameLimit.inf", std::ios::binary);
@@ -3617,7 +3617,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 
 	//---------------------------------------------------------------------
 	//
-	//    ExperienceTable¿¡ ´ëÇÑ Á¤º¸ ¼³Á¤
+	//    ExperienceTableï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//
 	//---------------------------------------------------------------------
 
@@ -3667,7 +3667,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 
 	g_pTradeManager = new MTradeManager;
 	g_pTradeManager->Init();
-	g_pTradeManager->SetOtherName("ÇÊ»ì±³È¯¸Ç");
+	g_pTradeManager->SetOtherName("ï¿½Ê»ì±³È¯ï¿½ï¿½");
 	g_pTradeManager->GetOtherMoneyManager()->SetMoney(42566);
 	g_pTradeManager->GetMyMoneyManager()->SetMoney(13344);
 
@@ -3683,19 +3683,19 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 //	}
 
 	//
-	// `À©µµ¿ì´Â Ç×»ó ÇÏ³ªÀÇ À©µµ¿ì Å¬·¡½º¿¡ ±â¹ÝÇÏ¿© ¸¸µé¾îÁö¸ç, À©µµ¿ì Å¬·¡½º´Â
-	//  ±× À©µµ¿ì¿¡ ´ëÇÑ ¸Þ½ÃÁö¸¦ Ã³¸®ÇÒ À©µµ¿ì ÇÁ·Î½ÃÀú¸¦ ÁöÁ¤ÇÑ´Ù.
+	// `ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×»ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//  ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//
-	// `ÇÏ³ªÀÇ À©µµ¿ì Å¬·¡½º¿¡¼­ ÇÏ³ª ÀÌ»óÀÇ À©µµ¿ì°¡ ¸¸µé¾îÁú ¼ö ÀÖ´Ù.
+	// `ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ì°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
 	//
-	g_hInst = hInst;
+	g_hInstance = hInst;
 	wcl.hInstance = hInst;
 	wcl.lpszClassName = CLASSNAME;
 	wcl.lpfnWndProc = WindowProc;
 	//
 	// `wcl.style =	CS_HREDRAW | CS_VREDRAW;
-	//  ¼öÆòÀ©µµ¿ì Å©±â³ª ¼öÁ÷À©µµ¿ì Å©±â°¡ º¯ÇÒ ¶§¸¶´Ù ´Ù½Ã ±×·ÁÁ®¾ß ÇÑ´Ù´Â °ÍÀ»
-	//  °¡¸®Å²´Ù. µû¶ó½º À©µµ¿ìÀÇ Å©±â¸¦ º¯°æÇÏ¸é WM_PAINT ¸Þ½ÃÁö¸¦ º¸³½´Ù.
+	//  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â³ª ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//  ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ WM_PAINT ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 	//
 	wcl.style = CS_HREDRAW;// | CS_VREDRAW;
 	wcl.cbSize = sizeof(WNDCLASSEX);
@@ -3713,7 +3713,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 	s.left_time = 7200 + (timeGetTime() / 1000);
 	s.war_type = 0;
 	s.zone_id = 1204;
-	s.zone_name = "Äí¾Æ¸£Åõ½º";
+	s.zone_name = "ï¿½ï¿½ï¿½Æ¸ï¿½ï¿½ï¿½ï¿½ï¿½";
 	g_pUserInformation->WarInfo.push_back(s);
 
 	InitResolutionConfig();
@@ -3825,14 +3825,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 	//s.left_time = 7200+(timeGetTime()/1000);
 	//s.war_type = 0;
 	//s.zone_id = 1204;
-	//s.zone_name = "Äí¾Æ¸£Åõ½º";
+	//s.zone_name = "ï¿½ï¿½ï¿½Æ¸ï¿½ï¿½ï¿½ï¿½ï¿½";
 	//g_pUserInformation->WarInfo.push_back(s);
 
 	WAR_INFO ss;
 	ss.left_time = 3600 + 212 + (timeGetTime() / 1000);
 	ss.war_type = 0;
 	ss.zone_id = 1201;
-	ss.zone_name = "Äí¾Æ¸£Åõ½ºa";
+	ss.zone_name = "ï¿½ï¿½ï¿½Æ¸ï¿½ï¿½ï¿½ï¿½ï¿½a";
 	g_pUserInformation->WarInfo.push_back(ss);
 
 	g_char_slot_ingame.m_AdvancementLevel = 10;
@@ -3866,9 +3866,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 	g_pUserInformation->IsNetmarbleLogin = true;
 
 
-	// g_char_slot_ingame °ÔÀÓ½ÇÇà Áß °Ô¼Ó ¼³Á¤ÇØÁà¾ß ÇÑ´Ù.
-	g_char_slot_ingame.sz_name = "¾¦°«";
-	g_char_slot_ingame.sz_guild_name = "¸¶½ºÅÍ¶ó´Ï±î";
+	// g_char_slot_ingame ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+	g_char_slot_ingame.sz_name = "ï¿½ï¿½ï¿½ï¿½";
+	g_char_slot_ingame.sz_guild_name = "ï¿½ï¿½ï¿½ï¿½ï¿½Í¶ï¿½Ï±ï¿½";
 	g_char_slot_ingame.GUILD_ID = 102;
 	g_char_slot_ingame.Race = RACE_SLAYER;
 	g_char_slot_ingame.bl_drained = true;
@@ -3971,42 +3971,42 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 
 	std::vector<C_VS_UI_NicknameInfo*>	TempNickNameList;
 	C_VS_UI_NicknameInfo nik;
-	nik.setNickname("¹Ùº¸0");
+	nik.setNickname("ï¿½Ùºï¿½0");
 	nik.setNicknameID(0);
 	nik.setNicknameIndex(0);
 	nik.setNicknameType(0);
 	TempNickNameList.push_back(&nik);
 	//gC_vs_ui.AddNickNameList((void*)&nik);
 	C_VS_UI_NicknameInfo nik1;
-	nik1.setNickname("¹Ùº¸1");
+	nik1.setNickname("ï¿½Ùºï¿½1");
 	nik1.setNicknameID(1);
 	nik1.setNicknameIndex(1);
 	nik1.setNicknameType(1);
 	//gC_vs_ui.AddNickNameList((void*)&nik);
 	TempNickNameList.push_back(&nik1);
 	C_VS_UI_NicknameInfo nik2;
-	nik2.setNickname("¹Ùº¸2");
+	nik2.setNickname("ï¿½Ùºï¿½2");
 	nik2.setNicknameID(2);
 	nik2.setNicknameIndex(2);
 	nik2.setNicknameType(2);
 	//gC_vs_ui.AddNickNameList((void*)&nik);
 	TempNickNameList.push_back(&nik2);
 	C_VS_UI_NicknameInfo nik3;
-	nik3.setNickname("¹Ùº¸3");
+	nik3.setNickname("ï¿½Ùºï¿½3");
 	nik3.setNicknameID(3);
 	nik3.setNicknameIndex(3);
 	nik3.setNicknameType(3);
 	//gC_vs_ui.AddNickNameList((void*)&nik);
 	TempNickNameList.push_back(&nik3);
 	C_VS_UI_NicknameInfo nik4;
-	nik4.setNickname("¹Ùº¸4");
+	nik4.setNickname("ï¿½Ùºï¿½4");
 	nik4.setNicknameID(4);
 	nik4.setNicknameIndex(4);
 	nik4.setNicknameType(4);
 	//gC_vs_ui.AddNickNameList((void*)&nik);
 	TempNickNameList.push_back(&nik4);
 	C_VS_UI_NicknameInfo nik5;
-	nik5.setNickname("¹Ùº¸5");
+	nik5.setNickname("ï¿½Ùºï¿½5");
 	nik5.setNicknameID(5);
 	nik5.setNicknameIndex(5);
 	nik5.setNicknameType(5);
@@ -4026,14 +4026,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 	gC_vs_ui.SetPortal(rect, 1001);
 	SetRect(&rect, 50, 52, 60, 52);
 	gC_vs_ui.SetPortal(rect, 2024);
-	gC_vs_ui.SetNPC(50, 100, 21, "½ºÅä¾ß³ëÇÁ");
+	gC_vs_ui.SetNPC(50, 100, 21, "ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½");
 
-	gC_vs_ui.SetNPC(100, 100, 670, "±âÀÕ¹ß");
-
-
+	gC_vs_ui.SetNPC(100, 100, 670, "ï¿½ï¿½ï¿½Õ¹ï¿½");
 
 
-	//	gC_vs_ui.SetZoneName("¿¡½½¶ó´Ï¾Æ NW");
+
+
+	//	gC_vs_ui.SetZoneName("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¾ï¿½ NW");
 	//	gC_vs_ui.SetTime("23:00:05");
 
 	//	gC_vs_ui.ServerDisconnectMessage();
@@ -4058,7 +4058,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 	*/
 
 
-	// ÀüÃ¼¸Ê Á¤º¸ ·Îµå
+	// ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½
 	LoadWorldMapInfo();
 
 	while (1)
@@ -4094,7 +4094,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 	ReleaseAllObject();
 	gC_vs_ui.Release();
 
-	// ÇØ»óµµ Á¤º¸ ÀúÀå
+	// ï¿½Ø»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 //	if(NULL != g_pWebBrowser)
 //		g_pWebBrowser->Release();

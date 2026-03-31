@@ -12,7 +12,7 @@
 #include "Assert.h"
 #include "FileAPILocal.h"
 #include "DebugInfo.h"
-#include "MTestDef.h"
+//#include "MTestDef.h"
 
 //////////////////////////////////////////////////////////////////////
 //

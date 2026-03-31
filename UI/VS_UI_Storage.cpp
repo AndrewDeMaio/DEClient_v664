@@ -17,7 +17,7 @@
 
 #include "mgamestringtable.H"
 static MStorage* m_pStorage;
-static int			m_focused_slot;
+static int		 m_focused_slot;
 //static UINT			m_select_item_slot;
 //static UINT			m_what_tab; // tab sprite id
 

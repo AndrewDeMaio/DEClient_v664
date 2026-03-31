@@ -59,7 +59,7 @@
 #include "MItemOptionTable.h"
 #include "Client.h"
 #include "SkillDef.h"
-#include "vs_ui_item.h"
+//#include "vs_ui_item.h"
 #include "MTopViewDraw.inl"
 
 #include "OperatorOption.h"

@@ -44,7 +44,7 @@ static bool cpuid(unsigned long function, unsigned long& out_eax, unsigned long&
 		{
 			xor edx, edx		// Clue the compiler that EDX is about to be used.
             mov eax, function   // set up CPUID to return processor version and features
-								//      0 = vendor string, 1 = version info, 2 = cache info
+								// 0 = vendor string, 1 = version info, 2 = cache info
             cpuid				// code bytes = 0fh,  0a2h
             mov local_eax, eax	// features returned in eax
             mov local_ebx, ebx	// features returned in ebx

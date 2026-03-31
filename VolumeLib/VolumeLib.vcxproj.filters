@@ -21,18 +21,24 @@
     <ClCompile Include="VolumeOutWave.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="VolumeLib_PCH.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IVolume.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VolumeLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VolumeOutMaster.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VolumeOutWave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VolumeLib_PCH.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VolumeLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

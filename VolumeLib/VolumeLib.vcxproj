@@ -119,12 +119,14 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="VolumeLib_PCH.cpp" />
     <ClCompile Include="VolumeOutMaster.cpp" />
     <ClCompile Include="VolumeOutWave.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IVolume.h" />
     <ClInclude Include="VolumeLib.h" />
+    <ClInclude Include="VolumeLib_PCH.h" />
     <ClInclude Include="VolumeOutMaster.h" />
     <ClInclude Include="VolumeOutWave.h" />
   </ItemGroup>

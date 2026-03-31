@@ -27,7 +27,7 @@
 
 #include <assert.h>
 
-#include "AtlTypes/atltypes.h"
+#include "atltypes.h"
 
 // default help string
 struct S_DEFAULT_HELP_STRING

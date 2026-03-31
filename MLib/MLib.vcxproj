@@ -76,6 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Include;$(SolutionDir)Packet;$(SolutionDir)FrameLib;$(SolutionDir)D3DLib;$(SolutionDir)SpriteLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,6 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Include;$(SolutionDir)Packet;$(SolutionDir)FrameLib;$(SolutionDir)D3DLib;$(SolutionDir)SpriteLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -102,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Include;$(SolutionDir)Packet;$(SolutionDir)FrameLib;$(SolutionDir)D3DLib;$(SolutionDir)SpriteLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,13 +121,24 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)Packet;$(SolutionDir)FrameLib;$(SolutionDir)D3DLib;$(SolutionDir)SpriteLib;$(SolutionDir)VirtualFileSystem;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Include;$(SolutionDir)Packet;$(SolutionDir)FrameLib;$(SolutionDir)D3DLib;$(SolutionDir)SpriteLib;$(SolutionDir)DXLib;$(SolutionDir)NMCrypt;$(SolutionDir)VirtualFileSystem;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="MathTable.cpp" />
+    <ClCompile Include="MFunctionManager.cpp" />
+    <ClCompile Include="MString.cpp" />
+    <ClCompile Include="MStringArray.cpp" />
+    <ClCompile Include="MStringList.cpp" />
+    <ClCompile Include="MStringMap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MFunctionManager.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -245,7 +245,7 @@ public:
 
 #ifndef _DEBUG
 #define ATLTYPES_INLINE inline
-#include "AtlTypes/atltypes.inl" //#include <atltypes.inl>
+#include "atltypes.inl" //#include <atltypes.inl>
 #endif
 
 

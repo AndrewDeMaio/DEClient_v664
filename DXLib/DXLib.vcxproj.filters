@@ -60,13 +60,19 @@
     <ClCompile Include="synfilt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CAvi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CMP3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CSoundPartManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXLib_PCH.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="COGGSTREAM.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Profiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,7 +149,13 @@
     <ClInclude Include="CSoundPartManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CAvi.h">
+    <ClInclude Include="DirectXLib_PCH.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="COGGSTREAM.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Profiler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

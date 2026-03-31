@@ -4,7 +4,10 @@
 #include "Client_PCH.h"
 #pragma warning(disable:4786)
 
+#include "UserOption.h"
 #include <math.h>
+#include <fstream>
+
 #include "MZoneDef.h"
 #include "MSector.h"
 #include "MCreature.h"
@@ -25,22 +28,22 @@
 #include "CMessageArray.h"
 #include "DebugInfo.h"
 #include "ServerInfo.h"
-#include "Client.h"
+//#include "Client.h"
 #include "EffectSpriteTypeDef.h"
 #include "SoundDef.h"
 #include "MEffectSpriteTypeTable.h"
 #include "MHelicopterManager.h"
 #include "MParty.h"
 #include "MTestDef.h"
-#include <fstream>
 #include "SkillDef.h"
 #include "mintr.h"
 #include "MNPC.h"
 #include "MGuildType.h"
 #include "MEffectStatusDef.h"
 
-#include "VS_UI.h"
 #include "MHelpDef.h"
+
+//#include "VS_UI.h"
 //#define	new			DEBUG_NEW
 //#define	delete		DEBUG_DELETE
 
@@ -69,14 +72,14 @@ extern void		SendStatusInfoToParty();
 //	#define OUTPUT_DEBUG_UPDATE_EFFECT
 #endif
 
-// ImageObject¿¡ ´ëÇÑ Á¤º¸ Ãâ·Â
+// ImageObjectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 //#ifdef __OUTPUT_IMAGEOBJECT__
 
 #define	VISION_SECTOR_WIDTH_HALF				12
 #define	VISION_SECTOR_HEIGHT_HALF				13
 
-// 800x600 ÇØ»óµµ¶óµµ ½Ã¾ß ¼½ÅÍ´Â 1024x768°ú µ¿ÀÏÇÏ´Ù.
-// ¼­¹ö¿¡¼­´Â ÇØ»óµµÀÇ ±¸ºÐÀÌ ¾ø±â ¶§¹®
+// 800x600 ï¿½Ø»óµµ¶ï¿½ ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½Í´ï¿½ 1024x768ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 #define NEW_VISION_SECTOR_WIDTH_HALF			12
 #define NEW_VISION_SECTOR_HEIGHT_HALF_UP		17
 #define NEW_VISION_SECTOR_HEIGHT_HALF_DOWN		17
@@ -88,7 +91,7 @@ extern void		SendStatusInfoToParty();
 #endif*/
 
 //----------------------------------------------------------------------
-// Is RelicTable [¼º¹°¼öÁ¤]
+// Is RelicTable [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]
 //----------------------------------------------------------------------
 bool
 IsRelicTable( MItem* pItem )
@@ -106,7 +109,7 @@ IsRelicTable( MItem* pItem )
 }
 
 //----------------------------------------------------------------------
-// define function ¤»¤»
+// define function ï¿½ï¿½ï¿½ï¿½
 //----------------------------------------------------------------------
 #define	CheckCreatureInDarkness( sector, x, y )						\
 		{															\
@@ -153,7 +156,7 @@ IsRelicTable( MItem* pItem )
 		}
 				
 //----------------------------------------------------------------------
-// RemoveSectorEffect [»õ±â¼ú9]
+// RemoveSectorEffect [ï¿½ï¿½ï¿½ï¿½ï¿½9]
 //----------------------------------------------------------------------
 #define RemoveSectorEffect( sX, sY, id )						\
 		{														\
@@ -253,11 +256,11 @@ MZone::~MZone()
 void
 MZone::Init(TYPE_SECTORPOSITION width, TYPE_SECTORPOSITION height)
 {
-	// 0 ÀÌ ÀÖÀ¸¸é return
+	// 0 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ return
 	if (width==0 || height==0) 
 		return;
 
-	// memoryÇØÁ¦
+	// memoryï¿½ï¿½ï¿½ï¿½
 	Release();
 
 	m_Width	 = width;
@@ -287,14 +290,14 @@ void
 MZone::Release()
 {
 	//---------------------------------
-	// player À§Ä¡ Á¦°Å
+	// player ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
 	//---------------------------------
 	//m_pPlayer = NULL;
 
 	DEBUG_ADD( "Release ImageObject" );
 	
 	//---------------------------------
-	// ImageObject Á¦°Å
+	// ImageObject ï¿½ï¿½ï¿½ï¿½
 	//---------------------------------
 	IMAGEOBJECT_MAP::iterator iImageObject = m_mapImageObject.begin();
 
@@ -314,12 +317,12 @@ MZone::Release()
 	DEBUG_ADD( "Start Release Object" );
 	
 	//---------------------------------
-	// objectµé Á¦°Å
+	// objectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//---------------------------------
 	ReleaseObject();
 
 	//---------------------------------
-	// Obstacle Á¦°Å
+	// Obstacle ï¿½ï¿½ï¿½ï¿½
 	//---------------------------------
 	/*
 	OBSTACLE_LIST::iterator iObstacle = m_listObstacle.begin();
@@ -338,7 +341,7 @@ MZone::Release()
 	DEBUG_ADD_FORMAT( "MZone::Release() - %d x %d", m_Width, m_Height);
 
 	//---------------------------------
-	// sector Á¦°Å
+	// sector ï¿½ï¿½ï¿½ï¿½
 	//---------------------------------	
 	if (m_ppSector!=NULL)
 	{
@@ -363,7 +366,7 @@ MZone::Release()
 //----------------------------------------------------------------------
 // Release Object
 //----------------------------------------------------------------------
-// instance objectµéÀ» Á¦°ÅÇÑ´Ù.
+// instance objectï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 void
 MZone::ReleaseObject()
@@ -371,7 +374,7 @@ MZone::ReleaseObject()
 	m_HelicopterManager.Release();
 
 	//---------------------------------
-	// map¿¡ ÀÖ´Â CreatureÁ¦°Å
+	// mapï¿½ï¿½ ï¿½Ö´ï¿½ Creatureï¿½ï¿½ï¿½ï¿½
 	//---------------------------------
 	DEBUG_ADD_FORMAT("MZone::ReleaseCreature. size=%d", m_mapCreature.size());
 	
@@ -382,7 +385,7 @@ MZone::ReleaseObject()
 	while (iCreature != m_mapCreature.end())
 	{
 		pCreature = (*iCreature).second;
-		// player´Â Áö¿ìÁö ¾Ê´Â´Ù.
+		// playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 		if (pCreature!=NULL && pCreature->GetClassType()!=MCreature::CLASS_PLAYER)
 		{
 			DEBUG_ADD_FORMAT("RemoveCreature: [%s] id=%d, (%d, %d)", pCreature->GetName(), pCreature->GetID(), pCreature->GetX(), pCreature->GetY());
@@ -400,7 +403,7 @@ MZone::ReleaseObject()
 			}
 			*/
 			
-			// sector¿¡¼­ Á¦°Å
+			// sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			if (m_ppSector!=NULL)
 			{
 				int id = pCreature->GetID();
@@ -414,7 +417,7 @@ MZone::ReleaseObject()
 				//if (x>=0 && y>=0 && x<m_Width && y<m_Height) 
 				{
 					//------------------------------------------------
-					// sector¿¡¼­ Á¦°Å½ÃÅ²´Ù.
+					// sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½.
 					//------------------------------------------------
 					if (!m_ppSector[y][x].RemoveCreature(id))
 					{
@@ -467,7 +470,7 @@ MZone::ReleaseObject()
 	m_mapCreature.clear();
 
 	//---------------------------------
-	// map¿¡ ÀÖ´Â FakeCreatureÁ¦°Å
+	// mapï¿½ï¿½ ï¿½Ö´ï¿½ FakeCreatureï¿½ï¿½ï¿½ï¿½
 	//---------------------------------
 	DEBUG_ADD_FORMAT("MZone::ReleaseFakeCreature. size=%d", m_mapFakeCreature.size());
 	
@@ -486,7 +489,7 @@ MZone::ReleaseObject()
 
 
 	//---------------------------------
-	// map¿¡ ÀÖ´Â ItemÁ¦°Å
+	// mapï¿½ï¿½ ï¿½Ö´ï¿½ Itemï¿½ï¿½ï¿½ï¿½
 	//---------------------------------
 	DEBUG_ADD_FORMAT("MZone::ReleaseItem. size=%d", m_mapItem.size());
 	
@@ -500,16 +503,16 @@ MZone::ReleaseObject()
 		{
 			if (m_ppSector!=NULL)
 			{
-				// [¼º¹°¼öÁ¤]
+				// [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]
 				MSector& sector = m_ppSector[pItem->GetY()][pItem->GetX()];
 				sector.RemoveItem();
 
-				// È¤½Ã ¹®Á¦°¡ ÀÖÀ»±îºÁ.. ½ÃÃ¼ Á¤¸®..
+				// È¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½..
 				if (pItem->GetItemClass()==ITEM_CLASS_CORPSE)
 				{
 					sector.UnSetBlockServerGround();
 
-					// [¼º¹°¼öÁ¤]
+					// [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]
 					if (IsRelicTable(pItem))
 					{
 						sector.UnSetBlockGround();
@@ -525,7 +528,7 @@ MZone::ReleaseObject()
 	m_mapItem.clear();
 
 	//---------------------------------
-	// Effect Á¦°Å
+	// Effect ï¿½ï¿½ï¿½ï¿½
 	//---------------------------------
 	DEBUG_ADD_FORMAT("MZone::ReleaseEffect. size=%d", m_mapEffect.size());
 	
@@ -539,7 +542,7 @@ MZone::ReleaseObject()
 		{
 			if (m_ppSector!=NULL)
 			{
-				// [»õ±â¼ú9]
+				// [ï¿½ï¿½ï¿½ï¿½ï¿½9]
 				RemoveSectorEffect( pEffect->GetX(), pEffect->GetY(), pEffect->GetID() );				
 			}
 
@@ -550,7 +553,7 @@ MZone::ReleaseObject()
 	m_mapEffect.clear();
 
 	//---------------------------------
-	// Ground Effect Á¦°Å
+	// Ground Effect ï¿½ï¿½ï¿½ï¿½
 	//---------------------------------
 	DEBUG_ADD_FORMAT("MZone::ReleaseGroundEffect. size=%d", m_mapGroundEffect.size());
 	
@@ -569,7 +572,7 @@ MZone::ReleaseObject()
 
 
 	//---------------------------------
-	// Sound Á¦°Å
+	// Sound ï¿½ï¿½ï¿½ï¿½
 	//---------------------------------
 	DEBUG_ADD_FORMAT("MZone::ReleaseSound. size=%d", m_listSoundNode.size());
 	
@@ -579,7 +582,7 @@ MZone::ReleaseObject()
 	{
 		SOUND_NODE*	pNode = *iSound;
 
-		// Áö¿î´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½.
 		delete pNode;
 		
 		iSound++;			
@@ -589,7 +592,7 @@ MZone::ReleaseObject()
 
 	// 2004, 11, 29, sobeit add start
 	//-----------------------------------------------
-	// wait effect list »èÁ¦...
+	// wait effect list ï¿½ï¿½ï¿½ï¿½...
 	//-----------------------------------------------
 	DEBUG_ADD_FORMAT("MZone::ReleaseWaitEffect. size=%d", m_listWaitEffect.size());
 	WAIT_EFFECT_LIST::iterator iWaitEffect = m_listWaitEffect.begin();
@@ -619,7 +622,7 @@ bool
 MZone::SaveToFileSectorSound(std::ofstream& file)
 {
 	//-----------------------------------------------------------
-	// Å©±â
+	// Å©ï¿½ï¿½
 	//-----------------------------------------------------------
 	file.write((const char*)&m_Width, SIZE_SECTORPOSITION);
 	file.write((const char*)&m_Height, SIZE_SECTORPOSITION);
@@ -637,10 +640,10 @@ MZone::SaveToFileSectorSound(std::ofstream& file)
 
 			int num = listSound.size();
 
-			// ÇÑ Sector¿¡ ÀÖ´Â soundÀÇ °³¼ö ÀúÀå
+			// ï¿½ï¿½ Sectorï¿½ï¿½ ï¿½Ö´ï¿½ soundï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			file.write((const char*)&num, 4);
 
-			// °¢ soundÀúÀå
+			// ï¿½ï¿½ soundï¿½ï¿½ï¿½ï¿½
 			while (iSound != listSound.end())
 			{
 				const SECTORSOUND_INFO& info = *iSound;
@@ -656,12 +659,12 @@ MZone::SaveToFileSectorSound(std::ofstream& file)
 	//-----------------------------------------------------------
 	// MZoneSoundTable
 	//-----------------------------------------------------------
-	// Á».. ¹¹ÇÏÁö¸¸.. - -;
-	// ¾ÏÆ° ÆíÀÇ»ó(-_-;) °°ÀÌ ³Ö¾î¹ö¸°´Ù. ¤»¤»..
+	// ï¿½ï¿½.. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. - -;
+	// ï¿½ï¿½Æ° ï¿½ï¿½ï¿½Ç»ï¿½(-_-;) ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½..
 	//-----------------------------------------------------------
 	bool bExistZoneTable = (g_pZoneTable!=NULL);
 
-	// Ã¼Å©¿ë..
+	// Ã¼Å©ï¿½ï¿½..
 	file.write((const char*)&bExistZoneTable, 1);
 
 	if (bExistZoneTable)
@@ -680,9 +683,9 @@ MZone::SaveToFileSectorSound(std::ofstream& file)
 //----------------------------------------------------------------------
 // Load From File SectorSound
 //----------------------------------------------------------------------
-// Width*Height·Î Å©±â Ã¼Å©ÇÏ°í.
-// SectorSoundInfo¸¦ LoadingÇÏ°í
-// //MZoneSoundTableÀ» LoadingÇÑ´Ù.
+// Width*Heightï¿½ï¿½ Å©ï¿½ï¿½ Ã¼Å©ï¿½Ï°ï¿½.
+// SectorSoundInfoï¿½ï¿½ Loadingï¿½Ï°ï¿½
+// //MZoneSoundTableï¿½ï¿½ Loadingï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::LoadFromFileSectorSound(ivfstream& file)
@@ -691,16 +694,16 @@ MZone::LoadFromFileSectorSound(ivfstream& file)
 
 	/*
 	//---------------------------------------------------------------
-	// Sector¿¡ »ç¿îµå Á¤º¸¸¦ LoadingÇÑ´Ù.
+	// Sectorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Loadingï¿½Ñ´ï¿½.
 	//---------------------------------------------------------------
 	// test code
 	for (int x=0; x<m_Width; x++)
 	{
 		for (int y=0; y<m_Height; y++)
 		{
-			// ZoneSound 1¹øÀÌ 50,50¿¡¼­ ¼Ò¸®³­´Ù°í ¸ðµç sector¿¡ Á¤º¸ Ãß°¡
-			// »ç½Ç ¾î´À Á¤µµ °Å¸®°¡ ¾ÈµÇ¸é Ãß°¡ÇÒ ÇÊ¿ä´Â ¾ø´Ù.
-			// ÀÏ´Ü ±ÍÂú¾Æ¼­ Å×½ºÆ®·Î.. - -;;
+			// ZoneSound 1ï¿½ï¿½ï¿½ï¿½ 50,50ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ï¿½ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½ï¿½ sectorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+			// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ÈµÇ¸ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+			// ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ï¿½ ï¿½×½ï¿½Æ®ï¿½ï¿½.. - -;;
 			//		DEBUG_ADD_FORMAT("AddSectorSound[%d][%d]", y, x);
 			
 		
@@ -710,7 +713,7 @@ MZone::LoadFromFileSectorSound(ivfstream& file)
 	*/
 
 	//-----------------------------------------------------------
-	// Å©±â
+	// Å©ï¿½ï¿½
 	//-----------------------------------------------------------
 	//TYPE_SECTORPOSITION width, height;
 
@@ -719,8 +722,8 @@ MZone::LoadFromFileSectorSound(ivfstream& file)
 
 	//if (m_Width!=width || m_Height!=height)
 	{
-		// ZoneÅ©±â¿Í SectorSoundÁ¤º¸ÀÇ Å©±â°¡ ´Ù¸¥ °æ¿ì
-		// Àý¸ÁÀÌ´Ù - -;
+		// ZoneÅ©ï¿½ï¿½ï¿½ SectorSoundï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â°¡ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ - -;
 	//	return false;
 	}
 
@@ -728,32 +731,32 @@ MZone::LoadFromFileSectorSound(ivfstream& file)
 	// SectorSoundInfo
 	//-----------------------------------------------------------
 	//
-	// ¾Æ·¡¿Í °°ÀÌ Á¤ÀÇÇÏ°í..
+	// ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½..
 	//
-	//	 -         : ¼Ò¸®°¡ ³ªÁö ¾Ê´Â Sector
-	//	 A,C,D     : 1°³ÀÇ SECTORSOUND_INFO°¡ ÀÖ´Â Sector (°¢°¢ ¼Ò¸®´Â ´Ù¸§)
-	//   B		   : 2°³ÀÇ SECTORSOUND_INFO°¡ ÀÖ´Â Sector
-	//   E         : 3°³ÀÇ SECTORSOUND_INFO°¡ ÀÖ´Â Sector
+	//	 -         : ï¿½Ò¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ Sector
+	//	 A,C,D     : 1ï¿½ï¿½ï¿½ï¿½ SECTORSOUND_INFOï¿½ï¿½ ï¿½Ö´ï¿½ Sector (ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½)
+	//   B		   : 2ï¿½ï¿½ï¿½ï¿½ SECTORSOUND_INFOï¿½ï¿½ ï¿½Ö´ï¿½ Sector
+	//   E         : 3ï¿½ï¿½ï¿½ï¿½ SECTORSOUND_INFOï¿½ï¿½ ï¿½Ö´ï¿½ Sector
 	//   a~z       : SECTORSOUND_INFO
 	//
-	// ÇÑÁÙÀ» ¿¹·Î µéÀÚ¸é..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½..
 	//
 	// ex) -----AAABBBAAC--DEEEEE---
 	//
-	//	   2						// ÇÑ ÁÙ¿¡¼­ÀÇ ¹Ýº¹È¸¼ö 2È¸(-----AAABBBAAC, --DEEEEE )
-	//                              // ÇÑÁÙÀÇ ³¡ºÎºÐÀÇ ¼Ò¸®¾ø´Â sector´Â ¹«½ÃÇÏ¸é µÈ´Ù.
+	//	   2						// ï¿½ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ýºï¿½È¸ï¿½ï¿½ 2È¸(-----AAABBBAAC, --DEEEEE )
+	//                              // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ï¿½ï¿½ï¿½ï¿½ sectorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½È´ï¿½.
 	//
-	//      5						// Ã¹¹øÂ° ¹Ýº¹. ¼Ò¸®¾ø´Â sector¼ö(-----)
-	//       4						// soundÁ¾·ù ( AAA, BBB, AA, C )
-	//        {3 { 1 a }}			// 3°³ÀÇ sector( AAA )¿¡  1°³ÀÇ info
-	//        {3 { 2 b, b' }}		// 3°³ÀÇ sector( BBB )¿¡  2°³ÀÇ info
-	//        {2 { 1 a }}			// 2°³ÀÇ sector( AA )¿¡  1°³ÀÇ info
-	//        {1 { 1 c }}			// 1°³ÀÇ sector( C )¿¡  1°³ÀÇ info
+	//      5						// Ã¹ï¿½ï¿½Â° ï¿½Ýºï¿½. ï¿½Ò¸ï¿½ï¿½ï¿½ï¿½ï¿½ sectorï¿½ï¿½(-----)
+	//       4						// soundï¿½ï¿½ï¿½ï¿½ ( AAA, BBB, AA, C )
+	//        {3 { 1 a }}			// 3ï¿½ï¿½ï¿½ï¿½ sector( AAA )ï¿½ï¿½  1ï¿½ï¿½ï¿½ï¿½ info
+	//        {3 { 2 b, b' }}		// 3ï¿½ï¿½ï¿½ï¿½ sector( BBB )ï¿½ï¿½  2ï¿½ï¿½ï¿½ï¿½ info
+	//        {2 { 1 a }}			// 2ï¿½ï¿½ï¿½ï¿½ sector( AA )ï¿½ï¿½  1ï¿½ï¿½ï¿½ï¿½ info
+	//        {1 { 1 c }}			// 1ï¿½ï¿½ï¿½ï¿½ sector( C )ï¿½ï¿½  1ï¿½ï¿½ï¿½ï¿½ info
 	//
-	//      2                       // µÎ¹øÂ° ¹Ýº¹. ¼Ò¸®¾ø´Â sector¼ö(--)
-	//       2						// soundÁ¾·ù ( D, EEEE )
-	//        {1 { 1 d }}			// 1°³ÀÇ sector( D )¿¡  1°³ÀÇ info
-	//        {5 { 3 e, e', e" }}   // 5°³ÀÇ sector( EEEEE )¿¡ 3°³ÀÇ info	
+	//      2                       // ï¿½Î¹ï¿½Â° ï¿½Ýºï¿½. ï¿½Ò¸ï¿½ï¿½ï¿½ï¿½ï¿½ sectorï¿½ï¿½(--)
+	//       2						// soundï¿½ï¿½ï¿½ï¿½ ( D, EEEE )
+	//        {1 { 1 d }}			// 1ï¿½ï¿½ï¿½ï¿½ sector( D )ï¿½ï¿½  1ï¿½ï¿½ï¿½ï¿½ info
+	//        {5 { 3 e, e', e" }}   // 5ï¿½ï¿½ï¿½ï¿½ sector( EEEEE )ï¿½ï¿½ 3ï¿½ï¿½ï¿½ï¿½ info	
 	//
 	//-----------------------------------------------------------
 	BYTE				num;
@@ -762,7 +765,7 @@ MZone::LoadFromFileSectorSound(ivfstream& file)
 	for (int y=0; y<m_Height; y++)
 	{
 		//-----------------------------------------------------------
-		// ¹Ýº¹ È¸¼ö : { 0ÀÇ °³¼ö, »ç¿îµå Á¾·ù¼ö * { info * °³¼ö } }
+		// ï¿½Ýºï¿½ È¸ï¿½ï¿½ : { 0ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ * { info * ï¿½ï¿½ï¿½ï¿½ } }
 		//-----------------------------------------------------------
 		file.read((char*)&num, 1);
 
@@ -770,47 +773,47 @@ MZone::LoadFromFileSectorSound(ivfstream& file)
 		int numCount = num;
 		
 		//-----------------------------------------------------------
-		// ¹Ýº¹È¸¼ö¸¸Å­..
+		// ï¿½Ýºï¿½È¸ï¿½ï¿½ï¿½ï¿½Å­..
 		//-----------------------------------------------------------
 		for (int i=0; i<numCount; i++)
 		{
 			//-----------------------------------------------------
-			// ¼Ò¸® ¾È³ª´Â sector¼ö
+			// ï¿½Ò¸ï¿½ ï¿½È³ï¿½ï¿½ï¿½ sectorï¿½ï¿½
 			//-----------------------------------------------------
 			file.read((char*)&num, 1);	
-			x += num;	// ÁÂÇ¥ skip
+			x += num;	// ï¿½ï¿½Ç¥ skip
 
 			//-----------------------------------------------------
-			// ÀÌ¹ø ¹Ýº¹¿¡¼­ ¼Ò¸®³ª´Â sectorµé¿¡¼­ 
-			// ¿¬¼ÓÇÏÁö ¾ÊÀº SECTORSOUND_INFOÀÇ Á¾·ù¼ö
+			// ï¿½Ì¹ï¿½ ï¿½Ýºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ï¿½ï¿½ï¿½ï¿½ sectorï¿½é¿¡ï¿½ï¿½ 
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ SECTORSOUND_INFOï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			//-----------------------------------------------------
 			file.read((char*)&num, 1);	
 			int numSoundType = num;
 
 			//-----------------------------------------------------
-			// SECTORSOUND_INFOÀÇ Á¾·ù¼ö¸¸Å­ ¹Ýº¹
+			// SECTORSOUND_INFOï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ ï¿½Ýºï¿½
 			//-----------------------------------------------------
 			for (int j=0; j<numSoundType; j++)
 			{
 				//-----------------------------------------------------
-				// °°Àº info¸¦ °¡Áø sector°¡ ¸î°³³ª ¿¬¼ÓÇØ¼­ ÀÖ´Â°¡?
+				// ï¿½ï¿½ï¿½ï¿½ infoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ sectorï¿½ï¿½ ï¿½î°³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½Ö´Â°ï¿½?
 				//-----------------------------------------------------
 				file.read((char*)&num, 1);		// assert( num > 0 );
 				int numSector = num;
 
 				//-----------------------------------------------------
-				// sector¿¡ SECTORSOUND_INFO´Â ¸î°³³ª ÀÖ´Â°¡?
+				// sectorï¿½ï¿½ SECTORSOUND_INFOï¿½ï¿½ ï¿½î°³ï¿½ï¿½ ï¿½Ö´Â°ï¿½?
 				//-----------------------------------------------------
 				file.read((char*)&num, 1);		// assert( num > 0 );
 				int numSound = num;
 
 				//-----------------------------------------------------
-				// sound¸¦ ÀÐÀ¸¸é¼­ sectorµé¿¡ ¿¬¼ÓÇØ¼­ info¸¦ Ãß°¡ÇÑ´Ù.
+				// soundï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½é¼­ sectorï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ infoï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 				//-----------------------------------------------------
 				for (int n=0; n<numSound; n++)
 				{
 					//-----------------------------------------------------
-					// ÇÏ³ªÀÇ SECTORSOUND_INFO¸¦ load
+					// ï¿½Ï³ï¿½ï¿½ï¿½ SECTORSOUND_INFOï¿½ï¿½ load
 					//-----------------------------------------------------
 					info.LoadFromFile( file );
 					
@@ -863,13 +866,13 @@ MZone::LoadFromFileSectorSound(ivfstream& file)
 	//-----------------------------------------------------------
 	// MZoneSoundTable
 	//-----------------------------------------------------------
-	// Á».. ¹¹ÇÏÁö¸¸.. - -;
-	// ¾ÏÆ° ÆíÀÇ»ó(-_-;) °°ÀÌ ³Ö¾î¹ö¸°´Ù. ¤»¤»..
+	// ï¿½ï¿½.. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. - -;
+	// ï¿½ï¿½Æ° ï¿½ï¿½ï¿½Ç»ï¿½(-_-;) ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½..
 	//-----------------------------------------------------------
 	/*
 	bool bExistZoneTable;
 
-	// Ã¼Å©¿ë..
+	// Ã¼Å©ï¿½ï¿½..
 	file.read((char*)&bExistZoneTable, 1);
 
 	if (bExistZoneTable)
@@ -892,12 +895,12 @@ MZone::LoadFromFileSectorSound(ivfstream& file)
 //----------------------------------------------------------------------
 // Load From File
 //----------------------------------------------------------------------
-//   °¡·Î size, ¼¼·Î size
+//   ï¿½ï¿½ï¿½ï¿½ size, ï¿½ï¿½ï¿½ï¿½ size
 //   Zone ID
-//   ¼Ó¼º
-//   °¡·Îsize * ¼¼·Îsize °³ÀÇ SectorÁ¤º¸(TileSpriteID, Flag)
-//   Obstacle¼ö,  Obstacle¼ö * Obstacle Á¤º¸
-//   ImageObject¼ö,  ImageObject¼ö * (ImageObject, ImageObjectSectorInfo)
+//   ï¿½Ó¼ï¿½
+//   ï¿½ï¿½ï¿½ï¿½size * ï¿½ï¿½ï¿½ï¿½size ï¿½ï¿½ï¿½ï¿½ Sectorï¿½ï¿½ï¿½ï¿½(TileSpriteID, Flag)
+//   Obstacleï¿½ï¿½,  Obstacleï¿½ï¿½ * Obstacle ï¿½ï¿½ï¿½ï¿½
+//   ImageObjectï¿½ï¿½,  ImageObjectï¿½ï¿½ * (ImageObject, ImageObjectSectorInfo)
 //----------------------------------------------------------------------
 bool		
 MZone::LoadFromFile(ivfstream& file)
@@ -910,38 +913,38 @@ MZone::LoadFromFile(ivfstream& file)
 
 	//-------------------------------------------------
 	//
-	// 5¿ù 11ÀÏ version
+	// 5ï¿½ï¿½ 11ï¿½ï¿½ version
 	//
 	//-------------------------------------------------
 	if (m_Info.ZoneVersion==MAP_VERSION_2000_05_10)
 	{
 		//-------------------------------------------------
 		// ZoneID 
-		// ¼Ó¼º
+		// ï¿½Ó¼ï¿½
 		//-------------------------------------------------	
 		file.read((char*)&m_fpTile, 4);				// Tile FP
 		file.read((char*)&m_fpImageObject, 4);		// ImageObject FP
 
 		//-------------------------------------------------
-		// ÀÌ¹Ì ÀÖ´ø °Í Á¦°Å
+		// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//-------------------------------------------------
 		Release();
 
 		//-------------------------------------------------
-		// ZoneÀÇ °¡·Î Size, 
-		//        ¼¼·Î Size
+		// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Size, 
+		//        ï¿½ï¿½ï¿½ï¿½ Size
 		//-------------------------------------------------
 		file.read((char*)&m_Width, 2);
 		file.read((char*)&m_Height, 2);
 
-		// ¾Æ¹«°Íµµ ¾ø´Â °æ¿ì
+		// ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		if (m_Width==0 || m_Height==0)
 			return false;
 
 		//-------------------------------------------------
-		// ZoneÀÇ °¢ SectorµéÀ» Load
+		// Zoneï¿½ï¿½ ï¿½ï¿½ Sectorï¿½ï¿½ï¿½ï¿½ Load
 		//-------------------------------------------------
-		// memoryÀâ±â
+		// memoryï¿½ï¿½ï¿½
 		Init(m_Width, m_Height);
 
 		///*
@@ -977,7 +980,7 @@ MZone::LoadFromFile(ivfstream& file)
 			for (j=0; j<m_Width; j++)
 			{
 				m_ppSector[i][j].Set( tempSectorPtr->spriteID, tempSectorPtr->property );
-				// light´Â ÀÇ¹Ì¾ø´Ù.
+				// lightï¿½ï¿½ ï¿½Ç¹Ì¾ï¿½ï¿½ï¿½.
 
 				tempSectorPtr++;
 			}
@@ -987,9 +990,9 @@ MZone::LoadFromFile(ivfstream& file)
 		*/
 
 		//-------------------------------------------------
-		// ºû¿¡ µû¸¥ Filter ¸ð¾ç »ý¼º
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Filter ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//-------------------------------------------------
-		// ÀÌºÎºÐÀ» MapEditor¿¡¼­??
+		// ï¿½ÌºÎºï¿½ï¿½ï¿½ MapEditorï¿½ï¿½ï¿½ï¿½??
 		/*
 		for (i=0; i<m_Height; i++)
 		{
@@ -1007,14 +1010,14 @@ MZone::LoadFromFile(ivfstream& file)
 		int size;
 
 		//-------------------------------------------------
-		// PortalÀ» ÀÐ¾îµéÀÎ´Ù.
+		// Portalï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½Î´ï¿½.
 		//-------------------------------------------------
-		// 2001.7.11¿¡ Á¦°Å
+		// 2001.7.11ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		/*
 		file.read((char *)&size, 4);
 
-		// Client¿¡¼­´Â ÇÊ¿ä¾ø´Â Á¤º¸ÀÌ¹Ç·Î ÀÐ¾îµéÀÌ±â¸¸ ÇÑ´Ù.
-		// [!] ¾Æ¿¹ file positionÀ» ±â¾ïÇØ¼­ °Ç³Ê¶é¼öµµ ÀÖ°Ú´Ù.
+		// Clientï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½Ì±â¸¸ ï¿½Ñ´ï¿½.
+		// [!] ï¿½Æ¿ï¿½ file positionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½Ç³Ê¶ï¿½ï¿½ï¿½ï¿½ ï¿½Ö°Ú´ï¿½.
 		MPortal portal;
 		for (i=0; i<size; i++)
 		{
@@ -1023,12 +1026,12 @@ MZone::LoadFromFile(ivfstream& file)
 		*/
 
 		//-------------------------------------------------
-		// ImageObject °³¼ö¸¦ Load
+		// ImageObject ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Load
 		//-------------------------------------------------	
 		file.read((char *)&size, 4);
 
 		//-------------------------------------------------
-		// ZoneÀÇ ImageObjectµéÀ» Load
+		// Zoneï¿½ï¿½ ImageObjectï¿½ï¿½ï¿½ï¿½ Load
 		//-------------------------------------------------
 		MImageObject				*pImageObject;
 		IMAGEOBJECT_POSITION_LIST	ImageObjectPositionList;
@@ -1039,7 +1042,7 @@ MZone::LoadFromFile(ivfstream& file)
 				char str[1024];
 			#endif
 
-			// ImageObject memory¸¦ Àâ°í LoadÇÑ´Ù.
+			// ImageObject memoryï¿½ï¿½ ï¿½ï¿½ï¿½ Loadï¿½Ñ´ï¿½.
 			file.read((char*)&ObjectType, 1);
 
 			switch (ObjectType)
@@ -1091,26 +1094,26 @@ MZone::LoadFromFile(ivfstream& file)
 				sprintf(str, "%s[%d] vp=%d. ", str, pImageObject->GetImageObjectID(), pImageObject->GetViewpoint());
 			#endif
 
-			// ImageObjectÀ» IMAGEOBJECT_MAP¿¡ Ãß°¡ÇÑ´Ù.
+			// ImageObjectï¿½ï¿½ IMAGEOBJECT_MAPï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 			AddImageObject(pImageObject);
 
 			//-------------------------------------------------
-			// ¹æ±Ý LoadÇÑ ImageObjectÀÌ Á¸ÀçÇÏ´Â 
-			// SectorµéÀÇ ÁÂÇ¥¸¦ LoadÇØ¾ßÇÑ´Ù.
-			// (*) ÀÌ Á¤º¸´Â ´õ ÀÌ»ó ÀúÀåÇÏ°í ÀÖÁö ¾Ê´Â´Ù.
+			// ï¿½ï¿½ï¿½ Loadï¿½ï¿½ ImageObjectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ 
+			// Sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ Loadï¿½Ø¾ï¿½ï¿½Ñ´ï¿½.
+			// (*) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 			//-------------------------------------------------		
 			ImageObjectPositionList.LoadFromFile(file);		
 			
 			//-------------------------------------------------------
-			// LoadÇÑ ImageObjectPositionListÀÇ °¢ Position¿¡ ´ëÇØ¼­ 
-			// Zone¿¡ ImageObjectSector¸¦ Ç¥½ÃÇØ¾ß ÇÑ´Ù.
+			// Loadï¿½ï¿½ ImageObjectPositionListï¿½ï¿½ ï¿½ï¿½ Positionï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ 
+			// Zoneï¿½ï¿½ ImageObjectSectorï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 			//-------------------------------------------------------
 			IMAGEOBJECT_POSITION_LIST::POSITION_LIST::const_iterator 
 				iImageObjectPosition = ImageObjectPositionList.GetIterator();
 
 
 			/*
-			// File·Î SpriteID°¡ 61¹øÀÎ °ÍÀÇ Á¤º¸ Ãâ·Â
+			// Fileï¿½ï¿½ SpriteIDï¿½ï¿½ 61ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			char str[256];
 			char str2[80];
 			if (pImageObject->GetSpriteID()==61)
@@ -1119,7 +1122,7 @@ MZone::LoadFromFile(ivfstream& file)
 			}
 			*/
 
-			// °¢ Sector¿¡ ImageObjectÇ¥½Ã
+			// ï¿½ï¿½ Sectorï¿½ï¿½ ImageObjectÇ¥ï¿½ï¿½
 			for (int j=0; j<ImageObjectPositionList.GetSize(); j++)
 			{
 				#ifdef __OUTPUT_IMAGEOBJECT__
@@ -1129,7 +1132,7 @@ MZone::LoadFromFile(ivfstream& file)
 				SetImageObjectSector((*iImageObjectPosition).X, (*iImageObjectPosition).Y, pImageObject->GetID());
 
 				/*
-				// File·Î SpriteID°¡ 61¹øÀÎ °ÍÀÇ Á¤º¸ Ãâ·Â
+				// Fileï¿½ï¿½ SpriteIDï¿½ï¿½ 61ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 				if (pImageObject->GetSpriteID()==61)
 				{
 					sprintf(str2, "(%d, %d)  ", (*iImageObjectPosition).X, (*iImageObjectPosition).Y);
@@ -1145,7 +1148,7 @@ MZone::LoadFromFile(ivfstream& file)
 					g_pDebugMessage->AddToFile( str );
 			#endif
 			/*
-			// File·Î SpriteID°¡ 61¹øÀÎ °ÍÀÇ Á¤º¸ Ãâ·Â
+			// Fileï¿½ï¿½ SpriteIDï¿½ï¿½ 61ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			if (pImageObject->GetSpriteID()==61)
 			{
 				strcpy(g_pDebugMessage->GetCurrent(), str);
@@ -1155,7 +1158,7 @@ MZone::LoadFromFile(ivfstream& file)
 		}					
 	}
 	//-----------------------------------------------------------------
-	// ´Ù¸¥ ¹öÀü??
+	// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½??
 	//-----------------------------------------------------------------
 	else
 	{
@@ -1170,8 +1173,8 @@ MZone::LoadFromFile(ivfstream& file)
 //----------------------------------------------------------------------
 // Set Player 
 //
-// Player´Â ZoneÀÇ Áß½É¿¡¼­ Ãâ·ÂµÈ´Ù.
-// Player¸¦ ZoneÀÇ Sector¿¡ À§Ä¡½ÃÅ²´Ù.
+// Playerï¿½ï¿½ Zoneï¿½ï¿½ ï¿½ß½É¿ï¿½ï¿½ï¿½ ï¿½ï¿½ÂµÈ´ï¿½.
+// Playerï¿½ï¿½ Zoneï¿½ï¿½ Sectorï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½Å²ï¿½ï¿½.
 //----------------------------------------------------------------------
 void		
 MZone::SetPlayer()//MPlayer* pPlayer)
@@ -1183,13 +1186,13 @@ MZone::SetPlayer()//MPlayer* pPlayer)
 	//m_ppSector[m_pPlayer->GetY()][m_pPlayer->GetX()].AddGroundCreature(pPlayer);
 	//m_ppSector[g_pPlayer->GetY()][g_pPlayer->GetX()].AddGroundCreature(&g_pPlayer->;
 
-	// PlayerÀÇ ½Ã¾ß ¾ÈÀÇ Sector¸¦ º¸ÀÌ°Ô ÇÑ´Ù.
+	// Playerï¿½ï¿½ ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ Sectorï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ñ´ï¿½.
 	//SetSight(g_pPlayer->GetX(), g_pPlayer->GetY(), g_pPlayer->GetLightSight());
 
 	AddCreature( g_pPlayer );
 	
 	//---------------------------------------------------------------
-	// ³» Á¤º¸¸¦ ÆÄÆ¼¿¡°Ô º¸³»ÁØ´Ù.
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 	//---------------------------------------------------------------
 	SendPositionInfoToParty();
 	SendStatusInfoToParty();
@@ -1198,8 +1201,8 @@ MZone::SetPlayer()//MPlayer* pPlayer)
 //----------------------------------------------------------------------
 // Set Player 
 //
-// Player´Â ZoneÀÇ Áß½É¿¡¼­ Ãâ·ÂµÈ´Ù.
-// Player¸¦ ZoneÀÇ Sector¿¡ À§Ä¡½ÃÅ²´Ù.
+// Playerï¿½ï¿½ Zoneï¿½ï¿½ ï¿½ß½É¿ï¿½ï¿½ï¿½ ï¿½ï¿½ÂµÈ´ï¿½.
+// Playerï¿½ï¿½ Zoneï¿½ï¿½ Sectorï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½Å²ï¿½ï¿½.
 //----------------------------------------------------------------------
 void		
 MZone::RemovePlayer()//MPlayer* pPlayer)
@@ -1211,7 +1214,7 @@ MZone::RemovePlayer()//MPlayer* pPlayer)
 	//m_ppSector[m_pPlayer->GetY()][m_pPlayer->GetX()].AddGroundCreature(pPlayer);
 	//m_ppSector[g_pPlayer->GetY()][g_pPlayer->GetX()].RemoveGroundCreature(&g_pPlayer->;
 
-	// PlayerÀÇ ½Ã¾ß ¾ÈÀÇ Sector¸¦ º¸ÀÌ°Ô ÇÑ´Ù.
+	// Playerï¿½ï¿½ ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ Sectorï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ñ´ï¿½.
 	//SetSight(g_pPlayer->GetX(), g_pPlayer->GetY(), g_pPlayer->GetLightSight());
 
 	RemoveCreature( g_pPlayer->GetID() );	
@@ -1219,22 +1222,22 @@ MZone::RemovePlayer()//MPlayer* pPlayer)
 
 
 //----------------------------------------------------------------------
-// (x,y) sector¿¡ µé¾î°¥ ¼ö ÀÖ´Â°¡?
+// (x,y) sectorï¿½ï¿½ ï¿½ï¿½î°¥ ï¿½ï¿½ ï¿½Ö´Â°ï¿½?
 //----------------------------------------------------------------------
-// °¥ ¼ö ¾ø´Â °æ¿ì¸¦ ¸ðµÎ checkÇÏ¿© 
-// return false¸¦ ÇØÁà¾ß ÇÑ´Ù.
+// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¸¦ ï¿½ï¿½ï¿½ checkï¿½Ï¿ï¿½ 
+// return falseï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::CanMove(BYTE creatureType, TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 {
-	// ZoneÀÇ ¿µ¿ªÀ» ¹þ¾î³¯ °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½î³¯ ï¿½ï¿½ï¿½
 	if (x<0 || x>=m_Width || y<0 || y>=m_Height)
 		return false;
 
 	const MSector& sector = m_ppSector[y][x];
 
 	//------------------------------------------------------
-	// [»õ±â¼ú] Sanctuary ·Î´Â ¸ø ¿òÁ÷ÀÎ´Ù.
+	// [ï¿½ï¿½ï¿½ï¿½ï¿½] Sanctuary ï¿½Î´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½.
 	//------------------------------------------------------
 	if (sector.HasSanctuary()
 		&& creatureType != MCreature::CREATURE_FAKE_NO_BLOCK
@@ -1247,10 +1250,10 @@ MZone::CanMove(BYTE creatureType, TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 	}
 
 
-	// ÀÌ¹Ì ´Ù¸¥ Object°¡ Á¸ÀçÇÏ´Â °æ¿ì
+	// ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ Objectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 	//if (m_ppSector[y][x].IsExistObject())
 	{
-		// objectType¿¡ µû¶ó¼­ ´Þ¸® checkÇØ ÁØ´Ù.
+		// objectTypeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ï¿½ checkï¿½ï¿½ ï¿½Ø´ï¿½.
 		switch (creatureType)
 		{
 			// UNDERGROUND CREATURE
@@ -1268,7 +1271,7 @@ MZone::CanMove(BYTE creatureType, TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 			case MCreature::CREATURE_FAKE_FLYING :
 				return sector.CanStandFlyingCreature();// || sector.IsPortal();
 
-			// fake´Â ¹«Á¶°Ç ¿òÁ÷ÀÎ´Ù.
+			// fakeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½.
 			case MCreature::CREATURE_FAKE_NO_BLOCK :
 				return true;
 		}		
@@ -1283,14 +1286,14 @@ MZone::CanMove(BYTE creatureType, TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 void		
 MZone::SetServerBlock(BYTE creatureType, TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 {
-	// ZoneÀÇ ¿µ¿ªÀ» ¹þ¾î³¯ °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½î³¯ ï¿½ï¿½ï¿½
 	if (x<0 || x>=m_Width || y<0 || y>=m_Height)
 		return;
 
-	// ÀÌ¹Ì ´Ù¸¥ Object°¡ Á¸ÀçÇÏ´Â °æ¿ì
+	// ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ Objectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 	//if (m_ppSector[y][x].IsExistObject())
 	{
-		// objectType¿¡ µû¶ó¼­ ´Þ¸® checkÇØ ÁØ´Ù.
+		// objectTypeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ï¿½ checkï¿½ï¿½ ï¿½Ø´ï¿½.
 		switch (creatureType)
 		{
 			// UNDERGROUND CREATURE
@@ -1317,17 +1320,17 @@ MZone::SetServerBlock(BYTE creatureType, TYPE_SECTORPOSITION x, TYPE_SECTORPOSIT
 void		
 MZone::UnSetServerBlock(BYTE creatureType, TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 {
-	// ZoneÀÇ ¿µ¿ªÀ» ¹þ¾î³¯ °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½î³¯ ï¿½ï¿½ï¿½
 	if (x<0 || x>=m_Width || y<0 || y>=m_Height)
 		return;
 
-	// ÀÌ¹Ì ´Ù¸¥ Object°¡ Á¸ÀçÇÏ´Â °æ¿ì
+	// ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ Objectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 	//if (m_ppSector[y][x].IsExistObject())
 	{
-		// objectType¿¡ µû¶ó¼­ ´Þ¸® checkÇØ ÁØ´Ù.
+		// objectTypeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ï¿½ checkï¿½ï¿½ ï¿½Ø´ï¿½.
 		
 		// 2002.3.29
-		// blockÀº ÀÏ´Ü ´Ù Ç¬´Ù. ¹º°¡ ÀÌ»óÇØ¼­ - -;
+		// blockï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ Ç¬ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½ï¿½Ø¼ï¿½ - -;
 		/*
 		switch (creatureType)
 		{
@@ -1358,25 +1361,25 @@ MZone::UnSetServerBlock(BYTE creatureType, TYPE_SECTORPOSITION x, TYPE_SECTORPOS
 //----------------------------------------------------------------------
 // Move Ground Creature
 //----------------------------------------------------------------------
-// (xo,yo)¿¡ ÀÖ´ø Creature¸¦ (xn,yn)À¸·Î ¿Å±ä´Ù.
+// (xo,yo)ï¿½ï¿½ ï¿½Ö´ï¿½ Creatureï¿½ï¿½ (xn,yn)ï¿½ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::MoveGroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SECTORPOSITION yo, TYPE_SECTORPOSITION xn, TYPE_SECTORPOSITION yn)
 {
 	//-------------------------------------------------------
-	// ZoneÀÇ ¿µ¿ª ¹ÛÀÌ¸é check ¾ÈÇÑ´Ù.
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ check ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//-------------------------------------------------------
 	if (xn<0 || yn<0 || xn>=m_Width || yn>=m_Height) return false;
 
-	// PlayerÀÎ °æ¿ì --> ÀÌµ¿ÇÏÁö ¾Ê´Â´Ù.
+	// Playerï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 	if (pCreature->GetClassType()==MCreature::CLASS_PLAYER
-		// fake´Â ÀÌµ¿ÀÇ ÀÇ¹Ì°¡ ¾ø´Ù.
+		// fakeï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Ç¹Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		|| pCreature->IsFakeCreature())
 	{
 		return true;
 	}
 
-	// ÀÌ¹Ì ÀÌµ¿ÇØÀÖ´Â °æ¿ì..
+	// ï¿½Ì¹ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½..
 	//if (xo==xn && yo==yn)
 	//	return false;
 
@@ -1386,7 +1389,7 @@ MZone::MoveGroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 	int id = pCreature->GetID();
 
 	//------------------------------------------------
-	// sector¿¡¼­ Á¦°Å½ÃÅ²´Ù.
+	// sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½.
 	//------------------------------------------------
 	if (!m_ppSector[yo][xo].RemoveCreature(id))
 	{
@@ -1400,7 +1403,7 @@ MZone::MoveGroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 	}
 
 	//------------------------------------------------
-	// sector¿¡ Ãß°¡½ÃÅ²´Ù.
+	// sectorï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 	//------------------------------------------------
 	if (!m_ppSector[yn][xn].AddGroundCreature( pCreature ))
 	{
@@ -1429,7 +1432,7 @@ MZone::MoveGroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 							if (pExistCreature!=NULL)
 								id = pExistCreature->GetID();
 
-							// remove ½ÇÆÐ
+							// remove ï¿½ï¿½ï¿½ï¿½
 							//MessageBox(g_hWnd, "Already Removed![Flying]", NULL, MB_OK);
 							DEBUG_ADD_FORMAT("Already Removed! [Ground] ID=%d (%d,%d) --> (%d,%d) ExistID = %d", pCreature->GetID(), xo,yo,xn,yn, id);
 						}
@@ -1442,7 +1445,7 @@ MZone::MoveGroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 	MCreature* pOldCreature = m_ppSector[yn][xn].GetGroundCreature();
 
 	//------------------------------------------------
-	// ¾Æ¹«µµ ¾ø´Â °æ¿ì
+	// ï¿½Æ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------
 	if (pOldCreature == NULL)
 	{
@@ -1453,17 +1456,17 @@ MZone::MoveGroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 		}
 	}
 	//------------------------------------------------
-	// »õ·Î¿î ÀÚ¸®¿¡ ÀÌ¹Ì ´Ù¸¥ Ä³¸¯ÅÍ°¡ ÀÖ´Â °æ¿ì...
+	// ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½...
 	//------------------------------------------------
 	else
 	{
 		DEBUG_ADD_FORMAT("Already ExistCreature! [Ground] ID=%d (%d,%d) --> (%d,%d) ExistID = %d", pCreature->GetID(), xo,yo,xn,yn, pOldCreature->GetID());				
 		
-		// ¸ÕÀú ÀÖ´Â Ä³¸¯ÅÍ°¡ PlayerÀÏ °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ Playerï¿½ï¿½ ï¿½ï¿½ï¿½
 		//if (pOldCreature->GetID()==g_pPlayer->GetID())
 		//{
-			// Ãß°¡ ÇÏÁö ¾Ê´Â´Ù.
-			// ÀÌµ¿ÇÏ±â ÀüÀ¸·Î µÇµ¹¸°´Ù.
+			// ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
+			// ï¿½Ìµï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½.
 			// add								
 		//	m_ppSector[xo][yo].AddGroundCreature( pCreature );
 
@@ -1472,7 +1475,7 @@ MZone::MoveGroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 		//else
 		{
 			//------------------------------------------------
-			// ¸ÕÀú ÀÖ´ø Ä³¸¯ÅÍ Á¦°Å..
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 			//------------------------------------------------						
 			m_ppSector[yn][xn].RemoveGroundCreature( pOldCreature );
 
@@ -1486,19 +1489,19 @@ MZone::MoveGroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 			//------------------------------------------------
 			m_ppSector[yn][xn].AddGroundCreature( pCreature );
 
-			// È®ÀÎ¿ë
+			// È®ï¿½Î¿ï¿½
 			pCreature->SetX( xn );
 			pCreature->SetY( yn );
 			
 			//------------------------------------------------
-			// Á¦°ÅµÈ Ä³¸¯ÅÍ¸¦ Á¦´ë·ÎµÈ À§Ä¡¿¡ Ãß°¡ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½Åµï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 			//------------------------------------------------
 			if (pOldCreature!=NULL)
 			{
 				int x = pOldCreature->GetServerX();
 				int y = pOldCreature->GetServerY();
 				
-				// »ì¾ÆÀÖ°í.. ÁÂÇ¥°¡ ´Ù¸¥ °æ¿ì..
+				// ï¿½ï¿½ï¿½ï¿½Ö°ï¿½.. ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½..
 				if (x!=xn || y!=yn)
 				{
 					if (pOldCreature->IsAlive())					
@@ -1522,25 +1525,25 @@ MZone::MoveGroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 //----------------------------------------------------------------------
 // Move Flying Creature
 //----------------------------------------------------------------------
-// (xo,yo)¿¡ ÀÖ´ø FlyingCreature¸¦ (xn,yn)À¸·Î ¿Å±ä´Ù.
+// (xo,yo)ï¿½ï¿½ ï¿½Ö´ï¿½ FlyingCreatureï¿½ï¿½ (xn,yn)ï¿½ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::MoveFlyingCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SECTORPOSITION yo, TYPE_SECTORPOSITION xn, TYPE_SECTORPOSITION yn)
 {
 	//-------------------------------------------------------
-	// ZoneÀÇ ¿µ¿ª ¹ÛÀÌ¸é check ¾ÈÇÑ´Ù.
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ check ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//-------------------------------------------------------
 	if (xn<0 || yn<0 || xn>=m_Width || yn>=m_Height) return false;
 
-	// PlayerÀÎ °æ¿ì --> ÀÌµ¿ÇÏÁö ¾Ê´Â´Ù.
+	// Playerï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 	if (pCreature->GetClassType()==MCreature::CLASS_PLAYER
-		// fake´Â ÀÌµ¿ÀÇ ÀÇ¹Ì°¡ ¾ø´Ù.
+		// fakeï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Ç¹Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		|| pCreature->IsFakeCreature())
 	{
 		return true;
 	}
 
-	// ÀÌ¹Ì ÀÌµ¿ÇØÀÖ´Â °æ¿ì..
+	// ï¿½Ì¹ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½..
 	//if (xo==xn && yo==yn)
 	//	return false;
 
@@ -1549,7 +1552,7 @@ MZone::MoveFlyingCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 	int id = pCreature->GetID();
 
 	//------------------------------------------------
-	// sector¿¡¼­ Á¦°Å½ÃÅ²´Ù.
+	// sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½.
 	//------------------------------------------------
 	if (!m_ppSector[yo][xo].RemoveCreature(id))
 	{
@@ -1563,7 +1566,7 @@ MZone::MoveFlyingCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 	}
 
 	//------------------------------------------------
-	// sector¿¡ Ãß°¡½ÃÅ²´Ù.
+	// sectorï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 	//------------------------------------------------
 	if (!m_ppSector[yn][xn].AddFlyingCreature( pCreature ))
 	{
@@ -1571,7 +1574,7 @@ MZone::MoveFlyingCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 	}
 
 	/*
-	// remove°¡ ¾È µÈ °æ¿ì...
+	// removeï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½...
 	if (!m_ppSector[yo][xo].RemoveFlyingCreature(id, pExistCreature))
 	{	
 		if (!m_ppSector[yo][xo].RemoveGroundCreature(id, pExistCreature))
@@ -1592,7 +1595,7 @@ MZone::MoveFlyingCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 							if (pExistCreature!=NULL)
 								id = pExistCreature->GetID();
 
-							// remove ½ÇÆÐ
+							// remove ï¿½ï¿½ï¿½ï¿½
 							//MessageBox(g_hWnd, "Already Removed![Flying]", NULL, MB_OK);
 							DEBUG_ADD_FORMAT("Already Removed! [Flying] ID=%d (%d,%d) --> (%d,%d) ExistID = %d", pCreature->GetID(), xo,yo,xn,yn, id);
 						}
@@ -1605,22 +1608,22 @@ MZone::MoveFlyingCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 	// test
 	MCreature* pOldCreature = m_ppSector[yn][xn].GetFlyingCreature();
 
-	// ¾Æ¹«µµ ¾ø´Â °æ¿ì
+	// ï¿½Æ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	if (pOldCreature == NULL)
 	{
 		// add								
 		m_ppSector[yn][xn].AddFlyingCreature( pCreature );
 	}
-	// »õ·Î¿î ÀÚ¸®¿¡ ÀÌ¹Ì ´Ù¸¥ Ä³¸¯ÅÍ°¡ ÀÖ´Â °æ¿ì...
+	// ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½...
 	else
 	{
 		DEBUG_ADD_FORMAT("Already ExistCreature! [Flying] ID=%d (%d,%d) --> (%d,%d) ExistID = %d", pCreature->GetID(), xo,yo,xn,yn, pOldCreature->GetID());				
 
-		// ¸ÕÀú ÀÖ´Â Ä³¸¯ÅÍ°¡ PlayerÀÏ °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ Playerï¿½ï¿½ ï¿½ï¿½ï¿½
 		//if (pOldCreature->GetID()==g_pPlayer->GetID())
 		//{
-			// Ãß°¡ ÇÏÁö ¾Ê´Â´Ù.
-			// ÀÌµ¿ÇÏ±â ÀüÀ¸·Î µÇµ¹¸°´Ù.
+			// ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
+			// ï¿½Ìµï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½.
 			// add								
 		//	m_ppSector[xo][yo].AddFlyingCreature( pCreature );
 
@@ -1628,7 +1631,7 @@ MZone::MoveFlyingCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 		//}
 		//else
 		{
-			// ¸ÕÀú ÀÖ´ø Ä³¸¯ÅÍ Á¦°Å..
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 			m_ppSector[yn][xn].RemoveFlyingCreature( pOldCreature );
 
 			#ifdef OUTPUT_DEBUG
@@ -1639,19 +1642,19 @@ MZone::MoveFlyingCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 			// add								
 			m_ppSector[yn][xn].AddFlyingCreature( pCreature );
 
-			// È®ÀÎ¿ë
+			// È®ï¿½Î¿ï¿½
 			pCreature->SetX( xn );
 			pCreature->SetY( yn );
 
 			//------------------------------------------------
-			// Á¦°ÅµÈ Ä³¸¯ÅÍ¸¦ Á¦´ë·ÎµÈ À§Ä¡¿¡ Ãß°¡ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½Åµï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 			//------------------------------------------------
 			if (pOldCreature!=NULL)
 			{
 				int x = pOldCreature->GetServerX();
 				int y = pOldCreature->GetServerY();
 				
-				// »ì¾ÆÀÖ°í.. ÁÂÇ¥°¡ ´Ù¸¥ °æ¿ì..
+				// ï¿½ï¿½ï¿½ï¿½Ö°ï¿½.. ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½..
 				if (x!=xn || y!=yn)
 				{
 					if (pOldCreature->IsAlive())					
@@ -1675,25 +1678,25 @@ MZone::MoveFlyingCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SEC
 //----------------------------------------------------------------------
 // Move Ungerground Creature
 //----------------------------------------------------------------------
-// (xo,yo)¿¡ ÀÖ´ø UndergroundCreature¸¦ (xn,yn)À¸·Î ¿Å±ä´Ù.
+// (xo,yo)ï¿½ï¿½ ï¿½Ö´ï¿½ UndergroundCreatureï¿½ï¿½ (xn,yn)ï¿½ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::MoveUndergroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYPE_SECTORPOSITION yo, TYPE_SECTORPOSITION xn, TYPE_SECTORPOSITION yn)
 {
 	//-------------------------------------------------------
-	// ZoneÀÇ ¿µ¿ª ¹ÛÀÌ¸é check ¾ÈÇÑ´Ù.
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ check ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//-------------------------------------------------------
 	if (xn<0 || yn<0 || xn>=m_Width || yn>=m_Height) return false;
 
-	// PlayerÀÎ °æ¿ì --> ÀÌµ¿ÇÏÁö ¾Ê´Â´Ù.
+	// Playerï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 	if (pCreature->GetClassType()==MCreature::CLASS_PLAYER
-		// fake´Â ÀÌµ¿ÀÇ ÀÇ¹Ì°¡ ¾ø´Ù.
+		// fakeï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½Ç¹Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		|| pCreature->IsFakeCreature())
 	{
 		return true;
 	}
 
-	// ÀÌ¹Ì ÀÌµ¿ÇØÀÖ´Â °æ¿ì..
+	// ï¿½Ì¹ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½..
 	//if (xo==xn && yo==yn)
 	//	return false;
 
@@ -1703,7 +1706,7 @@ MZone::MoveUndergroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYP
 	int id = pCreature->GetID();
 
 	//------------------------------------------------
-	// sector¿¡¼­ Á¦°Å½ÃÅ²´Ù.
+	// sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½.
 	//------------------------------------------------
 	if (!m_ppSector[yo][xo].RemoveCreature(id))
 	{
@@ -1717,7 +1720,7 @@ MZone::MoveUndergroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYP
 	}
 
 	//------------------------------------------------
-	// sector¿¡ Ãß°¡½ÃÅ²´Ù.
+	// sectorï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 	//------------------------------------------------
 	if (!m_ppSector[yn][xn].AddUndergroundCreature( pCreature ))
 	{
@@ -1725,7 +1728,7 @@ MZone::MoveUndergroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYP
 	}
 
 	/*
-	// remove°¡ ¾È µÈ °æ¿ì...
+	// removeï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½...
 	if (!m_ppSector[yo][xo].RemoveUndergroundCreature(id, pExistCreature))
 	{	
 		if (!m_ppSector[yo][xo].RemoveGroundCreature(id, pExistCreature))
@@ -1746,7 +1749,7 @@ MZone::MoveUndergroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYP
 							if (pExistCreature!=NULL)
 								id = pExistCreature->GetID();
 
-							// remove ½ÇÆÐ
+							// remove ï¿½ï¿½ï¿½ï¿½
 							//MessageBox(g_hWnd, "Already Removed![Flying]", NULL, MB_OK);
 							DEBUG_ADD_FORMAT("Already Removed! [Under] ID=%d (%d,%d) --> (%d,%d) ExistID = %d", pCreature->GetID(), xo,yo,xn,yn, id);
 						}
@@ -1759,22 +1762,22 @@ MZone::MoveUndergroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYP
 	// test
 	MCreature* pOldCreature = m_ppSector[yn][xn].GetUndergroundCreature();
 
-	// ¾Æ¹«µµ ¾ø´Â °æ¿ì
+	// ï¿½Æ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	if (pOldCreature == NULL)
 	{
 		// add								
 		m_ppSector[yn][xn].AddUndergroundCreature( pCreature );
 	}
-	// »õ·Î¿î ÀÚ¸®¿¡ ÀÌ¹Ì ´Ù¸¥ Ä³¸¯ÅÍ°¡ ÀÖ´Â °æ¿ì...
+	// ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½...
 	else
 	{
 		DEBUG_ADD_FORMAT("Already ExistCreature! [Underground] ID=%d (%d,%d) --> (%d,%d) ExistID = %d", pCreature->GetID(), xo,yo,xn,yn, pOldCreature->GetID());				
 
-		// ¸ÕÀú ÀÖ´Â Ä³¸¯ÅÍ°¡ PlayerÀÏ °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ Playerï¿½ï¿½ ï¿½ï¿½ï¿½
 		//if (pOldCreature->GetID()==g_pPlayer->GetID())
 		//{
-			// Ãß°¡ ÇÏÁö ¾Ê´Â´Ù.
-			// ÀÌµ¿ÇÏ±â ÀüÀ¸·Î µÇµ¹¸°´Ù.
+			// ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
+			// ï¿½Ìµï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Çµï¿½ï¿½ï¿½ï¿½ï¿½.
 			// add								
 		//	m_ppSector[xo][yo].AddUndergroundCreature( pCreature );
 
@@ -1783,7 +1786,7 @@ MZone::MoveUndergroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYP
 		//else
 		{
 			//------------------------------------------------
-			// ¸ÕÀú ÀÖ´ø Ä³¸¯ÅÍ Á¦°Å..
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 			//------------------------------------------------						
 			m_ppSector[yn][xn].RemoveUndergroundCreature( pOldCreature );
 
@@ -1798,14 +1801,14 @@ MZone::MoveUndergroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYP
 			m_ppSector[yn][xn].AddUndergroundCreature( pCreature );
 			
 			//------------------------------------------------
-			// Á¦°ÅµÈ Ä³¸¯ÅÍ¸¦ Á¦´ë·ÎµÈ À§Ä¡¿¡ Ãß°¡ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½Åµï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 			//------------------------------------------------
 			if (pOldCreature!=NULL)
 			{
 				int x = pOldCreature->GetServerX();
 				int y = pOldCreature->GetServerY();
 				
-				// »ì¾ÆÀÖ°í.. ÁÂÇ¥°¡ ´Ù¸¥ °æ¿ì..
+				// ï¿½ï¿½ï¿½ï¿½Ö°ï¿½.. ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½..
 				if (x!=xn || y!=yn)
 				{
 					if (pOldCreature->IsAlive())					
@@ -1829,8 +1832,8 @@ MZone::MoveUndergroundCreature(MCreature* pCreature, TYPE_SECTORPOSITION xo, TYP
 //----------------------------------------------------------------------
 // Get CreatureID
 //----------------------------------------------------------------------
-// ÀÌ¸§À¸·Î ID¸¦ Ã£´Â´Ù.
-// flag : 1 npc•û°í
+// ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ IDï¿½ï¿½ Ã£ï¿½Â´ï¿½.
+// flag : 1 npcï¿½ï¿½ï¿½ï¿½
 //----------------------------------------------------------------------
 TYPE_OBJECTID		
 MZone::GetCreatureID(const char* pName, int flag) const
@@ -1840,13 +1843,13 @@ MZone::GetCreatureID(const char* pName, int flag) const
 	MCreature* pCreature;
 
 	//------------------------------------------------------
-	// ¸ðµç Creature¿¡ ´ëÇØ¼­ Action
+	// ï¿½ï¿½ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ Action
 	//------------------------------------------------------
 	while (iCreature != m_mapCreature.end())
 	{
 		pCreature = iCreature->second;
 
-		// player°¡ ¾Æ´Ñ °æ¿ì¿¡..
+		// playerï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¿¡..
 		if (pCreature->GetID()!=g_pPlayer->GetID()
 			&& strcmp(pCreature->GetName(), pName)==0
 			&& (flag == 0 || flag == 1 && !pCreature->IsNPC() )
@@ -1862,22 +1865,22 @@ MZone::GetCreatureID(const char* pName, int flag) const
 }
 
 //----------------------------------------------------------------------
-// Sector (x,y)¿¡ ÀÖ´Â CreatureÀÇ ID¸¦ ³Ñ°ÜÁØ´Ù.
+// Sector (x,y)ï¿½ï¿½ ï¿½Ö´ï¿½ Creatureï¿½ï¿½ IDï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½Ø´ï¿½.
 //----------------------------------------------------------------------
 
 TYPE_OBJECTID
 MZone::GetCreatureID(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 {
 	//-------------------------------------------------------
-	// ZoneÀÇ ¿µ¿ª ¹ÛÀÌ¸é check ¾ÈÇÑ´Ù.
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ check ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//-------------------------------------------------------
 	if (x<0 || y<0 
 		|| x>=m_Width || y>=m_Height) return OBJECTID_NULL;
 
-	// ¹º°¡ ÀÖ´Â sectorÀÌ¸é	
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ sectorï¿½Ì¸ï¿½	
 	MCreature*	pCreature = m_ppSector[y][x].GetGroundCreature();
 
-	// Creature°¡ ÀÖÀ¸¸é
+	// Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (pCreature != NULL)
 	{			
 		return pCreature->GetID();
@@ -1888,21 +1891,21 @@ MZone::GetCreatureID(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 }
 
 //----------------------------------------------------------------------
-// Sector (x,y)¿¡ ÀÖ´Â Creature¸¦ ³Ñ°ÜÁØ´Ù.
+// Sector (x,y)ï¿½ï¿½ ï¿½Ö´ï¿½ Creatureï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½Ø´ï¿½.
 //----------------------------------------------------------------------
 MCreature*
 MZone::GetCreatureBySector(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 {
 	//-------------------------------------------------------
-	// ZoneÀÇ ¿µ¿ª ¹ÛÀÌ¸é check ¾ÈÇÑ´Ù.
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ check ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//-------------------------------------------------------
 	if (x<0 || y<0 
 		|| x>=m_Width || y>=m_Height) return NULL;
 
-	// ¹º°¡ ÀÖ´Â sectorÀÌ¸é	
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ sectorï¿½Ì¸ï¿½	
 	MCreature*	pCreature = m_ppSector[y][x].GetGroundCreature();
 
-	// Creature°¡ ÀÖÀ¸¸é
+	// Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (pCreature != NULL)
 	{			
 		return pCreature;
@@ -1912,21 +1915,21 @@ MZone::GetCreatureBySector(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 
 }
 //----------------------------------------------------------------------
-// Sector (x,y)¿¡ ÀÖ´Â FlyingCreatureÀÇ ID¸¦ ³Ñ°ÜÁØ´Ù.
+// Sector (x,y)ï¿½ï¿½ ï¿½Ö´ï¿½ FlyingCreatureï¿½ï¿½ IDï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½Ø´ï¿½.
 //----------------------------------------------------------------------
 TYPE_OBJECTID
 MZone::GetFlyingCreatureID(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 {
 	//-------------------------------------------------------
-	// ZoneÀÇ ¿µ¿ª ¹ÛÀÌ¸é check ¾ÈÇÑ´Ù.
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ check ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//-------------------------------------------------------
 	if (x<0 || y<0 
 		|| x>=m_Width || y>=m_Height) return OBJECTID_NULL;
 
-	// ¹º°¡ ÀÖ´Â sectorÀÌ¸é	
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ sectorï¿½Ì¸ï¿½	
 	MCreature*	pCreature = (MCreature*)m_ppSector[y][x].GetFlyingCreature();
 
-	// Creature°¡ ÀÖÀ¸¸é
+	// Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (pCreature != NULL)
 	{			
 		return pCreature->GetID();
@@ -1938,21 +1941,21 @@ MZone::GetFlyingCreatureID(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 
 
 //----------------------------------------------------------------------
-// Sector (x,y)¿¡ ÀÖ´Â UndergroundCreatureÀÇ ID¸¦ ³Ñ°ÜÁØ´Ù.
+// Sector (x,y)ï¿½ï¿½ ï¿½Ö´ï¿½ UndergroundCreatureï¿½ï¿½ IDï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½Ø´ï¿½.
 //----------------------------------------------------------------------
 TYPE_OBJECTID
 MZone::GetUndergroundCreatureID(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 {
 	//-------------------------------------------------------
-	// ZoneÀÇ ¿µ¿ª ¹ÛÀÌ¸é check ¾ÈÇÑ´Ù.
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ check ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//-------------------------------------------------------
 	if (x<0 || y<0 
 		|| x>=m_Width || y>=m_Height) return OBJECTID_NULL;
 
-	// ¹º°¡ ÀÖ´Â sectorÀÌ¸é	
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ sectorï¿½Ì¸ï¿½	
 	MCreature*	pCreature = (MCreature*)m_ppSector[y][x].GetUndergroundCreature();
 
-	// Creature°¡ ÀÖÀ¸¸é
+	// Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (pCreature != NULL)
 	{			
 		return pCreature->GetID();
@@ -1970,12 +1973,12 @@ void
 MZone::Update()
 {
 	//------------------------------------------
-	// ´Ù¸¥ Creature¸¦ ¿òÁ÷ÀÎ´Ù.
+	// ï¿½Ù¸ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½.
 	//------------------------------------------
 	UpdateAllCreature();
 
 	//------------------------------------------
-	// fake Creature¸¦ ¿òÁ÷ÀÎ´Ù.
+	// fake Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½.
 	//------------------------------------------
 	UpdateFakeCreature();
 
@@ -1989,7 +1992,7 @@ MZone::Update()
 	#endif
 
 	//------------------------------------------
-	// Effect¸¦ ¿òÁ÷ÀÎ´Ù.
+	// Effectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½.
 	//------------------------------------------
 	UpdateWaitEffects();
 	UpdateEffects();
@@ -2000,7 +2003,7 @@ MZone::Update()
 	m_HelicopterManager.Update();
 
 	//------------------------------------------
-	// Sound Ã³¸®
+	// Sound Ã³ï¿½ï¿½
 	//------------------------------------------
 	UpdateSound();
 
@@ -2012,9 +2015,9 @@ MZone::Update()
 //----------------------------------------------------------------------
 // Move All Creature
 //----------------------------------------------------------------------
-// Zone¿¡ ¼ÓÇÑ ¸ðµç Creature¸¦ Çàµ¿ÇÏ°Ô ÇÑ´Ù.
-// Player´Â Á¦¿Ü
-// PlayerÀÇ ½Ã¾ß¸¦ ¹þ¾î³ª¸é Á¦°Å ½ÃÄÑ¾ß ÇÑ´Ù.
+// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Creatureï¿½ï¿½ ï¿½àµ¿ï¿½Ï°ï¿½ ï¿½Ñ´ï¿½.
+// Playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+// Playerï¿½ï¿½ ï¿½Ã¾ß¸ï¿½ ï¿½ï¿½ï¿½î³ªï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ¾ï¿½ ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 void
 MZone::UpdateAllCreature()
@@ -2035,7 +2038,7 @@ MZone::UpdateAllCreature()
 	}	
 	
 	//------------------------------------------------------
-	// ¸ðµç Creature¿¡ ´ëÇØ¼­ Action
+	// ï¿½ï¿½ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ Action
 	//------------------------------------------------------
 	while (iCreature != m_mapCreature.end())
 	{
@@ -2052,7 +2055,7 @@ MZone::UpdateAllCreature()
 		
 		//------------------------------------------------------
 		//
-		// PlayerÀÎ °æ¿ì
+		// Playerï¿½ï¿½ ï¿½ï¿½ï¿½
 		//
 		//------------------------------------------------------
 		if (pCreature->GetClassType()==MCreature::CLASS_PLAYER)
@@ -2088,7 +2091,7 @@ MZone::UpdateAllCreature()
 		}
 		//------------------------------------------------------
 		//
-		// ´Ù¸¥ CreatureÀÎ °æ¿ì
+		// ï¿½Ù¸ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½
 		//
 		//------------------------------------------------------
 		else
@@ -2109,23 +2112,23 @@ MZone::UpdateAllCreature()
 			pCreature->UpdateAttachEffect();
 
 			//------------------------------------------------------
-			// Creature°¡ Á×Àº °æ¿ì
+			// Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			//------------------------------------------------------
-			// Zone¿¡¼­ Á¦°ÅÇÏ°í MCorpse·Î ¹Ù²Û´Ù.
+			// Zoneï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ MCorpseï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 			//------------------------------------------------------
 			/*
 			if (pCreature->IsDead())
 			{
 				#ifdef CONNECT_SERVER
-					// Á×´Â µ¿ÀÛÀÌ ³¡³­ °æ¿ì
-					// ¶Ç, AttachEffect°¡ ¾ø´Â °æ¿ì..
+					// ï¿½×´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+					// ï¿½ï¿½, AttachEffectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 					if (pCreature->GetActionCount()==pCreature->GetActionCountMax()
 						&& !pCreature->IsExistAttachEffect())
 					{	
-						// creature¸¦ ½ÃÃ¼·Î ¹Ù²Û´Ù.
+						// creatureï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 						AddCorpseFromCreature( pCreature );
 
-						// map¿¡¼­ creature¸¦ Á¦°ÅÇÑ´Ù.
+						// mapï¿½ï¿½ï¿½ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 						CREATURE_MAP::iterator	iCreatureTemp = iCreature;
 						iCreature++;
 
@@ -2138,16 +2141,16 @@ MZone::UpdateAllCreature()
 			*/
 
 			//------------------------------------------------------
-			// invisibleCount°¡ 64¸é ÀÌ Ä³¸¯ÅÍ´Â Zone¿¡¼­ ¾ø¾îÁ®¾ß ÇÑ´Ù.
+			// invisibleCountï¿½ï¿½ 64ï¿½ï¿½ ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í´ï¿½ Zoneï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 			//------------------------------------------------------
 			if (pCreature->GetInvisibleCount()==64
 				&& invisibleCount!=64)
 			{
 				//-------------------------------------------------------
-				// snipping modeÀÌ¸é ¹«Á¶°Ç ¾ø¾îÁø´Ù(¾Æ¹«µµ º¼ ¼ö ¾øÀ¸¹Ç·Î)
+				// snipping modeï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Æ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½)
 				//
-				// invisibilityÀÌ¸é player°¡ slayerÀÌ°í
-				//					detect_hiddenÀÌ ¾ø´Ù¸é ¾ø¾îÁø´Ù.
+				// invisibilityï¿½Ì¸ï¿½ playerï¿½ï¿½ slayerï¿½Ì°ï¿½
+				//					detect_hiddenï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 				//-------------------------------------------------------
 				if (//pCreature->HasEffectStatus(EFFECTSTATUS_SNIPPING_MODE)|| 
 					pCreature->HasEffectStatus(EFFECTSTATUS_INVISIBILITY)
@@ -2159,7 +2162,7 @@ MZone::UpdateAllCreature()
 						)
 				{
 					//-------------------------------------------------------
-					// player°¡ ¾Æ´Ñ °æ¿ì
+					// playerï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 					//-------------------------------------------------------
 					int id			= pCreature->GetID();
 					int x			= pCreature->GetX();
@@ -2168,18 +2171,18 @@ MZone::UpdateAllCreature()
 					int serverY		= pCreature->GetServerY();
 
 					//----------------------------------------
-					// Çï±â Á¦°Å
+					// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					//----------------------------------------
 					if (pCreature->IsSlayer())
 					{
 						m_HelicopterManager.RemoveHelicopter( pCreature->GetID() );
 					}				
 					
-					// Ã£Àº °æ¿ì --> Á¦°Å		
+					// Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½		
 					bool removed = true;
 					
 					//------------------------------------------------
-					// sector¿¡¼­ Á¦°Å½ÃÅ²´Ù.
+					// sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½.
 					//------------------------------------------------
 					if (!m_ppSector[y][x].RemoveCreature(id))
 					{
@@ -2193,10 +2196,10 @@ MZone::UpdateAllCreature()
 
 					UnSetServerBlock( pCreature->GetMoveType(), pCreature->GetServerX(), pCreature->GetServerY() );
 
-					// Á¦°Å
+					// ï¿½ï¿½ï¿½ï¿½
 					delete pCreature;	
 
-					// map¿¡¼­ creature¸¦ Á¦°ÅÇÑ´Ù.
+					// mapï¿½ï¿½ï¿½ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 					CREATURE_MAP::iterator	iCreatureTemp = iCreature;
 					iCreature++;
 
@@ -2247,7 +2250,7 @@ MZone::UpdateAllCreature()
 //----------------------------------------------------------------------
 // Create Corpse  From Creature
 //----------------------------------------------------------------------
-// ½ÃÃ¼(MCorpse)¸¦ »ý¼ºÇÏ´Âµ¥.. Creature¸¦ ÂüÁ¶ÇÑ´Ù..
+// ï¿½ï¿½Ã¼(MCorpse)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Âµï¿½.. Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½..
 //----------------------------------------------------------------------
 /*
 bool
@@ -2260,14 +2263,14 @@ MZone::AddCorpseFromCreature(MCreature* pCreature)
 	int sY = pCreature->GetY();
 
 	//----------------------------------------
-	// Ã¤ÆÃÀ» ¾ø¾ÖÁØ´Ù.
+	// Ã¤ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 	//----------------------------------------
 	pCreature->ClearChatString();
 
 	//----------------------------------------
-	// Sector¿¡¼­ Creature Á¦°Å
+	// Sectorï¿½ï¿½ï¿½ï¿½ Creature ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------
-	// player°¡ ¾Æ´Ñ °æ¿ì..
+	// playerï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½..
 	//----------------------------------------
 	bool removed = false;
 	if (id != g_pPlayer->GetID())
@@ -2304,7 +2307,7 @@ MZone::AddCorpseFromCreature(MCreature* pCreature)
 		}
 	}
 
-	// Creature°¡ Á¦°Å°¡ ¾ÈµÆÀ¸¸é...
+	// Creatureï¿½ï¿½ ï¿½ï¿½ï¿½Å°ï¿½ ï¿½Èµï¿½ï¿½ï¿½ï¿½ï¿½...
 	#ifdef OUTPUT_DEBUG
 		if (!removed)
 		{			
@@ -2314,10 +2317,10 @@ MZone::AddCorpseFromCreature(MCreature* pCreature)
 	
 	//----------------------------------------
 	//
-	// ½ÃÃ¼¸¦ »ý¼ºÇÏ°í Creature¸¦ ¼³Á¤ÇÑ´Ù.
+	// ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//
 	//----------------------------------------
-	// server¿¡¼­ ¹ÞÀº À§Ä¡
+	// serverï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 	int sSX = pCreature->GetServerX();
 	int sSY = pCreature->GetServerY();
 
@@ -2327,12 +2330,12 @@ MZone::AddCorpseFromCreature(MCreature* pCreature)
 	pCorpse->SetCreature( pCreature );
 	pCorpse->SetPosition( sSX, sSY );
 
-	// item °³¼ö ¼³Á¤
+	// item ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	pCorpse->SetNumber( pCreature->GetItemCount() );
 
 
 	//----------------------------------------	
-	// ÀÌ¹Ì ´Ù¸¥ ItemÀÌ ÀÖ´Ù¸é?? Á¦°ÅÇÑ´Ù.
+	// ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ Itemï¿½ï¿½ ï¿½Ö´Ù¸ï¿½?? ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//----------------------------------------
 	if (m_ppSector[sSY][sSX].IsExistItem())
 	{
@@ -2356,12 +2359,12 @@ MZone::AddCorpseFromCreature(MCreature* pCreature)
 	}
 
 	//----------------------------------------
-	// Zone¿¡ ItemÃß°¡
+	// Zoneï¿½ï¿½ Itemï¿½ß°ï¿½
 	//----------------------------------------
 	#ifdef OUTPUT_DEBUG
 		if (!AddItem( pCorpse ))
 		{
-			// À½.. ºÒ°¡´ÉÇÑ °æ¿ì¶ó°í ÇÒ ¼ö ÀÖ´Ù. - -;
+			// ï¿½ï¿½.. ï¿½Ò°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½. - -;
 			DEBUG_ADD_FORMAT("[Error] Can't Add Corpse to Sector id=%d (%d,%d)", pCorpse->GetID(), sSX, sSY);
 		
 			delete pCorpse;
@@ -2379,7 +2382,7 @@ MZone::AddCorpseFromCreature(MCreature* pCreature)
 //----------------------------------------------------------------------
 // Create Corpse  From Creature
 //----------------------------------------------------------------------
-// ½ÃÃ¼(MCorpse)¸¦ »ý¼ºÇÏ´Âµ¥.. Creature¸¦ ÂüÁ¶ÇÑ´Ù..
+// ï¿½ï¿½Ã¼(MCorpse)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Âµï¿½.. Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½..
 //----------------------------------------------------------------------
 bool
 MZone::AddCorpseFromCreature(TYPE_OBJECTID id)
@@ -2404,16 +2407,16 @@ MZone::AddCorpseFromCreature(TYPE_OBJECTID id)
 
 	UnSetServerBlock( pCreature->GetMoveType(), pCreature->GetServerX(), pCreature->GetServerY() );
 
-	// Zone¿¡¼­ Á¦°ÅÇÑ´Ù.
+	// Zoneï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	m_mapCreature.erase( iCreature );	
 	
 	int sX = pCreature->GetX();
 	int sY = pCreature->GetY();
 
 	//----------------------------------------
-	// Ã¤ÆÃÀ» ¾ø¾ÖÁØ´Ù.
+	// Ã¤ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 	//----------------------------------------
-#if __CONTENTS(__TIPOJYU_CASTLE)			//Ã¤ÆÃ ¼³Á¤
+#if __CONTENTS(__TIPOJYU_CASTLE)			//Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	switch(pCreature->GetCreatureType())
 	{
 	case 1045:
@@ -2423,20 +2426,20 @@ MZone::AddCorpseFromCreature(TYPE_OBJECTID id)
 		break;
 	}
 #else
-	if(pCreature->GetCreatureType() != 723) // °¢¼º Áúµå·¹..^^: ¿©±â¼­ Áö¿ì¸é Á×À¸¸é¼­ ÇÏ´Â ´ë»ç°¡ ¾È³ª¿È..
+	if(pCreature->GetCreatureType() != 723) // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½å·¹..^^: ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½é¼­ ï¿½Ï´ï¿½ ï¿½ï¿½ç°¡ ï¿½È³ï¿½ï¿½ï¿½..
 		pCreature->ClearChatString();
 #endif //__TIPOJYU_CASTLE
 	//----------------------------------------
-	// Sector¿¡¼­ Creature Á¦°Å
+	// Sectorï¿½ï¿½ï¿½ï¿½ Creature ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------
-	// player°¡ ¾Æ´Ñ °æ¿ì..
+	// playerï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½..
 	//----------------------------------------
 	bool removed = false;
 	if (id != g_pPlayer->GetID()
 		&& !pCreature->IsFakeCreature())
 	{
 		//------------------------------------------------
-		// sector¿¡¼­ Á¦°Å½ÃÅ²´Ù.
+		// sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½.
 		//------------------------------------------------
 		removed = true;
 		if (!m_ppSector[sY][sX].RemoveCreature(id))
@@ -2483,7 +2486,7 @@ MZone::AddCorpseFromCreature(TYPE_OBJECTID id)
 		*/
 	}
 
-	// Creature°¡ Á¦°Å°¡ ¾ÈµÆÀ¸¸é...
+	// Creatureï¿½ï¿½ ï¿½ï¿½ï¿½Å°ï¿½ ï¿½Èµï¿½ï¿½ï¿½ï¿½ï¿½...
 	#ifdef OUTPUT_DEBUG
 		if (!removed)
 		{			
@@ -2493,10 +2496,10 @@ MZone::AddCorpseFromCreature(TYPE_OBJECTID id)
 	
 	//----------------------------------------
 	//
-	// ½ÃÃ¼¸¦ »ý¼ºÇÏ°í Creature¸¦ ¼³Á¤ÇÑ´Ù.
+	// ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//
 	//----------------------------------------
-	// server¿¡¼­ ¹ÞÀº À§Ä¡
+	// serverï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 	int sSX = pCreature->GetServerX();
 	int sSY = pCreature->GetServerY();
 
@@ -2506,12 +2509,12 @@ MZone::AddCorpseFromCreature(TYPE_OBJECTID id)
 	pCorpse->SetCreature( pCreature );
 	pCorpse->SetPosition( sSX, sSY );
 
-	// item °³¼ö ¼³Á¤
+	// item ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	pCorpse->SetNumber( pCreature->GetItemCount() );
 
 
 	//----------------------------------------	
-	// ÀÌ¹Ì ´Ù¸¥ ItemÀÌ ÀÖ´Ù¸é?? Á¦°ÅÇÑ´Ù.
+	// ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ Itemï¿½ï¿½ ï¿½Ö´Ù¸ï¿½?? ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//----------------------------------------
 	if (m_ppSector[sSY][sSX].IsExistItem())
 	{
@@ -2535,12 +2538,12 @@ MZone::AddCorpseFromCreature(TYPE_OBJECTID id)
 	}
 
 	//----------------------------------------
-	// Zone¿¡ ItemÃß°¡
+	// Zoneï¿½ï¿½ Itemï¿½ß°ï¿½
 	//----------------------------------------
 	#ifdef OUTPUT_DEBUG
 		if (!AddItem( pCorpse ))
 		{
-			// À½.. ºÒ°¡´ÉÇÑ °æ¿ì¶ó°í ÇÒ ¼ö ÀÖ´Ù. - -;
+			// ï¿½ï¿½.. ï¿½Ò°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½. - -;
 			DEBUG_ADD_FORMAT("[Error] Can't Add Corpse to Sector id=%d (%d,%d)", pCorpse->GetID(), sSX, sSY);
 		
 			delete pCorpse;
@@ -2559,7 +2562,7 @@ MZone::AddCorpseFromCreature(TYPE_OBJECTID id)
 //----------------------------------------------------------------------
 // Add Portal
 //----------------------------------------------------------------------
-// rect¿µ¿ªÀº zoneID·Î ÀÌµ¿ÇÏ´Â portalÀÌ´Ù.
+// rectï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ zoneIDï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï´ï¿½ portalï¿½Ì´ï¿½.
 //----------------------------------------------------------------------
 void						
 MZone::AddPortal(int type, int zoneID, const RECT& rect)
@@ -2589,10 +2592,10 @@ MZone::AddPortal(int type, int zoneID, const RECT& rect)
 //----------------------------------------------------------------------
 // Keep Object In PlayerSight
 //----------------------------------------------------------------------
-// Zone¿¡ ¼ÓÇÑ ¸ðµç Creature/ItemÁß¿¡¼­
-// PlayerÀÇ ½Ã¾ß ¾È¿¡ ÀÖ´Â °Í¸¸ ³²±â°í 
-// ³ª¸ÓÁö´Â Á¦°Å½ÃÅ²´Ù.
-// ServerÀÇ ½Ã¾ß ¹üÀ§¿Í ¸ÂÃß¾î¾ß ÇÑ´Ù.
+// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Creature/Itemï¿½ß¿ï¿½ï¿½ï¿½
+// Playerï¿½ï¿½ ï¿½Ã¾ï¿½ ï¿½È¿ï¿½ ï¿½Ö´ï¿½ ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½.
+// Serverï¿½ï¿½ ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 void
 MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sight)
@@ -2600,7 +2603,7 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 //	int sight15 = sight + (sight>>1);
 
 	//------------------------------------------------------
-	// PlayerÀÇ ½Ã¾ß ¹üÀ§¸¦ ÁöÁ¤ÇÑ´Ù.
+	// Playerï¿½ï¿½ ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 //	int minX = min( sight, VISION_SECTOR_WIDTH_HALF );
 //	int minY = min( sight, VISION_SECTOR_HEIGHT_HALF );
@@ -2616,7 +2619,7 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 	int sY2 = y+minY2;
 
 	//------------------------------------------------------
-	// ZoneÀÇ ¿µ¿ªÀÌ ¾Æ´Ñ °æ¿ì¿¡ Skip...
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¿¡ Skip...
 	//------------------------------------------------------
 	if (sX1 < 0) 
 	{					
@@ -2640,7 +2643,7 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 	
 	//------------------------------------------------------
 	//
-	//				¸ðµç Creature¿¡ ´ëÇØ¼­....
+	//				ï¿½ï¿½ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½....
 	//
 	//------------------------------------------------------
 	CREATURE_MAP::iterator	iCreature = m_mapCreature.begin();
@@ -2652,17 +2655,17 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 		pCreature = iCreature->second;
 
 		//-----------------------------------------------------
-		// Player°¡ ¾Æ´Ñ °æ¿ì¿¡¸¸ Ã¼Å©ÇÏ°í Á¦°ÅÇÑ´Ù.
+		// Playerï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ Ã¼Å©ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		//-----------------------------------------------------
-		if (pCreature->GetClassType()==MCreature::CLASS_PLAYER || pCreature->GetID() < 10000)	// Å¬¶óÀÌ¾ðÆ® Å©¸®ÃÄ´Â Á¦°Å ¾ÈÇÑ´Ù
+		if (pCreature->GetClassType()==MCreature::CLASS_PLAYER || pCreature->GetID() < 10000)	// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ® Å©ï¿½ï¿½ï¿½Ä´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½
 		{	
 			iCreature++;
 		}		
 		else
 		{
 			//-----------------------------------------------------
-			// CreatureÀÇ ServerÁÂÇ¥°¡ PlayerÀÇ ½Ã¾ß¿¡ 
-			// Æ÷ÇÔµÇÁö ¾ÊÀº °æ¿ì¸¸ Á¦°Å½ÃÅ²´Ù.
+			// Creatureï¿½ï¿½ Serverï¿½ï¿½Ç¥ï¿½ï¿½ Playerï¿½ï¿½ ï¿½Ã¾ß¿ï¿½ 
+			// ï¿½ï¿½ï¿½Ôµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¸¸ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½.
 			//-----------------------------------------------------			
 			int cX = pCreature->GetServerX();
 			int cY = pCreature->GetServerY();
@@ -2671,7 +2674,7 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 			DEBUG_ADD_FORMAT("[KeepObjectInSight] %d : %d : %d , %d : %d : %d",
 				sX1, cX, sX2, sY1, cY, sY2 );
 			//-----------------------------------------------------			
-			// ½Ã¾ßÀÇ ¹üÀ§ ¾È¿¡ ¼ÓÇÏ´Â °æ¿ì´Â ³Ñ¾î°£´Ù..
+			// ï¿½Ã¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î°£ï¿½ï¿½..
 			//-----------------------------------------------------			
 			if (cX>=sX1 && cX<=sX2 &&
 				cY>=sY1 && cY<=(sY2 + pCreature->GetHeight() / TILE_Y)
@@ -2681,14 +2684,14 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 				iCreature++;			
 			}
 			//-----------------------------------------------------			
-			// ½Ã¾ßÀÇ ¹üÀ§ ¾È¿¡ ¼ÓÇÏÁö ¾ÊÀ¸¸é... Á¦°Å~~
+			// ï¿½Ã¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½... ï¿½ï¿½ï¿½ï¿½~~
 			//-----------------------------------------------------			
 			else
 			{
-				// iTemp¸¦ Áö¿ì¸é µÈ´Ù.
+				// iTempï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È´ï¿½.
 				CREATURE_MAP::iterator iTemp = iCreature;
 
-				// ´ÙÀ½ °Í..
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½..
 				iCreature++;
 
 				DEBUG_ADD_FORMAT("[Remove Creature by Sight] id=%d xy=(%d, %d)", pCreature->GetID(), cX, cY);						
@@ -2696,16 +2699,16 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 				MCreature* pCreature = (*iTemp).second;
 				
 				//----------------------------------------
-				// Sector¿¡¼­ Á¦°Å
+				// Sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				//----------------------------------------
-				// player°¡ ¾Æ´Ñ °æ¿ì..
+				// playerï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½..
 				//----------------------------------------
 				int id = pCreature->GetID();
 				int x = pCreature->GetX();
 				int y = pCreature->GetY();
 				
 				//------------------------------------------------
-				// sector¿¡¼­ Á¦°Å½ÃÅ²´Ù.
+				// sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½.
 				//------------------------------------------------
 				if (!m_ppSector[y][x].RemoveCreature(id))
 				{
@@ -2746,7 +2749,7 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 				*/
 
 				//-------------------------------------------------------
-				// Áö±Ý Á¦°Å µÉ·Á´Â ¾Ö°¡ playerÀÇ ÆÄÆ¼ÀÎ °æ¿ì
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ playerï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½
 				//-------------------------------------------------------
 				/*
 				if (pCreature->IsPlayerParty()
@@ -2762,7 +2765,7 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 				}
 				*/
 				
-				// memory¿¡¼­ Á¦°Å
+				// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				UnSetServerBlock( pCreature->GetMoveType(), pCreature->GetServerX(), pCreature->GetServerY() );
 
 				delete pCreature;				
@@ -2774,7 +2777,7 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 
 	//------------------------------------------------------
 	//
-	//				¸ðµç Item¿¡ ´ëÇØ¼­....
+	//				ï¿½ï¿½ï¿½ Itemï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½....
 	//
 	//------------------------------------------------------
 	ITEM_MAP::iterator	iItem = m_mapItem.begin();
@@ -2786,15 +2789,15 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 		pItem = iItem->second;
 	
 		//-----------------------------------------------------
-		// ItemÀÇ ÁÂÇ¥°¡ PlayerÀÇ ½Ã¾ß¿¡ 
-		// Æ÷ÇÔµÇÁö ¾ÊÀº °æ¿ì¸¸ Á¦°Å½ÃÅ²´Ù.
+		// Itemï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ Playerï¿½ï¿½ ï¿½Ã¾ß¿ï¿½ 
+		// ï¿½ï¿½ï¿½Ôµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¸¸ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½.
 		//-----------------------------------------------------			
 		int iX = pItem->GetX();
 		int iY = pItem->GetY();
 //		int dist = abs(x - iX) + abs(y - iY);
 
 		//-----------------------------------------------------			
-		// ½Ã¾ßÀÇ ¹üÀ§ ¾È¿¡ ¼ÓÇÏ´Â °æ¿ì´Â ³Ñ¾î°£´Ù..
+		// ï¿½Ã¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î°£ï¿½ï¿½..
 		//-----------------------------------------------------			
 		if (iX>=sX1 && iX<=sX2 &&
 			iY>=sY1 && iY<=sY2 
@@ -2804,32 +2807,32 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 			iItem++;			
 		}
 		//-----------------------------------------------------			
-		// ½Ã¾ßÀÇ ¹üÀ§ ¾È¿¡ ¼ÓÇÏÁö ¾ÊÀ¸¸é... Á¦°Å~~
+		// ï¿½Ã¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½... ï¿½ï¿½ï¿½ï¿½~~
 		//-----------------------------------------------------			
 		else
 		{
-			// iTemp¸¦ Áö¿ì¸é µÈ´Ù.
+			// iTempï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È´ï¿½.
 			ITEM_MAP::iterator iTemp = iItem;
 
-			// ´ÙÀ½ °Í..
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½..
 			iItem++;
 
 			DEBUG_ADD_FORMAT("[Remove Item by Sight] id=%d xy=(%d, %d)", pItem->GetID(), iX, iY);					
 				
 			MItem* pItem = (*iTemp).second;
 
-			// [¼º¹°¼öÁ¤]
+			// [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]
 			MSector& sector = m_ppSector[iY][iX];				
 			sector.RemoveItem( pItem->GetID() );
 
-			// [¼º¹°¼öÁ¤]
+			// [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]
 			if (IsRelicTable(pItem))
 			{
 				sector.UnSetBlockGround();
 				sector.UnSetBlockFlying();
 			}
 				
-			// memory¿¡¼­ Á¦°Å
+			// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//delete pItem;				
 			SAFE_DELETE ( pItem );
 				
@@ -2838,7 +2841,7 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 	}
 	
 	//------------------------------------------------------
-	// Effect Áö¿ì±â
+	// Effect ï¿½ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	EFFECT_MAP::iterator	iEffect = m_mapEffect.begin();
 
@@ -2849,15 +2852,15 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 		pEffect = iEffect->second;
 	
 		//-----------------------------------------------------
-		// ItemÀÇ ÁÂÇ¥°¡ PlayerÀÇ ½Ã¾ß¿¡ 
-		// Æ÷ÇÔµÇÁö ¾ÊÀº °æ¿ì¸¸ Á¦°Å½ÃÅ²´Ù.
+		// Itemï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ Playerï¿½ï¿½ ï¿½Ã¾ß¿ï¿½ 
+		// ï¿½ï¿½ï¿½Ôµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¸¸ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½.
 		//-----------------------------------------------------			
 		int iX = pEffect->GetX();
 		int iY = pEffect->GetY();
 //		int dist = abs(x - iX) + abs(y - iY);
 
 		//-----------------------------------------------------			
-		// ½Ã¾ßÀÇ ¹üÀ§ ¾È¿¡ ¼ÓÇÏ´Â °æ¿ì´Â ³Ñ¾î°£´Ù..
+		// ï¿½Ã¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î°£ï¿½ï¿½..
 		//-----------------------------------------------------			
 		if (iX>=sX1 && iX<=sX2 &&
 			iY>=sY1 && iY<=sY2 
@@ -2867,27 +2870,27 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 			iEffect++;			
 		}
 		//-----------------------------------------------------			
-		// ½Ã¾ßÀÇ ¹üÀ§ ¾È¿¡ ¼ÓÇÏÁö ¾ÊÀ¸¸é... Á¦°Å~~
+		// ï¿½Ã¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½... ï¿½ï¿½ï¿½ï¿½~~
 		//-----------------------------------------------------			
 		else if (pEffect->GetEffectType()!=MEffect::EFFECT_CHASE &&
 				(pEffect->GetFrameID() < EFFECTSPRITETYPE_MAP_BLACK_LARGE_SMOKE ||
 				pEffect->GetFrameID() > EFFECTSPRITETYPE_MAP_BLACK_SMALL_SMOKE_3)&&
 				pEffect->GetFrameID() != EFFECTSPRITETYPE_GDR_LAIR_POTAL)
 		{
-			// iTemp¸¦ Áö¿ì¸é µÈ´Ù.
+			// iTempï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È´ï¿½.
 			EFFECT_MAP::iterator iTemp = iEffect;
 
-			// ´ÙÀ½ °Í..
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½..
 			iEffect++;
 
 			DEBUG_ADD_FORMAT("[Remove Effect by Sight] id=%d xy=(%d, %d)", pEffect->GetID(), iX, iY);					
 				
 			MEffect* pEffect = iTemp->second;
 
-			// [»õ±â¼ú9]
+			// [ï¿½ï¿½ï¿½ï¿½ï¿½9]
 			RemoveSectorEffect( iX, iY, pEffect->GetID() );
 				
-			// memory¿¡¼­ Á¦°Å
+			// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			delete pEffect;				
 				
 			m_mapEffect.erase(iTemp);	
@@ -2900,10 +2903,10 @@ MZone::KeepObjectInSight(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y, BYTE sigh
 }
 
 //----------------------------------------------------------------------
-// Zone¿¡ Creature Ãß°¡ 
+// Zoneï¿½ï¿½ Creature ï¿½ß°ï¿½ 
 //----------------------------------------------------------------------
-// ¿ÜºÎ¿¡¼­ newÇØÁà¾ß ÇÑ´Ù.
-// ÀÌ¹Ì ÀÖ´ÂÁö È®ÀÎÀ» ÇÏ°í ¾øÀ¸¸é Ãß°¡ÇØ¾ß ÇÑ´Ù.
+// ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ newï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::AddCreature(MCreature* pCreature)
@@ -2922,10 +2925,10 @@ MZone::AddCreature(MCreature* pCreature)
 
 	theIterator = m_mapCreature.find(pCreature->GetID());
 	
-	// ¾ÆÁ÷ ¾ø´Â CreatureÀÌ¸é Ãß°¡	
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ß°ï¿½	
 	if (theIterator == m_mapCreature.end())
 	{		
-		// ¿ìÈÄÈÊ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		if (g_pParty!=NULL 
 			&& pCreature->GetName()!=NULL
 			&& g_pParty->HasMember( pCreature->GetName() )
@@ -2934,7 +2937,7 @@ MZone::AddCreature(MCreature* pCreature)
 			pCreature->SetPlayerParty();
 				
 			//-------------------------------------------------------
-			// Áö±Ý µé¾î¿Â ¾Ö°¡ playerÀÇ ÆÄÆ¼ÀÎ °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ playerï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½
 			//-------------------------------------------------------
 			PARTY_INFO* pInfo = g_pParty->GetMemberInfo( pCreature->GetName() );
 				
@@ -2948,7 +2951,7 @@ MZone::AddCreature(MCreature* pCreature)
 		}
 
 		//----------------------------------------
-		// player°¡ HalluÀÎ °æ¿ì
+		// playerï¿½ï¿½ Halluï¿½ï¿½ ï¿½ï¿½ï¿½
 		//----------------------------------------
 		if (g_pPlayer->HasEffectStatus(EFFECTSTATUS_HALLUCINATION))
 		{
@@ -2956,11 +2959,11 @@ MZone::AddCreature(MCreature* pCreature)
 		}
 
 		//----------------------------------------
-		// ÀÌµ¿¹æ¹ý¿¡ µû¶ó.. ´Ù½Ã ¼³Á¤
+		// ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.. ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//----------------------------------------
 		if (pCreature->IsUndergroundCreature())
 		{
-			// ±×³É ¹¯¾îµÒ.. - -;
+			// ï¿½×³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.. - -;
 		}
 		else
 		{
@@ -2978,7 +2981,7 @@ MZone::AddCreature(MCreature* pCreature)
 		//----------------------------------------
 		// Sector Setting
 		//----------------------------------------
-		// PlayerÀÎ °æ¿ì
+		// Playerï¿½ï¿½ ï¿½ï¿½ï¿½
 		//----------------------------------------
 		if (pCreature->GetClassType()==MCreature::CLASS_PLAYER)
 		{
@@ -2986,7 +2989,7 @@ MZone::AddCreature(MCreature* pCreature)
 			bAdd = true;
 		}
 		//----------------------------------------
-		// Player°¡ ¾Æ´Ñ °æ¿ì
+		// Playerï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 		//----------------------------------------
 		else
 		{			
@@ -3041,7 +3044,7 @@ MZone::AddCreature(MCreature* pCreature)
 		return false;
 	}
 
-	// ÀÌ¹Ì ÀÖ´Â CreatureÀÌ¸é,
+	// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Creatureï¿½Ì¸ï¿½,
 	DEBUG_ADD_FORMAT("Add Failed - Already Exist in Zone");
 
 	return false;
@@ -3050,9 +3053,9 @@ MZone::AddCreature(MCreature* pCreature)
 	
 
 //----------------------------------------------------------------------
-// Zone¿¡¼­ Creature Á¦°Å
+// Zoneï¿½ï¿½ï¿½ï¿½ Creature ï¿½ï¿½ï¿½ï¿½
 //----------------------------------------------------------------------
-// ³»ºÎ¿¡¼­ deleteÇØÁØ´Ù.
+// ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ deleteï¿½ï¿½ï¿½Ø´ï¿½.
 //----------------------------------------------------------------------
 bool
 MZone::RemoveCreature(TYPE_OBJECTID id)
@@ -3061,10 +3064,10 @@ MZone::RemoveCreature(TYPE_OBJECTID id)
 
 	CREATURE_MAP::iterator	theIterator;
 
-	// ID°¡ idÀÎ Creature¸¦ Ã£´Â´Ù.
+	// IDï¿½ï¿½ idï¿½ï¿½ Creatureï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 	theIterator = m_mapCreature.find(id);
     
-	// ±×·± id¸¦ °¡Áø Creature´Â ¾ø´Ù.	
+	// ï¿½×·ï¿½ idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.	
 	if (theIterator == m_mapCreature.end())
 		return false;
 
@@ -3073,7 +3076,7 @@ MZone::RemoveCreature(TYPE_OBJECTID id)
 
 	
 	//-------------------------------------------------------
-	// Áö±Ý Á¦°Å µÉ·Á´Â ¾Ö°¡ playerÀÇ ÆÄÆ¼ÀÎ °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É·ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ playerï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//-------------------------------------------------------
 	/*
 	if (pCreature->IsPlayerParty()
@@ -3090,9 +3093,9 @@ MZone::RemoveCreature(TYPE_OBJECTID id)
 	*/
 	
 	//----------------------------------------
-	// Sector¿¡¼­ Á¦°Å
+	// Sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------
-	// playerÀÎ °æ¿ì
+	// playerï¿½ï¿½ ï¿½ï¿½ï¿½
 	//----------------------------------------
 	if (pCreature==NULL || pCreature->GetClassType()==MCreature::CLASS_PLAYER)
 	{
@@ -3102,7 +3105,7 @@ MZone::RemoveCreature(TYPE_OBJECTID id)
 	}
 	
 	//----------------------------------------
-	// Çï±â Á¦°Å
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------
 	if (pCreature->IsSlayer())
 	{
@@ -3110,14 +3113,14 @@ MZone::RemoveCreature(TYPE_OBJECTID id)
 	}
 
 	//----------------------------------------
-	// player°¡ ¾Æ´Ñ °æ¿ì
+	// playerï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 	//----------------------------------------	
 	int x			= pCreature->GetX();
 	int y			= pCreature->GetY();
 	int serverX		= pCreature->GetServerX();
 	int serverY		= pCreature->GetServerY();
 
-	// move type¿¡ °ü°è¾øÀÌ ID¸¦ ´Ù Ã£¾Æº¸ÀÚ..
+	// move typeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IDï¿½ï¿½ ï¿½ï¿½ Ã£ï¿½Æºï¿½ï¿½ï¿½..
 	/*
 	switch (pCreature->GetMoveType())
 	{
@@ -3147,11 +3150,11 @@ MZone::RemoveCreature(TYPE_OBJECTID id)
 	}
 	*/
 
-	// Ã£Àº °æ¿ì --> Á¦°Å		
+	// Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½		
 	bool removed = true;
 	
 	//------------------------------------------------
-	// sector¿¡¼­ Á¦°Å½ÃÅ²´Ù.
+	// sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½.
 	//------------------------------------------------
 	if (!m_ppSector[y][x].RemoveCreature(id))
 	{
@@ -3193,11 +3196,11 @@ MZone::RemoveCreature(TYPE_OBJECTID id)
 	}
 	*/
 
-	// ¼­¹öÁÂÇ¥´Â ±×³É Áö¿öÁØ´Ù. 2002.3.29
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½×³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½. 2002.3.29
 	UnSetServerBlock( pCreature->GetMoveType(), pCreature->GetServerX(), pCreature->GetServerY() );
 
 
-	// memory¿¡¼­ Á¦°Å : Player°¡ ¾Æ´Ò °æ¿ì¿¡¸¸ memory¿¡¼­ Á¦°Å
+	// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : Playerï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (removed)
 	{
 		//UnSetServerBlock( pCreature->GetMoveType(), pCreature->GetServerX(), pCreature->GetServerY() );
@@ -3212,19 +3215,19 @@ MZone::RemoveCreature(TYPE_OBJECTID id)
 
 
 //----------------------------------------------------------------------
-// ZoneÀÇ Creature ÀÐ¾î¿À±â
+// Zoneï¿½ï¿½ Creature ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½
 //----------------------------------------------------------------------
-// item¿¡¼­µµ Ã£´Â´Ù. -_-;
+// itemï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Â´ï¿½. -_-;
 //----------------------------------------------------------------------
 MCreature*	
 MZone::GetCreature(TYPE_OBJECTID id)
 {
 	CREATURE_MAP::iterator	theIterator;
 
-	// ID°¡ idÀÎ Creature¸¦ Ã£´Â´Ù.
+	// IDï¿½ï¿½ idï¿½ï¿½ Creatureï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 	theIterator = m_mapCreature.find(id);
 
-	// ¾øÀ» °æ¿ì NULLÀ» returnÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ NULLï¿½ï¿½ returnï¿½Ñ´ï¿½.
 	if (theIterator == m_mapCreature.end()) 
 	{
 		ITEM_MAP::iterator iItem = m_mapItem.find(id);
@@ -3251,36 +3254,36 @@ MZone::GetCreature(TYPE_OBJECTID id)
 		return NULL;
 	}
 
-	// ÀÖÀ¸¸é ±× Creature¸¦ returnÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Creatureï¿½ï¿½ returnï¿½Ñ´ï¿½.
 	return (*theIterator).second;
 }
 
 //----------------------------------------------------------------------
-// ZoneÀÇ Creature ÀÐ¾î¿À±â
+// Zoneï¿½ï¿½ Creature ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½
 //----------------------------------------------------------------------
 MCreature*	
 MZone::GetCreatureOnly(TYPE_OBJECTID id)
 {
 	CREATURE_MAP::iterator	theIterator;
 
-	// ID°¡ idÀÎ Creature¸¦ Ã£´Â´Ù.
+	// IDï¿½ï¿½ idï¿½ï¿½ Creatureï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 	theIterator = m_mapCreature.find(id);
 
-	// ¾øÀ» °æ¿ì NULLÀ» returnÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ NULLï¿½ï¿½ returnï¿½Ñ´ï¿½.
 	if (theIterator == m_mapCreature.end()) 
 	{
 		return NULL;
 	}
 
-	// ÀÖÀ¸¸é ±× Creature¸¦ returnÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Creatureï¿½ï¿½ returnï¿½Ñ´ï¿½.
 	return theIterator->second;
 }
 
 //----------------------------------------------------------------------
-// Zone¿¡ ImageObject Ãß°¡ 
+// Zoneï¿½ï¿½ ImageObject ï¿½ß°ï¿½ 
 //----------------------------------------------------------------------
-// ¿ÜºÎ¿¡¼­ newÇØÁà¾ß ÇÑ´Ù.
-// ÀÌ¹Ì ÀÖ´ÂÁö È®ÀÎÀ» ÇÏ°í ¾øÀ¸¸é Ãß°¡ÇØ¾ß ÇÑ´Ù.
+// ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ newï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::AddImageObject(MImageObject* pImageObject)
@@ -3291,7 +3294,7 @@ MZone::AddImageObject(MImageObject* pImageObject)
 
 		theIterator = m_mapImageObject.find(pImageObject->GetID());
 		
-		// ¾ÆÁ÷ ¾ø´Â ImageObjectÀÌ¸é Ãß°¡	
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ImageObjectï¿½Ì¸ï¿½ ï¿½ß°ï¿½	
 		if (theIterator == m_mapImageObject.end())
 		{
 			m_mapImageObject.insert(IMAGEOBJECT_MAP::value_type(pImageObject->GetID(), pImageObject));
@@ -3299,7 +3302,7 @@ MZone::AddImageObject(MImageObject* pImageObject)
 			return true;
 		}
 
-		// ÀÌ¹Ì ÀÖ´Â ImageObjectÀÌ¸é,
+		// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ ImageObjectï¿½Ì¸ï¿½,
 	}
 	return false;
 }
@@ -3307,100 +3310,100 @@ MZone::AddImageObject(MImageObject* pImageObject)
 	
 
 //----------------------------------------------------------------------
-// Zone¿¡¼­ ImageObject Á¦°Å
+// Zoneï¿½ï¿½ï¿½ï¿½ ImageObject ï¿½ï¿½ï¿½ï¿½
 //----------------------------------------------------------------------
-// ³»ºÎ¿¡¼­ deleteÇØÁØ´Ù.
+// ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ deleteï¿½ï¿½ï¿½Ø´ï¿½.
 //----------------------------------------------------------------------
 bool
 MZone::RemoveImageObject(TYPE_OBJECTID	id)
 {
 	IMAGEOBJECT_MAP::iterator	theIterator;
 
-	// ID°¡ idÀÎ ImageObject¸¦ Ã£´Â´Ù.
+	// IDï¿½ï¿½ idï¿½ï¿½ ImageObjectï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 	theIterator = m_mapImageObject.find(id);
     
-	// ±×·± id¸¦ °¡Áø ImageObject´Â ¾ø´Ù.	
+	// ï¿½×·ï¿½ idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ImageObjectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.	
 	if (theIterator == m_mapImageObject.end())
 		return false;
 
 
-	// Ã£Àº °æ¿ì --> Á¦°Å	
+	// Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½	
 	MImageObject* pImageObject = (*theIterator).second;	
 
 
 	//???????????????????????????????????????????????????????
 	//
-	// ImageObjectÀÌ Á¸ÀçÇÏ´Â Sectorµµ Á¦°ÅÇØ¾ßÇÏÁö ¾Ê³ª??
+	// ImageObjectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Sectorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê³ï¿½??
 	//
 	//???????????????????????????????????????????????????????
 
 	m_mapImageObject.erase(theIterator);
 
-	// memory¿¡¼­ Á¦°Å
+	// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	delete pImageObject;	
 
 	return true;
 }
 
 //----------------------------------------------------------------------
-// ZoneÀÇ ImageObject ÀÐ¾î¿À±â
+// Zoneï¿½ï¿½ ImageObject ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½
 //----------------------------------------------------------------------
 MImageObject*	
 MZone::GetImageObject(TYPE_OBJECTID id)
 {
 	IMAGEOBJECT_MAP::iterator	theIterator;
 
-	// ID°¡ idÀÎ ImageObject¸¦ Ã£´Â´Ù.
+	// IDï¿½ï¿½ idï¿½ï¿½ ImageObjectï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 	theIterator = m_mapImageObject.find(id);
 
-	// ¾øÀ» °æ¿ì NULLÀ» returnÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ NULLï¿½ï¿½ returnï¿½Ñ´ï¿½.
 	if (theIterator == m_mapImageObject.end()) 
 		return NULL;
 
-	// ÀÖÀ¸¸é ±× ImageObject¸¦ returnÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ImageObjectï¿½ï¿½ returnï¿½Ñ´ï¿½.
 	return (*theIterator).second;
 }
 
 //----------------------------------------------------------------------
 // SetImageObjectSector(sX,sY)
 //----------------------------------------------------------------------
-// ZoneÀÇ Sector¿¡ ImageObjectÀ» setÇÏ±â
+// Zoneï¿½ï¿½ Sectorï¿½ï¿½ ImageObjectï¿½ï¿½ setï¿½Ï±ï¿½
 //----------------------------------------------------------------------
 void		
 MZone::SetImageObjectSector(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_OBJECTID id)
 {
 	IMAGEOBJECT_MAP::iterator	theIterator;
 
-	// ID°¡ idÀÎ ImageObject¸¦ Ã£´Â´Ù.
+	// IDï¿½ï¿½ idï¿½ï¿½ ImageObjectï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 	theIterator = m_mapImageObject.find(id);
 
-	// ¾øÀ» °æ¿ì 
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 	if (theIterator == m_mapImageObject.end()) 
 		return;
 	
-	// (sX,sY) Sector¿¡ ImageObjectÀ» setÇÑ´Ù.
+	// (sX,sY) Sectorï¿½ï¿½ ImageObjectï¿½ï¿½ setï¿½Ñ´ï¿½.
 	m_ppSector[sY][sX].AddImageObject((*theIterator).second);
 }
 
 //----------------------------------------------------------------------
 // UnSetImageObjectSector(sX,sY)
 //----------------------------------------------------------------------
-// ZoneÀÇ Sector¿¡ ImageObjectÀ» UnSetÇÏ±â
+// Zoneï¿½ï¿½ Sectorï¿½ï¿½ ImageObjectï¿½ï¿½ UnSetï¿½Ï±ï¿½
 //----------------------------------------------------------------------
 void		
 MZone::UnSetImageObjectSector(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_OBJECTID id)
 {
 	//-------------------------------------------------------
-	// (sX,sY) Sector¿¡ ImageObjectÀ» setÇÑ´Ù.
+	// (sX,sY) Sectorï¿½ï¿½ ImageObjectï¿½ï¿½ setï¿½Ñ´ï¿½.
 	//-------------------------------------------------------
 	m_ppSector[sY][sX].RemoveImageObject(id);
 }
 
 //----------------------------------------------------------------------
-// Zone¿¡ Obstacle Ãß°¡
+// Zoneï¿½ï¿½ Obstacle ï¿½ß°ï¿½
 //----------------------------------------------------------------------
-// ¿ÜºÎ¿¡¼­ new¸¦ ÇØÁà¾ßÇÑ´Ù.
-// Sector¿¡ Ãß°¡ÇÒ ¼ö ÀÖÀ¸¸é m_listObstacle¿¡ Ãß°¡ÇÑ´Ù.
+// ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ newï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+// Sectorï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ m_listObstacleï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 /*
 bool		
@@ -3408,12 +3411,12 @@ MZone::AddObstacle(MObstacle* pObstacle)
 {	
 	if (!m_ppSector[pObstacle->GetY()][pObstacle->GetX()].AddObstacle(pObstacle))
 	{
-		// Á¦´ë·Î Ãß°¡°¡ µÇÁö ¾ÊÀº °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		return false;
 	}
 
-	// Sector¿¡ Ãß°¡°¡ µÇ¾úÀ¸´Ï±î list¿¡µµ Ãß°¡ÇÑ´Ù.
-	// ³ªÁß¿¡ memory¿¡¼­ Áö¿ì±â ½±µµ·Ï ÇÏ±â À§ÇØ¼­ÀÌ´Ù.
+	// Sectorï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ listï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
+	// ï¿½ï¿½ï¿½ß¿ï¿½ memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½Ì´ï¿½.
 	m_listObstacle.push_front(pObstacle);
 
 	return true;
@@ -3421,13 +3424,13 @@ MZone::AddObstacle(MObstacle* pObstacle)
 */
 
 //----------------------------------------------------------------------
-// Zone¿¡¼­ Obstacle Á¦°Å		
+// Zoneï¿½ï¿½ï¿½ï¿½ Obstacle ï¿½ï¿½ï¿½ï¿½		
 //----------------------------------------------------------------------
-// Sector(sX,sY)¿¡ ÀÖ´Â ObstacleÀ» Á¦°ÅÇÑ´Ù.
-// map¿¡¼­µµ Á¦°ÅÇØ¾ß ÇÑ´Ù.
+// Sector(sX,sY)ï¿½ï¿½ ï¿½Ö´ï¿½ Obstacleï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+// mapï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
-// °ÔÀÓ ½ÇÇàÁß¿¡´Â ½ÇÁ¦·Î ÀÌ ÇÔ¼ö°¡ È£ÃâµÉ ÀÌÀ¯°¡ ¾ø´Ù.
-// ObstacleÀº °íÁ¤µÈ »ç¹°ÀÌ±â ¶§¹®ÀÌ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+// Obstacleï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ç¹°ï¿½Ì±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 //----------------------------------------------------------------------
 //bool		
 //MZone::RemoveObstacle(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY)
@@ -3435,27 +3438,27 @@ MZone::AddObstacle(MObstacle* pObstacle)
 	/*
 	MObstacle* pObstacle;
 
-	// Á¦´ë·Î Á¦°ÅµÈ °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Åµï¿½ ï¿½ï¿½ï¿½
 	if (m_ppSector[sY][sX].RemoveObstacle(pObstacle))
 	{
-		// pObstacle¿¡ Á¦°ÅµÈ MObstacleÀÌ ´ã°ÜÀÖ´Ù.
-		// ID°¡ °°Àº ObstacleÀ» mapObstacle¿¡¼­ Á¦°ÅÇÑ´Ù.
+		// pObstacleï¿½ï¿½ ï¿½ï¿½ï¿½Åµï¿½ MObstacleï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½.
+		// IDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Obstacleï¿½ï¿½ mapObstacleï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		OBSTACLE_MAP::iterator	iObstacle = m_mapObstacle.find(pObstacle->GetID());
     
-		// ±×·± id¸¦ °¡Áø ImageObjectPositionList´Â ¾ø´Ù.	
+		// ï¿½×·ï¿½ idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ImageObjectPositionListï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.	
 		if (iObstacle == m_mapObstacle.end())
 			return false;
 
-		// map¿¡¼­ »èÁ¦
+		// mapï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		m_mapObstacle.erase( iObstacle );
 
-		// memory¿¡¼­ Á¦°Å
+		// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		delete pObstacle;
 		
 		return true;
 	}
 
-	// Á¦´ë·Î Á¦°ÅµÇÁö ¾ÊÀº °æ¿ì (¿ÖÀÏ±î?) - ¾ø¾î¼­?
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Åµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½Ï±ï¿½?) - ï¿½ï¿½ï¿½î¼­?
 	*/
 	//return false;
 //}
@@ -3464,7 +3467,7 @@ MZone::AddObstacle(MObstacle* pObstacle)
 //----------------------------------------------------------------------
 // Change Frame Obstacle
 //----------------------------------------------------------------------
-// ÀÓ½Ã ÇÔ¼ö  :  ¸ðµç ObstacleÀÇ FrameÀ» º¯È­½ÃÅ²´Ù.
+// ï¿½Ó½ï¿½ ï¿½Ô¼ï¿½  :  ï¿½ï¿½ï¿½ Obstacleï¿½ï¿½ Frameï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½Å²ï¿½ï¿½.
 //----------------------------------------------------------------------
 /*
 void
@@ -3486,21 +3489,21 @@ MZone::ChangeFrameObstacle()
 */
 
 //----------------------------------------------------------------------
-// Sector (x,y)¿¡ ÀÖ´Â ItemÀÇ ID¸¦ ³Ñ°ÜÁØ´Ù.
+// Sector (x,y)ï¿½ï¿½ ï¿½Ö´ï¿½ Itemï¿½ï¿½ IDï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½Ø´ï¿½.
 //----------------------------------------------------------------------
 TYPE_OBJECTID
 MZone::GetItemID(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 {
 	//-------------------------------------------------------
-	// ZoneÀÇ ¿µ¿ª ¹ÛÀÌ¸é check ¾ÈÇÑ´Ù.
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ check ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//-------------------------------------------------------
 	if (//x<0 || y<0 || 
 		x>=m_Width || y>=m_Height) return OBJECTID_NULL;
 
-	// ¹º°¡ ÀÖ´Â sectorÀÌ¸é
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ sectorï¿½Ì¸ï¿½
 	MItem*	pItem = m_ppSector[y][x].GetItem();
 
-	// Item°¡ ÀÖÀ¸¸é
+	// Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (pItem != NULL)
 	{			
 		return pItem->GetID();
@@ -3512,10 +3515,10 @@ MZone::GetItemID(TYPE_SECTORPOSITION x, TYPE_SECTORPOSITION y)
 }
 
 //----------------------------------------------------------------------
-// Zone¿¡ Item Ãß°¡ 
+// Zoneï¿½ï¿½ Item ï¿½ß°ï¿½ 
 //----------------------------------------------------------------------
-// ¿ÜºÎ¿¡¼­ newÇØÁà¾ß ÇÑ´Ù.
-// ÀÌ¹Ì ÀÖ´ÂÁö È®ÀÎÀ» ÇÏ°í ¾øÀ¸¸é Ãß°¡ÇØ¾ß ÇÑ´Ù.
+// ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ newï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::AddItem(MItem* pItem, BOOL bDropping)
@@ -3525,19 +3528,19 @@ MZone::AddItem(MItem* pItem, BOOL bDropping)
 		int num = 0;
 
 	//--------------------------------------------------------	
-	// ¶³¾î¶ß¸®´Â FrameÀÌ ÀÖ´Â °æ¿ì...
+	// ï¿½ï¿½ï¿½ï¿½ß¸ï¿½ï¿½ï¿½ Frameï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½...
 	//--------------------------------------------------------	
-	if (pItem->GetItemClass()!=ITEM_CLASS_MOTORCYCLE)	// ¿ÀÅä¹ÙÀÌ´Â ¾È ¶³¾îÁø´Ù. ¼Ò¸®µµ ¾È ³­´Ù.
+	if (pItem->GetItemClass()!=ITEM_CLASS_MOTORCYCLE)	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½Ò¸ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	{
 		if (bDropping 
-			&& pItem->GetDropFrameID()!=FRAMEID_NULL)				// ¶³¾îÁö´Â ±×¸²ÀÌ ¾ø´Â °æ¿ì
+			&& pItem->GetDropFrameID()!=FRAMEID_NULL)				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		{
 			pItem->SetDropping();
 		}
 		else
 		{
 			//--------------------------------------------------------	
-			// ¹Ù·Î ¶³¾îÁö´Â °æ¿ì´Â soundÃâ·Â
+			// ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ soundï¿½ï¿½ï¿½
 			//--------------------------------------------------------	
 			//PlaySound( pItem->GetTileSoundID(),
 			//					false,
@@ -3546,23 +3549,23 @@ MZone::AddItem(MItem* pItem, BOOL bDropping)
 	}
 
 	//--------------------------------------------------------	
-	// zone¿¡ itemÃß°¡
+	// zoneï¿½ï¿½ itemï¿½ß°ï¿½
 	//--------------------------------------------------------	
 	ITEM_MAP::iterator	theIterator;
 
 	theIterator = m_mapItem.find(pItem->GetID());
 	
-	// ¾ÆÁ÷ ¾ø´Â ItemÀÌ¸é Ãß°¡	
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Itemï¿½Ì¸ï¿½ ï¿½ß°ï¿½	
 	if (theIterator == m_mapItem.end())
 	{
-		// Sector Setting [¼º¹°¼öÁ¤]
+		// Sector Setting [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]
 		MSector& sector = m_ppSector[pItem->GetY()][pItem->GetX()];
 
 		if (sector.AddItem(pItem))
 		{		
 			m_mapItem.insert(ITEM_MAP::value_type(pItem->GetID(), pItem));
 
-			// [¼º¹°¼öÁ¤] - ¾ÆÀÌÅÛÀÎµ¥ °­Á¦·Î block½ÃÅ²´Ù.
+			// [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½] - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ blockï¿½ï¿½Å²ï¿½ï¿½.
 			if (IsRelicTable(pItem))
 			{
 				sector.SetBlockGround();
@@ -3571,12 +3574,12 @@ MZone::AddItem(MItem* pItem, BOOL bDropping)
 
 			bool bSpecialItem = false;
 
-			// ¾Æ´ãÀÇ ¼ºÁö °­Á¦ ÀÌÆåÆ® ºÙÀÓ
+			// ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 			if(pItem->GetItemClass() == ITEM_CLASS_BLOOD_BIBLE)
 			{
 				bSpecialItem = true;
 				ExecuteActionInfoFromMainNode(
-					ARMEGA_TILE+pItem->GetItemType(),		// °ª ÀÚÃ¼°¡ RESULT_ACTIONINFOÀÌ´Ù.
+					ARMEGA_TILE+pItem->GetItemType(),		// ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ RESULT_ACTIONINFOï¿½Ì´ï¿½.
 					
 					pItem->GetX(), pItem->GetY(), 0,
 					DIRECTION_DOWN,
@@ -3590,7 +3593,7 @@ MZone::AddItem(MItem* pItem, BOOL bDropping)
 					);
 			}
 
-			// ¾Æ´ãÀÇ ¼ºÁö °­Á¦ ÀÌÆåÆ® ºÙÀÓ
+			// ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 			if(pItem->GetItemClass() == ITEM_CLASS_CASTLE_SYMBOL)
 			{
 				int TempEffetType[6] = {	AMBER_OF_GUARD_TILE,
@@ -3606,7 +3609,7 @@ MZone::AddItem(MItem* pItem, BOOL bDropping)
 				bSpecialItem = true;
 
 				ExecuteActionInfoFromMainNode(
-					TempEffetType[TempItemType],		// °ª ÀÚÃ¼°¡ RESULT_ACTIONINFOÀÌ´Ù.
+					TempEffetType[TempItemType],		// ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ RESULT_ACTIONINFOï¿½Ì´ï¿½.
 					
 					pItem->GetX(), pItem->GetY(), 0,
 					DIRECTION_DOWN,
@@ -3623,7 +3626,7 @@ MZone::AddItem(MItem* pItem, BOOL bDropping)
 			if(bSpecialItem)
 			{
 				ExecuteActionInfoFromMainNode(
-					DROP_BLOOD_BIBLE,		// °ª ÀÚÃ¼°¡ RESULT_ACTIONINFOÀÌ´Ù.
+					DROP_BLOOD_BIBLE,		// ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ RESULT_ACTIONINFOï¿½Ì´ï¿½.
 					
 					pItem->GetX(), pItem->GetY(), 0,
 					DIRECTION_DOWN,
@@ -3637,14 +3640,14 @@ MZone::AddItem(MItem* pItem, BOOL bDropping)
 					);
 			}
 			
-			// 2004, 10, 25, sobeit add start - µå·¹°ï ¾ÆÀÌ ÀÌÆåÆ® ºÙÀÓ
+			// 2004, 10, 25, sobeit add start - ï¿½å·¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 			if(pItem->GetItemClass() == ITEM_CLASS_WAR_ITEM)
 			{
 				int warItemIndex = pItem->GetItemType();
-				if(0 == warItemIndex) // µå·¹°ï ¾ÆÀÌ ÀÏ ¶§
+				if(0 == warItemIndex) // ï¿½å·¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½
 				{
 					ExecuteActionInfoFromMainNode(
-						SKILL_CLIENT_DRAGON_EYES,		// °ª ÀÚÃ¼°¡ RESULT_ACTIONINFOÀÌ´Ù.
+						SKILL_CLIENT_DRAGON_EYES,		// ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ RESULT_ACTIONINFOï¿½Ì´ï¿½.
 						
 						pItem->GetX(), pItem->GetY(), 0,
 						DIRECTION_DOWN,
@@ -3661,7 +3664,7 @@ MZone::AddItem(MItem* pItem, BOOL bDropping)
 				else if(warItemIndex > 0 && warItemIndex < 7)
 				{
 					ExecuteActionInfoFromMainNode(
-						(SKILL_CLIENT_SLAYER_HERO + ((warItemIndex-1)%3)),		// °ª ÀÚÃ¼°¡ RESULT_ACTIONINFOÀÌ´Ù.
+						(SKILL_CLIENT_SLAYER_HERO + ((warItemIndex-1)%3)),		// ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ RESULT_ACTIONINFOï¿½Ì´ï¿½.
 						
 						pItem->GetX(), pItem->GetY(), 0,
 						DIRECTION_DOWN,
@@ -3676,7 +3679,7 @@ MZone::AddItem(MItem* pItem, BOOL bDropping)
 				}
 #endif //__HERO_SYSTEM
 			}
-			// 2004, 10, 25, sobeit add end - µå·¹°ï ¾ÆÀÌ ÀÌÆåÆ® ºÙÀÓ
+			// 2004, 10, 25, sobeit add end - ï¿½å·¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 
 			return true;
 		}
@@ -3691,15 +3694,15 @@ MZone::AddItem(MItem* pItem, BOOL bDropping)
 		return false;
 	}
 
-	// ÀÌ¹Ì ÀÖ´Â ItemÀÌ¸é,
+	// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Itemï¿½Ì¸ï¿½,
 	return false;
 }
 	
 
 //----------------------------------------------------------------------
-// Zone¿¡¼­ Item Á¦°Å
+// Zoneï¿½ï¿½ï¿½ï¿½ Item ï¿½ï¿½ï¿½ï¿½
 //----------------------------------------------------------------------
-// ³»ºÎ¿¡¼­ deleteÇØÁØ´Ù.
+// ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ deleteï¿½ï¿½ï¿½Ø´ï¿½.
 //----------------------------------------------------------------------
 bool
 MZone::RemoveItem(TYPE_OBJECTID id)
@@ -3716,19 +3719,19 @@ MZone::RemoveItem(TYPE_OBJECTID id)
 		tempItr++;
 	}
 
-	// ID°¡ idÀÎ Item¸¦ Ã£´Â´Ù.
+	// IDï¿½ï¿½ idï¿½ï¿½ Itemï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 	theIterator = m_mapItem.find(id);
     
-	// ±×·± id¸¦ °¡Áø Item´Â ¾ø´Ù.	
+	// ï¿½×·ï¿½ idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.	
 	if (theIterator == m_mapItem.end())
 		return false;
 
 
-	// Ã£Àº °æ¿ì --> Á¦°Å	
+	// Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½	
 
-	// Sector¿¡¼­ Á¦°Å
+	// Sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	MItem* pItem = NULL;
-	// [¼º¹°¼öÁ¤]
+	// [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]
 
 	int sector_y = (*theIterator).second->GetY(), sector_x = (*theIterator).second->GetX();
 	MSector& sector = m_ppSector[sector_y][sector_x];
@@ -3736,7 +3739,7 @@ MZone::RemoveItem(TYPE_OBJECTID id)
 
 	if (removed && pItem!=NULL)
 	{
-		// [¼º¹°¼öÁ¤]
+		// [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]
 		if (IsRelicTable(pItem))
 		{
 			sector.UnSetBlockGround();
@@ -3744,7 +3747,7 @@ MZone::RemoveItem(TYPE_OBJECTID id)
 		}
 		bool bSpecialItem = false;
 		
-		// ¾Æ´ãÀÇ ¼ºÁö °­Á¦ ÀÌÆåÆ® ºÙÀÓ
+		// ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 		if(pItem->GetItemClass() == ITEM_CLASS_BLOOD_BIBLE)
 		{
 			bSpecialItem = true;
@@ -3755,7 +3758,7 @@ MZone::RemoveItem(TYPE_OBJECTID id)
 			}
 		}
 		
-		// 2004, 10, 25, sobeit add start - µå·¹°ï ¾ÆÀÌ ÀÌÆåÆ® ¶¼ÀÚ
+		// 2004, 10, 25, sobeit add start - ï¿½å·¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 		if(pItem->GetItemClass() == ITEM_CLASS_WAR_ITEM)
 		{
 			int warItemIndex = pItem->GetItemType();
@@ -3778,7 +3781,7 @@ MZone::RemoveItem(TYPE_OBJECTID id)
 
 		}
 		// 2004, 10, 25, sobeit add end
-		// ¾Æ´ãÀÇ ¼ºÁö °­Á¦ ÀÌÆåÆ® ºÙÀÓ
+		// ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 		if(pItem->GetItemClass() == ITEM_CLASS_CASTLE_SYMBOL)
 		{
 			bSpecialItem = true;
@@ -3809,7 +3812,7 @@ MZone::RemoveItem(TYPE_OBJECTID id)
 		m_mapItem.erase(theIterator);
 
 		//------------------------------------------------------
-		// Item Check Buffer¿¡ ÀÖ´Â °æ¿ì Áö¿öÁà¾ß ÇÑ´Ù. 2001.8.27
+		// Item Check Bufferï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½. 2001.8.27
 		//------------------------------------------------------
 		MItem* pCheckItem = g_pPlayer->GetItemCheckBuffer();
 
@@ -3820,7 +3823,7 @@ MZone::RemoveItem(TYPE_OBJECTID id)
 			if (pItem->GetID()==pCheckItem->GetID())
 			{
 				//---------------------------------------------
-				// item check buffer¸¦ ¾ø¾ÖÁØ´Ù.
+				// item check bufferï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 				//---------------------------------------------
 				g_pPlayer->ClearItemCheckBuffer();
 			}
@@ -3830,7 +3833,7 @@ MZone::RemoveItem(TYPE_OBJECTID id)
 			DEBUG_ADD("Check Item is NULL");
 		}
 
-		// memory¿¡¼­ Á¦°Å
+		// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//delete pItem;	
 		SAFE_DELETE ( pItem );
 	}
@@ -3839,26 +3842,26 @@ MZone::RemoveItem(TYPE_OBJECTID id)
 }
 
 //----------------------------------------------------------------------
-// Zone¿¡¼­ Item Á¦°Å
+// Zoneï¿½ï¿½ï¿½ï¿½ Item ï¿½ï¿½ï¿½ï¿½
 //----------------------------------------------------------------------
-// zone¿¡¼­ Á¦°Å¸¸ ÇÏ°í deleteÇÏÁö ¾Ê´Â´Ù.
+// zoneï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å¸ï¿½ ï¿½Ï°ï¿½ deleteï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //----------------------------------------------------------------------
 bool
 MZone::PickupItem(TYPE_OBJECTID id)
 {
 	ITEM_MAP::iterator	theIterator;
 
-	// ID°¡ idÀÎ Item¸¦ Ã£´Â´Ù.
+	// IDï¿½ï¿½ idï¿½ï¿½ Itemï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 	theIterator = m_mapItem.find(id);
     
-	// ±×·± id¸¦ °¡Áø Item´Â ¾ø´Ù.	
+	// ï¿½×·ï¿½ idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.	
 	if (theIterator == m_mapItem.end())
 		return false;
 
 
-	// Ã£Àº °æ¿ì --> Á¦°Å	
+	// Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½	
 
-	// Sector¿¡¼­ Á¦°Å
+	// Sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	MItem* pItem = NULL;
 	int sector_y = (*theIterator).second->GetY(), sector_x = (*theIterator).second->GetX();
 	bool removed = m_ppSector[sector_y][sector_x].RemoveItem(pItem);
@@ -3867,7 +3870,7 @@ MZone::PickupItem(TYPE_OBJECTID id)
 
 	if(pItem != NULL && removed)
 	{
-		// ¾Æ´ãÀÇ ¼ºÁö °­Á¦ ÀÌÆåÆ® ºÙÀÓ
+		// ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 		if(pItem->GetItemClass() == ITEM_CLASS_BLOOD_BIBLE)
 		{
 			bSpecialItem = true;
@@ -3878,7 +3881,7 @@ MZone::PickupItem(TYPE_OBJECTID id)
 			}
 		}
 		
-		// 2004, 10, 25, sobeit add start - µå·¹°ï ¾ÆÀÌ ÀÌÆåÆ® ¶¼ÀÚ
+		// 2004, 10, 25, sobeit add start - ï¿½å·¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 		if(pItem->GetItemClass() == ITEM_CLASS_WAR_ITEM)
 		{
 			int warItemIndex = pItem->GetItemType();
@@ -3902,7 +3905,7 @@ MZone::PickupItem(TYPE_OBJECTID id)
 		}
 		// 2004, 10, 25, sobeit add end
 		
-		// ¾Æ´ãÀÇ ¼ºÁö °­Á¦ ÀÌÆåÆ® ºÙÀÓ
+		// ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 		if(pItem->GetItemClass() == ITEM_CLASS_CASTLE_SYMBOL)
 		{
 			bSpecialItem = true;
@@ -3941,29 +3944,29 @@ MZone::PickupItem(TYPE_OBJECTID id)
 }
 
 //----------------------------------------------------------------------
-// ZoneÀÇ Item ÀÐ¾î¿À±â
+// Zoneï¿½ï¿½ Item ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½
 //----------------------------------------------------------------------
 MItem*	
 MZone::GetItem(TYPE_OBJECTID id)
 {
 	ITEM_MAP::iterator	theIterator;
 
-	// ID°¡ idÀÎ Item¸¦ Ã£´Â´Ù.
+	// IDï¿½ï¿½ idï¿½ï¿½ Itemï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 	theIterator = m_mapItem.find(id);
 
-	// ¾øÀ» °æ¿ì NULLÀ» returnÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ NULLï¿½ï¿½ returnï¿½Ñ´ï¿½.
 	if (theIterator == m_mapItem.end()) 
 		return NULL;
 
-	// ÀÖÀ¸¸é ±× Item¸¦ returnÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Itemï¿½ï¿½ returnï¿½Ñ´ï¿½.
 	return (*theIterator).second;
 }
 
 //----------------------------------------------------------------------
-// Zone¿¡ Effect Ãß°¡
+// Zoneï¿½ï¿½ Effect ï¿½ß°ï¿½
 //----------------------------------------------------------------------
-// m_mapEffect¿¡ Ãß°¡ÇÑ´Ù.
-// Sector¿¡ listEffect¸¦ Ãß°¡ÇÑ´Ù.
+// m_mapEffectï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
+// Sectorï¿½ï¿½ listEffectï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
@@ -3980,7 +3983,7 @@ MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
 	int y = pNewEffect->GetY();
 
 
-	// Effect¸¦ Ãß°¡ÇÒ ¼ö ¾ø´Â °æ¿ì
+	// Effectï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	if(CanAddEffect(pNewEffect) == false)
 	{
 		delete pNewEffect;
@@ -3989,22 +3992,22 @@ MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
 	
 
 	//---------------------------------------------------------
-	// ZoneÀÇ °æ°è¸¦ ³Ñ¾î°¡´Â °æ¿ì..
+	// Zoneï¿½ï¿½ ï¿½ï¿½è¸¦ ï¿½Ñ¾î°¡ï¿½ï¿½ ï¿½ï¿½ï¿½..
 	//---------------------------------------------------------
 	if (x<0 || x>=m_Width
 		|| y<0 || y>=m_Height)
 	{
 		DEBUG_ADD("OuterZone");
 
-		// chase effect ´Â ³Ñ¾î°¡µµ ±¦Âú´Ù.
+		// chase effect ï¿½ï¿½ ï¿½Ñ¾î°¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 		if (pNewEffect->GetEffectType()==MEffect::EFFECT_CHASE)
 		{
 			TYPE_OBJECTID id = pNewEffect->GetID();
 
-			// ¾ø´Â °æ¿ì¸¸ Ãß°¡ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¸¸ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 			if (m_mapEffect.find( id )==m_mapEffect.end())
 			{
-				// list¿¡ Ãß°¡
+				// listï¿½ï¿½ ï¿½ß°ï¿½
 				m_mapEffect[id] = pNewEffect;				
 
 				DEBUG_ADD("ChaseEffect");
@@ -4023,9 +4026,9 @@ MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
 	MSector &sector = m_ppSector[y][x];
 
 	//---------------------------------------------------------
-	// ±âÁ¸ÀÇ Effect¿Í ºñ±³..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Effectï¿½ï¿½ ï¿½ï¿½..
 	//
-	// Sector¿¡ °íÁ¤µÈ EffectÀÎ °æ¿ì¸¸...
+	// Sectorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Effectï¿½ï¿½ ï¿½ï¿½ì¸¸...
 	//---------------------------------------------------------
 	BOOL AddOK = TRUE;
 
@@ -4047,10 +4050,10 @@ MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
 				MEffect* pEffect = *iEffect;
 
 				//---------------------------------------------------------
-				// ±×¸²ÀÌ °°´Ù¸é °°Àº Effect·Î Ãë±ÞÇÑ´Ù.
-				// ½Ã°£ÀÌ ±ä ÂÊÀ» Àâ´Â´Ù.
+				// ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ Effectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+				// ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
 				//---------------------------------------------------------
-				// °°Àº typeÀ» Ã£´Â´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ typeï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 				if (pEffect->GetEffectType()==MEffect::EFFECT_SECTOR)
 				{
 					int fid1 = pNewEffect->GetFrameID();
@@ -4059,7 +4062,7 @@ MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
 					int est1 = g_pTopView->GetEffectSpriteType( (BLT_TYPE)pNewEffect->GetBltType(), fid1 );
 					int est2 = g_pTopView->GetEffectSpriteType( (BLT_TYPE)pEffect->GetBltType(), fid2 );
 					
-//					// 2004, 10, 19, sobeit add start µµ½½ 140 ½ºÅ³ ¶«¿¡
+//					// 2004, 10, 19, sobeit add start ï¿½ï¿½ï¿½ï¿½ 140 ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½
 //					if(est1 == EFFECTSPRITETYPE_SPIT_STREAM ||
 //						est1 == EFFECTSPRITETYPE_GREAT_RUFFIAN_2_AXE_THROW ||
 //						est1 == EFFECTSPRITETYPE_GREAT_RUFFIAN_2_AXE_THROW_SHADOW ||
@@ -4067,13 +4070,13 @@ MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
 //						est1 == EFFECTSPRITETYPE_GREAT_RUFFIAN_1_AXE_WAVE
 //						)
 //					{
-//						AddOK = TRUE; // ÀÌ ½ºÅ³Àº °°Àº ±×¸²ÀÌ ÇÑÅ¸ÀÏ¿¡ µÎ°³ ÀÌ»ó ´Ù¸¥À§Ä¡¿¡ ³ªÅ¸³¯ ¼öµµ ÀÖ´Ù..-_-
+//						AddOK = TRUE; // ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½Ï¿ï¿½ ï¿½Î°ï¿½ ï¿½Ì»ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½..-_-
 //					}
 //					else
 //					// 2004, 10, 19, sobeit add end
 					if (fid1 == fid2)
 					{
-						// Ãß°¡ÇÒ·Á´Â °ÍÀÌ ´õ ´Ê°Ô ³¡³¯ °æ¿ì¿¡¸¸ ½Ã°£À» È®ÀåÇÑ´Ù.
+						// ï¿½ß°ï¿½ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ñ´ï¿½.
 						if (pNewEffect->GetEndFrame() > pEffect->GetEndFrame() &&
 							est1 != EFFECTSPRITETYPE_DRAGON_FIRE_CRACKER) 
 						{
@@ -4082,7 +4085,7 @@ MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
 							pEffect->SetCount( count );
 						}
 
-						// °°Àº°Ô ÀÖ´Ù¸é Ãß°¡¾ÈÇÔ..
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½..
 						AddOK = FALSE;
 						
 						if( est1 ==	EFFECTSPRITETYPE_DRAGON_FIRE_CRACKER )
@@ -4090,7 +4093,7 @@ MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
 
 						break;
 					}
-					// ¶Ç´Â DarknessÀÎ °æ¿ì... À¸Èì~~ -_-;;
+					// ï¿½Ç´ï¿½ Darknessï¿½ï¿½ ï¿½ï¿½ï¿½... ï¿½ï¿½ï¿½ï¿½~~ -_-;;
 					else
 					{					
 						if (
@@ -4133,7 +4136,7 @@ MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
 								)								
 							)
 						{
-							// Ãß°¡ÇÒ·Á´Â °ÍÀÌ ´õ ´Ê°Ô ³¡³¯ °æ¿ì¿¡¸¸ ½Ã°£À» È®ÀåÇÑ´Ù.
+							// ï¿½ß°ï¿½ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ñ´ï¿½.
 							if (pNewEffect->GetEndFrame() > pEffect->GetEndFrame()) 
 							{
 								int count = pNewEffect->GetEndFrame() - g_CurrentFrame;
@@ -4141,10 +4144,10 @@ MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
 								pEffect->SetCount( count );
 							}
 
-							// °°Àº°Ô ÀÖ´Ù¸é Ãß°¡¾ÈÇÔ..
+							// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½..
 							AddOK = FALSE;
 
-							// ¹Ýº¹ darknessÀÎ °æ¿ì¿¡¸¸..
+							// ï¿½Ýºï¿½ darknessï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½..
 							if (est1>=EFFECTSPRITETYPE_DARKNESS_2_1 &&
 								est1<=EFFECTSPRITETYPE_DARKNESS_2_5 ||
 								est1>=EFFECTSPRITETYPE_GRAY_DARKNESS_2_1 &&
@@ -4157,12 +4160,12 @@ MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
 							CheckCreatureInDarkness( sector, x, y );
 
 							break;
-						}	// [»õ±â¼ú]
-							// sanctuary ÀÖ´Â °æ¿ì			
+						}	// [ï¿½ï¿½ï¿½ï¿½ï¿½]
+							// sanctuary ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½			
 						else if (est1>=EFFECTSPRITETYPE_SANCTUARY_1
 								&& est1<=EFFECTSPRITETYPE_SANCTUARY_3)
 						{
-							// ±ÙÃ³ Å¸ÀÏµé¿¡µµ Ã¼Å©ÇÑ´Ù. [»õ±â¼ú9]
+							// ï¿½ï¿½Ã³ Å¸ï¿½Ïµé¿¡ï¿½ï¿½ Ã¼Å©ï¿½Ñ´ï¿½. [ï¿½ï¿½ï¿½ï¿½ï¿½9]
 							for (int i=-1; i<=1; i++)
 							{							
 								for (int j=-1; j<=1; j++)
@@ -4191,7 +4194,7 @@ MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
 	}
 			
 	//---------------------------------------------------------
-	// Ãß°¡ÇØµµ µÇ´Â °æ¿ì
+	// ï¿½ß°ï¿½ï¿½Øµï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½
 	//---------------------------------------------------------
 	if (AddOK)
 	{
@@ -4199,13 +4202,13 @@ MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
 
 		TYPE_OBJECTID id = pNewEffect->GetID();
 
-		// ¾ø´Â °æ¿ì¸¸ Ãß°¡ÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¸¸ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 		if (m_mapEffect.find( id )==m_mapEffect.end())
 		{
-			// list¿¡ Ãß°¡
+			// listï¿½ï¿½ ï¿½ß°ï¿½
 			m_mapEffect[id] = pNewEffect;
 
-			// sector¿¡ Ãß°¡
+			// sectorï¿½ï¿½ ï¿½ß°ï¿½
 			MSector& sector = m_ppSector[y][x];
 
 			DEBUG_ADD("secAddEff");
@@ -4219,7 +4222,7 @@ MZone::AddEffect(MEffect* pNewEffect, DWORD dwWaitCount)
 		}
 	}
 
-	// ½Ã¾ß ¼³Á¤
+	// ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½
 //	if (pEffect->GetBltType()==BLT_EFFECT)
 //	{
 //		SetLight(pEffect->GetX(), pEffect->GetY(), pEffect->GetLight());		
@@ -4276,7 +4279,7 @@ MZone::CanAddEffect(MEffect* pNewEffect)
 			return false;
 		}
 	}
-	// ±ê´ë ÁÖº¯¿¡´Â ´ÙÅ©´Ï½º°¡ ±ò¸®Áö ¾Ê´Â´Ù.
+	// ï¿½ï¿½ï¿½ ï¿½Öºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 	if( bDarkNess )
 	{
 		if( !( x < 0 || x >= GetWidth() || y < 0 || y >=GetHeight() ) )
@@ -4284,7 +4287,7 @@ MZone::CanAddEffect(MEffect* pNewEffect)
 			const MSector& sector= m_ppSector[y][x];
 			const MItem* pItem = sector.GetItem();
 			
-			// ±ê´ë°¡ ÀÖ´Â°÷Àº ´ÙÅ©´Ï½º°¡ ¾ÈÂïÈù´Ù.
+			// ï¿½ï¿½ë°¡ ï¿½Ö´Â°ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 			if( pItem != NULL && pItem->GetItemClass() == ITEM_CLASS_CORPSE &&
 				((MCorpse*)pItem)->GetCreature() != NULL &&
 				((MCorpse*)pItem)->GetCreature()->GetCreatureType() == 670 )
@@ -4294,7 +4297,7 @@ MZone::CanAddEffect(MEffect* pNewEffect)
 		}		
 	}
 
-	// ¾î¶² ÀÌÆÑÆ®°¡ °É·ÁÀÖ´Â °æ¿ì ±× À§¿¡ °É¸®Áö ¾Ê´Â ÀÌÆÑÆ®°¡ ÀÖ´Ù.
+	// ï¿½î¶² ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½É·ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É¸ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö´ï¿½.
 	if( bDarkNess || bAcidSwamp || bProminence || bBloodWall || bHellFire || bFuryOfGnome)
 	{
 		bool bCantUseMercyGround				= bDarkNess || bAcidSwamp || bProminence;
@@ -4322,7 +4325,7 @@ MZone::CanAddEffect(MEffect* pNewEffect)
 			const int effectX = pEffect->GetX();
 			const int effectY = pEffect->GetY();
 
-			// Mercy Ground °¡ ±ò·Á ÀÖÀ¸¸é ´ÙÅ©´Ï½º ÂïÁö ¾Ê´Â´Ù.
+			// Mercy Ground ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 			if(bCantUseMercyGround							&&
 			   SearchedFrameID >= frameIDMercyGroundBegin	&&
 			   SearchedFrameID <= frameIDMercyGroundEnd)
@@ -4386,8 +4389,8 @@ MZone::GetEffect(TYPE_OBJECTID id) const
 //----------------------------------------------------------------------
 // Remove Effect ( id )
 //----------------------------------------------------------------------
-// effectÀÇ id´Â °ÅÀÇ ÀÇ¹Ì°¡ ¾øÁö¸¸..
-// ¾ïÁö·Î¶óµµ Áö¿ö¾ßÇÏ´Â °æ¿ì°¡ ÀÖ¾î¼­¸®.. - -;
+// effectï¿½ï¿½ idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
+// ï¿½ï¿½ï¿½ï¿½ï¿½Î¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ì°¡ ï¿½Ö¾î¼­ï¿½ï¿½.. - -;
 //----------------------------------------------------------------------
 bool		
 MZone::RemoveEffect(TYPE_OBJECTID id)
@@ -4404,13 +4407,13 @@ MZone::RemoveEffect(TYPE_OBJECTID id)
 	int x = pEffect->GetX();
 	int y = pEffect->GetY();
 
-	// °æ°è¸¦ ³ÑÁö ¾Ê´Â °æ¿ì
+	// ï¿½ï¿½è¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½
 	if (x>=0 && x<m_Width
 		&& y>=0 && y<m_Height)
 	{
 		MSector& sector = m_ppSector[y][x];
 		
-		// [»õ±â¼ú9]
+		// [ï¿½ï¿½ï¿½ï¿½ï¿½9]
 		RemoveSectorEffect( x, y, pEffect->GetID() );
 
 		CheckCreatureInDarkness( sector, x, y );
@@ -4426,7 +4429,7 @@ MZone::RemoveEffect(TYPE_OBJECTID id)
 //----------------------------------------------------------------------
 // Remove Tile Effect
 //----------------------------------------------------------------------
-// tile¿¡ ÀÖ´Â effect¸¦ Áö¿î´Ù.
+// tileï¿½ï¿½ ï¿½Ö´ï¿½ effectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::RemoveTileEffect(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, int effectStatus, int serverID)
@@ -4441,7 +4444,7 @@ MZone::RemoveTileEffect(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, int effe
 	TYPE_EFFECTSPRITETYPE type = (*g_pEffectStatusTable)[effectStatus].EffectSpriteType;
 	
 	//----------------------------------------------------------------------
-	// EffectStatus¿¡ µû¶ó¼­ Æ¯º°ÇÑ°Í Ã¼Å©
+	// EffectStatusï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ï¿½Ñ°ï¿½ Ã¼Å©
 	//----------------------------------------------------------------------
 	switch (effectStatus)
 	{
@@ -4478,7 +4481,7 @@ MZone::RemoveTileEffect(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, int effe
 		break;
 
 		//----------------------------------------------------------------
-		// vampire Æ÷Å»Àº m_mapGroundEffect¿¡ Ãß°¡µÇ¾î ÀÖ´ç..
+		// vampire ï¿½ï¿½Å»ï¿½ï¿½ m_mapGroundEffectï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½..
 		//----------------------------------------------------------------		
 		case EFFECTSTATUS_VAMPIRE_PORTAL :
 		{
@@ -4495,7 +4498,7 @@ MZone::RemoveTileEffect(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, int effe
 				if (pEffectTarget!=NULL)
 				{
 					//------------------------------------------------------------------
-					// PortalÀÎ °æ¿ì
+					// Portalï¿½ï¿½ ï¿½ï¿½ï¿½
 					//------------------------------------------------------------------
 					if (pEffectTarget->GetEffectTargetType()==MEffectTarget::EFFECT_TARGET_PORTAL)
 					{
@@ -4633,12 +4636,12 @@ MZone::RemoveTileEffect(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, int effe
 
 	bool rtn = false;
 
-	// EffectSpriteTypeÀ» »ç¿ëÇØ Á¦°ÅÇÑ´Ù.
+	// EffectSpriteTypeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	if(type != EFFECTSPRITETYPE_NULL) {
 		rtn |= RemoveTileEffect(sX, sY, type, serverID);
 	}
  
-	// ActionInfo¸¦ »ç¿ëÇØ Á¦°ÅÇÑ´Ù.
+	// ActionInfoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	TYPE_ACTIONINFO actionInfoIdx = (*g_pEffectStatusTable)[effectStatus].ActionInfo;
 	if(actionInfoIdx != ACTIONINFO_NULL) {
 		rtn |= RemoveTileEffectByActionInfo(sX, sY, actionInfoIdx, serverID);
@@ -4652,7 +4655,7 @@ MZone::RemoveTileEffect(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, int effe
 //----------------------------------------------------------------------
 // Remove Tile Effect
 //----------------------------------------------------------------------
-// tile¿¡ ÀÖ´Â effect¸¦ Áö¿î´Ù.
+// tileï¿½ï¿½ ï¿½Ö´ï¿½ effectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::RemoveTileEffectByActionInfo(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_ACTIONINFO actionInfoIdx, int serverID)
@@ -4665,9 +4668,9 @@ MZone::RemoveTileEffectByActionInfo(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION 
 		TYPE_EFFECTSPRITETYPE	effectSpriteType	= actionInfo[idx].EffectSpriteType;
 		TYPE_EFFECTGENERATORID	effectGeneratorId	= actionInfo[idx].EffectGeneratorID;
 
-		// Effect Generator¸¶´Ù Áö¿ì´Â ¹æ¹ýÀÌ ´Ù¸£´Ù.
-		// Áö¿ì°í ½ÍÀº EffectÀÇ Effect Generator°¡ ¾ø´Ù¸é
-		// ±×¶§ ±×¶§ Ãß°¡ÇÑ´Ù -¤µ-
+		// Effect Generatorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Effectï¿½ï¿½ Effect Generatorï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½
+		// ï¿½×¶ï¿½ ï¿½×¶ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½ -ï¿½ï¿½-
 
 		switch(effectSpriteType)
 		{
@@ -4692,15 +4695,15 @@ MZone::RemoveTileEffectByActionInfo(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION 
 //----------------------------------------------------------------------
 // Remove Mercy Ground Tile Effect
 //----------------------------------------------------------------------
-// tile¿¡ ÀÖ´Â Mercy Ground effect¸¦ Áö¿î´Ù.
+// tileï¿½ï¿½ ï¿½Ö´ï¿½ Mercy Ground effectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::RemoveMercyGroundTileEffect(TYPE_SECTORPOSITION sLeft, TYPE_SECTORPOSITION sTop, TYPE_SECTORPOSITION sRight, TYPE_SECTORPOSITION sBottom)
 {
 	bool	rtn			= false;
 
-	// ÀÏ´Ü Áß°£Å¸ÀÏÀ» °Ë»öÇØ¼­ °¡ÀåÀÚ¸® Å¸ÀÏµéÀ» Áö¿î´Ù.
-	// Áß°£Å¸ÀÏÀº °Ë»ö¿¡ ÇÊ¿äÇÏ±â ¶§¹®¿¡ ÀÏ´Ü Áö¿ìÁö ¾Ê´Â´Ù.
+	// ï¿½Ï´ï¿½ ï¿½ß°ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ Å¸ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
+	// ï¿½ß°ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 	for(int iy = sTop; iy <= sBottom; ++iy)
 		for(int ix = sLeft; ix <= sRight; ++ix)
 		{
@@ -4711,7 +4714,7 @@ MZone::RemoveMercyGroundTileEffect(TYPE_SECTORPOSITION sLeft, TYPE_SECTORPOSITIO
 			
 			for(int i = 0; i < 9; ++i)
 			{
-				if(i == 4) continue;	// Áß°£ Å¸ÀÏÀº ³ªÁß¿¡ Áö¿î´Ù.
+				if(i == 4) continue;	// ï¿½ß°ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 				centerX = ix + i%3-1;
 				centerY = iy + i/3-1;
@@ -4759,7 +4762,7 @@ MZone::RemoveMercyGroundTileEffect(TYPE_SECTORPOSITION sLeft, TYPE_SECTORPOSITIO
 		}
 
 
-	// ÀÌÁ¦ Áß°£ Å¸ÀÏ¸¸ Áö¿î´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ Å¸ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 	for(iy = sTop; iy <= sBottom; ++iy)
 		for(int ix = sLeft; ix <= sRight; ++ix)
 		{
@@ -4791,7 +4794,7 @@ MZone::RemoveMercyGroundTileEffect(TYPE_SECTORPOSITION sLeft, TYPE_SECTORPOSITIO
 //----------------------------------------------------------------------
 // Remove Tile Effect
 //----------------------------------------------------------------------
-// tile¿¡ ÀÖ´Â effect¸¦ Áö¿î´Ù.
+// tileï¿½ï¿½ ï¿½Ö´ï¿½ effectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::RemoveTileEffect(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_EFFECTSPRITETYPE type, int serverID)
@@ -4815,7 +4818,7 @@ MZone::RemoveTileEffect(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_EFF
 	MSector& sector = m_ppSector[sY][sX];
 
 	//--------------------------------------------------
-	// effect°¡ ÀÖ´Â sectorÀÎÁö È®ÀÎ
+	// effectï¿½ï¿½ ï¿½Ö´ï¿½ sectorï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 	//--------------------------------------------------
 	if (sector.IsExistEffect())
 	{
@@ -4836,7 +4839,7 @@ MZone::RemoveTileEffect(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_EFF
 			MEffect* pEffect = *iEffect;
 
 			//--------------------------------------------------
-			// sector¿¡ Á¸ÀçÇÏ´Â effect¸¸ Ã¼Å©ÇØ¼­ Áö¿î´Ù.
+			// sectorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ effectï¿½ï¿½ Ã¼Å©ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 			//--------------------------------------------------
 			if (pEffect->GetEffectType() == MEffect::EFFECT_SECTOR)
 			{
@@ -4848,20 +4851,20 @@ MZone::RemoveTileEffect(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_EFF
 //											pEffect->GetFrameID() >= EFFECTSPRITETYPE_MAP_BLACK_SMALL_SMOKE_3;
 											);
 				//--------------------------------------------------
-				// °°Àº effect typeÀÎ °æ¿ì
+				// ï¿½ï¿½ï¿½ï¿½ effect typeï¿½ï¿½ ï¿½ï¿½ï¿½
 				//--------------------------------------------------
 				if (pEffect->GetFrameID() == frameID
-					// DarknessÀÎ °æ¿ì... ÇÏµåÄÚµù.. - -;;
+					// Darknessï¿½ï¿½ ï¿½ï¿½ï¿½... ï¿½Ïµï¿½ï¿½Úµï¿½.. - -;;
 					|| isRemoveDarknessEffect
 					&& isExistDarknessEffect					
 					)
 				{
-					// sector¿¡¼­ Á¦°Å [»õ±â¼ú9]
+					// sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ [ï¿½ï¿½ï¿½ï¿½ï¿½9]
 					RemoveSectorEffect( sX, sY, pEffect->GetID() );
 
 					
 					//--------------------------------------------------
-					// zoneÀÇ list¿¡¼­µµ Ã¼Å©ÇØ¼­ Áö¿î´Ù.
+					// zoneï¿½ï¿½ listï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 					//--------------------------------------------------
 					// delete
 					EFFECT_MAP::iterator iZoneEffect = m_mapEffect.begin();
@@ -4871,7 +4874,7 @@ MZone::RemoveTileEffect(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_EFF
 					{
 						MEffect* pZoneEffect = iZoneEffect->second;
 
-						// °°Àº EffectÀÌ¸é..
+						// ï¿½ï¿½ï¿½ï¿½ Effectï¿½Ì¸ï¿½..
 						if (pZoneEffect->GetID()==pEffect->GetID())
 						{
 							m_mapEffect.erase( iZoneEffect );
@@ -4893,7 +4896,7 @@ MZone::RemoveTileEffect(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_EFF
 						{
 							MEffect* pGroundEffect = iGroundEffect->second;
 
-							// °°Àº EffectÀÌ¸é..
+							// ï¿½ï¿½ï¿½ï¿½ Effectï¿½Ì¸ï¿½..
 							if (pGroundEffect->GetID()==pEffect->GetID())
 							{
 								m_mapGroundEffect.erase( iGroundEffect );
@@ -4907,7 +4910,7 @@ MZone::RemoveTileEffect(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_EFF
 						}
 					}
 
-					// ´ÙÅ©´Ï½ºÀÎ °æ¿ì ±× Å¸ÀÏ¿¡ ÀÖ´ø Ä³¸¯ÅÍ¸¦ º¸¿©ÁØ´Ù.
+					// ï¿½ï¿½Å©ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ Å¸ï¿½Ï¿ï¿½ ï¿½Ö´ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 					if (isRemoveDarknessEffect)
 					{
 						CheckCreatureInDarkness( sector, sX, sY );
@@ -4932,7 +4935,7 @@ MZone::RemoveTileEffect(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_EFF
 //----------------------------------------------------------------------
 // Change Frame Effect
 //----------------------------------------------------------------------
-// ÀÓ½Ã ÇÔ¼ö  :  ¸ðµç EffectÀÇ FrameÀ» º¯È­½ÃÅ²´Ù.
+// ï¿½Ó½ï¿½ ï¿½Ô¼ï¿½  :  ï¿½ï¿½ï¿½ Effectï¿½ï¿½ Frameï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½Å²ï¿½ï¿½.
 //----------------------------------------------------------------------
 void
 MZone::UpdateEffects()
@@ -4945,8 +4948,8 @@ MZone::UpdateEffects()
 	int count = m_mapEffect.size();
 
 
-	int		sX, sY;		// º¯°æ ÀüÀÇ ÁÂÇ¥
-	int		nX, nY;		// º¯°æ ÈÄÀÇ ÁÂÇ¥
+	int		sX, sY;		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥
+	int		nX, nY;		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥
 	int		light;
 	int		id;
 	
@@ -4962,20 +4965,20 @@ MZone::UpdateEffects()
 			continue;
 		}
 
-		// ÀÌÀü ÁÂÇ¥ ±â¾ï
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½
 		id		= pEffect->GetID();
 		sX		= pEffect->GetX();
 		sY		= pEffect->GetY();
 		light	= pEffect->GetLight();
 
-		// ½Ã¾ß ¹Ù²ã¾ß ÇÏ´Â°¡?
+		// ï¿½Ã¾ï¿½ ï¿½Ù²ï¿½ï¿½ ï¿½Ï´Â°ï¿½?
 //		bChangeSight = pEffect->GetBltType()==BLT_EFFECT;
 
 		BOOL sXYinZone = (sX>=0 && sX<m_Width && sY>=0 && sY<m_Height);
 		
 		//---------------------------------------
 		//
-		// Á¦´ë·Î ¿òÁ÷ÀÎ °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//
 		//---------------------------------------
 		if (pEffect->Update())
@@ -4986,15 +4989,15 @@ MZone::UpdateEffects()
 			BOOL nXYinZone = (nX>=0 && nX<m_Width && nY>=0 && nY<m_Height);
 
 			//---------------------------------------
-			// chase effect°¡ ¾Æ´Ï°í..
-			// ZoneÀÇ °æ°è¸¦ ³Ñ¾î°£ °æ¿ì.. --> Á¦°ÅÇÑ´Ù.
+			// chase effectï¿½ï¿½ ï¿½Æ´Ï°ï¿½..
+			// Zoneï¿½ï¿½ ï¿½ï¿½è¸¦ ï¿½Ñ¾î°£ ï¿½ï¿½ï¿½.. --> ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//---------------------------------------
 			if (pEffect->GetEffectType()!=MEffect::EFFECT_CHASE
 //				&& (pEffect->GetFrameID() <= EFFECTSPRITETYPE_MAP_BLACK_LARGE_SMOKE ||
 //					pEffect->GetFrameID() >= EFFECTSPRITETYPE_MAP_BLACK_SMALL_SMOKE_3)
 				&& !nXYinZone)
 			{
-				// ½Ã¾ß Á¦°Å
+				// ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½
 //				if (bChangeSight)
 //				{
 //					UnSetLight(sX, sY, light);
@@ -5002,13 +5005,13 @@ MZone::UpdateEffects()
 
 				if (sXYinZone)
 				{
-					// sector¿¡¼­ Á¦°Å [»õ±â¼ú9]
+					// sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ [ï¿½ï¿½ï¿½ï¿½ï¿½9]
 					RemoveSectorEffect( sX, sY, id );
 				}
 										
 				#ifdef OUTPUT_DEBUG_UPDATE_EFFECT
 					DEBUG_ADD("delete pEffect0");
-					// memory»èÁ¦							
+					// memoryï¿½ï¿½ï¿½ï¿½							
 					delete pEffect;			
 					DEBUG_ADD("delete OK");
 				#else
@@ -5018,20 +5021,20 @@ MZone::UpdateEffects()
 				iTemp = iEffect;
 				iEffect++;
 
-				// list¿¡¼­ Á¦°ÅÇÑ´Ù.
+				// listï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 				m_mapEffect.erase(iTemp);	
 
 				continue;
 			}
 
 			//-----------------------------------------------------------
-			// EffectÀÇ Á¾·ù¿¡ µû¶ó¼­ Ã³¸®¸¦ ÇØÁØ´Ù.
+			// Effectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 			//-----------------------------------------------------------
-			// Sector¿¡ °íÁ¤µÇ¾î ÀÖ´Â Effect
+			// Sectorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ Effect
 			//-----------------------------------------------------------
 			if (pEffect->GetEffectType() == MEffect::EFFECT_SECTOR)
 			{
-				// ºû³ª´Â EffectÀÌ°í, ºûÀÇ Å©±â°¡ ´Þ¶óÁ³À¸¸é..
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Effectï¿½Ì°ï¿½, ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â°¡ ï¿½Þ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
 //				if (bChangeSight && light!=pEffect->GetLight())
 //				{
 //					UnSetLight(sX, sY, light);
@@ -5039,53 +5042,53 @@ MZone::UpdateEffects()
 //				}				
 			}
 			//-----------------------------------------------------------
-			// ¿òÁ÷ÀÌ´Â Effect
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ Effect
 			//-----------------------------------------------------------
 			else
 			{
-				// Á÷¼± EffectÀÎ °æ¿ì --> SectorÁÂÇ¥¿¡ µû¶ó Sector¿¡ Ã¼Å©~ÇØ¾ßÇÑ´Ù.
-				// ÀÌÀü ÁÂÇ¥¿Í ºñ±³ÇÏ¿© 
+				// ï¿½ï¿½ï¿½ï¿½ Effectï¿½ï¿½ ï¿½ï¿½ï¿½ --> Sectorï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Sectorï¿½ï¿½ Ã¼Å©~ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½.
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ 
 				//case MEffect::EFFECT_LINEAR :
 				//case MEffect::EFFECT_PARABOLA :
 				//case MEffect::EFFECT_GUIDANCE :
 				//case MEffect::EFFECT_ATTACH :
 
 				//------------------------------------------------------
-				// ÁÂÇ¥°¡ ´Þ¶óÁ³À¸¸é..
+				// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Þ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
 				//------------------------------------------------------
 				if (sX!=nX || sY!=nY)
 				{
 					//------------------------------------------------------
-					// BlockµÇ´Â Sector¿¡ µé¾î°¬À» °æ¿ì Á¦°ÅÇÑ´Ù.
+					// Blockï¿½Ç´ï¿½ Sectorï¿½ï¿½ ï¿½ï¿½î°¬ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 					//------------------------------------------------------
 					//
-					// BlockÀÇ Á¾·ù¿¡ µû¶ó ´Ù¸£Áö ¾ÊÀ»±î??
+					// Blockï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½??
 					//
-					// °øÁß¸¸ ...
+					// ï¿½ï¿½ï¿½ß¸ï¿½ ...
 					if (0)
-						// ¼­¹ö¿¡¼­ blockÀ» Ã¼Å©ÇÏÁö ¾Ê±â ¶§¹®¿¡
-						// blockÀ» ¹«½ÃÇÑ´Ù.
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ blockï¿½ï¿½ Ã¼Å©ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+						// blockï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 						//
 						//pEffect->GetEffectType()!=MEffect::EFFECT_CHASE
 						//&& nXYinZone && m_ppSector[nY][nX].IsBlockFlying())						
 					{
-						// ½Ã¾ß Á¦°Å
+						// ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½
 //						if (bChangeSight)
 //						{
 //							UnSetLight(sX, sY, light);
 //						}
 
-						// sector¿¡¼­ Á¦°Å	
+						// sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½	
 						if (sXYinZone)
 						{
-							// [»õ±â¼ú9]
+							// [ï¿½ï¿½ï¿½ï¿½ï¿½9]
 							RemoveSectorEffect(sX, sY, id);
 						}
 													
-						// memory»èÁ¦							
+						// memoryï¿½ï¿½ï¿½ï¿½							
 						#ifdef OUTPUT_DEBUG_UPDATE_EFFECT
 							DEBUG_ADD("delete pEffect1");
-							// memory»èÁ¦							
+							// memoryï¿½ï¿½ï¿½ï¿½							
 							delete pEffect;			
 							DEBUG_ADD("delete OK");
 						#else
@@ -5095,38 +5098,38 @@ MZone::UpdateEffects()
 						iTemp = iEffect;
 						iEffect++;
 
-						// list¿¡¼­ Á¦°ÅÇÑ´Ù.
+						// listï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 						m_mapEffect.erase(iTemp);	
 
 						continue;
 					}
 
-					// ½Ã¾ß ´Ù½Ã ¼³Á¤
+					// ï¿½Ã¾ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //					if (bChangeSight)
 //					{
 //						UnSetLight(sX, sY, light);
 //						SetLight(pEffect->GetX(), pEffect->GetY(), pEffect->GetLight());
 //					}
 
-					// ÀÌÀü ÁÂÇ¥¿¡¼­ »©¼­ 
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 					if (sXYinZone)
 					{
-						// [»õ±â¼ú9]
+						// [ï¿½ï¿½ï¿½ï¿½ï¿½9]
 						RemoveSectorEffect(sX, sY, id);
 					}
 
-					//»õ·Î¿î ÁÂÇ¥¿¡ Ãß°¡ÇÑ´Ù.
+					//ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 					if (nXYinZone)
 					{
 						m_ppSector[nY][nX].AddEffect( pEffect );
 					}
 				}		
 				//------------------------------------------------------
-				// ºûÀÇ Å©±â(½Ã¾ß)°¡ ¹Ù²î¾úÀ¸¸é..
+				// ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½(ï¿½Ã¾ï¿½)ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
 				//------------------------------------------------------
 				else if (light != pEffect->GetLight())
 				{
-					// ½Ã¾ß ´Ù½Ã ¼³Á¤
+					// ï¿½Ã¾ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //					if (bChangeSight)
 //					{
 //						UnSetLight(sX, sY, light);
@@ -5137,18 +5140,18 @@ MZone::UpdateEffects()
 
 			//-----------------------------------------------
 			//
-			// ÀÌ Effect°¡ ³¡³ª±â Àü¿¡ LinkCount¿¡ ÀÇÇØ¼­
-			// ´ÙÀ½ ¿¬°áµÇ´Â Effect°¡ ÀÖÀ¸¸é »ý¼ºÇØ¾ß ÇÑ´Ù.
+			// ï¿½ï¿½ Effectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ LinkCountï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ Effectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 			//
-			// ÇöÀçFrameÀÌ EndLinkFrameÀ» ³Ñ¾î°£ °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½Frameï¿½ï¿½ EndLinkFrameï¿½ï¿½ ï¿½Ñ¾î°£ ï¿½ï¿½ï¿½
 			//
 			//-----------------------------------------------
 			if (g_CurrentFrame >= pEffect->GetEndLinkFrame()
 				&& pEffect->GetLinkSize() != 0)
 			{
-				// GenerateNext¿¡¼­ 
-				// pEffectÀÇ EffectTargetÀ» NULL·Î ¸¸µé¾îÁÖ±â ¶§¹®¿¡
-				// ¿©±â¼­ Áö¿ï ÇÊ¿ä ¾ø´Ù.
+				// GenerateNextï¿½ï¿½ï¿½ï¿½ 
+				// pEffectï¿½ï¿½ EffectTargetï¿½ï¿½ NULLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				// ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½.
 				#ifdef OUTPUT_DEBUG_UPDATE_EFFECT
 					DEBUG_ADD("GenerateNext1");
 					g_pEffectGeneratorTable->GenerateNext( pEffect );
@@ -5157,7 +5160,7 @@ MZone::UpdateEffects()
 					g_pEffectGeneratorTable->GenerateNext( pEffect );
 				#endif
 
-				// pEffect´Â ¿©ÀüÈ÷ Á¸ÀçÇØ¾ß ÇÏ¹Ç·Î Áö¿ì¸é ¾ÈµÈ´Ù.
+				// pEffectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ï¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÈ´ï¿½.
 			}
 			
 			
@@ -5165,24 +5168,24 @@ MZone::UpdateEffects()
 		}
 		//---------------------------------------
 		//
-		// ´Ù ¿òÁ÷ÀÎ °æ¿ì = Á¦°ÅÇØ¾ß ÇÏ´Â °æ¿ì 
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ = ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ 
 		//
 		//---------------------------------------
 		else
 		{
 			//-----------------------------------------------
 			//
-			//     Effect Á¦°Å
+			//     Effect ï¿½ï¿½ï¿½ï¿½
 			//
 			//-----------------------------------------------
-			// ½Ã¾ß Á¦°Å			
+			// ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½			
 			//if (bChangeSight)
 			//{
 				//UnSetLight(sX, sY, light);
 			//}			
 			//-----------------------------------------------
 			//
-			// ´ÙÀ½ ¿¬°áµÇ´Â Effect°¡ ÀÖÀ¸¸é »ý¼ºÇØ¾ß ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ Effectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 			//
 			//-----------------------------------------------
 			if (pEffect->GetLinkSize() != 0)
@@ -5196,12 +5199,12 @@ MZone::UpdateEffects()
 				#endif
 			}		
 			
-			// sector¿¡¼­ Á¦°Å	
+			// sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½	
 			if (sXYinZone)
 			{
 				MSector& sector = m_ppSector[sY][sX];
 				
-				// [»õ±â¼ú9]
+				// [ï¿½ï¿½ï¿½ï¿½ï¿½9]
 				RemoveSectorEffect( sX, sY, id );
 
 				CheckCreatureInDarkness( sector, sX, sY );				
@@ -5209,7 +5212,7 @@ MZone::UpdateEffects()
 							
 			#ifdef OUTPUT_DEBUG_UPDATE_EFFECT
 				DEBUG_ADD("delete pEffect2");
-				// memory»èÁ¦							
+				// memoryï¿½ï¿½ï¿½ï¿½							
 				delete pEffect;			
 				DEBUG_ADD("delete OK");
 			#else
@@ -5219,7 +5222,7 @@ MZone::UpdateEffects()
 			iTemp = iEffect;
 			iEffect++;
 
-			// list¿¡¼­ Á¦°ÅÇÑ´Ù.
+			// listï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			m_mapEffect.erase(iTemp);	
 		}		
 	}	
@@ -5228,11 +5231,11 @@ MZone::UpdateEffects()
 
 
 //----------------------------------------------------------------------
-// Zone¿¡ Effect Ãß°¡
+// Zoneï¿½ï¿½ Effect ï¿½ß°ï¿½
 //----------------------------------------------------------------------
-// m_mapGroundEffect¿¡ Ãß°¡ÇÑ´Ù.
-// GroundEffect´Â pixelÁÂÇ¥¸¸À» °¡Áö¹Ç·Î 
-// SectorÁÂÇ¥¸¦ Ã¼Å©ÇÒ ÇÊ¿ä°¡ ¾ø´Ù.
+// m_mapGroundEffectï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
+// GroundEffectï¿½ï¿½ pixelï¿½ï¿½Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ 
+// Sectorï¿½ï¿½Ç¥ï¿½ï¿½ Ã¼Å©ï¿½ï¿½ ï¿½Ê¿ä°¡ ï¿½ï¿½ï¿½ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::AddGroundEffect(MEffect* pEffect)
@@ -5296,7 +5299,7 @@ MZone::AddGroundEffect(MEffect* pEffect)
 	}		
 		/*
 		//---------------------------------------------------------
-		// ¼±ÅÃ°¡´ÉÇÑ Effect´Â sectorÁÂÇ¥°¡ ¹Ù²îÁö ¾Ê´Â´Ù°í °¡Á¤.
+		// ï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ Effectï¿½ï¿½ sectorï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ ï¿½Ê´Â´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		//---------------------------------------------------------
 		if (pEffect->IsSelectable())
 		{	
@@ -5304,7 +5307,7 @@ MZone::AddGroundEffect(MEffect* pEffect)
 			int y = pEffect->GetY();
 
 			//---------------------------------------------------------
-			// ZoneÀÇ °æ°è¸¦ ³ÑÁö ¾Ê´Â °æ¿ì¸¸ Sector¿¡ Ãß°¡ÇÑ´Ù.
+			// Zoneï¿½ï¿½ ï¿½ï¿½è¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ì¸¸ Sectorï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 			//---------------------------------------------------------
 			if (x<0 || x>=m_Width
 				|| y<0 || y>=m_Height)
@@ -5340,8 +5343,8 @@ MZone::GetGroundEffect(TYPE_OBJECTID id) const
 //----------------------------------------------------------------------
 // Remove GroundEffect ( id )
 //----------------------------------------------------------------------
-// effectÀÇ id´Â °ÅÀÇ ÀÇ¹Ì°¡ ¾øÁö¸¸..
-// ¾ïÁö·Î¶óµµ Áö¿ö¾ßÇÏ´Â °æ¿ì°¡ ÀÖ¾î¼­¸®.. - -;
+// effectï¿½ï¿½ idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
+// ï¿½ï¿½ï¿½ï¿½ï¿½Î¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ì°¡ ï¿½Ö¾î¼­ï¿½ï¿½.. - -;
 //----------------------------------------------------------------------
 bool		
 MZone::RemoveGroundEffect(TYPE_OBJECTID id)
@@ -5357,7 +5360,7 @@ MZone::RemoveGroundEffect(TYPE_OBJECTID id)
 
 	/*
 	//---------------------------------------------------------
-	// ¼±ÅÃ°¡´ÉÇÑ Effect´Â sectorÁÂÇ¥°¡ ¹Ù²îÁö ¾Ê´Â´Ù°í °¡Á¤.
+	// ï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ Effectï¿½ï¿½ sectorï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ ï¿½Ê´Â´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	//---------------------------------------------------------
 	if (pEffect->IsSelectable())
 	{
@@ -5365,7 +5368,7 @@ MZone::RemoveGroundEffect(TYPE_OBJECTID id)
 		int y = pEffect->GetY();
 
 		//---------------------------------------------------------
-		// ZoneÀÇ °æ°è¸¦ ³ÑÁö ¾Ê´Â °æ¿ì¸¸ Sector¿¡ Ãß°¡ÇÑ´Ù.
+		// Zoneï¿½ï¿½ ï¿½ï¿½è¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ì¸¸ Sectorï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 		//---------------------------------------------------------
 		if (x<0 || x>=m_Width
 			|| y<0 || y>=m_Height)
@@ -5389,7 +5392,7 @@ MZone::RemoveGroundEffect(TYPE_OBJECTID id)
 //----------------------------------------------------------------------
 // Remove GroundEffect ( id )
 //----------------------------------------------------------------------
-// frameID·Î GroundEffect¸¦ »èÁ¦ÇÑ´Ù.
+// frameIDï¿½ï¿½ GroundEffectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::RemoveGroundEffectByActionInfo(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_ACTIONINFO actionInfoIdx)
@@ -5442,7 +5445,7 @@ MZone::RemoveGroundEffectByActionInfo(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITIO
 //----------------------------------------------------------------------
 // Update GroundEffects
 //----------------------------------------------------------------------
-// ÀÓ½Ã ÇÔ¼ö  :  ¸ðµç GroundEffectÀÇ FrameÀ» º¯È­½ÃÅ²´Ù.
+// ï¿½Ó½ï¿½ ï¿½Ô¼ï¿½  :  ï¿½ï¿½ï¿½ GroundEffectï¿½ï¿½ Frameï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½Å²ï¿½ï¿½.
 //----------------------------------------------------------------------
 void
 MZone::UpdateGroundEffects()
@@ -5462,49 +5465,49 @@ MZone::UpdateGroundEffects()
 	{
 		pEffect = iEffect->second;
 
-		// ÀÌÀü ÁÂÇ¥ ±â¾ï
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½
 		id		= pEffect->GetID();
 		light	= pEffect->GetLight();
 
 		//---------------------------------------
 		//
-		// Á¦´ë·Î ¿òÁ÷ÀÎ °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//
 		//---------------------------------------
 		if (pEffect->Update())
 		{
 			//-----------------------------------------------
 			//
-			// ÀÌ Effect°¡ ³¡³ª±â Àü¿¡ LinkCount¿¡ ÀÇÇØ¼­
-			// ´ÙÀ½ ¿¬°áµÇ´Â Effect°¡ ÀÖÀ¸¸é »ý¼ºÇØ¾ß ÇÑ´Ù.
+			// ï¿½ï¿½ Effectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ LinkCountï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ Effectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 			//
-			// ÇöÀçFrameÀÌ EndLinkFrameÀ» ³Ñ¾î°£ °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½Frameï¿½ï¿½ EndLinkFrameï¿½ï¿½ ï¿½Ñ¾î°£ ï¿½ï¿½ï¿½
 			//
 			//-----------------------------------------------
 			if (g_CurrentFrame >= pEffect->GetEndLinkFrame()
 				&& pEffect->GetLinkSize() != 0)
 			{
-				// GenerateNext¿¡¼­ 
-				// pEffectÀÇ EffectTargetÀ» NULL·Î ¸¸µé¾îÁÖ±â ¶§¹®¿¡
-				// ¿©±â¼­ Áö¿ï ÇÊ¿ä ¾ø´Ù.
+				// GenerateNextï¿½ï¿½ï¿½ï¿½ 
+				// pEffectï¿½ï¿½ EffectTargetï¿½ï¿½ NULLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				// ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½.
 				g_pEffectGeneratorTable->GenerateNext( pEffect );
 
-				// pEffect´Â ¿©ÀüÈ÷ Á¸ÀçÇØ¾ß ÇÏ¹Ç·Î Áö¿ì¸é ¾ÈµÈ´Ù.
+				// pEffectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ï¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÈ´ï¿½.
 			}
 
-			// ´ÙÀ½..	
+			// ï¿½ï¿½ï¿½ï¿½..	
 			iEffect++;
 		}
 		//---------------------------------------
 		//
-		// ´Ù ¿òÁ÷ÀÎ °æ¿ì = Á¦°ÅÇØ¾ß ÇÏ´Â °æ¿ì 
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ = ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ 
 		//
 		//---------------------------------------
 		else
 		{
 			//-----------------------------------------------
 			//
-			// ´ÙÀ½ ¿¬°áµÇ´Â Effect°¡ ÀÖÀ¸¸é »ý¼ºÇØ¾ß ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ Effectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 			//
 			//-----------------------------------------------
 			if (pEffect->GetLinkSize() != 0)
@@ -5513,7 +5516,7 @@ MZone::UpdateGroundEffects()
 			}				
 			
 			//---------------------------------------------------------
-			// ¼±ÅÃ°¡´ÉÇÑ Effect´Â sectorÁÂÇ¥°¡ ¹Ù²îÁö ¾Ê´Â´Ù°í °¡Á¤.
+			// ï¿½ï¿½ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ Effectï¿½ï¿½ sectorï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ ï¿½Ê´Â´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			//---------------------------------------------------------
 			/*
 			if (pEffect->IsSelectable())
@@ -5522,7 +5525,7 @@ MZone::UpdateGroundEffects()
 				int y = pEffect->GetY();
 
 				//---------------------------------------------------------
-				// ZoneÀÇ °æ°è¸¦ ³ÑÁö ¾Ê´Â °æ¿ì¸¸ Sector¿¡¼­ Á¦°Å
+				// Zoneï¿½ï¿½ ï¿½ï¿½è¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ì¸¸ Sectorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				//---------------------------------------------------------
 				if (x<0 || x>=m_Width
 					|| y<0 || y>=m_Height)
@@ -5535,13 +5538,13 @@ MZone::UpdateGroundEffects()
 			}
 			*/
 												
-			// memory»èÁ¦							
+			// memoryï¿½ï¿½ï¿½ï¿½							
 			delete pEffect;			
 
 			iTemp = iEffect;
 			iEffect++;
 
-			// list¿¡¼­ Á¦°ÅÇÑ´Ù.
+			// listï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			m_mapGroundEffect.erase(iTemp);	
 		}		
 	}	
@@ -5550,14 +5553,14 @@ MZone::UpdateGroundEffects()
 //----------------------------------------------------------------------
 // Get Near SpriteSet
 //----------------------------------------------------------------------
-// (sX,sY) ±ÙÃ³ÀÇ Tile°ú ImageObjectÀÇ SpriteSetÀ» °Ë»öÇØ¼­ ³Ñ°ÜÁØ´Ù.
+// (sX,sY) ï¿½ï¿½Ã³ï¿½ï¿½ Tileï¿½ï¿½ ImageObjectï¿½ï¿½ SpriteSetï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ø¼ï¿½ ï¿½Ñ°ï¿½ï¿½Ø´ï¿½.
 //----------------------------------------------------------------------
 void						
 MZone::GetNearSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& ImageObjectSSM, TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY) const
 {
 	//----------------------------------------------------------------------
 	//
-	//                         ImageObject °Ë»ö
+	//                         ImageObject ï¿½Ë»ï¿½
 	//
 	//----------------------------------------------------------------------	
 	POINT firstSector;
@@ -5569,7 +5572,7 @@ MZone::GetNearSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& ImageObje
 	int sY2 = firstSector.y + SECTOR_HEIGHT*3;
 	
 	//------------------------------------------------------
-	// ZoneÀÇ ¿µ¿ªÀÌ ¾Æ´Ñ °æ¿ì¿¡ Skip...
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¿¡ Skip...
 	//------------------------------------------------------
 	if (sX1 < 0) 
 	{					
@@ -5596,7 +5599,7 @@ MZone::GetNearSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& ImageObje
 	DEBUG_ADD_FORMAT("GetNearSpriteSet: (%d, %d) ~ (%d, %d)", sX1, sY1, sX2, sY2);
 
 	//------------------------------------------------------
-	// °¢ SectorÀÇ ImageObject°Ë»ö
+	// ï¿½ï¿½ Sectorï¿½ï¿½ ImageObjectï¿½Ë»ï¿½
 	//------------------------------------------------------
 	int y,x,i;
 
@@ -5609,7 +5612,7 @@ MZone::GetNearSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& ImageObje
 			const MSector& sector = m_ppSector[y][x];
 
 			//--------------------------------------------
-			// Tile SpriteID¸¦ ÀúÀåÇÑ´Ù.
+			// Tile SpriteIDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//--------------------------------------------
 			int spriteID = sector.GetSpriteID();
 
@@ -5619,15 +5622,15 @@ MZone::GetNearSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& ImageObje
 			}
 
 			//--------------------------------------------
-			// ImageObject°¡ ÀÖ´Ù¸é.. 
+			// ImageObjectï¿½ï¿½ ï¿½Ö´Ù¸ï¿½.. 
 			//--------------------------------------------
 			if (sector.IsExistImageObject())
 			{
 				OBJECT_MAP::const_iterator iImageObject = sector.GetImageObjectIterator();
 
 				//--------------------------------------------				
-				// Sector¿¡ ÀÖ´Â ¸ðµç ImageObjectµéÀ» °Ë»öÇÑ´Ù.
-				// °¢ ImageObjectÀÇ SpriteID¸¦ ¸ðµÎ Ãß°¡ÇÑ´Ù.
+				// Sectorï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ImageObjectï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ñ´ï¿½.
+				// ï¿½ï¿½ ImageObjectï¿½ï¿½ SpriteIDï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 				//--------------------------------------------
 				for (i=0; i<sector.GetImageObjectSize(); i++)
 				{
@@ -5638,7 +5641,7 @@ MZone::GetNearSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& ImageObje
 						ImageObjectSSM.Add( pImageObject->GetSpriteID() );
 					}
 					
-					// FrameÀÌ ÀÖ´Â °æ¿ì... FrameÀÇ SpriteIDµµ °Ë»ö 
+					// Frameï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½... Frameï¿½ï¿½ SpriteIDï¿½ï¿½ ï¿½Ë»ï¿½ 
 					if (pImageObject->IsAnimation())
 					{
 						DEBUG_ADD_FORMAT("AnimationObject: (%d, %d)",x, y);
@@ -5649,7 +5652,7 @@ MZone::GetNearSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& ImageObje
 						{
 							FRAME_ARRAY* pFrameArray = &(g_pTopView->m_ImageObjectFPK[ fid ]);
 							
-							// °¢ Frame¸¶´Ù SpriteID¸¦ °Ë»öÇÑ´Ù.
+							// ï¿½ï¿½ Frameï¿½ï¿½ï¿½ï¿½ SpriteIDï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ñ´ï¿½.
 							for (int j=0; j<pFrameArray->GetSize(); j++)
 							{
 								if ((*pFrameArray)[j].GetSpriteID() != SPRITEID_NULL)
@@ -5672,7 +5675,7 @@ MZone::GetNearSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& ImageObje
 //----------------------------------------------------------------------
 // Get Near Order All SpriteSet
 //----------------------------------------------------------------------
-// (sX,sY) ¿¡¼­ ±ÙÁ¢ÇÑ ¼ýÀÚ ¼ø¼­´ë·Î Tile°ú ImageObjectÀÇ SpriteSetÀ» °Ë»öÇØ¼­ ³Ñ°ÜÁØ´Ù.
+// (sX,sY) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Tileï¿½ï¿½ ImageObjectï¿½ï¿½ SpriteSetï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ø¼ï¿½ ï¿½Ñ°ï¿½ï¿½Ø´ï¿½.
 //----------------------------------------------------------------------
 void						
 MZone::GetNearOrderAllSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& ImageObjectSSM,
@@ -5681,7 +5684,7 @@ MZone::GetNearOrderAllSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& I
 {
 	//----------------------------------------------------------------------
 	//
-	//                         ImageObject °Ë»ö
+	//                         ImageObject ï¿½Ë»ï¿½
 	//
 	//----------------------------------------------------------------------	
 	POINT direction[4] = {
@@ -5704,7 +5707,7 @@ MZone::GetNearOrderAllSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& I
 		for(register int i = 0; i < findLength; ++i)
 		{
 			//------------------------------------------------------
-			// ZoneÀÇ ¿µ¿ªÀÌ ¾Æ´Ñ °æ¿ì¿¡ Skip...
+			// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¿¡ Skip...
 			//------------------------------------------------------
 			if (findX >= 0 && findX < m_Width &&
 				findY >= 0 && findY < m_Height &&
@@ -5720,7 +5723,7 @@ MZone::GetNearOrderAllSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& I
 				const MSector& sector = m_ppSector[findY][findX];
 				
 				//--------------------------------------------
-				// Tile SpriteID¸¦ ÀúÀåÇÑ´Ù.
+				// Tile SpriteIDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 				//--------------------------------------------
 				int spriteID = sector.GetSpriteID();
 				
@@ -5730,15 +5733,15 @@ MZone::GetNearOrderAllSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& I
 				}
 				
 				//--------------------------------------------
-				// ImageObject°¡ ÀÖ´Ù¸é.. 
+				// ImageObjectï¿½ï¿½ ï¿½Ö´Ù¸ï¿½.. 
 				//--------------------------------------------
 				if (sector.IsExistImageObject())
 				{
 					OBJECT_MAP::const_iterator iImageObject = sector.GetImageObjectIterator();
 					
 					//--------------------------------------------				
-					// Sector¿¡ ÀÖ´Â ¸ðµç ImageObjectµéÀ» °Ë»öÇÑ´Ù.
-					// °¢ ImageObjectÀÇ SpriteID¸¦ ¸ðµÎ Ãß°¡ÇÑ´Ù.
+					// Sectorï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ImageObjectï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ñ´ï¿½.
+					// ï¿½ï¿½ ImageObjectï¿½ï¿½ SpriteIDï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 					//--------------------------------------------
 					for (register int j = 0; j < sector.GetImageObjectSize(); j++)
 					{
@@ -5749,7 +5752,7 @@ MZone::GetNearOrderAllSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& I
 							ImageObjectSSM.Add( pImageObject->GetSpriteID() );
 						}
 						
-						// FrameÀÌ ÀÖ´Â °æ¿ì... FrameÀÇ SpriteIDµµ °Ë»ö 
+						// Frameï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½... Frameï¿½ï¿½ SpriteIDï¿½ï¿½ ï¿½Ë»ï¿½ 
 						if (pImageObject->IsAnimation())
 						{
 							//						DEBUG_ADD_FORMAT("AnimationObject: (%d, %d)",x, y);
@@ -5760,7 +5763,7 @@ MZone::GetNearOrderAllSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& I
 							{
 								FRAME_ARRAY* pFrameArray = &(g_pTopView->m_ImageObjectFPK[ fid ]);
 								
-								// °¢ Frame¸¶´Ù SpriteID¸¦ °Ë»öÇÑ´Ù.
+								// ï¿½ï¿½ Frameï¿½ï¿½ï¿½ï¿½ SpriteIDï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ñ´ï¿½.
 								for (register int k = 0; k < pFrameArray->GetSize(); k++)
 								{
 									if ((*pFrameArray)[k].GetSpriteID() != SPRITEID_NULL)
@@ -5795,7 +5798,7 @@ MZone::GetNearOrderAllSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& I
 //----------------------------------------------------------------------
 // Add Sound
 //----------------------------------------------------------------------
-// ¾î´À ½ÃÁ¡¿¡ Ãâ·ÂÇÒ Sound¸¦ ÀúÀåÇØµÐ´Ù.
+// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Soundï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ØµÐ´ï¿½.
 //----------------------------------------------------------------------
 void
 MZone::AddSound(SOUND_NODE* pNode)
@@ -5806,7 +5809,7 @@ MZone::AddSound(SOUND_NODE* pNode)
 //----------------------------------------------------------------------
 // Update Sound
 //----------------------------------------------------------------------
-// ¾î´À ½ÃÁ¡¿¡ Ãâ·ÂÇÒ Sound¸¦ Ã¼Å©ÇØ¼­ ¼Ò¸®¸¦ ³½´Ù.
+// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Soundï¿½ï¿½ Ã¼Å©ï¿½Ø¼ï¿½ ï¿½Ò¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 //----------------------------------------------------------------------
 void
 MZone::UpdateSound()
@@ -5818,23 +5821,23 @@ MZone::UpdateSound()
 		SOUND_NODE*	pNode = *iSound;
 
 		//-------------------------------------------------
-		// ¼Ò¸®¸¦ Ãâ·ÂÇÒ ½Ã°£ÀÌ Áö³µÀ¸¸é.. PlaySound
+		// ï¿½Ò¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. PlaySound
 		//-------------------------------------------------
 		if (pNode->GetPlayTime() < g_CurrentTime)
 		{
-			// ÇÑ¹ø¸¸ ¼Ò¸®¸¦ ³½´Ù.
+			// ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			PlaySound( pNode->GetSoundID(), false, pNode->GetX(), pNode->GetY() );
 
-			// Áö¿î´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½.
 			delete pNode;
 
-			// Àá½Ã ±â¾ïÇØµ×´Ù°¡ Áö¿î´Ù.
+			// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Øµ×´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 			SOUND_NODE_LIST::iterator iTemp = iSound;
 			iSound++;
 			m_listSoundNode.erase( iTemp );
 		}
 		//-------------------------------------------------
-		// ¾Æ´Ñ °æ¿ì.. ´ÙÀ½ ¼Ò¸® Ã¼Å©..
+		// ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½.. ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ Ã¼Å©..
 		//-------------------------------------------------
 		else
 		{
@@ -5843,11 +5846,11 @@ MZone::UpdateSound()
 	}
 
 	//----------------------------------------------------------------
-	// Zone¿¡¼­ randomÀ¸·Î ³ª´Â ¼Ò¸®
+	// Zoneï¿½ï¿½ï¿½ï¿½ randomï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½
 	//----------------------------------------------------------------
 	//----------------------------------------------------------------
-	// Çï±âÀå ¼Ò¸®..
-	// ÇÏµåÄÚµù.. ¿ìÇìÇì.. ³ªÁß¿¡ »©¾ßµÈ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½..
+	// ï¿½Ïµï¿½ï¿½Úµï¿½.. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ßµÈ´ï¿½.
 	//----------------------------------------------------------------
 	int zoneID = (g_bZonePlayerInLarge? g_nZoneLarge : g_nZoneSmall);
 			
@@ -5890,7 +5893,7 @@ MZone::UpdateSound()
 				PlaySound( soundID, false, x, y );
 			}
 			
-			// 10~30ÃÊ ÈÄ¿¡ ´Ù½Ã ¼Ò¸® ³½´Ù
+			// 10~30ï¿½ï¿½ ï¿½Ä¿ï¿½ ï¿½Ù½ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 			g_ZoneRandomSoundTime = g_CurrentTime + ((rand()%10)+6)*1000;			
 		}
 	}
@@ -5899,7 +5902,7 @@ MZone::UpdateSound()
 //----------------------------------------------------------------------
 // Update Item
 //----------------------------------------------------------------------
-// ItemÀÌ ½ÃÃ¼ÀÎ °æ¿ì.. - -;
+// Itemï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½.. - -;
 //----------------------------------------------------------------------
 void
 MZone::UpdateItem()
@@ -5911,7 +5914,7 @@ MZone::UpdateItem()
 		MItem*	pItem = (*iItem).second;
 
 		//----------------------------------------------------------------------
-		// ½ÃÃ¼ÀÎ °æ¿ì.. ½ÃÃ¼¿¡ ºÙ¾îÀÖ´Â Effect¸¦ Ã³¸®ÇØÁØ´Ù.
+		// ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½.. ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ù¾ï¿½ï¿½Ö´ï¿½ Effectï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 		//----------------------------------------------------------------------
 		if (pItem->GetItemClass()==ITEM_CLASS_CORPSE)
 		{
@@ -5932,14 +5935,14 @@ MZone::UpdateItem()
 		}
 
 		//----------------------------------------------------------------------
-		// ¶³¾îÁö°í ÀÖ´Â ItemÀÎ °æ¿ì..
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Itemï¿½ï¿½ ï¿½ï¿½ï¿½..
 		//----------------------------------------------------------------------
 		else if (pItem->IsDropping())
 		{
 			pItem->NextDropFrame();
 
 			//--------------------------------------------------------
-			// ´Ù ¶³¾îÁø °æ¿ì
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			//--------------------------------------------------------
 			if (!pItem->IsDropping())
 			{
@@ -5957,13 +5960,13 @@ MZone::UpdateItem()
 //------------------------------------------------------------------
 // New FakeCreature
 //------------------------------------------------------------------
-// (x,y)¿¡ pCreatureÀÇ FakeCreature¸¦ »ý¼ºÇÑ´Ù.
+// (x,y)ï¿½ï¿½ pCreatureï¿½ï¿½ FakeCreatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //------------------------------------------------------------------
 MFakeCreature*
 MZone::NewFakeCreature(int creatureType, int x, int y, int dir)
 {
 	//------------------------------------------------------
-	// Fake Creature »ý¼º
+	// Fake Creature ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	MFakeCreature* pFakeCreature = new MFakeCreature;
 	
@@ -5975,7 +5978,7 @@ MZone::NewFakeCreature(int creatureType, int x, int y, int dir)
 	pFakeCreature->SetName( name );
 #endif
 	
-	//pFakeCreature->SetID( 0 );  ÀÚµ¿ ¹ß±Þ µÈ´Ù.
+	//pFakeCreature->SetID( 0 );  ï¿½Úµï¿½ ï¿½ß±ï¿½ ï¿½È´ï¿½.
 //	pFakeCreature->SetSameBody( pCreature );
 	
 //	if (pCreature->IsWear())
@@ -5997,13 +6000,13 @@ MZone::NewFakeCreature(int creatureType, int x, int y, int dir)
 //------------------------------------------------------------------
 // New FakeCreature
 //------------------------------------------------------------------
-// (x,y)¿¡ pCreatureÀÇ FakeCreature¸¦ »ý¼ºÇÑ´Ù.
+// (x,y)ï¿½ï¿½ pCreatureï¿½ï¿½ FakeCreatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //------------------------------------------------------------------
 MFakeCreature*
 MZone::NewFakeCreature(MCreature* pCreature, int x, int y)
 {
 	//------------------------------------------------------
-	// Fake Creature »ý¼º
+	// Fake Creature ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	MFakeCreature* pFakeCreature = new MFakeCreature;
 
@@ -6015,7 +6018,7 @@ MZone::NewFakeCreature(MCreature* pCreature, int x, int y)
 		pFakeCreature->SetName( name );
 	#endif
 
-	//pFakeCreature->SetID( 0 );  ÀÚµ¿ ¹ß±Þ µÈ´Ù.
+	//pFakeCreature->SetID( 0 );  ï¿½Úµï¿½ ï¿½ß±ï¿½ ï¿½È´ï¿½.
 	pFakeCreature->SetSameBody( pCreature );
 
 	if (pCreature->IsWear())
@@ -6045,10 +6048,10 @@ MZone::NewFakeCreature(MCreature* pCreature, int x, int y)
 
 
 //----------------------------------------------------------------------
-// Zone¿¡ FakeCreature Ãß°¡ 
+// Zoneï¿½ï¿½ FakeCreature ï¿½ß°ï¿½ 
 //----------------------------------------------------------------------
-// ¿ÜºÎ¿¡¼­ newÇØÁà¾ß ÇÑ´Ù.
-// ÀÌ¹Ì ÀÖ´ÂÁö È®ÀÎÀ» ÇÏ°í ¾øÀ¸¸é Ãß°¡ÇØ¾ß ÇÑ´Ù.
+// ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ newï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 bool		
 MZone::AddFakeCreature(MCreature* pCreature)
@@ -6059,7 +6062,7 @@ MZone::AddFakeCreature(MCreature* pCreature)
 
 	theIterator = m_mapFakeCreature.find(pCreature->GetID());
 	
-	// ¾ÆÁ÷ ¾ø´Â CreatureÀÌ¸é Ãß°¡	
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ß°ï¿½	
 	if (theIterator == m_mapFakeCreature.end())
 	{
 		m_mapFakeCreature.insert(CREATURE_MAP::value_type(pCreature->GetID(), pCreature));
@@ -6067,7 +6070,7 @@ MZone::AddFakeCreature(MCreature* pCreature)
 		return true;
 	}		
 
-	// ÀÌ¹Ì ÀÖ´Â CreatureÀÌ¸é,
+	// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Creatureï¿½Ì¸ï¿½,
 	DEBUG_ADD_FORMAT("Add Failed - Already Exist in Zone");
 
 	return false;
@@ -6076,19 +6079,19 @@ MZone::AddFakeCreature(MCreature* pCreature)
 	
 
 //----------------------------------------------------------------------
-// Zone¿¡¼­ FakeCreature Á¦°Å
+// Zoneï¿½ï¿½ï¿½ï¿½ FakeCreature ï¿½ï¿½ï¿½ï¿½
 //----------------------------------------------------------------------
-// ³»ºÎ¿¡¼­ deleteÇØÁØ´Ù.
+// ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ deleteï¿½ï¿½ï¿½Ø´ï¿½.
 //----------------------------------------------------------------------
 bool
 MZone::RemoveFakeCreature(TYPE_OBJECTID id)
 {
 	CREATURE_MAP::iterator	theIterator;
 
-	// ID°¡ idÀÎ Creature¸¦ Ã£´Â´Ù.
+	// IDï¿½ï¿½ idï¿½ï¿½ Creatureï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 	theIterator = m_mapFakeCreature.find(id);
     
-	// ±×·± id¸¦ °¡Áø Creature´Â ¾ø´Ù.	
+	// ï¿½×·ï¿½ idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.	
 	if (theIterator == m_mapFakeCreature.end())
 		return false;
 
@@ -6097,7 +6100,7 @@ MZone::RemoveFakeCreature(TYPE_OBJECTID id)
 
 	if(pFakeCreature != NULL)
 	{
-		// ÆêÀÎ°æ¿ì
+		// ï¿½ï¿½ï¿½Î°ï¿½ï¿½
 		if(pFakeCreature->GetOwnerID() != OBJECTID_NULL)
 		{
 			MCreature *pCreature = GetCreature(pFakeCreature->GetOwnerID());
@@ -6121,23 +6124,23 @@ MZone::RemoveFakeCreature(TYPE_OBJECTID id)
 
 
 //----------------------------------------------------------------------
-// ZoneÀÇ Creature ÀÐ¾î¿À±â
+// Zoneï¿½ï¿½ Creature ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½
 //----------------------------------------------------------------------
 MCreature*	
 MZone::GetFakeCreature(TYPE_OBJECTID id)
 {
 	CREATURE_MAP::iterator	theIterator;
 
-	// ID°¡ idÀÎ Creature¸¦ Ã£´Â´Ù.
+	// IDï¿½ï¿½ idï¿½ï¿½ Creatureï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 	theIterator = m_mapFakeCreature.find(id);
 
-	// ¾øÀ» °æ¿ì NULLÀ» returnÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ NULLï¿½ï¿½ returnï¿½Ñ´ï¿½.
 	if (theIterator == m_mapFakeCreature.end()) 
 	{
 		return NULL;
 	}
 
-	// ÀÖÀ¸¸é ±× Creature¸¦ returnÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Creatureï¿½ï¿½ returnï¿½Ñ´ï¿½.
 	return (*theIterator).second;
 }
 
@@ -6154,14 +6157,14 @@ MZone::UpdateFakeCreature()
 	//	DEBUG_ADD_FORMAT("[UpdateAllCreature] %d Creature(s)", m_mapCreature.size());
 	
 	//------------------------------------------------------
-	// ¸ðµç Creature¿¡ ´ëÇØ¼­ Action
+	// ï¿½ï¿½ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ Action
 	//------------------------------------------------------
 	while (iCreature != m_mapFakeCreature.end())
 	{
 		pCreature = iCreature->second;
 
 		//------------------------------------------------------
-		// MFakeCreatureÀÎ °æ¿ì¸¸..
+		// MFakeCreatureï¿½ï¿½ ï¿½ï¿½ì¸¸..
 		//------------------------------------------------------
 		if (pCreature->GetClassType()==MCreature::CLASS_FAKE)
 		{
@@ -6171,7 +6174,7 @@ MZone::UpdateFakeCreature()
 			pFakeCreature->UpdateAttachEffect();
 
 			//------------------------------------------------------
-			// FakeCreature°¡ »ç¶óÁö´Â °æ¿ì
+			// FakeCreatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			//------------------------------------------------------
 			if (pFakeCreature->IsFakeEnd())
 			{	
@@ -6242,13 +6245,13 @@ MZone::ChangeToHalluCreature()
 	DEBUG_ADD("Zone::ChangeToHalluCreature");
 	
 	//------------------------------------------------------
-	// ¸ðµç Creature¿¡ ´ëÇØ¼­ Action
+	// ï¿½ï¿½ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ Action
 	//------------------------------------------------------
 	while (iCreature != m_mapCreature.end())
 	{
 		pCreature = iCreature->second;
 
-		// player°¡ ¾Æ´Ñ °æ¿ì¿¡...
+		// playerï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¿¡...
 		if (pCreature!=g_pPlayer)
 		{
 			pCreature->SetHalluCreature( g_pTopView->GetRandomMonsterTypeInZone() );
@@ -6274,13 +6277,13 @@ MZone::RemoveHalluCreature()
 	DEBUG_ADD("Zone::RemoveHalluCreature");
 	
 	//------------------------------------------------------
-	// ¸ðµç Creature¿¡ ´ëÇØ¼­ Action
+	// ï¿½ï¿½ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ Action
 	//------------------------------------------------------
 	while (iCreature != m_mapCreature.end())
 	{
 		pCreature = iCreature->second;
 
-		// player°¡ ¾Æ´Ñ °æ¿ì¿¡...
+		// playerï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¿¡...
 		if (pCreature!=g_pPlayer)
 		{
 			pCreature->UnSetHalluCreature();
@@ -6392,7 +6395,7 @@ MZone::GetPKType()
 //----------------------------------------------------------------------
 // ChangeSwapViceType
 //----------------------------------------------------------------------
-// tile¿¡ ÀÖ´Â SwapViceTypeÀ» º¯°æ ÇÑ´Ù.
+// tileï¿½ï¿½ ï¿½Ö´ï¿½ SwapViceTypeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 void		
 MZone::ChangeSwapViceType(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_EFFECTSPRITETYPE type, WORD wDelay)
@@ -6422,7 +6425,7 @@ MZone::ChangeSwapViceType(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_E
 //	MSector& sector = m_ppSector[sY][sX];
 //
 //	//--------------------------------------------------
-//	// effect°¡ ÀÖ´Â sectorÀÎÁö È®ÀÎ
+//	// effectï¿½ï¿½ ï¿½Ö´ï¿½ sectorï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 //	//--------------------------------------------------
 //	if (sector.IsExistEffect())
 //	{
@@ -6435,7 +6438,7 @@ MZone::ChangeSwapViceType(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, TYPE_E
 //			MEffect* pEffect = *iEffect;
 //
 //			//--------------------------------------------------
-//			// sector¿¡ Á¸ÀçÇÏ´Â effect¸¸ Ã¼Å©ÇØ¼­ Áö¿î´Ù.
+//			// sectorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ effectï¿½ï¿½ Ã¼Å©ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 //			//--------------------------------------------------
 //			if (pEffect->GetEffectType() == MEffect::EFFECT_SECTOR)
 //			{
@@ -6470,11 +6473,11 @@ MZone::RemoveSwapViceType()
 				pEffect->GetFrameID() == EFFECTSPRITETYPE_SWEEP_VICE_PRECASTING_2 ||
 				pEffect->GetFrameID() == EFFECTSPRITETYPE_SWEEP_VICE_PRECASTING_3 )
 			{
-				// list¿¡¼­ Á¦°Å
+				// listï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				EFFECT_MAP::iterator iEffectBackup = iEffect++;
 				m_mapGroundEffect.erase( iEffectBackup );
 				
-				// ¸Þ¸ð¸® Á¦°Å
+				// ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 				delete pEffect;
 
 				continue;

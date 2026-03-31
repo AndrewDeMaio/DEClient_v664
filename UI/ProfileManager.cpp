@@ -12,7 +12,7 @@
 #ifdef __GAME_CLIENT__
 	#include "Properties.h"
 #else
-	#include "..\client\packet\Properties.h"
+	#include "Packet\Properties.h"
 #endif
 
 #include "UtilityFunction.h"

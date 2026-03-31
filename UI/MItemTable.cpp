@@ -23,7 +23,7 @@
 
 //#if !defined(__GAME_CLIENT__) || defined(OUTPUT_DEBUG) || defined(_DEBUG)
 #if defined(__INIT_INFO__) || !defined(__GAME_CLIENT__)
-	#define __INIT_ITEM__
+	//#define __INIT_ITEM__
 #endif
 
 #ifdef __INIT_ITEM__

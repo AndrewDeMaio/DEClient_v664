@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
@@ -16,59 +12,30 @@
     <Filter Include="hangul">
       <UniqueIdentifier>{a0012b1b-3ab4-4381-b8a0-660f080e4803}</UniqueIdentifier>
     </Filter>
-    <Filter Include="lmm">
-      <UniqueIdentifier>{e54a196f-b8eb-4338-a9a3-a37a583d1d6c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="widget">
       <UniqueIdentifier>{b620d0b8-e32a-4a7e-98aa-b5894fb388bc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="M Source Files">
-      <UniqueIdentifier>{221198a5-b7b8-4c5c-8bc0-fb1a0e8d8e09}</UniqueIdentifier>
+    <Filter Include="VS Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="M Headers">
-      <UniqueIdentifier>{fe661fb5-3868-4d08-9e22-c0ef9a3738aa}</UniqueIdentifier>
+    <Filter Include="VS Header">
+      <UniqueIdentifier>{0f395f23-e9d4-402c-9c8e-5e297ca550b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CImm">
+      <UniqueIdentifier>{e54a196f-b8eb-4338-a9a3-a37a583d1d6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="M Source">
+      <UniqueIdentifier>{5e036b42-842c-4daa-a732-ff196e9b103a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{ba5df0b4-209a-4d76-937f-bcae2777fac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="M Header">
+      <UniqueIdentifier>{27abbdae-4710-4cc1-b6d8-5e9b38f6021d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="header\VS_UI_SKILL_VIEW.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Storage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_TaxRate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_TIMECOUNT.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_title.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Tutorial.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_ui_result_receiver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_UIMessage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_UserGrade.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_util.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_WebBrowser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_widget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_WorldMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="header\AcceleratorDef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -84,111 +51,6 @@
     <ClInclude Include="header\SkinManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="header\VS_UI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Base.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_bbs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Control.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_DESC.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Description.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_descriptor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Dialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_ELEVATOR.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Exception.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Exchange.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_ExtraDialog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_filepath.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Friend_System.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_GameCommon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_GameCommon2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_GameOusters.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_GameSlayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_GameVampire.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_GlobalResource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_GPS.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Helper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_INDOUN_NPC_DIALOG.H">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_item.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Message.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_mouse_pointer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Newtitle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Operator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_PetMixingForge.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_PetStorage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_PremiumGiveItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_progress.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_Shop.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\VS_UI_skill_tree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="hangul\Ci.h">
       <Filter>hangul</Filter>
     </ClInclude>
@@ -196,85 +58,85 @@
       <Filter>hangul</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmCondition.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmConstant.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmDamper.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmDevice.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmDevices.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmDXDevice.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmEffect.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmEffectSuite.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmEllipse.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmEnclosure.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmFriction.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmGrid.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmIFR.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmInertia.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmMouse.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmPeriodic.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmProjects.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmRamp.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmSpring.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmTexture.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\CImm.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\FeelitAPI.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\IFC.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\IFCErrors.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmBaseTypes.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmBox.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="Imm\ImmCompoundEffect.h">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="widget\u_window.h">
       <Filter>widget</Filter>
@@ -303,8 +165,743 @@
     <ClInclude Include="widget\u_scrollbar.h">
       <Filter>widget</Filter>
     </ClInclude>
-    <ClInclude Include="header\MFunctionManager.h">
-      <Filter>M Headers</Filter>
+    <ClInclude Include="header\CWebPage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\OperatorOption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Base.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_bbs.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Control.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_DESC.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Description.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_descriptor.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Dialog.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_ELEVATOR.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Exception.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Exchange.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_ExtraDialog.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_filepath.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Friend_System.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Game.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_GameCommon.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_GameCommon2.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_GameOusters.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_GameSlayer.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_GameVampire.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_GlobalResource.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_GPS.H">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Helper.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_INDOUN_NPC_DIALOG.H">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_item.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Message.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_mouse_pointer.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Newtitle.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Operator.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_PetMixingForge.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_PetStorage.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_PremiumGiveItem.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_progress.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Shop.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_skill_tree.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_SKILL_VIEW.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Storage.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_TaxRate.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_TIMECOUNT.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_title.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_Tutorial.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_ui_result_receiver.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_UIMessage.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_UserGrade.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_util.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_WebBrowser.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_widget.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VS_UI_WorldMap.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MZone.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MHelicopterManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\AppendPatchInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\BGMManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\BloodBibleSignInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\CGameUpdate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\ClientConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\ClientFunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\CMessageArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\COpeningUpdate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\CSystemInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\CToken.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\CUsingColorSetTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\CWaitPacketUpdate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\CWaitUIUpdate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\ExperienceTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\ExpInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\FameInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\GetWinVer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\GuildInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\GuildMemberInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\LeakMemoryDumper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MActionInfoTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MActionResult.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAnimationObject.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAroundZoneEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttachCreatureEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttachCreatureEffectGroundGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttachCreatureOrbitEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttachEffect.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttachOrbitEffect.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttachZoneEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttachZoneSelectableEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttackCreatureAroundThrowEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttackCreatureEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttackCreatureHomingEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttackCreatureParabolaEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttackZoneBombEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttackZoneEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttackZoneParabolaEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MAttackZoneRectEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MBloodyWallEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MBloodyWaveEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MChatManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MCompareManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MCreatureSpriteTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MCreatureTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MEffect.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MEffectGeneratorTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MEffectManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MEffectSpriteTypeTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MEffectStatusTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MemoryPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MObjectSelector.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MEventManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MFallingEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MFirePiecingEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MFollowPathEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MGameStringTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MGpsTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MGridItemManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MGuidanceEffect.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MGuildInfoMapper.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MGuildMarkManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MHelpDisplayer.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MHelpManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MHelpMessageManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MHelpStringTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MHomingEffect.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MImageObject.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MInteractionObject.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MInteractionObjectTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MInternetConnection.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MInventory.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MItem.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MItemManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MItemOptionTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MItemTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MJusticeAttackManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MLevelNameTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MLinearEffect.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MLoadingSPKWorkNode.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MMeteorDropEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MMoneyManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MMonsterKillQuestInfo.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MMovingEffect.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MMultipleFallingEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MMusic.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MMusicTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MNPC.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MNPCScriptTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MNPCTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MObject.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\ModifyStatusManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MonsterNameTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MOustersGear.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MParabolaEffect.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MParty.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MPlayerGear.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MPlayingWithFireEffect.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MPlayingWithFireEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MPortal.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MPremiumGiveItemInfo.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MPriceManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MQuestInfo.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MQuickSlot.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MRippleZoneEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MRippleZonePixelEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MRippleZoneWideEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MRisingEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MScreenEffect.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MScreenEffectManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MShadowAnimationObject.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MShadowObject.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MShop.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MShopShelf.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MShopTemplateTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MSkillManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MSkipEffect.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MSkipEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MSlayerGear.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MSlotItemManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MSortedItemManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MSoundTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MSpreadOutEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStatus.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStatusManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStopInventoryEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStopZoneCrossEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStopZoneEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStopZoneEmptyCrossEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStopZoneEmptyRectEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStopZoneMultipleEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStopZoneRandomEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStopZoneRectEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStopZoneRectRandomPixelEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStopZoneRhombusEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStopZoneSelectableEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStopZoneWallEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MStopZoneXEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MStorage.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MTestDef.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MTimeItemManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MTornadoEffect.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MTradeManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MVampireGear.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MWarManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MWeather.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MWorkNode.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MWorkThread.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MWorkThreadGlobal.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MZoneSound.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\MZoneSoundManager.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="header\MZoneTable.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="game\NicknameInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\nProtect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\PackFileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\PCConfigTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\ProfileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\RankBonusDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\RankBonusTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\RequestFileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\RequestFunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\RequestUserManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\ServerInfoFileParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\ServerInformation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\ShowTimeChecker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\ShrineInfoManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\SkillDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\StoreInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\SystemAvailabilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\TalkBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\TempInformation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\TickTimer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\UIDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\UIMessageManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\UserInformation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\UserOption.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\UtilityFunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\WavePackFileManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\WhisperManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MTopView.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MChaseEffect.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MCreature.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MCreatureWear.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MEffectTarget.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MFakeCreature.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MPlayer.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MRequestMode.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MSector.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="OustersSkillInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SectorSoundInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZoneFileHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CAvi.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -315,7 +912,7 @@
       <Filter>hangul</Filter>
     </ClCompile>
     <ClCompile Include="Imm\CImm.cpp">
-      <Filter>lmm</Filter>
+      <Filter>CImm</Filter>
     </ClCompile>
     <ClCompile Include="widget\mother.cpp">
       <Filter>widget</Filter>
@@ -335,25 +932,13 @@
     <ClCompile Include="widget\u_window.cpp">
       <Filter>widget</Filter>
     </ClCompile>
-    <ClCompile Include="VS_UI_util.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_WebBrowser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_widget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_WorldMap.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WinMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AcceleratorDef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AcceleratorManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Client_PCH.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="KeyAccelerator.cpp">
@@ -362,140 +947,790 @@
     <ClCompile Include="OperatorCategory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OperatorOption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="SkinManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Vs_ui.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Base.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_BBS.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Control.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_DESC.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Description.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Descriptor.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Dialog.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_ELEVATOR.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Exception.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Exchange.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_ExtraDialog.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Friend_System.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Game.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_GameCommon.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="vs_ui_gamecommon2.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_GameOusters.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_GameSlayer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_GameVampire.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_GlobalResource.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_GPS.CPP">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Helper.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_INDOUN_NPC_DIALOG.CPP">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Item.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Message.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_mouse_pointer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_NewTitle.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Operator.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_PetMixingForge.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_PetStorage.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_PremiumGiveItem.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_progress.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Shop.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_skill_tree.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_SKILL_VIEW.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Storage.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_TaxRate.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_TIMECOUNT.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Title.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_TITLE_SHOWCHAR.CPP">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_Tutorial.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_ui_result_receiver.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="VS_UI_UserGrade.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VS_UI_util.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VS_UI_WebBrowser.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VS_UI_widget.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VS_UI_WorldMap.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MFunctionManager.cpp">
-      <Filter>M Source Files</Filter>
+    <ClCompile Include="game\MHelicopterManager.cpp">
+      <Filter>M Source</Filter>
     </ClCompile>
+    <ClCompile Include="MPortal.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MZone.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\AppendPatchInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\BGMManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\BloodBibleSignInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\CGameUpdate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientConfig.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CMessageArray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\COpeningUpdate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\CSystemInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\CToken.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\CUsingColorSetTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\CWaitPacketUpdate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\CWaitUIUpdate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExperienceTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\DrawCreatureShadow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\DrawCreatureEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\DrawCreatureDivineGuidance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\GameInit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\GameInitInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\GameMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\GameUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\GetWinVer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExpInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FameInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\GuildInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\GuildMemberInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\LeakMemoryDumper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MActionInfoTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MActionResult.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAnimationObject.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAroundZoneEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttachCreatureEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttachCreatureEffectGroundGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttachCreatureOrbitEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttachEffect.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttachOrbitEffect.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttachZoneEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttachZoneSelectableEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttackCreatureAroundThrowEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttackCreatureEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttackCreatureHomingEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttackCreatureParabolaEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttackZoneBombEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttackZoneEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttackZoneParabolaEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MAttackZoneRectEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MBloodyWallEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MBloodyWaveEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MChatManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MCompareManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MCreatureSpriteTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MCreatureTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MEffect.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MEffectGeneratorTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MEffectManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MEffectSpriteTypeTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MEffectStatusTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MemoryPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MInventory.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MInternetConnection.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MInteractionObjectTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MInteractionObject.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MImageObject.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MHomingEffect.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MHelpStringTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MHelpMessageManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MHelpManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MHelpDisplayer.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MGuildMarkManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MGuildInfoMapper.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MGuidanceEffect.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MGridItemManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MGpsTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MGameTime.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MGameStringTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MFollowPathEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MFirePiecingEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MFallingEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MEventManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MItem.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MItemManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MItemOptionTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MItemTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MJusticeAttackManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MLevelNameTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MLinearEffect.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MLoadingSPKWorkNode.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MObjectSelector.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MObject.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MNPCTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MNPCScriptTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MNPC.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MMusicTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MMusic.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MMultipleFallingEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MMonsterKillQuestInfo.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MMovingEffect.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MMoneyManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MMeteorDropEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MOustersGear.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MParabolaEffect.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MParty.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MPlayerGear.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MPlayingWithFireEffect.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MPlayingWithFireEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MPremiumGiveItemInfo.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MPriceManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MQuestInfo.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MQuickSlot.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MRippleZoneEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MRippleZonePixelEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MRippleZoneWideEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MRisingEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MScreenEffect.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MScreenEffectManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MShadowAnimationObject.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MShadowObject.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MShop.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MShopShelf.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MShopTemplate.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MSkillInfoTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MSkillManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MSkipEffect.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MSkipEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MSlayerGear.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MSlotItemManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MSortedItemManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MSoundTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MSpreadOutEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStatus.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStatusManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopInventoryEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopZoneCrossEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopZoneEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopZoneEmptyCrossEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopZoneEmptyHorizontalEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopZoneEmptyRectEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopZoneEmptyVerticalWallEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopZoneMultipleEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopZoneRandomEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopZoneRectEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopZoneRectRandomPixelEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopZoneRhombusEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopZoneSelectableEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopZoneWallEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MStopZoneXEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MStorage.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MTestDef.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MTimeItemManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MTopViewDraw.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MTopviewExceptionProc.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MTornadoEffect.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MTradeManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MVampireGear.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MWarManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MWeather.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MWorkNode.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MWorkThread.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MWorkThreadGlobal.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MZoneSound.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MZoneSoundManager.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MZoneTable.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="game\ModifyStatusManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\MonsterNameTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\WhisperManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\WavePackFileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UtilityFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UserOption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInformation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\UIMessageManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\UIDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TickTimer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\TempInformation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\TalkBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemAvailabilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\StoreInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\SkillDef.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\SizeOfObjects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShrineInfoManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\ShowTimeChecker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\ServerInformation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\ServerInfoFileParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\RequestUserManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\RequestFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\RequestFileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RankBonusTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProfileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\PCConfigTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\PackFileManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\nProtect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\NicknameInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\Netmarble.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MEffectTarget.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MFakeCreature.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MPlayer.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MRequestMode.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MSector.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MTopView.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MChaseEffect.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MCreature.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MCreatureWear.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="OustersSkillInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SectorSoundInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ZoneFileHeader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CAvi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="game\MTopViewDraw.inl">
+      <Filter>M Header</Filter>
+    </None>
   </ItemGroup>
 </Project>

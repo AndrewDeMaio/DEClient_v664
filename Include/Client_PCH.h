@@ -38,7 +38,8 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include "AtlTypes/atltypes.h"
+
+#include "atltypes.h"
 #include "ContentsFilter.h"
 #pragma warning(pop)
 
@@ -48,5 +49,3 @@ using std::map;
 using std::list;
 using std::deque;
 using std::bitset;
-
-

@@ -141,12 +141,13 @@
     <ClCompile Include="CDirectSetupGetVersion.cpp" />
     <ClCompile Include="CDirectSound.cpp" />
     <ClCompile Include="CDirectSoundStream.cpp" />
-    <ClCompile Include="CAvi.cpp" />
     <ClCompile Include="CMP3.cpp" />
+    <ClCompile Include="COGGSTREAM.CPP" />
     <ClCompile Include="CSoundPartManager.cpp" />
     <ClCompile Include="header.cpp" />
     <ClCompile Include="huffman.cpp" />
     <ClCompile Include="mp3.cpp" />
+    <ClCompile Include="Profiler.cpp" />
     <ClCompile Include="reader.cpp" />
     <ClCompile Include="soundbuf.cpp" />
     <ClCompile Include="subdecoder.cpp" />
@@ -161,8 +162,8 @@
     <ClInclude Include="CDirectSetup.h" />
     <ClInclude Include="CDirectSound.h" />
     <ClInclude Include="CDirectSoundStream.h" />
-    <ClInclude Include="CAvi.h" />
     <ClInclude Include="CMP3.h" />
+    <ClInclude Include="COGGSTREAM.H" />
     <ClInclude Include="CSoundPartManager.h" />
     <ClInclude Include="codec.h" />
     <ClInclude Include="common.h" />
@@ -174,10 +175,15 @@
     <ClInclude Include="mp3.h" />
     <ClInclude Include="ogg.h" />
     <ClInclude Include="os_types.h" />
+    <ClInclude Include="Profiler.h" />
     <ClInclude Include="reader.h" />
     <ClInclude Include="soundbuf.h" />
     <ClInclude Include="vorbisenc.h" />
     <ClInclude Include="vorbisfile.h" />
+    <ClInclude Include="DirectXLib_PCH.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DirectXLib_PCH.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

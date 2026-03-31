@@ -85,7 +85,7 @@ enum	CLIENT_MODE
 	MODE_WAIT_RECONNECT_LOGIN,	// logout하고 자동 재접속
 	MODE_GAME,
 	MODE_QUIT
-};	
+};
 
 //-----------------------------------------------------------------------------
 // update type

@@ -12,9 +12,6 @@
     <ClCompile Include="Assert.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ClientCommunicationManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Crypt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -37,12 +34,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FileAPILocal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FriendGlobalOptionInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FriendIndividualOptionInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameTime.cpp">
@@ -72,58 +63,19 @@
     <ClCompile Include="ModifyInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OustersSkillInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PacketIDSet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PacketValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PCItemInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PCOustersInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PCOustersInfo2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PCOustersInfo3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PCSlayerInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PCSlayerInfo2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PCSlayerInfo3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PCVampireInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PCVampireInfo2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PCVampireInfo3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PetInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Properties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QuestStatusInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RaceWarInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RideMotorcycleInfo.cpp">
@@ -138,72 +90,12 @@
     <ClCompile Include="ServerGroupInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ServerSocket.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SlayerSkillInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Socket.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SocketAPI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SocketEncryptInputStream.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SocketEncryptOutputStream.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SocketImpl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SocketInputStream.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SocketOutputStream.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StringInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="StringStream.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SubItemInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SubOustersSkillInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SubServerInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SubSlayerSkillInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SubVampireSkillInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TextInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VampireSkillInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WarInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WorldInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assert.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ClientCommunicationManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Crypt.h">
@@ -236,12 +128,6 @@
     <ClInclude Include="FileAPILocal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FriendGlobalOptionInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FriendIndividualOptionInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -269,73 +155,13 @@
     <ClInclude Include="ModifyInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OustersSkillInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PacketIDSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PacketValidator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCItemInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCOustersInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCOustersInfo2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCOustersInfo3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCSkillInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCSlayerInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCSlayerInfo2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCSlayerInfo3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCVampireInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCVampireInfo2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PCVampireInfo3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PetInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStatus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="QuestStatusInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RaceWarInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RequestClientPlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RideMotorcycleInfo.h">
@@ -350,58 +176,7 @@
     <ClInclude Include="ServerGroupInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ServerSocket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SlayerSkillInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Socket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SocketAPI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SocketEncryptInputStream.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SocketEncryptOutputStream.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SocketImpl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StringInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SubItemInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SubOustersSkillInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SubServerInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SubSlayerSkillInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SubVampireSkillInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TextInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ValueList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VampireSkillInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WarInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WorldInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

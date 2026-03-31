@@ -16,7 +16,7 @@
 	#include "MMiniLZO.h"
 #else
 extern "C" {
-	#include "MZLib/zlib.h"
+	#include "zlib.h"
 }
 #endif
 

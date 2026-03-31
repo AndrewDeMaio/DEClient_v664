@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Assert.cpp" />
-    <ClCompile Include="ClientCommunicationManager.cpp" />
     <ClCompile Include="Crypt.cpp" />
     <ClCompile Include="Datagram.cpp" />
     <ClCompile Include="DatagramSocket.cpp" />
@@ -29,8 +28,6 @@
     <ClCompile Include="ExtraInfo.cpp" />
     <ClCompile Include="ExtraSlotInfo.cpp" />
     <ClCompile Include="FileAPILocal.cpp" />
-    <ClCompile Include="FriendGlobalOptionInfo.cpp" />
-    <ClCompile Include="FriendIndividualOptionInfo.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="GearInfo.cpp" />
     <ClCompile Include="GearSlotInfo.cpp" />
@@ -40,52 +37,19 @@
     <ClCompile Include="InventorySlotInfo.cpp" />
     <ClCompile Include="LevelWarInfo.cpp" />
     <ClCompile Include="ModifyInfo.cpp" />
-    <ClCompile Include="OustersSkillInfo.cpp" />
     <ClCompile Include="PacketIDSet.cpp" />
-    <ClCompile Include="PacketValidator.cpp" />
     <ClCompile Include="PCItemInfo.cpp" />
-    <ClCompile Include="PCOustersInfo.cpp" />
-    <ClCompile Include="PCOustersInfo2.cpp" />
-    <ClCompile Include="PCOustersInfo3.cpp" />
-    <ClCompile Include="PCSlayerInfo.cpp" />
-    <ClCompile Include="PCSlayerInfo2.cpp" />
-    <ClCompile Include="PCSlayerInfo3.cpp" />
-    <ClCompile Include="PCVampireInfo.cpp" />
-    <ClCompile Include="PCVampireInfo2.cpp" />
-    <ClCompile Include="PCVampireInfo3.cpp" />
     <ClCompile Include="PetInfo.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Properties.cpp" />
     <ClCompile Include="QuestStatusInfo.cpp" />
-    <ClCompile Include="RaceWarInfo.cpp" />
     <ClCompile Include="RideMotorcycleInfo.cpp" />
     <ClCompile Include="RideMotorcycleSlotInfo.cpp" />
     <ClCompile Include="ScriptParameter.cpp" />
     <ClCompile Include="ServerGroupInfo.cpp" />
-    <ClCompile Include="ServerSocket.cpp" />
-    <ClCompile Include="SlayerSkillInfo.cpp" />
-    <ClCompile Include="Socket.cpp" />
-    <ClCompile Include="SocketAPI.cpp" />
-    <ClCompile Include="SocketEncryptInputStream.cpp" />
-    <ClCompile Include="SocketEncryptOutputStream.cpp" />
-    <ClCompile Include="SocketImpl.cpp" />
-    <ClCompile Include="SocketInputStream.cpp" />
-    <ClCompile Include="SocketOutputStream.cpp" />
-    <ClCompile Include="StringInfo.cpp" />
     <ClCompile Include="StringStream.cpp" />
-    <ClCompile Include="SubItemInfo.cpp" />
-    <ClCompile Include="SubOustersSkillInfo.cpp" />
-    <ClCompile Include="SubServerInfo.cpp" />
-    <ClCompile Include="SubSlayerSkillInfo.cpp" />
-    <ClCompile Include="SubVampireSkillInfo.cpp" />
-    <ClCompile Include="TextInfo.cpp" />
-    <ClCompile Include="VampireSkillInfo.cpp" />
-    <ClCompile Include="WarInfo.cpp" />
-    <ClCompile Include="WorldInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assert.h" />
-    <ClInclude Include="ClientCommunicationManager.h" />
     <ClInclude Include="Crypt.h" />
     <ClInclude Include="Datagram.h" />
     <ClInclude Include="DatagramPacket.h" />
@@ -96,8 +60,6 @@
     <ClInclude Include="ExtraInfo.h" />
     <ClInclude Include="ExtraSlotInfo.h" />
     <ClInclude Include="FileAPILocal.h" />
-    <ClInclude Include="FriendGlobalOptionInfo.h" />
-    <ClInclude Include="FriendIndividualOptionInfo.h" />
     <ClInclude Include="GameTime.h" />
     <ClInclude Include="GearInfo.h" />
     <ClInclude Include="GearSlotInfo.h" />
@@ -107,51 +69,14 @@
     <ClInclude Include="InventorySlotInfo.h" />
     <ClInclude Include="LevelWarInfo.h" />
     <ClInclude Include="ModifyInfo.h" />
-    <ClInclude Include="OustersSkillInfo.h" />
-    <ClInclude Include="PacketFactory.h" />
     <ClInclude Include="PacketIDSet.h" />
-    <ClInclude Include="PacketValidator.h" />
-    <ClInclude Include="PCInfo.h" />
-    <ClInclude Include="PCItemInfo.h" />
-    <ClInclude Include="PCOustersInfo.h" />
-    <ClInclude Include="PCOustersInfo2.h" />
-    <ClInclude Include="PCOustersInfo3.h" />
-    <ClInclude Include="PCSkillInfo.h" />
-    <ClInclude Include="PCSlayerInfo.h" />
-    <ClInclude Include="PCSlayerInfo2.h" />
-    <ClInclude Include="PCSlayerInfo3.h" />
-    <ClInclude Include="PCVampireInfo.h" />
-    <ClInclude Include="PCVampireInfo2.h" />
-    <ClInclude Include="PCVampireInfo3.h" />
     <ClInclude Include="PetInfo.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerInfo.h" />
-    <ClInclude Include="PlayerStatus.h" />
     <ClInclude Include="QuestStatusInfo.h" />
-    <ClInclude Include="RaceWarInfo.h" />
-    <ClInclude Include="RequestClientPlayer.h" />
     <ClInclude Include="RideMotorcycleInfo.h" />
     <ClInclude Include="RideMotorcycleSlotInfo.h" />
     <ClInclude Include="ScriptParameter.h" />
     <ClInclude Include="ServerGroupInfo.h" />
-    <ClInclude Include="ServerSocket.h" />
-    <ClInclude Include="SlayerSkillInfo.h" />
-    <ClInclude Include="Socket.h" />
-    <ClInclude Include="SocketAPI.h" />
-    <ClInclude Include="SocketEncryptInputStream.h" />
-    <ClInclude Include="SocketEncryptOutputStream.h" />
-    <ClInclude Include="SocketImpl.h" />
-    <ClInclude Include="StringInfo.h" />
-    <ClInclude Include="SubItemInfo.h" />
-    <ClInclude Include="SubOustersSkillInfo.h" />
-    <ClInclude Include="SubServerInfo.h" />
-    <ClInclude Include="SubSlayerSkillInfo.h" />
-    <ClInclude Include="SubVampireSkillInfo.h" />
-    <ClInclude Include="TextInfo.h" />
     <ClInclude Include="ValueList.h" />
-    <ClInclude Include="VampireSkillInfo.h" />
-    <ClInclude Include="WarInfo.h" />
-    <ClInclude Include="WorldInfo.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -255,7 +180,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <Optimization>MinSpace</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Packet;$(SolutionDir)VirtualFileSystem;$(SolutionDir)FrameLib;$(SolutionDir)Include;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Packet;$(SolutionDir)VirtualFileSystem;$(SolutionDir)FrameLib;$(SolutionDir)Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
   </ItemDefinitionGroup>
