@@ -9,7 +9,7 @@
 #include "SystemTypes.h"
 #include "ModifyDef.h"
 #include "PacketItemDef.h"
-//#include "ContentsFilter.h"
+#include "ContentsFilter.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // Player Character Type
@@ -29,7 +29,7 @@ const std::string PCType2String [] =
 const uint szPCType = szBYTE;
 
 //////////////////////////////////////////////////////////////////////////////
-// ±ÇÇÑ
+// ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 enum Competence 
 {
@@ -40,7 +40,7 @@ enum Competence
 };
 
 //////////////////////////////////////////////////////////////////////////////
-// Å¬¶óÀÌ¾ðÆ®¿Í º¹Àå °øÀ¯¸¦ À§ÇÑ...
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½...
 //////////////////////////////////////////////////////////////////////////////
 const std::string HelmetType2String[] = 
 { 
@@ -48,7 +48,7 @@ const std::string HelmetType2String[] =
 	"HELMET1" ,
 	"HELMET2" ,
 	"HELMET3",
-	"HELMET_OSIRIS" // 1Â÷ ½ÂÁ÷ ¿À½Ã¸®½º Åõ±¸
+	"HELMET_OSIRIS" // 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 };
 
 const std::string JacketType2String[] = 
@@ -58,7 +58,7 @@ const std::string JacketType2String[] =
 	"JACKET2" ,
 	"JACKET3" ,
 	"JACKET4",
-	"JACKET_OSIRIS"	// 1Â÷ ½ÂÁ÷ ¿À½Ã¸®½º »óÀÇ
+	"JACKET_OSIRIS"	// 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 };
 
 const std::string PantsType2String[] = 
@@ -84,12 +84,12 @@ const std::string WeaponType2String[] =
 	"WEAPON_MACE"
 //	"WEAPON_SHIELD",
 //	"WEAPON_SWORD_SHIELD",
-	"WEAPON_OSIRIS_SWORD" ,	// °Ë
-	"WEAPON_OSIRIS_BLADE" ,	// µµ
-	"WEAPON_OSIRIS_SR" ,		// ÃÑ
-	"WEAPON_OSIRIS_AR" ,		// ÃÑ
-	"WEAPON_OSIRIS_CROSS" ,	// ½ÊÀÚ°¡
-	"WEAPON_OSIRIS_MACE" ,	// ¸ÞÀÌ½º
+	"WEAPON_OSIRIS_SWORD" ,	// ï¿½ï¿½
+	"WEAPON_OSIRIS_BLADE" ,	// ï¿½ï¿½
+	"WEAPON_OSIRIS_SR" ,		// ï¿½ï¿½
+	"WEAPON_OSIRIS_AR" ,		// ï¿½ï¿½
+	"WEAPON_OSIRIS_CROSS" ,	// ï¿½ï¿½ï¿½Ú°ï¿½
+	"WEAPON_OSIRIS_MACE" ,	// ï¿½ï¿½ï¿½Ì½ï¿½
 };
 
 const std::string ShieldType2String[] = 
@@ -97,7 +97,7 @@ const std::string ShieldType2String[] =
 	"SHIELD_NONE",
 	"SHIELD1",
 	"SHIELD2",
-	"SHIELD_OSIRIS",	// 1Â÷ ½ÂÁ÷ ¿À½Ã¸®½º ¹æÆÐ
+	"SHIELD_OSIRIS",	// 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 };
 
 const std::string MotorcycleType2String[] = 
@@ -116,7 +116,7 @@ const std::string VampireCoatType2String[] =
 	"VAMPIRE_COAT2" ,
 	"VAMPIRE_COAT3" ,
 	"VAMPIRE_COAT4" ,
-	"VAMPIRE_OSIRIS_COAT" ,	//Day 2010.01.05, ID: shootkj 1Â÷ ½ÂÁ÷ ¿À½Ã¸®½º ¿ÜÇü
+	"VAMPIRE_OSIRIS_COAT" ,	//Day 2010.01.05, ID: shootkj 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	"VAMPIRE_COAT_MAX"
 };
 
@@ -124,7 +124,7 @@ const string VampireArmType2String[] =
 {
 	"VAMPIRE_ARM_NONE",
 	"VAMPIRE_ARM_WEAPON",
-	"VAMPIRE_ARM_OSIRIS_WEAPON",		// 1Â÷ ½ÂÁ÷ ¿À½Ã¸®½º ¹«±â ¿ÜÇü
+	"VAMPIRE_ARM_OSIRIS_WEAPON",		// 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	"VAMPIRE_ARM_MAX"
 };
 
@@ -135,7 +135,7 @@ const std::string OustersCoatType2String[] =
 	"OUSTERS_COAT2" ,
 	"OUSTERS_COAT3" ,
 	"OUSTERS_COAT4" ,
-	"OUSTERS_OSIRIS_COAT",	// 1Â÷ ½ÂÁ÷ ¿À½Ã¸®½º ¿ÜÇü
+	"OUSTERS_OSIRIS_COAT",	// 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	"OUSTERS_COAT_MAX"
 };
 
@@ -143,7 +143,7 @@ const std::string OustersArmType2String[] =
 {
 	"OUSTERS_ARM_GAUNTLET",
 	"OUSTERS_ARM_CHAKRAM",
-	"OUSTERS_ARM_OSIRIS_CHAKRAM",		// 1Â÷ ½ÂÁ÷ ¿À½Ã¸®½º ¹«±â ¿ÜÇü
+	"OUSTERS_ARM_OSIRIS_CHAKRAM",		// 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	"OUSTERS_ARM_MAX"
 };
 
@@ -156,7 +156,7 @@ const std::string OustersSylphType2String[] =
 
 
 //////////////////////////////////////////////////////////////////////////////
-// ¼ºº°
+// ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 enum Sex 
 { 
@@ -172,7 +172,7 @@ const uint szSex = szBYTE;
 
 
 //////////////////////////////////////////////////////////////////////////////
-// Çì¾î½ºÅ¸ÀÏ
+// ï¿½ï¿½î½ºÅ¸ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 enum HairStyle 
 { 
@@ -209,7 +209,7 @@ const uint szSlot = szBYTE;
 
 
 //////////////////////////////////////////////////////////////////////////////
-// »ö»ó Á¤º¸ 
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 //////////////////////////////////////////////////////////////////////////////
 typedef WORD Color_t;
 const uint szColor = sizeof(Color_t);
@@ -242,9 +242,9 @@ enum AttrType
 typedef WORD Attr_t;
 const uint szAttr = sizeof(Attr_t);
 
-// ´É·ÂÄ¡ ¿À¹ö·Î ¼­¹ö ´Ù¿îÀÌ °¡²û ÀÖ¾î¼­..
-// µÑ´Ù 350À¸·Î µÅÀÖ´ø°É 2000À¸·Î ¼öÁ¤ÇÑ´ç. 
-// (!) ÀÌ°Ç Àû´çÇÑ ¼öÁØ¿¡ Àâ¾ÆµÎ°í Error¸¦ catchÇØ¼­ log¸¸ ³²±â´Â°Ô ´õ ÁÁ°ÚÁö¸¸...
+// ï¿½É·ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾î¼­..
+// ï¿½Ñ´ï¿½ 350ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ 2000ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
+// (!) ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¿ï¿½ ï¿½ï¿½ÆµÎ°ï¿½ Errorï¿½ï¿½ catchï¿½Ø¼ï¿½ logï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Â°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
 // by sigi. 2002.9.16
 const uint maxSlayerAttr = 2000;
 const uint maxVampireAttr = 2000;
@@ -256,15 +256,15 @@ const uint szHP = sizeof(HP_t);
 typedef WORD MP_t;
 const uint szMP = sizeof(MP_t);
 
-// ¹æ¾î·Â
+// ï¿½ï¿½ï¿½ï¿½
 typedef WORD Defense_t;
 const uint szDefense = sizeof(Defense_t);
 
-// ÇÁ·ÎÅØ¼Ç
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½
 typedef WORD Protection_t;
 const uint szProtection = sizeof(Protection_t);
 
-// ¸íÁß·ü
+// ï¿½ï¿½ï¿½ß·ï¿½
 typedef WORD ToHit_t;
 const uint szToHit = sizeof(ToHit_t);
 
@@ -277,8 +277,8 @@ const uint szSkillPoint = sizeof(SkillPoint_t);
 
 //////////////////////////////////////////////////////////////////////////////
 // defines for MODIFY bit flag //abcd
-// ±âº»Ä¡¼ö str, int, dexµîÀÇ º¯È­¿¡ µû¶ó¼­ º¯È­µÈ °ªµéÀÌ ¾î¶² °ªÀÎ°¡¸¦ 
-// ³ªÅ¸³¿
+// ï¿½âº»Ä¡ï¿½ï¿½ str, int, dexï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½î¶² ï¿½ï¿½ï¿½Î°ï¿½ï¿½ï¿½ 
+// ï¿½ï¿½Å¸ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 #define MF_STR          0x01
 #define MF_DEX          0x02
@@ -307,13 +307,13 @@ enum Attribute
 };
 	 
 //////////////////////////////////////////////////////////////////////////////
-// Skill °ü·Ã
+// Skill ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
-// SkillÀÇ Type °¹¼ö.
+// Skillï¿½ï¿½ Type ï¿½ï¿½ï¿½ï¿½.
 typedef WORD SkillType_t;
 const uint szSkillType = sizeof(SkillType_t);
 
-// Client ¿¡¼­ ³¯·ÁÁÖ´Â EffectID.
+// Client ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ EffectID.
 typedef WORD CEffectID_t;
 const uint szCEffectID = sizeof(CEffectID_t);
 
@@ -321,7 +321,7 @@ const uint szCEffectID = sizeof(CEffectID_t);
 typedef WORD EffectID_t;
 const uint szEffectID = sizeof(EffectID_t);
 
-// SlotÀÇ °¹¼ö
+// Slotï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 typedef BYTE SlotID_t;
 const uint szSlotID = sizeof(SlotID_t);
 
@@ -349,7 +349,7 @@ enum SkillDomain
 	SKILL_DOMAIN_VAMPIRE,   // 6
 	SKILL_DOMAIN_OUSTERS,   // 6
 	SKILL_DOMAIN_MAX        // 7
-//	SKILL_DOMAIN_RIFLE ,    // 2...3¹øÀº ¾²ÀÌÁö ¾ÊÁã...
+//	SKILL_DOMAIN_RIFLE ,    // 2...3ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½...
 };
 
 enum SkillGrade 
@@ -381,14 +381,14 @@ const std::string SkillDomain2String [] =
 };
 
 //////////////////////////////////////////////////////////////////////////////
-// NPC·ÎºÎÅÍ ±â¼úÀ» ¹è¿ï ¶§ ¾²ÀÌ´Â »ó¼öÀÌ´Ù.
-// ¸ðµç ·¹º§ÀÇ ±â¼úÀ» ´Ù ¹è¿ö¼­ ´õ ÀÌ»ó ¹è¿ï ¼ö ¾øÀ½À» ³ªÅ¸³¯ ¶§
-// ÆÐÅ¶¿¡´Ù ³Ö¾î¼­ º¸³»´Â »ó¼öÀÌ´Ù.
+// NPCï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
+// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½
+// ï¿½ï¿½Å¶ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾î¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 const SkillLevel_t ALL_SKILL_LEARNED = 100;
 
 //////////////////////////////////////////////////////////////////////////////
-// PC ±âÅ¸ Á¤º¸ Å¸ÀÔ
+// PC ï¿½ï¿½Å¸ ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 typedef DWORD Fame_t;
 const uint szFame = sizeof(Fame_t);
@@ -411,7 +411,7 @@ const uint szGold = sizeof(Gold_t);
 const Gold_t MAX_MONEY = 2000000000;
 
 //////////////////////////////////////////////////////////////////////////////
-// ÁÂÇ¥¿Í ¹æÇâ
+// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 typedef BYTE Coord_t;
 const uint szCoord = sizeof(Coord_t);
@@ -446,13 +446,13 @@ const std::string Dir2String [] =
 
 
 //////////////////////////////////////////////////////////////////////////////
-// ½Ã¾ß °ü·Ã
+// ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
 typedef BYTE Vision_t;
 const uint szVision = sizeof(Vision_t);
 
-// Ä³¸¯ÅÍÀÇ °¡·Î/¼¼·Î ½Ã¾ß ¹üÀ§ÀÇ ÃÖ´ë°ª. ½Ã¾ß ¹üÀ§´Â »óÇÏ°¡ ºñ´ëÄªÀÌ´Ù.
+// Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ë°ª. ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Äªï¿½Ì´ï¿½.
 //const Coord_t maxViewportWidth  = 9;
 //const Coord_t maxViewportUpperHeight = 10;
 //const Coord_t maxViewportLowerHeight = 10;
@@ -461,11 +461,11 @@ const Coord_t maxViewportWidth  = 12;
 const Coord_t maxViewportUpperHeight = 13;
 const Coord_t maxViewportLowerHeight = 13;
 
-// ½Ã¾ß»ç°¢Çü(vision)ÀÇ °¡·Î/¼¼·Î Å©±â
+// ï¿½Ã¾ß»ç°¢ï¿½ï¿½(vision)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½
 const Coord_t maxVisionWidth = maxViewportWidth * 2 + 1;
 const Coord_t maxVisionHeight = maxViewportUpperHeight + maxViewportLowerHeight + 1;
 
-// ½Ã¾ß ·¹º§
+// ï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½
 typedef BYTE Sight_t;
 const uint szSight = sizeof(Sight_t); 
 const Sight_t minSight = 0;
@@ -473,14 +473,14 @@ const Sight_t maxSight = 13;
 
 
 //////////////////////////////////////////////////////////////////////////////
-// °ÔÀÓ ³»¿¡¼­ÀÇ ÅÏ(0.1ÃÊ)À» °è»êÇÒ ¶§ »ç¿ëÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½(0.1ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 typedef DWORD Turn_t;
 const uint szTurn = sizeof(Turn_t);
 
 
 //////////////////////////////////////////////////////////////////////////////
-// ¸ó½ºÅÍ
+// ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 typedef WORD MonsterType_t;
 const uint szMonsterType = sizeof(MonsterType_t);
@@ -502,7 +502,7 @@ typedef WORD NPCID_t;
 const uint szNPCID = sizeof(NPCID_t);
 
 //////////////////////////////////////////////////////////////////////////////
-// ÇÚµåÆù&½½¶ù °ü·Ã
+// ï¿½Úµï¿½ï¿½ï¿½&ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 #define MAX_PHONE_SLOT  3
 typedef DWORD PhoneNumber_t;
@@ -535,29 +535,29 @@ typedef short Luck_t;
 const uint szLuck = sizeof(Luck_t);
 
 //////////////////////////////////////////////////////////////////////////////
-// ¸¶¹ý ÀúÇ×·Â
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½×·ï¿½
 //////////////////////////////////////////////////////////////////////////////
 typedef short Resist_t;
 const uint szResist = sizeof(Resist_t);
 
 enum MagicDomain
 {
-	MAGIC_DOMAIN_NO_DOMAIN = 0, // ¹«¼Ó¼º ¸¶¹ý
-	MAGIC_DOMAIN_POISON    = 1, // µ¶ °è¿­ ¸¶¹ý
-	MAGIC_DOMAIN_ACID      = 2, // »ê °è¿­ ¸¶¹ý
-	MAGIC_DOMAIN_CURSE     = 3, // ÀúÁÖ °è¿­ ¸¶¹ý
-	MAGIC_DOMAIN_BLOOD     = 4, // ÇÇ °è¿­ ¸¶¹ý
+	MAGIC_DOMAIN_NO_DOMAIN = 0, // ï¿½ï¿½ï¿½Ó¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+	MAGIC_DOMAIN_POISON    = 1, // ï¿½ï¿½ ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½
+	MAGIC_DOMAIN_ACID      = 2, // ï¿½ï¿½ ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½
+	MAGIC_DOMAIN_CURSE     = 3, // ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½
+	MAGIC_DOMAIN_BLOOD     = 4, // ï¿½ï¿½ ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½
 
 	MAGIC_DOMAIN_MAX
 };
 
 const std::string MagicDomain2String[] = 
 {
-	"NO_DOMAIN", // ¹«¼Ó¼º ¸¶¹ý
-	"POISON",    // µ¶ °è¿­ ¸¶¹ý
-	"ACID",      // »ê °è¿­ ¸¶¹ý
-	"CURSE",     // ÀúÁÖ °è¿­ ¸¶¹ý
-	"BLOOD",     // ÇÇ °è¿­ ¸¶¹ý
+	"NO_DOMAIN", // ï¿½ï¿½ï¿½Ó¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+	"POISON",    // ï¿½ï¿½ ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½
+	"ACID",      // ï¿½ï¿½ ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½
+	"CURSE",     // ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½
+	"BLOOD",     // ï¿½ï¿½ ï¿½è¿­ ï¿½ï¿½ï¿½ï¿½
 	"MAGIC_DOMAIN_MAX"
 };
 
@@ -579,37 +579,37 @@ enum Shape
 #if __CONTENTS(__SECOND_TRANSFORTER)
 	SHAPE_SHAPEOFDEMON,
 #endif //__SECOND_TRANSFORTER
-//Å¬¶óÀÌ¾ðÆ® Àü¿ëÀÌ´Ù.
+//Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 	SHAPE_VAMPIRE_GHOST,
 	
 	SHAPE_MAX
 };
 
 //////////////////////////////////////////////////////////////////////////////
-// ±â¼úÀÇ Å¸°Ù Å¸ÀÔ
-// ºñÆ® ÇÃ·¡±×·Î½á, ¸ÂÃâ ¼ö ÀÖ´Â Å¸ÀÔÀ» °áÁ¤ÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ Å¸ï¿½ï¿½
+// ï¿½ï¿½Æ® ï¿½Ã·ï¿½ï¿½×·Î½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 const uint TARGET_UNDERGROUND = 0x01;
 const uint TARGET_GROUND      = 0x02;
 const uint TARGET_AIR         = 0x04;
 
 //////////////////////////////////////////////////////////////////////////////
-// Å¬·£ Å¸ÀÔ
+// Å¬ï¿½ï¿½ Å¸ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
-typedef WORD ClanType_t;	// BYTE¿¡¼­ WORD·Î ¹Ù²Þ. by sigi. 2002.12.27
+typedef WORD ClanType_t;	// BYTEï¿½ï¿½ï¿½ï¿½ WORDï¿½ï¿½ ï¿½Ù²ï¿½. by sigi. 2002.12.27
 const uint szClanType = sizeof(ClanType_t);
 
 //////////////////////////////////////////////////////////////////////////////
 // GearID
 //////////////////////////////////////////////////////////////////////////////
 // GearSlotID
-#if __CONTENTS(__GEAR_SWAP_CHANGE)	// GearSlotID_tÀÇ ÀÚ·áÇü ¼±¾ð (typedef	ushort)
+#if __CONTENTS(__GEAR_SWAP_CHANGE)	// GearSlotID_tï¿½ï¿½ ï¿½Ú·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (typedef	ushort)
 typedef	ushort GearSlotID_t;
 const uint szGearSlotID	= sizeof(GearSlotID_t);
 #endif	//__GEAR_SWAP_CHANGE
 
 //////////////////////////////////////////////////////////////////////////////
-// °æÇèÄ¡ °ü·Ã ¼¼ÀÌºê ÁÖ±â
+// ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ ï¿½Ö±ï¿½
 //////////////////////////////////////////////////////////////////////////////
 const WORD ATTR_EXP_SAVE_PERIOD    = 100;
 const WORD DOMAIN_EXP_SAVE_PERIOD  = 100;

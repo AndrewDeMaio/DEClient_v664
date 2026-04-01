@@ -11,7 +11,7 @@
 #include <vector>
 #include <bitset>
 #include "MString.h"
-#include "RaceType.h"
+#include "Types\RaceType.h"
 #include "BitAttribute.h"
 
 // 운영자 체크 방식
