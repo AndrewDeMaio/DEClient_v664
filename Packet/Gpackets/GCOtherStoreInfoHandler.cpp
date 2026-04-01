@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCOtherStoreInfo.h"
 #include "MStorage.h"
 #include "MPlayer.h"

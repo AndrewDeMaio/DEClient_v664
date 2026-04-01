@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPetInfo.h"
 #include "MFakeCreature.h"
 #include "PacketFunction.h"

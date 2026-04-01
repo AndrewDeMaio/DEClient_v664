@@ -3,7 +3,7 @@
 // Written By  : reiot@ewestsoft.com
 // Description :
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCEnterVampirePortal.h"
 #include "ClientDef.h"
 #include "MTopView.h"

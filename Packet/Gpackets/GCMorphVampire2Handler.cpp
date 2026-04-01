@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCMorphVampire2.h"
 #include "ClientDef.h"
 

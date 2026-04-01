@@ -8,7 +8,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAuthKey.h"
 #ifdef __GAME_CLIENT__ 
 	#include "Client.h"

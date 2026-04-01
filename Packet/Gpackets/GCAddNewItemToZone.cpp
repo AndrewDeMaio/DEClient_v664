@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddNewItemToZone.h"
 #include "Assert.h"
 

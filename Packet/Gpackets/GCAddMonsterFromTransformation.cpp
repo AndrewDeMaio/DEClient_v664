@@ -4,7 +4,7 @@
 // Written By  : Reiot
 // 
 //////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddMonsterFromTransformation.h"
 
 //--------------------------------------------------------------------

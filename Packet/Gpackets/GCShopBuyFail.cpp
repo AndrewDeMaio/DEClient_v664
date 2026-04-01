@@ -6,7 +6,7 @@
 // 정상적인 구매가 실패했을 경우에 플레이어에게 보내는 패킷.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCShopBuyFail.h"
 #include "Assert.h"
 

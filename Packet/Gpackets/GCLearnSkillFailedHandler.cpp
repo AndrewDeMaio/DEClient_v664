@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCLearnSkillFailed.h"
 #include "ClientDef.h"
 #include "MGameStringTable.h"

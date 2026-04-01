@@ -7,11 +7,9 @@
 #define __CREATURE_TYPES_H__
 
 #include "SystemTypes.h"
-#ifdef __GAME_CLIENT__
-	#include "ModifyDef.h"
-	#include "PacketItemDef.h"
-#endif
-#include "ContentsFilter.h"
+#include "ModifyDef.h"
+#include "PacketItemDef.h"
+//#include "ContentsFilter.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // Player Character Type

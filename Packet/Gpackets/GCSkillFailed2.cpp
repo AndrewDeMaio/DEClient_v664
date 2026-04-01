@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSkillFailed2.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"

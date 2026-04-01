@@ -2,7 +2,7 @@
 //-----------------------------------------------------------------------------
 // PacketFunction.cpp
 //-----------------------------------------------------------------------------
-// Packet¿¡ °ü·ÃµÈ utilityÇÔ¼ö
+// Packetï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ utilityï¿½Ô¼ï¿½
 //-----------------------------------------------------------------------------
 
 #include "Client_PCH.h"
@@ -109,7 +109,7 @@ int				g_DyeColorSet[48] =
 {400,359,312,267,222,174,130,86,381,342,297,252,207,159,115,70,369,327,283,237,193,145,101,57,
 165,381,407,420,435,451,466,480,170,364,412,426,440,455,471,487,179,371,419,434,449,464,479,494};
 
-// sourceÈ­ÀÏ ³¡¿¡ ÀÖ´Ù. header compile½Ã°£ ¾Æ±î¹ö¼­ ..- -;
+// sourceÈ­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½. header compileï¿½Ã°ï¿½ ï¿½Æ±ï¿½ï¿½ï¿½ï¿½ ..- -;
 void	CheckItemForSkillIcon(const MItem* pItem);
 
 extern BYTE g_macAddress[6];
@@ -277,7 +277,7 @@ InitPacketItemTable()
 	// motorcycle
 	//------------------------------------------------------------
 	MMotorcycle* pMotor1 = new MMotorcycle;	pMotor1->SetItemType( 0 ); pMotor1->ClearItemOption();
-	// 2004, 1, 5, sobeit modify start - type º¯°æ 1->6, 2->7 ·Î
+	// 2004, 1, 5, sobeit modify start - type ï¿½ï¿½ï¿½ï¿½ 1->6, 2->7 ï¿½ï¿½
 	MMotorcycle* pMotor2 = new MMotorcycle;	pMotor2->SetItemType( 6 ); pMotor2->ClearItemOption();
 	MMotorcycle* pMotor3 = new MMotorcycle;	pMotor3->SetItemType( 7 ); pMotor3->ClearItemOption();
 	// 2004, 1, 5, sobeit modify end
@@ -303,9 +303,9 @@ InitPacketItemTable()
 	// shouler
 	//------------------------------------------------------------
 	
-	//Start ÀÌÀ¯ Global º¯¼ö¿Í °°Àº ÀÌ¸§À» »ç¿ë ÇØ¼­ ¸Þ¸ð¸®°¡ »èÁ¦µÇÁö ¾ÊÀ½
+	//Start ï¿½ï¿½ï¿½ï¿½ Global ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ø¼ï¿½ ï¿½Þ¸ð¸®°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//MItem*		g_pPacketItemShoulder[SHOULDER_MAX] = { NULL, };
-	//2005. 04.13 µÑ¸® End
+	//2005. 04.13 ï¿½Ñ¸ï¿½ End
 
 	MShoulderArmor* pShoulder1 = new MShoulderArmor;	pShoulder1->SetItemType( 0 ); pShoulder1->ClearItemOption();
 	g_pPacketItemShoulder[SHOULDER_NONE]	= NULL;
@@ -458,8 +458,8 @@ ReleasePacketItemTable()
 //-----------------------------------------------------------------------------
 // Get Mine ActionInfo
 //-----------------------------------------------------------------------------
-// Áö·Ú(item type)¶û °ü·ÃµÈ actioninfo¸¦ ¾Ë¾Æ³½´Ù.
-// ¾øÀ¸¸é -1À» returnÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½(item type)ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ actioninfoï¿½ï¿½ ï¿½Ë¾Æ³ï¿½ï¿½ï¿½.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -1ï¿½ï¿½ returnï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 int
 GetMineActionInfo(int itemType)
@@ -485,8 +485,8 @@ GetMineActionInfo(int itemType)
 //-----------------------------------------------------------------------------
 // Get Bomb ActionInfo
 //-----------------------------------------------------------------------------
-// ÆøÅº(item type)¶û °ü·ÃµÈ actioninfo¸¦ ¾Ë¾Æ³½´Ù.
-// ¾øÀ¸¸é -1À» returnÇÑ´Ù.
+// ï¿½ï¿½Åº(item type)ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ actioninfoï¿½ï¿½ ï¿½Ë¾Æ³ï¿½ï¿½ï¿½.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -1ï¿½ï¿½ returnï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 int
 GetBombActionInfo(int itemType)
@@ -515,10 +515,10 @@ GetBombActionInfo(int itemType)
 void
 SetGoreLevel(bool bGoreLevel)
 {
-	// Gore Level ÇÒ·Á¸é..
-	// EffectGenerator¿¡¼­ effectSpriteTypeÀÌ EFFECTSPRITETYPE_NULLÀÎ 
-	// °æ¿ì¸¦ Ã¼Å©ÇØ¾ß ÇÑ´Ù. 
-	// MTopView¿¡¼­µµ Ãâ·ÂÇÒ¶§ NULLÃ¼Å©ÇØ¾ßÇÑ´Ù.
+	// Gore Level ï¿½Ò·ï¿½ï¿½ï¿½..
+	// EffectGeneratorï¿½ï¿½ï¿½ï¿½ effectSpriteTypeï¿½ï¿½ EFFECTSPRITETYPE_NULLï¿½ï¿½ 
+	// ï¿½ï¿½ì¸¦ Ã¼Å©ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½. 
+	// MTopViewï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ NULLÃ¼Å©ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½.
 	bool bZoneRelease = false;
 
 //	if (g_pUserInformation->GoreLevel)
@@ -526,7 +526,7 @@ SetGoreLevel(bool bGoreLevel)
 		//-------------------------------------------------------
 		// Gore ---> not Gore
 		//-------------------------------------------------------
-		// effectµéÀ» ¹Ù²ãÁØ´Ù.
+		// effectï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
 		//-------------------------------------------------------
 		if (!bGoreLevel)
 		{
@@ -540,7 +540,7 @@ SetGoreLevel(bool bGoreLevel)
 		//-------------------------------------------------------
 		// not Gore --> Gore
 		//-------------------------------------------------------
-		// ´Ù½Ã loadingÇÏ¸é µÈ´Ù.
+		// ï¿½Ù½ï¿½ loadingï¿½Ï¸ï¿½ ï¿½È´ï¿½.
 		//-------------------------------------------------------
 		if (bGoreLevel)
 		{
@@ -561,7 +561,7 @@ SetGoreLevel(bool bGoreLevel)
 	if(bZoneRelease == true)
 	{
 		//------------------------------------------------------
-		// Small Zone Á¦°Å
+		// Small Zone ï¿½ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		if (g_pZoneSmall != NULL)
 		{
@@ -573,7 +573,7 @@ SetGoreLevel(bool bGoreLevel)
 		}			
 		
 		//------------------------------------------------------
-		// Large Zone Á¦°Å
+		// Large Zone ï¿½ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		if (g_pZoneLarge != NULL)
 		{
@@ -608,7 +608,7 @@ ConvertAlignment(int alignment2)
 {
 	int alignment = alignment2;
 
-	// À½¼öÀÎ °æ¿ì..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 	if (alignment > 10000)
 	{	
 		alignment = - (short)(~alignment + 1);
@@ -643,10 +643,10 @@ ConvertAlignment(int alignment2)
 DWORD
 ConvertDurationToFrame(int duration)
 {
-	// ÃÊ´ç 16 Frame
-	// 0.1ÃÊ´ç 1.6 Frame
-	// 1 --> 0.1ÃÊ
-	// 10 --> 1ÃÊ
+	// ï¿½Ê´ï¿½ 16 Frame
+	// 0.1ï¿½Ê´ï¿½ 1.6 Frame
+	// 1 --> 0.1ï¿½ï¿½
+	// 10 --> 1ï¿½ï¿½
 	return duration * g_pClientConfig->FPS / 10;
 }
 
@@ -658,7 +658,7 @@ ConvertMillisecondToFrame(DWORD ms)
 {
 	// 1 ms = 1/1000
 	// 1000 ms = 1
-	// 1 ÃÊ = 16 frame
+	// 1 ï¿½ï¿½ = 16 frame
 	return ms * g_pClientConfig->FPS / 1000;
 }
 
@@ -668,7 +668,7 @@ ConvertMillisecondToFrame(DWORD ms)
 DWORD
 ConvertDurationToMillisecond(int duration)
 {
-	// 1 --> 0.1ÃÊ	
+	// 1 --> 0.1ï¿½ï¿½	
 	// 1 --> 100
 	return duration * 100;
 }
@@ -676,7 +676,7 @@ ConvertDurationToMillisecond(int duration)
 //-----------------------------------------------------------------------------
 // Set VampireCreatureType
 //-----------------------------------------------------------------------------
-// »ç¶÷(³², ¿©), ´Á´ë, ¹ÚÁã..
+// ï¿½ï¿½ï¿½(ï¿½ï¿½, ï¿½ï¿½), ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½..
 //-----------------------------------------------------------------------------
 int
 #if __CONTENTS(__SECOND_TRANSFORTER)
@@ -700,7 +700,7 @@ GetVampireCreatureType(int shape, bool bMale, int coatType)
 	};
 
 	//--------------------------------------------------
-	// CreatureType ¼³Á¤
+	// CreatureType ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	switch ( shape )
 	{
@@ -755,13 +755,13 @@ GetVampireCreatureType(int shape, bool bMale, int coatType)
 //-----------------------------------------------------------------------------
 // Set OustersCreatureType
 //-----------------------------------------------------------------------------
-// »ç¶÷(³², ¿©), ´Á´ë, ¹ÚÁã..
+// ï¿½ï¿½ï¿½(ï¿½ï¿½, ï¿½ï¿½), ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½..
 //-----------------------------------------------------------------------------
 int
 GetOustersCreatureType(int coatType)
 {
 	//--------------------------------------------------
-	// CreatureType ¼³Á¤
+	// CreatureType ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	return CREATURETYPE_OUSTERS;
 	//	return (*g_pItemTable)[ITEM_CLASS_VAMPIRE_COAT][coatType].AddonMaleFrameID;
@@ -770,13 +770,13 @@ GetOustersCreatureType(int coatType)
 //-----------------------------------------------------------------------------
 // Set Addon To Slayer
 //-----------------------------------------------------------------------------
-// NPC º¹ÀåÀ» ÀÔÈù´Ù.
+// NPC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //-----------------------------------------------------------------------------
 void
 SetAddonToSlayer(MCreatureWear* pCreature, int npcID )
 {
 	//-------------------------------------------------------------
-	// °ª Ã¼Å©
+	// ï¿½ï¿½ Ã¼Å©
 	//-------------------------------------------------------------
 	if (npcID >= g_pCreatureTable->GetSize())
 	{
@@ -786,7 +786,7 @@ SetAddonToSlayer(MCreatureWear* pCreature, int npcID )
 	}
 
 	//-------------------------------------------------------------
-	// º¹ÀåÀ» ÇÏ³ªÇÏ³ª ÀÔÈù´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ï¿½Ï³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 	//-------------------------------------------------------------
 	ITEM_WEARINFO* pInfo = (*g_pCreatureTable)[npcID].pItemWearInfo;
 
@@ -798,12 +798,12 @@ SetAddonToSlayer(MCreatureWear* pCreature, int npcID )
 	}
 	
 	//----------------------------------------	
-	// ¸Ó¸®
+	// ï¿½Ó¸ï¿½
 	//----------------------------------------	
 	pCreature->SetAddonHair(g_PacketHairID[pInfo->hair], pInfo->hairColor);
 
 	//----------------------------------------	
-	// º¹Àå
+	// ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------	
 	MItem* pCoat		= g_pPacketItemJacket[pInfo->jacket];
 	MItem* pTrouser		= g_pPacketItemPants[pInfo->pants];
@@ -824,7 +824,7 @@ SetAddonToSlayer(MCreatureWear* pCreature, int npcID )
 	MItem* pMotorcycle	= g_pPacketItemMotorcycle[pInfo->motorcycle];
 #endif //__SECOND_TRANSFORTER
 
-	// »ö±òÁ¤º¸ ¼³Á¤...
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½...
 	//pCoat->SetItemOptionList( getHelmetColor() );
 	//
 	//
@@ -839,7 +839,7 @@ SetAddonToSlayer(MCreatureWear* pCreature, int npcID )
 	
 
 	/*
-	// ¿Þ¼Õ¿£ ¹æÆÐ
+	// ï¿½Þ¼Õ¿ï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (pInfo->getWeaponType()==WEAPON_SWORD_SHIELD || pInfo->getWeaponType()==WEAPON_SHIELD)
 	{
 		pCreature->SetAddonItem( pShield );
@@ -852,7 +852,7 @@ SetAddonToSlayer(MCreatureWear* pCreature, int npcID )
 	*/
 
 	//----------------------------------------	
-	// »ö±ò ¼³Á¤
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------	
 	if (pCoat!=NULL)
 	{
@@ -890,7 +890,7 @@ SetAddonToSlayer(MCreatureWear* pCreature, int npcID )
 	}
 
 	//----------------------------------------	
-	// °ø°Ý ¼Óµµ ¼³Á¤
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------	
 //	pCreature->SetStatus( MODIFY_ALIGNMENT, pInfo->getAlignment() );
 //	pCreature->SetWeaponSpeed( pInfo->getAttackSpeed() );
@@ -901,18 +901,18 @@ SetAddonToSlayer(MCreatureWear* pCreature, int npcID )
 //-----------------------------------------------------------------------------
 // Set Addon To Slayer
 //-----------------------------------------------------------------------------
-// ¸Ó¸®
+// ï¿½Ó¸ï¿½
 //-----------------------------------------------------------------------------
 void		
 SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo2* pInfo)
 {		
 	//--------------------------------------------------
-	// ¸Ó¸® ¼³Á¤
+	// ï¿½Ó¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
-	// slayer³² 
+	// slayerï¿½ï¿½ 
 	pCreature->SetAddonHair(g_PacketHairID[(int)pInfo->getHairStyle()], pInfo->getHairColor());		
 
-	if(pInfo->getAdvancementLevel() > 0) // ½ÂÁ÷ Ä³¸¯ÅÍ
+	if(pInfo->getAdvancementLevel() > 0) // ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½
 	{
 		pCreature->SetAddonColorSet1( ADDON_COAT, pInfo->getHairColor () );
 		pCreature->SetAddonColorSet1( ADDON_TROUSER, pInfo->getSkinColor() );
@@ -927,7 +927,7 @@ SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo2* pInfo)
 //-----------------------------------------------------------------------------
 // Set Addon To Slayer
 //-----------------------------------------------------------------------------
-// º¹Àå
+// ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void		
 SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo3* pInfo)
@@ -953,7 +953,7 @@ SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo3* pInfo)
 
 	//----------------------------------------	
 	//
-	// option°ú color´Â µû·Î ÁöÁ¤ÇØ¾ß ÇÑ´Ù.
+	// optionï¿½ï¿½ colorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 	//
 	//----------------------------------------	
 	//Color_t getHairColor () const throw () 
@@ -966,12 +966,12 @@ SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo3* pInfo)
 	//Color_t getMotorcycleColor ( ColorType colorType = MAIN_COLOR ) const throw () 
 
 	//----------------------------------------	
-	// ¸Ó¸®
+	// ï¿½Ó¸ï¿½
 	//----------------------------------------	
 	pCreature->SetAddonHair(g_PacketHairID[pInfo->getHairStyle()], pInfo->getHairColor());		
 
 	//----------------------------------------	
-	// º¹Àå
+	// ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------	
 	MItem* pCoat		= g_pPacketItemJacket[pInfo->getJacketType()];
 	MItem* pTrouser		= g_pPacketItemPants[pInfo->getPantsType()];
@@ -994,7 +994,7 @@ SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo3* pInfo)
 
 	MItem* pShoulder	= g_pPacketItemShoulder[pInfo->getShoulderType()];
 
-	// »ö±òÁ¤º¸ ¼³Á¤...
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½...
 	//pCoat->SetItemOptionList( getHelmetColor() );
 	//
 	//
@@ -1012,7 +1012,7 @@ SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo3* pInfo)
 	
 
 	/*
-	// ¿Þ¼Õ¿£ ¹æÆÐ
+	// ï¿½Þ¼Õ¿ï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (pInfo->getWeaponType()==WEAPON_SWORD_SHIELD || pInfo->getWeaponType()==WEAPON_SHIELD)
 	{
 		pCreature->SetAddonItem( pShield );
@@ -1027,14 +1027,14 @@ SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo3* pInfo)
 	bool bAdvancementCharacter = pInfo->getAdvancementLevel() > 0;
 
 	//----------------------------------------	
-	// »ö±ò ¼³Á¤
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------	
 	if (pCoat!=NULL)
 	{
 		pCreature->SetAddonColorSet2( ADDON_COAT, pInfo->getJacketColor() );
 	}
 
-	if(bAdvancementCharacter) // ½ÂÁ÷ Ä³¸¯ÅÍ
+	if(bAdvancementCharacter) // ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½
 	{
 		pCreature->SetAddonColorSet1( ADDON_COAT, pInfo->getHairColor () );
 	}
@@ -1045,7 +1045,7 @@ SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo3* pInfo)
 //	pCreature->SetAddonColorSet1( ADDON_COAT, pInfo->getSkinColor() );
 	
 
-	if(bAdvancementCharacter) // ½ÂÁ÷ Ä³¸¯ÅÍ
+	if(bAdvancementCharacter) // ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½
 	{
 		if (pTrouser!=NULL)
 			pCreature->SetAddonColorSet2( ADDON_TROUSER, pInfo->getPantsColor() );
@@ -1083,9 +1083,9 @@ SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo3* pInfo)
 		pCreature->SetAddonColorSet1( ADDON_MOTOR, pInfo->getMotorcycleColor() );
 		pCreature->SetAddonColorSet2( ADDON_MOTOR, pInfo->getMotorcycleColor() );
 #if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
-		//¸¸ÀÏ, ½½·¹ÀÌ¾îÀÇ ½Å±ÔÀÌµ¿¼ö´ÜÀÌ¶ó¸é..... 
-		//4¿ù 30ÀÏ Å×¼· / 5¿ù 7ÀÏ º»¼· ÆÐÄ¡±îÁö´Â ÀÓÀÇ·Î Color°ªÀ» 0À¸·Î ¼¼ÆÃÇÑ´Ù.
-		//ÃßÈÄ, ½Å±ÔÀÌµ¿¼ö´Ü¿¡ ´ëÇÑ Color Enchant±â´ÉÀÌ Ãß°¡µÉ ¶§.. (ÇöÀç)½½·¹ÀÌ¾î ¹ÙÀÌÅ©¿¡ ´ëÇØ¼­ ColorÃ³¸®°¡ ¹ÌÈíÇÑ ºÎºÐÀ» º¸¿ÏÇÏ°í, ±× ¶§´Â ÀÌ ºÎºÐÀÇ Ã³¸®¸¦ »©µµ·Ï ÇÏ³®.
+		//ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½..... 
+		//4ï¿½ï¿½ 30ï¿½ï¿½ ï¿½×¼ï¿½ / 5ï¿½ï¿½ 7ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç·ï¿½ Colorï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+		//ï¿½ï¿½ï¿½ï¿½, ï¿½Å±ï¿½ï¿½Ìµï¿½ï¿½ï¿½ï¿½Ü¿ï¿½ ï¿½ï¿½ï¿½ï¿½ Color Enchantï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½.. (ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ColorÃ³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Îºï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½.
 #if __CONTENTS(__FAST_TRANSFORTER)
 		if (pMotorcycle->GetItemType () == 8 )
 		{
@@ -1104,7 +1104,7 @@ SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo3* pInfo)
 	}
 
 	//----------------------------------------	
-	// °ø°Ý ¼Óµµ ¼³Á¤
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½ ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------	
 	pCreature->SetWeaponSpeed( pInfo->getAttackSpeed() );
 }
@@ -1112,11 +1112,11 @@ SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo3* pInfo)
 //-----------------------------------------------------------------------------
 // Add Item To Zone
 //-----------------------------------------------------------------------------
-// bDroppingÀº ¹æ±Ý ¶³¾îÁö±â ½ÃÀÛÇÏ´Â°ÇÁö...(true)
-// ¶³¾îÁ® ÀÖ´ø°ÇÁö(false)¸¦ °áÁ¤ÇÏ´Â °ÍÀÌ´Ù.
+// bDroppingï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½ï¿½ï¿½...(true)
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ï¿½ï¿½(false)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
 //
-// »ý¼ºµÈ ItemÀ» returnÇÑ´Ù.
-// ¹º°¡ ´Ù¸¥ ÀÛ¾÷À» ÇÏ±â À§ÇØ¼­.. -_-;
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Itemï¿½ï¿½ returnï¿½Ñ´ï¿½.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½.. -_-;
 //-----------------------------------------------------------------------------
 MItem*
 AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
@@ -1127,27 +1127,27 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 	GCAddItemToZone* pPCItemInfo =  pPacket;
 #endif //__PCITEMINFO
 	//------------------------------------------------
-	// ItemÀ» °¡Áö°í ÀÖ´Ù°¡ ZoneÀ¸·Î ¶³¾î¶ß¸®´Â °æ¿ì
+	// Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù°ï¿½ Zoneï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------
-	// ¶³¾î¶ß¸±·Á´Â item
+	// ï¿½ï¿½ï¿½ï¿½ß¸ï¿½ï¿½ï¿½ï¿½ï¿½ item
 	if (g_pPlayer->IsItemCheckBufferDropToZone())
 	{
 		//---------------------------------------------
-		// ¶³¾î¶ß¸±·Á´Â item
+		// ï¿½ï¿½ï¿½ï¿½ß¸ï¿½ï¿½ï¿½ï¿½ï¿½ item
 		//---------------------------------------------
 		MItem* pItem = g_pPlayer->GetItemCheckBuffer();
 	
 		if (pItem!=NULL)
 		{
 			//---------------------------------------------
-			// °°Àº IDÀÎ °æ¿ì¸¸ ¶³¾î¶ß·Á¾ß ÇÑ´Ù....
+			// ï¿½ï¿½ï¿½ï¿½ IDï¿½ï¿½ ï¿½ï¿½ì¸¸ ï¿½ï¿½ï¿½ï¿½ß·ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½....
 			//---------------------------------------------
 			if (pItem->GetID() == pPCItemInfo->getObjectID())
 			{	
 //				__BEGIN_HELP_EVENT
 //					if (pItem->GetItemClass()==ITEM_CLASS_MONEY)
 //					{
-//						// [µµ¿ò¸»] µ· ¹ö¸± ¶§
+//						// [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 ////						ExecuteHelpEvent( HE_ITEM_DROP_MONEY );	
 //					}
 //				__END_HELP_EVENT
@@ -1156,19 +1156,19 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 				DEBUG_ADD_FORMAT("[Try To Drop Item to Zone] ID=%d, xy=(%d, %d)", pPCItemInfo->getObjectID(), pPacket->getX(), pPacket->getY());
 				
 				//---------------------------------------------
-				// item check buffer¸¦ ¾ø¾ÖÁØ´Ù.
+				// item check bufferï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 				//---------------------------------------------
 				g_pPlayer->ClearItemCheckBuffer();
 
 				//---------------------------------------------
-				// mouse cursor¿¡¼­ Á¦°Å
+				// mouse cursorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				//---------------------------------------------
 				UI_DropItem();
 
-				// ¶³¾î¶ß¸®´Â ÁÂÇ¥ ¼³Á¤
+				// ï¿½ï¿½ï¿½ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
 				pItem->SetPosition( pPacket->getX(), pPacket->getY() );
 
-				// Zone¿¡ ItemÀ» Ãß°¡ÇÑ´Ù.
+				// Zoneï¿½ï¿½ Itemï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 				if (!g_pZone->AddItem( pItem, bDropping ))
 				{
 					DEBUG_ADD_FORMAT("[Can't Drop Item] ID=%d, xy=(%d, %d)", pPCItemInfo->getObjectID(), pPacket->getX(), pPacket->getY());
@@ -1179,9 +1179,9 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 				}
 
 				//------------------------------------------------------------------------
-				// ±â¼ú ¾ÆÀÌÄÜ Àç¼³Á¤..
+				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ç¼³ï¿½ï¿½..
 				//------------------------------------------------------------------------
-				// ¼º¼ö, ÆøÅº
+				// ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½Åº
 				//------------------------------------------------------------------------
 				CheckItemForSkillIcon(pItem);
 
@@ -1199,7 +1199,7 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 	}
 
 	//------------------------------------------------
-	// ItemÀ» »ý¼ºÇØ¼­ Zone¿¡ Ãß°¡ÇÑ´Ù.
+	// Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ Zoneï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 	//------------------------------------------------
 	DEBUG_ADD("Create NEW Item");
 	
@@ -1222,7 +1222,7 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 
 	pItem->SetPosition( pPacket->getX(), pPacket->getY() );
 
-	// °³¼ö ¼³Á¤
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	pItem->SetNumber( 1 );
 
 	// durability
@@ -1235,7 +1235,7 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 	pItem->SetItemThirdOptionType(pPCItemInfo->getThirdEnchantType());
 #endif //__PCITEMINFO
 	//-------------------------------------------------
-	// ÀÌ¸§ ¼³Á¤ : µ·ÀÎ °æ¿ì ¾×¼ö Ç¥½Ã
+	// ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½×¼ï¿½ Ç¥ï¿½ï¿½
 	//-------------------------------------------------
 	if (pItem->GetItemClass()==ITEM_CLASS_MONEY || pItem->GetItemClass()== ITEM_CLASS_CHECK_MONEY)
 	{
@@ -1252,18 +1252,18 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 
 
 	//------------------------------------------
-	// °³¼ö
+	// ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------
-	// ÃÑÀÎ °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------
 	if (pItem->IsGunItem())
 	{
 		MMagazine* pMagazine = (MMagazine*)MItem::NewItem( (ITEM_CLASS)ITEM_CLASS_MAGAZINE );
 
-		// ÀÇ¹Ì ¾øÀ½ - -;
+		// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ - -;
 		pMagazine->SetID( 0 );
 
-		// ÀÌ°Å´Â ÃÑ¿¡ ¸ÂÃç¼­ ÇØÁà¾ßµÈ´Ù.
+		// ï¿½Ì°Å´ï¿½ ï¿½Ñ¿ï¿½ ï¿½ï¿½ï¿½ç¼­ ï¿½ï¿½ï¿½ï¿½ßµÈ´ï¿½.
 		for (int j=0; j<(*g_pItemTable)[ITEM_CLASS_MAGAZINE].GetSize(); j++)			
 		{
 			pMagazine->SetItemType(	j );
@@ -1276,22 +1276,22 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 		
 		if(pPCItemInfo->getSilver())
 			pMagazine->SetItemType( pMagazine->GetItemType()+8);
-		// ¾î¿¹~ ÀºÅºÈ¯ ÇÏµåÄÚµù by ¾¦°«
+		// ï¿½î¿¹~ ï¿½ï¿½ÅºÈ¯ ï¿½Ïµï¿½ï¿½Úµï¿½ by ï¿½ï¿½ï¿½ï¿½
 
-		// ÀÇ¹Ì ¾øÀ½
+		// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½
 		pMagazine->ClearItemOption();
 	
-		// ÅºÃ¢ °³¼ö
+		// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 		pMagazine->SetNumber( pPCItemInfo->getItemNum() );
 
 		//------------------------------------
-		// ÅºÃ¢ ¼³Á¤
+		// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 		//------------------------------------
 		MGunItem* pGunItem = (MGunItem*)pItem;
 		pGunItem->SetMagazine( pMagazine );
 	}		
 	//------------------------------------------
-	// ÃÑÀÌ ¾Æ´Ñ °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------
 	else
 	{
@@ -1303,7 +1303,7 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 
 	//------------------------------------------
 	//
-	// Item¿¡ ´Ù¸¥ itemµéÀÌ µé¾îÀÖ´Â °æ¿ì
+	// Itemï¿½ï¿½ ï¿½Ù¸ï¿½ itemï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 	//
 	//------------------------------------------
 	if (pPCItemInfo->getListNum()!=0)
@@ -1311,7 +1311,7 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 		DEBUG_ADD_FORMAT("This Item has Sub item(s) : size=%d", pPCItemInfo->getListNum());
 		
 		//------------------------------------------
-		// BeltÀÎ °æ¿ì
+		// Beltï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------
 		if (pItem->GetItemClass()==ITEM_CLASS_BELT)
 		{
@@ -1330,7 +1330,7 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 				else
 				{
 					//------------------------------------------
-					// Sub ItemÀÇ Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+					// Sub Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 					//------------------------------------------
 					if ( pSubItemInfo->getItemClass() >= g_pItemTable->GetSize() ||
 						(*g_pItemTable)[pSubItemInfo->getItemClass()].GetSize() <= pSubItemInfo->getItemType() )
@@ -1347,7 +1347,7 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 					pSubItem->SetNumber( pSubItemInfo->getItemNum() );			
 
 					//------------------------------------------
-					// BeltÀÇ Á¤ÇØÁø slot¿¡ itemÀ» Ãß°¡½ÃÅ²´Ù.
+					// Beltï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ slotï¿½ï¿½ itemï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 					//------------------------------------------
 					pBelt->AddItem( pSubItem, pSubItemInfo->getSlotID() );
 
@@ -1371,7 +1371,7 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 				else
 				{
 					//------------------------------------------
-					// Sub ItemÀÇ Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+					// Sub Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 					//------------------------------------------
 					if ( pSubItemInfo->getItemClass() >= g_pItemTable->GetSize() ||
 						(*g_pItemTable)[pSubItemInfo->getItemClass()].GetSize() <= pSubItemInfo->getItemType() )
@@ -1388,7 +1388,7 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 					pSubItem->SetNumber( pSubItemInfo->getItemNum() );			
 					
 					//------------------------------------------
-					// BeltÀÇ Á¤ÇØÁø slot¿¡ itemÀ» Ãß°¡½ÃÅ²´Ù.
+					// Beltï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ slotï¿½ï¿½ itemï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 					//------------------------------------------
 					pBelt->AddItem( pSubItem, pSubItemInfo->getSlotID() );
 					
@@ -1403,27 +1403,27 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 	}
 
 	//------------------------------------------------	
-	// Zone¿¡ Ãß°¡ÇÑ´Ù.
+	// Zoneï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 	//------------------------------------------------	
 	if (!g_pZone->AddItem( pItem, bDropping ))
 	{
 		//------------------------------------------------	
-		// Zone¿¡ Ãß°¡µÇÁö ¾ÊÀº °æ¿ì
+		// Zoneï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------	
 		DEBUG_ADD_FORMAT("[Can't Add Item] ID=%d, xy=(%d, %d)", pPCItemInfo->getObjectID(), pPacket->getX(), pPacket->getY());
 		
-		// ÀÌÀü¿¡ ÀÖ´ø°É Á¦°ÅÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		TYPE_OBJECTID oldID = g_pZone->GetItemID( pItem->GetX(), pItem->GetY() );
 
 		//------------------------------------------------	
-		// ±× ÀÚ¸®¿¡´Â ´Ù¸¥ ¾ÆÀÌÅÛÀÌ ÀÖ´Â °æ¿ì...
+		// ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½...
 		//------------------------------------------------	
 		if (oldID!=OBJECTID_NULL)
 		{
 			DEBUG_ADD_FORMAT("Exist Item ID = %d", oldID);
 		
 			//------------------------------------------------	
-			// ´Ù¸¥ ¾ÆÀÌÅÛÀÎ °æ¿ì.. ±âÁ¸¿¡°É Á¦°ÅÇÑ´Ù.
+			// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//------------------------------------------------	
 			if (oldID!=pItem->GetID())
 			{
@@ -1431,12 +1431,12 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 				{
 					DEBUG_ADD_FORMAT("Remove Old Item(id=%d) & Add", oldID);
 					
-					// ´Ù½Ã Ãß°¡ÇÑ´Ù.
+					// ï¿½Ù½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 					if (!g_pZone->AddItem( pItem, bDropping ))
 					{
 						DEBUG_ADD("[Can't Re-Add Item]");
 						
-						// memory Á¦°Å
+						// memory ï¿½ï¿½ï¿½ï¿½
 						delete pItem;
 					}		
 				}
@@ -1444,12 +1444,12 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 				{
 					DEBUG_ADD_FORMAT("[Can't Remove Old Item] id=%d", oldID);
 					
-					// memory Á¦°Å
+					// memory ï¿½ï¿½ï¿½ï¿½
 					delete pItem;
 				}		
 			}
 			//------------------------------------------------	
-			// °°Àº itemÀÎ °æ¿ì..
+			// ï¿½ï¿½ï¿½ï¿½ itemï¿½ï¿½ ï¿½ï¿½ï¿½..
 			//------------------------------------------------	
 			else
 			{
@@ -1459,8 +1459,8 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 			}
 		}
 		//------------------------------------------------	
-		// ±× ÀÚ¸®¿¡ ¾ÆÀÌÅÛÀÌ ¾ø´Ù¸é...
-		// ´Ù¸¥ ÀÚ¸®¿¡ °°Àº objectID¸¦ °¡Áø ¾ÆÀÌÅÛÀÌ ÀÖ´Ù´Â ÀÇ¹ÌÀÌ´Ù.
+		// ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½...
+		// ï¿½Ù¸ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ objectIDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù´ï¿½ ï¿½Ç¹ï¿½ï¿½Ì´ï¿½.
 		//------------------------------------------------	
 		else
 		{
@@ -1468,12 +1468,12 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 			{
 				DEBUG_ADD_FORMAT("Remove Old Item(id=%d) & Add", pPCItemInfo->getObjectID());
 				
-				// ´Ù½Ã Ãß°¡ÇÑ´Ù.
+				// ï¿½Ù½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 				if (!g_pZone->AddItem( pItem, bDropping ))
 				{
 					DEBUG_ADD("[Can't Re-Add Item2]");
 					
-					// memory Á¦°Å
+					// memory ï¿½ï¿½ï¿½ï¿½
 					delete pItem;
 				}		
 			}
@@ -1481,7 +1481,7 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 			{
 				DEBUG_ADD_FORMAT("[Can't Remove Old Item2] id=%d", pPCItemInfo->getObjectID());
 				
-				// memory Á¦°Å
+				// memory ï¿½ï¿½ï¿½ï¿½
 				delete pItem;
 			}		
 		}
@@ -1489,7 +1489,7 @@ AddItemToZone(GCAddItemToZone* pPacket, BOOL bDropping)
 		return NULL;
 	}
 
-	// [µµ¿ò¸»] ¾ÆÀÌÅÛ ¶³¾îÁú ¶§
+	// [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 //	__BEGIN_HELP_EVENT
 //		ExecuteHelpEvent( HE_ITEM_APPEAR );	
 //	__END_HELP_EVENT
@@ -1507,10 +1507,10 @@ SkillToSector(TYPE_ACTIONINFO nActionInfo, TYPE_SECTORPOSITION sX, TYPE_SECTORPO
 
 	//------------------------------------------------------
 	//
-	//				¸ñÇ¥ »ý¼º
+	//				ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
 	//
 	//------------------------------------------------------
-	// »ç¿ëÀÚ°¡ ¾ø¾î¼­ .. -_-;;
+	// ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½î¼­ .. -_-;;
 	//------------------------------------------------------
 	MEffectTarget* pEffectTarget = new MEffectTarget( (*g_pActionInfoTable)[nActionInfo].GetSize() );
 
@@ -1518,7 +1518,7 @@ SkillToSector(TYPE_ACTIONINFO nActionInfo, TYPE_SECTORPOSITION sX, TYPE_SECTORPO
 
 	pEffectTarget->SetDelayFrame( delayFrame );
 
-	// °á°ú ¼³Á¤
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	pEffectTarget->SetResult( pResult );
 
 
@@ -1526,7 +1526,7 @@ SkillToSector(TYPE_ACTIONINFO nActionInfo, TYPE_SECTORPOSITION sX, TYPE_SECTORPO
 
 	int z = 0;
 	//--------------------------------------------------------
-	// °øÁß¿¡¼­ ½ÃÀÛÇÏ´Â °æ¿ì
+	// ï¿½ï¿½ï¿½ß¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 	//--------------------------------------------------------
 	if ((*g_pActionInfoTable)[nActionInfo].IsStartSky())
 	{
@@ -1535,15 +1535,15 @@ SkillToSector(TYPE_ACTIONINFO nActionInfo, TYPE_SECTORPOSITION sX, TYPE_SECTORPO
 
 	//--------------------------------------------------------
 	//
-	//                   Effect»ý¼º		
+	//                   Effectï¿½ï¿½ï¿½ï¿½		
 	//
 	//--------------------------------------------------------
 	g_pEffectGeneratorTable->Generate(
-			point.x, point.y, z,				// ½ÃÀÛ À§Ä¡
-			dir, 		// ¹æÇâ
+			point.x, point.y, z,				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+			dir, 		// ï¿½ï¿½ï¿½ï¿½
 			1,					// power
-			nActionInfo,		//	ActionInfoTableÁ¾·ù,
-			pEffectTarget		// ¸ñÇ¥ Á¤º¸
+			nActionInfo,		//	ActionInfoTableï¿½ï¿½ï¿½ï¿½,
+			pEffectTarget		// ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
 	);	
 }
 
@@ -1552,15 +1552,15 @@ SkillToSector(TYPE_ACTIONINFO nActionInfo, TYPE_SECTORPOSITION sX, TYPE_SECTORPO
 //-----------------------------------------------------------------------------
 void		
 AddVampirePortal(
-				int serverID,								// ÀÌÆåÆ®ÀÇ OID
-				const char* ownerName,								// Æ÷Å» ÁÖÀÎ
-				TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY,		// Æ÷Å»ÀÇ ÁÂÇ¥
-				DWORD delayFrame,							// Æ÷Å»ÀÇ Áö¼Ó ½Ã°£
+				int serverID,								// ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ OID
+				const char* ownerName,								// ï¿½ï¿½Å» ï¿½ï¿½ï¿½ï¿½
+				TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY,		// ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½Ç¥
+				DWORD delayFrame,							// ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
 				
-				// ¸ñÇ¥ Á¤º¸
-				int zoneID,							// Æ÷Å»ÀÇ ¸ñÇ¥ Á¸ ID
-				TYPE_SECTORPOSITION zoneX,			// Æ÷Å»ÀÇ ¸ñÇ¥ ÁÂÇ¥ x
-				TYPE_SECTORPOSITION zoneY,			// Æ÷Å»ÀÇ ¸ñÇ¥ ÁÂÇ¥ y
+				// ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
+				int zoneID,							// ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ ID
+				TYPE_SECTORPOSITION zoneX,			// ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½Ç¥ x
+				TYPE_SECTORPOSITION zoneY,			// ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½Ç¥ y
 
 				bool bStartFromMainNode )
 {
@@ -1570,7 +1570,7 @@ AddVampirePortal(
 	{
 		//--------------------------------------------------------
 		//
-		//					Effect ¸ñÇ¥ ¼³Á¤
+		//					Effect ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
 		//
 		//--------------------------------------------------------
 		MPortalEffectTarget* pEffectTarget = new MPortalEffectTarget( (*g_pActionInfoTable)[nActionInfo].GetSize() );
@@ -1581,20 +1581,20 @@ AddVampirePortal(
 		pEffectTarget->SetPortal( zoneID, zoneX, zoneY );
 
 		//--------------------------------------------------------
-		// Áö¼Ó ½Ã°£ ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//--------------------------------------------------------
 		pEffectTarget->SetDelayFrame( delayFrame );		
 
 		//--------------------------------------------------------
 		//
-		//				Main Node¸¦ Ã£´Â´Ù.
+		//				Main Nodeï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 		//
 		//--------------------------------------------------------
 		if (bStartFromMainNode)
 		{
 			if ((*g_pActionInfoTable)[ nActionInfo ].HasMainNode())
 			{
-				// main node°¡ ÀÖÀ¸¸é main nodeºÎÅÍ ½ÃÀÛÇÏ°Ô ÇÑ´Ù.
+				// main nodeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ main nodeï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ñ´ï¿½.
 				for (int i=0; i<(*g_pActionInfoTable)[ nActionInfo ].GetMainNode(); i++)
 				{
 					pEffectTarget->NextPhase();
@@ -1604,7 +1604,7 @@ AddVampirePortal(
 		
 		//--------------------------------------------------------
 		//
-		//					½ÃÀÛ À§Ä¡¸¦ °áÁ¤ÇÑ´Ù.
+		//					ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		//
 		//--------------------------------------------------------
 		POINT point;	
@@ -1617,15 +1617,15 @@ AddVampirePortal(
 	
 		//--------------------------------------------------------
 		//
-		//                   Effect»ý¼º		
+		//                   Effectï¿½ï¿½ï¿½ï¿½		
 		//
 		//--------------------------------------------------------
 		g_pEffectGeneratorTable->Generate(
-				x,y,z,				// ½ÃÀÛ À§Ä¡
-				dir, 				// ¹æÇâ
+				x,y,z,				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+				dir, 				// ï¿½ï¿½ï¿½ï¿½
 				1,					// power
-				nActionInfo,		//	ActionInfoTableÁ¾·ù,
-				pEffectTarget		// ¸ñÇ¥ Á¤º¸
+				nActionInfo,		//	ActionInfoTableï¿½ï¿½ï¿½ï¿½,
+				pEffectTarget		// ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
 		);	
 		
 
@@ -1636,25 +1636,25 @@ AddVampirePortal(
 //-----------------------------------------------------------------------------
 // Execute ActionInfo From MainNode
 //-----------------------------------------------------------------------------
-// MainNodeºÎÅÍ ±â¼úÀ» ½ÇÇàÇÑ´Ù.
+// MainNodeï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void
 ExecuteActionInfoFromMainNode(
-			TYPE_ACTIONINFO nActionInfo,										// »ç¿ë ±â¼ú ¹øÈ£
+			TYPE_ACTIONINFO nActionInfo,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 		
-			TYPE_SECTORPOSITION startX, TYPE_SECTORPOSITION startY, int startZ, // ±â¼ú »ç¿ëÇÏ´Â »ç¶÷(?) 
-			int direction,														// »ç¿ë ¹æÇâ
+			TYPE_SECTORPOSITION startX, TYPE_SECTORPOSITION startY, int startZ, // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½(?) 
+			int direction,														// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			
-			TYPE_OBJECTID targetID,												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+			TYPE_OBJECTID targetID,												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			TYPE_SECTORPOSITION targetX, TYPE_SECTORPOSITION targetY, int targetZ, 
 			
-			DWORD delayFrame,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+			DWORD delayFrame,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 			
-			MActionResult* pActionResult,										// °á°ú Á¤º¸
+			MActionResult* pActionResult,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-			bool bStartFromMainNode,											// MainNodeºÎÅÍ ½ÃÀÛÇÏ´Â°¡?
+			bool bStartFromMainNode,											// MainNodeï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½?
 
-			int sX, int sY)		// ÁÂÇ¥ º¸Á¤
+			int sX, int sY)		// ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
 {
 
 	if (nActionInfo==ACTIONINFO_NULL)
@@ -1677,13 +1677,13 @@ ExecuteActionInfoFromMainNode(
 		POINT point;	
 
 		//--------------------------------------------------------
-		// ¸ñÇ¥ À§Ä¡ PixelÁÂÇ¥
+		// ï¿½ï¿½Ç¥ ï¿½ï¿½Ä¡ Pixelï¿½ï¿½Ç¥
 		//--------------------------------------------------------
 		point = MTopView::MapToPixel(targetX, targetY);
 
 		//--------------------------------------------------------
 		//
-		//					Effect ¸ñÇ¥ ¼³Á¤
+		//					Effect ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
 		//
 		//--------------------------------------------------------
 		MEffectTarget* pEffectTarget = new MEffectTarget( (*g_pActionInfoTable)[nActionInfo].GetSize() );
@@ -1691,23 +1691,23 @@ ExecuteActionInfoFromMainNode(
 		pEffectTarget->Set( point.x, point.y, targetZ, targetID );
 
 		//--------------------------------------------------------
-		// Áö¼Ó ½Ã°£ ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//--------------------------------------------------------
 		pEffectTarget->SetDelayFrame( delayFrame );		
 
-		// °á°ú ¼³Á¤ : °á°ú Ã³¸®´Â EffectGenerator¿¡ ¸Ã±ä´Ù.
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ EffectGeneratorï¿½ï¿½ ï¿½Ã±ï¿½ï¿½.
 		pEffectTarget->SetResult( pActionResult );
 
 		//--------------------------------------------------------
 		//
-		//				Main Node¸¦ Ã£´Â´Ù.
+		//				Main Nodeï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 		//
 		//--------------------------------------------------------
 		if (bStartFromMainNode)
 		{
 			if ((*g_pActionInfoTable)[ nActionInfo ].HasMainNode())
 			{
-				// main node°¡ ÀÖÀ¸¸é main nodeºÎÅÍ ½ÃÀÛÇÏ°Ô ÇÑ´Ù.
+				// main nodeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ main nodeï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ñ´ï¿½.
 				for (int i=0; i<(*g_pActionInfoTable)[ nActionInfo ].GetMainNode(); i++)
 				{
 					pEffectTarget->NextPhase();
@@ -1717,13 +1717,13 @@ ExecuteActionInfoFromMainNode(
 		
 		//--------------------------------------------------------
 		//
-		//					½ÃÀÛ À§Ä¡¸¦ °áÁ¤ÇÑ´Ù.
+		//					ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		//
 		//--------------------------------------------------------
 		int x,y,z, dir;
 
 		//--------------------------------------------------------
-		// User À§Ä¡¿¡¼­ ½ÃÀÛÇÏ´Â °æ¿ì
+		// User ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------------
 		if ((*g_pActionInfoTable)[nActionInfo].IsStartUser())
 		{
@@ -1734,7 +1734,7 @@ ExecuteActionInfoFromMainNode(
 			z			= startZ;//+60;			
 		}
 		//--------------------------------------------------------
-		// Target À§Ä¡¿¡¼­ ½ÃÀÛÇÏ´Â °æ¿ì
+		// Target ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------------
 		else if ((*g_pActionInfoTable)[nActionInfo].IsStartTarget())
 		{
@@ -1744,7 +1744,7 @@ ExecuteActionInfoFromMainNode(
 		}
 
 		//--------------------------------------------------------
-		// °øÁß¿¡¼­ ½ÃÀÛÇÏ´Â °æ¿ì
+		// ï¿½ï¿½ï¿½ß¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------------
 		if ((*g_pActionInfoTable)[nActionInfo].IsStartSky())
 		{
@@ -1753,7 +1753,7 @@ ExecuteActionInfoFromMainNode(
 			dir	= DIRECTION_DOWN;
 		}
 		//--------------------------------------------------------
-		// Áö»ó¿¡¼­ ½ÃÀÛÇÏ´Â °æ¿ì
+		// ï¿½ï¿½ï¿½ó¿¡¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------------
 		else
 		{
@@ -1762,15 +1762,15 @@ ExecuteActionInfoFromMainNode(
 
 		//--------------------------------------------------------
 		//
-		//                   Effect»ý¼º		
+		//                   Effectï¿½ï¿½ï¿½ï¿½		
 		//
 		//--------------------------------------------------------
 		g_pEffectGeneratorTable->Generate(
-				x,y,z,				// ½ÃÀÛ À§Ä¡
-				dir, 				// ¹æÇâ
+				x,y,z,				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
+				dir, 				// ï¿½ï¿½ï¿½ï¿½
 				1,					// power
-				nActionInfo,		//	ActionInfoTableÁ¾·ù,
-				pEffectTarget		// ¸ñÇ¥ Á¤º¸
+				nActionInfo,		//	ActionInfoTableï¿½ï¿½ï¿½ï¿½,
+				pEffectTarget		// ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
 		);	
 		
 
@@ -1779,14 +1779,14 @@ ExecuteActionInfoFromMainNode(
 	else
 	{
 		//------------------------------------------------------------
-		// °á°ú¸¦ Ã³¸®ÇØ¾ßÇÏ´Â ½ÃÁ¡ÀÎ°¡? - ´ç¿¬ÇÏ´Ù°í º»´Ù *_*;
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½? - ï¿½ç¿¬ï¿½Ï´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ *_*;
 		//------------------------------------------------------------				
 		if (pActionResult != NULL)
 		{					
-			// °á°ú ½ÇÇà
+			// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			pActionResult->Execute();
 					
-			// ¸Þ¸ð¸® Á¦°Å
+			// ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 			delete pActionResult;		
 		}				
 	}
@@ -1795,7 +1795,7 @@ ExecuteActionInfoFromMainNode(
 //-----------------------------------------------------------------------------
 // Get Position  Map  To  Screen
 //-----------------------------------------------------------------------------
-// mapÁÂÇ¥ (sX,sY)¸¦ È­¸é »óÀÇ ÁÂÇ¥·Î ¹Ù²Û´Ù.
+// mapï¿½ï¿½Ç¥ (sX,sY)ï¿½ï¿½ È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 //-----------------------------------------------------------------------------
 POINT			
 ConvertPositionMapToScreen(int sX, int sY)
@@ -1810,7 +1810,7 @@ ConvertPositionMapToScreen(int sX, int sY)
 //-----------------------------------------------------------------------------
 // Set Inventory Info
 //-----------------------------------------------------------------------------
-// PlayerÀÇ Inventory Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+// Playerï¿½ï¿½ Inventory ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void
 SetInventoryInfo(InventoryInfo* pInventoryInfo)
@@ -1818,7 +1818,7 @@ SetInventoryInfo(InventoryInfo* pInventoryInfo)
 	DEBUG_ADD( "Set Inventory Info" );
 	
 	//--------------------------------------------------
-	// Inventory ÃÊ±âÈ­
+	// Inventory ï¿½Ê±ï¿½È­
 	//--------------------------------------------------	
 	g_pInventory->Init(INVENTORY_WIDTH, INVENTORY_HEIGHT);
 	
@@ -1827,11 +1827,11 @@ SetInventoryInfo(InventoryInfo* pInventoryInfo)
 		int itemNum = pInventoryInfo->getListNum();
 
 		//--------------------------------------------------
-		// Inventory¿¡ ¾ÆÀÌÅÛµéÀ» Ãß°¡ÇÑ´Ù.
+		// Inventoryï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ûµï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 		//--------------------------------------------------
 		for (int i=0; i<itemNum; i++)
 		{
-			// ¿ÜºÎ¿¡¼­ Áö¿öÁà¾ß ÇÑ´Ù.
+			// ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 			InventorySlotInfo * pSlotInfo = pInventoryInfo->popFrontListElement();
 
 			if( pSlotInfo == NULL )
@@ -1846,7 +1846,7 @@ SetInventoryInfo(InventoryInfo* pInventoryInfo)
 			}
 
 			//------------------------------------------------
-			// ItemÀ» »ý¼ºÇØ¼­ Inventory¿¡ Ãß°¡ÇÑ´Ù.
+			// Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ Inventoryï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 			//------------------------------------------------
 			MItem* pItem = MItem::NewItem( (ITEM_CLASS)pSlotInfo->getItemClass() );
 			
@@ -1873,22 +1873,22 @@ SetInventoryInfo(InventoryInfo* pInventoryInfo)
 #if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
 			pItem->SetCashItem(pSlotInfo->getCashItem());
 #endif
-			// inventory¿¡¼­ÀÇ ÁÂÇ¥
+			// inventoryï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥
 			pItem->SetGridXY( pSlotInfo->getInvenX(), pSlotInfo->getInvenY() );
 
 			//------------------------------------------
-			// °³¼ö
+			// ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------
-			// ÃÑÀÎ °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			//------------------------------------------
 			if (pItem->IsGunItem())
 			{
 				MMagazine* pMagazine = (MMagazine*)MItem::NewItem( (ITEM_CLASS)ITEM_CLASS_MAGAZINE );
 
-				// ÀÇ¹Ì ¾øÀ½ - -;
+				// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ - -;
 				pMagazine->SetID( 0 );
 
-				// ÀÌ°Å´Â ÃÑ¿¡ ¸ÂÃç¼­ ÇØÁà¾ßµÈ´Ù.
+				// ï¿½Ì°Å´ï¿½ ï¿½Ñ¿ï¿½ ï¿½ï¿½ï¿½ç¼­ ï¿½ï¿½ï¿½ï¿½ßµÈ´ï¿½.
 				for (int j=0; j<(*g_pItemTable)[ITEM_CLASS_MAGAZINE].GetSize(); j++)			
 				{
 					pMagazine->SetItemType(	j );
@@ -1901,22 +1901,22 @@ SetInventoryInfo(InventoryInfo* pInventoryInfo)
 
 				if(pSlotInfo->getSilver())
 					pMagazine->SetItemType( pMagazine->GetItemType()+8);
-				// ¾î¿¹~ ÀºÅºÈ¯ ÇÏµåÄÚµù by ¾¦°«
+				// ï¿½î¿¹~ ï¿½ï¿½ÅºÈ¯ ï¿½Ïµï¿½ï¿½Úµï¿½ by ï¿½ï¿½ï¿½ï¿½
 
-				// ÀÇ¹Ì ¾øÀ½
+				// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½
 				pMagazine->ClearItemOption();
 			
-				// ÅºÃ¢ °³¼ö
+				// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 				pMagazine->SetNumber( pSlotInfo->getItemNum() );
 
 				//------------------------------------
-				// ÅºÃ¢ ¼³Á¤
+				// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 				//------------------------------------
 				MGunItem* pGunItem = (MGunItem*)pItem;
 				pGunItem->SetMagazine( pMagazine );
 			}		
 			//------------------------------------------
-			// ÃÑÀÌ ¾Æ´Ñ °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 			//------------------------------------------
 			else
 			{
@@ -1926,7 +1926,7 @@ SetInventoryInfo(InventoryInfo* pInventoryInfo)
 
 			//------------------------------------------
 			//
-			// Item¿¡ ´Ù¸¥ itemµéÀÌ µé¾îÀÖ´Â °æ¿ì
+			// Itemï¿½ï¿½ ï¿½Ù¸ï¿½ itemï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 			//
 			//------------------------------------------
 			if (pSlotInfo->getListNum()!=0)
@@ -1934,7 +1934,7 @@ SetInventoryInfo(InventoryInfo* pInventoryInfo)
 				DEBUG_ADD_FORMAT("This Item has Sub item(s) : size=%d", pSlotInfo->getListNum());
 				
 				//------------------------------------------
-				// BeltÀÎ °æ¿ì
+				// Beltï¿½ï¿½ ï¿½ï¿½ï¿½
 				//------------------------------------------
 				if (pItem->GetItemClass()==ITEM_CLASS_BELT)
 				{
@@ -1953,7 +1953,7 @@ SetInventoryInfo(InventoryInfo* pInventoryInfo)
 						else
 						{
 							//------------------------------------------
-							// Sub ItemÀÇ Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+							// Sub Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 							//------------------------------------------
 							if ( pSubItemInfo->getItemClass() >= g_pItemTable->GetSize() ||
 								(*g_pItemTable)[pSubItemInfo->getItemClass()].GetSize() <= pSubItemInfo->getItemType() )
@@ -1970,7 +1970,7 @@ SetInventoryInfo(InventoryInfo* pInventoryInfo)
 							pSubItem->SetNumber( pSubItemInfo->getItemNum() );			
 
 							//------------------------------------------
-							// BeltÀÇ Á¤ÇØÁø slot¿¡ itemÀ» Ãß°¡½ÃÅ²´Ù.
+							// Beltï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ slotï¿½ï¿½ itemï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 							//------------------------------------------
 							pBelt->AddItem( pSubItem, pSubItemInfo->getSlotID() );
 
@@ -1995,7 +1995,7 @@ SetInventoryInfo(InventoryInfo* pInventoryInfo)
 						else
 						{
 							//------------------------------------------
-							// Sub ItemÀÇ Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+							// Sub Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 							//------------------------------------------
 							if ( pSubItemInfo->getItemClass() >= g_pItemTable->GetSize() ||
 								(*g_pItemTable)[pSubItemInfo->getItemClass()].GetSize() <= pSubItemInfo->getItemType() )
@@ -2012,7 +2012,7 @@ SetInventoryInfo(InventoryInfo* pInventoryInfo)
 							pSubItem->SetNumber( pSubItemInfo->getItemNum() );			
 							
 							//------------------------------------------
-							// BeltÀÇ Á¤ÇØÁø slot¿¡ itemÀ» Ãß°¡½ÃÅ²´Ù.
+							// Beltï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ slotï¿½ï¿½ itemï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 							//------------------------------------------
 							pBelt->AddItem( pSubItem, pSubItemInfo->getSlotID() );
 							
@@ -2027,24 +2027,24 @@ SetInventoryInfo(InventoryInfo* pInventoryInfo)
 			}
 
 
-			// main»ö±ò
+			// mainï¿½ï¿½ï¿½ï¿½
 			pItem->SetItemColorSet( pSlotInfo->getMainColor() );
 
-			// ÇöÀç ³»±¸¼º
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			pItem->SetCurrentDurability( pSlotInfo->getDurability() );
 			pItem->SetSilver( pSlotInfo->getSilver() );
 			pItem->SetGrade( pSlotInfo->getGrade() );
 			pItem->SetEnchantLevel( pSlotInfo->getEnchantLevel() );
 
 			//---------------------------------------------
-			// itemÀ» inventory¿¡ ³Ö´Â´Ù.
+			// itemï¿½ï¿½ inventoryï¿½ï¿½ ï¿½Ö´Â´ï¿½.
 			//---------------------------------------------
 			if (g_pInventory->AddItem( pItem, pItem->GetGridX(), pItem->GetGridY() ))
 			{				
 			}	
 			else
 			{
-				// itemÀ» inventory¿¡ Ãß°¡ÇÒ ¼ö ¾ø´Â °æ¿ì
+				// itemï¿½ï¿½ inventoryï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 				DEBUG_ADD_FORMAT("[Error] Can't Add Item to Inventory. id=%d, cl=%d, tp=%d, xy=(%d,%d)", 					
 												(int)pItem->GetID(),
 												(int)pItem->GetItemClass(),
@@ -2060,12 +2060,12 @@ SetInventoryInfo(InventoryInfo* pInventoryInfo)
 	}
 
 	//---------------------------------------------------------
-	// »ç¿ë °¡´É ¿©ºÎ Ã¼Å©
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
 	//---------------------------------------------------------
 	g_pInventory->CheckAffectStatusAll();
 
 	//---------------------------------------------------------
-	// inventory¿¡ ºÙÀº EffectÁ¦°Å
+	// inventoryï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Effectï¿½ï¿½ï¿½ï¿½
 	//---------------------------------------------------------
 	if (g_pInventoryEffectManager!=NULL)
 	{
@@ -2076,12 +2076,12 @@ SetInventoryInfo(InventoryInfo* pInventoryInfo)
 //--------------------------------------------------------------------------------
 // Gear Information
 //--------------------------------------------------------------------------------
-// PlayerÀÇ Gear¿¡ ´ëÇÑ info¸¦ ¼³Á¤ÇÑ´Ù.
-// SetGearInfo()¸¦ ÇÏ±â Àü¿¡..
-// g_pPlayer°¡ SlayerÀÎÁö VampireÀÎÁö°¡ °áÁ¤ÀÌ ³ª¾ß ÇÑ´Ù.
-// ±×·¡¾ßÁö.. g_SlayerGearÀÎÁö.. g_VampireGearÀÎÁö¸¦ ¾Ë ¼ö°¡ ÀÖ´Ù.
+// Playerï¿½ï¿½ Gearï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ infoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+// SetGearInfo()ï¿½ï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½..
+// g_pPlayerï¿½ï¿½ Slayerï¿½ï¿½ï¿½ï¿½ Vampireï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+// ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½.. g_SlayerGearï¿½ï¿½ï¿½ï¿½.. g_VampireGearï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½.
 //--------------------------------------------------------------------------------
-#if __CONTENTS(__GEAR_SWAP_CHANGE) // SetGearInfo ¸öÃ¼
+#if __CONTENTS(__GEAR_SWAP_CHANGE) // SetGearInfo ï¿½ï¿½Ã¼
 void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo, DWORD dwGearID)
 #else
 void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
@@ -2097,7 +2097,7 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 //		return;
 	}
 
-#if __CONTENTS(__GEAR_SWAP_CHANGE) // ±³Ã¼°¡ µÇ¾úÀ½À» ¾Ë¸°´Ù.
+#if __CONTENTS(__GEAR_SWAP_CHANGE) // ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½.
 	switch(g_pPlayer->GetRace())
 	{
 	case RACE_SLAYER:
@@ -2119,7 +2119,7 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 
 	for(int i = 0; i < dwGearSize; i++)
 	{
-		if(i	!= 0)	// ID 0ÀÌ ¸Ó¸® »ö ÀÎ°¡ º¸´Ù.
+		if(i	!= 0)	// ID 0ï¿½ï¿½ ï¿½Ó¸ï¿½ ï¿½ï¿½ ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		{
 			g_pPlayer->RemoveAddon(i);
 			pItem	=	g_pPlayer->GetGearItemIndexFromAddonInfo(i);
@@ -2159,7 +2159,7 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 		
 		for (int i=0; i<itemNum; i++)
 		{
-			// ¿ÜºÎ¿¡¼­ Áö¿öÁà¾ß ÇÑ´Ù.
+			// ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 			GearSlotInfo * pSlotInfo = pGearInfo->popFrontListElement();
 
 			if( pSlotInfo->getItemClass() >= g_pItemTable->GetSize() ||
@@ -2171,7 +2171,7 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 			}
 					
 			//------------------------------------------------
-			// ItemÀ» »ý¼ºÇØ¼­ Gear¿¡ Ãß°¡ÇÑ´Ù.
+			// Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ Gearï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 			//------------------------------------------------
 			MItem* pItem = MItem::NewItem( (ITEM_CLASS)pSlotInfo->getItemClass() );
 		
@@ -2195,18 +2195,18 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 
 			
 			//------------------------------------------
-			// °³¼ö
+			// ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------
-			// ÃÑÀÎ °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			//------------------------------------------
 			if (pItem->IsGunItem())
 			{
 				MMagazine* pMagazine = (MMagazine*)MItem::NewItem( (ITEM_CLASS)ITEM_CLASS_MAGAZINE );
 
-				// ÀÇ¹Ì ¾øÀ½ - -;
+				// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ - -;
 				pMagazine->SetID( 0 );
 
-				// ÀÌ°Å´Â ÃÑ¿¡ ¸ÂÃç¼­ ÇØÁà¾ßµÈ´Ù.
+				// ï¿½Ì°Å´ï¿½ ï¿½Ñ¿ï¿½ ï¿½ï¿½ï¿½ç¼­ ï¿½ï¿½ï¿½ï¿½ßµÈ´ï¿½.
 				for (int j=0; j<(*g_pItemTable)[ITEM_CLASS_MAGAZINE].GetSize(); j++)			
 				{
 					pMagazine->SetItemType(	j );
@@ -2219,22 +2219,22 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 
 				if(pSlotInfo->getSilver())
 					pMagazine->SetItemType( pMagazine->GetItemType()+8);
-				// ¾î¿¹~ ÀºÅºÈ¯ ÇÏµåÄÚµù by ¾¦°«
+				// ï¿½î¿¹~ ï¿½ï¿½ÅºÈ¯ ï¿½Ïµï¿½ï¿½Úµï¿½ by ï¿½ï¿½ï¿½ï¿½
 
-				// ÀÇ¹Ì ¾øÀ½
+				// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½
 				pMagazine->ClearItemOption();
 			
-				// ÅºÃ¢ °³¼ö
+				// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 				pMagazine->SetNumber( pSlotInfo->getItemNum() );
 
 				//------------------------------------
-				// ÅºÃ¢ ¼³Á¤
+				// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 				//------------------------------------
 				MGunItem* pGunItem = (MGunItem*)pItem;
 				pGunItem->SetMagazine( pMagazine );
 			}		
 			//------------------------------------------
-			// ÃÑÀÌ ¾Æ´Ñ °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 			//------------------------------------------
 			else
 			{
@@ -2243,19 +2243,19 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 			}
 
 			pItem->SetGrade( pSlotInfo->getGrade() );
-			// gear¿¡¼­ÀÇ ÁÂÇ¥
+			// gearï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥
 			pItem->SetItemSlot( pSlotInfo->getSlotID() );
 
-			// main»ö±ò
+			// mainï¿½ï¿½ï¿½ï¿½
 			pItem->SetItemColorSet( pSlotInfo->getMainColor() );
 
-			// ÇöÀç ³»±¸¼º
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			pItem->SetCurrentDurability( pSlotInfo->getDurability() );			
 			pItem->SetEnchantLevel( pSlotInfo->getEnchantLevel() );		
 
 			//------------------------------------------
 			//
-			// Item¿¡ ´Ù¸¥ itemµéÀÌ µé¾îÀÖ´Â °æ¿ì
+			// Itemï¿½ï¿½ ï¿½Ù¸ï¿½ itemï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 			//
 			//------------------------------------------
 			if (pSlotInfo->getListNum()!=0)
@@ -2263,7 +2263,7 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 				DEBUG_ADD_FORMAT("This Item has Sub item(s) : size=%d", pSlotInfo->getListNum());
 				
 				//------------------------------------------
-				// BeltÀÎ °æ¿ì
+				// Beltï¿½ï¿½ ï¿½ï¿½ï¿½
 				//------------------------------------------
 				if (pItem->GetItemClass()==ITEM_CLASS_BELT)
 				{
@@ -2282,7 +2282,7 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 						else
 						{
 							//------------------------------------------
-							// Sub ItemÀÇ Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+							// Sub Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 							//------------------------------------------
 							if ( pSubItemInfo->getItemClass() >= g_pItemTable->GetSize() ||
 								(*g_pItemTable)[pSubItemInfo->getItemClass()].GetSize() <= pSubItemInfo->getItemType() )
@@ -2299,7 +2299,7 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 							pSubItem->SetNumber( pSubItemInfo->getItemNum() );			
 
 							//------------------------------------------
-							// BeltÀÇ Á¤ÇØÁø slot¿¡ itemÀ» Ãß°¡½ÃÅ²´Ù.
+							// Beltï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ slotï¿½ï¿½ itemï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 							//------------------------------------------
 							pBelt->AddItem( pSubItem, pSubItemInfo->getSlotID() );
 
@@ -2324,7 +2324,7 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 						else
 						{
 							//------------------------------------------
-							// Sub ItemÀÇ Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+							// Sub Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 							//------------------------------------------
 							if ( pSubItemInfo->getItemClass() >= g_pItemTable->GetSize() ||
 								(*g_pItemTable)[pSubItemInfo->getItemClass()].GetSize() <= pSubItemInfo->getItemType() )
@@ -2341,7 +2341,7 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 							pSubItem->SetNumber( pSubItemInfo->getItemNum() );			
 
 							//------------------------------------------
-							// BeltÀÇ Á¤ÇØÁø slot¿¡ itemÀ» Ãß°¡½ÃÅ²´Ù.
+							// Beltï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ slotï¿½ï¿½ itemï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 							//------------------------------------------
 							pBelt->AddItem( pSubItem, pSubItemInfo->getSlotID() );
 
@@ -2356,9 +2356,9 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 			}
 
 			//---------------------------------------------
-			// itemÀ» gear¿¡ ³Ö´Â´Ù.
+			// itemï¿½ï¿½ gearï¿½ï¿½ ï¿½Ö´Â´ï¿½.
 			//---------------------------------------------
-			// slayer / vampire¿¡ µû¶ó¼­ gear°¡ ´Ù¸£´Ù.
+			// slayer / vampireï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ gearï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½.
 			//---------------------------------------------
 			switch(g_pPlayer->GetRace())
 			{
@@ -2375,7 +2375,7 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 				break;
 			}
 
-#if __CONTENTS(__GEAR_SWAP_CHANGE) // SetGearInfo Âø¿ë ÇÒ ¼ö ¾ø´Â ¾ÆÀÌÅÛÀº UnSetÇÑ´Ù.
+#if __CONTENTS(__GEAR_SWAP_CHANGE) // SetGearInfo ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UnSetï¿½Ñ´ï¿½.
 			bool	bGetActive	= pGearInfo->GetActive();
 
 			if(bGetActive == false || !pSlotInfo->getActiveSlot())
@@ -2385,16 +2385,16 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 #endif	//	__GEAR_SWAP_CHANGE
 
 			//---------------------------------------------
-			// º¹Àå ¹Ù²Û´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 			//---------------------------------------------
 			g_pPlayer->SetAddonItem( pItem );
 
 			//---------------------------------------------
-			// Gear Ãß°¡ÇÒ ¼ö ¾ø´Â °æ¿ì
+			// Gear ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			//---------------------------------------------
 			if (!bAdd)		
 			{
-				// itemÀ» Gear¿¡ Ãß°¡ÇÒ ¼ö ¾ø´Â °æ¿ì
+				// itemï¿½ï¿½ Gearï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 				DEBUG_ADD_FORMAT("[Error] Can't Add Item to Gear. id=%d, cl=%d, tp=%d, slot=%d", 
 												(int)pItem->GetID(),
 												(int)pItem->GetItemClass(),
@@ -2410,7 +2410,7 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 		SetBloodBibleSlot(pBloodBibleInfo);
 	}	
 
-#if __CONTENTS(__GEAR_SWAP_CHANGE) // SetGearInfo ¼­¹ö¿¡¼­ ¹ÞÀº ÀåÂøÃ¢ÀÇ ID¸¦ ¼³Á¤ ÇÑ´Ù.
+#if __CONTENTS(__GEAR_SWAP_CHANGE) // SetGearInfo ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ IDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	switch(g_pPlayer->GetRace())
 	{
 	case RACE_SLAYER:
@@ -2446,7 +2446,7 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 	g_pSkillAvailable->SetAvailableSkills();
 	
 	//----------------------------------------------
-	// ¼öÄ¡ °è»êÀ» ÇÑ´Ù.
+	// ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	//----------------------------------------------
 	g_pPlayer->CalculateStatus();
 
@@ -2455,7 +2455,7 @@ void SetGearInfo(GearInfo* pGearInfo, BloodBibleSignInfo* pBloodBibleInfo)
 	//g_char_slot_ingame.AC		= g_pPlayer->GetAC();
 	g_char_slot_ingame.TOHIT	= g_pPlayer->GetTOHIT();
 
-#if __CONTENTS(__GEAR_SWAP_CHANGE) // ±³Ã¼°¡ ¿Ï·á µÇ¾úÀ½À» ¾Ë¸°´Ù.
+#if __CONTENTS(__GEAR_SWAP_CHANGE) // ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ï·ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½.
 	switch(g_pPlayer->GetRace())
 	{
 	case RACE_SLAYER:
@@ -2552,7 +2552,7 @@ void SetBloodBibleSlot(BloodBibleSignInfo* pBloodBibleInfo)
 //--------------------------------------------------------------------------------
 // Extra Information
 //--------------------------------------------------------------------------------
-// mouse¿¡ µé°í ÀÖ´Â item¿¡ ´ëÇÑ Á¤º¸ ¼³Á¤
+// mouseï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //--------------------------------------------------------------------------------
 void
 SetExtraInfo(ExtraInfo* pExtraInfo)
@@ -2560,7 +2560,7 @@ SetExtraInfo(ExtraInfo* pExtraInfo)
 	DEBUG_ADD( "Set Extra Info" );
 	
 	//------------------------------------------------------
-	// µé°í ÀÖ´Â itemÀ» ¾ø¾Ø´Ù.
+	// ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ itemï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 	//------------------------------------------------------
 	MItem* pCurrentItem = gpC_mouse_pointer->GetPickUpItem();
 
@@ -2575,14 +2575,14 @@ SetExtraInfo(ExtraInfo* pExtraInfo)
 		int itemNum = pExtraInfo->getListNum();
 
 		//------------------------------------------------------
-		// ´ç¿¬È÷ 1°³¹Û¿¡ ¾ø°ÚÁö¸¸.. - -;;
+		// ï¿½ç¿¬ï¿½ï¿½ 1ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. - -;;
 		//------------------------------------------------------
 		for (int i=0; i<itemNum; i++)
 		{
 			ExtraSlotInfo * pSlotInfo = pExtraInfo->popFrontListElement();
 
 			//------------------------------------------------
-			// ItemÀ» »ý¼ºÇØ¼­ mouse¿¡ µé¸°´Ù.
+			// Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ mouseï¿½ï¿½ ï¿½é¸°ï¿½ï¿½.
 			//------------------------------------------------
 			if ( pSlotInfo->getItemClass() >= g_pItemTable->GetSize() ||
 				(*g_pItemTable)[pSlotInfo->getItemClass()].GetSize() <= pSlotInfo->getItemType() )
@@ -2607,18 +2607,18 @@ SetExtraInfo(ExtraInfo* pExtraInfo)
 			pItem->SetCashItem(pSlotInfo->getCashItem());
 #endif
 			//------------------------------------------
-			// °³¼ö
+			// ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------
-			// ÃÑÀÎ °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			//------------------------------------------
 			if (pItem->IsGunItem())
 			{
 				MMagazine* pMagazine = (MMagazine*)MItem::NewItem( (ITEM_CLASS)ITEM_CLASS_MAGAZINE );
 
-				// ÀÇ¹Ì ¾øÀ½ - -;
+				// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ - -;
 				pMagazine->SetID( 0 );
 
-				// ÀÌ°Å´Â ÃÑ¿¡ ¸ÂÃç¼­ ÇØÁà¾ßµÈ´Ù.
+				// ï¿½Ì°Å´ï¿½ ï¿½Ñ¿ï¿½ ï¿½ï¿½ï¿½ç¼­ ï¿½ï¿½ï¿½ï¿½ßµÈ´ï¿½.
 				for (int j=0; j<(*g_pItemTable)[ITEM_CLASS_MAGAZINE].GetSize(); j++)			
 				{
 					pMagazine->SetItemType(	j );
@@ -2631,22 +2631,22 @@ SetExtraInfo(ExtraInfo* pExtraInfo)
 
 				if(pSlotInfo->getSilver())
 					pMagazine->SetItemType( pMagazine->GetItemType()+8);
-				// ¾î¿¹~ ÀºÅºÈ¯ ÇÏµåÄÚµù by ¾¦°«
+				// ï¿½î¿¹~ ï¿½ï¿½ÅºÈ¯ ï¿½Ïµï¿½ï¿½Úµï¿½ by ï¿½ï¿½ï¿½ï¿½
 				
-				// ÀÇ¹Ì ¾øÀ½
+				// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½
 				pMagazine->ClearItemOption();
 			
-				// ÅºÃ¢ °³¼ö
+				// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 				pMagazine->SetNumber( pSlotInfo->getItemNum() );
 
 				//------------------------------------
-				// ÅºÃ¢ ¼³Á¤
+				// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 				//------------------------------------
 				MGunItem* pGunItem = (MGunItem*)pItem;
 				pGunItem->SetMagazine( pMagazine );
 			}		
 			//------------------------------------------
-			// ÃÑÀÌ ¾Æ´Ñ °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 			//------------------------------------------
 			else
 			{
@@ -2656,7 +2656,7 @@ SetExtraInfo(ExtraInfo* pExtraInfo)
 
 			//------------------------------------------
 			//
-			// Item¿¡ ´Ù¸¥ itemµéÀÌ µé¾îÀÖ´Â °æ¿ì
+			// Itemï¿½ï¿½ ï¿½Ù¸ï¿½ itemï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 			//
 			//------------------------------------------
 			if (pSlotInfo->getListNum()!=0)
@@ -2664,7 +2664,7 @@ SetExtraInfo(ExtraInfo* pExtraInfo)
 				DEBUG_ADD_FORMAT("This Item has Sub item(s) : size=%d", pSlotInfo->getListNum());
 				
 				//------------------------------------------
-				// BeltÀÎ °æ¿ì
+				// Beltï¿½ï¿½ ï¿½ï¿½ï¿½
 				//------------------------------------------
 				if (pItem->GetItemClass()==ITEM_CLASS_BELT)
 				{
@@ -2683,7 +2683,7 @@ SetExtraInfo(ExtraInfo* pExtraInfo)
 						else
 						{
 							//------------------------------------------
-							// Sub ItemÀÇ Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+							// Sub Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 							//------------------------------------------
 							if ( pSubItemInfo->getItemClass() >= g_pItemTable->GetSize() ||
 								(*g_pItemTable)[pSubItemInfo->getItemClass()].GetSize() <= pSubItemInfo->getItemType() )
@@ -2700,7 +2700,7 @@ SetExtraInfo(ExtraInfo* pExtraInfo)
 							pSubItem->SetNumber( pSubItemInfo->getItemNum() );			
 
 							//------------------------------------------
-							// BeltÀÇ Á¤ÇØÁø slot¿¡ itemÀ» Ãß°¡½ÃÅ²´Ù.
+							// Beltï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ slotï¿½ï¿½ itemï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 							//------------------------------------------
 							pBelt->AddItem( pSubItem, pSubItemInfo->getSlotID() );
 
@@ -2725,7 +2725,7 @@ SetExtraInfo(ExtraInfo* pExtraInfo)
 						else
 						{
 							//------------------------------------------
-							// Sub ItemÀÇ Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+							// Sub Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 							//------------------------------------------
 							if ( pSubItemInfo->getItemClass() >= g_pItemTable->GetSize() ||
 								(*g_pItemTable)[pSubItemInfo->getItemClass()].GetSize() <= pSubItemInfo->getItemType() )
@@ -2743,7 +2743,7 @@ SetExtraInfo(ExtraInfo* pExtraInfo)
 							pSubItem->SetNumber( pSubItemInfo->getItemNum() );			
 							
 							//------------------------------------------
-							// BeltÀÇ Á¤ÇØÁø slot¿¡ itemÀ» Ãß°¡½ÃÅ²´Ù.
+							// Beltï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ slotï¿½ï¿½ itemï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 							//------------------------------------------
 							pBelt->AddItem( pSubItem, pSubItemInfo->getSlotID() );
 							
@@ -2758,17 +2758,17 @@ SetExtraInfo(ExtraInfo* pExtraInfo)
 			}
 
 
-			// main»ö±ò
+			// mainï¿½ï¿½ï¿½ï¿½
 			pItem->SetItemColorSet( pSlotInfo->getMainColor() );
 
-			// ÇöÀç ³»±¸¼º
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			pItem->SetCurrentDurability( pSlotInfo->getDurability() );
 			pItem->SetSilver( pSlotInfo->getSilver() );
 			pItem->SetGrade( pSlotInfo->getGrade() );
 			pItem->SetEnchantLevel( pSlotInfo->getEnchantLevel() );
 
 			//------------------------------------------
-			// ItemÀ» µç´Ù.
+			// Itemï¿½ï¿½ ï¿½ï¿½ï¿½.
 			//------------------------------------------
 			UI_PickUpItem( pItem );
 
@@ -2781,11 +2781,11 @@ SetExtraInfo(ExtraInfo* pExtraInfo)
 //--------------------------------------------------------------------------------
 // Set EffectInfo
 //--------------------------------------------------------------------------------
-// Player¿¡°Ô ºÙ¾î ÀÖ´Â Effect¸¦ ¼³Á¤ÇØÁØ´Ù.
+// Playerï¿½ï¿½ï¿½ï¿½ ï¿½Ù¾ï¿½ ï¿½Ö´ï¿½ Effectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 //
-// delayedFrameÀº ..
-// Ã³¸®(Æ¯È÷ loading)¸¦ ÇÑ´Ù°í client¿¡¼­ ¼Ò¿äµÈ ½Ã°£¸¸Å­À» 
-// »©ÁÖ´Â °ÍÀÌ´Ù.
+// delayedFrameï¿½ï¿½ ..
+// Ã³ï¿½ï¿½(Æ¯ï¿½ï¿½ loading)ï¿½ï¿½ ï¿½Ñ´Ù°ï¿½ clientï¿½ï¿½ï¿½ï¿½ ï¿½Ò¿ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½Å­ï¿½ï¿½ 
+// ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
 //--------------------------------------------------------------------------------
 void
 SetEffectInfo(MCreature* pCreature, EffectInfo* pEffectInfo, int delayedFrame)
@@ -2795,7 +2795,7 @@ SetEffectInfo(MCreature* pCreature, EffectInfo* pEffectInfo, int delayedFrame)
 	if (pEffectInfo!=NULL)
 	{
 		//--------------------------------------------------
-		// °¢°¢ÀÇ Effect Status¸¦ ¼³Á¤ÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Effect Statusï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		//--------------------------------------------------
 		for (int i = 0; i < pEffectInfo->getListNum(); i++)
 		{
@@ -2808,12 +2808,12 @@ SetEffectInfo(MCreature* pCreature, EffectInfo* pEffectInfo, int delayedFrame)
 //				int a = 0;
 //			}
 			//--------------------------------------------------
-			// Á¾·ù¿¡ µû¶ó¼­..
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 			//--------------------------------------------------
 			switch (status)
 			{
 				//--------------------------------------------------
-				// ÈíÇ÷ ´çÇÑ°Å
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ°ï¿½
 				//--------------------------------------------------
 				case EFFECTSTATUS_BLOOD_DRAIN :
 					duration *= 10;
@@ -2848,13 +2848,13 @@ SetEffectInfo(MCreature* pCreature, EffectInfo* pEffectInfo, int delayedFrame)
 								status = EFFECTSTATUS_CLIENT_UNICORN;
 								pCreature->SetWingEffect2();
 							}
-							//¶«¹æ ÄÚµå -- ¼­¹ö¿¡¼­ À®¾ÆÀÌÅÛÅ¸ÀÔÀÌ Á¤ÀÇµÇÁö ¾ÊÀº °ªÀÌ ¿Ã ¶§, °¡Àå Ã³À½ Ãß°¡µÈ ¼¼·¹°ïÀ¸·Î...
+							//ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ -- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
 							else
 							{
 								status = EFFECTSTATUS_CLIENT_WING_SYLPH;
 								pCreature->SetWingEffect1();
 							}
-							// - ¶«»§ ³¡.
+							// - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½.
 
 #endif //__SECOND_TRANSFORTER
 						}
@@ -2863,7 +2863,7 @@ SetEffectInfo(MCreature* pCreature, EffectInfo* pEffectInfo, int delayedFrame)
 					break;
 #endif //__FAST_TRANSFORTER||__SECOND_TRANSFORTER
 				//--------------------------------------------------
-				// Coma»óÅÂ
+				// Comaï¿½ï¿½ï¿½ï¿½
 				//--------------------------------------------------
 				case EFFECTSTATUS_COMA :
 					pCreature->SetCorpse();
@@ -2902,14 +2902,14 @@ SetEffectInfo(MCreature* pCreature, EffectInfo* pEffectInfo, int delayedFrame)
 				}
 				break;
 			}
-			//ÀÌ°Í¸¸ ¿Ö ÀÎÆ®¿´À»±î...ÂÁ ¼öÁ¤ Å©¾Ñ
+			//ï¿½Ì°Í¸ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½
 			DWORD				delayFrame	= ConvertDurationToFrame( duration );
 
 
-			// loading½Ã°£À» »« delay frame
+			// loadingï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ delay frame
 			delayFrame -= delayedFrame;
 
-			// ½Ã°£ÀÌ ³²¾Æ ÀÖ´Â °æ¿ì¿¡¸¸...
+			// ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½...
 			if (delayFrame > 0)
 			{
 				pCreature->AddEffectStatus( status, delayFrame );
@@ -2944,7 +2944,7 @@ UI_GetFaceStyle(int faceStyle)
 //--------------------------------------------------------------------------------
 // Set PCSlayerInfo
 //--------------------------------------------------------------------------------
-// Player¿¡°Ô slayer Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+// Playerï¿½ï¿½ï¿½ï¿½ slayer ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //--------------------------------------------------------------------------------
 void
 SetPCSlayerInfo(PCSlayerInfo2* pInfo)
@@ -2955,9 +2955,9 @@ SetPCSlayerInfo(PCSlayerInfo2* pInfo)
 	g_pPlayer->SetSight( pInfo->getSight() );
 
 	//--------------------------------------------------
-	// Player ¸ö ¼³Á¤
+	// Player ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
-	// slayer³² / ¿©
+	// slayerï¿½ï¿½ / ï¿½ï¿½
 	if (pInfo->getCompetence()==0)
 	{
 		g_pPlayer->SetCompetence( 0 );
@@ -2969,15 +2969,15 @@ SetPCSlayerInfo(PCSlayerInfo2* pInfo)
 		g_pPlayer->SetCreatureType( (pInfo->getSex()==MALE)? CREATURETYPE_SLAYER_MALE : CREATURETYPE_SLAYER_FEMALE );
 	}
 
-	// ÇÇºÎ»ö
+	// ï¿½ÇºÎ»ï¿½
 	g_pPlayer->SetBodyColor1( pInfo->getSkinColor() );
 	g_pPlayer->SetMasterEffectType( pInfo->getMasterEffectColor() );
 
-	// ¸Ó¸®			
+	// ï¿½Ó¸ï¿½			
 	SetAddonToSlayer( g_pPlayer, pInfo );
 
 	//--------------------------------------------------
-	// ³» ±æµå ¼³Á¤
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	int guildID = pInfo->getGuildID();
 
@@ -2995,7 +2995,7 @@ SetPCSlayerInfo(PCSlayerInfo2* pInfo)
 	g_pUserInformation->GuildGrade = pInfo->getGuildMemberRank();
 
 	//--------------------------------------------------
-	// Á¤º¸Ã¢¿¡¼­ Ãâ·ÂÇÒ ¶§ ÇÊ¿äÇÑ Á¤º¸..
+	// ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 	//--------------------------------------------------
 	g_char_slot_ingame.sz_name			= g_pUserInformation->CharacterID.GetString();
 	if(g_pUserInformation->GuildName.GetString() == NULL)
@@ -3032,17 +3032,17 @@ SetPCSlayerInfo(PCSlayerInfo2* pInfo)
 	g_pGuildInfoMapper->SetGuildName( pInfo->getGuildID(), g_char_slot_ingame.sz_guild_name );
 
 	//--------------------------------------------------
-	// Effect Á¤º¸ Á¦°Å
+	// Effect ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	g_char_slot_ingame.STATUS.clear();
 	
-	// ¾ó±¼ ¼³Á¤
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	g_char_slot_ingame.man_info.face = (CHAR_MAN)UI_GetFaceStyle(g_pUserInformation->FaceStyle);
 	
 	// 
 	//g_pUserInformation->FaceStyle = pInfo->getHairStyle();
 	
-	// ±âº» º¹Àå
+	// ï¿½âº» ï¿½ï¿½ï¿½ï¿½
 	/*
 	MItem* pCoat = MItem::NewItem( ITEM_CLASS_COAT );
 	MItem* pTrouser = MItem::NewItem( ITEM_CLASS_TROUSER );
@@ -3059,7 +3059,7 @@ SetPCSlayerInfo(PCSlayerInfo2* pInfo)
 
 
 	//--------------------------------------------------
-	// ÇöÀç »óÅÂ ¼³Á¤
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------		
 	int maxHP	= pInfo->getHP( ATTR_MAX );
 	int HP		= pInfo->getHP( ATTR_CURRENT );
@@ -3120,7 +3120,7 @@ SetPCSlayerInfo(PCSlayerInfo2* pInfo)
 	//UI_SetBloodBurstSetGage() ; 
 	// Sjheon 2005.08.02 End
 
-	//20070907 slayer ¸Á°¢ÀÇ ¼öÁ¤
+	//20070907 slayer ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	g_pPlayer->SetStatus(MODIFY_ADVANCED_SLAYERSTR, pInfo->getSlayerAdvancedStr());
 	g_pPlayer->SetStatus(MODIFY_ADVANCED_SLAYERDEX, pInfo->getSlayerAdvancedDex());
 	g_pPlayer->SetStatus(MODIFY_ADVANCED_SLAYERINT, pInfo->getSlayerAdvancedInt());
@@ -3129,17 +3129,17 @@ SetPCSlayerInfo(PCSlayerInfo2* pInfo)
 	g_pPlayer->SetStatus(MODIFY_CONTRIBUTE_POINT, pInfo->getContributePoint());
 #endif //__CONTRIBUTE_SYSTEM	
 
-	// 2005, 1, 18, sobeit add start - ½ÂÁ÷ ½½·¹´Â º¸³Ê½º Æ÷ÀÎÆ®°¡ ÀÖ´Ù.
+	// 2005, 1, 18, sobeit add start - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ê½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö´ï¿½.
 	int Bonus	= pInfo->getAttrBonus();
 	g_pPlayer->SetStatus( MODIFY_BONUS_POINT, Bonus);
-	// 2005, 1, 18, sobeit add end - ½ÂÁ÷ ½½·¹´Â º¸³Ê½º Æ÷ÀÎÆ®°¡ ÀÖ´Ù.
+	// 2005, 1, 18, sobeit add end - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ê½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö´ï¿½.
 
 	g_pPlayer->SetStatus( MODIFY_ATTACK_SPEED,  pInfo->getAttackSpeed() );
 	
 	DEBUG_ADD( "Set Slayer Info: Set g_char_slot_ingame" );
 	
 	//--------------------------------------------------
-	// UI¿¡ Á¤º¸ ¼³Á¤
+	// UIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	//UI_SetHP( HP, maxHP );
 	//UI_SetMP( MP, maxMP );
@@ -3176,7 +3176,7 @@ SetPCSlayerInfo(PCSlayerInfo2* pInfo)
 
 	
 	//--------------------------------------------------		
-	// Domain Level ¼³Á¤
+	// Domain Level ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	DEBUG_ADD( "Set Slayer Info : Domain" );
 	
@@ -3202,18 +3202,18 @@ SetPCSlayerInfo(PCSlayerInfo2* pInfo)
 	
 
 	//--------------------------------------------------		
-	// µ· ¼³Á¤
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------		
 	g_pMoneyManager->SetMoney( pInfo->getGold() );
 
 	//--------------------------------------------------
-	//	PCS Number ÃÊ±âÈ­ 
+	//	PCS Number ï¿½Ê±ï¿½È­ 
 	//--------------------------------------------------
 //	g_pUserInformation->PCSNumber = pInfo->getPhoneNumber();
 //	C_VS_UI_SLAYER_PDS::m_pcs_number = pInfo->getPhoneNumber();
 
 	//--------------------------------------------------
-	// Skill Hot key¼³Á¤
+	// Skill Hot keyï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	if (!g_bSetHotKey)
 	{		
@@ -3232,23 +3232,23 @@ SetPCSlayerInfo(PCSlayerInfo2* pInfo)
 //--------------------------------------------------------------------------------
 // Set PCVampire Info
 //--------------------------------------------------------------------------------
-// Player¿¡°Ô vampire Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+// Playerï¿½ï¿½ï¿½ï¿½ vampire ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //--------------------------------------------------------------------------------
 void		
 SetPCVampireInfo(PCVampireInfo2* pInfo)
 {
 	DEBUG_ADD( "Set Vampire Info" );
 	
-	// ÀÓ½Ã·Î ¼³Á¤..
+	// ï¿½Ó½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½..
 	//g_pPlayer->SetGuildNumber( 2 );
 
 	g_pPlayer->SetID( pInfo->getObjectID() );
 	g_pPlayer->SetSight( pInfo->getSight() );
 
 	//--------------------------------------------------
-	// Player ¸ö ¼³Á¤
+	// Player ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
-	// ¹ÚÁã³ª ´Á´ë , °í½ºÆ® ·Î º¯½Å ÁßÀÎ °æ¿ì..
+	// ï¿½ï¿½ï¿½ã³ª ï¿½ï¿½ï¿½ï¿½ , ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 	if (g_PreviousCreatureType==CREATURETYPE_WOLF
 		|| g_PreviousCreatureType==CREATURETYPE_BAT
 		|| g_PreviousCreatureType==CREATURETYPE_VAMPIRE_GHOST
@@ -3266,7 +3266,7 @@ SetPCVampireInfo(PCVampireInfo2* pInfo)
 		if( pInfo->getCompetence() == 0 )
 			g_pPlayer->SetCompetence( 0 );
 	}
-	// Vampire³² : ¿©
+	// Vampireï¿½ï¿½ : ï¿½ï¿½
 	else
 	{
 		if (pInfo->getCompetence()==0)
@@ -3286,7 +3286,7 @@ SetPCVampireInfo(PCVampireInfo2* pInfo)
 
 //	_MinTrace("sdfdsf:%d\n", pInfo->getSex() );
 
-	// Áö»ó, °øÁß ÀÌµ¿ °áÁ¤
+	// ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (g_pPlayer->GetCreatureType()==CREATURETYPE_BAT) // || g_pPlayer->GetCreatureType()==CREATURETYPE_VAMPIRE_GHOST)
 	{
 		g_pPlayer->SetFlyingCreature();		
@@ -3296,7 +3296,7 @@ SetPCVampireInfo(PCVampireInfo2* pInfo)
 		g_pPlayer->SetGroundCreature();
 	}
 
-//	// ÇÇºÎ»ö
+//	// ï¿½ÇºÎ»ï¿½
 	g_pPlayer->SetBodyColor1( pInfo->getSkinColor() );
 	g_pPlayer->SetMasterEffectType( pInfo->getMasterEffectColor() );
 
@@ -3306,7 +3306,7 @@ SetPCVampireInfo(PCVampireInfo2* pInfo)
 		g_pPlayer->SetBodyColor1( 377 );
 //		g_pPlayer->SetBodyColor1( pInfo->getCoatColor() );
 
-	// ¸Ó¸®»öÀ¸·Î ¹Ù²¼´Ù
+	// ï¿½Ó¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½
 //	g_pPlayer->SetBodyColor1( pInfo->getHairColor() );
 
 	if( pInfo->getBatColor() != 0 )
@@ -3347,7 +3347,7 @@ SetPCVampireInfo(PCVampireInfo2* pInfo)
 	//--------------------------------------------------
 	// [ TEST CODE ]
 	//--------------------------------------------------
-	// ¿Ê »ö±ò ¼³Á¤ÇÏ±â
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 	//--------------------------------------------------
 //	g_pPlayer->SetBodyColor2( pInfo->getCoatColor() );
 	///*
@@ -3365,7 +3365,7 @@ SetPCVampireInfo(PCVampireInfo2* pInfo)
 //	g_pPlayer->SetAddonColorSet2( ADDON_COAT, pInfo->getSkinColor() );
 
 	//--------------------------------------------------
-	// ³» ±æµå ¼³Á¤
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	int guildID = pInfo->getGuildID();
 
@@ -3386,7 +3386,7 @@ SetPCVampireInfo(PCVampireInfo2* pInfo)
 	g_pGuildInfoMapper->SetGuildName( pInfo->getGuildID(), g_char_slot_ingame.sz_guild_name );
 
 	//--------------------------------------------------
-	// Á¤º¸Ã¢¿¡¼­ Ãâ·ÂÇÒ ¶§ ÇÊ¿äÇÑ Á¤º¸..
+	// ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 	//--------------------------------------------------
 	g_char_slot_ingame.sz_name			= g_pUserInformation->CharacterID.GetString();
 	if(g_pUserInformation->GuildName.GetString() == NULL)
@@ -3415,17 +3415,17 @@ SetPCVampireInfo(PCVampireInfo2* pInfo)
 	g_pUserInformation->BatColor  = pInfo->getBatColor();
 	
 	//--------------------------------------------------
-	// Effect Á¤º¸ Á¦°Å
+	// Effect ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	g_char_slot_ingame.STATUS.clear();
 	
 	//g_pUserInformation->FaceStyle = pInfo->getHairStyle();
 
-	// vampire default ¾ó±¼
+	// vampire default ï¿½ï¿½
 	g_char_slot_ingame.man_info.face = M_FACE1;
 
 	//--------------------------------------------------
-	// ÇöÀç »óÅÂ ¼³Á¤
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	int maxHP	= pInfo->getHP( ATTR_MAX );
 	int HP		= pInfo->getHP( ATTR_CURRENT );
@@ -3487,7 +3487,7 @@ SetPCVampireInfo(PCVampireInfo2* pInfo)
 	//g_pPlayer->SetStatus( MODIFY_INT_EXP, INT_EXP);	
 	
 	//--------------------------------------------------
-	// ui¿¡ Ãâ·Â Á¤º¸ ¼³Á¤
+	// uiï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	//g_char_slot_ingame.sz_name = g_pUserInformation->CharacterID.GetString();
 	//g_char_slot_ingame.bl_vampire = g_pPlayer->IsVampire();
@@ -3522,7 +3522,7 @@ SetPCVampireInfo(PCVampireInfo2* pInfo)
 		g_char_slot_ingame.EXP_REMAIN = pInfo->getAdvancementGoalExp();
 
 	//--------------------------------------------------
-	// Domain Level ¼³Á¤
+	// Domain Level ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	/*
 	const int numDomains = 1;
@@ -3540,22 +3540,22 @@ SetPCVampireInfo(PCVampireInfo2* pInfo)
 	*/
 
 	//--------------------------------------------------
-	// UI¿¡ Á¤º¸ ¼³Á¤
+	// UIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	//UI_SetHP( HP, maxHP );
 
 	//--------------------------------------------------		
-	// µ· ¼³Á¤
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------		
 	g_pMoneyManager->SetMoney( pInfo->getGold() );
 
 	//--------------------------------------------------
-	//	VampireGear ÃÊ±âÈ­
+	//	VampireGear ï¿½Ê±ï¿½È­
 	//--------------------------------------------------			
 	g_pVampireGear->Init();
 
 	//--------------------------------------------------
-	// Skill Hot key¼³Á¤
+	// Skill Hot keyï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	if (!g_bSetHotKey)
 	{		
@@ -3578,21 +3578,21 @@ SetPCVampireInfo(PCVampireInfo2* pInfo)
 //--------------------------------------------------------------------------------
 // Set PCVampire Info
 //--------------------------------------------------------------------------------
-// Player¿¡°Ô vampire Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+// Playerï¿½ï¿½ï¿½ï¿½ vampire ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //--------------------------------------------------------------------------------
 void		
 SetPCOustersInfo(PCOustersInfo2* pInfo)
 {
 	DEBUG_ADD( "Set Ousters Info" );
 	
-	// ÀÓ½Ã·Î ¼³Á¤..
+	// ï¿½Ó½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½..
 	//g_pPlayer->SetGuildNumber( 2 );
 
 	g_pPlayer->SetID( pInfo->getObjectID() );
 	g_pPlayer->SetSight( pInfo->getSight() );
 
 	//--------------------------------------------------
-	// Player ¸ö ¼³Á¤
+	// Player ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	if (pInfo->getCompetence()==0)
 	{
@@ -3639,7 +3639,7 @@ SetPCOustersInfo(PCOustersInfo2* pInfo)
 #endif //__SECOND_TRANSFORTER
 	}
 #endif //__FAST_TRANSFORTER||__SECOND_TRANSFORTER
-	// ¸Ó¸®»ö
+	// ï¿½Ó¸ï¿½ï¿½ï¿½
 	g_pPlayer->SetBodyColor1( pInfo->getHairColor() );
 	g_pPlayer->SetMasterEffectType( pInfo->getMasterEffectColor() );
 
@@ -3648,7 +3648,7 @@ SetPCOustersInfo(PCOustersInfo2* pInfo)
 	//--------------------------------------------------
 	// [ TEST CODE ]
 	//--------------------------------------------------
-	// ¿Ê »ö±ò ¼³Á¤ÇÏ±â
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 	//--------------------------------------------------
 //	g_pPlayer->SetBodyColor2( pInfo->getCoatColor() );
 	///*
@@ -3667,7 +3667,7 @@ SetPCOustersInfo(PCOustersInfo2* pInfo)
 
 
 	//--------------------------------------------------
-	// ³» ±æµå ¼³Á¤
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	int guildID = pInfo->getGuildID();
 
@@ -3685,7 +3685,7 @@ SetPCOustersInfo(PCOustersInfo2* pInfo)
 	g_pUserInformation->GuildGrade = pInfo->getGuildMemberRank();
 
 	//--------------------------------------------------
-	// Á¤º¸Ã¢¿¡¼­ Ãâ·ÂÇÒ ¶§ ÇÊ¿äÇÑ Á¤º¸..
+	// ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 	//--------------------------------------------------
 	g_char_slot_ingame.sz_name			= g_pUserInformation->CharacterID.GetString();
 	if(g_pUserInformation->GuildName.GetString() == NULL)
@@ -3715,17 +3715,17 @@ SetPCOustersInfo(PCOustersInfo2* pInfo)
 //	g_pUserInformation->SkinColor = pInfo->getSkinColor();
 	
 	//--------------------------------------------------
-	// Effect Á¤º¸ Á¦°Å
+	// Effect ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	g_char_slot_ingame.STATUS.clear();
 	
 	//g_pUserInformation->FaceStyle = pInfo->getHairStyle();
 
-	// vampire default ¾ó±¼
+	// vampire default ï¿½ï¿½
 	g_char_slot_ingame.man_info.face = M_FACE1;
 
 	//--------------------------------------------------
-	// ÇöÀç »óÅÂ ¼³Á¤
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	int maxHP	= pInfo->getHP( ATTR_MAX );
 	int maxMP	= pInfo->getMP( ATTR_MAX );
@@ -3794,7 +3794,7 @@ SetPCOustersInfo(PCOustersInfo2* pInfo)
 	//g_pPlayer->SetStatus( MODIFY_INT_EXP, INT_EXP);	
 	
 	//--------------------------------------------------
-	// ui¿¡ Ãâ·Â Á¤º¸ ¼³Á¤
+	// uiï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	//g_char_slot_ingame.sz_name = g_pUserInformation->CharacterID.GetString();
 	//g_char_slot_ingame.bl_vampire = g_pPlayer->IsVampire();
@@ -3829,7 +3829,7 @@ SetPCOustersInfo(PCOustersInfo2* pInfo)
 		g_char_slot_ingame.EXP_REMAIN = pInfo->getAdvancementGoalExp();
 
 	//--------------------------------------------------
-	// Domain Level ¼³Á¤
+	// Domain Level ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	/*
 	const int numDomains = 1;
@@ -3847,22 +3847,22 @@ SetPCOustersInfo(PCOustersInfo2* pInfo)
 	*/
 
 	//--------------------------------------------------
-	// UI¿¡ Á¤º¸ ¼³Á¤
+	// UIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	//UI_SetHP( HP, maxHP );
 
 	//--------------------------------------------------		
-	// µ· ¼³Á¤
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------		
 	g_pMoneyManager->SetMoney( pInfo->getGold() );
 
 	//--------------------------------------------------
-	//	OustersGear ÃÊ±âÈ­
+	//	OustersGear ï¿½Ê±ï¿½È­
 	//--------------------------------------------------			
 	g_pOustersGear->Init();
 
 //	//--------------------------------------------------
-//	// Skill Hot key¼³Á¤
+//	// Skill Hot keyï¿½ï¿½ï¿½ï¿½
 //	//--------------------------------------------------
 //	if (!g_bSetHotKey)
 //	{		
@@ -3956,10 +3956,10 @@ PopupErrorMessage(ErrorID errorID)
 		break;
 
 		// 2004, 03, 26 sobeit add start
-		case CANNOT_AUTHORIZE_BILLING:   // ºô¸µ Á¤º¸¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.
+		case CANNOT_AUTHORIZE_BILLING:   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_ERROR_CANNOT_AUTHORIZE_BILLING].GetString(), -1,-1,UI_DIALOG_TITLE_OK, true);
 		break;
-		case CANNOT_CREATE_PC_BILLING:    // À¯·á »ç¿ëÀÚ°¡ ¾Æ´Ï¶ó¼­ Ä³¸¯ÅÍ¸¦ ¸ø ¸¸µì´Ï´Ù.
+		case CANNOT_CREATE_PC_BILLING:    // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Æ´Ï¶ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_ERROR_CANNOT_CREATE_PC_BILLING].GetString(), -1,-1,UI_DIALOG_TITLE_OK, true);
 		break;
 		// 2004, 03, 26 sobeit add end
@@ -3988,7 +3988,7 @@ PopupErrorMessage(ErrorID errorID)
 		case NEED_USE_AGREEMENT:
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[UI_STRING_MESSAGE_NEED_USE_AGREEMENT].GetString(), -1,-1,UI_DIALOG_TITLE_OK, true);
 			break;
-		//20071116 - ½ºÇÇµåÇÙ Æä³ÎÆ¼·Î ÀÎÇÑ ·Î±ä½ÇÆÐ.
+		//20071116 - ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½.
 		case SPEED_HACK_PENALTY_USER:
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[UI_STRING_MESSAGE_SPEED_HACK_PENALTY_USER].GetString(), -1,-1,UI_DIALOG_TITLE_OK, true);
 			break;
@@ -4036,20 +4036,20 @@ SetServerName( const char* pName )
 //-----------------------------------------------------------------------------
 // Use Item OK
 //-----------------------------------------------------------------------------
-// Potion»ç¿ë
+// Potionï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 bool
 UseItemOK()
 {
 	//------------------------------------------------------------------
 	//
-	//				Item Check Buffer È®ÀÎ
+	//				Item Check Buffer È®ï¿½ï¿½
 	//
 	//------------------------------------------------------------------	
 	MItem* pItem = g_pPlayer->GetItemCheckBuffer();
 
 	//----------------------------------------------------
-	// Check Buffer¿¡ itemÀÌ ÀÖ´Â °æ¿ì
+	// Check Bufferï¿½ï¿½ itemï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 	//----------------------------------------------------
 	if (pItem!=NULL)
 	{
@@ -4115,16 +4115,16 @@ UseItemOK()
 			}
 		} else
 		//----------------------------------------------------
-		// Inventory¿¡¼­ »ç¿ë
+		// Inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//----------------------------------------------------		
 		if (status==MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY)			
 		{			
-			// Item Check Buffer¸¦ Áö¿î´Ù.
+			// Item Check Bufferï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 			DWORD SubInvetoryID = g_pPlayer->GetItemIDCheckBufferSubInventory();
 			g_pPlayer->ClearItemCheckBuffer();
 
 			//-------------------------------------------------
-			// VampirePortalÀÎ °æ¿ì
+			// VampirePortalï¿½ï¿½ ï¿½ï¿½ï¿½
 			//-------------------------------------------------
 			/*
 			if (pItem->GetItemClass()==ITEM_CLASS_VAMPIRE_PORTAL_ITEM)
@@ -4142,7 +4142,7 @@ UseItemOK()
 			*/
 
 			//-------------------------------------------------
-			// »ç¿ëÇÏ´Â ¾ÆÀÌÅÛÀÎ °æ¿ì´Â ¼ýÀÚ¸¦ ÁÙÀÎ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 			//-------------------------------------------------
 			if ((pItem->IsChargeItem() || pItem->IsPileItem())  && (pItem->GetItemClass() != ITEM_CLASS_VAMPIRE_PORTAL_ITEM))
 			{
@@ -4152,7 +4152,7 @@ UseItemOK()
 			if(pItem->GetItemClass() == ITEM_CLASS_DYE_POTION )
 			{
 				TYPE_ITEMTYPE	ItemType = pItem->GetItemType();
-				// Çì¾î»öÀº ½½·¹ÀÌ¾î, ¾Æ¿ì½ºÅÍÁî¸¸
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½, ï¿½Æ¿ì½ºï¿½ï¿½ï¿½î¸¸
 				if(ItemType >= 0 && ItemType <= 23 )
 				{
 					if(g_pPlayer->IsSlayer())
@@ -4184,7 +4184,7 @@ UseItemOK()
 				} else
 				if( ItemType == 48 )
 				{
-					// ¼ºÀüÈ¯ ¾ÆÀÌÅÛÀÌ´Ù.
+					// ï¿½ï¿½ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 					if( !g_pPlayer->IsOusters() )
 					{
 						
@@ -4206,7 +4206,7 @@ UseItemOK()
 						}
 							
 						
-						// °¡Áö°í ÀÖ´Â ¸ðµç ¾ÆÀÌÅÛ¿¡ ´ëÇØ¼­ Ã¼Å©ÇÑ´Ù.
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ Ã¼Å©ï¿½Ñ´ï¿½.
 						if( g_pPlayer->IsSlayer() )
 							g_pSlayerGear->CheckAffectStatusAll();
 						else if( g_pPlayer->IsVampire() )
@@ -4218,8 +4218,8 @@ UseItemOK()
 						
 					}
 				}
-				//¹ÚÁã ¸¶½ºÅÍ ÀÌÆåÆ® ÄÃ·¯ º¯°æ
-				//23±×¸°, 2ºí·ç, 33·¹µå, 82¿»·Î, 380È­ÀÌÆ®, 50½ºÄ«ÀÌºí·ç, 151¶óÀÏ¶ô, 395ºí·¢, 0xFFFF±âº»
+				//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½
+				//23ï¿½×¸ï¿½, 2ï¿½ï¿½ï¿½ï¿½, 33ï¿½ï¿½ï¿½ï¿½, 82ï¿½ï¿½ï¿½ï¿½, 380È­ï¿½ï¿½Æ®, 50ï¿½ï¿½Ä«ï¿½Ìºï¿½ï¿½ï¿½, 151ï¿½ï¿½ï¿½Ï¶ï¿½, 395ï¿½ï¿½ï¿½ï¿½, 0xFFFFï¿½âº»
 				else if( ItemType >= 49 && ItemType <= 57 )
 				{
 					WORD colorset_list[9] = {23, 2, 33, 82, 380, 50, 151, 395, 0xFFFF};
@@ -4228,7 +4228,7 @@ UseItemOK()
 					g_pPlayer->SetBatColor( colorset_list[myColor] );
 					UI_PopupMessage( STRING_MESSAGE_SUCCESS_CHANGED_BAT_COLOR );
 				}
-				//°í½ºÆ® ¸¶½ºÅÍ ÀÌÆåÆ® ÄÃ·¯ º¯°æ by diesirace 20070308
+				//ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½ by diesirace 20070308
 				else if( ItemType >= 76 && ItemType <= 79 )
 				{
 					WORD colorset_list[9] = {36, 6, 0, 262};
@@ -4274,7 +4274,7 @@ UseItemOK()
 			}
 			else if(pItem->GetItemClass() == ITEM_CLASS_SUB_INVENTORY )
 			{
-				// sub inventory Ã³¸®´Â GCSubInventoryInfo¿¡¼­ ÇÑ´Ù.
+				// sub inventory Ã³ï¿½ï¿½ï¿½ï¿½ GCSubInventoryInfoï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 				g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY);
 			}
 			// 2004, 6, 18 sobeit add start - naming pet used
@@ -4287,7 +4287,7 @@ UseItemOK()
 //			}
 			// 2004, 6, 18 sobeit add end - naming pet used
 			//-------------------------------------------------
-			// ¾ø¾îÁöÁö ¾Ê´Â °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½
 			//-------------------------------------------------
 			if (pItem->IsPileItem() && pItem->GetNumber()>0
 				|| pItem->IsChargeItem() && pItem->GetNumber()>0
@@ -4303,7 +4303,7 @@ UseItemOK()
 			{
 			}
 			//-------------------------------------------------
-			// Á¦°ÅÇÏ´Â °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 			//-------------------------------------------------
 			else
 			{
@@ -4313,72 +4313,72 @@ UseItemOK()
 					if(NULL != SubInventoryItem)
 					{
 						SubInventoryItem->RemoveItem((TYPE_OBJECTID)pItem->GetID());
-						// itemÁ¤º¸ Á¦°Å
+						// itemï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 						UI_RemoveDescriptor( (void*)pItem );
 
-						// memory¿¡¼­ Á¦°Å
+						// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 						delete pItem;		
 					}
 				}
 				else
 				{
-					// inventory¿¡¼­ Á¦°Å
+					// inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					g_pInventory->RemoveItem( (TYPE_OBJECTID)pItem->GetID() );
 
-					// itemÁ¤º¸ Á¦°Å
+					// itemï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					UI_RemoveDescriptor( (void*)pItem );
 
-					// memory¿¡¼­ Á¦°Å
+					// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					delete pItem;			
 				}
 			}
 		
 		}
 		//----------------------------------------------------
-		// QuickSlot¿¡¼­ »ç¿ë
+		// QuickSlotï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//----------------------------------------------------
 		else if (status==MPlayer::ITEM_CHECK_BUFFER_USE_FROM_QUICKSLOT)
 		{	
-			// Item Check Buffer¸¦ Áö¿î´Ù.
+			// Item Check Bufferï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 			g_pPlayer->ClearItemCheckBuffer();
 
-			// 2004, 10, 5, sobeit add start - Äü½½·Ô¿¡¼­ ¿ÀÅä¹ÙÀÌÅ° »ç¿ë
+			// 2004, 10, 5, sobeit add start - ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å° ï¿½ï¿½ï¿½
 			if(pItem->GetItemClass() == ITEM_CLASS_KEY)
 			{
-				// ÇÒ°Ô ¾ø³×..^^
+				// ï¿½Ò°ï¿½ ï¿½ï¿½ï¿½ï¿½..^^
 			}
 			// 2004, 10, 5, sobeit add start
 			//-------------------------------------------------
-			// °³¼ö Ã¼Å©¸¦ ÇØ¾ßÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½ï¿½ ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½.
 			//-------------------------------------------------
 			else if (pItem->IsPileItem() && pItem->GetNumber()>1)
 			{
-				// ¾ÆÁ÷ °³¼ö°¡ ´õ ³²¾Æ ÀÖ´Â °æ¿ì,
-				// °³¼ö¸¦ ÇÏ³ª ÁÙ¿©ÁØ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½,
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½Ù¿ï¿½ï¿½Ø´ï¿½.
 				pItem->SetNumber( pItem->GetNumber() - 1 );
 			}
 			//-------------------------------------------------
-			// ´Ù »ç¿ëÇÑ °æ¿ì --> Á¦°ÅÇÑ´Ù.
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//-------------------------------------------------
 			else
 			{
-				// ¾ÆÀÌÅÛÀ» ´Ù »ç¿ëÇßÀ» °æ¿ì °°Àº ¾ÆÀÌÅÛÀÌ ÀÎº¥Åä¸®¿¡ ÀÖ´Ù¸é Äü½½·ÔÀ¸·Î ¿Å±ä´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½.
 				MItem* pNextItem	= g_pInventory->FindItem(pItem->GetItemClass(), pItem->GetItemType());
 				BYTE nItemSlot		= pItem->GetItemSlot();
 
-				// quickSlot¿¡¼­ Á¦°Å
+				// quickSlotï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				if( g_pPlayer->IsSlayer() )
 				{
 					g_pQuickSlot->RemoveItem( (BYTE)pItem->GetItemSlot() );
 
 					if(pNextItem != NULL)
 						gC_vs_ui.AutoMoveInventoryItemToQuickSlot(
-							pNextItem->GetGridX(), pNextItem->GetGridY(), nItemSlot);	// Äü½½·ÔÀ¸·Î °í°í
+							pNextItem->GetGridX(), pNextItem->GetGridY(), nItemSlot);	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				}
 				else if (g_pPlayer->IsOusters() )
 				{
 					MOustersArmsBand* pQuickSlot = NULL;
-					// ¾ÆÀÌÅÛÀÌ ÀÖ´Â ¾Ï½º¹êµå¸¦ °Ë»öÇÑ´Ù.
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ï½ï¿½ï¿½ï¿½å¸¦ ï¿½Ë»ï¿½ï¿½Ñ´ï¿½.
 					
 					if( g_pArmsBand1 != NULL && g_pArmsBand1->GetItemToModify( pItem->GetID() ) == pItem )
 						pQuickSlot = g_pArmsBand1;
@@ -4393,23 +4393,23 @@ UseItemOK()
 						
 						if(pNextItem != NULL)
 							gC_vs_ui.AutoMoveInventoryItemToQuickSlot(
-								pNextItem->GetGridX(), pNextItem->GetGridY(), nItemSlot);	// Äü½½·ÔÀ¸·Î °í°í
+								pNextItem->GetGridX(), pNextItem->GetGridY(), nItemSlot);	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					}
 				}
-				// itemÁ¤º¸ Á¦°Å
+				// itemï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				UI_RemoveDescriptor( (void*)pItem );
 
-				// memory¿¡¼­ Á¦°Å
+				// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				delete pItem;
 			}
 
 			//----------------------------------------------------
-			// º§Æ® ¸ø ¾ø¾Öµµ·Ï ÇÑ°Å.. Ãë¼Ò
+			// ï¿½ï¿½Æ® ï¿½ï¿½ ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ ï¿½Ñ°ï¿½.. ï¿½ï¿½ï¿½
 			//----------------------------------------------------
 			UI_UnlockGear();
 		}
 		//----------------------------------------------------
-		// ´Ù¸¥ »óÅÂ??
+		// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½??
 		//----------------------------------------------------
 		else if( status == MPlayer::ITEM_CHECK_BUFFER_USE_FROM_GEAR)
 		{
@@ -4421,7 +4421,7 @@ UseItemOK()
 
 				)
 			{
-				// -_- Ä¿ÇÃ¸µ ,  °á¼ÓÀÇ ÆÒ´øÆ® ÀÌ¸é........ status...´Â »ç¿ë ¾ÈÇÔ.
+				// -_- Ä¿ï¿½Ã¸ï¿½ ,  ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò´ï¿½Æ® ï¿½Ì¸ï¿½........ status...ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 				
 				if( !g_pPlayer->IsWaitVerifyNULL() )
 					return false;
@@ -4450,13 +4450,13 @@ UseItemOK()
 				g_pEventManager->AddEvent(event);
 			} 
 		}
-		// 2004, 9, 13, sobeit add start - Äù½ºÆ® ÀÎº¥ ¾ÆÀÌÅÛ »ç¿ë Çß´Ù
+		// 2004, 9, 13, sobeit add start - ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ß´ï¿½
 		else if(status == MPlayer::ITEM_CHECK_BUFFER_USE_FROM_GQUEST_INVENTORY)
 		{
 			g_pPlayer->ClearItemCheckBuffer();
 			gC_vs_ui.DeleteQuestItem(pItem->GetItemSlot());
 		}
-		// 2004, 9, 13, sobeit add end - Äù½ºÆ® ÀÎº¥ ¾ÆÀÌÅÛ »ç¿ë Çß´Ù
+		// 2004, 9, 13, sobeit add end - ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ß´ï¿½
 		else
 		{
 			DEBUG_ADD_FORMAT("[Error] ItemCheck Buffer is not Use Status: status=%d", (int)status);
@@ -4466,7 +4466,7 @@ UseItemOK()
 
 	}
 	//----------------------------------------------------
-	// itemÀÌ ¾ø´Â °æ¿ì.. - -;;
+	// itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.. - -;;
 	//----------------------------------------------------
 	else
 	{
@@ -4485,7 +4485,7 @@ void
 AffectModifyInfo(MStatus* pStatus, ModifyInfo* pInfo)
 {
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	int i;
 
@@ -4535,17 +4535,17 @@ SkillCrossCounter(MCreature* pUserCreature, MCreature* pTargetCreature, int skil
 	}
 
 	// [ TEST CODE ]
-	// ÁøÇàÁßÀÎ EffectÀÌ¸é Result·Î Ãß°¡ÇØ¾ß ÇÑ´Ù.
-	// Result¸¦ »ý¼ºÇÏ°í..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Effectï¿½Ì¸ï¿½ Resultï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
+	// Resultï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½..
 	// pUserCreature->>AddActionResult( ... )
 		
 	//------------------------------------------------------
-	// Fake CreatureÀÇ ÁÂÇ¥ °è»ê
+	// Fake Creatureï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	int x = pTargetCreature->GetX();
 	int y = pTargetCreature->GetY();
 	
-	// ¸Â´Â ¾Ö¿¡¼­ player¹æÇâÀ¸·Î ÇÑ Ä­..
+	// ï¿½Â´ï¿½ ï¿½Ö¿ï¿½ï¿½ï¿½ playerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ä­..
 	int sx = pUserCreature->GetX() - x;
 	int sy = pUserCreature->GetY() - y;
 
@@ -4556,7 +4556,7 @@ SkillCrossCounter(MCreature* pUserCreature, MCreature* pTargetCreature, int skil
 	y += sy;					
 
 	//------------------------------------------------------
-	// Fake Creature »ý¼º
+	// Fake Creature ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	MFakeCreature* pFakeCreature = g_pZone->NewFakeCreature( pUserCreature, x, y );
 
@@ -4564,15 +4564,15 @@ SkillCrossCounter(MCreature* pUserCreature, MCreature* pTargetCreature, int skil
 	pFakeCreature->SetDirection( dir );
 	pFakeCreature->SetCurrentDirection( dir );
 
-	pFakeCreature->SetAction( ACTION_ATTACK );		// ±×³É.. - -;;
+	pFakeCreature->SetAction( ACTION_ATTACK );		// ï¿½×³ï¿½.. - -;;
 
 	//------------------------------------------------------
-	// ÀÜ»ó ÇÑ¹ø º¸¿©ÁÖ°í »ç¶óÁö°Ô ¼³Á¤
+	// ï¿½Ü»ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	pFakeCreature->SetFakeCreatureType( MFakeCreature::FAKE_CREATURE_FADE_ACTION );	
 
 	//------------------------------------------------------
-	// Fake Creature¸¦ Zone¿¡ Ãß°¡
+	// Fake Creatureï¿½ï¿½ Zoneï¿½ï¿½ ï¿½ß°ï¿½
 	//------------------------------------------------------
 	if (!g_pZone->AddFakeCreature( pFakeCreature ))
 	{
@@ -4580,7 +4580,7 @@ SkillCrossCounter(MCreature* pUserCreature, MCreature* pTargetCreature, int skil
 	}
 
 	//------------------------------------------------------
-	// ±â¼ú »ç¿ë
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (skillID==SKILL_ATTACK_MELEE)
 	{	
@@ -4606,7 +4606,7 @@ SkillCrossCounter(MCreature* pUserCreature, MCreature* pTargetCreature, int skil
 								delayFrame ) );
 
 	//------------------------------------------------------
-	// EffectStatus°¡ ÀÖ´Ù¸é ºÙÀÎ´Ù.
+	// EffectStatusï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 	//------------------------------------------------------
 	/*
 	EFFECTSTATUS es = (*g_pActionInfoTable)[skillID].GetEffectStatus();
@@ -4622,13 +4622,13 @@ SkillCrossCounter(MCreature* pUserCreature, MCreature* pTargetCreature, int skil
 	pFakeCreature->PacketSpecialActionToOther(
 						skillID, 
 						pTargetCreature->GetID(),
-						pResult			// °á°ú
+						pResult			// ï¿½ï¿½ï¿½
 	);			
 	
 }
 
 //------------------------------------------------------------------
-// Skill ShadowDancing // [»õ±â¼ú]
+// Skill ShadowDancing // [ï¿½ï¿½ï¿½ï¿½ï¿½]
 //------------------------------------------------------------------
 // user --> target 
 //------------------------------------------------------------------
@@ -4646,17 +4646,17 @@ SkillShadowDancing(MCreature* pUserCreature, MCreature* pTargetCreature, int ski
 	}
 
 	// [ TEST CODE ]
-	// ÁøÇàÁßÀÎ EffectÀÌ¸é Result·Î Ãß°¡ÇØ¾ß ÇÑ´Ù.
-	// Result¸¦ »ý¼ºÇÏ°í..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Effectï¿½Ì¸ï¿½ Resultï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
+	// Resultï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½..
 	// pUserCreature->>AddActionResult( ... )
 		
 	//------------------------------------------------------
-	// Fake CreatureÀÇ ÁÂÇ¥ °è»ê
+	// Fake Creatureï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	int x = pTargetCreature->GetX();
 	int y = pTargetCreature->GetY();
 	
-	// ¸Â´Â ¾Ö¿¡¼­ player¹æÇâÀ¸·Î ÇÑ Ä­..
+	// ï¿½Â´ï¿½ ï¿½Ö¿ï¿½ï¿½ï¿½ playerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ä­..
 	int sx = pUserCreature->GetX() - x;
 	int sy = pUserCreature->GetY() - y;
 
@@ -4664,7 +4664,7 @@ SkillShadowDancing(MCreature* pUserCreature, MCreature* pTargetCreature, int ski
 	if (sy>0) sy=1; else if (sy<0) sy=-1; else sy=0;
 
 	//------------------------------------------------------
-	// Fake Creature »ý¼º
+	// Fake Creature ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	POINT cxy[3] = 
 	{
@@ -4681,15 +4681,15 @@ SkillShadowDancing(MCreature* pUserCreature, MCreature* pTargetCreature, int ski
 		pFakeCreature->SetDirection( dir );
 		pFakeCreature->SetCurrentDirection( dir );
 
-		pFakeCreature->SetAction( ACTION_SLAYER_SWORD );		// ±×³É.. - -;;
+		pFakeCreature->SetAction( ACTION_SLAYER_SWORD );		// ï¿½×³ï¿½.. - -;;
 
 		//------------------------------------------------------
-		// ÀÜ»ó ÇÑ¹ø º¸¿©ÁÖ°í »ç¶óÁö°Ô ¼³Á¤
+		// ï¿½Ü»ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		pFakeCreature->SetFakeCreatureType( MFakeCreature::FAKE_CREATURE_FAST_MOVE_ACTION );
 
 		//------------------------------------------------------
-		// Fake Creature¸¦ Zone¿¡ Ãß°¡
+		// Fake Creatureï¿½ï¿½ Zoneï¿½ï¿½ ï¿½ß°ï¿½
 		//------------------------------------------------------
 		if (!g_pZone->AddFakeCreature( pFakeCreature ))
 		{
@@ -4697,7 +4697,7 @@ SkillShadowDancing(MCreature* pUserCreature, MCreature* pTargetCreature, int ski
 		}
 
 		//------------------------------------------------------
-		// ±â¼ú »ç¿ë
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		if (skillID==SKILL_ATTACK_MELEE)
 		{	
@@ -4721,14 +4721,14 @@ SkillShadowDancing(MCreature* pUserCreature, MCreature* pTargetCreature, int ski
 //-----------------------------------------------------------------------------
 // Create ActionResultNode
 //-----------------------------------------------------------------------------
-// Creature¿¡ skillID¿¡ ºÙ´Â ActionResultNode¸¦ »ý¼ºÇÑ´Ù.
+// Creatureï¿½ï¿½ skillIDï¿½ï¿½ ï¿½Ù´ï¿½ ActionResultNodeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 MActionResultNode*
 CreateActionResultNode(MCreature* pCreature, int skillID, BYTE grade)
 {
 	//------------------------------------------------------
 	//
-	// skill¿¡ °á°ú°¡ ÀÖÀ¸¸é Àû¿ë ½ÃÅ²´Ù.
+	// skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 	//
 	//------------------------------------------------------
 	MActionResultNode* pActionResultNode = NULL;
@@ -4790,7 +4790,7 @@ CreateActionResultNode(MCreature* pCreature, int skillID, BYTE grade)
 		break;
 
 		//------------------------------------------------------
-		// Casket [»õ±â¼ú]
+		// Casket [ï¿½ï¿½ï¿½ï¿½ï¿½]
 		//------------------------------------------------------
 		case ACTIONRESULTNODE_SUMMON_CASKET :			
 			DEBUG_ADD("[ACTIONRESULTNODE_SUMMON_CASKET]");
@@ -4826,16 +4826,16 @@ CreateActionResultNode(MCreature* pCreature, int skillID, BYTE grade)
 //-----------------------------------------------------------------------------
 // Check Item For SkillIcon
 //-----------------------------------------------------------------------------
-// ÀÌ ºÎºÐÀº MItem¿¡ °¢ item¸¶´ÙÀÇ skill iconÀ» Ã¼Å©ÇÏ´Â
-// virtual member functionÀ» ¸¸µé¾î¾ß ÇÑ´Ù.
-// Áö±ÝÀº Çì´õ ÄÄÆÄÀÏ°ú ½Ã°£ °ü°è»ó ÀÌ·¸°Ô °£´Ù. - -; T_T;
+// ï¿½ï¿½ ï¿½Îºï¿½ï¿½ï¿½ MItemï¿½ï¿½ ï¿½ï¿½ itemï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ skill iconï¿½ï¿½ Ã¼Å©ï¿½Ï´ï¿½
+// virtual member functionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. - -; T_T;
 //-----------------------------------------------------------------------------
 void
 CheckItemForSkillIcon(const MItem* pItem)
 {
 	ITEM_CLASS itemClass = pItem->GetItemClass();
 
-	// Æ¯Á¤ item classÀÎ °æ¿ì´Â skill iconÀÌ ¹Ù²ï´Ù.
+	// Æ¯ï¿½ï¿½ item classï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ skill iconï¿½ï¿½ ï¿½Ù²ï¿½ï¿½.
 	if (g_pPlayer->IsSlayer()
 		&& (itemClass==ITEM_CLASS_HOLYWATER
 			|| itemClass==ITEM_CLASS_SLAYER_PORTAL_ITEM
@@ -4864,7 +4864,7 @@ void		SetFadeEnd()
 }
 
 //------------------------------------------------------------------
-// Skill ShadowDancing // [»õ±â¼ú]
+// Skill ShadowDancing // [ï¿½ï¿½ï¿½ï¿½ï¿½]
 //------------------------------------------------------------------
 // user --> target 
 //------------------------------------------------------------------
@@ -4882,17 +4882,17 @@ SkillIllendue(MCreature* pUserCreature, MCreature* pTargetCreature, int skillID,
 	}
 
 	// [ TEST CODE ]
-	// ÁøÇàÁßÀÎ EffectÀÌ¸é Result·Î Ãß°¡ÇØ¾ß ÇÑ´Ù.
-	// Result¸¦ »ý¼ºÇÏ°í..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Effectï¿½Ì¸ï¿½ Resultï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
+	// Resultï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½..
 	// pUserCreature->>AddActionResult( ... )
 		
 	//------------------------------------------------------
-	// Fake CreatureÀÇ ÁÂÇ¥ °è»ê
+	// Fake Creatureï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	int x = pTargetCreature->GetX();
 	int y = pTargetCreature->GetY();
 	
-	// ¸Â´Â ¾Ö¿¡¼­ player¹æÇâÀ¸·Î ÇÑ Ä­..
+	// ï¿½Â´ï¿½ ï¿½Ö¿ï¿½ï¿½ï¿½ playerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ä­..
 	int sx = pUserCreature->GetX() - x;
 	int sy = pUserCreature->GetY() - y;
 
@@ -4900,7 +4900,7 @@ SkillIllendue(MCreature* pUserCreature, MCreature* pTargetCreature, int skillID,
 	if (sy>0) sy=1; else if (sy<0) sy=-1; else sy=0;
 
 	//------------------------------------------------------
-	// Fake Creature »ý¼º
+	// Fake Creature ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 
 	POINT Straight[4] = {
@@ -4920,13 +4920,13 @@ SkillIllendue(MCreature* pUserCreature, MCreature* pTargetCreature, int skillID,
 	POINT *Position;
 	
 	switch(shape) {
-		case 0: // ÀÚµ¿
+		case 0: // ï¿½Úµï¿½
 			Position = (pUserCreature->GetDirection() & 0x1) ? Diagonal : Straight;
 			break;
-		case 1: // ½ÊÀÚ¸ð¾ç(+)
+		case 1: // ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½(+)
 			Position = Diagonal;
 			break;
-		case 2: // ¿¢½º¸ð¾ç(x)
+		case 2: // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(x)
 			Position = Straight;
 			break;
 	}
@@ -4940,16 +4940,16 @@ SkillIllendue(MCreature* pUserCreature, MCreature* pTargetCreature, int skillID,
 		pFakeCreature->SetDirection( dir );
 		pFakeCreature->SetCurrentDirection( dir );
 
-		pFakeCreature->SetAction( ACTION_MAGIC );		// ±×³É.. - -;;
+		pFakeCreature->SetAction( ACTION_MAGIC );		// ï¿½×³ï¿½.. - -;;
 
 		//------------------------------------------------------
-		// ÀÜ»ó ÇÑ¹ø º¸¿©ÁÖ°í »ç¶óÁö°Ô ¼³Á¤
+		// ï¿½Ü»ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		//pFakeCreature->SetFakeCreatureType( MFakeCreature::FAKE_CREATURE_BRIGHTNESS );						
 		pFakeCreature->SetFakeCreatureType( MFakeCreature::FAKE_CREATURE_FAST_MOVE_ACTION );
 
 		//------------------------------------------------------
-		// Fake Creature¸¦ Zone¿¡ Ãß°¡
+		// Fake Creatureï¿½ï¿½ Zoneï¿½ï¿½ ï¿½ß°ï¿½
 		//------------------------------------------------------
 		if (!g_pZone->AddFakeCreature( pFakeCreature ))
 		{
@@ -4957,7 +4957,7 @@ SkillIllendue(MCreature* pUserCreature, MCreature* pTargetCreature, int skillID,
 		}
 
 		//------------------------------------------------------
-		// ±â¼ú »ç¿ë
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		if (skillID==SKILL_ATTACK_MELEE)
 		{	
@@ -4990,7 +4990,7 @@ SkillIllendue(MCreature* pUserCreature, MCreature* pTargetCreature, int skillID,
 //		pFakeCreature->PacketSpecialActionToOther(
 //			skillID, 
 //			pTargetCreature->GetID(),
-//			pResult			// °á°ú
+//			pResult			// ï¿½ï¿½ï¿½
 //			);			
 	}
 }
@@ -5059,8 +5059,8 @@ SkillBlazeWalk(MCreature* pUserCreature, MCreature* pTargetCreature, int skillID
 	}
 
 	// [ TEST CODE ]
-	// ÁøÇàÁßÀÎ EffectÀÌ¸é Result·Î Ãß°¡ÇØ¾ß ÇÑ´Ù.
-	// Result¸¦ »ý¼ºÇÏ°í..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Effectï¿½Ì¸ï¿½ Resultï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
+	// Resultï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½..
 	// pUserCreature->>AddActionResult( ... )
 	
 	POINT TargetList[3] = 
@@ -5098,7 +5098,7 @@ SkillBlazeWalk(MCreature* pUserCreature, MCreature* pTargetCreature, int skillID
 		pFakeCreature->SetFakeCreatureType( MFakeCreature::FAKE_CREATURE_FAST_MOVE_ACTION );
 		
 		//------------------------------------------------------
-		// Fake Creature¸¦ Zone¿¡ Ãß°¡
+		// Fake Creatureï¿½ï¿½ Zoneï¿½ï¿½ ï¿½ß°ï¿½
 		//------------------------------------------------------
 		if (!g_pZone->AddFakeCreature( pFakeCreature ))
 		{
@@ -5106,7 +5106,7 @@ SkillBlazeWalk(MCreature* pUserCreature, MCreature* pTargetCreature, int skillID
 		}
 		
 		//------------------------------------------------------
-		// ±â¼ú »ç¿ë
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		if (skillID==SKILL_ATTACK_MELEE)
 		{	
@@ -5195,7 +5195,7 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 				if(pFakeCreature != NULL)
 				{
 					g_pZone->RemoveFakeCreature(pCreature->GetPetID());
-					if(pCreature == g_pPlayer)	// ÀÚ±â ÆêÀÎ °æ¿ì
+					if(pCreature == g_pPlayer)	// ï¿½Ú±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 					{
 						UI_RemoveEffectStatus(EFFECTSTATUS_CLIENT_MAGICAL_PET_CHANGER) ; 
 #if __CONTENTS(__EXPERT_PET_CHANGER)
@@ -5205,12 +5205,12 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 				}
 				else
 				{
-					DEBUG_ADD("[GCPetInfoHandler] ÆêÀ» ¾ø¾Ù·Á°í º¸´Ï±î ÁÖÀÎ³ðÀº ÆêÀÌ ÀÖ´Âµ¥ ¸·»ó ÆêÀÌ ¾ø³× ±×·Á");
+					DEBUG_ADD("[GCPetInfoHandler] ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Âµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½");
 				}
 			}
 			else
 			{
-				DEBUG_ADD("[GCPetInfoHandler] ÆêÀ» ¾ø¾Ù·Á°í º¸´Ï±î ÁÖÀÎ³ðÀÌ ÆêÀÌ ¾ø³× ±×·Á");
+				DEBUG_ADD("[GCPetInfoHandler] ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½");
 			}
 		}
 		else
@@ -5219,7 +5219,7 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 
 			ObjectID_t itemID = pPetInfo->getPetItemObjectID();
 
-			if(pCreature == g_pPlayer)		// ÀÚ±â ÆêÀÎ °æ¿ì
+			if(pCreature == g_pPlayer)		// ï¿½Ú±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			{
 				DWORD SubInvetoryID = g_pPlayer->GetItemIDCheckBufferSubInventory();
 				if(SubInvetoryID != 0 && SubInvetoryID != OBJECTID_NULL)
@@ -5249,8 +5249,8 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 				MFakeCreature* pFakeCreature = NULL;
 
 #if __CONTENTS(__PET_VISION_AMPLE)
-				// isSummonInfo°¡ 1ÀÌ¸é ¼ÒÈ¯ÀÌÆåÆ® ¹× ¼ÒÈ¯ ¸Þ¼¼Áö »Ñ¸²
-				// °í·Î isSummonInfo°¡ 2ÀÏ¶© Å©¸®ÃÄ´Â »ý¼ºµÇ°í, ¼ÒÈ¯¹× ¸Þ½ÃÁö°¡ ¾øÀ½
+				// isSummonInfoï¿½ï¿½ 1ï¿½Ì¸ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½Ñ¸ï¿½
+				// ï¿½ï¿½ï¿½ï¿½ isSummonInfoï¿½ï¿½ 2ï¿½Ï¶ï¿½ Å©ï¿½ï¿½ï¿½Ä´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½, ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				bool bSummonEffect = pPetInfo->isSummonInfo()==1?true:false;
 #endif //__PET_VISION_AMPLE
 
@@ -5263,7 +5263,7 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 					if(pFakeCreature == NULL)
 						return;
 
-					// Ä«¶ó °í¾çÀÌ, µ¨¶ó °í¾çÀÌ ÀÌÆåÆ®°¡ °ãÄ¡´Â °Í ¸·À½.
+					// Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 					//------------------------------------------------------------------------------
 					int oldCreatureType = pFakeCreature->GetCreatureType();
 
@@ -5278,14 +5278,14 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 					}
 					//------------------------------------------------------------------------------
 
-					if(pCreature == g_pPlayer)		// ÀÚ±â ÆêÀÎ °æ¿ì
+					if(pCreature == g_pPlayer)		// ï¿½Ú±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 					{
 						MPetItem *pPetItem = pFakeCreature->GetPetItem();
 						if(pPetItem != NULL)
 						{
-							if(pItem->GetID() == pFakeCreature->GetPetItem()->GetID())	// ¿ø·¡²² ¶Ç ³¯¶ó¿Â°æ¿ì
+							if(pItem->GetID() == pFakeCreature->GetPetItem()->GetID())	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Â°ï¿½ï¿½
 							{
-								// »õ ÆêÀÌ ·¹º§ÀÌ 1³ôÀº°æ¿ì
+								// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 								if(pPetInfo->getPetLevel() == pPetItem->GetNumber()+1)
 								{
 									int num1 = pPetInfo->getPetLevel() % 10;
@@ -5298,26 +5298,26 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 										g_pGameMessage->AddFormat((*g_pGameStringTable)[STRING_MESSAGE_NEW_PET_LEVEL_2].GetString(), pPetItem->GetPetName().c_str(), pPetInfo->getPetLevel());
 									}
 
-									// ·¹º§ 10ÀÌ µÇ¼­ ¼Ó¼ºÀ» ºÎ¿©ÇÒ ¼ö ÀÖ´Ù
+									// ï¿½ï¿½ï¿½ï¿½ 10ï¿½ï¿½ ï¿½Ç¼ï¿½ ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½
 									if(pPetInfo->getPetLevel() == 10)
 									{
 										g_pGameMessage->Add((*g_pGameStringTable)[STRING_MESSAGE_PET_CAN_GET_ATTR].GetString());
 									}
 									else
-									// ·¹º§ÀÌ 49°¡ µÇ¼­ ¿É¼ÇÀ» ºÙÀÏ ¼ö ÀÖ´Ù.
+									// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 49ï¿½ï¿½ ï¿½Ç¼ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
 									if(pPetInfo->getPetLevel() == 49)
 									{
 										g_pGameMessage->AddFormat((*g_pGameStringTable)[STRING_MESSAGE_PET_CAN_GET_OPTION].GetString(), pPetItem->GetPetName().c_str());
 									}
 
-									// ¾ÆÁ÷ 2Â÷ ´É·ÂÀÌ ¾ø°í
-									// °×ºí ÇÒ ¼ö ÀÖ´Â °æ¿ì
+									// ï¿½ï¿½ï¿½ï¿½ 2ï¿½ï¿½ ï¿½É·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+									// ï¿½×ºï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 									if(!pPetInfo->canCutHead() && pPetInfo->canGamble())
 									{
 										g_pGameMessage->Add((*g_pGameStringTable)[UI_STRING_MESSAGE_CAN_ENCHANT_PET].GetString());
 									}
 								}
-								// 2Â÷ °×ºí ¼º°ø
+								// 2ï¿½ï¿½ ï¿½×ºï¿½ ï¿½ï¿½ï¿½ï¿½
 								if(pPetInfo->canCutHead() != false && pPetItem->IsCanCutHead() == false)
 								{
 									g_pGameMessage->AddFormat((*g_pGameStringTable)[STRING_MESSAGE_PET_GAMBLE_OK].GetString(), pPetItem->GetPetName().c_str());
@@ -5332,13 +5332,13 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 									UI_UnlockItem();
 									
 								}
-								// 3Â÷ °×ºí ¼º°ø
+								// 3ï¿½ï¿½ ï¿½×ºï¿½ ï¿½ï¿½ï¿½ï¿½
 								else if(pPetInfo->canAttack() != false && pPetItem->IsCanAttack() == false)
 								{
 									g_pGameMessage->AddFormat((*g_pGameStringTable)[STRING_MESSAGE_PET_3RD_GAMBLE_OK].GetString(), pPetItem->GetPetName().c_str());
 									UI_UnlockItem();
 								}
-								// °×ºí ½ÇÆÐ
+								// ï¿½×ºï¿½ ï¿½ï¿½ï¿½ï¿½
 								else if(pPetInfo->canGamble() == false && pPetItem->IsCanGamble() != false)
 								{
 									if(pPetInfo->canCutHead())
@@ -5364,13 +5364,13 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 
 
 					//------------------------------------------------------
-					// Fake Creature¸¦ Zone¿¡ Ãß°¡
+					// Fake Creatureï¿½ï¿½ Zoneï¿½ï¿½ ï¿½ß°ï¿½
 					//------------------------------------------------------
 					if (!g_pZone->AddFakeCreature( pFakeCreature ))
 					{
 						
 						delete pFakeCreature;
-						if(pCreature != g_pPlayer)		// ÀÚ±â ÆêÀÎ °æ¿ì
+						if(pCreature != g_pPlayer)		// ï¿½Ú±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 						{
 							delete pItem;
 						}
@@ -5382,13 +5382,13 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 #if __CONTENTS(__PET_VISION_AMPLE)
 				if(pItem && !pFakeCreature)
 				{
-					if(pPetInfo->getPetAttrLevel() > 0)	// ¼Ó¼ºÀÌ ÀÖ´Â °æ¿ì´Â »ö Ç¥½Ã
+					if(pPetInfo->getPetAttrLevel() > 0)	// ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ç¥ï¿½ï¿½
 					{
 						//	2009.11.27 by neclipse
-						//	ºí·çµå·Ó ¿§Áö¿Í »þÀÎÀÌ ³ª¿À¸é¼­ ÀÎÃ¾Æ® °¡´É ¹üÀ§°¡ º¯°æÀÌ µÇ¾ú´Ù.
-						//	º¯°æÀÌ µÇ¸é¼­ ¹®Á¦Á¡Àº Æê ¾ÆÀÌÅÛÀÇ °æ¿ì ÀÎÃ¾Æ® °¡´É ¹üÀ§¿¡¼­ °¡Àå ¸¶Áö¸· ¿É¼ÇÀÇ »öÀ¸·Î º¸¿©ÁØ´Ù´Â °ÍÀÌ´Ù.
-						//	ÇöÀç´Â ¹üÀ§°¡ º¯°æ µÇ¾úÀ¸¹Ç·Î »ö¸¶Àú º¯°æµÇ´Â »óÈ²..
-						//	±âÁ¸°ú µ¿ÀÏÇÏ°Ô °¡±â À§ÇØ¼± ÀÌÀü¿¡ »ç¿ëÇß´ø »öÀ» »ç¿ëÇÏ´Â °ÍÀÌ´Ù.
+						//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½é¼­ ï¿½ï¿½Ã¾Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½.
+						//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸é¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¾Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´Ù´ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
+						//	ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½È²..
+						//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ß´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
 						/*ITEMOPTION_TABLE::ITEMOPTION_PART optionPart = static_cast<ITEMOPTION_TABLE::ITEMOPTION_PART>(pPetInfo->getPetAttr());
 
 						int size = g_pItemOptionTable->GetSize();
@@ -5403,7 +5403,7 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 							}
 						}*/
 
-						//	by neclipse ´Ù¸¥ Á¶°ÇÀ¸·Î Àû¿ë
+						//	by neclipse ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 						ITEMOPTION_TABLE::ITEMOPTION_PART optionPart = static_cast<ITEMOPTION_TABLE::ITEMOPTION_PART>(pPetInfo->getPetAttr());
 						pItem->SetItemColorSet(ITEM_COLOR_PART[optionPart]);
 					}
@@ -5431,7 +5431,7 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 					pItem->ClearItemOption();
 					if(pPetInfo->getPetOption() != NULL)
 					{
-						pItem->AddItemOption(pPetInfo->getPetOption());		// ·¹µå ¹öµå·Î ÀÎÃ¾Æ®ÇÑ ¿É¼Ç
+						pItem->AddItemOption(pPetInfo->getPetOption());		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¾Æ®ï¿½ï¿½ ï¿½É¼ï¿½
 #if __CONTENTS(__PET_VISION_AMPLE)
 						pItem->SetPet_RedBirdOptionNum(pPetInfo->getPetOption());
 #endif //__PET_VISION_AMPLE
@@ -5440,17 +5440,17 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 #if __CONTENTS(__PET_VISION_AMPLE)
 					if(pPetInfo->getPetOption2() != NULL)
 					{
-						pItem->AddItemOption(pPetInfo->getPetOption2());	// ºñÁ¯¾ÚÇÃ·Î ÀÎÃ¾Æ®ÇÑ ¿É¼Ç
+						pItem->AddItemOption(pPetInfo->getPetOption2());	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ ï¿½ï¿½Ã¾Æ®ï¿½ï¿½ ï¿½É¼ï¿½
 						pItem->SetPet_AmpulOptionNum(pPetInfo->getPetOption2());
 					}
 #endif //__PET_VISION_AMPLE
 					
 #if __CONTENTS(__NEW_PET_INCUBUS)
-					// 081203 wlzzi - OptionTypeÃß°¡
+					// 081203 wlzzi - OptionTypeï¿½ß°ï¿½
 					// 2008-12-09 - ij-ch
-					// 12¿ù À¯·á¾ÆÀÌÅÛ(ÀÎÅ¥¹ö½º)ÀÌÈÄÀÇ ±âº»¿É¼ÇÀ¸·Î ºÙÀÏ ¿É¼Ç
-					// Å¬¶óÀÌ¾ðÆ®ÀÇ UI»ó¿¡¼­´Â °°Àº list<TYPE_ITEM_OPTION>±¸Á¶¿¡ ¿É¼ÇÀ» ADD()½ÃÄÑÁÖÁö¸¸
-					// ¼­¹ö»ó¿¡¼­´Â Æê ¿É¼Ç°ú ¾ÆÀÌÅÛ¿É¼ÇÀº ³ª´µ¾îÁ® ÀÖ´Ù.
+					// 12ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½âº»ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½
+					// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ UIï¿½ó¿¡¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ list<TYPE_ITEM_OPTION>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ADD()ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ó¿¡¼ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½É¼Ç°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û¿É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½.
 					const std::list<TYPE_ITEM_OPTION> &optionList = pPetInfo->getOptionType();
 					std::list<TYPE_ITEM_OPTION>::const_iterator itr= optionList.begin();
 					
@@ -5469,13 +5469,13 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 				{
 					pFakeCreature->SetCreatureType(pPetInfo->getPetCreatureType());
 
-					if(pPetInfo->getPetAttrLevel() > 0)	// ¼Ó¼ºÀÌ ÀÖ´Â °æ¿ì´Â »ö Ç¥½Ã
+					if(pPetInfo->getPetAttrLevel() > 0)	// ï¿½Ó¼ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ç¥ï¿½ï¿½
 					{
 						//	2009.11.27 by neclipse
-						//	ºí·çµå·Ó ¿§Áö¿Í »þÀÎÀÌ ³ª¿À¸é¼­ ÀÎÃ¾Æ® °¡´É ¹üÀ§°¡ º¯°æÀÌ µÇ¾ú´Ù.
-						//	º¯°æÀÌ µÇ¸é¼­ ¹®Á¦Á¡Àº Æê ¾ÆÀÌÅÛÀÇ °æ¿ì ÀÎÃ¾Æ® °¡´É ¹üÀ§¿¡¼­ °¡Àå ¸¶Áö¸· ¿É¼ÇÀÇ »öÀ¸·Î º¸¿©ÁØ´Ù´Â °ÍÀÌ´Ù.
-						//	ÇöÀç´Â ¹üÀ§°¡ º¯°æ µÇ¾úÀ¸¹Ç·Î »ö¸¶Àú º¯°æµÇ´Â »óÈ²..
-						//	±âÁ¸°ú µ¿ÀÏÇÏ°Ô °¡±â À§ÇØ¼± ÀÌÀü¿¡ »ç¿ëÇß´ø »öÀ» »ç¿ëÇÏ´Â °ÍÀÌ´Ù.
+						//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½é¼­ ï¿½ï¿½Ã¾Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½.
+						//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸é¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¾Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´Ù´ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
+						//	ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½È²..
+						//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ß´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
 						/*ITEMOPTION_TABLE::ITEMOPTION_PART optionPart = static_cast<ITEMOPTION_TABLE::ITEMOPTION_PART>(pPetInfo->getPetAttr());
 
 						int size = g_pItemOptionTable->GetSize();
@@ -5493,7 +5493,7 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 							}
 						}*/
 
-						//	by neclipse ´Ù¸¥ Á¶°ÇÀ¸·Î Àû¿ë
+						//	by neclipse ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 						ITEMOPTION_TABLE::ITEMOPTION_PART optionPart = static_cast<ITEMOPTION_TABLE::ITEMOPTION_PART>(pPetInfo->getPetAttr());
 						pFakeCreature->SetBodyColor1(ITEM_COLOR_PART[optionPart]);
 						pFakeCreature->SetBodyColor2(ITEM_COLOR_PART[optionPart]);
@@ -5511,7 +5511,7 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 					pFakeCreature->SetOwnerID(pCreature->GetID());
 					pFakeCreature->SetFakeCreatureType( MFakeCreature::FAKE_CREATURE_TRACE );
 
-						if(pItem->GetItemType() >= 4)	// ÆêÀÌ ³¯¶ó ´Ù´Ò¶§ 4:¹ì2Â÷Æê, 5:¾Æ¿ì2Â÷Æê
+						if(pItem->GetItemType() >= 4)	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù´Ò¶ï¿½ 4:ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½, 5:ï¿½Æ¿ï¿½2ï¿½ï¿½ï¿½ï¿½
 						pFakeCreature->SetMoveType(MCreature::CREATURE_FAKE_FLYING);
 					else
 						pFakeCreature->SetMoveType(MCreature::CREATURE_FAKE_GROUND);
@@ -5523,7 +5523,7 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 					pFakeCreature->SetTraceID( objectID ); 
 					pFakeCreature->SyncTurretDirection();
 					
-					// FakeCreature°¡ Á¤»óÀûÀ¸·Î Ãß°¡ µÇ¾ú´Ù
+					// FakeCreatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½
 					pFakeCreature->SetPetItem(pItem);
 
 					pItem->SetCurrentDurability( pPetInfo->getPetHP() );
@@ -5546,7 +5546,7 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 					pItem->ClearItemOption();
 					if(pPetInfo->getPetOption() != NULL)
 					{
-						pItem->AddItemOption(pPetInfo->getPetOption());		// ·¹µå ¹öµå·Î ÀÎÃ¾Æ®ÇÑ ¿É¼Ç
+						pItem->AddItemOption(pPetInfo->getPetOption());		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¾Æ®ï¿½ï¿½ ï¿½É¼ï¿½
 #if __CONTENTS(__PET_VISION_AMPLE)
 						pItem->SetPet_RedBirdOptionNum(pPetInfo->getPetOption());
 #endif //__PET_VISION_AMPLE
@@ -5555,17 +5555,17 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 #if __CONTENTS(__PET_VISION_AMPLE)
 					if(pPetInfo->getPetOption2() != NULL)
 					{
-						pItem->AddItemOption(pPetInfo->getPetOption2());	// ºñÁ¯¾ÚÇÃ·Î ÀÎÃ¾Æ®ÇÑ ¿É¼Ç
+						pItem->AddItemOption(pPetInfo->getPetOption2());	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ ï¿½ï¿½Ã¾Æ®ï¿½ï¿½ ï¿½É¼ï¿½
 						pItem->SetPet_AmpulOptionNum(pPetInfo->getPetOption2());
 					}
 #endif //__PET_VISION_AMPLE
 					
 #if __CONTENTS(__NEW_PET_INCUBUS)
-					// 081203 wlzzi - OptionTypeÃß°¡
+					// 081203 wlzzi - OptionTypeï¿½ß°ï¿½
 					// 2008-12-09 - ij-ch
-					// 12¿ù À¯·á¾ÆÀÌÅÛ(ÀÎÅ¥¹ö½º)ÀÌÈÄÀÇ ±âº»¿É¼ÇÀ¸·Î ºÙÀÏ ¿É¼Ç
-					// Å¬¶óÀÌ¾ðÆ®ÀÇ UI»ó¿¡¼­´Â °°Àº list<TYPE_ITEM_OPTION>±¸Á¶¿¡ ¿É¼ÇÀ» ADD()½ÃÄÑÁÖÁö¸¸
-					// ¼­¹ö»ó¿¡¼­´Â Æê ¿É¼Ç°ú ¾ÆÀÌÅÛ¿É¼ÇÀº ³ª´µ¾îÁ® ÀÖ´Ù.
+					// 12ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½âº»ï¿½É¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½
+					// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ UIï¿½ó¿¡¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ list<TYPE_ITEM_OPTION>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ADD()ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ó¿¡¼ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½É¼Ç°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û¿É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½.
 					const std::list<TYPE_ITEM_OPTION> &optionList = pPetInfo->getOptionType();
 					std::list<TYPE_ITEM_OPTION>::const_iterator itr= optionList.begin();
 					
@@ -5579,7 +5579,7 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 #endif //__PET_MIXINGFORGE
 
 					pFakeCreature->SetName(pItem->GetPetName().c_str());
-//20081007 petTypeº¯¼ö ¾Æ·¡ÂÊ¿¡ ÀÖ´ø°É À§¾Ö¼­µµ ¾²±â À§ÇØ¼­ ²ø¾î ¿Ã¸²
+//20081007 petTypeï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ï¿½Ê¿ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½
 					PetType_t petType = pPetInfo->getPetType();
 					
 #if __CONTENTS(__PET_VISION_AMPLE)
@@ -5599,7 +5599,7 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 #endif //__2008_OCTOBER_MAKETITEM || __NEW_PET_INCUBUS
 						g_pTopView->VampireComeFromPortal( pFakeCreature );
 
-						if(pCreature == g_pPlayer)	// ÀÚ±â ÆêÀÎ °æ¿ì
+						if(pCreature == g_pPlayer)	// ï¿½Ú±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 						{
 							g_pSystemMessage->AddFormat((*g_pGameStringTable)[STRING_MESSAGE_PET_SUMMON].GetString(), pItem->GetPetName().c_str());
 							//if(pPetInfo->getMagicRemainSec() > 0 )
@@ -5626,7 +5626,7 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 
 
 					//////////////////////////////////////////////////////////////////////////
-					// Idle Action Ãß°¡
+					// Idle Action ï¿½ß°ï¿½
 					if(petType == 6 || petType == 7 || petType == 8
 #if __CONTENTS(__NEW_PET_FIRE_ELEMENTAL)
 					|| petType == 9
@@ -5664,16 +5664,16 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 					|| (petType >= 28 && petType < 65)
 #endif //__UPGRADE_MONSTER_PET
 
-						)	// ·çÆë
+						)	// ï¿½ï¿½ï¿½ï¿½
 					{
 						pFakeCreature->AddIdleAction(ACTION_ATTACK);
 						pFakeCreature->AddIdleAction(ACTION_DAMAGED);
 					}
 
 					//////////////////////////////////////////////////////////////////////////
-					// Pet Effect Ãß°¡
+					// Pet Effect ï¿½ß°ï¿½
 
-					// ÀÏ´Ü ´Ù Áö¿î´Ù.
+					// ï¿½Ï´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 					pFakeCreature->ClearEffectStatus();
 
 					int enchantSkillType = pPetInfo->getEnchantSkillType() - 1;
@@ -5684,13 +5684,13 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 
 						switch(petType)
 						{
-						case 1: case 2: case 6: case 9: // ¿ïÇÁµ¶, ¿ï¹ö¸°, ·çÆë, ÆÄÀÌ¾î¿¤¸®¸àÅ»
+						case 1: case 2: case 6: case 9: // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ì¾î¿¤ï¿½ï¿½ï¿½ï¿½Å»
 							petEffectOffset = EFFECTSTATUS_CLIENT_PET_EFFECT_WOLF_SHOCK_CAPSULE; break;
-						case 3: // ¼¾Å¸¿ì·Î(ÅÊÅ©)
+						case 3: // ï¿½ï¿½Å¸ï¿½ï¿½ï¿½(ï¿½ï¿½Å©)
 							petEffectOffset = EFFECTSTATUS_CLIENT_PET_EFFECT_CENTAURO_SHOCK_CAPSULE; break;
-						case 4: // ½ºÆ¼Áö(¹ÚÁã)
+						case 4: // ï¿½ï¿½Æ¼ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)
 							petEffectOffset = EFFECTSTATUS_CLIENT_PET_EFFECT_STIRGE_SHOCK_CAPSULE; break;
-						case 5: // ÇÈ½Ã
+						case 5: // ï¿½È½ï¿½
 							petEffectOffset = EFFECTSTATUS_CLIENT_PET_EFFECT_PIXIE_SHOCK_CAPSULE; break;
 						}
 
@@ -5698,9 +5698,9 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 
 						pFakeCreature->AddEffectStatus(petEffect, 0xFFFF);
 					}
-//20081002 ¶ÇÇÏ³ªÀÇ ÇÏµåÄÚµù? ¿©Æ° Æê¿¡ Å¬¶óÀÌ¾ðÆ® Àü¿ë EFFECTSTATUS¸¦ ºÙ¿©¼­ Æê¿¡ Áö¼ÓÇü ÀÌÆåÆ®¸¦ ºÙ¿©¼­ º¸¿©ÁØ´Ù.
-//Å¸ÀÎµµ º¸¿©ÁÖ±â À§ÇØ¼­ ¿©±â¼­ ºÙ¿©Áà¾ß ÇÑ´Ù.
-//ÀÌ·± Áö¼ÓÇü ÀÌÆåÆ® ºÙ´Â Ä³ÀÌ½º°¡ ´Ã¾î³ª¸é case¹®À¸·Î º¯°æ ÇØµµ ÁÁÀ»µí
+//20081002 ï¿½ï¿½ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ïµï¿½ï¿½Úµï¿½? ï¿½ï¿½Æ° ï¿½ê¿¡ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ EFFECTSTATUSï¿½ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½ ï¿½ê¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
+//Å¸ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½â¼­ ï¿½Ù¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+//ï¿½Ì·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ù´ï¿½ Ä³ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½Ã¾î³ªï¿½ï¿½ caseï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Øµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #if __CONTENTS(__2008_OCTOBER_MAKETITEM)
 					if(petType == 10)
 					{
@@ -5708,7 +5708,7 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 					}
 #endif //__2008_OCTOBER_MAKETITEM
 
-					// ¸ö¿¡ ÀÌÆÑÆ®°¡ ºÙ´Â Creature¶ó¸é ÀÌÆÑÆ®¸¦ ºÙ¿©ÁØ´Ù.
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ù´ï¿½ Creatureï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ù¿ï¿½ï¿½Ø´ï¿½.
 					if(pPetInfo->getPetCreatureType() < g_pCreatureTable->GetSize())
 					{
 						CREATURETABLE_INFO &creatureInfo = g_pCreatureTable->Get(pPetInfo->getPetCreatureType());
@@ -5731,13 +5731,13 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 			}
 			else
 			{
-				DEBUG_ADD_FORMAT("Æê ºÙÀÏ·Á°í ¾ÆÀÌÅÛ Ã£¾Æº¸´Ï ¾ÆÀÌÅÛ(%d) ¾øÀ½", itemID);
+				DEBUG_ADD_FORMAT("ï¿½ï¿½ ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Æºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(%d) ï¿½ï¿½ï¿½ï¿½", itemID);
 			}
 		}
 	}
 	else
 	{
-		DEBUG_ADD("[GCPetInfoHandler] ÆêÀ¸·Î ¸Õ°¡ ÇØº¼¶ó´Ï±î ÁÖÀÎ³ðÀÌ ¾ø³× ±×·Á");
+		DEBUG_ADD("[GCPetInfoHandler] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Õ°ï¿½ ï¿½Øºï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Î³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½");
 		return;
 	}
 
@@ -5806,7 +5806,7 @@ SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID)
 		}
 	}
 
-	// ÀÚ±â ÆêÀÎ °æ¿ì
+	// ï¿½Ú±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	if(pCreature == g_pPlayer)
 	{
 		if(pPetItem == NULL)
@@ -5850,7 +5850,7 @@ void	AddOustersElemental( MCreature *pOwnerCreature, int creatureType, int statu
 	MFakeCreature *pFakeCreature = g_pZone->NewFakeCreature(creatureType, p.x, p.y, dir );
 
 	//------------------------------------------------------
-	// Fake Creature¸¦ Zone¿¡ Ãß°¡
+	// Fake Creatureï¿½ï¿½ Zoneï¿½ï¿½ ï¿½ß°ï¿½
 	//------------------------------------------------------
 	if (!g_pZone->AddFakeCreature( pFakeCreature ))
 	{
@@ -6053,7 +6053,7 @@ BOOL GetMacAddressFromSock()
     return(bRet) ;
 }
 
-// 2004, 8, 26, sobeit add start - mac address Ã¼Å©ÇØ¼­ À©µµ ¸ðµå º¯°æ
+// 2004, 8, 26, sobeit add start - mac address Ã¼Å©ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 std::string GetLocalIP()
 {
 	WORD wVersionRequested;
@@ -6082,155 +6082,155 @@ CheckMacScreenMode()
 	typedef std::map<std::string,std::string>			MACINFO_MAP;
 	MACINFO_MAP MacInfo_Map;
 
-	// ¹ÚÂùÈ£
+	// ï¿½ï¿½ï¿½ï¿½È£
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1B-FC-FB-94-30", "123.215.22.184"));
 
 	//////////////////////////////////////////////////////////////////////////////////////////
- 	// ÇÁ·Î±×·¥ÆÀ
+ 	// ï¿½ï¿½ï¿½Î±×·ï¿½ï¿½ï¿½
 	
-	// ¹ÚÁØ¿ë
+	// ï¿½ï¿½ï¿½Ø¿ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-19-D1-63-7A-1C", "123.215.22.201"));
-	// Áø±â¿µ
+	// ï¿½ï¿½ï¿½â¿µ
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1B-FC-E3-BC-7D", "123.215.22.241"));
-	// ±è¼º¿ë
+	// ï¿½è¼ºï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1E-8C-BE-11-81", "123.215.22.202"));
-	// ¹Úµ¿Áø
+	// ï¿½Úµï¿½ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-E0-4C-77-19-E0", "123.215.22.204"));
-	// ±è¿µÃ¤
+	// ï¿½è¿µÃ¤
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-19-D1-59-9E-1C", "123.215.22.203"));
-	// ¹ÚÂù¿ë
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("02-FF-3F-C2-12-46", "123.215.22.148"));
-	// ÀÌ±ÇÈ®
+	// ï¿½Ì±ï¿½È®
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1D-60-35-5E-4E", "123.215.22.200"));
-	// ÃµÀÏÀç
+	// Ãµï¿½ï¿½ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1E-8C-BE-14-E6", "123.215.22.186"));
 
-	// ±èÁÖ¿¬
+	// ï¿½ï¿½ï¿½Ö¿ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-19-D1-63-8F-54", "123.215.22.175"));
 	
 // 	//////////////////////////////////////////////////////////////////////////////////////////
-// 	// ±âÈ¹ÆÀ
+// 	// ï¿½ï¿½È¹ï¿½ï¿½
 // 
-// 	// ÃÖÀ±¼®
+// 	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1B-FC-E3-BC-7F", "123.215.22.167"));
-	// °­Á¾ÈÆ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1D-7D-C2-3F-2D", "123.215.22.151"));
 
 // 
 // 
 // 	//////////////////////////////////////////////////////////////////////////////////////////
-// 	// DB ÆÀ
+// 	// DB ï¿½ï¿½
 // 	
-// 	// ¹Ú¼º¿ø
+// 	// ï¿½Ú¼ï¿½ï¿½ï¿½
  	MacInfo_Map.insert(MACINFO_MAP::value_type("00-16-E6-D8-53-53", "123.215.22.156"));
 // 	
 // 
 // 	//////////////////////////////////////////////////////////////////////////////////////////
-// 	// ±×·¡ÇÈÆÀ
+// 	// ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½
 // 
-// 	// ÇÑ±¤½Ä
+// 	// ï¿½Ñ±ï¿½ï¿½ï¿½
  	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1B-FC-E3-BC-35", "123.215.22.218"));
-	// ÀÌÇöÁ¾
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1B-FC-B3-70-D6", "123.215.22.238"));
-	// ÀÌÁØÈ£
+	// ï¿½ï¿½ï¿½ï¿½È£
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1F-D0-93-3A-F7", "123.215.22.161"));
 
 // 	//////////////////////////////////////////////////////////////////////////////////////////
-// 	// °í°´Áö¿øÆÀ
+// 	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // 	
- 	// Á¤¿µÈ£	
+ 	// ï¿½ï¿½ï¿½ï¿½È£	
  	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1D-7D-CC-BB-91", "123.215.22.162"));
- 	// Çãµµ¿í
+ 	// ï¿½ãµµï¿½ï¿½
  	MacInfo_Map.insert(MACINFO_MAP::value_type("00-19-D1-64-15-FD", "123.215.22.163"));
- 	// ±è¸íÈ£
+ 	// ï¿½ï¿½ï¿½È£
  	MacInfo_Map.insert(MACINFO_MAP::value_type("00-11-D8-DA-40-3D", "123.215.22.166"));
- 	// È²¹Ì¶ó
+ 	// È²ï¿½Ì¶ï¿½
  	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1D-7D-E5-4C-C1", "123.215.22.164"));
-	// ÇÑÁ¤¼ö
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1D-7D-A1-7F-7A", "123.215.22.208"));
-	//ÀÌÀ±Á¤
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1D-7D-9D-36-28", "123.215.22.170"));
-	//±èÁ¤ÇÐ
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1D-7D-A3-AC-A1", "123.215.22.182"));
-	//¸íÈñ¾¾
+	//ï¿½ï¿½ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1D-7D-A3-A8-A5", "211.178.176.157"));
-	//Á¤´Ù¿ò - ÀÏº»
+	//ï¿½ï¿½ï¿½Ù¿ï¿½ - ï¿½Ïºï¿½
 	//MacInfo_Map.insert(MACINFO_MAP::value_type("00-50-CE-30-AD-27", "211.178.176.156"));
-	//À¯½Â¿¬
+	//ï¿½ï¿½ï¿½Â¿ï¿½
 	//MacInfo_Map.insert(MACINFO_MAP::value_type("00-1D-7D-A3-A8-A5", "123.215.22.226"));
-	//Á¶Àå¿ë
+	//ï¿½ï¿½ï¿½ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-19-D1-ED-52-9D", "123.215.22.183"));
-	//±èÇö¿ì
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-19-D1-59-BF-9E", "123.215.22.131"));
-	//Çý½Å¾¾
+	//ï¿½ï¿½ï¿½Å¾ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1D-7D-93-83-7B", "123.215.22.234"));
 
 
 // 
 // 
 // 	//////////////////////////////////////////////////////////////////////////////////////////
-// 	// ³×Æ®¿öÅ©ÆÀ
+// 	// ï¿½ï¿½Æ®ï¿½ï¿½Å©ï¿½ï¿½
 // 
 // 
 // 
 // 	//////////////////////////////////////////////////////////////////////////////////////////
-// 	// ÇØ¿Ü»ç¾÷ÆÀ
+// 	// ï¿½Ø¿Ü»ï¿½ï¿½ï¿½ï¿½
 // 
 // 
 // 
 // 	//////////////////////////////////////////////////////////////////////////////////////////
-// 	// ¸¶ÄÉÆÃÆÀ
+// 	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // 
 // 
 // 
 // 	//////////////////////////////////////////////////////////////////////////////////////////
-// 	// À¥¼­ºñ½ºÆÀ
+// 	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // 
- 	// ±è¿µÈ­
+ 	// ï¿½è¿µÈ­
  	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1B-FC-D5-10-E3", "123.215.22.210"));
- 	// È²¼ºÇö
+ 	// È²ï¿½ï¿½ï¿½ï¿½
  	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1D-7D-9B-59-B2", "123.215.22.187"));
 	
 // 
 // 
 // 	//////////////////////////////////////////////////////////////////////////////////////////
-// 	// »ç¾÷ÆÀ
+// 	// ï¿½ï¿½ï¿½ï¿½ï¿½
 // 
-// 	// ¹Ú¼º±¸
+// 	// ï¿½Ú¼ï¿½ï¿½ï¿½
 // 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-11-2F-25-99-0C", "222.106.218.147"));
-// 	// Àå½Â¿¬
+// 	// ï¿½ï¿½Â¿ï¿½
  	MacInfo_Map.insert(MACINFO_MAP::value_type("00-0C-6E-60-79-A4", "211.178.176.157"));
-	// ±èÇö±â
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  	MacInfo_Map.insert(MACINFO_MAP::value_type("00-0E-A6-3C-A4-96", "123.215.22.140"));
-	// ÀÌÁ¾Çü
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  	MacInfo_Map.insert(MACINFO_MAP::value_type("00-1D-7D-D3-62-CE", "211.178.176.150"));
 
 // 	//////////////////////////////////////////////////////////////////////////////////////////
-// 	// ÇÃ·§ÆûÆÀ
+// 	// ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½
 //
-	// ¿À³ª¿µ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-16-E6-D8-53-53", "123.215.22.153"));
-	// ÀåÈ«¼ø
+	// ï¿½ï¿½È«ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("0A-0A-0A-0A-16-16", "123.125.22.158"));
 
 // 	//////////////////////////////////////////////////////////////////////////////////////////
-// 	// ±×·¡ÇÈÆÀ
+// 	// ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½
 //
-	// ÃÖÈ£Áø
+	// ï¿½ï¿½È£ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-19-D1-E7-B9-2A", "123.215.22.193"));
 
 
 //////////////////////////////////////////////////////////////////////////
-// D2 ±âÈ¹ÆÀ
+// D2 ï¿½ï¿½È¹ï¿½ï¿½
 
-//	// ÁöÀ¯Á¤
+//	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	MacInfo_Map.insert(MACINFO_MAP::value_type("00-19-D1-59-B0-BC", "123.215.22.212"));
 
 	
 	char szMyMac[32];
 	sprintf(szMyMac, "%02X-%02X-%02X-%02X-%02X-%02X", g_macAddress[0], g_macAddress[1], g_macAddress[2], g_macAddress[3], g_macAddress[4], g_macAddress[5]);
 
-	MACINFO_MAP::const_iterator itr = MacInfo_Map.find(szMyMac); // ³» Mac Addresss°¡ ÀÖ³ª Ã£±â.
+	MACINFO_MAP::const_iterator itr = MacInfo_Map.find(szMyMac); // ï¿½ï¿½ Mac Addresssï¿½ï¿½ ï¿½Ö³ï¿½ Ã£ï¿½ï¿½.
 	
 	if(itr != MacInfo_Map.end())
 	{
@@ -6243,20 +6243,20 @@ CheckMacScreenMode()
 	
 	return false;
 }
-// 2004, 8, 26, sobeit add end - mac address Ã¼Å©ÇØ¼­ À©µµ ¸ðµå º¯°æ
+// 2004, 8, 26, sobeit add end - mac address Ã¼Å©ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 
-// 2004, 04, 3 sobeit add start - Áúµå·¹ ¸Ê ÀÌÆåÆ® Ãß°¡ , »èÁ¦
-// nEffect : 1 (À§ÂÊ ÀÌÆåÆ®), 2 (¾Æ·¡ÂÊ ÀÌÆåÆ®)
-	// bAppearBossMonster : true( ¸Ê ·Îµù½Ã È¤Àº º¸½º¸÷ÀÌ Á×¾úÀ» ¶§) , false ( º¸½º¸÷ÀÌ ³ª¿À´Â ¼ø°£ ÀÌÆåÆ® )
+// 2004, 04, 3 sobeit add start - ï¿½ï¿½ï¿½å·¹ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ß°ï¿½ , ï¿½ï¿½ï¿½ï¿½
+// nEffect : 1 (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®), 2 (ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®)
+	// bAppearBossMonster : true( ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ È¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¾ï¿½ï¿½ï¿½ ï¿½ï¿½) , false ( ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® )
 void 
 Add_GDR_Effect(int nEffect, bool bAppearBossMonster)
 {
-	if(1413 != g_pZone->GetID()) // Áúµå·¹ ÇÏµå only
+	if(1413 != g_pZone->GetID()) // ï¿½ï¿½ï¿½å·¹ ï¿½Ïµï¿½ only
 		return;
-	if(1 == nEffect) // À§ÂÊ ÀÌÆåÆ®
+	if(1 == nEffect) // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 	{
-		if(bAppearBossMonster) // º¸½º¸÷ÀÌ ³ª¿À´Â ¼ø°£ ÀÌÆåÆ®
+		if(bAppearBossMonster) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 		{
 //			MEvent event;
 //			event.eventID = EVENTID_CONTINUAL_GROUND_ATTACK;
@@ -6300,7 +6300,7 @@ Add_GDR_Effect(int nEffect, bool bAppearBossMonster)
 			ExecuteActionInfoFromMainNode(MAP_ELECTRIC_POST,0, 0, 0,g_pPlayer->GetDirection(),	g_pPlayer->GetID(),	
 					130, 87, 0, 0, NULL, false);	
 		}
-		else // ±âº» effect ( º¸½º¸÷ÀÌ Á×°Å³ª ¸Ê ·Îµù½Ã)
+		else // ï¿½âº» effect ( ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×°Å³ï¿½ ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½)
 		{
 			ExecuteActionInfoFromMainNode(MAP_BLACK_SMALL_SMOKE_1,0, 0, 0,g_pPlayer->GetDirection(),	g_pPlayer->GetID(),	
 				136, 86, 0, 0, NULL, false);								
@@ -6331,9 +6331,9 @@ Add_GDR_Effect(int nEffect, bool bAppearBossMonster)
 				130, 87, 0, 0, NULL, false);	
 		}
 	}
-	else if(2 == nEffect) // ¾Æ·¡ÂÊ ÀÌÆåÆ®
+	else if(2 == nEffect) // ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 	{
-		if(bAppearBossMonster) // º¸½º¸÷ÀÌ ³ª¿À´Â ¼ø°£ ÀÌÆåÆ®
+		if(bAppearBossMonster) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 		{
 			g_pZone->RemoveTileEffect(83, 139,EFFECTSTATUS_BLACK_SMALL_SMOKE_1);
 			g_pZone->RemoveTileEffect(83, 139-1,EFFECTSTATUS_BLACK_SMALL_SMOKE_2);
@@ -6361,7 +6361,7 @@ Add_GDR_Effect(int nEffect, bool bAppearBossMonster)
 			ExecuteActionInfoFromMainNode(MAP_ELECTRIC_POST,0, 0, 0,g_pPlayer->GetDirection(),	g_pPlayer->GetID(),	
 					76, 141, 0, 0, NULL, false);	
 		}
-		else // ±âº» effect ( º¸½º¸÷ÀÌ Á×°Å³ª ¸Ê ·Îµù½Ã)
+		else // ï¿½âº» effect ( ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×°Å³ï¿½ ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½)
 		{
 			ExecuteActionInfoFromMainNode(MAP_BLACK_SMALL_SMOKE_1,0, 0, 0,g_pPlayer->GetDirection(),	g_pPlayer->GetID(),	
 				83, 139, 0, 0, NULL, false);								
@@ -6393,12 +6393,12 @@ Add_GDR_Effect(int nEffect, bool bAppearBossMonster)
 		}
 	}
 }
-// 2004, 04, 3 sobeit add end - Áúµå·¹ ¸Ê ÀÌÆåÆ® Ãß°¡
+// 2004, 04, 3 sobeit add end - ï¿½ï¿½ï¿½å·¹ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ß°ï¿½
 
-// 2004, 06, 26 sobeit add start - ÀÏ·çÀü½º ¿þÀÌ Æ÷Å»
-void Add_GDR_Potal_Effect(int nMapID)
+// 2004, 06, 26 sobeit add start - ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å»
+void Add_GDR_Portal_Effect(int nMapID)
 {
-	if(nMapID == 1410) // ÀÏ·çÀü½º ¿þÀÌ 1
+	if(nMapID == 1410) // ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 1
 	{
 		ExecuteActionInfoFromMainNode(MAP_GDR_LAIR_POTAL,0, 0, 0,0, 0,	
 				73, 80, 0, 0, NULL, false);			
@@ -6418,9 +6418,9 @@ void Add_GDR_Potal_Effect(int nMapID)
 	}
 }
 
-// 2004, 06, 26 sobeit add end - ÀÏ·çÀü½º ¿þÀÌ Æ÷Å»
+// 2004, 06, 26 sobeit add end - ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å»
 
-// 2004, 08, 6 sobeit add start - °¢ Á¾Á·º° ¸ó½ºÅÍ Ãß°¡
+// 2004, 08, 6 sobeit add start - ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 void Add_Race_SlayerMonster(GCAddMonster * pPacket)
 {
 	MCreature* pCreature = g_pZone->GetCreature(pPacket->getObjectID());
@@ -6449,14 +6449,14 @@ void Add_Race_SlayerMonster(GCAddMonster * pPacket)
 		pCreatureWear->SetCurrentDirection( pPacket->getDir() );
 		pCreatureWear->SetAction( ACTION_STAND );
 
-		// ÇÇºÎ»ö
+		// ï¿½ÇºÎ»ï¿½
 //			pCreatureWear->SetBodyColor1( si.getSkinColor() );
 		pCreatureWear->SetStatus( MODIFY_MAX_HP, pPacket->getMaxHP() );
 		pCreatureWear->SetStatus( MODIFY_CURRENT_HP,  pPacket->getCurrentHP() );
 //			pCreatureWear->SetStatus( MODIFY_ALIGNMENT, si.getAlignment() );
 //			pCreatureWear->SetStatus( MODIFY_RANK, si.getRank() );
 
-		// ÀÌ¸§
+		// ï¿½Ì¸ï¿½
 		pCreatureWear->SetName( pPacket->getMonsterName().c_str() );
 
 		MItem* pCoat		= NULL;
@@ -6484,7 +6484,7 @@ void Add_Race_SlayerMonster(GCAddMonster * pPacket)
 		else
 		{
 			//----------------------------------------	
-			// º¹Àå - ¾Ï²¨³ª ÀÔÈ÷ÀÚ..-_-; ÃÑÀº sr
+			// ï¿½ï¿½ï¿½ï¿½ - ï¿½Ï²ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..-_-; ï¿½ï¿½ï¿½ï¿½ sr
 			//----------------------------------------	
 			pCoat		= g_pPacketItemJacket[JACKET3];
 			pTrouser		= g_pPacketItemPants[PANTS3];
@@ -6526,7 +6526,7 @@ void Add_Race_SlayerMonster(GCAddMonster * pPacket)
 		pCreature->SetCurrentDirection( pPacket->getDir() );
 		pCreature->SetAction( ACTION_STAND );
 
-		// ÇÇºÎ»ö
+		// ï¿½ÇºÎ»ï¿½
 //		pCreature->SetBodyColor1( si.getSkinColor() );
 
 		pCreature->SetStatus( MODIFY_MAX_HP, pPacket->getMaxHP() );
@@ -6557,7 +6557,7 @@ void Add_Race_OustersMonster(GCAddMonster * pPacket)
 		pCreature->SetName( pPacket->getMonsterName().c_str() );
 
 		//--------------------------------------------------
-		// CreatureType ¼³Á¤
+		// CreatureType ï¿½ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		//ItemType_t coatType = oi.getCoatType();
 
@@ -6571,7 +6571,7 @@ void Add_Race_OustersMonster(GCAddMonster * pPacket)
 		pCreature->SetDirection( /*pPacket->getDir()*/2 );
 		pCreature->SetCurrentDirection( pPacket->getDir() );
 		pCreature->SetAction( ACTION_STAND );
-		// »ö±ò
+		// ï¿½ï¿½ï¿½ï¿½
 //			pCreature->SetBodyColor1( oi.getHairColor() );
 //			pCreature->SetBodyColor2( oi.getCoatColor() );
 
@@ -6618,18 +6618,18 @@ void Add_Race_OustersMonster(GCAddMonster * pPacket)
 		
 	}
 	//--------------------------------------------------
-	// ÀÌ¹Ì ÀÖ´Â CreatureÀÎ °æ¿ì
+	// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	else
 	{
 		//--------------------------------------------------
-		// CreatureType ¼³Á¤
+		// CreatureType ï¿½ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 	//	ItemType_t coatType = oi.getCoatType();
 
 	//	pCreature->SetCreatureType( CREATURETYPE_OUSTERS );
 
-		// ÀÓ½Ã·Î
+		// ï¿½Ó½Ã·ï¿½
 		pCreature->SetGuildNumber( 1 );
 		
 		//pCreature->SetAction(ACTION_MOVE);
@@ -6639,7 +6639,7 @@ void Add_Race_OustersMonster(GCAddMonster * pPacket)
 		pCreature->SetCurrentDirection( pPacket->getDir() );
 		pCreature->SetAction( ACTION_STAND );
 
-		// »ö±ò
+		// ï¿½ï¿½ï¿½ï¿½
 //			pCreature->SetBodyColor1( oi.getHairColor() );
 //			pCreature->SetBodyColor2( oi.getCoatColor() );
 
@@ -6647,7 +6647,7 @@ void Add_Race_OustersMonster(GCAddMonster * pPacket)
 		//--------------------------------------------------
 		// [ TEST CODE ]
 		//--------------------------------------------------
-		// ¿Ê »ö±ò ¼³Á¤ÇÏ±â
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 		//--------------------------------------------------
 		/*
 		if (pCreature->IsMale())
@@ -6677,7 +6677,7 @@ void Add_Race_OustersMonster(GCAddMonster * pPacket)
 	}
 }
 
-// 2004, 8, 26, sobeit add start - nProtct ÀÎÁõ ÆÐÅ¶
+// 2004, 8, 26, sobeit add start - nProtct ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶
 void 
 Send_nProtect_Auth(DWORD dwVal)
 {
@@ -6688,11 +6688,11 @@ Send_nProtect_Auth(DWORD dwVal)
 	if( g_pSocket != NULL )
 	{
 		g_pSocket->sendPacket( &_CGAuthKey );
-//		MessageBox(g_hWnd, "_CGAuthKeyº¸³¿", "Warning", MB_OK);
+//		MessageBox(g_hWnd, "_CGAuthKeyï¿½ï¿½ï¿½ï¿½", "Warning", MB_OK);
 	}
 #endif //__NPROTECT
 }
-// 2004, 8, 26, sobeit add end - nProtct ÀÎÁõ ÆÐÅ¶
+// 2004, 8, 26, sobeit add end - nProtct ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶
 
 POINT GetNextTileByDirection(int TileX, int TileY, byte Dir)
 {
@@ -6810,7 +6810,7 @@ void SetDragonTorando(int Type, DWORD ObjectID, int TileX, int TileY)
 	MFakeCreature *pFakeCreature = (MFakeCreature*)(g_pZone->GetFakeCreature(ObjectID));
 	if(pFakeCreature == NULL)
 	{
-		// ¾øÀ¸¸é »ý¼º
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		int TempCreatureType = Type==EFFECTSTATUS_DRAGON_TORNADO? 788:789;
 		pFakeCreature = g_pZone->NewFakeCreature(TempCreatureType, TileX, TileY, 0);
 		pFakeCreature->SetID(ObjectID);
@@ -6829,7 +6829,7 @@ void SetDragonTorando(int Type, DWORD ObjectID, int TileX, int TileY)
 	}
 	else
 	{
-		// ÁÂÇ¥°¡ Æ²¸®¸é ÀÌµ¿
+		// ï¿½ï¿½Ç¥ï¿½ï¿½ Æ²ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 		if(TileX != pFakeCreature->GetX() || TileY != pFakeCreature->GetY())
 		{
 			int TempDir = pFakeCreature->GetDirectionToPosition(TileX, TileY);
@@ -6860,11 +6860,11 @@ SetSubInventoryInfo(MItem* pItem, InventoryInfo* pInventoryInfo)
 			pSubInventory->RemoveItem( ix, iy );
 
 	//--------------------------------------------------
-	// Inventory¿¡ ¾ÆÀÌÅÛµéÀ» Ãß°¡ÇÑ´Ù.
+	// Inventoryï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ûµï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 	//--------------------------------------------------
 	for (int i=0; i<itemNum; i++)
 	{
-		// ¿ÜºÎ¿¡¼­ Áö¿öÁà¾ß ÇÑ´Ù.
+		// ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		InventorySlotInfo * pSlotInfo = pInventoryInfo->popFrontListElement();
 
 		if( pSlotInfo == NULL )
@@ -6879,7 +6879,7 @@ SetSubInventoryInfo(MItem* pItem, InventoryInfo* pInventoryInfo)
 		}
 
 		//------------------------------------------------
-		// ItemÀ» »ý¼ºÇØ¼­ Inventory¿¡ Ãß°¡ÇÑ´Ù.
+		// Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ Inventoryï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 		//------------------------------------------------
 		MItem* pItem = MItem::NewItem( (ITEM_CLASS)pSlotInfo->getItemClass() );
 		
@@ -6897,22 +6897,22 @@ SetSubInventoryInfo(MItem* pItem, InventoryInfo* pInventoryInfo)
 #if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
 		pItem->SetCashItem(pSlotInfo->getCashItem());
 #endif
-		// inventory¿¡¼­ÀÇ ÁÂÇ¥
+		// inventoryï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥
 		pItem->SetGridXY( pSlotInfo->getInvenX(), pSlotInfo->getInvenY() );
 
 		//------------------------------------------
-		// °³¼ö
+		// ï¿½ï¿½ï¿½ï¿½
 		//------------------------------------------
-		// ÃÑÀÎ °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------
 		if (pItem->IsGunItem())
 		{
 			MMagazine* pMagazine = (MMagazine*)MItem::NewItem( (ITEM_CLASS)ITEM_CLASS_MAGAZINE );
 
-			// ÀÇ¹Ì ¾øÀ½ - -;
+			// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ - -;
 			pMagazine->SetID( 0 );
 
-			// ÀÌ°Å´Â ÃÑ¿¡ ¸ÂÃç¼­ ÇØÁà¾ßµÈ´Ù.
+			// ï¿½Ì°Å´ï¿½ ï¿½Ñ¿ï¿½ ï¿½ï¿½ï¿½ç¼­ ï¿½ï¿½ï¿½ï¿½ßµÈ´ï¿½.
 			for (int j=0; j<(*g_pItemTable)[ITEM_CLASS_MAGAZINE].GetSize(); j++)			
 			{
 				pMagazine->SetItemType(	j );
@@ -6925,22 +6925,22 @@ SetSubInventoryInfo(MItem* pItem, InventoryInfo* pInventoryInfo)
 
 			if(pSlotInfo->getSilver())
 				pMagazine->SetItemType( pMagazine->GetItemType()+8);
-			// ¾î¿¹~ ÀºÅºÈ¯ ÇÏµåÄÚµù by ¾¦°«
+			// ï¿½î¿¹~ ï¿½ï¿½ÅºÈ¯ ï¿½Ïµï¿½ï¿½Úµï¿½ by ï¿½ï¿½ï¿½ï¿½
 
-			// ÀÇ¹Ì ¾øÀ½
+			// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½
 			pMagazine->ClearItemOption();
 		
-			// ÅºÃ¢ °³¼ö
+			// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 			pMagazine->SetNumber( pSlotInfo->getItemNum() );
 
 			//------------------------------------
-			// ÅºÃ¢ ¼³Á¤
+			// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------
 			MGunItem* pGunItem = (MGunItem*)pItem;
 			pGunItem->SetMagazine( pMagazine );
 		}		
 		//------------------------------------------
-		// ÃÑÀÌ ¾Æ´Ñ °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------
 		else
 		{
@@ -6950,7 +6950,7 @@ SetSubInventoryInfo(MItem* pItem, InventoryInfo* pInventoryInfo)
 
 		//------------------------------------------
 		//
-		// Item¿¡ ´Ù¸¥ itemµéÀÌ µé¾îÀÖ´Â °æ¿ì
+		// Itemï¿½ï¿½ ï¿½Ù¸ï¿½ itemï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 		//
 		//------------------------------------------
 		if (pSlotInfo->getListNum()!=0)
@@ -6958,7 +6958,7 @@ SetSubInventoryInfo(MItem* pItem, InventoryInfo* pInventoryInfo)
 			DEBUG_ADD_FORMAT("This Item has Sub item(s) : size=%d", pSlotInfo->getListNum());
 			
 			//------------------------------------------
-			// BeltÀÎ °æ¿ì
+			// Beltï¿½ï¿½ ï¿½ï¿½ï¿½
 			//------------------------------------------
 			if (pItem->GetItemClass()==ITEM_CLASS_BELT)
 			{
@@ -6977,7 +6977,7 @@ SetSubInventoryInfo(MItem* pItem, InventoryInfo* pInventoryInfo)
 					else
 					{
 						//------------------------------------------
-						// Sub ItemÀÇ Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+						// Sub Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 						//------------------------------------------
 						if ( pSubItemInfo->getItemClass() >= g_pItemTable->GetSize() ||
 							(*g_pItemTable)[pSubItemInfo->getItemClass()].GetSize() <= pSubItemInfo->getItemType() )
@@ -6994,7 +6994,7 @@ SetSubInventoryInfo(MItem* pItem, InventoryInfo* pInventoryInfo)
 						pSubItem->SetNumber( pSubItemInfo->getItemNum() );			
 
 						//------------------------------------------
-						// BeltÀÇ Á¤ÇØÁø slot¿¡ itemÀ» Ãß°¡½ÃÅ²´Ù.
+						// Beltï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ slotï¿½ï¿½ itemï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 						//------------------------------------------
 						pBelt->AddItem( pSubItem, pSubItemInfo->getSlotID() );
 
@@ -7019,7 +7019,7 @@ SetSubInventoryInfo(MItem* pItem, InventoryInfo* pInventoryInfo)
 					else
 					{
 						//------------------------------------------
-						// Sub ItemÀÇ Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+						// Sub Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 						//------------------------------------------
 						if ( pSubItemInfo->getItemClass() >= g_pItemTable->GetSize() ||
 							(*g_pItemTable)[pSubItemInfo->getItemClass()].GetSize() <= pSubItemInfo->getItemType() )
@@ -7036,7 +7036,7 @@ SetSubInventoryInfo(MItem* pItem, InventoryInfo* pInventoryInfo)
 						pSubItem->SetNumber( pSubItemInfo->getItemNum() );			
 						
 						//------------------------------------------
-						// BeltÀÇ Á¤ÇØÁø slot¿¡ itemÀ» Ãß°¡½ÃÅ²´Ù.
+						// Beltï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ slotï¿½ï¿½ itemï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 						//------------------------------------------
 						pBelt->AddItem( pSubItem, pSubItemInfo->getSlotID() );
 						
@@ -7051,10 +7051,10 @@ SetSubInventoryInfo(MItem* pItem, InventoryInfo* pInventoryInfo)
 		}
 
 
-		// main»ö±ò
+		// mainï¿½ï¿½ï¿½ï¿½
 		pItem->SetItemColorSet( pSlotInfo->getMainColor() );
 
-		// ÇöÀç ³»±¸¼º
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		pItem->SetCurrentDurability( pSlotInfo->getDurability() );
 		pItem->SetSilver( pSlotInfo->getSilver() );
 		pItem->SetGrade( pSlotInfo->getGrade() );
@@ -7063,13 +7063,13 @@ SetSubInventoryInfo(MItem* pItem, InventoryInfo* pInventoryInfo)
 		g_pPlayer->CheckAffectStatus(pItem);
 		
 		//---------------------------------------------
-		// itemÀ» inventory¿¡ ³Ö´Â´Ù.
+		// itemï¿½ï¿½ inventoryï¿½ï¿½ ï¿½Ö´Â´ï¿½.
 		//---------------------------------------------
 		if(false == UI_AddItemToSubInventory(
 				pSubInventory->GetID(),
 				pItem, pItem->GetGridX(), pItem->GetGridY()))
 		{
-			// itemÀ» inventory¿¡ Ãß°¡ÇÒ ¼ö ¾ø´Â °æ¿ì
+			// itemï¿½ï¿½ inventoryï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			DEBUG_ADD_FORMAT("[Error] Can't Add Item to Inventory. id=%d, cl=%d, tp=%d, xy=(%d,%d)", 					
 											(int)pItem->GetID(),
 											(int)pItem->GetItemClass(),
@@ -7140,17 +7140,17 @@ SkillGhostShadow(MCreature* pUserCreature, MCreature* pTargetCreature, int skill
 	}
 
 	// [ TEST CODE ]
-	// ÁøÇàÁßÀÎ EffectÀÌ¸é Result·Î Ãß°¡ÇØ¾ß ÇÑ´Ù.
-	// Result¸¦ »ý¼ºÇÏ°í..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Effectï¿½Ì¸ï¿½ Resultï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
+	// Resultï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½..
 	// pUserCreature->>AddActionResult( ... )
 		
 	//------------------------------------------------------
-	// Fake CreatureÀÇ ÁÂÇ¥ °è»ê
+	// Fake Creatureï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	int x = pTargetCreature->GetX();
 	int y = pTargetCreature->GetY();
 	
-	// ¸Â´Â ¾Ö¿¡¼­ player¹æÇâÀ¸·Î ÇÑ Ä­..
+	// ï¿½Â´ï¿½ ï¿½Ö¿ï¿½ï¿½ï¿½ playerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ä­..
 	int sx = pUserCreature->GetX() - x;
 	int sy = pUserCreature->GetY() - y;
 
@@ -7158,7 +7158,7 @@ SkillGhostShadow(MCreature* pUserCreature, MCreature* pTargetCreature, int skill
 	if (sy>0) sy=1; else if (sy<0) sy=-1; else sy=0;
 
 	//------------------------------------------------------
-	// Fake Creature »ý¼º
+	// Fake Creature ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 
 	POINT Straight[4] = {
@@ -7178,13 +7178,13 @@ SkillGhostShadow(MCreature* pUserCreature, MCreature* pTargetCreature, int skill
 	POINT *Position;
 	
 	switch(shape) {
-		case 0: // ÀÚµ¿
+		case 0: // ï¿½Úµï¿½
 			Position = (pUserCreature->GetDirection() & 0x1) ? Diagonal : Straight;
 			break;
-		case 1: // ½ÊÀÚ¸ð¾ç(+)
+		case 1: // ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½(+)
 			Position = Diagonal;
 			break;
-		case 2: // ¿¢½º¸ð¾ç(x)
+		case 2: // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(x)
 			Position = Straight;
 			break;
 	}
@@ -7197,15 +7197,15 @@ SkillGhostShadow(MCreature* pUserCreature, MCreature* pTargetCreature, int skill
 		pFakeCreature->SetDirection( dir );
 		pFakeCreature->SetCurrentDirection( dir );
 
-		pFakeCreature->SetAction( ACTION_MAGIC );		// ±×³É.. - -;;
+		pFakeCreature->SetAction( ACTION_MAGIC );		// ï¿½×³ï¿½.. - -;;
 
 		//------------------------------------------------------
-		// ÀÜ»ó ÇÑ¹ø º¸¿©ÁÖ°í »ç¶óÁö°Ô ¼³Á¤
+		// ï¿½Ü»ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		pFakeCreature->SetFakeCreatureType( MFakeCreature::FAKE_CREATURE_FAST_MOVE_ACTION);
 
 		//------------------------------------------------------
-		// Fake Creature¸¦ Zone¿¡ Ãß°¡
+		// Fake Creatureï¿½ï¿½ Zoneï¿½ï¿½ ï¿½ß°ï¿½
 		//------------------------------------------------------
 		if (!g_pZone->AddFakeCreature( pFakeCreature ))
 		{
@@ -7213,7 +7213,7 @@ SkillGhostShadow(MCreature* pUserCreature, MCreature* pTargetCreature, int skill
 		}
 
 		//------------------------------------------------------
-		// ±â¼ú »ç¿ë
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		if (skillID==SKILL_ATTACK_MELEE)
 		{	

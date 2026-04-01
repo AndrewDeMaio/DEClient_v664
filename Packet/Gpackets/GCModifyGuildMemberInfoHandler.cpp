@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCModifyGuildMemberInfo.h"
 #include "UserInformation.h"
 #include "ClientDef.h"

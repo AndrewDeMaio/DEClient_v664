@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCRequestFailed.h"
 #include "RequestUserManager.h"
 #include "ClientDef.h"

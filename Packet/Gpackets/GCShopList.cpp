@@ -7,7 +7,7 @@
 // 이 패킷은 그 때 플레이어에게 전달하게 되는 패킷이다.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCShopList.h"
 #include "Assert.h"
 //#include "Item.h"

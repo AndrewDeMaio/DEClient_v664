@@ -11,7 +11,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCShopSellOK.h"
 #include "Assert.h"
 

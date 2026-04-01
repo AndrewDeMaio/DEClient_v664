@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCBloodDrainOK3.h"
 #include "ClientDef.h"
 #include "SkillDef.h"

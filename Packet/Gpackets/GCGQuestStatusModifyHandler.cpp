@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCGQuestStatusModify.h"
 #include "Client.h"
 #include "vs_ui.h"

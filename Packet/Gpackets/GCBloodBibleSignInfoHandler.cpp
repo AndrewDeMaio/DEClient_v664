@@ -5,7 +5,7 @@
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 // include files
 #include "GCBloodBibleSignInfo.h"
 #include "PacketFunction.h"

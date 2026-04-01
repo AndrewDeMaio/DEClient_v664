@@ -4,7 +4,7 @@
 // Description :
 //////////////////////////////////////////////////////////////////////////////
 
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPartyLeave.h"
 #include "MGameStringTable.h"
 #include "MParty.h"

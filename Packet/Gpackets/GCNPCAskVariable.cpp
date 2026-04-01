@@ -4,7 +4,7 @@
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "MNPCScriptTable.h"
 
 #include "GCNPCAskVariable.h"

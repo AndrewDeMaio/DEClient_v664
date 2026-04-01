@@ -5,7 +5,7 @@
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #pragma warning(disable:4786)
 // include files
 #include "GCBloodBibleList.h"

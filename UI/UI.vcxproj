@@ -125,7 +125,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration);$(SolutionDir)ExternalLib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;IFC22.lib;Timer.lib;NPGameLib.lib;gdi32.lib;user32.lib</AdditionalDependencies>
+      <AdditionalDependencies>D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;IFC22.lib;Timer.lib;NPGameLib.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -627,7 +627,6 @@
     <ClCompile Include="game\MMusicTable.cpp" />
     <ClCompile Include="game\MObjectSelector.cpp" />
     <ClCompile Include="game\MParabolaEffect.cpp" />
-    <ClCompile Include="game\MPlayingWithFireEffect.cpp" />
     <ClCompile Include="game\MPlayingWithFireEffectGenerator.cpp" />
     <ClCompile Include="game\MPremiumGiveItemInfo.cpp" />
     <ClCompile Include="game\MRippleZoneEffectGenerator.cpp" />

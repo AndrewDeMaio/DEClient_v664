@@ -244,7 +244,7 @@ DWORD gGetApplcationRunTime(bool bReset)
 
 extern MCreature*		AddClientCreature();
 extern void Add_GDR_Effect(int nEffect, bool bAppearBossMonster);
-extern void Add_GDR_Potal_Effect(int nMapID);
+extern void Add_GDR_Portal_Effect(int nMapID);
 //---------------------------------------------------------------------------
 // Update Socket Input
 //---------------------------------------------------------------------------
@@ -2892,7 +2892,7 @@ LoadZone(int n)
 	Add_GDR_Ghost(n);
 	Add_GDR_Effect(1,false);
 	Add_GDR_Effect(2,false);
-	Add_GDR_Potal_Effect(n);
+	Add_GDR_Portal_Effect(n);
 	// 2005, 1, 18, sobeit add start-����Ʈ ���� - bDisableTileImage==false�� ��κ��̹Ƿ�..
 	if(n == 4001)
 	{

@@ -4,7 +4,7 @@
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCOtherStoreInfo.h"
 #include "Assert.h"
 #define SAFE_DELETE(p)  { if(p) { delete (p);     (p)=NULL; } }

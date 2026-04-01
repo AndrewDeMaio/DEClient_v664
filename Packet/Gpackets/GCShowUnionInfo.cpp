@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCShowUnionInfo.h"
 
 #define SAFE_DELETE(p) { if(p) { delete (p); (p) = NULL; }}

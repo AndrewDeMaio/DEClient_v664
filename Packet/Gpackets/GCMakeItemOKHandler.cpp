@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCMakeItemOK.h"
 #include "ClientDef.h"
 #include "TempInformation.h"

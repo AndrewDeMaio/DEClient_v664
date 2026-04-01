@@ -3,7 +3,7 @@
 // Written By  : ±è¼º¹Î
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCGoodsList.h"
 #include "Assert.h"
 

@@ -8,7 +8,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCMoveError.h"
 #include "SocketEncryptInputStream.h"
 #include "SocketEncryptOutputStream.h"

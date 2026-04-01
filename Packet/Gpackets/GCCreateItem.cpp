@@ -3,7 +3,7 @@
 // Written By  : elca
 // Description :
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCCreateItem.h"
 #if __CONTENTS(__PCITEMINFO)
 GCCreateItem::GCCreateItem()

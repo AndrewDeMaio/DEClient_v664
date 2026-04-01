@@ -7,7 +7,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCDeleteInventoryItem.h"
 #include "ClientDef.h"
 #include "MInventory.h"

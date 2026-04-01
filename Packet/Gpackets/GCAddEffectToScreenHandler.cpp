@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddEffectToScreen.h"
 #include "ClientDef.h"
 #include "TalkBox.h"

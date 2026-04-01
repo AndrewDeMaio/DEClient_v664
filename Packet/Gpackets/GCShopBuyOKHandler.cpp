@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCShopBuyOK.h"
 #include "ClientDef.h"
 #include "MShop.h"

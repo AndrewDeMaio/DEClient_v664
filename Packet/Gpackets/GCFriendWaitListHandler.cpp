@@ -7,7 +7,7 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCFriendWaitList.h"
 #include "VS_UI_Friend_System.h"
 #include "Assert.h"

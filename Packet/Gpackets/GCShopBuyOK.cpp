@@ -6,7 +6,7 @@
 // 인증이 되면 이 패킷이 플레이어에게 날아간다.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCShopBuyOK.h"
 #include "Assert.h"
 

@@ -8,7 +8,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCNotifyWin.h"
 #include "ClientDef.h"
 #include "UIFunction.h"

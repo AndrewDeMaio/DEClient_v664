@@ -7,7 +7,7 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCFriendSuggestToAdd.h"
 #include "VS_UI_Friend_System.h"
 

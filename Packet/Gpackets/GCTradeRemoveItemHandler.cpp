@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCTradeRemoveItem.h"
 #include "MTradeManager.h"
 #include "ClientDef.h"

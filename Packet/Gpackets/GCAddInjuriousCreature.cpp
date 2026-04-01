@@ -3,7 +3,7 @@
 // Written By  : reiot@ewestsoft.com
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddInjuriousCreature.h"
 
 void GCAddInjuriousCreature::read (SocketInputStream & iStream) 

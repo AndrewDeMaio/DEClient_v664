@@ -1,0 +1,2520 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BloodBibleBonusInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FriendDetailInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FriendSimpleInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FriendWaitInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCActiveGuildList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddBat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddBurrowingCreature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddEffectToScreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddEffectToTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddGearToInventory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddGearToZone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddHelicopter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddInjuriousCreature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddInstalledMineToZone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddItemToInventory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddItemToItemVerify.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddItemToZone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddMonster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddMonsterCorpse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddMonsterFromBurrowing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddMonsterFromTransformation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddNewItemToZone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddNickname.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddNPC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddOusters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddOustersCorpse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddressListVerify.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddSlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddSlayerCorpse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddStoreItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddSylph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddVampire.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddVampireCorpse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddVampireFromBurrowing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddVampireFromTransformation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddVampirePortal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAddWolf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAttack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAttackArmsOK1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAttackArmsOK2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAttackArmsOK3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAttackArmsOK4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAttackArmsOK5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAttackMeleeOK1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAttackMeleeOK2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAttackMeleeOK3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAuthKey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCAuthXTrap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCBloodBibleList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCBloodBibleSignInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCBloodBibleStatus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCBloodDrainOK1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCBloodDrainOK2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCBloodDrainOK3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCCannotAdd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCCannotUse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCCastingSkill.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCChangeDarkLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCChangeGearSlot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCChangeInventoryItemNum.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCChangeShape.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCChangeWeather.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCCreateItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCCreatureDied.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCCrossCounterOK1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCCrossCounterOK2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCCrossCounterOK3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCDeleteandPickUpOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCDeleteEffectFromTile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCDeleteInventoryItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCDeleteObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCDisconnect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCDownSkillFailed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCDownSkillOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCDropItemToZone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCEnterVampirePortal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCExecuteElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCFakeMove.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCFastMove.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCFlagWarStatus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCFriendAdd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCFriendDel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCFriendList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCFriendReqToAdd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCFriendReqToDel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCFriendResToAdd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCFriendSuggestToAdd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCFriendUpdateConnect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCFriendUpdateZone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCFriendViewInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCFriendWaitList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCGetDamage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCGetOffMotorCycle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCGetOffMotorCycleFailed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCGetOffMotorCycleOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCGlobalChat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCGoodsList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCGQuestInventory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCGQuestStatusInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCGQuestStatusModify.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCGuildChat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCGuildMemberList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCGuildResponse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCHolyLandBonusInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCHPRecoveryEndToOthers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCHPRecoveryEndToSelf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCHPRecoveryStartToOthers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCHPRecoveryStartToSelf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCInstanceDoungeonLobby.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCInstanceDoungeonResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCKickMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCKnockBack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCKnocksTargetBackOK1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCKnocksTargetBackOK2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCKnocksTargetBackOK4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCKnocksTargetBackOK5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCLearnSkillFailed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCLearnSkillOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCLearnSkillReady.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCLightning.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMakeItemFail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMakeItemOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMineExplosionOK1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMineExplosionOK2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMiniGameScores.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCModifyGuildMemberInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCModifyInformation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCModifyNickname.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMonsterKillQuestInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMorph1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMorphSlayer2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMorphVampire2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMove.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMoveError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMoveOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMPRecoveryEnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMPRecoveryStart.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCMyStoreInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCNicknameList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCNicknameVerify.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCNoticeEvent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCNotifyWin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCNPCAsk.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCNPCAskDynamic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCNPCAskVariable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCNPCInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCNPCResponse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCNPCSay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCNPCSayDynamic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCOtherGuildName.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCOtherModifyInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCOtherStoreInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCPartyError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCPartyInvite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCPartyJoined.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCPartyLeave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCPartyPosition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCPartySay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCPetInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCPetStashList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCPetStashVerify.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCPetUseSkill.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCPhoneConnected.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCPhoneConnectionFailed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCPhoneDisconnected.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCPhoneSay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCQuestStatus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRankBonusInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRealWearingInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCReconnect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCReconnectLogin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRegenZoneStatus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCReloadOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRemoveCorpseHead.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRemoveEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRemoveFromGear.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRemoveInjuriousCreature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRemoveStoreItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRepairInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRequestedIP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRequestFailed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRequestPowerPointResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRideMotorCycle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRideMotorCycleFailed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRideMotorCycleOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCRing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSearchMotorcycleFail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSearchMotorcycleOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSelectQuestID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSelectRankBonusFailed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSelectRankBonusOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSetPosition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShopBought.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShopBuyFail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShopBuyOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShopList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShopListMysterious.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShopMarketCondition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShopSellFail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShopSellOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShopSold.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShopVersion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShowGuildInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShowGuildJoin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShowGuildMemberInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShowMessageBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShowUnionInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShowWaitGuildInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCShowWebMarket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillFailed1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillFailed2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToInventoryOK1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToInventoryOK2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToObjectOK1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToObjectOK2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToObjectOK3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToObjectOK4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToObjectOK5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToObjectOK6.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToSelfOK1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToSelfOK2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToSelfOK3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToTileOK1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToTileOK2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToTileOK3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToTileOK4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToTileOK5.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSkillToTileOK6.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSMSAddressList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCStashList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCStashSell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCStatusCurrentHP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSubInventoryInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSupplyItemList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSweeperBonusInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSystemAvailabilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCSystemMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCTakeOff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCTakeOutFail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCTakeOutOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCTeachSkillInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCThrowBombOK1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCThrowBombOK2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCThrowBombOK3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCThrowItemOK1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCThrowItemOK2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCThrowItemOK3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCTimeLimitItemInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCTradeAddItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCTradeError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCTradeFinish.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCTradeMoney.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCTradePrepare.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCTradeRemoveItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCTradeVerify.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCUnburrowFail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCUnburrowOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCUnionOfferList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCUntransformFail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCUntransformOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCUpdateInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCUpdateSupplyItemList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCUpdateWeekItemList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCUseBonusPointFail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCUseBonusPointOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCUseOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCUsePowerPointResult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCVisibleFail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCVisibleOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCWaitGuildList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCWarList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCWarScheduleList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCWhisper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GCWhisperFailed.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GLIncomingConnectionError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GLIncomingConnectionOK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SweeperBonusInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GPacket_PCH.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BloodBibleBonusInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FriendDetailInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FriendSimpleInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FriendWaitInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCActiveGuildList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCActiveGuildListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddBat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddBatHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddBurrowingCreature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddBurrowingCreatureHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddEffectHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddEffectToScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddEffectToScreenHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddEffectToTile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddEffectToTileHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddGearToInventory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddGearToInventoryHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddGearToZone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddGearToZoneHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddHelicopter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddHelicopterHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddInjuriousCreature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddInjuriousCreatureHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddInstalledMineToZone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddInstalledMineToZoneHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddItemToInventory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddItemToItemVerify.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddItemToItemVerifyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddItemToZone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddMonster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddMonsterCorpse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddMonsterCorpseHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddMonsterFromBurrowing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddMonsterFromBurrowingHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddMonsterFromTransformation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddMonsterFromTransformationHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddMonsterHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddNewItemToZone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddNewItemToZoneHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddNickname.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddNicknameHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddNPC.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddNPCHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddOusters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddOustersCorpse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddOustersCorpseHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddOustersHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddressListVerify.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddressListVerifyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddSlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddSlayerCorpse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddSlayerCorpseHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddSlayerHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddStoreItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddStoreItemHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddSylph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddSylphHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddVampire.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddVampireCorpse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddVampireCorpseHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddVampireFromBurrowing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddVampireFromBurrowingHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddVampireFromTransformation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddVampireFromTransformationHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddVampireHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddVampirePortal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddVampirePortalHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddWolf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAddWolfHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackArmsOK1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackArmsOK1Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackArmsOK2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackArmsOK2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackArmsOK3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackArmsOK3Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackArmsOK4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackArmsOK4Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackArmsOK5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackArmsOK5Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackMeleeOK1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackMeleeOK1Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackMeleeOK2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackMeleeOK2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackMeleeOK3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAttackMeleeOK3Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAuthKey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAuthKeyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAuthXTrap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCAuthXTrapHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCBloodBibleList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCBloodBibleListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCBloodBibleSignInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCBloodBibleSignInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCBloodBibleStatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCBloodBibleStatusHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCBloodDrainOK1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCBloodDrainOK1Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCBloodDrainOK2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCBloodDrainOK2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCBloodDrainOK3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCBloodDrainOK3Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCannotAdd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCannotAddHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCannotUse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCannotUseHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCastingSkill.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCastingSkillHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCChangeDarkLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCChangeDarkLightHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCChangeGearSlot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCChangeGearSlotHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCChangeInventoryItemNum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCChangeShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCChangeShapeHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCChangeWeather.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCChangeWeatherHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCreateItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCreateItemHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCreatureDied.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCreatureDiedHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCrossCounterOK1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCrossCounterOK1Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCrossCounterOK2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCrossCounterOK2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCrossCounterOK3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCCrossCounterOK3Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDeleteandPickUpOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDeleteandPickUpOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDeleteEffectFromTile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDeleteEffectFromTileHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDeleteInventoryItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDeleteInventoryItemHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDeleteObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDeleteObjectHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDisconnect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDisconnectHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDownSkillFailed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDownSkillFailedHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDownSkillOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDownSkillOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDropItemToZone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCDropItemToZoneHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCEnterVampirePortal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCEnterVampirePortalHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCExecuteElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCExecuteElementHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFakeMove.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFakeMoveHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFastMove.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFastMoveHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFlagWarStatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFlagWarStatusHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendAdd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendAddHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendDel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendDelHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendReqToAdd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendReqToAddHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendReqToDel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendReqToDelHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendResToAdd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendResToAddHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendSuggestToAdd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendSuggestToAddHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendUpdateConnect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendUpdateConnectHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendUpdateZone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendUpdateZoneHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendViewInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendViewInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendWaitList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCFriendWaitListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGetDamage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGetDamageHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGetOffMotorCycle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGetOffMotorCycleFailed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGetOffMotorCycleFailedHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGetOffMotorCycleHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGetOffMotorCycleOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGetOffMotorCycleOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGlobalChat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGlobalChatHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGoodsList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGoodsListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGQuestInventory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGQuestInventoryHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGQuestStatusInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGQuestStatusInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGQuestStatusModify.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGQuestStatusModifyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGuildChat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGuildChatHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGuildMemberList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGuildMemberListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGuildResponse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCGuildResponseHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCHolyLandBonusInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCHolyLandBonusInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCHPRecoveryEndToOthers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCHPRecoveryEndToOthersHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCHPRecoveryEndToSelf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCHPRecoveryEndToSelfHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCHPRecoveryStartToOthers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCHPRecoveryStartToOthersHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCHPRecoveryStartToSelf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCHPRecoveryStartToSelfHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCInstanceDoungeonLobby.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCInstanceDoungeonLobbyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCInstanceDoungeonResult.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCInstanceDoungeonResultHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCKickMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCKickMessageHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCKnockBack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCKnockBackHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCKnocksTargetBackOK1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCKnocksTargetBackOK1Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCKnocksTargetBackOK2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCKnocksTargetBackOK2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCKnocksTargetBackOK4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCKnocksTargetBackOK4Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCKnocksTargetBackOK5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCKnocksTargetBackOK5Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCLearnSkillFailed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCLearnSkillFailedHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCLearnSkillOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCLearnSkillOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCLearnSkillReady.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCLearnSkillReadyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCLightning.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCLightningHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMakeItemFail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMakeItemFailHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMakeItemOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMakeItemOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMineExplosionOK1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMineExplosionOK1Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMineExplosionOK2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMineExplosionOK2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMiniGameScores.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMiniGameScoresHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCModifyGuildMemberInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCModifyGuildMemberInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCModifyInformation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCModifyInformationHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCModifyNickname.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCModifyNicknameHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMonsterKillQuestInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMonsterKillQuestInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMorph1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMorph1Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMorphSlayer2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMorphSlayer2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMorphVampire2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMorphVampire2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMove.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMoveError.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMoveErrorHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMoveHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMoveOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMoveOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMPRecoveryEnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMPRecoveryEndHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMPRecoveryStart.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMPRecoveryStartHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMyStoreInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCMyStoreInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNicknameList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNicknameListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNicknameVerify.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNicknameVerifyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNoticeEvent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNoticeEventHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNotifyWin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNotifyWinHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNPCAsk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNPCAskDynamic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNPCAskDynamicHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNPCAskHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNPCAskVariable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNPCAskVariableHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNPCInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNPCInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNPCResponse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNPCResponseHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNPCSay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNPCSayDynamic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNPCSayDynamicHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCNPCSayHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCOtherGuildName.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCOtherGuildNameHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCOtherModifyInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCOtherModifyInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCOtherStoreInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCOtherStoreInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPartyError.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPartyErrorHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPartyInvite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPartyInviteHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPartyJoined.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPartyJoinedHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPartyLeave.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPartyLeaveHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPartyPosition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPartyPositionHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPartySay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPartySayHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPetInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPetInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPetStashList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPetStashListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPetStashVerify.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPetStashVerifyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPetUseSkill.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPetUseSkillHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPhoneConnected.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPhoneConnectedHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPhoneConnectionFailed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPhoneConnectionFailedHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPhoneDisconnected.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPhoneDisconnectedHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPhoneSay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCPhoneSayHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCQuestStatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCQuestStatusHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRankBonusInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRankBonusInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRealWearingInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRealWearingInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCReconnect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCReconnectHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCReconnectLogin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCReconnectLoginHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRegenZoneStatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRegenZoneStatusHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCReloadOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCReloadOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRemoveCorpseHead.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRemoveCorpseHeadHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRemoveEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRemoveEffectHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRemoveFromGear.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRemoveFromGearHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRemoveInjuriousCreature.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRemoveInjuriousCreatureHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRemoveStoreItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRemoveStoreItemHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRepairInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRepairInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRequestedIP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRequestedIPHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRequestFailed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRequestFailedHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRequestPowerPointResult.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRequestPowerPointResultHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRideMotorCycle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRideMotorCycleFailed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRideMotorCycleFailedHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRideMotorCycleHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRideMotorCycleOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRideMotorCycleOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCRingHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSayHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSearchMotorcycleFail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSearchMotorcycleFailHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSearchMotorcycleOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSearchMotorcycleOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSelectQuestID.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSelectQuestIDHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSelectRankBonusFailed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSelectRankBonusFailedHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSelectRankBonusOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSelectRankBonusOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSetPosition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSetPositionHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopBought.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopBoughtHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopBuyFail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopBuyFailHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopBuyOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopBuyOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopListMysterious.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopListMysteriousHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopMarketCondition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopMarketConditionHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopSellFail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopSellFailHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopSellOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopSellOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopSold.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopSoldHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopVersion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShopVersionHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShowGuildInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShowGuildInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShowGuildJoin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShowGuildJoinHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShowGuildMemberInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShowGuildMemberInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShowMessageBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShowMessageBoxHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShowUnionInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShowUnionInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShowWaitGuildInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShowWaitGuildInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShowWebMarket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCShowWebMarketHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillFailed1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillFailed1Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillFailed2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillFailed2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToInventoryOK1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToInventoryOK1Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToInventoryOK2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToInventoryOK2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToObjectOK1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToObjectOK1Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToObjectOK2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToObjectOK2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToObjectOK3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToObjectOK3Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToObjectOK4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToObjectOK4Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToObjectOK5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToObjectOK5Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToObjectOK6.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToObjectOK6Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToSelfOK1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToSelfOK1Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToSelfOK2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToSelfOK2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToSelfOK3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToSelfOK3Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToTileOK1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToTileOK1Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToTileOK2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToTileOK2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToTileOK3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToTileOK3Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToTileOK4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToTileOK4Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToTileOK5.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToTileOK5Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToTileOK6.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSkillToTileOK6Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSMSAddressList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSMSAddressListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCStashList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCStashListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCStashSell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCStashSellHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCStatusCurrentHP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCStatusCurrentHPHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSubInventoryInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSubInventoryInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSupplyItemList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSupplyItemListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSweeperBonusInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSweeperBonusInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSystemAvailabilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSystemAvailabilitiesHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSystemMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCSystemMessageHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTakeOff.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTakeOffHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTakeOutFail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTakeOutFailHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTakeOutOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTakeOutOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTeachSkillInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTeachSkillInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCThrowBombOK1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCThrowBombOK1Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCThrowBombOK2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCThrowBombOK2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCThrowBombOK3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCThrowBombOK3Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCThrowItemOK1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCThrowItemOK1Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCThrowItemOK2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCThrowItemOK2Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCThrowItemOK3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCThrowItemOK3Handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTimeLimitItemInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTimeLimitItemInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTradeAddItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTradeAddItemHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTradeError.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTradeErrorHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTradeFinish.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTradeFinishHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTradeMoney.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTradeMoneyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTradePrepare.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTradePrepareHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTradeRemoveItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTradeRemoveItemHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTradeVerify.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCTradeVerifyHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUnburrowFail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUnburrowFailHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUnburrowOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUnburrowOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUnionOfferList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUnionOfferListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUntransformFail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUntransformFailHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUntransformOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUntransformOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUpdateInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUpdateInfoHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUpdateSupplyItemList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUpdateSupplyItemListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUpdateWeekItemList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUpdateWeekItemListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUseBonusPointFail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUseBonusPointFailHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUseBonusPointOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUseBonusPointOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUseOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUseOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUsePowerPointResult.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCUsePowerPointResultHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCVisibleFail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCVisibleFailHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCVisibleOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCVisibleOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCWaitGuildList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCWaitGuildListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCWarList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCWarListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCWarScheduleList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCWarScheduleListHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCWhisper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCWhisperFailed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCWhisperFailedHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GCWhisperHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLIncomingConnectionError.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLIncomingConnectionErrorHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLIncomingConnectionOK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GLIncomingConnectionOKHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SweeperBonusInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

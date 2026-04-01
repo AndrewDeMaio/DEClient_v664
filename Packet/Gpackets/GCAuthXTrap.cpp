@@ -3,7 +3,7 @@
 // Written By  : excel96
 // Description :
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAuthXTrap.h"
 
 void GCAuthXTrap::read ( SocketInputStream & iStream ) 

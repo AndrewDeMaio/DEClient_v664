@@ -4,7 +4,7 @@
 // Written By  : elca@ewestsoft.com
 //
 //////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 // include files
 #include "GCHPRecoveryEndToSelf.h"
 #include "ClientDef.h"

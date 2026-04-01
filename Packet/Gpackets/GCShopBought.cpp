@@ -9,7 +9,7 @@
 // NPC의 상품 목록에 추가해야 한다. 상점 버전도 업데이트~
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCShopBought.h"
 #include "Assert.h"
 

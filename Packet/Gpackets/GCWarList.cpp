@@ -4,7 +4,7 @@
 // Description :
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCWarList.h"
 #include "RaceWarInfo.h"
 #include "LevelWarInfo.h"

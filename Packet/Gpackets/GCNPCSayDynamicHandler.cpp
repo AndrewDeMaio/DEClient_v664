@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCNPCSayDynamic.h"
 #include "ClientDef.h"
 #include "MChatManager.h"

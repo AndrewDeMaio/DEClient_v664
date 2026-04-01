@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCUnionOfferList.h"
 #include "MGameStringTable.h"
 #include "VS_UI.h"

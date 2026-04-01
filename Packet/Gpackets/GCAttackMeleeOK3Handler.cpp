@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAttackMeleeOK3.h"
 #include "ClientDef.h"
 #include "MActionInfoTable.h"

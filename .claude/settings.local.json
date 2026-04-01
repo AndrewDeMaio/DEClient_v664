@@ -78,7 +78,11 @@
       "Bash(where node:*)",
       "Bash(where py:*)",
       "Bash(where pwsh:*)",
-      "Bash(where powershell:*)"
+      "Bash(where powershell:*)",
+      "Bash(git -C \"D:/GitHub/DEClient_v664\" diff HEAD -- UI/WinMain.cpp)",
+      "Bash(git -C \"D:/GitHub/DEClient_v664\" show HEAD:UI/WinMain.cpp)",
+      "Bash(find D:/GitHub/DEClient_v664/UI -iname Client_PCH*)",
+      "Bash(grep -rn Client.h D:/GitHub/DEClient_v664/UI/ --include=*.h --include=*.cpp)"
     ]
   }
 }

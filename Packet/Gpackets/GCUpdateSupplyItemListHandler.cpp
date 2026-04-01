@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCUpdateSupplyItemList.h"
 
 #ifdef __GAME_CLIENT__

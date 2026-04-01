@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPetUseSkill.h"
 #include "MZone.h"
 #include "MFakeCreature.h"

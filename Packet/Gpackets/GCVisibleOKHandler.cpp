@@ -6,7 +6,7 @@
 //
 //--------------------------------------------------------------------------------
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 // include files
 #include "GCVisibleOK.h"
 #include "ClientDef.h"

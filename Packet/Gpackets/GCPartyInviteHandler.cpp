@@ -4,7 +4,7 @@
 // Description :
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPartyInvite.h"
 #include "CPackets\CGPartyInvite.h"
 #include "ClientPlayer.h"

@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCGoodsList.h"
 #include "ClientDef.h"
 #include "UIFunction.h"

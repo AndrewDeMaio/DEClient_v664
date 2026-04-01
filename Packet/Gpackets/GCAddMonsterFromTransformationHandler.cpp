@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddMonsterFromTransformation.h"
 #include "ClientDef.h"
 #include "SkillDef.h"

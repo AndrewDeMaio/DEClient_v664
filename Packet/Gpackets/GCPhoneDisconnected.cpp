@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPhoneDisconnected.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"

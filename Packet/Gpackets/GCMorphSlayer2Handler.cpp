@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCMorphSlayer2.h"
 #include "ClientDef.h"
 #include "MCreatureTable.h"

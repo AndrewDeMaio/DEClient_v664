@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCFriendAdd.h"
 
 #if __CONTENTS(__FRIEND_ADDITION)

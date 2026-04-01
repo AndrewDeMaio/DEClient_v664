@@ -4,7 +4,7 @@
 // Description :
 // 슬레이어가 무전기를 사용해, 헬기를 호출했을 경우에 날아가는 패킷
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddHelicopter.h"
 #include "ClientDef.h"
 
