@@ -7,7 +7,6 @@
 
 
 void CGSelectQuest::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -18,7 +17,6 @@ void CGSelectQuest::read (SocketInputStream & iStream)
 }
 
 void CGSelectQuest::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -29,7 +27,6 @@ void CGSelectQuest::write (SocketOutputStream & oStream) const
 }
 
 void CGSelectQuest::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -40,7 +37,6 @@ void CGSelectQuest::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGSelectQuest::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

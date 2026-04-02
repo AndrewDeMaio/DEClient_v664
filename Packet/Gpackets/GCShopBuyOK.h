@@ -1,9 +1,9 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCShopBuyOK.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
-// ÇÃ·¹ÀÌ¾î°¡ »óÁ¡ NPC¿¡°Ô ¹°°Ç ±¸ÀÔÀ» ¿äÃ»ÇßÀ» ¶§, Á¦´ë·Î
-// ÀÎÁõÀÌ µÇ¸é ÀÌ ÆÐÅ¶ÀÌ ÇÃ·¹ÀÌ¾î¿¡°Ô ³¯¾Æ°£´Ù.
+// ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ NPCï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __GC_SHOP_BUY_OK_H__
@@ -19,14 +19,14 @@
 class GCShopBuyOK : public Packet 
 {
 public:
-	GCShopBuyOK() throw();
-	virtual ~GCShopBuyOK() throw();
+	GCShopBuyOK();
+	virtual ~GCShopBuyOK();
 	
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_SHOP_BUY_OK; }
-	PacketSize_t getPacketSize() const throw() 
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_SHOP_BUY_OK; }
+	size_t getPacketSize() const 
 	{ 
 		return szObjectID +  // NPC
 			szShopVersion +  // shop Version
@@ -43,69 +43,69 @@ public:
 	}
 
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCShopBuyOK"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "GCShopBuyOK"; }
+	std::string toString() const;
 #endif
 
 public:
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID(ObjectID_t creatureID) throw() { m_ObjectID = creatureID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID(ObjectID_t creatureID) { m_ObjectID = creatureID; }
 
-	ShopVersion_t getShopVersion(void) const throw() { return m_Version;}
-	void setShopVersion(const ShopVersion_t ver) throw() { m_Version = ver;}
+	ShopVersion_t getShopVersion(void) const { return m_Version;}
+	void setShopVersion(const ShopVersion_t ver) { m_Version = ver;}
 
-	ObjectID_t getItemObjectID() const throw() { return m_ItemObjectID;}
-	void setItemObjectID(ObjectID_t id) throw() { m_ItemObjectID = id;}
+	ObjectID_t getItemObjectID() const { return m_ItemObjectID;}
+	void setItemObjectID(ObjectID_t id) { m_ItemObjectID = id;}
 
-	BYTE getItemClass() const throw() { return m_ItemClass;}
-	void setItemClass(BYTE IClass) throw() { m_ItemClass = IClass;}
+	BYTE getItemClass() const { return m_ItemClass;}
+	void setItemClass(BYTE IClass) { m_ItemClass = IClass;}
 
-	ItemType_t getItemType() const throw() { return m_ItemType;}
-	void setItemType(ItemType_t type) throw() { m_ItemType = type;}
+	ItemType_t getItemType() const { return m_ItemType;}
+	void setItemType(ItemType_t type) { m_ItemType = type;}
 	
-	int getOptionTypeSize() const throw() { return m_OptionType.size();}
-	const std::list<OptionType_t>& getOptionType() const throw() { return m_OptionType; }
-	OptionType_t popOptionType() throw()
+	int getOptionTypeSize() const { return m_OptionType.size();}
+	const std::list<OptionType_t>& getOptionType() const { return m_OptionType; }
+	OptionType_t popOptionType()
 	{
 		if (m_OptionType.empty()) return 0;
 		OptionType_t optionType = m_OptionType.front();
 		m_OptionType.pop_front();
 		return optionType;
 	}
-	void addOptionType(OptionType_t type) throw() { m_OptionType.push_back( type ); }
-	void setOptionType(const std::list<OptionType_t>& OptionTypes) throw() { m_OptionType = OptionTypes; }
+	void addOptionType(OptionType_t type) { m_OptionType.push_back( type ); }
+	void setOptionType(const std::list<OptionType_t>& OptionTypes) { m_OptionType = OptionTypes; }
 
-	Durability_t getDurability() const throw() { return m_Durability;}
-	void setDurability(Durability_t dur) throw() { m_Durability = dur;}
+	Durability_t getDurability() const { return m_Durability;}
+	void setDurability(Durability_t dur) { m_Durability = dur;}
 
-	ItemNum_t getItemNum(void) const throw() { return m_ItemNum;}
-	void setItemNum(ItemNum_t num) throw() { m_ItemNum = num;}
+	ItemNum_t getItemNum(void) const { return m_ItemNum;}
+	void setItemNum(ItemNum_t num) { m_ItemNum = num;}
 
-	Silver_t getSilver(void) const throw() { return m_Silver; }
-	void setSilver(Silver_t silver) throw() { m_Silver = silver; }
+	Silver_t getSilver(void) const { return m_Silver; }
+	void setSilver(Silver_t silver) { m_Silver = silver; }
 
-	Grade_t getGrade(void) const throw() { return m_Grade; }
-	void setGrade(Grade_t Grade) throw() { m_Grade = Grade; }
+	Grade_t getGrade(void) const { return m_Grade; }
+	void setGrade(Grade_t Grade) { m_Grade = Grade; }
 
-	EnchantLevel_t getEnchantLevel(void) const throw() { return m_EnchantLevel; }
-	void setEnchantLevel(EnchantLevel_t level) throw() { m_EnchantLevel = level; }
+	EnchantLevel_t getEnchantLevel(void) const { return m_EnchantLevel; }
+	void setEnchantLevel(EnchantLevel_t level) { m_EnchantLevel = level; }
 	
-	Price_t getPrice() const throw() { return m_Price;}
+	Price_t getPrice() const { return m_Price;}
 	void setPrice(Price_t price) { m_Price = price;}
 
 private:
 	ObjectID_t     		m_ObjectID;     // NPC's object id
-	ShopVersion_t  		m_Version;      // »óÁ¡ ¹öÁ¯
-	ObjectID_t     		m_ItemObjectID; // ÇÃ·¹ÀÌ¾î°¡ »ê ¾ÆÀÌÅÛÀÇ OID
-	BYTE           		m_ItemClass;    // ÇÃ·¹ÀÌ¾î°¡ »ê ¾ÆÀÌÅÛÀÇ class
-	ItemType_t     		m_ItemType;     // ÇÃ·¹ÀÌ¾î°¡ »ê ¾ÆÀÌÅÛÀÇ type
-	std::list<OptionType_t>  m_OptionType;   // ÇÃ·¹ÀÌ¾î°¡ »ê ¾ÆÀÌÅÛÀÇ option type
-	Durability_t   		m_Durability;   // ÇÃ·¹ÀÌ¾î°¡ »ê ¾ÆÀÌÅÛÀÇ durability
-	ItemNum_t      		m_ItemNum;      // ÇÃ·¹ÀÌ¾î°¡ »ê ¾ÆÀÌÅÛÀÇ item num
-	Silver_t       		m_Silver;       // ÇÃ·¹ÀÌ¾î°¡ »ê ¾ÆÀÌÅÛÀÇ silver coating amount
-	Grade_t       		m_Grade;        // ÇÃ·¹ÀÌ¾î°¡ »ê ¾ÆÀÌÅÛÀÇ grade
-	EnchantLevel_t 		m_EnchantLevel; // ÇÃ·¹ÀÌ¾î°¡ »ê ¾ÆÀÌÅÛÀÇ enchant level
-	Price_t        		m_Price;        // ÇÃ·¹ÀÌ¾î°¡ ÇöÀç µ·
+	ShopVersion_t  		m_Version;      // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	ObjectID_t     		m_ItemObjectID; // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ OID
+	BYTE           		m_ItemClass;    // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ class
+	ItemType_t     		m_ItemType;     // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ type
+	std::list<OptionType_t>  m_OptionType;   // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ option type
+	Durability_t   		m_Durability;   // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ durability
+	ItemNum_t      		m_ItemNum;      // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ item num
+	Silver_t       		m_Silver;       // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ silver coating amount
+	Grade_t       		m_Grade;        // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ grade
+	EnchantLevel_t 		m_EnchantLevel; // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ enchant level
+	Price_t        		m_Price;        // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
 };
 
@@ -116,10 +116,10 @@ private:
 class GCShopBuyOKFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCShopBuyOK(); }
-	std::string getPacketName() const throw() { return "GCShopBuyOK"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_SHOP_BUY_OK; }
-	PacketSize_t getPacketMaxSize() const throw() 
+	Packet* createPacket() { return new GCShopBuyOK(); }
+	std::string getPacketName() const { return "GCShopBuyOK"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_SHOP_BUY_OK; }
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		return szObjectID +  // NPC OID
 			szShopVersion +  // shop version
@@ -143,7 +143,7 @@ public:
 class GCShopBuyOKHandler 
 {
 public:
-	static void execute(GCShopBuyOK* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCShopBuyOK* pPacket, Player* pPlayer);
 
 };
 

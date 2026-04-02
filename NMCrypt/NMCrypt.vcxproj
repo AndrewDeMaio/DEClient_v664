@@ -20,40 +20,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Crypt.cpp" />
-    <ClCompile Include="EffectInfo.cpp" />
-    <ClCompile Include="Encrypter.cpp" />
-    <ClCompile Include="ExtraInfo.cpp" />
-    <ClCompile Include="ExtraSlotInfo.cpp" />
     <ClCompile Include="FileAPILocal.cpp" />
-    <ClCompile Include="GameTime.cpp" />
-    <ClCompile Include="GearInfo.cpp" />
-    <ClCompile Include="GearSlotInfo.cpp" />
-    <ClCompile Include="GuildWarInfo.cpp" />
-    <ClCompile Include="InstanceDoungeonInfo.cpp" />
-    <ClCompile Include="InventoryInfo.cpp" />
-    <ClCompile Include="InventorySlotInfo.cpp" />
-    <ClCompile Include="LevelWarInfo.cpp" />
-    <ClCompile Include="ModifyInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Crypt.h" />
-    <ClInclude Include="DatagramPacket.h" />
-    <ClInclude Include="EffectInfo.h" />
-    <ClInclude Include="Encrypter.h" />
-    <ClInclude Include="EncryptUtility.h" />
-    <ClInclude Include="ExtraInfo.h" />
-    <ClInclude Include="ExtraSlotInfo.h" />
     <ClInclude Include="FileAPILocal.h" />
-    <ClInclude Include="GameTime.h" />
-    <ClInclude Include="GearInfo.h" />
-    <ClInclude Include="GearSlotInfo.h" />
-    <ClInclude Include="GuildWarInfo.h" />
-    <ClInclude Include="InstanceDoungeonInfo.h" />
-    <ClInclude Include="InventoryInfo.h" />
-    <ClInclude Include="InventorySlotInfo.h" />
-    <ClInclude Include="LevelWarInfo.h" />
-    <ClInclude Include="ModifyInfo.h" />
-    <ClInclude Include="ValueList.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

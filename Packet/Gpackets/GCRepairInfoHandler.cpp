@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCRepairInfo.h"
 #include "MGameStringTable.h"
 #include "CMessageArray.h"
@@ -18,7 +18,6 @@
 extern CMessageArray*				g_pSystemMessage;
 
 void GCRepairInfoHandler::execute ( GCRepairInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY 
 	

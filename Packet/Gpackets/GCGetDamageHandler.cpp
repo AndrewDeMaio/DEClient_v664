@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCGetDamage.h"
 #include "ClientDef.h"
 #include "MActionInfoTable.h"
@@ -16,14 +16,13 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCGetDamageHandler::execute ( GCGetDamage * pGCGetDamage , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 
 	// message
 
 	//------------------------------------------------------
-	// Player°¡ Damage¸¦ ¹Þ¾ÒÀ¸¸é..
+	// Playerï¿½ï¿½ Damageï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½..
 	//------------------------------------------------------
 	if (pGCGetDamage->getObjectID()==g_pPlayer->GetID())
 	{
@@ -37,7 +36,7 @@ void GCGetDamageHandler::execute ( GCGetDamage * pGCGetDamage , Player * pPlayer
 	else
 	{
 		//------------------------------------------------------
-		// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+		// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		if (g_pZone==NULL)
 		{
@@ -45,16 +44,16 @@ void GCGetDamageHandler::execute ( GCGetDamage * pGCGetDamage , Player * pPlayer
 			DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 		}
 		//------------------------------------------------------
-		// Á¤»ó.. 
+		// ï¿½ï¿½ï¿½ï¿½.. 
 		//------------------------------------------------------
 		else
 		{
 			MCreature* pCreature = g_pZone->GetCreature( pGCGetDamage->getObjectID() );
 
-			// Creature¿¡°Ô Damage ÀÔÈû
+			// Creatureï¿½ï¿½ï¿½ï¿½ Damage ï¿½ï¿½ï¿½ï¿½
 			if (pCreature != NULL)
 			{
-				// SKILL_ATTACK_MELEE¿¡ ´ëÇÑ °á°ú¸¦ Ç¥ÇöÇØÁØ´Ù.
+				// SKILL_ATTACK_MELEEï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 				pCreature->PacketSpecialActionResult( 
 								SKILL_ATTACK_MELEE + (*g_pActionInfoTable).GetMinResultActionInfo(),
 								pCreature->GetID(),

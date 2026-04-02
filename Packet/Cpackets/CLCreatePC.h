@@ -18,7 +18,7 @@
 //
 // class CLCreatePC;
 //
-// ½½·¹ÀÌ¾î Ä³¸¯ÅÍ¸¦ »õ·Î ¸¸µé °æ¿ì, ÀÌ ÆÐÅ¶¿¡ Á¤º¸¸¦ ´ã¾Æ¼­ ¼­¹ö·Î Àü¼ÛÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //
 //----------------------------------------------------------------------
 
@@ -46,103 +46,103 @@ public:
 
 public:
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_CL_CREATE_PC; }
+	PacketID_t getPacketID() const { return PACKET_CL_CREATE_PC; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static CLCreatePCPacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize() const throw() 
+	// const static CLCreatePCPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize() const
 	{ 
-		return szBYTE + m_Name.size() 	// ÀÌ¸§
-			+ szSlot					// ½½¶ù
-			+ szBYTE					// ½½·¹ÀÌ¾î ÇÃ·¡±×(3 bit)
+		return szBYTE + m_Name.size() 	// ï¿½Ì¸ï¿½
+			+ szSlot					// ï¿½ï¿½ï¿½ï¿½
+			+ szBYTE					// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½(3 bit)
 			+ szAttr* 3
-			+ szColor* SLAYER_COLOR_MAX ; // »ö±ò Á¤º¸
+			+ szColor* SLAYER_COLOR_MAX ; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	}
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet's name
-	std::string getPacketName() const throw() { return "CLCreatePC"; }
+	std::string getPacketName() const { return "CLCreatePC"; }
 	
 	// get packet's debug std::string
-	std::string toString() const throw();
+	std::string toString() const;
 #endif
 	
 public:
 
 	// get/set name
-	const std::string& getName() const throw() { return m_Name; }
-	void setName(std::string name) throw() { m_Name = name; }
+	const std::string& getName() const { return m_Name; }
+	void setName(std::string name) { m_Name = name; }
 
 	// get/set slot
-	Slot getSlot() const throw() { return m_Slot; }
-	void setSlot(Slot slot) throw() { m_Slot = slot; }
+	Slot getSlot() const { return m_Slot; }
+	void setSlot(Slot slot) { m_Slot = slot; }
 
 	// get/set sex
-    Sex getSex() const throw() { return m_BitSet.test(SLAYER_BIT_SEX)?MALE:FEMALE; }
-    void setSex(Sex sex) throw() { m_BitSet.set(SLAYER_BIT_SEX,(sex==MALE?true:false)); }
+    Sex getSex() const { return m_BitSet.test(SLAYER_BIT_SEX)?MALE:FEMALE; }
+    void setSex(Sex sex) { m_BitSet.set(SLAYER_BIT_SEX,(sex==MALE?true:false)); }
 
 	// get/set hair style
-	HairStyle getHairStyle() const throw() { return HairStyle((m_BitSet.to_ulong() >> 1) & 3); }
-	void setHairStyle(HairStyle hairStyle) throw() { m_BitSet |= std::bitset<SLAYER_BIT_MAX>(hairStyle << 1); }
+	HairStyle getHairStyle() const { return HairStyle((m_BitSet.to_ulong() >> 1) & 3); }
+	void setHairStyle(HairStyle hairStyle) { m_BitSet |= std::bitset<SLAYER_BIT_MAX>(hairStyle << 1); }
 
 	// get/set race. by sigi. 2002.10.31
-	//bool isSlayer() const throw() { return ((m_BitSet.to_ulong() >> 3) & 1)==0; }
-	//void setSlayer(bool bSlayer=true) throw() { m_BitSet |= bitset<SLAYER_BIT_MAX>((int)(bSlayer==false) << 3); }
+	//bool isSlayer() const { return ((m_BitSet.to_ulong() >> 3) & 1)==0; }
+	//void setSlayer(bool bSlayer=true) { m_BitSet |= bitset<SLAYER_BIT_MAX>((int)(bSlayer==false) << 3); }
 
 	// get/set hair color
-	Color_t getHairColor() const throw() { return m_Colors[ SLAYER_COLOR_HAIR ]; }
-	void setHairColor(Color_t hairColor) throw() { m_Colors[ SLAYER_COLOR_HAIR ] = hairColor; }
+	Color_t getHairColor() const { return m_Colors[ SLAYER_COLOR_HAIR ]; }
+	void setHairColor(Color_t hairColor) { m_Colors[ SLAYER_COLOR_HAIR ] = hairColor; }
 
 	// get/set skin color
-	Color_t getSkinColor() const throw() { return m_Colors[ SLAYER_COLOR_SKIN ]; }
-	void setSkinColor(Color_t skinColor) throw() { m_Colors[ SLAYER_COLOR_SKIN ] = skinColor; }
+	Color_t getSkinColor() const { return m_Colors[ SLAYER_COLOR_SKIN ]; }
+	void setSkinColor(Color_t skinColor) { m_Colors[ SLAYER_COLOR_SKIN ] = skinColor; }
 
 	// get/set shirt color
-	Color_t getShirtColor(ColorType colorType = MAIN_COLOR) const throw() { return m_Colors[ SLAYER_COLOR_SHIRT +(uint)colorType ]; }
-	void setShirtColor(Color_t shirtColor, ColorType colorType = MAIN_COLOR) throw() { m_Colors[ SLAYER_COLOR_SHIRT +(uint)colorType ] = shirtColor; }
+	Color_t getShirtColor(ColorType colorType = MAIN_COLOR) const { return m_Colors[ SLAYER_COLOR_SHIRT +(uint)colorType ]; }
+	void setShirtColor(Color_t shirtColor, ColorType colorType = MAIN_COLOR) { m_Colors[ SLAYER_COLOR_SHIRT +(uint)colorType ] = shirtColor; }
 
 	// get/set jeans color
-	Color_t getJeansColor(ColorType colorType = MAIN_COLOR) const throw() { return m_Colors[ SLAYER_COLOR_JEANS +(uint)colorType ]; }
-	void setJeansColor(Color_t jeansColor, ColorType colorType = MAIN_COLOR) throw() { m_Colors[ SLAYER_COLOR_JEANS +(uint)colorType ] = jeansColor; }
+	Color_t getJeansColor(ColorType colorType = MAIN_COLOR) const { return m_Colors[ SLAYER_COLOR_JEANS +(uint)colorType ]; }
+	void setJeansColor(Color_t jeansColor, ColorType colorType = MAIN_COLOR) { m_Colors[ SLAYER_COLOR_JEANS +(uint)colorType ] = jeansColor; }
 
 	// get/set STR
-	Attr_t getSTR() const throw() { return m_STR; }
-	void setSTR(Attr_t str) throw() { m_STR = str; }
+	Attr_t getSTR() const { return m_STR; }
+	void setSTR(Attr_t str) { m_STR = str; }
 	// get/set DEX
-	Attr_t getDEX() const throw() { return m_DEX; }
-	void setDEX(Attr_t dex) throw() { m_DEX = dex; }
+	Attr_t getDEX() const { return m_DEX; }
+	void setDEX(Attr_t dex) { m_DEX = dex; }
 	// get/set INT
-	Attr_t getINT() const throw() { return m_INT; }
-	void setINT(Attr_t inte) throw() { m_INT = inte; }
+	Attr_t getINT() const { return m_INT; }
+	void setINT(Attr_t inte) { m_INT = inte; }
 
 	// get/set Race
-	Race_t getRace() const throw() { return m_Race; }
-	void setRace( Race_t race ) throw() { m_Race = race; }
+	Race_t getRace() const { return m_Race; }
+	void setRace( Race_t race ) { m_Race = race; }
 
 
 private :
 
-    // PCÀÇ ÀÌ¸§
+    // PCï¿½ï¿½ ï¿½Ì¸ï¿½
     std::string m_Name;
 
-	// ½½¶ù
+	// ï¿½ï¿½ï¿½ï¿½
 	Slot m_Slot;
 
-	// ½½·¹ÀÌ¾î ÇÃ·¡±× 
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ 
 	std::bitset<SLAYER_BIT_MAX> m_BitSet; 
 
-	// ½½·¹ÀÌ¾î »ö±ò Á¤º¸
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	Color_t m_Colors[SLAYER_COLOR_MAX ];
 
 	// STR, DEX, INTE
@@ -150,7 +150,7 @@ private :
 	Attr_t m_DEX;
 	Attr_t m_INT;
 
-	// Á¾Á·
+	// ï¿½ï¿½ï¿½ï¿½
 	Race_t m_Race;
 
 };
@@ -169,25 +169,25 @@ class CLCreatePCFactory : public PacketFactory {
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new CLCreatePC(); }
+	Packet* createPacket() { return new CLCreatePC(); }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "CLCreatePC"; }
+	std::string getPacketName() const { return "CLCreatePC"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CL_CREATE_PC; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CL_CREATE_PC; }
 
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static CLCreatePCPacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw()
+	// const static CLCreatePCPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const
 	{ 
-		return szBYTE + 20 								// ÀÌ¸§
-			+ szSlot									// ½½¶ù
-			+ szBYTE									// ½½·¹ÀÌ¾î ÇÃ·¡±×(3 bit)
+		return szBYTE + 20 								// ï¿½Ì¸ï¿½
+			+ szSlot									// ï¿½ï¿½ï¿½ï¿½
+			+ szBYTE									// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½(3 bit)
 			+ szAttr* 3
-			+ szColor* CLCreatePC::SLAYER_COLOR_MAX 	// »ö±ò Á¤º¸
-			+ szRace;									// Á¾Á·
+			+ szColor* CLCreatePC::SLAYER_COLOR_MAX 	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			+ szRace;									// ï¿½ï¿½ï¿½ï¿½
 	}
 
 };
@@ -204,7 +204,7 @@ class CLCreatePCHandler {
 public:
 
 	// execute packet's handler
-	static void execute(CLCreatePC* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(CLCreatePC* pPacket, Player* pPlayer);
 
 };
 #endif

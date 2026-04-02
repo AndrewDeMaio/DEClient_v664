@@ -18,18 +18,18 @@
 class GCRemoveStoreItem : public Packet
 {
 public:
-	GCRemoveStoreItem() throw() { }
-	virtual ~GCRemoveStoreItem() throw();
+	GCRemoveStoreItem() { }
+	virtual ~GCRemoveStoreItem();
 
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_REMOVE_STORE_ITEM; }
-	PacketSize_t getPacketSize() const throw() { return szObjectID + szBYTE; }
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_REMOVE_STORE_ITEM; }
+	size_t getPacketSize() const { return szObjectID + szBYTE; }
 #ifdef __DEBUG_OUTPUT__	
-	string getPacketName() const throw() { return "GCRemoveStoreItem"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCRemoveStoreItem"; }
+	string toString() const;
 #endif
 	ObjectID_t	getOwnerObjectID() const { return m_OwnerObjectID; }
 	void		setOwnerObjectID(ObjectID_t oid) { m_OwnerObjectID = oid; }
@@ -49,12 +49,12 @@ private:
 class GCRemoveStoreItemFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCRemoveStoreItem(); }
+	Packet* createPacket() { return new GCRemoveStoreItem(); }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCRemoveStoreItem"; }
+	string getPacketName() const { return "GCRemoveStoreItem"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_REMOVE_STORE_ITEM; }
-	PacketSize_t getPacketMaxSize() const throw()
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_REMOVE_STORE_ITEM; }
+	PacketSize_t getPacketMaxSize() const
 	{
 		return szObjectID + szBYTE;
 	}
@@ -67,7 +67,7 @@ public:
 class GCRemoveStoreItemHandler 
 {
 public:
-	static void execute(GCRemoveStoreItem* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCRemoveStoreItem* pPacket, Player* pPlayer);
 };
 
 #endif

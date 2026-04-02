@@ -7,16 +7,16 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+//#include "ClientDef.h"
+
+#include "GPacket_PCH.h"
 #include "GCUseBonusPointOK.h"
-#include "..\cpackets\CGUseBonusPoint.h"
+#include "Cpackets\CGUseBonusPoint.h"
 #include "TempInformation.h"
-#include "ClientDef.h"
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCUseBonusPointOKHandler::execute ( GCUseBonusPointOK * pPacket , Player * pPlayer )
-	 throw ( ProtocolException, Error )
 {
 	__BEGIN_TRY
 		
@@ -24,22 +24,22 @@ void GCUseBonusPointOKHandler::execute ( GCUseBonusPointOK * pPacket , Player * 
 
 
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	AffectModifyInfo(g_pPlayer, pPacket);
 
 	//------------------------------------------------------------
-	// bonus point¸¦ »ç¿ëÇÑ °æ¿ì Ã¼Å©..
+	// bonus pointï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã¼Å©..
 	//------------------------------------------------------------
 	if (g_pTempInformation->GetMode()==TempInformation::MODE_BONUSPOINT_USE)
 	{
 		//------------------------------------------------------------
-		// mode Á¦°Å
+		// mode ï¿½ï¿½ï¿½ï¿½
 		//------------------------------------------------------------
 		g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
 		//------------------------------------------------------------
-		// ¼±ÅÃÇÑ part¸¦ ¿Ã·ÁÁØ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ partï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ø´ï¿½.
 		//------------------------------------------------------------
 		/*
 		int incPart = g_pTempInformation->Value1;
@@ -63,7 +63,7 @@ void GCUseBonusPointOKHandler::execute ( GCUseBonusPointOK * pPacket , Player * 
 		int bonusPoint = g_pPlayer->GetBonusPoint();
 
 		//------------------------------------------------------------
-		// bonus point¸¦ ÇÏ³ª »©ÁØ´Ù.
+		// bonus pointï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 		//------------------------------------------------------------
 		if (bonusPoint-1 >= 0)
 		{

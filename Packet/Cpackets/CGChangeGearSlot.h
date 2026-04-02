@@ -23,29 +23,29 @@
 class CGChangeGearSlot : public Packet
  {
 public:
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_CG_CHANGE_GEARSLOT; }
+	PacketID_t getPacketID() const { return PACKET_CG_CHANGE_GEARSLOT; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return szGearSlotID; }
+	size_t getPacketSize() const { return szGearSlotID; }
 
 	// get packet name
-	string getPacketName() const throw() { return "CGChangeGearSlot"; }
+	string getPacketName() const { return "CGChangeGearSlot"; }
 
-	GearSlotID_t getGearSlotID() const throw() { return m_GearSlotID; }
-	void setGearID(GearSlotID_t GearSlotID) throw() { m_GearSlotID = GearSlotID; }
+	GearSlotID_t getGearSlotID() const { return m_GearSlotID; }
+	void setGearID(GearSlotID_t GearSlotID) { m_GearSlotID = GearSlotID; }
 	
 	// get packet's debug string
-	string toString() const throw() { return "CGChangeGearSlot"; }
+	string toString() const { return "CGChangeGearSlot"; }
 
 private :
 
@@ -65,16 +65,16 @@ class CGChangeGearSlotFactory : public PacketFactory {
 
 public:
 	// create packet
-	Packet* createPacket() throw() { return new CGChangeGearSlot(); }
+	Packet* createPacket() { return new CGChangeGearSlot(); }
 
 	// get packet name
-	string getPacketName() const throw() { return "CGChangeGearSlot"; }
+	string getPacketName() const { return "CGChangeGearSlot"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_CHANGE_GEARSLOT; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_CHANGE_GEARSLOT; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize() const throw() { return szGearSlotID; }
+	PacketSize_t getPacketMaxSize() const { return szGearSlotID; }
 };
 
 
@@ -90,7 +90,7 @@ class CGChangeGearSlotHandler
 public:
 
 	// execute packet's handler
-//	static void execute(CGChangeGearSlot* pPacket, Player* player) throw(ProtocolException, Error);
+//	static void execute(CGChangeGearSlot* pPacket, Player* player);
 
 };
 #endif //__GEAR_SWAP_CHANGE

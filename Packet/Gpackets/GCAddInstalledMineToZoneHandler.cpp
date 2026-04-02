@@ -5,7 +5,7 @@
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 // include files
 #include "GCAddInstalledMineToZone.h"
 #include "ClientDef.h"
@@ -13,7 +13,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAddInstalledMineToZoneHandler::execute ( GCAddInstalledMineToZone * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -34,7 +33,7 @@ void GCAddInstalledMineToZoneHandler::execute ( GCAddInstalledMineToZone * pPack
 
 	if (pItem==NULL)
 	{
-		// ¸ÓÁö
+		// ï¿½ï¿½ï¿½ï¿½
 		DEBUG_ADD("[Error] Can't Installed Mine");
 	}
 	else if (pItem->GetItemClass()==ITEM_CLASS_MINE)

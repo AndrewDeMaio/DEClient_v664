@@ -18,46 +18,46 @@ class CGSkillToInventory : public Packet
 {
 public:
 
-	CGSkillToInventory () throw ();
-	~CGSkillToInventory () throw ();
+	CGSkillToInventory ();
+	~CGSkillToInventory ();
 
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_SKILL_TO_INVENTORY; }
-	PacketSize_t getPacketSize() const throw() { return szSkillType + szObjectID + szObjectID  + szCoordInven*4; }
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_SKILL_TO_INVENTORY; }
+	size_t getPacketSize() const { return szSkillType + szObjectID + szObjectID  + szCoordInven*4; }
 
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "CGSkillToInventory"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "CGSkillToInventory"; }
+	std::string toString() const;
 #endif
 
 public:
-	SkillType_t getSkillType() const throw()  { return m_SkillType; }
-	void setSkillType(SkillType_t SkillType) throw() { m_SkillType = SkillType; }
+	SkillType_t getSkillType() const  { return m_SkillType; }
+	void setSkillType(SkillType_t SkillType) { m_SkillType = SkillType; }
 
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID(ObjectID_t ObjectID) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID(ObjectID_t ObjectID) { m_ObjectID = ObjectID; }
 
-	ObjectID_t getInventoryItemObjectID() throw() { return m_InventoryItemObjectID; }
-	void setInventoryItemObjectID(ObjectID_t InventoryItemObjectID) throw() { m_InventoryItemObjectID = InventoryItemObjectID; }
+	ObjectID_t getInventoryItemObjectID() { return m_InventoryItemObjectID; }
+	void setInventoryItemObjectID(ObjectID_t InventoryItemObjectID) { m_InventoryItemObjectID = InventoryItemObjectID; }
 
-	CoordInven_t getX() const throw() { return m_X; }
-	void setX(Coord_t X) throw() { m_X = X; }
+	CoordInven_t getX() const { return m_X; }
+	void setX(Coord_t X) { m_X = X; }
 
-	CoordInven_t getY() const throw() { return m_Y; }
-	void setY(Coord_t Y) throw() { m_Y = Y; }
+	CoordInven_t getY() const { return m_Y; }
+	void setY(Coord_t Y) { m_Y = Y; }
 
-	CoordInven_t getTargetX() const throw() { return m_TargetX; }
-	void setTargetX(Coord_t TargetX) throw() { m_TargetX = TargetX; }
+	CoordInven_t getTargetX() const { return m_TargetX; }
+	void setTargetX(Coord_t TargetX) { m_TargetX = TargetX; }
 
-	CoordInven_t getTargetY() const throw() { return m_TargetY; }
-	void setTargetY(Coord_t TargetY) throw() { m_TargetY = TargetY; }
+	CoordInven_t getTargetY() const { return m_TargetY; }
+	void setTargetY(Coord_t TargetY) { m_TargetY = TargetY; }
 
 private :
 	SkillType_t  m_SkillType;	// SkillType
 	ObjectID_t   m_ObjectID;	// ObjectID
-	// º¸Á¶ ÀÎº¥Åä¸® ¾ÆÀÌÅÛÀÇ ¿ÀºêÁ§Æ® ¾ÆÀÌµð. 0ÀÌ¸é ¸ÞÀÎ ÀÎº¥Åä¸®¿¡¼­ »ç¿ë
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ìµï¿½. 0ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	ObjectID_t	 m_InventoryItemObjectID;
 	CoordInven_t m_X;			// Coord X
 	CoordInven_t m_Y;			// Coord Y
@@ -72,14 +72,14 @@ private :
 class CGSkillToInventoryFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new CGSkillToInventory(); }
+	Packet* createPacket() { return new CGSkillToInventory(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "CGSkillToInventory"; }
+		std::string getPacketName() const { return "CGSkillToInventory"; }
 	#endif
 
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_SKILL_TO_INVENTORY; }
-	PacketSize_t getPacketMaxSize() const throw() { return szSkillType + szObjectID + szObjectID + szCoordInven*4; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_SKILL_TO_INVENTORY; }
+	PacketSize_t getPacketMaxSize() const { return szSkillType + szObjectID + szObjectID + szCoordInven*4; }
 };
 #endif
 
@@ -90,7 +90,7 @@ public:
 	class CGSkillToInventoryHandler 
 	{
 	public:
-		static void execute(CGSkillToInventory* pCGSkillToInventory, Player* pPlayer) throw(Error);
+		static void execute(CGSkillToInventory* pCGSkillToInventory, Player* pPlayer);
 	};
 #endif
 

@@ -8,7 +8,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAuthKey.h"
 #ifdef __GAME_CLIENT__ 
 	#include "Client.h"
@@ -16,12 +16,11 @@
 #endif
 //////////////////////////////////////////////////////////////////////
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡¼­ ¼­¹ö·ÎºÎÅÍ ¸Þ½ÃÁö¸¦ ¹Þ¾ÒÀ»¶§ ½ÇÇàµÇ´Â ¸Þ½îµåÀÌ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
 void GCAuthKeyHandler::execute ( GCAuthKey * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY 
 //		__BEGIN_DEBUG_EX
@@ -30,15 +29,15 @@ void GCAuthKeyHandler::execute ( GCAuthKey * pPacket , Player * pPlayer )
 
 #if !defined(OUTPUT_DEBUG) && !defined(_DEBUG) && !defined(__DEBUG_OUTPUT__)
 	Set_Auth(pPacket->getKey());
-//	MessageBox(g_hWnd, "GCAuthKeyHandler¹ÞÀ½1", "Warning", MB_OK);
+//	MessageBox(g_hWnd, "GCAuthKeyHandlerï¿½ï¿½ï¿½ï¿½1", "Warning", MB_OK);
 #endif
-//	MessageBox(g_hWnd, "GCAuthKeyHandler¹ÞÀ½2", "Warning", MB_OK);
+//	MessageBox(g_hWnd, "GCAuthKeyHandlerï¿½ï¿½ï¿½ï¿½2", "Warning", MB_OK);
 //#ifdef __NPROTECT__
 //	//cout << pPacket->toString() << endl;
 //	Set_Auth(pPacket->getKey());
-//	MessageBox(g_hWnd, "GCAuthKeyHandler¹ÞÀ½1", "Warning", MB_OK);
+//	MessageBox(g_hWnd, "GCAuthKeyHandlerï¿½ï¿½ï¿½ï¿½1", "Warning", MB_OK);
 //#endif
-//	MessageBox(g_hWnd, "GCAuthKeyHandler¹ÞÀ½2", "Warning", MB_OK);
+//	MessageBox(g_hWnd, "GCAuthKeyHandlerï¿½ï¿½ï¿½ï¿½2", "Warning", MB_OK);
 #endif
 
 //	__END_DEBUG_EX

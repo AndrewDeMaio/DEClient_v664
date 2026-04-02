@@ -2,7 +2,7 @@
 // 
 // Filename    : GCChangeInventoryItemNum.h 
 // Written By  : elca@ewestsoft.com
-// Description : ±â¼úÀÌ ¼º°øÇßÀ»¶§ º¸³»´Â ÆÐÅ¶À» À§ÇÑ Å¬·¡½º Á¤ÀÇ
+// Description : ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -19,7 +19,7 @@
 //
 // class GCChangeInventoryItemNum;
 //
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -28,50 +28,50 @@ class GCChangeInventoryItemNum {
 public :
 	
 	// constructor
-	GCChangeInventoryItemNum () throw ();
+	GCChangeInventoryItemNum ();
 	
 	// destructor
-	~GCChangeInventoryItemNum () throw ();
+	~GCChangeInventoryItemNum ();
 
 	
 public :
 	
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
-	PacketSize_t getPacketSize () const throw () { return szBYTE + szObjectID * m_ChangedItemListNum + szItemNum*m_ChangedItemListNum;} 
+	size_t getPacketSize () const { return szBYTE + szObjectID * m_ChangedItemListNum + szItemNum*m_ChangedItemListNum;} 
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 	// get / set ListNumber
-	BYTE getChangedItemListNum() const throw() { return m_ChangedItemListNum; }
-	void setChangedItemListNum( BYTE ListNum ) throw() { m_ChangedItemListNum = ListNum; }
+	BYTE getChangedItemListNum() const { return m_ChangedItemListNum; }
+	void setChangedItemListNum( BYTE ListNum ) { m_ChangedItemListNum = ListNum; }
 
 	// add / delete / clear S List
-	void addChangedItemListElement( ObjectID_t objectID , BYTE itemNum ) throw(); 
+	void addChangedItemListElement( ObjectID_t objectID , BYTE itemNum ); 
 
 	// ClearList
-	void clearChangedItemList() throw() { m_ChangedItemList.clear(); m_ChangedItemNumList.clear(); m_ChangedItemListNum = 0; }
+	void clearChangedItemList() { m_ChangedItemList.clear(); m_ChangedItemNumList.clear(); m_ChangedItemListNum = 0; }
 
 	// pop front Element in Object List
-	ObjectID_t popFrontChangedItemListElement() throw() { ObjectID_t item = m_ChangedItemList.front(); m_ChangedItemList.pop_front(); return item; }
-	ItemNum_t popFrontChangedItemNumListElement() throw() { ItemNum_t itemNum = m_ChangedItemNumList.front(); m_ChangedItemNumList.pop_front(); return itemNum; }
+	ObjectID_t popFrontChangedItemListElement() { ObjectID_t item = m_ChangedItemList.front(); m_ChangedItemList.pop_front(); return item; }
+	ItemNum_t popFrontChangedItemNumListElement() { ItemNum_t itemNum = m_ChangedItemNumList.front(); m_ChangedItemNumList.pop_front(); return itemNum; }
 
 protected:
 	
 	// List Element Number
 	BYTE m_ChangedItemListNum;
 
-	// ¼ö·®µîÀÌ º¯°æµÈ Inventory³»ÀÇ Item List
-	std::list<ObjectID_t> m_ChangedItemList;		// º¯°æµÉ Item object id
-	std::list<ItemNum_t> m_ChangedItemNumList;	// º¯°æµÉ Item object idÀÇ º¯°æ ¼ö·®.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Inventoryï¿½ï¿½ï¿½ï¿½ Item List
+	std::list<ObjectID_t> m_ChangedItemList;		// ï¿½ï¿½ï¿½ï¿½ï¿½ Item object id
+	std::list<ItemNum_t> m_ChangedItemNumList;	// ï¿½ï¿½ï¿½ï¿½ï¿½ Item object idï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 
 
 };

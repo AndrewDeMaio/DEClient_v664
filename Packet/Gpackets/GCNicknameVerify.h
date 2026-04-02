@@ -30,26 +30,26 @@ class GCNicknameVerify : public Packet
 {
 
 public:
-	GCNicknameVerify() throw() { m_Code = NICKNAME_VERIFY_MAX; m_Parameter = 0;}
-	virtual ~GCNicknameVerify() throw() {}
+	GCNicknameVerify() { m_Code = NICKNAME_VERIFY_MAX; m_Parameter = 0;}
+	virtual ~GCNicknameVerify() {}
 
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
 
-	PacketID_t getPacketID() const throw() { return PACKET_GC_NICKNAME_VERIFY; }
-	PacketSize_t getPacketSize() const throw();
+	PacketID_t getPacketID() const { return PACKET_GC_NICKNAME_VERIFY; }
+	size_t getPacketSize() const;
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCNicknameVerify"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCNicknameVerify"; }
+	string toString() const;
 #endif
 public:
-	BYTE getCode(void) const throw() { return m_Code;}
-	void setCode(BYTE code) throw() { m_Code = code;}
+	BYTE getCode(void) const { return m_Code;}
+	void setCode(BYTE code) { m_Code = code;}
 
-	uint getParameter(void) const throw() { return m_Parameter; }
-	void setParameter(uint parameter) throw() { m_Parameter = parameter; }
+	uint getParameter(void) const { return m_Parameter; }
+	void setParameter(uint parameter) { m_Parameter = parameter; }
 
 private: 
 	BYTE m_Code;
@@ -64,12 +64,12 @@ private:
 class GCNicknameVerifyFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCNicknameVerify(); }
+	Packet* createPacket() { return new GCNicknameVerify(); }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCNicknameVerify"; }
+	string getPacketName() const { return "GCNicknameVerify"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_NICKNAME_VERIFY; }
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + szuint; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_NICKNAME_VERIFY; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE + szuint; }
 };
 
 
@@ -80,7 +80,7 @@ public:
 class GCNicknameVerifyHandler 
 {
 public:
-	static void execute( GCNicknameVerify* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute( GCNicknameVerify* pPacket, Player* pPlayer);
 };
 
 #endif

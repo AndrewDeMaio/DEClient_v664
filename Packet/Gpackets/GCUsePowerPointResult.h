@@ -27,46 +27,46 @@ public:
 	enum RESULT_CODE
 	{
 		_NO_ERROR = 0,
-		NOT_ENOUGH_POWER_POINT,		// ÆÄ¿ö Æ÷ÀÎÆ®°¡ ºÎÁ·ÇÕ´Ï´Ù.
-		NOT_ENOUGH_INVENTORY_SPACE	// ÀÎº¥Åä¸®¿¡ °ø°£ÀÌ ºÎÁ·ÇÕ´Ï´Ù.
+		NOT_ENOUGH_POWER_POINT,		// ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+		NOT_ENOUGH_INVENTORY_SPACE	// ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 	};
 
 	enum ITEM_CODE
 	{
-		CANDY = 0,				// »çÅÁ 1°³ 
-		RESURRECTION_SCROLL,	// ºÎÈ° ½ºÅ©·Ñ 1°³
-		ELIXIR_SCROLL,			// ¿¤¸¯¼­ ½ºÅ©·Ñ 1°³
-		MEGAPHONE,				// È®¼º±â 30ºÐ
-		NAMING_PEN,				// ³×ÀÌ¹Ö Ææ 1°³
-		SIGNPOST,				// ¾Ë¸²ÆÇ 6½Ã°£
-		BLACK_RICE_CAKE_SOUP	// °ËÀº ¶±±¹ 1°³
+		CANDY = 0,				// ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ 
+		RESURRECTION_SCROLL,	// ï¿½ï¿½È° ï¿½ï¿½Å©ï¿½ï¿½ 1ï¿½ï¿½
+		ELIXIR_SCROLL,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ 1ï¿½ï¿½
+		MEGAPHONE,				// È®ï¿½ï¿½ï¿½ï¿½ 30ï¿½ï¿½
+		NAMING_PEN,				// ï¿½ï¿½ï¿½Ì¹ï¿½ ï¿½ï¿½ 1ï¿½ï¿½
+		SIGNPOST,				// ï¿½Ë¸ï¿½ï¿½ï¿½ 6ï¿½Ã°ï¿½
+		BLACK_RICE_CAKE_SOUP	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½
 	};
 
 public:
-	GCUsePowerPointResult() throw();
-	~GCUsePowerPointResult() throw();
+	GCUsePowerPointResult();
+	~GCUsePowerPointResult();
 
 public :
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_USE_POWER_POINT_RESULT; }
+	PacketID_t getPacketID() const { return PACKET_GC_USE_POWER_POINT_RESULT; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return szBYTE + szBYTE + szDWORD; }
+	size_t getPacketSize() const { return szBYTE + szBYTE + szDWORD; }
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	string getPacketName() const throw() { return "GCUsePowerPointResult"; }
+	string getPacketName() const { return "GCUsePowerPointResult"; }
 	
 	// get packet's debug string
-	string toString() const throw();
+	string toString() const;
 #endif
 	// get / set Error Code
 	BYTE getErrorCode() const { return m_ErrorCode; }
@@ -84,13 +84,13 @@ public :
 // data members
 //--------------------------------------------------
 private :
-	// ¿¡·¯ ÄÚµå
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 	BYTE	m_ErrorCode;
 
-	// ¾ÆÀÌÅÛ ÄÚµå
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 	BYTE	m_ItemCode;
 
-	// ÆÄ¿ö Æ÷ÀÎÆ®
+	// ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 	uint	m_PowerPoint;
 };
 
@@ -107,18 +107,18 @@ class GCUsePowerPointResultFactory : public PacketFactory
 {
 public :
 	// create packet
-	Packet* createPacket() throw() { return new GCUsePowerPointResult(); }
+	Packet* createPacket() { return new GCUsePowerPointResult(); }
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	string getPacketName() const throw() { return "GCUsePowerPointResult"; }
+	string getPacketName() const { return "GCUsePowerPointResult"; }
 #endif
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_USE_POWER_POINT_RESULT; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_USE_POWER_POINT_RESULT; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCUsePowerPointResultPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + szBYTE + szDWORD; }
+	// const static GCUsePowerPointResultPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const { return szBYTE + szBYTE + szDWORD; }
 };
 
 
@@ -133,7 +133,7 @@ class GCUsePowerPointResultHandler
 {
 public :
 	// execute packet's handler
-	static void execute(GCUsePowerPointResult* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCUsePowerPointResult* pPacket, Player* pPlayer);
 };
 
 #endif

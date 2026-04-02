@@ -12,28 +12,28 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // class GCNotifyWin;
-// NPC ÀÇ ´ë»ç¸¦ ÁÖº¯ÀÇ PC µé¿¡°Ô Àü¼ÛÇÑ´Ù.
+// NPC ï¿½ï¿½ ï¿½ï¿½ç¸¦ ï¿½Öºï¿½ï¿½ï¿½ PC ï¿½é¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 
 class GCNotifyWin : public Packet 
 {
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_NOTIFY_WIN; }
-	PacketSize_t getPacketSize() const throw() { return szDWORD + szBYTE + m_Name.size(); }
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_NOTIFY_WIN; }
+	size_t getPacketSize() const { return szDWORD + szBYTE + m_Name.size(); }
 	
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCNotifyWin"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "GCNotifyWin"; }
+	std::string toString() const;
 #endif
 
-	DWORD getGiftID() const throw() { return m_GiftID; }
-	void setGiftID(DWORD gID) throw() { m_GiftID = gID; }
+	DWORD getGiftID() const { return m_GiftID; }
+	void setGiftID(DWORD gID) { m_GiftID = gID; }
 
-	const std::string& getName() const throw() { return m_Name; }
-	void setName(const std::string & msg) throw() { m_Name = msg; }
+	const std::string& getName() const { return m_Name; }
+	void setName(const std::string & msg) { m_Name = msg; }
 
 private:
 	DWORD		m_GiftID; // NPC's object id
@@ -50,10 +50,10 @@ private:
 class GCNotifyWinFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCNotifyWin(); }
-	std::string getPacketName() const throw() { return "GCNotifyWin"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_NOTIFY_WIN; }
-	PacketSize_t getPacketMaxSize() const throw() { return szDWORD + szBYTE + 2048 ; }
+	Packet* createPacket() { return new GCNotifyWin(); }
+	std::string getPacketName() const { return "GCNotifyWin"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_NOTIFY_WIN; }
+	PacketSize_t getPacketMaxSize() const { return szDWORD + szBYTE + 2048 ; }
 };
 
 
@@ -64,7 +64,7 @@ public:
 class GCNotifyWinHandler 
 {
 public:
-	static void execute(GCNotifyWin* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCNotifyWin* pPacket, Player* pPlayer);
 
 };
 

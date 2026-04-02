@@ -18,28 +18,28 @@
 //////////////////////////////////////////////////////////////////////////////
 // class GCAddVampire;
 //
-// ·Î±×ÀÎÀÌ³ª Æ÷Å», ÅÚ·¹Æ÷Æ® µîÀ¸·Î ½½·¹ÀÌ¾î°¡ Á¸¿¡ »õ·Î µé¾î°¬À» °æ¿ì, ¶Ç´Â
-// ½½·¹ÀÌ¾î°¡ Á¸¿¡¼­ ÀÌµ¿ÇÒ °æ¿ì,(1) ÀÌ¹Ì ÀÌ ½½·¹ÀÌ¾î¿¡ ´ëÇÑ Á¤º¸¸¦ °®°í ÀÖ´Â
-//(Áï ÀÌ ½½·¹ÀÌ¾î¸¦ º¸°í ÀÖ´Â..) ¿µ¿ª¿¡ Á¸ÀçÇÏ´Â PCµé¿¡°Ô´Â GCMove ÆÐÅ¶À»
-// ºê·ÎµåÄ³½ºÆ®ÇÑ´Ù. ±×·¯³ª,(2) ÀÌ ½½·¹ÀÌ¾î¸¦ Ã³À½ º¸°Ô µÇ´Â ¿µ¿ª¿¡ Á¸ÀçÇÏ´Â
-// PCµé¿¡°Ô´Â GCAddVampire ÆÐÅ¶À» ºê·ÎµåÄ³½ºÆ®ÇÑ´Ù. ¶ÇÇÑ,(3) ÀÌ ½½·¹ÀÌ¾î´Â
-// ÀÚ½ÅÀÌ »õ·Î °³Ã´ÇÑ ½Ã¾ß(?) ¾È¿¡ Á¸ÀçÇÏ´Â ½½·¹ÀÌ¾îµéÀÇ Á¤º¸¸¦ GCAddVampire¿¡
-// ´ã¾Æ¼­ ¹Þ°Ô µÈ´Ù.
+// ï¿½Î±ï¿½ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½ï¿½Å», ï¿½Ú·ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¬ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½Ç´ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½,(1) ï¿½Ì¹ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½
+//(ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½..) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ PCï¿½é¿¡ï¿½Ô´ï¿½ GCMove ï¿½ï¿½Å¶ï¿½ï¿½
+// ï¿½ï¿½Îµï¿½Ä³ï¿½ï¿½Æ®ï¿½Ñ´ï¿½. ï¿½×·ï¿½ï¿½ï¿½,(2) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î¸¦ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
+// PCï¿½é¿¡ï¿½Ô´ï¿½ GCAddVampire ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½Îµï¿½Ä³ï¿½ï¿½Æ®ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½ï¿½,(3) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½
+// ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã´ï¿½ï¿½ ï¿½Ã¾ï¿½(?) ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ GCAddVampireï¿½ï¿½
+// ï¿½ï¿½Æ¼ï¿½ ï¿½Þ°ï¿½ ï¿½È´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 
 class GCAddVampire : public Packet 
 {
 public:
-	GCAddVampire() throw() : m_pEffectInfo(NULL), m_pPetInfo(NULL), m_pNicknameInfo(NULL) { m_FromFlag = 0; }
-	GCAddVampire(const PCVampireInfo3 & vampireInfo) throw() : m_VampireInfo(vampireInfo), m_pEffectInfo(NULL), m_pPetInfo(NULL), m_pNicknameInfo(NULL) { m_FromFlag = 0; }
-	virtual ~GCAddVampire() throw();
+	GCAddVampire() : m_pEffectInfo(NULL), m_pPetInfo(NULL), m_pNicknameInfo(NULL) { m_FromFlag = 0; }
+	GCAddVampire(const PCVampireInfo3 & vampireInfo) : m_VampireInfo(vampireInfo), m_pEffectInfo(NULL), m_pPetInfo(NULL), m_pNicknameInfo(NULL) { m_FromFlag = 0; }
+	virtual ~GCAddVampire();
 	
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_ADD_VAMPIRE; }
-	PacketSize_t getPacketSize() const throw()
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_ADD_VAMPIRE; }
+	size_t getPacketSize() const
 	{
 		PacketSize_t ret = m_VampireInfo.getSize() + m_pEffectInfo->getSize() + ((m_pPetInfo!=NULL)?m_pPetInfo->getSize():szPetType) + szBYTE;
 
@@ -59,22 +59,22 @@ public:
 		return ret;
 	}
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCAddVampire"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCAddVampire"; }
+	string toString() const;
 #endif
 public:
-	PCVampireInfo3 & getVampireInfo() throw() { return m_VampireInfo; }
-	const PCVampireInfo3 & getVampireInfo() const throw() { return m_VampireInfo; }
-	void setVampireInfo(const PCVampireInfo3 & vampireInfo) throw() { m_VampireInfo = vampireInfo; }
+	PCVampireInfo3 & getVampireInfo() { return m_VampireInfo; }
+	const PCVampireInfo3 & getVampireInfo() const { return m_VampireInfo; }
+	void setVampireInfo(const PCVampireInfo3 & vampireInfo) { m_VampireInfo = vampireInfo; }
 
-	EffectInfo* getEffectInfo() const throw() { return m_pEffectInfo; }
-	void setEffectInfo(EffectInfo* pEffectInfo) throw() { m_pEffectInfo = pEffectInfo; }
+	EffectInfo* getEffectInfo() const { return m_pEffectInfo; }
+	void setEffectInfo(EffectInfo* pEffectInfo) { m_pEffectInfo = pEffectInfo; }
 
-	PetInfo* getPetInfo() const throw() { return m_pPetInfo; }
-	void setPetInfo(PetInfo* pPetInfo) throw() { m_pPetInfo = pPetInfo; }
+	PetInfo* getPetInfo() const { return m_pPetInfo; }
+	void setPetInfo(PetInfo* pPetInfo) { m_pPetInfo = pPetInfo; }
 
-	NicknameInfo* getNicknameInfo() const throw() { return m_pNicknameInfo; }
-	void setNicknameInfo(NicknameInfo* pNicknameInfo) throw() { m_pNicknameInfo = pNicknameInfo; }
+	NicknameInfo* getNicknameInfo() const { return m_pNicknameInfo; }
+	void setNicknameInfo(NicknameInfo* pNicknameInfo) { m_pNicknameInfo = pNicknameInfo; }
 
 	StoreOutlook	getStoreOutlook() const { return m_StoreOutlook; }
 	void		setStoreInfo(StoreInfo* pInfo) { pInfo->makeStoreOutlook(m_StoreOutlook); }
@@ -83,12 +83,12 @@ public:
 	void setFromFlag(BYTE flag) { m_FromFlag = flag; }
 
 private:
-	PCVampireInfo3 m_VampireInfo; // ¹ìÆÄÀÌ¾î ¿Ü¸ð Á¤º¸
-	EffectInfo*    m_pEffectInfo; // ÀÌÆåÆ® Á¤º¸
-	PetInfo*	   m_pPetInfo;	  // Æê Á¤º¸
-	NicknameInfo*	   m_pNicknameInfo;	  // Æê Á¤º¸
-	StoreOutlook		m_StoreOutlook;	// °³ÀÎ»óÁ¡ Á¤º¸
-	BYTE           m_FromFlag;    // ¾îµð·ÎºÎÅÍÀÎ°¡? Á¤»óÀÏ °æ¿ì¿¡´Â 0, Æ÷Å»À» ÅëÇßÀ» °æ¿ì¿¡´Â 1
+	PCVampireInfo3 m_VampireInfo; // ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½Ü¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+	EffectInfo*    m_pEffectInfo; // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+	PetInfo*	   m_pPetInfo;	  // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	NicknameInfo*	   m_pNicknameInfo;	  // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	StoreOutlook		m_StoreOutlook;	// ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	BYTE           m_FromFlag;    // ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ï¿½Î°ï¿½? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ 0, ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ 1
 };
 
 
@@ -99,12 +99,12 @@ private:
 class GCAddVampireFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCAddVampire(); }
+	Packet* createPacket() { return new GCAddVampire(); }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCAddVampire"; }
+	string getPacketName() const { return "GCAddVampire"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_ADD_VAMPIRE; }
-	PacketSize_t getPacketMaxSize() const throw() { return PCVampireInfo3::getMaxSize() + EffectInfo::getMaxSize() + PetInfo::getMaxSize() + NicknameInfo::getMaxSize() + StoreOutlook::getMaxSize() + szBYTE; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_ADD_VAMPIRE; }
+	PacketSize_t getPacketMaxSize() const { return PCVampireInfo3::getMaxSize() + EffectInfo::getMaxSize() + PetInfo::getMaxSize() + NicknameInfo::getMaxSize() + StoreOutlook::getMaxSize() + szBYTE; }
 };
 
 
@@ -115,7 +115,7 @@ public:
 class GCAddVampireHandler 
 {
 public:
-	static void execute(GCAddVampire* pPacket, Player* pPlayer) throw(Error);
+	static void execute(GCAddVampire* pPacket, Player* pPlayer);
 
 };
 

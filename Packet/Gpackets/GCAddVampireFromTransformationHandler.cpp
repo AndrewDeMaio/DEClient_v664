@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddVampireFromTransformation.h"
 #include "ClientDef.h"
 #include "SkillDef.h"
@@ -16,14 +16,13 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCAddVampireFromTransformationHandler::execute ( GCAddVampireFromTransformation * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
 #ifdef __GAME_CLIENT__
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -32,7 +31,7 @@ void GCAddVampireFromTransformationHandler::execute ( GCAddVampireFromTransforma
 		
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -41,7 +40,7 @@ void GCAddVampireFromTransformationHandler::execute ( GCAddVampireFromTransforma
 		MCreature* pCreature = g_pZone->GetCreature(vi.getObjectID());
 
 		//--------------------------------------------------
-		// »õ·Î¿î CreatureÀÌ¸é Ãß°¡
+		// ï¿½ï¿½ï¿½Î¿ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ß°ï¿½
 		//--------------------------------------------------
 		if (pCreature==NULL)
 		{
@@ -50,7 +49,7 @@ void GCAddVampireFromTransformationHandler::execute ( GCAddVampireFromTransforma
 			pCreature->SetZone( g_pZone );
 			//pCreature->SetCreatureType( 0 );
 			//--------------------------------------------------
-			// CreatureType ¼³Á¤
+			// CreatureType ï¿½ï¿½ï¿½ï¿½
 			//--------------------------------------------------
 			Shape_t shape	= vi.getShape();
 			bool bMale		= vi.getSex()==MALE;
@@ -86,7 +85,7 @@ void GCAddVampireFromTransformationHandler::execute ( GCAddVampireFromTransforma
 			pCreature->SetCurrentDirection( vi.getDir() );
 			pCreature->SetAction( ACTION_STAND );
 
-			// »ö±ò
+			// ï¿½ï¿½ï¿½ï¿½
 			pCreature->SetBodyColor1( vi.getSkinColor() );
 			pCreature->SetBodyColor2( vi.getCoatColor() );
 			
@@ -95,7 +94,7 @@ void GCAddVampireFromTransformationHandler::execute ( GCAddVampireFromTransforma
 			
 			pCreature->SetName( vi.getName().c_str() );
 
-			// ÀÓ½Ã·Î
+			// ï¿½Ó½Ã·ï¿½
 			pCreature->SetGuildNumber( vi.getGuildID() );
 			pCreature->SetOriginServerNum( vi.getBorn() );
 			
@@ -103,7 +102,7 @@ void GCAddVampireFromTransformationHandler::execute ( GCAddVampireFromTransforma
 			//--------------------------------------------------
 			// [ TEST CODE ]
 			//--------------------------------------------------
-			// ¿Ê »ö±ò ¼³Á¤ÇÏ±â
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			//--------------------------------------------------
 			/*
 			if (pCreature->IsMale())
@@ -121,7 +120,7 @@ void GCAddVampireFromTransformationHandler::execute ( GCAddVampireFromTransforma
 			pCreature->SetStatus( MODIFY_ALIGNMENT, vi.getAlignment() );
 
 			//vi.getName()
-			// »ö»ó Á¤º¸
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 			if (!g_pZone->AddCreature( pCreature ))
 			{
@@ -135,14 +134,14 @@ void GCAddVampireFromTransformationHandler::execute ( GCAddVampireFromTransforma
 #endif
 		}
 		//--------------------------------------------------
-		// ÀÌ¹Ì ÀÖ´Â CreatureÀÎ °æ¿ì
+		// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		else
 		{
 			pCreature->SetStatus( MODIFY_ADVANCEMENT_CLASS_LEVEL, vi.getAdvancementLevel() );
 			bool reAdd = false;
 
-			// creatureWear°¡ ¾Æ´Ï¸é Áö¿î´Ù.
+			// creatureWearï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 			if (pCreature->GetClassType()!=MCreature::CLASS_CREATUREWEAR)
 			{
 				g_pZone->RemoveCreature( pCreature->GetID() );
@@ -166,7 +165,7 @@ void GCAddVampireFromTransformationHandler::execute ( GCAddVampireFromTransforma
 
 		
 			//--------------------------------------------------
-			// CreatureType ¼³Á¤
+			// CreatureType ï¿½ï¿½ï¿½ï¿½
 			//--------------------------------------------------
 			Shape_t shape	= vi.getShape();
 			bool bMale		= vi.getSex()==MALE;
@@ -201,21 +200,21 @@ void GCAddVampireFromTransformationHandler::execute ( GCAddVampireFromTransforma
 			pCreature->SetCurrentDirection( vi.getDir() );
 			pCreature->SetAction( ACTION_STAND );
 
-			// »ö±ò
+			// ï¿½ï¿½ï¿½ï¿½
 			pCreature->SetBodyColor1( vi.getSkinColor() );
 			pCreature->SetBodyColor2( vi.getCoatColor() );
 
 			// speed
 			pCreature->SetWeaponSpeed( vi.getAttackSpeed() );
 
-			// ÀÓ½Ã·Î
+			// ï¿½Ó½Ã·ï¿½
 			pCreature->SetGuildNumber( vi.getGuildID() );
 			pCreature->SetOriginServerNum( vi.getBorn() );
 			
 			//--------------------------------------------------
 			// [ TEST CODE ]
 			//--------------------------------------------------
-			// ¿Ê »ö±ò ¼³Á¤ÇÏ±â
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			//--------------------------------------------------
 			/*
 			if (pCreature->IsMale())
@@ -247,32 +246,32 @@ void GCAddVampireFromTransformationHandler::execute ( GCAddVampireFromTransforma
 				SetAddonToVampire(pCreatureWear, &vi);
 
 			//--------------------------------------------------
-			// Effect ºÙÀÌ±â..
+			// Effect ï¿½ï¿½ï¿½Ì±ï¿½..
 			//--------------------------------------------------
 			SetEffectInfo( pCreature, pPacket->getEffectInfo() );
 
 			//--------------------------------------------------
-			// Burrow¿¡¼­ ºüÁ®³ª¿À´Â Effect == BurrowingÇÏ´Â Effect
+			// Burrowï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Effect == Burrowingï¿½Ï´ï¿½ Effect
 			//--------------------------------------------------		
 			ExecuteActionInfoFromMainNode(
-//				RESULT_MAGIC_HIDE,										// »ç¿ë ±â¼ú ¹øÈ£
+//				RESULT_MAGIC_HIDE,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 				RESULT_MAGIC_UN_TRANSFORM,
 			
 				pCreature->GetX(), pCreature->GetY(), 0,
-				pCreature->GetDirection(),														// »ç¿ë ¹æÇâ
+				pCreature->GetDirection(),														// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				
-				OBJECTID_NULL,												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+				OBJECTID_NULL,												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				pCreature->GetX(), pCreature->GetY(), 0, 
 				
-				0,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+				0,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 				
 				NULL,
 				
-				false);			// ±â¼ú Ã·ºÎÅÍ ½ÃÀÛÇÑ´Ù.
+				false);			// ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		}
 	}
 
-	// [µµ¿ò¸»] Vampire°¡ ³ªÅ¸³¯¶§
+	// [ï¿½ï¿½ï¿½ï¿½] Vampireï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½
 //	__BEGIN_HELP_EVENT
 ////		ExecuteHelpEvent( HE_CREATURE_APPEAR_VAMPIRE );
 //	__END_HELP_EVENT

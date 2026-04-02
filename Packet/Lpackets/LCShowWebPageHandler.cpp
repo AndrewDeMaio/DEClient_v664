@@ -24,7 +24,6 @@ void g_StartShowWebPageMessage( int _x, int _y, char * szMsg, char * szUrl );
 // 
 //----------------------------------------------------------------------
 void LCShowWebPageHandler::execute ( LCShowWebPage * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	//__BEGIN_TRY __BEGIN_DEBUG_EX
 

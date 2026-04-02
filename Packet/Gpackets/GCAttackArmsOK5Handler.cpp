@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAttackArmsOK5.h"
 #include "ClientDef.h"
 #include "MActionInfoTable.h"
@@ -17,7 +17,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAttackArmsOK5Handler::execute ( GCAttackArmsOK5 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -26,7 +25,7 @@ void GCAttackArmsOK5Handler::execute ( GCAttackArmsOK5 * pPacket , Player * pPla
 			// message
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -37,7 +36,7 @@ void GCAttackArmsOK5Handler::execute ( GCAttackArmsOK5 * pPacket , Player * pPla
 	}	
 
 	//------------------------------------------------------
-	// ´ë»óÀÌ µÇ´Â creature¸¦ ¾ò´Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ creatureï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
 	//------------------------------------------------------
 	MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 	MCreature* pTargetCreature = g_pZone->GetCreature( pPacket->getTargetObjectID() );
@@ -48,7 +47,7 @@ void GCAttackArmsOK5Handler::execute ( GCAttackArmsOK5 * pPacket , Player * pPla
 	}
 
 	//------------------------------------------------------
-	// ¸Â´Â »ç¶÷¸¸ ÀÖ´Â °æ¿ì´Â ¸Â´Â µ¿ÀÛ¸¸ º¸¿©ÁÖ¸é µÈ´Ù.
+	// ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½Û¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ ï¿½È´ï¿½.
 	//------------------------------------------------------
 	if (pCreature==NULL)
 	{
@@ -78,7 +77,7 @@ void GCAttackArmsOK5Handler::execute ( GCAttackArmsOK5 * pPacket , Player * pPla
 		return;
 	}
 	//------------------------------------------------------
-	// ¶§¸®´Â »ç¶÷¸¸ ÀÖ´Â °æ¿ì´Â ¶§¸®´Â µ¿ÀÛ¸¸ º¸¿©ÁØ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 	//------------------------------------------------------
 	else if (pTargetCreature==NULL)
 	{
@@ -96,7 +95,7 @@ void GCAttackArmsOK5Handler::execute ( GCAttackArmsOK5 * pPacket , Player * pPla
 		} else
 		{
 			//------------------------------------------------------
-			// Creature°¡ Çàµ¿À» ÃëÇÏµµ·Ï ÇÑ´Ù.
+			// Creatureï¿½ï¿½ ï¿½àµ¿ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 			//------------------------------------------------------
 			pCreature->PacketSpecialActionToNobody(
 							pCreature->GetBasicActionInfo(), 
@@ -110,7 +109,7 @@ void GCAttackArmsOK5Handler::execute ( GCAttackArmsOK5 * pPacket , Player * pPla
 
 
 	//------------------------------------------------------
-	// °á°ú(´Ù¸¥ Ä³¸¯ÅÍ°¡ ¸Â´Â ¸ð½À)¸¦ ¼³Á¤ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½(ï¿½Ù¸ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	MActionResult* pResult = NULL;
 
@@ -134,7 +133,7 @@ void GCAttackArmsOK5Handler::execute ( GCAttackArmsOK5 * pPacket , Player * pPla
 		} else
 		{
 			pResult->Add( new MActionResultNodeActionInfo( 
-										pCreature->GetBasicActionInfo(),	// ÃÑ °ø°Ý
+										pCreature->GetBasicActionInfo(),	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 										pPacket->getObjectID(), 
 										pPacket->getTargetObjectID(), 
 										pTargetCreature->GetX(),
@@ -145,19 +144,19 @@ void GCAttackArmsOK5Handler::execute ( GCAttackArmsOK5 * pPacket , Player * pPla
 	}
 
 	//------------------------------------------------------
-	// Çàµ¿ÇÏ´Â Creature°¡ TargetCreature¸¦ ¹Ù¶óº¸µµ·Ï ÇÑ´Ù.
+	// ï¿½àµ¿ï¿½Ï´ï¿½ Creatureï¿½ï¿½ TargetCreatureï¿½ï¿½ ï¿½Ù¶óº¸µï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	pCreature->SetDirectionToPosition( pTargetCreature->GetX(), pTargetCreature->GetY() );
 
 	//------------------------------------------------------
-	// Creature°¡ Çàµ¿À» ÃëÇÏµµ·Ï ÇÑ´Ù.
+	// Creatureï¿½ï¿½ ï¿½àµ¿ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 
 	if( actionInfo == SKILL_JABBING_VEIN || actionInfo == SKILL_MOLE_SHOT || actionInfo == SKILL_TRIDENT ||
 		actionInfo == SKILL_QUICK_FIRE || actionInfo == SKILL_ULTIMATE_BLOW || pPacket->getSkillType() == SKILL_HARPOON_BOMB)
 	{
 		pCreature->PacketSpecialActionToOther(
-						// ÃÑ °ø°Ý
+						// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 						actionInfo,
 						pPacket->getTargetObjectID(), 
 						pResult
@@ -165,7 +164,7 @@ void GCAttackArmsOK5Handler::execute ( GCAttackArmsOK5 * pPacket , Player * pPla
 	} else
 	{
 		pCreature->PacketSpecialActionToOther(
-						// ÃÑ °ø°Ý
+						// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 						pCreature->GetBasicActionInfo()	, 
 						pPacket->getTargetObjectID(), 
 						pResult

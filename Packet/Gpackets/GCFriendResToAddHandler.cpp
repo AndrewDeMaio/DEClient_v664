@@ -7,11 +7,11 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "client_PCH.h"
-#include "GCFriendResToAdd.h"
-#include "VS_UI_Friend_System.h"
-#include "types/FriendType.h"
+//#include "VS_UI_Friend_System.h"
 
+#include "GPacket_PCH.h"
+#include "GCFriendResToAdd.h"
+#include "Types/FriendType.h"
 #include "Assert.h"
 
 #ifdef __GAME_SERVER__
@@ -25,7 +25,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void GCFriendResToAddHandler::execute ( GCFriendResToAdd* pPacket, Player* pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -52,16 +51,16 @@ void GCFriendResToAddHandler::execute ( GCFriendResToAdd* pPacket, Player* pPlay
 
 		switch (pPacket->GetResultCode())
 		{
-		case FRIEND_RES_TO_ADD_RESULT_CODE_SUCCESS:												// ¼ö¶ô ¿äÃ» ¼º°ø
+		case FRIEND_RES_TO_ADD_RESULT_CODE_SUCCESS:												// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½
 			break;
-		case FRIEND_RES_TO_ADD_RESULT_CODE_EXCEED_NOT_EXIST_IN_WAITLIST:						// ´ë±â ¸ñ·Ï¿¡ Á¸ÀçÇÏÁö ¾ÊÀ½
+		case FRIEND_RES_TO_ADD_RESULT_CODE_EXCEED_NOT_EXIST_IN_WAITLIST:						// ï¿½ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			break;
-		case FRIEND_RES_TO_ADD_RESULT_CODE_EXCEED_MAX_LIST_COUNT_BY_SELF:						// ÀÚ½ÅÀÇ Ä£±¸ ÃÖ´ë µî·Ï °³¼ö ÃÊ°ú 
+		case FRIEND_RES_TO_ADD_RESULT_CODE_EXCEED_MAX_LIST_COUNT_BY_SELF:						// ï¿½Ú½ï¿½ï¿½ï¿½ Ä£ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ 
 			pFriendPacket = new C_VS_UI_FRINEND_MESSAGE_BOX("Waiting list is full.");//by viva
 			pFriendPacket->SetWindowName("FriendResultAddMessage");
 			pFriendPacket->Start();
 			break;
-		case FRIEND_RES_TO_ADD_RESULT_CODE_EXCEED_MAX_LIST_COUNT_BY_OTHER:						// »ó´ë¹æÀÇ Ä£±¸ ÃÖ´ë µî·Ï °³¼ö ÃÊ°ú
+		case FRIEND_RES_TO_ADD_RESULT_CODE_EXCEED_MAX_LIST_COUNT_BY_OTHER:						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä£ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½
 			pFriendPacket = new C_VS_UI_FRINEND_MESSAGE_BOX("The other side of the wait list is full.");//by viva
 			pFriendPacket->SetWindowName("FriendResultAddMessage");
 			pFriendPacket->Start();

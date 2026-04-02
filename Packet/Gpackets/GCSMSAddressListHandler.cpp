@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSMSAddressList.h"
 
 #include "ClientDef.h"
@@ -16,7 +16,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSMSAddressListHandler::execute ( GCSMSAddressList * pGCSMSAddressList , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY /*__BEGIN_DEBUG_EX*/
 		

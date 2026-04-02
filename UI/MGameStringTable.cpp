@@ -8,13 +8,10 @@
 //----------------------------------------------------------------------
 // Global
 //----------------------------------------------------------------------
-MStringArray*		g_pGameStringTable = NULL;
+MStringArray* g_pGameStringTable = nullptr;
 //2004, 6, 18, sobeit add start - about nick name string table
-MStringArray*		g_pNickNameStringTable = NULL;
+MStringArray* g_pNickNameStringTable = nullptr;
 //2004, 6, 18, sobeit add end - about nick name string table
-
-
-#ifndef __GAME_CLIENT__
 
 void				
 InitGameStringTable()
@@ -2644,4 +2641,3 @@ InitGameStringTable()
 	(*g_pGameStringTable)[UI_STRING_MESSAGE_USE_TIME_LIMIT_ITEM_WARN]		= "리미티드 아이템은 중복 되거나 분리 되지 않습니다.";
 
 }
-#endif

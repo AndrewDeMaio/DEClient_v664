@@ -20,20 +20,20 @@ class GCFriendReqToAdd : public Packet
 {
 public:
 	GCFriendReqToAdd();
-	virtual ~GCFriendReqToAdd() throw() {}
+	virtual ~GCFriendReqToAdd() {}
 	
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
 
-	PacketID_t getPacketID() const throw() { return PACKET_GC_FRIEND_REQ_TO_ADD; }
-	PacketSize_t getPacketSize() const throw()
+	PacketID_t getPacketID() const { return PACKET_GC_FRIEND_REQ_TO_ADD; }
+	size_t getPacketSize() const
 	{ 
 		return m_PCName.getSize();
 	}
 
-	string getPacketName() const throw() { return "GCFriendReqToAdd"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCFriendReqToAdd"; }
+	string toString() const;
 
 public:
 
@@ -44,8 +44,8 @@ public:
 	void SetResultCode(BYTE code) { m_ResultCode = code; }
 
 private :
-	StringInfo m_PCName;		// ¿äÃ»ÇÑ Ä³¸¯ÅÍ ÀÌ¸§
-	BYTE m_ResultCode;		// ½ÇÆÐ ÄÚµå
+	StringInfo m_PCName;		// ï¿½ï¿½Ã»ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+	BYTE m_ResultCode;		// ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 
 };
 
@@ -62,13 +62,13 @@ class GCFriendReqToAddFactory : public PacketFactory {
 
 public:
 	
-	Packet* createPacket() throw() { return new GCFriendReqToAdd(); }
-	string getPacketName() const throw() { return "GCFriendReqToAdd"; }
+	Packet* createPacket() { return new GCFriendReqToAdd(); }
+	string getPacketName() const { return "GCFriendReqToAdd"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_FRIEND_REQ_TO_ADD; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_FRIEND_REQ_TO_ADD; }
 
-	PacketSize_t getPacketMaxSize() const throw() 
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		return szBYTE + 20;
 	}
@@ -87,7 +87,7 @@ class GCFriendReqToAddHandler {
 public:
 
 	// execute packet's handler
-	static void execute(GCFriendReqToAdd* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCFriendReqToAdd* pPacket, Player* pPlayer);
 
 };
 #endif //__FRIEND_ADDITION

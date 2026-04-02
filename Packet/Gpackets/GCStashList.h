@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCStashList.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -77,35 +77,35 @@ class Item;
 class GCStashList : public Packet 
 {
 public:
-	GCStashList() throw();
-	virtual ~GCStashList() throw();
+	GCStashList();
+	virtual ~GCStashList();
 
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_STASH_LIST; }
-	PacketSize_t getPacketSize() const throw();
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_STASH_LIST; }
+	size_t getPacketSize() const;
 
 #ifdef __DEBUG_OUTPUT__	
-	std::string getPacketName() const throw() { return "GCStashList"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "GCStashList"; }
+	std::string toString() const;
 #endif
 
 public:
-	bool isExist(BYTE rack, BYTE index) const throw();
+	bool isExist(BYTE rack, BYTE index) const;
 
-	STASHITEM getStashItem(BYTE rack, BYTE index) const throw();
-	void setStashItem(BYTE rack, BYTE index, Item* pItem) throw();
+	STASHITEM getStashItem(BYTE rack, BYTE index) const;
+	void setStashItem(BYTE rack, BYTE index, Item* pItem);
 
-	std::list<SubItemInfo*>& getSubItems(BYTE rack, BYTE index) throw();
+	std::list<SubItemInfo*>& getSubItems(BYTE rack, BYTE index);
 
-	BYTE getSubItemCount(BYTE rack, BYTE index) throw();
+	BYTE getSubItemCount(BYTE rack, BYTE index);
 
-	Gold_t getStashGold() const throw() { return m_StashGold; }
-	void setStashGold(Gold_t gold) throw() { m_StashGold = gold; }
+	Gold_t getStashGold() const { return m_StashGold; }
+	void setStashGold(Gold_t gold) { m_StashGold = gold; }
 
-	BYTE getStashNum() const throw() { return m_StashNum; }
-	void setStashNum(BYTE num) throw() { m_StashNum = num; }
+	BYTE getStashNum() const { return m_StashNum; }
+	void setStashNum(BYTE num) { m_StashNum = num; }
 	
 private:
 	bool               m_bExist[STASH_RACK_MAX][STASH_INDEX_MAX];
@@ -124,23 +124,23 @@ private:
 class GCStashListFactory : public PacketFactory 
 {
 public :
-	Packet* createPacket() throw() { return new GCStashList(); }
-	std::string getPacketName() const throw() { return "GCStashList"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_STASH_LIST; }
-	PacketSize_t getPacketMaxSize() const throw() 
+	Packet* createPacket() { return new GCStashList(); }
+	std::string getPacketName() const { return "GCStashList"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_STASH_LIST; }
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		PacketSize_t size = 0;
 		PacketSize_t unit_size = 
-			szBYTE*2 +                  // rack°ú ÀÎµ¦½º
-			//sizeof(STASHITEM) +         // ½ÇÁ¦ Á¤º¸
+			szBYTE*2 +                  // rackï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½
+			//sizeof(STASHITEM) +         // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			STASHITEM::getPacketMaxSize() +
-			szBYTE +                    // º§Æ®¿¡ µé¾îÀÖ´Â ¾ÆÀÌÅÛÀÇ ¼ýÀÚ
-			SubItemInfo::getSize()* 8; // º§Æ® ¾ÆÀÌÅÛ(8°³°¡ ¸Æ½º)
+			szBYTE +                    // ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			SubItemInfo::getSize()* 8; // ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(8ï¿½ï¿½ï¿½ï¿½ ï¿½Æ½ï¿½)
 		
-		size += szBYTE; // º¸°üÇÔÀÇ °¹¼ö
-		size += szBYTE; // ÃÑ ¾ÆÀÌÅÛÀÇ ¼ýÀÚ
-		size += unit_size* STASH_RACK_MAX* STASH_INDEX_MAX; // ¾ÆÀÌÅÛÀÌ ²Ë Â÷ ÀÖ´Ù¸é...
-		size += szGold; // µ·
+		size += szBYTE; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		size += szBYTE; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		size += unit_size* STASH_RACK_MAX* STASH_INDEX_MAX; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½...
+		size += szGold; // ï¿½ï¿½
 
 		return size;
 	}
@@ -155,7 +155,7 @@ public :
 class GCStashListHandler 
 {
 public :
-	static void execute(GCStashList* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCStashList* pPacket, Player* pPlayer);
 
 };
 

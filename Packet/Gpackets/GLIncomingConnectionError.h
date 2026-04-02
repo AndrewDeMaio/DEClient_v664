@@ -24,36 +24,36 @@ class GLIncomingConnectionError : public DatagramPacket {
 
 public :
 	
-    // Datagram °´Ã¼¿¡¼­ºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( Datagram & iDatagram ) throw ( ProtocolException , Error );
+    // Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( Datagram & iDatagram );
 		    
-    // Datagram °´Ã¼·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( Datagram & oDatagram ) const throw ( ProtocolException , Error );
+    // Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( Datagram & oDatagram ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GL_INCOMING_CONNECTION_ERROR; }
+	PacketID_t getPacketID () const { return PACKET_GL_INCOMING_CONNECTION_ERROR; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () { return szBYTE + m_Message.size(); }
+	size_t getPacketSize () const { return szBYTE + m_Message.size(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GLIncomingConnectionError"; }
+		std::string getPacketName () const { return "GLIncomingConnectionError"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 	// get/set error message
-	const std::string& getMessage () const throw () { return m_Message; }
-	void setMessage ( std::string message ) throw () { m_Message = message; }
+	const std::string& getMessage () const { return m_Message; }
+	void setMessage ( std::string message ) { m_Message = message; }
 
 	// get/set player id
-	const std::string& getPlayerID () const throw () { return m_PlayerID; }
-	void setPlayerID ( std::string playerID ) throw () { m_PlayerID = playerID; }
+	const std::string& getPlayerID () const { return m_PlayerID; }
+	void setPlayerID ( std::string playerID ) { m_PlayerID = playerID; }
 
 private :
 
@@ -79,20 +79,20 @@ class GLIncomingConnectionErrorFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GLIncomingConnectionError(); }
+	Packet * createPacket () { return new GLIncomingConnectionError(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GLIncomingConnectionError"; }
+		std::string getPacketName () const { return "GLIncomingConnectionError"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GL_INCOMING_CONNECTION_ERROR; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GL_INCOMING_CONNECTION_ERROR; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GLIncomingConnectionErrorPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return szBYTE + 80; }
+	// const static GLIncomingConnectionErrorPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return szBYTE + 80; }
 
 };
 
@@ -108,7 +108,7 @@ class GLIncomingConnectionErrorHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GLIncomingConnectionError * pPacket ) throw ( ProtocolException , Error );
+	static void execute ( GLIncomingConnectionError * pPacket );
 
 };
 

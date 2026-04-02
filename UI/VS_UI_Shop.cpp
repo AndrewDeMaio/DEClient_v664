@@ -17,7 +17,7 @@
 #include "MGameStringTABLE.h"
 #include "SystemAvailabilities.h"
 
-// dialog exec func¿¡¼­ »ç¿ëÇÏ¹Ç·Î ¿©±â´Ù..
+// dialog exec funcï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½..
 static MShop *		m_pShop;
 static int			m_focused_slot;
 static UINT			m_select_item_slot;
@@ -37,7 +37,7 @@ void ExecF_BuyConfirm(C_VS_UI_DIALOG * p_this_dialog, id_t id)
 	{
 		case DIALOG_EXECID_OK:
 			//
-			// »ì °³¼ö¸¦ ÇÔ²² ³Ñ°ÜÁØ´Ù. (NormalÀ» Á¦¿ÜÇÑ °ÍÀº ÇÑ °³¾¿¸¸ ÀÖ´Ù)
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô²ï¿½ ï¿½Ñ°ï¿½ï¿½Ø´ï¿½. (Normalï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½)
 			//
 			assert(m_select_item_slot != NOT_SELECTED);
 
@@ -76,7 +76,7 @@ void C_VS_UI_SHOP::UnacquireMouseFocus()
 //-----------------------------------------------------------------------------
 C_VS_UI_SHOP::C_VS_UI_SHOP()
 {
-	m_pShop = NULL; // È®ÀÎ¿ë... by sigi
+	m_pShop = NULL; // È®ï¿½Î¿ï¿½... by sigi
 
 	g_RegisterWindow(this);
 
@@ -169,7 +169,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	MItem*		pItem;
 
 	//----------------------------------------------------
-	// 3°³ÀÇ shelf¸¦ °¡Áø »óÁ¡
+	// 3ï¿½ï¿½ï¿½ï¿½ shelfï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//----------------------------------------------------
 	m_pShop = new MShop;
 	pShop = m_pShop;
@@ -184,7 +184,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf = new MShopFixedShelf;
 	
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_RING );
 	pItem->SetID( 0 );
@@ -194,7 +194,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 0, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_MAGAZINE );
 	pItem->SetID( 1 );
@@ -204,7 +204,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 1, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_POTION );
 	pItem->SetID( 2 );
@@ -214,7 +214,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 2, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_RING );
 	pItem->SetID( 3 );
@@ -224,7 +224,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 3, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_RING );
 	pItem->SetID( 4 );
@@ -234,7 +234,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 4, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_POTION );
 	pItem->SetID( 5 );
@@ -245,8 +245,8 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 
 	if (!pShop->SetShelf(0, pShelf))
 	{
-		// Ãß°¡°¡ ¾È µÈ °æ¿ì´Â ¿ÜºÎ¿¡¼­ deleteÇØÁà¾ß ÇÑ´Ù.
-		// shelf ¹øÈ£°¡ »óÁ¡ ÀüÃ¼ °³¼öº¸´Ù Å« °æ¿ì¿¡ Ãß°¡ ½ÇÆÐ´ç..
+		// ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ deleteï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+		// shelf ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å« ï¿½ï¿½ì¿¡ ï¿½ß°ï¿½ ï¿½ï¿½ï¿½Ð´ï¿½..
 		delete pShelf;
 	}
   
@@ -259,7 +259,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf = new MShopSpecialShelf;
 	
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_SWORD );
 	pItem->SetID( 100 );
@@ -269,7 +269,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 0, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_SWORD );
 	pItem->SetID( 101 );
@@ -279,7 +279,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 1, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_SWORD );
 	pItem->SetID( 102 );
@@ -289,7 +289,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 2, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_SWORD );
 	pItem->SetID( 103 );
@@ -299,7 +299,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 3, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_SWORD );
 	pItem->SetID( 104 );
@@ -309,7 +309,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 4, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_SWORD );
 	pItem->SetID( 105 );
@@ -319,7 +319,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 5, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_SWORD );
 	pItem->SetID( 106 );
@@ -340,7 +340,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf = new MShopUnknownShelf;
 	
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_BRACELET );
 	pItem->SetID( 100 );
@@ -351,7 +351,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 0, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_SWORD );
 	pItem->SetID( 101 );
@@ -362,7 +362,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 1, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_RING );
 	pItem->SetID( 102 );
@@ -373,7 +373,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 2, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_BLADE );
 	pItem->SetID( 103 );
@@ -384,7 +384,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 3, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_COAT );
 	pItem->SetID( 104 );
@@ -395,7 +395,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 4, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_TROUSER );
 	pItem->SetID( 105 );
@@ -406,7 +406,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetItem( 5, pItem );
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_SHIELD );
 	pItem->SetID( 106 );
@@ -418,7 +418,7 @@ C_VS_UI_SHOP::C_VS_UI_SHOP()
 	pShelf->SetEnable();
 
 	//----------------------------------------------------
-	// Item »ý¼º --> Ãß°¡
+	// Item ï¿½ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//----------------------------------------------------
 	pItem = MItem::NewItem( ITEM_CLASS_BELT );
 	pItem->SetID( 107 );
@@ -449,7 +449,7 @@ C_VS_UI_SHOP::~C_VS_UI_SHOP()
 	DeleteNew(m_pShop);
 #endif
 
-	m_pShop = NULL; // ´ÙÀ½ check¸¦ À§ÇØ¼­..
+	m_pShop = NULL; // ï¿½ï¿½ï¿½ï¿½ checkï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½..
 
 	if(m_pC_dialog_multi_buy_confirm != NULL)
 		DeleteNew(m_pC_dialog_multi_buy_confirm);
@@ -474,11 +474,11 @@ void	C_VS_UI_SHOP::CancelPushState()
 //-----------------------------------------------------------------------------
 // GetSlotItem
 //
-// slot¿¡ itemÀÌ ÀÖ´Â°¡?
+// slotï¿½ï¿½ itemï¿½ï¿½ ï¿½Ö´Â°ï¿½?
 //-----------------------------------------------------------------------------
 MItem * C_VS_UI_SHOP::GetSlotItem(int slot) const
 {
-	if (m_pShop!=NULL)	// È®ÀÎ¿ë... by sigi
+	if (m_pShop!=NULL)	// È®ï¿½Î¿ï¿½... by sigi
 	{
 		MShopShelf* pShopShelf = m_pShop->GetCurrentShelf();
 
@@ -526,7 +526,7 @@ int C_VS_UI_SHOP::GetSlotY(int slot) const
 //-----------------------------------------------------------------------------
 // GetDialogShowX
 //
-// Dialog box°¡ Ãâ·ÂµÉ °÷ÀÇ xÁÂÇ¥¸¦ ¹ÝÈ¯ÇÑ´Ù.
+// Dialog boxï¿½ï¿½ ï¿½ï¿½Âµï¿½ ï¿½ï¿½ï¿½ï¿½ xï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 int C_VS_UI_SHOP::GetDialogShowX() const
 {
@@ -539,7 +539,7 @@ int C_VS_UI_SHOP::GetDialogShowX() const
 //-----------------------------------------------------------------------------
 // GetDialogShowY
 //
-// Dialog box°¡ Ãâ·ÂµÉ °÷ÀÇ YÁÂÇ¥¸¦ ¹ÝÈ¯ÇÑ´Ù.
+// Dialog boxï¿½ï¿½ ï¿½ï¿½Âµï¿½ ï¿½ï¿½ï¿½ï¿½ Yï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 int C_VS_UI_SHOP::GetDialogShowY() const
 {
@@ -552,7 +552,7 @@ int C_VS_UI_SHOP::GetDialogShowY() const
 //-----------------------------------------------------------------------------
 // StartBuyConfirmDialog
 //
-// dialog ³»ºÎ¿¡¼­ ÁÂÇ¥¸¦ º¯°æÇÒ ¼ö ¾ø±âµµÇÏ°í...
+// dialog ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½âµµï¿½Ï°ï¿½...
 //-----------------------------------------------------------------------------
 void C_VS_UI_SHOP::StartBuyConfirmDialog(int _x, int _y, int num)
 {
@@ -565,7 +565,7 @@ void C_VS_UI_SHOP::StartBuyConfirmDialog(int _x, int _y, int num)
 
 	if (selected_item != NULL)
 	{
-		// by sigi - »ì·Á°íÇÒ ¶§ decriptionÀÌ °¡·ÁÀú¼­¸®..
+		// by sigi - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ decriptionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
 		g_descriptor_manager.Unset();	// by sigi
 
 		if (selected_item->IsPileItem())
@@ -608,7 +608,7 @@ void C_VS_UI_SHOP::SetShop(MShop* pShop)
 
 	m_pShop = pShop;
 
-	// normalÀ» default·Î ¼³Á¤.. by sigi
+	// normalï¿½ï¿½ defaultï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.. by sigi
 	m_bl_mysterious_tab = false;
 	m_shop_type = pShop->GetShopType();
 
@@ -646,13 +646,13 @@ void C_VS_UI_SHOP::Show()
 		m_image_spk.BltLocked(x+GetSlotX(SLOT_X_COUNT*3), y+GetSlotY(SLOT_X_COUNT*3), MAIN_WINDOW);
 
 		//
-		// ShopÀÇ ItemÀ» Ãâ·Â½ÃÅ²´Ù.
+		// Shopï¿½ï¿½ Itemï¿½ï¿½ ï¿½ï¿½Â½ï¿½Å²ï¿½ï¿½.
 		//
-		// ÇöÀç »ç¿ëÁßÀÎ shelf
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ shelf
 		//
 		MShopShelf* pShopShelf = m_pShop->GetCurrentShelf();
 		
-		if (pShopShelf!=NULL)	// È®ÀÎ.. by sigi
+		if (pShopShelf!=NULL)	// È®ï¿½ï¿½.. by sigi
 		{
 			for (int i=0; i<SHOP_SHELF_SLOT; i++)
 			{
@@ -669,10 +669,10 @@ void C_VS_UI_SHOP::Show()
 					
 					int item_x = x+GetSlotX(i);
 					
-					// ¹Ù´Û¿¡ ³õÀÌ°Ô ÇÑ´Ù.
+					// ï¿½Ù´Û¿ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ñ´ï¿½.
 					int item_y = y+GetSlotY(i)+SLOT_HEIGHT-gpC_item->GetHeight(frame_id)-4;
 					
-					// itemÀ» center¿¡ ¸ÂÃá´Ù.
+					// itemï¿½ï¿½ centerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 					item_x += SLOT_WIDTH/2-gpC_item->GetWidth(frame_id)/2;
 					
 					if(m_bl_mysterious_tab)
@@ -692,7 +692,7 @@ void C_VS_UI_SHOP::Show()
 					}
 					else
 					{
-						// identifyµÈ ¾ÆÀÌÅÛÀÎ °æ¿ì.. by sigi
+						// identifyï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.. by sigi
 						if (p_item->IsIdentified())
 						{
 #if __CONTENTS(__TUNING_ITEM)
@@ -710,7 +710,7 @@ void C_VS_UI_SHOP::Show()
 						}
 						else
 						{
-							// identify ¾È µÈ °æ¿ì´Â ¹«Á¶°Ç Èò»ö
+							// identify ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 //							CIndexSprite::SetUsingColorSet(378, 378);
 						}
 						
@@ -840,7 +840,7 @@ void C_VS_UI_SHOP::Run(id_t id)
 				break;
 			m_bl_mysterious_tab = false;
 			m_what_tab = NORMAL_TAB_ID;
-			if (m_pShop!=NULL)	// È®ÀÎ¿ë by sigi
+			if (m_pShop!=NULL)	// È®ï¿½Î¿ï¿½ by sigi
 			{
 				m_pShop->SetCurrent(MShopShelf::SHELF_FIXED);
 			}
@@ -851,7 +851,7 @@ void C_VS_UI_SHOP::Run(id_t id)
 				break;
 			m_bl_mysterious_tab = false;
 			m_what_tab = SPECIAL_TAB_ID;
-			if (m_pShop!=NULL)	// È®ÀÎ¿ë by sigi
+			if (m_pShop!=NULL)	// È®ï¿½Î¿ï¿½ by sigi
 			{
 				m_pShop->SetCurrent(MShopShelf::SHELF_SPECIAL);
 			}
@@ -864,7 +864,7 @@ void C_VS_UI_SHOP::Run(id_t id)
 
 			m_bl_mysterious_tab = true;
 			m_what_tab = MYSTERIOUS_TAB_ID;	
-			if (m_pShop!=NULL)	// È®ÀÎ¿ë by sigi
+			if (m_pShop!=NULL)	// È®ï¿½Î¿ï¿½ by sigi
 			{
 				m_pShop->SetCurrent(MShopShelf::SHELF_UNKNOWN);
 			}
@@ -982,12 +982,9 @@ bool C_VS_UI_SHOP::MouseControl(UINT message, int _x, int _y)
 				if (_x >= GetSlotX(i) && _x < GetSlotX(i)+SLOT_WIDTH &&
 					 _y >= GetSlotY(i) && _y < GetSlotY(i)+SLOT_HEIGHT)
 				{
-					if(gpC_Imm && m_focused_slot == NOT_SELECTED)
-						gpC_Imm->ForceUI(CImm::FORCE_UI_BUTTON);
-
 					m_focused_slot = i;
 
-					// by sigi - »ì·Á°íÇÒ ¶§ decriptionÀÌ °¡·ÁÀú¼­¸®.. ±Ùµ¥ µý ¹æ¹ýÀÌ ÀÖÁö ¾Ê³ª?? ½ÍÀºµ¥ - -;
+					// by sigi - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ decriptionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½Ùµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê³ï¿½?? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - -;
 					if (m_pC_dialog_multi_buy_confirm==NULL && m_pC_dialog_buy_confirm==NULL
 						|| m_pC_dialog_multi_buy_confirm!=NULL && !m_pC_dialog_multi_buy_confirm->Running()
 						|| m_pC_dialog_buy_confirm!=NULL && !m_pC_dialog_buy_confirm->Running()) 
@@ -1012,7 +1009,7 @@ bool C_VS_UI_SHOP::MouseControl(UINT message, int _x, int _y)
 		case M_LEFTBUTTON_DOWN:
 		case M_LB_DOUBLECLICK:
 			//
-			// ItemÀ» ¼±ÅÃÇÑ´Ù.
+			// Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//
 			if (m_focused_slot != NOT_SELECTED)
 			{
@@ -1043,7 +1040,7 @@ bool C_VS_UI_SHOP::MouseControl(UINT message, int _x, int _y)
 
 		case M_RIGHTBUTTON_DOWN:
 			//
-			// ItemÀ» ¼±ÅÃÇÑ´Ù.
+			// Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//
 			if (m_focused_slot != NOT_SELECTED)
 			{

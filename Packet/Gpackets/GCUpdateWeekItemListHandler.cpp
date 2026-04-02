@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCUpdateWeekItemList.h"
 
 #ifdef __GAME_CLIENT__
@@ -18,7 +18,6 @@
 
 #if __CONTENTS(__PREMIUM_GIVE_ITEM_UI)
 void GCUpdateWeekItemListHandler::execute ( GCUpdateWeekItemList * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY //__BEGIN_DEBUG_EX
 	__BEGIN_DEBUG
@@ -34,7 +33,7 @@ void GCUpdateWeekItemListHandler::execute ( GCUpdateWeekItemList * pPacket , Pla
 		MItem *pItem = MItem::NewItem( (ITEM_CLASS)pWeekItemInfo->itemClass );
 		pItem->SetItemType(pWeekItemInfo->itemType);
 		pItem->SetItemOptionList(pWeekItemInfo->optionType);
-		pItem->SetGrade(pWeekItemInfo->grade); // ½Ã°£Á¦ ¾ÆÀÌÅÛ È²»öÃ³¸® ÇÏ±â
+		pItem->SetGrade(pWeekItemInfo->grade); // ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È²ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½Ï±ï¿½
 		pItem->SetNumber(pWeekItemInfo->num);
 		pItem->SetTimeLimitStatic(pWeekItemInfo->timeLimit);
 		pItem->SetCurrentDurability(pWeekItemInfo->Durability);

@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCFastMove.h"
 #include "Player.h"
 #include "ClientDef.h"
@@ -15,7 +15,6 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCFastMoveHandler::execute ( GCFastMove * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -35,12 +34,12 @@ void GCFastMoveHandler::execute ( GCFastMove * pPacket , Player * pPlayer )
 	MCreature* pCreature = NULL;
 	
 	//------------------------------------------------------------------
-	// PlayerÀÎ °æ¿ì
+	// Playerï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------------------
 	if (objectID==g_pPlayer->GetID())
 	{
 		//------------------------------------------------------------------
-		// Player°¡ ±â´Ù¸®´ø skillÀÇ ¼º°øÀ¯¹«¸¦ °ËÁõ¹Þ¾Ò´Ù.
+		// Playerï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Þ¾Ò´ï¿½.
 		//------------------------------------------------------------------
 		if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_SKILL_SUCCESS)
 		{		
@@ -61,22 +60,22 @@ void GCFastMoveHandler::execute ( GCFastMove * pPacket , Player * pPlayer )
 
 	if (pCreature == NULL)
 	{
-		// Ä³¸¯ÅÍ ¾ø´Ù.
+		// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		DEBUG_ADD_FORMAT("[Error] There is no such Creature. id=%d", objectID);
 	}
-	// CreatureÀÖÀ» ¶§.. 		
+	// Creatureï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½.. 		
 	else
 	{
 		switch(skillType)
 		{
 		case SKILL_CHARGING_ATTACK:
 				ExecuteActionInfoFromMainNode(
-							SKILL_CLIENT_CHARGING_ATTACK,										// »ç¿ë ±â¼ú ¹øÈ£
+							SKILL_CLIENT_CHARGING_ATTACK,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 						
 							ox, oy, 0,
-							pCreature->GetDirection(),														// »ç¿ë ¹æÇâ
+							pCreature->GetDirection(),														// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							
-							pCreature->GetID(),												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+							pCreature->GetID(),												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							nx, ny, 0,
 							
 							17, //5*16, 
@@ -98,12 +97,12 @@ void GCFastMoveHandler::execute ( GCFastMove * pPacket , Player * pPlayer )
 		case SKILL_TELEPORT:
 			{
 				ExecuteActionInfoFromMainNode(
-							SKILL_CLIENT_TELEPORT,										// »ç¿ë ±â¼ú ¹øÈ£
+							SKILL_CLIENT_TELEPORT,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 						
 							ox, oy, 0,
-							pCreature->GetDirection(),														// »ç¿ë ¹æÇâ
+							pCreature->GetDirection(),														// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							
-							pCreature->GetID(),												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+							pCreature->GetID(),												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							ox, oy, 0,
 							
 							20, //5*16, 
@@ -124,12 +123,12 @@ void GCFastMoveHandler::execute ( GCFastMove * pPacket , Player * pPlayer )
 				pCreature->SetGhost(0xFF, 18);
 
 				ExecuteActionInfoFromMainNode(
-							SKILL_CLIENT_TELEPORT2,										// »ç¿ë ±â¼ú ¹øÈ£
+							SKILL_CLIENT_TELEPORT2,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 						
 							nx, ny, 0,
-							pCreature->GetDirection(),														// »ç¿ë ¹æÇâ
+							pCreature->GetDirection(),														// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							
-							pCreature->GetID(),												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+							pCreature->GetID(),												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							nx, ny, 0,
 							
 							20, //5*16, 
@@ -146,12 +145,12 @@ void GCFastMoveHandler::execute ( GCFastMove * pPacket , Player * pPlayer )
 		case SKILL_DUCKING_WALLOP:
 			{
 				ExecuteActionInfoFromMainNode(
-							SKILL_CLIENT_DUCKING_WALLOP,										// »ç¿ë ±â¼ú ¹øÈ£
+							SKILL_CLIENT_DUCKING_WALLOP,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 						
 							ox, oy, 0,
-							pCreature->GetDirectionToPosition(nx, ny),														// »ç¿ë ¹æÇâ
+							pCreature->GetDirectionToPosition(nx, ny),														// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							
-							pCreature->GetID(),												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+							pCreature->GetID(),												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							ox, oy, 0,
 							
 							10, //5*16, 
@@ -193,12 +192,12 @@ void GCFastMoveHandler::execute ( GCFastMove * pPacket , Player * pPlayer )
 		case SKILL_BOMB_CRASH_WALK:
 			{
 				ExecuteActionInfoFromMainNode(
-							SKILL_CLIENT_BOMB_CRASH_WALK,						// »ç¿ë ±â¼ú ¹øÈ£
+							SKILL_CLIENT_BOMB_CRASH_WALK,						// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 		
 							ox, oy, 0,
-							pCreature->GetDirection(),							// »ç¿ë ¹æÇâ
+							pCreature->GetDirection(),							// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
-							pCreature->GetID(),									// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+							pCreature->GetID(),									// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							nx, ny, 0,
 							
 							20, //5*16, 

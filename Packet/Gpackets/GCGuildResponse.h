@@ -18,41 +18,41 @@ enum UNION_ERROR
 		OK = 0,
         ALREADY_IN_UNION,		
         ALREADY_OFFER_SOMETHING,
-        TARGET_IS_NOT_MASTER,   // »ó´ë¹æÀÌ ¸¶½ºÅÍ°¡ ¾Æ´Ï¶ó³×;;
-        NOT_IN_UNION,           // ¿¬ÇÕ¿¡ °¡ÀÔµÈ »óÅÂ°¡ ¾Æ´Ô
-        MASTER_CANNOT_QUIT,     // ¿¬ÇÕÀÇ ¸¶½ºÅÍ ±æµå´Â ½º½º·Î Å»ÅðºÒ°¡(ÇÏÀ§±æµå°¡ ¾øÀ»¶§¸¸ °¡´É-ÀÚµ¿ÀÌ·¡)
-        NO_TARGET_UNION,        // ÇØ´çÇÏ´Â ¿¬ÇÕÀÌ ¾øÀ½
-        NOT_YOUR_UNION,         // ¼Ò¼ÓµÈ ¿¬ÇÕÀÌ ¾Æ´Ï´Ù.
-        SOURCE_IS_NOT_MASTER,   // ½ÅÃ»ÇÑ »ç¶÷ÀÌ ¸¶½ºÅÍ°¡ ¾Æ´Ï´Ù    
-		YOU_HAVE_PENALTY,        // °­Á¦·Î Å»ÅðÇÑ ±â·ÏÀÌ ÀÖ´Ù.
-		NOT_ENOUGH_SLOT,			// ³²¾ÆÀÖ´Â ½½·ÔÀÌ ¾ø´Ù.
-		TOO_MANY_MEMBER,		// ¸â¹ö°¡ 50¸íÀÌ»óÀÌ¶ó °¡ÀÔÇÒ ¼ö ¾ø½À´Ï´Ù.
+        TARGET_IS_NOT_MASTER,   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½;;
+        NOT_IN_UNION,           // ï¿½ï¿½ï¿½Õ¿ï¿½ ï¿½ï¿½ï¿½Ôµï¿½ ï¿½ï¿½ï¿½Â°ï¿½ ï¿½Æ´ï¿½
+        MASTER_CANNOT_QUIT,     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å»ï¿½ï¿½Ò°ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½-ï¿½Úµï¿½ï¿½Ì·ï¿½)
+        NO_TARGET_UNION,        // ï¿½Ø´ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        NOT_YOUR_UNION,         // ï¿½Ò¼Óµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï´ï¿½.
+        SOURCE_IS_NOT_MASTER,   // ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Æ´Ï´ï¿½    
+		YOU_HAVE_PENALTY,        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½.
+		NOT_ENOUGH_SLOT,			// ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+		TOO_MANY_MEMBER,		// ï¿½ï¿½ï¿½ï¿½ï¿½ 50ï¿½ï¿½ï¿½Ì»ï¿½ï¿½Ì¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 };
 
 class GCGuildResponse : public Packet 
 {
 
 public:
-	GCGuildResponse() throw() { m_Code = 0; m_Parameter = 0;}
-	virtual ~GCGuildResponse() throw() {}
+	GCGuildResponse() { m_Code = 0; m_Parameter = 0;}
+	virtual ~GCGuildResponse() {}
 
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
 
-	PacketID_t getPacketID() const throw() { return PACKET_GC_GUILD_RESPONSE; }
-	PacketSize_t getPacketSize() const throw();
+	PacketID_t getPacketID() const { return PACKET_GC_GUILD_RESPONSE; }
+	size_t getPacketSize() const;
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCGuildResponse"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCGuildResponse"; }
+	string toString() const;
 #endif	
 public:
-	BYTE getCode(void) const throw() { return m_Code;}
-	void setCode(WORD code) throw() { m_Code = code;}
+	BYTE getCode(void) const { return m_Code;}
+	void setCode(WORD code) { m_Code = code;}
 
-	uint getParameter(void) const throw() { return m_Parameter; }
-	void setParameter(uint parameter) throw() { m_Parameter = parameter; }
+	uint getParameter(void) const { return m_Parameter; }
+	void setParameter(uint parameter) { m_Parameter = parameter; }
 
 private: 
 	WORD m_Code;
@@ -68,10 +68,10 @@ private:
 class GCGuildResponseFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCGuildResponse(); }
-	string getPacketName() const throw() { return "GCGuildResponse"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_GUILD_RESPONSE; }
-	PacketSize_t getPacketMaxSize() const throw() { return szWORD + szuint; }
+	Packet* createPacket() { return new GCGuildResponse(); }
+	string getPacketName() const { return "GCGuildResponse"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_GUILD_RESPONSE; }
+	PacketSize_t getPacketMaxSize() const { return szWORD + szuint; }
 };
 
 
@@ -82,7 +82,7 @@ public:
 class GCGuildResponseHandler 
 {
 public:
-	static void execute( GCGuildResponse* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute( GCGuildResponse* pPacket, Player* pPlayer);
 };
 
 #endif

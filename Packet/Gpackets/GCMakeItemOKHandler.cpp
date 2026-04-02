@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCMakeItemOK.h"
 #include "ClientDef.h"
 #include "TempInformation.h"
@@ -17,7 +17,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCMakeItemOKHandler::execute ( GCMakeItemOK * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -33,14 +32,14 @@ void GCMakeItemOKHandler::execute ( GCMakeItemOK * pPacket , Player * pPlayer )
 		//g_pTempInformation->Value1 = itemClass;
 		//g_pTempInformation->Value2 = itemType;
 
-		// ¸ø ¿òÁ÷ÀÌ°Ô Çß´ø°Å Ç®±â
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½ß´ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½
 		UI_UnlockItem();
 	}
 	else
 	{
 		DEBUG_ADD( "[Error] Temp Mode is Not MODE_SKILL_MAKE_ITEM" );
 		
-		// ¾îÂ¶µç... ³¯¾Æ¿Â packetÀº Ã³¸®ÇÏ°Ô ÇÑ´Ù.
+		// ï¿½ï¿½Â¶ï¿½ï¿½... ï¿½ï¿½ï¿½Æ¿ï¿½ packetï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ñ´ï¿½.
 	}
 		
 
@@ -91,7 +90,7 @@ void GCMakeItemOKHandler::execute ( GCMakeItemOK * pPacket , Player * pPlayer )
 	// ModifyInfo
 	//
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	AffectModifyInfo(g_pPlayer, pPacket);
 

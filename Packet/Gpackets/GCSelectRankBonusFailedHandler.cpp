@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSelectRankBonusFailed.h"
 #include "ClientDef.h"
 #include "MGameStringTable.h"
@@ -18,7 +18,6 @@ extern bool gbl_global_empty_move;
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSelectRankBonusFailedHandler::execute ( GCSelectRankBonusFailed * pGCSelectRankBonusFailed , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 

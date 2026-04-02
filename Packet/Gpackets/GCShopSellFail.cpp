@@ -1,14 +1,14 @@
 //--------------------------------------------------------------------------------
 // 
 // Filename    : GCShopSellFail.cpp 
-// Written By  : ±è¼º¹Î
-// Description : ÇÃ·¹ÀÌ¾î°¡ NPC¿¡°Ô ¹°°ÇÀ» ÆÈ·Á°í Çß´Âµ¥, ¾î¶² ÀÌÀ¯·Î
-//               ½ÇÆÐÇßÀ» °æ¿ì¿¡´Â ÀÌ ÆÐÅ¶À» ÇÃ·¹ÀÌ¾î¿¡°Ô º¸³»ÁØ´Ù.
+// Written By  : ï¿½è¼ºï¿½ï¿½
+// Description : ï¿½Ã·ï¿½ï¿½Ì¾î°¡ NPCï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È·ï¿½ï¿½ï¿½ ï¿½ß´Âµï¿½, ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//               ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 // 
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCShopSellFail.h"
 #include "Assert.h"
 
@@ -18,7 +18,6 @@
 //--------------------------------------------------------------------
 
 GCShopSellFail::GCShopSellFail() 
-	throw ()
 {
 	__BEGIN_TRY 
 	
@@ -29,7 +28,6 @@ GCShopSellFail::GCShopSellFail()
 // destructor
 //--------------------------------------------------------------------
 GCShopSellFail::~GCShopSellFail() 
-	throw ()
 {
 	__BEGIN_TRY 
 	
@@ -38,10 +36,9 @@ GCShopSellFail::~GCShopSellFail()
 }
 
 //--------------------------------------------------------------------
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //--------------------------------------------------------------------
 void GCShopSellFail::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -55,10 +52,9 @@ void GCShopSellFail::read ( SocketInputStream & iStream )
 
 		    
 //--------------------------------------------------------------------------------
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //--------------------------------------------------------------------------------
 void GCShopSellFail::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -74,7 +70,6 @@ void GCShopSellFail::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //--------------------------------------------------------------------------------
 void GCShopSellFail::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -88,7 +83,6 @@ void GCShopSellFail::execute ( Player * pPlayer )
 //--------------------------------------------------------------------------------
 #ifdef __DEBUG_OUTPUT__
 	std::string GCShopSellFail::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 			

@@ -57,85 +57,7 @@
     <ClInclude Include="hangul\Fl2.h">
       <Filter>hangul</Filter>
     </ClInclude>
-    <ClInclude Include="Imm\ImmCondition.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmConstant.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmDamper.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmDevice.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmDevices.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmDXDevice.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmEffect.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmEffectSuite.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmEllipse.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmEnclosure.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmFriction.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmGrid.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmIFR.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmInertia.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmMouse.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmPeriodic.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmProjects.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmRamp.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmSpring.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmTexture.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
     <ClInclude Include="Imm\CImm.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\FeelitAPI.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\IFC.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\IFCErrors.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmBaseTypes.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmBox.h">
-      <Filter>CImm</Filter>
-    </ClInclude>
-    <ClInclude Include="Imm\ImmCompoundEffect.h">
       <Filter>CImm</Filter>
     </ClInclude>
     <ClInclude Include="widget\u_window.h">
@@ -327,9 +249,6 @@
     <ClInclude Include="game\BGMManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="game\BloodBibleSignInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="game\CGameUpdate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -370,12 +289,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="game\GetWinVer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="game\GuildInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="game\GuildMemberInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="game\LeakMemoryDumper.h">
@@ -777,12 +690,6 @@
     <ClInclude Include="header\MZoneTable.h">
       <Filter>M Header</Filter>
     </ClInclude>
-    <ClInclude Include="game\NicknameInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="game\nProtect.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="game\PackFileManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -825,9 +732,6 @@
     <ClInclude Include="game\SkillDef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="game\StoreInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="header\SystemAvailabilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -844,9 +748,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="game\UIMessageManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\UserInformation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\UserOption.h">
@@ -1112,9 +1013,6 @@
     <ClCompile Include="game\BGMManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="game\BloodBibleSignInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="game\CGameUpdate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1179,12 +1077,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FameInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="game\GuildInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="game\GuildMemberInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game\LeakMemoryDumper.cpp">
@@ -1418,9 +1310,6 @@
     <ClCompile Include="MPlayerGear.cpp">
       <Filter>M Source</Filter>
     </ClCompile>
-    <ClCompile Include="game\MPlayingWithFireEffect.cpp">
-      <Filter>M Source</Filter>
-    </ClCompile>
     <ClCompile Include="game\MPlayingWithFireEffectGenerator.cpp">
       <Filter>M Source</Filter>
     </ClCompile>
@@ -1613,9 +1502,6 @@
     <ClCompile Include="UserOption.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UserInformation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="game\UIMessageManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1632,9 +1518,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SystemAvailabilities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="game\StoreInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game\SkillDef.cpp">
@@ -1674,12 +1557,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game\PackFileManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="game\nProtect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="game\NicknameInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game\Netmarble.cpp">

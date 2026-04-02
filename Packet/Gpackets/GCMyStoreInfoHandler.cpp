@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCMyStoreInfo.h"
 #include "MStorage.h"
 #include "MPlayer.h"
@@ -20,11 +20,10 @@
 #include "ClientConfig.h"
 //////////////////////////////////////////////////////////////////////
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡¼­ ¼­¹ö·ÎºÎÅÍ ¸Þ½ÃÁö¸¦ ¹Þ¾ÒÀ»¶§ ½ÇÇàµÇ´Â ¸Þ½îµåÀÌ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	
 		__BEGIN_TRY 
@@ -35,20 +34,20 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 		if(g_pPlayer->IsNPC() == false)
 			g_pPlayer->SetPersnalShop(pPacket->getStoreInfo()->isOpen());
 
-		if(pPacket->getStoreInfo()->isOpen()) // »óÁ¡ÀÌ ¿­·¯ ÀÖÀ»‹š¸¸ 
+		if(pPacket->getStoreInfo()->isOpen()) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 		{
 			// 2006.04.25 chyaya
 			WORD colorIndex = pPacket->getStoreInfo()->getPaintColor();
 			g_pPlayer->SetPersnalShopColor( MCreature::s_PersnalShopColor[colorIndex] );
 
-			/* ÀÚ½ÅÀÇ Ã¤ÆÃ »ö»óÀ¸·Î °³ÀÎ »óÁ¡À» ¿­°í ÀÖ´Ù.
+			/* ï¿½Ú½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½.
 			if(!pPacket->getStoreInfo()->getSign().empty()) 
 				g_pPlayer->SetPersnalString((char*)pPacket->getStoreInfo()->getSign().c_str(),g_pUserOption->ChattingColor);
 			else
 				g_pPlayer->SetPersnalString((*g_pGameStringTable)[UI_STRING_MESSAGE_PERSNAL_DEFAULT_MESSGE].GetString(),g_pUserOption->ChattingColor);
 			*/
 			
-			// ¿äÃ»¿¡ µû¶ó µðÆúÆ®»öÀ¸·Î ¿­¸®µµ·Ï ¼öÁ¤
+			// ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			if(!pPacket->getStoreInfo()->getSign().empty())
 				g_pPlayer->SetPersnalString( (char*)pPacket->getStoreInfo()->getSign().c_str() );
 			else
@@ -56,7 +55,7 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 			// by chyaya 2006.04.19
 		}
  
-		if(gC_vs_ui.GetPersnalShoptoUI() == 3) //»óÁ¡ ´Ý±â
+		if(gC_vs_ui.GetPersnalShoptoUI() == 3) //ï¿½ï¿½ï¿½ï¿½ ï¿½Ý±ï¿½
 		{
 			g_pPlayer->ClearChatString();
 			gC_vs_ui.SetPersnalShoptoUI(0);
@@ -71,7 +70,7 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 			
 			return;
 		}
-		if(gC_vs_ui.GetPersnalShoptoUI() == 2) //»óÁ¡ ¿­±âÀÏ°æ¿ì¿¡ ¸®ÅÏÇÑ´Ù.
+		if(gC_vs_ui.GetPersnalShoptoUI() == 2) //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ì¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		{ 
 			gC_vs_ui.SetPersnalShoptoUI(0);
 			gC_vs_ui.ClosePersnalShop(); 
@@ -85,7 +84,7 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 		}
 	
 		g_pStorage2 = new MStorage;
-		g_pStorage2->Init( 1 ); //STASH_RACK_MAX );	// ÂÁ.. 3°³ÀÏ±î?? 
+		g_pStorage2->Init( 1 ); //STASH_RACK_MAX );	// ï¿½ï¿½.. 3ï¿½ï¿½ï¿½Ï±ï¿½?? 
 		g_pStorage2->SetCurrent( 0 );
 
 		if(g_pPlayer->GetID() != NULL)
@@ -102,7 +101,7 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 		for (int rack=0; rack<1; rack++)
 		{	 
 			//------------------------------------------------------------
-			// Á¢±ÙÇÏ´Â Storage¸¦ ÁöÁ¤ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Storageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//------------------------------------------------------------
 			//int numitem = pPacket->getStoreInfo().getItems().size();
 			int numitem = pPacket->getStoreInfo()->getItems().size();
@@ -115,7 +114,7 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 				{
 					 
 					//------------------------------------------------------------
-					// itemÀ» »ý¼ºÇÑ´Ù.
+					// itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 					//------------------------------------------------------------
 					MItem* pItem = MItem::NewItem( (ITEM_CLASS)item.getItemClass() );
 
@@ -155,18 +154,18 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 						g_pInventory->Next();
 					}
 					//------------------------------------------
-					// °³¼ö
+					// ï¿½ï¿½ï¿½ï¿½
 					//------------------------------------------
-					// ÃÑÀÎ °æ¿ì
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 					//------------------------------------------
 					if (pItem->IsGunItem())
 					{
 						MMagazine* pMagazine = (MMagazine*)MItem::NewItem( (ITEM_CLASS)ITEM_CLASS_MAGAZINE );
 
-						// ÀÇ¹Ì ¾øÀ½ - -;
+						// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ - -;
 						pMagazine->SetID( 0 );
 
-						// ÀÌ°Å´Â ÃÑ¿¡ ¸ÂÃç¼­ ÇØÁà¾ßµÈ´Ù.
+						// ï¿½Ì°Å´ï¿½ ï¿½Ñ¿ï¿½ ï¿½ï¿½ï¿½ç¼­ ï¿½ï¿½ï¿½ï¿½ßµÈ´ï¿½.
 						for (int j=0; j<(*g_pItemTable)[ITEM_CLASS_MAGAZINE].GetSize(); j++)			
 						{
 							pMagazine->SetItemType(	j );
@@ -177,18 +176,18 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 							}
 						}
 
-						// ÀÇ¹Ì ¾øÀ½
+						// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½
 						pMagazine->ClearItemOption();
 					
 
 						//------------------------------------
-						// ÅºÃ¢ ¼³Á¤
+						// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 						//------------------------------------
 						MGunItem* pGunItem = (MGunItem*)pItem;
 						pGunItem->SetMagazine( pMagazine );
 					}		
 					//------------------------------------------
-					// ÃÑÀÌ ¾Æ´Ñ °æ¿ì
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 					//------------------------------------------
 					else
 					{
@@ -199,7 +198,7 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 					pItem->SetEnchantLevel( item.getEnchantLevel() );
 
 					//------------------------------------------------------------
-					// Sub ItemÀÌ ÀÖÀ¸¸é »ý¼ºÇÑ´Ù.
+					// Sub Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 					//------------------------------------------------------------
 
 					int subNum =item.getListNum();
@@ -207,7 +206,7 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 					if (subNum!=0)
 					{
 						//------------------------------------------------------------
-						// BeltÀÎ °æ¿ì
+						// Beltï¿½ï¿½ ï¿½ï¿½ï¿½
 						//------------------------------------------------------------
 						if (pItem->GetItemClass()==ITEM_CLASS_BELT)
 						{
@@ -216,7 +215,7 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 							std::list<SubItemInfo*>::const_iterator iItem = listSubItem.begin();
 
 							//------------------------------------------------------------
-							// °¢°¢ÀÇ sub itemÀ» ¼³Á¤ÇÑ´Ù.
+							// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sub itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 							//------------------------------------------------------------
 							while (iItem != listSubItem.end())
 							{
@@ -225,7 +224,7 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 								if (pItemInfo!=NULL)
 								{
 									//------------------------------------------------------------
-									// sub itemÀ» »ý¼ºÇÑ´Ù.
+									// sub itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 									//------------------------------------------------------------
 									MItem* pSubItem = MItem::NewItem( (ITEM_CLASS)pItemInfo->getItemClass() );
 
@@ -254,7 +253,7 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 							std::list<SubItemInfo*>::const_iterator iItem = listSubItem.begin();
 
 							//------------------------------------------------------------
-							// °¢°¢ÀÇ sub itemÀ» ¼³Á¤ÇÑ´Ù.
+							// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sub itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 							//------------------------------------------------------------
 							while (iItem != listSubItem.end())
 							{
@@ -263,7 +262,7 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 								if (pItemInfo!=NULL)
 								{
 									//------------------------------------------------------------
-									// sub itemÀ» »ý¼ºÇÑ´Ù.
+									// sub itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 									//------------------------------------------------------------
 									MItem* pSubItem = MItem::NewItem( (ITEM_CLASS)pItemInfo->getItemClass() );
 
@@ -290,11 +289,11 @@ void GCMyStoreInfoHandler::execute ( GCMyStoreInfo * pPacket , Player * pPlayer 
 					}
 					 
 					//------------------------------------------------------------
-					// Storage¿¡ item ¼³Á¤
+					// Storageï¿½ï¿½ item ï¿½ï¿½ï¿½ï¿½
 					//------------------------------------------------------------
 					if (!g_pStorage2->SetItem( index, pItem ))
 					{
-						// ¹¹Áö.. 
+						// ï¿½ï¿½ï¿½ï¿½.. 
 						delete pItem;
 						
 						DEBUG_ADD_FORMAT("[Error] Can't Add Item to Storage. rack=%d, slot=%d", rack, index);

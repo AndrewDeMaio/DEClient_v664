@@ -5,9 +5,9 @@
 // 2003.4.21
 // MQuestInfoManager
 //
-// Quest¿¡ ´ëÇÑ Á¤º¸¸¦ °ü¸®ÇÏ´Â ¸Å´ÏÀú ÀÌ´Ù. Ã³À½¿£ ±×³É ¸ó½ºÅÍ Å³ Äù½ºÆ®¿¡¸¸ ¾²¿©¼­
-// ÀÌ¸§À» -_- MMonsterKillQuestInfo ·Î ÇßÀ¸³ª, Á¡Â÷ ±× ¾²ÀÓÀÌ È®´ëµÇ¾î -_- QuestInfo
-// Manager ·Î ¹Ù²î¾ú´Ù. ¸»±×´ë·Î Äù½ºÆ® Á¤º¸¸¦ °ü¸®ÇÏ´Â Å¬·¡½º ÀÌ´Ù.
+// Questï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ ï¿½Ì´ï¿½. Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½×³ï¿½ ï¿½ï¿½ï¿½ï¿½ Å³ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½Ì¸ï¿½ï¿½ï¿½ -_- MMonsterKillQuestInfo ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½Ç¾ï¿½ -_- QuestInfo
+// Manager ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½×´ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½Ì´ï¿½.
 //
 // by sonee
 ////////////////////////////////////////////////////////////////////////////////////
@@ -23,8 +23,6 @@
 
 #include <list>
 #include "CTypeMap.h"
-std::ifstream;
-std::ofstream;
 
 enum MINI_GAME_TYPE 
 {	
@@ -44,7 +42,7 @@ public :
 	DWORD			GetSpriteType()		{ return m_SpriteType;}
 	DWORD			GetGoal()			{ return m_Goal; }
 	
-	// ¾ÆÀÌÅÛ Ã£±â¸é..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ï¿½..
 	DWORD			GetItemClass()		{ return m_CreatureType; }
 	DWORD			GetItemType()		{ return m_SpriteType; }
 	const char*		GetName()			{ return m_Name.GetString(); }
@@ -62,7 +60,7 @@ public :
 	void			SetQuestLevel(BYTE level) { m_QuestLevel = level; }
 	void			SetEventQuest(BYTE event) { m_EventQuest = event; }
 
-	// Goal Àº ¼­¹öÀÇ Packet ¿¡ ÀÇÇØ ¹Ù²ð ¼ö ÀÖ´Ù.
+	// Goal ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Packet ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
 	void			SetGoal(DWORD goal) { m_Goal = goal; }	
 	void			SetName(const char* str) { m_Name = str; }
 private :
@@ -88,6 +86,6 @@ public :
 
 };
 
-extern		MQuestInfoManager	*g_pQuestInfoManager;					// Äù½ºÆ® ÀÚÃ¼ Á¤º¸
+extern		MQuestInfoManager	*g_pQuestInfoManager;					// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 
 #endif

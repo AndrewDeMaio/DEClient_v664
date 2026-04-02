@@ -1,13 +1,13 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCShopSellFailHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCShopSellFail.h"
 #include "ClientDef.h"
 #include "UIDialog.h"
@@ -16,19 +16,18 @@
 #include "UIFunction.h"
 
 void GCShopSellFailHandler::execute ( GCShopSellFail * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
 #ifdef __GAME_CLIENT__
 
-	// mode¸¦ ¾ø¾Ø´Ù.
+	// modeï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 	g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
-	// °Å·¡¸¦ ´Ù½Ã È°¼ºÈ­ÇÑ´Ù.
+	// ï¿½Å·ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ È°ï¿½ï¿½È­ï¿½Ñ´ï¿½.
 	UI_UnlockItemTrade();
 
-	// 2005, 1, 3, sobeit add start - ÀÌ±Ã ´ëÃæ. TempInformation¿¡ ¸ðµå Ãß°¡ ÇØ¾ß ÇÏÁö¸¸.. 
+	// 2005, 1, 3, sobeit add start - ï¿½Ì±ï¿½ ï¿½ï¿½ï¿½ï¿½. TempInformationï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½Ø¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. 
 	if(UI_IsRunningSwapAdvancementItem())
 		g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[UI_STRING_MESSAGE_SWAP_ADVANCEMENT_ITEM_ERROR].GetString() );
 	else

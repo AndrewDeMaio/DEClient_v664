@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCMoveError.h"
 #include "ClientDef.h"
 
@@ -18,7 +18,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCMoveErrorHandler::execute ( GCMoveError * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -34,11 +33,11 @@ void GCMoveErrorHandler::execute ( GCMoveError * pPacket , Player * pPlayer )
 #elif __WINDOWS__
 */
 
-	// ¼­¹ö ÁÂÇ¥ ¼³Á¤
-	// 2001.10.8 Á¦°Å
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
+	// 2001.10.8 ï¿½ï¿½ï¿½ï¿½
 	g_pPlayer->SetServerPosition( pPacket->getX(), pPacket->getY() );
 
-	// MoveOK message°¡ ÇÏ³ª ¾È ³¯¾Æ¿Â´Ù´Â°É ¾Ë ¼ö ÀÖ´Ù.
+	// MoveOK messageï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Æ¿Â´Ù´Â°ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
 	g_pPlayer->PacketMoveNO();
 	
 

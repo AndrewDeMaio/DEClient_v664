@@ -20,7 +20,6 @@
 //////////////////////////////////////////////////////////////////////////////
 #if __CONTENTS(__TIPOJYU_CASTLE)
 void CGInstanceDoungeonEnterHandler::execute (CGInstanceDoungeonEnter* pPacket , Player* pPlayer)
-	     throw (Error)
 {
 	__BEGIN_TRY
 	__BEGIN_DEBUG
@@ -69,7 +68,7 @@ void CGInstanceDoungeonEnterHandler::execute (CGInstanceDoungeonEnter* pPacket ,
 				pGamePlayer->addEvent(pEventTransport);
 			}
 			
-			// ÆÄÆ¼¿ø µ¿½Ã ÀÔÀå Ã³¸®
+			// ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 		}
 	} 
 	catch (Throwable & t) 

@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddSlayer.h"
 #include "ClientDef.h"
 #include "AddonDef.h"
@@ -20,7 +20,6 @@ extern void SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID);
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAddSlayerHandler::execute ( GCAddSlayer * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -28,7 +27,7 @@ void GCAddSlayerHandler::execute ( GCAddSlayer * pPacket , Player * pPlayer )
 
 	
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -37,7 +36,7 @@ void GCAddSlayerHandler::execute ( GCAddSlayer * pPacket , Player * pPlayer )
 		
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -48,8 +47,8 @@ void GCAddSlayerHandler::execute ( GCAddSlayer * pPacket , Player * pPlayer )
 		MCreature* pCreature = g_pZone->GetCreature(si.getObjectID());
 
 		//--------------------------------------------------
-		// »õ·Î¿î CreatureÀÌ¸é Ãß°¡
-		// º¹ÀåÀÌ ÀÖ´Â CreatureÀÌ´Ù.
+		// ï¿½ï¿½ï¿½Î¿ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ß°ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Creatureï¿½Ì´ï¿½.
 		//--------------------------------------------------
 		if (pCreature==NULL)
 		{
@@ -84,7 +83,7 @@ void GCAddSlayerHandler::execute ( GCAddSlayer * pPacket , Player * pPlayer )
 			pCreatureWear->SetCurrentDirection( si.getDir() );
 			pCreatureWear->SetAction( ACTION_STAND );
 
-			// ÇÇºÎ»ö
+			// ï¿½ÇºÎ»ï¿½
 			pCreatureWear->SetBodyColor1( si.getSkinColor() );
 
 #if __CONTENTS(__SECOND_TRANSFORTER)
@@ -100,14 +99,14 @@ void GCAddSlayerHandler::execute ( GCAddSlayer * pPacket , Player * pPlayer )
 #if __CONTENTS(__CONTRIBUTE_SYSTEM)
 			pCreatureWear->SetStatus( MODIFY_CONTRIBUTE_POINT, si.getContributePoint());
 #endif //__CONTRIBUTE_SYSTEM
-			// ÀÌ¸§
+			// ï¿½Ì¸ï¿½
 			pCreatureWear->SetName( si.getName().c_str() );
 
-			// »ö±ò Á¤º¸
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-			// º¹Àå Á¤º¸ --> ÀÏ´Ü ±âº» ¿ÊÀ» ÀÔ°í ÀÖ°Ô ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ --> ï¿½Ï´ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ ï¿½Ô°ï¿½ ï¿½Ö°ï¿½ ï¿½Ñ´ï¿½.
 			//----------------------------------------	
-			// º¹ÀåÀ» Âø¿ëÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//----------------------------------------	
 			SetAddonToSlayer( pCreatureWear, &si );
 			if(pCreature->IsNPC() == false)
@@ -119,14 +118,14 @@ void GCAddSlayerHandler::execute ( GCAddSlayer * pPacket , Player * pPlayer )
 				WORD colorIndex = pPacket->getStoreOutlook().getPaintColor();
 				pCreature->SetPersnalShopColor( MCreature::s_PersnalShopColor[colorIndex] );
 
-				/* ³²ÀÇ »óÁ¡±îÁöµµ Ã¤ÆÃ »ö»óÀ¸·Î ¿­°í ÀÖ´Ù. -_-;;
+				/* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½. -_-;;
 				if(!pPacket->getStoreOutlook().getSign().empty())
 					pCreature->SetPersnalString((char*)pPacket->getStoreOutlook().getSign().c_str(),g_pUserOption->ChattingColor);
 				else
 					pCreature->SetPersnalString((*g_pGameStringTable)[UI_STRING_MESSAGE_PERSNAL_DEFAULT_MESSGE].GetString(),g_pUserOption->ChattingColor);
 				*/
 
-				// ¿äÃ»¿¡ µû¶ó µðÆúÆ® »öÀ¸·Î ¿­¸®µµ·Ï ¼öÁ¤
+				// ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				if(!pPacket->getStoreOutlook().getSign().empty())
 					pCreature->SetPersnalString( (char*)pPacket->getStoreOutlook().getSign().c_str() );
 				else
@@ -142,7 +141,7 @@ void GCAddSlayerHandler::execute ( GCAddSlayer * pPacket , Player * pPlayer )
 			}
 		}
 		//--------------------------------------------------
-		// ÀÌ¹Ì ÀÖ´Â CreatureÀÎ °æ¿ì
+		// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		else
 		{
@@ -160,7 +159,7 @@ void GCAddSlayerHandler::execute ( GCAddSlayer * pPacket , Player * pPlayer )
 			pCreature->SetCurrentDirection( si.getDir() );
 			pCreature->SetAction( ACTION_STAND );
 
-			// ÇÇºÎ»ö
+			// ï¿½ÇºÎ»ï¿½
 			pCreature->SetBodyColor1( si.getSkinColor() );
 			pCreature->SetMasterEffectType(si.getMasterEffectColor());
 
@@ -201,24 +200,24 @@ void GCAddSlayerHandler::execute ( GCAddSlayer * pPacket , Player * pPlayer )
 		if (pCreature!=NULL)
 		{
 			//--------------------------------------------------
-			// Effect ºÙÀÌ±â..
+			// Effect ï¿½ï¿½ï¿½Ì±ï¿½..
 			//--------------------------------------------------
 			SetEffectInfo( pCreature, pPacket->getEffectInfo() );
 			
-			// Æê Ã³¸®
+			// ï¿½ï¿½ Ã³ï¿½ï¿½
 			if(pPacket->getPetInfo() != NULL)
 				SetPetInfo(pPacket->getPetInfo(), pCreature->GetID());
 			NicknameInfo* _tempNick = pPacket->getNicknameInfo();
 			if(_tempNick != NULL)
 			{
-				// Ä¿½ºÅÒ ´Ð³×ÀÓ ÀÏ¶§
+				// Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Ï¶ï¿½
 				if(_tempNick->getNicknameType() == NicknameInfo::NICK_CUSTOM_FORCED ||
 				   _tempNick->getNicknameType() == NicknameInfo::NICK_CUSTOM)
 				{
 					pCreature->SetNickName(_tempNick->getNicknameType(), (char*)_tempNick->getNickname().c_str());
 					
 				}
-				else // ´Ð³×ÀÓ ÀÎµ¦½º°¡ ÀÖÀ» ¶§
+				else // ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 				{
 					int TempIndex = _tempNick->getNicknameIndex();
 					if(TempIndex >= g_pNickNameStringTable->GetSize())
@@ -229,7 +228,7 @@ void GCAddSlayerHandler::execute ( GCAddSlayer * pPacket , Player * pPlayer )
 		}
 	}
 
-	// [µµ¿ò¸»] Slayer°¡ ³ªÅ¸³¯¶§
+	// [ï¿½ï¿½ï¿½ï¿½] Slayerï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½
 //	__BEGIN_HELP_EVENT
 ////		ExecuteHelpEvent( HE_CREATURE_APPEAR_SLAYER );
 //	__END_HELP_EVENT

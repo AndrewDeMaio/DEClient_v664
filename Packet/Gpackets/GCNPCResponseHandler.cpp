@@ -1,14 +1,14 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCNPCResponseHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
 
 // include files
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCNPCResponse.h"
 #include "ClientDef.h"
 #include "MStorage.h"
@@ -41,7 +41,6 @@
 
 
 void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -49,7 +48,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 	char sz_temp[1024];
 	//------------------------------------------------------
-	// °ËÁõ
+	// ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if ( g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_NPC_ASK )
 	{
@@ -76,14 +75,14 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 				g_pPlayer->SetWaitVerifyNULL();
 
-				// ´ëÈ­ÁßÀÌ ¾Æ´Ï¶ó´Â ÀÇ¹ÌÀÌ´Ù.
+				// ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½Ì´ï¿½.
 				g_pUIDialog->ClosePCTalkDlg();
 			}
 		break;
 
 		//------------------------------------------------------
 		//
-		//					¼ö¸® ¶ç¿ì±â
+		//					ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//
 		//------------------------------------------------------			
 		case NPC_RESPONSE_INTERFACE_REPAIR :
@@ -97,7 +96,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 		//------------------------------------------------------
 		//
-		//					¼ö¸® ¶ç¿ì±â
+		//					ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//
 		//------------------------------------------------------			
 		case NPC_RESPONSE_INTERFACE_HELICOPTER :
@@ -106,12 +105,12 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 		//------------------------------------------------------			
 		//
-		//					º¸°üÇÔ ¶ç¿ì±â
+		//					ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//
 		//------------------------------------------------------			
 		case NPC_RESPONSE_INTERFACE_STASHOPEN :
 			//----------------------------------------------------------------------
-			// º¸°üÇÔ Á¤º¸°¡ ¾ø´Â °æ¿ì¿£ std::list¸¦ ¿äÃ»ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿£ std::listï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ñ´ï¿½.
 			//----------------------------------------------------------------------
 			if (g_pStorage==NULL)
 			{	
@@ -124,7 +123,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 				pClientPlayer->sendPacket( &_CGStashList );
 			}
 			//----------------------------------------------------------------------
-			// ÀÌ¹Ì Á¤º¸°¡ ÀÖÀ¸¸é ¹Ù·Î ¶ç¿î´Ù.
+			// ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			//----------------------------------------------------------------------
 			else
 			{
@@ -141,7 +140,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 		//--------------------------------------------------------------
 		case NPC_RESPONSE_REPAIR_OK :
 			//--------------------------------------------------------------
-			// Item ÆÄ´Â packetÀ» ¼ö¸®ÇÏ´Â°Ô ¸Â³ª?
+			// Item ï¿½Ä´ï¿½ packetï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½ ï¿½Â³ï¿½?
 			//--------------------------------------------------------------
 			if (g_pTempInformation->GetMode() == TempInformation::MODE_SHOP_REPAIR)
 			{
@@ -153,7 +152,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 				BOOL	bInGear			= g_pTempInformation->Value2;
 				
 				//--------------------------------------------------------------
-				// inventoryÀÇ item¼ö¸®
+				// inventoryï¿½ï¿½ itemï¿½ï¿½ï¿½ï¿½
 				//--------------------------------------------------------------		
 				/*
 				if (bInInventory)
@@ -161,12 +160,12 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 					pModifyItem = g_pInventory->GetItemToModify( itemID );
 				}
 				//--------------------------------------------------------------
-				// gearÀÇ item¼ö¸®
+				// gearï¿½ï¿½ itemï¿½ï¿½ï¿½ï¿½
 				//--------------------------------------------------------------		
 				else if (bInGear)
 				{
 					//--------------------------------------------------------------
-					// gearÀÇ item ¼ö¸®
+					// gearï¿½ï¿½ item ï¿½ï¿½ï¿½ï¿½
 					//--------------------------------------------------------------
 					if (pModifyItem==NULL)
 					{
@@ -183,13 +182,13 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 				*/
 
 				//--------------------------------------------------------------
-				// ´Ù~ ¼ö¸®ÇÏ´Â °æ¿ì
+				// ï¿½ï¿½~ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 				//--------------------------------------------------------------
 				if (pModifyItem==NULL && !bInInventory && bInGear)
 				{
 					MPlayerGear* pGear = g_pPlayer->GetGear();
 
-					// ´Ù ¼ö¸®ÇÏ±â
+					// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 					pGear->SetBegin();
 
 					MItem* pLastItem = NULL;
@@ -208,7 +207,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 						pGear->Next();
 					}
 
-					// »óÅÂ Ã¼Å©
+					// ï¿½ï¿½ï¿½ï¿½ Ã¼Å©
 #if __CONTENTS(__GEAR_SWAP_CHANGE)	//	GCNPCResponseHandler::execute		pGear->CheckAffectStatusAllGear();
 					pGear->CheckAffectStatusAllGear();
 #else
@@ -216,7 +215,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 #endif //__GEAR_SWAP_CHANGE
 
 					//--------------------------------------------------------------
-					// ¼ö¸®Çß´Ù°í ¼Ò¸® Ãâ·Â
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ß´Ù°ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½
 					//--------------------------------------------------------------
 					if (pLastItem!=NULL)
 					{	
@@ -225,7 +224,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 
 					//--------------------------------------------------------------
-					// µ·À» ¹Ù²ãÁØ´Ù.
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
 					//--------------------------------------------------------------
 					if (!g_pMoneyManager->SetMoney( value ))
 					{
@@ -239,16 +238,16 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 					DEBUG_ADD("RepairAll OK");
 				}
 				//--------------------------------------------------------------
-				// ÇÏ³ª¸¸ ¼ö¸®ÇÏ´Â °æ¿ì
+				// ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 				//--------------------------------------------------------------
 				else if (//pCheckItem!=NULL && 
 						pModifyItem!=NULL)
 				{
-					// ID °ËÁõÀ» ÇÑ´Ù.
+					// ID ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 					if (1)//pCheckItem->GetID()==itemID && pModifyItem->GetID()==itemID)
 					{
 						//--------------------------------------------------------------
-						// durability¸¦ max·Î..
+						// durabilityï¿½ï¿½ maxï¿½ï¿½..
 						//--------------------------------------------------------------
 						if (pModifyItem->IsChargeItem())
 						{
@@ -265,7 +264,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 						}
 
 						//--------------------------------------------------------------
-						// Gear¿¡ ÀÖ´Â °æ¿ì´Â 
+						// Gearï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 						//--------------------------------------------------------------
 						if (bInGear)
 						{
@@ -279,12 +278,12 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 						}
 
 						//--------------------------------------------------------------
-						// ¼ö¸®Çß´Ù°í ¼Ò¸® Ãâ·Â
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ß´Ù°ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½
 						//--------------------------------------------------------------
 						PlaySound( pModifyItem->GetInventorySoundID() );				
 
 						//--------------------------------------------------------------
-						// µ·À» ¹Ù²ãÁØ´Ù.
+						// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
 						//--------------------------------------------------------------
 						if (!g_pMoneyManager->SetMoney( value ))
 						{
@@ -304,10 +303,10 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 					DEBUG_ADD_FORMAT("[Error] Item is NULL");
 				}
 
-				// mode¸¦ ¾ø¾Ø´Ù.
+				// modeï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 				g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
-				// °Å·¡¸¦ ´Ù½Ã È°¼ºÈ­ÇÑ´Ù.
+				// ï¿½Å·ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ È°ï¿½ï¿½È­ï¿½Ñ´ï¿½.
 				UI_UnlockItemTrade();
 			}
 			else
@@ -318,16 +317,16 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 		//------------------------------------------------------			
 		//
-		//					¼ö¸® ºÒ°¡
+		//					ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½
 		//
 		//------------------------------------------------------			
 		case NPC_RESPONSE_REPAIR_FAIL_ITEM_NOT_EXIST :
 		case NPC_RESPONSE_REPAIR_FAIL_ITEM_TYPE :
 		case NPC_RESPONSE_REPAIR_FAIL_MONEY :
-			// mode¸¦ ¾ø¾Ø´Ù.
+			// modeï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 			g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
-			// °Å·¡¸¦ ´Ù½Ã È°¼ºÈ­ÇÑ´Ù.
+			// ï¿½Å·ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ È°ï¿½ï¿½È­ï¿½Ñ´ï¿½.
 			UI_UnlockItemTrade();
 
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_REPAIR].GetString() );
@@ -336,7 +335,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 		//------------------------------------------------------			
 		//
-		//					º¸°üÇÔ »ç±â
+		//					ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//
 		//------------------------------------------------------			
 		case NPC_RESPONSE_STASH_SELL_OK :
@@ -344,18 +343,18 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 			{
 				g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
-				// ´Ù½Ã ¹º°¡¸¦?¼±ÅÃÇÒ ¼ö ÀÖ°Ô ÇÑ´Ù.
+				// ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½Ñ´ï¿½.
 				g_pUIDialog->ShowPCTalkDlg();
 
-				// ÀÌ¹Ì º¸°üÇÔÀÌ ÀÖ´Ù¸é Á¦°Å½ÃÅ²´Ù.
-				// ±×·¯¸é.. ´ÙÀ½¿¡ º¸°üÇÔ ¼±ÅÃÇÒ¶§.. ÇÏ³ª Ãß°¡µÅ¼­ »ý¼ºµÈ´Ù.
+				// ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å²ï¿½ï¿½.
+				// ï¿½×·ï¿½ï¿½ï¿½.. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½.. ï¿½Ï³ï¿½ ï¿½ß°ï¿½ï¿½Å¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½È´ï¿½.
 				if (g_pStorage!=NULL)
 				{
 					delete g_pStorage;
 					g_pStorage = NULL;
 				}
 
-				// º¸°üÇÔ ±¸ÀÔ ºñ¿ëÀ» »©ÁØ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 				g_pMoneyManager->UseMoney( g_pTempInformation->Value1 );
 
 				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_STORAGE_BUY].GetString());
@@ -364,7 +363,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 		//------------------------------------------------------			
 		//
-		//					º¸°üÇÔ »ç±â ½ÇÆÐ
+		//					ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//
 		//------------------------------------------------------			
 		case NPC_RESPONSE_STASH_SELL_FAIL_MAX :
@@ -373,7 +372,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 			{
 				g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
-				// ´Ù½Ã ¹º°¡¸¦?¼±ÅÃÇÒ ¼ö ÀÖ°Ô ÇÑ´Ù.
+				// ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½Ñ´ï¿½.
 				g_pUIDialog->ShowPCTalkDlg();
 
 				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_BUY_MORE].GetString());
@@ -382,12 +381,12 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 		//------------------------------------------------------
 		//
-		//					Silver ÄÚÆÃ ¼º°ø
+		//					Silver ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//
 		//------------------------------------------------------
 		case NPC_RESPONSE_SILVER_COATING_OK :
 			//--------------------------------------------------------------
-			// silveringÀÌ ¸Â³ª?
+			// silveringï¿½ï¿½ ï¿½Â³ï¿½?
 			//--------------------------------------------------------------
 			if (g_pTempInformation->GetMode() == TempInformation::MODE_SHOP_SILVERING)
 			{
@@ -401,11 +400,11 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 				if (//pCheckItem!=NULL && 
 					pModifyItem!=NULL)
 				{
-					// ID °ËÁõÀ» ÇÑ´Ù.
+					// ID ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 					if (1)//pCheckItem->GetID()==itemID && pModifyItem->GetID()==itemID)
 					{
 						//--------------------------------------------------------------
-						// durability¸¦ max·Î..
+						// durabilityï¿½ï¿½ maxï¿½ï¿½..
 						//--------------------------------------------------------------
 						pModifyItem->SetSilver( pModifyItem->GetSilverMax() );
 						const MItem* pWeapon = g_pSlayerGear->GetItem( MSlayerGear::GEAR_SLAYER_RIGHTHAND );
@@ -415,12 +414,12 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 						}
 
 						//--------------------------------------------------------------
-						// ¼ö¸®Çß´Ù°í ¼Ò¸® Ãâ·Â
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ß´Ù°ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½
 						//--------------------------------------------------------------
 						PlaySound( pModifyItem->GetInventorySoundID() );				
 
 						//--------------------------------------------------------------
-						// µ·À» ¹Ù²ãÁØ´Ù.
+						// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
 						//--------------------------------------------------------------
 						if (!g_pMoneyManager->SetMoney( value ))
 						{
@@ -437,10 +436,10 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 					DEBUG_ADD_FORMAT("[Error] Item is NULL");
 				}
 
-				// mode¸¦ ¾ø¾Ø´Ù.
+				// modeï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 				g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
-				// °Å·¡¸¦ ´Ù½Ã È°¼ºÈ­ÇÑ´Ù.
+				// ï¿½Å·ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ È°ï¿½ï¿½È­ï¿½Ñ´ï¿½.
 				UI_UnlockItemTrade();
 			}
 			else
@@ -451,16 +450,16 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 		//------------------------------------------------------
 		//
-		//					Silver ÄÚÆÃ ½ÇÆÐ
+		//					Silver ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//
 		//------------------------------------------------------
 		case NPC_RESPONSE_SILVER_COATING_FAIL_ITEM_NOT_EXIST :
 		case NPC_RESPONSE_SILVER_COATING_FAIL_ITEM_TYPE :
 		case NPC_RESPONSE_SILVER_COATING_FAIL_MONEY :
-			// mode¸¦ ¾ø¾Ø´Ù.
+			// modeï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 			g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
-			// °Å·¡¸¦ ´Ù½Ã È°¼ºÈ­ÇÑ´Ù.
+			// ï¿½Å·ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ È°ï¿½ï¿½È­ï¿½Ñ´ï¿½.
 			UI_UnlockItemTrade();
 
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_SILVERING].GetString() );
@@ -469,7 +468,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 		
 		//------------------------------------------------------
 		//
-		//				Silver ÄÚÆÃ UI ¶ç¿ì±â
+		//				Silver ï¿½ï¿½ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½
 		//
 		//------------------------------------------------------
 		case NPC_RESPONSE_INTERFACE_SILVER_COATING :
@@ -478,7 +477,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 		//------------------------------------------------------
 		//
-		//				±æµå »ý¼º
+		//				ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//
 		//------------------------------------------------------
 		case NPC_RESPONSE_INTERFACE_CREATE_GUILD :
@@ -486,7 +485,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 		//------------------------------------------------------
 		//
-		//				±æµå »èÁ¦
+		//				ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//
 		//------------------------------------------------------
 		case NPC_RESPONSE_INTERFACE_DESTROY_GUILD :
@@ -530,7 +529,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 		//------------------------------------------------------
 		//
-		//				Ä¡·á ¹ÞÀ» ¶§
+		//				Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		//
 		//------------------------------------------------------
 		case NPC_RESPONSE_HEAL :
@@ -542,12 +541,12 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 		//------------------------------------------------------
 		//
-		//				±âºÎ ÇßÀ» ¶§
+		//				ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		//
 		//------------------------------------------------------
 		case NPC_RESPONSE_DONATION_OK :
 			//--------------------------------------------------------------
-			// µ·À» ¹Ù²ãÁØ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
 			//--------------------------------------------------------------
 			if (!g_pMoneyManager->SetMoney( value ))
 			{
@@ -559,7 +558,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 
 		//------------------------------------------------------
 		//
-		//				±âºÎ ½ÇÆÐ
+		//				ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//
 		//------------------------------------------------------
 		case NPC_RESPONSE_DONATION_FAIL_MONEY :
@@ -567,22 +566,22 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 		break;
 
 		/////////////////////////////////////////////////////////
-		// Ãà±¸°øÀ¸·Î ¹°°Ç»ç±â
+		// ï¿½à±¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç»ï¿½ï¿½
 		/////////////////////////////////////////////////////////
 		case NPC_RESPONSE_DECREASE_BALL:
-		// ÀûÀýÇÑ °³¼ö¸¸Å­À» inventory¿¡¼­ Áö¿öÁØ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ï¿½ï¿½ inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 		{
 			int remainNum = pPacket->getParameter();
 				
-			// ¸î°³³ª ÀÖ´ÂÁö Ã£¾Æº»´Ù.
-			MItemClassTypeFinder ballFinder(ITEM_CLASS_EVENT_STAR, 6);	// ballÀº 6¹ø :)
+			// ï¿½î°³ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ Ã£ï¿½Æºï¿½ï¿½ï¿½.
+			MItemClassTypeFinder ballFinder(ITEM_CLASS_EVENT_STAR, 6);	// ballï¿½ï¿½ 6ï¿½ï¿½ :)
 				
-			// °³¼ö¸¸Å­ inventory¿¡¼­ Á¦°ÅÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			while (remainNum > 0)
 			{
 				MItem* pBallItem = g_pInventory->FindItemGridOrder( ballFinder );
 				
-				// º°ÀÌ ¾ø´Â °æ¿ì - -;
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ - -;
 				if (pBallItem==NULL)
 				{
 					DEBUG_ADD("[Error] Not Enough Ball -_-");
@@ -598,7 +597,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 				}
 				else
 				{
-					// °°°Å³ª ÀûÀº °æ¿ì
+					// ï¿½ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 					remainNum -= itemNum;
 					
 					MItem* pRemovedItem = g_pInventory->RemoveItem( 
@@ -618,294 +617,294 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 		}
 		break;
 
-		case NPC_RESPONSE_TEAM_REGIST_FAIL_ALREADY_JOIN:			// ¾îµð ÇÑ¹ø º¼±î? ÀÚ³×´Â ÀÌ¹Ì <team_name> ÆÀ ¼Ò¼ÓÀÌ¶ó°í ³ª¿Í ÀÖ±º
+		case NPC_RESPONSE_TEAM_REGIST_FAIL_ALREADY_JOIN:			// ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ï¿½ï¿½? ï¿½Ú³×´ï¿½ ï¿½Ì¹ï¿½ <team_name> ï¿½ï¿½ ï¿½Ò¼ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 			sprintf(sz_temp, (*g_pGameStringTable)[STRING_MESSAGE_TEAM_REGIST_FAIL_ALREADY_JOIN].GetString(), g_pUserInformation->GuildName.GetString());
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );
 		break;
 
-		case NPC_RESPONSE_TEAM_REGIST_FAIL_QUIT_TIMEOUT:			// ÀÚ³×´Â ´Ù¸¥ ÆÀÀ» Å»ÅðÇÑÁö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á¶±Ý ´õ ½ÅÁßÇÏ°Ô »ý°¢ÇÏ°í Çàµ¿ÇÏ°Ô
+		case NPC_RESPONSE_TEAM_REGIST_FAIL_QUIT_TIMEOUT:			// ï¿½Ú³×´ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½àµ¿ï¿½Ï°ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TEAM_REGIST_FAIL_QUIT_TIMEOUT].GetString() );
 		break;
 
-		case NPC_RESPONSE_TEAM_REGIST_FAIL_CANCEL_TIMEOUT:		// ÀÚ³×´Â ÆÀÀ» Ãë¼Ò ´çÇÑ Áö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. µî·Ï Á¶°Ç¿¡ ºÎÇÕÇÏµµ·Ï ÀÚ½ÅÀ» Á» ´õ ±â¸£°í ¿À°Ô. Á» ´õ ½ÅÁßÇÏ°Ô ±âÈ¸¸¦ ¿³º¸µµ·Ï ÇÏ°Ô
+		case NPC_RESPONSE_TEAM_REGIST_FAIL_CANCEL_TIMEOUT:		// ï¿½Ú³×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½â¸£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TEAM_REGIST_FAIL_CANCEL_TIMEOUT].GetString() );
 		break;
 
-		case NPC_RESPONSE_TEAM_REGIST_FAIL_LEVEL:				// ÈÇ¸¢ÇÏÁö¸¸ ¸®´õ·Î½áÀÇ ÀÚÁúÀº Á» ºÎÁ·ÇÑ °Í °°±º. ½Ç·ÂÀ» ´Û°í ¿À°Ô³ª
+		case NPC_RESPONSE_TEAM_REGIST_FAIL_LEVEL:				// ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½ï¿½ï¿½Ô³ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TEAM_REGIST_FAIL_LEVEL].GetString() );
 		break;
 
-		case NPC_RESPONSE_TEAM_REGIST_FAIL_MONEY:				// ÆÀÀ» ¸¸µé·Á¸é ¸¹Àº µ·ÀÌ ÇÊ¿äÇÏ´Ù³×. ÀÚ³×´Â µ·ÀÌ ¾ø¾î º¸ÀÌ´Â±º...
+		case NPC_RESPONSE_TEAM_REGIST_FAIL_MONEY:				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´Ù³ï¿½. ï¿½Ú³×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´Â±ï¿½...
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TEAM_REGIST_FAIL_MONEY].GetString() );
 		break;
 
-		case NPC_RESPONSE_TEAM_REGIST_FAIL_FAME:					// <player_name>ÀÌ¶ó.. ³­ ¾ÆÁ÷ ±×·± ÀÌ¸§Àº µé¾îº¸Áöµµ ¸øÇß´Ù³×. ±×°Ç ÀÚ³×°¡ Ç²³»±â¶ó´Â °ÍÀ» ÀÇ¹ÌÇÏÁö. ½Ç·ÂÀ» ´Û°í ´Ù½Ã Ã£¾Æ¿À°Ô³ª
+		case NPC_RESPONSE_TEAM_REGIST_FAIL_FAME:					// <player_name>ï¿½Ì¶ï¿½.. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½îº¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´Ù³ï¿½. ï¿½×°ï¿½ ï¿½Ú³×°ï¿½ Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½Ù½ï¿½ Ã£ï¿½Æ¿ï¿½ï¿½Ô³ï¿½
 			sprintf(sz_temp, (*g_pGameStringTable)[STRING_MESSAGE_TEAM_REGIST_FAIL_FAME].GetString(), g_pUserInformation->CharacterID.GetString());
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );
 		break;
 
-		case NPC_RESPONSE_TEAM_REGIST_FAIL_NAME:					// ÆÀ ÀÌ¸§ÀÌ ÀÌ¹Ì ¾²ÀÌ°í ÀÖ±º, ´Ù¸¥ ÀÌ¸§À» »ý°¢ÇØ º¸°Ô
+		case NPC_RESPONSE_TEAM_REGIST_FAIL_NAME:					// ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ö±ï¿½, ï¿½Ù¸ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TEAM_REGIST_FAIL_NAME].GetString() );
 		break;
 
-		case NPC_RESPONSE_TEAM_REGIST_FAIL_DENY:				// <team name>ÆÀ¿¡¼­ ÀÚ³×¸¦ °ÅºÎÇÏÁö ¾Ê¾Ò´Â°¡. ´Ù¸¥ ÆÀÀ» Ã£¾Æº¸°Ô
+		case NPC_RESPONSE_TEAM_REGIST_FAIL_DENY:				// <team name>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú³×¸ï¿½ ï¿½Åºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´Â°ï¿½. ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Æºï¿½ï¿½ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TEAM_REGIST_FAIL_DENY].GetString() );
 		break;
 
 
-		case NPC_RESPONSE_TEAM_STARTING_FAIL_ALREADY_JOIN:		// ´ç½ÅÀº ÀÌ¹Ì ´Ù¸¥ ÆÀ¿¡ °¡ÀÔµÇ¾î ÀÖ½À´Ï´Ù.
+		case NPC_RESPONSE_TEAM_STARTING_FAIL_ALREADY_JOIN:		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÔµÇ¾ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TEAM_STARTING_FAIL_ALREADY_JOIN].GetString() );
 		break;
 
-		case NPC_RESPONSE_TEAM_STARTING_FAIL_QUIT_TIMEOUT:		// ÀÚ³×´Â ´Ù¸¥ ÆÀÀ» Å»ÅðÇÑÁö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á¶±Ý ´õ ½ÅÁßÇÏ°Ô »ý°¢ÇÏ°í Çàµ¿ÇÏ°Ô
+		case NPC_RESPONSE_TEAM_STARTING_FAIL_QUIT_TIMEOUT:		// ï¿½Ú³×´ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½àµ¿ï¿½Ï°ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TEAM_STARTING_FAIL_QUIT_TIMEOUT].GetString() );
 		break;
 
-		case NPC_RESPONSE_TEAM_STARTING_FAIL_CANCEL_TIMEOUT:		// ÀÚ³×´Â ÆÀÀ» Ãë¼Ò ´çÇÑ Áö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á¶°Ç¿¡ ºÎÇÕÇÏµµ·Ï ÀÚ½ÅÀ» Á» ´õ ±â¸£°í ¿À°Ô. Á» ´õ ½ÅÁßÇÏ°Ô ±âÈ¸¸¦ ¿³º¸µµ·Ï ÇÏ°Ô
+		case NPC_RESPONSE_TEAM_STARTING_FAIL_CANCEL_TIMEOUT:		// ï¿½Ú³×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½â¸£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TEAM_STARTING_FAIL_CANCEL_TIMEOUT].GetString() );
 		break;
 
-		case NPC_RESPONSE_TEAM_STARTING_FAIL_LEVEL:				// ÀÚ³×´Â ¾ÆÁ÷ ºÎÁ·ÇÑ Á¡ÀÌ ¸¹¾Æ º¸ÀÌ´Â±¸¸¸. Á¶±Ý ´õ ½Ç·ÂÀ» ´Û°í Ã£°Ô³ª.
+		case NPC_RESPONSE_TEAM_STARTING_FAIL_LEVEL:				// ï¿½Ú³×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´Â±ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ Ã£ï¿½Ô³ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TEAM_STARTING_FAIL_LEVEL].GetString() );
 		break;
 
-		case NPC_RESPONSE_TEAM_STARTING_FAIL_MONEY:				// <player_name>, ÆÀ µî·ÏÀ» À§ÇØ¼­´Â µ·ÀÌ ´õ ÇÊ¿äÇÏ´Ù³×
+		case NPC_RESPONSE_TEAM_STARTING_FAIL_MONEY:				// <player_name>, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´Ù³ï¿½
 			sprintf(sz_temp, (*g_pGameStringTable)[STRING_MESSAGE_TEAM_STARTING_FAIL_MONEY].GetString(), g_pUserInformation->CharacterID.GetString());
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );
 		break;
 
-		case NPC_RESPONSE_TEAM_STARTING_FAIL_FAME:				// <player_name>ÀÌ¶ó.. ³­ ¾ÆÁ÷ ±×·± ÀÌ¸§Àº µé¾îº¸Áöµµ ¸øÇß´Ù³×. ±×°Ç ÀÚ³×°¡ Ç²³»±â¶ó´Â °ÍÀ» ÀÇ¹ÌÇÏÁö. ½Ç·ÂÀ» ´Û°í ´Ù½Ã Ã£¾Æ¿À°Ô³ª
+		case NPC_RESPONSE_TEAM_STARTING_FAIL_FAME:				// <player_name>ï¿½Ì¶ï¿½.. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½îº¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´Ù³ï¿½. ï¿½×°ï¿½ ï¿½Ú³×°ï¿½ Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½Ù½ï¿½ Ã£ï¿½Æ¿ï¿½ï¿½Ô³ï¿½
 			sprintf(sz_temp, (*g_pGameStringTable)[STRING_MESSAGE_TEAM_STARTING_FAIL_FAME].GetString(), g_pUserInformation->CharacterID.GetString());
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );
 		break;
 
-		case NPC_RESPONSE_TEAM_STARTING_FAIL_DENY:				// <team name>ÆÀ¿¡¼­ ÀÚ³×¸¦ °ÅºÎÇÏÁö ¾Ê¾Ò´Â°¡. ´Ù¸¥ ÆÀÀ» Ã£¾Æº¸°Ô
+		case NPC_RESPONSE_TEAM_STARTING_FAIL_DENY:				// <team name>ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú³×¸ï¿½ ï¿½Åºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´Â°ï¿½. ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Æºï¿½ï¿½ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TEAM_STARTING_FAIL_DENY].GetString() );
 		break;
 
-		case NPC_RESPONSE_CLAN_REGIST_FAIL_ALREADY_JOIN:			// ¾îµð ÇÑ¹ø º¼±î? ÀÚ³×´Â ÀÌ¹Ì <clan_name> Å¬·£°ú ¼­¾àÀ» ¸ÎÀº »óÅÂ¶ó°í ³ª¿Í ÀÖ±º
+		case NPC_RESPONSE_CLAN_REGIST_FAIL_ALREADY_JOIN:			// ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ï¿½ï¿½? ï¿½Ú³×´ï¿½ ï¿½Ì¹ï¿½ <clan_name> Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 			sprintf(sz_temp, (*g_pGameStringTable)[STRING_MESSAGE_CLAN_REGIST_FAIL_ALREADY_JOIN].GetString(), g_pUserInformation->GuildName.GetString());
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );
 		break;
 
-		case NPC_RESPONSE_CLAN_REGIST_FAIL_QUIT_TIMEOUT:			// ÀÚ³×´Â ´Ù¸¥ Å¬·£À» Å»ÅðÇÑÁö ¾ó¸¶µÇÁö ¾Ê¾Ò±º. ³Ê¹« ÀÌ¸®Àú¸® ¿Å°Ü ´Ù´Ï´Â °ÍÀº ÁÁÁö ¾ÊÁö. ½ÅÁßÀ» ±âÇÏ°Ô
+		case NPC_RESPONSE_CLAN_REGIST_FAIL_QUIT_TIMEOUT:			// ï¿½Ú³×´ï¿½ ï¿½Ù¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ó¸¶µï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½Ê¹ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ ï¿½Ù´Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CLAN_REGIST_FAIL_QUIT_TIMEOUT].GetString() );
 		break;
 
-		case NPC_RESPONSE_CLAN_REGIST_FAIL_CANCEL_TIMEOUT:		// ÀÚ³×´Â Å¬·£À» Ãë¼Ò ´çÇÑ Áö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á» ´õ ½ÅÁßÇÏ°Ô ±âÈ¸¸¦ ¿³º¸µµ·Ï ÇÏ°Ô
+		case NPC_RESPONSE_CLAN_REGIST_FAIL_CANCEL_TIMEOUT:		// ï¿½Ú³×´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CLAN_REGIST_FAIL_CANCEL_TIMEOUT].GetString() );
 		break;
 
-		case NPC_RESPONSE_CLAN_REGIST_FAIL_LEVEL:				// ÈÇ¸¢ÇÏÁö¸¸ ¿ìµÎ¸Ó¸®·Î½áÀÇ ÀÚÁúÀº Á» ºÎÁ·ÇÑ °Í °°±º. ½Ç·ÂÀ» ´Û°í ¿À°Ô³ª.
+		case NPC_RESPONSE_CLAN_REGIST_FAIL_LEVEL:				// ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸Ó¸ï¿½ï¿½Î½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½ï¿½ï¿½Ô³ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CLAN_REGIST_FAIL_LEVEL].GetString() );
 		break;
 
-		case NPC_RESPONSE_CLAN_REGIST_FAIL_MONEY:				// Å¬·£À» µî·ÏÇÏ·Á¸é ¸¹Àº µ·ÀÌ ÇÊ¿äÇÏ´Ù³×. ÀÚ³×´Â µ·ÀÌ ¾ø¾îº¸ÀÌ´Â±º...
+		case NPC_RESPONSE_CLAN_REGIST_FAIL_MONEY:				// Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´Ù³ï¿½. ï¿½Ú³×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½îº¸ï¿½Ì´Â±ï¿½...
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CLAN_REGIST_FAIL_MONEY].GetString() );
 		break;
 
-		case NPC_RESPONSE_CLAN_REGIST_FAIL_FAME:					// <player_name>ÀÌ¶ó.. ¾ÆÁ÷ ¾î¸° ¹ìÆÄÀÌ¾îÀÎ°¡º¸±º. ´õ ¸¹Àº ÇÇ¸¦ ¸¶½Ã°í ´Ù½Ã Ã£¾Æ¿À°Ô³ª.
+		case NPC_RESPONSE_CLAN_REGIST_FAIL_FAME:					// <player_name>ï¿½Ì¶ï¿½.. ï¿½ï¿½ï¿½ï¿½ ï¿½î¸° ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½Î°ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½Ù½ï¿½ Ã£ï¿½Æ¿ï¿½ï¿½Ô³ï¿½.
 			sprintf(sz_temp, (*g_pGameStringTable)[STRING_MESSAGE_CLAN_REGIST_FAIL_FAME].GetString(), g_pUserInformation->CharacterID.GetString());
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );
 		break;
 
-		case NPC_RESPONSE_CLAN_REGIST_FAIL_NAME:					// Å¬·£ ÀÌ¸§ÀÌ ÀÌ¹Ì ¾²ÀÌ°í ÀÖ±º, ´Ù¸¥ ÀÌ¸§À» »ý°¢ÇØ º¸°Ô
+		case NPC_RESPONSE_CLAN_REGIST_FAIL_NAME:					// Å¬ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ö±ï¿½, ï¿½Ù¸ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CLAN_REGIST_FAIL_NAME].GetString() );
 		break;
 
-		case NPC_RESPONSE_CLAN_REGIST_FAIL_DENY:				// <team name>Å¬·£¿¡¼­ ÀÚ³×¸¦ °ÅºÎÇÏÁö ¾Ê¾Ò´Â°¡. ´Ù¸¥ Å¬·£À» Ã£¾Æº¸°Ô
+		case NPC_RESPONSE_CLAN_REGIST_FAIL_DENY:				// <team name>Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú³×¸ï¿½ ï¿½Åºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´Â°ï¿½. ï¿½Ù¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Æºï¿½ï¿½ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CLAN_REGIST_FAIL_DENY].GetString() );
 		break;
 
 
-		case NPC_RESPONSE_CLAN_STARTING_FAIL_ALREADY_JOIN:		// ´ç½ÅÀº ÀÌ¹Ì ´Ù¸¥ Å¬·£¿¡ °¡ÀÔµÇ¾î ÀÖ½À´Ï´Ù.
+		case NPC_RESPONSE_CLAN_STARTING_FAIL_ALREADY_JOIN:		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÔµÇ¾ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CLAN_STARTING_FAIL_ALREADY_JOIN].GetString() );
 		break;
 
-		case NPC_RESPONSE_CLAN_STARTING_FAIL_QUIT_TIMEOUT:		// ÀÚ³×´Â ´Ù¸¥ Å¬·£À» Å»ÅðÇÑÁö ¾ó¸¶µÇÁö ¾Ê¾Ò±º. ³Ê¹« ÀÌ¸®Àú¸® ¿Å°Ü ´Ù´Ï´Â °ÍÀº ÁÁÁö ¾ÊÁö. ½ÅÁßÀ» ±âÇÏ°Ô
+		case NPC_RESPONSE_CLAN_STARTING_FAIL_QUIT_TIMEOUT:		// ï¿½Ú³×´ï¿½ ï¿½Ù¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ó¸¶µï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½Ê¹ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ ï¿½Ù´Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CLAN_STARTING_FAIL_QUIT_TIMEOUT].GetString() );
 		break;
 
-		case NPC_RESPONSE_CLAN_STARTING_FAIL_CANCEL_TIMEOUT:		// ÀÚ³×´Â Å¬·£À» Ãë¼Ò ´çÇÑ Áö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á» ´õ ½ÅÁßÇÏ°Ô ±âÈ¸¸¦ ¿³º¸µµ·Ï ÇÏ°Ô
+		case NPC_RESPONSE_CLAN_STARTING_FAIL_CANCEL_TIMEOUT:		// ï¿½Ú³×´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CLAN_STARTING_FAIL_CANCEL_TIMEOUT].GetString() );
 		break;
 
-		case NPC_RESPONSE_CLAN_STARTING_FAIL_LEVEL:				// ÈÇ¸¢ÇÑ Á¶·ÂÀÚ°¡ µÇ±â¿¡´Â ÀÚÁúÀÌ Á» ºÎÁ·ÇÑ °Í °°±º. °¡¼­ Á»´õ ¼ö·ÃÀ» ÇÏ°í ¿À°Ô³ª
+		case NPC_RESPONSE_CLAN_STARTING_FAIL_LEVEL:				// ï¿½Ç¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Ç±â¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Ô³ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CLAN_STARTING_FAIL_LEVEL].GetString() );
 		break;
 
-		case NPC_RESPONSE_CLAN_STARTING_FAIL_MONEY:				// ±â¼úÀÌ ¿ùµîÇØµµ Å¬·£À» À¯ÁöÇÒ ¼ö ÀÖ´Â µ·ÀÌ ºÎÁ·ÇÏ¸é ±× Å¬·£Àº ¹«³ÊÁö±â ½±»óÀÌÁö
+		case NPC_RESPONSE_CLAN_STARTING_FAIL_MONEY:				// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CLAN_STARTING_FAIL_MONEY].GetString() );
 		break;
 
-		case NPC_RESPONSE_CLAN_STARTING_FAIL_FAME:				// <player_name>ÀÌ¶ó.. ³­ ¾ÆÁ÷ ±×·± ÀÌ¸§Àº µé¾îº¸Áöµµ ¸øÇß´Ù³×. ±×°Ç ÀÚ³×°¡ Ç²³»±â¶ó´Â °ÍÀ» ÀÇ¹ÌÇÏÁö. ½Ç·ÂÀ» ´Û°í ´Ù½Ã Ã£¾Æ¿À°Ô³ª
+		case NPC_RESPONSE_CLAN_STARTING_FAIL_FAME:				// <player_name>ï¿½Ì¶ï¿½.. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½îº¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´Ù³ï¿½. ï¿½×°ï¿½ ï¿½Ú³×°ï¿½ Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½Ù½ï¿½ Ã£ï¿½Æ¿ï¿½ï¿½Ô³ï¿½
 			sprintf(sz_temp, (*g_pGameStringTable)[STRING_MESSAGE_CLAN_STARTING_FAIL_FAME].GetString(), g_pUserInformation->CharacterID.GetString());
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );
 		break;
 
-		case NPC_RESPONSE_CLAN_STARTING_FAIL_DENY:				// <team name>Å¬·£¿¡¼­ ÀÚ³×¸¦ °ÅºÎÇÏÁö ¾Ê¾Ò´Â°¡. ´Ù¸¥ Å¬·£À» Ã£¾Æº¸°Ô
+		case NPC_RESPONSE_CLAN_STARTING_FAIL_DENY:				// <team name>Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú³×¸ï¿½ ï¿½Åºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò´Â°ï¿½. ï¿½Ù¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Æºï¿½ï¿½ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CLAN_STARTING_FAIL_DENY].GetString() );
 		break;
 
 
-		case NPC_RESPONSE_GUILD_SHOW_REGIST:             // ±æµå µî·Ï Ã¢ ¶ç¿ì±â
+		case NPC_RESPONSE_GUILD_SHOW_REGIST:             // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã¢ ï¿½ï¿½ï¿½ï¿½
 			UI_ShowGuildRegist(pPacket->getParameter());
 		break;
 	
-		case NPC_RESPONSE_GUILD_SHOW_STARTING_JOIN:      // ±æµå ½ºÅ¸ÆÃ ¸â¹ö °¡ÀÔ Ã¢ ¶ç¿ì±â
+		case NPC_RESPONSE_GUILD_SHOW_STARTING_JOIN:      // ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¢ ï¿½ï¿½ï¿½ï¿½
 //			UI_ShowGuildStartJoin(pPacket->getParameter());
 		break;
 
-		case NPC_RESPONSE_GUILD_SHOW_JOIN:               // ±æµå °¡ÀÔ Ã¢ ¶ç¿ì±â
+		case NPC_RESPONSE_GUILD_SHOW_JOIN:               // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¢ ï¿½ï¿½ï¿½ï¿½
 //			UI_ShowGuildJoin(pPacket->getParameter());
 		break;
 
-		case NPC_RESPONSE_GUILD_SHOW_QUIT:               // ±æµå Å»Åð Ã¢ ¶ç¿ì±â
+		case NPC_RESPONSE_GUILD_SHOW_QUIT:               // ï¿½ï¿½ï¿½ Å»ï¿½ï¿½ Ã¢ ï¿½ï¿½ï¿½ï¿½
 //			UI_ShowGuildQuit();
 		break;
 
-		case NPC_RESPONSE_GUILD_ERROR:                   // ±æµå ¿À·ù
+		case NPC_RESPONSE_GUILD_ERROR:                   // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		break;
 
-		case NPC_RESPONSE_TRADE_GIFT_BOX_OK:             // ¼±¹° »óÀÚ ±³È¯ ¼º°ø
+		case NPC_RESPONSE_TRADE_GIFT_BOX_OK:             // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TRADE_GIFT_BOX_OK].GetString() );
 		break;
 
-		case NPC_RESPONSE_TRADE_GIFT_BOX_NO_ITEM:        // ¼±¹° »óÀÚ ¾ø´Ù
+		case NPC_RESPONSE_TRADE_GIFT_BOX_NO_ITEM:        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TRADE_GIFT_BOX_NO_ITEM].GetString() );
 		break;
 
-		case NPC_RESPONSE_TRADE_GIFT_BOX_ALREADY_TRADE:  // ¼±¹° »óÀÚ¸¦ ÀÌ¹Ì ÇÑ¹ø ±³È¯Çß´Ù.
+		case NPC_RESPONSE_TRADE_GIFT_BOX_ALREADY_TRADE:  // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½Ì¹ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½È¯ï¿½ß´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TRADE_GIFT_BOX_ALREADY_TRADE].GetString() );
 		break;
 
-		case NPC_RESPONSE_TRADE_GIFT_BOX_ERROR:          // ¼±¹° »óÀÚ ±³È¯¿¡ µû¸¥ ±âÅ¸ ¿À·ù
+		case NPC_RESPONSE_TRADE_GIFT_BOX_ERROR:          // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ ï¿½ï¿½ï¿½ï¿½
 		break;
 
-		case NPC_RESPONSE_REWARD_OK:					// º¸»óÀ» ¹Þ¾Ò½À´Ï´Ù.
+		case NPC_RESPONSE_REWARD_OK:					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Ò½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_REWARD_OK].GetString() );
 		break;
 
-		case NPC_RESPONSE_REWARD_FAIL:					// º¸»óÀ» ¹ÞÀ» ¼ö ¾ø½À´Ï´Ù.
+		case NPC_RESPONSE_REWARD_FAIL:					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_REWARD_FAIL].GetString() );
 		break;
 
-		case NPC_RESPONSE_NO_EMPTY_SLOT:				// ºó ÀÚ¸®°¡ ¾ø½À´Ï´Ù.
+		case NPC_RESPONSE_NO_EMPTY_SLOT:				// ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_NO_EMPTY_SLOT].GetString() );
 		break;
 
-		case NPC_RESPONSE_SHOW_TAX_BALANCE :			// ¼º¿¡ ½×¿©ÀÖ´Â ¼¼±ÝÀÇ ÀÜ¾×À» º¸¿©ÁØ´Ù.
+		case NPC_RESPONSE_SHOW_TAX_BALANCE :			// ï¿½ï¿½ï¿½ï¿½ ï¿½×¿ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 			UI_OpenBringFee(pPacket->getParameter());
 			break;
 
-		case NPC_RESPONSE_WITHDRAW_TAX_OK :				// ±æµå ¸¶½ºÅÍ°¡ ¼¼±ÝÀ» Ã£´Â µ¥¿¡ ¼º°øÇß´Ù.
+		case NPC_RESPONSE_WITHDRAW_TAX_OK :				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½.
 			UI_SetTotalFee(pPacket->getParameter());
 			if(g_pTempInformation->GetMode() == TempInformation::MODE_WAIT_BRING_FEE)
 			{
-				// ¼­¹ö¿¡¼­ ³¯·ÁÁØ´Ù´Ï.. ¹«È¿-_-
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´Ù´ï¿½.. ï¿½ï¿½È¿-_-
 				//g_pMoneyManager->AddMoney(g_pTempInformation->Value1);
-				// °ËÁõ ¿Ï·á
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½
 				g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 			}
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_SUCCESS_BRING_FEE].GetString());
 			break;
 
-		case NPC_RESPONSE_WITHDRAW_TAX_FAIL :			// ±æµå ¸¶½ºÅÍ°¡ ¼¼±ÝÀ» Ã£´Â µ¥¿¡ ½ÇÆÐÇß´Ù.
+		case NPC_RESPONSE_WITHDRAW_TAX_FAIL :			// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_FAIL_BRING_FEE].GetString());
 			
-			// °ËÁõ-_- ¿Ï·á 
+			// ï¿½ï¿½ï¿½ï¿½-_- ï¿½Ï·ï¿½ 
 			if(g_pTempInformation->GetMode() == TempInformation::MODE_WAIT_BRING_FEE)
 				g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
 			break;			
 		
-		case NPC_RESPONSE_NO_GUILD :					// ÆÀ(Å¬·£)¿¡ ¼Ò¼ÓµÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.
+		case NPC_RESPONSE_NO_GUILD :					// ï¿½ï¿½(Å¬ï¿½ï¿½)ï¿½ï¿½ ï¿½Ò¼ÓµÇ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.
 			if(g_pPlayer->IsSlayer())			
 				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_NO_TEAM].GetString());
 			else
 				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_NO_CLAN].GetString());
 			break;
 		
-		case NPC_RESPONSE_NOT_GUILD_MASTER:				// ÆÀ(Å¬·£) ¸¶½ºÅÍ°¡ ¾Æ´Õ´Ï´Ù.
+		case NPC_RESPONSE_NOT_GUILD_MASTER:				// ï¿½ï¿½(Å¬ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Æ´Õ´Ï´ï¿½.
 			if(g_pPlayer->IsSlayer())			
 				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_NOT_TEAM_MASTER].GetString());
 			else
 				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_NOT_CLAN_MASTER].GetString());
 			break;
 		
-		case NPC_RESPONSE_HAS_NO_CASTLE:			    // ÆÀ(Å¬·£)ÀÌ °¡Áø ¼ºÀÌ ¾ø½À´Ï´Ù.
+		case NPC_RESPONSE_HAS_NO_CASTLE:			    // ï¿½ï¿½(Å¬ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			if(g_pPlayer->IsSlayer())			
 				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_TEAM_HAS_NO_CASTLE].GetString());
 			else
 				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CLAN_HAS_NO_CASTLE].GetString());
 			break;
 		
-		case NPC_RESPONSE_NOT_YOUR_CASTLE:		        // ÆÀ(Å¬·£)ÀÌ ¼ÒÀ¯ÇÑ ¼ºÀÌ ¾Æ´Õ´Ï´Ù.
+		case NPC_RESPONSE_NOT_YOUR_CASTLE:		        // ï¿½ï¿½(Å¬ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Õ´Ï´ï¿½.
 			if(g_pPlayer->IsSlayer())			
 				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_TEAM_NOT_YOUR_CASTLE].GetString());
 			else
 				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CLAN_NOT_YOUR_CASTLE].GetString());
 			break;
 		
-		case NPC_RESPONSE_NOT_ENOUGH_MONEY :			// µ·ÀÌ ºÎÁ·ÇÕ´Ï´Ù.(ÀüÀï½ÅÃ»±Ý ºÎÁ·ÀÌÁö¸¸ ¹ü¿ëÀûÀ¸·Î ¾µ·Á°í -_-;)
+		case NPC_RESPONSE_NOT_ENOUGH_MONEY :			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.(ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -_-;)
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_WAR_NOT_ENOUGH_MONEY].GetString());
 			break;
 		
-		case NPC_RESPONSE_WAR_SCHEDULE_FULL :			// ÀüÀï ½ºÄÉÁìÀÌ ²Ë Ã¡½À´Ï´Ù.
+		case NPC_RESPONSE_WAR_SCHEDULE_FULL :			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¡ï¿½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_WAR_SCHEDULE_FULL].GetString());
 			break;
 		
-		case NPC_RESPONSE_WAR_ALREADY_REGISTERED :        // ÀÌ¹Ì ÀüÀïÀ» ½ÅÃ»Çß¾ú½À´Ï´Ù.
+		case NPC_RESPONSE_WAR_ALREADY_REGISTERED :        // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ß¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_WAR_ALREADY_REGISTERED].GetString());
 			break;
 		
-		case NPC_RESPONSE_WAR_REGISTRATION_OK :			// ÀüÀï ½ºÄÉÁì¿¡ µî·Ï µÇ¾ú½À´Ï´Ù.
+		case NPC_RESPONSE_WAR_REGISTRATION_OK :			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_WAR_REGISTRATION_OK].GetString());
 			break;
 		
-		case NPC_RESPONSE_ALREADY_HAS_CASTLE :            // ÀÌ¹Ì ¼ºÀ» °¡Áö°í ÀÖ½À´Ï´Ù.
+		case NPC_RESPONSE_ALREADY_HAS_CASTLE :            // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_ALREADY_HAS_CASTLE].GetString());			
 			break;
 		
-		case NPC_RESPONSE_WAR_UNAVAILABLE :               // Áö±ÝÀº ÀüÀï ½ÅÃ»ÀÌ µÇÁö ¾Ê½À´Ï´Ù.
+		case NPC_RESPONSE_WAR_UNAVAILABLE :               // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_WAR_UNAVAILABLE].GetString());
 			break;
 
-		case NPC_RESPONSE_RACE_WAR_JOIN_FAILED :               // <»ç¿ëÀÚ> ´Ô ·¹º§´ëÀÇ Á¾Á· ÀüÀï ½ÅÃ»ÀÎ¿øÀÌ ²Ë Ã¡½À´Ï´Ù.
+		case NPC_RESPONSE_RACE_WAR_JOIN_FAILED :               // <ï¿½ï¿½ï¿½ï¿½ï¿½> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¡ï¿½ï¿½ï¿½Ï´ï¿½.
 			sprintf(sz_temp, (*g_pGameStringTable)[STRING_MESSAGE_RACE_WAR_JOIN_FAILED].GetString(), g_pUserInformation->CharacterID.GetString());
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );
 			break;
 
-		case NPC_RESPONSE_RACE_WAR_JOIN_OK :               // Á¾Á· ÀüÀï Âü°¡ ½ÅÃ»À» Çß½À´Ï´Ù.
+		case NPC_RESPONSE_RACE_WAR_JOIN_OK :               // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ß½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_RACE_WAR_JOIN_OK].GetString());
 			break;
 
-		case NPC_RESPONSE_RACE_WAR_GO_FIRST_SERVER :               // Á¾Á· ÀüÀïÀº °¢ ¿ùµåÀÇ Ã¹¹øÂ° ¼­¹ö¿¡¼­¸¸ ½ÅÃ» ¹× Âü°¡°¡ °¡´ÉÇÕ´Ï´Ù.
+		case NPC_RESPONSE_RACE_WAR_GO_FIRST_SERVER :               // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¹ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_RACE_WAR_GO_FIRST_SERVER].GetString());
 			break;
 
-		case NPC_RESPONSE_GIVE_EVENT_ITEM_FAIL_NOW:      // Áö±ÝÀº ÀÌº¥Æ® ¾ÆÀÌÅÛÀ» ¹ÞÀ» ¼ö ¾ø½À´Ï´Ù.
+		case NPC_RESPONSE_GIVE_EVENT_ITEM_FAIL_NOW:      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_GIVE_EVENT_ITEM_FAIL_NOW].GetString());
 		break;
     		
-		case NPC_RESPONSE_GIVE_EVENT_ITEM_FAIL:          // ÀÌº¥Æ® ¾ÆÀÌÅÛÀ» ¹ÞÀ» ¼ö ¾ø½À´Ï´Ù.
+		case NPC_RESPONSE_GIVE_EVENT_ITEM_FAIL:          // ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_GIVE_EVENT_ITEM_FAIL].GetString());
 		break;
 
-		case NPC_RESPONSE_GIVE_EVENT_ITEM_OK:            // ÀÌº¥Æ®¿¡ µû¸¥ ¾ÆÀÌÅÛÀ» ¹Þ¾Ò½À´Ï´Ù.
+		case NPC_RESPONSE_GIVE_EVENT_ITEM_OK:            // ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Ò½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_GIVE_EVENT_ITEM_OK].GetString());
 		break;
 
-		case NPC_RESPONSE_GIVE_PREMIUM_USER_ONLY:        // ÇÁ¸®¹Ì¾ö¼­ºñ½º »ç¿ëÀÚ¸¸ ¹ÞÀ» ¼ö ÀÖ½À´Ï´Ù.
+		case NPC_RESPONSE_GIVE_PREMIUM_USER_ONLY:        // ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_GIVE_PREMIUM_USER_ONLY].GetString());
 		break;
 
-		// Ä¿ÇÃ½ÅÃ» °ü·Ã
-		case NPC_RESPONSE_WAIT_FOR_MEET_COUPLE:			// Ä¿ÇÃ ½ÅÃ» ÇÒ »ó´ëÀÇ ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä
+		// Ä¿ï¿½Ã½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½
+		case NPC_RESPONSE_WAIT_FOR_MEET_COUPLE:			// Ä¿ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½
 			UI_RunInputNameWindow(0);
 		break;
 
-		case NPC_RESPONSE_COUPLE_MEET_SUCCESS:			// Ä¿ÇÃÀÌ ¼º»çµÇ¾ú½À´Ï´Ù.
+		case NPC_RESPONSE_COUPLE_MEET_SUCCESS:			// Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			UI_CloseInputNameWindow();
 			if(g_pPlayer->IsOusters())
 				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_OUSTERS_COUPLE_MEET_SUCCESS].GetString());
@@ -914,13 +913,13 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 			
 		break;
 
-		case NPC_RESPONSE_COUPLE_CANNOT_MEET:			// Ä¿ÇÃÀÌ ¼º»çµÉ ¼ö ¾ø½À´Ï´Ù.CoupleMessage Enum »ç¿ë
+		case NPC_RESPONSE_COUPLE_CANNOT_MEET:			// Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.CoupleMessage Enum ï¿½ï¿½ï¿½
 			UI_CloseInputNameWindow();
 			
 			if(g_pPlayer->IsOusters())
 			{
 				if(pPacket->getParameter() != 0 && pPacket->getParameter() < COUPLE_MESSAGE_MAX)
-					// enumÀÌ 1ºÎÅÍ ½ÃÀÛÇÏ¹Ç·Î -1ÇØÁØ´Ù. MGameStringTabeÀÇ ¼ø¼­¿Í ¸ÂÃâ°Í!!!
+					// enumï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ -1ï¿½ï¿½ï¿½Ø´ï¿½. MGameStringTabeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½!!!
 					g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_OUSTERS_COUPLE_NOT_EVENT_TERM+pPacket->getParameter()-1].GetString());
 				else
 					g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_OUSTERS_COUPLE_CANNOT_MEET].GetString());
@@ -928,7 +927,7 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 			else
 			{
 				if(pPacket->getParameter() != 0 && pPacket->getParameter() < COUPLE_MESSAGE_MAX)
-					// enumÀÌ 1ºÎÅÍ ½ÃÀÛÇÏ¹Ç·Î -1ÇØÁØ´Ù. MGameStringTabeÀÇ ¼ø¼­¿Í ¸ÂÃâ°Í!!!
+					// enumï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ -1ï¿½ï¿½ï¿½Ø´ï¿½. MGameStringTabeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½!!!
 					g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_COUPLE_NOT_EVENT_TERM+pPacket->getParameter()-1].GetString());
 				else
 					g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_COUPLE_CANNOT_MEET].GetString());
@@ -936,29 +935,29 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 			
 		break;
 
-		case NPC_RESPONSE_MEET_WAIT_TIME_EXPIRED:		// ½Ã°£ÀÌ Áö³ª¼­ ½ÅÃ»ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù.
+		case NPC_RESPONSE_MEET_WAIT_TIME_EXPIRED:		// ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ÒµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			UI_CloseInputNameWindow();
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_MEET_WAIT_TIME_EXPIRED].GetString());			
 		break;
 
-		case NPC_RESPONSE_WAIT_FOR_APART_COUPLE:		// Çì¾îÁú »ó´ëÀÇ ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä
+		case NPC_RESPONSE_WAIT_FOR_APART_COUPLE:		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½
 			UI_RunInputNameWindow(1);
 		break;
 
-		case NPC_RESPONSE_COUPLE_APART_SUCCESS:			// Çì¾îÁ³½À´Ï´Ù.
+		case NPC_RESPONSE_COUPLE_APART_SUCCESS:			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			UI_CloseInputNameWindow();
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_COUPLE_APART_SUCCESS].GetString());
 			g_pSkillAvailable->SetAvailableSkills();			
 		break;
 
-		case NPC_RESPONSE_NOT_COUPLE:					// Ä¿ÇÃÀÌ ¾Æ´Ï¶ó¼­ Çì¾îÁú ¼ö ¾ø½À´Ï´Ù.CoupleMessage Enum »ç¿ë
+		case NPC_RESPONSE_NOT_COUPLE:					// Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.CoupleMessage Enum ï¿½ï¿½ï¿½
 			UI_CloseInputNameWindow();
 
 
 			if(g_pPlayer->IsOusters())
 			{
 				if(pPacket->getParameter() != 0 && pPacket->getParameter() < COUPLE_MESSAGE_MAX)
-					// enumÀÌ 1ºÎÅÍ ½ÃÀÛÇÏ¹Ç·Î -1ÇØÁØ´Ù. MGameStringTabeÀÇ ¼ø¼­¿Í ¸ÂÃâ°Í!!!
+					// enumï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ -1ï¿½ï¿½ï¿½Ø´ï¿½. MGameStringTabeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½!!!
 					g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_OUSTERS_COUPLE_NOT_EVENT_TERM+pPacket->getParameter()-1].GetString());
 				else
 					g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_NOT_COUPLE].GetString());
@@ -966,19 +965,19 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 			else
 			{
 					if(pPacket->getParameter() != 0 && pPacket->getParameter() < COUPLE_MESSAGE_MAX)
-						// enumÀÌ 1ºÎÅÍ ½ÃÀÛÇÏ¹Ç·Î -1ÇØÁØ´Ù. MGameStringTabeÀÇ ¼ø¼­¿Í ¸ÂÃâ°Í!!!
+						// enumï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ -1ï¿½ï¿½ï¿½Ø´ï¿½. MGameStringTabeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½!!!
 						g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_COUPLE_NOT_EVENT_TERM+pPacket->getParameter()-1].GetString());
 					else
 						g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_NOT_COUPLE].GetString());
 			}
 			break;
 
-		case NPC_RESPONSE_APART_WAIT_TIME_EXPIRED:		// ½Ã°£ÀÌ Áö³ª¼­ ½ÅÃ»ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù.
+		case NPC_RESPONSE_APART_WAIT_TIME_EXPIRED:		// ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ÒµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			UI_CloseInputNameWindow();
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_MEET_WAIT_TIME_EXPIRED].GetString());
 		break;
 
-		case NPC_RESPONSE_APART_COUPLE_FORCE :            // ÀÏ¹æÀûÀ¸·Î Çì¾îÁú »ó´ëÀÇ ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä.
+		case NPC_RESPONSE_APART_COUPLE_FORCE :            // ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.
 			UI_RunInputNameWindow(2);
 			break;
 		case NPC_RESPONSE_QUEST :
@@ -1017,14 +1016,14 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 			case CANCEL_SUCCESS :
 				//				g_pEventManager->RemoveEvent( EVENTID_MONSTER_KILL_QUEST );				
 				UI_InitQuestStatus();
-				// NPC Script ¸¦ Âï¾îÁà¾ß ÇÏ¹Ç·Î, ´Ù½Ã ¶ôÀ» °É¾îÁØ´Ù.
+				// NPC Script ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¹Ç·ï¿½, ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É¾ï¿½ï¿½Ø´ï¿½.
 				g_pPlayer->SetWaitVerify( MPlayer::WAIT_VERIFY_NPC_ASK );
 				break;
 			case CANCEL_NOT_IN_QUEST :
 				g_pPlayer->SetWaitVerify( MPlayer::WAIT_VERIFY_NPC_ASK );
 				break;
 			case COMPLETE_FAIL_INVALID_NPC :
-				// ÇØ´ç NPC ¿¡°Ô º¸»óÀ» ¹ÞÀ» ¼ö ¾ø½À´Ï´Ù.
+				// ï¿½Ø´ï¿½ NPC ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 				g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[UI_STRING_MESSAGE_FAIL_INVALID_NPC].GetString() );
 				break;
 			case FAIL_BUG :
@@ -1047,13 +1046,13 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 		case NPC_RESPONSE_CANNOT_BUY :			
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_TAKE_OUT_ITEM_FROM_SHOP].GetString() );
 			break;
-		case NPC_RESPONSE_CLEAR_RANK_BONUS_OK :           // ¼±ÅÃÇÏ½Å °è±ÞÀÇ ½ºÅ³ÀÌ »èÁ¦ µÇ¾ú½À´Ï´Ù.
+		case NPC_RESPONSE_CLEAR_RANK_BONUS_OK :           // ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CLEAR_RANK_BONUS_OK].GetString() );
 			break;
-		case NPC_RESPONSE_NO_RANK_BONUS :                 // ÇØ´ç ÀÚ°ÝÀÌ ¾ø½À´Ï´Ù.
+		case NPC_RESPONSE_NO_RANK_BONUS :                 // ï¿½Ø´ï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_NO_RANK_BONUS].GetString() );
 			break;
-		case NPC_RESPONSE_ALREADY_CLEAR_RANK_BONUS :      // ¼±ÅÃÇÏ½Å °è±Þ ½ºÅ³À» »èÁ¦ÇÑ ÀûÀÌ ÀÖ½À´Ï´Ù.
+		case NPC_RESPONSE_ALREADY_CLEAR_RANK_BONUS :      // ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_ALREADY_CLEAR_RANK_BONUS].GetString() );
 			break;
 		case NPC_RESPONSE_GNOME_CONTRACT_OK :
@@ -1064,88 +1063,88 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 			UI_DownSkill();
 			break;
 			
-		case NPC_RESPONSE_GUILD_REGIST_FAIL_ALREADY_JOIN :		// ¾îµð ÇÑ¹ø º¼±î? ÀÚ³×´Â ÀÌ¹Ì <guild_name> ±æµå ¼Ò¼ÓÀÌ¶ó°í ³ª¿Í ÀÖ±º
+		case NPC_RESPONSE_GUILD_REGIST_FAIL_ALREADY_JOIN :		// ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ï¿½ï¿½? ï¿½Ú³×´ï¿½ ï¿½Ì¹ï¿½ <guild_name> ï¿½ï¿½ï¿½ ï¿½Ò¼ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
 			wsprintf(sz_temp, (*g_pGameStringTable)[STRING_MESSAGE_GUILD_REGIST_FAIL_ALREADY_JOIN].GetString(), g_pUserInformation->GuildName.GetString());
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );
 			break;
-		case NPC_RESPONSE_GUILD_REGIST_FAIL_QUIT_TIMEOUT :		// ÀÚ³×´Â ´Ù¸¥ ±æµå¸¦ Å»ÅðÇÑÁö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á¶±Ý ´õ ½ÅÁßÇÏ°Ô »ý°¢ÇÏ°í Çàµ¿ÇÏ°Ô
+		case NPC_RESPONSE_GUILD_REGIST_FAIL_QUIT_TIMEOUT :		// ï¿½Ú³×´ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½å¸¦ Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½àµ¿ï¿½Ï°ï¿½
 			UI_PopupMessage( STRING_MESSAGE_GUILD_REGIST_FAIL_QUIT_TIMEOUT );
 			break;
-		case NPC_RESPONSE_GUILD_REGIST_FAIL_CANCEL_TIMEOUT :		// ÀÚ³×´Â ±æµå¸¦ Ãë¼Ò ´çÇÑ Áö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. µî·Ï Á¶°Ç¿¡ ºÎÇÕÇÏµµ·Ï ÀÚ½ÅÀ» Á» ´õ ±â¸£°í ¿À°Ô. Á» ´õ ½ÅÁßÇÏ°Ô ±âÈ¸¸¦ ¿³º¸µµ·Ï ÇÏ°Ô
+		case NPC_RESPONSE_GUILD_REGIST_FAIL_CANCEL_TIMEOUT :		// ï¿½Ú³×´ï¿½ ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½â¸£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½
 			UI_PopupMessage( STRING_MESSAGE_GUILD_REGIST_FAIL_CANCEL_TIMEOUT );
 			break;
-		case NPC_RESPONSE_GUILD_REGIST_FAIL_LEVEL :				// ÈÇ¸¢ÇÏÁö¸¸ ¸®´õ·Î½áÀÇ ÀÚÁúÀº Á» ºÎÁ·ÇÑ °Í °°±º. ½Ç·ÂÀ» ´Û°í ¿À°Ô³ª
+		case NPC_RESPONSE_GUILD_REGIST_FAIL_LEVEL :				// ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½ï¿½ï¿½Ô³ï¿½
 			UI_PopupMessage( STRING_MESSAGE_GUILD_REGIST_FAIL_LEVEL );
 			break;
-		case NPC_RESPONSE_GUILD_REGIST_FAIL_MONEY :				// ±æµå¸¦ ¸¸µé·Á¸é ¸¹Àº µ·ÀÌ ÇÊ¿äÇÏ´Ù³×. ÀÚ³×´Â µ·ÀÌ ¾ø¾î º¸ÀÌ´Â±º...
+		case NPC_RESPONSE_GUILD_REGIST_FAIL_MONEY :				// ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´Ù³ï¿½. ï¿½Ú³×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´Â±ï¿½...
 			UI_PopupMessage( STRING_MESSAGE_GUILD_REGIST_FAIL_MONEY );
 			break;
-		case NPC_RESPONSE_GUILD_REGIST_FAIL_FAME :				// <player_name>ÀÌ¶ó.. ³­ ¾ÆÁ÷ ±×·± ÀÌ¸§Àº µé¾îº¸Áöµµ ¸øÇß´Ù³×. ±×°Ç ÀÚ³×°¡ Ç²³»±â¶ó´Â °ÍÀ» ÀÇ¹ÌÇÏÁö. ½Ç·ÂÀ» ´Û°í ´Ù½Ã Ã£¾Æ¿À°Ô³ª
+		case NPC_RESPONSE_GUILD_REGIST_FAIL_FAME :				// <player_name>ï¿½Ì¶ï¿½.. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½îº¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´Ù³ï¿½. ï¿½×°ï¿½ ï¿½Ú³×°ï¿½ Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½Ù½ï¿½ Ã£ï¿½Æ¿ï¿½ï¿½Ô³ï¿½
 			wsprintf(sz_temp, (*g_pGameStringTable)[STRING_MESSAGE_GUILD_REGIST_FAIL_FAME].GetString(), g_pUserInformation->CharacterID.GetString() );
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );
 			break;
-		case NPC_RESPONSE_GUILD_REGIST_FAIL_NAME :				// ±æµå ÀÌ¸§ÀÌ ÀÌ¹Ì ¾²ÀÌ°í ÀÖ±º, ´Ù¸¥ ÀÌ¸§À» »ý°¢ÇØ º¸°Ô
+		case NPC_RESPONSE_GUILD_REGIST_FAIL_NAME :				// ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ö±ï¿½, ï¿½Ù¸ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			UI_PopupMessage( STRING_MESSAGE_GUILD_REGIST_FAIL_NAME );
 			break;
-		case NPC_RESPONSE_GUILD_REGIST_FAIL_DENY :				// °ÅºÎµÇ¾ú½À´Ï´Ù.
+		case NPC_RESPONSE_GUILD_REGIST_FAIL_DENY :				// ï¿½ÅºÎµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			UI_PopupMessage( STRING_MESSAGE_GUILD_REGIST_FAIL_DENY );
 			break;			
-		case NPC_RESPONSE_GUILD_STARTING_FAIL_ALREADY_JOIN :		// ´ç½ÅÀº ÀÌ¹Ì ´Ù¸¥ ±æµå¿¡ °¡ÀÔµÇ¾î ÀÖ½À´Ï´Ù.
+		case NPC_RESPONSE_GUILD_STARTING_FAIL_ALREADY_JOIN :		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ÔµÇ¾ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
 			UI_PopupMessage( STRING_MESSAGE_GUILD_STARTING_FAIL_ALREADY_JOIN );
 			break;
-		case NPC_RESPONSE_GUILD_STARTING_FAIL_QUIT_TIMEOUT :		// ÀÚ³×´Â ´Ù¸¥ ±æµå¸¦ Å»ÅðÇÑÁö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á¶±Ý ´õ ½ÅÁßÇÏ°Ô »ý°¢ÇÏ°í Çàµ¿ÇÏ°Ô
+		case NPC_RESPONSE_GUILD_STARTING_FAIL_QUIT_TIMEOUT :		// ï¿½Ú³×´ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½å¸¦ Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½àµ¿ï¿½Ï°ï¿½
 			UI_PopupMessage( STRING_MESSAGE_GUILD_STARTING_FAIL_QUIT_TIMEOUT );
 			break;
-		case NPC_RESPONSE_GUILD_STARTING_FAIL_CANCEL_TIMEOUT :	// ÀÚ³×´Â ±æµå¸¦ Ãë¼Ò ´çÇÑ Áö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á¶°Ç¿¡ ºÎÇÕÇÏµµ·Ï ÀÚ½ÅÀ» Á» ´õ ±â¸£°í ¿À°Ô. Á» ´õ ½ÅÁßÇÏ°Ô ±âÈ¸¸¦ ¿³º¸µµ·Ï ÇÏ°Ô
+		case NPC_RESPONSE_GUILD_STARTING_FAIL_CANCEL_TIMEOUT :	// ï¿½Ú³×´ï¿½ ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½â¸£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½
 			UI_PopupMessage( STRING_MESSAGE_GUILD_STARTING_FAIL_CANCEL_TIMEOUT );
 			break;
-		case NPC_RESPONSE_GUILD_STARTING_FAIL_LEVEL :				// ÀÚ³×´Â ¾ÆÁ÷ ºÎÁ·ÇÑ Á¡ÀÌ ¸¹¾Æ º¸ÀÌ´Â±¸¸¸. Á¶±Ý ´õ ½Ç·ÂÀ» ´Û°í Ã£°Ô³ª.
+		case NPC_RESPONSE_GUILD_STARTING_FAIL_LEVEL :				// ï¿½Ú³×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´Â±ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ Ã£ï¿½Ô³ï¿½.
 			UI_PopupMessage( STRING_MESSAGE_GUILD_STARTING_FAIL_LEVEL );
 			break;
-		case NPC_RESPONSE_GUILD_STARTING_FAIL_MONEY :				// <player_name>, ±æµå µî·ÏÀ» À§ÇØ¼­´Â µ·ÀÌ ´õ ÇÊ¿äÇÏ´Ù³×
+		case NPC_RESPONSE_GUILD_STARTING_FAIL_MONEY :				// <player_name>, ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´Ù³ï¿½
 			wsprintf( sz_temp, (*g_pGameStringTable)[STRING_MESSAGE_GUILD_STARTING_FAIL_MONEY].GetString(), g_pUserInformation->CharacterID.GetString() );
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );
 			break;
-		case NPC_RESPONSE_GUILD_STARTING_FAIL_FAME :				// <player_name>ÀÌ¶ó.. ³­ ¾ÆÁ÷ ±×·± ÀÌ¸§Àº µé¾îº¸Áöµµ ¸øÇß´Ù³×. ±×°Ç ÀÚ³×°¡ Ç²³»±â¶ó´Â °ÍÀ» ÀÇ¹ÌÇÏÁö. ½Ç·ÂÀ» ´Û°í ´Ù½Ã Ã£¾Æ¿À°Ô³ª
+		case NPC_RESPONSE_GUILD_STARTING_FAIL_FAME :				// <player_name>ï¿½Ì¶ï¿½.. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½îº¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´Ù³ï¿½. ï¿½×°ï¿½ ï¿½Ú³×°ï¿½ Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½Ù½ï¿½ Ã£ï¿½Æ¿ï¿½ï¿½Ô³ï¿½
 			wsprintf( sz_temp, (*g_pGameStringTable)[STRING_MESSAGE_GUILD_STARTING_FAIL_FAME].GetString(), g_pUserInformation->CharacterID.GetString() );
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );
 			break;
-		case NPC_RESPONSE_GUILD_STARTING_FAIL_DENY :			// °ÅºÎµÇ¾ú½À´Ï´Ù.
+		case NPC_RESPONSE_GUILD_STARTING_FAIL_DENY :			// ï¿½ÅºÎµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			UI_PopupMessage( STRING_MESSAGE_GUILD_REGIST_FAIL_DENY );
 			break;
-		case NPC_RESPONSE_TOO_MANY_GUILD_REGISTERED:             // °ø¼º ½ÅÃ»ÇÑ ±æµå°¡ ³Ê¹« ¸¹¾Æ¼­ ½ÅÃ»ÇÒ ¼ö ¾ø½À´Ï´Ù.   // 120
+		case NPC_RESPONSE_TOO_MANY_GUILD_REGISTERED:             // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½å°¡ ï¿½Ê¹ï¿½ ï¿½ï¿½ï¿½Æ¼ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.   // 120
 			UI_PopupMessage( STRING_MESSAGE_TOO_MANY_GUILD_REGISTERED );
 			break;
-		case NPC_RESPONSE_REINFORCE_DENYED:                      // ¼öºñÃø ÂüÀü ½ÅÃ»ÀÌ ÀÌ¹Ì °ÅºÎ´çÇØ¼­ Àç½ÅÃ» ÇÒ ¼ö ¾ø½À´Ï´Ù.    // 121
+		case NPC_RESPONSE_REINFORCE_DENYED:                      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ÅºÎ´ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½Ã» ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.    // 121
 			UI_PopupMessage( STRING_MESSAGE_REINFORCE_DENYED );
 			break;
-		case NPC_RESPONSE_ALREADY_REINFORCE_ACCEPTED:            // ¼öºñÃø ÂüÀü ½ÅÃ»ÀÌ Çã°¡µÈ ±æµå°¡ ÀÌ¹Ì ÀÖ¾î¼­ ½ÅÃ»ÇÒ ¼ö ¾ø½À´Ï´Ù. // 122
+		case NPC_RESPONSE_ALREADY_REINFORCE_ACCEPTED:            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ã°¡ï¿½ï¿½ ï¿½ï¿½å°¡ ï¿½Ì¹ï¿½ ï¿½Ö¾î¼­ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. // 122
 			UI_PopupMessage( STRING_MESSAGE_ALREADY_REINFORCE_ACCEPTED );
 			break;
-		case NPC_RESPONSE_NO_WAR_REGISTERED:                     // °ø¼º ½ÅÃ»ÇÑ ±æµå°¡ ¾ø¾î¼­ ¼öºñÃø ÂüÀü ½ÅÃ»À» ÇÒ ¼ö ¾ø½À´Ï´Ù. 
+		case NPC_RESPONSE_NO_WAR_REGISTERED:                     // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½î¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. 
 			UI_PopupMessage( STRING_MESSAGE_NO_WAR_REGISTERED );
 			break;
 		case NPC_RESPONSE_CANNOT_ACCEPT:
-			UI_PopupMessage( STRING_MESSAGE_CANNOT_ACCEPT );//] = "¼öºñÃø ÂüÀü ½ÅÃ»À» ¼ö¶ôÇÒ ¼ö ¾ø½À´Ï´Ù";
+			UI_PopupMessage( STRING_MESSAGE_CANNOT_ACCEPT );//] = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½";
 			break;
 		case NPC_RESPONSE_ACCEPT_OK:
-			UI_PopupMessage( STRING_MESSAGE_ACCEPT_OK );//] = "ÂüÀü ½ÅÃ»À» ¼ö¶ôÇÏ¿´½À´Ï´Ù.";
+			UI_PopupMessage( STRING_MESSAGE_ACCEPT_OK );//] = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.";
 			break;
 		case NPC_RESPONSE_CANNOT_DENY:
-			UI_PopupMessage( STRING_MESSAGE_CANNOT_DENY );//] = "¼öºñÃø ÂüÀü ½ÅÃ»À» °ÅºÎÇÒ ¼ö ¾ø½À´Ï´Ù.
+			UI_PopupMessage( STRING_MESSAGE_CANNOT_DENY );//] = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½Åºï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			break;
 		case NPC_RESPONSE_DENY_OK:
-			UI_PopupMessage( STRING_MESSAGE_DENY_OK );//] = "ÂüÀü ½ÅÃ»À» °ÅºÎÇÏ¿´½À´Ï´Ù.;
+			UI_PopupMessage( STRING_MESSAGE_DENY_OK );//] = "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½Åºï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.;
 			break;
 			
-		case NPC_RESPONSE_SHOW_TAX_RATIO:						// À¯Àú°¡ »ì¶§ÀÇ ¼¼À² Á¶ÀýÃ¢ ¶ß°Ô ÇÑ´Ù.
+		case NPC_RESPONSE_SHOW_TAX_RATIO:						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ì¶§ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢ ï¿½ß°ï¿½ ï¿½Ñ´ï¿½.
 			UI_RunModifyTax(value);
 			break;
-		case NPC_RESPONSE_MODIFY_TAX_RATIO_OK:					// ¼¼À² º¯°æ ¿ÀÄÉÀÌ~
+		case NPC_RESPONSE_MODIFY_TAX_RATIO_OK:					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~
 			gC_vs_ui.CloseTexRate() ;
 			UI_PopupMessage( UI_STRING_MESSAGE_MODIFY_TAX_OK );
 			break;
-		case NPC_RESPONSE_MODIFY_TAX_RATIO_FAIL:				// ¼¼À² º¯°æ ½ÇÆÐ
+		case NPC_RESPONSE_MODIFY_TAX_RATIO_FAIL:				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			gC_vs_ui.CloseTexRate() ;
 			UI_PopupMessage( UI_STRING_MESSAGE_MODIFY_TAX_FAIL );
 			break;
@@ -1155,9 +1154,9 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 		case NPC_RESPONSE_NOT_ADVANCED:
 			UI_PopupMessage( UI_STRING_MESSAGE_SWAP_ERROR );
 			break;
-		case NPC_RESPONSE_SHOW_DONATION_DAILOG:                  // ±âºÎÃ¢À» ¶ç¿î´Ù.
+		case NPC_RESPONSE_SHOW_DONATION_DAILOG:                  // ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		//	value
-			iSecondParameter = pPacket->getParameter(); //  : ±âºÎ±Ý  : ÃøÀÇ±Ý 
+			iSecondParameter = pPacket->getParameter(); //  : ï¿½ï¿½Î±ï¿½  : ï¿½ï¿½ï¿½Ç±ï¿½ 
 			switch(iSecondParameter)
 			{
 			case DONATION_TYPE_200501_PERSONAL	:
@@ -1170,15 +1169,15 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 			}
 			break ;  
 
-		case NPC_RESPONSE_SHOW_DONATION_COMPLETE_DAILOG:         // ±âºÎ ¼º°ø Ã¢À» ¶ç¿î´Ù.
+		case NPC_RESPONSE_SHOW_DONATION_COMPLETE_DAILOG:         // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			UI_PopupMessage( UI_STRING_MESSAGE_CAMPAIGN_HELP_THANKS );
 			break;
 			
-		case NPC_RESPONSE_SHOW_CONFIRM_GET_EVENT_ITEM_DIALOG:    // ÀÌº¥Æ® ¾ÆÀÌÅÛ ¹Þ±â È®ÀÎ ´ÙÀÌ¾ó·Î±×¸¦ ¶ç¿î´Ù.
+		case NPC_RESPONSE_SHOW_CONFIRM_GET_EVENT_ITEM_DIALOG:    // ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ±ï¿½ È®ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½Î±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			UI_Run_Confirm_GetEventItem(value);
 			break;
 
-		case NPC_RESPONSE_SHOW_COMMON_MESSAGE_DIALOG:           // °¢Á¾ ¸Þ½ÃÁö ´ÙÀÌ¾ó·Î±×¸¦ ¶ç¿î´Ù.
+		case NPC_RESPONSE_SHOW_COMMON_MESSAGE_DIALOG:           // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½Î±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			switch(value)
 			{
 			case YOU_CAN_GET_EVENT_200412_COMBACK_ITEM:
@@ -1225,24 +1224,24 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 				break;
 			}
 			break;
-		case NPC_RESPONSE_SHOW_DONATION_WEDDING_COMPLETE_DIALOG:	// ÃàÀÇ±Ý ¼º°øÃ¢À» ¶ç¿î´Ù.
+		case NPC_RESPONSE_SHOW_DONATION_WEDDING_COMPLETE_DIALOG:	// ï¿½ï¿½ï¿½Ç±ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			 UI_PopupMessage( UI_STRING_MESSAGE_WEDDING_CONTRIBUTION_THANKS);
 			 break ;	
-		case NPC_RESPONSE_SHOW_ALEADY_DONATED_DIALOG:	// ÃàÀÇ±Ý À» ÀÌ¹Ì ³»¼Ì½À´Ï´Ù. 
+		case NPC_RESPONSE_SHOW_ALEADY_DONATED_DIALOG:	// ï¿½ï¿½ï¿½Ç±ï¿½ ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½Ì½ï¿½ï¿½Ï´ï¿½. 
 			 UI_PopupMessage( UI_STRING_MESSAGE_WEDDING_CONTRIBUTION_FAIL);
 			 break ; 
 		
-		case NPC_RESPONSE_NOT_CAHNGE_COLOR:	// »ö»óÀÌ Áßº¹µÇ¾î ¹Ù²Ü¼ö ¾ø´Ù.
+		case NPC_RESPONSE_NOT_CAHNGE_COLOR:	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Ç¾ï¿½ ï¿½Ù²Ü¼ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			 UI_PopupMessage( UI_STRING_MESSAGE_NOT_FLAME_COLOR);
 			 g_pPlayer->SetPrevDyeColorSet(ITEMTYPE_NULL) ;
 			 break ; 
 
-		case NPC_RESPONSE_NOT_ENOUGH_MONEY_CAHNGE_COLOR:	// µ·ÀÌ ÃæºÐÇÏÁö ¾Ê¾Æ »ö»óÀ» ¹Ù²Ü¼ö ¾ø´Ù.
+		case NPC_RESPONSE_NOT_ENOUGH_MONEY_CAHNGE_COLOR:	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ü¼ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			 UI_PopupMessage( UI_STRING_MESSAGE_NOT_MONEY_FKANE_COLOR);
 			 g_pPlayer->SetPrevDyeColorSet(ITEMTYPE_NULL) ;
 			 break ; 
 
-		case NPC_RESPONSE_CHANGE_COLOR_OK:	// ¿°»öÀÌ ¿Ï·á µÇ¾ú½À´Ï´Ù.
+		case NPC_RESPONSE_CHANGE_COLOR_OK:	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 			{	
 				UI_PopupMessage( UI_STRING_MESSAGE_FKANE_COLOR_OK);
 				TYPE_ITEMTYPE	ItemType = g_pPlayer->GetPrevDyeColorSet() ; 
@@ -1282,19 +1281,19 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 			g_pPlayer->SetPrevDyeColorSet(ITEMTYPE_NULL) ;
 			break ;
 			
-		case NPC_NOT_ENOUGH_EXCHANGE_OF_MONEY:	// µ·ÀÌ ÃæºÐÇÏÁö ¾Ê¾Æ ¼öÇ¥·Î ¹Ù²Ü¼ö ¾ø´Ù
+		case NPC_NOT_ENOUGH_EXCHANGE_OF_MONEY:	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ù²Ü¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 			 UI_PopupMessage( UI_STRING_MESSAGE_NOT_ENOUGH_EXCHANGE_OF_MONEY);
 			 break ; 
 		
-		case NPC_ENOUGH_PLAYER_MONEY:	// ÇÃ·¹ÀÌ¾îÀÇ ¼ÒÁö±ÝÀÌ ÃÖ´ë ¼ÒÁö±Ý¾×À» ³Ñ¾ú´Ù
+		case NPC_ENOUGH_PLAYER_MONEY:	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ý¾ï¿½ï¿½ï¿½ ï¿½Ñ¾ï¿½ï¿½ï¿½
 			 UI_PopupMessage( UI_STRING_MESSAGE_NOT_ENOUGH_PLAYER_MONEY);
 			 break ; 
 
-		case NPC_NOT_ENOUGH_CHECK_MONEY:	// ¼öÇ¥°¡ ¾ø´Ù!
+		case NPC_NOT_ENOUGH_CHECK_MONEY:	// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!
 			 UI_PopupMessage( UI_STRING_MESSAGE_NOT_ENOUGH_CHECK_MONEY);
 			 break ; 
 
-		case NPC_EXCHANGE_OF_MONEY_OK:	// Á¤»óÀûÀ¸·Î °Å·¡°¡ ¿Ï·á µÇ¾ú½À´Ï´Ù
+		case NPC_EXCHANGE_OF_MONEY_OK:	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
 			 UI_PopupMessage( UI_STRING_MESSAGE_EXCHANGE_OF_MONEY_OK);
 			 break ; 
 		case NPC_NOT_ENOUGH_SOCCER_BALL:
@@ -1304,54 +1303,54 @@ void GCNPCResponseHandler::execute ( GCNPCResponse * pPacket , Player * pPlayer 
 			 UI_PopupMessage( UI_STRING_MESSAGE_NPC_NOT_ENOUGH_EXCHANGE_SEALING_STONE);
 			 break ; 
 
-		// °ø¼ºÀü ½ÅÃ» °ü·Ã ¿¡·¯ ¸Þ½ÃÁö 
-		case NPC_RESPONSE_NOT_ENOUGH_LEVEL:         // ·¹º§ÀÌ ÃæºÐ ÇÏÁö ¾Ê´Ù 
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ 
+		case NPC_RESPONSE_NOT_ENOUGH_LEVEL:         // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ 
 			UI_PopupMessage(UI_STRING_MESSAGE_SIEGE_WAR_CHALLENGE_ERROR_1);
 			break;
-		case NPC_RESPONSE_NOT_ENOUGH_GUILD_MEMBER:  // ±æµå¿øÀÌ ºÎÁ·ÇÏ´Ù 
+		case NPC_RESPONSE_NOT_ENOUGH_GUILD_MEMBER:  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ 
 			UI_PopupMessage(UI_STRING_MESSAGE_SIEGE_WAR_CHALLENGE_ERROR_2);
 			break;
-		case NPC_RESPONSE_NOT_ENOUGH_GUILD_LEVEL:   // ±æµå¿øÀÇ Æò±Õ ·¹º§ÀÌ ºÎÁ·ÇÏ´Ù 
+		case NPC_RESPONSE_NOT_ENOUGH_GUILD_LEVEL:   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ 
 			UI_PopupMessage(UI_STRING_MESSAGE_SIEGE_WAR_CHALLENGE_ERROR_3);
 			break;
 
-		case NPC_RESPONSE_NOT_ENTER_SURVIVAL_ZONE:	// ¼­¹ÙÀÌ¹ú Á¸¿¡ ÀÔÀå ºÒ°¡´ÉÇÏ´Ù. (ÀÔÀå ºÒ°¡´É ½Ã°£, Á¦ÇÑ ÀÎ¿ø)
+		case NPC_RESPONSE_NOT_ENTER_SURVIVAL_ZONE:	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. (ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½)
 			UI_PopupMessage(UI_STRING_MESSAGE_NOT_ENTER_SURVIVAL_ZONE);
 			break;
 			
-		case NPC_RESPONSE_GIVE_GAMBLE_ITEM_OK:		// °×ºíÇØ¼­ ¾ÆÀÌÅÛ ¹Þ¾ÒÀ»¶§
+		case NPC_RESPONSE_GIVE_GAMBLE_ITEM_OK:		// ï¿½×ºï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½
 			sprintf(sz_temp, (*g_pGameStringTable)[UI_STRING_MESSAGE_GIVE_GAMBLE_ITEM].GetString(), pPacket->getParameter() );
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );
 			break;
-		case NPC_RESPONSE_GAMBLE_INIT_OK:			// °×ºí ´©ÀûÁ¡¼ö ÃÊ±âÈ­ ÇÒ ¶§
+		case NPC_RESPONSE_GAMBLE_INIT_OK:			// ï¿½×ºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½ï¿½ ï¿½ï¿½
 			UI_PopupMessage(UI_STRING_MESSAGE_GAMBLE_ACCUMULATION_INIT);
 			break;
 
-		case NPC_NOT_ENOUGH_EVENT_ITEM:				// ±³È¯¿¡ ÇÊ¿äÇÑ ÀÌº¥Æ® ¾ÆÀÌÅÛÀÌ ºÎÁ·ÇÒ ¶§
+		case NPC_NOT_ENOUGH_EVENT_ITEM:				// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 			UI_PopupMessage(UI_STRING_MESSAGE_NOT_ENOUGH_EVENT_ITEM);
 			break;
 			
-		case NPC_NOT_ENOUGH_ITEM:					// ±³È¯¿¡ ÇÊ¿äÇÑ ¾ÆÀÌÅÛÀÌ ºÎÁ·ÇÒ ¶§
+		case NPC_NOT_ENOUGH_ITEM:					// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 			UI_PopupMessage(UI_STRING_MESSAGE_NOT_ENOUGH_ITEM);
 			break;
 
-		// 2007 Ãâ¼® Ã¼Å© ÀÌº¥Æ®
-		case NPC_RESPONSE_DENY_ATTEND:					// ½Å±Ô °¡ÀÔ È¸¿ø¸¸ ÀÌº¥Æ®¿¡ Âü¿© °¡´É ÇÕ´Ï´Ù.
+		// 2007 ï¿½â¼® Ã¼Å© ï¿½Ìºï¿½Æ®
+		case NPC_RESPONSE_DENY_ATTEND:					// ï¿½Å±ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Õ´Ï´ï¿½.
 			UI_PopupMessage(UI_STRING_MESSAGE_DENY_ATTEND);
 			break;
 
-		case NPC_RESPONSE_TODAY_NOT_ATTEND:				// ÀÌ¹Ì Ãâ¼® ÇÏ¼Ì½À´Ï´Ù. ³»ÀÏ ´Ù½Ã Âü¿©ÇØ ÁÖ¼¼¿ä.
+		case NPC_RESPONSE_TODAY_NOT_ATTEND:				// ï¿½Ì¹ï¿½ ï¿½â¼® ï¿½Ï¼Ì½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½.
 			UI_PopupMessage(UI_STRING_MESSAGE_TODAY_NOT_ATTEND);
 			break;
 
-		case NPC_RESPONSE_CHECK_COUNT_ATTEND:			// [Ä³¸¯ÅÍ]´ÔÀº [Ãâ¼® Ã¼Å© È¸¼ö]¹ø Ãâ¼®ÇÏ¼Ì½À´Ï´Ù.
+		case NPC_RESPONSE_CHECK_COUNT_ATTEND:			// [Ä³ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ [ï¿½â¼® Ã¼Å© È¸ï¿½ï¿½]ï¿½ï¿½ ï¿½â¼®ï¿½Ï¼Ì½ï¿½ï¿½Ï´ï¿½.
 			sprintf(sz_temp, (*g_pGameStringTable)[UI_STRING_MESSAGE_CHECK_COUNT_ATTEND].GetString(),
 				g_pPlayer->GetName(), value );
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );
 			break;
 			
 #if __CONTENTS(__BLITZ_COUPON_EVENT)
-		case NPC_RESPONSE_BLITZ_COUPON:					// ÃÑ ¹®¾ç ´©Àû °³¼ö: %d\n³²Àº ÀÜ¿© ¹®¾ç °³¼ö: %d
+		case NPC_RESPONSE_BLITZ_COUPON:					// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: %d\nï¿½ï¿½ï¿½ï¿½ ï¿½Ü¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: %d
 			sprintf(sz_temp, (*g_pGameStringTable)[UI_STRING_BLITZ_COUPON].GetString(),
 				HIWORD(value), LOWORD(value) );
 			g_pUIDialog->PopupFreeMessageDlg( sz_temp );

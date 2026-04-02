@@ -28,40 +28,40 @@ class LCPCList : public Packet {
 public :
 
 	// constructor
-	// PCInfo* ¹è¿­¿¡ °¢°¢ NULLÀ» ÁöÁ¤ÇÑ´Ù.
-	LCPCList () throw ();
+	// PCInfo* ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ NULLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	LCPCList ();
 
 	// destructor
-	// PCInfo* ¹è¿­¿¡ ÇÒ´çµÈ °´Ã¼¸¦ »èÁ¦ÇÑ´Ù.
-	~LCPCList () throw ();
+	// PCInfo* ï¿½è¿­ï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	~LCPCList ();
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_LC_PC_LIST; }
+	PacketID_t getPacketID () const { return PACKET_LC_PC_LIST; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw ();
+	size_t getPacketSize () const;
 	
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "LCPCList"; }
+		std::string getPacketName () const { return "LCPCList"; }
 		
 		// get packet's debug string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
 public :
 
 	// get/set pc info
-	PCInfo * getPCInfo ( Slot slot ) const throw ( NoSuchElementException ) 
+	PCInfo * getPCInfo ( Slot slot ) const 
 	{ 
 		if ( m_pPCInfos[ slot ] == NULL )
 			throw NoSuchElementException("no such PC exist in that slot");
@@ -69,7 +69,7 @@ public :
 		return m_pPCInfos[slot];
 	}
 
-	void setPCInfo ( Slot slot , PCInfo * pPCInfo ) throw ( DuplicatedException ) 
+	void setPCInfo ( Slot slot , PCInfo * pPCInfo ) 
 	{ 
 		if ( m_pPCInfos[ slot ] != NULL )
 			throw DuplicatedException("PCInfo duplicated.");
@@ -85,7 +85,7 @@ public :
 
 private : 
 
-	// Ä³¸¯ÅÍ Á¤º¸
+	// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	PCInfo * m_pPCInfos[ SLOT_MAX ];
 	BYTE m_Agree;
 
@@ -105,21 +105,21 @@ class LCPCListFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new LCPCList(); }
+	Packet * createPacket () { return new LCPCList(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "LCPCList"; }
+		std::string getPacketName () const { return "LCPCList"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_LC_PC_LIST; }
+	PacketID_t getPacketID () const { return Packet::PACKET_LC_PC_LIST; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize () const throw () 
+	PacketSize_t getPacketMaxSize () const 
 	{ 
-		// ½½·¹ÀÌ¾î Á¤º¸°¡ ¹ìÆÄÀÌ¾î Á¤º¸º¸´Ù »çÀÌÁî°¡ Å©±â ¶§¹®¿¡,
-		// ÀÌ ÆÐÅ¶ÀÇ ÃÖ´ë Å©±â´Â ½½·¹ÀÌ¾î 3 ¸íÀÏ °æ¿ìÀÌ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½î°¡ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,
+		// ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ö´ï¿½ Å©ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ 3 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 		return PCSlayerInfo::getMaxSize() * SLOT_MAX + SLOT_MAX + szBYTE; 
 	}
 	
@@ -137,7 +137,7 @@ class LCPCListHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( LCPCList * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( LCPCList * pPacket , Player * pPlayer );
 
 };
 

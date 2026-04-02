@@ -17,9 +17,9 @@
 
 enum
 {
-	TYPE_SELECT_LOTTERY = 0,					// º¹±Ç ¼±ÅÃ
-	TYPE_FINISH_SCRATCH,				// º¹±Ç ±ÜÀ½ ¿Ï·á
-	TYPE_OVER_ENDING,					// ¿£µù Á¾·á
+	TYPE_SELECT_LOTTERY = 0,					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	TYPE_FINISH_SCRATCH,				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½
+	TYPE_OVER_ENDING,					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	TYPE_MAX,
 };
@@ -35,35 +35,35 @@ class CGLotterySelect : public Packet
 {
 public:
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_CG_LOTTERY_SELECT; }
+	PacketID_t getPacketID() const { return PACKET_CG_LOTTERY_SELECT; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return szBYTE + szDWORD + szDWORD; }
+	size_t getPacketSize() const { return szBYTE + szDWORD + szDWORD; }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "CGLotterySelect"; }
+	std::string getPacketName() const { return "CGLotterySelect"; }
 
 	// get packet's debug string
-	std::string toString() const throw();
+	std::string toString() const;
 
-	BYTE getType() const throw() { return m_Type; }
+	BYTE getType() const { return m_Type; }
 	void setType( BYTE type ) { m_Type = type; }
 
-	DWORD getGiftID() const throw() { return m_GiftID; }
-	void setGiftID( DWORD GiftID ) throw() { m_GiftID = GiftID; }
+	DWORD getGiftID() const { return m_GiftID; }
+	void setGiftID( DWORD GiftID ) { m_GiftID = GiftID; }
 
-	DWORD getQuestLevel() const throw() { return m_QuestLevel; }
-	void setQuestLevel( DWORD QuestLevel ) throw() { m_QuestLevel = QuestLevel; }
+	DWORD getQuestLevel() const { return m_QuestLevel; }
+	void setQuestLevel( DWORD QuestLevel ) { m_QuestLevel = QuestLevel; }
 
 private :
 
@@ -87,25 +87,25 @@ class CGLotterySelectFactory : public PacketFactory {
 public:
 	
 	// constructor
-	CGLotterySelectFactory() throw() {}
+	CGLotterySelectFactory() {}
 	
 	// destructor
-	virtual ~CGLotterySelectFactory() throw() {}
+	virtual ~CGLotterySelectFactory() {}
 
 	
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new CGLotterySelect(); }
+	Packet* createPacket() { return new CGLotterySelect(); }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "CGLotterySelect"; }
+	std::string getPacketName() const { return "CGLotterySelect"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_LOTTERY_SELECT; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_LOTTERY_SELECT; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + szDWORD + szDWORD; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE + szDWORD + szDWORD; }
 };
 
 
@@ -120,7 +120,7 @@ class CGLotterySelectHandler {
 public:
 
 	// execute packet's handler
-	static void execute(CGLotterySelect* pCGLotterySelect, Player* pPlayer) throw(Error);
+	static void execute(CGLotterySelect* pCGLotterySelect, Player* pPlayer);
 
 };
 

@@ -19,18 +19,18 @@ class CGFriendResToAdd : public Packet
 {
 public:
 	CGFriendResToAdd();
-	~CGFriendResToAdd() throw() {}
+	~CGFriendResToAdd() {}
 	
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_FRIEND_RES_TO_ADD; }
-	PacketSize_t getPacketSize() const throw();
-	string getPacketName() const throw() { return "CGFriendResToAdd"; }
-	string toString() const throw();
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_FRIEND_RES_TO_ADD; }
+	size_t getPacketSize() const;
+	string getPacketName() const { return "CGFriendResToAdd"; }
+	string toString() const;
 
-	string GetPCName() const throw() { return m_PCName.GetString(); }
-	void SetPCName(const string& strName) throw() { m_PCName.SetString(strName); }
+	string GetPCName() const { return m_PCName.GetString(); }
+	void SetPCName(const string& strName) { m_PCName.SetString(strName); }
 	
 	FriendAddResponseCode GetResponse() { return (FriendAddResponseCode)m_Response; }
 	void SetResponse(FriendAddResponseCode response) { m_Response = (BYTE)response; }
@@ -50,10 +50,10 @@ private:
 class CGFriendResToAddFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new CGFriendResToAdd(); }
-	string getPacketName() const throw() { return "CGFriendResToAdd"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_FRIEND_RES_TO_ADD; }
-	PacketSize_t getPacketMaxSize() const throw() { return StringInfo::getMaxSize() + szBYTE; }
+	Packet* createPacket() { return new CGFriendResToAdd(); }
+	string getPacketName() const { return "CGFriendResToAdd"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_FRIEND_RES_TO_ADD; }
+	PacketSize_t getPacketMaxSize() const { return StringInfo::getMaxSize() + szBYTE; }
 };
 
 
@@ -64,7 +64,7 @@ public:
 class CGFriendResToAddHandler 
 {
 public:
-	static void execute(CGFriendResToAdd* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(CGFriendResToAdd* pPacket, Player* pPlayer);
 
 };
 #endif //__FRIEND_ADDITION

@@ -2,7 +2,7 @@
 // 
 // Filename    : CRRequest.h 
 // Written By  : crazydog
-// Description : Effect Á¦°Å.
+// Description : Effect ï¿½ï¿½ï¿½ï¿½.
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -17,7 +17,7 @@ enum CR_REQUEST_CODE2
 {
 	CR_REQUEST2_NULL,
 
-	// Á¶¸¸°£ ±¸Çö ¿¹Á¤.. °ú¿¬.. - -;
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½ï¿½ï¿½.. - -;
 	CR_REQUEST2_CHARACTER_INFO,
 };
 
@@ -25,8 +25,8 @@ enum CR_REQUEST_CODE2
 //
 // class CRRequest;
 //
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ º¯ÇüµÈ µ¥ÀÌÅÍ¸¦ ¾Ë·ÁÁÖ±â À§ÇÑ °´Ã¤
-// RemoveEffectrmation, SkillToObjectOK µî¿¡ ½Ç·Á¼­ ³¯¾Æ°£´Ù.
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¤
+// RemoveEffectrmation, SkillToObjectOK ï¿½î¿¡ ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 class CRRequest2 : public DatagramPacket
@@ -35,41 +35,41 @@ class CRRequest2 : public DatagramPacket
 public :
 	
 	// constructor
-	CRRequest2 () throw ();
+	CRRequest2 ();
 	
 	// destructor
-	~CRRequest2 () throw ();
+	~CRRequest2 ();
 	
 public :
-    PacketID_t getPacketID () const throw () { return PACKET_CR_REQUEST; }
+    PacketID_t getPacketID () const { return PACKET_CR_REQUEST; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "CRRequest2"; }
+		std::string getPacketName () const { return "CRRequest2"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( Datagram & iDatagram ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( Datagram & iDatagram );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( Datagram & oDatagram ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( Datagram & oDatagram ) const;
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getPacketSize () const throw () { return szBYTE + szBYTE + m_RequestName.size(); }
-	static PacketSize_t getPacketMaxSize() throw() { return szBYTE + szBYTE + 20;}
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	size_t getPacketSize () const { return szBYTE + szBYTE + m_RequestName.size(); }
+	static PacketSize_t getPacketMaxSize() { return szBYTE + szBYTE + 20;}
 
 	// get / set ListNumber
-	CR_REQUEST_CODE2 getCode() const throw() { return m_Code; }
-	void setCode( CR_REQUEST_CODE2 code) throw() { m_Code = code; }
+	CR_REQUEST_CODE2 getCode() const { return m_Code; }
+	void setCode( CR_REQUEST_CODE2 code) { m_Code = code; }
 
-	const std::string& getRequestName() const throw() { return m_RequestName; }
-	void setRequestName(const char* pName) throw() { m_RequestName = pName; }
+	const std::string& getRequestName() const { return m_RequestName; }
+	void setRequestName(const char* pName) { m_RequestName = pName; }
 
 protected :
 	
@@ -91,27 +91,27 @@ class CRRequest2Factory : public PacketFactory {
 public :
 	
 	// constructor
-	CRRequest2Factory () throw () {}
+	CRRequest2Factory () {}
 	
 	// destructor
-	virtual ~CRRequest2Factory () throw () {}
+	virtual ~CRRequest2Factory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CRRequest2(); }
+	Packet * createPacket () { return new CRRequest2(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CRRequest2"; }
+		std::string getPacketName () const { return "CRRequest2"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CR_REQUEST; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CR_REQUEST; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize () const throw () { return szBYTE + szBYTE + 20;}
+	PacketSize_t getPacketMaxSize () const { return szBYTE + szBYTE + 20;}
 
 };
 
@@ -127,7 +127,7 @@ class CRRequest2Handler {
 public :
 
 	// execute packet's handler
-	static void execute ( CRRequest2 * pCRRequest ) throw ( ProtocolException, Error );
+	static void execute ( CRRequest2 * pCRRequest );
 
 };
 

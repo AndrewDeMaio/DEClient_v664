@@ -4,7 +4,7 @@
 // Description :
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCWarScheduleList.h"
 #include "Assert.h"
 
@@ -12,7 +12,6 @@
 // constructor
 //////////////////////////////////////////////////////////////////////////////
 GCWarScheduleList::GCWarScheduleList() 
-	throw ()
 {
 	__BEGIN_TRY 
 
@@ -23,7 +22,6 @@ GCWarScheduleList::GCWarScheduleList()
 // destructor
 //////////////////////////////////////////////////////////////////////////////
 GCWarScheduleList::~GCWarScheduleList() 
-	throw ()
 {
 	__BEGIN_TRY 
 
@@ -44,10 +42,9 @@ GCWarScheduleList::~GCWarScheduleList()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCWarScheduleList::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -89,10 +86,9 @@ void GCWarScheduleList::read (SocketInputStream & iStream)
 
 		    
 //////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCWarScheduleList::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -133,7 +129,6 @@ void GCWarScheduleList::write (SocketOutputStream & oStream) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////////////
 void GCWarScheduleList::execute (Player * pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -146,7 +141,6 @@ void GCWarScheduleList::execute (Player * pPlayer)
 //////////////////////////////////////////////////////////////////////////////
 
 PacketSize_t GCWarScheduleList::getPacketSize () const 
-	throw ()
 { 
 	__BEGIN_TRY
 
@@ -183,7 +177,6 @@ PacketSize_t GCWarScheduleList::getPacketSize () const
 // get packet's debug string
 //////////////////////////////////////////////////////////////////////////////
 std::string GCWarScheduleList::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		
@@ -198,10 +191,10 @@ std::string GCWarScheduleList::toString () const
 	{
 		msg << ", (WarScheduleInfo : "
 			<< ( ((*itr)->warType)?"WAR_TYPE_DIFFERENT_RACE, ":"WAR_TYPE_SAME_RACE, " )
-			<< (*itr)->year << "³â "
-			<< (*itr)->month << "¿ù "
-			<< (*itr)->day << "ÀÏ"
-			<< (*itr)->hour << "½Ã";
+			<< (*itr)->year << "ï¿½ï¿½ "
+			<< (*itr)->month << "ï¿½ï¿½ "
+			<< (*itr)->day << "ï¿½ï¿½"
+			<< (*itr)->hour << "ï¿½ï¿½";
 
 		if( (*itr)->warType == 0 )
 		{
@@ -229,7 +222,6 @@ std::string GCWarScheduleList::toString () const
 #endif
 
 WarScheduleInfo* GCWarScheduleList::popWarScheduleInfo() 
-	throw()
 {
 	__BEGIN_TRY
 

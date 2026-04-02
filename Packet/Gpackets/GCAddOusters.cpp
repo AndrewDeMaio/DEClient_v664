@@ -3,7 +3,7 @@
 // Written By  : Reiot
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddOusters.h"
 #define SAFE_DELETE(p)  { if(p) { delete (p);     (p)=NULL; } }
 //////////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,6 @@ GCAddOusters::GCAddOusters(const PCOustersInfo3& info)
 }
 
 GCAddOusters::~GCAddOusters()
-	throw()
 {
 	__BEGIN_TRY
 	
@@ -38,7 +37,6 @@ GCAddOusters::~GCAddOusters()
 }
 
 void GCAddOusters::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -59,7 +57,6 @@ void GCAddOusters::read ( SocketInputStream & iStream )
 }
 		    
 void GCAddOusters::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -93,7 +90,6 @@ void GCAddOusters::write ( SocketOutputStream & oStream ) const
 }
 
 void GCAddOusters::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -102,8 +98,7 @@ void GCAddOusters::execute ( Player * pPlayer )
 	__END_CATCH
 }
 
-PacketSize_t GCAddOusters::getPacketSize() const 
-	throw()
+size_t GCAddOusters::getPacketSize() const
 {   
 	__BEGIN_TRY
 
@@ -127,7 +122,6 @@ PacketSize_t GCAddOusters::getPacketSize() const
 }
 #ifdef __DEBUG_OUTPUT__
 string GCAddOusters::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 

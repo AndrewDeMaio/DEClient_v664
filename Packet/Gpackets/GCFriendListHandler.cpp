@@ -7,11 +7,11 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "client_PCH.h"
-#include "GCFriendList.h"
-#include "VS_UI_Friend_System.h"
-#include "MZoneTable.h"
+//#include "VS_UI_Friend_System.h"
+//#include "MZoneTable.h"
 
+#include "GPacket_PCH.h"
+#include "GCFriendList.h"
 #include "Assert.h"
 
 #ifdef __GAME_SERVER__
@@ -20,7 +20,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void GCFriendListHandler::execute ( GCFriendList* pPacket, Player* pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -31,7 +30,7 @@ void GCFriendListHandler::execute ( GCFriendList* pPacket, Player* pPlayer )
 
 	if (pPacket)
 	{
-		// Ä£±¸ ½Ã½ºÅÛ Ã¢À» °¡Áö°í ¿Â´Ù. ¾øÀ» °æ¿ì »ý¼º
+		// Ä£ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		C_VS_UI_FRIEND_SYSTEM* pFriend = (C_VS_UI_FRIEND_SYSTEM*)gpC_window_manager->GetWindowbyName("FriendSystem");
 		if (!pFriend)
 		{
@@ -39,19 +38,19 @@ void GCFriendListHandler::execute ( GCFriendList* pPacket, Player* pPlayer )
 			pFriend->SetWindowName("FriendSystem");
 		}
 
-		// ¸®½ºÆ®¿¡ ³Ö±âÀü ÇöÀç ¸®½ºÆ®¸¦ ¸ðµÎ Áö¿î´Ù.
+		// ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 		pFriend->GetListView()->DeleteAllItem(); 
 
-		// Ä£±¸ Á¤º¸¸¦ ¸ñ·Ï¿¡ Ãß°¡
+		// Ä£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½ ï¿½ß°ï¿½
 		for(int i = 0; i < pPacket->GetFriendListCount(); ++i)
 		{
 			FriendSimpleInfo* pInfo = pPacket->GetFriendInfo(i);
 			if (pInfo)
 			{
 				int item_index = pFriend->GetListView()->GetItemSize();
-				// Ä£±¸ ÀÌ¸§
+				// Ä£ï¿½ï¿½ ï¿½Ì¸ï¿½
 				pFriend->GetListView()->InsertColumnItem(pInfo->GetFriendName().c_str(),item_index,0);
-				// Á¸ Á¤º¸ ÀúÀå
+				// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				std::string zone_id = "";
 				if (g_pZoneTable->Get(pInfo->GetZoneID()) != NULL)
 				{
@@ -63,18 +62,18 @@ void GCFriendListHandler::execute ( GCFriendList* pPacket, Player* pPlayer )
 				}
 				else
 					pFriend->GetListView()->InsertColumnItem("Unknown",item_index,1); //by viva
-				// Á¢¼Ó ¿©ºÎ
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				if (pInfo->GetConnect())
 					pFriend->GetListView()->InsertColumnItem("ON",item_index,2);
 				else
 					pFriend->GetListView()->InsertColumnItem("OFF",item_index,2);
 
-				// ¼­¹ö Á¤º¸´Â °¡Áö°í¸¸ ÀÖ´Â´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Â´ï¿½.
 				pFriend->GetListView()->InsertColumnItem(pInfo->GetServerName().c_str(),item_index,3);
 			}
 		}
 
-		// ¿É¼Ç Á¤º¸ ¼³Á¤
+		// ï¿½É¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		pFriend->SetCheckConfirm(pPacket->GetFriendGlobalOptionInfo().GetOptionToDenyAddRequest()^1);
 	}
 		

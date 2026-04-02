@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCDeleteEffectFromTile.h"
 #include "ClientDef.h"
 #include "SkillDef.h"
@@ -16,17 +16,16 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCDeleteEffectFromTileHandler::execute ( GCDeleteEffectFromTile * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
 #ifdef __GAME_CLIENT__
 
 	
-		// -_- ÆÐ¹è
+		// -_- ï¿½Ð¹ï¿½
 //	switch( pPacket->getEffectID() )
 //	{
-//	case EFFECTSTATUS_BLOOD_BIBLE_ARMEGA :         // 199			// Å¸ÀÏ¿¡ ºÙ´Â ÀÌÆåÆ®
+//	case EFFECTSTATUS_BLOOD_BIBLE_ARMEGA :         // 199			// Å¸ï¿½Ï¿ï¿½ ï¿½Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 //	case EFFECTSTATUS_BLOOD_BIBLE_MIHOLE :       // 200
 //	case EFFECTSTATUS_BLOOD_BIBLE_KIRO :         // 201
 //	case EFFECTSTATUS_BLOOD_BIBLE_INI :         // 202

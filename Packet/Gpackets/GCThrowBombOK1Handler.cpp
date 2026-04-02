@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCThrowBombOK1.h"
 #include "ClientDef.h"
 #include "PacketFunction2.h"
@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCThrowBombOK1Handler::execute ( GCThrowBombOK1 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -23,7 +22,7 @@ void GCThrowBombOK1Handler::execute ( GCThrowBombOK1 * pPacket , Player * pPlaye
 
 		
 	//------------------------------------------------------------------
-	// Player°¡ ±â´Ù¸®´ø skillÀÇ ¼º°øÀ¯¹«¸¦ °ËÁõ¹Þ¾Ò´Ù.
+	// Playerï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Þ¾Ò´ï¿½.
 	//------------------------------------------------------------------
 	if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_SKILL_SUCCESS)
 	{		
@@ -36,22 +35,22 @@ void GCThrowBombOK1Handler::execute ( GCThrowBombOK1 * pPacket , Player * pPlaye
 
 
 	//------------------------------------------------------------------
-	// Player°¡ SkillÀ» ¼º°ø½ÃÅ² °æ¿ì¿¡ ³¯¾Æ¿À´Â PacketÀÌ¹Ç·Î
-	// °á°ú¸¦ ¹Ý¿µ½ÃÄÑ¾ß ÇÑ´Ù.
+	// Playerï¿½ï¿½ Skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å² ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½Æ¿ï¿½ï¿½ï¿½ Packetï¿½Ì¹Ç·ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ ï¿½Ñ´ï¿½.
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	AffectModifyInfo(g_pPlayer, pPacket);
 
 	//------------------------------------------------------------------
-	// UI¿¡ º¸ÀÌ´Â °ÍÀ» ¹Ù²ãÁØ´Ù.
-	// ºñ±³¿¬»êÇÏ´Â°Åº¸´Ù ÀÌ°Ô ´õ ºü¸£Áö ¾ÊÀ»±î.. À½.. - -;
+	// UIï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
+	// ï¿½ñ±³¿ï¿½ï¿½ï¿½ï¿½Ï´Â°Åºï¿½ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½.. - -;
 	//------------------------------------------------------------------
 	//UI_SetHP( g_pPlayer->GetHP(), g_pPlayer->GetMAX_HP() );
 	//UI_SetMP( g_pPlayer->GetMP(), g_pPlayer->GetMAX_MP() );
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -59,7 +58,7 @@ void GCThrowBombOK1Handler::execute ( GCThrowBombOK1 * pPacket , Player * pPlaye
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -84,7 +83,7 @@ void GCThrowBombOK1Handler::execute ( GCThrowBombOK1 * pPacket , Player * pPlaye
 			}
 		}
 			
-		// ÀÇ¹Ì¾ø´Ù.
+		// ï¿½Ç¹Ì¾ï¿½ï¿½ï¿½.
 		DWORD delayFrame = 16;//ConvertDurationToFrame( pPacket->getDuration() );
 
 		int size = pPacket->getCListNum();
@@ -93,7 +92,7 @@ void GCThrowBombOK1Handler::execute ( GCThrowBombOK1 * pPacket , Player * pPlaye
 
 			
 		//------------------------------------------------------
-		// Player°¡ ±â¼úÀ» ¼º°øÇßÀ»¶§ ¸ð½À..
+		// Playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 		//------------------------------------------------------
 		//int resultActionInfo = skillID + (*g_pActionInfoTable).GetMinResultActionInfo();
 		//g_pPlayer->PacketSpecialActionResult( resultActionInfo );
@@ -115,17 +114,17 @@ void GCThrowBombOK1Handler::execute ( GCThrowBombOK1 * pPacket , Player * pPlaye
 
 		if (size!=0)
 		{
-			// °á°ú¸¦ ´çÇÏ´Â °¢°¢ÀÇ creature¿¡ ´ëÇØ¼­ °á°ú Ç¥Çö
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
 			for (int i=0; i<size; i++)
 			{
 				int targetID = pPacket->popCListElement();
 				MCreature* pCreature = g_pZone->GetCreature( targetID );
 
-				// Creature¿¡°Ô Damage? ÀÔÈû
+				// Creatureï¿½ï¿½ï¿½ï¿½ Damage? ï¿½ï¿½ï¿½ï¿½
 				if (pCreature != NULL)
 				{
 					//------------------------------------------------------
-					// EffectStatus°¡ ÀÖ´Ù¸é ºÙÀÎ´Ù.
+					// EffectStatusï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 					//------------------------------------------------------
 					EFFECTSTATUS es = (*g_pActionInfoTable)[skillID].GetEffectStatus();
 					
@@ -134,10 +133,10 @@ void GCThrowBombOK1Handler::execute ( GCThrowBombOK1 * pPacket , Player * pPlaye
 						pResult->Add( new MActionResultNodeAddEffectStatus( targetID, es, delayFrame ) );
 					}
 
-					// °á°ú ¹Ù·Î Ç¥Çö
+					// ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ Ç¥ï¿½ï¿½
 					//pCreature->PacketSpecialActionResult( pPacket->getSkillType() + (*g_pActionInfoTable).GetMinResultActionInfo());
 			
-					// ±â¼úÀÇ °á°ú¸¦ Ç¥ÇöÇÏ´Â resultNode¸¦ »ý¼ºÇÑ´Ù.
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½Ï´ï¿½ resultNodeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 					//pResult->Add( new MActionResultNodeActionInfo( 
 					//							g_pPlayer->GetID(), 
 					//							pCreature->GetID(), 
@@ -147,7 +146,7 @@ void GCThrowBombOK1Handler::execute ( GCThrowBombOK1 * pPacket , Player * pPlaye
 					
 					//------------------------------------------------------
 					//
-					// skill¿¡ °á°ú°¡ ÀÖÀ¸¸é Àû¿ë ½ÃÅ²´Ù.
+					// skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 					//
 					//------------------------------------------------------
 					MActionResultNode* pActionResultNode = NULL;
@@ -155,7 +154,7 @@ void GCThrowBombOK1Handler::execute ( GCThrowBombOK1 * pPacket , Player * pPlaye
 					switch ((*g_pActionInfoTable)[skillID].GetActionResultID())
 					{
 						//------------------------------------------------------
-						// ´Ù¸¥ ActionInfo ½ÇÇà
+						// ï¿½Ù¸ï¿½ ActionInfo ï¿½ï¿½ï¿½ï¿½
 						//------------------------------------------------------
 						case ACTIONRESULTNODE_ACTIONINFO :
 							pActionResultNode =  new MActionResultNodeActionInfo( 
@@ -168,7 +167,7 @@ void GCThrowBombOK1Handler::execute ( GCThrowBombOK1 * pPacket , Player * pPlaye
 						break;
 
 						//------------------------------------------------------
-						// Burrow µîµî..
+						// Burrow ï¿½ï¿½ï¿½..
 						//------------------------------------------------------
 						default :
 							pActionResultNode = CreateActionResultNode(pCreature, useSkillID);
@@ -176,7 +175,7 @@ void GCThrowBombOK1Handler::execute ( GCThrowBombOK1 * pPacket , Player * pPlaye
 					}
 
 					//------------------------------------------------------
-					// NULLÀÌ ¾Æ´Ï¸é °°ÀÌ Àû¿ë
+					// NULLï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					//------------------------------------------------------
 					if (pActionResultNode!=NULL)
 					{
@@ -187,14 +186,14 @@ void GCThrowBombOK1Handler::execute ( GCThrowBombOK1 * pPacket , Player * pPlaye
 		}			
 		
 		//------------------------------------------------------
-		// range¸¦ direction¿¡ Àû¿ë½ÃÅ°´Â °æ¿ì
+		// rangeï¿½ï¿½ directionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		//if ((*g_pActionInfoTable)[skillID].IsOptionRangeToDirection())
 		{
 		//	g_pPlayer->SetDirection( pPacket->getDir() );	
 		}		
 	
-		// PlayerÀÇ ÇöÀç ÁøÇà ÁßÀÎ ±â¼úÀÇ °á°ú·Î Ãß°¡½ÃÅ²´Ù.		
+		// Playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½Å²ï¿½ï¿½.		
 		g_pPlayer->PacketAddActionResult( 0, pResult );
 
 	}

@@ -3,7 +3,7 @@
 // Written By  : Reiot
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddSlayer.h"
 
 #define SAFE_DELETE(p)  { if(p) { delete (p);     (p)=NULL; } }
@@ -27,7 +27,6 @@ GCAddSlayer::GCAddSlayer(const PCSlayerInfo3& info)
 }
 
 GCAddSlayer::~GCAddSlayer()
-	throw()
 {
 	__BEGIN_TRY
 	
@@ -39,7 +38,6 @@ GCAddSlayer::~GCAddSlayer()
 }
 
 void GCAddSlayer::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -61,7 +59,6 @@ void GCAddSlayer::read ( SocketInputStream & iStream )
 }
 		    
 void GCAddSlayer::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -95,7 +92,6 @@ void GCAddSlayer::write ( SocketOutputStream & oStream ) const
 }
 
 void GCAddSlayer::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 
 {
 	__BEGIN_TRY
@@ -105,8 +101,7 @@ void GCAddSlayer::execute ( Player * pPlayer )
 	__END_CATCH
 }
 
-PacketSize_t GCAddSlayer::getPacketSize() const 
-	throw()
+size_t GCAddSlayer::getPacketSize() const 
 {   
 	__BEGIN_TRY
 
@@ -131,7 +126,6 @@ PacketSize_t GCAddSlayer::getPacketSize() const
 }
 #ifdef __DEBUG_OUTPUT__
 string GCAddSlayer::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 

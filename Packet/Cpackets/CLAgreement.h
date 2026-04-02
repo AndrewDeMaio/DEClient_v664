@@ -32,8 +32,8 @@
 //
 // class CLAgreement;
 //
-// Å¬¶óÀÌ¾ðÆ®°¡ ·Î±×ÀÎ ¼­¹ö¿¡°Ô ÃÖÃÊ¿¡ Àü¼ÛÇÏ´Â ÆÐÅ¶ÀÌ´Ù.
-// ¾ÆÀÌµð¿Í ÆÐ½º¿öµå°¡ ¾ÏÈ£È­µÇ¾î ÀÖ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
+// ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½Ð½ï¿½ï¿½ï¿½ï¿½å°¡ ï¿½ï¿½È£È­ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½.
 //
 //--------------------------------------------------------------------------------
 
@@ -41,37 +41,37 @@ class CLAgreement : public Packet {
 
 public:
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_CL_AGREEMENT; }
+	PacketID_t getPacketID() const { return PACKET_CL_AGREEMENT; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return szBYTE; }
+	size_t getPacketSize() const { return szBYTE; }
 
 	// get packet name
-	string getPacketName() const throw() { return "CLAgreement"; }
+	string getPacketName() const { return "CLAgreement"; }
 #ifdef __DEBUG_OUTPUT__
 	// get packet's debug string
-	string toString() const throw();
+	string toString() const;
 #endif
 
 public:
 
-	// get/set agreement ³Ý¸¶ºí »ç¿ëÀÚ ¾à°ü µ¿ÀÇ ¿©ºÎ
+	// get/set agreement ï¿½Ý¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	bool isAgree() const { return ( m_Agree ? true : false ); }
 	void setAgree( bool agree ) { m_Agree = agree; }
 
 private :
 
-	// ³Ý¸¶ºí »ç¿ëÀÚ ¾à°ü µ¿ÀÇ ¿©ºÎ
+	// ï¿½Ý¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	BYTE m_Agree;
 };
 
@@ -88,16 +88,16 @@ class CLAgreementFactory : public PacketFactory {
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new CLAgreement(); }
+	Packet* createPacket() { return new CLAgreement(); }
 
 	// get packet name
-	string getPacketName() const throw() { return "CLAgreement"; }
+	string getPacketName() const { return "CLAgreement"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CL_AGREEMENT; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CL_AGREEMENT; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE; }
 
 };
 
@@ -114,7 +114,7 @@ class CLAgreementHandler {
 public:
 
 	// execute packet's handler
-	static void execute(CLAgreement* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(CLAgreement* pPacket, Player* pPlayer);
 
 };
 #endif

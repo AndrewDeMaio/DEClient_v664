@@ -7,7 +7,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCReconnectLogin.h"
 #include "ClientDef.h"
 
@@ -18,11 +18,10 @@
 #endif
 
 //--------------------------------------------------------------------------------
-// ·Î±×ÀÎ¼­¹ö·ÎºÎÅÍ °ÔÀÓ ¼­¹öÀÇ ÁÖ¼Ò¿Í Æ÷Æ®, ±×¸®°í ÀÎÁõÅ°¸¦ ¹ÞÀº Áï½Ã
-// °ÔÀÓ ¼­¹ö·Î ¿¬°áÇÑ ÈÄ, ÀÎÁõÅ°¸¦ ´ãÀº CGConnect ÆÐÅ¶À» Àü¼ÛÇÑ´Ù.
+// ï¿½Î±ï¿½ï¿½Î¼ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼Ò¿ï¿½ ï¿½ï¿½Æ®, ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ CGConnect ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //--------------------------------------------------------------------------------
 void GCReconnectLoginHandler::execute ( GCReconnectLogin * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -31,12 +30,12 @@ void GCReconnectLoginHandler::execute ( GCReconnectLogin * pPacket , Player * pP
  
 	ClientPlayer * pClientPlayer = dynamic_cast<ClientPlayer*>(pPlayer);
 
-	// ·Î±×ÀÎ ¼­¹ö¿ÍÀÇ ¿¬°áÀ» Á¾·áÇÑ´Ù
-	// ÀÌ¶§ ·Î±×ÀÎ ¼­¹ö´Â LCReconnect ÆÐÅ¶À» º¸³»¸é¼­ ¿¬°áÀ» Á¾·áÇÑ´Ù´Â »ç½Ç¿¡ À¯ÀÇÇÏ¶ó.
+	// ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
+	// ï¿½Ì¶ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ LCReconnect ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½é¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´Ù´ï¿½ ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
 	
 	pClientPlayer->disconnect();
 
-	// GCReconnectLogin ÆÐÅ¶¿¡ µé¾îÀÖ´Â Á¤º¸¸¦ »ç¿ëÇØ¼­, login ¼­¹ö·Î ¿¬°áÇÑ´Ù.
+	// GCReconnectLogin ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½, login ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	DEBUG_ADD_FORMAT("Reconnecting to %s:%d", 
 									pPacket->getLoginServerIP().c_str(), 
 									pPacket->getLoginServerPort());
@@ -45,8 +44,8 @@ void GCReconnectLoginHandler::execute ( GCReconnectLogin * pPacket , Player * pP
 
 		pClientPlayer->getSocket()->reconnect( pPacket->getLoginServerIP() , pPacket->getLoginServerPort() );
 
-		// reconnectÇÏ°Ô µÇ¸é ¼ÒÄÏÀÌ »õ·Î ¸¸µé¾îÁö°Ô µÈ´Ù.
-		// µû¶ó¼­, ÀÌ ¼ÒÄÏ ¿ª½Ã ¿É¼ÇÀ» »õ·Î ÁöÁ¤ÇØÁà¾ß ÇÑ´Ù.
+		// reconnectï¿½Ï°ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È´ï¿½.
+		// ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		pClientPlayer->getSocket()->setNonBlocking();
 		pClientPlayer->getSocket()->setLinger(0);
 
@@ -54,13 +53,13 @@ void GCReconnectLoginHandler::execute ( GCReconnectLogin * pPacket , Player * pP
 		throw Error(ce.toString());
 	}
 
-	// ¿¬°áÀÌ ÀÌ·ç¾îÁö¸é, ¹Ù·Î CLReconnectLogin ÆÐÅ¶À» Àü¼ÛÇÑ´Ù.
-	// ÀÌÀü¿¡ Select ÇÑ PCÀÇ Å¸ÀÔ°ú ÀÌ¸§À» Å¬¶óÀÌ¾ðÆ® ÇÃ·¹ÀÌ¾î °´Ã¼¿¡ ÀúÀåÇØµÐ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ù·ï¿½ CLReconnectLogin ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Select ï¿½ï¿½ PCï¿½ï¿½ Å¸ï¿½Ô°ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ® ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ØµÐ´ï¿½.
 	DEBUG_ADD_FORMAT("Sending CLReconnectLogin with Key(%ld)", 	pPacket->getKey());
 		
 	
 
-	// ÀçÁ¢¼Ó..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
 	CLReconnectLogin _CLReconnectLogin;
 	_CLReconnectLogin.setKey( pPacket->getKey() );
 	_CLReconnectLogin.SetLoginMode(g_pUserInformation->IsAutoLogIn);
@@ -68,7 +67,7 @@ void GCReconnectLoginHandler::execute ( GCReconnectLogin * pPacket , Player * pP
 	pClientPlayer->sendPacket( &_CLReconnectLogin );
 	pClientPlayer->setPlayerStatus( CPS_AFTER_SENDING_CL_GET_PC_LIST );	
 
-	// pc std::list¸¦ ±â´Ù¸°´Ù.
+	// pc std::listï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½.
 	SetMode( MODE_WAIT_PCLIST  );
 
 #endif

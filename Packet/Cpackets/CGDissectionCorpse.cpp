@@ -11,7 +11,6 @@
 
 
 CGDissectionCorpse::CGDissectionCorpse () 
-     throw ()
 {
 	__BEGIN_TRY
 	m_IsPet = 0;
@@ -19,14 +18,12 @@ CGDissectionCorpse::CGDissectionCorpse ()
 }
 
 CGDissectionCorpse::~CGDissectionCorpse () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGDissectionCorpse::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -55,7 +52,6 @@ void CGDissectionCorpse::read (SocketInputStream & iStream)
 }
 
 void CGDissectionCorpse::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -84,7 +80,6 @@ void CGDissectionCorpse::write (SocketOutputStream & oStream) const
 }
 
 void CGDissectionCorpse::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -97,7 +92,6 @@ void CGDissectionCorpse::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGDissectionCorpse::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

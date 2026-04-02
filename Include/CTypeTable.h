@@ -1,12 +1,13 @@
 //----------------------------------------------------------------------
 // CTypeTable.h
 //----------------------------------------------------------------------
+// This header needs no .cpp file - All things are declared and defined in it.
 
 #ifndef	__CTYPETABLE_H__
 #define	__CTYPETABLE_H__
 
 //#include "DebugInfo.h"
-//#define	 new DEBUG_NEW
+//#define new DEBUG_NEW
 #include "vfstream.h"
 
 //----------------------------------------------------------------------

@@ -1,31 +1,28 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCSkillFailed1.cc 
 // Written By  : elca@ewestsoft.com
-// Description : SkillÀÌ ½ÇÆÐ ÇßÀ»¶§ ³¯·ÁÁÖ´Â ÆÐÅ¶ÀÇ ¸â¹ö Á¤ÀÇ
+// Description : Skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSkillFailed1.h"
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
 GCSkillFailed1::GCSkillFailed1 () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 	
 GCSkillFailed1::~GCSkillFailed1 () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void GCSkillFailed1::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -37,7 +34,6 @@ void GCSkillFailed1::read ( SocketInputStream & iStream )
 }
 		    
 void GCSkillFailed1::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -49,7 +45,6 @@ void GCSkillFailed1::write ( SocketOutputStream & oStream ) const
 }
 
 void GCSkillFailed1::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -60,7 +55,6 @@ void GCSkillFailed1::execute ( Player * pPlayer )
 
 #ifdef __DEBUG_OUTPUT__
 std::string GCSkillFailed1::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 

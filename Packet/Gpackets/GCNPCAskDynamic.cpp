@@ -4,13 +4,12 @@
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCNPCAskDynamic.h"
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 GCNPCAskDynamic::GCNPCAskDynamic() 
-	throw ()
 {
 	__BEGIN_TRY 
 
@@ -22,17 +21,15 @@ GCNPCAskDynamic::GCNPCAskDynamic()
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 GCNPCAskDynamic::~GCNPCAskDynamic() 
-	throw ()
 {
 	__BEGIN_TRY 
 	__END_CATCH
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCNPCAskDynamic::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -50,10 +47,10 @@ void GCNPCAskDynamic::read ( SocketInputStream & iStream )
 
 	for (int i=0; i<m_ContentsCount; i++)
 	{
-		// ¹®ÀÚ¿­ ±æÀÌ¸¦ ÀÐ¾îµéÀÎ´Ù.
+		// ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½Î´ï¿½.
 		iStream.read(size);
 
-		// ³»¿ëÀÌ ÀÖ´Â ¹®ÀÚ¿­ÀÌ¶ó¸é ³»¿ë ÀÚÃ¼¸¦ ÀÐ¾îµéÀÎ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½Î´ï¿½.
 		if (size > 0)
 		{
 			std::string msg = "";
@@ -66,10 +63,9 @@ void GCNPCAskDynamic::read ( SocketInputStream & iStream )
 }
 		    
 //////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCNPCAskDynamic::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -89,11 +85,11 @@ void GCNPCAskDynamic::write ( SocketOutputStream & oStream ) const
 
 	for (; itr != m_Contents.end(); itr++)
 	{
-		// ¹®ÀÚ¿­ÀÇ ±æÀÌ¸¦ Àü¼ÛÇÑ´Ù.
+		// ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		size = (*itr).size();
 		oStream.write(size);
 
-		// ³»¿ëÀÌ ÀÖ´Â ¹®ÀÚ¿­ÀÌ¶ó¸é ¹®ÀÚ¿­ ÀÚÃ¼¸¦ Àü¼ÛÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		if (size > 0) oStream.write(*itr);
 	}
 		
@@ -105,7 +101,6 @@ void GCNPCAskDynamic::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////////////
 void GCNPCAskDynamic::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -120,7 +115,6 @@ void GCNPCAskDynamic::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 	std::string GCNPCAskDynamic::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 			
@@ -148,7 +142,6 @@ void GCNPCAskDynamic::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 void GCNPCAskDynamic::addContent(std::string content)
-	throw()
 {
 	__BEGIN_TRY
 
@@ -161,7 +154,6 @@ void GCNPCAskDynamic::addContent(std::string content)
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 std::string GCNPCAskDynamic::popContent(void)
-	throw()
 {
 	__BEGIN_TRY
 

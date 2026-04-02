@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
 // MItemOptionTable.h
 //----------------------------------------------------------------------
-// ItemÀÇ OptionÀÇ Á¾·ù¿¡ µû¸¥ Á¤º¸¸¦ ÀúÀåÇÏ´Â class
+// Itemï¿½ï¿½ Optionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ class
 //----------------------------------------------------------------------
 
 #ifndef	__MITEMOPTIONTABLE_H__
@@ -10,8 +10,6 @@
 #include "CTypeTable.h"
 #include "MTypeDef.h"
 #include "MString.h"
-std::ofstream;
-std::ifstream;
 
 //#define	MAX_PARTNAME_LENGTH		48
 #define		UNIQUE_ITEM_COLOR		0xffff
@@ -23,29 +21,29 @@ std::ifstream;
 
 //----------------------------------------------------------------------
 //
-// ÇÑ Á¾·ùÀÇ Item¿¡ ´ëÇÑ Á¤º¸
+// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //
 //----------------------------------------------------------------------
 class ITEMOPTION_INFO {
 	public :
 	public :
-		MString					EName;					// ItemOption ¿µ¾î ÀÌ¸§		
-		MString					Name;					// ItemOption ÀÌ¸§
+		MString					EName;					// ItemOption ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½		
+		MString					Name;					// ItemOption ï¿½Ì¸ï¿½
 		int						Part;					// ItemOption Part				
-		int						PlusPoint;				// Áõ°¡Ä¡
-		int						PriceMultiplier;		// °¡Ä¡	(%·Î µÇ¾î ÀÖÀ¸¹Ç·Î, 100À¸·Î ³ª´©¾î¾ß ÇÔ)	
-		//int						PlusRequireAbility;		// ÇÊ¿ä ´É·Â Áõ°¡Ä¡		
+		int						PlusPoint;				// ï¿½ï¿½ï¿½ï¿½Ä¡
+		int						PriceMultiplier;		// ï¿½ï¿½Ä¡	(%ï¿½ï¿½ ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½, 100ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½)	
+		//int						PlusRequireAbility;		// ï¿½Ê¿ï¿½ ï¿½É·ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡		
 
-		// ÇÊ¿ä ´É·ÂÄ¡
+		// ï¿½Ê¿ï¿½ ï¿½É·ï¿½Ä¡
 		int						RequireSTR;
 		int						RequireDEX;
 		int						RequireINT;
-		int						RequireSUM;		// ´É·ÂÄ¡ ÃÑÇÕ
+		int						RequireSUM;		// ï¿½É·ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
 		int						RequireLevel;
 		
-		int						ColorSet;				// »ö ¹øÈ£
-		int						UpgradeOptionType;		// ¾÷±×·¡ÀÌµå µÇ¸é º¯-_-½ÅÇÏ´Â Å¸ÀÔ 0ÀÌ¸é º¯-_-½Å ¾ÈÇÔ
-		int						PreviousOptionType;		// ¾÷±×·¡ÀÌµå ½ÇÆÐÇØ¼­ º¯-_-½ÅÇÏ´Â Å¸ÀÔ 0ÀÌ¸é º¯-_-½Å ¾ÈÇÔ
+		int						ColorSet;				// ï¿½ï¿½ ï¿½ï¿½È£
+		int						UpgradeOptionType;		// ï¿½ï¿½ï¿½×·ï¿½ï¿½Ìµï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½-_-ï¿½ï¿½ï¿½Ï´ï¿½ Å¸ï¿½ï¿½ 0ï¿½Ì¸ï¿½ ï¿½ï¿½-_-ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		int						PreviousOptionType;		// ï¿½ï¿½ï¿½×·ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½-_-ï¿½ï¿½ï¿½Ï´ï¿½ Å¸ï¿½ï¿½ 0ï¿½Ì¸ï¿½ ï¿½ï¿½-_-ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	public :
 		ITEMOPTION_INFO();
@@ -60,7 +58,7 @@ class ITEMOPTION_INFO {
 
 
 //--------------------------------------------------------------------------
-// ÇÏ³ªÀÇ class¿¡ ´ëÇÑ typeµéÀÇ Á¤º¸
+// ï¿½Ï³ï¿½ï¿½ï¿½ classï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ typeï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //--------------------------------------------------------------------------
 class ITEMOPTION_TABLE:public CTypeTable<ITEMOPTION_INFO>
 {
@@ -89,12 +87,12 @@ public:
 		PART_ATTACK_SPEED, // increase attack speed
 		PART_CRITICAL_HIT,
 			
-		// 2002.10.21ÀÏ Ãß°¡
+		// 2002.10.21ï¿½ï¿½ ï¿½ß°ï¿½
 		PART_LUCK,         // increase looting item type
 		PART_ALL_RES,      // increase all registance
 		PART_ALL_ATTR,     // increase all attributes(str, dex, int)
 
-		// 2002.12.03ÀÏ Ãß°¡
+		// 2002.12.03ï¿½ï¿½ ï¿½ß°ï¿½
 		PART_STR_TO_DEX,   // STR to DEX
 		PART_STR_TO_INT,   // STR to INT
 		PART_DEX_TO_STR,   // DEX to STR
@@ -110,13 +108,13 @@ public:
 		PART_GAMBLE_PRICE, // decrease gamble price
 		PART_POTION_PRICE, // decrease gamble price
  
-		OPTION_MAGIC_PRO,	// ¸¶¹ý ¹æ¾î·Â
-		OPTION_PHYSIC_PRO,	// ¹°¸® ¹æ¾î·Â
+		OPTION_MAGIC_PRO,	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		OPTION_PHYSIC_PRO,	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 		MAX_PART
 	};
 
-	// option partÀÇ name string
+	// option partï¿½ï¿½ name string
 	MString ITEMOPTION_PARTNAME[MAX_PART];
 	MString ITEMOPTION_PARTENAME[MAX_PART];
 

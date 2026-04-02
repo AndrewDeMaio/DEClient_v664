@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCRideMotorCycle.h"
 #include "ClientDef.h"
 #include "MItem.h"
@@ -16,7 +16,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCRideMotorCycleHandler::execute ( GCRideMotorCycle * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -25,7 +24,7 @@ void GCRideMotorCycleHandler::execute ( GCRideMotorCycle * pPacket , Player * pP
 	
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -33,20 +32,20 @@ void GCRideMotorCycleHandler::execute ( GCRideMotorCycle * pPacket , Player * pP
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//
-	// Creature°¡ pItem(¿ÀÅä¹ÙÀÌ)À» ÀåÂøÇÑ´Ù.
+	// Creatureï¿½ï¿½ pItem(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 
 		//-------------------------------------------------------------
-		// Ä³¸¯ÅÍ°¡ ÀÖ´Â °æ¿ì
+		// Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 		//-------------------------------------------------------------
 		if (pCreature!=NULL)
 		{
-			// ÀåÂø°¡´ÉÇÑ creatureÀÎ °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½
 			if (pCreature->IsWear())
 			{
 				MCreatureWear* pCreatureWear = (MCreatureWear*)pCreature;
@@ -54,27 +53,27 @@ void GCRideMotorCycleHandler::execute ( GCRideMotorCycle * pPacket , Player * pP
 				MItem* pItem = g_pZone->GetItem( pPacket->getTargetObjectID() );
 
 				//------------------------------------------					
-				// pItemÀº ¿ÀÅä¹ÙÀÌ¿©¾ß ÇÑ´Ù.
-				// creature¿¡ Àåºñ ½ÃÅ²´Ù.
+				// pItemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+				// creatureï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 				//------------------------------------------					
 				if (pItem != NULL)
 				{
 					if (pItem->GetItemClass()==ITEM_CLASS_MOTORCYCLE)
 					{
 						//------------------------------------------					
-						// ³²ÀÚ / ¿©ÀÚ¿¡ µû¶ó¼­..
-						// ¿ÀÅä¹ÙÀÌ addon ºÙÀÓ.
+						// ï¿½ï¿½ï¿½ï¿½ / ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½..
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ addon ï¿½ï¿½ï¿½ï¿½.
 						//------------------------------------------
 						pCreatureWear->SetAddonItem( pItem );						
 						
 						//------------------------------------------
-						// ¿òÁ÷ÀÌ´Â ¹æ¹ý ¹Ù²Þ
+						// ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½
 						//------------------------------------------					
 						//pCreatureWear->SetMoveDevice( MCreature::MOVE_DEVICE_RIDE );
 
 						//------------------------------------------
-						// Server¿¡ Á¢¼ÓµÈ °æ¿ì°¡ ¾Æ´Ï¸é..
-						// ¹Ù·Î mouse¿¡ itemÀÌ ºÙ´Â´Ù.
+						// Serverï¿½ï¿½ ï¿½ï¿½ï¿½Óµï¿½ ï¿½ï¿½ì°¡ ï¿½Æ´Ï¸ï¿½..
+						// ï¿½Ù·ï¿½ mouseï¿½ï¿½ itemï¿½ï¿½ ï¿½Ù´Â´ï¿½.
 						//------------------------------------------
 						//PlaySound( pItem->GetTileSoundID(),
 						//			false,
@@ -84,7 +83,7 @@ void GCRideMotorCycleHandler::execute ( GCRideMotorCycle * pPacket , Player * pP
 						g_pZone->RemoveItem( pItem->GetID() );
 						//20090325 helltest
 //						pCreatureWear->SetHellBikeEffect( 0 );
-						// ¿ÀÅä¹ÙÀÌ Å¸´Â ¼Ò¸® Ãâ·Â
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½
 						PlaySound( SOUND_WORLD_BIKE_GO,
 									false,
 									g_pPlayer->GetX(),
@@ -98,15 +97,15 @@ void GCRideMotorCycleHandler::execute ( GCRideMotorCycle * pPacket , Player * pP
 			}
 		}
 		//-------------------------------------------------------------
-		// Ä³¸¯ÅÍ°¡ ¾ø´Â °æ¿ì
+		// Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//-------------------------------------------------------------
 		else
 		{
 			MItem* pItem = g_pZone->GetItem( pPacket->getTargetObjectID() );
 
 			//------------------------------------------					
-			// pItemÀº ¿ÀÅä¹ÙÀÌ¿©¾ß ÇÑ´Ù.
-			// °Á ¾ø¾Ø´Ù.
+			// pItemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 			//------------------------------------------					
 			if (pItem != NULL)
 			{

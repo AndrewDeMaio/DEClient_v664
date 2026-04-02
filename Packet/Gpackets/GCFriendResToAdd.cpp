@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCFriendResToAdd.h"
 
 #if __CONTENTS(__FRIEND_ADDITION)
@@ -16,12 +16,11 @@ GCFriendResToAdd::GCFriendResToAdd()
 	m_FriendName.SetMaxLength(20);
 }
 
-GCFriendResToAdd::~GCFriendResToAdd() throw()
+GCFriendResToAdd::~GCFriendResToAdd()
 {
 }
 
 void GCFriendResToAdd::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -33,10 +32,9 @@ void GCFriendResToAdd::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Datagram °´Ã¼·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCFriendResToAdd::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -46,7 +44,7 @@ void GCFriendResToAdd::write ( SocketOutputStream & oStream ) const
 	__END_CATCH
 }
 
-PacketSize_t GCFriendResToAdd::getPacketSize() const throw() 
+PacketSize_t GCFriendResToAdd::getPacketSize() const 
 { 
 	return m_FriendName.getSize() + szBYTE; 
 }
@@ -55,7 +53,6 @@ PacketSize_t GCFriendResToAdd::getPacketSize() const throw()
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void GCFriendResToAdd::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -68,7 +65,6 @@ void GCFriendResToAdd::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 string GCFriendResToAdd::toString () const
-    throw ()
 {
 	StringStream msg;
 

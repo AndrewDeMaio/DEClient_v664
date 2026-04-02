@@ -26,18 +26,18 @@
 class GCNicknameList : public Packet 
 {
 public:
-	GCNicknameList() throw();
-	~GCNicknameList() throw();
+	GCNicknameList();
+	~GCNicknameList();
 	
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_NICKNAME_LIST; }
-	PacketSize_t getPacketSize() const throw();
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_NICKNAME_LIST; }
+	size_t getPacketSize() const;
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCNicknameList"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCNicknameList"; }
+	string toString() const;
 #endif
 
 public:
@@ -54,16 +54,16 @@ private :
 class GCNicknameListFactory : public PacketFactory 
 {
 public :
-	GCNicknameListFactory() throw() {}
-	virtual ~GCNicknameListFactory() throw() {}
+	GCNicknameListFactory() {}
+	virtual ~GCNicknameListFactory() {}
 	
 public:
-	Packet* createPacket() throw() { return new GCNicknameList(); }
+	Packet* createPacket() { return new GCNicknameList(); }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCNicknameList"; }
+	string getPacketName() const { return "GCNicknameList"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_NICKNAME_LIST; }
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + NicknameInfo::getMaxSize() * MAX_NICKNAME_NUM; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_NICKNAME_LIST; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE + NicknameInfo::getMaxSize() * MAX_NICKNAME_NUM; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@ public:
 class GCNicknameListHandler 
 {
 public:
-	static void execute(GCNicknameList* pGCNicknameList, Player* pPlayer) throw(Error);
+	static void execute(GCNicknameList* pGCNicknameList, Player* pPlayer);
 
 };
 

@@ -20,20 +20,20 @@ class GCFriendSuggestToAdd : public Packet {
 
 public:
 	GCFriendSuggestToAdd();
-	virtual ~GCFriendSuggestToAdd() throw() {}
+	virtual ~GCFriendSuggestToAdd() {}
 	
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
 
-	PacketID_t getPacketID() const throw() { return PACKET_GC_FRIEND_SUGGEST_TO_ADD; }
-	PacketSize_t getPacketSize() const throw()
+	PacketID_t getPacketID() const { return PACKET_GC_FRIEND_SUGGEST_TO_ADD; }
+	size_t getPacketSize() const
 	{ 
 		return m_PCName.getSize();
 	}
 
-	string getPacketName() const throw() { return "GCFriendSuggestToAdd"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCFriendSuggestToAdd"; }
+	string toString() const;
 
 public:
 
@@ -41,7 +41,7 @@ public:
 	void SetPCName(const string& strName) { m_PCName.SetString(strName); }
 
 private :
-	StringInfo m_PCName;		// ¿äÃ»ÇÑ Ä³¸¯ÅÍ ÀÌ¸§
+	StringInfo m_PCName;		// ï¿½ï¿½Ã»ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
 
 };
 
@@ -58,13 +58,13 @@ class GCFriendSuggestToAddFactory : public PacketFactory {
 
 public:
 	
-	Packet* createPacket() throw() { return new GCFriendSuggestToAdd(); }
-	string getPacketName() const throw() { return "GCFriendSuggestToAdd"; }
+	Packet* createPacket() { return new GCFriendSuggestToAdd(); }
+	string getPacketName() const { return "GCFriendSuggestToAdd"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_FRIEND_SUGGEST_TO_ADD; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_FRIEND_SUGGEST_TO_ADD; }
 
-	PacketSize_t getPacketMaxSize() const throw() 
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		return StringInfo::getMaxSize();
 	}
@@ -83,7 +83,7 @@ class GCFriendSuggestToAddHandler {
 public:
 
 	// execute packet's handler
-	static void execute(GCFriendSuggestToAdd* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCFriendSuggestToAdd* pPacket, Player* pPlayer);
 
 };
 #endif //__FRIEND_ADDITION

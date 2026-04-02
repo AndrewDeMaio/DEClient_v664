@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSay.h"
 #include "ClientDef.h"
 #include "UserInformation.h"
@@ -22,11 +22,10 @@
 #endif //__FUNCTION_PETFOOD
 //////////////////////////////////////////////////////////////////////
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡¼­ ¼­¹ö·ÎºÎÅÍ ¸Þ½ÃÁö¸¦ ¹Þ¾ÒÀ»¶§ ½ÇÇàµÇ´Â ¸Þ½îµåÀÌ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -34,7 +33,7 @@ void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
 
 	// Debug Message	
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -42,12 +41,12 @@ void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		//---------------------------------------------------------------
-		// Ä³¸¯ÅÍ ¸Ó¸® À§¿¡ Ã¤ÆÃÀ» ¶ç¿î´Ù.
+		// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ó¸ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		//---------------------------------------------------------------
 		//DEBUG_ADD("Zone-GetCreature");
 
@@ -55,13 +54,13 @@ void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
 
 		if (pCreature==NULL)
 		{
-			// ±×·± Ä³¸¯ÅÍ°¡ ¾øÀ¸¸é ¹«½ÃÇÑ´Ù.
+			// ï¿½×·ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			DEBUG_ADD("No such Character");
 		}
 		else
 		{			
 			bool IsGildre	= pCreature->GetCreatureType() == 717 || 
-							  pCreature->GetCreatureType() == 723 ; // Áúµå·¹ ÀÏ¶§
+							  pCreature->GetCreatureType() == 723 ; // ï¿½ï¿½ï¿½å·¹ ï¿½Ï¶ï¿½
 			bool bMasterWords = pCreature->GetCreatureType()==CREATURETYPE_SLAYER_OPERATOR
 								|| pCreature->GetCreatureType()==CREATURETYPE_VAMPIRE_OPERATOR
 								|| pCreature->GetCreatureType()==CREATURETYPE_OUSTERS_OPERATOR
@@ -72,14 +71,14 @@ void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
 			//DEBUG_ADD_FORMAT("isMasterWords=%d", bMasterWords);
 
 			//-------------------------------------------------
-			// Á¤»óÀûÀÎ ´ëÈ­
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­
 			//-------------------------------------------------
 			if (bMasterWords 
 				|| g_pChatManager->IsAcceptID( pCreature->GetName() ))
 			{
 				//DEBUG_ADD("can see");
 
-				// Ã¤ÆÃ~~
+				// Ã¤ï¿½ï¿½~~
 				char str[256];
 				int creatureType = pCreature->GetCreatureType();
 
@@ -110,7 +109,7 @@ void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
 											|| creatureType==CREATURETYPE_SLAYER_OPERATOR);
 
 				//DEBUG_ADD("strcpy");
-// ÇÃ·¹ÀÌ¾î°¡ ÆêÀ» ¼ÒÈ¯ ÇÏ°í ÀÖ°í ±× ÆêÀÌ Åë¿ª ±â´ÉÀ» °¡Áö°í ÀÖ´ÂÁö ¾ø´ÂÁö Ã¼Å© 
+// ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½Ï°ï¿½ ï¿½Ö°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ë¿ª ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å© 
 #if __CONTENTS(__FUNCTION_PETFOOD)
 				MFakeCreature *pFakeCreature = (MFakeCreature *)g_pZone->GetFakeCreature(g_pPlayer->GetPetID());
 				int functionPetfoodType = 0;
@@ -122,7 +121,7 @@ void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
 #endif //__FUNCTION_PETFOOD
 
 				//---------------------------------------------------------------
-				// ¿Ï¼ºÇü --> Á¶ÇÕÇü
+				// ï¿½Ï¼ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				//---------------------------------------------------------------
 				//UI_WansungToJohap( pPacket->getMessage().c_str(), str );
 				strcpy( str, pPacket->getMessage().c_str() );
@@ -140,9 +139,9 @@ void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
 				bool bHasHallu = g_pPlayer->HasEffectStatus(EFFECTSTATUS_HALLUCINATION);
 
 				//--------------------------------------------------
-				// ¿å Á¦°Å
-				// ¿î¿µÀÚ°¡ ÇÑ ¸»µµ ¾Æ´Ï°í ³ªµµ ¿î¿µÀÚ°¡ ¾Æ´Ï¸é filterÇÑ´Ù.
-				// --> ¿î¿µÀÚÀÇ ¸»Àº ´Ù º¸ÀÌ°í ¿î¿µÀÚ´Â ´Ù º»´Ù.
+				// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+				// ï¿½î¿µï¿½Ú°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½î¿µï¿½Ú°ï¿½ ï¿½Æ´Ï¸ï¿½ filterï¿½Ñ´ï¿½.
+				// --> ï¿½î¿µï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½î¿µï¿½Ú´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 				//--------------------------------------------------
 				if (!bMasterWords && !g_pUserInformation->IsMaster 
 					&& !g_pPlayer->HasEffectStatus( EFFECTSTATUS_GHOST )
@@ -152,7 +151,7 @@ void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
 					)
 				{
 					
-					// playerÀÎ °æ¿ì¸¸ ³ª»Û¸» Á¦°Å
+					// playerï¿½ï¿½ ï¿½ï¿½ì¸¸ ï¿½ï¿½ï¿½Û¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 					if (isPlayerCharacter)
 					{
 						g_pChatManager->RemoveCurse( str );
@@ -166,10 +165,10 @@ void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
 
 //					#ifndef _DEBUG
 					//--------------------------------------------------
-					// Á¾Á·ÀÌ ´Ù¸¥ °æ¿ì
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½
 					//--------------------------------------------------
 					if (g_pPlayer->GetRace() != pCreature->GetRace()
-						// playerÀÎ °æ¿ì¸¸.. ¸ø µè°Ô..
+						// playerï¿½ï¿½ ï¿½ï¿½ì¸¸.. ï¿½ï¿½ ï¿½ï¿½ï¿½..
 						//&& isPlayerVampire 
 						&& isPlayerCharacter
 						&& !bTranslation 
@@ -181,7 +180,7 @@ void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
 					{
 						//DEBUG_ADD("add mask1");
 						
-						// INT´Â 150±îÁöÀÌ¹Ç·Î..  
+						// INTï¿½ï¿½ 150ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½..  
 						int percent;
 						percent = min(75, 25+g_pPlayer->GetINT()*100/(min(2, g_pPlayer->GetRace()+1)*150));
 						
@@ -189,7 +188,7 @@ void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
 						
 						
 					}
-					// ÇÒ·ç »óÅÂ´Â Ã¤ÆÃµµ Á¦´ë·Î ¾È º¸ÀÎ´Ù.
+					// ï¿½Ò·ï¿½ ï¿½ï¿½ï¿½Â´ï¿½ Ã¤ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 					else if (bHasHallu)
 					{
 						g_pChatManager->AddMask(str, 50);
@@ -197,16 +196,16 @@ void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
 					//					#endif//_DEBUG
 				}
 				pCreature->SetChatString( str, pPacket->getColor() );
-				// history¿¡ Ãß°¡
+				// historyï¿½ï¿½ ï¿½ß°ï¿½
 				char strName[256];
-				// Á¾Á·ÀÌ ´Ù¸£¸é hallu nameÀ» ÀÐ¾î¿Â´Ù
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ hallu nameï¿½ï¿½ ï¿½Ð¾ï¿½Â´ï¿½
 				if(bHasHallu || !bMasterWords && !g_pUserInformation->IsMaster && g_pPlayer->GetRace() != pCreature->GetRace() && !bTranslation)
 					strcpy(strName, pCreature->GetHalluName());
 				else
 					strcpy(strName, pCreature->GetName());
 
-				// playerÀÎ °æ¿ì¸¸ Ã¤ÆÃÃ¢¿¡ ±Û ³Ö´Â´Ù.
-				if (isPlayerCharacter /*|| IsGildre*/) // Áúµå·¹ ÀÏ°æ¿ì Á¸ Ã¤ÆÃÀ¸·Î ³¯¸°´Ù°í ÇØ¼­ ¸·À½..
+				// playerï¿½ï¿½ ï¿½ï¿½ì¸¸ Ã¤ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´Â´ï¿½.
+				if (isPlayerCharacter /*|| IsGildre*/) // ï¿½ï¿½ï¿½å·¹ ï¿½Ï°ï¿½ï¿½ ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù°ï¿½ ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½..
 				{
 					//DEBUG_ADD("UI add");
 					UI_AddChatToHistory( str, strName, 0, pPacket->getColor() );
@@ -214,7 +213,7 @@ void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
 				}
 			}
 			//-------------------------------------------------
-			// ´ëÈ­ °ÅºÎ·Î ¼³Á¤µÇ¾î ÀÖ´Ù¸é Ãâ·Â¾ÈÇÑ´Ù.
+			// ï¿½ï¿½È­ ï¿½ÅºÎ·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½Â¾ï¿½ï¿½Ñ´ï¿½.
 			//-------------------------------------------------
 			else
 			{

@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCGlobalChat.h"
 #include "ClientDef.h"
 #include "MChatManager.h"
@@ -20,11 +20,10 @@
 
 //////////////////////////////////////////////////////////////////////
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡¼­ ¼­¹ö·ÎºÎÅÍ ¸Þ½ÃÁö¸¦ ¹Þ¾ÒÀ»¶§ ½ÇÇàµÇ´Â ¸Þ½îµåÀÌ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 void GCGlobalChatHandler::execute ( GCGlobalChat * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -33,7 +32,7 @@ void GCGlobalChatHandler::execute ( GCGlobalChat * pPacket , Player * pPlayer )
 	// Debug Message
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -41,7 +40,7 @@ void GCGlobalChatHandler::execute ( GCGlobalChat * pPacket , Player * pPlayer )
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -49,7 +48,7 @@ void GCGlobalChatHandler::execute ( GCGlobalChat * pPacket , Player * pPlayer )
 		char strName[256];
 
 		//---------------------------------------------------------------
-		// ¿Ï¼ºÇü --> Á¶ÇÕÇü
+		// ï¿½Ï¼ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		//---------------------------------------------------------------
 		//UI_WansungToJohap( pPacket->getMessage().c_str(), str );
 		strcpy( str, pPacket->getMessage().c_str() );
@@ -61,7 +60,7 @@ void GCGlobalChatHandler::execute ( GCGlobalChat * pPacket , Player * pPlayer )
 		{
 			if (*(pLB+1)!=NULL)
 			{
-				// ' '¸¦ NULL·Î
+				// ' 'ï¿½ï¿½ NULLï¿½ï¿½
 				*pLB = NULL;
 
 				strcpy(strName, str);
@@ -70,15 +69,15 @@ void GCGlobalChatHandler::execute ( GCGlobalChat * pPacket , Player * pPlayer )
 				bool bMasterWords = strncmp( strName, (*g_pGameStringTable)[UI_STRING_MESSAGE_MASTER_NAME].GetString(), (*g_pGameStringTable)[UI_STRING_MESSAGE_MASTER_NAME].GetLength() ) == 0 ;
 
 				//--------------------------------------------------
-				// ³ª¿¡°Ô º¸ÀÌ´Â ±ÛÀÎ°¡? (¿î¿µÀÚÀÇ ¸»Àº ¹«Á¶°Ç º¸ÀÎ´Ù)
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½Î°ï¿½? (ï¿½î¿µï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î´ï¿½)
 				//--------------------------------------------------
 				if (bMasterWords 
 					|| g_pChatManager->IsAcceptID( strName ))
 				{
 					//--------------------------------------------------
-					// ¿å Á¦°Å
-					// ¿î¿µÀÚ°¡ ÇÑ ¸»µµ ¾Æ´Ï°í ³ªµµ ¿î¿µÀÚ°¡ ¾Æ´Ï¸é filterÇÑ´Ù.
-					// --> ¿î¿µÀÚÀÇ ¸»Àº ´Ù º¸ÀÌ°í ¿î¿µÀÚ´Â ´Ù º»´Ù.
+					// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+					// ï¿½î¿µï¿½Ú°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½î¿µï¿½Ú°ï¿½ ï¿½Æ´Ï¸ï¿½ filterï¿½Ñ´ï¿½.
+					// --> ï¿½î¿µï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½î¿µï¿½Ú´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 					//--------------------------------------------------			
 
 					if (!bMasterWords && 
@@ -90,7 +89,7 @@ void GCGlobalChatHandler::execute ( GCGlobalChat * pPacket , Player * pPlayer )
 					)
 					{
 						//--------------------------------------------------
-						// ¿å Á¦°Å
+						// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 						//--------------------------------------------------
 						g_pChatManager->RemoveCurse( pLB+1 );
 
@@ -101,12 +100,12 @@ void GCGlobalChatHandler::execute ( GCGlobalChat * pPacket , Player * pPlayer )
 							!g_pPlayer->HasEffectStatus( EFFECTSTATUS_TRANSLATION ))
 						{
 							//--------------------------------------------------
-							// Á¾Á·ÀÌ ´Ù¸¥ °æ¿ì
+							// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½
 							//--------------------------------------------------
 							Race race = (Race)pPacket->getRace();
 							if (g_pPlayer->GetRace() != race)
 							{
-								// INT´Â 150±îÁöÀÌ¹Ç·Î..  
+								// INTï¿½ï¿½ 150ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½..  
 								int percent = min(75, 25+g_pPlayer->GetINT()*100/(min(2, g_pPlayer->GetRace()+1)*150));
 //								if(g_pPlayer->GetRace() == RACE_OUSTERS || race == RACE_OUSTERS)
 //									percent = 70;
@@ -115,7 +114,7 @@ void GCGlobalChatHandler::execute ( GCGlobalChat * pPacket , Player * pPlayer )
 							}
 //							if (g_pPlayer->IsSlayer() && race != RACE_SLAYER)
 //							{
-//								// INT´Â 150±îÁöÀÌ¹Ç·Î..  
+//								// INTï¿½ï¿½ 150ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½..  
 //								int percent = min(75, 25+g_pPlayer->GetINT()*100/150);
 //								if(race == RACE_OUSTERS)
 //									percent = 70;
@@ -123,7 +122,7 @@ void GCGlobalChatHandler::execute ( GCGlobalChat * pPacket , Player * pPlayer )
 //							}
 //							else if (g_pPlayer->IsVampire() && race != RACE_VAMPIRE)
 //							{
-//								// INT´Â 300±îÁöÀÌ¹Ç·Î..  
+//								// INTï¿½ï¿½ 300ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½..  
 //								int percent = min(75, 25+g_pPlayer->GetINT()*100/300);
 //								if(race == RACE_OUSTERS)
 //									percent = 70;
@@ -131,7 +130,7 @@ void GCGlobalChatHandler::execute ( GCGlobalChat * pPacket , Player * pPlayer )
 //							}
 //							else if (g_pPlayer->IsOusters() && race != RACE_OUSTERS)
 //							{
-//								// INT´Â 300±îÁöÀÌ¹Ç·Î..  
+//								// INTï¿½ï¿½ 300ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½..  
 //								//int percent = min(75, 25+g_pPlayer->GetINT()*100/300);
 //								int percent = 70;
 //								g_pChatManager->AddMask(pLB+1, percent);
@@ -144,7 +143,7 @@ void GCGlobalChatHandler::execute ( GCGlobalChat * pPacket , Player * pPlayer )
 					// ZONECHAT = 1
 					UI_AddChatToHistory( pLB+1, strName, 1, pPacket->getColor() );
 
-					// [µµ¿ò¸»] ¿ÜÄ¡±â ÇÒ ¶§
+					// [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½
 //					__BEGIN_HELP_EVENT
 ////						ExecuteHelpEvent( HE_CHAT_SHOUTED );	
 //					__END_HELP_EVENT

@@ -14,7 +14,6 @@
 // execute packet handler
 //----------------------------------------------------------------------
 void LCCreatePCOK::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		

@@ -14,7 +14,6 @@ CGFriendResToAdd::CGFriendResToAdd()
 }
 
 void CGFriendResToAdd::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -25,7 +24,6 @@ void CGFriendResToAdd::read ( SocketInputStream & iStream )
 }
 		    
 void CGFriendResToAdd::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -36,7 +34,6 @@ void CGFriendResToAdd::write ( SocketOutputStream & oStream ) const
 }
 
 void CGFriendResToAdd::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -45,13 +42,12 @@ void CGFriendResToAdd::execute ( Player * pPlayer )
 	__END_CATCH
 }
 
-PacketSize_t CGFriendResToAdd::getPacketSize() const throw()
+PacketSize_t CGFriendResToAdd::getPacketSize() const
 { 
 	return m_PCName.getSize() + szBYTE; 
 }
 
 string CGFriendResToAdd::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

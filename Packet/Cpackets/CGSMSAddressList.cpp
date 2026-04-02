@@ -7,7 +7,6 @@
 #include "CGSMSAddressList.h"
 
 void CGSMSAddressList::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -15,7 +14,6 @@ void CGSMSAddressList::read (SocketInputStream & iStream)
 }
 		    
 void CGSMSAddressList::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -23,7 +21,6 @@ void CGSMSAddressList::write (SocketOutputStream & oStream) const
 }
 
 void CGSMSAddressList::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__		
@@ -33,7 +30,6 @@ void CGSMSAddressList::execute (Player* pPlayer)
 }
 
 string CGSMSAddressList::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

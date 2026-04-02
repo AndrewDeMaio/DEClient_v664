@@ -17,9 +17,9 @@
 //
 // class GCReconnectLogin;
 //
-// ·Î±×ÀÎ ¼­¹ö¿¡¼­ ÀÎÁõÀ» ¹Þ°í, Ä³¸¯ÅÍ¸¦ ¼±ÅÃÇÑ Å¬¶óÀÌ¾ðÆ®ÀÇ °æ¿ì,
-// Ä³¸¯ÅÍ°¡ ÀÌÀü ¿¬°á¿¡ Á¸ÀçÇß´ø Á¸À» ¾Ë¾Æ³»¼­, ±× Á¸À» °ü¸®ÇÏ´Â
-// °ÔÀÓ ¼­¹ö·Î ÀçÁ¢¼ÓÇÏ¶ó´Â ÆÐÅ¶ÀÌ´Ù.
+// ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ°ï¿½, Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½,
+// Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½á¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾Æ³ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -27,47 +27,47 @@ class GCReconnectLogin : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_RECONNECT_LOGIN; }
+	PacketID_t getPacketID () const { return PACKET_GC_RECONNECT_LOGIN; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () 
+	size_t getPacketSize () const 
 	{ 
-		return szBYTE + m_LoginServerIP.size() 	// °ÔÀÓ ¼­¹ö ¾ÆÀÌÇÇ
-			+ szuint							// °ÔÀÓ ¼­¹ö Æ÷Æ®
-			+ szDWORD; 							// ÀÎÁõ Å°
+		return szBYTE + m_LoginServerIP.size() 	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			+ szuint							// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®
+			+ szDWORD; 							// ï¿½ï¿½ï¿½ï¿½ Å°
 	}
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCReconnectLogin"; }
+		std::string getPacketName () const { return "GCReconnectLogin"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 public :
 
 	// get/set game server's ip
-	const std::string& getLoginServerIP () const throw () { return m_LoginServerIP; }
-	void setLoginServerIP ( const std::string & ip ) throw () { m_LoginServerIP = ip; }
+	const std::string& getLoginServerIP () const { return m_LoginServerIP; }
+	void setLoginServerIP ( const std::string & ip ) { m_LoginServerIP = ip; }
 
 	// get/set game server's port
-	uint getLoginServerPort () const throw () { return m_LoginServerPort; }
-	void setLoginServerPort ( uint port ) throw () { m_LoginServerPort = port; }
+	uint getLoginServerPort () const { return m_LoginServerPort; }
+	void setLoginServerPort ( uint port ) { m_LoginServerPort = port; }
 
 	// get/set key
-	DWORD getKey () const throw () { return m_Key; }
-	void setKey ( DWORD key ) throw () { m_Key = key; }
+	DWORD getKey () const { return m_Key; }
+	void setKey ( DWORD key ) { m_Key = key; }
 
 private :
 	
@@ -96,24 +96,24 @@ class GCReconnectLoginFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCReconnectLogin(); }
+	Packet * createPacket () { return new GCReconnectLogin(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCReconnectLogin"; }
+		std::string getPacketName () const { return "GCReconnectLogin"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_RECONNECT_LOGIN; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_RECONNECT_LOGIN; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCReconnectLoginPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () 
+	// const static GCReconnectLoginPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const 
 	{ 
-		return szBYTE + 15 	// °ÔÀÓ ¼­¹ö ¾ÆÀÌÇÇ
-			+ szuint		// °ÔÀÓ ¼­¹ö Æ÷Æ®
-			+ szDWORD; 		// ÀÎÁõ Å°
+		return szBYTE + 15 	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			+ szuint		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®
+			+ szDWORD; 		// ï¿½ï¿½ï¿½ï¿½ Å°
 	}
 
 };
@@ -130,7 +130,7 @@ class GCReconnectLoginHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCReconnectLogin * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCReconnectLogin * pPacket , Player * pPlayer );
 
 };
 

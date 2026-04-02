@@ -17,37 +17,37 @@
 //
 // class CGRangerSay;
 //
-// DragonEye ¸¦ °¡Áø »ç¿ëÀÚ°¡ Ranger Á¸ÃªÀ» ÇÒ¶§ »ç¿ëÇÏ´Â ÆÐÅ¶
+// DragonEye ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ Ranger ï¿½ï¿½Ãªï¿½ï¿½ ï¿½Ò¶ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶
 //
 //////////////////////////////////////////////////////////////////////
 
 class CGRangerSay : public Packet
 {
 public:
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_CG_RANGER_SAY; }
+	PacketID_t getPacketID() const { return PACKET_CG_RANGER_SAY; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return szBYTE + m_Message.size(); }
+	size_t getPacketSize() const { return szBYTE + m_Message.size(); }
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	std::string getPacketName() const throw() { return "CGRangerSay"; }
+	std::string getPacketName() const { return "CGRangerSay"; }
 	
 	// get packet's debug string
-	std::string toString() const throw();
+	std::string toString() const;
 #endif
 	// get/set chatting message
-	const std::string& getMessage() const throw() { return m_Message; }
-	void setMessage(const std::string & msg) throw() { m_Message = msg; }
+	const std::string& getMessage() const { return m_Message; }
+	void setMessage(const std::string & msg) { m_Message = msg; }
 	
 
 private :
@@ -68,18 +68,18 @@ class CGRangerSayFactory : public PacketFactory
 {
 public:
 	// create packet
-	Packet* createPacket() throw() { return new CGRangerSay(); }
+	Packet* createPacket() { return new CGRangerSay(); }
 
 	// get packet name
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "CGRangerSay"; }
+	string getPacketName() const { return "CGRangerSay"; }
 #endif	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_RANGER_SAY; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_RANGER_SAY; }
 
 	// get packet's max body size
-	// message ÀÇ ÃÖ´ë Å©±â¿¡ ´ëÇÑ ¼³Á¤ÀÌ ÇÊ¿äÇÏ´Ù.
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + 128; }
+	// message ï¿½ï¿½ ï¿½Ö´ï¿½ Å©ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´ï¿½.
+	PacketSize_t getPacketMaxSize() const { return szBYTE + 128; }
 
 };
 
@@ -95,7 +95,7 @@ class CGRangerSayHandler
 public:
 
 	// execute packet's handler
-	static void execute(CGRangerSay* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(CGRangerSay* pPacket, Player* pPlayer);
 
 };
 #endif

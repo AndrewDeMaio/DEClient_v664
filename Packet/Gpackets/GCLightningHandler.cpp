@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCLightning.h"
 
 #ifdef __GAME_CLIENT__
@@ -18,7 +18,6 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCLightningHandler::execute ( GCLightning * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -29,9 +28,9 @@ void GCLightningHandler::execute ( GCLightning * pPacket , Player * pPlayer )
 	#endif
 
 
-	// server : 10 = 1ÃÊ
-	// client : 1000 = 1ÃÊ
-	// ±×·¡¼­.. *100.. À½ÇÏÇÏ..
+	// server : 10 = 1ï¿½ï¿½
+	// client : 1000 = 1ï¿½ï¿½
+	// ï¿½×·ï¿½ï¿½ï¿½.. *100.. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
 	SetLightning( pPacket->getDelay()*100 );
 
 #endif

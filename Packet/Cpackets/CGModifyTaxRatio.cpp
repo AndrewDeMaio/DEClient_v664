@@ -7,7 +7,6 @@
 #include "CGModifyTaxRatio.h"
 
 void CGModifyTaxRatio::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -17,7 +16,6 @@ void CGModifyTaxRatio::read (SocketInputStream & iStream)
 }
 
 void CGModifyTaxRatio::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -27,7 +25,6 @@ void CGModifyTaxRatio::write (SocketOutputStream & oStream) const
 }
 
 void CGModifyTaxRatio::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__		
@@ -37,7 +34,6 @@ void CGModifyTaxRatio::execute (Player* pPlayer)
 }
 #ifdef __DEBUG_OUTPUT__
 std::string CGModifyTaxRatio::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

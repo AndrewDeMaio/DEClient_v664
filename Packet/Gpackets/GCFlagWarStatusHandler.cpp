@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCFlagWarStatus.h"
 #include "clientdef.h"
 #include "UIFunction.h"
@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCFlagWarStatusHandler::execute ( GCFlagWarStatus * pGCFlagWarStatus , Player * pPlayer )
-	 throw ( Error )
 {
 #ifdef __GAME_CLIENT__
 	DWORD endTime = pGCFlagWarStatus->getTimeRemain() * 1000 + timeGetTime();
@@ -23,7 +22,7 @@ void GCFlagWarStatusHandler::execute ( GCFlagWarStatus * pGCFlagWarStatus , Play
 	int		flag_v = (int)pGCFlagWarStatus->getFlagCount( RACE_VAMPIRE );
 	int		flag_o = (int)pGCFlagWarStatus->getFlagCount( RACE_OUSTERS );
 	
-	// ½Ã°£ÀÌ 3½Ã°£ ÀÌ»óÀÌ¸é ¹«Á¶°Ç ¹«½Ã!
+	// ï¿½Ã°ï¿½ï¿½ï¿½ 3ï¿½Ã°ï¿½ ï¿½Ì»ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!
 	if( ((endTime-timeGetTime())/1000)/60/60 > 3 )
 		return;
 

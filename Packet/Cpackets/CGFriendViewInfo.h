@@ -21,15 +21,15 @@ class CGFriendViewInfo : public Packet
 {
 public:
 	CGFriendViewInfo();
-	virtual ~CGFriendViewInfo() throw() {}
+	virtual ~CGFriendViewInfo() {}
 	
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_FRIEND_VIEW_INFO; }
-	PacketSize_t getPacketSize() const throw() { return m_PCName.getSize(); }
-	string getPacketName() const throw() { return "CGFriendViewInfo"; }
-	string toString() const throw();
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_FRIEND_VIEW_INFO; }
+	size_t getPacketSize() const { return m_PCName.getSize(); }
+	string getPacketName() const { return "CGFriendViewInfo"; }
+	string toString() const;
 
 	string GetPCName() const { return m_PCName.GetString(); }
 	void SetPCName(const string& strPCName) { m_PCName.SetString(strPCName); }
@@ -48,10 +48,10 @@ private:
 class CGFriendViewInfoFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new CGFriendViewInfo(); }
-	string getPacketName() const throw() { return "CGFriendViewInfo"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_FRIEND_VIEW_INFO; }
-	PacketSize_t getPacketMaxSize() const throw() { return StringInfo::getMaxSize(); }
+	Packet* createPacket() { return new CGFriendViewInfo(); }
+	string getPacketName() const { return "CGFriendViewInfo"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_FRIEND_VIEW_INFO; }
+	PacketSize_t getPacketMaxSize() const { return StringInfo::getMaxSize(); }
 };
 
 
@@ -62,7 +62,7 @@ public:
 class CGFriendViewInfoHandler 
 {
 public:
-	static void execute(CGFriendViewInfo* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(CGFriendViewInfo* pPacket, Player* pPlayer);
 
 };
 #endif //__FRIEND_ADDITION

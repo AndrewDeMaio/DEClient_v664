@@ -2,16 +2,15 @@
 // Filename    : GCAddHelicopterHandler.cpp
 // Written By  : excel96
 // Description :
-// ½½·¹ÀÌ¾î°¡ ¹«Àü±â¸¦ »ç¿ëÇØ, Çï±â¸¦ È£ÃâÇßÀ» °æ¿ì¿¡ ³¯¾Æ°¡´Â ÆÐÅ¶
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½â¸¦ È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddHelicopter.h"
 #include "ClientDef.h"
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 void GCAddHelicopterHandler::execute ( GCAddHelicopter * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		

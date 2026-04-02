@@ -20,11 +20,10 @@
 
 //////////////////////////////////////////////////////////////////////
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡¼­ ¼­¹ö·ÎºÎÅÍ ¸Þ½ÃÁö¸¦ ¹Þ¾ÒÀ»¶§ ½ÇÇàµÇ´Â ¸Þ½îµåÀÌ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 void CGAuthXTrapHandler::execute ( CGAuthXTrap * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -38,15 +37,15 @@ void CGAuthXTrapHandler::execute ( CGAuthXTrap * pPacket , Player * pPlayer )
 	DWORD key = pPacket->getKey();
 	if ( !pGamePlayer->getCSAuth().CheckAuthDword(key) )
 	{
-		filelog("CSAuth.log", "[%s] ÀÎÁõ °ªÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.", pGamePlayer->getID().c_str());
+		filelog("CSAuth.log", "[%s] ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß¸ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.", pGamePlayer->getID().c_str());
 
 		GCSystemMessage gcSystemMessage;
-		gcSystemMessage.setMessage("nProtect GameGuard ÀÎÁõ¿¡ ½ÇÆÐÇß½À´Ï´Ù. ½ÇÇà ÆÄÀÏÀÌ º¯Á¶µÇ°Å³ª GameGuard ÆÄÀÏÀÌ ¼Õ»óµÇ¾ú½À´Ï´Ù.");
+		gcSystemMessage.setMessage("nProtect GameGuard ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Å³ï¿½ GameGuard ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Õ»ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 		pGamePlayer->sendPacket( &gcSystemMessage );
 
 		EventKick* pKick = new EventKick( pGamePlayer );
 		pKick->setDeadline(100);
-//		pKick->setMessage("GameGuard ÀÎÁõ ÄÚµå°¡ Àß¸øµÇ¾ú½À´Ï´Ù. 10ÃÊ µÚ¿¡ ¿¬°áÀÌ Á¾·áµË´Ï´Ù.");
+//		pKick->setMessage("GameGuard ï¿½ï¿½ï¿½ï¿½ ï¿½Úµå°¡ ï¿½ß¸ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. 10ï¿½ï¿½ ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ë´Ï´ï¿½.");
 		pKick->sendMessage();
 
 		pGamePlayer->addEvent(pKick);
@@ -70,11 +69,11 @@ void CGAuthXTrapHandler::execute ( CGAuthXTrap * pPacket , Player * pPlayer )
 				cout << "C-S XTrap_CS_Step3 Authencation Check!!ret=" <<ret << endl;
 				if(XTRAP_API_RETURN_OK != ret)
 				{					
-					///< ¼½¼Ç Á¾·á½ÃÅ°¶ó³×...
-					///< ÃÖ½Å ¸Þ´º¾ó¿¡¼± ¼½¼Ç Á¾·á ¸»¶ó³×..XTrap_CS_Step1¿¡¼­ Á¾·á
-					//filelog("CSAuth.log", "[%s] ÀÎÁõ °ªÀÌ Àß¸øµÇ¾ú½À´Ï´Ù.", pGamePlayer->getID().c_str());
+					///< ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ï¿½...
+					///< ï¿½Ö½ï¿½ ï¿½Þ´ï¿½ï¿½ó¿¡¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½..XTrap_CS_Step1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+					//filelog("CSAuth.log", "[%s] ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß¸ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.", pGamePlayer->getID().c_str());
 					//GCSystemMessage gcSystemMessage;
-					//gcSystemMessage.setMessage("XTrap GameGuard ÀÎÁõ¿¡ ½ÇÆÐÇß½À´Ï´Ù. ½ÇÇà ÆÄÀÏÀÌ º¯Á¶µÇ°Å³ª GameGuard ÆÄÀÏÀÌ ¼Õ»óµÇ¾ú½À´Ï´Ù.");
+					//gcSystemMessage.setMessage("XTrap GameGuard ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Å³ï¿½ GameGuard ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Õ»ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 					//pGamePlayer->sendPacket( &gcSystemMessage );
 					//EventKick* pKick = new EventKick( pGamePlayer );
 					//pKick->setDeadline(100);

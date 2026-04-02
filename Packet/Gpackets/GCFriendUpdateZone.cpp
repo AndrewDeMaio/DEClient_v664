@@ -7,16 +7,15 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCFriendUpdateZone.h"
 
 #if __CONTENTS(__FRIEND_ADDITION)
-GCFriendUpdateZone::~GCFriendUpdateZone() throw()
+GCFriendUpdateZone::~GCFriendUpdateZone()
 {
 }
 
 void GCFriendUpdateZone::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -28,10 +27,9 @@ void GCFriendUpdateZone::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Datagram °´Ã¼·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCFriendUpdateZone::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -41,7 +39,7 @@ void GCFriendUpdateZone::write ( SocketOutputStream & oStream ) const
 	__END_CATCH
 }
 
-PacketSize_t GCFriendUpdateZone::getPacketSize() const throw()
+PacketSize_t GCFriendUpdateZone::getPacketSize() const
 { 
 	return m_PCName.getSize() + szZoneID;
 }
@@ -50,7 +48,6 @@ PacketSize_t GCFriendUpdateZone::getPacketSize() const throw()
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void GCFriendUpdateZone::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -63,7 +60,6 @@ void GCFriendUpdateZone::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 string GCFriendUpdateZone::toString () const
-    throw ()
 {
 	StringStream msg;
 

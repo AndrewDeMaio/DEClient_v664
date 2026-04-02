@@ -7,9 +7,10 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+//#include "VS_UI_Friend_System.h"
+
+#include "GPacket_PCH.h"
 #include "GCFriendWaitList.h"
-#include "VS_UI_Friend_System.h"
 #include "Assert.h"
 
 #ifdef __GAME_SERVER__
@@ -18,7 +19,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void GCFriendWaitListHandler::execute ( GCFriendWaitList* pPacket, Player* pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -27,10 +27,10 @@ void GCFriendWaitListHandler::execute ( GCFriendWaitList* pPacket, Player* pPlay
 
 #endif
 
-	// ´ë±âÀÚ ¸ñ·Ï ÀúÀå
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	if (pPacket)
 	{
-		// Ä£±¸ ´ë±âÀÚ Ã¢À» °¡Áö°í ¿Â´Ù. ¾øÀ» °æ¿ì »ý¼º
+		// Ä£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		C_VS_UI_FRIEND_WAIT* pFriend = (C_VS_UI_FRIEND_WAIT*)gpC_window_manager->GetWindowbyName("FriendWaitList");
 		if (!pFriend)
 		{
@@ -38,14 +38,14 @@ void GCFriendWaitListHandler::execute ( GCFriendWaitList* pPacket, Player* pPlay
 			pFriend->SetWindowName("FriendWaitList");
 		}
 
-		// ´ë±â ÁßÀÎ Ä£±¸¸¦ ¸ñ·Ï¿¡ ÀúÀåÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		for(int i = 0; i < pPacket->GetFriendWaitListCount(); ++i)
 		{
 			FriendWaitInfo* pInfo = pPacket->GetFriendWaitInfo(i);
 			if (pInfo)
 			{
 				int item_index = pFriend->GetListView()->GetItemSize();
-				// Ä£±¸ ÀÌ¸§
+				// Ä£ï¿½ï¿½ ï¿½Ì¸ï¿½
 				pFriend->GetListView()->InsertColumnItem(pInfo->GetFriendName().c_str(),item_index,0);
 			}
 		}

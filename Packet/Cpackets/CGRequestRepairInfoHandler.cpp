@@ -24,7 +24,6 @@
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 void CGRequestRepairInfoHandler::execute (CGRequestRepairInfo* pPacket , Player* pPlayer)
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -38,8 +37,8 @@ void CGRequestRepairInfoHandler::execute (CGRequestRepairInfo* pPacket , Player*
 	GamePlayer* pGamePlayer = dynamic_cast<GamePlayer*>(pPlayer);
 	PlayerCreature* pPC = dynamic_cast<PlayerCreature *>(pGamePlayer->getCreature());
 	
-	// ±³È¯ÁßÀÎÁö Ã¼Å© ÇÊ¿ä
-	// °³ÀÎ»óÁ¡ ÁßÀÎÁö Ã¼Å©  ÇÊ¿ä
+	// ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å© ï¿½Ê¿ï¿½
+	// ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å©  ï¿½Ê¿ï¿½
 
 	float fRepairDiscountRate = 0.0f;
 	
@@ -49,11 +48,11 @@ void CGRequestRepairInfoHandler::execute (CGRequestRepairInfo* pPacket , Player*
 	}
 	else
 	{
-		// GlobalNPC¿Í ´ëÈ­ÁßÀÎ °æ¿ì
+		// GlobalNPCï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		
 		fRepairDiscountRate = 0.5f;
 		
-		// ¼ö¸® NPC Ä«µå »ç¿ë½Ã
+		// ï¿½ï¿½ï¿½ï¿½ NPC Ä«ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//pPC->SetParameter<float>("RepairDiscountRate", 0.2f);
 		//pPC->SetParameter<float>("RepairDiscountRate", 0.5f);
 		string strParamName = "RepairDiscountRate";
@@ -63,7 +62,7 @@ void CGRequestRepairInfoHandler::execute (CGRequestRepairInfo* pPacket , Player*
 	
 	if (ITEMOID == 0)
 	{
-		// ObjectID°¡ 0ÀÌ¶ó¸é ¸ðµç ¾ÆÀÌÅÛÀ» ¼ö¸®ÇÏ°íÀÚ ÇÏ´Â °ÍÀÌ´Ù.
+		// ObjectIDï¿½ï¿½ 0ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
 		executeAll(pPacket, pPlayer, fRepairDiscountRate);
 	}
 	else
@@ -73,10 +72,10 @@ void CGRequestRepairInfoHandler::execute (CGRequestRepairInfo* pPacket , Player*
 		
 		pItem = pPC->findItemOID(ITEMOID);
 
-		// ÇÃ·¹ÀÌ¾î°¡ ¾ÆÀÌÅÛÀ» °¡Áö°í ÀÖ´Ù¸é
+		// ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½
 		if (pItem != NULL)
 		{
-			// ±× ¾ÆÀÌÅÛÀÌ ¸ðÅÍ »çÀÌÅ¬ Å°¶ó¸é...
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¬ Å°ï¿½ï¿½ï¿½...
 			if (pItem->getItemClass() == Item::ITEM_CLASS_KEY && pItem->getItemType() == 2)
 			{
 				executeMotorcycle(pPacket, pPlayer, fRepairDiscountRate);
@@ -96,10 +95,9 @@ __END_CATCH
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÏ¹Ý ¾ÆÀÌÅÛÀ» Ã³¸®ÇÑ´Ù.
+// ï¿½Ï¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void CGRequestRepairInfoHandler::executeNormal (CGRequestRepairInfo* pPacket , Player* pPlayer, float fRepairDiscountRate)
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -147,16 +145,15 @@ __END_CATCH
 
 
 //////////////////////////////////////////////////////////////////////////////
-// ¸ðÅÍ »çÀÌÅ¬À» Ã³¸®ÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¬ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void CGRequestRepairInfoHandler::executeMotorcycle (CGRequestRepairInfo* pPacket , Player* pPlayer, float fRepairDiscountRate)
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
 #ifdef __GAME_SERVER__
 
-	// ÆÐÅ¶ Á¤º¸¸¦ »Ì¾Æ³½´Ù.
+	// ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¾Æ³ï¿½ï¿½ï¿½.
 	ObjectID_t      ItemOID     = pPacket->getObjectID();
 	GamePlayer *pGamePlayer		= dynamic_cast<GamePlayer*>(pPlayer);	
 	PlayerCreature* pPC         = dynamic_cast<PlayerCreature *>(pGamePlayer->getCreature());
@@ -168,7 +165,7 @@ void CGRequestRepairInfoHandler::executeMotorcycle (CGRequestRepairInfo* pPacket
 	
 	pItem = pPC->findItemOID(ItemOID);
 
-	// ÁÖÀ§ ÀÏÁ¤ ¹üÀ§¸¦ °Ë»öÇØ¼­, ¸ðÅÍ »çÀÌÅ¬ÀÌ ÀÖ´ÂÁö È®ÀÎÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ø¼ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¬ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ñ´ï¿½.
 	for (ZoneCoord_t zx = CenterX-5; zx <= CenterX+5; ++zx)
 	{
 		for (ZoneCoord_t zy = CenterY-5; zy <= CenterY+5; ++zy)
@@ -182,7 +179,7 @@ void CGRequestRepairInfoHandler::executeMotorcycle (CGRequestRepairInfo* pPacket
 				Item* pItemOnTile = tile.getItem();
 				Assert(pItemOnTile != NULL);
 
-				// ¸¸ÀÏ ¾ÆÀÌÅÛÀÌ Å¸ÀÏ À§¿¡ ÀÖÀ» °æ¿ì, ¸ðÅÍ »çÀÌÅ¬ÀÎÁö È®ÀÎÇÑ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¬ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ñ´ï¿½.
 				if (pItemOnTile->getItemClass() == Item::ITEM_CLASS_MOTORCYCLE)
 				{
 					DWORD    targetID     = dynamic_cast<Key*>(pItem)->getTarget();
@@ -215,10 +212,9 @@ void CGRequestRepairInfoHandler::executeMotorcycle (CGRequestRepairInfo* pPacket
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ¸ðµç ¾ÆÀÌÅÛ ¼ö¸®ÇÏ±â
+// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 //////////////////////////////////////////////////////////////////////////////
 void CGRequestRepairInfoHandler::executeAll(CGRequestRepairInfo* pPacket , Player* pPlayer, float fRepairDiscountRate)
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -230,7 +226,7 @@ void CGRequestRepairInfoHandler::executeAll(CGRequestRepairInfo* pPacket , Playe
 	Price_t repairTotalPrice = 0;
 	Price_t repairTotalDiscountPrice = 0;
 
-	// ¸ðµç ¾ÆÀÌÅÛÀ» ÇÕÇÑ ¼ö¸®ºñ¸¦ °è»êÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	for (int i=0; i< pPC->getMaxWearSlotNum(); i++)
 	{
 		Item* pItem = pPC->getWearItem(i);
@@ -238,8 +234,8 @@ void CGRequestRepairInfoHandler::executeAll(CGRequestRepairInfo* pPacket , Playe
 		{
 			if (i == pPC->getWearPartOfRightHand() && isTwohandWeapon(pItem))
 			{
-				// ¿À¸¥¼ÕÀÌ°í, ÇöÀç µé°í ÀÖ´Â ¹«±â°¡ ¾ç¼Õ ¹«±â¶ó¸é...
-				// ¼ö¸® °¡°Ý¿¡ Æ÷ÇÔ½ÃÅ³ ÇÊ¿ä°¡ ¾ø´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½â°¡ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ý¿ï¿½ ï¿½ï¿½ï¿½Ô½ï¿½Å³ ï¿½Ê¿ä°¡ ï¿½ï¿½ï¿½ï¿½.
 			}
 			else if ( isRepairableItem( pItem ) )
 			{

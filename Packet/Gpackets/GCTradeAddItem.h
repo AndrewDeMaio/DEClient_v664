@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : GCTradeAddItem.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -24,15 +24,15 @@
 class GCTradeAddItem : public Packet 
 {
 public:
-	GCTradeAddItem() throw();
-	~GCTradeAddItem() throw();
+	GCTradeAddItem();
+	~GCTradeAddItem();
 	
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_TRADE_ADD_ITEM; }
-	PacketSize_t getPacketSize() const throw() 
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_TRADE_ADD_ITEM; }
+	size_t getPacketSize() const 
 	{ 
 		PacketSize_t size = 0;
 		size += szObjectID;                           // m_TargetObjectID
@@ -48,33 +48,33 @@ public:
 	}
 
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCTradeAddItem"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "GCTradeAddItem"; }
+	std::string toString() const;
 #endif
 
 public:
-	ObjectID_t getTargetObjectID() const throw() { return m_TargetObjectID; }
-	void setTargetObjectID(ObjectID_t id) throw() { m_TargetObjectID = id; }
+	ObjectID_t getTargetObjectID() const { return m_TargetObjectID; }
+	void setTargetObjectID(ObjectID_t id) { m_TargetObjectID = id; }
 
-	CoordInven_t getX() const throw() { return m_X; }
-	void setX(CoordInven_t x) throw() { m_X = x; }
+	CoordInven_t getX() const { return m_X; }
+	void setX(CoordInven_t x) { m_X = x; }
 
-	CoordInven_t getY() const throw() { return m_Y; }
-	void setY(CoordInven_t y) throw() { m_Y = y; }
+	CoordInven_t getY() const { return m_Y; }
+	void setY(CoordInven_t y) { m_Y = y; }
 	
 	void SetPCItemInfo(PCItemInfo& pcItemInfo) { m_PCItemInfo = pcItemInfo; }
 	PCItemInfo* GetPCItemInfo() { return &m_PCItemInfo; }
 
 
 #if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-	BYTE getCashItem() const throw() { return m_CashItem; }
-	void setCashItem(BYTE cashItem)throw() {m_CashItem = cashItem; }
+	BYTE getCashItem() const { return m_CashItem; }
+	void setCashItem(BYTE cashItem) {m_CashItem = cashItem; }
 
 #endif //__INTERNATIONAL_PREMIUM_SYSTEM
 private:
-	ObjectID_t         m_TargetObjectID;  // ±³È¯À» ÇÏ°í ÀÖ´Â »ó´ë¹æÀÇ OID
-	CoordInven_t       m_X;               // ÀÎº¥Åä¸®¿¡¼­ÀÇ X ÁÂÇ¥
-	CoordInven_t       m_Y;               // ÀÎº¥Åä¸®¿¡¼­ÀÇ Y ÁÂÇ¥
+	ObjectID_t         m_TargetObjectID;  // ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ OID
+	CoordInven_t       m_X;               // ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ X ï¿½ï¿½Ç¥
+	CoordInven_t       m_Y;               // ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Y ï¿½ï¿½Ç¥
 
 	PCItemInfo m_PCItemInfo;
 
@@ -86,15 +86,15 @@ private:
 class GCTradeAddItem : public Packet 
 {
 public:
-	GCTradeAddItem() throw();
-	~GCTradeAddItem() throw();
+	GCTradeAddItem();
+	~GCTradeAddItem();
 	
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_TRADE_ADD_ITEM; }
-	PacketSize_t getPacketSize() const throw() 
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_TRADE_ADD_ITEM; }
+	size_t getPacketSize() const 
 	{ 
 		PacketSize_t size = 0;
 		size += szObjectID;                           // m_TargetObjectID
@@ -120,32 +120,32 @@ public:
 	}
 
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCTradeAddItem"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "GCTradeAddItem"; }
+	std::string toString() const;
 #endif
 
 public:
-	ObjectID_t getTargetObjectID() const throw() { return m_TargetObjectID; }
-	void setTargetObjectID(ObjectID_t id) throw() { m_TargetObjectID = id; }
+	ObjectID_t getTargetObjectID() const { return m_TargetObjectID; }
+	void setTargetObjectID(ObjectID_t id) { m_TargetObjectID = id; }
 
-	CoordInven_t getX() const throw() { return m_X; }
-	void setX(CoordInven_t x) throw() { m_X = x; }
+	CoordInven_t getX() const { return m_X; }
+	void setX(CoordInven_t x) { m_X = x; }
 
-	CoordInven_t getY() const throw() { return m_Y; }
-	void setY(CoordInven_t y) throw() { m_Y = y; }
+	CoordInven_t getY() const { return m_Y; }
+	void setY(CoordInven_t y) { m_Y = y; }
 
-	ObjectID_t getItemObjectID() const throw() { return m_ItemObjectID; }
-	void setItemObjectID(ObjectID_t id) throw() { m_ItemObjectID = id; }
+	ObjectID_t getItemObjectID() const { return m_ItemObjectID; }
+	void setItemObjectID(ObjectID_t id) { m_ItemObjectID = id; }
 
-	BYTE getItemClass() const throw() { return m_ItemClass; }
-	void setItemClass(BYTE IClass) throw() { m_ItemClass = IClass; }
+	BYTE getItemClass() const { return m_ItemClass; }
+	void setItemClass(BYTE IClass) { m_ItemClass = IClass; }
 
-	ItemType_t getItemType() const throw() { return m_ItemType; }
+	ItemType_t getItemType() const { return m_ItemType; }
 	void setItemType(ItemType_t itemType) { m_ItemType = itemType; }
 
-	int getOptionTypeSize() const throw() { return m_OptionType.size(); }
-	const std::list<OptionType_t>& getOptionType() const throw() { return m_OptionType; }
-	OptionType_t popOptionType() throw()
+	int getOptionTypeSize() const { return m_OptionType.size(); }
+	const std::list<OptionType_t>& getOptionType() const { return m_OptionType; }
+	OptionType_t popOptionType()
 	{
 		if (m_OptionType.empty()) return 0;
 		OptionType_t optionType = m_OptionType.front();
@@ -153,40 +153,40 @@ public:
 		return optionType;
 	}
 	void addOptionType(OptionType_t otype) { m_OptionType.push_back( otype ); }
-	void setOptionType(const std::list<OptionType_t>& OptionTypes) throw() { m_OptionType = OptionTypes; }
+	void setOptionType(const std::list<OptionType_t>& OptionTypes) { m_OptionType = OptionTypes; }
 
-	Durability_t getDurability() const throw() { return m_Durability; }
-	void setDurability(Durability_t dur) throw() { m_Durability = dur; }
+	Durability_t getDurability() const { return m_Durability; }
+	void setDurability(Durability_t dur) { m_Durability = dur; }
 
-	ItemNum_t getItemNum() const throw() { return m_ItemNum; }
+	ItemNum_t getItemNum() const { return m_ItemNum; }
 	void setItemNum(ItemNum_t itemNum) { m_ItemNum = itemNum; }
 
-	Silver_t getSilver() const throw() { return m_Silver; }
-	void setSilver(Silver_t amount) throw() { m_Silver = amount; }
+	Silver_t getSilver() const { return m_Silver; }
+	void setSilver(Silver_t amount) { m_Silver = amount; }
 
-	Grade_t getGrade() const throw() { return m_Grade; }
-	void setGrade(Grade_t grade) throw() { m_Grade = grade; }
+	Grade_t getGrade() const { return m_Grade; }
+	void setGrade(Grade_t grade) { m_Grade = grade; }
 
-	EnchantLevel_t getEnchantLevel() const throw() { return m_EnchantLevel; }
-	void setEnchantLevel(EnchantLevel_t level) throw() { m_EnchantLevel = level; }
+	EnchantLevel_t getEnchantLevel() const { return m_EnchantLevel; }
+	void setEnchantLevel(EnchantLevel_t level) { m_EnchantLevel = level; }
 
-	BYTE getListNum() const throw() { return m_ListNum; }
-	void setListNum(BYTE num) throw() { m_ListNum = num; }
+	BYTE getListNum() const { return m_ListNum; }
+	void setListNum(BYTE num) { m_ListNum = num; }
 
-	void addListElement(SubItemInfo* pInfo) throw() { m_InfoList.push_back(pInfo); }
-	void clearList() throw() { m_InfoList.clear(); m_ListNum = 0; }
+	void addListElement(SubItemInfo* pInfo) { m_InfoList.push_back(pInfo); }
+	void clearList() { m_InfoList.clear(); m_ListNum = 0; }
 
-	SubItemInfo* popListElement() throw() 
+	SubItemInfo* popListElement() 
 	{
 		SubItemInfo* pInfo = m_InfoList.front();
 		m_InfoList.pop_front();
 		return pInfo;
 	}
-	void addThirdOptionType(OptionType_t ThirdOptionType) throw() { m_OptionType.push_back( ThirdOptionType ); }
-	void setThirdOptionType(const std::list<OptionType_t>& ThirdOptionType) throw() { m_ThirdOptionType = ThirdOptionType; }
-	int getThirdOptionTypeSize() const throw() { return m_ThirdOptionType.size(); }
-	const std::list<OptionType_t>& getThirdOptionType() const throw() { return m_ThirdOptionType; }
-	OptionType_t popThirdOptionType() throw() 
+	void addThirdOptionType(OptionType_t ThirdOptionType) { m_OptionType.push_back( ThirdOptionType ); }
+	void setThirdOptionType(const std::list<OptionType_t>& ThirdOptionType) { m_ThirdOptionType = ThirdOptionType; }
+	int getThirdOptionTypeSize() const { return m_ThirdOptionType.size(); }
+	const std::list<OptionType_t>& getThirdOptionType() const { return m_ThirdOptionType; }
+	OptionType_t popThirdOptionType() 
 	{ 
 		if (m_ThirdOptionType.empty()) return 0;
 		OptionType_t ThirdoptionType = m_ThirdOptionType.front(); 
@@ -194,30 +194,30 @@ public:
 		return ThirdoptionType; 
 	}
 
-	BYTE getThirdEnchantType() const throw() { return m_ThirdEnchantType; }
-	void setThirdEnchantType(BYTE ThirdEnchantType)throw() {m_ThirdEnchantType = ThirdEnchantType; }
+	BYTE getThirdEnchantType() const { return m_ThirdEnchantType; }
+	void setThirdEnchantType(BYTE ThirdEnchantType) {m_ThirdEnchantType = ThirdEnchantType; }
 
 #if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-	BYTE getCashItem() const throw() { return m_CashItem; }
-	void setCashItem(BYTE cashItem)throw() {m_CashItem = cashItem; }
+	BYTE getCashItem() const { return m_CashItem; }
+	void setCashItem(BYTE cashItem) {m_CashItem = cashItem; }
 
 #endif //__INTERNATIONAL_PREMIUM_SYSTEM
 private:
-	ObjectID_t         m_TargetObjectID;  // ±³È¯À» ÇÏ°í ÀÖ´Â »ó´ë¹æÀÇ OID
-	ObjectID_t         m_ItemObjectID;    // ¾ÆÀÌÅÛ OID
-	CoordInven_t       m_X;               // ÀÎº¥Åä¸®¿¡¼­ÀÇ X ÁÂÇ¥
-	CoordInven_t       m_Y;               // ÀÎº¥Åä¸®¿¡¼­ÀÇ Y ÁÂÇ¥
-	BYTE               m_ItemClass;       // ¾ÆÀÌÅÛ Å¬·¡½º
-	ItemType_t         m_ItemType;        // ¾ÆÀÌÅÛ Å¸ÀÔ
-	std::list<OptionType_t> m_OptionType;      // ¿É¼Ç Å¸ÀÔ
-	Durability_t       m_Durability;      // ³»±¸µµ
-	ItemNum_t          m_ItemNum;         // ¾ÆÀÌÅÛ ¼ýÀÚ
+	ObjectID_t         m_TargetObjectID;  // ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ OID
+	ObjectID_t         m_ItemObjectID;    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ OID
+	CoordInven_t       m_X;               // ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ X ï¿½ï¿½Ç¥
+	CoordInven_t       m_Y;               // ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Y ï¿½ï¿½Ç¥
+	BYTE               m_ItemClass;       // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
+	ItemType_t         m_ItemType;        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½
+	std::list<OptionType_t> m_OptionType;      // ï¿½É¼ï¿½ Å¸ï¿½ï¿½
+	Durability_t       m_Durability;      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ItemNum_t          m_ItemNum;         // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	Silver_t           m_Silver;          // silver coating amount
 	Grade_t            m_Grade;           // grade
 	EnchantLevel_t     m_EnchantLevel;    // enchant level
-	BYTE               m_ListNum;         // º§Æ®ÀÏ °æ¿ì, ¾È¿¡ ÀÖ´Â ¾ÆÀÌÅÛÀÇ ¼ýÀÚ
-	std::list<SubItemInfo*> m_InfoList;        // º§Æ®ÀÏ °æ¿ì, ¾È¿¡ ÀÖ´Â ¾ÆÀÌÅÛÀÇ Á¤º¸
-	//20071009 by diesirace ¼­µå¾ÆÀÌÅÛ¿É¼Ç Ãß°¡
+	BYTE               m_ListNum;         // ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½È¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	std::list<SubItemInfo*> m_InfoList;        // ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½È¿ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//20071009 by diesirace ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¿É¼ï¿½ ï¿½ß°ï¿½
 	std::list<OptionType_t> m_ThirdOptionType;      // item Third option type
 	BYTE				m_ThirdEnchantType;			// Third Enchant type
 	
@@ -237,16 +237,16 @@ private:
 class GCTradeAddItemFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCTradeAddItem(); }
-	std::string getPacketName() const throw() { return "GCTradeAddItem"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_TRADE_ADD_ITEM; }
-	PacketSize_t getPacketMaxSize() const throw() 
+	Packet* createPacket() { return new GCTradeAddItem(); }
+	std::string getPacketName() const { return "GCTradeAddItem"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_TRADE_ADD_ITEM; }
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		PacketSize_t size = 0;
 #if __CONTENTS(__PCITEMINFO2)
-		size = szCoordInven +		// ¾ÆÀÌÅÛ X ÁÂÇ¥
-			szCoordInven +				// ¾ÆÀÌÅÛ Y ÁÂÇ¥
-			szObjectID;					// ÀÎº¥Åä¸® ¿ÀºêÁ§Æ® ¾ÆÀÌµð
+		size = szCoordInven +		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ X ï¿½ï¿½Ç¥
+			szCoordInven +				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Y ï¿½ï¿½Ç¥
+			szObjectID;					// ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ìµï¿½
 		size +=	PCItemInfo::getMaxSize();
 #else
 
@@ -284,7 +284,7 @@ public:
 class GCTradeAddItemHandler 
 {
 public:
-	static void execute(GCTradeAddItem* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCTradeAddItem* pPacket, Player* pPlayer);
 
 };
 

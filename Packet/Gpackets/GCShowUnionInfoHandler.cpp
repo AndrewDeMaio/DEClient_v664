@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCShowUnionInfo.h"
 #include "ClientDef.h"
 #include "UIFunction.h"
@@ -16,7 +16,6 @@
 //
 //////////////////////////////////////////////////////////////////////
 void GCShowUnionInfoHandler::execute ( GCShowUnionInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY //__BEGIN_DEBUG_EX
 	

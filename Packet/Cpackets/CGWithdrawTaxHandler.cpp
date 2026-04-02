@@ -21,7 +21,6 @@
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 void CGWithdrawTaxHandler::execute (CGWithdrawTax* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 #ifdef __GAME_SERVER__
 
@@ -41,10 +40,10 @@ void CGWithdrawTaxHandler::execute (CGWithdrawTax* pPacket , Player* pPlayer)
 	Gold_t gold = pPacket->getGold();
 
 	CastleInfo* pCastleInfo = g_pCastleInfoManager->getGuildCastleInfo( guildID );
-	if ( !g_pGuildManager->isGuildMaster( guildID, pPC )	// ±æµå ¸¶½ºÅÍ°¡ ¾Æ´Ï´Ù.
-		|| pCastleInfo == NULL 								// ±æµå°¡ Á¡·ÉÇÑ ¼ºÀÌ ¾ø´Ù.
-		|| pCastleInfo->getZoneID() != pPC->getZoneID()		// ÀÌ ÇÃ·¹ÀÌ¾îÀÇ ±æµå°¡ Á¡·ÉÇÑ ¼ºÀÌ ¾Æ´Ï´Ù.
-		|| pCastleInfo->getTaxBalance() < gold				// µ·ÀÌ ¸ðÀÚ¶õ´Ù.
+	if ( !g_pGuildManager->isGuildMaster( guildID, pPC )	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Æ´Ï´ï¿½.
+		|| pCastleInfo == NULL 								// ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+		|| pCastleInfo->getZoneID() != pPC->getZoneID()		// ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï´ï¿½.
+		|| pCastleInfo->getTaxBalance() < gold				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½.
 	)
 	{
 		GCNPCResponse fail;
@@ -54,17 +53,17 @@ void CGWithdrawTaxHandler::execute (CGWithdrawTax* pPacket , Player* pPlayer)
 		return;
 	}
 
-	// ¸ðµç Á¶°ÇÀÌ ÃæÁ·µÇ¾ú´Ù. ÀÌÁ¦ µ·À» Ã£¾Æ¼­ ÇÃ·¹ÀÌ¾î¿¡°Ô ³Ö¾îÁØ´Ù.
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Æ¼ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½Ø´ï¿½.
 	Gold_t remainBalance = pCastleInfo->decreaseTaxBalanceEx( gold );
 	pPC->increaseGoldEx( gold );
 
-	// »ç¿ëÀÚÀÇ µ·ÀÌ ´Ã¾î³µ´Ù´Â Á¤º¸¸¦ º¸³»ÁØ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¾î³µï¿½Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 	GCModifyInformation gcMI;
 	gcMI.addLongData( MODIFY_GOLD, pPC->getGold() );
 
 	pGamePlayer->sendPacket( &gcMI );
 
-	// µ·À» Ã£´Â µ¥ ¼º°øÇß´Ù°í ¾Ë¸°´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´Ù°ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½.
 	GCNPCResponse success;
 	success.setCode( NPC_RESPONSE_WITHDRAW_TAX_OK );
 	success.setParameter( remainBalance );

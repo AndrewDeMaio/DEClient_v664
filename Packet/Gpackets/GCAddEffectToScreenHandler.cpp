@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddEffectToScreen.h"
 #include "ClientDef.h"
 #include "TalkBox.h"
@@ -16,7 +16,7 @@
 #include "TempInformation.h"
 #include "SystemAvailabilities.h"
 
-#include "ScreenEffectDef.h"		//È­¸é È¿°ú Def
+#include "ScreenEffectDef.h"		//È­ï¿½ï¿½ È¿ï¿½ï¿½ Def
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -29,7 +29,6 @@ void	SetScreenEffect_Shake(GCAddEffectToScreen *pGCAddEffectToScreen, 	MEvent	&e
 void	SetScreenEffect_Dark_FadeIn(GCAddEffectToScreen *pGCAddEffectToScreen,		MEvent	&event);
 
 void GCAddEffectToScreenHandler::execute ( GCAddEffectToScreen *pGCAddEffectToScreen , Player *pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		

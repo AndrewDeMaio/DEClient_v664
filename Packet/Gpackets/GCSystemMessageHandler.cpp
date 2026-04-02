@@ -6,18 +6,17 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSystemMessage.h"
 #include "ClientDef.h"
 #include "UIFunction.h"
 
 //////////////////////////////////////////////////////////////////////
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡¼­ ¼­¹ö·ÎºÎÅÍ ¸Þ½ÃÁö¸¦ ¹Þ¾ÒÀ»¶§ ½ÇÇàµÇ´Â ¸Þ½îµåÀÌ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 void GCSystemMessageHandler::execute ( GCSystemMessage * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -26,7 +25,7 @@ void GCSystemMessageHandler::execute ( GCSystemMessage * pPacket , Player * pPla
 		return;
 	switch(pPacket->getType())
 	{ 
-		case SYSTEM_MESSAGE_HOLY_LAND :		// ¾Æ´ãÀÇ ¼ºÁö °ü·Ã
+		case SYSTEM_MESSAGE_HOLY_LAND :		// ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			if(g_pUserOption->DoNotShowHolyLandMsg)
 				return;
 			break;
@@ -34,20 +33,20 @@ void GCSystemMessageHandler::execute ( GCSystemMessage * pPacket , Player * pPla
 		case SYSTEM_MESSAGE_NORMAL:
 			break;
 
-//		case SYSTEM_MESSAGE_OPERATOR:	// ¿î¿µÀÚ ¸»¾¸
+//		case SYSTEM_MESSAGE_OPERATOR:	// ï¿½î¿µï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //			break;
 	
-		case SYSTEM_MESSAGE_MASTER_LAIR:	// ¸¶½ºÅÍ ·¹¾î °ü·Ã
+		case SYSTEM_MESSAGE_MASTER_LAIR:	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			if(g_pUserOption->DoNotShowLairMsg)
 				return;
 			break;
 
-		case SYSTEM_MESSAGE_COMBAT:		// ÀüÀï °ü·Ã
+		case SYSTEM_MESSAGE_COMBAT:		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			if(g_pUserOption->DoNotShowWarMsg)
 				return;
 			break;
 	
-		case SYSTEM_MESSAGE_INFO: 		// Æ¯Á¤ÇÑ Á¤º¸ °ü·Ã
+		case SYSTEM_MESSAGE_INFO: 		// Æ¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			break;
 			
 		case SYSTEM_MESSAGE_RANGER_CHAT:
@@ -72,7 +71,7 @@ void GCSystemMessageHandler::execute ( GCSystemMessage * pPacket , Player * pPla
 				char *szTime = strtok(NULL, tok);
 				DWORD dwSec = atoi(szTime) / 10;
 
-				// TimeÀÌ 0ÀÌ¸é ´ÝÀ¸¶ó´Â ¼Ò¸®´Ù.
+				// Timeï¿½ï¿½ 0ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ï¿½ï¿½.
 				if(dwSec > 0)
 				{
 					UI_RunTimeCount(dwSec, szDesc);
@@ -84,7 +83,7 @@ void GCSystemMessageHandler::execute ( GCSystemMessage * pPacket , Player * pPla
 			}
 			return;
 		//2008.07.17 zzi
-		case SYSTEM_MESSAGE_OPERATOR:	//test¿ë..¿î¿µÀÚ ¸»¾¸À».. EventMessage·Î Ãâ·ÂÇØ º¸ÀÚ.
+		case SYSTEM_MESSAGE_OPERATOR:	//testï¿½ï¿½..ï¿½î¿µï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. EventMessageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			{
 				char* message = (char*)pPacket->getMessage().c_str();
 				if(NULL != message)
@@ -95,7 +94,7 @@ void GCSystemMessageHandler::execute ( GCSystemMessage * pPacket , Player * pPla
 		case SYSTEM_MESSAGE_EVENT:
 			{
 				static char cleaner[512] = { NULL, };
-				//ÀÏ´Ü ¹«Á¶°Ç.. ¹Ð¾î³ÖÀÚ.
+				//ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½.
 				char* message = (char*)pPacket->getMessage().c_str();
 				if(NULL != message)
 				{
@@ -120,14 +119,14 @@ void GCSystemMessageHandler::execute ( GCSystemMessage * pPacket , Player * pPla
 	const char* message = pPacket->getMessage().c_str();
 	
 	//--------------------------------------------------------------------
-	// system message¿¡ Ãâ·Â
+	// system messageï¿½ï¿½ ï¿½ï¿½ï¿½
 	//--------------------------------------------------------------------
 	if (strcmp(previous, message)==0)
 	{
 		BOOL bExist = FALSE;
 
 		//--------------------------------------------------------------------
-		// ÀÌ¹Ì ÀÖ´Â ¸Þ¼¼ÁöÀÎÁö °Ë»çÇÑ´Ù.
+		// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ñ´ï¿½.
 		//--------------------------------------------------------------------
 		for (int i=0; i<g_pSystemMessage->GetSize(); i++)
 		{
@@ -138,7 +137,7 @@ void GCSystemMessageHandler::execute ( GCSystemMessage * pPacket , Player * pPla
 		}
 
 		//--------------------------------------------------------------------
-		// ¾ø´Â°Å¸é Ãß°¡ÇÑ´Ù.		
+		// ï¿½ï¿½ï¿½Â°Å¸ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.		
 		//--------------------------------------------------------------------
 		if (!bExist)
 		{
@@ -146,7 +145,7 @@ void GCSystemMessageHandler::execute ( GCSystemMessage * pPacket , Player * pPla
 		}
 	}
 	//--------------------------------------------------------------------
-	// »õ·Î¿î ¸Þ¼¼ÁöÀÌ¸é Ãß°¡ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 	//--------------------------------------------------------------------
 	else
 	{

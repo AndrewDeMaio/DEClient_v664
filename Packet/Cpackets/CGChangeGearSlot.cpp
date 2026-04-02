@@ -10,7 +10,6 @@
 #include "SocketOutputStream.h"
 #if __CONTENTS(__GEAR_SWAP_CHANGE) // CGChangeGearSlot.cpp
 void CGChangeGearSlot::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -20,7 +19,6 @@ void CGChangeGearSlot::read (SocketInputStream & iStream)
 }
 
 void CGChangeGearSlot::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -30,7 +28,6 @@ void CGChangeGearSlot::write (SocketOutputStream & oStream) const
 }
 
 void CGChangeGearSlot::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		

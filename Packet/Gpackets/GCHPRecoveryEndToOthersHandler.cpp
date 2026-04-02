@@ -4,7 +4,7 @@
 // Written By  : elca@ewestsoft.com
 //
 //////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 // include files
 #include "GCHPRecoveryEndToOthers.h"
 #include "ClientDef.h"
@@ -12,7 +12,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCHPRecoveryEndToOthersHandler::execute ( GCHPRecoveryEndToOthers * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		

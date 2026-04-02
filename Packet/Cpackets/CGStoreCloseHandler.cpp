@@ -19,7 +19,6 @@
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 void CGStoreCloseHandler::execute (CGStoreClose* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 	__BEGIN_TRY 
 //	__BEGIN_DEBUG_EX 
@@ -40,7 +39,7 @@ void CGStoreCloseHandler::execute (CGStoreClose* pPacket , Player* pPlayer)
 
 	if ( !pStore->isOpen() )
 	{
-		filelog("Store.log", "[%s:%s] ÀÌ¹Ì »óÁ¡ÀÌ ´İÇôÀÖ½À´Ï´Ù..",
+		filelog("Store.log", "[%s:%s] ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½ï¿½Ï´ï¿½..",
 				pGamePlayer->getID().c_str(), pPC->getName().c_str());
 		return;
 	}

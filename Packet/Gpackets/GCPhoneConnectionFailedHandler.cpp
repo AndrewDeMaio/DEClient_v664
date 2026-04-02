@@ -7,19 +7,18 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPhoneConnectionFailed.h"
 #include "ClientDef.h"
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCPhoneConnectionFailedHandler::execute ( GCPhoneConnectionFailed * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 
 
-	// disconnect Ãâ·Â?
+	// disconnect ï¿½ï¿½ï¿½?
 //	UI_PCSConnectionFailed();
 
 	__END_CATCH

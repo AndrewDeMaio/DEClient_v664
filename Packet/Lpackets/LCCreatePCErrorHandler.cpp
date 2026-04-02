@@ -17,7 +17,6 @@ extern void		PopupErrorMessage(ErrorID errorID);
 // 
 //----------------------------------------------------------------------
 void LCCreatePCErrorHandler::execute ( LCCreatePCError * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 

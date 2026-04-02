@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddEffect.h"
 #include "ClientDef.h"
 #include "PacketFunction.h"
@@ -20,14 +20,13 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAddEffectHandler::execute ( GCAddEffect * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
 #ifdef __GAME_CLIENT__
 
 	//------------------------------------------------------
-	// µð¹ö±× ¸Þ½ÃÁö º¸±â
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if(g_pUserInformation->attrOperator.GetValue() &&
 	   g_pOperatorOption->bShowAddEffect)
@@ -48,7 +47,7 @@ void GCAddEffectHandler::execute ( GCAddEffect * pPacket , Player * pPlayer )
 	}
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -56,7 +55,7 @@ void GCAddEffectHandler::execute ( GCAddEffect * pPacket , Player * pPlayer )
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");				
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -64,7 +63,7 @@ void GCAddEffectHandler::execute ( GCAddEffect * pPacket , Player * pPlayer )
 		
 		MCreature* pCreature = g_pZone->GetCreature(CreatureID);
 
-		// ¼º¹°º¸°ü´ë ¾ò¾î¿À±â À§ÇØ¼­
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½
 		if (pCreature == NULL)
 		{
 			MItem *selectedItem = g_pZone->GetItem(CreatureID);
@@ -113,14 +112,14 @@ void GCAddEffectHandler::execute ( GCAddEffect * pPacket , Player * pPlayer )
 				PlaySound( (*g_pEffectStatusTable)[ status ].SoundID );
 			}
 
-			// ÀÓ½Ã·Î...
-			// µÒÀÌ¸é ¹«½Ã..
-			// extremeÀÌ¸é ¹«½Ã...
+			// ï¿½Ó½Ã·ï¿½...
+			// ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½..
+			// extremeï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½...
 			if (status == EFFECTSTATUS_BACK_STAB_3		|| status == EFFECTSTATUS_ICE_OF_SOUL_STONE			||
 				status == EFFECTSTATUS_TRAP_TRIGGERED	|| status == EFFECTSTATUS_TRAPPED					||
 				status == EFFECTSTATUS_TRYING			|| status == EFFECTSTATUS_GROUND_ELEMENTAL_CENTER)
 			{
-				// 3´Ü°è´Â °ü·Ã actioninfo °¡ ÀÖ´Ù.
+				// 3ï¿½Ü°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ actioninfo ï¿½ï¿½ ï¿½Ö´ï¿½.
 				TYPE_ACTIONINFO		ActionInfo = (*g_pEffectStatusTable)[ status ].ActionInfo;
 				if( ActionInfo != ACTIONINFO_NULL )
 				{
@@ -147,7 +146,7 @@ void GCAddEffectHandler::execute ( GCAddEffect * pPacket , Player * pPlayer )
 			}
 			// 2004, 9, 3, sobeit add start
 			else
-			if(status == EFFECTSTATUS_TURRET_LASER && g_pPlayer) // °ø¼ºÀü Æ®·¦Áß..°ø°ÝÃø¿¡ ¾Èº¸ÀÌ´Â ±¤¼±
+			if(status == EFFECTSTATUS_TURRET_LASER && g_pPlayer) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½..ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Èºï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½
 			{
 				if(g_pPlayer->HasEffectStatus(EFFECTSTATUS_SIEGE_ATTACKER_1) || 
 					g_pPlayer->HasEffectStatus(EFFECTSTATUS_SIEGE_ATTACKER_2) || 
@@ -163,10 +162,10 @@ void GCAddEffectHandler::execute ( GCAddEffect * pPacket , Player * pPlayer )
 				//&& status!=EFFECTSTATUS_EXTREME
 				)
 			{
-				// delay°è»ê
+				// delayï¿½ï¿½ï¿½
 				DWORD delayFrame = ConvertDurationToFrame( pPacket->getDuration() );
 
-				// EffectStatus¸¦ Ãß°¡ÇÑ´Ù.
+				// EffectStatusï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 #if __CONTENTS(__QUEST_RENEWAL) 
 				pCreature->AddEffectStatus((EFFECTSTATUS)status, delayFrame);
 #else

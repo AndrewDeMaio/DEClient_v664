@@ -1,20 +1,19 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCSearchMotorcycleFailHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSearchMotorcycleFail.h"
 #include "ClientDef.h"
 #include "MGameStringTable.h"
 #include "UIDialog.h"
 
 void GCSearchMotorcycleFailHandler::execute ( GCSearchMotorcycleFail * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	

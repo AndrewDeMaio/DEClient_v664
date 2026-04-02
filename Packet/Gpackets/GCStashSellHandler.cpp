@@ -1,13 +1,13 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCStashSellHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCStashSell.h"
 #include "ClientDef.h"
 #include "MGameStringTable.h"
@@ -17,7 +17,6 @@
 
 
 void GCStashSellHandler::execute ( GCStashSell * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	__BEGIN_DEBUG
@@ -32,27 +31,27 @@ void GCStashSellHandler::execute ( GCStashSell * pPacket , Player * pPlayer )
 		DEBUG_ADD("[Verified] NPC Ask Answer OK");
 	
 		//------------------------------------------------------
-		// º¸°üÇÔÀ» ´õ »ì ¼ö ¾ø´Â °æ¿ì´Â °¡°ÝÀÌ 0À¸·Î ³¯¾Æ¿Â´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ¿Â´ï¿½.
 		//------------------------------------------------------
 		if (pPacket->getPrice()==0)
 		{
-			// ´Ù½Ã ¹º°¡¸¦ ¼±ÅÃÇÒ ¼ö ÀÖ°ÔÇÑ´Ù..
+			// ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö°ï¿½ï¿½Ñ´ï¿½..
 			g_pUIDialog->ShowPCTalkDlg();
 
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_MESSAGE_CANNOT_BUY_MORE].GetString());
 		}
 		//------------------------------------------------------
-		// price¿¡ º¸°üÇÔÀ» »ì±î? ¸»±î?
+		// priceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½ï¿½?
 		//------------------------------------------------------
 		else
 		{
 			//------------------------------------------------------
-			// price¿¡ º¸°üÇÔÀ» »ì±î? ¸»±î?
+			// priceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½ï¿½?
 			//------------------------------------------------------
 			UI_RunStorageBuy( pPacket->getPrice() );
 
 			//------------------------------------------------------
-			// °¡°Ý ÀúÀå
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------
 			g_pTempInformation->SetMode(TempInformation::MODE_STORAGE_BUY);
 			g_pTempInformation->Value1	= pPacket->getPrice();

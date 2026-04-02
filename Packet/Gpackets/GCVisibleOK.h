@@ -16,8 +16,8 @@
 //
 // class  GCVisibleOK;
 //
-// °ÔÀÓ ¼­¹ö¿¡¼­ Æ¯Á¤ »ç¿ëÀÚ°¡ ¿òÁ÷¿´´Ù´Â Á¤º¸¸¦ Å¬¶óÀÌ¾ðÆ®·Î º¸³»ÁÙ 
-// ¶§ »ç¿ëÇÏ´Â ÆÐÅ¶ °´Ã¼ÀÌ´Ù. (CreatureID,X,Y,DIR) À» Æ÷ÇÔÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ ï¿½ï¿½Ã¼ï¿½Ì´ï¿½. (CreatureID,X,Y,DIR) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -26,34 +26,34 @@ class GCVisibleOK : public Packet {
 public :
 
 	// constructor
-	GCVisibleOK () throw () {}
+	GCVisibleOK () {}
 
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_VISIBLE_OK; }
+	PacketID_t getPacketID () const { return PACKET_GC_VISIBLE_OK; }
 	
 	// get packet body size
 	// *OPTIMIZATION HINT*
-	// const static GCVisibleOKPacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () { return 0; }
+	// const static GCVisibleOKPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const { return 0; }
 	
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCVisibleOK"; }
+		std::string getPacketName () const { return "GCVisibleOK"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
 
@@ -74,20 +74,20 @@ class  GCVisibleOKFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCVisibleOK(); }
+	Packet * createPacket () { return new GCVisibleOK(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCVisibleOK"; }
+		std::string getPacketName () const { return "GCVisibleOK"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_VISIBLE_OK; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_VISIBLE_OK; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCVisibleOKPacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return 0; }
+	// const static GCVisibleOKPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return 0; }
 	
 };
 
@@ -103,7 +103,7 @@ class  GCVisibleOKHandler {
 public :
 
 	// execute packet's handler
-	static void execute (  GCVisibleOK * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute (  GCVisibleOK * pPacket , Player * pPlayer );
 
 };
 

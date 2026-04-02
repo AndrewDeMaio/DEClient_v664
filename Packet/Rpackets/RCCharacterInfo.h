@@ -19,7 +19,7 @@
 //
 // class RCCharacterInfo;
 //
-// ³»°¡ ´Ù¸¥ Å¬¶óÀÌ¾ðÆ®¿¡°Ô ¸»ÇÏ´Â ÆÐÅ¶
+// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶
 //
 //----------------------------------------------------------------------
 
@@ -28,42 +28,42 @@ class RCCharacterInfo : public DatagramPacket {
 public :
 	RCCharacterInfo();
 	
-    // Datagram °´Ã¼¿¡¼­ºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( Datagram & iDatagram ) throw ( ProtocolException , Error );
+    // Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( Datagram & iDatagram );
 		    
-    // Datagram °´Ã¼·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( Datagram & oDatagram ) const throw ( ProtocolException , Error );
+    // Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( Datagram & oDatagram ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_RC_CHARACTER_INFO; }
+	PacketID_t getPacketID () const { return PACKET_RC_CHARACTER_INFO; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () 
+	size_t getPacketSize () const 
 	{ 
 		return szBYTE + m_Name.size() + szGuildID;
 	}
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "RCCharacterInfo"; }
+		std::string getPacketName () const { return "RCCharacterInfo"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 public :
 
 	// get /set GuildID
-	GuildID_t getGuildID() const throw() { return m_GuildID; }
-	void setGuildID( GuildID_t guildID ) throw() { m_GuildID = guildID; }
+	GuildID_t getGuildID() const { return m_GuildID; }
+	void setGuildID( GuildID_t guildID ) { m_GuildID = guildID; }
 
 
 	// get/set chatting Name
-	const std::string& getName () const throw () { return m_Name; }
-	void setName ( const std::string & name ) throw () { m_Name = name; }
+	const std::string& getName () const { return m_Name; }
+	void setName ( const std::string & name ) { m_Name = name; }
 
 protected :
 	std::string		m_Name;
@@ -85,17 +85,17 @@ class RCCharacterInfoFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new RCCharacterInfo(); }
+	Packet * createPacket () { return new RCCharacterInfo(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "RCCharacterInfo"; }
+		std::string getPacketName () const { return "RCCharacterInfo"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_RC_CHARACTER_INFO; }
+	PacketID_t getPacketID () const { return Packet::PACKET_RC_CHARACTER_INFO; }
 
-	PacketSize_t getPacketMaxSize () const throw () 
+	PacketSize_t getPacketMaxSize () const 
 	{ 
 		return szBYTE + 20 + szGuildID;
 	}
@@ -114,7 +114,7 @@ class RCCharacterInfoHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( RCCharacterInfo * pPacket ) throw ( ProtocolException , Error );
+	static void execute ( RCCharacterInfo * pPacket );
 
 };
 

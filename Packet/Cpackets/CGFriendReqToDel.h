@@ -18,19 +18,19 @@
 class CGFriendReqToDel : public Packet 
 {
 public:
-	CGFriendReqToDel() throw() {}
-	~CGFriendReqToDel() throw() {}
+	CGFriendReqToDel() {}
+	~CGFriendReqToDel() {}
 	
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_FRIEND_REQ_TO_DEL; }
-	PacketSize_t getPacketSize() const throw() { return szBYTE + m_strPCName.size(); }
-	string getPacketName() const throw() { return "CGFriendReqToDel"; }
-	string toString() const throw();
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_FRIEND_REQ_TO_DEL; }
+	size_t getPacketSize() const { return szBYTE + m_strPCName.size(); }
+	string getPacketName() const { return "CGFriendReqToDel"; }
+	string toString() const;
 
-	string getPCName() const throw() { return m_strPCName; }
-	void setPCName(const string& strPCName) throw() { m_strPCName = strPCName; }
+	string getPCName() const { return m_strPCName; }
+	void setPCName(const string& strPCName) { m_strPCName = strPCName; }
 
 private:
 	string m_strPCName;
@@ -46,10 +46,10 @@ private:
 class CGFriendReqToDelFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new CGFriendReqToDel(); }
-	string getPacketName() const throw() { return "CGFriendReqToDel"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_FRIEND_REQ_TO_DEL; }
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + 20; }
+	Packet* createPacket() { return new CGFriendReqToDel(); }
+	string getPacketName() const { return "CGFriendReqToDel"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_FRIEND_REQ_TO_DEL; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE + 20; }
 };
 
 
@@ -60,7 +60,7 @@ public:
 class CGFriendReqToDelHandler 
 {
 public:
-	static void execute(CGFriendReqToDel* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(CGFriendReqToDel* pPacket, Player* pPlayer);
 
 };
 #endif //__FRIEND_ADDITION

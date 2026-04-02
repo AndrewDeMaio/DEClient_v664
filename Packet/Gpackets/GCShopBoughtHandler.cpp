@@ -1,13 +1,13 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCShopBoughtHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCShopBought.h"
 #include "ClientDef.h"
 #include "MNPC.h"
@@ -15,15 +15,14 @@
 #include "MShopShelf.h"
 
 void GCShopBoughtHandler::execute ( GCShopBought * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
 #ifdef __GAME_CLIENT__
 
-	// shop¿¡ ¾ÆÀÌÅÛ µîÀå
+	// shopï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -31,21 +30,21 @@ void GCShopBoughtHandler::execute ( GCShopBought * pPacket , Player * pPlayer )
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 
 		//------------------------------------------------------
-		// ±×·± creature°¡ ¾ø´Â °æ¿ì
+		// ï¿½×·ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		if (pCreature==NULL)
 		{
 			DEBUG_ADD_FORMAT("[Error] There is no such Creature id=%d", pPacket->getObjectID());
 		}
 		//------------------------------------------------------
-		// NPCÀÎ °æ¿ì
+		// NPCï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		else if (pCreature->GetClassType()==MCreature::CLASS_NPC)
 		{
@@ -56,14 +55,14 @@ void GCShopBoughtHandler::execute ( GCShopBought * pPacket , Player * pPlayer )
 			if (pShop==NULL)
 			{
 				//------------------------------------------------------
-				// shopÀÌ ¾ø´Ù¸é..
-				// itemÀ» Ãß°¡ ½ÃÅ³ ÇÊ¿ä°¡ ¾ø´Ù.
+				// shopï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½..
+				// itemï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½Å³ ï¿½Ê¿ä°¡ ï¿½ï¿½ï¿½ï¿½.
 				//------------------------------------------------------
 			}
 			else
 			{
 				//------------------------------------------------------
-				// »õ·Î¿î ¾ÆÀÌÅÛÀ» »ý¼ºÇØ¼­ Ãß°¡ÇØ¾ß ÇÑ´Ù.
+				// ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 				//------------------------------------------------------
 				MShopShelf* pShopShelf = pShop->GetShelf( pPacket->getShopType() );
 
@@ -73,10 +72,10 @@ void GCShopBoughtHandler::execute ( GCShopBought * pPacket , Player * pPlayer )
 				}
 				else
 				{
-					// version ¼öÁ¤
+					// version ï¿½ï¿½ï¿½ï¿½
 					pShopShelf->SetVersion( pPacket->getShopVersion() );
 
-					// »õ·Î¿î item »ý¼º
+					// ï¿½ï¿½ï¿½Î¿ï¿½ item ï¿½ï¿½ï¿½ï¿½
 					MItem* pItem = MItem::NewItem( (ITEM_CLASS)pPacket->getItemClass() );
 
 					pItem->SetID( pPacket->getItemObjectID() );
@@ -87,7 +86,7 @@ void GCShopBoughtHandler::execute ( GCShopBought * pPacket , Player * pPlayer )
 					pItem->SetGrade( pPacket->getGrade() );
 					pItem->SetEnchantLevel( pPacket->getEnchantLevel() );
 
-					// »ý¼ºµÈ itemÀ» shop¿¡ Ãß°¡
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ itemï¿½ï¿½ shopï¿½ï¿½ ï¿½ß°ï¿½
 					if (!pShopShelf->SetItem( pPacket->getShopIndex(), pItem ))
 					{
 						DEBUG_ADD("[Error] Cannot Add Item to ShopShelf");
@@ -99,7 +98,7 @@ void GCShopBoughtHandler::execute ( GCShopBought * pPacket , Player * pPlayer )
 
 		}
 		//------------------------------------------------------
-		// NPC°¡ ¾Æ´Ñ °æ¿ì
+		// NPCï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		else
 		{

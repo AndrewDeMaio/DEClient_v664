@@ -1,10 +1,10 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCPartyLeaveHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //////////////////////////////////////////////////////////////////////////////
 
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPartyLeave.h"
 #include "MGameStringTable.h"
 #include "MParty.h"
@@ -16,7 +16,6 @@
 extern CMessageArray*		g_pGameMessage;
 
 void GCPartyLeaveHandler::execute (GCPartyLeave * pPacket , Player * pPlayer)
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 	
@@ -33,15 +32,15 @@ void GCPartyLeaveHandler::execute (GCPartyLeave * pPacket , Player * pPlayer)
 	}
 
 	
-	const char* pExpeller = pPacket->getExpeller().c_str();	// Ãß¹æÀÚ
-	const char* pExpellee = pPacket->getExpellee().c_str(); // Ãß¹æµÈ ÀÚ
+	const char* pExpeller = pPacket->getExpeller().c_str();	// ï¿½ß¹ï¿½ï¿½ï¿½
+	const char* pExpellee = pPacket->getExpellee().c_str(); // ï¿½ß¹ï¿½ï¿½ ï¿½ï¿½
 
 	char str[256];
 			
 	bool bRemovePartyCheck = false;
 	
 	//-------------------------------------------------------------------
-	// °ËÁõ È®ÀÎ
+	// ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 	//-------------------------------------------------------------------
 	if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_PARTY_LEAVE)
 	{
@@ -49,17 +48,17 @@ void GCPartyLeaveHandler::execute (GCPartyLeave * pPacket , Player * pPlayer)
 	}
 
 	//-------------------------------------------------------------------
-	// ´©°¡ ½º½º·Î ³ª°£ °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//-------------------------------------------------------------------
 	if (pExpeller==NULL || pExpeller[0]==NULL || !strcmp(pExpeller, pExpellee))
 	{
 		//----------------------------------------------------------
-		// ³»°¡ ³ª°£ °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//----------------------------------------------------------
 		if (g_pUserInformation->CharacterID==pExpellee)
 		{
 			g_pParty->UnSetPlayerParty();
-			g_pParty->Release();	// ³ªÀÇ party°¡ ÇØÃ¼µÇ´Â °ÍÀÌ´ç..			
+			g_pParty->Release();	// ï¿½ï¿½ï¿½ï¿½ partyï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½..			
 
 			g_pGameMessage->Add( (*g_pGameStringTable)[STRING_MESSAGE_REMOVE_PARTY_MYSELF].GetString() );
 			//g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_REMOVE_PARTY_MYSELF].GetString() );
@@ -67,7 +66,7 @@ void GCPartyLeaveHandler::execute (GCPartyLeave * pPacket , Player * pPlayer)
 			UI_CloseParty();
 		}
 		//----------------------------------------------------------
-		// ´©°¡ ³ª°£ °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//----------------------------------------------------------
 		else if (g_pParty->RemoveMember( pExpellee ))
 		{
@@ -79,17 +78,17 @@ void GCPartyLeaveHandler::execute (GCPartyLeave * pPacket , Player * pPlayer)
 			g_pGameMessage->Add( str );
 
 			bRemovePartyCheck = true;
-			// 2005.08.04 BloodBurst ÆÄÆ¼ °ÔÀÌÁö Ã³¸® 
+			// 2005.08.04 BloodBurst ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ 
 			//UI_SetBloodBurstSetGage() ;
 		}
 	}
 	//-------------------------------------------------------------------
-	// ´©°¡ ´©±¸¸¦ ÂÑ¾Æ³½ °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾Æ³ï¿½ ï¿½ï¿½ï¿½
 	//-------------------------------------------------------------------
 	else
 	{
 		//-------------------------------------------------------------------
-		// ³»°¡ pExpellee¸¦ ÂÑ¾Æ³Â´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ pExpelleeï¿½ï¿½ ï¿½Ñ¾Æ³Â´ï¿½.
 		//-------------------------------------------------------------------
 		if (g_pUserInformation->CharacterID==pExpeller)
 		{		
@@ -101,19 +100,19 @@ void GCPartyLeaveHandler::execute (GCPartyLeave * pPacket , Player * pPlayer)
 
 				//g_pUIDialog->PopupFreeMessageDlg( str );
 				g_pGameMessage->Add( str );
-				// 2005.08.04 BloodBurst ÆÄÆ¼ °ÔÀÌÁö Ã³¸® 
+				// 2005.08.04 BloodBurst ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ 
 				//UI_SetBloodBurstSetGage() ;
 			}
 
 			bRemovePartyCheck = true;
 		}
 		//-------------------------------------------------------------------
-		// ³»°¡ pExpeller¿¡°Ô ÂÑ°Ü³µ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ pExpellerï¿½ï¿½ï¿½ï¿½ ï¿½Ñ°Ü³ï¿½ï¿½ï¿½.
 		//-------------------------------------------------------------------
 		else if (g_pUserInformation->CharacterID==pExpellee)
 		{
 			g_pParty->UnSetPlayerParty();
-			g_pParty->Release();	// ³ªÀÇ party°¡ ÇØÃ¼µÇ´Â °ÍÀÌ´ç..			
+			g_pParty->Release();	// ï¿½ï¿½ï¿½ï¿½ partyï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½..			
 
 			sprintf(str, 
 						(*g_pGameStringTable)[STRING_MESSAGE_KICKED_FROM_PARTY].GetString(), 
@@ -125,7 +124,7 @@ void GCPartyLeaveHandler::execute (GCPartyLeave * pPacket , Player * pPlayer)
 			bRemovePartyCheck = true;
 		}
 		//-------------------------------------------------------------------
-		// pExpeller°¡ pExpeller¸¦ ÂÑ¾Æ³Â´Ù.
+		// pExpellerï¿½ï¿½ pExpellerï¿½ï¿½ ï¿½Ñ¾Æ³Â´ï¿½.
 		//-------------------------------------------------------------------
 		else if (g_pParty->RemoveMember( pExpellee ))
 		{
@@ -135,20 +134,20 @@ void GCPartyLeaveHandler::execute (GCPartyLeave * pPacket , Player * pPlayer)
 
 			//g_pUIDialog->PopupFreeMessageDlg( str );
 			g_pGameMessage->Add( str );
-			// 2005.08.04 BloodBurst ÆÄÆ¼ °ÔÀÌÁö Ã³¸® 
+			// 2005.08.04 BloodBurst ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ 
 			//UI_SetBloodBurstSetGage() ;
 		}
 	}
 
 	
 	//--------------------------------------------------
-	// ÆÄÆ¼ ÇØÃ¼ÀÎ°¡?
+	// ï¿½ï¿½Æ¼ ï¿½ï¿½Ã¼ï¿½Î°ï¿½?
 	//--------------------------------------------------
 	if (bRemovePartyCheck && g_pParty->GetSize()==0)
 	{		
 		UI_CloseParty();
 
-		// ¸Þ½ÃÁö¸¸ Ãâ·ÂÇØÁÖ¸é µÇ°ÚÁö..
+		// ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ ï¿½Ç°ï¿½ï¿½ï¿½..
 		//g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_REMOVE_PARTY].GetString() );		
 		g_pGameMessage->Add( (*g_pGameStringTable)[STRING_MESSAGE_REMOVE_PARTY].GetString() );
 	}

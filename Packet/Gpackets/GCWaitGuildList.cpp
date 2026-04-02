@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCWaitGuildList.h"
 
 
@@ -14,7 +14,6 @@
 // constructor
 //////////////////////////////////////////////////////////////////////
 GCWaitGuildList::GCWaitGuildList()
-	throw()
 {
 }
 
@@ -22,21 +21,19 @@ GCWaitGuildList::GCWaitGuildList()
 // constructor
 //////////////////////////////////////////////////////////////////////
 GCWaitGuildList::~GCWaitGuildList()
-	throw()
 {
 	__BEGIN_TRY
 	
-	// ±æµå ¸®½ºÆ®ÀÇ ¸ðµç °´Ã¼¸¦ »èÁ¦
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	clearGuildInfoList();
 
 	__END_CATCH
 }
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCWaitGuildList::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -55,10 +52,9 @@ void GCWaitGuildList::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCWaitGuildList::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -79,11 +75,10 @@ void GCWaitGuildList::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void GCWaitGuildList::clearGuildInfoList()
-	throw()
 {
 	__BEGIN_TRY
 
-	// GuildInfoList ¸¦ »èÁ¦ÇÑ´Ù
+	// GuildInfoList ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 	while( !m_GuildInfoList.empty() )
 	{
 		GuildInfo* pGuildInfo = m_GuildInfoList.front();
@@ -99,7 +94,6 @@ void GCWaitGuildList::clearGuildInfoList()
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void GCWaitGuildList::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -113,7 +107,6 @@ void GCWaitGuildList::execute ( Player * pPlayer )
 // get packet size
 //////////////////////////////////////////////////////////////////////
 PacketSize_t GCWaitGuildList::getPacketSize() const
-	throw()
 {
 	__BEGIN_TRY
 
@@ -136,7 +129,6 @@ PacketSize_t GCWaitGuildList::getPacketSize() const
 // get packet's debug string
 //////////////////////////////////////////////////////////////////////
 std::string GCWaitGuildList::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

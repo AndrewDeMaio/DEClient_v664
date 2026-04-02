@@ -119,7 +119,7 @@
 #include "CTypeTable.h"
 #include "DrawTypeDef.h"
 #include "ExpInfo.h"
-#include "RaceType.h"
+#include "Types\RaceType.h"
 #include "MTypeDef.h"
 
 //----------------------------------------------------------------------

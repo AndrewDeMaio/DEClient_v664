@@ -7,7 +7,7 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSetPosition.h"
 #include "ClientDef.h"
 
@@ -21,7 +21,6 @@
 //
 //----------------------------------------------------------------------
 void GCSetPositionHandler::execute ( GCSetPosition * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -37,14 +36,14 @@ void GCSetPositionHandler::execute ( GCSetPosition * pPacket , Player * pPlayer 
 
 
 	//--------------------------------------------------------
-	// PlayerÀÇ À§Ä¡ ÁöÁ¤
+	// Playerï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------------
 	InitPlayer(	pPacket->getX(), 
 				pPacket->getY(),
 				pPacket->getDir());
 
 	//--------------------------------------------------------
-	// °ÔÀÓ ½ÃÀÛ..
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 	//--------------------------------------------------------
 	SetMode( MODE_GAME );
 	

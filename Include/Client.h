@@ -1,4 +1,4 @@
-	//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
 // Client.h
 //-----------------------------------------------------------------------------
 
@@ -29,7 +29,7 @@
 //#include "VolumeLib.h"
 #include "WinLib.h"
 
-class IVolume;		// forward declare — full type only needed in GameMain.cpp/VolumeLib users
+class IVolume;
 
 
 #include "MZone.h"
@@ -175,6 +175,7 @@ extern BOOL					g_bNeedUpdate; // update�ؾߵǳ�?
 // FPS
 extern DWORD				g_CurrentTime;
 extern DWORD				g_CurrentFrame;
+extern LONG					g_lGameRunBreakTime;
 
 extern int					g_FrameCount;
 extern int					g_StartFrameCount;

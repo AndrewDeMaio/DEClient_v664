@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////
 // include files
 //////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "FriendWaitInfo.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"
@@ -21,7 +21,6 @@ const int FriendWaitInfo::m_iMaxFriendName = 20;
 // constructor
 //////////////////////////////////////////////////////////////////////
 FriendWaitInfo::FriendWaitInfo () 
-     throw ()
 {
 	__BEGIN_TRY
 	
@@ -35,7 +34,6 @@ FriendWaitInfo::FriendWaitInfo ()
 // destructor
 //////////////////////////////////////////////////////////////////////
 FriendWaitInfo::~FriendWaitInfo () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -43,10 +41,9 @@ FriendWaitInfo::~FriendWaitInfo ()
 
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void FriendWaitInfo::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -56,10 +53,10 @@ void FriendWaitInfo::read ( SocketInputStream & iStream )
 }
 
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void FriendWaitInfo::write ( SocketOutputStream & oStream ) 
-     const throw ( ProtocolException , Error )
+     const
 {
 	__BEGIN_TRY
 		
@@ -72,7 +69,6 @@ void FriendWaitInfo::write ( SocketOutputStream & oStream )
 // getSize
 //--------------------------------------------------------------------
 PacketSize_t FriendWaitInfo::getSize() const
-	throw()
 {
 	__BEGIN_TRY
 
@@ -85,7 +81,7 @@ PacketSize_t FriendWaitInfo::getSize() const
 	__END_CATCH
 }
 
-uint FriendWaitInfo::getMaxSize() throw() 
+uint FriendWaitInfo::getMaxSize() 
 {
 	PacketSize_t PacketSize;
 	
@@ -100,7 +96,7 @@ uint FriendWaitInfo::getMaxSize() throw()
 //
 //////////////////////////////////////////////////////////////////////
 string FriendWaitInfo::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 

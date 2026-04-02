@@ -2,7 +2,7 @@
 // Filename    : GCSystemAvailabilities.h 
 // Written By  : elca@ewestsoft.com
 // Description : 
-// ±â¼úÀÌ ¼º°øÇßÀ»¶§ º¸³»´Â ÆÐÅ¶À» À§ÇÑ Å¬·¡½º Á¤ÀÇ
+// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __GC_SYSTEM_AVAILABILITIES_H__
@@ -44,25 +44,25 @@ enum SystemKind
 
 //////////////////////////////////////////////////////////////////////////////
 // class GCSystemAvailabilities;
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
 class GCSystemAvailabilities : public Packet 
 {
 public:
-	GCSystemAvailabilities() throw();
-	~GCSystemAvailabilities() throw();
+	GCSystemAvailabilities();
+	~GCSystemAvailabilities();
 	
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_SYSTEM_AVAILABILITIES; }
-	PacketSize_t getPacketSize() const throw() { return szDWORD + szBYTE * 2; }
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_SYSTEM_AVAILABILITIES; }
+	size_t getPacketSize() const { return szDWORD + szBYTE * 2; }
 
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCSystemAvailabilities"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "GCSystemAvailabilities"; }
+	std::string toString() const;
 #endif
 
 public:
@@ -85,16 +85,16 @@ private:
 class GCSystemAvailabilitiesFactory : public PacketFactory 
 {
 public :
-	GCSystemAvailabilitiesFactory() throw() {}
-	virtual ~GCSystemAvailabilitiesFactory() throw() {}
+	GCSystemAvailabilitiesFactory() {}
+	virtual ~GCSystemAvailabilitiesFactory() {}
 	
 public:
-	Packet* createPacket() throw() { return new GCSystemAvailabilities(); }
+	Packet* createPacket() { return new GCSystemAvailabilities(); }
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCSystemAvailabilities"; }
+	std::string getPacketName() const { return "GCSystemAvailabilities"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_SYSTEM_AVAILABILITIES; }
-	PacketSize_t getPacketMaxSize() const throw() { return szDWORD + szBYTE * 2; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_SYSTEM_AVAILABILITIES; }
+	PacketSize_t getPacketMaxSize() const { return szDWORD + szBYTE * 2; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -104,7 +104,7 @@ public:
 class GCSystemAvailabilitiesHandler 
 {
 public:
-	static void execute(GCSystemAvailabilities* pGCSystemAvailabilities, Player* pPlayer) throw(Error);
+	static void execute(GCSystemAvailabilities* pGCSystemAvailabilities, Player* pPlayer);
 
 };
 

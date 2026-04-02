@@ -2,7 +2,7 @@
 // Filename    : CGRequestPowerPoint.cpp 
 // Written By  :
 // Description :
-// ¼­¹ö¿¡ ¿øÇÏ´Â »ç¶÷ÀÇ IP ¿äÃ»
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ IP ï¿½ï¿½Ã»
 //////////////////////////////////////////////////////////////////////////////
 #include "client_PCH.h"
 #include "CGRequestPowerPoint.h"
@@ -12,21 +12,18 @@
 //////////////////////////////////////////////////////////////////////////////
 
 CGRequestPowerPoint::CGRequestPowerPoint () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 	
 CGRequestPowerPoint::~CGRequestPowerPoint () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGRequestPowerPoint::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -45,7 +42,7 @@ void CGRequestPowerPoint::read ( SocketInputStream & iStream )
 }
 		    
 void CGRequestPowerPoint::write ( SocketOutputStream & oStream ) 
-     const throw ( ProtocolException , Error )
+     const
 {
 	__BEGIN_TRY
 		
@@ -64,7 +61,6 @@ void CGRequestPowerPoint::write ( SocketOutputStream & oStream )
 }
 
 void CGRequestPowerPoint::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__	
@@ -74,7 +70,7 @@ void CGRequestPowerPoint::execute ( Player * pPlayer )
 }
 #ifdef __DEBUG_OUTPUT__
 string CGRequestPowerPoint::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 

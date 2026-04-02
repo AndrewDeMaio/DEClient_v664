@@ -4,7 +4,7 @@
 // Written By  : 
 //
 //////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 // include files
 #include "GCHolyLandBonusInfo.h"
 #include "ClientDef.h"
@@ -14,7 +14,6 @@
 //
 //////////////////////////////////////////////////////////////////////
 void GCHolyLandBonusInfoHandler::execute ( GCHolyLandBonusInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -37,7 +36,7 @@ void GCHolyLandBonusInfoHandler::execute ( GCHolyLandBonusInfo * pPacket , Playe
 		}
 		else
 		{
-			// ½ºÅ³ ¸®½ºÆ®¿¡¼­ »©ÁØ´Ù?		¼ø¼­ Æ²¸®¸é ¹Ùº¸ µÈ´Ù
+			// ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½?		ï¿½ï¿½ï¿½ï¿½ Æ²ï¿½ï¿½ï¿½ï¿½ ï¿½Ùºï¿½ ï¿½È´ï¿½
 			g_abHolyLandBonusSkills[i] = false;
 		}
 		
@@ -48,7 +47,7 @@ void GCHolyLandBonusInfoHandler::execute ( GCHolyLandBonusInfo * pPacket , Playe
 	}
 
 	//--------------------------------------------------
-	// ÇöÀç »ç¿ë °¡´ÉÇÑ skillµéÀ» ´Ù½Ã Ã¼Å©ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ skillï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ Ã¼Å©ï¿½Ñ´ï¿½.
 	//--------------------------------------------------
 	g_pSkillAvailable->SetAvailableSkills();
 

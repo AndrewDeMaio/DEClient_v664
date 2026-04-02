@@ -2,22 +2,21 @@
 // 
 // Filename    : GCGQuestStatusModify.cpp 
 // Written By  : elca@ewestsoft.com
-// Description : ÀÚ½Å¿¡°Ô ¾²´Â ±â¼úÀÇ ¼º°øÀ» ¾Ë¸®±â À§ÇÑ ÆÐÅ¶ Å¬·¡½ºÀÇ
-//               ¸â¹ö Á¤ÀÇ.
+// Description : ï¿½Ú½Å¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//               ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 // 
 //////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////
 // include files
 //////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCGQuestStatusModify.h"
 
 //////////////////////////////////////////////////////////////////////
 // constructor
 //////////////////////////////////////////////////////////////////////
 GCGQuestStatusModify::GCGQuestStatusModify () 
-     throw ()
 {
 	__BEGIN_TRY
 
@@ -30,7 +29,6 @@ GCGQuestStatusModify::GCGQuestStatusModify ()
 // destructor
 //////////////////////////////////////////////////////////////////////
 GCGQuestStatusModify::~GCGQuestStatusModify () 
-    throw ()
 {
 	__BEGIN_TRY
 
@@ -45,7 +43,6 @@ GCGQuestStatusModify::~GCGQuestStatusModify ()
 //
 //////////////////////////////////////////////////////////////////////
 void GCGQuestStatusModify::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -62,7 +59,7 @@ void GCGQuestStatusModify::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 string GCGQuestStatusModify::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 

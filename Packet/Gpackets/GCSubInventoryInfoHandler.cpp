@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSubInventoryInfo.h"
 #include "ClientDef.h"
 #include "UIFunction.h"
@@ -18,7 +18,6 @@ extern void SetSubInventoryInfo(MItem* pSubInventory, InventoryInfo* pInventoryI
 //
 //////////////////////////////////////////////////////////////////////
 void GCSubInventoryInfoHandler::execute ( GCSubInventoryInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY// __BEGIN_DEBUG_EX
 	

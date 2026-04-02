@@ -307,7 +307,7 @@ void FileAPI::close_ex ( int fd )
 {
 	__BEGIN_TRY
 
-	if ( close(fd) < 0 ) {
+	if ( _close(fd) < 0 ) {
 #if __LINUX__
 		switch ( errno ) {
 			case EBADF : 

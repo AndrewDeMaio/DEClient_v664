@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : GCPetStashListHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 ////////////////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPetStashList.h"
 #include "ClientDef.h"
 #include "MStorage.h"
@@ -14,7 +14,6 @@
 #include "UIFunction.h"
 #include "ExperienceTable.h"
 void GCPetStashListHandler::execute ( GCPetStashList * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY 
 //	__BEGIN_DEBUG_EX
@@ -22,7 +21,7 @@ void GCPetStashListHandler::execute ( GCPetStashList * pPacket , Player * pPlaye
 	
 #ifdef __GAME_CLIENT__
 		//------------------------------------------------------------
-		// ±âÁ¸¿¡°É Áö¿ì°í ´Ù½Ã »ý¼ºÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		//------------------------------------------------------------
 		if (g_pStorage!=NULL) 
 		{
@@ -32,10 +31,10 @@ void GCPetStashListHandler::execute ( GCPetStashList * pPacket , Player * pPlaye
 		g_pStorage = new MStorage;
 
 		
-		g_pStorage->Init( 1 ); //STASH_RACK_MAX );	// ÂÁ.. 3°³ÀÏ±î??
+		g_pStorage->Init( 1 ); //STASH_RACK_MAX );	// ï¿½ï¿½.. 3ï¿½ï¿½ï¿½Ï±ï¿½??
 
 		//------------------------------------------------------------
-		// Á¢±ÙÇÏ´Â Storage¸¦ ÁöÁ¤ÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Storageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		//------------------------------------------------------------
 		g_pStorage->SetCurrent( 0 );
 
@@ -107,11 +106,11 @@ void GCPetStashListHandler::execute ( GCPetStashList * pPacket , Player * pPlaye
 			
 			pItem->SetPetKeepedDay(petStashItemInfo->KeepDays);
 			//------------------------------------------------------------
-			// Storage¿¡ item ¼³Á¤
+			// Storageï¿½ï¿½ item ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------------
 			if (!g_pStorage->SetItem( index, pItem ))
 			{
-				// ¹¹Áö..
+				// ï¿½ï¿½ï¿½ï¿½..
 				delete pItem;
 
 				DEBUG_ADD_FORMAT("[Error] Can't Add Item to Storage. slot=%d", index);
@@ -122,7 +121,7 @@ void GCPetStashListHandler::execute ( GCPetStashList * pPacket , Player * pPlaye
 		}
 
 		//------------------------------------------------------------
-		// º¸°üÇÔÀ» ¶ç¿î´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		//------------------------------------------------------------
 		UI_RunPetStorage();
 		UI_SetPetStorage(g_pStorage);

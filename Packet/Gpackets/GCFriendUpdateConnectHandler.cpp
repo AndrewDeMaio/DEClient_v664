@@ -7,10 +7,10 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "client_PCH.h"
-#include "GCFriendUpdateConnect.h"
-#include "VS_UI_Friend_System.h"
+//#include "VS_UI_Friend_System.h"
 
+#include "GPacket_PCH.h"
+#include "GCFriendUpdateConnect.h"
 #include "Assert.h"
 
 #ifdef __GAME_SERVER__
@@ -19,7 +19,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void GCFriendUpdateConnectHandler::execute ( GCFriendUpdateConnect* pPacket, Player* pPlayer )
-	 throw ( ProtocolException , Error )
 {	__BEGIN_TRY
 
 #ifdef __GAME_SERVER__
@@ -29,7 +28,7 @@ void GCFriendUpdateConnectHandler::execute ( GCFriendUpdateConnect* pPacket, Pla
 
 	if (pPacket)
 	{
-		// Ä£±¸ ½Ã½ºÅÛ Ã¢À» °¡Áö°í ¿Â´Ù. ¾øÀ» °æ¿ì »ı¼º
+		// Ä£ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		C_VS_UI_FRIEND_SYSTEM* pFriend = (C_VS_UI_FRIEND_SYSTEM*)gpC_window_manager->GetWindowbyName("FriendSystem");
 		if (!pFriend)
 		{
@@ -37,7 +36,7 @@ void GCFriendUpdateConnectHandler::execute ( GCFriendUpdateConnect* pPacket, Pla
 			pFriend->SetWindowName("FriendSystem");
 		}
 
-		// Á¢¼Ó »óÅÂ ¾÷µ¥ÀÌÆ®
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 		int index = pFriend->GetListView()->GetItemIndexByName(pPacket->GetPCName().c_str());
 		if (index != -1)
 		{
@@ -46,7 +45,7 @@ void GCFriendUpdateConnectHandler::execute ( GCFriendUpdateConnect* pPacket, Pla
 			else
 				pFriend->GetListView()->InsertColumnItem("OFF",index,2);
 
-			// ¼­¹ö Á¤º¸´Â °¡Áö°í¸¸ ÀÖ´Â´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Â´ï¿½.
 			pFriend->GetListView()->InsertColumnItem(pPacket->GetServerName().c_str(),index,3);
 		}
 	}

@@ -7,7 +7,6 @@
 #include "CGRequestInfo.h"
 
 void CGRequestInfo::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -18,7 +17,6 @@ void CGRequestInfo::read (SocketInputStream & iStream)
 }
 
 void CGRequestInfo::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -29,7 +27,6 @@ void CGRequestInfo::write (SocketOutputStream & oStream) const
 }
 
 void CGRequestInfo::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__
@@ -40,7 +37,6 @@ void CGRequestInfo::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGRequestInfo::toString () const 
-	throw ()
 {
 	StringStream msg;
 	msg << "CGRequestInfo(" 

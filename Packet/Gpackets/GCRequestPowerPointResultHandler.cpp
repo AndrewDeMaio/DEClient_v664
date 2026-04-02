@@ -7,7 +7,7 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCRequestPowerPointResult.h"
 
 #ifdef __GAME_CLIENT__
@@ -20,7 +20,6 @@
 //----------------------------------------------------------------------
 //----------------------------------------------------------------------
 void GCRequestPowerPointResultHandler::execute ( GCRequestPowerPointResult * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 

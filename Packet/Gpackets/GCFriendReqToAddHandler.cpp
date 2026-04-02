@@ -7,11 +7,11 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "client_PCH.h"
-#include "GCFriendReqToAdd.h"
-#include "VS_UI_Friend_System.h"
-#include "types/FriendType.h"
+//#include "VS_UI_Friend_System.h"
 
+#include "GPacket_PCH.h"
+#include "GCFriendReqToAdd.h"
+#include "Types/FriendType.h"
 #include "Assert.h"
 
 #ifdef __GAME_SERVER__
@@ -20,7 +20,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void GCFriendReqToAddHandler::execute ( GCFriendReqToAdd* pPacket, Player* pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -47,56 +46,56 @@ void GCFriendReqToAddHandler::execute ( GCFriendReqToAdd* pPacket, Player* pPlay
 
 		switch (pPacket->GetResultCode())//by viva translation
 		{
-		case FRIEND_REQ_TO_ADD_RESULT_CODE_SUCCESS:								// Ãß°¡ ¿äÃ» ¼º°ø
+		case FRIEND_REQ_TO_ADD_RESULT_CODE_SUCCESS:								// ï¿½ß°ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½
 			pFriendPacket = new C_VS_UI_FRINEND_MESSAGE_BOX("Friend requests have been processed successfully.");
 			pFriendPacket->SetWindowName("FriendRequestAddMessage");
 			pFriendPacket->Start();
 			break;
-		case FRIEND_REQ_TO_ADD_RESULT_CODE_CAN_NOT_ADD_SELF:					// ÀÚ±â ÀÚ½ÅÀº Ãß°¡ÇÒ ¼ö ¾øÀ½
+		case FRIEND_REQ_TO_ADD_RESULT_CODE_CAN_NOT_ADD_SELF:					// ï¿½Ú±ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			pFriendPacket = new C_VS_UI_FRINEND_MESSAGE_BOX("You can't add yourself as friend.");
 			pFriendPacket->SetWindowName("FriendRequestAddMessage");
 			pFriendPacket->Start();
 			break;
-		case FRIEND_REQ_TO_ADD_RESULT_CODE_EXCEED_MAX_LIST_COUNT_BY_SELF:		// ÀÚ½ÅÀÇ Ä£±¸ ÃÖ´ë µî·Ï °³¼ö ÃÊ°ú 
+		case FRIEND_REQ_TO_ADD_RESULT_CODE_EXCEED_MAX_LIST_COUNT_BY_SELF:		// ï¿½Ú½ï¿½ï¿½ï¿½ Ä£ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ 
 			break;
-		case FRIEND_REQ_TO_ADD_RESULT_CODE_EXCEED_MAX_LIST_COUNT_BY_OTHER:		// »ó´ë¹æÀÇ Ä£±¸ ÃÖ´ë µî·Ï °³¼ö ÃÊ°ú
+		case FRIEND_REQ_TO_ADD_RESULT_CODE_EXCEED_MAX_LIST_COUNT_BY_OTHER:		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä£ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½
 			pFriendPacket = new C_VS_UI_FRINEND_MESSAGE_BOX("This person can't add anymore friends.");
 			pFriendPacket->SetWindowName("FriendRequestAddMessage");
 			pFriendPacket->Start();
 			break;
-		case FRIEND_REQ_TO_ADD_RESULT_CODE_EXCEED_MAX_WAITLIST_COUNT_BY_OTHER:	// »ó´ë¹æÀÇ Ä£±¸ ÃÖ´ë ´ë±â ¸ñ·Ï °³¼ö ÃÊ°ú
+		case FRIEND_REQ_TO_ADD_RESULT_CODE_EXCEED_MAX_WAITLIST_COUNT_BY_OTHER:	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä£ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½
 			pFriendPacket = new C_VS_UI_FRINEND_MESSAGE_BOX("The other side of the wait list is full.");
 			pFriendPacket->SetWindowName("FriendRequestAddMessage");
 			pFriendPacket->Start();
 			break;
-		case FRIEND_REQ_TO_ADD_RESULT_CODE_ALREADY_EXIST_FRIEND_IN_WAIT_LIST:	// ÀÌ¹Ì ´ë±â¸ñ·Ï¿¡ Á¸ÀçÇÔ 
+		case FRIEND_REQ_TO_ADD_RESULT_CODE_ALREADY_EXIST_FRIEND_IN_WAIT_LIST:	// ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 			pFriendPacket = new C_VS_UI_FRINEND_MESSAGE_BOX("Add a friend is already applied for a target.");
 			pFriendPacket->SetWindowName("FriendRequestAddMessage");
 			pFriendPacket->Start();
 			break;
-		case FRIEND_REQ_TO_ADD_RESULT_CODE_ALREADY_EXIST_FRIEND:				// ÀÌ¹Ì Ãß°¡µÈ Ä£±¸
+		case FRIEND_REQ_TO_ADD_RESULT_CODE_ALREADY_EXIST_FRIEND:				// ï¿½Ì¹ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ Ä£ï¿½ï¿½
 			pFriendPacket = new C_VS_UI_FRINEND_MESSAGE_BOX("The person is already in your friends list.");
 			pFriendPacket->SetWindowName("FriendRequestAddMessage");
 			pFriendPacket->Start();
 			break;
-		case FRIEND_REQ_TO_ADD_RESULT_CODE_NOT_EXIST_NAME:						// Á¸ÀçÇÏÁö ¾Ê´Â ÀÌ¸§ÀÓ
+		case FRIEND_REQ_TO_ADD_RESULT_CODE_NOT_EXIST_NAME:						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½
 			pFriendPacket = new C_VS_UI_FRINEND_MESSAGE_BOX("The name does not exist.");
 			pFriendPacket->SetWindowName("FriendRequestAddMessage");
 			pFriendPacket->Start();
 			break;
-		case FRIEND_REQ_TO_ADD_RESULT_CODE_DIFFERENT_RACE:						// ¼­·Î ´Ù¸¥ Á¾Á·ÀÓ
+		case FRIEND_REQ_TO_ADD_RESULT_CODE_DIFFERENT_RACE:						// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			pFriendPacket = new C_VS_UI_FRINEND_MESSAGE_BOX("Different race cannot be added as a friend.");
 			pFriendPacket->SetWindowName("FriendRequestAddMessage");
 			pFriendPacket->Start();
 			break;
-		case FRIEND_REQ_TO_ADD_RESULT_CODE_DENY_ADD_REQUEST:					// Ä£±¸ Ãß°¡ ¿äÃ»À» °ÅºÎÇÔ
+		case FRIEND_REQ_TO_ADD_RESULT_CODE_DENY_ADD_REQUEST:					// Ä£ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½Åºï¿½ï¿½ï¿½
 			pFriendPacket = new C_VS_UI_FRINEND_MESSAGE_BOX("The friend request have been denied."); 
 			pFriendPacket->SetWindowName("FriendRequestAddMessage");
 			pFriendPacket->Start();
 			break;
 		}
 	
-		// Ä£±¸ ´ë±âÀÚ Ã¢À» °¡Áö°í ¿Â´Ù. ¾øÀ» °æ¿ì »ý¼º
+		// Ä£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		C_VS_UI_FRIEND_WAIT* pFriend = (C_VS_UI_FRIEND_WAIT*)gpC_window_manager->GetWindowbyName("FriendWaitList");
 		if (!pFriend)
 		{
@@ -104,7 +103,7 @@ void GCFriendReqToAddHandler::execute ( GCFriendReqToAdd* pPacket, Player* pPlay
 			pFriend->SetWindowName("FriendWaitList");
 		}
 
-		// ´ë±â ÁßÀÎ Ä£±¸ ¸ñ·Ï¿¡¼­ ÇØ´ç Ä£±¸¸¦ »èÁ¦ÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä£ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ Ä£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		int index = pFriend->GetListView()->GetItemIndexByName(pPacket->GetPCName().c_str());
 		if (index != -1)
 		{

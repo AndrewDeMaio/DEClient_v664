@@ -17,17 +17,17 @@
 class GCPartyLeave : public Packet 
 {
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_PARTY_LEAVE; }
-	PacketSize_t getPacketSize() const throw() 
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_PARTY_LEAVE; }
+	size_t getPacketSize() const 
 	{ 
 		return szBYTE*2 + m_Expeller.size() + m_Expellee.size();
 	}
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "GCPartyLeave"; }
-		std::string toString() const throw();
+		std::string getPacketName() const { return "GCPartyLeave"; }
+		std::string toString() const;
 	#endif
 
 public:
@@ -38,13 +38,13 @@ public:
 	void setExpellee(const std::string& name) { m_Expellee = name; }
 
 private:
-	// ´©±º°¡°¡ È¥ÀÚ ÆÄÆ¼¿¡¼­ ½º½º·Î ºüÁ®³ª°¬À» °æ¿ì¿¡´Â
-	// Ãß¹æÀÚÀÇ ÀÌ¸§ÀÌ NULLÀÌ´Ù.
-	// ´©±º°¡°¡ ´Ù¸¥ »ç¶÷¿¡ ÀÇÇØ¼­ ºüÁ®³ª°¬À» °æ¿ì¿¡´Â
-	// Ãß¹æÀÚÀÇ ÀÌ¸§ÀÌ NULLÀÌ ¾Æ´Ï´Ù.
-	// ¾î´À °æ¿ì¿¡µµ Ãß¹æ´çÇÑ ÀÌÀÇ ÀÌ¸§ÀÌ NULLÀÎ °æ¿ì´Â ¾ø´Ù.
-	std::string m_Expeller; // Ãß¹æÀÚ
-	std::string m_Expellee; // Ãß¹æ´çÇÑ ÀÌ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¥ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½
+	// ï¿½ß¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ NULLï¿½Ì´ï¿½.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½
+	// ï¿½ß¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ NULLï¿½ï¿½ ï¿½Æ´Ï´ï¿½.
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ß¹ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ NULLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+	std::string m_Expeller; // ï¿½ß¹ï¿½ï¿½ï¿½
+	std::string m_Expellee; // ï¿½ß¹ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 };
 
 
@@ -55,13 +55,13 @@ private:
 class GCPartyLeaveFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCPartyLeave(); }
+	Packet* createPacket() { return new GCPartyLeave(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "GCPartyLeave"; }
+		std::string getPacketName() const { return "GCPartyLeave"; }
 	#endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_PARTY_LEAVE; }
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE*2 + 20; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_PARTY_LEAVE; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE*2 + 20; }
 };
 
 
@@ -72,7 +72,7 @@ public:
 class GCPartyLeaveHandler 
 {
 public:
-	static void execute(GCPartyLeave* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCPartyLeave* pPacket, Player* pPlayer);
 };
 
 #endif

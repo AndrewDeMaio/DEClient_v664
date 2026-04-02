@@ -4,18 +4,17 @@
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCRemoveInjuriousCreature.h"
 
 void GCRemoveInjuriousCreature::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 	int localLongName = 0;
 #if __CONTENTS(__LOCALIZING_LONGNAME)
 	localLongName = 22;
 #endif //__LOCALIZING_LONGNAME		
-	// ÀÌ¸§ ÀÐ±â
+	// ï¿½Ì¸ï¿½ ï¿½Ð±ï¿½
 	BYTE szName;
 
 	iStream.read(szName);
@@ -32,14 +31,13 @@ void GCRemoveInjuriousCreature::read (SocketInputStream & iStream)
 }
 		    
 void GCRemoveInjuriousCreature::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 	int localLongName = 0;
 #if __CONTENTS(__LOCALIZING_LONGNAME)
 	localLongName = 22;
 #endif //__LOCALIZING_LONGNAME		
-	// ÀÌ¸§ ¾²±â
+	// ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	BYTE szName = m_Name.size();
 
 	if (szName == 0)
@@ -56,7 +54,6 @@ void GCRemoveInjuriousCreature::write (SocketOutputStream & oStream) const
 }
 
 void GCRemoveInjuriousCreature::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -67,7 +64,6 @@ void GCRemoveInjuriousCreature::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 	std::string GCRemoveInjuriousCreature::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 			

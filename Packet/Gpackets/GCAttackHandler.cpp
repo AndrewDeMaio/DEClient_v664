@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAttack.h"
 #include "ClientDef.h"
 #include "MTopView.h"
@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAttackHandler::execute ( GCAttack * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -24,7 +23,7 @@ void GCAttackHandler::execute ( GCAttack * pPacket , Player * pPlayer )
 	// message
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ı¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -32,7 +31,7 @@ void GCAttackHandler::execute ( GCAttack * pPacket , Player * pPlayer )
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -40,7 +39,7 @@ void GCAttackHandler::execute ( GCAttack * pPacket , Player * pPlayer )
 
 		if (pCreature != NULL)
 		{
-			// ¹æÇâ ¹Ù¶óº¸±â
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¶óº¸±ï¿½
 			pCreature->SetDirectionToPosition(pPacket->getX(), pPacket->getY());
 
 			pCreature->PacketAttackNormal(	pPacket->getX(),

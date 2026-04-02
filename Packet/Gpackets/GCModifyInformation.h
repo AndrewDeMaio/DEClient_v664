@@ -20,10 +20,10 @@
 class GCModifyInformation : public ModifyInfo
 {
 public:
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_MODIFY_INFORMATION; }
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_MODIFY_INFORMATION; }
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCModifyInformation"; }
+	std::string getPacketName() const { return "GCModifyInformation"; }
 #endif
 };
 
@@ -35,10 +35,10 @@ public:
 class GCModifyInformationFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCModifyInformation(); }
-	std::string getPacketName() const throw() { return "GCModifyInformation"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_MODIFY_INFORMATION; }
-	PacketSize_t getPacketMaxSize() const throw() { return ModifyInfo::getPacketMaxSize(); }
+	Packet* createPacket() { return new GCModifyInformation(); }
+	std::string getPacketName() const { return "GCModifyInformation"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_MODIFY_INFORMATION; }
+	PacketSize_t getPacketMaxSize() const { return ModifyInfo::getPacketMaxSize(); }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ public:
 class GCModifyInformationHandler 
 {
 public:
-	static void execute(GCModifyInformation* pGCModifyInformation, Player* pPlayer) throw(Error);
+	static void execute(GCModifyInformation* pGCModifyInformation, Player* pPlayer);
 
 };
 

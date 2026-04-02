@@ -7,10 +7,10 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
-#include "GCFriendDel.h"
-#include "VS_UI_Friend_System.h"
+//#include "VS_UI_Friend_System.h"
 
+#include "GPacket_PCH.h"
+#include "GCFriendDel.h"
 #include "Assert.h"
 
 #ifdef __GAME_SERVER__
@@ -19,7 +19,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void GCFriendDelHandler::execute ( GCFriendDel* pPacket, Player* pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -28,7 +27,7 @@ void GCFriendDelHandler::execute ( GCFriendDel* pPacket, Player* pPlayer )
 
 #endif
 		
-	// Ä£±¸ ½Ã½ºÅÛ Ã¢À» °¡Áö°í ¿Â´Ù. ¾øÀ» °æ¿ì »ý¼º
+	// Ä£ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	C_VS_UI_FRIEND_SYSTEM* pFriend = (C_VS_UI_FRIEND_SYSTEM*)gpC_window_manager->GetWindowbyName("FriendSystem");
 	if (!pFriend)
 	{
@@ -36,7 +35,7 @@ void GCFriendDelHandler::execute ( GCFriendDel* pPacket, Player* pPlayer )
 		pFriend->SetWindowName("FriendSystem");
 	}
 	
-	// Ä£±¸ Áö¿ì±â
+	// Ä£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (!pPacket->GetPCName().empty())
 	{
 		pFriend->GetListView()->DeleteColumnItem(pPacket->GetPCName().c_str());

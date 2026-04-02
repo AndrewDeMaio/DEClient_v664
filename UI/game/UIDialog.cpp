@@ -17,8 +17,8 @@
 
 
 
-#include "Packet/CPackets/CGSelectQuest.h"
-#include "Packet/CPackets/CGSelectBloodBible.h"
+#include "CPackets/CGSelectQuest.h"
+#include "CPackets/CGSelectBloodBible.h"
 
 #ifdef OUTPUT_DEBUG
 #include "MZone.h"

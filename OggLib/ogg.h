@@ -21,7 +21,7 @@
 extern "C" {
 #endif
 
-#include <ogg/os_types.h>
+#include <os_types.h>
 
 typedef struct {
   long endbyte;
@@ -96,6 +96,12 @@ typedef struct {
 				layer) also knows about the gap */
 } ogg_packet;
 
+/* ogg_iovec_t is used for scatter/gather I/O (added in libogg 1.3.0) */
+typedef struct {
+  void *iov_base;
+  size_t iov_len;
+} ogg_iovec_t;
+
 typedef struct {
   unsigned char *data;
   int storage;
@@ -148,6 +154,7 @@ extern unsigned char *oggpackB_get_buffer(oggpack_buffer *b);
 /* Ogg BITSTREAM PRIMITIVES: encoding **************************/
 
 extern int      ogg_stream_packetin(ogg_stream_state *os, ogg_packet *op);
+extern int      ogg_stream_iovecin(ogg_stream_state *os, ogg_iovec_t *iov, int count, long e_o_s, ogg_int64_t granulepos);
 extern int      ogg_stream_pageout(ogg_stream_state *os, ogg_page *og);
 extern int      ogg_stream_flush(ogg_stream_state *os, ogg_page *og);
 

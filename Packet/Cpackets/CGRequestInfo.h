@@ -1,7 +1,7 @@
 //--------------------------------------------------------------------------------
 // 
 // Filename    : CGRequestInfo.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // 
 //--------------------------------------------------------------------------------
 
@@ -32,40 +32,40 @@ public :
 
 public:
 	
-	// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+	// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+	void read(SocketInputStream & iStream);
 		    
-	// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+	// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_CG_REQUEST_INFO; }
+	PacketID_t getPacketID() const { return PACKET_CG_REQUEST_INFO; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static CGRequestInfoPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize() const throw() { return szBYTE + szuint; }
+	// const static CGRequestInfoPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize() const { return szBYTE + szuint; }
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	std::string getPacketName() const throw() { return "CGRequestInfo"; }
+	std::string getPacketName() const { return "CGRequestInfo"; }
 	
 	// get packet's debug std::string
-	std::string toString() const throw();
+	std::string toString() const;
 #endif
 	
 public:
 
 	// get / set Code
-	BYTE getCode() const throw() { return m_Code; }
-	void setCode(BYTE code) throw() { m_Code = code; }
+	BYTE getCode() const { return m_Code; }
+	void setCode(BYTE code) { m_Code = code; }
 
 	// get / set Code
-	uint getValue() const throw() { return m_Value; }
-	void setValue(uint value) throw() { m_Value = value; }
+	uint getValue() const { return m_Value; }
+	void setValue(uint value) { m_Value = value; }
 
 private :
 	
@@ -90,18 +90,18 @@ class CGRequestInfoFactory : public PacketFactory {
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new CGRequestInfo(); }
+	Packet* createPacket() { return new CGRequestInfo(); }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "CGRequestInfo"; }
+	std::string getPacketName() const { return "CGRequestInfo"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_REQUEST_INFO; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_REQUEST_INFO; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static CGRequestInfoPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + szuint; }
+	// const static CGRequestInfoPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const { return szBYTE + szuint; }
 
 };
 #endif
@@ -117,7 +117,7 @@ class CGRequestInfoHandler {
 public:
 
 	// execute packet's handler
-	static void execute(CGRequestInfo* pPacket, Player* player) throw(ProtocolException, Error);
+	static void execute(CGRequestInfo* pPacket, Player* player);
 };
 #endif
 

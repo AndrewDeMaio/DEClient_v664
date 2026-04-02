@@ -8,7 +8,6 @@
 
 
 void CGRegistGuild::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -37,7 +36,6 @@ void CGRegistGuild::read (SocketInputStream & iStream)
 }
 
 void CGRegistGuild::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -63,7 +61,6 @@ void CGRegistGuild::write (SocketOutputStream & oStream) const
 }
 
 void CGRegistGuild::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -75,7 +72,6 @@ void CGRegistGuild::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGRegistGuild::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

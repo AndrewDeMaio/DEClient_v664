@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddEffectToTile.h"
 #include "ClientDef.h"
 #include "MEffectStatusTable.h"
@@ -22,14 +22,13 @@ extern void SetDragonTorando(int Type, DWORD ObjectID, int TileX, int TileY);
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAddEffectToTileHandler::execute ( GCAddEffectToTile * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
 #ifdef __GAME_CLIENT__
 		
 	//------------------------------------------------------
-	// µð¹ö±× ¸Þ½ÃÁö º¸±â
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if(g_pUserInformation->attrOperator.GetValue() &&
 	   g_pOperatorOption->bShowAddEffect)
@@ -44,7 +43,7 @@ void GCAddEffectToTileHandler::execute ( GCAddEffectToTile * pPacket , Player * 
 		UI_AddChatToHistory(szBuf, "Recv GCAddEffectToTile", 6, RGB(255, 255, 0));
 	}
 		
-	// ¿¹¿Ü Ã³¸®
+	// ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	if( pPacket->getEffectID() == EFFECTSTATUS_TRAP_INSTALLED && !g_pPlayer->IsSlayer() )
 		return;
 
@@ -73,7 +72,7 @@ void GCAddEffectToTileHandler::execute ( GCAddEffectToTile * pPacket , Player * 
 	int skillType	= (*g_pEffectStatusTable)[ EffectStatusType ].ActionInfo;
 	
 	// 2004, 9, 3, sobeit add start
-	if(EffectStatusType == EFFECTSTATUS_TURRET_LASER && g_pPlayer) // °ø¼ºÀü Æ®·¦Áß..°ø°ÝÃø¿¡ ¾Èº¸ÀÌ´Â ±¤¼±
+	if(EffectStatusType == EFFECTSTATUS_TURRET_LASER && g_pPlayer) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½..ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Èºï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½
 	{
 		if(g_pPlayer->HasEffectStatus(EFFECTSTATUS_SIEGE_ATTACKER_1) || 
 			g_pPlayer->HasEffectStatus(EFFECTSTATUS_SIEGE_ATTACKER_2) || 
@@ -84,7 +83,7 @@ void GCAddEffectToTileHandler::execute ( GCAddEffectToTile * pPacket , Player * 
 	}
 	// 2004, 9, 3, sobeit add end
 
-	// 2005, 1, 6, sobeit add start - µå·¹°ï Åä³×ÀÌµµ °ü·Ã Ã³¸®°¡ ÀÌ ÆÐÅ¶¿¡ ³¯¶ó¿Â´Ù..-_-
+	// 2005, 1, 6, sobeit add start - ï¿½å·¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Â´ï¿½..-_-
 	if(EffectStatusType == EFFECTSTATUS_DRAGON_TORNADO || EffectStatusType == EFFECTSTATUS_DRAGON_TORNADO_CHILD)
 	{
 		SetDragonTorando(EffectStatusType, pPacket->getObjectID(), pPacket->getX(), pPacket->getY());
@@ -94,7 +93,7 @@ void GCAddEffectToTileHandler::execute ( GCAddEffectToTile * pPacket , Player * 
 
 	// 2005, 1, 6, sobeit add end
 	//------------------------------------------------------------
-	// Effect¿Í °ü·ÃµÈ ±â¼úÀÌ ÀÖÀ»¶§..
+	// Effectï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
 	//------------------------------------------------------------
 	if (skillType!=ACTIONINFO_NULL)
 	{
@@ -116,7 +115,7 @@ void GCAddEffectToTileHandler::execute ( GCAddEffectToTile * pPacket , Player * 
 //		}
 
 		ExecuteActionInfoFromMainNode(
-				skillType,		// °ª ÀÚÃ¼°¡ RESULT_ACTIONINFOÀÌ´Ù.
+				skillType,		// ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ RESULT_ACTIONINFOï¿½Ì´ï¿½.
 			
 				x, y, 0,
 				DIRECTION_DOWN,
@@ -199,12 +198,12 @@ void GCAddEffectToTileHandler::execute ( GCAddEffectToTile * pPacket , Player * 
 	case EFFECTSTATUS_FURY_OF_GNOME:
 		if( g_pZone != NULL )
 		{
-			// ±× À§Ä¡¿¡ Ãß°¡ÇÒ ¼ö ÀÖ´ÂÁö Ã¼Å©¿ë ÀÌÆÑÆ®
+			// ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ Ã¼Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
 			MEffect*	pEffect = new MEffect(BLT_EFFECT);
 			TYPE_FRAMEID frameID = (*g_pEffectSpriteTypeTable)[EFFECTSPRITETYPE_FURY_OF_GNOME_GROUND_START].FrameID;
 
 			pEffect->SetFrameID(frameID, 0);	
-			pEffect->SetPosition(pPacket->getX(), pPacket->getY());		// Sector ÁÂÇ¥
+			pEffect->SetPosition(pPacket->getX(), pPacket->getY());		// Sector ï¿½ï¿½Ç¥
 
 			if(g_pZone->CanAddEffect(pEffect))
 			{
@@ -241,7 +240,7 @@ void GCAddEffectToTileHandler::execute ( GCAddEffectToTile * pPacket , Player * 
 	case EFFECTSTATUS_TILE_PORTAL:
 		if( g_pZone != NULL )
 		{
-			if(g_pZone->GetID() == 4001) // ÇÇÀÇ Á¦´Ü ÀÔ±¸
+			if(g_pZone->GetID() == 4001) // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô±ï¿½
 				ExecuteActionInfoFromMainNode(SKILL_CLIENT_QUEST_MAGIC_ZONE,16, 16, 0,0,	0,	
 								16, 16, 0, 0xffff, NULL, false);			
 		}

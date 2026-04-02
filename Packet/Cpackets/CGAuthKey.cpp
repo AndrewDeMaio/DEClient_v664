@@ -7,7 +7,6 @@
 #include "CGAuthKey.h"
 
 void CGAuthKey::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -17,7 +16,6 @@ void CGAuthKey::read ( SocketInputStream & iStream )
 }
 		    
 void CGAuthKey::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -27,7 +25,6 @@ void CGAuthKey::write ( SocketOutputStream & oStream ) const
 }
 
 void CGAuthKey::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -38,7 +35,6 @@ void CGAuthKey::execute ( Player * pPlayer )
 }
 #ifdef __DEBUG_OUTPUT__
 string CGAuthKey::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

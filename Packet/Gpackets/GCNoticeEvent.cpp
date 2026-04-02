@@ -4,14 +4,13 @@
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCNoticeEvent.h"
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCNoticeEvent::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -19,7 +18,7 @@ void GCNoticeEvent::read ( SocketInputStream & iStream )
 
 	switch (m_Code)
 	{
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ½á¾ß ÇÏ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½Úµï¿½
 		case NOTICE_EVENT_MASTER_COMBAT_TIME :
 		case NOTICE_EVENT_KICK_OUT_FROM_ZONE :
 		case NOTICE_EVENT_CONTINUAL_GROUND_ATTACK :
@@ -32,8 +31,8 @@ void GCNoticeEvent::read ( SocketInputStream & iStream )
 		case NOTICE_EVENT_MASTER_LAIR_COUNT :
 		case NOTICE_EVENT_MINI_GAME:
 		case NOTICE_EVENT_FLAG_WAR_FINISH:
-		case NOTICE_EVENT_LEVEL_WAR_ARRANGED :            // °ð ·¹º§º° ÀüÀïÀÌ ½ÃÀÛµË´Ï´Ù.
-		case NOTICE_EVENT_LEVEL_WAR_STARTED :             // ·¹º§º° ÀüÀïÀÌ ½ÃÀÛµÇ¾ú½À´Ï´Ù.
+		case NOTICE_EVENT_LEVEL_WAR_ARRANGED :            // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµË´Ï´ï¿½.
+		case NOTICE_EVENT_LEVEL_WAR_STARTED :             // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 		case NOTICE_EVENT_RACE_WAR_SOON:
 		case NOTICE_EVENT_ENTER_BEGINNER_ZONE:
 		case NOTICE_EVENT_FLAG_WAR_READY:
@@ -43,7 +42,7 @@ void GCNoticeEvent::read ( SocketInputStream & iStream )
 		case NOTICE_EVENT_CROWN_PRICE:
 			iStream.read(m_Parameter);
 			break;
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ¾²Áö ¾Ê¾Æµµ µÇ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½ ï¿½Ç´ï¿½ ï¿½Úµï¿½
 		default:
 			break;
 	}
@@ -52,10 +51,9 @@ void GCNoticeEvent::read ( SocketInputStream & iStream )
 }
 		    
 //////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCNoticeEvent::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -63,7 +61,7 @@ void GCNoticeEvent::write ( SocketOutputStream & oStream ) const
 
 	switch (m_Code)
 	{
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ½á¾ß ÇÏ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½Úµï¿½
 		case NOTICE_EVENT_MASTER_COMBAT_TIME :
 		case NOTICE_EVENT_KICK_OUT_FROM_ZONE :
 		case NOTICE_EVENT_CONTINUAL_GROUND_ATTACK :
@@ -76,8 +74,8 @@ void GCNoticeEvent::write ( SocketOutputStream & oStream ) const
 		case NOTICE_EVENT_MASTER_LAIR_COUNT :
 		case NOTICE_EVENT_MINI_GAME:
 		case NOTICE_EVENT_FLAG_WAR_FINISH:
-		case NOTICE_EVENT_LEVEL_WAR_ARRANGED :            // °ð ·¹º§º° ÀüÀïÀÌ ½ÃÀÛµË´Ï´Ù.
-		case NOTICE_EVENT_LEVEL_WAR_STARTED :             // ·¹º§º° ÀüÀïÀÌ ½ÃÀÛµÇ¾ú½À´Ï´Ù.
+		case NOTICE_EVENT_LEVEL_WAR_ARRANGED :            // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµË´Ï´ï¿½.
+		case NOTICE_EVENT_LEVEL_WAR_STARTED :             // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 		case NOTICE_EVENT_RACE_WAR_SOON:
 		case NOTICE_EVENT_ENTER_BEGINNER_ZONE:
 		case NOTICE_EVENT_FLAG_WAR_READY:
@@ -85,7 +83,7 @@ void GCNoticeEvent::write ( SocketOutputStream & oStream ) const
 		case NOTICE_EVENT_HOLYDAY:
 			oStream.write(m_Parameter);
 			break;
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ¾²Áö ¾Ê¾Æµµ µÇ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½ ï¿½Ç´ï¿½ ï¿½Úµï¿½
 		default:
 			break;
 	}
@@ -97,7 +95,6 @@ void GCNoticeEvent::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////////////
 void GCNoticeEvent::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -107,11 +104,10 @@ void GCNoticeEvent::execute ( Player * pPlayer )
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÆÐÅ¶ »çÀÌÁî
+// ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
-PacketSize_t GCNoticeEvent::getPacketSize () const 
-	throw() 
+PacketSize_t GCNoticeEvent::getPacketSize () const  
 {
 	__BEGIN_TRY
 
@@ -119,7 +115,7 @@ PacketSize_t GCNoticeEvent::getPacketSize () const
 
 	switch (m_Code)
 	{
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ½á¾ß ÇÏ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½Úµï¿½
 		case NOTICE_EVENT_MASTER_COMBAT_TIME :
 		case NOTICE_EVENT_KICK_OUT_FROM_ZONE :
 		case NOTICE_EVENT_CONTINUAL_GROUND_ATTACK :
@@ -132,8 +128,8 @@ PacketSize_t GCNoticeEvent::getPacketSize () const
 		case NOTICE_EVENT_MASTER_LAIR_COUNT :
 		case NOTICE_EVENT_MINI_GAME:
 		case NOTICE_EVENT_FLAG_WAR_FINISH:
-		case NOTICE_EVENT_LEVEL_WAR_ARRANGED :            // °ð ·¹º§º° ÀüÀïÀÌ ½ÃÀÛµË´Ï´Ù.
-		case NOTICE_EVENT_LEVEL_WAR_STARTED :             // ·¹º§º° ÀüÀïÀÌ ½ÃÀÛµÇ¾ú½À´Ï´Ù.
+		case NOTICE_EVENT_LEVEL_WAR_ARRANGED :            // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµË´Ï´ï¿½.
+		case NOTICE_EVENT_LEVEL_WAR_STARTED :             // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 		case NOTICE_EVENT_RACE_WAR_SOON:
 		case NOTICE_EVENT_ENTER_BEGINNER_ZONE:
 		case NOTICE_EVENT_FLAG_WAR_READY:
@@ -142,7 +138,7 @@ PacketSize_t GCNoticeEvent::getPacketSize () const
 			//		case NOTICE_EVENT_RACE_WAR_TODAY:
 			size += szuint;
 			break;
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ¾²Áö ¾Ê¾Æµµ µÇ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½ ï¿½Ç´ï¿½ ï¿½Úµï¿½
 		default:
 			break;
 	}
@@ -157,7 +153,6 @@ PacketSize_t GCNoticeEvent::getPacketSize () const
 // get packet's debug std::string
 //////////////////////////////////////////////////////////////////////////////
 std::string GCNoticeEvent::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 

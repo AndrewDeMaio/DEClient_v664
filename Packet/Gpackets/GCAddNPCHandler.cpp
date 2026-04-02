@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddNPC.h"
 #include "ClientDef.h"
 #include "MNPC.h"
@@ -22,7 +22,6 @@ extern bool					g_bZonePlayerInLarge;
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAddNPCHandler::execute ( GCAddNPC * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -31,7 +30,7 @@ void GCAddNPCHandler::execute ( GCAddNPC * pPacket , Player * pPlayer )
 	// message
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -40,7 +39,7 @@ void GCAddNPCHandler::execute ( GCAddNPC * pPacket , Player * pPlayer )
 		
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -48,7 +47,7 @@ void GCAddNPCHandler::execute ( GCAddNPC * pPacket , Player * pPlayer )
 		
 
 		//--------------------------------------------------
-		// »õ·Î¿î CreatureÀÌ¸é Ãß°¡
+		// ï¿½ï¿½ï¿½Î¿ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ß°ï¿½
 		//--------------------------------------------------
 		if (pCreature==NULL)
 		{			
@@ -60,7 +59,7 @@ void GCAddNPCHandler::execute ( GCAddNPC * pPacket , Player * pPlayer )
 
 			int zoneID	= (g_bZonePlayerInLarge?g_nZoneLarge : g_nZoneSmall);
 
-			// EVE ±æµå ¸¶Å©
+			// EVE ï¿½ï¿½ï¿½ ï¿½ï¿½Å©
 			int creatureType = npcID;
 			int spriteType = (*g_pCreatureTable)[creatureType].SpriteTypes[0];
 			
@@ -81,12 +80,12 @@ void GCAddNPCHandler::execute ( GCAddNPC * pPacket , Player * pPlayer )
 			}
 			else if (zoneID==1007 || zoneID==1114 || zoneID==1115)
 			{
-				// Å×ÆäÁî
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				pNPC->SetGuildNumber( GUILDID_TEPEZ );
 			}
 			else
 			{
-				// ¹ÙÅä¸®
+				// ï¿½ï¿½ï¿½ä¸®
 				pNPC->SetGuildNumber( GUILDID_BATHORY );
 			}
 
@@ -115,7 +114,7 @@ void GCAddNPCHandler::execute ( GCAddNPC * pPacket , Player * pPlayer )
 			//
 			pNPC->SetStatus( MODIFY_MAX_HP, 100 );
 			
-			// ¸ö¿¡ ÀÌÆÑÆ®°¡ ºÙ´Â Creature¶ó¸é ÀÌÆÑÆ®¸¦ ºÙ¿©ÁØ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ù´ï¿½ Creatureï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ù¿ï¿½ï¿½Ø´ï¿½.
 			if(creatureType < g_pCreatureTable->GetSize())
 			{
 				CREATURETABLE_INFO &creatureInfo = g_pCreatureTable->Get(creatureType);
@@ -128,12 +127,12 @@ void GCAddNPCHandler::execute ( GCAddNPC * pPacket , Player * pPlayer )
 
 //			_MinTrace("AddNPC : %s Dir:%d Pos(%d,%d) CreatureType : %d\n",pNPC->GetName(), pPacket->getDir(), pPacket->getX(), pPacket->getY(), pPacket->getNPCID() );
 			//------------------------------------------------------------
-			// ¹ÙÅä¸®ÀÎ °æ¿ì.. ÇÏµåÄÚµù(-_-);
+			// ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½.. ï¿½Ïµï¿½ï¿½Úµï¿½(-_-);
 			//------------------------------------------------------------
 			if (npcID==217)
 			{
 				pNPC->SetStatus( MODIFY_CURRENT_HP, 10 );
-				pNPC->SetStatus( MODIFY_ALIGNMENT, -10000 );	// º° ÀÇ¹Ì¾ø´Ù
+				pNPC->SetStatus( MODIFY_ALIGNMENT, -10000 );	// ï¿½ï¿½ ï¿½Ç¹Ì¾ï¿½ï¿½ï¿½
 			}
 			else
 			{
@@ -148,12 +147,12 @@ void GCAddNPCHandler::execute ( GCAddNPC * pPacket , Player * pPlayer )
 			else
 			{			
 				//------------------------------------------------------------
-				// Slayer NPCÀÎ °æ¿ì º¹ÀåÀ» ÀÔÈù´Ù.
+				// Slayer NPCï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 				//------------------------------------------------------------
 				SetAddonToSlayer( (MNPC*)pNPC, npcID );
 
 				//------------------------------------------------------------
-				// LoadµÇÁö ¾Ê¾ÒÀ¸¸é loadÇÑ´Ù.
+				// Loadï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ loadï¿½Ñ´ï¿½.
 				//------------------------------------------------------------
 //				LoadCreatureType( pPacket->getNPCID() );
 
@@ -165,7 +164,7 @@ void GCAddNPCHandler::execute ( GCAddNPC * pPacket , Player * pPlayer )
 				if( pNPC->GetCreatureType() == 639 || pNPC->GetCreatureType() == 654)
 					pEffect = pNPC->CreateAttachEffect( EFFECTSPRITETYPE_RIPATY, 0xffff,0);
 
-#if __CONTENTS(__TIPOJYU_CASTLE)	//NPC ÀÌÆåÆ® ºÙÀÌ±â
+#if __CONTENTS(__TIPOJYU_CASTLE)	//NPC ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ì±ï¿½
 				if( pNPC->GetCreatureType() == 1041)
 				{
 					pEffect = pNPC->CreateAttachEffect( EFFECTSPRITETYPE_TIPOJYU_LIFE_CASTLE_ADDMISION_NPC1, 0xffff,0);
@@ -191,13 +190,13 @@ void GCAddNPCHandler::execute ( GCAddNPC * pPacket , Player * pPlayer )
 			}
 		}
 		//--------------------------------------------------
-		// ÀÌ¹Ì ÀÖ´ø CreatureÀÎ °æ¿ì
+		// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		else
 		{
 			if (pCreature->GetClassType()==MCreature::CLASS_NPC)
 			{
-				// ÀÌ¹Ì ÀÖ´Ù..
+				// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½..
 				pCreature->SetGroundCreature();
 #if __CONTENTS(__MENEGROTH)
 				SetEffectInfo( pCreature, pPacket->getEffectInfo() );
@@ -223,7 +222,7 @@ void GCAddNPCHandler::execute ( GCAddNPC * pPacket , Player * pPlayer )
 		}
 	}
 
-	// [µµ¿ò¸»] NPC°¡ ³ªÅ¸³¯¶§
+	// [ï¿½ï¿½ï¿½ï¿½] NPCï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½
 //	__BEGIN_HELP_EVENT
 ////		ExecuteHelpEvent( HE_CREATURE_APPEAR_NPC );
 //	__END_HELP_EVENT

@@ -2,17 +2,16 @@
 // Filename    : GCAddVampirePortalHandler.cpp
 // Written By  : excel96
 // Description :
-// ¹ìÆÄÀÌ¾î Æ÷Å»Àº ÇöÀç ÀÌÆåÆ®ÀÇ ÀÏÁ¾À¸·Î¼­ ±¸ÇöµÇ´Âµ¥, ÀÌ ÆÐÅ¶Àº
-// Å¬¶óÀÌ¾ðÆ®¿¡°Ô ¹Ù´Ú¿¡´Ù ¹ìÆÄÀÌ¾î Æ÷Å» ÀÌÆåÆ®¸¦ ºÙÀÌ¶ó´Â ÆÐÅ¶ÀÌ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´Âµï¿½, ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Ù´Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å» ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddVampirePortal.h"
 #include "ClientDef.h"
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 void GCAddVampirePortalHandler::execute ( GCAddVampirePortal * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY 
 		
@@ -31,7 +30,7 @@ void GCAddVampirePortalHandler::execute ( GCAddVampirePortal * pPacket , Player 
 	TYPE_SECTORPOSITION zoneX = pPacket->getTargetX();
 	TYPE_SECTORPOSITION zoneY = pPacket->getTargetY();
 
-	// ¿À·¡µÈ°Å¸é mainNodeºÎÅÍ ½ÇÇàÇØ¾ßµÇÁö..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½È°Å¸ï¿½ mainNodeï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ßµï¿½ï¿½ï¿½..
 	bool bStartFromMainNode = (pPacket->getCreateFlag()==0);
 
 	AddVampirePortal( serverID, 

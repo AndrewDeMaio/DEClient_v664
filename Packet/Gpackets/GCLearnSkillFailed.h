@@ -2,7 +2,7 @@
 // 
 // Filename    :  GCLearnSkillFailed.h 
 // Written By  :  elca@ewestsoft.com
-// Description :  Å
+// Description :  ï¿½
 //                
 // 
 //////////////////////////////////////////////////////////////////////
@@ -27,42 +27,42 @@ class GCLearnSkillFailed : public Packet
 
 public: 
 
-	GCLearnSkillFailed() throw();
-	virtual ~GCLearnSkillFailed() throw();
+	GCLearnSkillFailed();
+	virtual ~GCLearnSkillFailed();
 
 	
 public:
 	
-	// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+	// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+	void read ( SocketInputStream & iStream );
 			
-	// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+	// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_LEARN_SKILL_FAILED; }
+	PacketID_t getPacketID () const { return PACKET_GC_LEARN_SKILL_FAILED; }
 	
 	// get packet size
-	PacketSize_t getPacketSize () const throw () { return szSkillType+szBYTE; }
+	size_t getPacketSize () const { return szSkillType+szBYTE; }
 	
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCLearnSkillFailed"; }
+		std::string getPacketName () const { return "GCLearnSkillFailed"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
 	// get/set skill type
-	SkillType_t getSkillType(void) const throw () { return m_SkillType; }
-	void setSkillType( SkillType_t SkillType ) throw () { m_SkillType = SkillType; }
+	SkillType_t getSkillType(void) const { return m_SkillType; }
+	void setSkillType( SkillType_t SkillType ) { m_SkillType = SkillType; }
 
 	// get/set description
-	BYTE getDesc(void) const throw() { return m_Desc;}
-	void setDesc(BYTE desc) throw() { m_Desc = desc;}
+	BYTE getDesc(void) const { return m_Desc;}
+	void setDesc(BYTE desc) { m_Desc = desc;}
 
 private:
 
@@ -85,27 +85,27 @@ class  GCLearnSkillFailedFactory : public PacketFactory {
 public :
 	
 	// constructor
-	 GCLearnSkillFailedFactory () throw () {}
+	 GCLearnSkillFailedFactory () {}
 	
 	// destructor
-	virtual ~GCLearnSkillFailedFactory () throw () {}
+	virtual ~GCLearnSkillFailedFactory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCLearnSkillFailed(); }
+	Packet * createPacket () { return new GCLearnSkillFailed(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCLearnSkillFailed"; }
+		std::string getPacketName () const { return "GCLearnSkillFailed"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_LEARN_SKILL_FAILED; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_LEARN_SKILL_FAILED; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize() const throw() { return szSkillType+szBYTE; }
+	PacketSize_t getPacketMaxSize() const { return szSkillType+szBYTE; }
 
 };
 
@@ -121,7 +121,7 @@ class  GCLearnSkillFailedHandler {
 public :
 
 	// execute packet's handler
-	static void execute (  GCLearnSkillFailed * pGCLearnSkillFailed , Player * pPlayer ) throw ( Error );
+	static void execute (  GCLearnSkillFailed * pGCLearnSkillFailed , Player * pPlayer );
 
 };
 

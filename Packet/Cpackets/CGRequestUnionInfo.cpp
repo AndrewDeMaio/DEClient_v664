@@ -8,7 +8,6 @@
 
 
 void CGRequestUnionInfo::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -16,7 +15,6 @@ void CGRequestUnionInfo::read (SocketInputStream & iStream)
 }
 
 void CGRequestUnionInfo::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -24,7 +22,6 @@ void CGRequestUnionInfo::write (SocketOutputStream & oStream) const
 }
 
 void CGRequestUnionInfo::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__			
@@ -34,7 +31,6 @@ void CGRequestUnionInfo::execute (Player* pPlayer)
 }
 #ifdef __DEBUG_OUTPUT__
 string CGRequestUnionInfo::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

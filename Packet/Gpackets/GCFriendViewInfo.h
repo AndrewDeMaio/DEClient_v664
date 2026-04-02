@@ -22,17 +22,17 @@ class GCFriendViewInfo : public Packet {
 
 public:
 	GCFriendViewInfo();
-	virtual ~GCFriendViewInfo() throw();
+	virtual ~GCFriendViewInfo();
 	
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
 
-	PacketID_t getPacketID() const throw() { return PACKET_GC_FRIEND_VIEW_INFO; }
-	PacketSize_t getPacketSize() const throw();
+	PacketID_t getPacketID() const { return PACKET_GC_FRIEND_VIEW_INFO; }
+	size_t getPacketSize() const;
 
-	string getPacketName() const throw() { return "GCFriendViewInfo"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCFriendViewInfo"; }
+	string toString() const;
 	
 	void SetFriendDetailInfo(FriendDetailInfo& Info);
 	FriendDetailInfo& GetFriendDetailInfo();
@@ -58,13 +58,13 @@ class GCFriendViewInfoFactory : public PacketFactory {
 
 public:
 	
-	Packet* createPacket() throw() { return new GCFriendViewInfo(); }
-	string getPacketName() const throw() { return "GCFriendViewInfo"; }
+	Packet* createPacket() { return new GCFriendViewInfo(); }
+	string getPacketName() const { return "GCFriendViewInfo"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_FRIEND_VIEW_INFO; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_FRIEND_VIEW_INFO; }
 
-	PacketSize_t getPacketMaxSize() const throw() 
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		return FriendDetailInfo::getMaxSize() + StringInfo::getMaxSize() + szBYTE + szBYTE;
 	}
@@ -83,7 +83,7 @@ class GCFriendViewInfoHandler {
 public:
 
 	// execute packet's handler
-	static void execute(GCFriendViewInfo* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCFriendViewInfo* pPacket, Player* pPlayer);
 
 };
 #endif //__FRIEND_ADDITION

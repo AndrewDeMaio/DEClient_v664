@@ -2,7 +2,7 @@
 
 	VS_UI_widget.h
 
-	VS UI Àü¿ë Widget.
+	VS UI ï¿½ï¿½ï¿½ï¿½ Widget.
 
 	2000.6.7. KJTINC
 
@@ -13,7 +13,6 @@
 
 #include "VS_UI_Base.h"
 #include "VS_UI_GlobalResource.h"
-#include "CImm.h"
 #include "VS_UI_MOUSE_POINTER.h"
 #include "RarFile.h"
 /*
@@ -94,8 +93,8 @@ public:
 					m_alpha--;
 				}
 
-				// !m_alpha = 0ÀÎ »óÅÂ¿¡¼­ ¶Ç m_alpha--°¡ µÉ ¼ö ÀÖ´Ù. ÀÌ°ÍÀº ½Ã°£Â÷¿¡ ÀÇÇØ¼­
-				// EventFocuxX°¡ µÎ¹øÀÌ»ó ½ÇÇàµÇ±â ¶§¹®ÀÌ´Ù.
+				// !m_alpha = 0ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ ï¿½ï¿½ m_alpha--ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½. ï¿½Ì°ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½
+				// EventFocuxXï¿½ï¿½ ï¿½Î¹ï¿½ï¿½Ì»ï¿½ ï¿½ï¿½ï¿½ï¿½Ç±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 				if (m_alpha <= 0)
 				{
 					m_alpha = 0;
@@ -117,8 +116,6 @@ public:
 	{
 		m_dw_prev_tickcount = GetTickCount();
 		m_bl_start = true;
-		if(gpC_Imm)
-			gpC_Imm->ForceUI(CImm::FORCE_UI_BUTTON);
 	}
 
 	void	EventFocusOff()
@@ -132,7 +129,7 @@ public:
 
 //-----------------------------------------------------------------------------
 // C_VS_UI_EVENT_STRING_BUTTON
-// : ¹®ÀÚ¿­À» Æ÷ÇÔÇÏ°í ÀÖ´Â ¹öÆ° Å¬·¡½º
+// : ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½Æ° Å¬ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 class C_VS_UI_EVENT_STRING_BUTTON : public C_VS_UI_EVENT_BUTTON
 {
@@ -154,8 +151,8 @@ public:
 
 //-----------------------------------------------------------------------------
 // C_VS_UI_EVENT_CHECK_BUTTON
-// : Ã¼Å©¹öÆ°À» À§ÇØ Æ¯È­µÈ Å¬·¡½º.
-//   ±âÁ¸¿¡ Ã¼Å©¹öÆ°°ú ¹®ÀÚ¿­À» µû·Î Âï¾îÁà¾ßÇÏ´Â ºÒÆíÇÔÀ» ÇØ¼ÒÇß´Ù.
+// : Ã¼Å©ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Æ¯È­ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½.
+//   ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø¼ï¿½ï¿½ß´ï¿½.
 //-----------------------------------------------------------------------------
 class C_VS_UI_EVENT_CHECK_BUTTON : public C_VS_UI_EVENT_STRING_BUTTON
 {
@@ -190,7 +187,7 @@ private:
 
 //-----------------------------------------------------------------------------
 // C_VS_UI_EVENT_PUSH_BUTTON
-// : Á¶¸³ °¡´ÉÇÑ ¹öÆ° Å¬·¡½º
+// : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° Å¬ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 class C_VS_UI_EVENT_PUSH_BUTTON : public C_VS_UI_EVENT_STRING_BUTTON
 {
@@ -213,12 +210,12 @@ class ButtonVisual
 {
 public:
 	//
-	// ÇÏ³ªÀÇ buttonÀ» ±¸º°ÇÏ±â À§ÇÑ id¿Í buttonÀÇ »óÅÂ flag¸¦ ÀÎÀÚ·Î ÇÑ´Ù.
+	// ï¿½Ï³ï¿½ï¿½ï¿½ buttonï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ idï¿½ï¿½ buttonï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ flagï¿½ï¿½ ï¿½ï¿½ï¿½Ú·ï¿½ ï¿½Ñ´ï¿½.
 	//
 	virtual void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button) = 0;
 
-	// Desciption ÀÌ ÀÖ´ÂºÎºÐ¿¡¸¸ È£ÃâµÈ´Ù.
-	// ButtonGroup::ShowDescription(); À¸·Î È£ÃâÀÌ µÇ¸ç, ÇÊ¿äÇÏÁö ¾ÊÀ»°æ¿ì »ç¿ëÇÏÁö ¾Ê¾Æµµ »ó
+	// Desciption ï¿½ï¿½ ï¿½Ö´ÂºÎºÐ¿ï¿½ï¿½ï¿½ È£ï¿½ï¿½È´ï¿½.
+	// ButtonGroup::ShowDescription(); ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½, ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½ ï¿½ï¿½
 	virtual void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button){}
 
 };
@@ -230,7 +227,7 @@ extern Button *	gpC_press_button;
 //-----------------------------------------------------------------------------
 // ButtonGroup
 //
-// C_VS_UI_BUTTON2 object¸¦ °ü¸®ÇÑ´Ù.
+// C_VS_UI_BUTTON2 objectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 class ButtonGroup : public SimpleDataList<C_VS_UI_EVENT_BUTTON *>
 {
@@ -391,9 +388,9 @@ public:
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-// ½ºÅ©·Ñ¹Ù Å¬·¡½ºÀÌ´Ù
-// ³»ºÎÀûÀ¸·Î Show¸¦ °¡Áö°í ÀÖÀ¸¸ç ±âº» ½ºÅ©·Ñ¹Ù spk¸¦ Ãâ·ÂÇÑ´Ù.
-// ´Ù¸¥ spk¸¦ »ç¿ëÇÏµµ·Ï ¼³Á¤ÇÒ¼ö ÀÖÀ¸³ª, ½ºÇÁ¶óÀÌÆ®ÀÇ ¼ø¼­´Â ±âº» spk¿Í °°¾Æ¾ß ÇÑ´Ù.
+// ï¿½ï¿½Å©ï¿½Ñ¹ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Showï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½âº» ï¿½ï¿½Å©ï¿½Ñ¹ï¿½ spkï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+// ï¿½Ù¸ï¿½ spkï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½âº» spkï¿½ï¿½ ï¿½ï¿½ï¿½Æ¾ï¿½ ï¿½Ñ´ï¿½.
 ////////////////////////////////////////////////////////////////////////////////////////////
 
 class C_VS_UI_SCROLL_BAR : public Rect
@@ -677,7 +674,7 @@ public:
 		{
 			int i = 0;
 #if __CONTENTS(__TITLE_UI_RENWEAL)
-			i	= 8;	// OptionTilteScroll.SPK¿¡¸¸ Ãß°¡ÇØ ÁÖ¾ú´Ù.
+			i	= 8;	// OptionTilteScroll.SPKï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½.
 			if(spk)
 			{
 				Rect rect;
@@ -773,8 +770,6 @@ public:
 					if(m_up_button_focused == false)
 					{
 						m_up_button_focused = true;
-						if(gpC_Imm)
-							gpC_Imm->ForceUI(CImm::FORCE_UI_BUTTON);
 					}
 					m_down_button_focused = false;
 				}
@@ -783,8 +778,6 @@ public:
 					if(m_down_button_focused == false)
 					{
 						m_down_button_focused = true;
-						if(gpC_Imm)
-							gpC_Imm->ForceUI(CImm::FORCE_UI_BUTTON);
 					}
 					m_up_button_focused = false;
 				}
@@ -805,8 +798,6 @@ public:
 					if(m_up_button_focused == false)
 					{
 						m_up_button_focused = true;
-						if(gpC_Imm)
-							gpC_Imm->ForceUI(CImm::FORCE_UI_BUTTON);
 					}
 					m_down_button_focused = false;
 				}
@@ -815,8 +806,6 @@ public:
 					if(m_down_button_focused == false)
 					{
 						m_down_button_focused = true;
-						if(gpC_Imm)
-							gpC_Imm->ForceUI(CImm::FORCE_UI_BUTTON);
 					}
 					m_up_button_focused = false;
 				}
@@ -938,7 +927,7 @@ public:
 		return m_pos;
 	}
 
-	void	SetPosMax(int max)	//pos_max´Â ½ºÅ©·ÑµÉ Ç×¸ñÀÇ °³¼öÀÌ´Ù. ¸¸¾à ÇÑ È­¸é¿¡ 5°³ÀÇ Ç×¸ñÀÌ ³ª¿À°í, ÃÑ 10°³ÀÇ Ç×¸ñÀÌ ÀÖ´Ù¸é ½ºÅ©·Ñ°ªÀº 0~5 ±îÁö °¡Áö¹Ç·Î pos_max == 6 ÀÌ´Ù. 
+	void	SetPosMax(int max)	//pos_maxï¿½ï¿½ ï¿½ï¿½Å©ï¿½Ñµï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È­ï¿½é¿¡ 5ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ 10ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½Å©ï¿½Ñ°ï¿½ï¿½ï¿½ 0~5 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ pos_max == 6 ï¿½Ì´ï¿½. 
 	{
 		m_pos = 0;
 		m_pos_max = max;
@@ -997,7 +986,7 @@ public:
 	void	SetFindString(string _str);
 	const char *GetFindString()							{ return m_find_string.c_str(); }
 	void	FindStringClear()							{ m_find_string = ""; m_bfindOK = false; }
-	bool	IsFindStringOK()							{ return m_bfindOK; }	// ¸®½ºÆ® ³»¿¡ °Ë»ö¾î°¡ Á¸ÀçÇÏ´Â°¡?
+	bool	IsFindStringOK()							{ return m_bfindOK; }	// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½?
 
 	void	SetDescription()							{ b_Description = true; }
 	void	UnSetDescription()							{ b_Description = false; }
@@ -1033,7 +1022,7 @@ private:
 	string				m_null_string;
 	bool				m_bfindOK;
 	
-	bool				b_Description;			// DescriptionÀ» º¸¿©ÁÙ°ÍÀÎÁö ¸»°ÍÀÎÁö
+	bool				b_Description;			// Descriptionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ù°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
 	COLORREF			m_ColorFind;
 	COLORREF			m_ColorOver;

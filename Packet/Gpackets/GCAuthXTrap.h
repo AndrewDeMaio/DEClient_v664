@@ -22,19 +22,19 @@
 class GCAuthXTrap : public Packet 
 {
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_AUTH_XTRAP; }
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_AUTH_XTRAP; }
 	
-	PacketSize_t getPacketSize() const throw() { return szshort + szBYTE + szAuth ; }
-	string getPacketName() const throw() { return "GCAuthXTrap"; }
-	string toString() const throw();
+	size_t getPacketSize() const { return szshort + szBYTE + szAuth ; }
+	string getPacketName() const { return "GCAuthXTrap"; }
+	string toString() const;
 	
-	BYTE * getAuthData() const throw() { return (BYTE *)m_AuthData; };
+	BYTE * getAuthData() const { return (BYTE *)m_AuthData; };
 	
-	BYTE * getKey() const throw() { return (BYTE *)m_AuthData; }
-	void setKey(BYTE * key) throw() { memcpy(m_AuthData , key, szAuth); }
+	BYTE * getKey() const { return (BYTE *)m_AuthData; }
+	void setKey(BYTE * key) { memcpy(m_AuthData , key, szAuth); }
 	
 	short m_shCmdFlag;
 private:
@@ -53,10 +53,10 @@ private:
 class GCAuthXTrapFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCAuthXTrap(); }
-	string getPacketName() const throw() { return "GCAuthXTrap"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_AUTH_XTRAP; }
-	PacketSize_t getPacketMaxSize() const throw() { return szshort + szBYTE + szAuth ; }
+	Packet* createPacket() { return new GCAuthXTrap(); }
+	string getPacketName() const { return "GCAuthXTrap"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_AUTH_XTRAP; }
+	PacketSize_t getPacketMaxSize() const { return szshort + szBYTE + szAuth ; }
 
 };
 
@@ -68,7 +68,7 @@ public:
 class GCAuthXTrapHandler 
 {
 public:
-	static void execute(GCAuthXTrap* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCAuthXTrap* pPacket, Player* pPlayer);
 
 };
 

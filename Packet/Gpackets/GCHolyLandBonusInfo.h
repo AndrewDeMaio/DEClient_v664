@@ -30,43 +30,43 @@ class GCHolyLandBonusInfo : public Packet {
 public :
 
 	// constructor
-	GCHolyLandBonusInfo() throw();
+	GCHolyLandBonusInfo();
 
 	// destructor
-	~GCHolyLandBonusInfo() throw();
+	~GCHolyLandBonusInfo();
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_HOLY_LAND_BONUS_INFO; }
+	PacketID_t getPacketID() const { return PACKET_GC_HOLY_LAND_BONUS_INFO; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw();
+	size_t getPacketSize() const;
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	std::string getPacketName() const throw() { return "GCHolyLandBonusInfo"; }
+	std::string getPacketName() const { return "GCHolyLandBonusInfo"; }
 	
 	// get packet's debug std::string
-	std::string toString() const throw();
+	std::string toString() const;
 #endif
 
 public:
 
-	BYTE getListNum() const throw() { return m_BloodBibleBonusInfoList.size(); }
+	BYTE getListNum() const { return m_BloodBibleBonusInfoList.size(); }
 
-	void addBloodBibleBonusInfo( BloodBibleBonusInfo* pBloodBibleBonusInfo ) throw() { m_BloodBibleBonusInfoList.push_back( pBloodBibleBonusInfo ); }
+	void addBloodBibleBonusInfo( BloodBibleBonusInfo* pBloodBibleBonusInfo ) { m_BloodBibleBonusInfoList.push_back( pBloodBibleBonusInfo ); }
 
-	void clearBloodBibleBonusInfoList() throw();
+	void clearBloodBibleBonusInfoList();
 
-	BloodBibleBonusInfo* popFrontBloodBibleBonusInfoList() throw()
+	BloodBibleBonusInfo* popFrontBloodBibleBonusInfoList()
 	{
 		if ( !m_BloodBibleBonusInfoList.empty() )
 		{
@@ -97,18 +97,18 @@ class GCHolyLandBonusInfoFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet* createPacket() throw() { return new GCHolyLandBonusInfo(); }
+	Packet* createPacket() { return new GCHolyLandBonusInfo(); }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "GCHolyLandBonusInfo"; }
+	std::string getPacketName() const { return "GCHolyLandBonusInfo"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_HOLY_LAND_BONUS_INFO; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_HOLY_LAND_BONUS_INFO; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCSystemMessagePacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + BloodBibleBonusInfo::getMaxSize()*12; }
+	// const static GCSystemMessagePacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const { return szBYTE + BloodBibleBonusInfo::getMaxSize()*12; }
 
 };
 
@@ -124,7 +124,7 @@ class GCHolyLandBonusInfoHandler {
 public :
 	
 	// execute packet's handler
-	static void execute(GCHolyLandBonusInfo* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCHolyLandBonusInfo* pPacket, Player* pPlayer);
 
 };
 

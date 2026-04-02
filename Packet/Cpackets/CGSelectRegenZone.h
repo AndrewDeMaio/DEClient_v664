@@ -2,7 +2,7 @@
 // Filename    : CGSelectRegenZone.h 
 // Written By  : excel96
 // Description : 
-// ½½·¹ÀÌ¾î°¡ °³ÀÎ¿ë Æ÷Å»À» ÀÌ¿ëÇØ ´Ù¸¥ °÷À¸·Î ÀÌµ¿ÇÏ°íÀÚ ÇÒ ¶§ º¸³»´Â ÆÐÅ¶
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½Å»ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __CG_SELECT_REGEN_ZONE_H__
@@ -20,14 +20,14 @@
 class CGSelectRegenZone : public Packet 
 {
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_SELECT_REGEN_ZONE; }
-	PacketSize_t getPacketSize() const throw() { return szBYTE; }
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_SELECT_REGEN_ZONE; }
+	size_t getPacketSize() const { return szBYTE; }
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "CGSelectRegenZone"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "CGSelectRegenZone"; }
+	std::string toString() const;
 #endif
 
 public:
@@ -43,10 +43,10 @@ private:
 
 class CGSelectRegenZoneFactory : public PacketFactory 
 {
-	Packet* createPacket() throw() { return new CGSelectRegenZone(); }
-	std::string getPacketName() const throw() { return "CGSelectRegenZone"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_SELECT_REGEN_ZONE; }
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE; }
+	Packet* createPacket() { return new CGSelectRegenZone(); }
+	std::string getPacketName() const { return "CGSelectRegenZone"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_SELECT_REGEN_ZONE; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -56,7 +56,7 @@ class CGSelectRegenZoneFactory : public PacketFactory
 class CGSelectRegenZoneHandler 
 {
 public:
-	static void execute(CGSelectRegenZone* pCGSelectRegenZone, Player* pPlayer) throw(Error);
+	static void execute(CGSelectRegenZone* pCGSelectRegenZone, Player* pPlayer);
 };
 
 #endif

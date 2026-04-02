@@ -8,7 +8,7 @@
 
 // include files
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSkillFailed1.h"
 #include "ClientDef.h"
 #include "SkillDef.h"
@@ -19,13 +19,12 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSkillFailed1Handler::execute ( GCSkillFailed1 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
 
 	//------------------------------------------------------------------
-	// Player°¡ ±â´Ù¸®´ø skillÀÇ ¼º°øÀ¯¹«¸¦ °ËÁõ¹Þ¾Ò´Ù.
+	// Playerï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Þ¾Ò´ï¿½.
 	//------------------------------------------------------------------	
 	if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_SKILL_SUCCESS)
 	{		
@@ -37,7 +36,7 @@ void GCSkillFailed1Handler::execute ( GCSkillFailed1 * pPacket , Player * pPlaye
 	}
 
 	//------------------------------------------------------------------
-	// ½ÇÆÐÇßÀ¸´Ï±î °ü·ÃµÈ SkillÀÇ delay¸¦ ¾ø¾Ø´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ Skillï¿½ï¿½ delayï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 	//------------------------------------------------------------------
 	int skillID = pPacket->getSkillType();
 	
@@ -49,7 +48,7 @@ void GCSkillFailed1Handler::execute ( GCSkillFailed1 * pPacket , Player * pPlaye
 
 
 	//------------------------------------------------------------------
-	// Item LockÀ» Ç¬´Ù.
+	// Item Lockï¿½ï¿½ Ç¬ï¿½ï¿½.
 	//------------------------------------------------------------------
 	if (g_pPlayer->GetItemCheckBufferStatus()==MPlayer::ITEM_CHECK_BUFFER_SKILL_TO_INVENTORY)
 	{
@@ -57,7 +56,7 @@ void GCSkillFailed1Handler::execute ( GCSkillFailed1 * pPacket , Player * pPlaye
 	}
 	else if(g_pPlayer->IsOusters() && skillID == SKILL_ABSORB_SOUL)
 	{
-//		_MinTrace(" -_-a ½ÇÆÐ\n");
+//		_MinTrace(" -_-a ï¿½ï¿½ï¿½ï¿½\n");
 		g_pPlayer->SetStopAbsorbSoul();
 	} else if (g_pPlayer->IsSlayer() && skillID == SKILL_ETERNITY )
 	{
@@ -68,9 +67,9 @@ void GCSkillFailed1Handler::execute ( GCSkillFailed1 * pPacket , Player * pPlaye
 		
 	if (g_pSkillInfoTable!=NULL)
 	{
-		// ¸¶ºñ ¸¶¹ýÀÌ ¾Æ´Ñ °æ¿ì¸¸ delay¸¦ ¾ø¾ÖÁØ´Ù.
-		// ÀÌ°Å ActionInfoTable¿¡ ³Ö¾î¾ß ÇÑ´Ù.
-		// ½ºÅ³ ½ÇÆÐÇÏ¸é µô·¹ÀÌ ¾ø¾ÖÁÖ´Â ½ºÅ³¸¸ SetAvailableTimeÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¸¸ delayï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
+		// ï¿½Ì°ï¿½ ActionInfoTableï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
+		// ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ SetAvailableTimeï¿½Ñ´ï¿½.
 		if(false == (*g_pActionInfoTable)[skillID].IsIgnoreSkillFailDelay())
 //		if (skillID != MAGIC_PARALYZE
 //			&& skillID != MAGIC_CAUSE_CRITICAL_WOUNDS
@@ -97,14 +96,14 @@ void GCSkillFailed1Handler::execute ( GCSkillFailed1 * pPacket , Player * pPlaye
 	}
 
 	//------------------------------------------------------------------
-	// skill Á¾·ù¿¡ µû¶ó¼­
+	// skill ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------------------
 	switch (skillID)
 	{
 		case SKILL_BITE_OF_DEATH :
 		case SKILL_BLOOD_DRAIN :
 			g_pPlayer->SetStopBloodDrain();
-//			DEBUG_ADD("ÈíÇ÷ ½ÇÆÐ¤»¤»");
+//			DEBUG_ADD("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð¤ï¿½ï¿½ï¿½");
 //			g_pPlayer->StopBloodDrain();
 			break;
 		case SKILL_SOUL_CHAIN :
@@ -117,13 +116,13 @@ void GCSkillFailed1Handler::execute ( GCSkillFailed1 * pPacket , Player * pPlaye
 	}
 
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	AffectModifyInfo(g_pPlayer, pPacket);
 
 	//------------------------------------------------------------------
-	// UI¿¡ º¸ÀÌ´Â °ÍÀ» ¹Ù²ãÁØ´Ù.
-	// ºñ±³¿¬»êÇÏ´Â°Åº¸´Ù ÀÌ°Ô ´õ ºü¸£Áö ¾ÊÀ»±î.. À½.. - -;
+	// UIï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
+	// ï¿½ñ±³¿ï¿½ï¿½ï¿½ï¿½Ï´Â°Åºï¿½ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½.. - -;
 	//------------------------------------------------------------------
 	//UI_SetHP( g_pPlayer->GetHP(), g_pPlayer->GetMAX_HP() );
 	//UI_SetMP( g_pPlayer->GetMP(), g_pPlayer->GetMAX_MP() );

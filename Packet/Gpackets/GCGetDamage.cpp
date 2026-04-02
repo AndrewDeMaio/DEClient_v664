@@ -2,13 +2,13 @@
 // 
 // Filename    : GCGetDamage.cc 
 // Written By  : elca@ewestsoft.com
-// Description : CGMove°¡ ³¯¾Æ ¿ÓÀ»¶§ ÀÚ±â ÀÚ½Å¿¡°Ô OK »çÀÎÀ» ³¯¸®±â
-//               À§ÇÑ ÆÐÅ¶ Å¬·¡½º ÇÔ¼ö Á¤ÀÇ
+// Description : CGMoveï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú±ï¿½ ï¿½Ú½Å¿ï¿½ï¿½ï¿½ OK ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//               ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 // 
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCGetDamage.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"
@@ -17,7 +17,6 @@
 // constructor
 //////////////////////////////////////////////////////////////////////
 GCGetDamage::GCGetDamage () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -28,7 +27,6 @@ GCGetDamage::GCGetDamage ()
 // destructor
 //////////////////////////////////////////////////////////////////////
 GCGetDamage::~GCGetDamage () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -36,10 +34,9 @@ GCGetDamage::~GCGetDamage ()
 
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCGetDamage::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	iStream.read( (char*)&m_ObjectID , szObjectID );
@@ -49,10 +46,9 @@ void GCGetDamage::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCGetDamage::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	oStream.write( (char*)&m_ObjectID , szObjectID );
@@ -65,7 +61,6 @@ void GCGetDamage::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void GCGetDamage::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -82,7 +77,6 @@ void GCGetDamage::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 	std::string GCGetDamage::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 

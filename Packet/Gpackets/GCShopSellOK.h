@@ -1,12 +1,12 @@
 //--------------------------------------------------------------------------------
 // 
 // Filename    : GCShopSellOK.h 
-// Written By  : ±è¼º¹Î
-// Description : ÇÃ·¹ÀÌ¾î°¡ »óÁ¡ NPC¿¡°Ô ¹°°Ç ±¸ÀÔÀ» ¿äÃ»ÇßÀ» ¶§, Á¦´ë·Î
-//               ÀÎÁõÀÌ µÇ¸é ÀÌ ÆÐÅ¶ÀÌ ÇÃ·¹ÀÌ¾î¿¡°Ô ³¯¾Æ°£´Ù.
-//               Å¬¶óÀÌ¾ðÆ®´Â ÀÌ ÆÐÅ¶À» ¹Þ¾Æ¼­ »óÁ¡ ¹öÀüÀ» ¾÷µ¥ÀÌÆ®ÇÏ°í,
-//               ¿ÀºêÁ§Æ® ID·Î ¾ÆÀÌÅÛ Á¤º¸¸¦ Ã¼Å©ÇØ ³õ°í, °¡°ÝÀ» ÀÌ¿ëÇØ
-//               ÇÃ·¹ÀÌ¾îÀÇ µ·À» ¾÷µ¥ÀÌÆ®ÇÑ´Ù.
+// Written By  : ï¿½è¼ºï¿½ï¿½
+// Description : ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ NPCï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½
+//               ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½.
+//               Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Þ¾Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ï°ï¿½,
+//               ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® IDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½
+//               ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½Ñ´ï¿½.
 // 
 //--------------------------------------------------------------------------------
 
@@ -29,52 +29,52 @@ class GCShopSellOK : public Packet
 
 public :
 
-	GCShopSellOK() throw ();
-	virtual ~GCShopSellOK() throw ();
+	GCShopSellOK();
+	virtual ~GCShopSellOK();
 	
-	// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+	// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+	void read ( SocketInputStream & iStream );
 		    
-	// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+	// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_SHOP_SELL_OK; }
+	PacketID_t getPacketID () const { return PACKET_GC_SHOP_SELL_OK; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () 
+	size_t getPacketSize () const 
 	{ 
 		return szObjectID + szShopVersion + szObjectID + szPrice;
 	}
  
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCShopSellOK"; }
+		std::string getPacketName () const { return "GCShopSellOK"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 
 public :
 
 	// get/set NPC's object id
-	ObjectID_t getObjectID () const throw () { return m_ObjectID; }
-	void setObjectID ( ObjectID_t creatureID ) throw () { m_ObjectID = creatureID; }
+	ObjectID_t getObjectID () const { return m_ObjectID; }
+	void setObjectID ( ObjectID_t creatureID ) { m_ObjectID = creatureID; }
 
 	// get/set shop version	
-	ShopVersion_t getShopVersion(void) const throw() { return m_Version;}
-	void setShopVersion(const ShopVersion_t ver) throw() { m_Version = ver;}
+	ShopVersion_t getShopVersion(void) const { return m_Version;}
+	void setShopVersion(const ShopVersion_t ver) { m_Version = ver;}
 
 	// get/set item object id
-	ObjectID_t getItemObjectID() const throw() { return m_ItemObjectID;}
-	void setItemObjectID(ObjectID_t id) throw() { m_ItemObjectID = id;}
+	ObjectID_t getItemObjectID() const { return m_ItemObjectID;}
+	void setItemObjectID(ObjectID_t id) { m_ItemObjectID = id;}
 
 	// get/set price
-	Price_t getPrice() const throw() { return m_Price;}
+	Price_t getPrice() const { return m_Price;}
 	void setPrice(Price_t price) { m_Price = price;}
 
 private :
@@ -83,13 +83,13 @@ private :
 	// NPC's object id
 	ObjectID_t m_ObjectID;
 	
-	// »óÁ¡ ¹öÁ¯
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	ShopVersion_t m_Version;
 	
-	// ¾ÆÀÌÅÛ Á¤º¸
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	ObjectID_t    m_ItemObjectID;
 
-	// °¡°Ý
+	// ï¿½ï¿½ï¿½ï¿½
 	Price_t       m_Price;
 
 };
@@ -109,18 +109,18 @@ class GCShopSellOKFactory : public PacketFactory
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCShopSellOK(); }
+	Packet * createPacket () { return new GCShopSellOK(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCShopSellOK"; }
+		std::string getPacketName () const { return "GCShopSellOK"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_SHOP_SELL_OK; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_SHOP_SELL_OK; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize () const throw () 
+	PacketSize_t getPacketMaxSize () const 
 	{ 
 		return szObjectID + szShopVersion + szObjectID + szPrice;
 	}
@@ -140,7 +140,7 @@ class GCShopSellOKHandler
 public :
 	
 	// execute packet's handler
-	static void execute ( GCShopSellOK * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCShopSellOK * pPacket , Player * pPlayer );
 
 };
 

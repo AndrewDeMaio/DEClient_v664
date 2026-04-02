@@ -7785,11 +7785,7 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 //	m_check[CHECK_MOUSE_SPEED] = g_pUserOption->UseMouseSpeed?CHECK_CHECK:CHECK_NOT;
 	m_value_mouse_speed = g_pUserOption->MouseSpeedValue;
 
-	if(gpC_Imm && gpC_Imm->IsDevice())
-	{
-		m_check[CHECK_IFEEL] = g_pUserOption->UseForceFeel?CHECK_CHECK:CHECK_NOT;
-	}
-	else	m_check[CHECK_IFEEL] = CHECK_DISABLE;
+	m_check[CHECK_IFEEL] = CHECK_DISABLE;
 
 	// GRAPHIC TAB
 	m_check[CHECK_ALPHA_HPBAR] = g_pUserOption->DrawTransHPBar?CHECK_CHECK:CHECK_NOT;
@@ -8590,8 +8586,6 @@ void C_VS_UI_OPTION::Run(id_t id)
 		{
 			m_check[CHECK_IFEEL] = (m_check[CHECK_IFEEL] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
 			g_pUserOption->UseForceFeel = m_check[CHECK_IFEEL] == CHECK_CHECK;
-			if(gpC_Imm && g_pUserOption->UseForceFeel)gpC_Imm->Enable();
-			else if(gpC_Imm)gpC_Imm->Disable();
 		}
 		break;
 

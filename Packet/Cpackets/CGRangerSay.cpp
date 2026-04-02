@@ -7,11 +7,10 @@
 #include "CGRangerSay.h"
 
 void CGRangerSay::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
-	// ¸Þ¼¼Áö ÀÐ±â
+	// ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½Ð±ï¿½
 	BYTE szMessage;
 
 	iStream.read(szMessage);
@@ -28,11 +27,10 @@ void CGRangerSay::read (SocketInputStream & iStream)
 }
 		    
 void CGRangerSay::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
-	// ¸Þ¼¼Áö ¾²±â
+	// ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	BYTE szMessage = m_Message.size();
 
 	if (szMessage == 0)
@@ -49,7 +47,6 @@ void CGRangerSay::write (SocketOutputStream & oStream) const
 }
 
 void CGRangerSay::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__			
@@ -59,7 +56,6 @@ void CGRangerSay::execute (Player* pPlayer)
 }
 #ifdef __DEBUG_OUTPUT__
 string CGRangerSay::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : CGTradePrepare.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -11,24 +11,24 @@
 #include "PacketFactory.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// ±³È¯ ÄÚµå
+// ï¿½ï¿½È¯ ï¿½Úµï¿½
 ////////////////////////////////////////////////////////////////////////////////
 
 enum
 {
-	// Á¦ÀÏ Ã³À½ ±³È¯À» ¿øÇÏ´Â ÇÃ·¹ÀÌ¾î°¡ ÀÌ ÄÚµå·Î ÆÐÅ¶À» ³¯¸°´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ ï¿½Úµï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 	CG_TRADE_PREPARE_CODE_REQUEST = 0,
 
-	// ±³È¯ ¿äÃ»ÇÏ´Ù°¡ Ãë¼ÒÇÑ °æ¿ì
+	// ï¿½ï¿½È¯ ï¿½ï¿½Ã»ï¿½Ï´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	CG_TRADE_PREPARE_CODE_CANCEL,
 
-	// ±³È¯À» ¿äÃ»¹ÞÀº ÇÃ·¹ÀÌ¾î°¡ ±³È¯¿¡ ÀÀÇÒ °æ¿ì
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	CG_TRADE_PREPARE_CODE_ACCEPT,
 
-	// ±³È¯À» ¿äÃ»¹ÞÀº ÇÃ·¹ÀÌ¾î°¡ ±³È¯¿¡ ÀÀÇÏÁö ¾ÊÀ» °æ¿ì
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	CG_TRADE_PREPARE_CODE_REJECT,
 
-	// ±³È¯À» ¿äÃ»¹ÞÀº ÇÃ·¹ÀÌ¾î°¡ Áö±Ý ±³È¯À» ÇÒ ¼ö ¾ø´Â °æ¿ì
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	CG_TRADE_PREPARE_CODE_BUSY,
 
 	CG_TRADE_PREPARE_CODE_MAX
@@ -43,27 +43,27 @@ enum
 class CGTradePrepare : public Packet 
 {
 public:
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
-	PacketID_t getPacketID () const throw () { return PACKET_CG_TRADE_PREPARE; }
-	PacketSize_t getPacketSize () const throw () { return szObjectID + szBYTE; }
+	void read ( SocketInputStream & iStream );
+	void write ( SocketOutputStream & oStream ) const;
+	void execute ( Player * pPlayer );
+	PacketID_t getPacketID () const { return PACKET_CG_TRADE_PREPARE; }
+	size_t getPacketSize () const { return szObjectID + szBYTE; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "CGTradePrepare"; }
-		std::string toString () const throw ();
+		std::string getPacketName () const { return "CGTradePrepare"; }
+		std::string toString () const;
 	#endif
 	
 public:
-	ObjectID_t getTargetObjectID() const throw() { return m_TargetObjectID; }
-	void setTargetObjectID(ObjectID_t id) throw() { m_TargetObjectID = id; }
+	ObjectID_t getTargetObjectID() const { return m_TargetObjectID; }
+	void setTargetObjectID(ObjectID_t id) { m_TargetObjectID = id; }
 
-	BYTE getCode(void) const throw() { return m_Code; }
-	void setCode(BYTE code) throw() { m_Code = code; }
+	BYTE getCode(void) const { return m_Code; }
+	void setCode(BYTE code) { m_Code = code; }
 
 private:
-	ObjectID_t m_TargetObjectID; // ±³È¯À» ¿øÇÏ´Â »ó´ë¹æÀÇ OID
-	BYTE       m_Code;           // ±³È¯ ÄÚµå
+	ObjectID_t m_TargetObjectID; // ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ OID
+	BYTE       m_Code;           // ï¿½ï¿½È¯ ï¿½Úµï¿½
 
 };
 
@@ -77,14 +77,14 @@ private:
 class CGTradePrepareFactory : public PacketFactory 
 {
 public:
-	Packet * createPacket () throw () { return new CGTradePrepare(); }
+	Packet * createPacket () { return new CGTradePrepare(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "CGTradePrepare"; }
+		std::string getPacketName () const { return "CGTradePrepare"; }
 	#endif
 
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_TRADE_PREPARE; }
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID + szBYTE; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_TRADE_PREPARE; }
+	PacketSize_t getPacketMaxSize () const { return szObjectID + szBYTE; }
 };
 #endif
 
@@ -98,10 +98,10 @@ public:
 	class CGTradePrepareHandler 
 	{
 	public:
-		static void execute ( CGTradePrepare * pPacket , Player * player ) throw ( ProtocolException , Error );
-		static void executeSlayer ( CGTradePrepare * pPacket , Player * player ) throw ( ProtocolException , Error );
-		static void executeVampire ( CGTradePrepare * pPacket , Player * player ) throw ( ProtocolException , Error );
-		static void executeError ( CGTradePrepare * pPacket , Player * player, BYTE ErrorCode ) throw ( ProtocolException , Error );
+		static void execute ( CGTradePrepare * pPacket , Player * player );
+		static void executeSlayer ( CGTradePrepare * pPacket , Player * player );
+		static void executeVampire ( CGTradePrepare * pPacket , Player * player );
+		static void executeError ( CGTradePrepare * pPacket , Player * player, BYTE ErrorCode );
 	};
 #endif
 

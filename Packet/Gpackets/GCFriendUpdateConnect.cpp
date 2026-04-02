@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCFriendUpdateConnect.h"
 
 #if __CONTENTS(__FRIEND_ADDITION)
@@ -17,12 +17,11 @@ GCFriendUpdateConnect::GCFriendUpdateConnect()
 	m_ServerName.SetMaxLength(20);
 }
 
-GCFriendUpdateConnect::~GCFriendUpdateConnect() throw()
+GCFriendUpdateConnect::~GCFriendUpdateConnect()
 {
 }
 
 void GCFriendUpdateConnect::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -35,10 +34,9 @@ void GCFriendUpdateConnect::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Datagram °´Ã¼·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCFriendUpdateConnect::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -49,7 +47,7 @@ void GCFriendUpdateConnect::write ( SocketOutputStream & oStream ) const
 	__END_CATCH
 }
 
-PacketSize_t GCFriendUpdateConnect::getPacketSize() const throw()
+PacketSize_t GCFriendUpdateConnect::getPacketSize() const
 { 
 	return m_PCName.getSize() + m_ServerName.getSize() + szBYTE;
 }
@@ -58,7 +56,6 @@ PacketSize_t GCFriendUpdateConnect::getPacketSize() const throw()
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void GCFriendUpdateConnect::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -71,7 +68,6 @@ void GCFriendUpdateConnect::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 string GCFriendUpdateConnect::toString () const
-    throw ()
 {
 	StringStream msg;
 

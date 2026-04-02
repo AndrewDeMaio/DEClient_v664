@@ -7,7 +7,7 @@
 #include "KeyAccelerator.h"
 #include <DInput.h>
 #include "ClientConfig.h"
-#include "Packet/Properties.h"
+#include "Properties.h"
 #include "ClientConfig.h"
 
 

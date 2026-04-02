@@ -2,9 +2,9 @@
 // Filename    : GCAddHelicopter.cpp
 // Written By  : excel96
 // Description :
-// ½½·¹ÀÌ¾î°¡ ¹«Àü±â¸¦ »ç¿ëÇØ, Çï±â¸¦ È£ÃâÇßÀ» ¶§ ³¯¾Æ°¡´Â ÆÐÅ¶
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½â¸¦ È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddHelicopter.h"
 
 //////////////////////////////////////////////////////////////////////////////
@@ -12,7 +12,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 void GCAddHelicopter::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -24,7 +23,7 @@ void GCAddHelicopter::read ( SocketInputStream & iStream )
 }
 		    
 void GCAddHelicopter::write ( SocketOutputStream & oStream ) 
-     const throw ( ProtocolException , Error )
+     const
 {
 	__BEGIN_TRY
 
@@ -35,7 +34,6 @@ void GCAddHelicopter::write ( SocketOutputStream & oStream )
 }
 
 void GCAddHelicopter::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -46,7 +44,7 @@ void GCAddHelicopter::execute ( Player * pPlayer )
 
 #ifdef __DEBUG_OUTPUT__
 	std::string GCAddHelicopter::toString () 
-		const throw ()
+		const
 	{
 		__BEGIN_TRY
 

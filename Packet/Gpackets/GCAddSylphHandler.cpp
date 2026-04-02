@@ -3,7 +3,7 @@
 // Written By  : rappi76
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddSylph.h"
 #include "ClientDef.h"
 #include "SkillDef.h"
@@ -11,12 +11,11 @@
 #include "MEffectSpriteTypeTable.h"
 
 void GCAddSylphHandler ::execute ( GCAddSylph* pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 #if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -25,14 +24,14 @@ void GCAddSylphHandler ::execute ( GCAddSylph* pPacket , Player * pPlayer )
 		
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pCreature = g_pZone->GetCreature(pPacket->getObjectID());
 		if (pCreature==NULL)
 		{
-			//ÀÌ·± °æ¿ì¶ó¸é ¾Æ¿ì°¡ ¸ó½ºÅÍ·Î Ãß°¡ µÉ °æ¿ìÀÌ´Ù.
+			//ï¿½Ì·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ¿ì°¡ ï¿½ï¿½ï¿½Í·ï¿½ ï¿½ß°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 		}
 		else
 		{
@@ -55,13 +54,13 @@ void GCAddSylphHandler ::execute ( GCAddSylph* pPacket , Player * pPlayer )
 					case 0:
 #endif //__SECOND_TRANSFORTER
 						pCreature->SetWingEffect1();
-						pCreature->AddEffectStatus(EFFECTSTATUS_CLIENT_WING_SYLPH ,0xFFFFFFFA);	//Áö¼Ó½Ã°£Àº °ÅÀÇ ÃÖ´ë°ªÀÌ´Ù.
+						pCreature->AddEffectStatus(EFFECTSTATUS_CLIENT_WING_SYLPH ,0xFFFFFFFA);	//ï¿½ï¿½ï¿½Ó½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ë°ªï¿½Ì´ï¿½.
 						pCreature->SetAction(ACTION_OUSTERS_WING_STAND);
 					break;
 #if __CONTENTS(__SECOND_TRANSFORTER)
 					case 1:
 						pCreature->SetWingEffect2();
-						pCreature->AddEffectStatus(EFFECTSTATUS_CLIENT_UNICORN ,0xFFFFFFFA); //Áö¼Ó½Ã°£Àº °ÅÀÇ ÃÖ´ë°ªÀÌ´Ù.
+						pCreature->AddEffectStatus(EFFECTSTATUS_CLIENT_UNICORN ,0xFFFFFFFA); //ï¿½ï¿½ï¿½Ó½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ë°ªï¿½Ì´ï¿½.
 						pCreature->SetAction(ACTION_OUSTERS_UNICORN_STAND);
 					break;
 					}

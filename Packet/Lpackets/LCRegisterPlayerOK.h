@@ -17,7 +17,7 @@
 //
 // class LCRegisterPlayerOK;
 //
-// ·Î±×ÀÎ¼­¹ö°¡ Å¬¶óÀÌ¾ðÆ®¿¡°Ô ·Î±×ÀÎ ¼º°øÀ» ¾Ë·ÁÁÖ´Â ÆÐÅ¶ÀÌ´Ù.
+// ï¿½Î±ï¿½ï¿½Î¼ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -25,47 +25,47 @@ class LCRegisterPlayerOK : public Packet {
 
 public :
 
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_LC_REGISTER_PLAYER_OK; }
+	PacketID_t getPacketID () const { return PACKET_LC_REGISTER_PLAYER_OK; }
 	
 	// get packet body size
 	// *OPTIMIZATION HINT*
-	// const static LCRegisterPlayerOKPacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () { return szBYTE + m_GroupName.size() + szBYTE; }
+	// const static LCRegisterPlayerOKPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const { return szBYTE + m_GroupName.size() + szBYTE; }
 	
 	
     // get / set Groupname
-	const std::string& getGroupName() const throw() { return m_GroupName; }
-	void setGroupName( const std::string & GroupName ) throw() { m_GroupName = GroupName; }
+	const std::string& getGroupName() const { return m_GroupName; }
+	void setGroupName( const std::string & GroupName ) { m_GroupName = GroupName; }
 	
 	// get / set GoreLevel
-	bool isAdult() const throw() { return m_isAdult; }
-	void setAdult( bool isAdult ) throw() { m_isAdult = isAdult; }
+	bool isAdult() const { return m_isAdult; }
+	void setAdult( bool isAdult ) { m_isAdult = isAdult; }
 	
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "LCRegisterPlayerOK"; }
+		std::string getPacketName () const { return "LCRegisterPlayerOK"; }
 
 		// get packet's debug std::string
-		std::string toString () const throw () { return "LCRegisterPlayerOK"; }
+		std::string toString () const { return "LCRegisterPlayerOK"; }
 	#endif
 
 private :
-	// ¼­¹ö ±×·ì ÀÌ¸§.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ ï¿½Ì¸ï¿½.
 	std::string m_GroupName;
 	
-	// °í¾î ·¹º§ : ÇöÀç ÇÃ·¹ÀÌ¾î°¡ ¹Ì¼º³âÀÚ ÀÎ°¡?
-	// trueÀÏ °æ¿ì ¼ºÀÎ
-	// false ÀÏ °æ¿ì ¹Ì¼º³âÀÚ
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î°ï¿½?
+	// trueï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// false ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	bool m_isAdult;
 };
 
@@ -83,18 +83,18 @@ class LCRegisterPlayerOKFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new LCRegisterPlayerOK(); }
+	Packet * createPacket () { return new LCRegisterPlayerOK(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "LCRegisterPlayerOK"; }
+		std::string getPacketName () const { return "LCRegisterPlayerOK"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_LC_REGISTER_PLAYER_OK; }
+	PacketID_t getPacketID () const { return Packet::PACKET_LC_REGISTER_PLAYER_OK; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize () const throw () { return szBYTE + 20 + szBYTE; }
+	PacketSize_t getPacketMaxSize () const { return szBYTE + 20 + szBYTE; }
 	
 };
 
@@ -110,7 +110,7 @@ class LCRegisterPlayerOKHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( LCRegisterPlayerOK * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( LCRegisterPlayerOK * pPacket , Player * pPlayer );
 
 };
 

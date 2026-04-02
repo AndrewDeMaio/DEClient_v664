@@ -25,52 +25,52 @@ class LCWorldList : public Packet {
 public:
 
 	// constructor
-	// PCInfo* ¹è¿­¿¡ °¢°¢ NULLÀ» ÁöÁ¤ÇÑ´Ù.
-	LCWorldList() throw();
+	// PCInfo* ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ NULLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	LCWorldList();
 
 	// destructor
-	// PCInfo* ¹è¿­¿¡ ÇÒ´çµÈ °´Ã¼¸¦ »èÁ¦ÇÑ´Ù.
-	~LCWorldList() throw();
+	// PCInfo* ï¿½è¿­ï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	~LCWorldList();
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_LC_WORLD_LIST; }
+	PacketID_t getPacketID() const { return PACKET_LC_WORLD_LIST; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw();
+	size_t getPacketSize() const;
 	
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName() const throw() { return "LCWorldList"; }
+		std::string getPacketName() const { return "LCWorldList"; }
 		
 		// get packet's debug std::string
-		std::string toString() const throw();
+		std::string toString() const;
 	#endif
 	
 public:
 
-	// ÇöÀç ¿ùµå
-	WorldID_t getCurrentWorldID() const throw() { return m_CurrentWorldID; }
-	void setCurrentWorldID( WorldID_t WorldID ) throw() { m_CurrentWorldID = WorldID; }
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	WorldID_t getCurrentWorldID() const { return m_CurrentWorldID; }
+	void setCurrentWorldID( WorldID_t WorldID ) { m_CurrentWorldID = WorldID; }
 
-    BYTE getListNum() const throw() { return m_WorldInfoList.size(); }
+    BYTE getListNum() const { return m_WorldInfoList.size(); }
 
 	// add / delete / clear S List
-	void addListElement(WorldInfo* pWorldInfo) throw() { m_WorldInfoList.push_back(pWorldInfo); }
+	void addListElement(WorldInfo* pWorldInfo) { m_WorldInfoList.push_back(pWorldInfo); }
 
 	// ClearList
-	void clearList() throw() { m_WorldInfoList.clear(); }
+	void clearList() { m_WorldInfoList.clear(); }
 
 	// pop front Element in Status List
-	WorldInfo* popFrontListElement() throw()
+	WorldInfo* popFrontListElement()
 	{
 		WorldInfo* TempWorldInfo = NULL;
 		
@@ -85,10 +85,10 @@ public:
 
 private : 
 
-	// ÇöÀç WorldID
+	// ï¿½ï¿½ï¿½ï¿½ WorldID
 	WorldID_t m_CurrentWorldID;
 
-	// Ä³¸¯ÅÍ Á¤º¸
+	// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	std::list<WorldInfo*> m_WorldInfoList;
 
 };
@@ -106,21 +106,21 @@ class LCWorldListFactory : public PacketFactory {
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new LCWorldList(); }
+	Packet* createPacket() { return new LCWorldList(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName() const throw() { return "LCWorldList"; }
+		std::string getPacketName() const { return "LCWorldList"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_LC_WORLD_LIST; }
+	PacketID_t getPacketID() const { return Packet::PACKET_LC_WORLD_LIST; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize() const throw() 
+	PacketSize_t getPacketMaxSize() const 
 	{ 
-		// ½½·¹ÀÌ¾î Á¤º¸°¡ ¹ìÆÄÀÌ¾î Á¤º¸º¸´Ù »çÀÌÁî°¡ Å©±â ¶§¹®¿¡,
-		// ÀÌ ÆÐÅ¶ÀÇ ÃÖ´ë Å©±â´Â ½½·¹ÀÌ¾î 3 ¸íÀÏ °æ¿ìÀÌ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½î°¡ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,
+		// ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ö´ï¿½ Å©ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ 3 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 		return szWorldID + WorldInfo::getMaxSize();
 	}
 	
@@ -138,7 +138,7 @@ class LCWorldListHandler {
 public:
 
 	// execute packet's handler
-	static void execute(LCWorldList* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(LCWorldList* pPacket, Player* pPlayer);
 
 };
 

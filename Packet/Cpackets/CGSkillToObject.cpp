@@ -10,7 +10,7 @@
 #include "SocketEncryptOutputStream.h"
 #include "Assert.h"
 
-CGSkillToObject::CGSkillToObject ()   throw ()
+CGSkillToObject::CGSkillToObject ()
 {
 	__BEGIN_TRY
 	m_CEffectID		= 0;
@@ -18,13 +18,13 @@ CGSkillToObject::CGSkillToObject ()   throw ()
 	__END_CATCH
 }
 
-CGSkillToObject::~CGSkillToObject () throw ()
+CGSkillToObject::~CGSkillToObject ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
-void CGSkillToObject::read (SocketInputStream & iStream)  throw (ProtocolException , Error)
+void CGSkillToObject::read (SocketInputStream & iStream)
 {
 	__BEGIN_TRY
 		
@@ -53,7 +53,7 @@ void CGSkillToObject::read (SocketInputStream & iStream)  throw (ProtocolExcepti
 	__END_CATCH
 }
 
-void CGSkillToObject::write (SocketOutputStream & oStream) const throw (ProtocolException , Error)
+void CGSkillToObject::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
@@ -81,7 +81,7 @@ void CGSkillToObject::write (SocketOutputStream & oStream) const throw (Protocol
 	__END_CATCH
 }
 
-void CGSkillToObject::execute (Player* pPlayer)  throw (ProtocolException , Error)
+void CGSkillToObject::execute (Player* pPlayer)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__
@@ -90,7 +90,7 @@ void CGSkillToObject::execute (Player* pPlayer)  throw (ProtocolException , Erro
 	__END_CATCH
 }
 
-string CGSkillToObject::toString () const throw ()
+string CGSkillToObject::toString () const
 {
 	__BEGIN_TRY
 

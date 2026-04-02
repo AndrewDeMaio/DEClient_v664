@@ -6,14 +6,13 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCMorphVampire2.h"
 #include "ClientDef.h"
 
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCMorphVampire2Handler::execute ( GCMorphVampire2 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -21,7 +20,7 @@ void GCMorphVampire2Handler::execute ( GCMorphVampire2 * pPacket , Player * pPla
 
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -30,7 +29,7 @@ void GCMorphVampire2Handler::execute ( GCMorphVampire2 * pPacket , Player * pPla
 		
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -39,7 +38,7 @@ void GCMorphVampire2Handler::execute ( GCMorphVampire2 * pPacket , Player * pPla
 		MCreature* pCreature = g_pZone->GetCreature(vi.getObjectID());
 
 		//--------------------------------------------------
-		// »õ·Î¿î CreatureÀÌ¸é Ãß°¡
+		// ï¿½ï¿½ï¿½Î¿ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ß°ï¿½
 		//--------------------------------------------------
 		if (pCreature==NULL)
 		{
@@ -66,7 +65,7 @@ void GCMorphVampire2Handler::execute ( GCMorphVampire2 * pPacket , Player * pPla
 			pCreature->SetCurrentDirection( vi.getDir() );
 			pCreature->SetAction( ACTION_STAND );
 
-			// »ö±ò
+			// ï¿½ï¿½ï¿½ï¿½
 			pCreature->SetBodyColor1( vi.getSkinColor() );
 			pCreature->SetBodyColor2( vi.getCoatColor() );
 
@@ -75,7 +74,7 @@ void GCMorphVampire2Handler::execute ( GCMorphVampire2 * pPacket , Player * pPla
 			//--------------------------------------------------
 			// [ TEST CODE ]
 			//--------------------------------------------------
-			// ¿Ê »ö±ò ¼³Á¤ÇÏ±â
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			//--------------------------------------------------
 			/*
 			if (pCreature->IsMale())
@@ -94,8 +93,8 @@ void GCMorphVampire2Handler::execute ( GCMorphVampire2 * pPacket , Player * pPla
 			pCreature->SetStatus( MODIFY_ALIGNMENT, vi.getAlignment() );
 
 			//si.getName()
-			// »ö»ó Á¤º¸
-			// ÀÓ½Ã·Î
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			// ï¿½Ó½Ã·ï¿½
 			pCreature->SetGuildNumber( 2 );
 
 			if (!g_pZone->AddCreature( pCreature ))
@@ -105,13 +104,13 @@ void GCMorphVampire2Handler::execute ( GCMorphVampire2 * pPacket , Player * pPla
 			}
 		}
 		//--------------------------------------------------
-		// ÀÌ¹Ì ÀÖ´ø CreatureÀÌ¸é Á¤º¸ º¯°æ
+		// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		else
 		{
 			pCreature->SetName( vi.getName().c_str() );
 
-			// ÀÓ½Ã·Î
+			// ï¿½Ó½Ã·ï¿½
 			pCreature->SetGuildNumber( 2 );
 
 			//pCreature->SetCreatureType( 0 );
@@ -131,7 +130,7 @@ void GCMorphVampire2Handler::execute ( GCMorphVampire2 * pPacket , Player * pPla
 			//pCreature->SetCurrentDirection( vi.getDir() );
 			pCreature->SetAction( ACTION_STAND );
 
-			// »ö±ò
+			// ï¿½ï¿½ï¿½ï¿½
 			pCreature->SetBodyColor1( vi.getSkinColor() );
 			pCreature->SetBodyColor2( vi.getCoatColor() );
 
@@ -141,7 +140,7 @@ void GCMorphVampire2Handler::execute ( GCMorphVampire2 * pPacket , Player * pPla
 			//--------------------------------------------------
 			// [ TEST CODE ]
 			//--------------------------------------------------
-			// ¿Ê »ö±ò ¼³Á¤ÇÏ±â
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			//--------------------------------------------------
 			/*
 			if (pCreature->IsMale())

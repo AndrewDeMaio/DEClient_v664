@@ -2,7 +2,7 @@
 // 
 // Filename    : RCConnectVerify.h 
 // Written By  : crazydog
-// Description : Effect Á¦°Å.
+// Description : Effect ï¿½ï¿½ï¿½ï¿½.
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -19,17 +19,17 @@
 //
 // class RCConnectVerify;
 //
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ º¯ÇüµÈ µ¥ÀÌÅÍ¸¦ ¾Ë·ÁÁÖ±â À§ÇÑ °´Ã¤
-// RemoveEffectrmation, SkillToObjectOK µî¿¡ ½Ç·Á¼­ ³¯¾Æ°£´Ù.
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¤
+// RemoveEffectrmation, SkillToObjectOK ï¿½î¿¡ ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 enum RC_CONNECT_VERIFY_CODE
 {
-	RC_CONNECT_NULL,			// Àß¸øµÈ °ª
+	RC_CONNECT_NULL,			// ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½
 
-	RC_CONNECT_OK,				// Çã¿ë
-	RC_CONNECT_REJECT,			// °ÅºÎ - -; 
-	RC_CONNECT_WRONG,			// Àß¸øµÈ Á¢¼Ó(RequestServerNameÀÌ ´Ù¸£´Ù´ø°¡..)
+	RC_CONNECT_OK,				// ï¿½ï¿½ï¿½
+	RC_CONNECT_REJECT,			// ï¿½Åºï¿½ - -; 
+	RC_CONNECT_WRONG,			// ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(RequestServerNameï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½Ù´ï¿½ï¿½ï¿½..)
 };
 
 class RCConnectVerify : public Packet
@@ -38,38 +38,38 @@ class RCConnectVerify : public Packet
 public :
 	
 	// constructor
-	RCConnectVerify () throw ();
+	RCConnectVerify ();
 	
 	// destructor
-	~RCConnectVerify () throw ();
+	~RCConnectVerify ();
 	
 public :
-    PacketID_t getPacketID () const throw () { return PACKET_RC_CONNECT_VERIFY; }
+    PacketID_t getPacketID () const { return PACKET_RC_CONNECT_VERIFY; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "RCConnectVerify"; }
+		std::string getPacketName () const { return "RCConnectVerify"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getPacketSize () const throw () { return szBYTE; }
-	static PacketSize_t getPacketMaxSize() throw() { return szBYTE;}
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	size_t getPacketSize () const { return szBYTE; }
+	static PacketSize_t getPacketMaxSize() { return szBYTE;}
 
 	// get / set ListNumber
-	RC_CONNECT_VERIFY_CODE	getCode() const throw() { return m_Code; }
-	void					setCode( RC_CONNECT_VERIFY_CODE code ) throw() { m_Code = code; }
+	RC_CONNECT_VERIFY_CODE	getCode() const { return m_Code; }
+	void					setCode( RC_CONNECT_VERIFY_CODE code ) { m_Code = code; }
 
 protected :
 	
@@ -90,27 +90,27 @@ class RCConnectVerifyFactory : public PacketFactory {
 public :
 	
 	// constructor
-	RCConnectVerifyFactory () throw () {}
+	RCConnectVerifyFactory () {}
 	
 	// destructor
-	virtual ~RCConnectVerifyFactory () throw () {}
+	virtual ~RCConnectVerifyFactory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new RCConnectVerify(); }
+	Packet * createPacket () { return new RCConnectVerify(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "RCConnectVerify"; }
+		std::string getPacketName () const { return "RCConnectVerify"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_RC_CONNECT_VERIFY; }
+	PacketID_t getPacketID () const { return Packet::PACKET_RC_CONNECT_VERIFY; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize () const throw () { return 255;}
+	PacketSize_t getPacketMaxSize () const { return 255;}
 
 };
 
@@ -126,7 +126,7 @@ class RCConnectVerifyHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( RCConnectVerify * pRCConnectVerify , Player * pPlayer ) throw ( Error );
+	static void execute ( RCConnectVerify * pRCConnectVerify , Player * pPlayer );
 
 };
 

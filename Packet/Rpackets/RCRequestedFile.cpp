@@ -21,10 +21,9 @@ RCRequestedFileInfo::RCRequestedFileInfo()
 
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void RCRequestedFileInfo::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -57,10 +56,9 @@ void RCRequestedFileInfo::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void RCRequestedFileInfo::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -96,7 +94,6 @@ void RCRequestedFileInfo::write ( SocketOutputStream & oStream ) const
 //////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 std::string RCRequestedFileInfo::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		
@@ -126,7 +123,6 @@ RCRequestedFile::~RCRequestedFile()
 
 void
 RCRequestedFile::Release()
-	throw()
 {
 	while (!m_FileInfos.empty())
 	{
@@ -142,7 +138,6 @@ RCRequestedFile::Release()
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void RCRequestedFile::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -152,7 +147,7 @@ void RCRequestedFile::execute ( Player * pPlayer )
 }
 
 PacketSize_t 
-RCRequestedFile::getPacketSize () const throw ()
+RCRequestedFile::getPacketSize () const
 {
 	PacketSize_t ps = szBYTE;	// for listNum
 
@@ -170,9 +165,9 @@ RCRequestedFile::getPacketSize () const throw ()
 	return ps;
 }
 
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 void 
-RCRequestedFile::read ( SocketInputStream & iStream ) throw ( ProtocolException , Error )
+RCRequestedFile::read ( SocketInputStream & iStream )
 {
 	Release();
 
@@ -191,9 +186,9 @@ RCRequestedFile::read ( SocketInputStream & iStream ) throw ( ProtocolException 
 	}
 }
 		
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 void 
-RCRequestedFile::write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error )
+RCRequestedFile::write ( SocketOutputStream & oStream ) const
 {
 	BYTE listNum = m_FileInfos.size();
 
@@ -213,7 +208,7 @@ RCRequestedFile::write ( SocketOutputStream & oStream ) const throw ( ProtocolEx
 
 #ifdef __DEBUG_OUTPUT__
 std::string 
-RCRequestedFile::toString () const throw ()
+RCRequestedFile::toString () const
 {
 	StringStream msg;
 

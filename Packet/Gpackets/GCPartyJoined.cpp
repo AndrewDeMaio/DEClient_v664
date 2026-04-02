@@ -1,10 +1,10 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCPartyJoined.cpp 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPartyJoined.h"
 #include "Assert.h"
 
@@ -22,24 +22,23 @@ GCPartyJoined::~GCPartyJoined()
 	clear();
 }
 
-PacketSize_t GCPartyJoined::getPacketSize() const 
-	throw() 
+PacketSize_t GCPartyJoined::getPacketSize() const  
 { 
 	__BEGIN_TRY
 
 	PacketSize_t value = 0;
 
-	value += szBYTE; // ¸â¹ö Ä«¿îÆ®
+	value += szBYTE; // ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½Æ®
 
 	std::list<PARTY_MEMBER_INFO*>::const_iterator itr = m_MemberInfoList.begin();
 	for (; itr != m_MemberInfoList.end(); itr++)
 	{
 		PARTY_MEMBER_INFO* pInfo = (*itr);
 
-		value += szBYTE;               // ÀÌ¸§ ±æÀÌ
-		value += (pInfo->name).size(); // ½ÇÁ¦ ÀÌ¸§
-		value += szBYTE;               // Çì¾î ½ºÅ¸ÀÏ
-		value += szBYTE;               // ¼ºº°
+		value += szBYTE;               // ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+		value += (pInfo->name).size(); // ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+		value += szBYTE;               // ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½
+		value += szBYTE;               // ï¿½ï¿½ï¿½ï¿½
 		value += szIP;					// IP
 	}
 
@@ -49,7 +48,6 @@ PacketSize_t GCPartyJoined::getPacketSize() const
 }
 
 void GCPartyJoined::addMemberInfo(PARTY_MEMBER_INFO* pInfo) 
-	throw()
 {
 	__BEGIN_TRY
 
@@ -61,7 +59,6 @@ void GCPartyJoined::addMemberInfo(PARTY_MEMBER_INFO* pInfo)
 }
 
 PARTY_MEMBER_INFO* GCPartyJoined::popMemberInfo(void) 
-	throw()
 {
 	__BEGIN_TRY
 
@@ -80,7 +77,6 @@ PARTY_MEMBER_INFO* GCPartyJoined::popMemberInfo(void)
 }
 
 void GCPartyJoined::clear(void)
-	throw()
 {
 	__BEGIN_TRY
 
@@ -109,11 +105,10 @@ void GCPartyJoined::clear(void)
 }
 
 void GCPartyJoined::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
-	// ¸ÕÀú ¸®½ºÆ®ÀÇ »çÀÌÁî¸¦ ÀÐ¾îµéÀÎ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½î¸¦ ï¿½Ð¾ï¿½ï¿½ï¿½Î´ï¿½.
 	iStream.read(m_MemberCount);
 
 	for (uint i=0; i<m_MemberCount; i++)
@@ -139,11 +134,10 @@ void GCPartyJoined::read (SocketInputStream & iStream)
 }
 		    
 void GCPartyJoined::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
-	// ¸ÕÀú ¸®½ºÆ®ÀÇ »çÀÌÁî¸¦ ¾´´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½î¸¦ ï¿½ï¿½ï¿½ï¿½.
 	oStream.write(m_MemberCount);
 
 	std::list<PARTY_MEMBER_INFO*>::const_iterator itr = m_MemberInfoList.begin();
@@ -169,7 +163,6 @@ void GCPartyJoined::write (SocketOutputStream & oStream) const
 }
 
 void GCPartyJoined::execute (Player * pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -180,7 +173,6 @@ void GCPartyJoined::execute (Player * pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string GCPartyJoined::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

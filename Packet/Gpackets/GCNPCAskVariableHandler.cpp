@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "MNPCScriptTable.h"
 #include "GCNPCAskVariable.h"
 
@@ -19,11 +19,10 @@
 
 //////////////////////////////////////////////////////////////////////
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡¼­ ¼­¹ö·ÎºÎÅÍ ¸Þ½ÃÁö¸¦ ¹Þ¾ÒÀ»¶§ ½ÇÇàµÇ´Â ¸Þ½îµåÀÌ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 void GCNPCAskVariableHandler::execute ( GCNPCAskVariable * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -50,9 +49,9 @@ void GCNPCAskVariableHandler::execute ( GCNPCAskVariable * pPacket , Player * pP
 		if (pCreature!=NULL)
 		{			
 			//---------------------------------------------------
-			// g_PCTalkBox¿¡ Ãß°¡ÇÏ¸é µÈ´Ù.
+			// g_PCTalkBoxï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï¸ï¿½ ï¿½È´ï¿½.
 			//---------------------------------------------------
-			// ±âÁ¸¿¡ ÀÖ´ø°Í Á¦°Å
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			g_pPCTalkBox->Release();
 
 			DEBUG_ADD("TalkBoxRelease - GCNPCAskVariableHandler");
@@ -66,9 +65,9 @@ void GCNPCAskVariableHandler::execute ( GCNPCAskVariable * pPacket , Player * pP
 			int scriptID = pPacket->getScriptID();
 
 			//---------------------------------------------------
-			// PC Talk BoxÀÇ Á¤º¸ ¼³Á¤
+			// PC Talk Boxï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//---------------------------------------------------
-			// SetContent¶ó°í ÀÌ¸§ÀÌ µÇ¾îÀÖÁö¸¸.. SubjectÀÌ´Ù. - -;
+			// SetContentï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. Subjectï¿½Ì´ï¿½. - -;
 			std::string title;
 			g_pNPCScriptTable->GetSubjectParameter(scriptID, 0, pPacket->getScriptParameters(), title);
 			g_pPCTalkBox->SetContent( title.c_str() );
@@ -79,7 +78,7 @@ void GCNPCAskVariableHandler::execute ( GCNPCAskVariable * pPacket , Player * pP
 			DEBUG_ADD("SetScript - GCNPCAskVariableHandler");
 
 			//---------------------------------------------------
-			// °¢ std::string Ãß°¡
+			// ï¿½ï¿½ std::string ï¿½ß°ï¿½
 			//---------------------------------------------------
 			int contentSize = g_pNPCScriptTable->GetContentSize( scriptID );
 
@@ -87,7 +86,7 @@ void GCNPCAskVariableHandler::execute ( GCNPCAskVariable * pPacket , Player * pP
 			
 			for (int i=0; i<contentSize; i++)
 			{
-				// g_PCTalkBox¿¡ Ãß°¡
+				// g_PCTalkBoxï¿½ï¿½ ï¿½ß°ï¿½
 				std::string str;
 				g_pNPCScriptTable->GetContentParameter( scriptID, i ,pPacket->getScriptParameters(),str);
 				if( g_pSystemAvailableManager->ScriptFiltering( scriptID, i ) )
@@ -102,7 +101,7 @@ void GCNPCAskVariableHandler::execute ( GCNPCAskVariable * pPacket , Player * pP
 		}
 
 		//---------------------------------------------------
-		// Dialog¸¦ ¶ç¿î´Ù.
+		// Dialogï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		//---------------------------------------------------
 		//POINT point = ConvertPositionMapToScreen(pCreature->GetX(), pCreature->GetY());
 

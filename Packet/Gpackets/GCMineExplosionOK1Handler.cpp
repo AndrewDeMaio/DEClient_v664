@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCMineExplosionOK1.h"
 #include "ClientDef.h"
 #include "SkillDef.h"
@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCMineExplosionOK1Handler::execute ( GCMineExplosionOK1 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -24,7 +23,7 @@ void GCMineExplosionOK1Handler::execute ( GCMineExplosionOK1 * pPacket , Player 
 
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -32,7 +31,7 @@ void GCMineExplosionOK1Handler::execute ( GCMineExplosionOK1 * pPacket , Player 
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{		 
@@ -43,7 +42,7 @@ void GCMineExplosionOK1Handler::execute ( GCMineExplosionOK1 * pPacket , Player 
 			//int resultActionInfo = skillID + (*g_pActionInfoTable).GetMinResultActionInfo();
 
 			//------------------------------------------------------
-			// °á°ú »ý¼º
+			// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------
 			MActionResult* pResult = new MActionResult;
 		
@@ -54,13 +53,13 @@ void GCMineExplosionOK1Handler::execute ( GCMineExplosionOK1 * pPacket , Player 
 			for (int i=0; i<size; i++)
 			{
 				//pResult->Add( new MActionResultNodeActionInfo( 
-				//					OBJECTID_NULL,		// »ç¿ëÀÚ ¾ø¾îµµ µÇ´Â°É±î?
+				//					OBJECTID_NULL,		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½îµµ ï¿½Ç´Â°É±ï¿½?
 				//					pPacket->popCListElement(), 
 				//					skillType,
 				//					delayFrame ) );
 				//------------------------------------------------------
 				//
-				// skill¿¡ °á°ú°¡ ÀÖÀ¸¸é Àû¿ë ½ÃÅ²´Ù.
+				// skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 				//
 				//------------------------------------------------------
 				int targetID = pPacket->popCListElement();
@@ -70,7 +69,7 @@ void GCMineExplosionOK1Handler::execute ( GCMineExplosionOK1 * pPacket , Player 
 				if (pTargetCreature!=NULL)
 				{
 					//------------------------------------------------------
-					// EffectStatus°¡ ÀÖ´Ù¸é ºÙÀÎ´Ù.
+					// EffectStatusï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 					//------------------------------------------------------
 					EFFECTSTATUS es = (*g_pActionInfoTable)[skillID].GetEffectStatus();
 								
@@ -85,12 +84,12 @@ void GCMineExplosionOK1Handler::execute ( GCMineExplosionOK1 * pPacket , Player 
 					switch ((*g_pActionInfoTable)[skillID].GetActionResultID())
 					{
 						//------------------------------------------------------
-						// ´Ù¸¥ ActionInfo ½ÇÇà
+						// ï¿½Ù¸ï¿½ ActionInfo ï¿½ï¿½ï¿½ï¿½
 						//------------------------------------------------------
 						case ACTIONRESULTNODE_ACTIONINFO :
 							pActionResultNode =  new MActionResultNodeActionInfo( 
 																(*g_pActionInfoTable)[skillID].GetActionResultValue(),
-																OBJECTID_NULL, // »ç¿ëÀÚ ¾ø´Ù - -;
+																OBJECTID_NULL, // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - -;
 																targetID, 
 																pTargetCreature->GetX(),
 																pTargetCreature->GetY(),
@@ -114,7 +113,7 @@ void GCMineExplosionOK1Handler::execute ( GCMineExplosionOK1 * pPacket , Player 
 																delayFrame);
 
 					//------------------------------------------------------
-					// NULLÀÌ ¾Æ´Ï¸é °°ÀÌ Àû¿ë
+					// NULLï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					//------------------------------------------------------
 					if (pActionResultNode!=NULL)
 					{
@@ -124,7 +123,7 @@ void GCMineExplosionOK1Handler::execute ( GCMineExplosionOK1 * pPacket , Player 
 			}
 
 			//------------------------------------------------------
-			// Sector¿¡ ¹Ù·Î Àû¿ë
+			// Sectorï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------
 			int direction = pPacket->getDir();
 
@@ -141,9 +140,9 @@ void GCMineExplosionOK1Handler::execute ( GCMineExplosionOK1 * pPacket , Player 
 		}
 
 		//------------------------------------------------------------------
-		// Player°¡ ´çÇÑ°ÍÀÌ¹Ç·Î..
+		// Playerï¿½ï¿½ ï¿½ï¿½ï¿½Ñ°ï¿½ï¿½Ì¹Ç·ï¿½..
 		//------------------------------------------------------------------
-		// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+		// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 		//------------------------------------------------------------------
 		AffectModifyInfo(g_pPlayer, pPacket);
 	}

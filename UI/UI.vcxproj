@@ -76,10 +76,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;__GAME_CLIENT__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration);$(SolutionDir)ExternalLib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -91,10 +94,12 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;__GAME_CLIENT__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration);$(SolutionDir)ExternalLib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -103,10 +108,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;__GAME_CLIENT__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration);$(SolutionDir)ExternalLib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -118,14 +126,14 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;__GAME_CLIENT__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)Packet;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)OggLib;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)JpegLib;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)NPGameLib;$(SolutionDir)Include;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration);$(SolutionDir)ExternalLib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;IFC22.lib;Timer.lib;NPGameLib.lib;gdi32.lib;user32.lib</AdditionalDependencies>
+      <AdditionalDependencies>D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;Vorbis.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;JpegLib.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;NPGameLib.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -141,32 +149,6 @@
     <ClInclude Include="header\OperatorOption.h" />
     <ClInclude Include="header\SkinManager.h" />
     <ClInclude Include="Imm\CImm.h" />
-    <ClInclude Include="Imm\FeelitAPI.h" />
-    <ClInclude Include="Imm\IFC.h" />
-    <ClInclude Include="Imm\IFCErrors.h" />
-    <ClInclude Include="Imm\ImmBaseTypes.h" />
-    <ClInclude Include="Imm\ImmBox.h" />
-    <ClInclude Include="Imm\ImmCompoundEffect.h" />
-    <ClInclude Include="Imm\ImmCondition.h" />
-    <ClInclude Include="Imm\ImmConstant.h" />
-    <ClInclude Include="Imm\ImmDamper.h" />
-    <ClInclude Include="Imm\ImmDevice.h" />
-    <ClInclude Include="Imm\ImmDevices.h" />
-    <ClInclude Include="Imm\ImmDXDevice.h" />
-    <ClInclude Include="Imm\ImmEffect.h" />
-    <ClInclude Include="Imm\ImmEffectSuite.h" />
-    <ClInclude Include="Imm\ImmEllipse.h" />
-    <ClInclude Include="Imm\ImmEnclosure.h" />
-    <ClInclude Include="Imm\ImmFriction.h" />
-    <ClInclude Include="Imm\ImmGrid.h" />
-    <ClInclude Include="Imm\ImmIFR.h" />
-    <ClInclude Include="Imm\ImmInertia.h" />
-    <ClInclude Include="Imm\ImmMouse.h" />
-    <ClInclude Include="Imm\ImmPeriodic.h" />
-    <ClInclude Include="Imm\ImmProjects.h" />
-    <ClInclude Include="Imm\ImmRamp.h" />
-    <ClInclude Include="Imm\ImmSpring.h" />
-    <ClInclude Include="Imm\ImmTexture.h" />
     <ClInclude Include="MChaseEffect.h" />
     <ClInclude Include="MCreature.h" />
     <ClInclude Include="MCreatureWear.h" />
@@ -282,12 +264,10 @@
     <ClInclude Include="header\ShrineInfoManager.h" />
     <ClInclude Include="header\SystemAvailabilities.h" />
     <ClInclude Include="header\TickTimer.h" />
-    <ClInclude Include="header\UserInformation.h" />
     <ClInclude Include="header\UserOption.h" />
     <ClInclude Include="header\UtilityFunction.h" />
     <ClInclude Include="game\AppendPatchInfo.h" />
     <ClInclude Include="game\BGMManager.h" />
-    <ClInclude Include="game\BloodBibleSignInfo.h" />
     <ClInclude Include="game\CGameUpdate.h" />
     <ClInclude Include="game\COpeningUpdate.h" />
     <ClInclude Include="game\CSystemInfo.h" />
@@ -296,8 +276,6 @@
     <ClInclude Include="game\CWaitPacketUpdate.h" />
     <ClInclude Include="game\CWaitUIUpdate.h" />
     <ClInclude Include="game\GetWinVer.h" />
-    <ClInclude Include="game\GuildInfo.h" />
-    <ClInclude Include="game\GuildMemberInfo.h" />
     <ClInclude Include="game\LeakMemoryDumper.h" />
     <ClInclude Include="game\MActionInfoTable.h" />
     <ClInclude Include="game\MActionResult.h" />
@@ -399,8 +377,6 @@
     <ClInclude Include="game\MemoryPool.h" />
     <ClInclude Include="game\ModifyStatusManager.h" />
     <ClInclude Include="game\MonsterNameTable.h" />
-    <ClInclude Include="game\NicknameInfo.h" />
-    <ClInclude Include="game\nProtect.h" />
     <ClInclude Include="game\PackFileManager.h" />
     <ClInclude Include="game\PCConfigTable.h" />
     <ClInclude Include="game\RequestFileManager.h" />
@@ -410,7 +386,6 @@
     <ClInclude Include="game\ServerInformation.h" />
     <ClInclude Include="game\ShowTimeChecker.h" />
     <ClInclude Include="game\SkillDef.h" />
-    <ClInclude Include="game\StoreInfo.h" />
     <ClInclude Include="game\TalkBox.h" />
     <ClInclude Include="game\TempInformation.h" />
     <ClInclude Include="game\UIDialog.h" />
@@ -547,12 +522,10 @@
     <ClCompile Include="ShrineInfoManager.cpp" />
     <ClCompile Include="SystemAvailabilities.cpp" />
     <ClCompile Include="TickTimer.cpp" />
-    <ClCompile Include="UserInformation.cpp" />
     <ClCompile Include="UserOption.cpp" />
     <ClCompile Include="UtilityFunction.cpp" />
     <ClCompile Include="game\AppendPatchInfo.cpp" />
     <ClCompile Include="game\BGMManager.cpp" />
-    <ClCompile Include="game\BloodBibleSignInfo.cpp" />
     <ClCompile Include="game\CGameUpdate.cpp" />
     <ClCompile Include="game\COpeningUpdate.cpp" />
     <ClCompile Include="game\CSystemInfo.cpp" />
@@ -568,8 +541,6 @@
     <ClCompile Include="game\GameMain.cpp" />
     <ClCompile Include="game\GameUI.cpp" />
     <ClCompile Include="game\GetWinVer.cpp" />
-    <ClCompile Include="game\GuildInfo.cpp" />
-    <ClCompile Include="game\GuildMemberInfo.cpp" />
     <ClCompile Include="game\LeakMemoryDumper.cpp" />
     <ClCompile Include="game\MActionInfoTable.cpp" />
     <ClCompile Include="game\MActionResult.cpp" />
@@ -627,7 +598,6 @@
     <ClCompile Include="game\MMusicTable.cpp" />
     <ClCompile Include="game\MObjectSelector.cpp" />
     <ClCompile Include="game\MParabolaEffect.cpp" />
-    <ClCompile Include="game\MPlayingWithFireEffect.cpp" />
     <ClCompile Include="game\MPlayingWithFireEffectGenerator.cpp" />
     <ClCompile Include="game\MPremiumGiveItemInfo.cpp" />
     <ClCompile Include="game\MRippleZoneEffectGenerator.cpp" />
@@ -673,8 +643,6 @@
     <ClCompile Include="game\ModifyStatusManager.cpp" />
     <ClCompile Include="game\MonsterNameTable.cpp" />
     <ClCompile Include="game\Netmarble.cpp" />
-    <ClCompile Include="game\NicknameInfo.cpp" />
-    <ClCompile Include="game\nProtect.cpp" />
     <ClCompile Include="game\PackFileManager.cpp" />
     <ClCompile Include="game\PCConfigTable.cpp" />
     <ClCompile Include="game\RequestFileManager.cpp" />
@@ -685,7 +653,6 @@
     <ClCompile Include="game\ShowTimeChecker.cpp" />
     <ClCompile Include="game\SizeOfObjects.cpp" />
     <ClCompile Include="game\SkillDef.cpp" />
-    <ClCompile Include="game\StoreInfo.cpp" />
     <ClCompile Include="game\TalkBox.cpp" />
     <ClCompile Include="game\TempInformation.cpp" />
     <ClCompile Include="game\UIDialog.cpp" />

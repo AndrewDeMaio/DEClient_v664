@@ -1,13 +1,13 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCTradeErrorHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCTradeError.h"
 #include "ClientDef.h"
 #include "UIDialog.h"
@@ -17,7 +17,6 @@
 #include "UIFunction.h"
 
 void GCTradeErrorHandler::execute ( GCTradeError * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -37,7 +36,7 @@ void GCTradeErrorHandler::execute ( GCTradeError * pPacket , Player * pPlayer )
 
 	//----------------------------------------------------------------------
 	//
-	//	±³È¯ÀÌ Ãë¼ÒµÇ´Â °æ¿ìÀÇ °øÅëÀûÀÎ Ã³¸®
+	//	ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ÒµÇ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	//
 	//----------------------------------------------------------------------
 	if (code==GC_TRADE_ERROR_CODE_TARGET_NOT_EXIST
@@ -46,10 +45,10 @@ void GCTradeErrorHandler::execute ( GCTradeError * pPacket , Player * pPlayer )
 	{	
 		if (g_pTempInformation->GetMode() == TempInformation::MODE_TRADE_REQUEST)
 		{
-			// ±³È¯Ãë¼ÒÇÒ·¡?¸¦ ´Ý´Â´Ù.
+			// ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½Ò·ï¿½?ï¿½ï¿½ ï¿½Ý´Â´ï¿½.
 			UI_CloseExchangeCancel();
 
-			// °ËÁõ Á¦°Å..
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 			if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_TRADE)
 			{
 				g_pPlayer->SetWaitVerifyNULL();
@@ -62,10 +61,10 @@ void GCTradeErrorHandler::execute ( GCTradeError * pPacket , Player * pPlayer )
 	switch (code)
 	{
 		//----------------------------------------------------------------------
-		// ±³È¯À» ¿ä±¸ÇÑ ´ë»óÀÌ Á¸ÀçÇÏÁö ¾Ê´Â´Ù
+		// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ä±¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½
 		//----------------------------------------------------------------------
 		case GC_TRADE_ERROR_CODE_TARGET_NOT_EXIST :						
-			// ±×·± »ç¶÷ ¾öµû~
+			// ï¿½×·ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½~
 			UI_CloseExchangeCancel();
 
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TRADE_NOBODY].GetString());
@@ -73,30 +72,30 @@ void GCTradeErrorHandler::execute ( GCTradeError * pPacket , Player * pPlayer )
 		
 		
 		//----------------------------------------------------------------------
-		// ±³È¯À» ¿ä±¸ÇÑ ´ë»óÀÌ ´Ù¸¥ Á¾Á·ÀÌ´Ù
+		// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ä±¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½
 		//----------------------------------------------------------------------
 		case GC_TRADE_ERROR_CODE_RACE_DIFFER :
-			// ±³È¯ÇÒ ¼ö ¾öµû~
+			// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½~
 			UI_CloseExchangeCancel();
 
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_TRADE].GetString());
 		break;
 
 		//----------------------------------------------------------------------
-		// ±³È¯À» ÇÏ·Á°í ÇÏ´Â °÷ÀÌ ¾ÈÀü Áö´ë°¡ ¾Æ´Ï´Ù.
+		// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ë°¡ ï¿½Æ´Ï´ï¿½.
 		//----------------------------------------------------------------------
 		case GC_TRADE_ERROR_CODE_NOT_SAFE :
-			// ±³È¯ÇÒ ¼ö ¾öµû~
+			// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½~
 			UI_CloseExchangeCancel();
 
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TRADE_SAFETY_ZONE_ONLY].GetString());			
 		break;
 
 		//----------------------------------------------------------------------
-		// ¸ðÅÍ»çÀÌÅ¬À» Åº Ã¤·Î ±³È¯À» ÇÏ·Á°í ÇÏ°í ÀÖ´Ù.
+		// ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½Å¬ï¿½ï¿½ Åº Ã¤ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½Ö´ï¿½.
 		//----------------------------------------------------------------------
 		case GC_TRADE_ERROR_CODE_MOTORCYCLE :
-			// ±³È¯ÇÒ ¼ö ¾öµû~
+			// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½~
 			UI_CloseExchangeCancel();
 
 			if( g_pPlayer->IsSlayer() )
@@ -107,7 +106,7 @@ void GCTradeErrorHandler::execute ( GCTradeError * pPacket , Player * pPlayer )
 		
 
 		//----------------------------------------------------------------------
-		// ±³È¯ ÁßÀÌ¸é¼­ ´Ù½Ã ±³È¯À» ÇÏ·Á°í ÇÑ´Ù
+		// ï¿½ï¿½È¯ ï¿½ï¿½ï¿½Ì¸é¼­ ï¿½Ù½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½
 		//----------------------------------------------------------------------
 		case GC_TRADE_ERROR_CODE_ALREADY_TRADING :
 			
@@ -117,7 +116,7 @@ void GCTradeErrorHandler::execute ( GCTradeError * pPacket , Player * pPlayer )
 		break;
 
 		//----------------------------------------------------------------------
-		// ±³È¯ ÁßÀÌ ¾Æ´Ñµ¥ : ±³È¯ °ü·Ã ÆÐÅ¶ÀÌ ³¯¾Æ¿Ô´Ù.
+		// ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ñµï¿½ : ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Æ¿Ô´ï¿½.
 		//----------------------------------------------------------------------
 		case GC_TRADE_ERROR_CODE_NOT_TRADING :
 			// - -;
@@ -130,7 +129,7 @@ void GCTradeErrorHandler::execute ( GCTradeError * pPacket , Player * pPlayer )
 		break;
 
 		//----------------------------------------------------------------------
-		// ±³È¯ ´ë»ó¿¡ ´õÇÏ·Á°í ÇÏ´Â ¾ÆÀÌÅÛÀ» °¡Áö°í ÀÖÁö ¾Ê´Ù
+		// ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½
 		//----------------------------------------------------------------------
 		case GC_TRADE_ERROR_CODE_ADD_ITEM :
 			#ifdef OUTPUT_DEBUG
@@ -142,7 +141,7 @@ void GCTradeErrorHandler::execute ( GCTradeError * pPacket , Player * pPlayer )
 		break;
 
 		//----------------------------------------------------------------------
-		// ±³È¯ ´ë»ó¿¡¼­ »©·Á°í ÇÏ´Â ¾ÆÀÌÅÛÀ» °¡Áö°í ÀÖÁö ¾Ê´Ù
+		// ï¿½ï¿½È¯ ï¿½ï¿½ó¿¡¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½
 		//----------------------------------------------------------------------
 		case GC_TRADE_ERROR_CODE_REMOVE_ITEM :
 			#ifdef OUTPUT_DEBUG
@@ -154,7 +153,7 @@ void GCTradeErrorHandler::execute ( GCTradeError * pPacket , Player * pPlayer )
 		break;
 
 		//----------------------------------------------------------------------
-		// ±³È¯ ´ë»ó¿¡ ´õÇÏ·Á°í ÇÏ´Â µ·À» °¡Áö°í ÀÖÁö ¾Ê´Ù.
+		// ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½.
 		//----------------------------------------------------------------------
 		case GC_TRADE_ERROR_CODE_INCREASE_MONEY :
 			#ifdef OUTPUT_DEBUG
@@ -166,7 +165,7 @@ void GCTradeErrorHandler::execute ( GCTradeError * pPacket , Player * pPlayer )
 		break;
 
 		//----------------------------------------------------------------------
-		// ±³È¯ ´ë»ó¿¡¼­ »©·Á°í ÇÏ´Â µ·À» °¡Áö°í ÀÖÁö ¾Ê´Ù.
+		// ï¿½ï¿½È¯ ï¿½ï¿½ó¿¡¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½.
 		//----------------------------------------------------------------------
 		case GC_TRADE_ERROR_CODE_DECREASE_MONEY :
 			#ifdef OUTPUT_DEBUG
@@ -178,7 +177,7 @@ void GCTradeErrorHandler::execute ( GCTradeError * pPacket , Player * pPlayer )
 		break;
 
 		//----------------------------------------------------------------------
-		// ±³È¯À» Çß´Âµ¥ : ÀÚ¸®°¡ ¸ðÀÚ¶ó¼­ ½ÇÆÐÇß´Ù
+		// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ß´Âµï¿½ : ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½
 		//----------------------------------------------------------------------
 		case GC_TRADE_ERROR_CODE_NOT_ENOUGH_SPACE :
 			
@@ -193,7 +192,7 @@ void GCTradeErrorHandler::execute ( GCTradeError * pPacket , Player * pPlayer )
 		break;
 
 		//----------------------------------------------------------------------
-		// ¾Ë ¼ö ¾ø´Â ¿¡·¯ÀÌ´Ù...
+		// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½...
 		//----------------------------------------------------------------------
 		case GC_TRADE_ERROR_CODE_UNKNOWN :
 			
@@ -213,7 +212,7 @@ void GCTradeErrorHandler::execute ( GCTradeError * pPacket , Player * pPlayer )
 	}
 
 	//----------------------------------------------------------------------
-	// Trade ErrorÀÎ °æ¿ì´Â ¹«Á¶°Ç ±³È¯Ã¢À» ´Ý´Â´Ù.
+	// Trade Errorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯Ã¢ï¿½ï¿½ ï¿½Ý´Â´ï¿½.
 	//----------------------------------------------------------------------
 	if (g_pTradeManager!=NULL)
 	{

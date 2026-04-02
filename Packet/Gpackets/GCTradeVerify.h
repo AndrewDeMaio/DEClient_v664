@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : GCTradeVerify.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -11,45 +11,45 @@
 #include "PacketFactory.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// ¿¡·¯ ÄÚµå
+// ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 ////////////////////////////////////////////////////////////////////////////////
 
 enum
 {
-	// ±³È¯ ´ë»óÀ¸·Î ¾ÆÀÌÅÛÀ» Ãß°¡ÇÏ´Â °ÍÀ» ÀÎÁõ
+	// ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	GC_TRADE_VERIFY_CODE_ADD_ITEM_WHEN_ACCEPT,
 
-	// ±³È¯ ´ë»ó¿¡¼­ ¾ÆÀÌÅÛÀ» Á¦°ÅÇÏ´Â °ÍÀ» ÀÎÁõ
+	// ï¿½ï¿½È¯ ï¿½ï¿½ó¿¡¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	GC_TRADE_VERIFY_CODE_REMOVE_ITEM,
 
-	// ±³È¯ ´ë»ó¿¡¼­ µ·À» Ãß°¡ÇÏ´Â °ÍÀ» ÀÎÁõ
+	// ï¿½ï¿½È¯ ï¿½ï¿½ó¿¡¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	GC_TRADE_VERIFY_CODE_MONEY_INCREASE,
 
-	// ±³È¯ ´ë»ó¿¡¼­ µ·À» Á¦°ÅÇÏ´Â °ÍÀ» ÀÎÁõ
+	// ï¿½ï¿½È¯ ï¿½ï¿½ó¿¡¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	GC_TRADE_VERIFY_CODE_MONEY_DECREASE,
 
-	// ±³È¯ ¼º¸³À» È®ÀÎÇÏ´Â °ÍÀ» ÀÎÁõ
+	// ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	GC_TRADE_VERIFY_CODE_FINISH_ACCEPT,
 
-	// ±³È¯ ¼º¸³À» Ãë¼ÒÇÏ´Â °ÍÀ» ÀÎÁõ
+	// ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	GC_TRADE_VERIFY_CODE_FINISH_REJECT,
 
-	// ±³È¯ ¼º¸³À» Àç°í·ÁÇÏ´Â °ÍÀ» ÀÎÁõ
+	// ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	GC_TRADE_VERIFY_CODE_FINISH_RECONSIDER,
 
-	// ±³È¯À» ÇÏ°í ÀÖÀ» ¶§ ¸¶¿ì½º¿¡ ÀÎº¥Åä¸®·Î ¾ÆÀÌÅÛÀ» ¿Å±â´Â °ÍÀ» °ËÁõ
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	GC_TRADE_VERIFY_CODE_MOUSE_TO_INVENTORY_OK,
 	GC_TRADE_VERIFY_CODE_MOUSE_TO_INVENTORY_FAIL,
 
-	// ±³È¯À» ÇÏ°í ÀÖÀ» ¶§ ÀÎº¥Åä¸®¿¡¼­ ¸¶¿ì½º·Î ¾ÆÀÌÅÛÀ» ¿Å±â´Â °ÍÀ» °ËÁõ
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	GC_TRADE_VERIFY_CODE_INVENTORY_TO_MOUSE_OK,
 	GC_TRADE_VERIFY_CODE_INVENTORY_TO_MOUSE_FAIL,
 
-	// GCTradeAddItemÀ» °ËÁõ ¹Þ¾Æ¾ß ÇÏ´Â °æ¿ì¿¡..
+	// GCTradeAddItemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¾ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ì¿¡..
 	GC_TRADE_VERIFY_CODE_ADD_ITEM_OK,
 	GC_TRADE_VERIFY_CODE_ADD_ITEM_FAIL,
 
-	// ¿¡·¯´å.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 	GC_TRADE_VERIFY_CODE_MAX
 };
 
@@ -62,22 +62,22 @@ enum
 class GCTradeVerify : public Packet 
 {
 public:
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
-	PacketID_t getPacketID () const throw () { return PACKET_GC_TRADE_VERIFY; }
-	PacketSize_t getPacketSize () const throw () { return szBYTE ; }
+	void read ( SocketInputStream & iStream );
+	void write ( SocketOutputStream & oStream ) const;
+	void execute ( Player * pPlayer );
+	PacketID_t getPacketID () const { return PACKET_GC_TRADE_VERIFY; }
+	size_t getPacketSize () const { return szBYTE ; }
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "GCTradeVerify"; }
-		std::string toString () const throw ();
+		std::string getPacketName () const { return "GCTradeVerify"; }
+		std::string toString () const;
 	#endif
 
 public:
-	BYTE getCode() const throw() { return m_Code; }
-	void setCode(BYTE code) throw() { m_Code = code; }
+	BYTE getCode() const { return m_Code; }
+	void setCode(BYTE code) { m_Code = code; }
 
 private:
-	BYTE       m_Code;           // ÄÚµå
+	BYTE       m_Code;           // ï¿½Úµï¿½
 
 };
 
@@ -91,14 +91,14 @@ private:
 class GCTradeVerifyFactory : public PacketFactory 
 {
 public:
-	Packet * createPacket () throw () { return new GCTradeVerify(); }
+	Packet * createPacket () { return new GCTradeVerify(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "GCTradeVerify"; }
+		std::string getPacketName () const { return "GCTradeVerify"; }
 	#endif
 
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_TRADE_VERIFY; }
-	PacketSize_t getPacketMaxSize () const throw () { return szBYTE; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_TRADE_VERIFY; }
+	PacketSize_t getPacketMaxSize () const { return szBYTE; }
 
 };
 
@@ -112,7 +112,7 @@ public:
 class GCTradeVerifyHandler 
 {
 public:
-	static void execute ( GCTradeVerify * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCTradeVerify * pPacket , Player * pPlayer );
 
 };
 

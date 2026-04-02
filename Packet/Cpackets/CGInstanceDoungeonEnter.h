@@ -19,7 +19,7 @@
 //////////////////////////////////////////////////////////////////////
 //
 // class CGInstanceDoungeonEnter;
-// Æ¼Æ÷Áê ¼º¿¡ Ã³À½ Àû¿ë
+// Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////
 #if __CONTENTS(__TIPOJYU_CASTLE)
 class CGInstanceDoungeonEnter : public Packet {
@@ -27,42 +27,42 @@ class CGInstanceDoungeonEnter : public Packet {
 public:
 	
 	// constructor
-	CGInstanceDoungeonEnter() throw();
+	CGInstanceDoungeonEnter();
 	
 	// destructor
-	~CGInstanceDoungeonEnter() throw();
+	~CGInstanceDoungeonEnter();
 
 	
 public:
 	
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_CG_INSTANCEDOUNGEON_ENTER; }
+	PacketID_t getPacketID() const { return PACKET_CG_INSTANCEDOUNGEON_ENTER; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return szObjectID + szBYTE; }
+	size_t getPacketSize() const { return szObjectID + szBYTE; }
 
 	// get packet name
-	string getPacketName() const throw() { return "CGInstanceDoungeonEnter"; }
+	string getPacketName() const { return "CGInstanceDoungeonEnter"; }
 	
 	// get packet's debug string
-	string toString() const throw();
+	string toString() const;
 
 	// get/set ObjectID
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID(ObjectID_t ObjectID) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID(ObjectID_t ObjectID) { m_ObjectID = ObjectID; }
 	
-	BYTE getSelectDoungeonIndex() const throw() { return m_SelectDoungeonIndex; }
-	void setSelectDoungeonIndex(BYTE SelectDoungeonIndex) throw() { m_SelectDoungeonIndex = SelectDoungeonIndex; }
+	BYTE getSelectDoungeonIndex() const { return m_SelectDoungeonIndex; }
+	void setSelectDoungeonIndex(BYTE SelectDoungeonIndex) { m_SelectDoungeonIndex = SelectDoungeonIndex; }
 
 private :
 	
@@ -85,25 +85,25 @@ class CGInstanceDoungeonEnterFactory : public PacketFactory {
 public:
 	
 	// constructor
-	CGInstanceDoungeonEnterFactory() throw() {}
+	CGInstanceDoungeonEnterFactory() {}
 	
 	// destructor
-	virtual ~CGInstanceDoungeonEnterFactory() throw() {}
+	virtual ~CGInstanceDoungeonEnterFactory() {}
 
 	
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new CGInstanceDoungeonEnter(); }
+	Packet* createPacket() { return new CGInstanceDoungeonEnter(); }
 
 	// get packet name
-	string getPacketName() const throw() { return "CGInstanceDoungeonEnter"; }
+	string getPacketName() const { return "CGInstanceDoungeonEnter"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_INSTANCEDOUNGEON_ENTER; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_INSTANCEDOUNGEON_ENTER; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID + szBYTE; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID + szBYTE; }
 
 };
 
@@ -118,7 +118,7 @@ class CGInstanceDoungeonEnterHandler {
 public:
 
 	// execute packet's handler
-	static void execute(CGInstanceDoungeonEnter* pCGInstanceDoungeonEnter, Player* player) throw(Error);
+	static void execute(CGInstanceDoungeonEnter* pCGInstanceDoungeonEnter, Player* player);
 };
 #endif //__TIPOJYU_CASTLE
 #endif

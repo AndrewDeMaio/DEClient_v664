@@ -8,7 +8,6 @@
 #include "CGSelectWeekItem.h"
 #if __CONTENTS(__PREMIUM_GIVE_ITEM_UI)
 void CGSelectWeekItem::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -18,7 +17,6 @@ void CGSelectWeekItem::read (SocketInputStream & iStream)
 }
 		    
 void CGSelectWeekItem::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -28,7 +26,6 @@ void CGSelectWeekItem::write (SocketOutputStream & oStream) const
 }
 
 void CGSelectWeekItem::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -38,7 +35,6 @@ void CGSelectWeekItem::execute (Player* pPlayer)
 }
 
 string CGSelectWeekItem::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

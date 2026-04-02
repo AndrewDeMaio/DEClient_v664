@@ -2,8 +2,8 @@
 // Filename    : CGMixItem.cpp 
 // Written By  : excel96
 // Description : 
-// ÀÎº¥Åä¸® ¾ÈÀÇ ¾ÆÀÌÅÛÀ» »ç¿ëÇÒ ¶§, Å¬¶óÀÌ¾ðÆ®°¡ X, Y ¹× ObjectID¸¦
-// º¸³»¸é ¾ÆÀÌÅÛ Å¬·¡½º¿¡ µû¶ó¼­, ¼­¹ö°¡ ÀÌ¿¡ ¸Â´Â ÄÚµå¸¦ Ã³¸®ÇÑ´Ù.
+// ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ X, Y ï¿½ï¿½ ObjectIDï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ ï¿½Â´ï¿½ ï¿½Úµå¸¦ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 #include "Client_PCH.h"
 #include "CGMixItem.h"
@@ -13,7 +13,6 @@
 
 
 void CGMixItem::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -27,7 +26,6 @@ void CGMixItem::read (SocketInputStream & iStream)
 }
 		    
 void CGMixItem::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -41,7 +39,6 @@ void CGMixItem::write (SocketOutputStream & oStream) const
 }
 
 void CGMixItem::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -51,7 +48,7 @@ void CGMixItem::execute (Player* pPlayer)
 }
 #ifdef __DEBUG_OUTPUT__
 std::string CGMixItem::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 		

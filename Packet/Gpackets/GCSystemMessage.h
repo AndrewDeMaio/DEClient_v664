@@ -16,14 +16,14 @@
 enum SystemMessageType
 {
 	SYSTEM_MESSAGE_NORMAL = 0,
-	SYSTEM_MESSAGE_OPERATOR,	// ¿î¿µÀÚ ¸»¾¸
-	SYSTEM_MESSAGE_MASTER_LAIR,	// ¸¶½ºÅÍ ·¹¾î °ü·Ã
-	SYSTEM_MESSAGE_COMBAT,		// ÀüÀï °ü·Ã
-	SYSTEM_MESSAGE_INFO, 		// Æ¯Á¤ÇÑ Á¤º¸ °ü·Ã
-	SYSTEM_MESSAGE_HOLY_LAND,	// ¾Æ´ãÀÇ ¼ºÁö °ü·Ã
-	SYSTEM_MESSAGE_RANGER_CHAT,	// Á¾Á·Àü½Ã ·¹ÀÎÁ® Ãª
-	SYSTEM_MESSAGE_TIMER,		// Å¸ÀÌ¸Ó ÀÎÅÍÆäÀÌ½º ¶ç¿ò
-	SYSTEM_MESSAGE_EVENT,		// OXÁ¸µî ¿¡¼­ÀÇ ÀÌº¥Æ® ¸Þ¼¼Áö °ü·ÃÃ³¸® - È­¸é Áß»ó´Ü¿¡ Å©°Ô~~ Ãâ·Â.. ºó ¹®ÀÚ³ª ·Î±×¾Æ¿ô, Á¸ ÀÌµ¿ ÇÏ±â Àü±îÁö´Â À¯ÁöµÊ.
+	SYSTEM_MESSAGE_OPERATOR,	// ï¿½î¿µï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	SYSTEM_MESSAGE_MASTER_LAIR,	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	SYSTEM_MESSAGE_COMBAT,		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	SYSTEM_MESSAGE_INFO, 		// Æ¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	SYSTEM_MESSAGE_HOLY_LAND,	// ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	SYSTEM_MESSAGE_RANGER_CHAT,	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ãª
+	SYSTEM_MESSAGE_TIMER,		// Å¸ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½ï¿½ï¿½
+	SYSTEM_MESSAGE_EVENT,		// OXï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ - È­ï¿½ï¿½ ï¿½ß»ï¿½Ü¿ï¿½ Å©ï¿½ï¿½~~ ï¿½ï¿½ï¿½.. ï¿½ï¿½ ï¿½ï¿½ï¿½Ú³ï¿½ ï¿½Î±×¾Æ¿ï¿½, ï¿½ï¿½ ï¿½Ìµï¿½ ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 	SYSTEM_MESSAGE_MAX
 };
@@ -32,9 +32,9 @@ enum SystemMessageType
 //
 // class GCSystemMessage;
 //
-// °ÔÀÓ ¼­¹ö°¡ Æ¯Á¤ ÇÃ·¹ÀÌ¾îÀÇ SystemMessage ¸¦ ´Ù¸¥ ÇÃ·¹ÀÌ¾îµé¿¡°Ô ºê·ÎµåÄ³½ºÆ®
-// ÇÒ ¶§ Àü¼ÛÇÏ´Â ÆÐÅ¶ÀÌ´Ù. ³»ºÎ¿¡ Ä³¸¯ÅÍ¸í°ú SystemMessage ½ºÆ®¸µÀ» µ¥ÀÌÅ¸
-// ÇÊµå·Î °¡Áö°í ÀÖ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ SystemMessage ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½é¿¡ï¿½ï¿½ ï¿½ï¿½Îµï¿½Ä³ï¿½ï¿½Æ®
+// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½. ï¿½ï¿½ï¿½Î¿ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ SystemMessage ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸
+// ï¿½Êµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -46,37 +46,37 @@ public :
 	{
 	}
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_SYSTEM_MESSAGE; }
+	PacketID_t getPacketID() const { return PACKET_GC_SYSTEM_MESSAGE; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return szBYTE + m_Message.size() + szuint + szBYTE; }
+	size_t getPacketSize() const { return szBYTE + m_Message.size() + szuint + szBYTE; }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "GCSystemMessage"; }
+	std::string getPacketName() const { return "GCSystemMessage"; }
 	
 	// get packet's debug std::string
-	std::string toString() const throw();
+	std::string toString() const;
 
 	// get/set chatting message
-	const std::string& getMessage() const throw() { return m_Message; }
-	void setMessage(const std::string & msg) throw() { m_Message = msg; }
+	const std::string& getMessage() const { return m_Message; }
+	void setMessage(const std::string & msg) { m_Message = msg; }
 
 	// get/set text color
-	uint getColor() const throw() { return m_Color; }
-	void setColor( uint color ) throw() { m_Color = color; }
+	uint getColor() const { return m_Color; }
+	void setColor( uint color ) { m_Color = color; }
 
-	SystemMessageType getType() const throw() { return m_Type; }
-	void setType( SystemMessageType Type ) throw() { m_Type = Type; }
+	SystemMessageType getType() const { return m_Type; }
+	void setType( SystemMessageType Type ) { m_Type = Type; }
 
 
 	
@@ -107,18 +107,18 @@ class GCSystemMessageFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet* createPacket() throw() { return new GCSystemMessage(); }
+	Packet* createPacket() { return new GCSystemMessage(); }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "GCSystemMessage"; }
+	std::string getPacketName() const { return "GCSystemMessage"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_SYSTEM_MESSAGE; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_SYSTEM_MESSAGE; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCSystemMessagePacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + 256 + szuint + szBYTE; }
+	// const static GCSystemMessagePacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const { return szBYTE + 256 + szuint + szBYTE; }
 
 };
 
@@ -134,7 +134,7 @@ class GCSystemMessageHandler {
 public :
 	
 	// execute packet's handler
-	static void execute(GCSystemMessage* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCSystemMessage* pPacket, Player* pPlayer);
 
 };
 

@@ -18,7 +18,7 @@
 //
 // class CLSelectPC;
 //
-// ÇÃ·¹ÀÌÇÒ PC ¸¦ ¼±ÅÃÇÏ´Â ÆÐÅ¶ÀÌ´Ù.
+// ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ PC ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -26,20 +26,20 @@ class CLSelectPC : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CL_SELECT_PC; }
+	PacketID_t getPacketID () const { return PACKET_CL_SELECT_PC; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () 
+	size_t getPacketSize () const 
 	{ 
 		return szBYTE + m_PCName.size() 	// pc name
 			+ szPCType; 					// pc type
@@ -47,21 +47,21 @@ public :
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "CLSelectPC"; }
+		std::string getPacketName () const { return "CLSelectPC"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 public :
 
 	// get/set creature's name
-	const std::string& getPCName () const throw () { return m_PCName; }
-	void setPCName ( std::string pcName ) throw () { m_PCName = pcName; }
+	const std::string& getPCName () const { return m_PCName; }
+	void setPCName ( std::string pcName ) { m_PCName = pcName; }
 
 	// get/set pc type
-	PCType getPCType () const throw () { return m_PCType; }
-	void setPCType ( PCType pcType ) throw () { m_PCType = pcType; }
+	PCType getPCType () const { return m_PCType; }
+	void setPCType ( PCType pcType ) { m_PCType = pcType; }
 
 private :
 	
@@ -87,16 +87,16 @@ class CLSelectPCFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CLSelectPC(); }
+	Packet * createPacket () { return new CLSelectPC(); }
 
 	// get packet name
-	std::string getPacketName () const throw () { return "CLSelectPC"; }
+	std::string getPacketName () const { return "CLSelectPC"; }
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CL_SELECT_PC; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CL_SELECT_PC; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize () const throw ()
+	PacketSize_t getPacketMaxSize () const
 	{
 		return szBYTE + 20		 	// name
 			+ szPCType; 			// pc type
@@ -117,7 +117,7 @@ public :
 	public :
 
 		// execute packet's handler
-		static void execute ( CLSelectPC * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+		static void execute ( CLSelectPC * pPacket , Player * pPlayer );
 
 	};
 #endif

@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddWolf.h"
 #include "ClientDef.h"
 #include "SkillDef.h"
@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAddWolfHandler::execute ( GCAddWolf * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -24,11 +23,11 @@ void GCAddWolfHandler::execute ( GCAddWolf * pPacket , Player * pPlayer )
 	
 	int wolfCreatureType = 186;
 
-	if( pPacket->getItemType() == 39 )			// Were Wolf·Î º¯½Å
+	if( pPacket->getItemType() == 39 )			// Were Wolfï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		wolfCreatureType = CREATURETYPE_WER_WOLF;
 	
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -37,14 +36,14 @@ void GCAddWolfHandler::execute ( GCAddWolf * pPacket , Player * pPlayer )
 		
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pCreature = g_pZone->GetCreature(pPacket->getObjectID());
 
 		//--------------------------------------------------
-		// »õ·Î¿î CreatureÀÌ¸é Ãß°¡
+		// ï¿½ï¿½ï¿½Î¿ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ß°ï¿½
 		//--------------------------------------------------
 		if (pCreature==NULL)
 		{
@@ -73,8 +72,8 @@ void GCAddWolfHandler::execute ( GCAddWolf * pPacket , Player * pPlayer )
 			pCreature->SetStatus( MODIFY_CURRENT_HP, pPacket->getCurrentHP() );
 
 			//pPacket->getName()
-			// »ö»ó Á¤º¸
-			// ÀÓ½Ã·Î
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			// ï¿½Ó½Ã·ï¿½
 			pCreature->SetGuildNumber( pPacket->getGuildID() );
 
 			if (!g_pZone->AddCreature( pCreature ))
@@ -84,13 +83,13 @@ void GCAddWolfHandler::execute ( GCAddWolf * pPacket , Player * pPlayer )
 			}
 		}
 		//--------------------------------------------------
-		// ÀÌ¹Ì ÀÖ´Â CreatureÀÎ °æ¿ì
+		// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		else
 		{
 			pCreature->SetCreatureType( wolfCreatureType );
 
-			// ÀÓ½Ã·Î
+			// ï¿½Ó½Ã·ï¿½
 			pCreature->SetGuildNumber( pPacket->getGuildID() );
 
 			pCreature->SetGroundCreature();
@@ -106,29 +105,29 @@ void GCAddWolfHandler::execute ( GCAddWolf * pPacket , Player * pPlayer )
 			pCreature->SetStatus( MODIFY_CURRENT_HP, pPacket->getCurrentHP() );
 
 			//--------------------------------------------------
-			// ´Á´ë·Î º¯½ÅÇÏ´Â °á°ú
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 			//--------------------------------------------------
 			MActionResult* pResult = new MActionResult;
 
 			pResult->Add( new MActionResultNodeChangeCreatureType( pCreature->GetID(), wolfCreatureType ) );
 
 			//--------------------------------------------------
-			// ´Á´ë º¯½Å 
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 			//--------------------------------------------------								
 			ExecuteActionInfoFromMainNode(
-				RESULT_MAGIC_TRANSFORM_TO_WOLF,										// »ç¿ë ±â¼ú ¹øÈ£
+				RESULT_MAGIC_TRANSFORM_TO_WOLF,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 			
 				pCreature->GetX(), pCreature->GetY(), 0,
-				pCreature->GetDirection(),														// »ç¿ë ¹æÇâ
+				pCreature->GetDirection(),														// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				
-				OBJECTID_NULL,												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+				OBJECTID_NULL,												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				pCreature->GetX(), pCreature->GetY(), 0, 
 				
-				0,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+				0,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 				
 				pResult, //NULL,
 				
-				false);			// ±â¼ú Ã·ºÎÅÍ ½ÃÀÛÇÑ´Ù.
+				false);			// ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 
 			//pCreature->SetDelay( 1000 );
 		}	
@@ -137,7 +136,7 @@ void GCAddWolfHandler::execute ( GCAddWolf * pPacket , Player * pPlayer )
 			pCreature->SetBodyColor1( pPacket->getColor() );
 	}
 
-	// [µµ¿ò¸»] Vampire°¡ ³ªÅ¸³¯¶§
+	// [ï¿½ï¿½ï¿½ï¿½] Vampireï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½
 //	__BEGIN_HELP_EVENT
 //		//ExecuteHelpEvent( HE_CREATURE_APPEAR_VAMPIRE );
 //	__END_HELP_EVENT

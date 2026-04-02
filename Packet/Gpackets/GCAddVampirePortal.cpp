@@ -2,17 +2,16 @@
 // Filename    : GCAddVampirePortal.cpp
 // Written By  : excel96
 // Description :
-// ¹ìÆÄÀÌ¾î Æ÷Å»Àº ÇöÀç ÀÌÆåÆ®ÀÇ ÀÏÁ¾À¸·Î¼­ ±¸ÇöµÇ´Âµ¥, ÀÌ ÆÐÅ¶Àº
-// Å¬¶óÀÌ¾ðÆ®¿¡°Ô ¹Ù´Ú¿¡´Ù ¹ìÆÄÀÌ¾î Æ÷Å» ÀÌÆåÆ®¸¦ ºÙÀÌ¶ó´Â ÆÐÅ¶ÀÌ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´Âµï¿½, ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Ù´Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å» ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddVampirePortal.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // class GCAddVampirePortal member methods
 //////////////////////////////////////////////////////////////////////////////
 void GCAddVampirePortal::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -38,7 +37,7 @@ void GCAddVampirePortal::read ( SocketInputStream & iStream )
 }
 		    
 void GCAddVampirePortal::write ( SocketOutputStream & oStream ) 
-     const throw ( ProtocolException , Error )
+     const
 {
 	__BEGIN_TRY
 
@@ -64,7 +63,6 @@ void GCAddVampirePortal::write ( SocketOutputStream & oStream )
 }
 
 void GCAddVampirePortal::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -75,7 +73,7 @@ void GCAddVampirePortal::execute ( Player * pPlayer )
 
 #ifdef __DEBUG_OUTPUT__
 	std::string GCAddVampirePortal::toString () 
-		const throw ()
+		const
 	{
 		__BEGIN_TRY
 

@@ -2,7 +2,7 @@
 // Filename    : GCFlagWarStatus.h 
 // Written By  : elca@ewestsoft.com
 // Description : 
-// ±â¼úÀÌ ¼º°øÇßÀ»¶§ º¸³»´Â ÆÐÅ¶À» À§ÇÑ Å¬·¡½º Á¤ÀÇ
+// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __GC_FLAG_WAR_STATUS_H__
@@ -17,25 +17,25 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // class GCFlagWarStatus;
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
 class GCFlagWarStatus : public Packet 
 {
 public:
-	GCFlagWarStatus() throw();
-	~GCFlagWarStatus() throw();
+	GCFlagWarStatus();
+	~GCFlagWarStatus();
 	
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_FLAG_WAR_STATUS; }
-	PacketSize_t getPacketSize() const throw() { return szWORD + szBYTE*RACE_MAX; }
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_FLAG_WAR_STATUS; }
+	size_t getPacketSize() const { return szWORD + szBYTE*RACE_MAX; }
 
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCFlagWarStatus"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "GCFlagWarStatus"; }
+	std::string toString() const;
 #endif
 
 public:
@@ -58,16 +58,16 @@ private :
 class GCFlagWarStatusFactory : public PacketFactory 
 {
 public :
-	GCFlagWarStatusFactory() throw() {}
-	virtual ~GCFlagWarStatusFactory() throw() {}
+	GCFlagWarStatusFactory() {}
+	virtual ~GCFlagWarStatusFactory() {}
 	
 public:
-	Packet* createPacket() throw() { return new GCFlagWarStatus(); }
+	Packet* createPacket() { return new GCFlagWarStatus(); }
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCFlagWarStatus"; }
+	std::string getPacketName() const { return "GCFlagWarStatus"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_FLAG_WAR_STATUS; }
-	PacketSize_t getPacketMaxSize() const throw() { return szWORD + szBYTE * RACE_MAX; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_FLAG_WAR_STATUS; }
+	PacketSize_t getPacketMaxSize() const { return szWORD + szBYTE * RACE_MAX; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -77,7 +77,7 @@ public:
 class GCFlagWarStatusHandler 
 {
 public:
-	static void execute(GCFlagWarStatus* pGCFlagWarStatus, Player* pPlayer) throw(Error);
+	static void execute(GCFlagWarStatus* pGCFlagWarStatus, Player* pPlayer);
 
 };
 

@@ -28,7 +28,7 @@
 #include "MAttachOrbitEffect.h"
 #include "UserInformation.h"
 //#include "RequestClientPlayerManager.h"
-//#include "packet\Rpackets\CRRequest.h"
+//#include "Rpackets\CRRequest.h"
 #include "VS_UI_base.h"
 #include "MSkillManager.h"	// [�����3]
 #include "UIFunction.h"

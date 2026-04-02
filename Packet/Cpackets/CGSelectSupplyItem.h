@@ -19,17 +19,17 @@
 class CGSelectSupplyItem : public Packet 
 {
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_SELECT_SUPPLYITEM; }
-	PacketSize_t getPacketSize() const throw() { return szObjectID; }
-	string getPacketName() const throw() { return "CGSelectSupplyItem"; }
-	string toString() const throw();
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_SELECT_SUPPLYITEM; }
+	size_t getPacketSize() const { return szObjectID; }
+	string getPacketName() const { return "CGSelectSupplyItem"; }
+	string toString() const;
 
 public:
-	ZoneID_t getSelectID() const throw()  { return m_SelectID; }
-	void setSelectID(ObjectID_t SelectID) throw() { m_SelectID = SelectID; }
+	ZoneID_t getSelectID() const  { return m_SelectID; }
+	void setSelectID(ObjectID_t SelectID) { m_SelectID = SelectID; }
 
 private:
 	ObjectID_t   m_SelectID;
@@ -42,10 +42,10 @@ private:
 
 class CGSelectSupplyItemFactory : public PacketFactory 
 {
-	Packet* createPacket() throw() { return new CGSelectSupplyItem(); }
-	string getPacketName() const throw() { return "CGSelectSupplyItem"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_SELECT_SUPPLYITEM; }
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID; }
+	Packet* createPacket() { return new CGSelectSupplyItem(); }
+	string getPacketName() const { return "CGSelectSupplyItem"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_SELECT_SUPPLYITEM; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ class CGSelectSupplyItemFactory : public PacketFactory
 class CGSelectSupplyItemHandler 
 {
 public:
-	static void execute(CGSelectSupplyItem* pCGSelectSupplyItem, Player* pPlayer) throw(Error);
+	static void execute(CGSelectSupplyItem* pCGSelectSupplyItem, Player* pPlayer);
 };
 
 #endif

@@ -11,21 +11,18 @@
 
 
 CGDropMoney::CGDropMoney () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 CGDropMoney::~CGDropMoney () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGDropMoney::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -47,7 +44,6 @@ void CGDropMoney::read (SocketInputStream & iStream)
 }
 
 void CGDropMoney::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -69,7 +65,6 @@ void CGDropMoney::write (SocketOutputStream & oStream) const
 }
 
 void CGDropMoney::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -82,7 +77,7 @@ void CGDropMoney::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGDropMoney::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 		

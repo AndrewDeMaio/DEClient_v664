@@ -7,14 +7,13 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddBurrowingCreature.h"
 #include "ClientDef.h"
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAddBurrowingCreatureHandler::execute ( GCAddBurrowingCreature * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -22,7 +21,7 @@ void GCAddBurrowingCreatureHandler::execute ( GCAddBurrowingCreature * pPacket ,
 
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -31,14 +30,14 @@ void GCAddBurrowingCreatureHandler::execute ( GCAddBurrowingCreature * pPacket ,
 		
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pCreature = g_pZone->GetCreature(pPacket->getObjectID());
 
 		//--------------------------------------------------
-		// »õ·Î¿î CreatureÀÌ¸é Ãß°¡
+		// ï¿½ï¿½ï¿½Î¿ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ß°ï¿½
 		//--------------------------------------------------
 		if (pCreature==NULL)
 		{
@@ -46,7 +45,7 @@ void GCAddBurrowingCreatureHandler::execute ( GCAddBurrowingCreature * pPacket ,
 
 			pCreature->SetZone( g_pZone );
 
-			// ¾îÂ÷ÇÇ ¾È ¿òÁ÷ÀÏ°Å´Ï±î °ü°è¾ø´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°Å´Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 			pCreature->SetCreatureType( CREATURETYPE_VAMPIRE_MALE1 );	
 
 
@@ -68,7 +67,7 @@ void GCAddBurrowingCreatureHandler::execute ( GCAddBurrowingCreature * pPacket ,
 			pCreature->SetStatus( MODIFY_CURRENT_HP, 100 );
 
 			//si.getName()
-			// »ö»ó Á¤º¸
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 			
 
@@ -79,13 +78,13 @@ void GCAddBurrowingCreatureHandler::execute ( GCAddBurrowingCreature * pPacket ,
 		}
 		else
 		{
-			// ÀÌ¹Ì ÀÖ´Ù¸é.. Underground Creature·Î ¸¸µç´Ù.
+			// ï¿½Ì¹ï¿½ ï¿½Ö´Ù¸ï¿½.. Underground Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 			pCreature->SetUndergroundCreature();
 
-			// ÀÌ¸§ ´Ù½Ã ¼³Á¤ - -;
+			// ï¿½Ì¸ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ - -;
 			pCreature->SetName( pPacket->getName().c_str() );
 
-			// ÁÂÇ¥ ¼³Á¤
+			// ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
 			pCreature->MovePosition( pPacket->getX(), pPacket->getY() );
 			pCreature->SetServerPosition( pPacket->getX(), pPacket->getY() );
 

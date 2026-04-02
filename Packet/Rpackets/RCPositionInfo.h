@@ -19,7 +19,7 @@
 //
 // class RCPositionInfo;
 //
-// ³»°¡ ´Ù¸¥ Å¬¶óÀÌ¾ðÆ®¿¡°Ô ¸»ÇÏ´Â ÆÐÅ¶
+// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶
 //
 //----------------------------------------------------------------------
 
@@ -28,55 +28,55 @@ class RCPositionInfo : public DatagramPacket {
 public :
 	RCPositionInfo();
 	
-    // Datagram °´Ã¼¿¡¼­ºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( Datagram & iDatagram ) throw ( ProtocolException , Error );
+    // Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( Datagram & iDatagram );
 		    
-    // Datagram °´Ã¼·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( Datagram & oDatagram ) const throw ( ProtocolException , Error );
+    // Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( Datagram & oDatagram ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_RC_POSITION_INFO; }
+	PacketID_t getPacketID () const { return PACKET_RC_POSITION_INFO; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () 
+	size_t getPacketSize () const 
 	{ 
 		return szBYTE + m_Name.size() + szZoneID + szCoord + szCoord;			
 	}
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "RCPositionInfo"; }
+		std::string getPacketName () const { return "RCPositionInfo"; }
 		
 		// get packet's debug string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 public :
 	// get/set ZoneID
-	ZoneID_t getZoneID () const throw () { return m_ZoneID; }
-	void setZoneID ( const ZoneID_t & zoneID ) throw () { m_ZoneID = zoneID; }
+	ZoneID_t getZoneID () const { return m_ZoneID; }
+	void setZoneID ( const ZoneID_t & zoneID ) { m_ZoneID = zoneID; }
 
 	// get / set ZoneX
-	Coord_t getZoneX() const throw() { return m_ZoneX; }
+	Coord_t getZoneX() const { return m_ZoneX; }
 	void setZoneX( Coord_t ZoneX ) { m_ZoneX = ZoneX; }
 
 	// get / set ZoneY
-	Coord_t getZoneY() const throw() { return m_ZoneY; }
+	Coord_t getZoneY() const { return m_ZoneY; }
 	void setZoneY( Coord_t ZoneY ) { m_ZoneY = ZoneY; }
 
 	// get/set chatting Name
-	const std::string& getName () const throw () { return m_Name; }
-	void setName ( const std::string & msg ) throw () { m_Name = msg; }
+	const std::string& getName () const { return m_Name; }
+	void setName ( const std::string & msg ) { m_Name = msg; }
 
 protected :
 	std::string		m_Name;
 
 	ZoneID_t	m_ZoneID;	
 
-	// ³ªÅ¸³¯ ÁÂÇ¥ÀÇ ´ë°­ÀÇ À§Ä¡
+	// ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ë°­ï¿½ï¿½ ï¿½ï¿½Ä¡
 	Coord_t m_ZoneX;
 	Coord_t m_ZoneY;	
 };
@@ -95,17 +95,17 @@ class RCPositionInfoFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new RCPositionInfo(); }
+	Packet * createPacket () { return new RCPositionInfo(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "RCPositionInfo"; }
+		std::string getPacketName () const { return "RCPositionInfo"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_RC_POSITION_INFO; }
+	PacketID_t getPacketID () const { return Packet::PACKET_RC_POSITION_INFO; }
 
-	PacketSize_t getPacketMaxSize () const throw () 
+	PacketSize_t getPacketMaxSize () const 
 	{ 
 		return szBYTE + 20 + szZoneID + szCoord + szCoord;	
 	}
@@ -124,7 +124,7 @@ class RCPositionInfoHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( RCPositionInfo * pPacket ) throw ( ProtocolException , Error );
+	static void execute ( RCPositionInfo * pPacket );
 
 };
 

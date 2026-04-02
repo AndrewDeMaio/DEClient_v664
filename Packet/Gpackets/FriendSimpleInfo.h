@@ -29,26 +29,26 @@ class FriendSimpleInfo {
 public :
 	
 	// constructor
-	FriendSimpleInfo () throw ();
+	FriendSimpleInfo ();
 	
 	// destructor
-	~FriendSimpleInfo () throw ();
+	~FriendSimpleInfo ();
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read (SocketInputStream & iStream) throw (ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read (SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write (SocketOutputStream & oStream) const throw (ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write (SocketOutputStream & oStream) const;
 
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getSize () const throw ();
-	static uint getMaxSize() throw();
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	PacketSize_t getSize () const;
+	static uint getMaxSize();
 
 	// get packet's debug string
-	string toString () const throw ();
+	string toString () const;
 	
 	void SetFriendName(const string& strName) { m_FriendName.SetString(strName); }
 	string GetFriendName() const  { return m_FriendName.GetString(); }
@@ -63,10 +63,10 @@ public :
 	ZoneID_t GetZoneID() const  { return m_ZoneID; }
 
 private :
-	StringInfo m_FriendName;		// Ä£±¸ ÀÌ¸§
-	BYTE m_bConnect;			// Á¢¼Ó ¿©ºÎ		0 - ºñÁ¢¼Ó, 1 - Á¢¼Ó
-	StringInfo m_ServerName;		// Á¢¼Ó ¼­¹ö ÀÌ¸§
-	ZoneID_t m_ZoneID;			// ÇöÀç Á¸ À§Ä¡
+	StringInfo m_FriendName;		// Ä£ï¿½ï¿½ ï¿½Ì¸ï¿½
+	BYTE m_bConnect;			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½		0 - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, 1 - ï¿½ï¿½ï¿½ï¿½
+	StringInfo m_ServerName;		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+	ZoneID_t m_ZoneID;			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ä¡
 
 };
 #endif //__FRIEND_ADDITION

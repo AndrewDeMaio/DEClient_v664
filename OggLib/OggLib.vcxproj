@@ -135,22 +135,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="FileStream.cpp" />
-    <ClCompile Include="VorbisFile.cpp" />
-    <ClCompile Include="VorbisSound.cpp" />
+    <ClCompile Include="bitwise.c" />
+    <ClCompile Include="framing.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Define.h" />
-    <ClInclude Include="FileStream.h" />
+    <ClInclude Include="crctable.h" />
     <ClInclude Include="ogg.h" />
-    <ClInclude Include="ogg\ogg.h" />
-    <ClInclude Include="ogg\os_types.h" />
     <ClInclude Include="os_types.h" />
-    <ClInclude Include="VorbisFile.h" />
-    <ClInclude Include="VorbisSound.h" />
-    <ClInclude Include="vorbis\codec.h" />
-    <ClInclude Include="vorbis\vorbisenc.h" />
-    <ClInclude Include="vorbis\vorbisfile.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

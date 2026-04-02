@@ -80,17 +80,17 @@ typedef struct _SupplyItemInfo
 class GCSupplyItemList : public Packet 
 {
 public:
-	GCSupplyItemList() throw();
-	virtual ~GCSupplyItemList() throw();
+	GCSupplyItemList();
+	virtual ~GCSupplyItemList();
 
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_SUPPLYITEM_LIST; }
-	PacketSize_t getPacketSize() const throw();
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_SUPPLYITEM_LIST; }
+	size_t getPacketSize() const;
 #ifdef __DEBUG_OUTPUT__	
-	string getPacketName() const throw() { return "GCSupplyItemList"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCSupplyItemList"; }
+	string toString() const;
 #endif
 public:
 	void		addSupplyItemInfo( SupplyItemInfo* pSI ) { m_SupplyItemList.push_back( pSI ); }
@@ -108,10 +108,10 @@ private:
 class GCSupplyItemListFactory : public PacketFactory 
 {
 public :
-	Packet* createPacket() throw() { return new GCSupplyItemList(); }
-	string getPacketName() const throw() { return "GCSupplyItemList"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_SUPPLYITEM_LIST; }
-	PacketSize_t getPacketMaxSize() const throw() 
+	Packet* createPacket() { return new GCSupplyItemList(); }
+	string getPacketName() const { return "GCSupplyItemList"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_SUPPLYITEM_LIST; }
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		PacketSize_t size = szBYTE;
 		size += SupplyItemInfo::getPacketMaxSize() * MAX_SUPPLYITEM_LIST;
@@ -128,7 +128,7 @@ public :
 class GCSupplyItemListHandler 
 {
 public :
-	static void execute(GCSupplyItemList* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCSupplyItemList* pPacket, Player* pPlayer);
 
 };
 

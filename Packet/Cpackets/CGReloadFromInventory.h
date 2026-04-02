@@ -24,59 +24,59 @@ class CGReloadFromInventory : public Packet {
 public :
 
 	// constructor
-	CGReloadFromInventory() throw();
+	CGReloadFromInventory();
 
 	// destructor
-	~CGReloadFromInventory() throw();
+	~CGReloadFromInventory();
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CG_RELOAD_FROM_INVENTORY; }
+	PacketID_t getPacketID () const { return PACKET_CG_RELOAD_FROM_INVENTORY; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static CGReloadFromInventoryPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () { return szObjectID + szCoordInven + szCoordInven; }
+	// const static CGReloadFromInventoryPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const { return szObjectID + szCoordInven + szCoordInven; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGReloadFromInventory"; }
+		std::string getPacketName () const { return "CGReloadFromInventory"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
 public :
 
 	// get / set ObjectID
-	ObjectID_t getObjectID() const throw () { return m_ObjectID; }
-	void setObjectID( ObjectID_t ObjectID ) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID( ObjectID_t ObjectID ) { m_ObjectID = ObjectID; }
 
 	// get / set Inventory X
-	CoordInven_t getX() const throw() { return m_InvenX; }
-	void setX( CoordInven_t InvenX ) throw() { m_InvenX = InvenX; }
+	CoordInven_t getX() const { return m_InvenX; }
+	void setX( CoordInven_t InvenX ) { m_InvenX = InvenX; }
 
 	// get / set Inventory Y
-	CoordInven_t getY() const throw() { return m_InvenY; }
-	void setY( CoordInven_t InvenY ) throw() { m_InvenY = InvenY; }
+	CoordInven_t getY() const { return m_InvenY; }
+	void setY( CoordInven_t InvenY ) { m_InvenY = InvenY; }
 
 
 private :
 	
 	// ObjectID
 	ObjectID_t m_ObjectID;
-	// º¸Á¶ ÀÎº¥Åä¸® ¾ÆÀÌÅÛÀÇ ¿ÀºêÁ§Æ® ¾ÆÀÌµð. 0ÀÌ¸é ¸ÞÀÎ ÀÎº¥Åä¸®¿¡¼­ »ç¿ë
-	// InventoryÀÇ X , Y ÁÂÇ¥
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ìµï¿½. 0ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+	// Inventoryï¿½ï¿½ X , Y ï¿½ï¿½Ç¥
 	CoordInven_t m_InvenX;
 	CoordInven_t m_InvenY;
 
@@ -96,20 +96,20 @@ class CGReloadFromInventoryFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CGReloadFromInventory(); }
+	Packet * createPacket () { return new CGReloadFromInventory(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGReloadFromInventory"; }
+		std::string getPacketName () const { return "CGReloadFromInventory"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_RELOAD_FROM_INVENTORY; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_RELOAD_FROM_INVENTORY; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static CGReloadFromInventoryPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID + szCoordInven + szCoordInven; }
+	// const static CGReloadFromInventoryPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return szObjectID + szCoordInven + szCoordInven; }
 
 };
 
@@ -127,7 +127,7 @@ public :
 	public :
 
 		// execute packet's handler
-		static void execute ( CGReloadFromInventory * pPacket , Player * player ) throw ( ProtocolException , Error );
+		static void execute ( CGReloadFromInventory * pPacket , Player * player );
 	};
 
 #endif

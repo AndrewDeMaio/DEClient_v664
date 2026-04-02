@@ -1,6 +1,3 @@
-
-
-
 #include "client_PCH.h"
 
 #pragma warning(disable:4786)
@@ -24,7 +21,7 @@ UnEmbedBrowserObjectPtr		*lpUnEmbedBrowserObject;
 DisplayHTMLPagePtr			*lpDisplayHTMLPage;
 DisplayHTMLStrPtr			*lpDisplayHTMLStr;
 
-
+extern HWND g_hWnd;
 
 LRESULT CALLBACK WindowProcChild(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {

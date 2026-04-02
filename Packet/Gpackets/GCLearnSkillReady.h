@@ -2,7 +2,7 @@
 // 
 // Filename    :  GCLearnSkillReady.h 
 // Written By  :  elca@ewestsoft.com
-// Description :  Å
+// Description :  ï¿½
 //                
 // 
 //////////////////////////////////////////////////////////////////////
@@ -27,46 +27,46 @@ class GCLearnSkillReady : public Packet {
 public :
 	
 	// constructor
-	GCLearnSkillReady () throw ();
+	GCLearnSkillReady ();
 	
 	// destructor
-	~GCLearnSkillReady () throw ();
+	~GCLearnSkillReady ();
 
 	
 public :
 	
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_LEARN_SKILL_READY; }
+	PacketID_t getPacketID () const { return PACKET_GC_LEARN_SKILL_READY; }
 	
 	// get packet size
-	PacketSize_t getPacketSize () const throw () { return szSkillDomainType; }
+	size_t getPacketSize () const { return szSkillDomainType; }
 	
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCLearnSkillReady"; }
+		std::string getPacketName () const { return "GCLearnSkillReady"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
-	SkillDomainType_t getSkillDomainType() const throw() { return m_SkillDomainType;}
-	void setSkillDomainType( SkillDomainType_t SkillDomainType) throw()
+	SkillDomainType_t getSkillDomainType() const { return m_SkillDomainType;}
+	void setSkillDomainType( SkillDomainType_t SkillDomainType)
 	{
 		m_SkillDomainType = SkillDomainType;
 	}
 private : 
 
-	// ½ºÅ³ Å¸ÀÔ
+	// ï¿½ï¿½Å³ Å¸ï¿½ï¿½
 	SkillDomainType_t m_SkillDomainType;
 
 };
@@ -85,27 +85,27 @@ class  GCLearnSkillReadyFactory : public PacketFactory {
 public :
 	
 	// constructor
-	 GCLearnSkillReadyFactory () throw () {}
+	 GCLearnSkillReadyFactory () {}
 	
 	// destructor
-	virtual ~GCLearnSkillReadyFactory () throw () {}
+	virtual ~GCLearnSkillReadyFactory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCLearnSkillReady(); }
+	Packet * createPacket () { return new GCLearnSkillReady(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCLearnSkillReady"; }	
+		std::string getPacketName () const { return "GCLearnSkillReady"; }	
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_LEARN_SKILL_READY; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_LEARN_SKILL_READY; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize() const throw() { return szSkillDomainType;}
+	PacketSize_t getPacketMaxSize() const { return szSkillDomainType;}
 
 };
 
@@ -121,7 +121,7 @@ class  GCLearnSkillReadyHandler {
 public :
 
 	// execute packet's handler
-	static void execute (  GCLearnSkillReady * pGCLearnSkillReady , Player * pPlayer ) throw ( Error );
+	static void execute (  GCLearnSkillReady * pGCLearnSkillReady , Player * pPlayer );
 
 };
 

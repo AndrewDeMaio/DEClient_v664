@@ -14,7 +14,6 @@
 //////////////////////////////////////////////////////////////////////////////
 #ifndef __GAME_CLIENT__	
 void CGRequestGuildListHandler::execute (CGRequestGuildList* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 	__BEGIN_TRY 
 		

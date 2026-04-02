@@ -17,7 +17,7 @@
 //
 // class GCLightning;
 //
-// ¹ø°³°¡ ÃÆÀ» °æ¿ì, ¼­¹ö¿¡¼­ ±× Á¸ÀÇ ¸ðµç Å¬¶óÀÌ¾ðÆ®µé¿¡°Ô Àü¼ÛÇÏ´Â ÆÐÅ¶ÀÌ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½é¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 // 
 //
 //////////////////////////////////////////////////////////////////////
@@ -26,42 +26,42 @@ class GCLightning : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_LIGHTNING; }
+	PacketID_t getPacketID () const { return PACKET_GC_LIGHTNING; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static GCLightningPacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () { return szBYTE; }
+	// const static GCLightningPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const { return szBYTE; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCLightning"; }
+		std::string getPacketName () const { return "GCLightning"; }
 	
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 public :
 
 	// get/set delay
-	BYTE getDelay () const throw () { return m_Delay; }
-	void setDelay ( BYTE delay ) throw () { m_Delay = delay; }
+	BYTE getDelay () const { return m_Delay; }
+	void setDelay ( BYTE delay ) { m_Delay = delay; }
 
 
 private :
 
-	// ¹ø°³°¡ Ä£ ÈÄ, ÃµµÕÀÌ ¿Ã ¶§±îÁöÀÇ µô·¹ÀÌ½Ã°£
-	// 1 -> 0.1ÃÊ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä£ ï¿½ï¿½, Ãµï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì½Ã°ï¿½
+	// 1 -> 0.1ï¿½ï¿½
 	BYTE m_Delay;
 
 };
@@ -80,20 +80,20 @@ class GCLightningFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCLightning(); }
+	Packet * createPacket () { return new GCLightning(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCLightning"; }
+		std::string getPacketName () const { return "GCLightning"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_LIGHTNING; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_LIGHTNING; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCLightningPacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return szBYTE; }
+	// const static GCLightningPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return szBYTE; }
 
 };
 
@@ -109,7 +109,7 @@ class GCLightningHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCLightning * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCLightning * pPacket , Player * pPlayer );
 
 };
 

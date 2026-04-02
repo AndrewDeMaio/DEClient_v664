@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCUnionOfferList.h"
 #include "MGameStringTable.h"
 #include "VS_UI.h"
@@ -15,7 +15,6 @@
 //
 //////////////////////////////////////////////////////////////////////
 void GCUnionOfferListHandler::execute ( GCUnionOfferList * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY// __BEGIN_DEBUG_EX
 	

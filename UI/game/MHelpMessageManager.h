@@ -12,7 +12,7 @@
 #define __MHELPMESSAGEMANAGER_H__
 
 #include "MString.h"
-#include "RaceType.h"
+#include "Types\RaceType.h"
 #include <vector>
 //#include "stdafx.h"
 #include <fstream>

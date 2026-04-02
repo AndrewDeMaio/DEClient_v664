@@ -425,7 +425,7 @@ C_VS_UI_LISTBOX::Show(const CPoint& offset) const
 	for(; listindex != m_ListString.end(); ++listindex, ++count)
 	{
 #else
-	for(m_ListString.begin(); listindex != m_ListString.end(); ++listindex, ++count)
+	for(listindex = m_ListString.begin(); listindex != m_ListString.end(); ++listindex, ++count)
 	{
 #endif //__ITEM_SHOW
 		const char*	showstring	= listindex->c_str();

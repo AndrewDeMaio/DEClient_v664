@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCChangeGearSlot.h"
 #include "Client.h"
 #include "Assert.h"
@@ -14,19 +14,18 @@
 #if __CONTENTS(__GEAR_SWAP_CHANGE)	// GCChangeGearSlotHandler.cpp
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
-extern BloodBibleSignInfo*	g_pBloodBibleSignInfo;	// Àü¿ª °ªÀ¸·Î ÁÖ°í ÀÌ°É ¸â¹ö º¯¼ö·Î ÁÖ´Â°Å ÀÌ°Ç ¾Æ´Ñ°Å °°Àºµ¥..
-															// ¼­¹ö ´ÔÀÌ ³Ê¹« ¹Ùºü º¸ÀÌ½Å´Ù~! ¤Ì.¤Ì
-															// BloodBibleSignInfo °ªÀ» ÆÐÅ¶À¸·Î ¹Þ¾Æ¾ß ÇÒ²¨ °°Àºµ¥..
+extern BloodBibleSignInfo*	g_pBloodBibleSignInfo;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Â°ï¿½ ï¿½Ì°ï¿½ ï¿½Æ´Ñ°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
+															// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¹ï¿½ ï¿½Ùºï¿½ ï¿½ï¿½ï¿½Ì½Å´ï¿½~! ï¿½ï¿½.ï¿½ï¿½
+															// BloodBibleSignInfo ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¾ï¿½ ï¿½Ò²ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
 
 void GCChangeGearSlotHandler::execute ( GCChangeGearSlot * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
 #ifdef __GAME_CLIENT__	
 	SetGearInfo( pPacket->getGearInfo(), g_pBloodBibleSignInfo, pPacket->getGearSlotID());
 
-	// °è»êÀ» ´Ù½ÃÇØÁØ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 	g_pPlayer->CalculateStatus();
 #endif
 

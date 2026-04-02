@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCMiniGameScores.h"
 #include "ClientDef.h"
 #include "UIFunction.h"
@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCMiniGameScoresHandler::execute ( GCMiniGameScores * pGCMiniGameScores , Player * pPlayer )
-	 throw ( Error )
 {	
 	UI_MiniGameScores( pGCMiniGameScores );
 }

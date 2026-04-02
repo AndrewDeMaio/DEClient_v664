@@ -7,21 +7,18 @@
 #include "CGSubmitScore.h"
 
 CGSubmitScore::CGSubmitScore () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 CGSubmitScore::~CGSubmitScore () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGSubmitScore::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -33,7 +30,6 @@ void CGSubmitScore::read (SocketInputStream & iStream)
 }
 		    
 void CGSubmitScore::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -45,7 +41,6 @@ void CGSubmitScore::write (SocketOutputStream & oStream) const
 }
 
 void CGSubmitScore::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__
@@ -57,7 +52,6 @@ void CGSubmitScore::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGSubmitScore::toString () const
-    throw ()
 {
 	__BEGIN_TRY
 		

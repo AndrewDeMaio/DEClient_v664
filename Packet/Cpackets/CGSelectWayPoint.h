@@ -2,7 +2,7 @@
 // Filename    : CGSelectWayPoint.h 
 // Written By  : excel96
 // Description : 
-// ½½·¹ÀÌ¾î°¡ °³ÀÎ¿ë Æ÷Å»À» ÀÌ¿ëÇØ ´Ù¸¥ °÷À¸·Î ÀÌµ¿ÇÏ°íÀÚ ÇÒ ¶§ º¸³»´Â ÆÐÅ¶
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½Å»ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __CG_SELECT_WAYPOINT_H__
@@ -20,20 +20,20 @@
 class CGSelectWayPoint : public Packet 
 {
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_SELECT_WAYPOINT; }
-	PacketSize_t getPacketSize() const throw() { return szZoneID + szCoord*2; }
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_SELECT_WAYPOINT; }
+	size_t getPacketSize() const { return szZoneID + szCoord*2; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "CGSelectWayPoint"; }
-		std::string toString() const throw();
+		std::string getPacketName() const { return "CGSelectWayPoint"; }
+		std::string toString() const;
 	#endif
 
 public:
-	ZoneID_t getZoneID() const throw()  { return m_ZoneID; }
-	void setZoneID(ZoneID_t ZoneID) throw() { m_ZoneID = ZoneID; }
+	ZoneID_t getZoneID() const  { return m_ZoneID; }
+	void setZoneID(ZoneID_t ZoneID) { m_ZoneID = ZoneID; }
 
 	Coord_t getX(void) const { return m_X; }
 	void setX(Coord_t X) { m_X = X; }
@@ -42,9 +42,9 @@ public:
 	void setY(Coord_t Y) { m_Y = Y; }
 
 private:
-	ZoneID_t   m_ZoneID;       // °¡°íÀÚ ÇÏ´Â Á¸ÀÇ ID
-	Coord_t    m_X;            // °¡°íÀÚ ÇÏ´Â Á¸ÀÇ ÁÂÇ¥ X
-	Coord_t    m_Y;            // °¡°íÀÚ ÇÏ´Â Á¸ÀÇ ÁÂÇ¥ Y
+	ZoneID_t   m_ZoneID;       // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ID
+	Coord_t    m_X;            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ X
+	Coord_t    m_Y;            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ Y
 
 };
 
@@ -54,14 +54,14 @@ private:
 #ifdef __DEBUG_OUTPUT__
 class CGSelectWayPointFactory : public PacketFactory 
 {
-	Packet* createPacket() throw() { return new CGSelectWayPoint(); }
+	Packet* createPacket() { return new CGSelectWayPoint(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "CGSelectWayPoint"; }
+		std::string getPacketName() const { return "CGSelectWayPoint"; }
 	#endif
 
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_SELECT_WAYPOINT; }
-	PacketSize_t getPacketMaxSize() const throw() { return szZoneID + szCoord*2; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_SELECT_WAYPOINT; }
+	PacketSize_t getPacketMaxSize() const { return szZoneID + szCoord*2; }
 };
 #endif
 
@@ -72,7 +72,7 @@ class CGSelectWayPointFactory : public PacketFactory
 		class CGSelectWayPointHandler 
 		{
 		public:
-			static void execute(CGSelectWayPoint* pCGSelectWayPoint, Player* pPlayer) throw(Error);
+			static void execute(CGSelectWayPoint* pCGSelectWayPoint, Player* pPlayer);
 		};
 	#endif
 

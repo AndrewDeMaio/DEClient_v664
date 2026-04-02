@@ -1,9 +1,9 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCGoodsList.cpp 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCGoodsList.h"
 #include "Assert.h"
 
@@ -23,7 +23,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 GCGoodsList::GCGoodsList() 
-	throw ()
 {
 	__BEGIN_TRY
 
@@ -36,7 +35,6 @@ GCGoodsList::GCGoodsList()
 // destructor
 //////////////////////////////////////////////////////////////////////////////
 GCGoodsList::~GCGoodsList() 
-	throw ()
 {
 	__BEGIN_TRY
 
@@ -60,16 +58,15 @@ GCGoodsList::~GCGoodsList()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCGoodsList::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
 	BYTE totalNum;
 	iStream.read( totalNum );
-	if ( totalNum > MAX_GOODS_LIST ) throw DisconnectException("GCGoodsList : ¹°°Ç °³¼ö°¡ Á¦ÇÑÀ» ÃÊ°úÇß½À´Ï´Ù.");
+	if ( totalNum > MAX_GOODS_LIST ) throw DisconnectException("GCGoodsList : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 
 	for ( int i=0; i < totalNum ; ++i )
 	{
@@ -103,16 +100,15 @@ void GCGoodsList::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCGoodsList::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	__BEGIN_DEBUG
 		
 	BYTE totalNum = m_GoodsList.size();
-	if ( totalNum > MAX_GOODS_LIST ) throw DisconnectException("GCGoodsList : ¾ÆÀÌÅÛ °³¼ö°¡ Æ²·Á¸Ô¾ú½À´Ï´Ù.");
+	if ( totalNum > MAX_GOODS_LIST ) throw DisconnectException("GCGoodsList : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ²ï¿½ï¿½ï¿½Ô¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 
 	oStream.write( totalNum );
 	
@@ -152,7 +148,6 @@ void GCGoodsList::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////////////
 void GCGoodsList::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	__BEGIN_DEBUG
@@ -166,7 +161,6 @@ void GCGoodsList::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 PacketSize_t GCGoodsList::getPacketSize () const 
-	throw ()
 { 
 	__BEGIN_TRY
 	__BEGIN_DEBUG
@@ -194,7 +188,6 @@ PacketSize_t GCGoodsList::getPacketSize () const
 // get packet's debug std::string
 //////////////////////////////////////////////////////////////////////////////
 std::string GCGoodsList::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

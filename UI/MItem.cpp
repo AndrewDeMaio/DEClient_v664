@@ -27,9 +27,9 @@
 	#include "MZone.h"
 	#include "MZoneTable.h"
 	#include "MPlayer.h"
-	#include "packet\CPackets\CGUseItemFromGear.h"
-	#include "packet/CPackets/CGUsePotionFromInventory.h"
-	#include "packet/CPackets/CGUsePotionFromQuickSlot.h"
+	#include "CPackets\CGUseItemFromGear.h"
+	#include "CPackets/CGUsePotionFromInventory.h"
+	#include "CPackets/CGUsePotionFromQuickSlot.h"
 
 	#include "FL2.h"
 	#include "VS_UI_GameCommon.h"

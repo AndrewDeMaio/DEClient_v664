@@ -25,47 +25,47 @@ class GCMPRecoveryEnd : public Packet {
 
 public :
 
-	GCMPRecoveryEnd() throw( Error );
+	GCMPRecoveryEnd();
 
-	virtual ~GCMPRecoveryEnd() throw( Error );
+	virtual ~GCMPRecoveryEnd();
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_MP_RECOVERY_END; }
+	PacketID_t getPacketID () const { return PACKET_GC_MP_RECOVERY_END; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static GCMPRecoveryEndPacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () 
+	// const static GCMPRecoveryEndPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const 
 	{ 
 		return szMP; 
 	}
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCMPRecoveryEnd"; }
+		std::string getPacketName () const { return "GCMPRecoveryEnd"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 public :
 
 	// get /set CurrentMP
-	MP_t getCurrentMP() const throw() { return m_CurrentMP; }
-	void setCurrentMP( MP_t CurrentMP ) throw() { m_CurrentMP = CurrentMP; }
+	MP_t getCurrentMP() const { return m_CurrentMP; }
+	void setCurrentMP( MP_t CurrentMP ) { m_CurrentMP = CurrentMP; }
 
 private :
 	
-	// ÇöÀç Ã¼·Â
+	// ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½
 	MP_t m_CurrentMP;
 
 };
@@ -84,20 +84,20 @@ class GCMPRecoveryEndFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCMPRecoveryEnd(); }
+	Packet * createPacket () { return new GCMPRecoveryEnd(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCMPRecoveryEnd"; }
+		std::string getPacketName () const { return "GCMPRecoveryEnd"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_MP_RECOVERY_END; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_MP_RECOVERY_END; }
 
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static GCMPRecoveryEndPacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () 
+	// const static GCMPRecoveryEndPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const 
 	{ 
 		return szMP; 
 	}
@@ -116,7 +116,7 @@ class GCMPRecoveryEndHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCMPRecoveryEnd * pPacket , Player * pPlayer ) throw ( Error );
+	static void execute ( GCMPRecoveryEnd * pPacket , Player * pPlayer );
 
 };
 

@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : CGStashList.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
-// Å¬¶óÀÌ¾ðÆ®°¡ º¸°üÇÔ ¾È¿¡ µé¾îÀÖ´Â ¾ÆÀÌÅÛÀÇ ¸®½ºÆ®¸¦ ¿ä±¸ÇÒ ¶§ ¾²ÀÌ´Â
-// ÆÐÅ¶ÀÌ´Ù. 
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ä±¸ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½
+// ï¿½ï¿½Å¶ï¿½Ì´ï¿½. 
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifndef __CG_STASH_LIST_H__
@@ -22,23 +22,23 @@
 class CGStashList : public Packet 
 {
 public:
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
-	PacketID_t getPacketID () const throw () { return PACKET_CG_STASH_LIST; }
-	PacketSize_t getPacketSize () const throw () { return szObjectID; }
+	void read ( SocketInputStream & iStream );
+	void write ( SocketOutputStream & oStream ) const;
+	void execute ( Player * pPlayer );
+	PacketID_t getPacketID () const { return PACKET_CG_STASH_LIST; }
+	size_t getPacketSize () const { return szObjectID; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "CGStashList"; }
-		std::string toString () const throw ();
+		std::string getPacketName () const { return "CGStashList"; }
+		std::string toString () const;
 	#endif
 
 public:
-	ObjectID_t getObjectID() throw() { return m_ObjectID; }
-	void setObjectID(ObjectID_t id) throw() { m_ObjectID = id; }
+	ObjectID_t getObjectID() { return m_ObjectID; }
+	void setObjectID(ObjectID_t id) { m_ObjectID = id; }
 
 private:
-	ObjectID_t m_ObjectID; // ÇÃ·¹ÀÌ¾î Å©¸®ÃÄÀÇ object id
+	ObjectID_t m_ObjectID; // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ object id
 
 };
 
@@ -54,14 +54,14 @@ private:
 class CGStashListFactory : public PacketFactory 
 {
 public :
-	Packet * createPacket () throw () { return new CGStashList(); }
+	Packet * createPacket () { return new CGStashList(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "CGStashList"; }
+		std::string getPacketName () const { return "CGStashList"; }
 	#endif	
 
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_STASH_LIST; }
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_STASH_LIST; }
+	PacketSize_t getPacketMaxSize () const { return szObjectID; }
 
 };
 #endif
@@ -75,7 +75,7 @@ public :
 	class CGStashListHandler 
 	{
 	public :
-		static void execute ( CGStashList * pPacket , Player * player ) throw ( ProtocolException , Error );
+		static void execute ( CGStashList * pPacket , Player * player );
 
 	};
 #endif

@@ -7,10 +7,11 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "client_PCH.h"
+//#include "VS_UI_Friend_System.h"
+//#include "MZoneTable.h"
+
+#include "GPacket_PCH.h"
 #include "GCFriendViewInfo.h"
-#include "VS_UI_Friend_System.h"
-#include "MZoneTable.h"
 #include "Assert.h"
 
 #ifdef __GAME_SERVER__
@@ -19,7 +20,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void GCFriendViewInfoHandler::execute ( GCFriendViewInfo* pPacket, Player* pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -30,7 +30,7 @@ void GCFriendViewInfoHandler::execute ( GCFriendViewInfo* pPacket, Player* pPlay
 
 	if (pPacket)
 	{
-		// Ä£±¸ Á¤º¸Ã¢À» °¡Áö°í ¿Â´Ù. ¾øÀ» °æ¿ì »ý¼º
+		// Ä£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		C_VS_UI_FRIEND_INFO* pFriend = (C_VS_UI_FRIEND_INFO*)gpC_window_manager->GetWindowbyName("FriendInfo");
 		if (!pFriend)
 		{
@@ -38,7 +38,7 @@ void GCFriendViewInfoHandler::execute ( GCFriendViewInfo* pPacket, Player* pPlay
 			pFriend->SetWindowName("FriendInfo");
 		}
 
-		// Ä£±¸ Á¤º¸¸¦ ÀúÀåÇÑ´Ù.
+		// Ä£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		pFriend->SetUserName(pPacket->GetFriendDetailInfo().GetFriendName().c_str());
 		pFriend->SetUserGrade((unsigned char)pPacket->GetFriendDetailInfo().GetRank());
 		pFriend->SetUserLevel((unsigned char)pPacket->GetFriendDetailInfo().GetLevel());
@@ -49,11 +49,11 @@ void GCFriendViewInfoHandler::execute ( GCFriendViewInfo* pPacket, Player* pPlay
 		pFriend->SetUserPropensity(pPacket->GetFriendDetailInfo().GetAlignment());
 		pFriend->SetUserContribute(pPacket->GetFriendDetailInfo().GetContributePoint());
 
-		// ¸Þ¸ð´Â ³»¿ëÀÌ ¾øÀ¸¸é ³ÖÁö ¾Ê´Â´Ù.
+		// ï¿½Þ¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 		if (!pPacket->GetFriendIndividualOptionInfo().GetMemo().empty())
 			pFriend->SetUserMemo(pPacket->GetFriendIndividualOptionInfo().GetMemo().c_str());
 
-		// Á¸ Á¤º¸ ÀúÀå
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		std::string zone_id = "";
 		if (g_pZoneTable->Get(pPacket->GetFriendDetailInfo().GetZoneID()) != NULL)
 		{
@@ -61,13 +61,13 @@ void GCFriendViewInfoHandler::execute ( GCFriendViewInfo* pPacket, Player* pPlay
 			if (!zone_id.empty())
 				pFriend->SetUserLocation(zone_id.c_str());
 			else
-				pFriend->SetUserLocation("Unknown");//¾Ë¼ö ¾øÀ½ by viva
+				pFriend->SetUserLocation("Unknown");//ï¿½Ë¼ï¿½ ï¿½ï¿½ï¿½ï¿½ by viva
 		}
 		else
-			pFriend->SetUserLocation("Unknown");//¾Ë¼ö ¾øÀ½ by viva
+			pFriend->SetUserLocation("Unknown");//ï¿½Ë¼ï¿½ ï¿½ï¿½ï¿½ï¿½ by viva
 
-		// Ã¤³Î Á¤º¸´Â Ä£±¸ ¸®½ºÆ®¿¡¼­ °¡Áö°í ¿Â´Ù.
-		// ÀÌ Çü½ÄÀº ±×´Ú ÁÁÁö ¾ÊÀ¸¹Ç·Î ³ªÁß¿¡ ±¸Á¶¸¦ ¹Ù²Ùµµ·Ï ÇÑ´Ù.
+		// Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½.
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ùµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		C_VS_UI_FRIEND_SYSTEM* pFriendSystem = (C_VS_UI_FRIEND_SYSTEM*)gpC_window_manager->GetWindowbyName("FriendSystem");
 		if (pFriendSystem)
 		{

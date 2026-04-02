@@ -5,7 +5,7 @@
 // Description :
 //
 //--------------------------------------------------------------------------------
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 // include files
 #include "GCGuildResponse.h"
 #include "ClientDef.h"
@@ -19,7 +19,6 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCGuildResponseHandler::execute ( GCGuildResponse * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	__BEGIN_DEBUG

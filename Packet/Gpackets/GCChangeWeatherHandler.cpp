@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCChangeWeather.h"
 
 #ifdef __GAME_CLIENT__
@@ -18,7 +18,6 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCChangeWeatherHandler::execute ( GCChangeWeather * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		

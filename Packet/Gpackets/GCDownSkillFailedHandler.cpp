@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCDownSkillFailed.h"
 #include "ClientDef.h"
 #include "UIFunction.h"
@@ -24,7 +24,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCDownSkillFailedHandler::execute ( GCDownSkillFailed * pGCDownSkillFailed , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY 
 

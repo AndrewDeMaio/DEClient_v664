@@ -4,7 +4,7 @@
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCUpdateWeekItemList.h"
 #include "Assert.h"
 
@@ -18,7 +18,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 GCUpdateWeekItemList::GCUpdateWeekItemList() 
-	throw ()
 {
 	__BEGIN_TRY
 
@@ -31,7 +30,6 @@ GCUpdateWeekItemList::GCUpdateWeekItemList()
 // destructor
 //////////////////////////////////////////////////////////////////////////////
 GCUpdateWeekItemList::~GCUpdateWeekItemList() 
-	throw ()
 {
 	__BEGIN_TRY
 
@@ -53,16 +51,15 @@ GCUpdateWeekItemList::~GCUpdateWeekItemList()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCUpdateWeekItemList::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
 	BYTE totalNum;
 	iStream.read( totalNum );
-	if ( totalNum > MAX_WEEKITEM_LIST ) throw DisconnectException("GCUpdateWeekItemList : ¹°°Ç °³¼ö°¡ Á¦ÇÑÀ» ÃÊ°úÇß½À´Ï´Ù.");
+	if ( totalNum > MAX_WEEKITEM_LIST ) throw DisconnectException("GCUpdateWeekItemList : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 
 	for ( int i=0; i < totalNum ; ++i )
 	{
@@ -97,10 +94,9 @@ void GCUpdateWeekItemList::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCUpdateWeekItemList::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	__BEGIN_DEBUG
@@ -154,7 +150,6 @@ void GCUpdateWeekItemList::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////////////
 void GCUpdateWeekItemList::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	__BEGIN_DEBUG
@@ -168,7 +163,6 @@ void GCUpdateWeekItemList::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 PacketSize_t GCUpdateWeekItemList::getPacketSize () const 
-	throw ()
 { 
 	__BEGIN_TRY
 	__BEGIN_DEBUG
@@ -195,7 +189,6 @@ PacketSize_t GCUpdateWeekItemList::getPacketSize () const
 //////////////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 string GCUpdateWeekItemList::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

@@ -1,0 +1,972 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{e6656ea5-3f94-43d0-b1f7-ee153a821d66}</ProjectGuid>
+    <RootNamespace>GPacket</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Packet;$(SolutionDir)Packet\Types;$(SolutionDir)Include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Packet;$(SolutionDir)Packet\Types;$(SolutionDir)Include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Packet;$(SolutionDir)Packet\Types;$(SolutionDir)Include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;__FAST_TRANSFORTER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)Packet;$(SolutionDir)Packet\Types;$(SolutionDir)Include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="BloodBibleBonusInfo.h" />
+    <ClInclude Include="FriendDetailInfo.h" />
+    <ClInclude Include="FriendSimpleInfo.h" />
+    <ClInclude Include="FriendWaitInfo.h" />
+    <ClInclude Include="GCActiveGuildList.h" />
+    <ClInclude Include="GCAddBat.h" />
+    <ClInclude Include="GCAddBurrowingCreature.h" />
+    <ClInclude Include="GCAddEffect.h" />
+    <ClInclude Include="GCAddEffectToScreen.h" />
+    <ClInclude Include="GCAddEffectToTile.h" />
+    <ClInclude Include="GCAddGearToInventory.h" />
+    <ClInclude Include="GCAddGearToZone.h" />
+    <ClInclude Include="GCAddHelicopter.h" />
+    <ClInclude Include="GCAddInjuriousCreature.h" />
+    <ClInclude Include="GCAddInstalledMineToZone.h" />
+    <ClInclude Include="GCAddItemToInventory.h" />
+    <ClInclude Include="GCAddItemToItemVerify.h" />
+    <ClInclude Include="GCAddItemToZone.h" />
+    <ClInclude Include="GCAddMonster.h" />
+    <ClInclude Include="GCAddMonsterCorpse.h" />
+    <ClInclude Include="GCAddMonsterFromBurrowing.h" />
+    <ClInclude Include="GCAddMonsterFromTransformation.h" />
+    <ClInclude Include="GCAddNewItemToZone.h" />
+    <ClInclude Include="GCAddNickname.h" />
+    <ClInclude Include="GCAddNPC.h" />
+    <ClInclude Include="GCAddOusters.h" />
+    <ClInclude Include="GCAddOustersCorpse.h" />
+    <ClInclude Include="GCAddressListVerify.h" />
+    <ClInclude Include="GCAddSlayer.h" />
+    <ClInclude Include="GCAddSlayerCorpse.h" />
+    <ClInclude Include="GCAddStoreItem.h" />
+    <ClInclude Include="GCAddSylph.h" />
+    <ClInclude Include="GCAddVampire.h" />
+    <ClInclude Include="GCAddVampireCorpse.h" />
+    <ClInclude Include="GCAddVampireFromBurrowing.h" />
+    <ClInclude Include="GCAddVampireFromTransformation.h" />
+    <ClInclude Include="GCAddVampirePortal.h" />
+    <ClInclude Include="GCAddWolf.h" />
+    <ClInclude Include="GCAttack.h" />
+    <ClInclude Include="GCAttackArmsOK1.h" />
+    <ClInclude Include="GCAttackArmsOK2.h" />
+    <ClInclude Include="GCAttackArmsOK3.h" />
+    <ClInclude Include="GCAttackArmsOK4.h" />
+    <ClInclude Include="GCAttackArmsOK5.h" />
+    <ClInclude Include="GCAttackMeleeOK1.h" />
+    <ClInclude Include="GCAttackMeleeOK2.h" />
+    <ClInclude Include="GCAttackMeleeOK3.h" />
+    <ClInclude Include="GCAuthKey.h" />
+    <ClInclude Include="GCAuthXTrap.h" />
+    <ClInclude Include="GCBloodBibleList.h" />
+    <ClInclude Include="GCBloodBibleSignInfo.h" />
+    <ClInclude Include="GCBloodBibleStatus.h" />
+    <ClInclude Include="GCBloodDrainOK1.h" />
+    <ClInclude Include="GCBloodDrainOK2.h" />
+    <ClInclude Include="GCBloodDrainOK3.h" />
+    <ClInclude Include="GCCannotAdd.h" />
+    <ClInclude Include="GCCannotUse.h" />
+    <ClInclude Include="GCCastingSkill.h" />
+    <ClInclude Include="GCChangeDarkLight.h" />
+    <ClInclude Include="GCChangeGearSlot.h" />
+    <ClInclude Include="GCChangeInventoryItemNum.h" />
+    <ClInclude Include="GCChangeShape.h" />
+    <ClInclude Include="GCChangeWeather.h" />
+    <ClInclude Include="GCCreateItem.h" />
+    <ClInclude Include="GCCreatureDied.h" />
+    <ClInclude Include="GCCrossCounterOK1.h" />
+    <ClInclude Include="GCCrossCounterOK2.h" />
+    <ClInclude Include="GCCrossCounterOK3.h" />
+    <ClInclude Include="GCDeleteandPickUpOK.h" />
+    <ClInclude Include="GCDeleteEffectFromTile.h" />
+    <ClInclude Include="GCDeleteInventoryItem.h" />
+    <ClInclude Include="GCDeleteObject.h" />
+    <ClInclude Include="GCDisconnect.h" />
+    <ClInclude Include="GCDownSkillFailed.h" />
+    <ClInclude Include="GCDownSkillOK.h" />
+    <ClInclude Include="GCDropItemToZone.h" />
+    <ClInclude Include="GCEnterVampirePortal.h" />
+    <ClInclude Include="GCExecuteElement.h" />
+    <ClInclude Include="GCFakeMove.h" />
+    <ClInclude Include="GCFastMove.h" />
+    <ClInclude Include="GCFlagWarStatus.h" />
+    <ClInclude Include="GCFriendAdd.h" />
+    <ClInclude Include="GCFriendDel.h" />
+    <ClInclude Include="GCFriendList.h" />
+    <ClInclude Include="GCFriendReqToAdd.h" />
+    <ClInclude Include="GCFriendReqToDel.h" />
+    <ClInclude Include="GCFriendResToAdd.h" />
+    <ClInclude Include="GCFriendSuggestToAdd.h" />
+    <ClInclude Include="GCFriendUpdateConnect.h" />
+    <ClInclude Include="GCFriendUpdateZone.h" />
+    <ClInclude Include="GCFriendViewInfo.h" />
+    <ClInclude Include="GCFriendWaitList.h" />
+    <ClInclude Include="GCGetDamage.h" />
+    <ClInclude Include="GCGetOffMotorCycle.h" />
+    <ClInclude Include="GCGetOffMotorCycleFailed.h" />
+    <ClInclude Include="GCGetOffMotorCycleOK.h" />
+    <ClInclude Include="GCGlobalChat.h" />
+    <ClInclude Include="GCGoodsList.h" />
+    <ClInclude Include="GCGQuestInventory.h" />
+    <ClInclude Include="GCGQuestStatusInfo.h" />
+    <ClInclude Include="GCGQuestStatusModify.h" />
+    <ClInclude Include="GCGuildChat.h" />
+    <ClInclude Include="GCGuildMemberList.h" />
+    <ClInclude Include="GCGuildResponse.h" />
+    <ClInclude Include="GCHolyLandBonusInfo.h" />
+    <ClInclude Include="GCHPRecoveryEndToOthers.h" />
+    <ClInclude Include="GCHPRecoveryEndToSelf.h" />
+    <ClInclude Include="GCHPRecoveryStartToOthers.h" />
+    <ClInclude Include="GCHPRecoveryStartToSelf.h" />
+    <ClInclude Include="GCInstanceDoungeonLobby.h" />
+    <ClInclude Include="GCInstanceDoungeonResult.h" />
+    <ClInclude Include="GCKickMessage.h" />
+    <ClInclude Include="GCKnockBack.h" />
+    <ClInclude Include="GCKnocksTargetBackOK1.h" />
+    <ClInclude Include="GCKnocksTargetBackOK2.h" />
+    <ClInclude Include="GCKnocksTargetBackOK4.h" />
+    <ClInclude Include="GCKnocksTargetBackOK5.h" />
+    <ClInclude Include="GCLearnSkillFailed.h" />
+    <ClInclude Include="GCLearnSkillOK.h" />
+    <ClInclude Include="GCLearnSkillReady.h" />
+    <ClInclude Include="GCLightning.h" />
+    <ClInclude Include="GCMakeItemFail.h" />
+    <ClInclude Include="GCMakeItemOK.h" />
+    <ClInclude Include="GCMineExplosionOK1.h" />
+    <ClInclude Include="GCMineExplosionOK2.h" />
+    <ClInclude Include="GCMiniGameScores.h" />
+    <ClInclude Include="GCModifyGuildMemberInfo.h" />
+    <ClInclude Include="GCModifyNickname.h" />
+    <ClInclude Include="GCMonsterKillQuestInfo.h" />
+    <ClInclude Include="GCMorph1.h" />
+    <ClInclude Include="GCMorphSlayer2.h" />
+    <ClInclude Include="GCMorphVampire2.h" />
+    <ClInclude Include="GCMove.h" />
+    <ClInclude Include="GCMoveError.h" />
+    <ClInclude Include="GCMoveOK.h" />
+    <ClInclude Include="GCMPRecoveryEnd.h" />
+    <ClInclude Include="GCMPRecoveryStart.h" />
+    <ClInclude Include="GCMyStoreInfo.h" />
+    <ClInclude Include="GCNicknameList.h" />
+    <ClInclude Include="GCNicknameVerify.h" />
+    <ClInclude Include="GCNoticeEvent.h" />
+    <ClInclude Include="GCNotifyWin.h" />
+    <ClInclude Include="GCNPCAsk.h" />
+    <ClInclude Include="GCNPCAskDynamic.h" />
+    <ClInclude Include="GCNPCAskVariable.h" />
+    <ClInclude Include="GCNPCInfo.h" />
+    <ClInclude Include="GCNPCResponse.h" />
+    <ClInclude Include="GCNPCSay.h" />
+    <ClInclude Include="GCNPCSayDynamic.h" />
+    <ClInclude Include="GCOtherGuildName.h" />
+    <ClInclude Include="GCOtherModifyInfo.h" />
+    <ClInclude Include="GCOtherStoreInfo.h" />
+    <ClInclude Include="GCPartyError.h" />
+    <ClInclude Include="GCPartyInvite.h" />
+    <ClInclude Include="GCPartyJoined.h" />
+    <ClInclude Include="GCPartyLeave.h" />
+    <ClInclude Include="GCPartyPosition.h" />
+    <ClInclude Include="GCPartySay.h" />
+    <ClInclude Include="GCPetInfo.h" />
+    <ClInclude Include="GCPetStashList.h" />
+    <ClInclude Include="GCPetStashVerify.h" />
+    <ClInclude Include="GCPetUseSkill.h" />
+    <ClInclude Include="GCPhoneConnected.h" />
+    <ClInclude Include="GCPhoneConnectionFailed.h" />
+    <ClInclude Include="GCPhoneDisconnected.h" />
+    <ClInclude Include="GCPhoneSay.h" />
+    <ClInclude Include="GCQuestStatus.h" />
+    <ClInclude Include="GCRankBonusInfo.h" />
+    <ClInclude Include="GCRealWearingInfo.h" />
+    <ClInclude Include="GCReconnect.h" />
+    <ClInclude Include="GCReconnectLogin.h" />
+    <ClInclude Include="GCRegenZoneStatus.h" />
+    <ClInclude Include="GCReloadOK.h" />
+    <ClInclude Include="GCRemoveCorpseHead.h" />
+    <ClInclude Include="GCRemoveEffect.h" />
+    <ClInclude Include="GCRemoveFromGear.h" />
+    <ClInclude Include="GCRemoveInjuriousCreature.h" />
+    <ClInclude Include="GCRemoveStoreItem.h" />
+    <ClInclude Include="GCRepairInfo.h" />
+    <ClInclude Include="GCRequestedIP.h" />
+    <ClInclude Include="GCRequestFailed.h" />
+    <ClInclude Include="GCRequestPowerPointResult.h" />
+    <ClInclude Include="GCRideMotorCycle.h" />
+    <ClInclude Include="GCRideMotorCycleFailed.h" />
+    <ClInclude Include="GCRideMotorCycleOK.h" />
+    <ClInclude Include="GCRing.h" />
+    <ClInclude Include="GCSay.h" />
+    <ClInclude Include="GCSearchMotorcycleFail.h" />
+    <ClInclude Include="GCSearchMotorcycleOK.h" />
+    <ClInclude Include="GCSelectQuestID.h" />
+    <ClInclude Include="GCSelectRankBonusFailed.h" />
+    <ClInclude Include="GCSelectRankBonusOK.h" />
+    <ClInclude Include="GCSetPosition.h" />
+    <ClInclude Include="GCShopBought.h" />
+    <ClInclude Include="GCShopBuyFail.h" />
+    <ClInclude Include="GCShopBuyOK.h" />
+    <ClInclude Include="GCShopList.h" />
+    <ClInclude Include="GCShopListMysterious.h" />
+    <ClInclude Include="GCShopMarketCondition.h" />
+    <ClInclude Include="GCShopSellFail.h" />
+    <ClInclude Include="GCShopSellOK.h" />
+    <ClInclude Include="GCShopSold.h" />
+    <ClInclude Include="GCShopVersion.h" />
+    <ClInclude Include="GCShowGuildInfo.h" />
+    <ClInclude Include="GCShowGuildJoin.h" />
+    <ClInclude Include="GCShowGuildMemberInfo.h" />
+    <ClInclude Include="GCShowMessageBox.h" />
+    <ClInclude Include="GCShowUnionInfo.h" />
+    <ClInclude Include="GCShowWaitGuildInfo.h" />
+    <ClInclude Include="GCShowWebMarket.h" />
+    <ClInclude Include="GCSkillFailed1.h" />
+    <ClInclude Include="GCSkillFailed2.h" />
+    <ClInclude Include="GCSkillInfo.h" />
+    <ClInclude Include="GCSkillToInventoryOK1.h" />
+    <ClInclude Include="GCSkillToInventoryOK2.h" />
+    <ClInclude Include="GCSkillToObjectOK1.h" />
+    <ClInclude Include="GCSkillToObjectOK2.h" />
+    <ClInclude Include="GCSkillToObjectOK3.h" />
+    <ClInclude Include="GCSkillToObjectOK4.h" />
+    <ClInclude Include="GCSkillToObjectOK5.h" />
+    <ClInclude Include="GCSkillToObjectOK6.h" />
+    <ClInclude Include="GCSkillToSelfOK1.h" />
+    <ClInclude Include="GCSkillToSelfOK2.h" />
+    <ClInclude Include="GCSkillToSelfOK3.h" />
+    <ClInclude Include="GCSkillToTileOK1.h" />
+    <ClInclude Include="GCSkillToTileOK2.h" />
+    <ClInclude Include="GCSkillToTileOK3.h" />
+    <ClInclude Include="GCSkillToTileOK4.h" />
+    <ClInclude Include="GCSkillToTileOK5.h" />
+    <ClInclude Include="GCSkillToTileOK6.h" />
+    <ClInclude Include="GCSMSAddressList.h" />
+    <ClInclude Include="GCStashList.h" />
+    <ClInclude Include="GCStashSell.h" />
+    <ClInclude Include="GCStatusCurrentHP.h" />
+    <ClInclude Include="GCSubInventoryInfo.h" />
+    <ClInclude Include="GCSupplyItemList.h" />
+    <ClInclude Include="GCSweeperBonusInfo.h" />
+    <ClInclude Include="GCSystemAvailabilities.h" />
+    <ClInclude Include="GCSystemMessage.h" />
+    <ClInclude Include="GCTakeOff.h" />
+    <ClInclude Include="GCTakeOutFail.h" />
+    <ClInclude Include="GCTakeOutOK.h" />
+    <ClInclude Include="GCTeachSkillInfo.h" />
+    <ClInclude Include="GCThrowBombOK1.h" />
+    <ClInclude Include="GCThrowBombOK2.h" />
+    <ClInclude Include="GCThrowBombOK3.h" />
+    <ClInclude Include="GCThrowItemOK1.h" />
+    <ClInclude Include="GCThrowItemOK2.h" />
+    <ClInclude Include="GCThrowItemOK3.h" />
+    <ClInclude Include="GCTimeLimitItemInfo.h" />
+    <ClInclude Include="GCTradeAddItem.h" />
+    <ClInclude Include="GCTradeError.h" />
+    <ClInclude Include="GCTradeFinish.h" />
+    <ClInclude Include="GCTradeMoney.h" />
+    <ClInclude Include="GCTradePrepare.h" />
+    <ClInclude Include="GCTradeRemoveItem.h" />
+    <ClInclude Include="GCTradeVerify.h" />
+    <ClInclude Include="GCUnburrowFail.h" />
+    <ClInclude Include="GCUnburrowOK.h" />
+    <ClInclude Include="GCUnionOfferList.h" />
+    <ClInclude Include="GCUntransformFail.h" />
+    <ClInclude Include="GCUntransformOK.h" />
+    <ClInclude Include="GCUpdateInfo.h" />
+    <ClInclude Include="GCUpdateSupplyItemList.h" />
+    <ClInclude Include="GCUpdateWeekItemList.h" />
+    <ClInclude Include="GCUseBonusPointFail.h" />
+    <ClInclude Include="GCUseBonusPointOK.h" />
+    <ClInclude Include="GCUseOK.h" />
+    <ClInclude Include="GCUsePowerPointResult.h" />
+    <ClInclude Include="GCVisibleFail.h" />
+    <ClInclude Include="GCVisibleOK.h" />
+    <ClInclude Include="GCWaitGuildList.h" />
+    <ClInclude Include="GCWarList.h" />
+    <ClInclude Include="GCWarScheduleList.h" />
+    <ClInclude Include="GCWhisper.h" />
+    <ClInclude Include="GCWhisperFailed.h" />
+    <ClInclude Include="GLIncomingConnectionError.h" />
+    <ClInclude Include="GLIncomingConnectionOK.h" />
+    <ClInclude Include="GPacket_PCH.h" />
+    <ClInclude Include="SweeperBonusInfo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BloodBibleBonusInfo.cpp" />
+    <ClCompile Include="FriendDetailInfo.cpp" />
+    <ClCompile Include="FriendSimpleInfo.cpp" />
+    <ClCompile Include="FriendWaitInfo.cpp" />
+    <ClCompile Include="GCActiveGuildList.cpp" />
+    <ClCompile Include="GCActiveGuildListHandler.cpp" />
+    <ClCompile Include="GCAddBat.cpp" />
+    <ClCompile Include="GCAddBatHandler.cpp" />
+    <ClCompile Include="GCAddBurrowingCreature.cpp" />
+    <ClCompile Include="GCAddBurrowingCreatureHandler.cpp" />
+    <ClCompile Include="GCAddEffect.cpp" />
+    <ClCompile Include="GCAddEffectHandler.cpp" />
+    <ClCompile Include="GCAddEffectToScreen.cpp" />
+    <ClCompile Include="GCAddEffectToScreenHandler.cpp" />
+    <ClCompile Include="GCAddEffectToTile.cpp" />
+    <ClCompile Include="GCAddEffectToTileHandler.cpp" />
+    <ClCompile Include="GCAddGearToInventory.cpp" />
+    <ClCompile Include="GCAddGearToInventoryHandler.cpp" />
+    <ClCompile Include="GCAddGearToZone.cpp" />
+    <ClCompile Include="GCAddGearToZoneHandler.cpp" />
+    <ClCompile Include="GCAddHelicopter.cpp" />
+    <ClCompile Include="GCAddHelicopterHandler.cpp" />
+    <ClCompile Include="GCAddInjuriousCreature.cpp" />
+    <ClCompile Include="GCAddInjuriousCreatureHandler.cpp" />
+    <ClCompile Include="GCAddInstalledMineToZone.cpp" />
+    <ClCompile Include="GCAddInstalledMineToZoneHandler.cpp" />
+    <ClCompile Include="GCAddItemToInventory.cpp" />
+    <ClCompile Include="GCAddItemToItemVerify.cpp" />
+    <ClCompile Include="GCAddItemToItemVerifyHandler.cpp" />
+    <ClCompile Include="GCAddItemToZone.cpp" />
+    <ClCompile Include="GCAddMonster.cpp" />
+    <ClCompile Include="GCAddMonsterCorpse.cpp" />
+    <ClCompile Include="GCAddMonsterCorpseHandler.cpp" />
+    <ClCompile Include="GCAddMonsterFromBurrowing.cpp" />
+    <ClCompile Include="GCAddMonsterFromBurrowingHandler.cpp" />
+    <ClCompile Include="GCAddMonsterFromTransformation.cpp" />
+    <ClCompile Include="GCAddMonsterFromTransformationHandler.cpp" />
+    <ClCompile Include="GCAddMonsterHandler.cpp" />
+    <ClCompile Include="GCAddNewItemToZone.cpp" />
+    <ClCompile Include="GCAddNewItemToZoneHandler.cpp" />
+    <ClCompile Include="GCAddNickname.cpp" />
+    <ClCompile Include="GCAddNicknameHandler.cpp" />
+    <ClCompile Include="GCAddNPC.cpp" />
+    <ClCompile Include="GCAddNPCHandler.cpp" />
+    <ClCompile Include="GCAddOusters.cpp" />
+    <ClCompile Include="GCAddOustersCorpse.cpp" />
+    <ClCompile Include="GCAddOustersCorpseHandler.cpp" />
+    <ClCompile Include="GCAddOustersHandler.cpp" />
+    <ClCompile Include="GCAddressListVerify.cpp" />
+    <ClCompile Include="GCAddressListVerifyHandler.cpp" />
+    <ClCompile Include="GCAddSlayer.cpp" />
+    <ClCompile Include="GCAddSlayerCorpse.cpp" />
+    <ClCompile Include="GCAddSlayerCorpseHandler.cpp" />
+    <ClCompile Include="GCAddSlayerHandler.cpp" />
+    <ClCompile Include="GCAddStoreItem.cpp" />
+    <ClCompile Include="GCAddStoreItemHandler.cpp" />
+    <ClCompile Include="GCAddSylph.cpp" />
+    <ClCompile Include="GCAddSylphHandler.cpp" />
+    <ClCompile Include="GCAddVampire.cpp" />
+    <ClCompile Include="GCAddVampireCorpse.cpp" />
+    <ClCompile Include="GCAddVampireCorpseHandler.cpp" />
+    <ClCompile Include="GCAddVampireFromBurrowing.cpp" />
+    <ClCompile Include="GCAddVampireFromBurrowingHandler.cpp" />
+    <ClCompile Include="GCAddVampireFromTransformation.cpp" />
+    <ClCompile Include="GCAddVampireFromTransformationHandler.cpp" />
+    <ClCompile Include="GCAddVampireHandler.cpp" />
+    <ClCompile Include="GCAddVampirePortal.cpp" />
+    <ClCompile Include="GCAddVampirePortalHandler.cpp" />
+    <ClCompile Include="GCAddWolf.cpp" />
+    <ClCompile Include="GCAddWolfHandler.cpp" />
+    <ClCompile Include="GCAttack.cpp" />
+    <ClCompile Include="GCAttackArmsOK1.cpp" />
+    <ClCompile Include="GCAttackArmsOK1Handler.cpp" />
+    <ClCompile Include="GCAttackArmsOK2.cpp" />
+    <ClCompile Include="GCAttackArmsOK2Handler.cpp" />
+    <ClCompile Include="GCAttackArmsOK3.cpp" />
+    <ClCompile Include="GCAttackArmsOK3Handler.cpp" />
+    <ClCompile Include="GCAttackArmsOK4.cpp" />
+    <ClCompile Include="GCAttackArmsOK4Handler.cpp" />
+    <ClCompile Include="GCAttackArmsOK5.cpp" />
+    <ClCompile Include="GCAttackArmsOK5Handler.cpp" />
+    <ClCompile Include="GCAttackHandler.cpp" />
+    <ClCompile Include="GCAttackMeleeOK1.cpp" />
+    <ClCompile Include="GCAttackMeleeOK1Handler.cpp" />
+    <ClCompile Include="GCAttackMeleeOK2.cpp" />
+    <ClCompile Include="GCAttackMeleeOK2Handler.cpp" />
+    <ClCompile Include="GCAttackMeleeOK3.cpp" />
+    <ClCompile Include="GCAttackMeleeOK3Handler.cpp" />
+    <ClCompile Include="GCAuthKey.cpp" />
+    <ClCompile Include="GCAuthKeyHandler.cpp" />
+    <ClCompile Include="GCAuthXTrap.cpp" />
+    <ClCompile Include="GCAuthXTrapHandler.cpp" />
+    <ClCompile Include="GCBloodBibleList.cpp" />
+    <ClCompile Include="GCBloodBibleListHandler.cpp" />
+    <ClCompile Include="GCBloodBibleSignInfo.cpp" />
+    <ClCompile Include="GCBloodBibleSignInfoHandler.cpp" />
+    <ClCompile Include="GCBloodBibleStatus.cpp" />
+    <ClCompile Include="GCBloodBibleStatusHandler.cpp" />
+    <ClCompile Include="GCBloodDrainOK1.cpp" />
+    <ClCompile Include="GCBloodDrainOK1Handler.cpp" />
+    <ClCompile Include="GCBloodDrainOK2.cpp" />
+    <ClCompile Include="GCBloodDrainOK2Handler.cpp" />
+    <ClCompile Include="GCBloodDrainOK3.cpp" />
+    <ClCompile Include="GCBloodDrainOK3Handler.cpp" />
+    <ClCompile Include="GCCannotAdd.cpp" />
+    <ClCompile Include="GCCannotAddHandler.cpp" />
+    <ClCompile Include="GCCannotUse.cpp" />
+    <ClCompile Include="GCCannotUseHandler.cpp" />
+    <ClCompile Include="GCCastingSkill.cpp" />
+    <ClCompile Include="GCCastingSkillHandler.cpp" />
+    <ClCompile Include="GCChangeDarkLight.cpp" />
+    <ClCompile Include="GCChangeDarkLightHandler.cpp" />
+    <ClCompile Include="GCChangeGearSlot.cpp" />
+    <ClCompile Include="GCChangeGearSlotHandler.cpp" />
+    <ClCompile Include="GCChangeInventoryItemNum.cpp" />
+    <ClCompile Include="GCChangeShape.cpp" />
+    <ClCompile Include="GCChangeShapeHandler.cpp" />
+    <ClCompile Include="GCChangeWeather.cpp" />
+    <ClCompile Include="GCChangeWeatherHandler.cpp" />
+    <ClCompile Include="GCCreateItem.cpp" />
+    <ClCompile Include="GCCreateItemHandler.cpp" />
+    <ClCompile Include="GCCreatureDied.cpp" />
+    <ClCompile Include="GCCreatureDiedHandler.cpp" />
+    <ClCompile Include="GCCrossCounterOK1.cpp" />
+    <ClCompile Include="GCCrossCounterOK1Handler.cpp" />
+    <ClCompile Include="GCCrossCounterOK2.cpp" />
+    <ClCompile Include="GCCrossCounterOK2Handler.cpp" />
+    <ClCompile Include="GCCrossCounterOK3.cpp" />
+    <ClCompile Include="GCCrossCounterOK3Handler.cpp" />
+    <ClCompile Include="GCDeleteandPickUpOK.cpp" />
+    <ClCompile Include="GCDeleteandPickUpOKHandler.cpp" />
+    <ClCompile Include="GCDeleteEffectFromTile.cpp" />
+    <ClCompile Include="GCDeleteEffectFromTileHandler.cpp" />
+    <ClCompile Include="GCDeleteInventoryItem.cpp" />
+    <ClCompile Include="GCDeleteInventoryItemHandler.cpp" />
+    <ClCompile Include="GCDeleteObject.cpp" />
+    <ClCompile Include="GCDeleteObjectHandler.cpp" />
+    <ClCompile Include="GCDisconnect.cpp" />
+    <ClCompile Include="GCDisconnectHandler.cpp" />
+    <ClCompile Include="GCDownSkillFailed.cpp" />
+    <ClCompile Include="GCDownSkillFailedHandler.cpp" />
+    <ClCompile Include="GCDownSkillOK.cpp" />
+    <ClCompile Include="GCDownSkillOKHandler.cpp" />
+    <ClCompile Include="GCDropItemToZone.cpp" />
+    <ClCompile Include="GCDropItemToZoneHandler.cpp" />
+    <ClCompile Include="GCEnterVampirePortal.cpp" />
+    <ClCompile Include="GCEnterVampirePortalHandler.cpp" />
+    <ClCompile Include="GCExecuteElement.cpp" />
+    <ClCompile Include="GCExecuteElementHandler.cpp" />
+    <ClCompile Include="GCFakeMove.cpp" />
+    <ClCompile Include="GCFakeMoveHandler.cpp" />
+    <ClCompile Include="GCFastMove.cpp" />
+    <ClCompile Include="GCFastMoveHandler.cpp" />
+    <ClCompile Include="GCFlagWarStatus.cpp" />
+    <ClCompile Include="GCFlagWarStatusHandler.cpp" />
+    <ClCompile Include="GCFriendAdd.cpp" />
+    <ClCompile Include="GCFriendAddHandler.cpp" />
+    <ClCompile Include="GCFriendDel.cpp" />
+    <ClCompile Include="GCFriendDelHandler.cpp" />
+    <ClCompile Include="GCFriendList.cpp" />
+    <ClCompile Include="GCFriendListHandler.cpp" />
+    <ClCompile Include="GCFriendReqToAdd.cpp" />
+    <ClCompile Include="GCFriendReqToAddHandler.cpp" />
+    <ClCompile Include="GCFriendReqToDel.cpp" />
+    <ClCompile Include="GCFriendReqToDelHandler.cpp" />
+    <ClCompile Include="GCFriendResToAdd.cpp" />
+    <ClCompile Include="GCFriendResToAddHandler.cpp" />
+    <ClCompile Include="GCFriendSuggestToAdd.cpp" />
+    <ClCompile Include="GCFriendSuggestToAddHandler.cpp" />
+    <ClCompile Include="GCFriendUpdateConnect.cpp" />
+    <ClCompile Include="GCFriendUpdateConnectHandler.cpp" />
+    <ClCompile Include="GCFriendUpdateZone.cpp" />
+    <ClCompile Include="GCFriendUpdateZoneHandler.cpp" />
+    <ClCompile Include="GCFriendViewInfo.cpp" />
+    <ClCompile Include="GCFriendViewInfoHandler.cpp" />
+    <ClCompile Include="GCFriendWaitList.cpp" />
+    <ClCompile Include="GCFriendWaitListHandler.cpp" />
+    <ClCompile Include="GCGetDamage.cpp" />
+    <ClCompile Include="GCGetDamageHandler.cpp" />
+    <ClCompile Include="GCGetOffMotorCycle.cpp" />
+    <ClCompile Include="GCGetOffMotorCycleFailed.cpp" />
+    <ClCompile Include="GCGetOffMotorCycleFailedHandler.cpp" />
+    <ClCompile Include="GCGetOffMotorCycleHandler.cpp" />
+    <ClCompile Include="GCGetOffMotorCycleOK.cpp" />
+    <ClCompile Include="GCGetOffMotorCycleOKHandler.cpp" />
+    <ClCompile Include="GCGlobalChat.cpp" />
+    <ClCompile Include="GCGlobalChatHandler.cpp" />
+    <ClCompile Include="GCGoodsList.cpp" />
+    <ClCompile Include="GCGoodsListHandler.cpp" />
+    <ClCompile Include="GCGQuestInventory.cpp" />
+    <ClCompile Include="GCGQuestInventoryHandler.cpp" />
+    <ClCompile Include="GCGQuestStatusInfo.cpp" />
+    <ClCompile Include="GCGQuestStatusInfoHandler.cpp" />
+    <ClCompile Include="GCGQuestStatusModify.cpp" />
+    <ClCompile Include="GCGQuestStatusModifyHandler.cpp" />
+    <ClCompile Include="GCGuildChat.cpp" />
+    <ClCompile Include="GCGuildChatHandler.cpp" />
+    <ClCompile Include="GCGuildMemberList.cpp" />
+    <ClCompile Include="GCGuildMemberListHandler.cpp" />
+    <ClCompile Include="GCGuildResponse.cpp" />
+    <ClCompile Include="GCGuildResponseHandler.cpp" />
+    <ClCompile Include="GCHolyLandBonusInfo.cpp" />
+    <ClCompile Include="GCHolyLandBonusInfoHandler.cpp" />
+    <ClCompile Include="GCHPRecoveryEndToOthers.cpp" />
+    <ClCompile Include="GCHPRecoveryEndToOthersHandler.cpp" />
+    <ClCompile Include="GCHPRecoveryEndToSelf.cpp" />
+    <ClCompile Include="GCHPRecoveryEndToSelfHandler.cpp" />
+    <ClCompile Include="GCHPRecoveryStartToOthers.cpp" />
+    <ClCompile Include="GCHPRecoveryStartToOthersHandler.cpp" />
+    <ClCompile Include="GCHPRecoveryStartToSelf.cpp" />
+    <ClCompile Include="GCHPRecoveryStartToSelfHandler.cpp" />
+    <ClCompile Include="GCInstanceDoungeonLobby.cpp" />
+    <ClCompile Include="GCInstanceDoungeonLobbyHandler.cpp" />
+    <ClCompile Include="GCInstanceDoungeonResult.cpp" />
+    <ClCompile Include="GCInstanceDoungeonResultHandler.cpp" />
+    <ClCompile Include="GCKickMessage.cpp" />
+    <ClCompile Include="GCKickMessageHandler.cpp" />
+    <ClCompile Include="GCKnockBack.cpp" />
+    <ClCompile Include="GCKnockBackHandler.cpp" />
+    <ClCompile Include="GCKnocksTargetBackOK1.cpp" />
+    <ClCompile Include="GCKnocksTargetBackOK1Handler.cpp" />
+    <ClCompile Include="GCKnocksTargetBackOK2.cpp" />
+    <ClCompile Include="GCKnocksTargetBackOK2Handler.cpp" />
+    <ClCompile Include="GCKnocksTargetBackOK4.cpp" />
+    <ClCompile Include="GCKnocksTargetBackOK4Handler.cpp" />
+    <ClCompile Include="GCKnocksTargetBackOK5.cpp" />
+    <ClCompile Include="GCKnocksTargetBackOK5Handler.cpp" />
+    <ClCompile Include="GCLearnSkillFailed.cpp" />
+    <ClCompile Include="GCLearnSkillFailedHandler.cpp" />
+    <ClCompile Include="GCLearnSkillOK.cpp" />
+    <ClCompile Include="GCLearnSkillOKHandler.cpp" />
+    <ClCompile Include="GCLearnSkillReady.cpp" />
+    <ClCompile Include="GCLearnSkillReadyHandler.cpp" />
+    <ClCompile Include="GCLightning.cpp" />
+    <ClCompile Include="GCLightningHandler.cpp" />
+    <ClCompile Include="GCMakeItemFail.cpp" />
+    <ClCompile Include="GCMakeItemFailHandler.cpp" />
+    <ClCompile Include="GCMakeItemOK.cpp" />
+    <ClCompile Include="GCMakeItemOKHandler.cpp" />
+    <ClCompile Include="GCMineExplosionOK1.cpp" />
+    <ClCompile Include="GCMineExplosionOK1Handler.cpp" />
+    <ClCompile Include="GCMineExplosionOK2.cpp" />
+    <ClCompile Include="GCMineExplosionOK2Handler.cpp" />
+    <ClCompile Include="GCMiniGameScores.cpp" />
+    <ClCompile Include="GCMiniGameScoresHandler.cpp" />
+    <ClCompile Include="GCModifyGuildMemberInfo.cpp" />
+    <ClCompile Include="GCModifyGuildMemberInfoHandler.cpp" />
+    <ClCompile Include="GCModifyInformation.cpp" />
+    <ClCompile Include="GCModifyInformationHandler.cpp" />
+    <ClCompile Include="GCModifyNickname.cpp" />
+    <ClCompile Include="GCModifyNicknameHandler.cpp" />
+    <ClCompile Include="GCMonsterKillQuestInfo.cpp" />
+    <ClCompile Include="GCMonsterKillQuestInfoHandler.cpp" />
+    <ClCompile Include="GCMorph1.cpp" />
+    <ClCompile Include="GCMorph1Handler.cpp" />
+    <ClCompile Include="GCMorphSlayer2.cpp" />
+    <ClCompile Include="GCMorphSlayer2Handler.cpp" />
+    <ClCompile Include="GCMorphVampire2.cpp" />
+    <ClCompile Include="GCMorphVampire2Handler.cpp" />
+    <ClCompile Include="GCMove.cpp" />
+    <ClCompile Include="GCMoveError.cpp" />
+    <ClCompile Include="GCMoveErrorHandler.cpp" />
+    <ClCompile Include="GCMoveHandler.cpp" />
+    <ClCompile Include="GCMoveOK.cpp" />
+    <ClCompile Include="GCMoveOKHandler.cpp" />
+    <ClCompile Include="GCMPRecoveryEnd.cpp" />
+    <ClCompile Include="GCMPRecoveryEndHandler.cpp" />
+    <ClCompile Include="GCMPRecoveryStart.cpp" />
+    <ClCompile Include="GCMPRecoveryStartHandler.cpp" />
+    <ClCompile Include="GCMyStoreInfo.cpp" />
+    <ClCompile Include="GCMyStoreInfoHandler.cpp" />
+    <ClCompile Include="GCNicknameList.cpp" />
+    <ClCompile Include="GCNicknameListHandler.cpp" />
+    <ClCompile Include="GCNicknameVerify.cpp" />
+    <ClCompile Include="GCNicknameVerifyHandler.cpp" />
+    <ClCompile Include="GCNoticeEvent.cpp" />
+    <ClCompile Include="GCNoticeEventHandler.cpp" />
+    <ClCompile Include="GCNotifyWin.cpp" />
+    <ClCompile Include="GCNotifyWinHandler.cpp" />
+    <ClCompile Include="GCNPCAsk.cpp" />
+    <ClCompile Include="GCNPCAskDynamic.cpp" />
+    <ClCompile Include="GCNPCAskDynamicHandler.cpp" />
+    <ClCompile Include="GCNPCAskHandler.cpp" />
+    <ClCompile Include="GCNPCAskVariable.cpp" />
+    <ClCompile Include="GCNPCAskVariableHandler.cpp" />
+    <ClCompile Include="GCNPCInfo.cpp" />
+    <ClCompile Include="GCNPCInfoHandler.cpp" />
+    <ClCompile Include="GCNPCResponse.cpp" />
+    <ClCompile Include="GCNPCResponseHandler.cpp" />
+    <ClCompile Include="GCNPCSay.cpp" />
+    <ClCompile Include="GCNPCSayDynamic.cpp" />
+    <ClCompile Include="GCNPCSayDynamicHandler.cpp" />
+    <ClCompile Include="GCNPCSayHandler.cpp" />
+    <ClCompile Include="GCOtherGuildName.cpp" />
+    <ClCompile Include="GCOtherGuildNameHandler.cpp" />
+    <ClCompile Include="GCOtherModifyInfo.cpp" />
+    <ClCompile Include="GCOtherModifyInfoHandler.cpp" />
+    <ClCompile Include="GCOtherStoreInfo.cpp" />
+    <ClCompile Include="GCOtherStoreInfoHandler.cpp" />
+    <ClCompile Include="GCPartyError.cpp" />
+    <ClCompile Include="GCPartyErrorHandler.cpp" />
+    <ClCompile Include="GCPartyInvite.cpp" />
+    <ClCompile Include="GCPartyInviteHandler.cpp" />
+    <ClCompile Include="GCPartyJoined.cpp" />
+    <ClCompile Include="GCPartyJoinedHandler.cpp" />
+    <ClCompile Include="GCPartyLeave.cpp" />
+    <ClCompile Include="GCPartyLeaveHandler.cpp" />
+    <ClCompile Include="GCPartyPosition.cpp" />
+    <ClCompile Include="GCPartyPositionHandler.cpp" />
+    <ClCompile Include="GCPartySay.cpp" />
+    <ClCompile Include="GCPartySayHandler.cpp" />
+    <ClCompile Include="GCPetInfo.cpp" />
+    <ClCompile Include="GCPetInfoHandler.cpp" />
+    <ClCompile Include="GCPetStashList.cpp" />
+    <ClCompile Include="GCPetStashListHandler.cpp" />
+    <ClCompile Include="GCPetStashVerify.cpp" />
+    <ClCompile Include="GCPetStashVerifyHandler.cpp" />
+    <ClCompile Include="GCPetUseSkill.cpp" />
+    <ClCompile Include="GCPetUseSkillHandler.cpp" />
+    <ClCompile Include="GCPhoneConnected.cpp" />
+    <ClCompile Include="GCPhoneConnectedHandler.cpp" />
+    <ClCompile Include="GCPhoneConnectionFailed.cpp" />
+    <ClCompile Include="GCPhoneConnectionFailedHandler.cpp" />
+    <ClCompile Include="GCPhoneDisconnected.cpp" />
+    <ClCompile Include="GCPhoneDisconnectedHandler.cpp" />
+    <ClCompile Include="GCPhoneSay.cpp" />
+    <ClCompile Include="GCPhoneSayHandler.cpp" />
+    <ClCompile Include="GCQuestStatus.cpp" />
+    <ClCompile Include="GCQuestStatusHandler.cpp" />
+    <ClCompile Include="GCRankBonusInfo.cpp" />
+    <ClCompile Include="GCRankBonusInfoHandler.cpp" />
+    <ClCompile Include="GCRealWearingInfo.cpp" />
+    <ClCompile Include="GCRealWearingInfoHandler.cpp" />
+    <ClCompile Include="GCReconnect.cpp" />
+    <ClCompile Include="GCReconnectHandler.cpp" />
+    <ClCompile Include="GCReconnectLogin.cpp" />
+    <ClCompile Include="GCReconnectLoginHandler.cpp" />
+    <ClCompile Include="GCRegenZoneStatus.cpp" />
+    <ClCompile Include="GCRegenZoneStatusHandler.cpp" />
+    <ClCompile Include="GCReloadOK.cpp" />
+    <ClCompile Include="GCReloadOKHandler.cpp" />
+    <ClCompile Include="GCRemoveCorpseHead.cpp" />
+    <ClCompile Include="GCRemoveCorpseHeadHandler.cpp" />
+    <ClCompile Include="GCRemoveEffect.cpp" />
+    <ClCompile Include="GCRemoveEffectHandler.cpp" />
+    <ClCompile Include="GCRemoveFromGear.cpp" />
+    <ClCompile Include="GCRemoveFromGearHandler.cpp" />
+    <ClCompile Include="GCRemoveInjuriousCreature.cpp" />
+    <ClCompile Include="GCRemoveInjuriousCreatureHandler.cpp" />
+    <ClCompile Include="GCRemoveStoreItem.cpp" />
+    <ClCompile Include="GCRemoveStoreItemHandler.cpp" />
+    <ClCompile Include="GCRepairInfo.cpp" />
+    <ClCompile Include="GCRepairInfoHandler.cpp" />
+    <ClCompile Include="GCRequestedIP.cpp" />
+    <ClCompile Include="GCRequestedIPHandler.cpp" />
+    <ClCompile Include="GCRequestFailed.cpp" />
+    <ClCompile Include="GCRequestFailedHandler.cpp" />
+    <ClCompile Include="GCRequestPowerPointResult.cpp" />
+    <ClCompile Include="GCRequestPowerPointResultHandler.cpp" />
+    <ClCompile Include="GCRideMotorCycle.cpp" />
+    <ClCompile Include="GCRideMotorCycleFailed.cpp" />
+    <ClCompile Include="GCRideMotorCycleFailedHandler.cpp" />
+    <ClCompile Include="GCRideMotorCycleHandler.cpp" />
+    <ClCompile Include="GCRideMotorCycleOK.cpp" />
+    <ClCompile Include="GCRideMotorCycleOKHandler.cpp" />
+    <ClCompile Include="GCRing.cpp" />
+    <ClCompile Include="GCRingHandler.cpp" />
+    <ClCompile Include="GCSay.cpp" />
+    <ClCompile Include="GCSayHandler.cpp" />
+    <ClCompile Include="GCSearchMotorcycleFail.cpp" />
+    <ClCompile Include="GCSearchMotorcycleFailHandler.cpp" />
+    <ClCompile Include="GCSearchMotorcycleOK.cpp" />
+    <ClCompile Include="GCSearchMotorcycleOKHandler.cpp" />
+    <ClCompile Include="GCSelectQuestID.cpp" />
+    <ClCompile Include="GCSelectQuestIDHandler.cpp" />
+    <ClCompile Include="GCSelectRankBonusFailed.cpp" />
+    <ClCompile Include="GCSelectRankBonusFailedHandler.cpp" />
+    <ClCompile Include="GCSelectRankBonusOK.cpp" />
+    <ClCompile Include="GCSelectRankBonusOKHandler.cpp" />
+    <ClCompile Include="GCSetPosition.cpp" />
+    <ClCompile Include="GCSetPositionHandler.cpp" />
+    <ClCompile Include="GCShopBought.cpp" />
+    <ClCompile Include="GCShopBoughtHandler.cpp" />
+    <ClCompile Include="GCShopBuyFail.cpp" />
+    <ClCompile Include="GCShopBuyFailHandler.cpp" />
+    <ClCompile Include="GCShopBuyOK.cpp" />
+    <ClCompile Include="GCShopBuyOKHandler.cpp" />
+    <ClCompile Include="GCShopList.cpp" />
+    <ClCompile Include="GCShopListHandler.cpp" />
+    <ClCompile Include="GCShopListMysterious.cpp" />
+    <ClCompile Include="GCShopListMysteriousHandler.cpp" />
+    <ClCompile Include="GCShopMarketCondition.cpp" />
+    <ClCompile Include="GCShopMarketConditionHandler.cpp" />
+    <ClCompile Include="GCShopSellFail.cpp" />
+    <ClCompile Include="GCShopSellFailHandler.cpp" />
+    <ClCompile Include="GCShopSellOK.cpp" />
+    <ClCompile Include="GCShopSellOKHandler.cpp" />
+    <ClCompile Include="GCShopSold.cpp" />
+    <ClCompile Include="GCShopSoldHandler.cpp" />
+    <ClCompile Include="GCShopVersion.cpp" />
+    <ClCompile Include="GCShopVersionHandler.cpp" />
+    <ClCompile Include="GCShowGuildInfo.cpp" />
+    <ClCompile Include="GCShowGuildInfoHandler.cpp" />
+    <ClCompile Include="GCShowGuildJoin.cpp" />
+    <ClCompile Include="GCShowGuildJoinHandler.cpp" />
+    <ClCompile Include="GCShowGuildMemberInfo.cpp" />
+    <ClCompile Include="GCShowGuildMemberInfoHandler.cpp" />
+    <ClCompile Include="GCShowMessageBox.cpp" />
+    <ClCompile Include="GCShowMessageBoxHandler.cpp" />
+    <ClCompile Include="GCShowUnionInfo.cpp" />
+    <ClCompile Include="GCShowUnionInfoHandler.cpp" />
+    <ClCompile Include="GCShowWaitGuildInfo.cpp" />
+    <ClCompile Include="GCShowWaitGuildInfoHandler.cpp" />
+    <ClCompile Include="GCShowWebMarket.cpp" />
+    <ClCompile Include="GCShowWebMarketHandler.cpp" />
+    <ClCompile Include="GCSkillFailed1.cpp" />
+    <ClCompile Include="GCSkillFailed1Handler.cpp" />
+    <ClCompile Include="GCSkillFailed2.cpp" />
+    <ClCompile Include="GCSkillFailed2Handler.cpp" />
+    <ClCompile Include="GCSkillInfo.cpp" />
+    <ClCompile Include="GCSkillInfoHandler.cpp" />
+    <ClCompile Include="GCSkillToInventoryOK1.cpp" />
+    <ClCompile Include="GCSkillToInventoryOK1Handler.cpp" />
+    <ClCompile Include="GCSkillToInventoryOK2.cpp" />
+    <ClCompile Include="GCSkillToInventoryOK2Handler.cpp" />
+    <ClCompile Include="GCSkillToObjectOK1.cpp" />
+    <ClCompile Include="GCSkillToObjectOK1Handler.cpp" />
+    <ClCompile Include="GCSkillToObjectOK2.cpp" />
+    <ClCompile Include="GCSkillToObjectOK2Handler.cpp" />
+    <ClCompile Include="GCSkillToObjectOK3.cpp" />
+    <ClCompile Include="GCSkillToObjectOK3Handler.cpp" />
+    <ClCompile Include="GCSkillToObjectOK4.cpp" />
+    <ClCompile Include="GCSkillToObjectOK4Handler.cpp" />
+    <ClCompile Include="GCSkillToObjectOK5.cpp" />
+    <ClCompile Include="GCSkillToObjectOK5Handler.cpp" />
+    <ClCompile Include="GCSkillToObjectOK6.cpp" />
+    <ClCompile Include="GCSkillToObjectOK6Handler.cpp" />
+    <ClCompile Include="GCSkillToSelfOK1.cpp" />
+    <ClCompile Include="GCSkillToSelfOK1Handler.cpp" />
+    <ClCompile Include="GCSkillToSelfOK2.cpp" />
+    <ClCompile Include="GCSkillToSelfOK2Handler.cpp" />
+    <ClCompile Include="GCSkillToSelfOK3.cpp" />
+    <ClCompile Include="GCSkillToSelfOK3Handler.cpp" />
+    <ClCompile Include="GCSkillToTileOK1.cpp" />
+    <ClCompile Include="GCSkillToTileOK1Handler.cpp" />
+    <ClCompile Include="GCSkillToTileOK2.cpp" />
+    <ClCompile Include="GCSkillToTileOK2Handler.cpp" />
+    <ClCompile Include="GCSkillToTileOK3.cpp" />
+    <ClCompile Include="GCSkillToTileOK3Handler.cpp" />
+    <ClCompile Include="GCSkillToTileOK4.cpp" />
+    <ClCompile Include="GCSkillToTileOK4Handler.cpp" />
+    <ClCompile Include="GCSkillToTileOK5.cpp" />
+    <ClCompile Include="GCSkillToTileOK5Handler.cpp" />
+    <ClCompile Include="GCSkillToTileOK6.cpp" />
+    <ClCompile Include="GCSkillToTileOK6Handler.cpp" />
+    <ClCompile Include="GCSMSAddressList.cpp" />
+    <ClCompile Include="GCSMSAddressListHandler.cpp" />
+    <ClCompile Include="GCStashList.cpp" />
+    <ClCompile Include="GCStashListHandler.cpp" />
+    <ClCompile Include="GCStashSell.cpp" />
+    <ClCompile Include="GCStashSellHandler.cpp" />
+    <ClCompile Include="GCStatusCurrentHP.cpp" />
+    <ClCompile Include="GCStatusCurrentHPHandler.cpp" />
+    <ClCompile Include="GCSubInventoryInfo.cpp" />
+    <ClCompile Include="GCSubInventoryInfoHandler.cpp" />
+    <ClCompile Include="GCSupplyItemList.cpp" />
+    <ClCompile Include="GCSupplyItemListHandler.cpp" />
+    <ClCompile Include="GCSweeperBonusInfo.cpp" />
+    <ClCompile Include="GCSweeperBonusInfoHandler.cpp" />
+    <ClCompile Include="GCSystemAvailabilities.cpp" />
+    <ClCompile Include="GCSystemAvailabilitiesHandler.cpp" />
+    <ClCompile Include="GCSystemMessage.cpp" />
+    <ClCompile Include="GCSystemMessageHandler.cpp" />
+    <ClCompile Include="GCTakeOff.cpp" />
+    <ClCompile Include="GCTakeOffHandler.cpp" />
+    <ClCompile Include="GCTakeOutFail.cpp" />
+    <ClCompile Include="GCTakeOutFailHandler.cpp" />
+    <ClCompile Include="GCTakeOutOK.cpp" />
+    <ClCompile Include="GCTakeOutOKHandler.cpp" />
+    <ClCompile Include="GCTeachSkillInfo.cpp" />
+    <ClCompile Include="GCTeachSkillInfoHandler.cpp" />
+    <ClCompile Include="GCThrowBombOK1.cpp" />
+    <ClCompile Include="GCThrowBombOK1Handler.cpp" />
+    <ClCompile Include="GCThrowBombOK2.cpp" />
+    <ClCompile Include="GCThrowBombOK2Handler.cpp" />
+    <ClCompile Include="GCThrowBombOK3.cpp" />
+    <ClCompile Include="GCThrowBombOK3Handler.cpp" />
+    <ClCompile Include="GCThrowItemOK1.cpp" />
+    <ClCompile Include="GCThrowItemOK1Handler.cpp" />
+    <ClCompile Include="GCThrowItemOK2.cpp" />
+    <ClCompile Include="GCThrowItemOK2Handler.cpp" />
+    <ClCompile Include="GCThrowItemOK3.cpp" />
+    <ClCompile Include="GCThrowItemOK3Handler.cpp" />
+    <ClCompile Include="GCTimeLimitItemInfo.cpp" />
+    <ClCompile Include="GCTimeLimitItemInfoHandler.cpp" />
+    <ClCompile Include="GCTradeAddItem.cpp" />
+    <ClCompile Include="GCTradeAddItemHandler.cpp" />
+    <ClCompile Include="GCTradeError.cpp" />
+    <ClCompile Include="GCTradeErrorHandler.cpp" />
+    <ClCompile Include="GCTradeFinish.cpp" />
+    <ClCompile Include="GCTradeFinishHandler.cpp" />
+    <ClCompile Include="GCTradeMoney.cpp" />
+    <ClCompile Include="GCTradeMoneyHandler.cpp" />
+    <ClCompile Include="GCTradePrepare.cpp" />
+    <ClCompile Include="GCTradePrepareHandler.cpp" />
+    <ClCompile Include="GCTradeRemoveItem.cpp" />
+    <ClCompile Include="GCTradeRemoveItemHandler.cpp" />
+    <ClCompile Include="GCTradeVerify.cpp" />
+    <ClCompile Include="GCTradeVerifyHandler.cpp" />
+    <ClCompile Include="GCUnburrowFail.cpp" />
+    <ClCompile Include="GCUnburrowFailHandler.cpp" />
+    <ClCompile Include="GCUnburrowOK.cpp" />
+    <ClCompile Include="GCUnburrowOKHandler.cpp" />
+    <ClCompile Include="GCUnionOfferList.cpp" />
+    <ClCompile Include="GCUnionOfferListHandler.cpp" />
+    <ClCompile Include="GCUntransformFail.cpp" />
+    <ClCompile Include="GCUntransformFailHandler.cpp" />
+    <ClCompile Include="GCUntransformOK.cpp" />
+    <ClCompile Include="GCUntransformOKHandler.cpp" />
+    <ClCompile Include="GCUpdateInfo.cpp" />
+    <ClCompile Include="GCUpdateInfoHandler.cpp" />
+    <ClCompile Include="GCUpdateSupplyItemList.cpp" />
+    <ClCompile Include="GCUpdateSupplyItemListHandler.cpp" />
+    <ClCompile Include="GCUpdateWeekItemList.cpp" />
+    <ClCompile Include="GCUpdateWeekItemListHandler.cpp" />
+    <ClCompile Include="GCUseBonusPointFail.cpp" />
+    <ClCompile Include="GCUseBonusPointFailHandler.cpp" />
+    <ClCompile Include="GCUseBonusPointOK.cpp" />
+    <ClCompile Include="GCUseBonusPointOKHandler.cpp" />
+    <ClCompile Include="GCUseOK.cpp" />
+    <ClCompile Include="GCUseOKHandler.cpp" />
+    <ClCompile Include="GCUsePowerPointResult.cpp" />
+    <ClCompile Include="GCUsePowerPointResultHandler.cpp" />
+    <ClCompile Include="GCVisibleFail.cpp" />
+    <ClCompile Include="GCVisibleFailHandler.cpp" />
+    <ClCompile Include="GCVisibleOK.cpp" />
+    <ClCompile Include="GCVisibleOKHandler.cpp" />
+    <ClCompile Include="GCWaitGuildList.cpp" />
+    <ClCompile Include="GCWaitGuildListHandler.cpp" />
+    <ClCompile Include="GCWarList.cpp" />
+    <ClCompile Include="GCWarListHandler.cpp" />
+    <ClCompile Include="GCWarScheduleList.cpp" />
+    <ClCompile Include="GCWarScheduleListHandler.cpp" />
+    <ClCompile Include="GCWhisper.cpp" />
+    <ClCompile Include="GCWhisperFailed.cpp" />
+    <ClCompile Include="GCWhisperFailedHandler.cpp" />
+    <ClCompile Include="GCWhisperHandler.cpp" />
+    <ClCompile Include="GLIncomingConnectionError.cpp" />
+    <ClCompile Include="GLIncomingConnectionErrorHandler.cpp" />
+    <ClCompile Include="GLIncomingConnectionOK.cpp" />
+    <ClCompile Include="GLIncomingConnectionOKHandler.cpp" />
+    <ClCompile Include="SweeperBonusInfo.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

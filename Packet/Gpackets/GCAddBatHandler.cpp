@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddBat.h"
 #include "ClientDef.h"
 #include "SkillDef.h"
@@ -17,7 +17,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAddBatHandler::execute ( GCAddBat * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 
@@ -26,7 +25,7 @@ void GCAddBatHandler::execute ( GCAddBat * pPacket , Player * pPlayer )
 	int batCreatureType = 0;
 #if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
 	int batType = pPacket->getBatType();
-	//¸¸ÀÏ ÀÚ½Å¿¡°Ô ³¯¾Æ¿Â GCAddBatÀÌ°í, ½Å±ÔÀÌµ¿¼ö´ÜÀÏ °æ¿ì..... ±× ÄÃ·¯°ª¸¸ ÃëÇÑ´Ù.
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½Å¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ¿ï¿½ GCAddBatï¿½Ì°ï¿½, ï¿½Å±ï¿½ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..... ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 	if (g_pPlayer->GetID() == pPacket->getObjectID())
 	{
 		if(batType == 2)
@@ -52,21 +51,21 @@ void GCAddBatHandler::execute ( GCAddBat * pPacket , Player * pPlayer )
 				g_pPlayer->SetWingEffectColor( pPacket->getWingColor2() );
 			}
 #endif //__SECOND_TRANSFORTER
-			//±×¸®°í´Â.. ¹Ù·Î ¸®ÅÏ.
-			// ¿Ö? GCSkillToInventoryOk1Handler¿¡¼­ ÄÃ·¯°ª¸¸ Ã³¸®ÇÏÁö ¸øÇÏ±â ¶§¹®¿¡.. ÀÚ½Å¿¡°Ôµµ GCAddBatÀ» º¸³»µµ·Ï ÇÏ¿©.. Color°ªÀ» ÃëÇÏ±â ¶§¹®.
+			//ï¿½×¸ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½.
+			// ï¿½ï¿½? GCSkillToInventoryOk1Handlerï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½Ú½Å¿ï¿½ï¿½Ôµï¿½ GCAddBatï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¿ï¿½.. Colorï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			g_pPlayer->SetWingType(batType);
 			return;
 		}
 	}
-	if (batType == 2)										//battypeÀÌ 2ÀÎ °æ¿ì°¡ ½Å±ÔÀÌµ¿¼ö´Ü ..
+	if (batType == 2)										//battypeï¿½ï¿½ 2ï¿½ï¿½ ï¿½ï¿½ì°¡ ï¿½Å±ï¿½ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ..
 	{
-		if(pPacket->getItemType() == 0)						//ÇÃ¸®·¯ ¸¶¿ì½º(ÀÇ ¾ÆÀÌÅÛÅ¸ÀÔ¹øÈ£)
+		if(pPacket->getItemType() == 0)						//ï¿½Ã¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì½º(ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¸ï¿½Ô¹ï¿½È£)
 			batCreatureType = CREATURETYPE_FLITTERMOUSE;
 #if __CONTENTS(__SECOND_TRANSFORTER)
-		else if(pPacket->getItemType() == 1)				//µ¥¸ó (ÀÇ ¾ÆÀÌÅÛÅ¸ÀÔ¹øÈ£)
+		else if(pPacket->getItemType() == 1)				//ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¸ï¿½Ô¹ï¿½È£)
 			batCreatureType = CREATURETYPE_SHAPE_OF_DEMON;
 #endif //__SECOND_TRANSFORTER
-		else												//itemtypeÀÌ  Ãß°¡µÇÁö ¾ÊÀº ½Å±Ô ÀÌµ¿¼ö´Ü? ±×·² ¼ø ¾ø´Ù.
+		else												//itemtypeï¿½ï¿½  ï¿½ß°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½? ï¿½×·ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			batCreatureType = CREATURETYPE_BAT;
 	}
 	else
@@ -76,7 +75,7 @@ void GCAddBatHandler::execute ( GCAddBat * pPacket , Player * pPlayer )
 	_MinTrace("%d\n", pPacket->getBatColor() );
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -85,7 +84,7 @@ void GCAddBatHandler::execute ( GCAddBat * pPacket , Player * pPlayer )
 		
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -93,7 +92,7 @@ void GCAddBatHandler::execute ( GCAddBat * pPacket , Player * pPlayer )
 		MCreature* pCreature = g_pZone->GetCreature(pPacket->getObjectID());
 
 		//--------------------------------------------------
-		// »õ·Î¿î CreatureÀÌ¸é Ãß°¡
+		// ï¿½ï¿½ï¿½Î¿ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ß°ï¿½
 		//--------------------------------------------------
 		if (pCreature==NULL)
 		{
@@ -107,7 +106,7 @@ void GCAddBatHandler::execute ( GCAddBat * pPacket , Player * pPlayer )
 
 			pCreature->SetName( pPacket->getName().c_str() );
 
-			// ÀÓ½Ã·Î
+			// ï¿½Ó½Ã·ï¿½
 			pCreature->SetGuildNumber( pPacket->getGuildID() );
 
 			pCreature->SetFlyingCreature();
@@ -125,7 +124,7 @@ void GCAddBatHandler::execute ( GCAddBat * pPacket , Player * pPlayer )
 			pCreature->SetStatus( MODIFY_CURRENT_HP, pPacket->getCurrentHP() );
 
 			//pPacket->getName()
-			// »ö»ó Á¤º¸
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			
 			if( pPacket->getBatColor() != 0 )
 				pCreature->SetBatColor( pPacket->getBatColor() );
@@ -141,13 +140,13 @@ void GCAddBatHandler::execute ( GCAddBat * pPacket , Player * pPlayer )
 			pCreature->SetWingType(pPacket->getBatType());
 		}
 		//--------------------------------------------------
-		// ÀÌ¹Ì ÀÖ´Â CreatureÀÎ °æ¿ì
+		// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		else
 		{
 			//pCreature->SetCreatureType( batCreatureType );
 			
-			// ÀÓ½Ã·Î
+			// ï¿½Ó½Ã·ï¿½
 			pCreature->SetGuildNumber( pPacket->getGuildID() );
 
 			//pCreature->SetAction(ACTION_MOVE);
@@ -174,7 +173,7 @@ void GCAddBatHandler::execute ( GCAddBat * pPacket , Player * pPlayer )
 #endif //__SECOND_TRANSFORTER
 				)
 			{
-				//½Å±Ô ÀÌµ¿¼ö´Ü Wingcolorµµ ¼¼ÆÃÇÏÀÚ.
+				//ï¿½Å±ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ Wingcolorï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 				if (pPacket->getWingColor1() != 0)
 					pCreature->SetWingColor(pPacket->getWingColor1());
 				else
@@ -183,7 +182,7 @@ void GCAddBatHandler::execute ( GCAddBat * pPacket , Player * pPlayer )
 
 				pCreature->SetWingEffect1();
 			}
-			// ½ÂÁ÷ ¹ìÆÄÀÌ¾îÀÇ °æ¿ì ¹ÚÁã°¡ ¾Æ´Ï¶ó °í½ºÆ®´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ã°¡ ï¿½Æ´Ï¶ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½.
 			else 
 #endif //__FAST_TRANSFORTER||__SECOND_TRANSFORTER
 #if __CONTENTS(__SECOND_TRANSFORTER)
@@ -197,7 +196,7 @@ void GCAddBatHandler::execute ( GCAddBat * pPacket , Player * pPlayer )
 
 				pCreature->SetWingEffect2();
 			}
-			// ½ÂÁ÷ ¹ìÆÄÀÌ¾îÀÇ °æ¿ì ¹ÚÁã°¡ ¾Æ´Ï¶ó °í½ºÆ®´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ã°¡ ï¿½Æ´Ï¶ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½.
 			else 
 #endif //__SECOND_TRANSFORTER
 			if( pCreature->IsVampire() && pCreature->IsAdvancementClass() )
@@ -212,7 +211,7 @@ void GCAddBatHandler::execute ( GCAddBat * pPacket , Player * pPlayer )
 			pCreature->SetWingType(pPacket->getBatType());
 
 			//--------------------------------------------------
-			// ¹ÚÁã·Î º¯½ÅÇÏ´Â °á°ú
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 			//--------------------------------------------------
 			MActionResult* pResult = new MActionResult;
 
@@ -232,28 +231,28 @@ void GCAddBatHandler::execute ( GCAddBat * pPacket , Player * pPlayer )
 				skillType = RESULT_MAGIC_TRANSFORM_TO_BAT;
 
 			//--------------------------------------------------
-			// ¹ÚÁã º¯½Å 
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 			//--------------------------------------------------								
 			ExecuteActionInfoFromMainNode(
-				skillType,													// »ç¿ë ±â¼ú ¹øÈ£
+				skillType,													// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 			
 				pCreature->GetX(), pCreature->GetY(), 0,
-				pCreature->GetDirection(),									// »ç¿ë ¹æÇâ
+				pCreature->GetDirection(),									// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				
-				OBJECTID_NULL,												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+				OBJECTID_NULL,												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				pCreature->GetX(), pCreature->GetY(), 0, 
 				
-				0,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+				0,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 				
 				pResult, //NULL,
 				
-				false);			// ±â¼ú Ã·ºÎÅÍ ½ÃÀÛÇÑ´Ù.
+				false);			// ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 
 			//pCreature->SetDelay( 1000 );
 		}	
 	}
 
-	// [µµ¿ò¸»] Vampire°¡ ³ªÅ¸³¯¶§
+	// [ï¿½ï¿½ï¿½ï¿½] Vampireï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½
 //	__BEGIN_HELP_EVENT
 //		//ExecuteHelpEvent( HE_CREATURE_APPEAR_VAMPIRE );
 //	__END_HELP_EVENT

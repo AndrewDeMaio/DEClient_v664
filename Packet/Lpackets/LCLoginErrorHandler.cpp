@@ -20,12 +20,11 @@ extern BOOL		g_bNeedUpdate;
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void LCLoginErrorHandler::execute ( LCLoginError * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
 #ifdef __GAME_CLIENT__
-	//20081224 Å©¸®½º¸¶½º ÀÌºê ÀÔ´Ï´Ù. ¹Ýº¹¼öÇà ÆÐÅ¶ °ø°Ý ¹æ¾î ÇØº¾½Ã´Ù.
+	//20081224 Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½ ï¿½Ô´Ï´ï¿½. ï¿½Ýºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Øºï¿½ï¿½Ã´ï¿½.
 	Sleep(2000);
 
 	//cout << "Access Denied... (" << pPacket->toString() << ")" << endl;
@@ -34,11 +33,11 @@ void LCLoginErrorHandler::execute ( LCLoginError * pPacket , Player * pPlayer )
 
 	if (!g_bNeedUpdate)
 	{
-		// ÀçÀÔ·Â
+		// ï¿½ï¿½ï¿½Ô·ï¿½
 		//SetMode( MODE_MAINMENU );
 		g_ModeNext = MODE_LOGIN_WRONG;
 
-		// ETC_ERROR´Â ºñÁ¤»óÀûÀÎ °èÁ¤ÀÌ¶ó°í Ãâ·ÂÇØ¾ß ÇÑ´Ù.
+		// ETC_ERRORï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 //		if ((ErrorID)pPacket->getErrorID()==ETC_ERROR)
 //		{
 //			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[STRING_ERROR_LOGIN_DENY].GetString());

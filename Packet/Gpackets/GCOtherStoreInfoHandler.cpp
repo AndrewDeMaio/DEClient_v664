@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCOtherStoreInfo.h"
 #include "MStorage.h"
 #include "MPlayer.h"
@@ -20,11 +20,10 @@
 
 //////////////////////////////////////////////////////////////////////
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡¼­ ¼­¹ö·ÎºÎÅÍ ¸Þ½ÃÁö¸¦ ¹Þ¾ÒÀ»¶§ ½ÇÇàµÇ´Â ¸Þ½îµåÀÌ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 void GCOtherStoreInfoHandler::execute ( GCOtherStoreInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	//__BEGIN_DEBUG_EX
@@ -44,14 +43,14 @@ void GCOtherStoreInfoHandler::execute ( GCOtherStoreInfo * pPacket , Player * pP
 			WORD colorIndex = pPacket->getStoreInfo()->getPaintColor();
 			pCreature->SetPersnalShopColor( MCreature::s_PersnalShopColor[colorIndex] );
 
-			/* ³²ÀÇ »óÁ¡±îÁöµµ Ã¤ÆÃ »ö»óÀ¸·Î ¿­°í ÀÖ´Ù. -_-;;
+			/* ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½. -_-;;
 			if(!pPacket->getStoreInfo()->getSign().empty())
 				pCreature->SetPersnalString((char*)pPacket->getStoreInfo()->getSign().c_str(),g_pUserOption->ChattingColor);
 			else
 				pCreature->SetPersnalString((*g_pGameStringTable)[UI_STRING_MESSAGE_PERSNAL_DEFAULT_MESSGE].GetString(),g_pUserOption->ChattingColor);
 			*/
 
-			// ¿äÃ»¿¡ µû¶ó µðÆúÆ® »öÀ¸·Î ¿­¸®µµ·Ï ¼öÁ¤
+			// ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			if(!pPacket->getStoreInfo()->getSign().empty())
 				pCreature->SetPersnalString( (char*)pPacket->getStoreInfo()->getSign().c_str() );
 			else
@@ -72,16 +71,16 @@ void GCOtherStoreInfoHandler::execute ( GCOtherStoreInfo * pPacket , Player * pP
 		if(strlen(pPacket->getStoreInfo()->getSign().c_str())>0 && pCreature->IsNPC() == false)
 			pCreature->SetPersnalShopMessage(pPacket->getStoreInfo()->getSign().c_str());
 
-		if(false == pPacket->isRequested()) // ³»°¡ ¼±ÅÃÇØ¼­ »óÁ¡ÀÌ ¿­¸®´Â °æ¿ì°¡ ¾Æ´Ï°í ±×³É ¿­·È´Ù°í ¾Ë¸² ÀÏ¶§
+		if(false == pPacket->isRequested()) // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì°¡ ï¿½Æ´Ï°ï¿½ ï¿½×³ï¿½ ï¿½ï¿½ï¿½È´Ù°ï¿½ ï¿½Ë¸ï¿½ ï¿½Ï¶ï¿½
 			return;
 
 
-		// ³»°¡ ¼±ÅÃÇØ¼­ °³ÀÎ»óÁ¡ÀÌ ¿­¸®´Â °æ¿ì ¾Æ·¡ÂÊ Ã³¸®
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 		if (g_pStorage2!=NULL) 
 			delete g_pStorage2;
 
 		g_pStorage2 = new MStorage;
-		g_pStorage2->Init( 1 ); //STASH_RACK_MAX );	// ÂÁ.. 3°³ÀÏ±î?? 
+		g_pStorage2->Init( 1 ); //STASH_RACK_MAX );	// ï¿½ï¿½.. 3ï¿½ï¿½ï¿½Ï±ï¿½?? 
 		g_pStorage2->SetCurrent( 0 );
 		pPacket->getStoreInfo()->getSign();
 		g_pStorage2->SetCuropenid(pPacket->getObjectID());
@@ -89,7 +88,7 @@ void GCOtherStoreInfoHandler::execute ( GCOtherStoreInfo * pPacket , Player * pP
 		for (int rack=0; rack<1; rack++)
 		{
 			//------------------------------------------------------------
-			// Á¢±ÙÇÏ´Â Storage¸¦ ÁöÁ¤ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Storageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//------------------------------------------------------------
 			//int numitem = pPacket->getStoreInfo().getItems().size();
 			int numitem = pPacket->getStoreInfo()->getItems().size();
@@ -102,7 +101,7 @@ void GCOtherStoreInfoHandler::execute ( GCOtherStoreInfo * pPacket , Player * pP
 				{
 					
 					//------------------------------------------------------------
-					// itemÀ» »ý¼ºÇÑ´Ù.
+					// itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 					//------------------------------------------------------------
 					MItem* pItem = MItem::NewItem( (ITEM_CLASS)item.getItemClass() );
 
@@ -123,18 +122,18 @@ void GCOtherStoreInfoHandler::execute ( GCOtherStoreInfo * pPacket , Player * pP
 					pItem->SetCashItem(item.getCashItem());
 #endif					
 					//------------------------------------------
-					// °³¼ö
+					// ï¿½ï¿½ï¿½ï¿½
 					//------------------------------------------
-					// ÃÑÀÎ °æ¿ì
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 					//------------------------------------------
 					if (pItem->IsGunItem())
 					{
 						MMagazine* pMagazine = (MMagazine*)MItem::NewItem( (ITEM_CLASS)ITEM_CLASS_MAGAZINE );
 
-						// ÀÇ¹Ì ¾øÀ½ - -;
+						// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ - -;
 						pMagazine->SetID( 0 );
 
-						// ÀÌ°Å´Â ÃÑ¿¡ ¸ÂÃç¼­ ÇØÁà¾ßµÈ´Ù.
+						// ï¿½Ì°Å´ï¿½ ï¿½Ñ¿ï¿½ ï¿½ï¿½ï¿½ç¼­ ï¿½ï¿½ï¿½ï¿½ßµÈ´ï¿½.
 						for (int j=0; j<(*g_pItemTable)[ITEM_CLASS_MAGAZINE].GetSize(); j++)			
 						{
 							pMagazine->SetItemType(	j );
@@ -145,18 +144,18 @@ void GCOtherStoreInfoHandler::execute ( GCOtherStoreInfo * pPacket , Player * pP
 							}
 						}
 
-						// ÀÇ¹Ì ¾øÀ½
+						// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½
 						pMagazine->ClearItemOption();
 					
 
 						//------------------------------------
-						// ÅºÃ¢ ¼³Á¤
+						// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 						//------------------------------------
 						MGunItem* pGunItem = (MGunItem*)pItem;
 						pGunItem->SetMagazine( pMagazine );
 					}		
 					//------------------------------------------
-					// ÃÑÀÌ ¾Æ´Ñ °æ¿ì
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 					//------------------------------------------
 					else
 					{
@@ -167,7 +166,7 @@ void GCOtherStoreInfoHandler::execute ( GCOtherStoreInfo * pPacket , Player * pP
 					pItem->SetEnchantLevel( item.getEnchantLevel() );
 
 					//------------------------------------------------------------
-					// Sub ItemÀÌ ÀÖÀ¸¸é »ý¼ºÇÑ´Ù.
+					// Sub Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 					//------------------------------------------------------------
 
 					int subNum =item.getListNum();
@@ -175,7 +174,7 @@ void GCOtherStoreInfoHandler::execute ( GCOtherStoreInfo * pPacket , Player * pP
 					if (subNum!=0)
 					{
 						//------------------------------------------------------------
-						// BeltÀÎ °æ¿ì
+						// Beltï¿½ï¿½ ï¿½ï¿½ï¿½
 						//------------------------------------------------------------
 						if (pItem->GetItemClass()==ITEM_CLASS_BELT)
 						{
@@ -184,7 +183,7 @@ void GCOtherStoreInfoHandler::execute ( GCOtherStoreInfo * pPacket , Player * pP
 							std::list<SubItemInfo*>::const_iterator iItem = listSubItem.begin();
 
 							//------------------------------------------------------------
-							// °¢°¢ÀÇ sub itemÀ» ¼³Á¤ÇÑ´Ù.
+							// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sub itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 							//------------------------------------------------------------
 							while (iItem != listSubItem.end())
 							{
@@ -193,7 +192,7 @@ void GCOtherStoreInfoHandler::execute ( GCOtherStoreInfo * pPacket , Player * pP
 								if (pItemInfo!=NULL)
 								{
 									//------------------------------------------------------------
-									// sub itemÀ» »ý¼ºÇÑ´Ù.
+									// sub itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 									//------------------------------------------------------------
 									MItem* pSubItem = MItem::NewItem( (ITEM_CLASS)pItemInfo->getItemClass() );
 
@@ -222,7 +221,7 @@ void GCOtherStoreInfoHandler::execute ( GCOtherStoreInfo * pPacket , Player * pP
 							std::list<SubItemInfo*>::const_iterator iItem = listSubItem.begin();
 
 							//------------------------------------------------------------
-							// °¢°¢ÀÇ sub itemÀ» ¼³Á¤ÇÑ´Ù.
+							// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sub itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 							//------------------------------------------------------------
 							while (iItem != listSubItem.end())
 							{
@@ -231,7 +230,7 @@ void GCOtherStoreInfoHandler::execute ( GCOtherStoreInfo * pPacket , Player * pP
 								if (pItemInfo!=NULL)
 								{
 									//------------------------------------------------------------
-									// sub itemÀ» »ý¼ºÇÑ´Ù.
+									// sub itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 									//------------------------------------------------------------
 									MItem* pSubItem = MItem::NewItem( (ITEM_CLASS)pItemInfo->getItemClass() );
 
@@ -258,11 +257,11 @@ void GCOtherStoreInfoHandler::execute ( GCOtherStoreInfo * pPacket , Player * pP
 					}
 					
 					//------------------------------------------------------------
-					// Storage¿¡ item ¼³Á¤
+					// Storageï¿½ï¿½ item ï¿½ï¿½ï¿½ï¿½
 					//------------------------------------------------------------
 					if (!g_pStorage2->SetItem( index, pItem ))
 					{
-						// ¹¹Áö..
+						// ï¿½ï¿½ï¿½ï¿½..
 						delete pItem;
 						
 						DEBUG_ADD_FORMAT("[Error] Can't Add Item to Storage. rack=%d, slot=%d", rack, index);

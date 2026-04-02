@@ -7,14 +7,13 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSkillToObjectOK3.h"
 #include "ClientDef.h"
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSkillToObjectOK3Handler::execute ( GCSkillToObjectOK3 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -22,7 +21,7 @@ void GCSkillToObjectOK3Handler::execute ( GCSkillToObjectOK3 * pPacket , Player 
 
 	
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ı¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -30,14 +29,14 @@ void GCSkillToObjectOK3Handler::execute ( GCSkillToObjectOK3 * pPacket , Player 
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pUserCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 		
 
-		// Creature¿¡°Ô Damage ÀÔÈû
+		// Creatureï¿½ï¿½ï¿½ï¿½ Damage ï¿½ï¿½ï¿½ï¿½
 		if (pUserCreature != NULL)
 		{
 			pUserCreature->SetActionStep(pPacket->getActionStep());
@@ -52,7 +51,7 @@ void GCSkillToObjectOK3Handler::execute ( GCSkillToObjectOK3 * pPacket , Player 
 			}
 
 
-			// ÇöÀç ¹«±âÀÇ Àû¿ëÀ» ¹Ş´Â ±â¼úÀÌ¸é..
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ş´ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½..
 			if ((*g_pActionInfoTable)[skillID].IsAffectCurrentWeaponAction())
 			{
 				skillID = pUserCreature->GetBasicActionInfo();
@@ -66,18 +65,18 @@ void GCSkillToObjectOK3Handler::execute ( GCSkillToObjectOK3 * pPacket , Player 
 			if( (*g_pActionInfoTable)[skillID].IsUseActionStep() && pPacket->getGrade() > 0)
 				skillID = (*g_pActionInfoTable)[skillID].GetActionStep( pPacket->getGrade() - 1);
 
-			// ÄŞº¸ ±â¼ú Ã³¸®¸¦ À§ÇØ  2005.07.13 Add
+			// ï¿½Şºï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  2005.07.13 Add
 			//if((*g_pActionInfoTable)[skillID].GetComboAttackSkill())
 			//{
 			//	pUserCreature->SetCombo(pPacket->getCombo()) ; 
 			//}
-			// ÄŞº¸ ±â¼ú Ã³¸®¸¦ À§ÇØ  2005.07.13 End
+			// ï¿½Şºï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  2005.07.13 End
 
 	
-			// ¼­·Î ¹Ù¶óº¸±â
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¶óº¸±ï¿½
 			pUserCreature->SetDirectionToPosition(pPacket->getTargetX(), pPacket->getTargetY());
 			
-			// ±× ¹æÇâÀ¸·Î ±â¼ú »ç¿ëÇÏ´Â ¸ğ½À¸¸ º¸¿©ÁÖ±â..
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½..
 			pUserCreature->PacketSpecialActionToNobody(
 								skillID, 
 								pPacket->getTargetX(),

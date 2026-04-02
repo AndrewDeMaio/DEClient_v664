@@ -7,7 +7,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCUntransformOK.h"
 #include "ClientDef.h"
 #include "SkillDef.h"
@@ -18,7 +18,6 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCUntransformOKHandler::execute ( GCUntransformOK * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -33,7 +32,7 @@ void GCUntransformOKHandler::execute ( GCUntransformOK * pPacket , Player * pPla
 	bool bShapeOfDemon = g_pPlayer->GetCreatureType () == CREATURETYPE_SHAPE_OF_DEMON;
 #endif //__SECOND_TRANSFORTER
 	//------------------------------------------------------------------
-	// Player°¡ ±â´Ù¸®´ø skillÀÇ ¼º°øÀ¯¹«¸¦ °ËÁõ¹Þ¾Ò´Ù.
+	// Playerï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Þ¾Ò´ï¿½.
 	//------------------------------------------------------------------
 	if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_SKILL_SUCCESS)
 	{		
@@ -77,22 +76,22 @@ void GCUntransformOKHandler::execute ( GCUntransformOK * pPacket , Player * pPla
 	pResult->Add( new MActionResultNodeChangeCreatureType( g_pPlayer->GetID(), creatureType ) );
 
 	//--------------------------------------------------
-	// ¹ìÆÄ·Î µ¹¾Æ°£´Ù.
+	// ï¿½ï¿½ï¿½Ä·ï¿½ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½.
 	//--------------------------------------------------								
 	ExecuteActionInfoFromMainNode(
-		RESULT_MAGIC_UN_TRANSFORM,										// »ç¿ë ±â¼ú ¹øÈ£
+		RESULT_MAGIC_UN_TRANSFORM,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 	
 		x, y, 0,
 		dir,
 		
-		OBJECTID_NULL,												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+		OBJECTID_NULL,												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		x, y, 0, 
 		
-		0,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+		0,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 		
 		pResult, //NULL,
 		
-		false);			// ±â¼ú Ã·ºÎÅÍ ½ÃÀÛÇÑ´Ù.
+		false);			// ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 
 	g_pPlayer->SetDelay( 1000 );
 
@@ -102,18 +101,18 @@ void GCUntransformOKHandler::execute ( GCUntransformOK * pPacket , Player * pPla
 	g_pPlayer->SetDirection( dir );
 	g_pPlayer->SetCurrentDirection( dir );
 #if __CONTENTS(__FAST_TRANSFORTER || __SECOND_TRANSFORTER)
-	//µ¥¸ó, ÇÃ¸®ÅÍ¸¶¿ì½º ÀÌ´ø°£¿¡ ÀÏ´Ü ÀÎ°£ÇüÀ¸·Î ¿ÔÀ»¶§ÀÓ µû¶ó¼­ ÀÎ°£ÇüÀ¸·Î ¼¼ÆÃÇÑ´Ù.
+	//ï¿½ï¿½ï¿½ï¿½, ï¿½Ã¸ï¿½ï¿½Í¸ï¿½ï¿½ì½º ï¿½Ì´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½Î°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	g_pPlayer->SetWingType(0);
 #endif //__FAST_TRANSFORTER
 
-	// ½ÂÁ÷ ¹ìÆÄÀÌ¾î°¡ º¯½ÅÀ» Ç®¾úÀ» ¶§ °í½ºÆ® ÀÌÆÑÆ®°¡ ÀÖÀ¸¸é Áö¿î´Ù
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 	if(g_pPlayer->IsVampire() && g_pPlayer->IsAdvancementClass())
 	{
 		for(int i = 0; i < 6; ++i)
 			g_pPlayer->RemoveAttachEffect(EFFECTSPRITETYPE_AC_VAMPIRE_GHOST_MOVE_BLACK + i);
 	}
 #if __CONTENTS(__FAST_TRANSFORTER)
-	// ½Å±ÔÀÌµ¿¼ö´Ü ÀÌÆåÆ®°¡ ÀÖÀ¸¸é Áö¿î´Ù.
+	// ï¿½Å±ï¿½ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 	if (bFlitterMouse)
 	{
 		for (int j = 0; j < 12; j += 2)

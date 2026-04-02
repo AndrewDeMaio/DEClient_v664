@@ -2,12 +2,12 @@
 // 
 // Filename    : GCSkillFailed2.cc 
 // Written By  : elca@ewestsoft.com
-// Description : SkillÀÌ ½ÇÆÐ ÇßÀ»¶§ ³¯·ÁÁÖ´Â ÆÐÅ¶ÀÇ ¸â¹ö Á¤ÀÇ
+// Description : Skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 // 
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSkillFailed2.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"
@@ -16,7 +16,6 @@
 // constructor
 //////////////////////////////////////////////////////////////////////
 GCSkillFailed2::GCSkillFailed2 () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -27,7 +26,6 @@ GCSkillFailed2::GCSkillFailed2 ()
 // destructor
 //////////////////////////////////////////////////////////////////////
 GCSkillFailed2::~GCSkillFailed2 () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -35,10 +33,9 @@ GCSkillFailed2::~GCSkillFailed2 ()
 
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCSkillFailed2::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	iStream.read( m_ObjectID );
@@ -50,10 +47,9 @@ void GCSkillFailed2::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCSkillFailed2::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	oStream.write( m_ObjectID );
@@ -68,7 +64,6 @@ void GCSkillFailed2::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void GCSkillFailed2::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -85,7 +80,6 @@ void GCSkillFailed2::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 	std::string GCSkillFailed2::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 

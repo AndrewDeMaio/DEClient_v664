@@ -9,14 +9,14 @@
 		int numberOfShopTemplate
 		{
 			int eachShopTemplateID
-		} // ¹Ýº¹
+		} // ï¿½Ýºï¿½
 		
-		int DescriptionLength; // ¼³¸íÀÇ ±æÀÌ
-		string Description; // ¼³¸í ³»¿ë
+		int DescriptionLength; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		string Description; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
-	} // ¹Ýº¹
+	} // ï¿½Ýºï¿½
 
-	Âü°í·Î »óÁ¡ÀÌ ¾ø´Â ³ðµéÀº numberOfShopTemplate°¡ 0ÀÌ´Ù.
+	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ numberOfShopTemplateï¿½ï¿½ 0ï¿½Ì´ï¿½.
 */
 //----------------------------------------------------------------------
 
@@ -27,8 +27,6 @@
 
 #include "CtypeMap.h"
 #include <list>
-std::ofstream;
-std::ifstream;
 #include "MString.h"
 
 //----------------------------------------------------------------------
@@ -58,7 +56,7 @@ class NPC_INFO {
 };
 
 //----------------------------------------------------------------------
-// MNPCTable (NPCID, NPC_INFO*)ÀÇ map
+// MNPCTable (NPCID, NPC_INFO*)ï¿½ï¿½ map
 //----------------------------------------------------------------------
 class MNPCTable : public CTypeMap<NPC_INFO> {
 	public :
@@ -93,7 +91,7 @@ class	SERVERNPC_INFO {
 
 class MServerNPCTable : public CTypeMap<SERVERNPC_INFO> {
 private :
-	// key : Creature ID, value : NPC Face ID (NpcFace.spk ÂüÁ¶)
+	// key : Creature ID, value : NPC Face ID (NpcFace.spk ï¿½ï¿½ï¿½ï¿½)
 	std::map<int,int>			NPCSPRITEID;
 	
 public :

@@ -18,9 +18,9 @@
 //
 // class CRWhisper;
 //
-// °ÔÀÓ ¼­¹ö°¡ Æ¯Á¤ ÇÃ·¹ÀÌ¾îÀÇ Whisper ¸¦ ´Ù¸¥ ÇÃ·¹ÀÌ¾îµé¿¡°Ô ºê·ÎµåÄ³½ºÆ®
-// ÇÒ ¶§ Àü¼ÛÇÏ´Â ÆÐÅ¶ÀÌ´Ù. ³»ºÎ¿¡ Ä³¸¯ÅÍ¸í°ú Whisper ½ºÆ®¸µÀ» µ¥ÀÌÅ¸
-// ÇÊµå·Î °¡Áö°í ÀÖ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ Whisper ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½é¿¡ï¿½ï¿½ ï¿½ï¿½Îµï¿½Ä³ï¿½ï¿½Æ®
+// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½. ï¿½ï¿½ï¿½Î¿ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ Whisper ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸
+// ï¿½Êµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -31,50 +31,50 @@ public :
 	CRWhisper();
 	~CRWhisper();
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CR_WHISPER; }
+	PacketID_t getPacketID () const { return PACKET_CR_WHISPER; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw ();	 
+	size_t getPacketSize () const;	 
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CRWhisper"; }
+		std::string getPacketName () const { return "CRWhisper"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
-	// º¸³½ »ç¶÷
-	const std::string& getName() const throw () { return m_Name ; }
-	void setName ( const std::string & Name ) throw () { m_Name = Name ; }
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+	const std::string& getName() const { return m_Name ; }
+	void setName ( const std::string & Name ) { m_Name = Name ; }
 
-	// ¹Þ´Â »ç¶÷
-	const std::string& getTargetName() const throw () { return m_TargetName ; }
-	void setTargetName ( const std::string & Name ) throw () { m_TargetName = Name ; }
+	// ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½
+	const std::string& getTargetName() const { return m_TargetName ; }
+	void setTargetName ( const std::string & Name ) { m_TargetName = Name ; }
 
 	// get / set ListNumber
-	BYTE getMessageSize() const throw() { return m_Messages.size(); }
+	BYTE getMessageSize() const { return m_Messages.size(); }
 	
 	// get/set chatting message
-	WHISPER_MESSAGE*	popMessage () throw ()	{ WHISPER_MESSAGE* pStr = m_Messages.front(); m_Messages.pop_front(); return pStr; }	
+	WHISPER_MESSAGE*	popMessage ()	{ WHISPER_MESSAGE* pStr = m_Messages.front(); m_Messages.pop_front(); return pStr; }	
 	void addMessage ( const WHISPER_MESSAGE & msg )	{ WHISPER_MESSAGE* pStr = new WHISPER_MESSAGE; *pStr = msg; m_Messages.push_back( pStr ); }
 
 	// race
-	bool isVampire () const throw () { return m_eRace == RACE_VAMPIRE; }
-	bool isSlayer () const throw () { return m_eRace == RACE_VAMPIRE; }
-	bool isOusters () const throw () { return m_eRace == RACE_OUSTERS; }
-	Race_t getRace() const throw () { return m_eRace; }
-	void setRace (Race eRace) throw () { m_eRace = eRace; }
+	bool isVampire () const { return m_eRace == RACE_VAMPIRE; }
+	bool isSlayer () const { return m_eRace == RACE_VAMPIRE; }
+	bool isOusters () const { return m_eRace == RACE_OUSTERS; }
+	Race_t getRace() const { return m_eRace; }
+	void setRace (Race eRace) { m_eRace = eRace; }
 
 	// World
 	void setWorldID(const WorldID_t id)	{ m_WorldID = id; }
@@ -113,20 +113,20 @@ class CRWhisperFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CRWhisper(); }
+	Packet * createPacket () { return new CRWhisper(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CRWhisper"; }
+		std::string getPacketName () const { return "CRWhisper"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CR_WHISPER; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CR_WHISPER; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static CRWhisperPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return szBYTE + 10 + szBYTE + 10 + szBYTE + 32768 + szBYTE + szBYTE; }
+	// const static CRWhisperPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return szBYTE + 10 + szBYTE + 10 + szBYTE + 32768 + szBYTE + szBYTE; }
 
 };
 
@@ -142,7 +142,7 @@ class CRWhisperHandler {
 public :
 	
 	// execute packet's handler
-	static void execute ( CRWhisper * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( CRWhisper * pPacket , Player * pPlayer );
 
 };
 

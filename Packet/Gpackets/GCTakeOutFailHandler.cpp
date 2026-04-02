@@ -7,15 +7,15 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
-#include "GCTakeOutFail.h"
 #include "UIDialog.h"
 #include "MGameStringTable.h"
+
+#include "GPacket_PCH.h"
+#include "GCTakeOutFail.h"
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCTakeOutFailHandler::execute ( GCTakeOutFail * pGCTakeOutFail , Player * pPlayer )
-	 throw ( ProtocolException, Error )
 {
 	__BEGIN_TRY 
 

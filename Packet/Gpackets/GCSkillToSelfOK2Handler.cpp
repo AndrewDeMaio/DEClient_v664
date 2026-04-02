@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSkillToSelfOK2.h"
 #include "ClientDef.h"
 #include "PacketFunction2.h"
@@ -15,13 +15,12 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSkillToSelfOK2Handler::execute ( GCSkillToSelfOK2 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -29,7 +28,7 @@ void GCSkillToSelfOK2Handler::execute ( GCSkillToSelfOK2 * pPacket , Player * pP
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -38,16 +37,16 @@ void GCSkillToSelfOK2Handler::execute ( GCSkillToSelfOK2 * pPacket , Player * pP
 
 		//------------------------------------------------------
 		//
-		// Creature°¡ ±â¼ú »ç¿ë 
+		// Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 		//
 		//------------------------------------------------------
 		if (pCreature != NULL)
 		{	
 			// [ TEST CODE ]
 			//
-			// °á°ú¸¦ »ý¼º&ÀúÀåÇØ¼­ º¸³»¾ß ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½&ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 			//
-			// ´©°¡(Player)°¡ ½º½º·Î¿¡°Ô SKillÀ» »ç¿ëÇÑ °æ¿ì..
+			// ï¿½ï¿½ï¿½ï¿½(Player)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ SKillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 			// [ TEST CODE ]
 
 			int skillID = pPacket->getSkillType();
@@ -76,7 +75,7 @@ void GCSkillToSelfOK2Handler::execute ( GCSkillToSelfOK2 * pPacket , Player * pP
 									delayFrame ) );
 
 			//------------------------------------------------------
-			// EffectStatus°¡ ÀÖ´Ù¸é ºÙÀÎ´Ù.
+			// EffectStatusï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 			//------------------------------------------------------
 			EFFECTSTATUS es = (*g_pActionInfoTable)[skillID].GetEffectStatus();
 			
@@ -89,13 +88,13 @@ void GCSkillToSelfOK2Handler::execute ( GCSkillToSelfOK2 * pPacket , Player * pP
 
 			//------------------------------------------------------
 			//
-			// skill¿¡ °á°ú°¡ ÀÖÀ¸¸é °°ÀÌ Àû¿ë ½ÃÅ²´Ù.
+			// skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 			//
 			//------------------------------------------------------
 			MActionResultNode* pActionResultNode = CreateActionResultNode(pCreature, skillID);
 
 			//------------------------------------------------------
-			// NULLÀÌ ¾Æ´Ï¸é °°ÀÌ Àû¿ë
+			// NULLï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------
 			if (pActionResultNode!=NULL)
 			{
@@ -105,7 +104,7 @@ void GCSkillToSelfOK2Handler::execute ( GCSkillToSelfOK2 * pPacket , Player * pP
 			//Duration_t	m_Duration;
 			pCreature->PacketSpecialActionToSelf( 
 									pPacket->getSkillType(),
-									pResult	// °á°ú
+									pResult	// ï¿½ï¿½ï¿½
 				);
 		}
 	

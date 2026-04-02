@@ -11,7 +11,6 @@
 
 
 CGAttack::CGAttack () 
-     throw ()
 	 : m_ActionStep(0)
 {
 	__BEGIN_TRY
@@ -20,14 +19,12 @@ CGAttack::CGAttack ()
 }
 
 CGAttack::~CGAttack () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGAttack::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -58,7 +55,6 @@ void CGAttack::read (SocketInputStream & iStream)
 }
 
 void CGAttack::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -89,7 +85,6 @@ void CGAttack::write (SocketOutputStream & oStream) const
 }
 
 void CGAttack::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -102,7 +97,6 @@ void CGAttack::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGAttack::toString () const
-    throw ()
 {
 	__BEGIN_TRY
 		

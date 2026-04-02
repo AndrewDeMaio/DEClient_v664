@@ -2,8 +2,8 @@
 // 
 // Filename    : GCAddGearToInventory.h 
 // Written By  : crazydog
-// Description : Skill ShieldStrike¿¡ ÀÇÇØ ¹ß»ý. 
-// 				shield¸¦ ÀåÂøÃ¢¿¡¼­ inventory·Î º¸³½´Ù.
+// Description : Skill ShieldStrikeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½. 
+// 				shieldï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ï¿½ï¿½ inventoryï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -25,50 +25,50 @@ class GCAddGearToInventory : public Packet {
 public :
 
 	// constructor
-	GCAddGearToInventory() throw();
+	GCAddGearToInventory();
 
 	// destructor
-	~GCAddGearToInventory() throw();
+	~GCAddGearToInventory();
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_ADD_GEAR_TO_INVENTORY; }
+	PacketID_t getPacketID () const { return PACKET_GC_ADD_GEAR_TO_INVENTORY; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static GCAddGearToInventoryPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () { return szSlotID + szCoordInven + szCoordInven; }
+	// const static GCAddGearToInventoryPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const { return szSlotID + szCoordInven + szCoordInven; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCAddGearToInventory"; }
+		std::string getPacketName () const { return "GCAddGearToInventory"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
 public :
 
 	// get / set ObjectID
-	SlotID_t getSlotID() throw () { return m_SlotID; }
-	void setSlotID( SlotID_t SlotID ) throw() { m_SlotID = SlotID; }
+	SlotID_t getSlotID() { return m_SlotID; }
+	void setSlotID( SlotID_t SlotID ) { m_SlotID = SlotID; }
 
 	// get / set Ivnentory X, Y Coordicate
-	CoordInven_t getInvenX() const throw () { return m_InvenX; }
-	void setInvenX( CoordInven_t InvenX ) throw () { m_InvenX = InvenX; }
+	CoordInven_t getInvenX() const { return m_InvenX; }
+	void setInvenX( CoordInven_t InvenX ) { m_InvenX = InvenX; }
 
 	// get / set Inventory Y
-	CoordInven_t getInvenY() const throw () { return m_InvenY; }
+	CoordInven_t getInvenY() const { return m_InvenY; }
 	void setInvenY( CoordInven_t InvenY ) { m_InvenY = InvenY; }
 
 private :
@@ -76,7 +76,7 @@ private :
 	// wear part ID
 	SlotID_t m_SlotID;
 
-	// InventoryÀÇ X, Y ÁÂÇ¥.
+	// Inventoryï¿½ï¿½ X, Y ï¿½ï¿½Ç¥.
 	CoordInven_t m_InvenX;
 	CoordInven_t m_InvenY;
 
@@ -96,20 +96,20 @@ class GCAddGearToInventoryFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCAddGearToInventory(); }
+	Packet * createPacket () { return new GCAddGearToInventory(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCAddGearToInventory"; }
+		std::string getPacketName () const { return "GCAddGearToInventory"; }
 	#endif	
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_ADD_GEAR_TO_INVENTORY; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_ADD_GEAR_TO_INVENTORY; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCAddGearToInventoryPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return szSlotID + szCoordInven + szCoordInven; }
+	// const static GCAddGearToInventoryPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return szSlotID + szCoordInven + szCoordInven; }
 
 };
 
@@ -124,7 +124,7 @@ class GCAddGearToInventoryHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCAddGearToInventory * pPacket , Player * player ) throw ( ProtocolException , Error );
+	static void execute ( GCAddGearToInventory * pPacket , Player * player );
 };
 
 

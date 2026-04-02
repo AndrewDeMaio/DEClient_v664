@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCFakeMove.h"
 #include "Player.h"
 #include "ClientDef.h"
@@ -15,7 +15,6 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCFakeMoveHandler::execute ( GCFakeMove * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -34,7 +33,7 @@ void GCFakeMoveHandler::execute ( GCFakeMove * pPacket , Player * pPlayer )
 //	pFakeCreature->SetFakePosition( pCreature->GetX(), pCreature->GetY() );
 	
 	//------------------------------------------------------
-	// Fake Creature¸¦ Zone¿¡ Ãß°¡
+	// Fake Creatureï¿½ï¿½ Zoneï¿½ï¿½ ï¿½ß°ï¿½
 	//------------------------------------------------------
 	if (!g_pZone->AddFakeCreature( pFakeCreature ))
 	{

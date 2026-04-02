@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddNewItemToZone.h"
 #include "Assert.h"
 
@@ -15,7 +15,6 @@
 // Constructor
 //--------------------------------------------------------------------
 GCAddNewItemToZone::GCAddNewItemToZone() 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -26,7 +25,6 @@ GCAddNewItemToZone::GCAddNewItemToZone()
 // Destructor
 //--------------------------------------------------------------------
 GCAddNewItemToZone::~GCAddNewItemToZone() 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -36,7 +34,6 @@ GCAddNewItemToZone::~GCAddNewItemToZone()
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void GCAddNewItemToZone::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -53,7 +50,6 @@ void GCAddNewItemToZone::execute ( Player * pPlayer )
 //
 //////////////////////////////////////////////////////////////////////
 std::string GCAddNewItemToZone::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 

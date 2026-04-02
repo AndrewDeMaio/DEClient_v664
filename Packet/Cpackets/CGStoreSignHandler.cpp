@@ -18,7 +18,6 @@
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 void CGStoreSignHandler::execute (CGStoreSign* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 	__BEGIN_TRY 
 	//__BEGIN_DEBUG_EX
@@ -39,7 +38,7 @@ void CGStoreSignHandler::execute (CGStoreSign* pPacket , Player* pPlayer)
 
 	if ( pPacket->getSign().size() > MAX_SIGN_SIZE )
 	{
-		filelog("Store.log", "[%s:%s] (%s) °£ÆÇ ±æÀÌ°¡ ³Ê¹« ±é´Ï´Ù.",
+		filelog("Store.log", "[%s:%s] (%s) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ê¹ï¿½ ï¿½ï¿½Ï´ï¿½.",
 				pGamePlayer->getID().c_str(), pPC->getName().c_str(), pPacket->getSign().c_str());
 		return;
 	}

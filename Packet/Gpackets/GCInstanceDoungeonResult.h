@@ -22,7 +22,7 @@ typedef std::list<GuildInfo*>::const_iterator GuildInfoListConstItor;
 //
 // class GCInstanceDoungeonResult;
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡ µî·Ï ´ë±âÁßÀÎ ±æµå ¸®½ºÆ®¸¦ º¸³½´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 #if __CONTENTS(__TIPOJYU_CASTLE)
@@ -31,36 +31,36 @@ class GCInstanceDoungeonResult : public Packet {
 public :
 
 	// constructor
-	GCInstanceDoungeonResult() throw();
+	GCInstanceDoungeonResult();
 
 	// destructor
-	~GCInstanceDoungeonResult() throw();
+	~GCInstanceDoungeonResult();
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_INSTANCEDOUNGEON_RESULT; }
+	PacketID_t getPacketID() const { return PACKET_GC_INSTANCEDOUNGEON_RESULT; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw();
+	size_t getPacketSize() const;
 
 	// get packet name
-	string getPacketName() const throw() { return "GCInstanceDoungeonResult"; }
+	string getPacketName() const { return "GCInstanceDoungeonResult"; }
 	
 	// get packet's debug string
-	string toString() const throw();
+	string toString() const;
 	
-	DWORD	getExp()		const throw(){ return m_ExpBonus; }
-	DWORD	getRankExp()	const throw(){ return m_RankExpBonus; }
-	WORD	getRemainTime()	const throw(){ return m_RemainTime; }
-	string	getTitleName()	const throw(){ return m_strDoungeonTitle; }
+	DWORD	getExp()		const{ return m_ExpBonus; }
+	DWORD	getRankExp()	const{ return m_RankExpBonus; }
+	WORD	getRemainTime()	const{ return m_RemainTime; }
+	string	getTitleName()	const{ return m_strDoungeonTitle; }
 
 public:
 
@@ -88,18 +88,18 @@ class GCInstanceDoungeonResultFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet* createPacket() throw() { return new GCInstanceDoungeonResult(); }
+	Packet* createPacket() { return new GCInstanceDoungeonResult(); }
 
 	// get packet name
-	string getPacketName() const throw() { return "GCInstanceDoungeonResult"; }
+	string getPacketName() const { return "GCInstanceDoungeonResult"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_INSTANCEDOUNGEON_RESULT; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_INSTANCEDOUNGEON_RESULT; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCSystemMessagePacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + 200 + szExp + szRankExp + szDuration; }
+	// const static GCSystemMessagePacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const { return szBYTE + 200 + szExp + szRankExp + szDuration; }
 
 };
 
@@ -115,7 +115,7 @@ class GCInstanceDoungeonResultHandler {
 public :
 	
 	// execute packet's handler
-	static void execute(GCInstanceDoungeonResult* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCInstanceDoungeonResult* pPacket, Player* pPlayer);
 
 };
 #endif // __TIPOJYU_CASTLE

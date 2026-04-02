@@ -2,7 +2,7 @@
 
 // Filename    : CGGetEventItem.cpp 
 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 
 // Description : 
 
@@ -16,7 +16,6 @@
 
 void CGGetEventItem::read (SocketInputStream & iStream) 
 
-	 throw (ProtocolException , Error)
 
 {
 
@@ -36,7 +35,6 @@ void CGGetEventItem::read (SocketInputStream & iStream)
 
 void CGGetEventItem::write (SocketOutputStream & oStream) const 
 
-     throw (ProtocolException , Error)
 
 {
 
@@ -56,7 +54,6 @@ void CGGetEventItem::write (SocketOutputStream & oStream) const
 
 void CGGetEventItem::execute (Player* pPlayer) 
 
-	 throw (ProtocolException , Error)
 
 {
 
@@ -76,7 +73,7 @@ void CGGetEventItem::execute (Player* pPlayer)
 
 string CGGetEventItem::toString () 
 
-	const throw ()
+	const
 
 {
 

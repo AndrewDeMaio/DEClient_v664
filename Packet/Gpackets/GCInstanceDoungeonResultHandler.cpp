@@ -6,18 +6,17 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
-#include "GCInstanceDoungeonResult.h"
+//#include "VS_UI_INDOUN_NPC_DIALOG.h"
+//#include "VS_UI.h"
 
-#include "VS_UI_INDOUN_NPC_DIALOG.h"
-#include "VS_UI.h"
+#include "GPacket_PCH.h"
+#include "GCInstanceDoungeonResult.h"
 
 //////////////////////////////////////////////////////////////////////
 //
 //////////////////////////////////////////////////////////////////////
 #if __CONTENTS(__TIPOJYU_CASTLE)
 void GCInstanceDoungeonResultHandler::execute ( GCInstanceDoungeonResult * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -79,9 +78,9 @@ void GCInstanceDoungeonResultHandler::execute ( GCInstanceDoungeonResult * pPack
 		gC_vs_ui.RunIndounNpcDlg(Indoun_Dlg_Info, COMPENSATION_DLG);
 
 		//---------------------------------------------------
-		// g_PCTalkBox¿¡ Ãß°¡ÇÏ¸é µÈ´Ù.
+		// g_PCTalkBoxï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï¸ï¿½ ï¿½È´ï¿½.
 		//---------------------------------------------------
-		// ±âÁ¸¿¡ ÀÖ´ø°Í Á¦°Å
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //	}
 
 	__END_CATCH

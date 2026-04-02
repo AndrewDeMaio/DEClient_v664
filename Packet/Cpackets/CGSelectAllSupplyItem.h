@@ -19,13 +19,13 @@
 class CGSelectAllSupplyItem : public Packet 
 {
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_SELECT_ALL_SUPPLYITEM; }
-	PacketSize_t getPacketSize() const throw() { return 0; }
-	string getPacketName() const throw() { return "CGSelectAllSupplyItem"; }
-	string toString() const throw();
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_SELECT_ALL_SUPPLYITEM; }
+	size_t getPacketSize() const { return 0; }
+	string getPacketName() const { return "CGSelectAllSupplyItem"; }
+	string toString() const;
 
 public:
 
@@ -39,10 +39,10 @@ private:
 
 class CGSelectAllSupplyItemFactory : public PacketFactory 
 {
-	Packet* createPacket() throw() { return new CGSelectAllSupplyItem(); }
-	string getPacketName() const throw() { return "CGSelectAllSupplyItem"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_SELECT_ALL_SUPPLYITEM; }
-	PacketSize_t getPacketMaxSize() const throw() { return 0; }
+	Packet* createPacket() { return new CGSelectAllSupplyItem(); }
+	string getPacketName() const { return "CGSelectAllSupplyItem"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_SELECT_ALL_SUPPLYITEM; }
+	PacketSize_t getPacketMaxSize() const { return 0; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ class CGSelectAllSupplyItemFactory : public PacketFactory
 class CGSelectAllSupplyItemHandler 
 {
 public:
-	static void execute(CGSelectAllSupplyItem* pCGSelectAllSupplyItem, Player* pPlayer) throw(Error);
+	static void execute(CGSelectAllSupplyItem* pCGSelectAllSupplyItem, Player* pPlayer);
 };
 
 #endif

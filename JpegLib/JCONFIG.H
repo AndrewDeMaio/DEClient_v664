@@ -1,44 +1,47 @@
-/* jconfig.bcc --- jconfig.h for Borland C (Turbo C) on MS-DOS. */
-/* see jconfig.doc for explanations */
+/* Version ID for the JPEG library.
+ * Might be useful for tests like "#if JPEG_LIB_VERSION >= 60".
+ */
+#define JPEG_LIB_VERSION  62
 
-#define HAVE_PROTOTYPES
-#define HAVE_UNSIGNED_CHAR
-#define HAVE_UNSIGNED_SHORT
-/* #define void char */
-/* #define const */
-#undef CHAR_IS_UNSIGNED
-#define HAVE_STDDEF_H
-#define HAVE_STDLIB_H
-#undef NEED_BSD_STRINGS
-#undef NEED_SYS_TYPES_H
-/*#define NEED_FAR_POINTERS       /* for small or medium memory model */
-#undef NEED_SHORT_EXTERNAL_NAMES
-#define INCOMPLETE_TYPES_BROKEN	/* suppress undefined-structure warnings */
+/* libjpeg-turbo version */
+#define LIBJPEG_TURBO_VERSION  "3.1.0"
 
-#ifdef JPEG_INTERNALS
+/* libjpeg-turbo version in integer form */
+#define LIBJPEG_TURBO_VERSION_NUMBER  3001000
+
+/* Support in-memory source/destination managers */
+#define MEM_SRCDST_SUPPORTED  1
+
+/* Arithmetic coding is not supported in this build */
+/* #undef C_ARITH_CODING_SUPPORTED */
+/* #undef D_ARITH_CODING_SUPPORTED */
+
+/* SIMD is not enabled in this build */
+/* #undef WITH_SIMD */
+
+/* This version of libjpeg-turbo supports run-time selection of data
+ * precision, but BITS_IN_JSAMPLE is still defined for compatibility.
+ * The unmodified libjpeg API behaves as 8-bit precision.
+ */
+#ifndef BITS_IN_JSAMPLE
+#define BITS_IN_JSAMPLE  8
+#endif
+
+#ifdef _WIN32
 
 #undef RIGHT_SHIFT_IS_UNSIGNED
 
-/*#define USE_MSDOS_MEMMGR        /* Define this if you use jmemdos.c */
+/* Define "boolean" as unsigned char, not int, per Windows custom */
+#ifndef __RPCNDR_H__            /* don't conflict if rpcndr.h already read */
+typedef unsigned char boolean;
+#endif
+#define HAVE_BOOLEAN            /* prevent jmorecfg.h from redefining it */
 
-/*#define MAX_ALLOC_CHUNK 65520L  /* Maximum request to malloc() */
+/* Define "INT32" as int, not long, per Windows custom */
+#if !(defined(_BASETSD_H_) || defined(_BASETSD_H))   /* don't conflict if basetsd.h already read */
+typedef short INT16;
+typedef signed int INT32;
+#endif
+#define XMD_H                   /* prevent jmorecfg.h from redefining it */
 
-/*#define USE_FMEM                /* Borland has _fmemcpy() and _fmemset() */
-
-#endif /* JPEG_INTERNALS */
-
-#ifdef JPEG_CJPEG_DJPEG
-
-#define BMP_SUPPORTED		/* BMP image file format */
-#define GIF_SUPPORTED		/* GIF image file format */
-#define PPM_SUPPORTED		/* PBMPLUS PPM/PGM image file format */
-#undef RLE_SUPPORTED		/* Utah RLE image file format */
-#define TARGA_SUPPORTED		/* Targa image file format */
-
-/*#define TWO_FILE_COMMANDLINE*/
-#define USE_SETMODE		/* Borland has setmode() */
-#define NEED_SIGNAL_CATCHER	/* Define this if you use jmemdos.c */
-#undef DONT_USE_B_MODE
-#undef PROGRESS_REPORT		/* optional */
-
-#endif /* JPEG_CJPEG_DJPEG */
+#endif /* _WIN32 */

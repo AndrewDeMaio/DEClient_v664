@@ -25,40 +25,40 @@ class RequestClientPacketFactoryManager {
 public :
 	
 	// constructor
-	RequestClientPacketFactoryManager () throw ();
+	RequestClientPacketFactoryManager ();
 	
 	// destructor
-	~RequestClientPacketFactoryManager () throw ();
+	~RequestClientPacketFactoryManager ();
 
-	// ÆÐÅ¶ÆÑÅä¸®¸Å´ÏÀú¸¦ ÃÊ±âÈ­ÇÑ´Ù.
-	// °ÔÀÓ¼­¹ö°´Ã¼ÀÇ init()¿¡¼­ È£ÃâµÈ´Ù.
-	void init () throw ( Error );
+	// ï¿½ï¿½Å¶ï¿½ï¿½ï¿½ä¸®ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+	// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ init()ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½È´ï¿½.
+	void init ();
 	
-	// ÆÑÅä¸® °´Ã¼¸¦ Æ¯Á¤ ÀÎµ¦½º¿¡ Ãß°¡ÇÑ´Ù.
-	void addFactory ( PacketFactory * pFactory ) throw ( Error );
+	// ï¿½ï¿½ï¿½ä¸® ï¿½ï¿½Ã¼ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
+	void addFactory ( PacketFactory * pFactory );
 	
-	// ÆÐÅ¶¾ÆÀÌµð·Î ÆÐÅ¶°´Ã¼¸¦ »ý¼ºÇÑ´Ù.
-	Packet * createPacket ( PacketID_t packetID ) throw ( InvalidProtocolException , Error );
+	// ï¿½ï¿½Å¶ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	Packet * createPacket ( PacketID_t packetID );
 
 	#ifdef	__DEBUG_OUTPUT__
-		// Æ¯Á¤ ÆÐÅ¶ÀÇ ÃÖ´ë Å©±â¸¦ ¸®ÅÏÇÑ´Ù.
-		std::string getPacketName ( PacketID_t packetID ) throw ( InvalidProtocolException , Error );
+		// Æ¯ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ö´ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+		std::string getPacketName ( PacketID_t packetID );
 
 		// get debug string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
-	// Æ¯Á¤ ÆÐÅ¶ÀÇ ÃÖ´ë Å©±â¸¦ ¸®ÅÏÇÑ´Ù.
-	PacketSize_t getPacketMaxSize ( PacketID_t packetID ) throw ( InvalidProtocolException , Error );
+	// Æ¯ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ö´ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	PacketSize_t getPacketMaxSize ( PacketID_t packetID );
 
 	
 
 private :
 	
-	// ÆÐÅ¶ÆÑÅä¸®ÀÇ ¹è¿­
+	// ï¿½ï¿½Å¶ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½è¿­
 	PacketFactory ** m_Factories;
 	
-	// ÆÐÅ¶ÆÑÅä¸®¹è¿­ÀÇ Å©±â
+	// ï¿½ï¿½Å¶ï¿½ï¿½ï¿½ä¸®ï¿½è¿­ï¿½ï¿½ Å©ï¿½ï¿½
 	ushort m_Size;
 
 };

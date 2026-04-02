@@ -8,18 +8,17 @@
 #include "CGFriendUpdateIndividualOption.h"
 
 #if __CONTENTS(__FRIEND_ADDITION)
-CGFriendUpdateIndividualOption::CGFriendUpdateIndividualOption() throw()
+CGFriendUpdateIndividualOption::CGFriendUpdateIndividualOption()
 {
 	m_FriendName.SetMaxLength(20);
 }
 
-CGFriendUpdateIndividualOption::~CGFriendUpdateIndividualOption() throw()
+CGFriendUpdateIndividualOption::~CGFriendUpdateIndividualOption()
 {
 	
 }
 
 void CGFriendUpdateIndividualOption::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -30,7 +29,6 @@ void CGFriendUpdateIndividualOption::read ( SocketInputStream & iStream )
 }
 		    
 void CGFriendUpdateIndividualOption::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -41,7 +39,6 @@ void CGFriendUpdateIndividualOption::write ( SocketOutputStream & oStream ) cons
 }
 
 void CGFriendUpdateIndividualOption::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -60,13 +57,12 @@ FriendIndividualOptionInfo& CGFriendUpdateIndividualOption::GetFriendIndividualO
 	return m_FriendIndividualOptionInfo;
 }
 
-PacketSize_t CGFriendUpdateIndividualOption::getPacketSize() const throw()
+PacketSize_t CGFriendUpdateIndividualOption::getPacketSize() const
 {
 	return m_FriendName.getSize() + m_FriendIndividualOptionInfo.getSize();	
 }
 
 string CGFriendUpdateIndividualOption::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

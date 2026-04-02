@@ -5,7 +5,7 @@
 // Description :
 //
 //--------------------------------------------------------------------------------
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 // include files
 #include "GCAddItemToItemVerify.h"
 #include "ClientDef.h"
@@ -25,7 +25,6 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCAddItemToItemVerifyHandler::execute ( GCAddItemToItemVerify * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY 
 	__BEGIN_DEBUG
@@ -68,13 +67,13 @@ void GCAddItemToItemVerifyHandler::execute ( GCAddItemToItemVerify * pPacket , P
 
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL_CRASH:
 			//----------------------------------------------------
-			// ±â¼ú »ç¿ë ½Ãµµ µ¿ÀÛ
+			// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½
 			//----------------------------------------------------
 			AddNewInventoryEffect( pInventoryItem->GetID(),
 				MAGIC_ENCHANT_REMOVE_ITEM,
 				0
 				);
-			// »ç¿îµå??
+			// ï¿½ï¿½ï¿½ï¿½??
 			PlaySound(SOUND_XMAS_STAR);
 			UI_DropItem();
 			break;
@@ -84,14 +83,14 @@ void GCAddItemToItemVerifyHandler::execute ( GCAddItemToItemVerify * pPacket , P
 				DWORD OptionType = pPacket->getParameter();
 				
 				//----------------------------------------------------
-				// ±â¼ú »ç¿ë ½Ãµµ µ¿ÀÛ
+				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½
 				//----------------------------------------------------
 				AddNewInventoryEffect( pInventoryItem->GetID(),
 					MAGIC_ENCHANT_OPTION_NULL,
 					0, OptionType
 					);
 				
-				// »ç¿îµå??
+				// ï¿½ï¿½ï¿½ï¿½??
 				PlaySound(SOUND_XMAS_STAR);
 				UI_DropItem();
 			}
@@ -101,7 +100,7 @@ void GCAddItemToItemVerifyHandler::execute ( GCAddItemToItemVerify * pPacket , P
 			{
 				DWORD OptionType = pPacket->getParameter();
 				//----------------------------------------------------
-				// ±â¼ú »ç¿ë ½Ãµµ µ¿ÀÛ
+				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½
 				//----------------------------------------------------
 
 				AddNewInventoryEffect( pInventoryItem->GetID(),
@@ -115,7 +114,7 @@ void GCAddItemToItemVerifyHandler::execute ( GCAddItemToItemVerify * pPacket , P
 			}
 			break;
 #if __CONTENTS(__2008_FIRST_CHARGE_ITEM)
-		case ADD_ITEM_TO_ITEM_VERIFY_CHANGE_ENCHANT_OK:				//Å©¸®½ºÅ» ¾ÆÀÌÅÛ
+		case ADD_ITEM_TO_ITEM_VERIFY_CHANGE_ENCHANT_OK:				//Å©ï¿½ï¿½ï¿½ï¿½Å» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			{
 				DWORD OptionType = pPacket->getParameter();
 
@@ -150,7 +149,7 @@ void GCAddItemToItemVerifyHandler::execute ( GCAddItemToItemVerify * pPacket , P
 			UI_UnlockItem();
 			g_pPlayer->ClearItemCheckBuffer();
 			break;
-		case ADD_ITEM_TO_ITEM_VERIFY_TRANS_OK :				// ¼ºÀüÈ¯ ¼º°ø
+		case ADD_ITEM_TO_ITEM_VERIFY_TRANS_OK :				// ï¿½ï¿½ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½
 			{
 				AddNewInventoryEffect( pInventoryItem->GetID() ,
 					MAGIC_TRANS_ITEM_OK,
@@ -158,7 +157,7 @@ void GCAddItemToItemVerifyHandler::execute ( GCAddItemToItemVerify * pPacket , P
 				UI_DropItem();
 			}
 			break;
-		case ADD_ITEM_TO_ITEM_VERIFY_TRANS_IMPOSSIBLE :		// ¼ºÀüÈ¯ ½ÇÆÐ
+		case ADD_ITEM_TO_ITEM_VERIFY_TRANS_IMPOSSIBLE :		// ï¿½ï¿½ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½
 			{
 			}
 			break;
@@ -197,7 +196,7 @@ void GCAddItemToItemVerifyHandler::execute ( GCAddItemToItemVerify * pPacket , P
 					if(pItem->GetItemClass() == ITEM_CLASS_EVENT_STAR &&
 						(pItem->GetItemType() == 22||pItem->GetItemType() == 48
 						|| pItem->GetItemType() == 57||(pItem->GetItemType() >= 63 && pItem->GetItemType() <= 69)
-						)) // ¿»·Î¿ì µå·Ó & Àú±Þ ÀÎÃ¾Æ® ¾ÆÀÌÅÛ
+						)) // ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ & ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¾Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					{
 						g_pPlayer->ClearItemCheckBuffer();
 						UI_PopupMessage(STRING_MESSAGE_ENCHANT_FAIL);
@@ -368,7 +367,7 @@ void GCAddItemToItemVerifyHandler::execute ( GCAddItemToItemVerify * pPacket , P
 				ThirdOptionData.thirdOptionType = pPacket->getThirdEnchantType();
 
 				//----------------------------------------------------
-				// ±â¼ú »ç¿ë ½Ãµµ µ¿ÀÛ
+				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½
 				//----------------------------------------------------
 				AddNewInventoryEffect( pInventoryItem->GetID(),
 					MAGIC_ENCHANT_THIRD_OPTION_PLUS,
@@ -409,25 +408,25 @@ void GCAddItemToItemVerifyHandler::execute ( GCAddItemToItemVerify * pPacket , P
 			}
 			break;
 #if __CONTENTS(__TREASURE_BOX)
-		case 	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_OK:// »óÀÚ ¿ÀÇÂ ¼º°ø
+		case 	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_OK:// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			{
 				g_pPlayer->ClearItemCheckBuffer();
 				UI_DropItem();
 			}
 			break;
-		case 	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_FAIL_NOT_ENOUGH_SPACE:// ÀÎº¥Åä¸® °ø°£ÀÌ ºÎÁ·ÇÔ 
+		case 	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_FAIL_NOT_ENOUGH_SPACE:// ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 			{
 				UI_PopupMessage(UI_STRING_MESSAGE_OPEN_CASE_FAIL_NOT_ENOUGH_SPACE);
 				g_pPlayer->ClearItemCheckBuffer();
 			}
 			break;
-		case 	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_FAIL_NO_ITEM:// »óÀÚ¿¡ ¾ÆÀÌÅÛÀÌ ¾øÀ½ 
+		case 	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_FAIL_NO_ITEM:// ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 			{
 				UI_PopupMessage(UI_STRING_MESSAGE_OPEN_CASE_FAIL_NO_ITEM);
 				g_pPlayer->ClearItemCheckBuffer();
 			}
 			break;
-		case 	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_FAIL_INCORRECT_KEY:// »óÀÚ¿¡ ¸ÂÁö ¾Ê´Â ¿­¼è
+		case 	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_FAIL_INCORRECT_KEY:// ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½
 			{
 				UI_PopupMessage(UI_STRING_MESSAGE_OPEN_CASE_FAIL_INCORRECT_KEY);
 				g_pPlayer->ClearItemCheckBuffer();
@@ -449,7 +448,7 @@ void GCAddItemToItemVerifyHandler::execute ( GCAddItemToItemVerify * pPacket , P
 #if __CONTENTS(__IMI_NEW_ENCHANT_ITEM)
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_DELETE_DEFENSE:
 			{
-				// ¾ÆÀÌÅÛÀÌ »ç¶óÁö´Â °ÍÀÌ ¹æ¾î µÇ¾ú½À´Ï´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 				UI_PopupMessage(UI_STRING_MESSAGE_ENCHANT_DELETE_DEFENSE);
 				UI_DropItem();
 				g_pPlayer->ClearItemCheckBuffer();
@@ -457,7 +456,7 @@ void GCAddItemToItemVerifyHandler::execute ( GCAddItemToItemVerify * pPacket , P
 			break;
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_THIRDOPTION_PENALTY_DEFENSE:
 			{
-				// ¾ÆÀÌÅÛÀÌ ±Þ¼ö³ª ¿É¼ÇÀÌ Ãë¼Ò µÇ´Â °ÍÀÌ ¹æ¾î µÇ¾ú½À´Ï´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 				UI_PopupMessage(UI_STRING_MESSAGE_ENCHANT_THIRDOPTION_PENALTY_DEFENSE);
 				UI_DropItem();
 				g_pPlayer->ClearItemCheckBuffer();
@@ -467,7 +466,7 @@ void GCAddItemToItemVerifyHandler::execute ( GCAddItemToItemVerify * pPacket , P
 #if __CONTENTS(__IMI_MIXNGFORGE)
 		case ADD_ITEM_TO_ITEM_VERIFY_MIXING_FAIL:
 			{
-				// ¾ÆÀÌÅÛÀÌ ±Þ¼ö³ª ¿É¼ÇÀÌ Ãë¼Ò µÇ´Â °ÍÀÌ ¹æ¾î µÇ¾ú½À´Ï´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 				UI_PopupMessage(UI_STRING_MESSAGE_MIXING_FORGE_FAIL);
 				UI_CloseMixingForge();
 			}

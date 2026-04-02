@@ -1,16 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : CGBuyStoreItem.cpp 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
-// ÇÃ·¹ÀÌ¾î°¡ »óÁ¡ NPCÀÇ Áø¿­Ã¢À» º¸°í, ¹°°ÇÀ» ±¸ÀÔÇÏ°íÀÚ ÇÒ ¶§
-// º¸³»´Â ÆÐÅ¶ÀÌ´Ù. ¼­¹ö´Â ÇÃ·¹ÀÌ¾î¿¡°Ô ÃæºÐÇÑ µ·°ú ÀÎº¥Åä¸®¿¡
-// ÀÚ¸®°¡ ÀÖ´ÂÁö °ËÁõÇÑ ÈÄ ÇÃ·¹ÀÌ¾î¿¡°Ô ¾ÆÀÌÅÛÀ» ³Ñ±ä´Ù.
+// ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½
+// ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½.
 ////////////////////////////////////////////////////////////////////////////////
 #include "Client_PCH.h"
 #include "CGBuyStoreItem.h"
 
 void CGBuyStoreItem::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		 
@@ -22,7 +21,6 @@ void CGBuyStoreItem::read (SocketInputStream & iStream)
 }
 
 void CGBuyStoreItem::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -34,7 +32,6 @@ void CGBuyStoreItem::write (SocketOutputStream & oStream) const
 }
 
 void CGBuyStoreItem::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -44,7 +41,7 @@ void CGBuyStoreItem::execute (Player* pPlayer)
 }
 
 string CGBuyStoreItem::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 

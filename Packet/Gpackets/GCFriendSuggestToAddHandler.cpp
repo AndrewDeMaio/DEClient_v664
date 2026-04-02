@@ -7,10 +7,10 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "client_PCH.h"
-#include "GCFriendSuggestToAdd.h"
-#include "VS_UI_Friend_System.h"
+//#include "VS_UI_Friend_System.h"
 
+#include "GPacket_PCH.h"
+#include "GCFriendSuggestToAdd.h"
 #include "Assert.h"
 
 #ifdef __GAME_SERVER__
@@ -21,7 +21,6 @@
 unsigned char message_box_count = 0;
 
 void GCFriendSuggestToAddHandler::execute ( GCFriendSuggestToAdd* pPacket, Player* pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -32,7 +31,7 @@ void GCFriendSuggestToAddHandler::execute ( GCFriendSuggestToAdd* pPacket, Playe
 
 	if (pPacket)
 	{
-		// Ä£±¸ Ãß°¡·Î ÀÎÇÑ »ó´ë¹æ È®ÀÎ ¸Þ½ÃÁö
+		// Ä£ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½
 		char window_name[128] = {0};
 		sprintf(window_name,"FriendResName-%d",message_box_count);
 		++message_box_count;

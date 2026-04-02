@@ -7,11 +7,11 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "client_PCH.h"
-#include "GCFriendUpdateZone.h"
-#include "VS_UI_Friend_System.h"
-#include "MZoneTable.h"
+//#include "VS_UI_Friend_System.h"
+//#include "MZoneTable.h"
 
+#include "GPacket_PCH.h"
+#include "GCFriendUpdateZone.h"
 #include "Assert.h"
 
 #ifdef __GAME_SERVER__
@@ -20,7 +20,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void GCFriendUpdateZoneHandler::execute ( GCFriendUpdateZone* pPacket, Player* pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -31,7 +30,7 @@ void GCFriendUpdateZoneHandler::execute ( GCFriendUpdateZone* pPacket, Player* p
 
 	if (pPacket)
 	{
-		// Ä£±¸ ½Ã½ºÅÛ Ã¢À» °¡Áö°í ¿Â´Ù. ¾øÀ» °æ¿ì »ý¼º
+		// Ä£ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		C_VS_UI_FRIEND_SYSTEM* pFriend = (C_VS_UI_FRIEND_SYSTEM*)gpC_window_manager->GetWindowbyName("FriendSystem");
 		if (!pFriend)
 		{
@@ -39,7 +38,7 @@ void GCFriendUpdateZoneHandler::execute ( GCFriendUpdateZone* pPacket, Player* p
 			pFriend->SetWindowName("FriendSystem");
 		}
 
-		// Á¸ Á¤º¸ ÀúÀå
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		int index = pFriend->GetListView()->GetItemIndexByName(pPacket->GetPCName().c_str());
 		if (index != -1)
 		{

@@ -24,20 +24,20 @@ class GLIncomingConnectionOK : public DatagramPacket {
 
 public :
 	
-    // Datagram °´Ã¼¿¡¼­ºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( Datagram & iDatagram ) throw ( ProtocolException , Error );
+    // Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( Datagram & iDatagram );
 		    
-    // Datagram °´Ã¼·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( Datagram & oDatagram ) const throw ( ProtocolException , Error );
+    // Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( Datagram & oDatagram ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GL_INCOMING_CONNECTION_OK; }
+	PacketID_t getPacketID () const { return PACKET_GL_INCOMING_CONNECTION_OK; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () 
+	size_t getPacketSize () const 
 	{ 
 		return szBYTE + m_PlayerID.size() 
 				+ szuint
@@ -46,36 +46,36 @@ public :
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GLIncomingConnectionOK"; }
+		std::string getPacketName () const { return "GLIncomingConnectionOK"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 public :
 
 	// get/set player id
-	const std::string& getPlayerID () const throw () { return m_PlayerID; }
-	void setPlayerID ( std::string playerID ) throw () { m_PlayerID = playerID; }
+	const std::string& getPlayerID () const { return m_PlayerID; }
+	void setPlayerID ( std::string playerID ) { m_PlayerID = playerID; }
 
 	// get/set tcp port
-	uint getTCPPort () const throw () { return m_TCPPort; }
-	void setTCPPort ( uint tcpPort ) throw () { m_TCPPort = tcpPort; }
+	uint getTCPPort () const { return m_TCPPort; }
+	void setTCPPort ( uint tcpPort ) { m_TCPPort = tcpPort; }
 
 	// get/set auth key
-	DWORD getKey () const throw () { return m_Key; }
-	void setKey ( DWORD key ) throw () { m_Key = key; }
+	DWORD getKey () const { return m_Key; }
+	void setKey ( DWORD key ) { m_Key = key; }
 
 private :
 
-	// ¾î¶² ÇÃ·¹ÀÌ¾î¿¡°Ô LCReconnect ÆÐÅ¶À» º¸³»¾ß ÇÏ´ÂÁö´Â ¾Ë¾Æ¾ß ÇÑ´Ù.
+	// ï¿½î¶² ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ LCReconnect ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾Æ¾ï¿½ ï¿½Ñ´ï¿½.
 	std::string m_PlayerID;
 
-	// °ÔÀÓ ¼­¹ö°¡ ÀÚ½ÅÀÇ TCP Æ÷Æ®¸¦ ¾Ë·ÁÁÜÀ¸·Î½á 
-	// ·Î±×ÀÎ ¼­¹ö´Â °ÔÀÓ ¼­¹öÀÇ TCP Æ÷Æ®¸¦ ¸ô¶óµµ ¹«¹æÇÏ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ TCP ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î½ï¿½ 
+	// ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ TCP ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 	uint m_TCPPort;
 
-	// °ÔÀÓ ¼­¹ö¿¡¼­ »ý¼ºÇÑ ÀÎÁõ Å°
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å°
 	DWORD m_Key;
 
 };
@@ -94,20 +94,20 @@ class GLIncomingConnectionOKFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GLIncomingConnectionOK(); }
+	Packet * createPacket () { return new GLIncomingConnectionOK(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GLIncomingConnectionOK"; }
+		std::string getPacketName () const { return "GLIncomingConnectionOK"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GL_INCOMING_CONNECTION_OK; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GL_INCOMING_CONNECTION_OK; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GLIncomingConnectionOKPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () 
+	// const static GLIncomingConnectionOKPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const 
 	{ 
 		return szBYTE + 20
 				+ szuint
@@ -128,7 +128,7 @@ class GLIncomingConnectionOKHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GLIncomingConnectionOK * pPacket ) throw ( ProtocolException , Error );
+	static void execute ( GLIncomingConnectionOK * pPacket );
 
 };
 

@@ -11,35 +11,31 @@
 //////////////////////////////////////////////////////////////////////////////
 
 CGUsePowerPoint::CGUsePowerPoint () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 	
 CGUsePowerPoint::~CGUsePowerPoint () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGUsePowerPoint::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 		    
 void CGUsePowerPoint::write ( SocketOutputStream & oStream ) 
-     const throw ( ProtocolException , Error )
+     const
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGUsePowerPoint::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__		
@@ -49,7 +45,7 @@ void CGUsePowerPoint::execute ( Player * pPlayer )
 }
 #ifdef __DEBUG_OUTPUT__
 string CGUsePowerPoint::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 

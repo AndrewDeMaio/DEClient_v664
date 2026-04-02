@@ -2,8 +2,8 @@
 // Filename    : CGUseItemFromInventory.h 
 // Written By  : excel96
 // Description : 
-// ÀÎº¥Åä¸® ¾ÈÀÇ ¾ÆÀÌÅÛÀ» »ç¿ëÇÒ ¶§, Å¬¶óÀÌ¾ðÆ®°¡ X, Y ¹× ObjectID¸¦
-// º¸³»¸é ¾ÆÀÌÅÛ Å¬·¡½º¿¡ µû¶ó¼­, ¼­¹ö°¡ ÀÌ¿¡ ¸Â´Â ÄÚµå¸¦ Ã³¸®ÇÑ´Ù.
+// ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ X, Y ï¿½ï¿½ ObjectIDï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ ï¿½Â´ï¿½ ï¿½Úµå¸¦ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __CG_USE_ITEM_FROM_INVENTORY_H__
@@ -19,39 +19,39 @@
 class CGUseItemFromInventory : public Packet 
 {
 public:
-	CGUseItemFromInventory () throw ();
-	~CGUseItemFromInventory () throw ();
+	CGUseItemFromInventory ();
+	~CGUseItemFromInventory ();
 
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_USE_ITEM_FROM_INVENTORY; }
-	PacketSize_t getPacketSize() const throw() { return szObjectID + szObjectID + szCoordInven + szCoordInven; }
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_USE_ITEM_FROM_INVENTORY; }
+	size_t getPacketSize() const { return szObjectID + szObjectID + szCoordInven + szCoordInven; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "CGUseItemFromInventory"; }
-		std::string toString() const throw();
+		std::string getPacketName() const { return "CGUseItemFromInventory"; }
+		std::string toString() const;
 	#endif	
 	
 public:
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID(ObjectID_t ObjectID) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID(ObjectID_t ObjectID) { m_ObjectID = ObjectID; }
 
-	ObjectID_t getInventoryItemObjectID() throw() { return m_InventoryItemObjectID; }
-	void setInventoryItemObjectID(ObjectID_t InventoryItemObjectID) throw() { m_InventoryItemObjectID = InventoryItemObjectID; }
+	ObjectID_t getInventoryItemObjectID() { return m_InventoryItemObjectID; }
+	void setInventoryItemObjectID(ObjectID_t InventoryItemObjectID) { m_InventoryItemObjectID = InventoryItemObjectID; }
 	
-	CoordInven_t getX() const throw() { return m_InvenX; }
-	void setX(CoordInven_t InvenX) throw() { m_InvenX = InvenX; }
+	CoordInven_t getX() const { return m_InvenX; }
+	void setX(CoordInven_t InvenX) { m_InvenX = InvenX; }
 
-	CoordInven_t getY() const throw() { return m_InvenY; }
-	void setY(CoordInven_t InvenY) throw() { m_InvenY = InvenY; }
+	CoordInven_t getY() const { return m_InvenY; }
+	void setY(CoordInven_t InvenY) { m_InvenY = InvenY; }
 
 private:
-	ObjectID_t   m_ObjectID; // ¾ÆÀÌÅÛÀÇ object id 
-	// º¸Á¶ ÀÎº¥Åä¸® ¾ÆÀÌÅÛÀÇ ¿ÀºêÁ§Æ® ¾ÆÀÌµð. 0ÀÌ¸é ¸ÞÀÎ ÀÎº¥Åä¸®¿¡¼­ »ç¿ë
+	ObjectID_t   m_ObjectID; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ object id 
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ìµï¿½. 0ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	ObjectID_t	 m_InventoryItemObjectID;
-	CoordInven_t m_InvenX;   // ¾ÆÀÌÅÛÀÇ ÀÎº¥Åä¸® ÁÂÇ¥ X
-	CoordInven_t m_InvenY;   // ¾ÆÀÌÅÛÀÇ ÀÎº¥Åä¸® ÁÂÇ¥ Y
+	CoordInven_t m_InvenX;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½Ç¥ X
+	CoordInven_t m_InvenY;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½Ç¥ Y
 };
 
 
@@ -62,12 +62,12 @@ private:
 class CGUseItemFromInventoryFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new CGUseItemFromInventory(); }
+	Packet* createPacket() { return new CGUseItemFromInventory(); }
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "CGUseItemFromInventory"; }
+		std::string getPacketName() const { return "CGUseItemFromInventory"; }
 	#endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_USE_ITEM_FROM_INVENTORY; }
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID + szObjectID + szCoordInven + szCoordInven; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_USE_ITEM_FROM_INVENTORY; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID + szObjectID + szCoordInven + szCoordInven; }
 };
 #endif
 
@@ -82,14 +82,14 @@ class Item;
 	class CGUseItemFromInventoryHandler 
 	{
 	public:
-		static void execute(CGUseItemFromInventory* pPacket, Player* player) throw(ProtocolException, Error);
+		static void execute(CGUseItemFromInventory* pPacket, Player* player);
 
 	protected:
-		static void executePotion(CGUseItemFromInventory* pPacket, Player* player) throw(ProtocolException, Error);
-		static void executeMagazine(CGUseItemFromInventory* pPacket, Player* player) throw(ProtocolException, Error);
-		static void executeETC(CGUseItemFromInventory* pPacket, Player* player) throw(ProtocolException, Error);
-		static void executeSerum(CGUseItemFromInventory* pPacket, Player* player) throw(ProtocolException, Error);
-		static void executeVampireETC(CGUseItemFromInventory* pPacket, Player* player) throw(ProtocolException, Error);
+		static void executePotion(CGUseItemFromInventory* pPacket, Player* player);
+		static void executeMagazine(CGUseItemFromInventory* pPacket, Player* player);
+		static void executeETC(CGUseItemFromInventory* pPacket, Player* player);
+		static void executeSerum(CGUseItemFromInventory* pPacket, Player* player);
+		static void executeVampireETC(CGUseItemFromInventory* pPacket, Player* player);
 	};
 #endif
 

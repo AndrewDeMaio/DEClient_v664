@@ -25,34 +25,34 @@ class CGAppointSubmaster : public Packet
 {
 public:
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_CG_APPOINT_SUBMASTER; }
+	PacketID_t getPacketID() const { return PACKET_CG_APPOINT_SUBMASTER; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return szGuildID + szBYTE + m_Name.size(); }
+	size_t getPacketSize() const { return szGuildID + szBYTE + m_Name.size(); }
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	string getPacketName() const throw() { return "CGAppointSubmaster"; }
+	string getPacketName() const { return "CGAppointSubmaster"; }
 
 	// get packet's debug string
-	string toString() const throw();
+	string toString() const;
 #endif
 	// get/set GuildID
-	GuildID_t getGuildID() const throw() { return m_GuildID; }
-	void setGuildID( GuildID_t guildID ) throw() { m_GuildID = guildID; }
+	GuildID_t getGuildID() const { return m_GuildID; }
+	void setGuildID( GuildID_t guildID ) { m_GuildID = guildID; }
 
 	// get/set name
-	const string& getName() const throw() { return m_Name; }
-	void setName( const string& name ) throw() { m_Name = name; }
+	const string& getName() const { return m_Name; }
+	void setName( const string& name ) { m_Name = name; }
 
 
 private :
@@ -79,25 +79,25 @@ class CGAppointSubmasterFactory : public PacketFactory {
 public:
 	
 	// constructor
-	CGAppointSubmasterFactory() throw() {}
+	CGAppointSubmasterFactory() {}
 	
 	// destructor
-	virtual ~CGAppointSubmasterFactory() throw() {}
+	virtual ~CGAppointSubmasterFactory() {}
 
 	
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new CGAppointSubmaster(); }
+	Packet* createPacket() { return new CGAppointSubmaster(); }
 
 	// get packet name
-	string getPacketName() const throw() { return "CGAppointSubmaster"; }
+	string getPacketName() const { return "CGAppointSubmaster"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_APPOINT_SUBMASTER; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_APPOINT_SUBMASTER; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize() const throw() { return szGuildID + szBYTE + 20; }
+	PacketSize_t getPacketMaxSize() const { return szGuildID + szBYTE + 20; }
 };
 
 
@@ -112,7 +112,7 @@ class CGAppointSubmasterHandler {
 public:
 
 	// execute packet's handler
-	static void execute(CGAppointSubmaster* pCGAppointSubmaster, Player* pPlayer) throw(Error);
+	static void execute(CGAppointSubmaster* pCGAppointSubmaster, Player* pPlayer);
 
 };
 #endif

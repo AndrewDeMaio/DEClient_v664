@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAddMonsterFromBurrowing.h"
 #include "ClientDef.h"
 #include "SkillDef.h"
@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAddMonsterFromBurrowingHandler::execute ( GCAddMonsterFromBurrowing * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -24,7 +23,7 @@ void GCAddMonsterFromBurrowingHandler::execute ( GCAddMonsterFromBurrowing * pPa
 	EFFECTSTATUS	statusShadowCheck;
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -33,14 +32,14 @@ void GCAddMonsterFromBurrowingHandler::execute ( GCAddMonsterFromBurrowing * pPa
 		
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		//AfxMessageBox( pPacket->toString().c_str() );
 		MCreature* pCreature = g_pZone->GetCreature(pPacket->getObjectID());
 
-		// 2004, 9, 1, sobeit add start - °ø¼ºÀü½Ã Æ®·¦ÀÏ °æ¿ì °ø°ÝÃø¿¡¼­´Â º¸ÀÌÁö ¾Ê´Â´Ù.
+		// 2004, 9, 1, sobeit add start - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 		WORD wMonsterType = pPacket->getMonsterType();
 		if( wMonsterType == 738 ||
 			wMonsterType == 739 ||
@@ -73,7 +72,7 @@ void GCAddMonsterFromBurrowingHandler::execute ( GCAddMonsterFromBurrowing * pPa
 				}
 			}
 		}
-#if __CONTENTS(__TIPOJYU_CASTLE)	//¸ó½ºÅÍ ¹ÝÅõ¸í ±×¸²ÀÚ ¼³Á¤
+#if __CONTENTS(__TIPOJYU_CASTLE)	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		else
 		{
 			EffectInfo* pTempEffectInfo = pPacket->getEffectInfo();
@@ -96,9 +95,9 @@ void GCAddMonsterFromBurrowingHandler::execute ( GCAddMonsterFromBurrowing * pPa
 			}
 		}
 #endif // __TIPOJYU_CASTLE
-		// 2004, 9, 1, sobeit add end - °ø¼ºÀü½Ã Æ®·¦ÀÏ °æ¿ì °ø°ÝÃø¿¡¼­´Â º¸ÀÌÁö ¾Ê´Â´Ù.
+		// 2004, 9, 1, sobeit add end - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 		//--------------------------------------------------
-		// »õ·Î¿î CreatureÀÌ¸é Ãß°¡
+		// ï¿½ï¿½ï¿½Î¿ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ß°ï¿½
 		//--------------------------------------------------
 		if (pCreature==NULL)
 		{
@@ -121,22 +120,22 @@ void GCAddMonsterFromBurrowingHandler::execute ( GCAddMonsterFromBurrowing * pPa
 			pCreature->SetStatus( MODIFY_CURRENT_HP, pPacket->getCurrentHP() );
 
 			// [ TEST CODE ]
-			// ÀÌ¸§ ¼³Á¤
+			// ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//char str[20];
 			//sprintf(str, "ID=%d", pCreature->GetID());
-			//by kim 2021-08-13 ¹ö·ÎÀ® ¸ó½ºÅÍ ÀÌ¸§ Å¬¶ó¿¡ Á¾¼Ó 
+			//by kim 2021-08-13 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 			pCreature->SetName( (*g_pCreatureTable)[pPacket->getMonsterType()].Name.GetString() );
 			//pCreature->SetName( pPacket->getMonsterName().c_str() );
 			//end kim
 
-			// ÀÓ½Ã·Î..
+			// ï¿½Ó½Ã·ï¿½..
 			pCreature->SetGuildNumber( 1 );
 
-			// ÀÌ¸§
+			// ï¿½Ì¸ï¿½
 			//pCreature->SetName( pPacket->getName().toString().c_str() );
 
 
-#if __CONTENTS(__TIPOJYU_CASTLE)	//¸ó½ºÅÍ ¹ÝÅõ¸í ±×¸²ÀÚ ¼³Á¤
+#if __CONTENTS(__TIPOJYU_CASTLE)	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			if(statusShadowCheck == EFFECT_CLASS_TRANSLUCENCY)
 			{
 				SMonsterHalfAlpha	MonsterHalfAlpha;
@@ -154,7 +153,7 @@ void GCAddMonsterFromBurrowingHandler::execute ( GCAddMonsterFromBurrowing * pPa
 #endif //__TIPOJYU_CASTLE
 			
 
-			// »ö±ò Á¤º¸
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			
 
 			if (!g_pZone->AddCreature( pCreature ))
@@ -165,13 +164,13 @@ void GCAddMonsterFromBurrowingHandler::execute ( GCAddMonsterFromBurrowing * pPa
 			else
 			{				
 				//------------------------------------------------------------
-				// LoadµÇÁö ¾Ê¾ÒÀ¸¸é loadÇÑ´Ù.
+				// Loadï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ loadï¿½Ñ´ï¿½.
 				//------------------------------------------------------------
 //				LoadCreatureType( pPacket->getMonsterType() );			
 			}
 		}
 		//--------------------------------------------------
-		// ÀÌ¹Ì ÀÖ´Â CreatureÀÎ °æ¿ì
+		// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		else
 		{
@@ -190,70 +189,70 @@ void GCAddMonsterFromBurrowingHandler::execute ( GCAddMonsterFromBurrowing * pPa
 			pCreature->SetStatus( MODIFY_CURRENT_HP, pPacket->getCurrentHP() );
 
 			// [ TEST CODE ]
-			// ÀÌ¸§ ¼³Á¤
+			// ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//char str[20];
 			//sprintf(str, "ID=%d", pCreature->GetID());
 			
-			//by kim 2021-08-13 ¹ö·ÎÀ® ¸ó½ºÅÍ ÀÌ¸§ Å¬¶ó¿¡ Á¾¼Ó 
+			//by kim 2021-08-13 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ Å¬ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 			pCreature->SetName( (*g_pCreatureTable)[pPacket->getMonsterType()].Name.GetString() );
 			//pCreature->SetName( pPacket->getMonsterName().c_str() );
 			//end kim
 
-			// ÀÓ½Ã·Î..
+			// ï¿½Ó½Ã·ï¿½..
 			pCreature->SetGuildNumber( 1 );
 
-			// ÀÌ¸§
+			// ï¿½Ì¸ï¿½
 			//pCreature->SetName( pPacket->getName().toString().c_str() );
 
-			// »ö±ò Á¤º¸
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 			//------------------------------------------------------------
-			// LoadµÇÁö ¾Ê¾ÒÀ¸¸é loadÇÑ´Ù.
+			// Loadï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ loadï¿½Ñ´ï¿½.
 			//------------------------------------------------------------
 //			LoadCreatureType( pPacket->getMonsterType() );			
 		}
 
 		//--------------------------------------------------
-		// Effect ºÙÀÌ±â..
+		// Effect ï¿½ï¿½ï¿½Ì±ï¿½..
 		//--------------------------------------------------
 		if (pCreature!=NULL)
 		{
 			SetEffectInfo( pCreature, pPacket->getEffectInfo() );		
-			// 2004, 8, 31, sobeit add start - Æ®·¦¿¡ ÀÌÆåÆ® ºÙÀÓ
+			// 2004, 8, 31, sobeit add start - Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 			switch(pCreature->GetCreatureType())
 			{
-				case 739: // Æ®·¦ - ·£µå ¸¶ÀÎ
+				case 739: // Æ®ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					ExecuteActionInfoFromMainNode(SKILL_CLIENT_LAND_MINE_LIGHT,pCreature->GetX(), pCreature->GetY(), 0,pCreature->GetDirection(),	pCreature->GetID(),	
 						pCreature->GetX(), pCreature->GetY(), 0, 0xffff, NULL, false);			
 					break;
-				case 738: // Æ®·¦ - ÇÃ·¹Á® ½ºÅ×ÀÌ¼Ç
+				case 738: // Æ®ï¿½ï¿½ - ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½
 					ExecuteActionInfoFromMainNode(SKILL_CLIENT_PLEASUER_STATION_LIGHT,pCreature->GetX(), pCreature->GetY(), 0,pCreature->GetDirection(),	pCreature->GetID(),	
 						pCreature->GetX(), pCreature->GetY(), 0, 0xffff, NULL, false);			
 					break;
 			}
 			// 2004, 8, 31, sobeit add end -
 			//--------------------------------------------------
-			// Burrow¿¡¼­ ºüÁ®³ª¿À´Â Effect == BurrowingÇÏ´Â Effect
+			// Burrowï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Effect == Burrowingï¿½Ï´ï¿½ Effect
 			//--------------------------------------------------		
 			ExecuteActionInfoFromMainNode(
-				RESULT_MAGIC_HIDE,										// »ç¿ë ±â¼ú ¹øÈ£
+				RESULT_MAGIC_HIDE,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 			
 				pCreature->GetX(), pCreature->GetY(), 0,
-				pCreature->GetDirection(),														// »ç¿ë ¹æÇâ
+				pCreature->GetDirection(),														// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				
-				OBJECTID_NULL,												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+				OBJECTID_NULL,												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				pCreature->GetX(), pCreature->GetY(), 0, 
 				
-				0,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+				0,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 				
 				NULL,
 				
-				false);			// ±â¼ú Ã·ºÎÅÍ ½ÃÀÛÇÑ´Ù.
+				false);			// ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 
 
 			TYPE_CREATURETYPE	creatureType = pCreature->GetCreatureType();
 
-			// ¸ö¿¡ ÀÌÆÑÆ®°¡ ºÙ´Â Creature¶ó¸é ÀÌÆÑÆ®¸¦ ºÙ¿©ÁØ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ù´ï¿½ Creatureï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ù¿ï¿½ï¿½Ø´ï¿½.
 			if(creatureType < g_pCreatureTable->GetSize())
 			{
 				CREATURETABLE_INFO &creatureInfo = g_pCreatureTable->Get(creatureType);
@@ -271,7 +270,7 @@ void GCAddMonsterFromBurrowingHandler::execute ( GCAddMonsterFromBurrowing * pPa
 		}
 	}
 
-	// [µµ¿ò¸»] ¸÷ÀÌ ³ªÅ¸³¯¶§
+	// [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½
 //	__BEGIN_HELP_EVENT
 ////		ExecuteHelpEvent( HE_CREATURE_APPEAR_MONSTER );
 //	__END_HELP_EVENT

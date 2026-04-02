@@ -24,58 +24,58 @@ class CGAddZoneToInventory : public Packet {
 public :
 
 	// constructor
-	CGAddZoneToInventory() throw();
+	CGAddZoneToInventory();
 
 	// destructor
-	~CGAddZoneToInventory() throw();
+	~CGAddZoneToInventory();
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CG_ADD_ZONE_TO_INVENTORY; }
+	PacketID_t getPacketID () const { return PACKET_CG_ADD_ZONE_TO_INVENTORY; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static CGAddZoneToInventoryPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () { return szObjectID + szCoord + szCoord + szCoordInven + szCoordInven; }
+	// const static CGAddZoneToInventoryPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const { return szObjectID + szCoord + szCoord + szCoordInven + szCoordInven; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGAddZoneToInventory"; }
+		std::string getPacketName () const { return "CGAddZoneToInventory"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
 public :
 
 	// get / set ObjectID
-	ObjectID_t getObjectID() throw () { return m_ObjectID; }
-	void setObjectID( ObjectID_t ObjectID ) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() { return m_ObjectID; }
+	void setObjectID( ObjectID_t ObjectID ) { m_ObjectID = ObjectID; }
 
 	// get/set X Coordicate
-	Coord_t getZoneX () const throw () { return m_ZoneX; }
-	void setZoneX ( Coord_t ZoneX ) throw () { m_ZoneX = ZoneX; }
+	Coord_t getZoneX () const { return m_ZoneX; }
+	void setZoneX ( Coord_t ZoneX ) { m_ZoneX = ZoneX; }
 
 	// get/set Y Coordicate
-	Coord_t getZoneY () const throw () { return m_ZoneY; }
-	void setZoneY ( Coord_t ZoneY ) throw () { m_ZoneY = ZoneY; }
+	Coord_t getZoneY () const { return m_ZoneY; }
+	void setZoneY ( Coord_t ZoneY ) { m_ZoneY = ZoneY; }
 
 	// get / set Ivnentory X, Y Coordicate
-	CoordInven_t getInvenX() const throw () { return m_InvenX; }
-	void setInvenX( CoordInven_t InvenX ) throw () { m_InvenX = InvenX; }
+	CoordInven_t getInvenX() const { return m_InvenX; }
+	void setInvenX( CoordInven_t InvenX ) { m_InvenX = InvenX; }
 
 	// get / set Inventory Y
-	CoordInven_t getInvenY() const throw () { return m_InvenY; }
+	CoordInven_t getInvenY() const { return m_InvenY; }
 	void setInvenY( CoordInven_t InvenY ) { m_InvenY = InvenY; }
 
 private :
@@ -83,11 +83,11 @@ private :
 	// ObjectID
 	ObjectID_t m_ObjectID;
 
-	// ¾ÆÀÌÅÛÀÌ ÀÖ´Â ZoneÀÇ  X, Y ÁÂÇ¥.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Zoneï¿½ï¿½  X, Y ï¿½ï¿½Ç¥.
 	Coord_t m_ZoneX;
 	Coord_t m_ZoneY;
 
-	// InventoryÀÇ X, Y ÁÂÇ¥.
+	// Inventoryï¿½ï¿½ X, Y ï¿½ï¿½Ç¥.
 	CoordInven_t m_InvenX;
 	CoordInven_t m_InvenY;
 
@@ -107,20 +107,20 @@ class CGAddZoneToInventoryFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CGAddZoneToInventory(); }
+	Packet * createPacket () { return new CGAddZoneToInventory(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGAddZoneToInventory"; }
+		std::string getPacketName () const { return "CGAddZoneToInventory"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_ADD_ZONE_TO_INVENTORY; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_ADD_ZONE_TO_INVENTORY; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static CGAddZoneToInventoryPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID + szCoord + szCoord + szCoordInven + szCoordInven; }
+	// const static CGAddZoneToInventoryPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return szObjectID + szCoord + szCoord + szCoordInven + szCoordInven; }
 
 };
 
@@ -138,7 +138,7 @@ public :
 	public :
 
 		// execute packet's handler
-		static void execute ( CGAddZoneToInventory * pPacket , Player * player ) throw ( ProtocolException , Error );
+		static void execute ( CGAddZoneToInventory * pPacket , Player * player );
 	};
 
 #endif

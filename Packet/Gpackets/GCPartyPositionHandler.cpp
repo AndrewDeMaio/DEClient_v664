@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPartyPosition.h"
 #include "Player.h"
 #include "MParty.h"
@@ -23,33 +23,32 @@ extern bool					g_bZonePlayerInLarge;
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCPartyPositionHandler::execute ( GCPartyPosition * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY 
 		
 #ifdef __GAME_CLIENT__
 	if ((g_Mode==MODE_GAME
-			|| g_Mode==MODE_WAIT_UPDATEINFO			// ·Îµù ÁßÀÌ ¾Æ´Ï°Å³ª..
-			|| g_Mode==MODE_WAIT_SETPOSITION		// ÁÂÇ¥ ±â´Ù¸®´Â °æ¿ì
+			|| g_Mode==MODE_WAIT_UPDATEINFO			// ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï°Å³ï¿½..
+			|| g_Mode==MODE_WAIT_SETPOSITION		// ï¿½ï¿½Ç¥ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			)
 		&& g_pPlayer!=NULL
 		&& g_pParty!=NULL
 		&& g_pGameMessage!=NULL
 		&& g_pRequestUserManager!=NULL)
 	{
-		// Á¤º¸ ´Ù½Ã ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		RequestUserInfo* pUserInfo = g_pRequestUserManager->GetUserInfo( pPacket->getName().c_str() );
 
 		PARTY_INFO*	pInfo = NULL;
 
-		// ÀÌ¸§ÀÌ ¾ø´Â °æ¿ì¿£ ¸®ÅÏ
+		// ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿£ ï¿½ï¿½ï¿½ï¿½
 		if (pPacket->getName().size()==0)
 		{
 			return;
 		}
 		pInfo = g_pParty->GetMemberInfo( pPacket->getName().c_str() );
 			
-		// ÁÂÇ¥¸¦ ¼öÁ¤ÇØÁØ´Ù.
+		// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 		if (pInfo!=NULL)
 		{
 			pInfo->zoneID = pPacket->getZoneID();

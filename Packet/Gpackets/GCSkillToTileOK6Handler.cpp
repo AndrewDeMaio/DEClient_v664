@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSkillToTileOK6.h"
 #include "ClientDef.h"
 #include "PacketFunction2.h"
@@ -15,21 +15,20 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSkillToTileOK6Handler::execute ( GCSkillToTileOK6 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
 #ifdef __GAME_CLIENT__
 
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	AffectModifyInfo(g_pPlayer, pPacket);
 
 	DWORD delayFrame = ConvertDurationToFrame( pPacket->getDuration() );
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -37,17 +36,17 @@ void GCSkillToTileOK6Handler::execute ( GCSkillToTileOK6 * pPacket , Player * pP
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		//------------------------------------------------------
-		// Player°¡ »ç¿ëÇÑ ±â¼úÀÌ¶ó°í packetÀÌ ³¯¾Æ¿Â °æ¿ì
-		// --> Error´Ù
+		// Playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ packetï¿½ï¿½ ï¿½ï¿½ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½
+		// --> Errorï¿½ï¿½
 		//------------------------------------------------------
 		
 		//------------------------------------------------------
-		// »ç¿ëÀÚ°¡ ¾ø´Â ±â¼úÀÌ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 		//------------------------------------------------------
 		int startX = pPacket->getOrgX();
 		int startY = pPacket->getOrgY();
@@ -74,14 +73,14 @@ void GCSkillToTileOK6Handler::execute ( GCSkillToTileOK6 * pPacket , Player * pP
 			skillID = (*g_pActionInfoTable)[skillID].GetActionStep( pPacket->getGrade() - 1);
 
 		//------------------------------------------------------
-		// TileOK2·Î ÀÎÇÑ °á°ú 
+		// TileOK2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 		//------------------------------------------------------				
 		int size = pPacket->getCListNum();
 
 		MActionResult* pResult = new MActionResult;
 
 		//------------------------------------------------------------------
-		// effect status¸¦ Àû¿ë½ÃÅ²´Ù.
+		// effect statusï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 		//------------------------------------------------------------------
 		if (g_pPlayer->GetEFFECT_STAT()!=EFFECTSTATUS_NULL)
 		{
@@ -108,15 +107,15 @@ void GCSkillToTileOK6Handler::execute ( GCSkillToTileOK6 * pPacket , Player * pP
 
 		if (size!=0)
 		{
-			// °á°ú¸¦ ´çÇÏ´Â °¢°¢ÀÇ creature¿¡ ´ëÇØ¼­ °á°ú Ç¥Çö
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
 			for (int i=0; i<size; i++)
 			{
 				//MCreature* pTargetCreature = g_pZone->GetCreature( pPacket->getCListElement() );
 					
-				// Creature¿¡°Ô Damage ÀÔÈû
+				// Creatureï¿½ï¿½ï¿½ï¿½ Damage ï¿½ï¿½ï¿½ï¿½
 				//if (pTargetCreature != NULL)
 				//{
-					// ³»(Player)°¡ ´©±º°¡°¡ »ç¿ëÇÑ SKillÀ» ¸ÂÀº °æ¿ì..
+					// ï¿½ï¿½(Player)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ SKillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 					// [ TEST CODE ]
 					
 				//	pResult->Add( new MActionResultNodeActionInfo( 
@@ -133,7 +132,7 @@ void GCSkillToTileOK6Handler::execute ( GCSkillToTileOK6 * pPacket , Player * pP
 				if (pTargetCreature!=NULL)
 				{
 					//------------------------------------------------------
-					// EffectStatus°¡ ÀÖ´Ù¸é ºÙÀÎ´Ù.
+					// EffectStatusï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 					//------------------------------------------------------
 					EFFECTSTATUS es = (*g_pActionInfoTable)[skillID].GetEffectStatus();
 							
@@ -144,7 +143,7 @@ void GCSkillToTileOK6Handler::execute ( GCSkillToTileOK6 * pPacket , Player * pP
 
 					//------------------------------------------------------
 					//
-					// skill¿¡ °á°ú°¡ ÀÖÀ¸¸é Àû¿ë ½ÃÅ²´Ù.
+					// skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 					//
 					//------------------------------------------------------
 					MActionResultNode* pActionResultNode = NULL;
@@ -152,7 +151,7 @@ void GCSkillToTileOK6Handler::execute ( GCSkillToTileOK6 * pPacket , Player * pP
 					switch ((*g_pActionInfoTable)[skillID].GetActionResultID())
 					{
 						//------------------------------------------------------
-						// ´Ù¸¥ ActionInfo ½ÇÇà
+						// ï¿½Ù¸ï¿½ ActionInfo ï¿½ï¿½ï¿½ï¿½
 						//------------------------------------------------------
 						case ACTIONRESULTNODE_ACTIONINFO :
 							if( (*g_pActionInfoTable)[skillID].IsUseActionGrade() )
@@ -177,14 +176,14 @@ void GCSkillToTileOK6Handler::execute ( GCSkillToTileOK6 * pPacket , Player * pP
 						break;
 
 						//------------------------------------------------------
-						// Burrowµîµî.
+						// Burrowï¿½ï¿½ï¿½.
 						//------------------------------------------------------
 						default :
 							pActionResultNode = CreateActionResultNode(pTargetCreature, skillID);						
 					}
 
 					//------------------------------------------------------
-					// NULLÀÌ ¾Æ´Ï¸é °°ÀÌ Àû¿ë
+					// NULLï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					//------------------------------------------------------
 					if (pActionResultNode!=NULL)
 					{
@@ -196,48 +195,48 @@ void GCSkillToTileOK6Handler::execute ( GCSkillToTileOK6 * pPacket , Player * pP
 		}
 
 		//------------------------------------------------------
-		// range¸¦ direction¿¡ Àû¿ë½ÃÅ°´Â °æ¿ì
+		// rangeï¿½ï¿½ directionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		int direction = pPacket->getRange();
 
 		if (direction >= 8) direction = 0;
 
 		//------------------------------------------------------
-		// TileOK2·Î ÀÎÇÑ °á°ú Ãß°¡
+		// TileOK2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 		//------------------------------------------------------
 		//Duration_t	m_Duration;
 		//pCreature->PacketSpecialActionToSector(
 		//					pPacket->getSkillType(), 
 		//					pPacket->getX(), pPacket->getY(),
-		//					pResult						// °á°ú
+		//					pResult						// ï¿½ï¿½ï¿½
 		//);			
 	
 
 		//------------------------------------------------------
-		// ¾î´À ½ÃÁ¡¿¡¼­ ¹Ù·Î ½ÃÀÛµÇ°Ô ÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ÛµÇ°ï¿½ ï¿½Ñ´ï¿½.
 		//------------------------------------------------------
 		ExecuteActionInfoFromMainNode(
 				skillID + (*g_pActionInfoTable).GetMinResultActionInfo(),
 
 				startX, startY, 0,
 		
-				direction,														// »ç¿ë ¹æÇâ
+				direction,														// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
-				OBJECTID_NULL,												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+				OBJECTID_NULL,												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
 				pPacket->getX(), pPacket->getY(), 0, 
 		
-				delayFrame,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+				delayFrame,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 		
 				pResult,
 				
-				false);			// ±â¼ú Ã·ºÎÅÍ ½ÃÀÛÇÑ´Ù.
+				false);			// ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		
 	}
 
 
 	//------------------------------------------------------------
-	// Delay Frame ¼³Á¤
+	// Delay Frame ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------------
 	//g_pPlayer->SetEffectDelayFrame( resultActionInfo, delayFrame );
 
@@ -245,8 +244,8 @@ void GCSkillToTileOK6Handler::execute ( GCSkillToTileOK6 * pPacket , Player * pP
 
 
 	//------------------------------------------------------------------
-	// UI¿¡ º¸ÀÌ´Â °ÍÀ» ¹Ù²ãÁØ´Ù.
-	// ºñ±³¿¬»êÇÏ´Â°Åº¸´Ù ÀÌ°Ô ´õ ºü¸£Áö ¾ÊÀ»±î.. À½.. - -;
+	// UIï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
+	// ï¿½ñ±³¿ï¿½ï¿½ï¿½ï¿½Ï´Â°Åºï¿½ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½.. - -;
 	//------------------------------------------------------------------
 	//UI_SetHP( g_pPlayer->GetHP(), g_pPlayer->GetMAX_HP() );
 	//UI_SetMP( g_pPlayer->GetMP(), g_pPlayer->GetMAX_MP() );

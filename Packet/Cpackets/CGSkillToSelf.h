@@ -26,44 +26,44 @@ class CGSkillToSelf : public Packet {
 public :
 	
 	// constructor
-	CGSkillToSelf () throw ();
+	CGSkillToSelf ();
 	
 	// destructor
-	~CGSkillToSelf () throw ();
+	~CGSkillToSelf ();
 
 	
 public :
 	
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CG_SKILL_TO_SELF; }
+	PacketID_t getPacketID () const { return PACKET_CG_SKILL_TO_SELF; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () { return szSkillType + szCEffectID ; }
+	size_t getPacketSize () const { return szSkillType + szCEffectID ; }
 
 	// get SkillType
-	SkillType_t getSkillType() const throw()  { return m_SkillType; }
-	void setSkillType( SkillType_t SkillType ) throw() { m_SkillType = SkillType; }
+	SkillType_t getSkillType() const  { return m_SkillType; }
+	void setSkillType( SkillType_t SkillType ) { m_SkillType = SkillType; }
 
 	// get CEffectID
-	CEffectID_t getCEffectID() const throw() { return m_CEffectID; }
-	void setCEffectID( CEffectID_t CEffectID ) throw() { m_CEffectID = CEffectID; }
+	CEffectID_t getCEffectID() const { return m_CEffectID; }
+	void setCEffectID( CEffectID_t CEffectID ) { m_CEffectID = CEffectID; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGSkillToSelf"; }
+		std::string getPacketName () const { return "CGSkillToSelf"; }
 
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 private :
@@ -90,27 +90,27 @@ class CGSkillToSelfFactory : public PacketFactory {
 public :
 	
 	// constructor
-	CGSkillToSelfFactory () throw () {}
+	CGSkillToSelfFactory () {}
 	
 	// destructor
-	virtual ~CGSkillToSelfFactory () throw () {}
+	virtual ~CGSkillToSelfFactory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CGSkillToSelf(); }
+	Packet * createPacket () { return new CGSkillToSelf(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGSkillToSelf"; }
+		std::string getPacketName () const { return "CGSkillToSelf"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_SKILL_TO_SELF; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_SKILL_TO_SELF; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize () const throw () { return szSkillType + szCEffectID; }
+	PacketSize_t getPacketMaxSize () const { return szSkillType + szCEffectID; }
 
 };
 
@@ -128,7 +128,7 @@ public :
 	public :
 
 		// execute packet's handler
-		static void execute ( CGSkillToSelf * pCGSkillToSelf , Player * pPlayer ) throw ( Error );
+		static void execute ( CGSkillToSelf * pCGSkillToSelf , Player * pPlayer );
 
 	};
 #endif

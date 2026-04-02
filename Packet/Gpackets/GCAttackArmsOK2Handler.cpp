@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCAttackArmsOK2.h"
 #include "ClientDef.h"
 #include "MActionInfoTable.h"
@@ -16,7 +16,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAttackArmsOK2Handler::execute ( GCAttackArmsOK2 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -25,7 +24,7 @@ void GCAttackArmsOK2Handler::execute ( GCAttackArmsOK2 * pPacket , Player * pPla
 	// message
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -36,13 +35,13 @@ void GCAttackArmsOK2Handler::execute ( GCAttackArmsOK2 * pPacket , Player * pPla
 	}	
 
 	//------------------------------------------------------
-	// ´ë»óÀÌ µÇ´Â creature¸¦ ¾ò´Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ creatureï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
 	//------------------------------------------------------
 	MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 	
 	if (pCreature==NULL)
 	{
-		// ±×·± creature°¡ ¾øÀ» °æ¿ì
+		// ï¿½×·ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		DEBUG_ADD_FORMAT("There's no such creature : ID=%d, Skill=%d", pPacket->getObjectID(), SKILL_ATTACK_MELEE);				
 		
 		if( pPacket->getSkillType() == SKILL_JABBING_VEIN || pPacket->getSkillType() == SKILL_MOLE_SHOT ||
@@ -50,18 +49,18 @@ void GCAttackArmsOK2Handler::execute ( GCAttackArmsOK2 * pPacket , Player * pPla
 					pPacket->getSkillType() == SKILL_ULTIMATE_BLOW || pPacket->getSkillType() == SKILL_HARPOON_BOMB)
 		{
 			TYPE_ACTIONINFO resultActionInfo = pPacket->getSkillType() + g_pActionInfoTable->GetMinResultActionInfo();
-			// ¹Ù·Î ¸Â´Â ¸ð½ÀÀ» º¸ÀÌ°Ô ÇÑ´Ù.
+			// ï¿½Ù·ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ñ´ï¿½.
 			g_pPlayer->PacketSpecialActionResult( 
-									resultActionInfo,	// ±âº» °ø°Ý == ÃÑ!? 
+									resultActionInfo,	// ï¿½âº» ï¿½ï¿½ï¿½ï¿½ == ï¿½ï¿½!? 
 									g_pPlayer->GetID(), 
 									g_pPlayer->GetX(),
 									g_pPlayer->GetY()								
 					);
 		} else
 		{
-			// ¹Ù·Î ¸Â´Â ¸ð½ÀÀ» º¸ÀÌ°Ô ÇÑ´Ù.
+			// ï¿½Ù·ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ñ´ï¿½.
 			g_pPlayer->PacketSpecialActionResult( 
-									RESULT_SKILL_ATTACK_GUN_AR,	// ±âº» °ø°Ý == ÃÑ!? 
+									RESULT_SKILL_ATTACK_GUN_AR,	// ï¿½âº» ï¿½ï¿½ï¿½ï¿½ == ï¿½ï¿½!? 
 									g_pPlayer->GetID(), 
 									g_pPlayer->GetX(),
 									g_pPlayer->GetY()								
@@ -72,12 +71,12 @@ void GCAttackArmsOK2Handler::execute ( GCAttackArmsOK2 * pPacket , Player * pPla
 	{
 		TYPE_ACTIONINFO actionInfo = pPacket->getSkillType();
 		//------------------------------------------------------
-		// Çàµ¿ÇÏ´Â Creature°¡ player¸¦ ¹Ù¶óº¸µµ·Ï ÇÑ´Ù.
+		// ï¿½àµ¿ï¿½Ï´ï¿½ Creatureï¿½ï¿½ playerï¿½ï¿½ ï¿½Ù¶óº¸µï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		//------------------------------------------------------
 		pCreature->SetDirectionToPosition( g_pPlayer->GetX(), g_pPlayer->GetY() );
 
 		//------------------------------------------------------
-		// Creature°¡ Player¸¦ °ø°ÝÇÏ´Â ¸ð½À
+		// Creatureï¿½ï¿½ Playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		//g_pPlayer->PacketSpecialActionResult( SKILL_ATTACK_MELEE + g_ActionInfoTable.GetMinResultActionInfo() );
 
@@ -86,7 +85,7 @@ void GCAttackArmsOK2Handler::execute ( GCAttackArmsOK2 * pPacket , Player * pPla
 		{
 			MActionResult* pResult = new MActionResult;
 			pResult->Add( new MActionResultNodeActionInfo( 
-										actionInfo,	// ±âº» °ø°Ý == ÃÑ!? 
+										actionInfo,	// ï¿½âº» ï¿½ï¿½ï¿½ï¿½ == ï¿½ï¿½!? 
 										pPacket->getObjectID(), 
 										g_pPlayer->GetID(), 
 										g_pPlayer->GetX(),
@@ -94,10 +93,10 @@ void GCAttackArmsOK2Handler::execute ( GCAttackArmsOK2 * pPacket , Player * pPla
 										) 
 						);
 			//------------------------------------------------------
-			// Creature°¡ Çàµ¿À» ÃëÇÏµµ·Ï ÇÑ´Ù.
+			// Creatureï¿½ï¿½ ï¿½àµ¿ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 			//------------------------------------------------------
 			pCreature->PacketSpecialActionToOther(
-							actionInfo,	// ±âº» °ø°Ý == ÃÑ!? 
+							actionInfo,	// ï¿½âº» ï¿½ï¿½ï¿½ï¿½ == ï¿½ï¿½!? 
 							g_pPlayer->GetID(), 
 							pResult
 			);
@@ -105,7 +104,7 @@ void GCAttackArmsOK2Handler::execute ( GCAttackArmsOK2 * pPacket , Player * pPla
 		{
 			MActionResult* pResult = new MActionResult;
 			pResult->Add( new MActionResultNodeActionInfo( 
-										pCreature->GetBasicActionInfo(),	// ±âº» °ø°Ý == ÃÑ!? 
+										pCreature->GetBasicActionInfo(),	// ï¿½âº» ï¿½ï¿½ï¿½ï¿½ == ï¿½ï¿½!? 
 										pPacket->getObjectID(), 
 										g_pPlayer->GetID(), 
 										g_pPlayer->GetX(),
@@ -113,10 +112,10 @@ void GCAttackArmsOK2Handler::execute ( GCAttackArmsOK2 * pPacket , Player * pPla
 										) 
 						);
 			//------------------------------------------------------
-			// Creature°¡ Çàµ¿À» ÃëÇÏµµ·Ï ÇÑ´Ù.
+			// Creatureï¿½ï¿½ ï¿½àµ¿ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 			//------------------------------------------------------
 			pCreature->PacketSpecialActionToOther(
-							pCreature->GetBasicActionInfo(),	// ±âº» °ø°Ý == ÃÑ!? 
+							pCreature->GetBasicActionInfo(),	// ï¿½âº» ï¿½ï¿½ï¿½ï¿½ == ï¿½ï¿½!? 
 							g_pPlayer->GetID(), 
 							pResult
 			);
@@ -124,14 +123,14 @@ void GCAttackArmsOK2Handler::execute ( GCAttackArmsOK2 * pPacket , Player * pPla
 	}
 
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	AffectModifyInfo(g_pPlayer, pPacket);
 
 
 	//------------------------------------------------------------------
-	// UI¿¡ º¸ÀÌ´Â °ÍÀ» ¹Ù²ãÁØ´Ù.
-	// ºñ±³¿¬»êÇÏ´Â°Åº¸´Ù ÀÌ°Ô ´õ ºü¸£Áö ¾ÊÀ»±î.. À½.. - -;
+	// UIï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
+	// ï¿½ñ±³¿ï¿½ï¿½ï¿½ï¿½Ï´Â°Åºï¿½ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½.. - -;
 	//------------------------------------------------------------------
 	//UI_SetHP( g_pPlayer->GetHP(), g_pPlayer->GetMAX_HP() );
 	//UI_SetMP( g_pPlayer->GetMP(), g_pPlayer->GetMAX_MP() );

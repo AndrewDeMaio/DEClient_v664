@@ -7,7 +7,7 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "MTopView.h"
 #include "GCUpdateInfo.h"
 #include "ClientDef.h"
@@ -72,12 +72,11 @@ DWORD	g_PreviousCreatureType = -1;
 int		g_MorphCreatureType = 0;
 
 //----------------------------------------------------------------------
-// Å¬¶óÀÌ¾ðÆ®°¡ °ÔÀÓ ¼­¹ö·ÎºÎÅÍ GCUpdateInfo ÆÐÅ¶À» ¹Þ°Ô µÇ¸é,
-// ÆÐÅ¶ ¾ÈÀÇ µ¥ÀÌÅÍµéÀ» Å¬¶óÀÌ¾ðÆ®¿¡ ÀúÀåÇÑ ÈÄ, µ¥ÀÌÅÍ ·ÎµùÀÌ
-// ³¡ÀÌ ³ª¸é °ÔÀÓ ¼­¹ö·Î CGReady ÆÐÅ¶À» º¸³»¸é µÈ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ GCUpdateInfo ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Þ°ï¿½ ï¿½Ç¸ï¿½,
+// ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CGReady ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È´ï¿½.
 //----------------------------------------------------------------------
 void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -88,17 +87,17 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	#endif
 
 
-	// Thread LoadingÀ» ÁßÁöÇÑ´Ù.
+	// Thread Loadingï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 // 	MWorkThreadGlobal::Instance()->StopThread();
 // 	MWorkThreadGlobal::Instance()->SetPriority(WORKTHREAD_PRIORITY_MAIN_LOADING);
 // 	g_pTopView->ClearWaitToLoadSet();
 	
-	// EventManagerÀÇ ZoneÁ¾¼Ó ÀÌº¥Æ®¸¦ »èÁ¦ÇÑ´Ù
+	// EventManagerï¿½ï¿½ Zoneï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 	g_pEventManager->RemoveAllEventByType(EVENTTYPE_ZONE);
 
 	//-----------------------------------------------------------
-	// ´Ù¸¥ ºÎºÐ¿¡¼­ mode¸¦ ÂüÁ¶ÇÏ´Â °æ¿ì°¡ ÀÖ¾î¼­
-	// mode¸¦ ¼³Á¤ÇØÁØ´Ù.
+	// ï¿½Ù¸ï¿½ ï¿½ÎºÐ¿ï¿½ï¿½ï¿½ modeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ì°¡ ï¿½Ö¾î¼­
+	// modeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 	//-----------------------------------------------------------
 	CLIENT_MODE	previousMode = g_Mode;
 	g_Mode = MODE_WAIT_UPDATEINFO;
@@ -106,7 +105,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	//UI_SaveUserOption();
 
 	//-----------------------------------------------------------
-	// ÇöÀç serverÀÇ »óÅÂ Ç¥½Ã
+	// ï¿½ï¿½ï¿½ï¿½ serverï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
 	//-----------------------------------------------------------
 	if (g_pServerInformation!=NULL)
 	{
@@ -114,8 +113,8 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	}
 
 	//-----------------------------------------------------------
-	// AddonSPK¸¦ ºÐÇÒ ·ÎµùÇÏ´Âµ¥..
-	// ¿©±â¼­´Â loading ¾ÈµÈ ºÎºÐÀ» ´Ù loadingÇØ¾ß ÇÑ´Ù. 2001.8.20
+	// AddonSPKï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½Ï´Âµï¿½..
+	// ï¿½ï¿½ï¿½â¼­ï¿½ï¿½ loading ï¿½Èµï¿½ ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ loadingï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½. 2001.8.20
 	//-----------------------------------------------------------
 	//LoadingAddonSPK( true );
 
@@ -126,26 +125,26 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	int i;
 
 	//-----------------------------------------------------------
-	// Sound¸¦ Ãâ·ÂÇÏÁö ¾Ê´Â´Ù.
+	// Soundï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 	//-----------------------------------------------------------
 	g_DXSound.SetMute();
 
 	//-----------------------------------------------------------
-	// updateInfo¸¦ Ã³¸®ÇÏ±â ½ÃÀÛÇÒ¶§ÀÇ ½Ã°£À» ÀúÀåÇÑ´Ù.
+	// updateInfoï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//-----------------------------------------------------------
 	DWORD	startTime	= timeGetTime();
 	
 	ClientPlayer * pClientPlayer = dynamic_cast<ClientPlayer*>(pPlayer);
 
 	//--------------------------------------------------
-	// µ¥ÀÌÅÍ ·ÎµùÀ» ½ÃÀÛÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//--------------------------------------------------
 	pClientPlayer->setPlayerStatus( CPS_WAITING_FOR_LOADING );
 
 	
 	//--------------------------------------------------
 	//
-	//			 Player Á¤º¸ ¼³Á¤
+	//			 Player ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//
 	//--------------------------------------------------
 	Race wasInterfaceRace = UI_GetInterfaceRace();//TRUE;
@@ -171,7 +170,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 		}
 
 		//--------------------------------------------------
-		// interface º¯°æ¿¡ °üÇÏ¿©..
+		// interface ï¿½ï¿½ï¿½æ¿¡ ï¿½ï¿½ï¿½Ï¿ï¿½..
 		//--------------------------------------------------
 		/*
 		if (g_pPlayer->IsVampire())
@@ -179,7 +178,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 			wasSlayerInterface = FALSE;
 		}
 		*/
-		// Á×¾úÀ»¶§, dialog ´Ù ´Ý±â
+		// ï¿½×¾ï¿½ï¿½ï¿½ï¿½ï¿½, dialog ï¿½ï¿½ ï¿½Ý±ï¿½
 		if (g_pPlayer->IsDead())
 		{
 			//UI_CloseAllDialog();
@@ -187,19 +186,19 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 		
 
 		//--------------------------------------------------
-		// ÀÌÀü¿¡ »ç¿ëÁßÀÌ´ø ±â¼ú À¯Áö..
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 		//--------------------------------------------------
 		spActionInfo = g_pPlayer->GetSpecialActionInfo();
 		if (g_pZone!=NULL)
 		{
 			g_pZone->RemoveCreature( g_pPlayer->GetID() );
 		}
-		backupbInvincible = g_pPlayer->GetInvincible();//20070409 by dieaice iddqd¹ö±× ¼öÁ¤
+		backupbInvincible = g_pPlayer->GetInvincible();//20070409 by dieaice iddqdï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		delete g_pPlayer;
 	}	
 	g_pPlayer = new MPlayer;
 
-	//20070409 by dieaice iddqd¹ö±× ¼öÁ¤
+	//20070409 by dieaice iddqdï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	g_pPlayer->SetInvincible(backupbInvincible);
 	DEBUG_ADD_FORMAT("[g_pPlayer] %x", g_pPlayer);
 	
@@ -207,7 +206,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 
 	//--------------------------------------------------
 	//
-	//		º¹Àå ÃÊ±âÈ­
+	//		ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
 	//
 	//--------------------------------------------------
 	DEBUG_ADD( "Remove All Addon" );
@@ -224,7 +223,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 
 	//--------------------------------------------------
 	//
-	//	Skill Info Table ÃÊ±âÈ­
+	//	Skill Info Table ï¿½Ê±ï¿½È­
 	//
 	//--------------------------------------------------
 	DEBUG_ADD( "SkillInfoTable Init" );
@@ -232,7 +231,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 
 	//--------------------------------------------------
 	//
-	// Skill Tree ÃÊ±âÈ­
+	// Skill Tree ï¿½Ê±ï¿½È­
 	//
 	//--------------------------------------------------
 	DEBUG_ADD( "SkillManager Init" );
@@ -295,13 +294,13 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 
 	//--------------------------------------------------
 	//
-	//			 playerÀÇ Á¤º¸¸¦ ÀúÀåÇÑ´Ù.
+	//			 playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//
 	//--------------------------------------------------		
 	switch (pPacket->getPCInfo()->getPCType())
 	{
 		//--------------------------------------------------
-		// SlayerÀÎ °æ¿ì
+		// Slayerï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		case PC_SLAYER :
 		{
@@ -315,7 +314,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 		break;
 
 		//--------------------------------------------------
-		// VampireÀÎ °æ¿ì
+		// Vampireï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		case PC_VAMPIRE :
 		{
@@ -329,7 +328,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 		break;
 
 		//--------------------------------------------------
-		// OustersÀÎ °æ¿ì
+		// Oustersï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		case PC_OUSTERS :
 		{
@@ -361,7 +360,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 		{
 			szNickName = (TempNick->getNickname()).c_str();
 		}
-		else // ´Ð³×ÀÓ ÀÎµ¦½º°¡ ÀÖÀ» ¶§
+		else // ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		{
 			szNickName = (*g_pNickNameStringTable)[TempNick->getNicknameIndex()].GetString();
 		}
@@ -372,36 +371,36 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	}
 	// 2004, 6, 15 sobeit add end - nick name
 
-	// 2004, 9, 15, sobeit add start - non pk °ü·Ã
+	// 2004, 9, 15, sobeit add start - non pk ï¿½ï¿½ï¿½ï¿½
 	g_pUserInformation->IsNonPK = (pPacket->isNonPK())?true:false;
-	// 2004, 9, 15, sobeit add end - non pk °ü·Ã
+	// 2004, 9, 15, sobeit add end - non pk ï¿½ï¿½ï¿½ï¿½
 	
-	// 2004, 10, 18, sobeit add start - À¯´Ï¿Â ±æµå °ü·Ã
+	// 2004, 10, 18, sobeit add start - ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	g_pUserInformation->dwUnionID = pPacket->getGuildUnionID();
 	g_pUserInformation->bUnionGrade = pPacket->getGuildUnionUserType();
 	g_pPlayer->SetUnionGuildID(g_pUserInformation->dwUnionID);
 	// 2004, 10, 18, sobeit add end
 	
-	// 2004, 12, 2, sobeit add start ÆÄ¿öÂ¯ Æ÷ÀÎÆ® 
+	// 2004, 12, 2, sobeit add start ï¿½Ä¿ï¿½Â¯ ï¿½ï¿½ï¿½ï¿½Æ® 
 	g_char_slot_ingame.m_Powerjjang_Point		= pPacket->GetPowerjjang_Point();
 	// 2004, 12, 2, sobeit add end
 
 	
 	//--------------------------------------------------
-	// ÀÌÀü¿¡ ÁöÁ¤ÇØµ×´ø actionInfo·Î ¼³Á¤
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Øµ×´ï¿½ actionInfoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	g_pPlayer->SetSpecialActionInfo( spActionInfo );
 	
 	
 	//--------------------------------------------------
-	// °ø°Ý ¸ðµå ¼³Á¤
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	g_pPlayer->SetAttackModeNormal();
 
 
 
 	//-----------------------------------------------------------
-	// º¸°üÇÔ Áö¿î´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 	//-----------------------------------------------------------
 	if (g_pStorage!=NULL)
 	{
@@ -410,7 +409,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	}
 
 	//-----------------------------------------------------------
-	// Á¤¸® Á¤¸®~~
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½~~
 	//-----------------------------------------------------------
 	UI_UnlockGear();
 	UI_UnlockItem();
@@ -428,7 +427,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	UI_ClosePartyRequest();
 	UI_ClosePartyCancel();
 	g_pUIMessageManager->Execute(UI_CLOSE_TRACE_WINDOW, 0, 0, NULL);
-//	UI_CloseSubInventory(); // subInventory´Â ´ÝÀÚ..Á¤º¸°¡ ¾ø±â ¶«½Ã..
+//	UI_CloseSubInventory(); // subInventoryï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 	UI_ClearSubInventory();
 
 	if (g_pUIDialog!=NULL)
@@ -445,7 +444,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 		
 
 	//--------------------------------------------------
-	// QuickSlotÀ» ¾ø¾Ø´Ù. ÇÊ¿äÇÑ°¡? - -;
+	// QuickSlotï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½. ï¿½Ê¿ï¿½ï¿½Ñ°ï¿½? - -;
 	//--------------------------------------------------	
 	g_pQuickSlot = NULL;
 	g_pArmsBand1 = NULL;
@@ -463,7 +462,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	DEBUG_ADD("Init g_pTopView");
 	
 	//------------------------------
-	// ÃÊ±âÈ­ µÇÁö ¾Ê¾ÒÀ¸¸é ÃÊ±âÈ­ÇÑ´Ù.
+	// ï¿½Ê±ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 	//------------------------------
 	if (!g_pTopView->IsInit())
 	{
@@ -474,14 +473,14 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	
 	//--------------------------------------------------
 	//
-	// ZoneÀÇ È¯°æ Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+	// Zoneï¿½ï¿½ È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//
 	//--------------------------------------------------
 	DEBUG_ADD("[UpdateInfo] Set Weather");
 	
 	//--------------------------------------------------
-	// ZoneÀÌµ¿ÇÒ¶§ ´Ù¸¥ ³¯¾¾·Î ¹Ù²î´Â °æ¿ì¶ó¸é..
-	// ³¯¾¾¸¦ ¿ÏÀüÈ÷ Á¦°ÅÇÑ´Ù.
+	// Zoneï¿½Ìµï¿½ï¿½Ò¶ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//--------------------------------------------------
 	if (g_pWeather->GetWeatherType()==MWeather::WEATHER_SNOW
 		&& pPacket->getWeather()!=WEATHER_SNOWY
@@ -505,23 +504,23 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 		lightSight = 13;
 	}
 
-	// È­¸éÀÇ ¾îµÓ±â
+	// È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ó±ï¿½
 	g_pTopView->SetDarkBits( darkLevel );		
 	
-	// Player½Ã¾ß ºûÀÇ Å©±â
+	// Playerï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½
 	g_pPlayer->SetTimeLightSight( lightSight );
 
 	
 	//--------------------------------------------------
 	//
-	//		Game ½Ã°£
+	//		Game ï¿½Ã°ï¿½
 	//
 	//--------------------------------------------------
 	DEBUG_ADD( "Set Game Time" );
 	
 	GameTime gt = pPacket->getGameTime();
 	
-	// ±âÁØ ½Ã°£ ¼³Á¤
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
 	g_pGameTime->SetStartTime(g_CurrentTime, 
 							gt.getYear(),
 							gt.getMonth(),
@@ -531,26 +530,26 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 							gt.getSecond()
 							);
   
-	// ½Ã°£ ºñÀ²
+	// ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½
 	g_pGameTime->SetTimeRatio( 24 );
 
 
 	//--------------------------------------------------
 	//
-	//	 GearÀÇ Á¤º¸¸¦ ÀúÀåÇÑ´Ù.
+	//	 Gearï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//
 	//--------------------------------------------------
-	// 2004, 10 ,21, sobeit Modify start - ºí·¯µå¹ÙÀÌºí ÀåÂø¾ÆÀÌÅÛ °ü·Ã
+	// 2004, 10 ,21, sobeit Modify start - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	SetGearInfo( pPacket->getGearInfo(), pPacket->getBloodBibleSignInfo() );
-	// 2004, 10 ,21, sobeit Modify end - ºí·¯µå¹ÙÀÌºí ÀåÂø¾ÆÀÌÅÛ °ü·Ã
+	// 2004, 10 ,21, sobeit Modify end - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
-	// »óÅÂ°ª °è»ê..
+	// ï¿½ï¿½ï¿½Â°ï¿½ ï¿½ï¿½ï¿½..
 	//--------------------------------------------------
 	g_pPlayer->CalculateStatus();
 
 
 	//---------------------------------------------------------------
-	// ÀÓ½Ã Belt
+	// ï¿½Ó½ï¿½ Belt
 	//---------------------------------------------------------------
 	/*
 	MItem* pItem = MItem::NewItem( ITEM_CLASS_BELT );
@@ -565,21 +564,21 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	g_SlayerGear.AddItem( pItem, (MSlayerGear::GEAR_SLAYER)MSlayerGear::GEAR_SLAYER_BELT );			
 	*/
 	/*
-	// ÀÓ½Ã·Î Ä® ³Ö±â
+	// ï¿½Ó½Ã·ï¿½ Ä® ï¿½Ö±ï¿½
 	static MBlade	blade;	blade.SetItemType( 0 ); blade.SetItemOption( 0 );
 	//static MSword	sword;	sword.SetItemType( 0 );	sword.SetItemOption( 0 );
 	g_pPlayer->SetAddonItem( &blade);
 	*/
 
 	/*
-	// ÀÓ½Ã·Î ÃÑ ³Ö±â
+	// ï¿½Ó½Ã·ï¿½ ï¿½ï¿½ ï¿½Ö±ï¿½
 	static MGunSMG	gun;	gun.SetItemType( 0 ); gun.SetItemOption( 0 );
 	MMagazine* pMagazine = (MMagazine*)MItem::NewItem( (ITEM_CLASS)ITEM_CLASS_MAGAZINE );
 
-	// ÀÇ¹Ì ¾øÀ½ - -;
+	// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ - -;
 	pMagazine->SetID( 0 );
 
-	// ÀÌ°Å´Â ÃÑ¿¡ ¸ÂÃç¼­ ÇØÁà¾ßµÈ´Ù.
+	// ï¿½Ì°Å´ï¿½ ï¿½Ñ¿ï¿½ ï¿½ï¿½ï¿½ç¼­ ï¿½ï¿½ï¿½ï¿½ßµÈ´ï¿½.
 	for (int j=0; j<g_ItemTable[ITEM_CLASS_MAGAZINE].GetSize(); j++)			
 	{
 		pMagazine->SetItemType(	j );
@@ -590,14 +589,14 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 		}
 	}
 
-	// ÀÇ¹Ì ¾øÀ½
+	// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½
 	pMagazine->SetItemOption( 0 );
 
-	// ÅºÃ¢ °³¼ö
+	// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 	pMagazine->SetNumber( 1000 );
 
 	//------------------------------------
-	// ÅºÃ¢ ¼³Á¤
+	// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------
 	gun.SetMagazine( pMagazine );
 
@@ -607,7 +606,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 
 	//--------------------------------------------------
 	//
-	//			Inventory ÃÊ±âÈ­
+	//			Inventory ï¿½Ê±ï¿½È­
 	//
 	//--------------------------------------------------
 	SetInventoryInfo( pPacket->getInventoryInfo() );
@@ -615,7 +614,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 
 	//--------------------------------------------------
 	//
-	// ±âÅ¸ Item Á¤º¸ == Mouse¿¡ ºÙ¾î ÀÖ´Â item
+	// ï¿½ï¿½Å¸ Item ï¿½ï¿½ï¿½ï¿½ == Mouseï¿½ï¿½ ï¿½Ù¾ï¿½ ï¿½Ö´ï¿½ item
 	//
 	//--------------------------------------------------
 	SetExtraInfo( pPacket->getExtraInfo() );
@@ -623,13 +622,13 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 
 	//--------------------------------------------------
 	//
-	// ¿ÀÅä¹ÙÀÌ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//
 	//--------------------------------------------------
 	if (pPacket->hasMotorcycle())
 	{
 		//--------------------------------------------
-		// ¿ÀÅä¹ÙÀÌ »ý¼º
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//--------------------------------------------
 		MItem*	pMotor = new MMotorcycle;	
 		pMotor->SetID( 0 );
@@ -637,7 +636,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 //		pMotor->SetItemOption( 0 );
 						
 		//--------------------------------------------
-		// ¿ÀÅä¹ÙÀÌ ¾ÈÀÇ ¾ÆÀÌÅÛµé..
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ûµï¿½..
 		//--------------------------------------------
 		RideMotorcycleInfo* pMotorInfo = pPacket->getRideMotorcycleInfo();
 
@@ -655,8 +654,8 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 
 				if (pMotorSlotInfo!=NULL)
 				{
-					// slot Á¤º¸¸¦ ÀÐ¾î¼­ pMotor¿¡ Ãß°¡ÇÏ¸é µÈ´Ù.
-					// Motor´Â MGridItemManagerÀÌ´Ù.
+					// slot ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾î¼­ pMotorï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï¸ï¿½ ï¿½È´ï¿½.
+					// Motorï¿½ï¿½ MGridItemManagerï¿½Ì´ï¿½.
 
 					delete pMotorSlotInfo;
 				}
@@ -664,54 +663,54 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 		}
 
 		//--------------------------------------------
-		// ¿ÀÅä¹ÙÀÌ¿¡ Å¸°Ô ÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¿ï¿½ Å¸ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		//--------------------------------------------
 		g_pPlayer->SetAddonItem( pMotor );	
 		
 		// -_-;;		
-		// ³ªÁß¿¡´Â player°¡ ¿ÀÅä¹ÙÀÌ¸¦ °®°Ô ÇØ¾ßÇÑ´Ù. -_-;;
-		// Áö¿ì¸é ¾ÆÀÌÅÛ Á¤º¸°í ¹¹°í ´Ù »ç¶óÁü T_T;
+		// ï¿½ï¿½ï¿½ß¿ï¿½ï¿½ï¿½ playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½. -_-;;
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ T_T;
 		delete pMotor;	
 	}
 
 	UI_DrawProgress(17);
 
 	//--------------------------------------------------
-	// ÇöÀç »ç¿ë °¡´ÉÇÑ skillµéÀ» ´Ù½Ã Ã¼Å©ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ skillï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ Ã¼Å©ï¿½Ñ´ï¿½.
 	//--------------------------------------------------
 	g_pSkillAvailable->SetAvailableSkills();
 
 	//--------------------------------------------------
 	//
-	// ÇÊ¿äÇÑ Ä³¸¯ÅÍ Sprite Load
+	// ï¿½Ê¿ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ Sprite Load
 	//
 	//--------------------------------------------------
 	// [ TEST CODE ]
-	// Ä³¸¯ÅÍ ¸ö ·Îµå
+	// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Îµï¿½
 //	DEBUG_ADD( "Load Creature Sprites" );
 	
 	//----------------------------------------
-	// Player Ä³¸¯ÅÍ ±×¸² Load
+	// Player Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ Load
 	//----------------------------------------
-	// Slayer³²ÀÚ	- ±×³É.. - -; ÀÇ¹Ì°¡ ÀÖÀ»±î..
+	// Slayerï¿½ï¿½ï¿½ï¿½	- ï¿½×³ï¿½.. - -; ï¿½Ç¹Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
 //	LoadCreature( 0 );
 //	UI_DrawProgress(25);
 //
-//	// Slayer¿©ÀÚ
+//	// Slayerï¿½ï¿½ï¿½ï¿½
 //	LoadCreature( 1 );
 //	UI_DrawProgress(35);
 //
-//	// Vampire³²ÀÚ
+//	// Vampireï¿½ï¿½ï¿½ï¿½
 //	LoadCreature( 2 );
 //	UI_DrawProgress(38);
 //
-//	// Vampire¿©ÀÚ
+//	// Vampireï¿½ï¿½ï¿½ï¿½
 //	LoadCreature( 3 );
 //	UI_DrawProgress(39);
 //
-//	// ´Á´ë : spriteTypeÀÌ´Ù.
+//	// ï¿½ï¿½ï¿½ï¿½ : spriteTypeï¿½Ì´ï¿½.
 //	LoadCreature( 58 );
-//	// ¹ÚÁã : spriteTypeÀÌ´Ù.
+//	// ï¿½ï¿½ï¿½ï¿½ : spriteTypeï¿½Ì´ï¿½.
 //	LoadCreature( 59 );
 //	UI_DrawProgress(40);
 
@@ -735,10 +734,10 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	{
 		int spriteType = pPacket->getNPCType( i );
 
-		// 2001.8.20 ÁÖ¼®Ã³¸®
+		// 2001.8.20 ï¿½Ö¼ï¿½Ã³ï¿½ï¿½
 		//LoadCreature( spriteType );
 
-		// ÀÌ zone¿¡¼­ »ç¿ëÇÏ´Â creatureÀÇ SpriteType
+		// ï¿½ï¿½ zoneï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ creatureï¿½ï¿½ SpriteType
 		listUse.Add( spriteType );
 
 		//progress += progressInc;
@@ -752,14 +751,14 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	{	
 		int spriteType = pPacket->getMonsterType( i );
 
-		// ÀÌ zone¿¡¼­ »ç¿ëÇÏ´Â creatureÀÇ SpriteType
+		// ï¿½ï¿½ zoneï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ creatureï¿½ï¿½ SpriteType
 		listUse.Add( spriteType );
 	}
 
 	//--------------------------------------------------
-	// ÀÌ Zone¿¡¼­ »ç¿ëÇÏÁö ¾Ê´Â creatureµéÀº Á¦°ÅÇÑ´Ù.
+	// ï¿½ï¿½ Zoneï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ creatureï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//	
-	// ´Ü, LargeZone¿¡¼­ LargeZoneÀ¸·Î ÀÌµ¿ÇÏ´Â °æ¿ì¿¡¸¸!
+	// ï¿½ï¿½, LargeZoneï¿½ï¿½ï¿½ï¿½ LargeZoneï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½!
 	//--------------------------------------------------
 	if (g_bZonePlayerInLarge && g_nZoneLarge!=ZONEID_NULL && g_pZoneLarge!=NULL)
 	{
@@ -770,7 +769,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 			g_pTopView->AddMonsterSpriteTypes( listUse );
 		}
 		//--------------------------------------------------
-		// Large ZoneÀ¸·Î ÀÌµ¿ÇÏ´Â °æ¿ì
+		// Large Zoneï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------	
 		else
 		{
@@ -814,11 +813,11 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	//--------------------------------------------------
 	// Zone Loading...			
 	//--------------------------------------------------
-	// °ÔÀÓ ÁßÀÌ¾úÀ¸¸é.. Zone ÀÌµ¿.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ï¿½.. Zone ï¿½Ìµï¿½.
 	DEBUG_ADD( "Load Zone" );
 	
 	//--------------------------------------------------
-	// ÀÓ½Ã ZoneÁÂÇ¥
+	// ï¿½Ó½ï¿½ Zoneï¿½ï¿½Ç¥
 	//--------------------------------------------------
 	g_pPlayer->SetX( pPacket->getZoneX() );
 	g_pPlayer->SetY( pPacket->getZoneY() );
@@ -827,7 +826,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	{
 		MoveZone( pPacket->getZoneID() );
 	}
-	// ¾Æ´Ï¸é.. ±×³É Zone Loading
+	// ï¿½Æ´Ï¸ï¿½.. ï¿½×³ï¿½ Zone Loading
 	else
 	{
 		LoadZone( pPacket->getZoneID() );
@@ -840,7 +839,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 
 	//-----------------------------------------------------------
 	//
-	// Zone¿¡¼­ÀÇ NPC ÁÂÇ¥ ¼³Á¤
+	// Zoneï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ NPC ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
 	//
 	//-----------------------------------------------------------
 	while (1)
@@ -872,35 +871,35 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 
 	//--------------------------------------------------
 	//
-	//	ÇöÀç Player¿¡ °É·ÁÀÖ´Â Effect Status¸¦ ¼³Á¤ÇÑ´Ù.
+	//	ï¿½ï¿½ï¿½ï¿½ Playerï¿½ï¿½ ï¿½É·ï¿½ï¿½Ö´ï¿½ Effect Statusï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//
 	//--------------------------------------------------
-	// [!] Zone Loading ÀÌÈÄ¿¡ ÇØ¾ßÇÑ´Ù.
+	// [!] Zone Loading ï¿½ï¿½ï¿½Ä¿ï¿½ ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½.
 	//--------------------------------------------------
 	
 	//--------------------------------------------------
-	// ÇöÀç ½Ã°£°ú Frame °è»êÀ» ´Ù½Ã ÇØÁØ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ Frame ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 	//--------------------------------------------------
-	g_CurrentTime = timeGetTime();	// ÇÊ¿äÇÒ±î? -_-;
+	g_CurrentTime = timeGetTime();	// ï¿½Ê¿ï¿½ï¿½Ò±ï¿½? -_-;
 	
-	// updateInfo¸¦ Ã³¸®ÇÑ´Ù°í ¼Ò¿äµÈ ½Ã°£
-	// ...À» frameÀ¸·Î È¯»êÇÑ °ª
+	// updateInfoï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´Ù°ï¿½ ï¿½Ò¿ï¿½ï¿½ ï¿½Ã°ï¿½
+	// ...ï¿½ï¿½ frameï¿½ï¿½ï¿½ï¿½ È¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	int delayedFrame = ConvertMillisecondToFrame( g_CurrentTime - startTime );		
 
-	// °ÔÀÓ frame Áõ°¡
+	// ï¿½ï¿½ï¿½ï¿½ frame ï¿½ï¿½ï¿½ï¿½
 	g_CurrentFrame += delayedFrame;
 //	g_pPlayer->SetBatColorSet(0xFFFF);
 
 	PCType pcType = pPacket->getPCInfo()->getPCType();
 
 	//--------------------------------------------------
-	// VampireÀÎ °æ¿ì
+	// Vampireï¿½ï¿½ ï¿½ï¿½ï¿½
 	//--------------------------------------------------
 	if(pcType == PC_VAMPIRE)
 	{
 		PCVampireInfo2 *pInfo = dynamic_cast< PCVampireInfo2* >( pPacket->getPCInfo() );
 		
-		// ½ÂÁ÷ ¹ìÆÄÀÌ¾î °í½ºÆ® ÀÌÆÑÆ®
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½Æ®
 		if( bIsAdvancementClass && g_pPlayer->GetCreatureType() == CREATURETYPE_VAMPIRE_GHOST )
 			g_pPlayer->SetAdvanceBatEffect();
 #if __CONTENTS(__FAST_TRANSFORTER)
@@ -916,7 +915,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	SetEffectInfo( g_pPlayer, pPacket->getEffectInfo(), delayedFrame );
 	
 
-// 	// ·ÎµùÀÌ µÉ¶§±îÁö ±âµÑ¸°´Ù.
+// 	// ï¿½Îµï¿½ï¿½ï¿½ ï¿½É¶ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ñ¸ï¿½ï¿½ï¿½.
 // 	MWorkThreadGlobal::Instance()->SetPriority(WORKTHREAD_PRIORITY_THREAD_LOADING);
 // 
 // 	int nLoadCount = 90;
@@ -939,7 +938,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	g_SkillManager.Init( MAX_SKILLDOMAIN );
 
 	//---------------------------------------------------------------------
-	// ±âº» ±â¼ú·ÎºÎÅÍ skill tree¸¦ ÃÊ±âÈ­ÇÑ´Ù.
+	// ï¿½âº» ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ skill treeï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 	//---------------------------------------------------------------------
 	g_SkillManager[SKILLDOMAIN_BLADE].SetRootSkill( SKILL_SINGLE_BLOW );
 	g_SkillManager[SKILLDOMAIN_SWORD].SetRootSkill( SKILL_DOUBLE_IMPACT );
@@ -981,17 +980,17 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 
 
 	//-----------------------------------------------------------
-	// Sound¸¦ Ãâ·ÂÇÒ ¼ö ÀÖ°Ô ÇÑ´Ù.
+	// Soundï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½Ñ´ï¿½.
 	//-----------------------------------------------------------
 	g_DXSound.UnSetMute();
 
-	// blood drainÃ¼Å©¶§¸Þ ÇÔ ´õ Ãâ·Â ¤Ñ.¤Ñ
+	// blood drainÃ¼Å©ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½.ï¿½ï¿½
 	UI_SetHP( g_pPlayer->GetHP(), g_pPlayer->GetMAX_HP() );
 	
 	//UI_AffectUserOption();
 
 	//--------------------------------------------------
-	// message ÃÊ±âÈ­
+	// message ï¿½Ê±ï¿½È­
 	//--------------------------------------------------
 	g_pSystemMessage->Clear();
 	g_pGameMessage->Clear();
@@ -1014,7 +1013,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	event.eventType = EVENTTYPE_ZONE;
 	event.eventFlag = EVENTFLAG_ONLY_EVENT_BACKGROUND | EVENTFLAG_NOT_DRAW_UI | EVENTFLAG_NOT_DRAW_CREATURE | EVENTFLAG_NOT_DRAW_INFORMATION | EVENTFLAG_NOT_DRAW_CREATURE_SHADOW | EVENTFLAG_NOT_DRAW_ITEM | EVENTFLAG_NOT_DRAW_MOUSE_POINTER | EVENTFLAG_NOT_DRAW_EFFECT | EVENTFLAG_DENY_INPUT | EVENTFLAG_NOT_FADE_SCREEN | EVENTFLAG_NOT_PLAY_SOUND;
 	
-	// ½½·¹ÀÌ¾î ½ÂÁ÷ Äù½ºÆ® ¿£µù ÀÌº¥Æ®
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®
 	event.parameter1 = 0;
 	event.parameter4 = 3;
 	g_pEventManager->AddEvent(event);
@@ -1022,13 +1021,13 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	///////////////////////////////////////////////////////////////
 
 	//--------------------------------------------------
-	// Player ¿ÜÇüÀ¸·Î ¿î¿µÀÚ Ã¼Å©
+	// Player ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½î¿µï¿½ï¿½ Ã¼Å©
 	//--------------------------------------------------
 	bool bPlayerShapeCheck = g_pPlayer && g_pPlayer->IsOperator();
 	g_pUserInformation->attrOperator.SetAttr(OPERATORTYPE_PLAYERSHAPE, bPlayerShapeCheck);
 	
 	//--------------------------------------------------
-	// playerÀÇ À§Ä¡¸¦ ±â´Ù¸°´Ù.
+	// playerï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½.
 	//--------------------------------------------------
 	SetMode( MODE_WAIT_SETPOSITION );
 
@@ -1074,10 +1073,10 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 	fclose(fp);
 
 #if __CONTENTS(__PREMIUM_GIVE_ITEM_UI)
-	//ij-ch 2008.09.30 ÇÁ¸®¹Ì¾ö Áö±ÞÃ¢ ¶ç¿ì±â Add
+	//ij-ch 2008.09.30 ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½ Add
 	if(gC_vs_ui.IsRunningRequest_PremiumGiveItem()==false)
 		gC_vs_ui.Request_PremiumGiveItem();
-	//ij-ch 2008.09.30 ÇÁ¸®¹Ì¾ö Áö±ÞÃ¢ ¶ç¿ì±â End
+	//ij-ch 2008.09.30 ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½ End
 #endif //__PREMIUM_GIVE_ITEM_UI
 
 //	ExecuteHelpEvent( HELP_EVENT_INTERFACE );

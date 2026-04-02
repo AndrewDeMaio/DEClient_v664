@@ -24,50 +24,50 @@ class CGMove : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CG_MOVE; }
+	PacketID_t getPacketID () const { return PACKET_CG_MOVE; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static CGMovePacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () { return szCoord + szCoord + szDir; }
+	// const static CGMovePacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const { return szCoord + szCoord + szDir; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGMove"; }
+		std::string getPacketName () const { return "CGMove"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
 public :
 
 	// get/set X Coordicate
-	Coord_t getX () const throw () { return m_X; }
-	void setX ( Coord_t x ) throw () { m_X = x; }
+	Coord_t getX () const { return m_X; }
+	void setX ( Coord_t x ) { m_X = x; }
 
 	// get/set Y Coordicate
-	Coord_t getY () const throw () { return m_Y; }
-	void setY ( Coord_t y ) throw () { m_Y = y; }
+	Coord_t getY () const { return m_Y; }
+	void setY ( Coord_t y ) { m_Y = y; }
 
 	// get/set Direction
-	Dir_t getDir () const throw () { return m_Dir; }
-	void setDir ( Dir_t dir ) throw () { m_Dir = dir; }
+	Dir_t getDir () const { return m_Dir; }
+	void setDir ( Dir_t dir ) { m_Dir = dir; }
 	
 private :
 	
-	Coord_t m_X;			// X ÁÂÇ¥
-	Coord_t m_Y;			// Y ÁÂÇ¥
-	Dir_t m_Dir;			// ¹æÇâ
+	Coord_t m_X;			// X ï¿½ï¿½Ç¥
+	Coord_t m_Y;			// Y ï¿½ï¿½Ç¥
+	Dir_t m_Dir;			// ï¿½ï¿½ï¿½ï¿½
 
 };
 
@@ -85,20 +85,20 @@ class CGMoveFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CGMove(); }
+	Packet * createPacket () { return new CGMove(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGMove"; }
+		std::string getPacketName () const { return "CGMove"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_MOVE; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_MOVE; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static CGMovePacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return szCoord + szCoord + szDir; }
+	// const static CGMovePacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return szCoord + szCoord + szDir; }
 
 };
 
@@ -117,7 +117,7 @@ public :
 	public :
 
 		// execute packet's handler
-		static void execute ( CGMove * pPacket , Player * player ) throw ( ProtocolException , Error );
+		static void execute ( CGMove * pPacket , Player * player );
 	};
 
 #endif

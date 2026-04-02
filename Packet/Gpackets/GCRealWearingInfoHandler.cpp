@@ -6,7 +6,7 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 // include files
 #include "GCRealWearingInfo.h"
 #include "ClientDef.h"
@@ -19,7 +19,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCRealWearingInfoHandler::execute ( GCRealWearingInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException, Error )
 {
 	__BEGIN_TRY
 		
@@ -57,12 +56,12 @@ void GCRealWearingInfoHandler::execute ( GCRealWearingInfo * pPacket , Player * 
 			
 			if(pWeapon != NULL)
 			{
-				if(flag & 0x10)	// ¹«±â ¼öÄ¡°¡ Àû¿ëµÇ´Â °æ¿ì
+				if(flag & 0x10)	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½
 				{
 					if(pWeapon->IsAffectStatus() == false)
 						bResetSkills = true;
 				}
-				else	// ¹«±â ¼öÄ¡°¡ Àû¿ëµÇÁö ¾Ê´Â °æ¿ì
+				else	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½
 				{
 					if(pWeapon->IsAffectStatus() == true)
 						bResetSkills = true;
@@ -73,7 +72,7 @@ void GCRealWearingInfoHandler::execute ( GCRealWearingInfo * pPacket , Player * 
 			DWORD bit = 1;
 
 			//-------------------------------------------------------
-			// °¢ Slot¿¡ ´ëÇØ¼­ itemÀÇ ¼öÄ¡ Àû¿ë ¿©ºÎ¸¦ ÆÇ´ÜÇÑ´Ù.
+			// ï¿½ï¿½ Slotï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ itemï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½Ç´ï¿½ï¿½Ñ´ï¿½.
 			//-------------------------------------------------------
 			for (int i=0; i<num; i++)
 			{
@@ -93,7 +92,7 @@ void GCRealWearingInfoHandler::execute ( GCRealWearingInfo * pPacket , Player * 
 					if (pModifyItem!=NULL)
 					{
 						//-------------------------------------------------------
-						// Á¦´ë·Î ¼öÄ¡°¡ Àû¿ëµÇ´Â °æ¿ì
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½
 						//-------------------------------------------------------
 						if (flag & bit)
 						{
@@ -108,7 +107,7 @@ void GCRealWearingInfoHandler::execute ( GCRealWearingInfo * pPacket , Player * 
 							pModifyItem->SetAffectStatus();
 #endif //__LIMITED_ITEM_UNISEX
 						//-------------------------------------------------------
-						// Á¦´ë·Î ¼öÄ¡°¡ Àû¿ëµÇÁö ¾Ê´Â °æ¿ì
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½
 						//-------------------------------------------------------
 						else
 						{
@@ -122,7 +121,7 @@ void GCRealWearingInfoHandler::execute ( GCRealWearingInfo * pPacket , Player * 
 				bit <<= 1;
 			}
 
-			if(bResetSkills)	//¿ÜÇü º¯È­°¡ ÀÖÀ»¶§¿¡ »ç¿ë ½ºÅ³ ¼³Á¤À» ´Ù½Ã ÇØ ÁÙ ¼ö ÀÖµµ·Ï È£Ãâ (shootkj 2008.11.14)
+			if(bResetSkills)	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½ È£ï¿½ï¿½ (shootkj 2008.11.14)
 				g_pSkillAvailable->SetAvailableSkills();	
 
 		}
@@ -137,7 +136,7 @@ void GCRealWearingInfoHandler::execute ( GCRealWearingInfo * pPacket , Player * 
 			DWORD bit = 1;
 
 			//-------------------------------------------------------
-			// °¢ Slot¿¡ ´ëÇØ¼­ itemÀÇ ¼öÄ¡ Àû¿ë ¿©ºÎ¸¦ ÆÇ´ÜÇÑ´Ù.
+			// ï¿½ï¿½ Slotï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ itemï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½Ç´ï¿½ï¿½Ñ´ï¿½.
 			//-------------------------------------------------------
 			for (int i=0; i<num; i++)
 			{
@@ -156,7 +155,7 @@ void GCRealWearingInfoHandler::execute ( GCRealWearingInfo * pPacket , Player * 
 					if (pModifyItem!=NULL)
 					{
 						//-------------------------------------------------------
-						// Á¦´ë·Î ¼öÄ¡°¡ Àû¿ëµÇ´Â °æ¿ì
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½
 						//-------------------------------------------------------
 						if (flag & bit)
 						{
@@ -170,7 +169,7 @@ void GCRealWearingInfoHandler::execute ( GCRealWearingInfo * pPacket , Player * 
 							pModifyItem->SetAffectStatus();
 #endif //__LIMITED_ITEM_UNISEX
 						//-------------------------------------------------------
-						// Á¦´ë·Î ¼öÄ¡°¡ Àû¿ëµÇÁö ¾Ê´Â °æ¿ì
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½
 						//-------------------------------------------------------
 						else
 						{
@@ -191,7 +190,7 @@ void GCRealWearingInfoHandler::execute ( GCRealWearingInfo * pPacket , Player * 
 				DWORD bit = 1;
 				
 				//-------------------------------------------------------
-				// °¢ Slot¿¡ ´ëÇØ¼­ itemÀÇ ¼öÄ¡ Àû¿ë ¿©ºÎ¸¦ ÆÇ´ÜÇÑ´Ù.
+				// ï¿½ï¿½ Slotï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ itemï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½Ç´ï¿½ï¿½Ñ´ï¿½.
 				//-------------------------------------------------------
 				for (int i=0; i<num; i++)
 				{
@@ -210,14 +209,14 @@ void GCRealWearingInfoHandler::execute ( GCRealWearingInfo * pPacket , Player * 
 						if (pModifyItem!=NULL)
 						{
 							//-------------------------------------------------------
-							// Á¦´ë·Î ¼öÄ¡°¡ Àû¿ëµÇ´Â °æ¿ì
+							// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½
 							//-------------------------------------------------------
 							if (flag & bit)
 							{
 								pModifyItem->SetAffectStatus();
 							}
 							//-------------------------------------------------------
-							// Á¦´ë·Î ¼öÄ¡°¡ Àû¿ëµÇÁö ¾Ê´Â °æ¿ì
+							// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½
 							//-------------------------------------------------------
 							else
 							{

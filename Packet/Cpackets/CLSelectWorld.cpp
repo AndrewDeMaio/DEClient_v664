@@ -7,7 +7,6 @@
 #include "CLSelectWorld.h"
 
 void CLSelectWorld::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -17,7 +16,6 @@ void CLSelectWorld::read (SocketInputStream & iStream)
 }
 
 void CLSelectWorld::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 	
@@ -27,7 +25,6 @@ void CLSelectWorld::write (SocketOutputStream & oStream) const
 }
 
 void CLSelectWorld::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		

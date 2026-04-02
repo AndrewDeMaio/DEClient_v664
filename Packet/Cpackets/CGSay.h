@@ -22,8 +22,8 @@
 //
 // class CGSay;
 //
-// Å¬¶óÀÌ¾ðÆ®°¡ ¼­¹ö¿¡°Ô º¸³»´Â Say ÆÐÅ¶ÀÌ´Ù.
-// ³»ºÎ¿¡ Say String ¸¸À» µ¥ÀÌÅ¸ ÇÊµå·Î °¡Áø´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Say ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
+// ï¿½ï¿½ï¿½Î¿ï¿½ Say String ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ ï¿½Êµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -35,36 +35,36 @@ class CGSay : public Packet {
 
 public:
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_CG_SAY; }
+	PacketID_t getPacketID() const { return PACKET_CG_SAY; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return szuint + szBYTE + m_Message.size(); }
+	size_t getPacketSize() const { return szuint + szBYTE + m_Message.size(); }
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	std::string getPacketName() const throw() { return "CGSay"; }
+	std::string getPacketName() const { return "CGSay"; }
 	
 	// get packet's debug std::string
-	std::string toString() const throw();
+	std::string toString() const;
 #endif
 
 	// get/set text color
-	uint getColor() const throw() { return m_Color; }
-	void setColor( uint color ) throw() { m_Color = color; }
+	uint getColor() const { return m_Color; }
+	void setColor( uint color ) { m_Color = color; }
 
 	// get/set chatting message
-	const std::string& getMessage() const throw() { return m_Message; }
-	void setMessage(const std::string & msg) throw() { m_Message = msg; }
+	const std::string& getMessage() const { return m_Message; }
+	void setMessage(const std::string & msg) { m_Message = msg; }
 	
 
 private :
@@ -92,17 +92,17 @@ class CGSayFactory : public PacketFactory {
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new CGSay(); }
+	Packet* createPacket() { return new CGSay(); }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "CGSay"; }
+	std::string getPacketName() const { return "CGSay"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_SAY; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_SAY; }
 
 	// get packet's max body size
-	// message ÀÇ ÃÖ´ë Å©±â¿¡ ´ëÇÑ ¼³Á¤ÀÌ ÇÊ¿äÇÏ´Ù.
-	PacketSize_t getPacketMaxSize() const throw() { return szuint + szBYTE + 128; }
+	// message ï¿½ï¿½ ï¿½Ö´ï¿½ Å©ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´ï¿½.
+	PacketSize_t getPacketMaxSize() const { return szuint + szBYTE + 128; }
 
 };
 #endif
@@ -120,83 +120,83 @@ class CGSayHandler {
 public:
 
 	// execute packet's handler
-	static void execute(CGSay* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(CGSay* pPacket, Player* pPlayer);
 
 #ifdef __GAME_SERVER__
 
-	static void opExecute( Creature* pCreature, GamePlayer* pPlayer, std::string msg, int i ) throw(ProtocolException, Error);
+	static void opExecute( Creature* pCreature, GamePlayer* pPlayer, std::string msg, int i );
 
 	// for guild test
-	static void opzone( std::string msg, int i ) throw( ProtocolException, Error );
-	static void opguild( std::string msg, int i ) throw(ProtocolException, Error);
+	static void opzone( std::string msg, int i );
+	static void opguild( std::string msg, int i );
 
-	// ÀüÀï ½Ã½ºÅÛ °ü·Ã 
-	static void opcombat( GamePlayer* pPlayer, std::string msg, int i ) throw(ProtocolException, Error);
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	static void opcombat( GamePlayer* pPlayer, std::string msg, int i );
 
-	// set ÀÌº¥Æ® ¾ÆÀÌÅÛ È®·ü
-	static void opset( GamePlayer* pPlayer, std::string msg, int i ) throw(ProtocolException, Error);
+	// set ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+	static void opset( GamePlayer* pPlayer, std::string msg, int i );
 
-	static void opview( GamePlayer* pPlayer, std::string msg, int i ) throw(ProtocolException, Error);
+	static void opview( GamePlayer* pPlayer, std::string msg, int i );
 
 	// save
-	static void opsave(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opsave(GamePlayer* pPlayer, std::string msg, int i);
 
 	// wall
-	static void opwall(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opwall(GamePlayer* pPlayer, std::string msg, int i);
 
 	// Shutdown
-	static void opshutdown(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opshutdown(GamePlayer* pPlayer, std::string msg, int i);
 
 	// kick
-	static void opkick(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opkick(GamePlayer* pPlayer, std::string msg, int i);
 
 	// mute
-	static void opmute(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opmute(GamePlayer* pPlayer, std::string msg, int i);
 
 	// freezing
-	static void opfreezing(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opfreezing(GamePlayer* pPlayer, std::string msg, int i);
 
 	// deny
-	static void opdeny(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opdeny(GamePlayer* pPlayer, std::string msg, int i);
 
 	// info
-	static void opinfo(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opinfo(GamePlayer* pPlayer, std::string msg, int i);
 
 	// trace
-	static void optrace(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void optrace(GamePlayer* pPlayer, std::string msg, int i);
 
 	// warp
-	static void opwarp(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opwarp(GamePlayer* pPlayer, std::string msg, int i);
 
 	// create
-	static void opcreate(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opcreate(GamePlayer* pPlayer, std::string msg, int i);
 
 	// grant
-	static void opgrant(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opgrant(GamePlayer* pPlayer, std::string msg, int i);
 
 	// recall
-	static void oprecall(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void oprecall(GamePlayer* pPlayer, std::string msg, int i);
 
 	// mrecall
-	static void opmrecall(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opmrecall(GamePlayer* pPlayer, std::string msg, int i);
 
 	// user
-	static void opuser(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opuser(GamePlayer* pPlayer, std::string msg, int i);
 
 	// summon
-	static void opsummon(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opsummon(GamePlayer* pPlayer, std::string msg, int i);
 
 	// notice 
-	static void opnotice(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opnotice(GamePlayer* pPlayer, std::string msg, int i);
 
 	// pay 
-	static void oppay(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void oppay(GamePlayer* pPlayer, std::string msg, int i);
 
 	// world 
-	static void opworld(GamePlayer* pPlayer, std::string msg, int i, bool bSameWorldOnly) throw(ProtocolException, Error);
+	static void opworld(GamePlayer* pPlayer, std::string msg, int i, bool bSameWorldOnly);
 
 	// command 
-	static void opcommand(GamePlayer* pPlayer, std::string msg, int i) throw(ProtocolException, Error);
+	static void opcommand(GamePlayer* pPlayer, std::string msg, int i);
 #endif
 
 };

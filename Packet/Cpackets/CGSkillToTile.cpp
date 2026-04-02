@@ -11,21 +11,18 @@
 
 
 CGSkillToTile::CGSkillToTile () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 CGSkillToTile::~CGSkillToTile () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGSkillToTile::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -55,7 +52,6 @@ void CGSkillToTile::read (SocketInputStream & iStream)
 }
 
 void CGSkillToTile::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -84,7 +80,6 @@ void CGSkillToTile::write (SocketOutputStream & oStream) const
 }
 
 void CGSkillToTile::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -97,7 +92,6 @@ void CGSkillToTile::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGSkillToTile::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

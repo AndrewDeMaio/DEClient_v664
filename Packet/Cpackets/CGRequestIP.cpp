@@ -2,7 +2,7 @@
 // 
 // Filename    : CGRequestIP.cpp 
 // Written By  : elca@ewestsoft.com
-// Description : ¼­¹ö¿¡ ¿øÇÏ´Â »ç¶÷ÀÇ IP ¿äÃ»
+// Description : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ IP ï¿½ï¿½Ã»
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -18,7 +18,6 @@
 // constructor
 //////////////////////////////////////////////////////////////////////
 CGRequestIP::CGRequestIP () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -29,7 +28,6 @@ CGRequestIP::CGRequestIP ()
 // destructor
 //////////////////////////////////////////////////////////////////////
 CGRequestIP::~CGRequestIP () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -37,10 +35,9 @@ CGRequestIP::~CGRequestIP ()
 
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void CGRequestIP::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -58,14 +55,14 @@ void CGRequestIP::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void CGRequestIP::write ( SocketOutputStream & oStream ) 
-     const throw ( ProtocolException , Error )
+     const
 {
 	__BEGIN_TRY
 	
-	// ÃÖÀûÈ­ ÀÛ¾÷½Ã ½ÇÁ¦ Å©±â¸¦ ¸í½ÃÇÏµµ·Ï ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½È­ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	BYTE num = m_Name.size();
 	oStream.write( num );
 
@@ -83,7 +80,6 @@ void CGRequestIP::write ( SocketOutputStream & oStream )
 //
 //////////////////////////////////////////////////////////////////////
 void CGRequestIP::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -102,7 +98,7 @@ void CGRequestIP::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 	std::string CGRequestIP::toString () 
-		const throw ()
+		const
 	{
 		__BEGIN_TRY
 

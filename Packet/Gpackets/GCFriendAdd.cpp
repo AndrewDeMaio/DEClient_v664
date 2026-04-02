@@ -7,16 +7,15 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCFriendAdd.h"
 
 #if __CONTENTS(__FRIEND_ADDITION)
-GCFriendAdd::~GCFriendAdd() throw()
+GCFriendAdd::~GCFriendAdd()
 {
 }
 
 void GCFriendAdd::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -27,10 +26,9 @@ void GCFriendAdd::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Datagram °´Ã¼·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCFriendAdd::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -39,13 +37,12 @@ void GCFriendAdd::write ( SocketOutputStream & oStream ) const
 	__END_CATCH
 }
 
-PacketSize_t GCFriendAdd::getPacketSize() const throw() 
+PacketSize_t GCFriendAdd::getPacketSize() const 
 { 
 	return m_FriendSimpleInfo.getSize(); 
 }
 
 void GCFriendAdd::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -65,7 +62,6 @@ FriendSimpleInfo& GCFriendAdd::GetFriendSimpleInfo()
 }
 
 string GCFriendAdd::toString () const
-    throw ()
 {
 	StringStream msg;
 

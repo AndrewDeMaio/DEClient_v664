@@ -3,11 +3,10 @@
 // Written By  : elca
 // Description :
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCCreateItem.h"
 #if __CONTENTS(__PCITEMINFO)
 GCCreateItem::GCCreateItem()
-	throw()
 {
 	__BEGIN_TRY
 	
@@ -20,10 +19,9 @@ GCCreateItem::GCCreateItem()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCCreateItem::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -38,10 +36,9 @@ void GCCreateItem::read ( SocketInputStream & iStream )
 }
 		    
 //////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCCreateItem::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -59,7 +56,6 @@ void GCCreateItem::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////////////
 void GCCreateItem::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -72,7 +68,6 @@ void GCCreateItem::execute ( Player * pPlayer )
 // get packet's debug string
 //////////////////////////////////////////////////////////////////////////////
 string GCCreateItem::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 
@@ -91,9 +86,8 @@ string GCCreateItem::toString () const
 #else //__PCITEMINFO
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
-//20070329 by diesirace º¸Á¶ ÀÎº¥Åä¸® ¹ö±× ¼öÁ¤
+//20070329 by diesirace ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 GCCreateItem::GCCreateItem()
-	throw()
 {
 	__BEGIN_TRY
 
@@ -117,10 +111,9 @@ GCCreateItem::GCCreateItem()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCCreateItem::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -145,7 +138,7 @@ void GCCreateItem::read ( SocketInputStream & iStream )
 	iStream.read( m_InvenX );
 	iStream.read( m_InvenY );
 	iStream.read( m_InventoryItemObjectID );
-//20071009 by diesirace ¼­µå¾ÆÀÌÅÛ¿É¼Ç Ãß°¡ (¼­µå ¿É¼Ç ´Þ¸° ¾ÆÀÌÅÛÀº ¸¸µé¾îÁú¸®°¡ Àý´ë ¾ø´Ü´Ù...)
+//20071009 by diesirace ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¿É¼ï¿½ ï¿½ß°ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ü´ï¿½...)
 //	BYTE thirdOptionSize;
 // 	iStream.read( thirdOptionSize );
 //	m_ThirdOptionType.clear();
@@ -164,10 +157,9 @@ void GCCreateItem::read ( SocketInputStream & iStream )
 }
 		    
 //////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCCreateItem::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -193,7 +185,7 @@ void GCCreateItem::write ( SocketOutputStream & oStream ) const
 	oStream.write( m_InvenX );
 	oStream.write( m_InvenY );
 	oStream.write( m_InventoryItemObjectID );
-//20071009 by diesirace ¼­µå¾ÆÀÌÅÛ¿É¼Ç Ãß°¡ (¼­µå ¿É¼Ç ´Þ¸° ¾ÆÀÌÅÛÀº ¸¸µé¾îÁú¸®°¡ Àý´ë ¾ø´Ü´Ù...)
+//20071009 by diesirace ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¿É¼ï¿½ ï¿½ß°ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ü´ï¿½...)
 //	BYTE thirdOptionSize = m_ThirdOptionType.size();
 //	oStream.write( thirdOptionSize );
 //	std::list<OptionType_t>::const_iterator iThirdOption = m_ThirdOptionType.begin();
@@ -213,7 +205,6 @@ void GCCreateItem::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////////////
 void GCCreateItem::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -227,7 +218,6 @@ void GCCreateItem::execute ( Player * pPlayer )
 // get packet's debug std::string
 //////////////////////////////////////////////////////////////////////////////
 std::string GCCreateItem::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 
@@ -245,7 +235,7 @@ std::string GCCreateItem::toString () const
 		<< ",InvenX:"       << (int)m_InvenX
 		<< ",InvenY:"       << (int)m_InvenY
 		<< ",InventoryItemObjectID:"		<< (int)m_InventoryItemObjectID
-//20071009 by diesirace ¼­µå¾ÆÀÌÅÛ¿É¼Ç Ãß°¡ (¼­µå ¿É¼Ç ´Þ¸° ¾ÆÀÌÅÛÀº ¸¸µé¾îÁú¸®°¡ Àý´ë ¾ø´Ü´Ù...)
+//20071009 by diesirace ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¿É¼ï¿½ ï¿½ß°ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ü´ï¿½...)
 //		<< "ThirdOptionTypeSize:"	<< (int)m_ThirdOptionType.size()
 //		<< "ThirdEnchantType"		<<	(int)m_ThirdEnchantType
 #if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)

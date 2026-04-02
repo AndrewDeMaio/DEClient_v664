@@ -1,10 +1,10 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCPartyJoinedHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPartyJoined.h"
 #include "MParty.h"
 #include "UserInformation.h"
@@ -27,7 +27,6 @@ extern int					g_nZoneSmall;
 extern bool					g_bZonePlayerInLarge;
 
 void GCPartyJoinedHandler::execute (GCPartyJoined * pPacket , Player * pPlayer)
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 	
@@ -76,7 +75,7 @@ void GCPartyJoinedHandler::execute (GCPartyJoined * pPacket , Player * pPlayer)
 				pNewInfo->IP		= inet_ntoa( sa );
 
 				//---------------------------------------------------------
-				// ¾ó±¼ ¹Þ¾Æ¿À±â
+				// ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½ï¿½
 				//---------------------------------------------------------
 				const char* pName = pInfo->name.c_str();
 
@@ -93,7 +92,7 @@ void GCPartyJoinedHandler::execute (GCPartyJoined * pPacket , Player * pPlayer)
 				}
 
 				//---------------------------------------------------------
-				// ÀÌÀü ÆÄÆ¼ Á¤º¸¿¡ ÀÖ´ÂÁö ..
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ..
 				//---------------------------------------------------------
 				PARTY_INFO* pOldInfo = pOldParty->GetMemberInfo( pInfo->name.c_str() );
 					
@@ -108,7 +107,7 @@ void GCPartyJoinedHandler::execute (GCPartyJoined * pPacket , Player * pPlayer)
 				}			
 
 				//---------------------------------------------------------
-				// ÇöÀç zone¿¡ ÀÖ´ÂÁö Ã¼Å©
+				// ï¿½ï¿½ï¿½ï¿½ zoneï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ Ã¼Å©
 				//---------------------------------------------------------
 				if (g_pZone!=NULL)
 				{
@@ -155,7 +154,7 @@ void GCPartyJoinedHandler::execute (GCPartyJoined * pPacket , Player * pPlayer)
 				else
 				{
 					g_pPlayer->SetStatus( MODIFY_PARTY_BLOOD_BURST_POINT, 0);
-					// 2005.08.04 BloodBurst ÆÄÆ¼ °ÔÀÌÁö Ã³¸® 
+					// 2005.08.04 BloodBurst ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ 
 					//UI_SetBloodBurstSetGage() ;
 				}
 			}
@@ -173,15 +172,15 @@ void GCPartyJoinedHandler::execute (GCPartyJoined * pPacket , Player * pPlayer)
 		UI_RunParty();
 	}	
 
-	// ÀÌÀü¿¡ ¾Æ¹«µµ ¾ø¾ú´Âµ¥ ÆÄÆ¼¿øµéÀÌ »ý±ä´Ù¸é
-	// ³»°¡ ÆÄÆ¼¿¡ µé¾î°£°Å´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ù¸ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½î°£ï¿½Å´ï¿½.
 	if (previousSize==0)
 	{
 		g_pParty->SetJoinTime();
 	}
 
 	//---------------------------------------------------------------
-	// ³» Á¤º¸¸¦ º¸³»ÁØ´Ù.
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 	//---------------------------------------------------------------
 	SendCharacterInfoToParty();
 	SendPositionInfoToParty();
@@ -190,7 +189,7 @@ void GCPartyJoinedHandler::execute (GCPartyJoined * pPacket , Player * pPlayer)
 	delete pOldParty;
 
 	//---------------------------------------------------------------
-	// ÆÄÆ¼¿øµé¿¡ ´ëÇÑ Á¢¼ÓÀ» Ã¼Å©ÇÑ´Ù.
+	// ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½Ñ´ï¿½.
 	//---------------------------------------------------------------
 	/*
 	int num = g_pParty->GetSize();
@@ -201,7 +200,7 @@ void GCPartyJoinedHandler::execute (GCPartyJoined * pPacket , Player * pPlayer)
 
 		if (pInfo!=NULL)
 		{
-			// »ó´ë¿¡ ´ëÇÑ Á¢¼ÓÀÌ ¾ø´Ù¸é IP¸¦ ¿äÃ»ÇØ¾ß ÇÑ´Ù.
+			// ï¿½ï¿½ë¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ IPï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 			if (!g_pRequestClientPlayerManager->HasConnection( pInfo->Name.GetString() ))
 			{
 				CGRequestIP _CGRequestIP;

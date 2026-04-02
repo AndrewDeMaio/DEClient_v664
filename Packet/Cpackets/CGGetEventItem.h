@@ -2,7 +2,7 @@
 
 // Filename    : CGGetEventItem.h 
 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 
 // Description : 
 
@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-// ±âºÎ Á¾·ù
+// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -32,17 +32,17 @@ enum EventType
 
 {
 
-	EVENT_TYPE_200412_COMBACK_ITEM = 0,			// µ¹¾Æ¿Â »ç¿ëÀÚ ¸µ ¾ÆÀÌÅÛ ÁÖ±â ÀÌº¥Æ®
+	EVENT_TYPE_200412_COMBACK_ITEM = 0,			// ï¿½ï¿½ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½Ìºï¿½Æ®
 
-	EVENT_TYPE_200412_COMBACK_PREMIUM_ITEM,		// µ¹¾Æ¿Â »ç¿ëÀÚ °áÁ¦ ½Ã ¾ÆÀÌÅÛ ÁÖ±â ÀÌº¥Æ®
+	EVENT_TYPE_200412_COMBACK_PREMIUM_ITEM,		// ï¿½ï¿½ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½Ìºï¿½Æ®
 
-	EVENT_TYPE_200412_COMBACK_RECOMMEND_ITEM,	// µ¹¾Æ¿Â »ç¿ëÀÚ °áÁ¦ ½Ã ÃßÃµ ¹ÞÀº ÀÚ ¾ÆÀÌÅÛ ÁÖ±â ÀÌº¥Æ®
+	EVENT_TYPE_200412_COMBACK_RECOMMEND_ITEM,	// ï¿½ï¿½ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ãµ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½Ìºï¿½Æ®
 
-	EVENT_TYPE_200507_COMEBACK_ITEM,			// µ¹¾Æ¿Â »ç¿ëÀÚ¿¡°Ô ¾ÆÀÌÅÛ ÁÖ±â ÀÌº¥Æ® 2005.7
+	EVENT_TYPE_200507_COMEBACK_ITEM,			// ï¿½ï¿½ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½Ìºï¿½Æ® 2005.7
 
-	EVENT_TYPE_200507_COMEBACK_PREMIUM_ITEM,	// µ¹¾Æ¿Â »ç¿ëÀÚ °áÁ¦ ½Ã ¾ÆÀÌÅÛ ÁÖ±â ÀÌº¥Æ® 2005.7
+	EVENT_TYPE_200507_COMEBACK_PREMIUM_ITEM,	// ï¿½ï¿½ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½Ìºï¿½Æ® 2005.7
 
-	EVENT_TYPE_200507_COMEBACK_RECOMMEND_ITEM,	// µ¹¾Æ¿Â »ç¿ëÀÚ °áÁ¦ ½Ã ÃßÃµ ¹ÞÀº ÀÚ ¾ÆÀÌÅÛ ÁÖ±â ÀÌº¥Æ® 2005.7
+	EVENT_TYPE_200507_COMEBACK_RECOMMEND_ITEM,	// ï¿½ï¿½ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ãµ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½Ìºï¿½Æ® 2005.7
 
 	EVENT_TYPE_MAX
 
@@ -66,19 +66,19 @@ class CGGetEventItem : public Packet
 
 public:
 
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+	void read(SocketInputStream & iStream);
 
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+	void write(SocketOutputStream & oStream) const;
 
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
-	PacketID_t getPacketID() const throw() { return PACKET_CG_GET_EVENT_ITEM; }
+	PacketID_t getPacketID() const { return PACKET_CG_GET_EVENT_ITEM; }
 
-	PacketSize_t getPacketSize() const throw() { return szBYTE; }
+	size_t getPacketSize() const { return szBYTE; }
 
-	string getPacketName() const throw() { return "CGGetEventItem"; }
+	string getPacketName() const { return "CGGetEventItem"; }
 
-	string toString() const throw();
+	string toString() const;
 
 	
 
@@ -94,7 +94,7 @@ public:
 
 private:
 
-	BYTE		m_EventType;		// ÀÌº¥Æ® Á¾·ù
+	BYTE		m_EventType;		// ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 
 };
 
@@ -120,13 +120,13 @@ class CGGetEventItemFactory : public PacketFactory
 
 public:
 
-	Packet* createPacket() throw() { return new CGGetEventItem(); }
+	Packet* createPacket() { return new CGGetEventItem(); }
 
-	string getPacketName() const throw() { return "CGGetEventItem"; }
+	string getPacketName() const { return "CGGetEventItem"; }
 
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_GET_EVENT_ITEM; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_GET_EVENT_ITEM; }
 
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE; }
 
 };
 
@@ -150,7 +150,7 @@ class CGGetEventItemHandler
 
 public:
 
-//	static void execute(CGGetEventItem* pPacket, Player* player) throw(ProtocolException, Error);
+//	static void execute(CGGetEventItem* pPacket, Player* player);
 
 };
 

@@ -1,13 +1,13 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCSearchMotorcycleOKHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSearchMotorcycleOK.h"
 #include "ClientDef.h"
 #include "UIDialog.h"
@@ -15,7 +15,6 @@
 #include "MGameStringTable.h"
 
 void GCSearchMotorcycleOKHandler::execute ( GCSearchMotorcycleOK * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	

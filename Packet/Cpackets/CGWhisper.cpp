@@ -7,11 +7,10 @@
 #include "CGWhisper.h"
 
 void CGWhisper::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
-	// ÀÌ¸§ ÀÐ±â
+	// ï¿½Ì¸ï¿½ ï¿½Ð±ï¿½
 	BYTE szName;
 
 	iStream.read(szName);
@@ -25,7 +24,7 @@ void CGWhisper::read (SocketInputStream & iStream)
 	iStream.read(m_Name , szName);
 	iStream.read( m_Color );
 
-	// ¸Þ¼¼Áö ÀÐ±â
+	// ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½Ð±ï¿½
 	BYTE szMessage;
 
 	iStream.read(szMessage);
@@ -42,11 +41,10 @@ void CGWhisper::read (SocketInputStream & iStream)
 }
 		    
 void CGWhisper::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
-	// ÀÌ¸§ ¾²±â
+	// ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	BYTE szName = m_Name.size();
 
 	if (szName == 0)
@@ -61,7 +59,7 @@ void CGWhisper::write (SocketOutputStream & oStream) const
 
 	oStream.write( m_Color );
 
-	// ¸Þ¼¼Áö ¾²±â
+	// ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	BYTE szMessage = m_Message.size();
 
 	if (szMessage == 0)
@@ -78,7 +76,6 @@ void CGWhisper::write (SocketOutputStream & oStream) const
 }
 
 void CGWhisper::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -91,7 +88,6 @@ void CGWhisper::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGWhisper::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

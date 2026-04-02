@@ -50,7 +50,7 @@ C_VS_UI_PET_MIXING_FORGE::C_VS_UI_PET_MIXING_FORGE()
 	AttrTopmost(true);
 	//AttrKeyboardControl(true);
 	
-	//°øÅë¹öÆ°
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Æ°
 	m_pC_button_group = new ButtonGroup(this);
 	
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(16, 120, m_pC_back_spk->GetWidth(C_VS_UI_PET_MIXING_FORGE::BUTTON_OK), 
@@ -236,14 +236,12 @@ bool	C_VS_UI_PET_MIXING_FORGE::MouseControl(UINT message, int _x, int _y)
 			if (distance_x >= 0 && distance_x < m_my_grid_rect.w && 
 				 distance_y >= 0 && distance_y < m_my_grid_rect.h)
 			{
-				if(gpC_Imm && m_focus_grid_x != distance_x/C_VS_UI_INVENTORY::GRID_UNIT_PIXEL_X || m_focus_grid_y != distance_y/C_VS_UI_INVENTORY::GRID_UNIT_PIXEL_Y)
-					gpC_Imm->ForceUI(CImm::FORCE_UI_GRID);
 				m_focus_grid_x = distance_x/C_VS_UI_INVENTORY::GRID_UNIT_PIXEL_X;
 				m_focus_grid_y = distance_y/C_VS_UI_INVENTORY::GRID_UNIT_PIXEL_Y;
 
 				if (loop == ITEM_REF_POINT_COUNT)
 				{
-					// itemÀÌ grid ¿µ¿ª¿¡ ¾î´ÀÁ¤µµ µé¾î¿À¸é ¾ÈÀ¸·Î À§Ä¡½ÃÅ²´Ù.
+					// itemï¿½ï¿½ grid ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½Å²ï¿½ï¿½.
 					const MItem * p_pickup_item = gpC_mouse_pointer->GetPickUpItem();
 					int a, b;
 					switch (i)
@@ -285,8 +283,6 @@ bool	C_VS_UI_PET_MIXING_FORGE::MouseControl(UINT message, int _x, int _y)
 				return true;
 			}			
 		}
-		if(gpC_Imm && m_focus_grid_x != NOT_SELECTED || m_focus_grid_y != NOT_SELECTED)
-			gpC_Imm->ForceUI(CImm::FORCE_UI_GRID);
 		m_focus_grid_x = NOT_SELECTED;
 		m_focus_grid_y = NOT_SELECTED;
 		break;
@@ -341,7 +337,7 @@ void	C_VS_UI_PET_MIXING_FORGE::Show()
 	m_pC_button_group->ShowDescription();
 	SHOW_WINDOW_ATTR;
 
-	//±ÛÀÚ ÂïÀ»°ÍµéÀ» ±â¾ïÇØµ×´Ù°¡ ÇÑ²¨¹ø¿¡ Âï´Â´Ù.
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Øµ×´Ù°ï¿½ ï¿½Ñ²ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
 	std::vector<RECT>	vNumRect;
 	std::vector<int>	vNum;
 	
@@ -373,7 +369,7 @@ void	C_VS_UI_PET_MIXING_FORGE::Show()
 		{
 			const MItem * p_item = g_pInventory->Get();
 
-			// p_itemÀº NULLÀÌ ¹Ýµå½Ã ¾Æ´Ï´Ù. ¿Ö³ÄÇÏ¸é Á¸ÀçÇÏ´Â °Í¸¸ Get()ÇÏ±â ¶§¹®ÀÌ´Ù.
+			// p_itemï¿½ï¿½ NULLï¿½ï¿½ ï¿½Ýµï¿½ï¿½ ï¿½Æ´Ï´ï¿½. ï¿½Ö³ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Í¸ï¿½ Get()ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 			assert(p_item);
 
 			// frame id -> sprite id
@@ -385,12 +381,12 @@ void	C_VS_UI_PET_MIXING_FORGE::Show()
 			int print_y = item_y + p_item->GetGridHeight()*C_VS_UI_INVENTORY::GRID_UNIT_PIXEL_Y - 12;
 			int print_x = item_x + p_item->GetGridWidth()*C_VS_UI_INVENTORY::GRID_UNIT_PIXEL_X-1;
 
-			// ItemÀÌ ³õ¿©ÀÖ´Â ¿µ¿ª Ç¥½Ã
+			// Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
 			for (int j = 0; j < p_item->GetGridHeight(); j++)
 				for (int i = 0; i < p_item->GetGridWidth(); i++)
 				{
 					//------------------------------------------------------------
-					// ±³È¯ÇÒ·Á´Â ¾ÆÀÌÅÛÀÎ °æ¿ì
+					// ï¿½ï¿½È¯ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 					//------------------------------------------------------------
 					if( m_v_check[check_index] )//if (p_item->IsTrade())
 					{
@@ -423,7 +419,7 @@ void	C_VS_UI_PET_MIXING_FORGE::Show()
 					CIndexSprite::SetUsingColorSet(const_cast<MItem *>(p_item)->GetItemOptionColorSet(), 0);
 
 				//------------------------------------------------------------
-				// ±³È¯ÇÒ·Á´Â ¾ÆÀÌÅÛÀÎ °æ¿ì
+				// ï¿½ï¿½È¯ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 				//------------------------------------------------------------
 				if( m_v_check[check_index] )
 				{
@@ -438,7 +434,7 @@ void	C_VS_UI_PET_MIXING_FORGE::Show()
 					}
 				}
 				//------------------------------------------------------------
-				// ±³È¯ÇÒ·Á´Â ¾ÆÀÌÅÛÀÌ ¾Æ´Ñ °æ¿ì
+				// ï¿½ï¿½È¯ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 				//------------------------------------------------------------
 				else
 				{
@@ -446,7 +442,7 @@ void	C_VS_UI_PET_MIXING_FORGE::Show()
 				}
 			}
 
-			//¾ÆÀÌÅÛ °³¼ö ÂïÀ» alphabox ¼ýÀÚ´Â ÂïÁö ¾Ê´Â´Ù ÀúÀåÇØ µ×´Ù°¡ ³ªÁß¿¡ ¸ô¾Æ¼­ ÇÑ²¨¹ø¿¡ Âï´Â´Ù
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ alphabox ï¿½ï¿½ï¿½Ú´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×´Ù°ï¿½ ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½Æ¼ï¿½ ï¿½Ñ²ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â´ï¿½
 			if(p_item->IsPileItem() || p_item->IsChargeItem())
 			{
 				RECT rt;
@@ -561,11 +557,11 @@ bool	C_VS_UI_PET_MIXING_FORGE::IsPixel(int _x, int _y)
 //-----------------------------------------------------------------------------
 // C_VS_UI_PET_MIXING_FORGE::Check
 //
-// ±³È¯ÇÒ·Á´Â itemÀ» Ã¼Å©ÇÑ´Ù. 
-// ÀÌ¹Ì Ã¼Å©µÇ¾îÀÖ´Ù¸é.. Ãë¼ÒÇÑ´Ù.
+// ï¿½ï¿½È¯ï¿½Ò·ï¿½ï¿½ï¿½ itemï¿½ï¿½ Ã¼Å©ï¿½Ñ´ï¿½. 
+// ï¿½Ì¹ï¿½ Ã¼Å©ï¿½Ç¾ï¿½ï¿½Ö´Ù¸ï¿½.. ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //
-// grid_start_x, grid_start_y´Â igrid ½ÃÀÛÁ¡ÀÌ´Ù. ÀÌ°ÍÀ» ÂüÁ¶ÇÏ¿© item
-// (x, y)¸¦ ±¸ÇÑ´Ù.
+// grid_start_x, grid_start_yï¿½ï¿½ igrid ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½. ï¿½Ì°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ item
+// (x, y)ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 bool C_VS_UI_PET_MIXING_FORGE::Check(int grid_start_x, int grid_start_y)
 {
@@ -579,7 +575,7 @@ bool C_VS_UI_PET_MIXING_FORGE::Check(int grid_start_x, int grid_start_y)
 		int msg = -1;
 		int petLevel = p_item->GetNumber();
 		
-		//±î³õ±¸ ¸»ÇØ¼­ Æê ¾ÆÀÌÅÛÀÌ ¼ÒÈ¯ µÆ´ÂÁö ¾È‰ç´ÂÁö ¾Ë¼ö ÀÖ´Â ¹æ¹ýÀÌ ÀÌ°Í»ÓÀÌ´Ù.
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½È‰ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¼ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì°Í»ï¿½ï¿½Ì´ï¿½.
 		MFakeCreature *pFakeCreature = NULL;
 		pFakeCreature = (MFakeCreature *)g_pZone->GetFakeCreature(g_pPlayer->GetPetID());
 		MPetItem *pSummonPetItem = NULL;
@@ -591,25 +587,25 @@ bool C_VS_UI_PET_MIXING_FORGE::Check(int grid_start_x, int grid_start_y)
 		
 		if(p_item->GetItemClass() != ITEM_CLASS_PET_ITEM)
 			msg = UI_STRING_MESSAGE_PETMIXING_NOT_PETITEM;
-		//¿©±â¿¡ Á¶ÇÕ ¿©ºÎ °Ë»çÃß°¡ ¿¹Á¤ ¾ÆÁ÷ Á¤ÇØÁöÁö ¾Ê¾Æ¼­....
+		//ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½ß°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æ¼ï¿½....
 		else
 		if(pPetItem->GetPetMixingOptionListCount())
 			msg = UI_STRING_MESSAGE_PETMIXING_DIDMIX;
-		else//ÆêÀÌ Á×¾ú´Ù¸é ¾ÈµÈ´Ù.
+		else//ï¿½ï¿½ï¿½ï¿½ ï¿½×¾ï¿½ï¿½Ù¸ï¿½ ï¿½ÈµÈ´ï¿½.
 		if(p_item->GetGrade() != -1)
 			msg = UI_STRING_MESSAGE_PETMIXING_DIE;
 		else
 		if(pSummonPetItem == p_item)
 			msg = UI_STRING_MESSAGE_PETMIXING_SUMMONING;
-		else//·¾ ³·À½
+		else//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if(petLevel < 11)
 			msg = UI_STRING_MESSAGE_PETMIXING_LOWLEVEL;
-		else//40 ~ 49´Â Àç·á°¡ µÉ¼ö ¾ø´Ù.
+		else//40 ~ 49ï¿½ï¿½ ï¿½ï¿½á°¡ ï¿½É¼ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		if(petLevel < 50 && petLevel >= 40)
 			msg = UI_STRING_MESSAGE_PETMIXING_CANNOTLEVEL;
 		/*********************************************************
 
-			TO DO : ÃßÈÄ ¿É¼Ç Ã¼Å©°¡ ´õ ÇÊ¿ä ÇÒ ¶© ¿©±â¿¡ Ãß°¡
+			TO DO : ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ Ã¼Å©ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½â¿¡ ï¿½ß°ï¿½
 			
 		**********************************************************/
 
@@ -621,7 +617,7 @@ bool C_VS_UI_PET_MIXING_FORGE::Check(int grid_start_x, int grid_start_y)
 		}
 		
 #endif
-		// 20090525 diesirace ¿©±â±îÁö ¿À¸é ÀÏ´Ü ¿¡·¯ »óÈ²Àº ¾ø´Ù°í ÆÇ´ÜÇÑ´Ù. ¸¸¾à ¿©±â¼­ ¿¡·¯ Ã¼Å©°¡ ¾ÈµÉ »óÈ²ÀÌ »ý±â¸é À§ÂÊ¿¡¼­ ¿¡·¯ Ã³¸® ÇØÁÖµµ·Ï ÇÏÀÚ.
+		// 20090525 diesirace ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È²ï¿½ï¿½ ï¿½ï¿½ï¿½Ù°ï¿½ ï¿½Ç´ï¿½ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½ï¿½ ï¿½Èµï¿½ ï¿½ï¿½È²ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		if(petLevel >= 50)
 		{
 			if(m_p_select_item[0] == NULL)

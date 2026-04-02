@@ -26,52 +26,52 @@ class CGThrowItem : public Packet {
 public :
 	
 	// constructor
-	CGThrowItem () throw ();
+	CGThrowItem ();
 	
 	// destructor
-	~CGThrowItem () throw ();
+	~CGThrowItem ();
 
 	
 public :
 	
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CG_THROW_ITEM; }
+	PacketID_t getPacketID () const { return PACKET_CG_THROW_ITEM; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () { return szObjectID + szObjectID + szCoordInven + szCoordInven; }
+	size_t getPacketSize () const { return szObjectID + szObjectID + szCoordInven + szCoordInven; }
 
 	// get/set ItemObjectID
-	ObjectID_t getObjectID() const throw()  { return m_ObjectID; }
-	void setObjectID( ObjectID_t ObjectID ) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() const  { return m_ObjectID; }
+	void setObjectID( ObjectID_t ObjectID ) { m_ObjectID = ObjectID; }
 
 	// get / set TargetObjectID
-	ObjectID_t getTargetObjectID() const throw()  { return m_TargetObjectID; }
-	void setTargetObjectID( ObjectID_t TargetObjectID ) throw() { m_TargetObjectID = TargetObjectID; }
+	ObjectID_t getTargetObjectID() const  { return m_TargetObjectID; }
+	void setTargetObjectID( ObjectID_t TargetObjectID ) { m_TargetObjectID = TargetObjectID; }
 
 	// get/set InvenX
-	CoordInven_t getX() const throw() { return m_InvenX; }
-	void setX( CoordInven_t InvenX ) throw() { m_InvenX = InvenX; }
+	CoordInven_t getX() const { return m_InvenX; }
+	void setX( CoordInven_t InvenX ) { m_InvenX = InvenX; }
 
 	// get/set InvenY
-	CoordInven_t getY() const throw() { return m_InvenY; }
-	void setY( CoordInven_t InvenY ) throw() { m_InvenY = InvenY; }
+	CoordInven_t getY() const { return m_InvenY; }
+	void setY( CoordInven_t InvenY ) { m_InvenY = InvenY; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGThrowItem"; }
+		std::string getPacketName () const { return "CGThrowItem"; }
 
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 
@@ -103,27 +103,27 @@ class CGThrowItemFactory : public PacketFactory {
 public :
 	
 	// constructor
-	CGThrowItemFactory () throw () {}
+	CGThrowItemFactory () {}
 	
 	// destructor
-	virtual ~CGThrowItemFactory () throw () {}
+	virtual ~CGThrowItemFactory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CGThrowItem(); }
+	Packet * createPacket () { return new CGThrowItem(); }
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	std::string getPacketName () const throw () { return "CGThrowItem"; }
+	std::string getPacketName () const { return "CGThrowItem"; }
 #endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_THROW_ITEM; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_THROW_ITEM; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID + szObjectID + szCoordInven + szCoordInven; }
+	PacketSize_t getPacketMaxSize () const { return szObjectID + szObjectID + szCoordInven + szCoordInven; }
 };
 
 #endif
@@ -140,7 +140,7 @@ public :
 	public :
 
 		// execute packet's handler
-		static void execute ( CGThrowItem * pCGThrowItem , Player * pPlayer ) throw ( Error );
+		static void execute ( CGThrowItem * pCGThrowItem , Player * pPlayer );
 
 	};
 #endif

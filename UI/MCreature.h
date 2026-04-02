@@ -22,7 +22,7 @@
 #include "MCreatureSpriteTable.h"
 #include "MEffectStatusTable.h"
 #include "MStatus.h"
-#include "RaceType.h"
+#include "Types\RaceType.h"
 #include "MemoryPool.h"
 #include "NicknameInfo.h"
 #include "SkillDef.h"

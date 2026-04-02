@@ -17,7 +17,7 @@
 //
 // class GCAddNPC;
 //
-// ½Ã¾ß ¾È¿¡ NPC °¡ µé¾î¿ÔÀ» °æ¿ì, ÀÌ ÆÐÅ¶¿¡ NPC Á¤º¸¸¦ ´ã¾Æ¼­ Àü¼Û¹Þ´Â´Ù.
+// ï¿½Ã¾ï¿½ ï¿½È¿ï¿½ NPC ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ NPC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ ï¿½ï¿½ï¿½Û¹Þ´Â´ï¿½.
 //
 //--------------------------------------------------------------------------------
 
@@ -29,22 +29,22 @@ public:
 
 public :
 	
-	// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+	// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+	void read ( SocketInputStream & iStream );
 			
-	// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+	// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_ADD_NPC; }
+	PacketID_t getPacketID () const { return PACKET_GC_ADD_NPC; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static GCAddNPCPacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () 
+	// const static GCAddNPCPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const 
 	{ 
 		return szObjectID 
 			+ szBYTE + m_Name.size() + szNPCID
@@ -59,82 +59,82 @@ public :
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCAddNPC"; }
+		std::string getPacketName () const { return "GCAddNPC"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 
 public :
 
 	// get/set object id
-	ObjectID_t getObjectID () const throw () { return m_ObjectID; }
-	void setObjectID ( ObjectID_t creatureID ) throw () { m_ObjectID = creatureID; }
+	ObjectID_t getObjectID () const { return m_ObjectID; }
+	void setObjectID ( ObjectID_t creatureID ) { m_ObjectID = creatureID; }
 
 	// get/set name
-	const std::string& getName () const throw () { return m_Name; }
-	void setName ( std::string name ) throw () { m_Name = name; }
+	const std::string& getName () const { return m_Name; }
+	void setName ( std::string name ) { m_Name = name; }
 
 	// get/set NPC id
-	NPCID_t getNPCID(void) const throw() { return m_NPCID;}
-	void setNPCID(NPCID_t NPCID) throw() { m_NPCID = NPCID;}
+	NPCID_t getNPCID(void) const { return m_NPCID;}
+	void setNPCID(NPCID_t NPCID) { m_NPCID = NPCID;}
 
 	// get/set sprite type
-	SpriteType_t getSpriteType () const throw () { return m_SpriteType; }
-	void setSpriteType ( SpriteType_t spriteType ) throw () { m_SpriteType = spriteType; }
+	SpriteType_t getSpriteType () const { return m_SpriteType; }
+	void setSpriteType ( SpriteType_t spriteType ) { m_SpriteType = spriteType; }
 
 	// get/set main color
-	Color_t getMainColor () const throw () { return m_MainColor; }
-	void setMainColor ( Color_t color ) throw () { m_MainColor = color; }
+	Color_t getMainColor () const { return m_MainColor; }
+	void setMainColor ( Color_t color ) { m_MainColor = color; }
 
 	// get/set sub color
-	Color_t getSubColor () const throw () { return m_SubColor; }
-	void setSubColor ( Color_t color ) throw () { m_SubColor = color; }
+	Color_t getSubColor () const { return m_SubColor; }
+	void setSubColor ( Color_t color ) { m_SubColor = color; }
 
 	// get/set X
-	Coord_t getX () const throw () { return m_X; }
-	void setX ( Coord_t x ) throw () { m_X = x; }
+	Coord_t getX () const { return m_X; }
+	void setX ( Coord_t x ) { m_X = x; }
 	
 	// get/set Y
-	Coord_t getY () const throw () { return m_Y; }
-	void setY ( Coord_t y ) throw () { m_Y = y; }
+	Coord_t getY () const { return m_Y; }
+	void setY ( Coord_t y ) { m_Y = y; }
 
 	// get/set Dir
-	Dir_t getDir () const throw () { return m_Dir; }
-	void setDir ( Dir_t dir ) throw () { m_Dir = dir; }
+	Dir_t getDir () const { return m_Dir; }
+	void setDir ( Dir_t dir ) { m_Dir = dir; }
 
-#if __CONTENTS(__MENEGROTH)
-	EffectInfo* getEffectInfo() const throw() { return m_pEffectInfo; }
-	void setEffectInfo(EffectInfo* pEffectInfo) throw() { m_pEffectInfo = pEffectInfo; }
-#endif 
+//#if __CONTENTS(__MENEGROTH)
+	EffectInfo* getEffectInfo() const { return m_pEffectInfo; }
+	void setEffectInfo(EffectInfo* pEffectInfo) { m_pEffectInfo = pEffectInfo; }
+//#endif
 
 private :
 	
-	// Á¸ ·¹º§¿¡¼­ À¯´ÏÅ©ÇÑ ¾ÆÀÌµð·Î °´Ã¼ ±¸ºÐÀ» À§ÇØ¼­ »ç¿ëÇÑ´Ù.
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	ObjectID_t m_ObjectID;
 
-	// NPCÀÇ ÀÌ¸§
+	// NPCï¿½ï¿½ ï¿½Ì¸ï¿½
 	std::string m_Name;
 
-	// NPCÀÇ ¾ÆÀÌµð ( ¿ÀºêÁ§Æ® ¾ÆÀÌµð°¡ ¾Æ´Ï´Ù. )
+	// NPCï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ( ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Æ´Ï´ï¿½. )
 	NPCID_t m_NPCID;
 
-	// ½ºÇÁ¶óÀÌÆ® Å¸ÀÔ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Å¸ï¿½ï¿½
 	SpriteType_t m_SpriteType;
 
-	// »ö±ò Á¤º¸
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	Color_t m_MainColor;
 	Color_t m_SubColor;
 
-	// X, Y ¹× ¹æÇâ
+	// X, Y ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	Coord_t m_X;
 	Coord_t m_Y;
 	Dir_t m_Dir;
 
-#if __CONTENTS(__MENEGROTH)
+//#if __CONTENTS(__MENEGROTH)
 	EffectInfo* m_pEffectInfo;
-#endif //__MENEGROTH
+//#endif //__MENEGROTH
 
 };
 
@@ -152,20 +152,20 @@ class GCAddNPCFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCAddNPC(); }
+	Packet * createPacket () { return new GCAddNPC(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCAddNPC"; }
+		std::string getPacketName () const { return "GCAddNPC"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_ADD_NPC; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_ADD_NPC; }
 
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static GCAddNPCPacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () 
+	// const static GCAddNPCPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const 
 	{
 		int localLongName = 0;
 #if __CONTENTS(__LOCALIZING_LONGNAME)
@@ -196,7 +196,7 @@ class GCAddNPCHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCAddNPC * pPacket , Player * pPlayer ) throw ( Error );
+	static void execute ( GCAddNPC * pPacket , Player * pPlayer );
 
 };
 

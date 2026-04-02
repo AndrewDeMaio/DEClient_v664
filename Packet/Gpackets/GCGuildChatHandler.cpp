@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCGuildChat.h"
 #include "ClientDef.h"
 #include "MChatManager.h"
@@ -15,11 +15,10 @@
 #include "UIFunction.h"
 //////////////////////////////////////////////////////////////////////
 //
-// Å¬¶óÀÌ¾ğÆ®¿¡¼­ ¼­¹ö·ÎºÎÅÍ ¸Ş½ÃÁö¸¦ ¹Ş¾ÒÀ»¶§ ½ÇÇàµÇ´Â ¸Ş½îµåÀÌ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½Ş½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ş¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Ş½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 void GCGuildChatHandler::execute ( GCGuildChat * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -28,7 +27,7 @@ void GCGuildChatHandler::execute ( GCGuildChat * pPacket , Player * pPlayer )
 		char str[256];
 
 		//---------------------------------------------------------------
-		// ¿Ï¼ºÇü --> Á¶ÇÕÇü
+		// ï¿½Ï¼ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		//---------------------------------------------------------------
 		//UI_WansungToJohap( pPacket->getMessage().c_str(), str );
 	
@@ -38,20 +37,20 @@ void GCGuildChatHandler::execute ( GCGuildChat * pPacket , Player * pPlayer )
 		if (str[0] != NULL)
 		{
 			//--------------------------------------------------
-			// ³ª¿¡°Ô º¸ÀÌ´Â ±ÛÀÎ°¡?
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½Î°ï¿½?
 			//--------------------------------------------------
 			if (g_pChatManager->IsAcceptID( pPacket->getSender().c_str() ))
 			{
 				//--------------------------------------------------
-				// ¿å Á¦°Å
+				// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				//--------------------------------------------------
 				g_pChatManager->RemoveCurse( str );
 					
 				// GUILDCHAT = 4
 				// 2004, 11, 11, sobeit modify start
-				if(0 == pPacket->getType()) // ±æµåÃª 
+				if(0 == pPacket->getType()) // ï¿½ï¿½ï¿½Ãª 
 					UI_AddChatToHistory( str, (char *)pPacket->getSender().c_str(), 4, pPacket->getColor() );
-				else // À¯´Ï¿Â Ãª
+				else // ï¿½ï¿½ï¿½Ï¿ï¿½ Ãª
 				{
 					char szName[128];
 					sprintf(szName, "[%s]%s", pPacket->getSendGuildName().c_str(), pPacket->getSender().c_str());

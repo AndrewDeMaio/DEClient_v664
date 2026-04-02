@@ -2,8 +2,8 @@
 // 
 // Filename    : GCThrowBombOK1.h 
 // Written By  : elca@ewestsoft.com
-// Description : ±â¼úÀÌ ¼º°øÇßÀ»¶§ º¸³»´Â ÆÐÅ¶À» À§ÇÑ Å¬·¡½º Á¤ÀÇ
-// 				±â¼ú »ç¿ëÀÚ¿¡°Ô º¸³»´Â ÆÐÅ¶
+// Description : ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+// 				ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -21,7 +21,7 @@
 //
 // class GCThrowBombOK1;
 //
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -30,38 +30,38 @@ class GCThrowBombOK1 : public ModifyInfo {
 public :
 	
 	// constructor
-	GCThrowBombOK1 () throw ();
+	GCThrowBombOK1 ();
 	
 	// destructor
-	~GCThrowBombOK1 () throw ();
+	~GCThrowBombOK1 ();
 
 	
 public :
 	
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_THROW_BOMB_OK_1; }
+	PacketID_t getPacketID () const { return PACKET_GC_THROW_BOMB_OK_1; }
 	
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getPacketSize () const throw () { return szCoord * 2
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	size_t getPacketSize () const { return szCoord * 2
 			+ szBYTE + szDir + szItemType + szObjectID * m_CListNum + ModifyInfo::getPacketSize(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCThrowBombOK1"; }
+		std::string getPacketName () const { return "GCThrowBombOK1"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 	// get / set X, Y
@@ -74,22 +74,22 @@ public :
 	Dir_t getDir() { return m_Dir;}
 	void setDir( Dir_t r) { m_Dir = r;}
 
-	ItemType_t getItemType() const throw() { return m_ItemType;}
-	void setItemType( ItemType_t i) throw() { m_ItemType = i;}
+	ItemType_t getItemType() const { return m_ItemType;}
+	void setItemType( ItemType_t i) { m_ItemType = i;}
 	
 
 	void setXYDir( Coord_t X, Coord_t Y, Dir_t R) { m_X = X; m_Y = Y; m_Dir = R;}
 
 	// get / set Creature List Number
-	BYTE getCListNum() const throw() { return m_CListNum; }
-	void setCListNum( BYTE CListNum ) throw() { m_CListNum = CListNum; }
+	BYTE getCListNum() const { return m_CListNum; }
+	void setCListNum( BYTE CListNum ) { m_CListNum = CListNum; }
 
 	// add / delete  Creature List
-	void addCListElement( ObjectID_t ObjectID ) throw();
-	void clearCList() throw() { m_CList.clear(); m_CListNum = 0; }
+	void addCListElement( ObjectID_t ObjectID );
+	void clearCList() { m_CList.clear(); m_CListNum = 0; }
 
 	// pop front Element in Status List
-	ObjectID_t popCListElement() throw() { ObjectID_t CreatureList = m_CList.front(); m_CList.pop_front(); return CreatureList; }
+	ObjectID_t popCListElement() { ObjectID_t CreatureList = m_CList.front(); m_CList.pop_front(); return CreatureList; }
 
 private :
 	
@@ -124,27 +124,27 @@ class GCThrowBombOK1Factory : public PacketFactory {
 public :
 	
 	// constructor
-	GCThrowBombOK1Factory () throw () {}
+	GCThrowBombOK1Factory () {}
 	
 	// destructor
-	virtual ~GCThrowBombOK1Factory () throw () {}
+	virtual ~GCThrowBombOK1Factory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCThrowBombOK1(); }
+	Packet * createPacket () { return new GCThrowBombOK1(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCThrowBombOK1"; }
+		std::string getPacketName () const { return "GCThrowBombOK1"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_THROW_BOMB_OK_1; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_THROW_BOMB_OK_1; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize () const throw () { return szCoord * 2
+	PacketSize_t getPacketMaxSize () const { return szCoord * 2
 			+ szBYTE + szBYTE + +szDir + szItemType + szWORD + szObjectID + ModifyInfo::getPacketMaxSize(); }
 
 };
@@ -161,7 +161,7 @@ class GCThrowBombOK1Handler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCThrowBombOK1 * pGCThrowBombOK1 , Player * pPlayer ) throw ( Error );
+	static void execute ( GCThrowBombOK1 * pGCThrowBombOK1 , Player * pPlayer );
 
 };
 

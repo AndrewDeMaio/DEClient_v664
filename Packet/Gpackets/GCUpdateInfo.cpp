@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCUpdateInfo.h"
 #include "PCSlayerInfo2.h"
 #include "PCVampireInfo2.h"
@@ -22,10 +22,9 @@
 // constructor
 //--------------------------------------------------------------------------------
 GCUpdateInfo::GCUpdateInfo ()
-	throw ()
 : m_pPCInfo(NULL), m_pInventoryInfo(NULL), m_pGearInfo(NULL), m_pExtraInfo(NULL), m_pEffectInfo(NULL), m_hasMotorcycle(false), m_pRideMotorcycleInfo(NULL), m_fPremium(0), m_pNicknameInfo(NULL), m_NonPK(0)
 {
-#if __CONTENTS(__TIPOJYU_CASTLE)	//´øÀü Á¤º¸ ÃÊ±âÈ­
+#if __CONTENTS(__TIPOJYU_CASTLE)	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
 	m_pInstanceDoungeonInfo	= NULL;
 #endif // __TIPOJYU_CASTLE
 }
@@ -34,7 +33,6 @@ GCUpdateInfo::GCUpdateInfo ()
 // destructor
 //--------------------------------------------------------------------------------
 GCUpdateInfo::~GCUpdateInfo ()
-	throw ()
 {
 	SAFE_DELETE(m_pPCInfo);
 	SAFE_DELETE(m_pInventoryInfo);
@@ -44,16 +42,16 @@ GCUpdateInfo::~GCUpdateInfo ()
 	SAFE_DELETE(m_pRideMotorcycleInfo);
 
 #if __CONTENTS(__TIPOJYU_CASTLE)
-	SAFE_DELETE(m_pInstanceDoungeonInfo);	//´øÀü Á¤º¸ ¸Þ¸ð¸® »èÁ¦
+	SAFE_DELETE(m_pInstanceDoungeonInfo);	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 #endif // __TIPOJYU_CASTLE
 
-	// ¼­¹ö ÂÊ¿¡¼­´Â Á¸ ³»ºÎ¿¡¼­ NPCInfoÀÇ ¸®½ºÆ®°¡ Á¸ÀçÇÑ´Ù.
-	// ÀÌ ¸®½ºÆ®´Â ÇöÀç·Î¼­´Â ºÒº¯ÀÌ´Ù. ±×·¯¹Ç·Î ¸Å¹ø NPCInfo¸¦
-	// new·Î »ý¼ºÇÏ¿©, GCUpdateInfo¿¡´Ù ³Ö¾îÁÖ°í, ´Ù½Ã deleteÇÏ´Â °ÍÀº
-	// ¼Óµµ ¸é¿¡¼­ ºÃÀ» ¶§ »ó´çÈ÷ ¼ÕÇØ´Ù. ±×·¡¼­ GCUpdateInfo ¾È¿¡
-	// ÀÖ´Â NPCInfoList¿¡´Â ZoneÀÇ NPCInfoListÀÇ Æ÷ÀÎÅÍ¸¦ ±×³É
-	// Àü´ÞÇØ ÁØ´Ù. ±×·¯¹Ç·Î ¼­¹ö Ãø¿¡¼­´Â ÀÌ¸¦ »èÁ¦ÇÏ¸é ¾È µÈ´Ù.
-	// ±×·¯³ª Å¬¶óÀÌ¾ðÆ®¿¡¼­´Â ÀÌ¸¦ »èÁ¦ÇØ Áà¾ß ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ NPCInfoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Î¼ï¿½ï¿½ï¿½ ï¿½Òºï¿½ï¿½Ì´ï¿½. ï¿½×·ï¿½ï¿½Ç·ï¿½ ï¿½Å¹ï¿½ NPCInfoï¿½ï¿½
+	// newï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½, GCUpdateInfoï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½Ö°ï¿½, ï¿½Ù½ï¿½ deleteï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// ï¿½Óµï¿½ ï¿½é¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½. ï¿½×·ï¿½ï¿½ï¿½ GCUpdateInfo ï¿½È¿ï¿½
+	// ï¿½Ö´ï¿½ NPCInfoListï¿½ï¿½ï¿½ï¿½ Zoneï¿½ï¿½ NPCInfoListï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½×³ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½. ï¿½×·ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ ï¿½È´ï¿½.
+	// ï¿½×·ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 
 #ifdef __GAME_CLIENT__
 	std::list<NPCInfo*>::iterator itr = m_NPCInfos.begin();
@@ -76,10 +74,9 @@ GCUpdateInfo::~GCUpdateInfo ()
 }
 
 //--------------------------------------------------------------------------------
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //--------------------------------------------------------------------------------
 void GCUpdateInfo::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -186,10 +183,10 @@ void GCUpdateInfo::read ( SocketInputStream & iStream )
 		addNPCInfo(pInfo);
 	}
 		
-	// ¼­¹ö »óÅÂ
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	iStream.read( m_ServerStat );
 
-	// ÇÁ¸®¹Ì¾ö
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½
 	iStream.read( m_fPremium );
 
 	// sms charge
@@ -219,10 +216,9 @@ void GCUpdateInfo::read ( SocketInputStream & iStream )
 
 		    
 //--------------------------------------------------------------------------------
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //--------------------------------------------------------------------------------
 void GCUpdateInfo::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -320,10 +316,10 @@ void GCUpdateInfo::write ( SocketOutputStream & oStream ) const
 		pInfo->write(oStream);
 	}
 		
-	// ¼­¹ö »óÅÂ
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	oStream.write(m_ServerStat);
 
-	// ÇÁ¸®¹Ì¾ö
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½
 	oStream.write( m_fPremium );
 
 	// sms charge
@@ -351,7 +347,7 @@ void GCUpdateInfo::write ( SocketOutputStream & oStream ) const
 
 //	oStream.write( m_PowerjjangPoint );
 
-#if __CONTENTS(__TIPOJYU_CASTLE) // GCUpdateInfoFactory	ÆÐÅ¶ ÆÄÀÏ ¾²±â		¼­¹ö¿¡¼­ ¾ÆÁ÷ ÁØºñ ¾ÈµÊ
+#if __CONTENTS(__TIPOJYU_CASTLE) // GCUpdateInfoFactory	ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½ ï¿½Èµï¿½
 	m_pInstanceDoungeonInfo->write(oStream);
 #endif // __TIPOJYU_CASTLE
 	
@@ -363,7 +359,6 @@ void GCUpdateInfo::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //--------------------------------------------------------------------------------
 void GCUpdateInfo::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -378,7 +373,6 @@ void GCUpdateInfo::execute ( Player * pPlayer )
 //--------------------------------------------------------------------------------
 #ifdef __DEBUG_OUTPUT__
 std::string GCUpdateInfo::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

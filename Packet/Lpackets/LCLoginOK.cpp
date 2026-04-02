@@ -15,11 +15,10 @@
 //
 //////////////////////////////////////////////////////////////////////
 void LCLoginOK::read ( SocketInputStream & iStream )
-	throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
-	// ¼­¹ö ±×·ì ÀÌ¸§À» ÀÐ´Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ð´Â´ï¿½.
 	iStream.read( m_isAdult );
 	iStream.read( m_bUnderFifthteen );
 	iStream.read( m_bFamily );
@@ -41,11 +40,10 @@ void LCLoginOK::read ( SocketInputStream & iStream )
 //
 //////////////////////////////////////////////////////////////////////
 void LCLoginOK::write ( SocketOutputStream & oStream ) const
-	throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
-	// ±×·ì ÀÌ¸§À» ¾´´Ù.
+	// ï¿½×·ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	oStream.write( m_isAdult );
 	oStream.write( m_bUnderFifthteen );
 	oStream.write( m_bFamily );
@@ -67,7 +65,6 @@ void LCLoginOK::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void LCLoginOK::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -77,7 +74,7 @@ void LCLoginOK::execute ( Player * pPlayer )
 }
 
 
-PacketSize_t LCLoginOK::getPacketSize() const throw() 
+PacketSize_t LCLoginOK::getPacketSize() const 
 { 
 	return szBYTE + szBYTE + szBYTE + szBYTE + szWORD
 #if __CONTENTS(__PAYZONE_PASS_TICKET)

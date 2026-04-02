@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCFriendViewInfo.h"
 
 #if __CONTENTS(__FRIEND_ADDITION)
@@ -15,12 +15,11 @@ GCFriendViewInfo::GCFriendViewInfo()
 {
 }
 
-GCFriendViewInfo::~GCFriendViewInfo() throw()
+GCFriendViewInfo::~GCFriendViewInfo()
 {
 }
 
 void GCFriendViewInfo::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -32,10 +31,9 @@ void GCFriendViewInfo::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Datagram °´Ã¼·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCFriendViewInfo::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -65,7 +63,7 @@ FriendIndividualOptionInfo& GCFriendViewInfo::GetFriendIndividualOptionInfo()
 	return m_FriendIndividualOptionInfo;	
 }
 	
-PacketSize_t GCFriendViewInfo::getPacketSize() const throw() 
+PacketSize_t GCFriendViewInfo::getPacketSize() const 
 { 
 	return m_FriendDetailInfo.getSize() + m_FriendIndividualOptionInfo.getSize(); 
 }
@@ -74,7 +72,6 @@ PacketSize_t GCFriendViewInfo::getPacketSize() const throw()
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void GCFriendViewInfo::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -87,7 +84,6 @@ void GCFriendViewInfo::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 string GCFriendViewInfo::toString () const
-    throw ()
 {
 	StringStream msg;
 

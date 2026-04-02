@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : CGShopRequestSell.cpp 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
-// ÇÃ·¹ÀÌ¾î¿¡°Ô ÀÚ½ÅÀÌ °¡Áö°í ÀÖ´Â ¾ÆÀÌÅÛÀ» »óÁ¡ NPC¿¡°Ô
-// ÆÈ±â¸¦ ¿äÃ»ÇÒ ¶§ ¾²ÀÌ´Â ÆÐÅ¶ÀÌ´Ù.
+// ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ NPCï¿½ï¿½ï¿½ï¿½
+// ï¿½È±â¸¦ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 ////////////////////////////////////////////////////////////////////////////////
 #include "Client_PCH.h"
 #include "CGShopRequestSell.h"
@@ -11,10 +11,9 @@
 #include "SocketOutputStream.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 ////////////////////////////////////////////////////////////////////////////////
 void CGShopRequestSell::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -27,10 +26,9 @@ void CGShopRequestSell::read ( SocketInputStream & iStream )
 
 		    
 ////////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 ////////////////////////////////////////////////////////////////////////////////
 void CGShopRequestSell::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -46,7 +44,6 @@ void CGShopRequestSell::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 ////////////////////////////////////////////////////////////////////////////////
 void CGShopRequestSell::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -63,7 +60,6 @@ void CGShopRequestSell::execute ( Player * pPlayer )
 ////////////////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 std::string CGShopRequestSell::toString () const 
-	throw ()
 {
 	__BEGIN_TRY
 

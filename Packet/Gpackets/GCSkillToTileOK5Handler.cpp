@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSkillToTileOK5.h"
 #include "ClientDef.h"
 #include "PacketFunction2.h"
@@ -19,14 +19,13 @@ extern void Add_FakeCreature_Storm(MCreature* UserCreature, int CreatureType,
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSkillToTileOK5Handler::execute ( GCSkillToTileOK5 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
 #ifdef __GAME_CLIENT__
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -34,14 +33,14 @@ void GCSkillToTileOK5Handler::execute ( GCSkillToTileOK5 * pPacket , Player * pP
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 
 
-		// Creature°¡ Tile¿¡ ¹º°¡¸¦?...
+		// Creatureï¿½ï¿½ Tileï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?...
 		if (pCreature != NULL)
 		{			
 			int skillID = pPacket->getSkillType();
@@ -77,8 +76,8 @@ void GCSkillToTileOK5Handler::execute ( GCSkillToTileOK5 * pPacket , Player * pP
 			}
 
 			
-			// ¹Ì¾ÈÇÏ´Ù ÇÏµåÄÚµùÀÌ´Ù-_-;;
-			// ¹ÌÅ¬¸®Áî°¡ ¼ÒÈ¯ ÇÒ ¶§´Â ÈíÇ÷ ´çÇÏ´Â ¸ð¼ÇÀÓ
+			// ï¿½Ì¾ï¿½ï¿½Ï´ï¿½ ï¿½Ïµï¿½ï¿½Úµï¿½ï¿½Ì´ï¿½-_-;;
+			// ï¿½ï¿½Å¬ï¿½ï¿½ï¿½î°¡ ï¿½ï¿½È¯ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 			bool bIsMikllizzSummon = pCreature->GetCreatureType() == 808 && skillID == MAGIC_SUMMON_MONSTERS;
 			
 			if(bIsMikllizzSummon)
@@ -106,7 +105,7 @@ void GCSkillToTileOK5Handler::execute ( GCSkillToTileOK5 * pPacket , Player * pP
 					useSkillID = skillID = (*g_pActionInfoTable)[skillID].GetActionStep( pPacket->getGrade() - 1);
 				
 				
-				// °á°ú »ý¼º
+				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				MActionResult* pResult = new MActionResult;
 				
 				DWORD delayFrame = ConvertDurationToFrame( pPacket->getDuration() );
@@ -161,7 +160,7 @@ void GCSkillToTileOK5Handler::execute ( GCSkillToTileOK5 * pPacket , Player * pP
 					//					delayFrame ) );
 					//------------------------------------------------------
 					//
-					// skill¿¡ °á°ú°¡ ÀÖÀ¸¸é Àû¿ë ½ÃÅ²´Ù.
+					// skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 					//
 					//------------------------------------------------------
 					int targetID = pPacket->popCListElement();
@@ -171,7 +170,7 @@ void GCSkillToTileOK5Handler::execute ( GCSkillToTileOK5 * pPacket , Player * pP
 					if (pTargetCreature!=NULL)
 					{
 						//------------------------------------------------------
-						// EffectStatus°¡ ÀÖ´Ù¸é ºÙÀÎ´Ù.
+						// EffectStatusï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 						//------------------------------------------------------
 						EFFECTSTATUS es = (*g_pActionInfoTable)[skillID].GetEffectStatus();
 						
@@ -185,7 +184,7 @@ void GCSkillToTileOK5Handler::execute ( GCSkillToTileOK5 * pPacket , Player * pP
 						switch ((*g_pActionInfoTable)[skillID].GetActionResultID())
 						{
 							//------------------------------------------------------
-							// ´Ù¸¥ ActionInfo ½ÇÇà
+							// ï¿½Ù¸ï¿½ ActionInfo ï¿½ï¿½ï¿½ï¿½
 							//------------------------------------------------------
 						case ACTIONRESULTNODE_ACTIONINFO :
 							pActionResultNode =  new MActionResultNodeActionInfo( 
@@ -205,7 +204,7 @@ void GCSkillToTileOK5Handler::execute ( GCSkillToTileOK5 * pPacket , Player * pP
 						}
 						
 						//------------------------------------------------------
-						// NULLÀÌ ¾Æ´Ï¸é °°ÀÌ Àû¿ë
+						// NULLï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 						//------------------------------------------------------
 						if (pActionResultNode!=NULL)
 						{
@@ -215,12 +214,12 @@ void GCSkillToTileOK5Handler::execute ( GCSkillToTileOK5 * pPacket , Player * pP
 				}
 				
 				//------------------------------------------------------
-				// ¹æÇâ º¸±â
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				//------------------------------------------------------
 				pCreature->SetDirectionToPosition(pPacket->getX(), pPacket->getY());
 				
 				//------------------------------------------------------
-				// range¸¦ direction¿¡ Àû¿ë½ÃÅ°´Â °æ¿ì
+				// rangeï¿½ï¿½ directionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½
 				//------------------------------------------------------
 				if ((*g_pActionInfoTable)[pPacket->getSkillType()].IsOptionRangeToDirection())
 				{
@@ -228,13 +227,13 @@ void GCSkillToTileOK5Handler::execute ( GCSkillToTileOK5 * pPacket , Player * pP
 				}
 				
 				//------------------------------------------------------
-				// Çàµ¿ÇÏ´Â ¸ð½À ¼³Á¤
+				// ï¿½àµ¿ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				//------------------------------------------------------
 				//Duration_t	m_Duration;
 				pCreature->PacketSpecialActionToSector(
 					skillID, 
 					pPacket->getX(), pPacket->getY(),
-					pResult		// °á°ú
+					pResult		// ï¿½ï¿½ï¿½
 					);		
 
 			}

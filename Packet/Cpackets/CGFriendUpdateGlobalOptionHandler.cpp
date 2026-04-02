@@ -22,7 +22,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void CGFriendUpdateGlobalOptionHandler::execute ( CGFriendUpdateGlobalOption * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 

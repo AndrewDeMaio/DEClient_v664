@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCBloodDrainOK3.h"
 #include "ClientDef.h"
 #include "SkillDef.h"
@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCBloodDrainOK3Handler::execute ( GCBloodDrainOK3 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -23,7 +22,7 @@ void GCBloodDrainOK3Handler::execute ( GCBloodDrainOK3 * pPacket , Player * pPla
 
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -31,26 +30,26 @@ void GCBloodDrainOK3Handler::execute ( GCBloodDrainOK3 * pPacket , Player * pPla
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pUserCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 		MCreature* pTargetCreature = g_pZone->GetCreature( pPacket->getTargetObjectID() );		
 
-		// Creature¿¡°Ô Damage ÀÔÈû
+		// Creatureï¿½ï¿½ï¿½ï¿½ Damage ï¿½ï¿½ï¿½ï¿½
 		if (pUserCreature != NULL && pTargetCreature != NULL)
 		{
-			// TargetCreature¿¡°Ô UserCreature°¡ ÈíÇ÷ÇÏ±¸ ÀÖ´Ù±¸ ¾Ë·ÁÁØ´Ù.
+			// TargetCreatureï¿½ï¿½ï¿½ï¿½ UserCreatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½Ö´Ù±ï¿½ ï¿½Ë·ï¿½ï¿½Ø´ï¿½.
 			pTargetCreature->SetDrainCreatureID( pPacket->getObjectID() );
 
 			pUserCreature->ClearStopBloodDrain();
 
 			// [ TEST CODE ]
 			//
-			// °á°ú¸¦ »ý¼º&ÀúÀåÇØ¼­ º¸³»¾ß ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½&ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 			//
-			// ´©±º°¡(target)°¡ ´©±º°¡°¡ »ç¿ëÇÑ SKillÀ» ¸ÂÀº °æ¿ì..
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(target)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ SKillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 			// [ TEST CODE ]
 			MActionResult* pResult = new MActionResult;
 
@@ -64,7 +63,7 @@ void GCBloodDrainOK3Handler::execute ( GCBloodDrainOK3 * pPacket , Player * pPla
 											pTargetCreature->GetY()
 											 ) );
 
-			// ¼­·Î ¹Ù¶óº¸±â
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¶óº¸±ï¿½
 			pUserCreature->SetDirectionToPosition(pTargetCreature->GetX(), pTargetCreature->GetY());
 			//pTargetCreature->SetDirectionToPosition(pUserCreature->GetX(), pUserCreature->GetY());
 
@@ -72,10 +71,10 @@ void GCBloodDrainOK3Handler::execute ( GCBloodDrainOK3 * pPacket , Player * pPla
 			pUserCreature->PacketSpecialActionToOther(
 								SKILL_BLOOD_DRAIN,
 								pPacket->getTargetObjectID(),
-								pResult			// °á°ú
+								pResult			// ï¿½ï¿½ï¿½
 			);		
 
-			int delayFrame = 691200;	// 12½Ã°£*60ºÐ*60ÃÊ*16frame = 12*60*60*16;
+			int delayFrame = 691200;	// 12ï¿½Ã°ï¿½*60ï¿½ï¿½*60ï¿½ï¿½*16frame = 12*60*60*16;
 			pTargetCreature->AddEffectStatus( EFFECTSTATUS_BLOOD_DRAIN, delayFrame );
 		}
 	}	

@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPetInfo.h"
 #include "MFakeCreature.h"
 #include "PacketFunction.h"
@@ -17,7 +17,6 @@ extern void SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID);
 //
 //////////////////////////////////////////////////////////////////////
 void GCPetInfoHandler::execute ( GCPetInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	

@@ -1,13 +1,12 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : CGDonationMoney.cpp 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
 #include "Client_PCH.h"
 #include "CGDonationMoney.h"
 
 void CGDonationMoney::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -18,7 +17,6 @@ void CGDonationMoney::read (SocketInputStream & iStream)
 }
 
 void CGDonationMoney::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -29,7 +27,6 @@ void CGDonationMoney::write (SocketOutputStream & oStream) const
 }
 
 void CGDonationMoney::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -39,7 +36,7 @@ void CGDonationMoney::execute (Player* pPlayer)
 }
 #ifdef __DEBUG_OUTPUT__
 string CGDonationMoney::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 

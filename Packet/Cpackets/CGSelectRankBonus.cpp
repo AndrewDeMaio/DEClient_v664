@@ -7,7 +7,6 @@
 #include "CGSelectRankBonus.h"
 
 void CGSelectRankBonus::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -17,7 +16,6 @@ void CGSelectRankBonus::read (SocketInputStream & iStream)
 }
 		    
 void CGSelectRankBonus::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -27,7 +25,6 @@ void CGSelectRankBonus::write (SocketOutputStream & oStream) const
 }
 
 void CGSelectRankBonus::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -40,7 +37,6 @@ void CGSelectRankBonus::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGSelectRankBonus::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

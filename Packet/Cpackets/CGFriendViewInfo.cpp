@@ -14,7 +14,6 @@ CGFriendViewInfo::CGFriendViewInfo()
 }
 
 void CGFriendViewInfo::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -24,7 +23,6 @@ void CGFriendViewInfo::read ( SocketInputStream & iStream )
 }
 		    
 void CGFriendViewInfo::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -34,7 +32,6 @@ void CGFriendViewInfo::write ( SocketOutputStream & oStream ) const
 }
 
 void CGFriendViewInfo::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -44,7 +41,6 @@ void CGFriendViewInfo::execute ( Player * pPlayer )
 }
 
 string CGFriendViewInfo::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

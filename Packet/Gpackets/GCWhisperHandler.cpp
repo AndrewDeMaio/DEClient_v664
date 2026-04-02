@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCWhisper.h"
 #include "ClientDef.h"
 #include "UserInformation.h"
@@ -19,11 +19,10 @@ extern CMessageArray*		g_pNoticeMessage;
 
 //////////////////////////////////////////////////////////////////////
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡¼­ ¼­¹ö·ÎºÎÅÍ ¸Þ½ÃÁö¸¦ ¹Þ¾ÒÀ»¶§ ½ÇÇàµÇ´Â ¸Þ½îµåÀÌ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 void GCWhisperHandler::execute ( GCWhisper * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -43,9 +42,9 @@ void GCWhisperHandler::execute ( GCWhisper * pPacket , Player * pPlayer )
 		|| g_pChatManager->IsAcceptID( strName ))
 	{
 		//--------------------------------------------------
-		// ¿å Á¦°Å
-		// ¿î¿µÀÚ°¡ ÇÑ ¸»µµ ¾Æ´Ï°í ³ªµµ ¿î¿µÀÚ°¡ ¾Æ´Ï¸é filterÇÑ´Ù.
-		// --> ¿î¿µÀÚÀÇ ¸»Àº ´Ù º¸ÀÌ°í ¿î¿µÀÚ´Â ´Ù º»´Ù.
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// ï¿½î¿µï¿½Ú°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½î¿µï¿½Ú°ï¿½ ï¿½Æ´Ï¸ï¿½ filterï¿½Ñ´ï¿½.
+		// --> ï¿½î¿µï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½î¿µï¿½Ú´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		//--------------------------------------------------
 		if (!bMasterWords && !g_pUserInformation->IsMaster &&
 			g_pPlayer->GetCreatureType() != CREATURETYPE_SLAYER_OPERATOR &&
@@ -61,12 +60,12 @@ void GCWhisperHandler::execute ( GCWhisper * pPacket , Player * pPlayer )
 
 			#ifndef _DEBUG
 				//--------------------------------------------------
-				// Á¾Á·ÀÌ ´Ù¸¥ °æ¿ì
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½
 				//--------------------------------------------------
 				Race race = (Race)pPacket->getRace();
 				if (g_pPlayer->GetRace() != race)
 				{
-					// INT´Â 150±îÁöÀÌ¹Ç·Î..  
+					// INTï¿½ï¿½ 150ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½..  
 					int percent = min(75, 25+g_pPlayer->GetINT()*100/(min(2, g_pPlayer->GetRace()+1)*150));
 //					if(g_pPlayer->GetRace() == RACE_OUSTERS || race == RACE_OUSTERS)
 //						percent = 70;
@@ -75,7 +74,7 @@ void GCWhisperHandler::execute ( GCWhisper * pPacket , Player * pPlayer )
 				}
 //				else if (g_pPlayer->IsVampire() && !bVampireSay)
 //				{
-//					// INT´Â 300±îÁöÀÌ¹Ç·Î..  
+//					// INTï¿½ï¿½ 300ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½..  
 //					int percent = min(75, 25+g_pPlayer->GetINT()*100/300);
 //					g_pChatManager->AddMask(str, percent);
 //				}
@@ -88,16 +87,16 @@ void GCWhisperHandler::execute ( GCWhisper * pPacket , Player * pPlayer )
 		
 		if ( bMasterWords )
 		{
-			// ¿î¿µÀÚÀÏ°æ¿ì ½Ã½ºÅÛ ¸Þ½ÃÁö·Îµµ Âï¾îÁØ´Ù.
+			// ï¿½î¿µï¿½ï¿½ï¿½Ï°ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 			g_pNoticeMessage->AddFormat("%s>%s",strName,str);
 		}
 
-		// ±Ó¼Ó¸» ´ë»ó ¼³Á¤ ID+' '
+		// ï¿½Ó¼Ó¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ID+' '
 		char strWhisperID[128];
 		sprintf(strWhisperID, "%s ", pPacket->getName().c_str());
 		g_pUserInformation->WhisperID = strWhisperID;
 
-		// [µµ¿ò¸»] ±Ó¼Ó¸» ¹ÞÀ» ¶§
+		// [ï¿½ï¿½ï¿½ï¿½] ï¿½Ó¼Ó¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 //		__BEGIN_HELP_EVENT
 ////			ExecuteHelpEvent( HE_CHAT_WHISPERED );	
 //		__END_HELP_EVENT

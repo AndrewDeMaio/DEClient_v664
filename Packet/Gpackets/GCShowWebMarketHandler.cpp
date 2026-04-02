@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "Client.h"
 #include "VS_UI.h"
 #include "GCShowWebMarket.h"
@@ -16,7 +16,6 @@
 //
 //////////////////////////////////////////////////////////////////////
 void GCShowWebMarketHandler::execute ( GCShowWebMarket * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	//__BEGIN_TRY __BEGIN_DEBUG_EX
 	__BEGIN_TRY

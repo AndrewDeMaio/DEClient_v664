@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCGQuestStatusInfo.h"
 #include "ClientDef.h"
 #include "Client.h"
@@ -21,7 +21,6 @@ extern C_VS_UI_GPS			*gpC_Gps;
 #endif //__GPS_ADD
 
 void GCGQuestStatusInfoHandler::execute ( GCGQuestStatusInfo * pGCGQuestStatusInfo , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 //	__BEGIN_DEBUG_EX

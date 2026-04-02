@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSkillFailed2.h"
 #include "ClientDef.h"
 #include "SkillDef.h"
@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSkillFailed2Handler::execute ( GCSkillFailed2 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -24,7 +23,7 @@ void GCSkillFailed2Handler::execute ( GCSkillFailed2 * pPacket , Player * pPlaye
 	// message
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -35,19 +34,19 @@ void GCSkillFailed2Handler::execute ( GCSkillFailed2 * pPacket , Player * pPlaye
 	}	
 
 	//------------------------------------------------------
-	// ´ë»óÀÌ µÇ´Â creature¸¦ ¾ò´Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ creatureï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
 	//------------------------------------------------------
 	MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 	MCreature* pTargetCreature = g_pZone->GetCreature( pPacket->getTargetObjectID() );
 	
 	//------------------------------------------------------
-	// Creature°¡ Çàµ¿À» ÃëÇÏµµ·Ï ÇÑ´Ù.
+	// Creatureï¿½ï¿½ ï¿½àµ¿ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	int skilltype = pPacket->getSkillType();
 	
 //	if(skilltype == SKILL_BLOOD_DRAIN)
 //	{
-//		DEBUG_ADD("ÈíÇ÷ ½ÇÆÐ¤»¤»");
+//		DEBUG_ADD("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð¤ï¿½ï¿½ï¿½");
 //	}
 	if( skilltype >= g_pActionInfoTable->GetSize() )
 		return;
@@ -63,14 +62,14 @@ void GCSkillFailed2Handler::execute ( GCSkillFailed2 * pPacket , Player * pPlaye
 
 	if (pCreature==NULL)
 	{
-		// ±×·± creature°¡ ¾øÀ» °æ¿ì
+		// ï¿½×·ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		DEBUG_ADD_FORMAT("There's no such creature : ID=%d, Skill=%d", pPacket->getObjectID(), SKILL_ATTACK_MELEE);				
 		
 		return;
 	}
 
 	//------------------------------------------------------
-	// ÇöÀçÀÇ ¹«±â¿¡ µû¶ó¼­ °ø°Ý ±â¼úÀ» °áÁ¤ÇÏ´Â °æ¿ì..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½..
 	//------------------------------------------------------
 	if (skilltype==SKILL_ATTACK_MELEE
 		|| skilltype==SKILL_ATTACK_ARMS)
@@ -100,13 +99,13 @@ void GCSkillFailed2Handler::execute ( GCSkillFailed2 * pPacket , Player * pPlaye
 		pCreature->SetStopAbsorbSoul();
 	}
 	
-	// 2005, 1, 10, sobeit add start - 784 ¸ó½ºÅÍ ¼ö·ùÅº ´øÁö±â ½ºÅ³ ½ÇÆÐ½Ã ¾î¶² µ¿ÀÛµµ ÇÏÁö ¾Ê°Ô..
+	// 2005, 1, 10, sobeit add start - 784 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Åº ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½Ð½ï¿½ ï¿½î¶² ï¿½ï¿½ï¿½Ûµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½..
 	if(skilltype == SKILL_GRENADE_ATTACK) 
 		return;
 	// 2005, 1, 10, sobeit add end
 
-#if __CONTENTS(__TIPOJYU_CASTLE)						//½ºÅ³ÀÌ ½ÇÆÐ ÇÏ¸é ¸ð¼ÇÀ» ÃëÇÏÁö ¾Ê´Â´Ù.
-	if(skilltype >= 465 && skilltype <= 492)	//Æ¼Æ÷Áê ¸ó½ºÅÍ ½ºÅ³
+#if __CONTENTS(__TIPOJYU_CASTLE)						//ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
+	if(skilltype >= 465 && skilltype <= 492)	//Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³
 		return;
 #endif // __TIPOJYU_CASTLE
 
@@ -118,17 +117,17 @@ void GCSkillFailed2Handler::execute ( GCSkillFailed2 * pPacket , Player * pPlaye
 		if (skilltype==SKILL_BLOOD_DRAIN || skilltype == SKILL_BITE_OF_DEATH )
 		{
 			pCreature->SetStopBloodDrain();
-			//DEBUG_ADD("ÈíÇ÷ Å×½ºÆ®¤»¤»");
+			//DEBUG_ADD("ï¿½ï¿½ï¿½ï¿½ ï¿½×½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½");
 		}
 		
-		// ¸Â´Â ¾Ö°¡ ¾ø´Â °æ¿ì..  
+		// ï¿½Â´ï¿½ ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..  
 		if (pTargetCreature==NULL)
 		{
-			// ±×·± creature°¡ ¾øÀ» °æ¿ì
+			// ï¿½×·ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			DEBUG_ADD_FORMAT("There's no such creature : TargetID=%d, Skill=%d", pPacket->getTargetObjectID(), SKILL_ATTACK_MELEE);
 
 			//------------------------------------------------------
-			// Creature°¡ Çàµ¿À» ÃëÇÏµµ·Ï ÇÑ´Ù.
+			// Creatureï¿½ï¿½ ï¿½àµ¿ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 			//------------------------------------------------------
 
 			pCreature->PacketSpecialActionToNobody(
@@ -140,7 +139,7 @@ void GCSkillFailed2Handler::execute ( GCSkillFailed2 * pPacket , Player * pPlaye
 			return;
 		}
 		
-		// ÀÚ½Å¿¡°Ô ¾²´Â °æ¿ì? - -;
+		// ï¿½Ú½Å¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½? - -;
 		if (pCreature==pTargetCreature)
 		{
 			pCreature->PacketSpecialActionToSelf(
@@ -152,7 +151,7 @@ void GCSkillFailed2Handler::execute ( GCSkillFailed2 * pPacket , Player * pPlaye
 		}
 		
 		//------------------------------------------------------
-		// Çàµ¿ÇÏ´Â Creature°¡ TargetCreature¸¦ ¹Ù¶óº¸µµ·Ï ÇÑ´Ù.
+		// ï¿½àµ¿ï¿½Ï´ï¿½ Creatureï¿½ï¿½ TargetCreatureï¿½ï¿½ ï¿½Ù¶óº¸µï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		//------------------------------------------------------
 		pCreature->SetDirectionToPosition( pTargetCreature->GetX(), pTargetCreature->GetY() );
 

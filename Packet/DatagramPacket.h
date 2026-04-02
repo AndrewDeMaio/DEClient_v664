@@ -60,7 +60,7 @@ public :
 	virtual PacketID_t getPacketID () const = 0;
 
 	// get packet's body size
-	virtual PacketSize_t getPacketSize () const = 0;
+	virtual size_t getPacketSize () const = 0;
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name

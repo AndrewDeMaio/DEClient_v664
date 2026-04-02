@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCUseBonusPointFail.h"
 #include "ClientDef.h"
 #include "UIDialog.h"
@@ -17,7 +17,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCUseBonusPointFailHandler::execute ( GCUseBonusPointFail* pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -25,7 +24,7 @@ void GCUseBonusPointFailHandler::execute ( GCUseBonusPointFail* pPacket , Player
 
 
 	//------------------------------------------------------------
-	// mode Á¦°Å
+	// mode ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------------
 	g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 

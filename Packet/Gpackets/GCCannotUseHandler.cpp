@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCCannotUse.h"
 #include "ClientDef.h"
 #include "MSlayerGear.h"
@@ -22,7 +22,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCCannotUseHandler::execute ( GCCannotUse * pPacket , Player * pPlayer )
-	 throw ( ProtocolException, Error )
 {
 	__BEGIN_TRY
 		
@@ -70,7 +69,7 @@ void GCCannotUseHandler::execute ( GCCannotUse * pPacket , Player * pPlayer )
 		return;
 	}
 	//----------------------------------------------------
-	// °ËÁõ¹ÞÀ»·Á´Â ItemÀ» ÀÐ¾î¿Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Itemï¿½ï¿½ ï¿½Ð¾ï¿½Â´ï¿½.
 	//----------------------------------------------------
 	MItem* pItem = g_pPlayer->GetItemCheckBuffer();
 
@@ -79,7 +78,7 @@ void GCCannotUseHandler::execute ( GCCannotUse * pPacket , Player * pPlayer )
 		MPlayer::ITEM_CHECK_BUFFER status =	g_pPlayer->GetItemCheckBufferStatus();
 
 		//----------------------------------------------------
-		// Item »ç¿ëÇÏ´Â°É °ËÁõ¹Þ´Â °æ¿ì°¡ ¸Â´Ù¸é..
+		// Item ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Þ´ï¿½ ï¿½ï¿½ì°¡ ï¿½Â´Ù¸ï¿½..
 		//----------------------------------------------------
 		if( status == MPlayer::ITEM_CHECK_BUFFER_ITEM_TO_ITEM )
 		{			
@@ -104,7 +103,7 @@ void GCCannotUseHandler::execute ( GCCannotUse * pPacket , Player * pPlayer )
 
 			if(pItem->GetItemClass() == ITEM_CLASS_DYE_POTION && pItem->GetItemType() == 48)
 			{
-				// 1:¹¹ ÀÔ°íÀÖ´Ù, 2:Ä¿ÇÃÀÌ¶ó ¾ÈµÈ´Ù. , 3:ÀÌ»óÇÑ¿¡·¯
+				// 1:ï¿½ï¿½ ï¿½Ô°ï¿½ï¿½Ö´ï¿½, 2:Ä¿ï¿½ï¿½ï¿½Ì¶ï¿½ ï¿½ÈµÈ´ï¿½. , 3:ï¿½Ì»ï¿½ï¿½Ñ¿ï¿½ï¿½ï¿½
 				switch( pPacket->getObjectID() )
 				{
 				case 1 :
@@ -128,29 +127,29 @@ void GCCannotUseHandler::execute ( GCCannotUse * pPacket , Player * pPlayer )
 				UI_PopupMessage(UI_STRING_MESSAGE_CANNOT_USE);
 			}
 
-			// Item Check Buffer¸¸ Áö¿î´Ù.
+			// Item Check Bufferï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 			g_pPlayer->ClearItemCheckBuffer();			
 		}
 		else if (status==MPlayer::ITEM_CHECK_BUFFER_USE_FROM_QUICKSLOT)
 		{
-			// Item Check Buffer¸¸ Áö¿î´Ù.
+			// Item Check Bufferï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 			g_pPlayer->ClearItemCheckBuffer();
 
 			//----------------------------------------------------
-			// º§Æ® ¸ø ¾ø¾Öµµ·Ï ÇÑ°Å.. Ãë¼Ò
+			// ï¿½ï¿½Æ® ï¿½ï¿½ ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ ï¿½Ñ°ï¿½.. ï¿½ï¿½ï¿½
 			//----------------------------------------------------
 			UI_UnlockGear();
 		}
 		//----------------------------------------------------
-		// ´Ù¸¥ »óÅÂ??
+		// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½??
 		//----------------------------------------------------
 		else if(status == MPlayer::ITEM_CHECK_BUFFER_USE_FROM_GEAR)
 		{
 			g_pPlayer->ClearItemCheckBuffer();			
 
-			// UNDONE : OK³ª¼­ WAITÇÏ´Â °æ¿ì¿¡´Â ¿©±â±îÁö ¾Èµé¾î ¿Â´Ù.
-			// OK³ª¼­ ÀÌ¹Ì CHECK_BUFFERÀÇ ³»¿ëÀÌ »ç¶óÁ³±â ¶§¹®¿¡ À§ÀÇ pItem != NULL¿¡ °É¸®Áö ¾Ê´Â´Ù
-			// ÀÌºÎºÐÀº WAIT_VERIFY_LOVE_CHAINÀ» Ã¼Å©ÇØ¼­ ObjectID¸¦ ºñ±³ÇÑµÚ ¾Æ·¡ÀÇ °úÁ¤À» ¼öÇàÇÑ´Ù
+			// UNDONE : OKï¿½ï¿½ï¿½ï¿½ WAITï¿½Ï´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Èµï¿½ï¿½ ï¿½Â´ï¿½.
+			// OKï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ CHECK_BUFFERï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ pItem != NULLï¿½ï¿½ ï¿½É¸ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½
+			// ï¿½ÌºÎºï¿½ï¿½ï¿½ WAIT_VERIFY_LOVE_CHAINï¿½ï¿½ Ã¼Å©ï¿½Ø¼ï¿½ ObjectIDï¿½ï¿½ ï¿½ï¿½ï¿½Ñµï¿½ ï¿½Æ·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 			if( pItem->GetItemClass() == ITEM_CLASS_COUPLE_RING ||
 				pItem->GetItemClass() == ITEM_CLASS_VAMPIRE_COUPLE_RING ||
 				pItem->GetItemClass() == ITEM_CLASS_OUSTERS_HARMONIC_PENDENT	
@@ -167,13 +166,13 @@ void GCCannotUseHandler::execute ( GCCannotUse * pPacket , Player * pPlayer )
 //				g_pPlayer->RemoveEffectStatus( EFFECTSTATUS_LOVE_CHAIN );
 			}
 		}
-		// 2004, 9, 13, sobeit add start - Äù½ºÆ® ÀÎº¥ ¾ÆÀÌÅÛ »ç¿ë ½ÇÆÐ
+		// 2004, 9, 13, sobeit add start - ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		else if(status == MPlayer::ITEM_CHECK_BUFFER_USE_FROM_GQUEST_INVENTORY)
 		{
 			g_pPlayer->ClearItemCheckBuffer();
 		}
-		// 2004, 9, 13, sobeit add end - Äù½ºÆ® ÀÎº¥ ¾ÆÀÌÅÛ »ç¿ë ½ÇÆÐ
-		// 2004, 12, 13, sobeit add start - °­¾ÆÁö ²¿½Ç¶§ ½ÇÆÐ ÇßÀ»¶§..ÀÎº¥ÀÌ ²Ë Â÷ ÀÖ¾úÀ¸¸é ¶ôÀÌ ¾ÈÇ®·È¾ú´Ù...-_-
+		// 2004, 9, 13, sobeit add end - ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// 2004, 12, 13, sobeit add start - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¶ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç®ï¿½È¾ï¿½ï¿½ï¿½...-_-
 		else if(status == MPlayer::ITEM_CHECK_BUFFER_DROP_TO_CREATURE)
 		{
 			g_pPlayer->ClearItemCheckBuffer();
@@ -186,7 +185,7 @@ void GCCannotUseHandler::execute ( GCCannotUse * pPacket , Player * pPlayer )
 
 	}
 	//----------------------------------------------------
-	// itemÀÌ ¾ø´Â °æ¿ì.. - -;;
+	// itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.. - -;;
 	//----------------------------------------------------
 	else
 	{

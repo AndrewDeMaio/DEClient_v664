@@ -11,88 +11,88 @@
 #include "PacketFactory.h"
 
 #ifndef __GAME_CLIENT__
-	#include "Utility.h"
+	//#include "Utility.h"
 #endif
 
 enum 
 {
-	NOTICE_EVENT_KICK_OUT_FROM_ZONE,			// Á¸¿¡¼­ Ãß¹æÇÏ´Â ½Ã°£(ÃÊ)
-	NOTICE_EVENT_CONTINUAL_GROUND_ATTACK,		// Á¸¿¡¼­ Áö¼ÓÀûÀÎ °ø°ÝÀÌ ÀÏ¾î³ª´Â °æ¿ì(ÃÊ)
- 	NOTICE_EVENT_CONTINUAL_GROUND_ATTACK_END,	// Á¸¿¡¼­ Áö¼ÓÀûÀÎ °ø°ÝÀÌ ³¡³µ´Ù.
-	NOTICE_EVENT_MASTER_COMBAT_TIME,			// ¸¶½ºÅÍ¿Í ½Î¿ï ¼ö ÀÖ´Â ³²Àº ½Ã°£(ÃÊ)
-	NOTICE_EVENT_MASTER_COMBAT_END,				// ¸¶½ºÅÍ¿Í ½Î¿ì´Â°Ô ³¡³µ´Ù.
-	NOTICE_EVENT_METEOR_STRIKE,					// ¸ÞÅ×¿À °ø°Ý(ÃÊ)
-	NOTICE_EVENT_METEOR_STRIKE_END,				// ¸ÞÅ×¿À ³¡
-	NOTICE_EVENT_PREMIUM_HALF_START,			// ÇÁ¸®¹Ì¾ö »ç¿ëÀÚ´Â Æ÷¼Ç/Ç÷Ã» ¹Ý°ª
-	NOTICE_EVENT_PREMIUM_HALF_END,				// ÀÌº¥Æ® ³¡
-	NOTICE_EVENT_SHOP_TAX_CHANGE,				// »óÁ¡ ¼¼±Ý ¹Ù²¼´Ù.(¼¼À²)
+	NOTICE_EVENT_KICK_OUT_FROM_ZONE,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß¹ï¿½ï¿½Ï´ï¿½ ï¿½Ã°ï¿½(ï¿½ï¿½)
+	NOTICE_EVENT_CONTINUAL_GROUND_ATTACK,		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¾î³ªï¿½ï¿½ ï¿½ï¿½ï¿½(ï¿½ï¿½)
+ 	NOTICE_EVENT_CONTINUAL_GROUND_ATTACK_END,	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	NOTICE_EVENT_MASTER_COMBAT_TIME,			// ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½Î¿ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½(ï¿½ï¿½)
+	NOTICE_EVENT_MASTER_COMBAT_END,				// ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ ï¿½Î¿ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	NOTICE_EVENT_METEOR_STRIKE,					// ï¿½ï¿½ï¿½×¿ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½)
+	NOTICE_EVENT_METEOR_STRIKE_END,				// ï¿½ï¿½ï¿½×¿ï¿½ ï¿½ï¿½
+	NOTICE_EVENT_PREMIUM_HALF_START,			// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½Ã» ï¿½Ý°ï¿½
+	NOTICE_EVENT_PREMIUM_HALF_END,				// ï¿½Ìºï¿½Æ® ï¿½ï¿½
+	NOTICE_EVENT_SHOP_TAX_CHANGE,				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½.(ï¿½ï¿½ï¿½ï¿½)
 
-	// ÀüÀï°ü·Ã
-	NOTICE_EVENT_WAR_OVER,						// ÀüÀï³¡(CastleZoneID)
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	NOTICE_EVENT_WAR_OVER,						// ï¿½ï¿½ï¿½ï³¡(CastleZoneID)
 
-    NOTICE_EVENT_RACE_WAR_OVER,                 // Á¾Á· ÀüÀï³¡
-	NOTICE_EVENT_WELCOME_MESSAGE,				// Ä³¸¯ÅÍ Ã³À½ »ý¼ºÇØ¼­ º¸¿©ÁÖ´Â ¸Þ½ÃÁö
-	NOTICE_EVENT_MEET_GRANDMA,					// ÇÒ¸Ó´Ï ´ëÈ­
-    NOTICE_EVENT_MEET_FISHSHOP_MASTER,			// »ý¼±¾ÆÀú¾¾ ´ëÈ­
+    NOTICE_EVENT_RACE_WAR_OVER,                 // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï³¡
+	NOTICE_EVENT_WELCOME_MESSAGE,				// Ä³ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½
+	NOTICE_EVENT_MEET_GRANDMA,					// ï¿½Ò¸Ó´ï¿½ ï¿½ï¿½È­
+    NOTICE_EVENT_MEET_FISHSHOP_MASTER,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­
 
-    NOTICE_EVENT_START_QUEST_ENDING,			// Äù½ºÆ® ¿£µù ½ÃÀÛ
-	NOTICE_EVENT_RESULT_LOTTERY,				// º¹±Ç °á°ú
+    NOTICE_EVENT_START_QUEST_ENDING,			// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	NOTICE_EVENT_RESULT_LOTTERY,				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 
-	NOTICE_EVENT_RUN_HORN,						// ´ëÁö Á¤·ÉÀÇ »Ô ¶ç¿ì±â
-	NOTICE_EVENT_MASTER_LAIR_OPEN,              // ¸¶½ºÅÍ ·¹¾î(¹ÙÅä¸®·¹¾î)°¡ ¿­·È½À´Ï´Ù.
-    NOTICE_EVENT_MASTER_LAIR_CLOSED,            // ¸¶½ºÅÍ ·¹¾î(¹ÙÅä¸®·¹¾î)°¡ ´ÝÇû½À´Ï´Ù.
-    NOTICE_EVENT_MASTER_LAIR_COUNT,             // ¸¶½ºÅÍ ·¹¾î(¹ÙÅä¸®·¹¾î) ÃâÀÔ °¡´É ½Ã°£ÀÌ 5ºÐ ³²¾Ò½À´Ï´Ù.
-    NOTICE_EVENT_CONTRACT_GNOMES_HORN,          // ½Ã¿À¶÷¿¡°Ô °¡¼­ °è¾àÀ» ¸ÎÀ¸¼Å¾ß »ç¿ëÇÏ½Ç ¼ö ÀÖ½À´Ï´Ù.
-    NOTICE_EVENT_NOT_ENOUGH_MONEY,              // µ·ÀÌ ¸ðÀÚ¶ø´Ï´Ù.
-    NOTICE_EVENT_MINI_GAME,				        // ¹Ì´Ï°ÔÀÓ
-	NOTICE_EVENT_GET_RIFINIUM,					// ¸®ÇÇ´Ï¿òÀ» È¹µæÇÏ¿´½À´Ï´Ù.
-	NOTICE_EVENT_INVENTORY_FULL,				// ÀÎº¥Åä¸® ³»ÀÇ ¿©À¯ °ø°£ÀÌ ºÎÁ·ÇÕ´Ï´Ù.
+	NOTICE_EVENT_RUN_HORN,						// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	NOTICE_EVENT_MASTER_LAIR_OPEN,              // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½È½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_MASTER_LAIR_CLOSED,            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_MASTER_LAIR_COUNT,             // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ 5ï¿½ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_CONTRACT_GNOMES_HORN,          // ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å¾ï¿½ ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_NOT_ENOUGH_MONEY,              // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_MINI_GAME,				        // ï¿½Ì´Ï°ï¿½ï¿½ï¿½
+	NOTICE_EVENT_GET_RIFINIUM,					// ï¿½ï¿½ï¿½Ç´Ï¿ï¿½ï¿½ï¿½ È¹ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+	NOTICE_EVENT_INVENTORY_FULL,				// ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 	
-    NOTICE_EVENT_FLAG_WAR_READY,                // Capture the Flag! ÀÌº¥Æ®¸¦ ½Ç½ÃÇÕ´Ï´Ù.
-    NOTICE_EVENT_FLAG_WAR_START,                // ÀÌº¥Æ®¸¦ ½ÃÀÛÇÕ´Ï´Ù.
-    NOTICE_EVENT_FLAG_WAR_FINISH,               // ÀÌº¥Æ®°¡ ³¡³µ½À´Ï´Ù. 3ºÐ µÚ ¾ÆÀÌÅÛÀÌ ÅÍÁý´Ï´Ù.
-	NOTICE_EVENT_FLAG_POURED_ITEM,				// Capture the Flag ÀÌº¥Æ® ¾ÆÀÌÅÛÀÌ ³ª¿Ô½À´Ï´Ù.
-	NOTICE_EVENT_ENTER_BEGINNER_ZONE,			// ÃÊº¸ÀÚÁ¸À¸·Î µé¾î°¡½Ã°Ú½À´Ï±î?
-	NOTICE_EVENT_LOGIN_JUST_NOW,                // ¹æ±Ý ·Î±×ÀÎÇß½À´Ï´Ù. -_-
+    NOTICE_EVENT_FLAG_WAR_READY,                // Capture the Flag! ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½Ç½ï¿½ï¿½Õ´Ï´ï¿½.
+    NOTICE_EVENT_FLAG_WAR_START,                // ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+    NOTICE_EVENT_FLAG_WAR_FINISH,               // ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. 3ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+	NOTICE_EVENT_FLAG_POURED_ITEM,				// Capture the Flag ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ô½ï¿½ï¿½Ï´ï¿½.
+	NOTICE_EVENT_ENTER_BEGINNER_ZONE,			// ï¿½Êºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½Ã°Ú½ï¿½ï¿½Ï±ï¿½?
+	NOTICE_EVENT_LOGIN_JUST_NOW,                // ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½. -_-
 
-	NOTICE_EVENT_LEVEL_WAR_ARRANGED,            // °ð ·¹º§º° ÀüÀïÀÌ ½ÃÀÛµË´Ï´Ù.
-	NOTICE_EVENT_LEVEL_WAR_STARTED,             // ·¹º§º° ÀüÀïÀÌ ½ÃÀÛµÇ¾ú½À´Ï´Ù.
-    NOTICE_EVENT_RACE_WAR_SOON,                 // 3ÀÏ¾È¿¡ Á¾Á·ÀüÀ» ÇÕ´Ï´Ù.
+	NOTICE_EVENT_LEVEL_WAR_ARRANGED,            // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµË´Ï´ï¿½.
+	NOTICE_EVENT_LEVEL_WAR_STARTED,             // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_RACE_WAR_SOON,                 // 3ï¿½Ï¾È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Õ´Ï´ï¿½.
 	
-	NOTICE_EVENT_LEVEL_WAR_OVER,				// ·¹º§ÀüÀï ³¡³µ´Ù-0-
-    NOTICE_EVENT_NETMARBLE_CARD_FULL,           // 99°³ÀÇ ³Ý¸¶ºí Ä«µå¸¦ ´Ù ¸ð¾Ò´Ù.
-    NOTICE_EVENT_HOLYDAY,                       // ¿À´ÃÀº ±¹°æÀÏÀÌ´Ù.
+	NOTICE_EVENT_LEVEL_WAR_OVER,				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-0-
+    NOTICE_EVENT_NETMARBLE_CARD_FULL,           // 99ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¸ï¿½ï¿½ï¿½ Ä«ï¿½å¸¦ ï¿½ï¿½ ï¿½ï¿½Ò´ï¿½.
+    NOTICE_EVENT_HOLYDAY,                       // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 	
-	NOTICE_EVENT_CAN_PET_QUEST,					 // Æê Äù½ºÆ®¸¦ ÇÒ ¼ö ÀÖ´Ù.
+	NOTICE_EVENT_CAN_PET_QUEST,					 // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
 	NOTICE_EVENT_SEND_SMS, 
 	
-	NOTICE_EVENT_GDR_LAIR_ENDING_1,             // 1Â÷ ¿£µù  
-	NOTICE_EVENT_GOLD_MEDALS,                   // ±Ý¸Þ´Þ °³¼ö~
+	NOTICE_EVENT_GDR_LAIR_ENDING_1,             // 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  
+	NOTICE_EVENT_GOLD_MEDALS,                   // ï¿½Ý¸Þ´ï¿½ ï¿½ï¿½ï¿½ï¿½~
 
-	NOTICE_EVENT_CROWN_PRICE,                   // ¿ù°è°ü °¡°Ý
+	NOTICE_EVENT_CROWN_PRICE,                   // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	NOTICE_EVENT_GIVE_PRESENT_1,                // ·¹º§ 1 ¼±¹°»óÀÚ Áá½À´Ï´Ù.
-    NOTICE_EVENT_GIVE_PRESENT_2,                // ·¹º§ 2 ¼±¹°»óÀÚ Áá½À´Ï´Ù.
-    NOTICE_EVENT_GIVE_PRESENT_3,                // ·¹º§ 3 ¼±¹°»óÀÚ Áá½À´Ï´Ù.
-    NOTICE_EVENT_GIVE_PRESENT_4,                // ·¹º§ 4 ¼±¹°»óÀÚ Áá½À´Ï´Ù.
-    NOTICE_EVENT_GIVE_PRESENT_5,                // ·¹º§ 5 ¼±¹°»óÀÚ Áá½À´Ï´Ù.
-    NOTICE_EVENT_GIVE_PRESENT_6,                // ·¹º§ 6 ¼±¹°»óÀÚ Áá½À´Ï´Ù
-    NOTICE_EVENT_GIVE_PRESENT_7,                // ·¹º§ 7 ¼±¹°»óÀÚ Áá½À´Ï´Ù.
-    NOTICE_EVENT_GIVE_PRESENT_8,                // ·¹º§ 8 ¼±¹°»óÀÚ Áá½À´Ï´Ù.
-    NOTICE_EVENT_CAN_OPEN_PRESENT_8,            // ·¹º§ 8 ¼±¹°»óÀÚ ¿­ ¼ö ÀÖ½À´Ï´Ù.
+	NOTICE_EVENT_GIVE_PRESENT_1,                // ï¿½ï¿½ï¿½ï¿½ 1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_GIVE_PRESENT_2,                // ï¿½ï¿½ï¿½ï¿½ 2 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_GIVE_PRESENT_3,                // ï¿½ï¿½ï¿½ï¿½ 3 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_GIVE_PRESENT_4,                // ï¿½ï¿½ï¿½ï¿½ 4 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_GIVE_PRESENT_5,                // ï¿½ï¿½ï¿½ï¿½ 5 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_GIVE_PRESENT_6,                // ï¿½ï¿½ï¿½ï¿½ 6 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
+    NOTICE_EVENT_GIVE_PRESENT_7,                // ï¿½ï¿½ï¿½ï¿½ 7 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_GIVE_PRESENT_8,                // ï¿½ï¿½ï¿½ï¿½ 8 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_CAN_OPEN_PRESENT_8,            // ï¿½ï¿½ï¿½ï¿½ 8 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
 
-    NOTICE_EVENT_RACE_WAR_IN_20,                // 20ºÐ¾È¿¡ ÀüÀïÀÌ ½ÃÀÛµË´Ï´Ù.
-    NOTICE_EVENT_RACE_WAR_IN_5,                 // 5ºÐ¾È¿¡ ÀüÀïÀÌ ½ÃÀÛµË´Ï´Ù.
+    NOTICE_EVENT_RACE_WAR_IN_20,                // 20ï¿½Ð¾È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµË´Ï´ï¿½.
+    NOTICE_EVENT_RACE_WAR_IN_5,                 // 5ï¿½Ð¾È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµË´Ï´ï¿½.
 
-	NOTICE_EVENT_RACE_WAR_STARTED_IN_OTHER_SERVER, //Ã¹¹øÂ° ¼­¹ö¿¡¼­ Á¾Á·ÀüÀÌ ½ÃÀÛµÆ½À´Ï´Ù.
+	NOTICE_EVENT_RACE_WAR_STARTED_IN_OTHER_SERVER, //Ã¹ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµÆ½ï¿½ï¿½Ï´ï¿½.
 
-	NOTICE_EVENT_CANNOT_FIND_STORE,             // ÇØ´ç ÆÇ¸ÅÀÚ¸¦ Ã£À» ¼ö ¾ø½À´Ï´Ù.
-    NOTICE_EVENT_STORE_CLOSED,                  // »óÁ¡ÀÌ ÀÌ¹Ì ´ÝÇû½À´Ï´Ù.
-    NOTICE_EVENT_ITEM_NOT_FOUND,                // ÇØ´ç ¾ÆÀÌÅÛÀÌ ÀÌ¹Ì ÆÇ¸ÅµÇ¾ú°Å³ª ÆÇ¸ÅÀÚ¿¡ ÀÇÇØ Ã¶È¸µÇ¾ú½À´Ï´Ù.
-    NOTICE_EVENT_TOO_MUCH_MONEY,                // ÆÇ¸ÅÀÚ°¡ ³Ê¹« ¸¹Àº µ·À» °¡Áö°í ÀÖ¾î¼­ »ì ¼ö ¾ø½À´Ï´Ù.
-	NOTICE_EVENT_NO_INVENTORY_SPACE,            // ÀÎº¥Åä¸®¿¡ ºó ÀÚ¸®°¡ ¾ø½À´Ï´Ù.
-    NOTICE_EVENT_ALREADY_DISPLAYED,             // ÀÌ¹Ì Áø¿­µÈ ¾ÆÀÌÅÛÀÔ´Ï´Ù.
-    NOTICE_EVENT_CANNOT_SELL,                   // ÆÈ ¼ö ¾ø´Â ¾ÆÀÌÅÛÀÔ´Ï´Ù.
+	NOTICE_EVENT_CANNOT_FIND_STORE,             // ï¿½Ø´ï¿½ ï¿½Ç¸ï¿½ï¿½Ú¸ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_STORE_CLOSED,                  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_ITEM_NOT_FOUND,                // ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ç¸ÅµÇ¾ï¿½ï¿½Å³ï¿½ ï¿½Ç¸ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¶È¸ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_TOO_MUCH_MONEY,                // ï¿½Ç¸ï¿½ï¿½Ú°ï¿½ ï¿½Ê¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾î¼­ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+	NOTICE_EVENT_NO_INVENTORY_SPACE,            // ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NOTICE_EVENT_ALREADY_DISPLAYED,             // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
+    NOTICE_EVENT_CANNOT_SELL,                   // ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
 
 
 	NOTICE_EVENT_MAX
@@ -106,30 +106,30 @@ class GCNoticeEvent : public Packet
 {
 
 public:
-	GCNoticeEvent() throw() { m_Code = NOTICE_EVENT_MAX; m_Parameter = 0;}
-	virtual ~GCNoticeEvent() throw() {}
+	GCNoticeEvent() { m_Code = NOTICE_EVENT_MAX; m_Parameter = 0;}
+	virtual ~GCNoticeEvent() {}
 
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
 
-	PacketID_t getPacketID() const throw() { return PACKET_GC_NOTICE_EVENT; }
-	PacketSize_t getPacketSize() const throw();
+	PacketID_t getPacketID() const { return PACKET_GC_NOTICE_EVENT; }
+	size_t getPacketSize() const;
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCNoticeEvent"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "GCNoticeEvent"; }
+	std::string toString() const;
 #endif
 	
 public:
-	BYTE getCode(void) const throw() { return m_Code;}
-	void setCode(WORD code) throw() { m_Code = code;}
+	BYTE getCode(void) const { return m_Code;}
+	void setCode(WORD code) { m_Code = code;}
 
-	uint getParameter(void) const throw() { return m_Parameter; }
-	void setParameter(uint parameter) throw() { m_Parameter = parameter; }
+	uint getParameter(void) const { return m_Parameter; }
+	void setParameter(uint parameter) { m_Parameter = parameter; }
 
 #ifndef __GAME_CLIENT__
-	void setParameter(WORD hiWord, WORD loWord) throw() { m_Code = makeDWORD(hiWord, loWord); }
+	void setParameter(WORD hiWord, WORD loWord) { m_Code = (DWORD)loWord | ((DWORD)(hiWord) << 16); }
 #endif
 
 private: 
@@ -146,10 +146,10 @@ private:
 class GCNoticeEventFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCNoticeEvent(); }
-	std::string getPacketName() const throw() { return "GCNoticeEvent"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_NOTICE_EVENT; }
-	PacketSize_t getPacketMaxSize() const throw() { return szWORD + szuint; }
+	Packet* createPacket() { return new GCNoticeEvent(); }
+	std::string getPacketName() const { return "GCNoticeEvent"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_NOTICE_EVENT; }
+	PacketSize_t getPacketMaxSize() const { return szWORD + szuint; }
 };
 
 
@@ -160,7 +160,7 @@ public:
 class GCNoticeEventHandler 
 {
 public:
-	static void execute( GCNoticeEvent* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute( GCNoticeEvent* pPacket, Player* pPlayer);
 };
 
 #endif

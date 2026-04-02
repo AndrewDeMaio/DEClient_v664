@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCShowGuildMemberInfo.h"
 #include "ClientDef.h"
 #include "UIFunction.h"
@@ -15,7 +15,6 @@
 //
 //////////////////////////////////////////////////////////////////////
 void GCShowGuildMemberInfoHandler::execute ( GCShowGuildMemberInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	

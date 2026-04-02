@@ -17,7 +17,7 @@
 //
 // class GCShowGuildJoin;
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡ ±æµå µî·Ï Ã¢À» ¶ç¿ìµµ·Ï ÇÑ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ìµµï¿½ï¿½ ï¿½Ñ´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -25,20 +25,20 @@ class GCShowGuildJoin : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_SHOW_GUILD_JOIN; }
+	PacketID_t getPacketID() const { return PACKET_GC_SHOW_GUILD_JOIN; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw()
+	size_t getPacketSize() const
 	{
 		return szGuildID +
 			   szBYTE +
@@ -49,27 +49,27 @@ public :
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	std::string getPacketName() const throw() { return "GCShowGuildJoin"; }
+	std::string getPacketName() const { return "GCShowGuildJoin"; }
 	
 	// get packet's debug std::string
-	std::string toString() const throw();
+	std::string toString() const;
 #endif
 
 	// get/set Guild ID
-	GuildID_t getGuildID() const throw() { return m_GuildID; }
-	void setGuildID( GuildID_t GuildID ) throw() { m_GuildID = GuildID; }
+	GuildID_t getGuildID() const { return m_GuildID; }
+	void setGuildID( GuildID_t GuildID ) { m_GuildID = GuildID; }
 
 	// get/set Guild Name
-	const std::string& getGuildName() const throw() { return m_GuildName; }
-	void setGuildName( const std::string& GuildName ) throw() { m_GuildName = GuildName; }
+	const std::string& getGuildName() const { return m_GuildName; }
+	void setGuildName( const std::string& GuildName ) { m_GuildName = GuildName; }
 
 	// get/set Guild Member Rak
-	GuildMemberRank_t getGuildMemberRank() const throw() { return m_GuildMemberRank; }
-	void setGuildMemberRank( GuildMemberRank_t GuildMemberRank ) throw() { m_GuildMemberRank = GuildMemberRank; }
+	GuildMemberRank_t getGuildMemberRank() const { return m_GuildMemberRank; }
+	void setGuildMemberRank( GuildMemberRank_t GuildMemberRank ) { m_GuildMemberRank = GuildMemberRank; }
 
 	// get/set Join Fee
-	Gold_t getJoinFee() const throw() { return m_JoinFee; }
-	void setJoinFee( Gold_t JoinFee ) throw() { m_JoinFee = JoinFee; }
+	Gold_t getJoinFee() const { return m_JoinFee; }
+	void setJoinFee( Gold_t JoinFee ) { m_JoinFee = JoinFee; }
 
 private :
 	// Guild ID
@@ -99,18 +99,18 @@ class GCShowGuildJoinFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet* createPacket() throw() { return new GCShowGuildJoin(); }
+	Packet* createPacket() { return new GCShowGuildJoin(); }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "GCShowGuildJoin"; }
+	std::string getPacketName() const { return "GCShowGuildJoin"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_SHOW_GUILD_JOIN; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_SHOW_GUILD_JOIN; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCSystemMessagePacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw()
+	// const static GCSystemMessagePacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const
 	{
 		return szGuildID +
 			   szBYTE +
@@ -132,7 +132,7 @@ class GCShowGuildJoinHandler {
 public :
 	
 	// execute packet's handler
-	static void execute(GCShowGuildJoin* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCShowGuildJoin* pPacket, Player* pPlayer);
 
 };
 

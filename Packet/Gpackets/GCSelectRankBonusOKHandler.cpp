@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSelectRankBonusOK.h"
 #include "RankBonusTable.h"
 #include "TempInformation.h"
@@ -17,7 +17,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSelectRankBonusOKHandler::execute ( GCSelectRankBonusOK * pGCSelectRankBonusOK , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 

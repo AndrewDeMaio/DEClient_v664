@@ -6,7 +6,7 @@
 
 
 #include "Assert.h"
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCUpdateSupplyItemList.h"
 
 #ifdef __GAME_SERVER__
@@ -18,7 +18,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 GCUpdateSupplyItemList::GCUpdateSupplyItemList() 
-	throw ()
 {
 	__BEGIN_TRY
 
@@ -31,7 +30,6 @@ GCUpdateSupplyItemList::GCUpdateSupplyItemList()
 // destructor
 //////////////////////////////////////////////////////////////////////////////
 GCUpdateSupplyItemList::~GCUpdateSupplyItemList() 
-	throw ()
 {
 	__BEGIN_TRY
 
@@ -53,16 +51,15 @@ GCUpdateSupplyItemList::~GCUpdateSupplyItemList()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCUpdateSupplyItemList::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
 	BYTE totalNum;
 	iStream.read( totalNum );
-	if ( totalNum > MAX_SUPPLYITEM_LIST ) throw DisconnectException("GCUpdateSupplyItemList : ¹°°Ç °³¼ö°¡ Á¦ÇÑÀ» ÃÊ°úÇß½À´Ï´Ù.");
+	if ( totalNum > MAX_SUPPLYITEM_LIST ) throw DisconnectException("GCUpdateSupplyItemList : ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 
 	for ( int i=0; i < totalNum ; ++i )
 	{
@@ -96,10 +93,9 @@ void GCUpdateSupplyItemList::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCUpdateSupplyItemList::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	__BEGIN_DEBUG
@@ -152,7 +148,6 @@ void GCUpdateSupplyItemList::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////////////
 void GCUpdateSupplyItemList::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	__BEGIN_DEBUG
@@ -166,7 +161,6 @@ void GCUpdateSupplyItemList::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 PacketSize_t GCUpdateSupplyItemList::getPacketSize () const 
-	throw ()
 { 
 	__BEGIN_TRY
 	__BEGIN_DEBUG
@@ -193,7 +187,6 @@ PacketSize_t GCUpdateSupplyItemList::getPacketSize () const
 //////////////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 string GCUpdateSupplyItemList::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

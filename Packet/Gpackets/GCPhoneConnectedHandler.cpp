@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPhoneConnected.h"
 #include "UserInformation.h"
 #include "ClientDef.h"
@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCPhoneConnectedHandler::execute ( GCPhoneConnected * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 
@@ -23,11 +22,11 @@ void GCPhoneConnectedHandler::execute ( GCPhoneConnected * pPacket , Player * pP
 	int pcsNumber = pPacket->getPhoneNumber();
 	int slot = pPacket->getSlotID();
 
-	// ¹øÈ£¸¦ ÀúÀåÇØ µÐ´Ù.
+	// ï¿½ï¿½È£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð´ï¿½.
 	g_pUserInformation->OtherPCSNumber[ slot ] = pcsNumber;
 	g_pUserInformation->PCSUserName[ slot ] = pPacket->getName().c_str();
 
-	// PCS¸¦ ¶ç¿î´Ù.
+	// PCSï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	char pName[128];
 	strcpy(pName, pPacket->getName().c_str());
 

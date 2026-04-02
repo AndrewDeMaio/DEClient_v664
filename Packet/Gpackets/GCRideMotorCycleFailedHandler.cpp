@@ -7,14 +7,13 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCRideMotorCycleFailed.h"
 #include "ClientDef.h"
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCRideMotorCycleFailedHandler::execute ( GCRideMotorCycleFailed * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -22,7 +21,7 @@ void GCRideMotorCycleFailedHandler::execute ( GCRideMotorCycleFailed * pPacket ,
 
 	
 	//------------------------------------------
-	// ¾îÂ¶µç °£¿¡.. °ËÁõÀÌ µÇ¾ú´Ù°í º»´Ù.
+	// ï¿½ï¿½Â¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	//------------------------------------------
 	g_pPlayer->SetWaitVerifyNULL();
 

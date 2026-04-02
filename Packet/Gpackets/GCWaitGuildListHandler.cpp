@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCWaitGuildList.h"
 #include "clientdef.h"
 #include "UIFunction.h"
@@ -14,13 +14,12 @@
 //
 //////////////////////////////////////////////////////////////////////
 void GCWaitGuildListHandler::execute ( GCWaitGuildList * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
 #ifdef __GAME_CLIENT__
 	//------------------------------------------------------
-	// °ËÁõ
+	// ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if ( g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_NPC_ASK )
 	{

@@ -16,14 +16,13 @@
 // 
 //----------------------------------------------------------------------
 void LCVersionCheckOKHandler::execute ( LCVersionCheckOK * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
 #ifdef __GAME_CLIENT__
 
 
-	// Á¤»óÀûÀÎ °æ¿ì.. ¾Æ¹«°Íµµ ÇÒ°Ô ¾ø´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.. ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½Ò°ï¿½ ï¿½ï¿½ï¿½ï¿½.
 
 #endif
 		

@@ -7,7 +7,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCNicknameVerify.h"
 
 #ifdef __GAME_CLIENT__
@@ -23,7 +23,6 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCNicknameVerifyHandler::execute ( GCNicknameVerify * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY 
 //	__BEGIN_DEBUG_EX
@@ -38,27 +37,27 @@ void GCNicknameVerifyHandler::execute ( GCNicknameVerify * pPacket , Player * pP
 		case NICKNAME_MODIFY_OK:
 			if (g_pTempInformation->GetMode()==TempInformation::MODE_NICKNAME_CHANGE_CUSTOM)
 			{
-				// value1 = ÀÌ¸§, value2 = item type
+				// value1 = ï¿½Ì¸ï¿½, value2 = item type
 				if(g_pTempInformation->Value2 != 0)
 				{ 
 					//UseItemOK();
 					switch(g_pTempInformation->Value2)
 					{
-					case 22: // ´Ð³×ÀÓ ¼öÁ¤
+					case 22: // ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 						gC_vs_ui.Change_Custom_Naming(0, (char*)g_pTempInformation->Value1);
 						break;
-					case 23: // Æê ´Ð³×ÀÓ ¼öÁ¤ - gc_modify nickname ¿¡¼­ ¼öÁ¤ µÇ°ÚÁö..
+					case 23: // ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - gc_modify nickname ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç°ï¿½ï¿½ï¿½..
 						break;
-					case 24: // À¯Àú ´Ð³×ÀÓ Ãß°¡ - ¼­¹ö¿¡¼­ ¸®½ºÆ®³¯¶ó¿À±â·Î ÇßÀ½
+					case 24: // ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 						break;
-					case 25: // ´Ð³×ÀÓ ¼öÁ¤ (½Ã°£Á¦)
+					case 25: // ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ã°ï¿½ï¿½ï¿½)
 						gC_vs_ui.Change_Custom_Naming(0, (char*)g_pTempInformation->Value1);
 						break;
 					}
 					
 				//	gC_vs_ui.SetChangeableNickName(false);
 				}
-				else // ¿ï¹ö¸° ³×ÀÓ °íÄ¡±â- gc_modify nickname ¿¡¼­ ¼öÁ¤ µÇ°ÚÁö..
+				else // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½- gc_modify nickname ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç°ï¿½ï¿½ï¿½..
 				{
 				//	gC_vs_ui.SetChangeablePetNickName(false);
 				}

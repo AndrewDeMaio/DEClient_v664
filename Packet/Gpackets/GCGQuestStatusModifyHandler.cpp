@@ -7,14 +7,13 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCGQuestStatusModify.h"
 #include "Client.h"
 #include "vs_ui.h"
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCGQuestStatusModifyHandler::execute ( GCGQuestStatusModify * pGCGQuestStatusModify , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY 
 //	__BEGIN_DEBUG_EX

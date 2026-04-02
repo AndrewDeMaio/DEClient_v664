@@ -18,18 +18,18 @@
 class GCBloodBibleList : public Packet
 {
 public:
-	GCBloodBibleList() throw() { }
-	virtual ~GCBloodBibleList() throw();
+	GCBloodBibleList() { }
+	virtual ~GCBloodBibleList();
 
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_BLOOD_BIBLE_LIST; }
-	PacketSize_t getPacketSize() const throw();
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_BLOOD_BIBLE_LIST; }
+	size_t getPacketSize() const;
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCBloodBibleList"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCBloodBibleList"; }
+	string toString() const;
 #endif
 public:
 	std::vector<ItemType_t>&	getList() { return m_BloodBibleList; }
@@ -46,12 +46,12 @@ private:
 class GCBloodBibleListFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCBloodBibleList(); }
+	Packet* createPacket() { return new GCBloodBibleList(); }
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCBloodBibleList"; }
+	std::string getPacketName() const { return "GCBloodBibleList"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_BLOOD_BIBLE_LIST; }
-	PacketSize_t getPacketMaxSize() const throw()
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_BLOOD_BIBLE_LIST; }
+	PacketSize_t getPacketMaxSize() const
 	{
 		return szBYTE
 			 + szItemType * 12;
@@ -65,7 +65,7 @@ public:
 class GCBloodBibleListHandler 
 {
 public:
-	static void execute(GCBloodBibleList* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCBloodBibleList* pPacket, Player* pPlayer);
 };
 
 #endif

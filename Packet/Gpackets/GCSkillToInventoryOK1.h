@@ -2,7 +2,7 @@
 // 
 // Filename    : GCSkillToInventoryOK1.h 
 // Written By  : elca@ewestsoft.com
-// Description : ±â¼úÀÌ ¼º°øÇßÀ»¶§ º¸³»´Â ÆÐÅ¶À» À§ÇÑ Å¬·¡½º Á¤ÀÇ
+// Description : ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -20,7 +20,7 @@
 //
 // class GCSkillToInventoryOK1;
 //
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -29,30 +29,30 @@ class GCSkillToInventoryOK1 : public ModifyInfo {
 public :
 	
 	// constructor
-	GCSkillToInventoryOK1 () throw ();
+	GCSkillToInventoryOK1 ();
 	
 	// destructor
-	~GCSkillToInventoryOK1 () throw ();
+	~GCSkillToInventoryOK1 ();
 
 	
 public :
 	
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_SKILL_TO_INVENTORY_OK_1; }
+	PacketID_t getPacketID () const { return PACKET_GC_SKILL_TO_INVENTORY_OK_1; }
 	
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getPacketSize () const throw () { return szSkillType + szObjectID + szItemType + szCEffectID + szCoordInven * 2
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	size_t getPacketSize () const { return szSkillType + szObjectID + szItemType + szCEffectID + szCoordInven * 2
 			+ szDuration + ModifyInfo::getPacketSize()
 #if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
 			+szItemClass
@@ -61,31 +61,31 @@ public :
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCSkillToInventoryOK1"; }
+		std::string getPacketName () const { return "GCSkillToInventoryOK1"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 	// get / set SkillType
-	SkillType_t getSkillType() const throw() { return m_SkillType; }
-	void setSkillType( SkillType_t SkillType ) throw() { m_SkillType = SkillType; }
+	SkillType_t getSkillType() const { return m_SkillType; }
+	void setSkillType( SkillType_t SkillType ) { m_SkillType = SkillType; }
 
 	// get / set ObjectID
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID( ObjectID_t ObjectID ) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID( ObjectID_t ObjectID ) { m_ObjectID = ObjectID; }
 
 	// get / set ItemType
-	ItemType_t getItemType() const throw() { return m_ItemType; }
-	void setItemType( ItemType_t ItemType ) throw() { m_ItemType = ItemType; }
+	ItemType_t getItemType() const { return m_ItemType; }
+	void setItemType( ItemType_t ItemType ) { m_ItemType = ItemType; }
 
 	// get / set CEffectID
-	CEffectID_t getCEffectID() const throw() { return m_CEffectID; }
-	void setCEffectID( CEffectID_t CEffectID ) throw() { m_CEffectID = CEffectID; }
+	CEffectID_t getCEffectID() const { return m_CEffectID; }
+	void setCEffectID( CEffectID_t CEffectID ) { m_CEffectID = CEffectID; }
 
 	// get / set Duration
-	Duration_t getDuration() const throw() { return m_Duration; }
-	void setDuration ( Duration_t Duration ) throw() { m_Duration = Duration; }
+	Duration_t getDuration() const { return m_Duration; }
+	void setDuration ( Duration_t Duration ) { m_Duration = Duration; }
 
 	// get / set X, Y
 	CoordInven_t getX() { return m_X; }
@@ -95,8 +95,8 @@ public :
 	void setY( Coord_t Y ) { m_Y = Y; }
 
 #if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
-	ItemClass_t getItemClass() const throw() { return m_ItemClass;}
-	void setItemClass( ItemClass_t c) throw() { m_ItemClass = c;}
+	ItemClass_t getItemClass() const { return m_ItemClass;}
+	void setItemClass( ItemClass_t c) { m_ItemClass = c;}
 #endif //__FAST_TRANSFORTER||__SECOND_TRANSFORTER
 
 private :
@@ -139,27 +139,27 @@ class GCSkillToInventoryOK1Factory : public PacketFactory {
 public :
 	
 	// constructor
-	GCSkillToInventoryOK1Factory () throw () {}
+	GCSkillToInventoryOK1Factory () {}
 	
 	// destructor
-	virtual ~GCSkillToInventoryOK1Factory () throw () {}
+	virtual ~GCSkillToInventoryOK1Factory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCSkillToInventoryOK1(); }
+	Packet * createPacket () { return new GCSkillToInventoryOK1(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCSkillToInventoryOK1"; }
+		std::string getPacketName () const { return "GCSkillToInventoryOK1"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_SKILL_TO_INVENTORY_OK_1; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_SKILL_TO_INVENTORY_OK_1; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize () const throw () { return szSkillType + szObjectID + szItemType + szCEffectID + szCoord * 2
+	PacketSize_t getPacketMaxSize () const { return szSkillType + szObjectID + szItemType + szCEffectID + szCoord * 2
 			+ szDuration  
 #if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
 			+ szItemClass
@@ -180,7 +180,7 @@ class GCSkillToInventoryOK1Handler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCSkillToInventoryOK1 * pGCSkillToInventoryOK1 , Player * pPlayer ) throw ( Error );
+	static void execute ( GCSkillToInventoryOK1 * pGCSkillToInventoryOK1 , Player * pPlayer );
 
 };
 

@@ -1,13 +1,12 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : CGRequestRepairInfo.cpp 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
 #include "client_PCH.h"
 #include "CGRequestRepairInfo.h"
 
 void CGRequestRepairInfo::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -17,7 +16,6 @@ void CGRequestRepairInfo::read (SocketInputStream & iStream)
 }
 
 void CGRequestRepairInfo::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -27,7 +25,6 @@ void CGRequestRepairInfo::write (SocketOutputStream & oStream) const
 }
 
 void CGRequestRepairInfo::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -37,7 +34,7 @@ void CGRequestRepairInfo::execute (Player* pPlayer)
 }
 
 string CGRequestRepairInfo::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 

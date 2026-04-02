@@ -23,21 +23,20 @@
 // 
 //----------------------------------------------------------------------
 void RCCharacterInfoHandler::execute ( RCCharacterInfo * pPacket )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
 	//g_pClientCommunicationManager->sendPacket( pPacket->getHost() , pPacket->getPort() , &glIncomingConnectionOK );
 	
 	if ((g_Mode==MODE_GAME
-			|| g_Mode==MODE_WAIT_UPDATEINFO			// ·Îµù ÁßÀÌ ¾Æ´Ï°Å³ª..
-			|| g_Mode==MODE_WAIT_SETPOSITION		// ÁÂÇ¥ ±â´Ù¸®´Â °æ¿ì
+			|| g_Mode==MODE_WAIT_UPDATEINFO			// ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï°Å³ï¿½..
+			|| g_Mode==MODE_WAIT_SETPOSITION		// ï¿½ï¿½Ç¥ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			)
 		&& g_pParty!=NULL
 		&& g_pGameMessage!=NULL
 		&& g_pRequestUserManager!=NULL)
 	{
-		// »ç¿ëÀÚ Á¤º¸ ´Ù½Ã ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		RequestUserInfo* pUserInfo = g_pRequestUserManager->GetUserInfo( pPacket->getName().c_str() );
 
 		if (pUserInfo!=NULL)
@@ -49,7 +48,7 @@ void RCCharacterInfoHandler::execute ( RCCharacterInfo * pPacket )
 
 		PARTY_INFO*	pInfo = NULL;
 		
-		// ÀÌ¸§ÀÌ ¾ø´Â °æ¿ì¿£ IP·Î Ã£¾Æº»´Ù.
+		// ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿£ IPï¿½ï¿½ Ã£ï¿½Æºï¿½ï¿½ï¿½.
 		if (pPacket->getName().size()==0)
 		{
 			pInfo = g_pParty->GetMemberInfoByIP( pPacket->getHost().c_str() );
@@ -59,7 +58,7 @@ void RCCharacterInfoHandler::execute ( RCCharacterInfo * pPacket )
 			pInfo = g_pParty->GetMemberInfo( pPacket->getName().c_str() );
 		}
 			
-		// ÁÂÇ¥¸¦ ¼öÁ¤ÇØÁØ´Ù.
+		// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 		if (pInfo!=NULL)
 		{
 			pInfo->guildID = pPacket->getGuildID();

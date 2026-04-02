@@ -7,7 +7,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GLIncomingConnectionOK.h"
 
 #ifdef __LOGIN_SERVER__
@@ -24,13 +24,12 @@
 // 
 // GLIncomingConnectionOKHander::execute()
 // 
-// °ÔÀÓ ¼­¹ö·ÎºÎÅÍ GLIncomingConnectionOK ÆÐÅ¶ÀÌ ³¯¾Æ¿À¸é, ·Î±×ÀÎ ¼­¹ö´Â ÀÌ Çã°¡°¡ 
-// ¾î´À ÇÃ·¹ÀÌ¾î¿¡ ´ëÇÑ Çã°¡ÀÎÁö Ã£¾Æ³»¾ß ÇÑ´Ù. ±× ÈÄ, ÀÌ ÇÃ·¹ÀÌ¾î¿¡°Ô LCReconnect
-// ÆÐÅ¶À» ´øÁ®Áà¾ß ÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ GLIncomingConnectionOK ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Æ¿ï¿½ï¿½ï¿½, ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ã°¡ï¿½ï¿½ 
+// ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ã°¡ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Æ³ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½. ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ LCReconnect
+// ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 // 
 //--------------------------------------------------------------------------------
 void GLIncomingConnectionOKHandler::execute ( GLIncomingConnectionOK * pPacket )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -38,7 +37,7 @@ void GLIncomingConnectionOKHandler::execute ( GLIncomingConnectionOK * pPacket )
 
 	try {	
 
-		// ÇÃ·¹ÀÌ¾î ¾ÆÀÌµð¸¦ »ç¿ëÇØ¼­ ÇÃ·¹ÀÌ¾î °´Ã¼¿¡ Á¢±ÙÇÑ´Ù.
+		// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		LoginPlayer * pLoginPlayer = g_pLoginPlayerManager->getPlayer( pPacket->getPlayerID() );
 
 		//cout << "PlayerStatus : " << (int)pLoginPlayer->getPlayerStatus() << endl;
@@ -49,22 +48,22 @@ void GLIncomingConnectionOKHandler::execute ( GLIncomingConnectionOK * pPacket )
 			 << "| Please Reconnect to GameServer |" << endl
 			 << "+--------------------------------+" << endl;
 
-        // Å¬¶óÀÌ¾ðÆ®¿¡°Ô °ÔÀÓ ¼­¹ö·Î ÀçÁ¢¼ÓÇÏ¶ó°í ¾Ë·ÁÁØ´Ù.
+        // Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ø´ï¿½.
         LCReconnect lcReconnect;
         lcReconnect.setGameServerIP( pPacket->getHost() );
         lcReconnect.setGameServerPort( pPacket->getTCPPort() );
         lcReconnect.setKey( pPacket->getKey() );
 
-		// LCReconnect ÆÐÅ¶À» Àü¼ÛÇÑ´Ù.
+		// LCReconnect ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
         pLoginPlayer->sendPacket( &lcReconnect );
 
-		// ¿¬°áÀ» Á¾·áÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		pLoginPlayer->disconnect( UNDISCONNECTED );
 
-		// LPM¿¡¼­ »èÁ¦ÇÑ´Ù.
+		// LPMï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		g_pLoginPlayerManager->deletePlayer( pLoginPlayer->getSocket()->getSOCKET() );
 
-		// LoginPlayer °´Ã¼¸¦ »èÁ¦ÇÑ´Ù.
+		// LoginPlayer ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		delete pLoginPlayer;
 
 	} catch ( NoSuchElementException & nsee ) {

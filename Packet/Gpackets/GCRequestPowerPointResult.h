@@ -26,41 +26,41 @@ public:
 	enum RESULT_CODE
 	{
 		_NO_ERROR = 0,
-		SERVER_ERROR,		// ÆÄ¿öÂ¯ ¼­¹ö´Â »ì¾ÆÀÖÀ¸³ª ÇöÀç Á¤»óÀûÀ¸·Î µ¿ÀÛÇÏÁö ¸øÇÏ´Â »óÈ²
-		PROCESS_ERROR,		// ¼­¹ö Ã³¸® ¿À·ù ( ex DB ¿À·ù )
-		NO_MEMBER,			// ÆÄ¿öÂ¯ È¸¿øÀÌ ¾Æ´Ñ °æ¿ì
-		NO_POINT,			// ´©ÀûµÈ ÆÄ¿öÂ¯ Æ÷ÀÎÆ®°¡ ¾øÀ½
-		NO_MATCHING,		// ¸ÅÄª Á¤º¸°¡ ¾øÀ½.
-		CONNECT_ERROR,		// ÆÄ¿öÂ¯ ¼­¹ö¿Í ¿¬°á¿¡ ÀÌ»óÀÌ ÀÖ½À´Ï´Ù.
-							// ÆÄ¿öÂ¯ È¨ÆäÀÌÁö¿¡¼­ °ÔÀÓ ¸ÅÄªÀ» ÇÏÁö ¾ÊÀº °æ¿ì
-							// ÆÄ¿öÂ¯ È¨ÆäÀÌÁö¿¡¼­ ¸ÅÄªÀ» À¯µµÇÏ´Â ¹®ÀåÀ» ºÎ¿©ÁØ´Ù.
+		SERVER_ERROR,		// ï¿½Ä¿ï¿½Â¯ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½È²
+		PROCESS_ERROR,		// ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ( ex DB ï¿½ï¿½ï¿½ï¿½ )
+		NO_MEMBER,			// ï¿½Ä¿ï¿½Â¯ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
+		NO_POINT,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¿ï¿½Â¯ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		NO_MATCHING,		// ï¿½ï¿½Äª ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+		CONNECT_ERROR,		// ï¿½Ä¿ï¿½Â¯ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½á¿¡ ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
+							// ï¿½Ä¿ï¿½Â¯ È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Äªï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+							// ï¿½Ä¿ï¿½Â¯ È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Äªï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ï¿½Ø´ï¿½.
 	};
 public:
-	GCRequestPowerPointResult() throw();
-	~GCRequestPowerPointResult() throw();
+	GCRequestPowerPointResult();
+	~GCRequestPowerPointResult();
 
 public :
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_REQUEST_POWER_POINT_RESULT; }
+	PacketID_t getPacketID() const { return PACKET_GC_REQUEST_POWER_POINT_RESULT; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return szBYTE + szint + szint; }
+	size_t getPacketSize() const { return szBYTE + szint + szint; }
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	string getPacketName() const throw() { return "GCRequestPowerPointResult"; }
+	string getPacketName() const { return "GCRequestPowerPointResult"; }
 	
 	// get packet's debug string
-	string toString() const throw();
+	string toString() const;
 #endif
 	// get / set Error Code
 	BYTE getErrorCode() const { return m_ErrorCode; }
@@ -78,13 +78,13 @@ public :
 // data members
 //--------------------------------------------------
 private :
-	// ¿¡·¯ ÄÚµå
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 	BYTE	m_ErrorCode;
 
-	// ÇöÀç ´©ÀûµÈ ÆÄ¿öÂ¯ Æ÷ÀÎÆ®
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¿ï¿½Â¯ ï¿½ï¿½ï¿½ï¿½Æ®
 	int		m_SumPowerPoint;
 
-	// ¿äÃ»À¸·Î °¡Á®¿Â ÆÄ¿öÂ¯ Æ÷ÀÎÆ®
+	// ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¿ï¿½Â¯ ï¿½ï¿½ï¿½ï¿½Æ®
 	int		m_RequestPowerPoint;
 };
 
@@ -101,20 +101,20 @@ class GCRequestPowerPointResultFactory : public PacketFactory
 {
 public :
 	// create packet
-	Packet* createPacket() throw() { return new GCRequestPowerPointResult(); }
+	Packet* createPacket() { return new GCRequestPowerPointResult(); }
 
 	// get packet name
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCRequestPowerPointResult"; }
+	string getPacketName() const { return "GCRequestPowerPointResult"; }
 #endif	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_REQUEST_POWER_POINT_RESULT; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_REQUEST_POWER_POINT_RESULT; }
 
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCRequestPowerPointResultPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + szint + szint; }
+	// const static GCRequestPowerPointResultPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const { return szBYTE + szint + szint; }
 };
 
 
@@ -129,7 +129,7 @@ class GCRequestPowerPointResultHandler
 {
 public :
 	// execute packet's handler
-	static void execute(GCRequestPowerPointResult* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCRequestPowerPointResult* pPacket, Player* pPlayer);
 };
 
 #endif

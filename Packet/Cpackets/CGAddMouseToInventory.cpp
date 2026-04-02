@@ -16,7 +16,6 @@
 // constructor
 //////////////////////////////////////////////////////////////////////
 CGAddMouseToInventory::CGAddMouseToInventory () 
-     throw ()
 {
 	__BEGIN_TRY
 	m_InventoryItemObjectID = 0;
@@ -28,7 +27,6 @@ CGAddMouseToInventory::CGAddMouseToInventory ()
 // destructor
 //////////////////////////////////////////////////////////////////////
 CGAddMouseToInventory::~CGAddMouseToInventory () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -36,10 +34,9 @@ CGAddMouseToInventory::~CGAddMouseToInventory ()
 
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void CGAddMouseToInventory::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -53,10 +50,9 @@ void CGAddMouseToInventory::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void CGAddMouseToInventory::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -73,7 +69,6 @@ void CGAddMouseToInventory::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void CGAddMouseToInventory::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -89,7 +84,7 @@ void CGAddMouseToInventory::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 	std::string CGAddMouseToInventory::toString () 
-		const throw ()
+		const
 	{
 		__BEGIN_TRY
 			

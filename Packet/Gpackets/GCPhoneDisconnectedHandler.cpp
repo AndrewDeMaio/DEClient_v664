@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPhoneDisconnected.h"
 #include "UserInformation.h"
 #include "ClientDef.h"
@@ -15,20 +15,19 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCPhoneDisconnectedHandler::execute ( GCPhoneDisconnected * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 
 
 	//------------------------------------------------------------------
-	// Á¢¼ÓÀÌ ²÷±ä slot Ã¼Å©ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ slot Ã¼Å©ï¿½Ñ´ï¿½.
 	//------------------------------------------------------------------
 	int slot = pPacket->getSlotID();
 	g_pUserInformation->OtherPCSNumber[ slot ] = 0;
 	g_pUserInformation->PCSUserName[ slot ].Release();
 
 	//------------------------------------------------------------------
-	// PCS Á¢¼Ó ÇØÁ¦
+	// PCS ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------------------
 	//UI_AcquireQuitPCSOnlineModeMessage();
 //	UI_DisconnectPCS( slot );

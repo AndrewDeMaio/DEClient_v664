@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : GCTradeFinish.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -11,21 +11,21 @@
 #include "PacketFactory.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// ±³È¯ ÄÚµå
+// ï¿½ï¿½È¯ ï¿½Úµï¿½
 ////////////////////////////////////////////////////////////////////////////////
 
 enum
 {
-	// ±³È¯À» Çã¶ôÇÒ ¶§ º¸³»´Â ÄÚµå
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 	GC_TRADE_FINISH_ACCEPT = 0,
 
-	// ±³È¯À» °ÅºÎÇÒ ¶§ º¸³»´Â ÄÚµå
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Åºï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 	GC_TRADE_FINISH_REJECT,
 
-	// ±³È¯À» Àç°í·ÁÇÒ ¶§ º¸³»´Â ÄÚµå
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 	GC_TRADE_FINISH_RECONSIDER,
 
-	// ±³È¯ ½ÇÇà
+	// ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½
 	GC_TRADE_FINISH_EXECUTE,
 
 	GC_TRADE_FINISH_MAX
@@ -40,27 +40,27 @@ enum
 class GCTradeFinish : public Packet 
 {
 public:
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
-	PacketID_t getPacketID () const throw () { return PACKET_GC_TRADE_FINISH; }
-	PacketSize_t getPacketSize () const throw () { return szObjectID + szBYTE; }
+	void read ( SocketInputStream & iStream );
+	void write ( SocketOutputStream & oStream ) const;
+	void execute ( Player * pPlayer );
+	PacketID_t getPacketID () const { return PACKET_GC_TRADE_FINISH; }
+	size_t getPacketSize () const { return szObjectID + szBYTE; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "GCTradeFinish"; }
-		std::string toString () const throw ();
+		std::string getPacketName () const { return "GCTradeFinish"; }
+		std::string toString () const;
 	#endif
 
 public:
-	ObjectID_t getTargetObjectID() const throw() { return m_TargetObjectID; }
-	void setTargetObjectID(ObjectID_t id) throw() { m_TargetObjectID = id; }
+	ObjectID_t getTargetObjectID() const { return m_TargetObjectID; }
+	void setTargetObjectID(ObjectID_t id) { m_TargetObjectID = id; }
 
-	BYTE getCode() const throw() { return m_Code; }
-	void setCode(BYTE code) throw() { m_Code = code; }
+	BYTE getCode() const { return m_Code; }
+	void setCode(BYTE code) { m_Code = code; }
 
 private:
-	ObjectID_t m_TargetObjectID; // ±³È¯À» ¿øÇÏ´Â »ó´ë¹æÀÇ ObjectID
-	BYTE       m_Code;           // ±³È¯ ÄÚµå
+	ObjectID_t m_TargetObjectID; // ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ObjectID
+	BYTE       m_Code;           // ï¿½ï¿½È¯ ï¿½Úµï¿½
 
 
 };
@@ -75,14 +75,14 @@ private:
 class GCTradeFinishFactory : public PacketFactory 
 {
 public:
-	Packet * createPacket () throw () { return new GCTradeFinish(); }
+	Packet * createPacket () { return new GCTradeFinish(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "GCTradeFinish"; }
+		std::string getPacketName () const { return "GCTradeFinish"; }
 	#endif
 
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_TRADE_FINISH; }
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID + szBYTE; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_TRADE_FINISH; }
+	PacketSize_t getPacketMaxSize () const { return szObjectID + szBYTE; }
 
 };
 
@@ -96,7 +96,7 @@ public:
 class GCTradeFinishHandler 
 {
 public:
-	static void execute ( GCTradeFinish * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCTradeFinish * pPacket , Player * pPlayer );
 
 };
 

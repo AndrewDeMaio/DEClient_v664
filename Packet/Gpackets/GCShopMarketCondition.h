@@ -1,8 +1,8 @@
 //--------------------------------------------------------------------------------
 // 
 // Filename    : GCShopMarketCondition.h 
-// Written By  : ±è¼º¹Î
-// Description : ÇÃ·¹ÀÌ¾î¿¡°Ô ¼­¹ö ÃøÀÇ »óÁ¡ ¹öÀüÀ» ¾Ë·ÁÁÙ ¶§ ¾²ÀÌ´Â ÆÐÅ¶ÀÌ´Ù.
+// Written By  : ï¿½è¼ºï¿½ï¿½
+// Description : ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 // 
 //--------------------------------------------------------------------------------
 
@@ -25,46 +25,46 @@ class GCShopMarketCondition : public Packet
 
 public :
 
-	GCShopMarketCondition() throw ();
-	virtual ~GCShopMarketCondition() throw ();
+	GCShopMarketCondition();
+	virtual ~GCShopMarketCondition();
 	
-	// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+	// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+	void read ( SocketInputStream & iStream );
 		    
-	// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+	// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_SHOP_MARKET_CONDITION; }
+	PacketID_t getPacketID () const { return PACKET_GC_SHOP_MARKET_CONDITION; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () { return szObjectID + szMarketCond*2; }
+	size_t getPacketSize () const { return szObjectID + szMarketCond*2; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCShopMarketCondition"; }
+		std::string getPacketName () const { return "GCShopMarketCondition"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 
 public :
 
 	// get/set NPC's object id
-	ObjectID_t getObjectID () const throw () { return m_ObjectID; }
-	void setObjectID ( ObjectID_t creatureID ) throw () { m_ObjectID = creatureID; }
+	ObjectID_t getObjectID () const { return m_ObjectID; }
+	void setObjectID ( ObjectID_t creatureID ) { m_ObjectID = creatureID; }
 
 	// get/set market condition buy
-	MarketCond_t getMarketCondBuy(void) const throw() { return m_MarketCondBuy;}
-	void setMarketCondBuy(MarketCond_t cond) throw() { m_MarketCondBuy = cond;}
+	MarketCond_t getMarketCondBuy(void) const { return m_MarketCondBuy;}
+	void setMarketCondBuy(MarketCond_t cond) { m_MarketCondBuy = cond;}
 
 	// get/set market condition sell
-	MarketCond_t getMarketCondSell(void) const throw() { return m_MarketCondSell;}
-	void setMarketCondSell(MarketCond_t cond) throw() { m_MarketCondSell = cond;}
+	MarketCond_t getMarketCondSell(void) const { return m_MarketCondSell;}
+	void setMarketCondSell(MarketCond_t cond) { m_MarketCondSell = cond;}
 
 private :
 	
@@ -92,20 +92,20 @@ class GCShopMarketConditionFactory : public PacketFactory
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCShopMarketCondition(); }
+	Packet * createPacket () { return new GCShopMarketCondition(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCShopMarketCondition"; }
+		std::string getPacketName () const { return "GCShopMarketCondition"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_SHOP_MARKET_CONDITION; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_SHOP_MARKET_CONDITION; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCShopMarketConditionPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID + szMarketCond*2; }
+	// const static GCShopMarketConditionPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const { return szObjectID + szMarketCond*2; }
 
 };
 
@@ -122,7 +122,7 @@ class GCShopMarketConditionHandler
 public :
 	
 	// execute packet's handler
-	static void execute ( GCShopMarketCondition * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCShopMarketCondition * pPacket , Player * pPlayer );
 
 };
 

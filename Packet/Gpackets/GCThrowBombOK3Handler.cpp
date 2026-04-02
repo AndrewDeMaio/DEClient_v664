@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCThrowBombOK3.h"
 #include "ClientDef.h"
 #include "PacketFunction2.h"
@@ -15,14 +15,13 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCThrowBombOK3Handler::execute ( GCThrowBombOK3 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
 #ifdef __GAME_CLIENT__
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -30,14 +29,14 @@ void GCThrowBombOK3Handler::execute ( GCThrowBombOK3 * pPacket , Player * pPlaye
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 
 
-		// Creature°¡ Tile¿¡ ¹º°¡¸¦?...
+		// Creatureï¿½ï¿½ Tileï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?...
 		if (pCreature != NULL)
 		{			
 			int skillID = GetBombActionInfo( pPacket->getItemType() );//pPacket->getSkillType();	
@@ -61,10 +60,10 @@ void GCThrowBombOK3Handler::execute ( GCThrowBombOK3 * pPacket , Player * pPlaye
 				}
 			}
 
-			// °á°ú »ý¼º
+			// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			MActionResult* pResult = new MActionResult;
 		
-			// ÀÇ¹Ì¾ø´Ù.
+			// ï¿½Ç¹Ì¾ï¿½ï¿½ï¿½.
 			DWORD delayFrame = 16;//ConvertDurationToFrame( pPacket->getDuration() );
 
 			int targetID = pCreature->GetID();
@@ -94,7 +93,7 @@ void GCThrowBombOK3Handler::execute ( GCThrowBombOK3 * pPacket , Player * pPlaye
 				//					delayFrame ) );
 				//------------------------------------------------------
 				//
-				// skill¿¡ °á°ú°¡ ÀÖÀ¸¸é Àû¿ë ½ÃÅ²´Ù.
+				// skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 				//
 				//------------------------------------------------------
 				int targetID = pPacket->popCListElement();
@@ -104,7 +103,7 @@ void GCThrowBombOK3Handler::execute ( GCThrowBombOK3 * pPacket , Player * pPlaye
 				if (pTargetCreature!=NULL)
 				{
 					//------------------------------------------------------
-					// EffectStatus°¡ ÀÖ´Ù¸é ºÙÀÎ´Ù.
+					// EffectStatusï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 					//------------------------------------------------------
 					EFFECTSTATUS es = (*g_pActionInfoTable)[skillID].GetEffectStatus();
 							
@@ -118,7 +117,7 @@ void GCThrowBombOK3Handler::execute ( GCThrowBombOK3 * pPacket , Player * pPlaye
 					switch ((*g_pActionInfoTable)[skillID].GetActionResultID())
 					{
 						//------------------------------------------------------
-						// ´Ù¸¥ ActionInfo ½ÇÇà
+						// ï¿½Ù¸ï¿½ ActionInfo ï¿½ï¿½ï¿½ï¿½
 						//------------------------------------------------------
 						case ACTIONRESULTNODE_ACTIONINFO :
 							pActionResultNode =  new MActionResultNodeActionInfo( 
@@ -138,7 +137,7 @@ void GCThrowBombOK3Handler::execute ( GCThrowBombOK3 * pPacket , Player * pPlaye
 					}
 
 					//------------------------------------------------------
-					// NULLÀÌ ¾Æ´Ï¸é °°ÀÌ Àû¿ë
+					// NULLï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					//------------------------------------------------------
 					if (pActionResultNode!=NULL)
 					{
@@ -148,23 +147,23 @@ void GCThrowBombOK3Handler::execute ( GCThrowBombOK3 * pPacket , Player * pPlaye
 			}
 
 			//------------------------------------------------------
-			// ¹æÇâ º¸±â
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------
 			pCreature->SetDirectionToPosition(pPacket->getX(), pPacket->getY());
 			
 			//------------------------------------------------------
-			// range¸¦ direction¿¡ Àû¿ë½ÃÅ°´Â °æ¿ì
+			// rangeï¿½ï¿½ directionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½
 			//------------------------------------------------------
 			pCreature->SetDirection( pPacket->getDir() );
 
 			//------------------------------------------------------
-			// Çàµ¿ÇÏ´Â ¸ð½À ¼³Á¤
+			// ï¿½àµ¿ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------
 			//Duration_t	m_Duration;
 			pCreature->PacketSpecialActionToSector(
 								skillID, 
 								pPacket->getX(), pPacket->getY(),
-								pResult		// °á°ú
+								pResult		// ï¿½ï¿½ï¿½
 			);		
 
 		

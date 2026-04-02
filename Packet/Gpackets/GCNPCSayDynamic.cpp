@@ -4,11 +4,10 @@
 // Description :
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCNPCSayDynamic.h"
 
 void GCNPCSayDynamic::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -30,7 +29,6 @@ void GCNPCSayDynamic::read ( SocketInputStream & iStream )
 }
 		    
 void GCNPCSayDynamic::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -52,7 +50,6 @@ void GCNPCSayDynamic::write ( SocketOutputStream & oStream ) const
 }
 
 void GCNPCSayDynamic::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -63,7 +60,6 @@ void GCNPCSayDynamic::execute ( Player * pPlayer )
 
 #ifdef __DEBUG_OUTPUT__
 	std::string GCNPCSayDynamic::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 			

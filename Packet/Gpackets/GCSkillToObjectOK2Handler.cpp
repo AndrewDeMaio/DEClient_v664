@@ -7,13 +7,13 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSkillToObjectOK2.h"
 #include "ClientDef.h"
 #include "MSkillManager.h"
 #include "PacketFunction2.h"
 
-// [»õ±â¼ú2]
+// [ï¿½ï¿½ï¿½ï¿½ï¿½2]
 #include "SkillDef.h"	
 void	SkillShadowDancing(MCreature* pUserCreature, MCreature* pTargetCreature, int skillID);
 extern void Add_RocketRuncher(MCreature* UserCreature, MCreature* TargetCreature);
@@ -22,7 +22,6 @@ extern void Add_Wild_Wolf(MCreature* UserCreature, MCreature* TargetCreature, bo
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -30,7 +29,7 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 
 	
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	AffectModifyInfo(g_pPlayer, pPacket);
 
@@ -53,7 +52,7 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 	DWORD delayFrame = ConvertDurationToFrame( pPacket->getDuration() );
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -61,7 +60,7 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -71,14 +70,14 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 		if(g_pPlayer->IsLockMode() && pCreature  && bHallu)
 			g_pPlayer->UnSetLockMode(); 
 		
-		// ÄÞº¸ ±â¼ú Ã³¸®¸¦ À§ÇØ  2005.07.13 Add
+		// ï¿½Þºï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  2005.07.13 Add
 		//if((*g_pActionInfoTable)[skillID].GetComboAttackSkill() && pCreature)
 		//{
 		//	pCreature->SetCombo(pPacket->getCombo()) ; 
 		//}
-		// ÄÞº¸ ±â¼ú Ã³¸®¸¦ À§ÇØ  2005.07.13 End
+		// ï¿½Þºï¿½ ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½  2005.07.13 End
 
-		// ³»(Player)°¡ ´©±º°¡°¡ »ç¿ëÇÑ SKillÀ» ¸ÂÀº °æ¿ì..
+		// ï¿½ï¿½(Player)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ SKillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 		// [ TEST CODE ]
 		MActionResult* pResult = new MActionResult;
 
@@ -102,7 +101,7 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 		}
 		// 2005, 1, 3, sobeit add end
 		//------------------------------------------------------------------
-		// effect status¸¦ Àû¿ë½ÃÅ²´Ù.
+		// effect statusï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 		//------------------------------------------------------------------
 		if (g_pPlayer->GetEFFECT_STAT()!=EFFECTSTATUS_NULL)
 		{
@@ -117,7 +116,7 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 		else
 		{
 			//------------------------------------------------------
-			// EffectStatus°¡ ÀÖ´Ù¸é ºÙÀÎ´Ù.
+			// EffectStatusï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 			//------------------------------------------------------
 			EFFECTSTATUS es = (*g_pActionInfoTable)[skillID].GetEffectStatus();
 			
@@ -130,10 +129,10 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 		}
 
 		//------------------------------------------------------
-		// [»õ±â¼ú]
-		// Typhoon ¸ÂÀº °æ¿ì´Â ÇÑµ¿¾È ¸ø ¿òÁ÷ÀÌ°Ô ÇÑ´Ù.
-		// ÀÓ½Ã·Î(-_-;) 1ÃÊ
-		// player¸¸ ¸ø ¿òÁ÷ÀÌµµ·Ï ¸·À¸¸é µÈ´Ù.
+		// [ï¿½ï¿½ï¿½ï¿½ï¿½]
+		// Typhoon ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñµï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ñ´ï¿½.
+		// ï¿½Ó½Ã·ï¿½(-_-;) 1ï¿½ï¿½
+		// playerï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È´ï¿½.
 		//------------------------------------------------------
 		if (skillID==SKILL_TYPHOON || skillID == SKILL_WILD_TYPHOON)
 		{
@@ -153,7 +152,7 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 		}
 #endif //__SECOND_RARE_SKILL
 	
-		// ÇöÀç ¹«±âÀÇ Àû¿ëÀ» ¹Þ´Â ±â¼úÀÌ¸é..
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½..
 		if ((*g_pActionInfoTable)[skillID].IsAffectCurrentWeaponAction()
 			&& pCreature!=NULL)
 		{
@@ -176,13 +175,13 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 
 		//------------------------------------------------------
 		//
-		// skill¿¡ °á°ú°¡ ÀÖÀ¸¸é Àû¿ë ½ÃÅ²´Ù.
+		// skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 		//
 		//------------------------------------------------------
 		MActionResultNode* pActionResultNode = CreateActionResultNode(g_pPlayer, skillID, pPacket->getGrade() );
 
 		//------------------------------------------------------
-		// NULLÀÌ ¾Æ´Ï¸é ½ÇÇà
+		// NULLï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		if (pActionResultNode!=NULL)
 		{
@@ -190,27 +189,27 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 		}
 
 		//------------------------------------------------------
-		// »ç¿ëÀÚ°¡ ¾ø´Â °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		if (pCreature == NULL)
 		{
 			ExecuteActionInfoFromMainNode(
-						skillID + (*g_pActionInfoTable).GetMinResultActionInfo(),										// »ç¿ë ±â¼ú ¹øÈ£
+						skillID + (*g_pActionInfoTable).GetMinResultActionInfo(),										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 					
 						g_pPlayer->GetX(), g_pPlayer->GetY(), g_pPlayer->GetZ(),
-						g_pPlayer->GetDirection(),														// »ç¿ë ¹æÇâ
+						g_pPlayer->GetDirection(),														// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 						
-						g_pPlayer->GetID(),												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+						g_pPlayer->GetID(),												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 						g_pPlayer->GetX(), g_pPlayer->GetY(), g_pPlayer->GetZ(),
 						
-						delayFrame,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+						delayFrame,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 						
 						pResult,
 						
-						false);			// ±â¼ú Ã·ºÎÅÍ ½ÃÀÛÇÑ´Ù.
+						false);			// ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		}
 		//------------------------------------------------------
-		// »ç¿ëÀÚ°¡ ÀÖ´Â °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		else
 		{
@@ -219,8 +218,8 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 			if(skillID == SKILL_ABSORB_SOUL)
 				pCreature->ClearStopBloodDrain();
 
-			// [»õ±â¼ú2]
-			// ShadowDancingÀÎÁö Ã¼Å©ÇÏ°í ÀÓ½Ã·Î(-_-;) DoubleImpacet¸¦ ¾´´Ù.
+			// [ï¿½ï¿½ï¿½ï¿½ï¿½2]
+			// ShadowDancingï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½Ï°ï¿½ ï¿½Ó½Ã·ï¿½(-_-;) DoubleImpacetï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 
 			switch( skillID )
 			{
@@ -229,7 +228,7 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 				break;
 				
 			case SKILL_ILLENDUE :
-				// 2004, 12, 15, sobeit modify start - ÈúÁ÷ÀÌ ÀÎÃ¦ ¶óÀÌÆ®º¼ ¾²´Â°Ô ¹ö±×.
+				// 2004, 12, 15, sobeit modify start - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¦ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½.
 				//SkillIllendue( pCreature, g_pPlayer, SKILL_LIGHT_BALL );
 				SkillIllendue( pCreature, g_pPlayer, MAGIC_CAUSE_SERIOUS_WOUNDS );
 				// 2004, 12, 15, sobeit modify end
@@ -259,7 +258,7 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 			}
 			
 			//------------------------------------------------------
-			// Player¿¡°Ô protectionÀÌ °É·ÁÀÖ´Â °æ¿ì
+			// Playerï¿½ï¿½ï¿½ï¿½ protectionï¿½ï¿½ ï¿½É·ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 			//------------------------------------------------------
 			if (g_pPlayer->HasEffectStatus(EFFECTSTATUS_PROTECTION_FROM_ACID))
 			{
@@ -275,23 +274,23 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 
 			// [ TEST CODE ]
 			//
-			// °á°ú¸¦ »ý¼º&ÀúÀåÇØ¼­ º¸³»¾ß ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½&ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 			//
-			// ¹æÇâÀ» ¹Ù¶óº¸±â
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¶óº¸±ï¿½
 			pCreature->SetDirectionToPosition(g_pPlayer->GetX(), g_pPlayer->GetY());
 
 			//Duration_t	m_Duration;
 			pCreature->PacketSpecialActionToOther(
 								skillID, 
 								g_pPlayer->GetID(),//pPacket->getObjectID(),
-								pResult						// °á°ú
+								pResult						// ï¿½ï¿½ï¿½
 			);
 		}
 	}		
 	
 	/*
 	//------------------------------------------------------
-	// Player°¡ ±â¼úÀ» ´çÇßÀ» ¶§ÀÇ ¸ð½À..
+	// Playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 	//------------------------------------------------------
 	int resultActionInfo =  pPacket->getSkillType() + (*g_pActionInfoTable).GetMinResultActionInfo();
 	g_pPlayer->PacketSpecialActionResult( 
@@ -302,15 +301,15 @@ void GCSkillToObjectOK2Handler::execute ( GCSkillToObjectOK2 * pPacket , Player 
 	);
 
 	//------------------------------------------------------------
-	// Delay Frame ¼³Á¤
+	// Delay Frame ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------------
 	g_pPlayer->SetEffectDelayFrame( resultActionInfo, delayFrame );
 	*/
 
 
 	//------------------------------------------------------------------
-	// UI¿¡ º¸ÀÌ´Â °ÍÀ» ¹Ù²ãÁØ´Ù.
-	// ºñ±³¿¬»êÇÏ´Â°Åº¸´Ù ÀÌ°Ô ´õ ºü¸£Áö ¾ÊÀ»±î.. À½.. - -;
+	// UIï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
+	// ï¿½ñ±³¿ï¿½ï¿½ï¿½ï¿½Ï´Â°Åºï¿½ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½.. - -;
 	//------------------------------------------------------------------
 	//UI_SetHP( g_pPlayer->GetHP(), g_pPlayer->GetMAX_HP() );
 	//UI_SetMP( g_pPlayer->GetMP(), g_pPlayer->GetMAX_MP() );

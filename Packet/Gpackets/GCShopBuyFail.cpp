@@ -2,16 +2,15 @@
 // Filename    : GCShopBuyFail.cpp 
 // Written By  : excel96
 // Description :
-// ÇÃ·¹ÀÌ¾î°¡ »óÁ¡¿¡¼­ ¾ÆÀÌÅÛÀ» ±¸ÀÔÇÏ·Á°í Çß´Âµ¥,
-// Á¤»óÀûÀÎ ±¸¸Å°¡ ½ÇÆÐÇßÀ» °æ¿ì¿¡ ÇÃ·¹ÀÌ¾î¿¡°Ô º¸³»´Â ÆÐÅ¶.
+// ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ß´Âµï¿½,
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶.
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCShopBuyFail.h"
 #include "Assert.h"
 
 void GCShopBuyFail::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -23,7 +22,6 @@ void GCShopBuyFail::read (SocketInputStream & iStream)
 }
 		    
 void GCShopBuyFail::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -35,7 +33,6 @@ void GCShopBuyFail::write (SocketOutputStream & oStream) const
 }
 
 void GCShopBuyFail::execute (Player * pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -46,7 +43,6 @@ void GCShopBuyFail::execute (Player * pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 	std::string GCShopBuyFail::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 			

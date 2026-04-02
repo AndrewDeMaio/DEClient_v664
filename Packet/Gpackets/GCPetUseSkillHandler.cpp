@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPetUseSkill.h"
 #include "MZone.h"
 #include "MFakeCreature.h"
@@ -18,7 +18,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCPetUseSkillHandler::execute ( GCPetUseSkill * pGCPetUseSkill , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -31,23 +30,23 @@ void GCPetUseSkillHandler::execute ( GCPetUseSkill * pGCPetUseSkill , Player * p
 
 	if( pAttackerCreature == NULL )
 	{
-		DEBUG_ADD_FORMAT("[GCPetUseSkillHandler] ¾îÅÂÄ¿(%d) ¾øÀ½-_-;", attackerID);
+		DEBUG_ADD_FORMAT("[GCPetUseSkillHandler] ï¿½ï¿½ï¿½ï¿½Ä¿(%d) ï¿½ï¿½ï¿½ï¿½-_-;", attackerID);
 	}
 	else
 	{
 		if( pTargetCreature == NULL )
 		{
-			DEBUG_ADD_FORMAT("[GCPetUseSkillHandler] Å¸°Ù(%d) ¾øÀ½-_-;", targetID);
+			DEBUG_ADD_FORMAT("[GCPetUseSkillHandler] Å¸ï¿½ï¿½(%d) ï¿½ï¿½ï¿½ï¿½-_-;", targetID);
 		}
 		else
 		{
-//			pTargetCreature->SetAction( ACTION_DAMAGED );		//Á¾Á·Æê ¹ö±× ÄÚµå Å¸ Ä³¸¯ÅÍ°¡ ÆÐ½ºÆ® ¹«ºê ÁßÀÏ¶§ ¹ß»ý ÇÒ ¼ö ÀÖÀ½.
+//			pTargetCreature->SetAction( ACTION_DAMAGED );		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ Å¸ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Ð½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¶ï¿½ ï¿½ß»ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		
 			MFakeCreature *pPet = (MFakeCreature *)g_pZone->GetFakeCreature(pAttackerCreature->GetPetID());
 			
 			if( pPet == NULL )
 			{
-				DEBUG_ADD_FORMAT("[GCPetUseSkillHandler] Æê(%d) ¾øÀ½-_-;", pAttackerCreature->GetPetID());
+				DEBUG_ADD_FORMAT("[GCPetUseSkillHandler] ï¿½ï¿½(%d) ï¿½ï¿½ï¿½ï¿½-_-;", pAttackerCreature->GetPetID());
 			}
 			else
 			{
@@ -68,19 +67,19 @@ void GCPetUseSkillHandler::execute ( GCPetUseSkill * pGCPetUseSkill , Player * p
 
 					switch(petItemType)
 					{
-					// ÅÊÅ©-_-;
+					// ï¿½ï¿½Å©-_-;
 					case 3:
 						{
 							ExecuteActionInfoFromMainNode(
-								SKILL_CLIENT_TANK_ATTACKED,										// »ç¿ë ±â¼ú ¹øÈ£
+								SKILL_CLIENT_TANK_ATTACKED,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 								
 								0, 0, 0,
-								DIRECTION_DOWN, // »ç¿ë ¹æÇâ
+								DIRECTION_DOWN, // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 								
-								pTargetCreature->GetID(),												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+								pTargetCreature->GetID(),												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 								0, 0, 0, 
 								
-								0,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+								0,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 								
 								NULL,
 								
@@ -108,15 +107,15 @@ void GCPetUseSkillHandler::execute ( GCPetUseSkill * pGCPetUseSkill , Player * p
 						
 						{
 							ExecuteActionInfoFromMainNode(
-								skillID,										// »ç¿ë ±â¼ú ¹øÈ£
+								skillID,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 								
 								0, 0, 0,
-								DIRECTION_DOWN, // »ç¿ë ¹æÇâ
+								DIRECTION_DOWN, // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 								
-								pTargetCreature->GetID(),												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+								pTargetCreature->GetID(),												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 								0, 0, 0, 
 								
-								0,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+								0,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 								
 								NULL,
 								
@@ -136,15 +135,15 @@ void GCPetUseSkillHandler::execute ( GCPetUseSkill * pGCPetUseSkill , Player * p
 							skillID = SKILL_CLIENT_PIXIE_ABSORB_SOUL_5;
 
 						ExecuteActionInfoFromMainNode(
-							skillID,										// »ç¿ë ±â¼ú ¹øÈ£
+							skillID,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 							
 							0, 0, 0,
-							DIRECTION_DOWN, // »ç¿ë ¹æÇâ
+							DIRECTION_DOWN, // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							
-							pTargetCreature->GetID(),												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+							pTargetCreature->GetID(),												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							0, 0, 0, 
 							
-							0,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+							0,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 							
 							NULL,
 							
@@ -152,7 +151,7 @@ void GCPetUseSkillHandler::execute ( GCPetUseSkill * pGCPetUseSkill , Player * p
 						break;
 
 #if __CONTENTS(__NEW_PET_INCUBUS)
-					case 11:	// ÀÎÅ¥¹ö½º °ø°Ý
+					case 11:	// ï¿½ï¿½Å¥ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 						{
 //							pPet->SetAction( ACTION_ATTACK );
 //							pPet->SyncTurretDirection();
@@ -160,12 +159,12 @@ void GCPetUseSkillHandler::execute ( GCPetUseSkill * pGCPetUseSkill , Player * p
 							PlaySound( SOUND_CABERUS_SKILL, false, pPet->GetX(), pPet->GetY());
 
 							ExecuteActionInfoFromMainNode(
-								SKILL_CLIENT_INCUBUS_ATTACK, 									// »ç¿ë ±â¼ú ¹øÈ£
+								SKILL_CLIENT_INCUBUS_ATTACK, 									// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 								0, 0, 0,
-								DIRECTION_DOWN, // »ç¿ë ¹æÇâ
-								pTargetCreature->GetID(),										// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+								DIRECTION_DOWN, // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+								pTargetCreature->GetID(),										// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 								0, 0, 0, 
-								0,																// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+								0,																// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 								NULL,								
 								false);
 
@@ -191,12 +190,12 @@ void GCPetUseSkillHandler::execute ( GCPetUseSkill * pGCPetUseSkill , Player * p
 							PlaySound( SOUND_CABERUS_SKILL, false, pPet->GetX(), pPet->GetY());
 
 							ExecuteActionInfoFromMainNode(
-														SKILL_CLIENT_INCUBUS_ATTACK, 	// »ç¿ë ±â¼ú ¹øÈ£
+														SKILL_CLIENT_INCUBUS_ATTACK, 	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 														0, 0, 0,
-														DIRECTION_DOWN,					// »ç¿ë ¹æÇâ
-														pTargetCreature->GetID(),		// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+														DIRECTION_DOWN,					// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+														pTargetCreature->GetID(),		// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 														0, 0, 0, 
-														0,								// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£
+														0,								// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
 														NULL,								
 														false);
 
@@ -217,7 +216,7 @@ void GCPetUseSkillHandler::execute ( GCPetUseSkill * pGCPetUseSkill , Player * p
 				int sx = 0, sy = 0;
 				BYTE petDirect = pPet->GetDirectionToPosition(pTargetCreature->GetX(), pTargetCreature->GetY());
 
-				// 2004, 12, 21, sobeit add start - ¼¾Å¸¿ì·Î ÅÍ·¿À§Ä¡ ¼¼ÆÃ
+				// 2004, 12, 21, sobeit add start - ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½Í·ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
 				if( pPet->GetCreatureType() == 702 || pPet->GetCreatureType() == 703 || pPet->GetCreatureType() == 704 )
 					pPet->SetTurretFinalDirection(petDirect);
 				// 2004, 12, 21, sobeit add end
@@ -226,29 +225,29 @@ void GCPetUseSkillHandler::execute ( GCPetUseSkill * pGCPetUseSkill , Player * p
 				{
 					POINT pointGap[8] = 
 					{
-						{ 11, 6 },	// ÁÂ
-						{ 8, 2 },	// ÁÂÇÏ
-						{ 0, 0 },	// ÇÏ
-						{ -7, 2 },	// ¿ìÇÏ
-						{ -10, 6 },	// ¿ì
-						{ -7, 10 },	// ¿ì»ó
-						{ 0, 12 },	// »ó
-						{ 8, 10 },	// ÁÂ»ó
+						{ 11, 6 },	// ï¿½ï¿½
+						{ 8, 2 },	// ï¿½ï¿½ï¿½ï¿½
+						{ 0, 0 },	// ï¿½ï¿½
+						{ -7, 2 },	// ï¿½ï¿½ï¿½ï¿½
+						{ -10, 6 },	// ï¿½ï¿½
+						{ -7, 10 },	// ï¿½ï¿½ï¿½
+						{ 0, 12 },	// ï¿½ï¿½
+						{ 8, 10 },	// ï¿½Â»ï¿½
 					};
 					sx = pointGap[pPet->GetDirection()].x-pointGap[petDirect].x;
 					sy = pointGap[pPet->GetDirection()].y-pointGap[petDirect].y;
 				}
 
 				ExecuteActionInfoFromMainNode(
-					skillID,										// »ç¿ë ±â¼ú ¹øÈ£
+					skillID,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 					
 					pPet->GetX(), pPet->GetY(), 0,
-					petDirect, // »ç¿ë ¹æÇâ
+					petDirect, // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					
-					pPet->GetID(),												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+					pPet->GetID(),												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					pPet->GetX(), pPet->GetY(), 0, 
 					
-					0,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+					0,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 					
 					NULL,
 					

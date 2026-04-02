@@ -11,7 +11,7 @@
 #include "PacketFactory.h"
 
 //////////////////////////////////////////////////////////////////////////////
-// ÆÄÆ¼ °¡ÀÔ °ü·Ã ÄÚµå
+// ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 //////////////////////////////////////////////////////////////////////////////
 enum
 {
@@ -31,27 +31,27 @@ enum
 class CGPartyInvite : public Packet 
 {
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_PARTY_INVITE; }
-	PacketSize_t getPacketSize() const throw() { return szObjectID + szBYTE; }
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_PARTY_INVITE; }
+	size_t getPacketSize() const { return szObjectID + szBYTE; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "CGPartyInvite"; }
-		std::string toString() const throw();
+		std::string getPacketName() const { return "CGPartyInvite"; }
+		std::string toString() const;
 	#endif
 	
 public:
-	ObjectID_t getTargetObjectID() const throw() { return m_TargetObjectID; }
-	void setTargetObjectID(ObjectID_t id) throw() { m_TargetObjectID = id; }
+	ObjectID_t getTargetObjectID() const { return m_TargetObjectID; }
+	void setTargetObjectID(ObjectID_t id) { m_TargetObjectID = id; }
 
-	BYTE getCode(void) const throw() { return m_Code; }
-	void setCode(BYTE code) throw() { m_Code = code; }
+	BYTE getCode(void) const { return m_Code; }
+	void setCode(BYTE code) { m_Code = code; }
 
 private:
-	ObjectID_t m_TargetObjectID; // »ó´ë¹æÀÇ OID
-	BYTE       m_Code;           // ÄÚµå
+	ObjectID_t m_TargetObjectID; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ OID
+	BYTE       m_Code;           // ï¿½Úµï¿½
 
 };
 
@@ -63,14 +63,14 @@ private:
 class CGPartyInviteFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new CGPartyInvite(); }
+	Packet* createPacket() { return new CGPartyInvite(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "CGPartyInvite"; }
+		std::string getPacketName() const { return "CGPartyInvite"; }
 	#endif
 
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_PARTY_INVITE; }
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID + szBYTE; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_PARTY_INVITE; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID + szBYTE; }
 };
 
 #endif
@@ -82,8 +82,8 @@ public:
 	class CGPartyInviteHandler 
 	{
 	public:
-		static void execute(CGPartyInvite* pPacket, Player* player) throw(ProtocolException, Error);
-		static void executeError(CGPartyInvite* pPacket, Player* player, BYTE ErrorCode) throw(ProtocolException, Error);
+		static void execute(CGPartyInvite* pPacket, Player* player);
+		static void executeError(CGPartyInvite* pPacket, Player* player, BYTE ErrorCode);
 	};
 #endif
 

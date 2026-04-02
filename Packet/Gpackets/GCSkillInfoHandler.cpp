@@ -7,19 +7,18 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCSkillInfo.h"
 #include "ClientDef.h"
 #include "MSkillManager.h"
 #include "UserInformation.h"
 
 //----------------------------------------------------------------------
-// Å¬¶óÀÌ¾ðÆ®°¡ °ÔÀÓ ¼­¹ö·ÎºÎÅÍ GCSkillInfo ÆÐÅ¶À» ¹Þ°Ô µÇ¸é,
-// ÆÐÅ¶ ¾ÈÀÇ µ¥ÀÌÅÍµéÀ» Å¬¶óÀÌ¾ðÆ®¿¡ ÀúÀåÇÑ ÈÄ, µ¥ÀÌÅÍ ·ÎµùÀÌ
-// ³¡ÀÌ ³ª¸é °ÔÀÓ ¼­¹ö·Î CGReady ÆÐÅ¶À» º¸³»¸é µÈ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ GCSkillInfo ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Þ°ï¿½ ï¿½Ç¸ï¿½,
+// ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ CGReady ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È´ï¿½.
 //----------------------------------------------------------------------
 void GCSkillInfoHandler::execute ( GCSkillInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -32,7 +31,7 @@ void GCSkillInfoHandler::execute ( GCSkillInfo * pPacket , Player * pPlayer )
 				
 	
 	//--------------------------------------------------
-	// °¢°¢¿¡ domain¿¡ ´ëÇÑ Á¤º¸¸¦ ¼³Á¤ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ domainï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//--------------------------------------------------
 	int domainNum = pPacket->getListNum();
 
@@ -45,7 +44,7 @@ void GCSkillInfoHandler::execute ( GCSkillInfo * pPacket , Player * pPlayer )
 		PCSkillInfo* pSkillInfo = pPacket->popFrontListElement();
 
 		//--------------------------------------------------
-		// Á¾Á·¿¡ µû¶ó¼­...
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½...
 		//--------------------------------------------------
 		int i;
 
@@ -65,7 +64,7 @@ void GCSkillInfoHandler::execute ( GCSkillInfo * pPacket , Player * pPlayer )
 					int domainType = pSlayerSkillInfo->getDomainiType();
 
 					//--------------------------------------------------
-					// ¹è¿î skillµé Ã¼Å©..
+					// ï¿½ï¿½ï¿½ skillï¿½ï¿½ Ã¼Å©..
 					//--------------------------------------------------
 					int num = pSlayerSkillInfo->getListNum();
 
@@ -90,7 +89,7 @@ void GCSkillInfoHandler::execute ( GCSkillInfo * pPacket , Player * pPlayer )
 							}
 							*/
 
-							// Skill ¹è¿ü´Ù´Â°É Ã¼Å©ÇÑ´Ù.
+							// Skill ï¿½ï¿½ï¿½ï¿½Ù´Â°ï¿½ Ã¼Å©ï¿½Ñ´ï¿½.
 
 							if((*g_pSkillInfoTable)[skillType].GetSkillStep() == SKILL_STEP_ETC)
 							{
@@ -163,7 +162,7 @@ void GCSkillInfoHandler::execute ( GCSkillInfo * pPacket , Player * pPlayer )
 					}
 
 					//--------------------------------------------------
-					// »õ·Î ¹è¿ï ¼ö ÀÖ´Â skillÀÌ ÀÖ³ª?
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ skillï¿½ï¿½ ï¿½Ö³ï¿½?
 					//--------------------------------------------------
 					if (pSlayerSkillInfo->isLearnNewSkill())
 					{
@@ -185,7 +184,7 @@ void GCSkillInfoHandler::execute ( GCSkillInfo * pPacket , Player * pPlayer )
 					int domainType = SKILLDOMAIN_VAMPIRE;
 
 					//--------------------------------------------------
-					// ¹è¿î skillµé Ã¼Å©..
+					// ï¿½ï¿½ï¿½ skillï¿½ï¿½ Ã¼Å©..
 					//--------------------------------------------------
 					int num = pVampireSkillInfo->getListNum();
 
@@ -200,7 +199,7 @@ void GCSkillInfoHandler::execute ( GCSkillInfo * pPacket , Player * pPlayer )
 							DWORD delayTime = ConvertDurationToMillisecond( pInfo->getSkillTurn() );
 							int currentDelay = ConvertDurationToMillisecond( pInfo->getCastingTime() );							
 							
-							// Skill ¹è¿ü´Ù´Â°É Ã¼Å©ÇÑ´Ù.
+							// Skill ï¿½ï¿½ï¿½ï¿½Ù´Â°ï¿½ Ã¼Å©ï¿½Ñ´ï¿½.
 							if((*g_pSkillInfoTable)[skillType].GetSkillStep() == SKILL_STEP_ETC)
 							{
 								(*g_pSkillManager)[SKILL_DOMAIN_BLADE].SetNewSkill();
@@ -258,7 +257,7 @@ void GCSkillInfoHandler::execute ( GCSkillInfo * pPacket , Player * pPlayer )
 					}
 
 					//--------------------------------------------------
-					// »õ·Î ¹è¿ï ¼ö ÀÖ´Â skillÀÌ ÀÖ³ª?
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ skillï¿½ï¿½ ï¿½Ö³ï¿½?
 					//--------------------------------------------------
 					if (pVampireSkillInfo->isLearnNewSkill())
 					{
@@ -279,7 +278,7 @@ void GCSkillInfoHandler::execute ( GCSkillInfo * pPacket , Player * pPlayer )
 						int domainType = SKILLDOMAIN_OUSTERS;
 						
 						//--------------------------------------------------
-						// ¹è¿î skillµé Ã¼Å©..
+						// ï¿½ï¿½ï¿½ skillï¿½ï¿½ Ã¼Å©..
 						//--------------------------------------------------
 						int num = pOustersSkillInfo->getListNum();
 						
@@ -295,7 +294,7 @@ void GCSkillInfoHandler::execute ( GCSkillInfo * pPacket , Player * pPlayer )
 								int currentDelay = ConvertDurationToMillisecond( pInfo->getCastingTime() );							
 								int	expLevel	= pInfo->getExpLevel();
 
-								// Skill ¹è¿ü´Ù´Â°É Ã¼Å©ÇÑ´Ù.
+								// Skill ï¿½ï¿½ï¿½ï¿½Ù´Â°ï¿½ Ã¼Å©ï¿½Ñ´ï¿½.
 								if((*g_pSkillInfoTable)[skillType].GetSkillStep() == SKILL_STEP_ETC)
 								{
 									(*g_pSkillManager)[SKILL_DOMAIN_BLADE].SetNewSkill();
@@ -340,7 +339,7 @@ void GCSkillInfoHandler::execute ( GCSkillInfo * pPacket , Player * pPlayer )
 						}
 						
 						//--------------------------------------------------
-						// »õ·Î ¹è¿ï ¼ö ÀÖ´Â skillÀÌ ÀÖ³ª?
+						// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ skillï¿½ï¿½ ï¿½Ö³ï¿½?
 						//--------------------------------------------------
 						if (pOustersSkillInfo->isLearnNewSkill())
 						{
@@ -355,7 +354,7 @@ void GCSkillInfoHandler::execute ( GCSkillInfo * pPacket , Player * pPlayer )
 	}
 
 	//--------------------------------------------------
-	// È¦¸®·£µå º¸³Ê½º Á¸ÀÌµ¿ ÇÒ¶§ reset
+	// È¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ê½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Ò¶ï¿½ reset
 	//--------------------------------------------------
 //	for(int i = 0; i < HOLYLAND_BONUS_MAX; i++)
 //	{
@@ -366,7 +365,7 @@ void GCSkillInfoHandler::execute ( GCSkillInfo * pPacket , Player * pPlayer )
 		g_abSweeperBonusSkills[i] = false;
 
 	//--------------------------------------------------
-	// ÇöÀç »ç¿ë °¡´ÉÇÑ skillµéÀ» ´Ù½Ã Ã¼Å©ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ skillï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ Ã¼Å©ï¿½Ñ´ï¿½.
 	//--------------------------------------------------
 
 	g_pSkillAvailable->SetAvailableSkills();

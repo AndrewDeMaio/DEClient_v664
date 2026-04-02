@@ -17,8 +17,8 @@
 //
 // class LCQueryResultPlayerID;
 //
-// Å¬¶óÀÌ¾ðÆ®°¡ ·Î±×ÀÎ ¼­¹ö¿¡°Ô ÃÖÃÊ¿¡ Àü¼ÛÇÏ´Â ÆÐÅ¶ÀÌ´Ù.
-// ¾ÆÀÌµð¿Í ÆÐ½º¿öµå°¡ ¾ÏÈ£È­µÇ¾î ÀÖ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
+// ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½Ð½ï¿½ï¿½ï¿½ï¿½å°¡ ï¿½ï¿½È£È­ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -27,24 +27,24 @@ class LCQueryResultPlayerID : public Packet {
 public :
 
 	// constructor
-	LCQueryResultPlayerID () throw () : m_bExist(false) {}
+	LCQueryResultPlayerID () : m_bExist(false) {}
 
 public :
 
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_LC_QUERY_RESULT_PLAYER_ID; }
+	PacketID_t getPacketID () const { return PACKET_LC_QUERY_RESULT_PLAYER_ID; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () 
+	size_t getPacketSize () const 
 	{ 
 		return szbool
 			+ szBYTE + m_PlayerID.size(); 
@@ -52,21 +52,21 @@ public :
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "LCQueryResultPlayerID"; }
+		std::string getPacketName () const { return "LCQueryResultPlayerID"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 public :
 
 	// get/set player id
-	const std::string& getPlayerID () const throw () { return m_PlayerID; }
-	void setPlayerID ( const std::string & playerID ) throw () { m_PlayerID = playerID; }
+	const std::string& getPlayerID () const { return m_PlayerID; }
+	void setPlayerID ( const std::string & playerID ) { m_PlayerID = playerID; }
 
 	// get/set player id's existence
-	bool isExist () const throw () { return m_bExist; }
-	void setExist ( bool bExist = true ) throw () { m_bExist = bExist; }
+	bool isExist () const { return m_bExist; }
+	void setExist ( bool bExist = true ) { m_bExist = bExist; }
 
 private :
 
@@ -92,18 +92,18 @@ class LCQueryResultPlayerIDFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new LCQueryResultPlayerID(); }
+	Packet * createPacket () { return new LCQueryResultPlayerID(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "LCQueryResultPlayerID"; }
+		std::string getPacketName () const { return "LCQueryResultPlayerID"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_LC_QUERY_RESULT_PLAYER_ID; }
+	PacketID_t getPacketID () const { return Packet::PACKET_LC_QUERY_RESULT_PLAYER_ID; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize () const throw ()
+	PacketSize_t getPacketMaxSize () const
 	{ 
 		return szbool
 			+ szBYTE + 20; 
@@ -123,7 +123,7 @@ class LCQueryResultPlayerIDHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( LCQueryResultPlayerID * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( LCQueryResultPlayerID * pPacket , Player * pPlayer );
 
 };
 

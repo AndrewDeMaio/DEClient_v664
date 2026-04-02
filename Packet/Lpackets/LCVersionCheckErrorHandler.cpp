@@ -17,14 +17,13 @@ extern BOOL		g_bNeedUpdate;
 // 
 //----------------------------------------------------------------------
 void LCVersionCheckErrorHandler::execute ( LCVersionCheckError * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
 #ifdef __GAME_CLIENT__
 
 	
-	// client¸¦ updateÇØ¾ßÇÑ´Ù.
+	// clientï¿½ï¿½ updateï¿½Ø¾ï¿½ï¿½Ñ´ï¿½.
 	g_bNeedUpdate = TRUE;
 	g_ModeNext = MODE_QUIT;
 

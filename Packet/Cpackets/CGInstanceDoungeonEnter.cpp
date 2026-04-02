@@ -8,21 +8,18 @@
 #include "CGInstanceDoungeonEnter.h"
 #if __CONTENTS(__TIPOJYU_CASTLE)
 CGInstanceDoungeonEnter::CGInstanceDoungeonEnter () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 CGInstanceDoungeonEnter::~CGInstanceDoungeonEnter () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGInstanceDoungeonEnter::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -33,7 +30,6 @@ void CGInstanceDoungeonEnter::read (SocketInputStream & iStream)
 }
 		    
 void CGInstanceDoungeonEnter::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -44,7 +40,6 @@ void CGInstanceDoungeonEnter::write (SocketOutputStream & oStream) const
 }
 
 void CGInstanceDoungeonEnter::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -54,7 +49,6 @@ void CGInstanceDoungeonEnter::execute (Player* pPlayer)
 }
 
 string CGInstanceDoungeonEnter::toString () const
-    throw ()
 {
 	__BEGIN_TRY
 		

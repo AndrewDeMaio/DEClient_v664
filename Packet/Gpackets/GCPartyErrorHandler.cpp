@@ -1,10 +1,10 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCPartyErrorHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //////////////////////////////////////////////////////////////////////////////
 
-#include "client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCPartyError.h"
 #include "ClientDef.h"
 #include "UIDialog.h"
@@ -13,7 +13,6 @@
 #include "UIFunction.h"
 
 void GCPartyErrorHandler::execute (GCPartyError * pPacket , Player * pPlayer)
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 	
@@ -31,7 +30,7 @@ void GCPartyErrorHandler::execute (GCPartyError * pPacket , Player * pPlayer)
 
 	//----------------------------------------------------------------------
 	//
-	//	ÆÄÆ¼ Ãë¼ÒµÇ´Â °æ¿ìÀÇ °øÅëÀûÀÎ Ã³¸®
+	//	ï¿½ï¿½Æ¼ ï¿½ï¿½ÒµÇ´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	//
 	//----------------------------------------------------------------------
 	if (code==GC_PARTY_ERROR_TARGET_NOT_EXIST
@@ -40,10 +39,10 @@ void GCPartyErrorHandler::execute (GCPartyError * pPacket , Player * pPlayer)
 	{	
 		if (g_pTempInformation->GetMode() == TempInformation::MODE_PARTY_REQUEST)
 		{
-			// ÆÄÆ¼Ãë¼ÒÇÒ·¡?¸¦ ´Ý´Â´Ù.
+			// ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½Ò·ï¿½?ï¿½ï¿½ ï¿½Ý´Â´ï¿½.
 			UI_ClosePartyCancel();
 
-			// °ËÁõ Á¦°Å..
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 			if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_PARTY)
 			{
 				g_pPlayer->SetWaitVerifyNULL();
@@ -56,10 +55,10 @@ void GCPartyErrorHandler::execute (GCPartyError * pPacket , Player * pPlayer)
 	switch (code)
 	{
 		//----------------------------------------------------------------------
-		// ÆÄÆ¼À» ¿ä±¸ÇÑ ´ë»óÀÌ Á¸ÀçÇÏÁö ¾Ê´Â´Ù
+		// ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ä±¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½
 		//----------------------------------------------------------------------
 		case GC_PARTY_ERROR_TARGET_NOT_EXIST :						
-			// ±×·± »ç¶÷ ¾öµû~
+			// ï¿½×·ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½~
 			UI_ClosePartyCancel();
 
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_PARTY_NOBODY].GetString());
@@ -67,30 +66,30 @@ void GCPartyErrorHandler::execute (GCPartyError * pPacket , Player * pPlayer)
 		
 		
 		//----------------------------------------------------------------------
-		// ÆÄÆ¼À» ¿ä±¸ÇÑ ´ë»óÀÌ ´Ù¸¥ Á¾Á·ÀÌ´Ù
+		// ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ä±¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½
 		//----------------------------------------------------------------------
 		case GC_PARTY_ERROR_RACE_DIFFER :
-			// ÆÄÆ¼ÇÒ ¼ö ¾öµû~
+			// ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½~
 			UI_ClosePartyCancel();
 
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_RACE_DIFFER].GetString());
 		break;
 
 		//----------------------------------------------------------------------
-		// ÆÄÆ¼À» ÇÏ·Á°í ÇÏ´Â °÷ÀÌ ¾ÈÀü Áö´ë°¡ ¾Æ´Ï´Ù.
+		// ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ë°¡ ï¿½Æ´Ï´ï¿½.
 		//----------------------------------------------------------------------
 		case GC_PARTY_ERROR_NOT_SAFE :
-			// ÆÄÆ¼ÇÒ ¼ö ¾öµû~
+			// ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½~
 			UI_ClosePartyCancel();
 
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_PARTY_SAFETY_ZONE_ONLY].GetString());			
 		break;		
 
 		//----------------------------------------------------------------------
-		// º¯½Å Áß
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 		//----------------------------------------------------------------------
 		case GC_PARTY_ERROR_NOT_NORMAL_FORM :
-			// ÆÄÆ¼ÇÒ ¼ö ¾öµû~
+			// ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½~
 			UI_ClosePartyCancel();
 
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_NOT_NORMAL_FORM].GetString());			
@@ -98,7 +97,7 @@ void GCPartyErrorHandler::execute (GCPartyError * pPacket , Player * pPlayer)
 		
 
 		//----------------------------------------------------------------------
-		// ÆÄÆ¼ ÁßÀÌ¸é¼­ ´Ù½Ã ÆÄÆ¼À» ÇÏ·Á°í ÇÑ´Ù
+		// ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½Ì¸é¼­ ï¿½Ù½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½
 		//----------------------------------------------------------------------
 		case GC_PARTY_ERROR_ALREADY_INVITING :
 			
@@ -108,7 +107,7 @@ void GCPartyErrorHandler::execute (GCPartyError * pPacket , Player * pPlayer)
 		break;
 
 		//----------------------------------------------------------------------
-		// ÆÄÆ¼ ÁßÀÌ ¾Æ´Ñµ¥ : ÆÄÆ¼ °ü·Ã ÆÐÅ¶ÀÌ ³¯¾Æ¿Ô´Ù.
+		// ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ñµï¿½ : ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Æ¿Ô´ï¿½.
 		//----------------------------------------------------------------------
 		case GC_PARTY_ERROR_NOT_INVITING :
 			// - -;
@@ -121,7 +120,7 @@ void GCPartyErrorHandler::execute (GCPartyError * pPacket , Player * pPlayer)
 		break;	
 
 		//----------------------------------------------------------------------
-		// ÆÄÆ¼¿øÀ» Ãß¹æÇÒ ¼ö ÀÖ´Â ±ÇÇÑÀÌ ¾ø´Ù.
+		// ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ß¹ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		//----------------------------------------------------------------------
 		case GC_PARTY_ERROR_NO_AUTHORITY :
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_NO_AUTHORITY].GetString());
@@ -135,7 +134,7 @@ void GCPartyErrorHandler::execute (GCPartyError * pPacket , Player * pPlayer)
 		break;
 
 		//----------------------------------------------------------------------
-		// ¾Ë ¼ö ¾ø´Â ¿¡·¯ÀÌ´Ù...
+		// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½...
 		//----------------------------------------------------------------------
 		case GC_PARTY_ERROR_UNKNOWN :
 			

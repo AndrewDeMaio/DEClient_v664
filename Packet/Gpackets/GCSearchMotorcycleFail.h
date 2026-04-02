@@ -1,8 +1,8 @@
 //--------------------------------------------------------------------------------
 // 
 // Filename    : GCSearchMotorcycleFail.h 
-// Written By  : ±è¼º¹Î
-// Description : ÇÃ·¹ÀÌ¾î¿¡°Ô ¼­¹ö ÃøÀÇ »óÁ¡ ¹öÀüÀ» ¾Ë·ÁÁÙ ¶§ ¾²ÀÌ´Â ÆÐÅ¶ÀÌ´Ù.
+// Written By  : ï¿½è¼ºï¿½ï¿½
+// Description : ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 // 
 //--------------------------------------------------------------------------------
 
@@ -23,15 +23,15 @@
 class GCSearchMotorcycleFail : public Packet 
 {
 public :
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
-	PacketID_t getPacketID () const throw () { return PACKET_GC_SEARCH_MOTORCYCLE_FAIL; }
-	PacketSize_t getPacketSize () const throw () { return 0; }
+	void read ( SocketInputStream & iStream );
+	void write ( SocketOutputStream & oStream ) const;
+	void execute ( Player * pPlayer );
+	PacketID_t getPacketID () const { return PACKET_GC_SEARCH_MOTORCYCLE_FAIL; }
+	size_t getPacketSize () const { return 0; }
 	
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "GCSearchMotorcycleFail"; }
-		std::string toString () const throw ();
+		std::string getPacketName () const { return "GCSearchMotorcycleFail"; }
+		std::string toString () const;
 	#endif
 };
 
@@ -49,14 +49,14 @@ class GCSearchMotorcycleFailFactory : public PacketFactory
 
 public :
 	
-	Packet * createPacket () throw () { return new GCSearchMotorcycleFail(); }
+	Packet * createPacket () { return new GCSearchMotorcycleFail(); }
 	
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "GCSearchMotorcycleFail"; }
+		std::string getPacketName () const { return "GCSearchMotorcycleFail"; }
 	#endif
 
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_SEARCH_MOTORCYCLE_FAIL; }
-	PacketSize_t getPacketMaxSize () const throw () { return 0; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_SEARCH_MOTORCYCLE_FAIL; }
+	PacketSize_t getPacketMaxSize () const { return 0; }
 
 };
 
@@ -73,7 +73,7 @@ class GCSearchMotorcycleFailHandler
 public :
 	
 	// execute packet's handler
-	static void execute ( GCSearchMotorcycleFail * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCSearchMotorcycleFail * pPacket , Player * pPlayer );
 
 };
 

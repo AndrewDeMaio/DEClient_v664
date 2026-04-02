@@ -1,15 +1,13 @@
 //----------------------------------------------------------------------
 // MShadowObject.h
 //----------------------------------------------------------------------
-// ImageObject¶û °°´Ù°í º¸¸é µÇ´Âµ¥..
-// Ãâ·ÂµÇ´Â image´Â Shadow´Ù..
+// ImageObjectï¿½ï¿½ ï¿½ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´Âµï¿½..
+// ï¿½ï¿½ÂµÇ´ï¿½ imageï¿½ï¿½ Shadowï¿½ï¿½..
 //----------------------------------------------------------------------
 
 #ifndef	__MSHADOWOBJECT_H__
 #define	__MSHADOWOBJECT_H__
 
-std::ofstream;
-std::ifstream;
 #include "MTypeDef.h"
 #include "DrawTypeDef.h"
 #include "MImageObject.h"

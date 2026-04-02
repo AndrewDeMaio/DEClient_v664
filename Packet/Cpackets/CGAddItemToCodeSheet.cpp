@@ -7,7 +7,6 @@
 #include "CGAddItemToCodeSheet.h"
 
 void CGAddItemToCodeSheet::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -19,7 +18,6 @@ void CGAddItemToCodeSheet::read (SocketInputStream & iStream)
 }
 
 void CGAddItemToCodeSheet::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -31,7 +29,6 @@ void CGAddItemToCodeSheet::write (SocketOutputStream & oStream) const
 }
 
 void CGAddItemToCodeSheet::execute (Player* pPlayer) 
-	throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -45,7 +42,6 @@ void CGAddItemToCodeSheet::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGAddItemToCodeSheet::toString () const
-	throw ()
 {
 	__BEGIN_TRY
 		

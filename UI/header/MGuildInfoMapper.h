@@ -9,8 +9,6 @@
 
 #include "CSprite.h"
 #include "MString.h"
-std::ifstream;
-std::ofstream;
 
 //----------------------------------------------------------------------
 // GUILD_INFO
@@ -50,7 +48,7 @@ class GUILD_INFO {
 };
 
 //----------------------------------------------------------------------
-// MGuildInfoMapper <��帶ũ, SpriteID>
+// MGuildInfoMapper <��帶ũ, SpriteID>
 //----------------------------------------------------------------------
 class MGuildInfoMapper : public std::map<WORD, GUILD_INFO*> {
 	public :

@@ -7,7 +7,6 @@
 #include "CGWithdrawTax.h"
 
 void CGWithdrawTax::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -17,7 +16,6 @@ void CGWithdrawTax::read (SocketInputStream & iStream)
 }
 
 void CGWithdrawTax::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -27,7 +25,6 @@ void CGWithdrawTax::write (SocketOutputStream & oStream) const
 }
 
 void CGWithdrawTax::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__		
@@ -40,7 +37,6 @@ void CGWithdrawTax::execute (Player* pPlayer)
 #ifdef __DEBUG_OUTPUT__
 
 std::string CGWithdrawTax::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

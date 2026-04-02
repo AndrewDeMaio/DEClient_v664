@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCRemoveEffect.h"
 #include "ClientDef.h"
 #include "MEffectStatusDef.h"
@@ -21,7 +21,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCRemoveEffectHandler::execute ( GCRemoveEffect * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -29,7 +28,7 @@ void GCRemoveEffectHandler::execute ( GCRemoveEffect * pPacket , Player * pPlaye
 		
 
 	//------------------------------------------------------
-	// µð¹ö±× ¸Þ½ÃÁö º¸±â
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if(g_pUserInformation->attrOperator.GetValue() &&
 	   g_pOperatorOption->bShowAddEffect)
@@ -40,7 +39,7 @@ void GCRemoveEffectHandler::execute ( GCRemoveEffect * pPacket , Player * pPlaye
 	}
 		
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -48,7 +47,7 @@ void GCRemoveEffectHandler::execute ( GCRemoveEffect * pPacket , Player * pPlaye
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -56,7 +55,7 @@ void GCRemoveEffectHandler::execute ( GCRemoveEffect * pPacket , Player * pPlaye
 		
 		MCreature* pCreature = g_pZone->GetCreature(CreatureID);
 
-		// ¼º¹°º¸°ü´ë ¾ò¾î¿À±â À§ÇØ¼­
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½
 		if (pCreature == NULL)
 		{
 			MItem *selectedItem = g_pZone->GetItem(CreatureID);
@@ -84,7 +83,7 @@ void GCRemoveEffectHandler::execute ( GCRemoveEffect * pPacket , Player * pPlaye
 
 
 				//------------------------------------------------------
-				// µð¹ö±× ¸Þ½ÃÁö º¸±â
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				//------------------------------------------------------
 				if(g_pUserInformation->attrOperator.GetValue() &&
 					g_pOperatorOption->bShowAddEffect)
@@ -161,7 +160,7 @@ void GCRemoveEffectHandler::execute ( GCRemoveEffect * pPacket , Player * pPlaye
 				{
 					DEBUG_ADD_FORMAT("[Error] Failed to Remove EffectStatus %d", effectStatus);
 				}
-				if( g_pPlayer->GetID() == pCreature->GetID() ) // -_- ³» ÀÚ½ÅÀÌ¸é
+				if( g_pPlayer->GetID() == pCreature->GetID() ) // -_- ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½Ì¸ï¿½
 				{
 					ACTIONINFO actionInfo = (ACTIONINFO) (*g_pEffectStatusTable)[effectStatus].OriginalActionInfo;
 					switch(actionInfo)

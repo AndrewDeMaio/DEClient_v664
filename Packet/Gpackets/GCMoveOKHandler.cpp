@@ -7,7 +7,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "GPacket_PCH.h"
 #include "GCMoveOK.h"
 #include "ClientDef.h"
 #include "VS_UI.h"
@@ -20,7 +20,6 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCMoveOKHandler::execute ( GCMoveOK * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -36,7 +35,7 @@ void GCMoveOKHandler::execute ( GCMoveOK * pPacket , Player * pPlayer )
 	
 
 	//--------------------------------------------------
-	// °ËÁõµÈ Tile¿¡ ´ëÇÑ ÀÌµ¿
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Tileï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
 	//--------------------------------------------------
 	g_pPlayer->PacketMoveOK(pPacket->getX(), pPacket->getY(), pPacket->getDir());
 

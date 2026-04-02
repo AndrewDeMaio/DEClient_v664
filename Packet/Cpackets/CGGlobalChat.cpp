@@ -7,7 +7,6 @@
 #include "CGGlobalChat.h"
 
 void CGGlobalChat::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 	
@@ -23,7 +22,6 @@ void CGGlobalChat::read (SocketInputStream & iStream)
 }
 
 void CGGlobalChat::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -43,7 +41,6 @@ void CGGlobalChat::write (SocketOutputStream & oStream) const
 }
 
 void CGGlobalChat::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -56,7 +53,6 @@ void CGGlobalChat::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGGlobalChat::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

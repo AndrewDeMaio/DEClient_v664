@@ -17,7 +17,6 @@
 // constructor
 //----------------------------------------------------------------------
 LCWorldList::LCWorldList ()
-	throw ()
 {
 	m_CurrentWorldID = 1;
 }
@@ -27,11 +26,10 @@ LCWorldList::LCWorldList ()
 // destructor
 //----------------------------------------------------------------------
 LCWorldList::~LCWorldList ()
-	throw ()
 {
 	__BEGIN_TRY
 
-	// ¼Ò¼ÓµÈ ¸ðµç °´Ã¼µéÀ» »èÁ¦ÇÑ´Ù.
+	// ï¿½Ò¼Óµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	while ( !m_WorldInfoList.empty() ) 
 	{
 		WorldInfo * pWorldInfo = m_WorldInfoList.front();
@@ -48,10 +46,9 @@ LCWorldList::~LCWorldList ()
 
 
 //----------------------------------------------------------------------
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 void LCWorldList::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -59,7 +56,7 @@ void LCWorldList::read ( SocketInputStream & iStream )
 
 	BYTE ListNum;
 
-    // ÃÖÀûÈ­ ÀÛ¾÷½Ã ½ÇÁ¦ Å©±â¸¦ ¸í½ÃÇÏµµ·Ï ÇÑ´Ù.
+    // ï¿½ï¿½ï¿½ï¿½È­ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	iStream.read( ListNum );
 	for( int i = 0; i < ListNum; i++ ) {
 		WorldInfo * pWorldInfo = new WorldInfo();
@@ -72,17 +69,16 @@ void LCWorldList::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void LCWorldList::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
 	oStream.write( m_CurrentWorldID );
 
 	BYTE ListNum = m_WorldInfoList.size();
-	// ÃÖÀûÈ­ ÀÛ¾÷½Ã ½ÇÁ¦ Å©±â¸¦ ¸í½ÃÇÏµµ·Ï ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½È­ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	oStream.write( ListNum );
 
 	for ( std::list<WorldInfo*>:: const_iterator itr = m_WorldInfoList.begin(); itr!= m_WorldInfoList.end(); itr++) {
@@ -97,7 +93,6 @@ void LCWorldList::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void LCWorldList::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -109,11 +104,10 @@ void LCWorldList::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 PacketSize_t LCWorldList::getPacketSize () const 
-	throw ()
 {
 	__BEGIN_TRY
 
-	// ¸®½ºÆ® ÀÎÀÚÀÇ °¹¼ö
+	// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	PacketSize_t PacketSize = szWorldID + szBYTE;
 
 	for ( std::list< WorldInfo* >::const_iterator itr = m_WorldInfoList.begin() ; itr != m_WorldInfoList.end() ; itr ++ ) {
@@ -133,7 +127,6 @@ PacketSize_t LCWorldList::getPacketSize () const
 //////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 	std::string LCWorldList::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 

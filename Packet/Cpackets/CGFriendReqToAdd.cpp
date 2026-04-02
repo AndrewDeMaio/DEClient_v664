@@ -8,18 +8,17 @@
 #include "CGFriendReqToAdd.h"
 
 #if __CONTENTS(__FRIEND_ADDITION)
-CGFriendReqToAdd::CGFriendReqToAdd() throw()
+CGFriendReqToAdd::CGFriendReqToAdd()
 {
 	m_PCName.SetMaxLength(20);
 }
 
-CGFriendReqToAdd::~CGFriendReqToAdd() throw()
+CGFriendReqToAdd::~CGFriendReqToAdd()
 {
 	
 }
 
 void CGFriendReqToAdd::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -29,7 +28,6 @@ void CGFriendReqToAdd::read ( SocketInputStream & iStream )
 }
 		    
 void CGFriendReqToAdd::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -39,7 +37,6 @@ void CGFriendReqToAdd::write ( SocketOutputStream & oStream ) const
 }
 
 void CGFriendReqToAdd::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -48,13 +45,12 @@ void CGFriendReqToAdd::execute ( Player * pPlayer )
 	__END_CATCH
 }
 
-PacketSize_t CGFriendReqToAdd::getPacketSize() const throw()
+PacketSize_t CGFriendReqToAdd::getPacketSize() const
 {
 	return m_PCName.getSize();	
 }
 
 string CGFriendReqToAdd::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

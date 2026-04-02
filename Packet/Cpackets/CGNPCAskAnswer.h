@@ -1,7 +1,7 @@
 //--------------------------------------------------------------------------------
 // 
 // Filename    : CGNPCAskAnswer.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // 
 //--------------------------------------------------------------------------------
 
@@ -22,42 +22,42 @@ class CGNPCAskAnswer : public Packet {
 
 public :
 	
-	// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+	// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+	void read ( SocketInputStream & iStream );
 		    
-	// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+	// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CG_NPC_ASK_ANSWER; }
+	PacketID_t getPacketID () const { return PACKET_CG_NPC_ASK_ANSWER; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static CGNPCAskAnswerPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () { return szObjectID + szScriptID + szAnswerID; }
+	// const static CGNPCAskAnswerPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const { return szObjectID + szScriptID + szAnswerID; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGNPCAskAnswer"; }
+		std::string getPacketName () const { return "CGNPCAskAnswer"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
 public :
 
 	// get / set ObjectID
-	ObjectID_t getObjectID() throw () { return m_ObjectID; }
-	void setObjectID( ObjectID_t ObjectID ) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() { return m_ObjectID; }
+	void setObjectID( ObjectID_t ObjectID ) { m_ObjectID = ObjectID; }
 	
-	ScriptID_t getScriptID() throw() { return m_ScriptID;}
-	void setScriptID(ScriptID_t scriptID) throw() { m_ScriptID = scriptID;}
+	ScriptID_t getScriptID() { return m_ScriptID;}
+	void setScriptID(ScriptID_t scriptID) { m_ScriptID = scriptID;}
 	
-	AnswerID_t getAnswerID() throw() { return m_AnswerID;}
-	void setAnswerID(AnswerID_t answerID) throw() { m_AnswerID = answerID;}
+	AnswerID_t getAnswerID() { return m_AnswerID;}
+	void setAnswerID(AnswerID_t answerID) { m_AnswerID = answerID;}
 
 private :
 	
@@ -82,20 +82,20 @@ class CGNPCAskAnswerFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CGNPCAskAnswer(); }
+	Packet * createPacket () { return new CGNPCAskAnswer(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGNPCAskAnswer"; }
+		std::string getPacketName () const { return "CGNPCAskAnswer"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_NPC_ASK_ANSWER; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_NPC_ASK_ANSWER; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static CGNPCAskAnswerPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID + szScriptID + szAnswerID; }
+	// const static CGNPCAskAnswerPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return szObjectID + szScriptID + szAnswerID; }
 
 };
 
@@ -113,7 +113,7 @@ public :
 	public :
 
 		// execute packet's handler
-		static void execute ( CGNPCAskAnswer * pPacket , Player * player ) throw ( ProtocolException , Error );
+		static void execute ( CGNPCAskAnswer * pPacket , Player * player );
 	};
 #endif
 
