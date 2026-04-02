@@ -18,7 +18,6 @@
 //////////////////////////////////////////////////////////////////////
 
 void GCSweeperBonusInfoHandler::execute ( GCSweeperBonusInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	if( g_pPlayer == NULL || g_pSkillAvailable == NULL )
 		return;

@@ -10,7 +10,7 @@
 
 */
 
-#include "dxlib/CDirectSound.h"
+#include "CDirectSound.h"
 #include "coggstream.h"
 
 

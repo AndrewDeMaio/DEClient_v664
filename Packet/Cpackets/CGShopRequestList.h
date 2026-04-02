@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------
 // 
 // Filename    : CGShopRequestList.h 
-// Written By  : ±è¼º¹Î
-// Description : ÇÃ·¹ÀÌ¾î°¡ °¡Áö°í ÀÖ´Â »óÁ¡ ¹öÀü°ú ¼­¹ö°¡ °¡Áö°í ÀÖ´Â »óÁ¡ÀÇ
-//               ¹öÀüÀÌ ´Ù¸¦ °æ¿ì, ÇÃ·¹ÀÌ¾î´Â ¼­¹ö¿¡°Ô »óÇ°ÀÇ ¸®½ºÆ®¸¦ 
-//               ¿äÃ»ÇÏ°Ô µÈ´Ù. ÀÌ ÆÐÅ¶Àº ±×¶§ º¸³»°Ô µÇ´Â ÆÐÅ¶ÀÌ´Ù.
+// Written By  : ï¿½è¼ºï¿½ï¿½
+// Description : ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//               ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½, ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ 
+//               ï¿½ï¿½Ã»ï¿½Ï°ï¿½ ï¿½È´ï¿½. ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½×¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 // 
 //--------------------------------------------------------------------------------
 
@@ -25,39 +25,39 @@ class CGShopRequestList : public Packet {
 
 public :
 	
-	// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+	// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+	void read ( SocketInputStream & iStream );
 		    
-	// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+	// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CG_SHOP_REQUEST_LIST; }
+	PacketID_t getPacketID () const { return PACKET_CG_SHOP_REQUEST_LIST; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static CGShopRequestListPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () { return szObjectID+szShopRackType; }
+	// const static CGShopRequestListPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const { return szObjectID+szShopRackType; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGShopRequestList"; }
+		std::string getPacketName () const { return "CGShopRequestList"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
 public :
 
 	// get / set ObjectID
-	ObjectID_t getObjectID() throw () { return m_ObjectID; }
-	void setObjectID( ObjectID_t ObjectID ) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() { return m_ObjectID; }
+	void setObjectID( ObjectID_t ObjectID ) { m_ObjectID = ObjectID; }
 
-	ShopRackType_t getRackType(void) throw () { return m_RackType; }
-	void setRackType(ShopRackType_t type) throw() { m_RackType = type; }
+	ShopRackType_t getRackType(void) { return m_RackType; }
+	void setRackType(ShopRackType_t type) { m_RackType = type; }
 
 private :
 	
@@ -81,18 +81,18 @@ class CGShopRequestListFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CGShopRequestList(); }
+	Packet * createPacket () { return new CGShopRequestList(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGShopRequestList"; }
+		std::string getPacketName () const { return "CGShopRequestList"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_SHOP_REQUEST_LIST; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_SHOP_REQUEST_LIST; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID+szShopRackType; }
+	PacketSize_t getPacketMaxSize () const { return szObjectID+szShopRackType; }
 
 };
 
@@ -110,7 +110,7 @@ public :
 	public :
 
 		// execute packet's handler
-		static void execute ( CGShopRequestList * pPacket , Player * player ) throw ( ProtocolException , Error );
+		static void execute ( CGShopRequestList * pPacket , Player * player );
 	};
 #endif
 

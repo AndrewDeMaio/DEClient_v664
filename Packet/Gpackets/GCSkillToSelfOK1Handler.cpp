@@ -23,13 +23,12 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSkillToSelfOK1Handler::execute ( GCSkillToSelfOK1 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
 
 	//------------------------------------------------------------------
-	// Player°¡ ±â´Ù¸®´ø skillÀÇ ¼º°øÀ¯¹«¸¦ °ËÁõ¹Þ¾Ò´Ù.
+	// Playerï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Þ¾Ò´ï¿½.
 	//------------------------------------------------------------------
 	if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_SKILL_SUCCESS)
 	{		
@@ -56,8 +55,8 @@ void GCSkillToSelfOK1Handler::execute ( GCSkillToSelfOK1 * pPacket , Player * pP
 	
 	if( skillID == MAGIC_UN_TRANSFORM)
 	{
-		// ¾Æ¿ì½ºÅÍÁî´Â summon sylph ¿¡¼­ ³»¸±‹š untransform À» ³¯·ÁÁÖ´Âµ¥ ±×¿¡´ëÇÑ °ËÁõÀ¸·Î ÀÌ°Ô ³¯¶ó¿Â´Ù-_-
-		// °íÃÄ¾ß ÇÏ´Âµ¥.. ÀÏ´Ü ¿¹¿Ü Ã³¸®·Î!
+		// ï¿½Æ¿ì½ºï¿½ï¿½ï¿½ï¿½ï¿½ summon sylph ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ untransform ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´Âµï¿½ ï¿½×¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½Â´ï¿½-_-
+		// ï¿½ï¿½ï¿½Ä¾ï¿½ ï¿½Ï´Âµï¿½.. ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½!
 		if(g_pPlayer->IsOusters())
 		{
 			g_pPlayer->SetWaitVerifyNULL();
@@ -98,10 +97,10 @@ void GCSkillToSelfOK1Handler::execute ( GCSkillToSelfOK1 * pPacket , Player * pP
 	}
 
 	//------------------------------------------------------------
-	// Delay Frame ¼³Á¤
+	// Delay Frame ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------------
 	DWORD delayFrame = ConvertDurationToFrame( pPacket->getDuration() );
-	if(resultActionInfo == RESULT_SKILL_CONCEALMENT)				// ÀÌÆåÆ®¿¡ ¸Â°Ô ÇÁ·¹ÀÓÀ» Àû´çÈ÷ Á¶Á¤ÇØÁØ´Ù.
+	if(resultActionInfo == RESULT_SKILL_CONCEALMENT)				// ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 	{
 		int FrameSize = (*g_pActionInfoTable)[resultActionInfo][1].Count;
 		int RemainFrame = delayFrame % FrameSize;
@@ -116,7 +115,7 @@ void GCSkillToSelfOK1Handler::execute ( GCSkillToSelfOK1 * pPacket , Player * pP
 
 	g_pPlayer->SetEffectDelayFrame(resultActionInfo, delayFrame );
 
-	// ¼Ò¿ï Ã¼ÀÎÀÇ °æ¿ì ±â¼ú ½èÀ»¶§°¡ ¾Æ´Ï¶ó OKµÆÀ»¶§ delay¼¼ÆÃ
+	// ï¿½Ò¿ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ OKï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ delayï¿½ï¿½ï¿½ï¿½
 	if(skillID == SKILL_SOUL_CHAIN)
 	{
 		if (skillID < MIN_RESULT_ACTIONINFO)
@@ -127,7 +126,7 @@ void GCSkillToSelfOK1Handler::execute ( GCSkillToSelfOK1 * pPacket , Player * pP
 	}
 
 	//------------------------------------------------------
-	// Player°¡ ±â¼úÀ» ¼º°øÇßÀ»¶§ ¸ð½À..
+	// Playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 	//------------------------------------------------------
 	g_pPlayer->PacketSpecialActionResult( 
 					resultActionInfo,
@@ -137,21 +136,21 @@ void GCSkillToSelfOK1Handler::execute ( GCSkillToSelfOK1 * pPacket , Player * pP
 	);
 
 	//------------------------------------------------------------------
-	// Player°¡ SkillÀ» ¼º°ø½ÃÅ² °æ¿ì¿¡ ³¯¾Æ¿À´Â PacketÀÌ¹Ç·Î
-	// °á°ú¸¦ ¹Ý¿µ½ÃÄÑ¾ß ÇÑ´Ù.
+	// Playerï¿½ï¿½ Skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å² ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½Æ¿ï¿½ï¿½ï¿½ Packetï¿½Ì¹Ç·ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ ï¿½Ñ´ï¿½.
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	AffectModifyInfo(g_pPlayer, pPacket);
 
 	//------------------------------------------------------------------
-	// effect status¸¦ Àû¿ë½ÃÅ²´Ù.
+	// effect statusï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 	//------------------------------------------------------------------
 	if (g_pPlayer->GetEFFECT_STAT()!=EFFECTSTATUS_NULL)
 	{
 		//int esDelayFrame = ConvertDurationToFrame( g_pPlayer->GetDURATION() );
 
-		// effect¸¦ ºÙÀÎ´Ù.
+		// effectï¿½ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 		g_pPlayer->AddEffectStatus((EFFECTSTATUS)g_pPlayer->GetEFFECT_STAT(), delayFrame);	
 		
 		g_pPlayer->SetStatus( MODIFY_EFFECT_STAT, EFFECTSTATUS_NULL );
@@ -159,7 +158,7 @@ void GCSkillToSelfOK1Handler::execute ( GCSkillToSelfOK1 * pPacket , Player * pP
 	else
 	{
 		//------------------------------------------------------
-		// EffectStatus°¡ ÀÖ´Ù¸é ºÙÀÎ´Ù.
+		// EffectStatusï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 		//------------------------------------------------------
 		EFFECTSTATUS es = (*g_pActionInfoTable)[skillID].GetEffectStatus();
 
@@ -177,8 +176,8 @@ void GCSkillToSelfOK1Handler::execute ( GCSkillToSelfOK1 * pPacket , Player * pP
 	}
 
 	//------------------------------------------------------------------
-	// UI¿¡ º¸ÀÌ´Â °ÍÀ» ¹Ù²ãÁØ´Ù.
-	// ºñ±³¿¬»êÇÏ´Â°Åº¸´Ù ÀÌ°Ô ´õ ºü¸£Áö ¾ÊÀ»±î.. À½.. - -;
+	// UIï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
+	// ï¿½ñ±³¿ï¿½ï¿½ï¿½ï¿½Ï´Â°Åºï¿½ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½.. - -;
 	//------------------------------------------------------------------
 	//UI_SetHP( g_pPlayer->GetHP(), g_pPlayer->GetMAX_HP() );
 	//UI_SetMP( g_pPlayer->GetMP(), g_pPlayer->GetMAX_MP() );
@@ -193,13 +192,13 @@ void GCSkillToSelfOK1Handler::execute ( GCSkillToSelfOK1 * pPacket , Player * pP
 	
 	//------------------------------------------------------
 	//
-	// skill¿¡ °á°ú°¡ ÀÖÀ¸¸é Àû¿ë ½ÃÅ²´Ù.
+	// skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 	//
 	//------------------------------------------------------
 	MActionResultNode* pActionResultNode = CreateActionResultNode(g_pPlayer, skillID);
 
 	//------------------------------------------------------
-	// NULLÀÌ ¾Æ´Ï¸é ½ÇÇà
+	// NULLï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (pActionResultNode!=NULL)
 	{

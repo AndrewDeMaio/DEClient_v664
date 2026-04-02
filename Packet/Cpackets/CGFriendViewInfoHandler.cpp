@@ -23,7 +23,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void CGFriendViewInfoHandler::execute ( CGFriendViewInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -39,12 +38,12 @@ void CGFriendViewInfoHandler::execute ( CGFriendViewInfo * pPacket , Player * pP
     
     FriendDetailInfo info;
 	
-    info.SetFriendName("³ë°úÀå´Ô");
+    info.SetFriendName("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
     info.SetRank(50);
     info.SetLevel(162);
     info.SetZoneID(12);
     info.SetGuildID(127);
-    info.SetGuildName("±âÈ¹±æµå");
+    info.SetGuildName("ï¿½ï¿½È¹ï¿½ï¿½ï¿½");
     info.SetAlignment(5);
     info.SetContributePoint(5632);
     info.SetContributeRank(2);

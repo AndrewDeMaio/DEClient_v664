@@ -22,7 +22,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void CGFriendReqToAddHandler::execute ( CGFriendReqToAdd * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 

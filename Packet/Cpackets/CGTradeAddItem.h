@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : CGTradeAddItem.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -19,27 +19,27 @@
 class CGTradeAddItem : public Packet 
 {
 public:
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
-	PacketID_t getPacketID () const throw () { return PACKET_CG_TRADE_ADD_ITEM; }
-	PacketSize_t getPacketSize () const throw () { return szObjectID*2; }
+	void read ( SocketInputStream & iStream );
+	void write ( SocketOutputStream & oStream ) const;
+	void execute ( Player * pPlayer );
+	PacketID_t getPacketID () const { return PACKET_CG_TRADE_ADD_ITEM; }
+	size_t getPacketSize () const { return szObjectID*2; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "CGTradeAddItem"; }
-		std::string toString () const throw ();
+		std::string getPacketName () const { return "CGTradeAddItem"; }
+		std::string toString () const;
 	#endif
 	
 public:
-	ObjectID_t getTargetObjectID() const throw() { return m_TargetObjectID; }
-	void setTargetObjectID(ObjectID_t id) throw() { m_TargetObjectID = id; }
+	ObjectID_t getTargetObjectID() const { return m_TargetObjectID; }
+	void setTargetObjectID(ObjectID_t id) { m_TargetObjectID = id; }
 
-	ObjectID_t getItemObjectID() const throw() { return m_ItemObjectID; }
-	void setItemObjectID(ObjectID_t id) throw() { m_ItemObjectID = id; }
+	ObjectID_t getItemObjectID() const { return m_ItemObjectID; }
+	void setItemObjectID(ObjectID_t id) { m_ItemObjectID = id; }
 
 private:
-	ObjectID_t m_TargetObjectID; // ±³È¯À» ¿øÇÏ´Â »ó´ë¹æÀÇ ObjectID
-	ObjectID_t m_ItemObjectID;   // ±³È¯ ¸®½ºÆ®¿¡ Ãß°¡ÇÒ ¾ÆÀÌÅÛÀÇ OID
+	ObjectID_t m_TargetObjectID; // ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ObjectID
+	ObjectID_t m_ItemObjectID;   // ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ OID
 
 };
 
@@ -53,14 +53,14 @@ private:
 class CGTradeAddItemFactory : public PacketFactory 
 {
 public:
-	Packet * createPacket () throw () { return new CGTradeAddItem(); }
+	Packet * createPacket () { return new CGTradeAddItem(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "CGTradeAddItem"; }
+		std::string getPacketName () const { return "CGTradeAddItem"; }
 	#endif
 
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_TRADE_ADD_ITEM; }
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID*2; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_TRADE_ADD_ITEM; }
+	PacketSize_t getPacketMaxSize () const { return szObjectID*2; }
 };
 #endif
 
@@ -77,11 +77,11 @@ public:
 	class CGTradeAddItemHandler 
 	{
 	public:
-		static void execute ( CGTradeAddItem * pPacket , Player * player ) throw ( ProtocolException , Error );
-		static void executeSlayer ( CGTradeAddItem * pPacket , Player * player ) throw ( ProtocolException , Error );
-		static void executeVampire ( CGTradeAddItem * pPacket , Player * player ) throw ( ProtocolException , Error );
-		static void makeGCTradeAddItemPacket ( GCTradeAddItem* pPacket, ObjectID_t Sender, Item* pItem, CoordInven_t X, CoordInven_t Y ) throw ();
-		static void executeError ( CGTradeAddItem * pPacket , Player * player, BYTE ErrorCode ) throw ( ProtocolException , Error );
+		static void execute ( CGTradeAddItem * pPacket , Player * player );
+		static void executeSlayer ( CGTradeAddItem * pPacket , Player * player );
+		static void executeVampire ( CGTradeAddItem * pPacket , Player * player );
+		static void makeGCTradeAddItemPacket ( GCTradeAddItem* pPacket, ObjectID_t Sender, Item* pItem, CoordInven_t X, CoordInven_t Y );
+		static void executeError ( CGTradeAddItem * pPacket , Player * player, BYTE ErrorCode );
 	};
 #endif
 

@@ -14,7 +14,6 @@
 // constructor
 //--------------------------------------------------------------------------------
 GCRequestPowerPointResult::GCRequestPowerPointResult ()
-	throw ()
 	: m_ErrorCode(0), m_SumPowerPoint(0), m_RequestPowerPoint(0)
 {
 }
@@ -23,45 +22,42 @@ GCRequestPowerPointResult::GCRequestPowerPointResult ()
 // destructor
 //--------------------------------------------------------------------------------
 GCRequestPowerPointResult::~GCRequestPowerPointResult ()
-	throw ()
 {
 }
 
 //--------------------------------------------------------------------------------
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //--------------------------------------------------------------------------------
 void GCRequestPowerPointResult::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
 	// Error code
 	iStream.read( m_ErrorCode );
 
-	// ÇöÀç ´©ÀûµÈ ÆÄ¿öÂ¯ Æ÷ÀÎÆ®
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¿ï¿½Â¯ ï¿½ï¿½ï¿½ï¿½Æ®
 	iStream.read( m_SumPowerPoint );
 
-	// ¿äÃ»À¸·Î °¡Á®¿Â ÆÄ¿öÂ¯ Æ÷ÀÎÆ®
+	// ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¿ï¿½Â¯ ï¿½ï¿½ï¿½ï¿½Æ®
 	iStream.read( m_RequestPowerPoint );
 	__END_CATCH
 }
 
 		    
 //--------------------------------------------------------------------------------
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //--------------------------------------------------------------------------------
 void GCRequestPowerPointResult::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
 	// Error code
 	oStream.write( m_ErrorCode );
 
-	// ÇöÀç ´©ÀûµÈ ÆÄ¿öÂ¯ Æ÷ÀÎÆ®
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¿ï¿½Â¯ ï¿½ï¿½ï¿½ï¿½Æ®
 	oStream.write( m_SumPowerPoint );
 
-	// ¿äÃ»À¸·Î °¡Á®¿Â ÆÄ¿öÂ¯ Æ÷ÀÎÆ®
+	// ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ä¿ï¿½Â¯ ï¿½ï¿½ï¿½ï¿½Æ®
 	oStream.write( m_RequestPowerPoint );
 	__END_CATCH
 }
@@ -71,7 +67,6 @@ void GCRequestPowerPointResult::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //--------------------------------------------------------------------------------
 void GCRequestPowerPointResult::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -86,7 +81,6 @@ void GCRequestPowerPointResult::execute ( Player * pPlayer )
 //--------------------------------------------------------------------------------
 #ifdef __DEBUG_OUTPUT__
 string GCRequestPowerPointResult::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

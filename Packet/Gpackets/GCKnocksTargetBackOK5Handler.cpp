@@ -14,7 +14,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCKnocksTargetBackOK5Handler::execute ( GCKnocksTargetBackOK5 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -23,7 +22,7 @@ void GCKnocksTargetBackOK5Handler::execute ( GCKnocksTargetBackOK5 * pPacket , P
 	// message
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -34,14 +33,14 @@ void GCKnocksTargetBackOK5Handler::execute ( GCKnocksTargetBackOK5 * pPacket , P
 	}	
 
 	//------------------------------------------------------
-	// ´ë»óÀÌ µÇ´Â creature¸¦ ¾ò´Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ creatureï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
 	//------------------------------------------------------
 	MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 	MCreature* pTargetCreature = g_pZone->GetCreature( pPacket->getTargetObjectID() );
 	
 	if (pCreature==NULL)
 	{
-		// ±×·± creature°¡ ¾øÀ» °æ¿ì
+		// ï¿½×·ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		DEBUG_ADD_FORMAT("There's no such creature : ID=%d, Skill=%d", pPacket->getObjectID(), pPacket->getSkillType());				
 		
 		return;
@@ -49,7 +48,7 @@ void GCKnocksTargetBackOK5Handler::execute ( GCKnocksTargetBackOK5 * pPacket , P
 
 	if (pTargetCreature==NULL)
 	{
-		// ±×·± creature°¡ ¾øÀ» °æ¿ì
+		// ï¿½×·ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		DEBUG_ADD_FORMAT("There's no such creature : TargetID=%d, Skill=%d", pPacket->getTargetObjectID(), pPacket->getSkillType());
 		
 		return;
@@ -65,20 +64,20 @@ void GCKnocksTargetBackOK5Handler::execute ( GCKnocksTargetBackOK5 * pPacket , P
 	}
 
 	//------------------------------------------------------
-	// ¹°·¯³ª´Â¹æÇâ(direction)Àû¿ë..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¹ï¿½ï¿½ï¿½(direction)ï¿½ï¿½ï¿½ï¿½..
 	//------------------------------------------------------	
 	unsigned short x = pPacket->getX();
 	unsigned short y = pPacket->getY();
 
-	// ÀÌµ¿ÇÑ ÈÄÀÇ ÁÂÇ¥°¡ ¿Â´Ù.
+	// ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Â´ï¿½.
 	//MCreature::GetPositionToDirection(x, y, pPacket->getDir());
 
 	//------------------------------------------------------
-	// °á°ú(´Ù¸¥ Ä³¸¯ÅÍ°¡ ¸Â´Â ¸ð½À)¸¦ ¼³Á¤ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½(ï¿½Ù¸ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	MActionResult* pResult = new MActionResult;
 	pResult->Add( new MActionResultNodeActionInfo( 
-								skillType, // ÃÑ °ø°Ý									
+								skillType, // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½									
 								pPacket->getObjectID(), 
 								pPacket->getTargetObjectID(),
 								pTargetCreature->GetX(),
@@ -86,30 +85,30 @@ void GCKnocksTargetBackOK5Handler::execute ( GCKnocksTargetBackOK5 * pPacket , P
 								 ) 
 				);
 
-	// target objectÀÇ ÁÂÇ¥°¡ ¹Ù²ñ
+	// target objectï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ù²ï¿½
 	pResult->Add( new MActionResultNodeChangePosition( 
 								pPacket->getTargetObjectID(),
 								x, y)
 				);
 								
 	//------------------------------------------------------
-	// Çàµ¿ÇÏ´Â Creature°¡ TargetCreature¸¦ ¹Ù¶óº¸µµ·Ï ÇÑ´Ù.
+	// ï¿½àµ¿ï¿½Ï´ï¿½ Creatureï¿½ï¿½ TargetCreatureï¿½ï¿½ ï¿½Ù¶óº¸µï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	pCreature->SetDirectionToPosition( pTargetCreature->GetX(), pTargetCreature->GetY() );
 
 	//------------------------------------------------------
-	// Creature°¡ Çàµ¿À» ÃëÇÏµµ·Ï ÇÑ´Ù.
+	// Creatureï¿½ï¿½ ï¿½àµ¿ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	pCreature->PacketSpecialActionToOther(
-					// ÃÑ °ø°Ý
+					// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					skillType	, 
 					pPacket->getTargetObjectID(), 
 					pResult
 	);
 
 	//------------------------------------------------------
-	// µ¿±âÈ­ ¹®Á¦ ¶§¹®¿¡..
-	// ¼­¹ö À§Ä¡´Â ¹Ù·Î ÁöÁ¤ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	pTargetCreature->SetServerPosition( x, y );
 

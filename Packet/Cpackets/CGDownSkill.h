@@ -19,22 +19,22 @@
 class CGDownSkill : public Packet 
 {
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_DOWN_SKILL; }
-	PacketSize_t getPacketSize() const throw() { return szSkillType; }
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_DOWN_SKILL; }
+	size_t getPacketSize() const { return szSkillType; }
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "CGDownSkill"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "CGDownSkill"; }
+	std::string toString() const;
 #endif
 
 public:
-	SkillType_t getSkillType() const throw()  { return m_SkillType; }
-	void setSkillType(SkillType_t SkillType) throw() { m_SkillType = SkillType; }
+	SkillType_t getSkillType() const  { return m_SkillType; }
+	void setSkillType(SkillType_t SkillType) { m_SkillType = SkillType; }
 
 private:
-	SkillType_t       m_SkillType;  // ±â¼úÀÇ Á¾·ù
+	SkillType_t       m_SkillType;  // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -44,12 +44,12 @@ private:
 class CGDownSkillFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new CGDownSkill(); }
+	Packet* createPacket() { return new CGDownSkill(); }
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "CGDownSkill"; }
+	std::string getPacketName() const { return "CGDownSkill"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_DOWN_SKILL; }
-	PacketSize_t getPacketMaxSize() const throw() { return szSkillType; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_DOWN_SKILL; }
+	PacketSize_t getPacketMaxSize() const { return szSkillType; }
 };
 
 
@@ -61,7 +61,7 @@ public:
 class CGDownSkillHandler 
 {
 public:
-	static void execute(CGDownSkill* pCGDownSkill, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(CGDownSkill* pCGDownSkill, Player* pPlayer);
 };
 #endif
 

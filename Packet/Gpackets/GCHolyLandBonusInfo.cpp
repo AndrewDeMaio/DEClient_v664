@@ -13,7 +13,6 @@
 // constructor
 //////////////////////////////////////////////////////////////////////
 GCHolyLandBonusInfo::GCHolyLandBonusInfo()
-	throw()
 {
 }
 
@@ -21,21 +20,19 @@ GCHolyLandBonusInfo::GCHolyLandBonusInfo()
 // constructor
 //////////////////////////////////////////////////////////////////////
 GCHolyLandBonusInfo::~GCHolyLandBonusInfo()
-	throw()
 {
 	__BEGIN_TRY
 	
-	// ±æµå ¸®½ºÆ®ÀÇ ¸ðµç °´Ã¼¸¦ »èÁ¦
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	clearBloodBibleBonusInfoList();
 
 	__END_CATCH
 }
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCHolyLandBonusInfo::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -54,10 +51,9 @@ void GCHolyLandBonusInfo::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCHolyLandBonusInfo::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -78,11 +74,10 @@ void GCHolyLandBonusInfo::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void GCHolyLandBonusInfo::clearBloodBibleBonusInfoList()
-	throw()
 {
 	__BEGIN_TRY
 
-	// BloodBibleBonusInfoList ¸¦ »èÁ¦ÇÑ´Ù
+	// BloodBibleBonusInfoList ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
 	while( !m_BloodBibleBonusInfoList.empty() )
 	{
 		BloodBibleBonusInfo* pBloodBibleBonusInfo = m_BloodBibleBonusInfoList.front();
@@ -98,7 +93,6 @@ void GCHolyLandBonusInfo::clearBloodBibleBonusInfoList()
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void GCHolyLandBonusInfo::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -112,7 +106,6 @@ void GCHolyLandBonusInfo::execute ( Player * pPlayer )
 // get packet size
 //////////////////////////////////////////////////////////////////////
 PacketSize_t GCHolyLandBonusInfo::getPacketSize() const
-	throw()
 {
 	__BEGIN_TRY
 
@@ -135,7 +128,6 @@ PacketSize_t GCHolyLandBonusInfo::getPacketSize() const
 // get packet's debug std::string
 //////////////////////////////////////////////////////////////////////
 std::string GCHolyLandBonusInfo::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

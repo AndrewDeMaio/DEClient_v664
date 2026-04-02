@@ -17,7 +17,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCDownSkillOKHandler::execute ( GCDownSkillOK * pGCDownSkillOK , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY 
 
@@ -33,7 +32,7 @@ void GCDownSkillOKHandler::execute ( GCDownSkillOK * pGCDownSkillOK , Player * p
 	}
 
 	(*g_pSkillInfoTable)[skillID].SetExpLevel( curLevel );
-	// 2004, 11, 9, sobeit add start - ·¹º§ÀÌ 0±îÁö ´Ù¿îµÇ¸é ´Ù½Ã ¹è¿ï¼ö ÀÖ´Ù°í ¼¼ÆÃÇØ¾ßÇÔ 
+	// 2004, 11, 9, sobeit add start - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¿ï¿½Ç¸ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½ï¿½ 
 	if(0 == curLevel)
 	{
 		(*g_pSkillManager)[SKILLDOMAIN_OUSTERS].AddNextSkillForce((ACTIONINFO)skillID); 

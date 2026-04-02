@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCRingHandler::execute ( GCRing * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 
@@ -29,10 +28,10 @@ void GCRingHandler::execute ( GCRing * pPacket , Player * pPlayer )
 	// 
 //	UI_OnLinePCS(pName, pcsNumber);
 
-	// PCS¿¡ ÀüÈ­°¡ ¿Ô´Ù°í ¾Ë¸°´Ù.
+	// PCSï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½ ï¿½Ô´Ù°ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½.
 //	UI_PleaseConnectPCS(pName, pcsNumber, slot);
 
-	// ¹øÈ£ ±â¾ï
+	// ï¿½ï¿½È£ ï¿½ï¿½ï¿½
 	g_pUserInformation->OtherPCSNumber[ slot ] = pPacket->getPhoneNumber();
 	g_pUserInformation->PCSUserName[ slot ] = pPacket->getName().c_str();
 

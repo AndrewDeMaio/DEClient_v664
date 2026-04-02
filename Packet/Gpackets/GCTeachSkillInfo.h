@@ -1,10 +1,10 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCTeachSkillInfo.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
-// NPC°¡ ÇÃ·¹ÀÌ¾î¿¡°Ô ½ºÅ³À» °¡¸£ÃÄ ÁÙ ¶§ Á¦ÀÏ ¸ÕÀú ÇÃ·¹ÀÌ¾î¿¡°Ô
-// Àü¼ÛµÇ´Â ÆÐÅ¶ÀÌ´Ù. NPC°¡ °¡¸£ÃÄ ÁÙ ¼ö ÀÖ´Â ±â¼úÀÇ ¹üÀ§¸¦ ±â¼úÇÏ´Â 
-// µ¥ ¾²ÀÌ´Â ÆÐÅ¶ÀÌ´Ù.
+// NPCï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½
+// ï¿½ï¿½ï¿½ÛµÇ´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½. NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ 
+// ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __GC_TEACH_SKILL_INFO_H__
@@ -20,24 +20,24 @@
 class GCTeachSkillInfo : public Packet 
 {
 public:
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
-	PacketID_t getPacketID () const throw () { return PACKET_GC_TEACH_SKILL_INFO; }
-	PacketSize_t getPacketSize () const throw () { return szSkillDomainType+szSkillLevel; }
-	std::string getPacketName () const throw () { return "GCTeachSkillInfo"; }
-	std::string toString () const throw ();
+	void read ( SocketInputStream & iStream );
+	void write ( SocketOutputStream & oStream ) const;
+	void execute ( Player * pPlayer );
+	PacketID_t getPacketID () const { return PACKET_GC_TEACH_SKILL_INFO; }
+	size_t getPacketSize () const { return szSkillDomainType+szSkillLevel; }
+	std::string getPacketName () const { return "GCTeachSkillInfo"; }
+	std::string toString () const;
 
 public :
-	SkillDomainType_t getDomainType(void) const throw() { return m_DomainType;}
-	void setDomainType(SkillDomainType_t type) throw()  { m_DomainType = type;}
+	SkillDomainType_t getDomainType(void) const { return m_DomainType;}
+	void setDomainType(SkillDomainType_t type)  { m_DomainType = type;}
 
-	SkillLevel_t getTargetLevel(void) const throw() { return m_TargetLevel;}
-	void setTargetLevel(SkillLevel_t level) throw() { m_TargetLevel = level;}
+	SkillLevel_t getTargetLevel(void) const { return m_TargetLevel;}
+	void setTargetLevel(SkillLevel_t level) { m_TargetLevel = level;}
 
 private:
-	SkillDomainType_t m_DomainType;  // NPC°¡ °¡¸£ÃÄÁÖ´Â ±â¼úÀÇ µµ¸ÞÀÎ Å¸ÀÔ
-	SkillLevel_t      m_TargetLevel; // ÇÃ·¹ÀÌ¾î°¡ ÀÌÁ¦ ¹è¿ï ±â¼ú ·¹º§
+	SkillDomainType_t m_DomainType;  // NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½
+	SkillLevel_t      m_TargetLevel; // ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -47,10 +47,10 @@ private:
 class GCTeachSkillInfoFactory : public PacketFactory 
 {
 public:
-	Packet * createPacket () throw () { return new GCTeachSkillInfo(); }
-	std::string getPacketName () const throw () { return "GCTeachSkillInfo"; }
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_TEACH_SKILL_INFO; }
-	PacketSize_t getPacketMaxSize () const throw () { return szSkillDomainType+szSkillLevel; }
+	Packet * createPacket () { return new GCTeachSkillInfo(); }
+	std::string getPacketName () const { return "GCTeachSkillInfo"; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_TEACH_SKILL_INFO; }
+	PacketSize_t getPacketMaxSize () const { return szSkillDomainType+szSkillLevel; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -60,7 +60,7 @@ public:
 class GCTeachSkillInfoHandler 
 {
 public :
-	static void execute ( GCTeachSkillInfo * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCTeachSkillInfo * pPacket , Player * pPlayer );
 };
 
 #endif

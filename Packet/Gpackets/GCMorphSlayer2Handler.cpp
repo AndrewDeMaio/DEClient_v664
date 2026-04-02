@@ -14,7 +14,6 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCMorphSlayer2Handler::execute ( GCMorphSlayer2 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -22,7 +21,7 @@ void GCMorphSlayer2Handler::execute ( GCMorphSlayer2 * pPacket , Player * pPlaye
 
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -31,7 +30,7 @@ void GCMorphSlayer2Handler::execute ( GCMorphSlayer2 * pPacket , Player * pPlaye
 		
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -40,8 +39,8 @@ void GCMorphSlayer2Handler::execute ( GCMorphSlayer2 * pPacket , Player * pPlaye
 		MCreature* pCreature = g_pZone->GetCreature(si.getObjectID());
 
 		//--------------------------------------------------
-		// »õ·Î¿î CreatureÀÌ¸é Ãß°¡
-		// º¹ÀåÀÌ ÀÖ´Â CreatureÀÌ´Ù.
+		// ï¿½ï¿½ï¿½Î¿ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ß°ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Creatureï¿½Ì´ï¿½.
 		//--------------------------------------------------
 		if (pCreature==NULL)
 		{
@@ -62,24 +61,24 @@ void GCMorphSlayer2Handler::execute ( GCMorphSlayer2 * pPacket , Player * pPlaye
 			pCreatureWear->SetCurrentDirection( si.getDir() );
 			pCreatureWear->SetAction( ACTION_STAND );
 
-			// ÇÇºÎ»ö
+			// ï¿½ÇºÎ»ï¿½
 			pCreatureWear->SetBodyColor1( si.getSkinColor() );
 			
 			pCreatureWear->SetStatus( MODIFY_MAX_HP, si.getMaxHP() );
 			pCreatureWear->SetStatus( MODIFY_CURRENT_HP, si.getCurrentHP() );
 
-			// ÀÌ¸§
+			// ï¿½Ì¸ï¿½
 			pCreatureWear->SetName( si.getName().c_str() );
 
-			// »ö±ò Á¤º¸
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-			// º¹Àå Á¤º¸ --> ÀÏ´Ü ±âº» ¿ÊÀ» ÀÔ°í ÀÖ°Ô ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ --> ï¿½Ï´ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ ï¿½Ô°ï¿½ ï¿½Ö°ï¿½ ï¿½Ñ´ï¿½.
 			//----------------------------------------	
-			// º¹ÀåÀ» Âø¿ëÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//----------------------------------------	
 			SetAddonToSlayer( pCreatureWear, &si );
 
-			// ÀÓ½Ã·Î
+			// ï¿½Ó½Ã·ï¿½
 			pCreatureWear->SetGuildNumber( -1 );
 
 			
@@ -91,7 +90,7 @@ void GCMorphSlayer2Handler::execute ( GCMorphSlayer2 * pPacket , Player * pPlaye
 			}
 		}
 		//--------------------------------------------------
-		// ±âÁ¸¿¡ ÀÖ´ø CreatureÀÌ¸é Á¤º¸ º¯°æ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		else
 		{
@@ -104,7 +103,7 @@ void GCMorphSlayer2Handler::execute ( GCMorphSlayer2 * pPacket , Player * pPlaye
 				pCreatureWear->SetGroundCreature();
 				//pCreatureWear->SetID(si.getObjectID());
 
-				// ÀÓ½Ã·Î
+				// ï¿½Ó½Ã·ï¿½
 				pCreatureWear->SetGuildNumber( -1 );
 				
 				pCreatureWear->SetServerPosition( si.getX(), si.getY() );				
@@ -113,19 +112,19 @@ void GCMorphSlayer2Handler::execute ( GCMorphSlayer2 * pPacket , Player * pPlaye
 				//pCreatureWear->SetCurrentDirection( si.getDir() );
 				pCreatureWear->SetAction( ACTION_STAND );
 
-				// ÇÇºÎ»ö
+				// ï¿½ÇºÎ»ï¿½
 				pCreatureWear->SetBodyColor1( si.getSkinColor() );
 			
 				pCreatureWear->SetStatus( MODIFY_MAX_HP, si.getMaxHP() );
 				pCreatureWear->SetStatus( MODIFY_CURRENT_HP, si.getCurrentHP() );
 
-				// ÀÌ¸§
+				// ï¿½Ì¸ï¿½
 				pCreatureWear->SetName( si.getName().c_str() );
 
-				// »ö±ò Á¤º¸
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 				//----------------------------------------	
-				// º¹ÀåÀ» Âø¿ëÇÑ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 				//----------------------------------------	
 				SetAddonToSlayer( pCreatureWear, &si );
 			}

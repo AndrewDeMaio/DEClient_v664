@@ -25,7 +25,6 @@
 extern C_VS_UI		gC_vs_ui;
 
 void GCInstanceDoungeonLobbyHandler::execute ( GCInstanceDoungeonLobby * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -88,9 +87,9 @@ void GCInstanceDoungeonLobbyHandler::execute ( GCInstanceDoungeonLobby * pPacket
 			gC_vs_ui.RunIndounNpcDlg(Indoun_Npc_Dlg_Info, ENTRANCE_DLG);
 #endif // __TIPOJYU_CASTLE
 			//---------------------------------------------------
-			// g_PCTalkBox¿¡ Ãß°¡ÇÏ¸é µÈ´Ù.
+			// g_PCTalkBoxï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï¸ï¿½ ï¿½È´ï¿½.
 			//---------------------------------------------------
-			// ±âÁ¸¿¡ ÀÖ´ø°Í Á¦°Å
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			g_pPCTalkBox->Release();
 
 			DEBUG_ADD("TalkBoxRel");

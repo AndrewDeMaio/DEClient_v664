@@ -17,9 +17,9 @@
 //
 // class CGConnect;
 //
-// Å¬¶óÀÌ¾ðÆ®°¡ ¼­¹ö¿¡°Ô º¸³»´Â ¿¬°á ÆÐÅ¶ÀÌ´Ù.
-// ¼­¹ö°£ ÀÌµ¿¿¡ »ç¿ëµÇ¸ç, ÀÌÀü ¼­¹ö°¡ ÁØ Key ¸¦ »õ ¼­¹ö¿¡°Ô Àü¼ÛÇØ¼­
-// ÀÎÁõÀ» ¹Þ´Â´Ù. ¶ÇÇÑ, »õ ¼­¹ö¿¡¼­ »ç¿ëÇÒ Å©¸®Ã³ ¾ÆÀÌµð¸¦ ´ã°í ÀÖ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¸ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Key ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´Â´ï¿½. ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½Ã³ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -27,20 +27,20 @@ class CGConnect : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CG_CONNECT; }
+	PacketID_t getPacketID () const { return PACKET_CG_CONNECT; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () 
+	size_t getPacketSize () const
 	{ 
 		return szDWORD 						// authentication key
 			+ szPCType 						// Slayer or Vampire?
@@ -50,29 +50,29 @@ public :
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGConnect"; }
+		std::string getPacketName () const { return "CGConnect"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 public :
 
 	// get/set key
-	DWORD getKey () const throw () { return m_Key; }
-	void setKey ( DWORD key ) throw () { m_Key = key; }
+	DWORD getKey () const { return m_Key; }
+	void setKey ( DWORD key ) { m_Key = key; }
 
 	// get/set PCType
-	PCType getPCType () const throw () { return m_PCType; }
-	void setPCType ( PCType pcType ) throw () { m_PCType = pcType; }
+	PCType getPCType () const { return m_PCType; }
+	void setPCType ( PCType pcType ) { m_PCType = pcType; }
 	
 	// get/set pc name
-	const std::string& getPCName () const throw () { return m_PCName; }
-	void setPCName ( std::string pcName ) throw () { m_PCName = pcName; }
+	const std::string& getPCName () const { return m_PCName; }
+	void setPCName ( std::string pcName ) { m_PCName = pcName; }
 
 	// get/set mac address
-	const BYTE* getMacAddress() const throw () { return m_MacAddress; }
-	void setMacAddress( const BYTE* macAddress ) throw () { memcpy( m_MacAddress, macAddress, 6 * sizeof(BYTE) ); }
+	const BYTE* getMacAddress() const { return m_MacAddress; }
+	void setMacAddress( const BYTE* macAddress ) { memcpy( m_MacAddress, macAddress, 6 * sizeof(BYTE) ); }
 
 private :
 	
@@ -82,7 +82,7 @@ private :
 	// Slayer or Vampire?
 	PCType m_PCType;
 
-	// PCÀÇ ÀÌ¸§
+	// PCï¿½ï¿½ ï¿½Ì¸ï¿½
 	std::string m_PCName;
 
 	// Mac address
@@ -104,18 +104,18 @@ class CGConnectFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CGConnect(); }
+	Packet * createPacket () { return new CGConnect(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGConnect"; }
+		std::string getPacketName () const { return "CGConnect"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_CONNECT; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_CONNECT; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize () const throw ()
+	PacketSize_t getPacketMaxSize () const
 	{ 
 		return szDWORD 			// authentication key
 			+ szPCType 			// Slayer or Vampire
@@ -138,7 +138,7 @@ public :
 	public :
 
 		// execute packet's handler
-		static void execute ( CGConnect * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+		static void execute ( CGConnect * pPacket , Player * pPlayer );
 
 	};
 #endif

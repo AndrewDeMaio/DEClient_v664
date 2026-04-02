@@ -27,7 +27,6 @@
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 void CGSelectAllSupplyItemHandler::execute(CGSelectAllSupplyItem* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 	__BEGIN_TRY//__BEGIN_DEBUG_EX
 
@@ -81,29 +80,29 @@ void CGSelectAllSupplyItemHandler::execute(CGSelectAllSupplyItem* pPacket , Play
 	
 		(pZone->getObjectRegistry()).registerObject(pItem);
 			
-		// ÀÎº¥Åä¸®ÀÇ ºó °÷À» Ã£´Â´Ù.
+		// ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½Â´ï¿½.
 		_TPOINT p;
 		if (pInventory->getEmptySlot(pItem, p))
 		{
-			// ÀÎº¥Åä¸®¿¡ Ãß°¡ÇÑ´Ù.
+			// ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 			pInventory->addItem(p.x, p.y, pItem);
 			pItem->create(pCreature->getName(), STORAGE_INVENTORY, 0, p.x, p.y);
 	
-			// ItemTrace ¿¡ Log ¸¦ ³²±ä´Ù
+			// ItemTrace ï¿½ï¿½ Log ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 			if ( pItem != NULL )
 			{
 				remainTraceLog( pItem, "SupplyItem", pCreature->getName(), ITEM_LOG_CREATE, DETAIL_EVENTNPC);
 				remainTraceLogNew( pItem, pCreature->getName(), ITL_GET, ITLD_EVENTNPC, pZone->getZoneID() );
 			}
 	
-			// ÀÎº¥Åä¸®¿¡ ¾ÆÀÌÅÛ »ý¼º ÆÐÅ¶À» º¸³»ÁØ´Ù.
+			// ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 			GCCreateItem gcCreateItem;
 			makeGCCreateItem( &gcCreateItem, pItem, p.x, p.y );
 			pGamePlayer->sendPacket(&gcCreateItem);
 		}
 		else
 		{
-			// ÀÎº¥Åä¸®¿¡ ºóÀÚ¸®°¡ ¾øÀ½
+			// ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			
 			StringStream buf;
 

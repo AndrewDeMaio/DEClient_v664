@@ -19,7 +19,6 @@
 // constructor
 //////////////////////////////////////////////////////////////////////
 FriendSimpleInfo::FriendSimpleInfo () 
-     throw ()
 {
 	__BEGIN_TRY
 	
@@ -34,7 +33,6 @@ FriendSimpleInfo::FriendSimpleInfo ()
 // destructor
 //////////////////////////////////////////////////////////////////////
 FriendSimpleInfo::~FriendSimpleInfo () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -42,10 +40,9 @@ FriendSimpleInfo::~FriendSimpleInfo ()
 
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void FriendSimpleInfo::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -58,10 +55,10 @@ void FriendSimpleInfo::read ( SocketInputStream & iStream )
 }
 
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void FriendSimpleInfo::write ( SocketOutputStream & oStream ) 
-     const throw ( ProtocolException , Error )
+     const
 {
 	__BEGIN_TRY
 		
@@ -78,7 +75,6 @@ void FriendSimpleInfo::write ( SocketOutputStream & oStream )
 // getSize
 //--------------------------------------------------------------------
 PacketSize_t FriendSimpleInfo::getSize() const
-	throw()
 {
 	__BEGIN_TRY
 
@@ -95,7 +91,7 @@ PacketSize_t FriendSimpleInfo::getSize() const
 	__END_CATCH
 }
 
-uint FriendSimpleInfo::getMaxSize() throw() 
+uint FriendSimpleInfo::getMaxSize() 
 {
 	PacketSize_t PacketSize;
 	
@@ -114,7 +110,7 @@ uint FriendSimpleInfo::getMaxSize() throw()
 //
 //////////////////////////////////////////////////////////////////////
 string FriendSimpleInfo::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 

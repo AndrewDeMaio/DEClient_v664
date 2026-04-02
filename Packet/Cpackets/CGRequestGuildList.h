@@ -30,36 +30,36 @@ class CGRequestGuildList : public Packet
 public:
 	enum
 	{
-		GUILDTYPE_WAIT,             		// µî·Ï´ë±âÁß ±æµå.
-		GUILDTYPE_NORMAL,                   // µî·ÏµÈ ±æµå(ÀÏ¹Ý±æµå).
+		GUILDTYPE_WAIT,             		// ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
+		GUILDTYPE_NORMAL,                   // ï¿½ï¿½Ïµï¿½ ï¿½ï¿½ï¿½(ï¿½Ï¹Ý±ï¿½ï¿½).
 		GUILDTYPE_MAX
 	};
 
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_CG_REQUEST_GUILD_LIST; }
+	PacketID_t getPacketID() const { return PACKET_CG_REQUEST_GUILD_LIST; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return sizeof(GuildType_t); }
+	size_t getPacketSize() const { return sizeof(GuildType_t); }
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	string getPacketName() const throw() { return "CGRequestGuildList"; }
+	string getPacketName() const { return "CGRequestGuildList"; }
 
 	// get packet's debug string
-	string toString() const throw();
+	string toString() const;
 #endif
 	// get/set GuildType
-	GuildType_t	getGuildType()	const throw() {	return m_GuildType; }
-	void		setGuildType( GuildType_t GuildType )	throw()	{ m_GuildType = GuildType; }
+	GuildType_t	getGuildType()	const {	return m_GuildType; }
+	void		setGuildType( GuildType_t GuildType )	{ m_GuildType = GuildType; }
 	
 	GuildType_t	m_GuildType;
 	
@@ -80,25 +80,25 @@ class CGRequestGuildListFactory : public PacketFactory {
 public:
 	
 	// constructor
-	CGRequestGuildListFactory() throw() {}
+	CGRequestGuildListFactory() {}
 	
 	// destructor
-	virtual ~CGRequestGuildListFactory() throw() {}
+	virtual ~CGRequestGuildListFactory() {}
 
 	
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new CGRequestGuildList(); }
+	Packet* createPacket() { return new CGRequestGuildList(); }
 
 	// get packet name
-	string getPacketName() const throw() { return "CGRequestGuildList"; }
+	string getPacketName() const { return "CGRequestGuildList"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_REQUEST_GUILD_LIST; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_REQUEST_GUILD_LIST; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize() const throw() { return sizeof(GuildType_t); }
+	PacketSize_t getPacketMaxSize() const { return sizeof(GuildType_t); }
 };
 
 
@@ -113,7 +113,7 @@ class CGRequestGuildListHandler {
 public:
 
 	// execute packet's handler
-	static void execute(CGRequestGuildList* pCGRequestGuildList, Player* pPlayer) throw(Error);
+	static void execute(CGRequestGuildList* pCGRequestGuildList, Player* pPlayer);
 
 };
 #endif

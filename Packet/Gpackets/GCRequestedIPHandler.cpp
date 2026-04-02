@@ -20,7 +20,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCRequestedIPHandler::execute ( GCRequestedIP * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 	
@@ -40,7 +39,7 @@ void GCRequestedIPHandler::execute ( GCRequestedIP * pPacket , Player * pPlayer 
 
 		const char* pIP = inet_ntoa( sa );
 
-		// Á¤º¸ Ãß°¡
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 		g_pRequestUserManager->AddRequestUser( pName, pIP, pPacket->getPort() );	
 
 
@@ -49,7 +48,7 @@ void GCRequestedIPHandler::execute ( GCRequestedIP * pPacket , Player * pPlayer 
 			//--------------------------------------------------------
 			// REQUESTING_FOR_WHISPER
 			//--------------------------------------------------------
-			// ±Ó¼Ó¸»À» º¸³»±â À§ÇØ IP¸¦ ¿äÃ»ÇÑ °æ¿ì
+			// ï¿½Ó¼Ó¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ IPï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½
 			//--------------------------------------------------------
 			case RequestUserManager::REQUESTING_FOR_WHISPER :
 				if (g_pWhisperManager->HasWhisperMessage( pName ))
@@ -63,7 +62,7 @@ void GCRequestedIPHandler::execute ( GCRequestedIP * pPacket , Player * pPlayer 
 			//--------------------------------------------------------
 			// REQUESTING_FOR_PROFILE
 			//--------------------------------------------------------
-			// ProfileÀ» ¹Þ±â À§ÇØ IP¸¦ ¿äÃ»ÇÑ °æ¿ì
+			// Profileï¿½ï¿½ ï¿½Þ±ï¿½ ï¿½ï¿½ï¿½ï¿½ IPï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½
 			//--------------------------------------------------------
 			case RequestUserManager::REQUESTING_FOR_PROFILE :
 				g_pRequestClientPlayerManager->Connect( pIP, 
@@ -73,12 +72,12 @@ void GCRequestedIPHandler::execute ( GCRequestedIP * pPacket , Player * pPlayer 
 		}
 
 
-		// ¿äÃ»ÁßÀÎ°Å ÇØÁ¦
+		// ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ï¿½
 		g_pRequestUserManager->RemoveRequestingUser( pName );	
 	}
 
 	//---------------------------------------------------------------
-	// ÀÏ´ÜÀº.. ÆÄÆ¼¸¦ À§ÇÑ IPÀÌ¹Ç·Î.. ÆÄÆ¼¿ø¸¸ Ã¼Å©¸¦ ÇØº»´Ù.	
+	// ï¿½Ï´ï¿½ï¿½ï¿½.. ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ IPï¿½Ì¹Ç·ï¿½.. ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½ï¿½ ï¿½Øºï¿½ï¿½ï¿½.	
 	//---------------------------------------------------------------
 	/*
 	int num = g_pParty->GetSize();
@@ -89,13 +88,13 @@ void GCRequestedIPHandler::execute ( GCRequestedIP * pPacket , Player * pPlayer 
 
 		if (pInfo!=NULL)
 		{
-			// °°Àº ÀÌ¸§ÀÌ¶ó¸é..
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½Ì¶ï¿½ï¿½..
 			if (pInfo->Name==pPacket->getName().c_str())				
 			{
-				// ÀÏ´Ü IP ÀúÀå
+				// ï¿½Ï´ï¿½ IP ï¿½ï¿½ï¿½ï¿½
 				pInfo->IP = pPacket->getIP().c_str();
 
-				// Á¢¼ÓÀÌ ¾ø´Ù¸é Á¢¼Ó½Ãµµ¸¦ ÇÑ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½Ó½Ãµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 				if (!g_pRequestClientPlayerManager->HasConnection( pInfo->Name.GetString() ))
 				{
 					RequestConnect( pInfo->IP.c_str(), pInfo->Name.GetString() );

@@ -8,7 +8,6 @@
 
 
 void CGSelectBloodBible::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -18,7 +17,6 @@ void CGSelectBloodBible::read (SocketInputStream & iStream)
 }
 
 void CGSelectBloodBible::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -28,7 +26,6 @@ void CGSelectBloodBible::write (SocketOutputStream & oStream) const
 }
 
 void CGSelectBloodBible::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__		
@@ -38,7 +35,6 @@ void CGSelectBloodBible::execute (Player* pPlayer)
 }
 #ifdef __DEBUG_OUTPUT__
 std::string CGSelectBloodBible::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

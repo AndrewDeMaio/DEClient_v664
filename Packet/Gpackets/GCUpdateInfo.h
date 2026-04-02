@@ -27,16 +27,16 @@
 #include "InstanceDoungeonInfo.h"
 
 
-#define FLAG_PREMIUM_ZONE			0x10	// premiumÀ¸·Î ¼³Á¤µÈ Á¸ÀÌ´Ù.
-#define FLAG_PREMIUM_PLAY			0x01	// premium play¸¦ ÇÏ´Â ÁßÀÎ°¡?
+#define FLAG_PREMIUM_ZONE			0x10	// premiumï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
+#define FLAG_PREMIUM_PLAY			0x01	// premium playï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Î°ï¿½?
 
 //--------------------------------------------------------------------------------
 //
 // class GCUpdateInfo;
 //
-// Å¬¶óÀÌ¾ðÆ®°¡ °ÔÀÓ ¼­¹ö¿¡ Á¢¼ÓÇØ¼­ CGConnect ÆÐÅ¶À» º¸³»¸é, °ÔÀÓ ¼­¹ö´Â Å©¸®Ã³¿Í
-// ¼ÒÀ¯ ¾ÆÀÌÅÛÀ» ·ÎµùÇØ¼­ Á¸¿¡ µé¾î°¥ ÁØºñ¸¦ ÇÏ°Ô µÈ´Ù. ±×´ÙÀ½ PC¿Í ¾ÆÀÌÅÛ Á¤º¸,
-// ±×¸®°í Á¸ Á¤º¸¸¦ GCUpdateInfo¿¡ ´ã¾Æ¼­ Å¬¶óÀÌ¾ðÆ®·Î Àü¼ÛÇÏ°Ô µÈ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ CGConnect ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½Ã³ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¥ ï¿½Øºï¿½ ï¿½Ï°ï¿½ ï¿½È´ï¿½. ï¿½×´ï¿½ï¿½ï¿½ PCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½,
+// ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ GCUpdateInfoï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½È´ï¿½.
 //
 //--------------------------------------------------------------------------------
 
@@ -45,25 +45,25 @@ class GCUpdateInfo : public Packet {
 public :
 
 	// constructor
-	GCUpdateInfo() throw();
+	GCUpdateInfo();
 
 	// destructor
-	~GCUpdateInfo() throw();
+	~GCUpdateInfo();
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_UPDATE_INFO; }
+	PacketID_t getPacketID() const { return PACKET_GC_UPDATE_INFO; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() 
+	size_t getPacketSize() const 
 	{ 
 		// [PCType][PCInfo]
 		// [GameTime][Weather][WeatherLevel][DarkLevel][LightLevel]
@@ -105,28 +105,28 @@ public :
 			NPCInfo* pInfo = *itr;
 			size += pInfo->getSize();
 		}
-		// ¼­¹ö »óÅÂ
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		size += szBYTE;
-		// ÇÁ¸®¹Ì¾ö
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½
 		size += szBYTE;
 			// SMS
 		size += szDWORD;
-		// ´Ð³×ÀÓ
+		// ï¿½Ð³ï¿½ï¿½ï¿½
 		size += m_pNicknameInfo->getSize();
 
-		size += szBYTE; // non pk °ü·Ã
+		size += szBYTE; // non pk ï¿½ï¿½ï¿½ï¿½
 		
 		// GuildUnion
 		size += sizeof(uint);
 		size += szBYTE;
 
-		// blood bible °ü·Ã
+		// blood bible ï¿½ï¿½ï¿½ï¿½
 		size += m_pBloodBibleSign->getSize();
 
 		// power jjang point
 		size += sizeof(uint);
 
-#if __CONTENTS(__TIPOJYU_CASTLE) // GCUpdateInfoFactory	ÆÐÅ¶ ÆÄÀÏ ¾²±â		
+#if __CONTENTS(__TIPOJYU_CASTLE) // GCUpdateInfoFactory	ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½		
 		size += m_pInstanceDoungeonInfo->getSize();
 #endif // __TIPOJYU_CASTLE
 
@@ -135,10 +135,10 @@ public :
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	std::string getPacketName() const throw() { return "GCUpdateInfo"; }
+	std::string getPacketName() const { return "GCUpdateInfo"; }
 	
 	// get packet's debug std::string
-	std::string toString() const throw();
+	std::string toString() const;
 #endif
 
 
@@ -148,102 +148,102 @@ public :
 public :
 
 	// get/set PC info
-	PCInfo* getPCInfo() const throw() { return m_pPCInfo; }
-	void setPCInfo(PCInfo* pPCInfo) throw(Error) { m_pPCInfo = pPCInfo; }
+	PCInfo* getPCInfo() const { return m_pPCInfo; }
+	void setPCInfo(PCInfo* pPCInfo) { m_pPCInfo = pPCInfo; }
 
 	// get/set Inventory Info
-	InventoryInfo* getInventoryInfo() const throw() { return m_pInventoryInfo; }
-	void setInventoryInfo(InventoryInfo* pInventoryInfo) throw(Error) { m_pInventoryInfo = pInventoryInfo; }
+	InventoryInfo* getInventoryInfo() const { return m_pInventoryInfo; }
+	void setInventoryInfo(InventoryInfo* pInventoryInfo) { m_pInventoryInfo = pInventoryInfo; }
 
 	// get/set Gear Info
-	GearInfo* getGearInfo() const throw() { return m_pGearInfo; }
-	void setGearInfo(GearInfo* pGearInfo) throw(Error) { m_pGearInfo = pGearInfo; }
+	GearInfo* getGearInfo() const { return m_pGearInfo; }
+	void setGearInfo(GearInfo* pGearInfo) { m_pGearInfo = pGearInfo; }
 
 	// get/set ExtraInfo
-	ExtraInfo* getExtraInfo() const throw() { return m_pExtraInfo; }
-	void setExtraInfo(ExtraInfo* pExtraInfo) throw(Error) { m_pExtraInfo = pExtraInfo; }
+	ExtraInfo* getExtraInfo() const { return m_pExtraInfo; }
+	void setExtraInfo(ExtraInfo* pExtraInfo) { m_pExtraInfo = pExtraInfo; }
 
 	// get/set EffectInfo
-	EffectInfo* getEffectInfo() const throw() { return m_pEffectInfo; }
-	void setEffectInfo(EffectInfo* pEffectInfo) throw(Error) { m_pEffectInfo = pEffectInfo; }
+	EffectInfo* getEffectInfo() const { return m_pEffectInfo; }
+	void setEffectInfo(EffectInfo* pEffectInfo) { m_pEffectInfo = pEffectInfo; }
 
 	// get/set hasMotorcycle
-	bool hasMotorcycle() const throw() { return m_hasMotorcycle; }
+	bool hasMotorcycle() const { return m_hasMotorcycle; }
 
 	// get/set RideMotorcycleInfo
-	RideMotorcycleInfo* getRideMotorcycleInfo() const throw() { return m_pRideMotorcycleInfo; }
-	void setRideMotorcycleInfo(RideMotorcycleInfo* pRideMotorcycleInfo) throw() {
+	RideMotorcycleInfo* getRideMotorcycleInfo() const { return m_pRideMotorcycleInfo; }
+	void setRideMotorcycleInfo(RideMotorcycleInfo* pRideMotorcycleInfo) {
 		m_pRideMotorcycleInfo = pRideMotorcycleInfo;
 		m_hasMotorcycle = true; }
 
-#if __CONTENTS(__TIPOJYU_CASTLE) // GCUpdateInfoFactory	ÆÐÅ¶ ÆÄÀÏ ¾²±â
-	InstanceDoungeonInfo* getInstanceDoungeonInfo() const throw() { return m_pInstanceDoungeonInfo; }
-	void SetInstanceDoungeonInfo(InstanceDoungeonInfo* pInstanceDoungeonInfo) throw(Error) { m_pInstanceDoungeonInfo = pInstanceDoungeonInfo; }
+#if __CONTENTS(__TIPOJYU_CASTLE) // GCUpdateInfoFactory	ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	InstanceDoungeonInfo* getInstanceDoungeonInfo() const { return m_pInstanceDoungeonInfo; }
+	void SetInstanceDoungeonInfo(InstanceDoungeonInfo* pInstanceDoungeonInfo) { m_pInstanceDoungeonInfo = pInstanceDoungeonInfo; }
 #endif // __TIPOJYU_CASTLE
 
 	// get/set ZoneID
-	ZoneID_t getZoneID() const throw() { return m_ZoneID; }
-	void setZoneID(const ZoneID_t & zoneID) throw() { m_ZoneID = zoneID; }
+	ZoneID_t getZoneID() const { return m_ZoneID; }
+	void setZoneID(const ZoneID_t & zoneID) { m_ZoneID = zoneID; }
 
 	// get / set ZoneX
-	Coord_t getZoneX() const throw() { return m_ZoneX; }
+	Coord_t getZoneX() const { return m_ZoneX; }
 	void setZoneX(Coord_t ZoneX) { m_ZoneX = ZoneX; }
 
 	// get / set ZoneY
-	Coord_t getZoneY() const throw() { return m_ZoneY; }
+	Coord_t getZoneY() const { return m_ZoneY; }
 	void setZoneY(Coord_t ZoneY) { m_ZoneY = ZoneY; }
 
 	// get/set GameTime
-	GameTime getGameTime() const throw() { return m_GameTime; }
-	void setGameTime(const GameTime & gameTime) throw() { m_GameTime = gameTime; }
+	GameTime getGameTime() const { return m_GameTime; }
+	void setGameTime(const GameTime & gameTime) { m_GameTime = gameTime; }
 
 	// get/set weather
-	Weather getWeather() const throw() { return m_Weather; }
-	void setWeather(Weather weather) throw() { m_Weather = weather; }
+	Weather getWeather() const { return m_Weather; }
+	void setWeather(Weather weather) { m_Weather = weather; }
 
 	// get/set weather level
-	WeatherLevel_t getWeatherLevel() const throw() { return m_WeatherLevel; }
-	void setWeatherLevel(WeatherLevel_t weatherLevel) throw() { m_WeatherLevel = weatherLevel; }
+	WeatherLevel_t getWeatherLevel() const { return m_WeatherLevel; }
+	void setWeatherLevel(WeatherLevel_t weatherLevel) { m_WeatherLevel = weatherLevel; }
 
 	// get/set darklevel
-	DarkLevel_t getDarkLevel() const throw() { return m_DarkLevel; }
-	void setDarkLevel(DarkLevel_t darkLevel) throw() { m_DarkLevel = darkLevel; }
+	DarkLevel_t getDarkLevel() const { return m_DarkLevel; }
+	void setDarkLevel(DarkLevel_t darkLevel) { m_DarkLevel = darkLevel; }
 
 	// get/set lightlevel
-	LightLevel_t getLightLevel() const throw() { return m_LightLevel; }
-	void setLightLevel(LightLevel_t lightLevel) throw() { m_LightLevel = lightLevel; }
+	LightLevel_t getLightLevel() const { return m_LightLevel; }
+	void setLightLevel(LightLevel_t lightLevel) { m_LightLevel = lightLevel; }
 
 	// get/set # of NPC
-	uint getNPCCount() const throw() { return m_nNPCs; }
-	void setNPCCount(uint n) throw(Error) { Assert(n <= maxNPCPerZone); m_nNPCs = n; }
+	uint getNPCCount() const { return m_nNPCs; }
+	void setNPCCount(uint n) { Assert(n <= maxNPCPerZone); m_nNPCs = n; }
 
 	// get/set NPC type
-	NPCType_t getNPCType(uint n) const throw() { Assert(n < maxNPCPerZone); return m_NPCTypes[n]; }
-	void setNPCType(uint n, NPCType_t npcType) throw() { Assert(n < maxNPCPerZone); m_NPCTypes[n] = npcType; }
+	NPCType_t getNPCType(uint n) const { Assert(n < maxNPCPerZone); return m_NPCTypes[n]; }
+	void setNPCType(uint n, NPCType_t npcType) { Assert(n < maxNPCPerZone); m_NPCTypes[n] = npcType; }
 
 	// get/set # of monster
-	uint getMonsterCount() const throw() { return m_nMonsters; }
-	void setMonsterCount(uint n) throw(Error) { Assert(n <= maxMonsterPerZone); m_nMonsters = n; }
+	uint getMonsterCount() const { return m_nMonsters; }
+	void setMonsterCount(uint n) { Assert(n <= maxMonsterPerZone); m_nMonsters = n; }
 
 	// get/set Monster type
-	MonsterType_t getMonsterType(uint n) const throw() { Assert(n < maxMonsterPerZone); return m_MonsterTypes[n]; }
-	void setMonsterType(uint n, MonsterType_t npcType) throw() { Assert(n < maxMonsterPerZone); m_MonsterTypes[n] = npcType; }
+	MonsterType_t getMonsterType(uint n) const { Assert(n < maxMonsterPerZone); return m_MonsterTypes[n]; }
+	void setMonsterType(uint n, MonsterType_t npcType) { Assert(n < maxMonsterPerZone); m_MonsterTypes[n] = npcType; }
 
 	// get/set npc info
 	void addNPCInfo(NPCInfo* pInfo) { m_NPCInfos.push_back(pInfo);}
 	NPCInfo* popNPCInfo(void) { if (m_NPCInfos.empty()) return NULL; NPCInfo* pInfo = m_NPCInfos.front(); m_NPCInfos.pop_front(); return pInfo; }
 
 	// get/set ServerStat
-	void setServerStat( BYTE ServerStat ) throw() { m_ServerStat = ServerStat; }
-	BYTE getServerStat() const throw() { return m_ServerStat; }
+	void setServerStat( BYTE ServerStat ) { m_ServerStat = ServerStat; }
+	BYTE getServerStat() const { return m_ServerStat; }
 
-	// premium play °ü·Ã
+	// premium play ï¿½ï¿½ï¿½ï¿½
 	BYTE isPremiumZone() const { return m_fPremium & FLAG_PREMIUM_ZONE; }
 	BYTE isPremiumPlay() const { return m_fPremium & FLAG_PREMIUM_PLAY; }
 
 	DWORD GetSMSCharge() const {return m_SMS_Charge;}
 
-	NicknameInfo* getNicknameInfo() const throw() { return m_pNicknameInfo; }
+	NicknameInfo* getNicknameInfo() const { return m_pNicknameInfo; }
 
     BYTE    isNonPK() const { return m_NonPK; }
 
@@ -265,7 +265,7 @@ private :
 	//--------------------------------------------------------------------------------
 	// PC Information
 	//--------------------------------------------------------------------------------
-	// PCSlayerInfo2 ¶Ç´Â PCVampireInfo2 ¸¦ »ç¿ëÇÑ´Ù.
+	// PCSlayerInfo2 ï¿½Ç´ï¿½ PCVampireInfo2 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	PCInfo* m_pPCInfo;
 
 	//--------------------------------------------------------------------------------
@@ -279,7 +279,7 @@ private :
 	GearInfo* m_pGearInfo;
 
 
-#if __CONTENTS(__TIPOJYU_CASTLE) // GCUpdateInfoFactory		InstanceDoungeonInfo ¼±¾ð
+#if __CONTENTS(__TIPOJYU_CASTLE) // GCUpdateInfoFactory		InstanceDoungeonInfo ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------------------------------------
 	// InstanceDoungeon Information
 	//--------------------------------------------------------------------------------
@@ -298,7 +298,7 @@ private :
 	EffectInfo* m_pEffectInfo;
 
 	//--------------------------------------------------------------------------------
-	// ¸ðÅä»çÀÌÅ¬ÀÌ ÀÖ³ª ¾ø³ª.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¬ï¿½ï¿½ ï¿½Ö³ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	//--------------------------------------------------------------------------------
 	bool m_hasMotorcycle;
 
@@ -311,25 +311,25 @@ private :
 	// quick item slot
 	// gear
 
-	// Àú³Î(PDA)
-	// ¼öÇà Äù½ºÆ® Á¤º¸
-	// °øÁö»çÇ×, ÀÌº¥Æ® Á¤º¸
-	// ÈåÈì.. ¾êµéÀº Ã³À½ PDS¸¦ ÄÓ ¶§ ´Ù¿î¹ÞÀ»±î³ª.. - -;
+	// ï¿½ï¿½ï¿½ï¿½(PDA)
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ PDSï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½ï¿½ï¿½î³ª.. - -;
 
 	//--------------------------------------------------------------------------------
 	// Zone Information
 	//--------------------------------------------------------------------------------
-	// Á¸ ¾ÆÀÌµð
+	// ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½
 	ZoneID_t m_ZoneID;	
 
-	// ³ªÅ¸³¯ ÁÂÇ¥ÀÇ ´ë°­ÀÇ À§Ä¡
+	// ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ë°­ï¿½ï¿½ ï¿½ï¿½Ä¡
 	Coord_t m_ZoneX;
 	Coord_t m_ZoneY;
 
 	// Game Time
 	GameTime m_GameTime;
 	
-	// Weather(³¯¾¾ Á¤º¸)
+	// Weather(ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 	Weather m_Weather;
 	WeatherLevel_t m_WeatherLevel;
 
@@ -337,21 +337,21 @@ private :
 	DarkLevel_t m_DarkLevel;
 	LightLevel_t m_LightLevel;
 
-	// Á¸¿¡ ÃâÇöÇÏ´Â NPC ½ºÇÁ¶óÀÌÆ® Å¸ÀÔÀÇ °³¼ö, ½ºÇÁ¶óÀÌÆ® Å¸ÀÔ ¹è¿­
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ NPC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Å¸ï¿½ï¿½ ï¿½è¿­
 	BYTE m_nNPCs;
 	NPCType_t m_NPCTypes[ maxNPCPerZone ];
 
-	// Á¸¿¡ ÃâÇöÇÏ´Â ¸ó½ºÅÍ ½ºÇÁ¶óÀÌÆ® Å¸ÀÔÀÇ °³¼ö, ½ºÇÁ¶óÀÌÆ® Å¸ÀÔ ¹è¿­
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® Å¸ï¿½ï¿½ ï¿½è¿­
 	BYTE m_nMonsters;
 	MonsterType_t m_MonsterTypes[ maxMonsterPerZone ];
 
-	// ÇöÀç Á¸¿¡ Á¸ÀçÇÏ´Â NPCµé¿¡ ´ëÇÑ Á¤º¸
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ NPCï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	std::list<NPCInfo*> m_NPCInfos;
 
-	// ¼­¹ö »óÅÂ
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	BYTE m_ServerStat;
 
-	// ÇÁ¸®¹Ì¾ö °ü·Ã
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½
 	BYTE m_fPremium;
 	
 	DWORD m_SMS_Charge;
@@ -359,7 +359,7 @@ private :
 	NicknameInfo*	m_pNicknameInfo;
 
 	BYTE    m_NonPK;
-	// ¿¬ÇÕ±æµå Á¤º¸
+	// ï¿½ï¿½ï¿½Õ±ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	uint	m_GuildUnionID;
 	BYTE	m_GuildUnionUserType;
 
@@ -381,18 +381,18 @@ class GCUpdateInfoFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet* createPacket() throw() { return new GCUpdateInfo(); }
+	Packet* createPacket() { return new GCUpdateInfo(); }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "GCUpdateInfo"; }
+	std::string getPacketName() const { return "GCUpdateInfo"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_UPDATE_INFO; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_UPDATE_INFO; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCUpdateInfoPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() 
+	// const static GCUpdateInfoPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		PacketSize_t size = 0;
 
@@ -419,27 +419,27 @@ public :
 
 		size += szBYTE;
 		size += NPCInfo::getMaxSize()* 255;
-		// ¼­¹ö »óÅÂ
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		size += szBYTE;
-		// ÇÁ¸®¹Ì¾ö
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½
 		size += szBYTE;
 
 		size += szDWORD;
 		size += NicknameInfo::getMaxSize();
 
-		size += szBYTE; // non pk °ü·Ã
+		size += szBYTE; // non pk ï¿½ï¿½ï¿½ï¿½
 
 		// GuildUnion
 		size += sizeof(uint);
 		size += szBYTE;
 
-		// blood bible °ü·Ã
+		// blood bible ï¿½ï¿½ï¿½ï¿½
 		size += BloodBibleSignInfo::getMaxSize();
 
 		// power jjang point
 		size += sizeof(uint);
 
-#if __CONTENTS(__TIPOJYU_CASTLE) // GCUpdateInfoFactory		InstanceDoungeonInfo ÆÐÅ¶ »çÀÌÁî Ãß°¡		¼­¹ö¿¡¼­ ¾ÆÁ÷ ÁØºñ ¾ÈµÊ
+#if __CONTENTS(__TIPOJYU_CASTLE) // GCUpdateInfoFactory		InstanceDoungeonInfo ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½		ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½ ï¿½Èµï¿½
 		size += InstanceDoungeonInfo::getMaxSize();
 #endif // __TIPOJYU_CASTLE
 		return size;
@@ -460,7 +460,7 @@ class GCUpdateInfoHandler {
 public :
 
 	// execute packet's handler
-	static void execute(GCUpdateInfo* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCUpdateInfo* pPacket, Player* pPlayer);
 
 };
 

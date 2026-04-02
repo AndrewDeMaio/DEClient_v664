@@ -40,23 +40,23 @@ extern HWND g_hWnd;
 // help string
 //
 /*static S_DEFAULT_HELP_STRING	g_help_string[9] = {
-	{"Inventory", "(¾ÆÀÌÅÛÃ¢)", "TAB"},
-	{"PartyManager", "(ÆÄÆ¼Ã¢)", "Ctrl+P"},
-	{"Character Info", "(Ä³¸¯ÅÍ Á¤º¸)", "Ctrl+I"},
-	{"Skill Info", "(±â¼ú Á¤º¸)", "Ctrl+K"},
-	{"Help", "(µµ¿ò¸»)", "Ctrl+H"},
-	{"Gear", "(ÀåÂøÃ¢)", "Ctrl+TAB"},
-	{"Game Menu", "(°ÔÀÓ ¸Þ´º)", "ESC"},
-	{"Mini-Map", "(¹Ì´Ï¸Ê)", "Ctrl+M"},
-	{"Mark", "(Æ¯¼ö¹®ÀÚ)", "Ctrl+X"},
+	{"Inventory", "(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¢)", "TAB"},
+	{"PartyManager", "(ï¿½ï¿½Æ¼Ã¢)", "Ctrl+P"},
+	{"Character Info", "(Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)", "Ctrl+I"},
+	{"Skill Info", "(ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)", "Ctrl+K"},
+	{"Help", "(ï¿½ï¿½ï¿½ï¿½)", "Ctrl+H"},
+	{"Gear", "(ï¿½ï¿½ï¿½ï¿½Ã¢)", "Ctrl+TAB"},
+	{"Game Menu", "(ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´ï¿½)", "ESC"},
+	{"Mini-Map", "(ï¿½Ì´Ï¸ï¿½)", "Ctrl+M"},
+	{"Mark", "(Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)", "Ctrl+X"},
 };
 
 static S_DEFAULT_HELP_STRING	g_chat_help_string[5] = {
-	{"Extend Window", "(Ã¤ÆÃÃ¢ È®Àå)", "Ctrl+E"},
-	{"Chat", "(ÀÏ¹Ý Ã¤ÆÃ)", "Ctrl+C"},
-	{"Guild/Party Chat", "(±æµå/ÆÄÆ¼ Ã¤ÆÃ)", "Ctrl+G"},
-	{"Whisper", "(±Ó¼Ó¸»)", "Ctrl+W"},
-	{"ZoneChat", "(¿ÜÄ¡±â)", "Ctrl+Z"},
+	{"Extend Window", "(Ã¤ï¿½ï¿½Ã¢ È®ï¿½ï¿½)", "Ctrl+E"},
+	{"Chat", "(ï¿½Ï¹ï¿½ Ã¤ï¿½ï¿½)", "Ctrl+C"},
+	{"Guild/Party Chat", "(ï¿½ï¿½ï¿½/ï¿½ï¿½Æ¼ Ã¤ï¿½ï¿½)", "Ctrl+G"},
+	{"Whisper", "(ï¿½Ó¼Ó¸ï¿½)", "Ctrl+W"},
+	{"ZoneChat", "(ï¿½ï¿½Ä¡ï¿½ï¿½)", "Ctrl+Z"},
 };*/
 
 #ifndef _LIB // test
@@ -106,7 +106,7 @@ int C_VS_UI_SLAYER_GEAR::m_slot_image[SLOT_SIZE] = {
 	,-1
 	,-1
 	,PDA,SHOULDER
-	,-1// nanomech 2006.03.09 Item ¼öÁ¤ ÀÛ¾÷
+	,-1// nanomech 2006.03.09 Item ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½
 	,-1,-1 	// Cue Of Adam
 	,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE
 };
@@ -320,7 +320,7 @@ bool C_VS_UI_SLAYER_CHAT::MouseControl(UINT message, int _x, int _y)
 //-----------------------------------------------------------------------------
 // Click
 //
-// ¹º°¡ÇßÀ¸¸é true¸¦, ±×·¸Áö¾ÊÀ¸¸é false¸¦ ¹ÝÈ¯ÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ trueï¿½ï¿½, ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ falseï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 bool C_VS_UI_SLAYER_QUICKITEM::Click()
 {
@@ -332,21 +332,21 @@ bool C_VS_UI_SLAYER_QUICKITEM::Click()
 
 	int item_x, item_y;
 
-	if (gpC_mouse_pointer->GetPickUpItem()) // µé°í ÀÖ´Â°¡?
+	if (gpC_mouse_pointer->GetPickUpItem()) // ï¿½ï¿½ï¿½ ï¿½Ö´Â°ï¿½?
 	{
 		const MItem* p_cur_item = g_pQuickSlot->GetItem(m_focus_slot);
 
-		// ÃÑ¿¡ ÅºÃ¢À» ³¢¿ì´Â °Í°ú °°Àº °ÍÀÌ insert itemÀÌ´Ù.
+		// ï¿½Ñ¿ï¿½ ÅºÃ¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ insert itemï¿½Ì´ï¿½.
 		if (gpC_mouse_pointer->GetPickUpItem()->IsInsertToItem(p_cur_item))
 		{
-			// ÀÌÀü¿¡ ÀÖ´ø item¿¡ Ãß°¡µÉ ¼ö ÀÖ´Â °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ itemï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 
-			// ´ë»ó Item°ú µé°í ÀÖ´Â(Ãß°¡ÇÒ Item)À» Client¿¡¼­ ¾Ë¾Æ¾ß ÇÑ´Ù.
-			// µé°í ÀÖ´Â ItemÀº Client¿¡¼­ accessÇÒ ¼ö ÀÖÀ¸¹Ç·Î ´ë»ó ItemÀ» º¸³½´Ù.
+			// ï¿½ï¿½ï¿½ Itemï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½(ï¿½ß°ï¿½ï¿½ï¿½ Item)ï¿½ï¿½ Clientï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾Æ¾ï¿½ ï¿½Ñ´ï¿½.
+			// ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Itemï¿½ï¿½ Clientï¿½ï¿½ï¿½ï¿½ accessï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 			gpC_base->SendMessage(UI_ITEM_INSERT_FROM_QUICKSLOT,
 				m_focus_slot,
 				0,
-				(void*)p_cur_item); // ´ë»ó Item
+				(void*)p_cur_item); // ï¿½ï¿½ï¿½ Item
 			return true;
 		}
 		else
@@ -369,10 +369,10 @@ bool C_VS_UI_SLAYER_QUICKITEM::Click()
 	}
 	else
 	{
-		// Áý´Â´Ù.
+		// ï¿½ï¿½ï¿½Â´ï¿½.
 		const MItem* p_item = g_pQuickSlot->GetItem(m_focus_slot);
 
-		if (p_item != NULL) // ItemÀÌ ÀÖ´Ù.
+		if (p_item != NULL) // Itemï¿½ï¿½ ï¿½Ö´ï¿½.
 		{
 			if (m_bl_width)
 			{
@@ -391,7 +391,7 @@ bool C_VS_UI_SLAYER_QUICKITEM::Click()
 				m_focus_slot,
 				MAKEDWORD(item_x, item_y),
 				(MItem*)p_item);
-			// SHIFT´©¸£°í Å¬¸¯ÇßÀ»¶§ ¾ÆÀÌÅÛ ÀÚµ¿ ÀÌµ¿ Ã³¸® -> ÀÎº¥Åä¸®
+			// SHIFTï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ ï¿½Ìµï¿½ Ã³ï¿½ï¿½ -> ï¿½Îºï¿½ï¿½ä¸®
 			if (g_pDXInput->KeyDown(DIK_LSHIFT))
 			{
 				POINT point;
@@ -399,26 +399,26 @@ bool C_VS_UI_SLAYER_QUICKITEM::Click()
 				{
 					const MItem* p_cur_item = g_pInventory->GetItem(point.x, point.y);
 
-					// ÃÑ¿¡ ÅºÃ¢À» ³¢¿ì´Â °Í°ú °°Àº °ÍÀÌ insert itemÀÌ´Ù.
-					// À§Ä¡°¡ ¿ÏÀüÈ÷ ÀÏÄ¡ÇÒ°æ¿ì¿¡¸¸ Ãß°¡ÇÑ´Ù.
+					// ï¿½Ñ¿ï¿½ ÅºÃ¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ insert itemï¿½Ì´ï¿½.
+					// ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ò°ï¿½ì¿¡ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 					if (p_item->IsInsertToItem(p_cur_item) && p_cur_item->GetGridX() == point.x && p_cur_item->GetGridY() == point.y)
 					{
-						// ÀÌÀü¿¡ ÀÖ´ø item¿¡ Ãß°¡µÉ ¼ö ÀÖ´Â °æ¿ì
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ itemï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 
-						// ´ë»ó Item°ú µé°í ÀÖ´Â(Ãß°¡ÇÒ Item)À» Client¿¡¼­ ¾Ë¾Æ¾ß ÇÑ´Ù.
-						// µé°í ÀÖ´Â ItemÀº Client¿¡¼­ accessÇÒ ¼ö ÀÖÀ¸¹Ç·Î ´ë»ó ItemÀ» º¸³½´Ù.
+						// ï¿½ï¿½ï¿½ Itemï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½(ï¿½ß°ï¿½ï¿½ï¿½ Item)ï¿½ï¿½ Clientï¿½ï¿½ï¿½ï¿½ ï¿½Ë¾Æ¾ï¿½ ï¿½Ñ´ï¿½.
+						// ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Itemï¿½ï¿½ Clientï¿½ï¿½ï¿½ï¿½ accessï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 						gpC_base->SendMessage(UI_ITEM_INSERT_FROM_INVENTORY,
 							point.x, point.y,
-							(void*)p_cur_item); // ´ë»ó Item
+							(void*)p_cur_item); // ï¿½ï¿½ï¿½ Item
 					}
 					else
 					{
-						// Ãß°¡µÉ ¼ö ¾ø´Â °æ¿ì
+						// ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 						MItem* p_old_item = NULL;
 
-						if (g_pInventory->CanReplaceItem((MItem*)p_item,		// Ãß°¡ÇÒ item
-							point.x, point.y,	// Ãß°¡ÇÒ À§Ä¡ 
-							p_old_item))								// ¿ø·¡ÀÖ´ø item
+						if (g_pInventory->CanReplaceItem((MItem*)p_item,		// ï¿½ß°ï¿½ï¿½ï¿½ item
+							point.x, point.y,	// ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ 
+							p_old_item))								// ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ item
 						{
 
 							gpC_base->SendMessage(UI_ITEM_DROP_TO_INVENTORY,
@@ -460,7 +460,7 @@ void C_VS_UI_SLAYER_QUICKITEM::Use(int slot, bool bFunctionKey)
 	{
 		const MItem* p_item = g_pQuickSlot->GetItem(slot);
 
-		if (p_item) // ItemÀÌ ÀÖ´Ù.
+		if (p_item) // Itemï¿½ï¿½ ï¿½Ö´ï¿½.
 		{
 			gpC_base->SendMessage(UI_ITEM_USE_QUICKSLOT,
 				slot,
@@ -482,8 +482,8 @@ C_VS_UI_SLAYER_QUICKITEM::C_VS_UI_SLAYER_QUICKITEM()
 
 	m_image_spk.Open(SPK_SLAYER_QUICKITEM);
 
-	// ³ÐÀÌ´Â Ã³À½ no beltÀÏ °æ¿ìÀÌ´Ù. belt¸¦ Âø¿ëÇÏ¸é ¹Ù²ï´Ù.
-	// ³ôÀÌ´Â ÀÏÁ¤ÇÏ´Ù.
+	// ï¿½ï¿½ï¿½Ì´ï¿½ Ã³ï¿½ï¿½ no beltï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì´ï¿½. beltï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½Ù²ï¿½ï¿½.
+	// ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 	Set(0, 434 + g_pUserInformation->iResolution_y - 600, m_image_spk.GetWidth(END_EDGE), m_image_spk.GetHeight(END_EDGE));
 	//#ifdef CONVERT_1024_768
 	//	Set(0, 434+168 , m_image_spk.GetWidth(END_EDGE), m_image_spk.GetHeight(END_EDGE));
@@ -575,11 +575,11 @@ void	C_VS_UI_SLAYER_QUICKITEM::Close()
 //-----------------------------------------------------------------------------
 // ResetSize
 //
-// belt¸¦ ±³Ã¼ÇÏ°í³ª¼­ size¸¦ Àç¼³Á¤ÇØ¾ß ÇÑ´Ù.
+// beltï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½Ï°ï¿½ï¿½ï¿½ï¿½ï¿½ sizeï¿½ï¿½ ï¿½ç¼³ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_SLAYER_QUICKITEM::ResetSize()
 {
-	// À¸¾Æ¾Æ¾Æ ÇÏµåÄÚµù!!
+	// ï¿½ï¿½ï¿½Æ¾Æ¾ï¿½ ï¿½Ïµï¿½ï¿½Úµï¿½!!
 	int slot_size = m_image_spk.GetWidth(SLOT);
 	if (m_bl_width)
 	{
@@ -819,7 +819,6 @@ bool C_VS_UI_SLAYER_QUICKITEM::MouseControl(UINT message, int _x, int _y)
 					{
 						if (m_focus_slot != i)
 						{
-							gpC_Imm->ForceUI(CImm::FORCE_UI_GRID);
 							m_focus_slot = i;
 						}
 
@@ -842,7 +841,7 @@ bool C_VS_UI_SLAYER_QUICKITEM::MouseControl(UINT message, int _x, int _y)
 		case M_LEFTBUTTON_DOWN:
 		case M_LB_DOUBLECLICK:
 			//
-			// ItemÀ» Áý´ø°¡ ³õ´Â´Ù.
+			// Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
 			//
 		{
 			ret |= Click();
@@ -854,7 +853,7 @@ bool C_VS_UI_SLAYER_QUICKITEM::MouseControl(UINT message, int _x, int _y)
 
 		case M_RIGHTBUTTON_DOWN:
 			//
-			// ItemÀ» »ç¿ëÇÑ´Ù.
+			// Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//
 			Use(m_focus_slot);
 			break;
@@ -982,7 +981,7 @@ void	C_VS_UI_SLAYER_QUICKITEM::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_but
 
 void	C_VS_UI_SLAYER_QUICKITEM::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	// °¡·Î¿ë
+	// ï¿½ï¿½ï¿½Î¿ï¿½
 	if (m_bl_width)
 	{
 		//if(x+w >= RESOLUTION_X)
@@ -1055,7 +1054,7 @@ void	C_VS_UI_SLAYER_QUICKITEM::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 			}
 		}
 	}
-	// ¼¼·Î¿ë
+	// ï¿½ï¿½ï¿½Î¿ï¿½
 	else
 	{
 		if (y > 0)
@@ -1150,7 +1149,7 @@ void C_VS_UI_SLAYER_QUICKITEM::Show()
 	RECT rect[8];
 	int num[8];
 
-	// ¾Æ¾Å Á¹¶ó ÇÏµåÄÚµù-_- Á¹¶ó Çã´þÇØ-_-;;
+	// ï¿½Æ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ïµï¿½ï¿½Úµï¿½-_- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½-_-;;
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
 		bool bl_statch = false;
@@ -1168,13 +1167,13 @@ void C_VS_UI_SLAYER_QUICKITEM::Show()
 				if (x + w >= g_pUserInformation->iResolution_x)
 				{
 					bl_statch = true;
-					if (Moving() && m_bl_resize)	// ¸Õ°¡ ÁÁÀº ¹æ¹ýÀÌ ÀÖÀ»ÅÍÀÎµ¥-_-;; ÀÌ·± ÇÏµå ÄÚµùÀº ÇÏ¸é ¾ÈµÇ´Âµ¥-_-;;
+					if (Moving() && m_bl_resize)	// ï¿½Õ°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½-_-;; ï¿½Ì·ï¿½ ï¿½Ïµï¿½ ï¿½Úµï¿½ï¿½ï¿½ ï¿½Ï¸ï¿½ ï¿½ÈµÇ´Âµï¿½-_-;;
 						temp_x += (m_image_spk.GetWidth(START_EDGE) - m_image_spk.GetWidth(STATCH_EDGE));
 					m_image_spk.BltLocked(temp_x, temp_y, START_EDGE_EXTEND);
 					temp_x += m_image_spk.GetWidth(START_EDGE_EXTEND);
-					if (Moving() && m_bl_resize)	// ¸Õ°¡ ÁÁÀº ¹æ¹ýÀÌ ÀÖÀ»ÅÍÀÎµ¥-_-;; ÀÌ·± ÇÏµå ÄÚµùÀº ÇÏ¸é ¾ÈµÇ´Âµ¥-_-;;
+					if (Moving() && m_bl_resize)	// ï¿½Õ°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½-_-;; ï¿½Ì·ï¿½ ï¿½Ïµï¿½ ï¿½Úµï¿½ï¿½ï¿½ ï¿½Ï¸ï¿½ ï¿½ÈµÇ´Âµï¿½-_-;;
 						x += (m_image_spk.GetWidth(START_EDGE) - m_image_spk.GetWidth(STATCH_EDGE));
-					if (Moving() && m_bl_resize)	// ¸Õ°¡ ÁÁÀº ¹æ¹ýÀÌ ÀÖÀ»ÅÍÀÎµ¥-_-;; ÀÌ·± ÇÏµå ÄÚµùÀº ÇÏ¸é ¾ÈµÇ´Âµ¥-_-;;
+					if (Moving() && m_bl_resize)	// ï¿½Õ°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½-_-;; ï¿½Ì·ï¿½ ï¿½Ïµï¿½ ï¿½Úµï¿½ï¿½ï¿½ ï¿½Ï¸ï¿½ ï¿½ÈµÇ´Âµï¿½-_-;;
 						x -= (m_image_spk.GetWidth(START_EDGE) - m_image_spk.GetWidth(STATCH_EDGE));
 				}
 				else
@@ -1195,7 +1194,7 @@ void C_VS_UI_SLAYER_QUICKITEM::Show()
 			}
 			else
 			{
-				if (Moving() && m_bl_resize)	// ¸Õ°¡ ÁÁÀº ¹æ¹ýÀÌ ÀÖÀ»ÅÍÀÎµ¥-_-;; ÀÌ·± ÇÏµå ÄÚµùÀº ÇÏ¸é ¾ÈµÇ´Âµ¥-_-;;
+				if (Moving() && m_bl_resize)	// ï¿½Õ°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îµï¿½-_-;; ï¿½Ì·ï¿½ ï¿½Ïµï¿½ ï¿½Úµï¿½ï¿½ï¿½ ï¿½Ï¸ï¿½ ï¿½ÈµÇ´Âµï¿½-_-;;
 				{
 					temp_y += (m_image_spk.GetHeight(START_EDGE + ROTATED_OFFSET) - m_image_spk.GetHeight(STATCH_EDGE + ROTATED_OFFSET));
 					m_image_spk.BltLocked(temp_x, temp_y, START_EDGE_EXTEND + ROTATED_OFFSET);
@@ -1260,7 +1259,7 @@ void C_VS_UI_SLAYER_QUICKITEM::Show()
 
 			if (p_item != NULL)
 			{
-				// ¾ÆÀÌÅÛ Ãâ·Â
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 				TYPE_FRAMEID frame_id = p_item->GetInventoryFrameID();
 
 				int _x;
@@ -1287,7 +1286,7 @@ void C_VS_UI_SLAYER_QUICKITEM::Show()
 					gpC_item->BltLocked(_x, _y, frame_id);
 				}
 
-				// °³¼öÇ¥½Ã AlphaBox¸¸ Âï°í, ¼ýÀÚ´Â µÚ¿¡¼­ Âï´Â´Ù
+				// ï¿½ï¿½ï¿½ï¿½Ç¥ï¿½ï¿½ AlphaBoxï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ú´ï¿½ ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½Â´ï¿½
 				if (p_item->IsPileItem())
 				{
 					int depth, number;
@@ -1314,7 +1313,7 @@ void C_VS_UI_SLAYER_QUICKITEM::Show()
 
 			}
 			else
-				// ³õ´Â À§Ä¡ ¹Ì¸® ¾Ë ¼ö ÀÖµµ·Ï ÇÑ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½Ì¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 				if (gpC_mouse_pointer->GetPickUpItem() &&
 					m_focus_slot == i)
 				{
@@ -1440,7 +1439,7 @@ void C_VS_UI_SLAYER_QUICKITEM::Show()
 			point.y = y + m_p_slot_x[m_focus_slot];
 		}
 
-		// °ËÀº»ö ¹Ú½º Ãâ·Â..
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ ï¿½ï¿½ï¿½..
 //		if (gpC_base->m_p_DDSurface_back->Lock())
 
 		int	ifocusHotKey = m_Hotkey_buf[m_focus_slot];
@@ -1609,7 +1608,7 @@ void C_VS_UI_SLAYER_PDS::Run(id_t id)
 					sprintf(error_buf, "%s%s%s", "<Error!> \"", p_temp, "\" is a invalid PCS number.");
 					AddToPCSHistory(error_buf);
 #else
-					sprintf(error_buf, "%s%s%s", "<¿À·ù!> \"", p_temp, "\"Àº Àß¸øµÈ PCS¹øÈ£ÀÔ´Ï´Ù.");
+					sprintf(error_buf, "%s%s%s", "<ï¿½ï¿½ï¿½ï¿½!> \"", p_temp, "\"ï¿½ï¿½ ï¿½ß¸ï¿½ï¿½ï¿½ PCSï¿½ï¿½È£ï¿½Ô´Ï´ï¿½.");
 					AddToPCSHistory(error_buf);
 #endif
 				}
@@ -1813,7 +1812,7 @@ C_VS_UI_SLAYER_PDS::C_VS_UI_SLAYER_PDS()
 
 	m_backup_room.sz_name = NULL;
 	m_backup_room.pcs_number = 0;
-	// m_backup_room¿¡¼­ ÀÌ ¿Ü ´Ù¸¥ °ÍµéÀº ¾²Áö ¾Ê´Â´Ù.
+	// m_backup_roomï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½Íµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 
 #ifdef _LIB
 
@@ -1894,7 +1893,7 @@ void	C_VS_UI_SLAYER_PDS::AddChatToPCShistory(char * str, int pcs_slot)
 //-----------------------------------------------------------------------------
 // C_VS_UI_SLAYER_PDS::SetSlot
 //
-// slot¿¡ ¹«Á¶°Ç setÇÑ´Ù.
+// slotï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ setï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void	C_VS_UI_SLAYER_PDS::SetSlot(char * sz_name, long pcs_number, int slot)
 {
@@ -1957,10 +1956,10 @@ void	C_VS_UI_SLAYER_PDS::ShowConnectorInfo(int _x, int _y, S_PCS_WAIT_ROOM &pcs_
 //-----------------------------------------------------------------------------
 // C_VS_UI_SLAYER_PDS::ConnectPCS
 //
-// ´ë±â¹æ¿¡ µé¾î°£´Ù.
+// ï¿½ï¿½ï¿½æ¿¡ ï¿½ï¿½î°£ï¿½ï¿½.
 //
-// empty wait room¿¡ ¼º°øÀûÀ¸·Î µé¾î°¡¸é room number¸¦ ¹ÝÈ¯ÇÏ°í, ½ÇÆÐÇÏ¸é
-// -1À» ¹ÝÈ¯ÇÑ´Ù.
+// empty wait roomï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ room numberï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ï°ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½
+// -1ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 int	C_VS_UI_SLAYER_PDS::ConnectPCS(char * sz_name, long pcs_number, int slot)
 {
@@ -1983,8 +1982,8 @@ int	C_VS_UI_SLAYER_PDS::ConnectPCS(char * sz_name, long pcs_number, int slot)
 //-----------------------------------------------------------------------------
 // C_VS_UI_SLAYER_PDS::PushToBackupRoom
 //
-// PCS »óÅÂ°¡ ¾Æ´Ñ °æ¿ì´Â °ð¹Ù·Î wait room¿¡ µé¾î°¥ ¼ö ¾ø´Ù.
-// ÀÏ´Ü ¿©±â¿¡ backupÇØµÎ°í »ç¿ëÀÚ°¡ PCS·Î ÀüÈ¯ÇÏ¿´À» ¶§ wait roomÀ¸·Î º¸³½´Ù.
+// PCS ï¿½ï¿½ï¿½Â°ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù·ï¿½ wait roomï¿½ï¿½ ï¿½ï¿½î°¥ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+// ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½â¿¡ backupï¿½ØµÎ°ï¿½ ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ PCSï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½ï¿½ wait roomï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_SLAYER_PDS::PushToBackupRoom(char * sz_name, long pcs_number, int slot)
 {
@@ -2001,10 +2000,10 @@ void C_VS_UI_SLAYER_PDS::PushToBackupRoom(char * sz_name, long pcs_number, int s
 //-----------------------------------------------------------------------------
 // C_VS_UI_SLAYER_PDS::GrantPCSConnection
 //
-// PCS ¿¬°áÀ» ½Â³«ÇÑ´Ù.
+// PCS ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â³ï¿½ï¿½Ñ´ï¿½.
 //
-// - room_n¿¡ »ç¶÷ÀÌ ÀÌ¹Ì µé¾î¿Í ÀÖ¾î¾ß ÇÑ´Ù.
-// - ¼º°øÇÏ¸é true¸¦ ¹ÝÈ¯ÇÑ´Ù.
+// - room_nï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
+// - ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ trueï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 bool	C_VS_UI_SLAYER_PDS::GrantPCSConnection(int room_n)
 {
@@ -2012,7 +2011,7 @@ bool	C_VS_UI_SLAYER_PDS::GrantPCSConnection(int room_n)
 	{
 		if (m_pcs_wait_room[room_n].bl_set == true)
 		{
-			// ÀÌ¹Ì ¿¬°áµÇ¾îÀÖ´ø slotÀÎ°¡?
+			// ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½Ö´ï¿½ slotï¿½Î°ï¿½?
 			if (m_pcs_wait_room[room_n].bl_granted == true)
 			{
 			}
@@ -2036,7 +2035,7 @@ bool	C_VS_UI_SLAYER_PDS::GrantPCSConnection(int room_n)
 //-----------------------------------------------------------------------------
 // C_VS_UI_SLAYER_PDS::DisconnectPCS
 //
-// wait room¿¡¼­ Á¦°ÅÇÑ´Ù.
+// wait roomï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void	C_VS_UI_SLAYER_PDS::DisconnectPCS(int room_n)
 {
@@ -2057,9 +2056,9 @@ void	C_VS_UI_SLAYER_PDS::DisconnectPCS(int room_n)
 //-----------------------------------------------------------------------------
 // C_VS_UI_SLAYER_PDS::OnLinePCS
 //
-// PCS°¡ ¿¬°áµÇ¾ú´Ù.
+// PCSï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½.
 //
-// - ÀÚ½ÅÀÌ dialingÇÏ¿© ¿¬°áµÇ¾úÀ» °æ¿ì´Ù.
+// - ï¿½Ú½ï¿½ï¿½ï¿½ dialingï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 //-----------------------------------------------------------------------------
 void	C_VS_UI_SLAYER_PDS::OnLinePCS(char * sz_name, long pcs_number)
 {
@@ -2067,7 +2066,7 @@ void	C_VS_UI_SLAYER_PDS::OnLinePCS(char * sz_name, long pcs_number)
 
 	m_pcs_state = PCS_ON_LINE;
 
-	// À½... ¿¬°áµÇ¸é ´ç¿¬È÷ Ã¹¹øÂ° »ç¶÷ÀÌÁö..?
+	// ï¿½ï¿½... ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ ï¿½ç¿¬ï¿½ï¿½ Ã¹ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..?
 	int room_n = ConnectPCS(sz_name, pcs_number, 0);
 	if (room_n != -1)
 	{
@@ -2081,7 +2080,7 @@ void	C_VS_UI_SLAYER_PDS::OnLinePCS(char * sz_name, long pcs_number)
 //-----------------------------------------------------------------------------
 // C_VS_UI_SLAYER_PDS::ConnectionFailed
 //
-// ¿¬°á½ÇÆÐ!
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½!
 //-----------------------------------------------------------------------------
 void C_VS_UI_SLAYER_PDS::ConnectionFailed()
 {
@@ -2092,9 +2091,9 @@ void C_VS_UI_SLAYER_PDS::ConnectionFailed()
 //-----------------------------------------------------------------------------
 // C_VS_UI_SLAYER_PDS::OffLinePCS
 //
-// PCS ¿¬°áÀÌ ²÷¾îÁ³´Ù.
+// PCS ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //
-// - À¯Àú°¡ Á¤»óÀûÀ¸·Î PCS ¿¬°áÀ» ²÷¾ú´Ù.
+// - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PCS ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //-----------------------------------------------------------------------------
 void	C_VS_UI_SLAYER_PDS::OffLinePCS()
 {
@@ -2129,13 +2128,13 @@ void	C_VS_UI_SLAYER_PDS::AddToPCSHistory(char * sz_str)
 		m_pcs_history_input_index = 0;
 
 	m_pcs_scrollbar.SetAmountForScroll(GetPCSHistorySizeForScroll());
-	m_pcs_scrollbar.SetAmountToScroll(0); // ÃÊ±â»óÅÂ·Î.
+	m_pcs_scrollbar.SetAmountToScroll(0); // ï¿½Ê±ï¿½ï¿½ï¿½Â·ï¿½.
 }
 
 //-----------------------------------------------------------------------------
 // C_VS_UI_SLAYER_PDS::GetPCSHistorySizeForScroll
 //
-// scrollÇÒ(ÇöÀç º¸¿©ÁöÁö ¾Ê´Â) line ¼ö¸¦ ¾ò´Â´Ù.
+// scrollï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½) line ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
 //-----------------------------------------------------------------------------
 int C_VS_UI_SLAYER_PDS::GetPCSHistorySizeForScroll() const
 {
@@ -2157,11 +2156,11 @@ int C_VS_UI_SLAYER_PDS::GetPCSHistorySizeForScroll() const
 //-----------------------------------------------------------------------------
 // C_VS_UI_SLAYER_PDS::ControlPDS
 //
-// pds menu¸¦ ¹Ù²Û´Ù.
+// pds menuï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 //-----------------------------------------------------------------------------
 void	C_VS_UI_SLAYER_PDS::ControlPDS(PDS_MENU pds_menu)
 {
-	// toggleµÇµµ·Ï.
+	// toggleï¿½Çµï¿½ï¿½ï¿½.
 	if (m_pds_menu == pds_menu)
 		m_pds_menu = NO_PDS_MENU;
 	else
@@ -2238,7 +2237,7 @@ void	C_VS_UI_SLAYER_PDS::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 					//
 					// mark wait room
 					//
-					// wait room¿¡ ÀÖÀ¸¸é blinkÇÏ°í, grantedµÇ¾úÀ¸¸é ¹à°ÔÇ¥½ÃÇÑ´Ù.
+					// wait roomï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ blinkï¿½Ï°ï¿½, grantedï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¥ï¿½ï¿½ï¿½Ñ´ï¿½.
 					//
 					switch (p_button->GetID())
 					{
@@ -2547,8 +2546,8 @@ C_VS_UI_SLAYER_GEAR::C_VS_UI_SLAYER_GEAR()
 {
 	assert(MSlayerGear::MAX_GEAR_SLAYER == SLOT_SIZE);
 
-	//	if(g_char_slot_ingame.m_AdvancementLevel == 0 ) // 2Â÷ ÀüÁ÷ 
-	////	if(g_char_slot_ingame.m_AdvancementLevel == 0) // 2Â÷ ÀüÁ÷ ¿ë ±â¾î ÀÎÅÍÆäÀÌ½º 
+	//	if(g_char_slot_ingame.m_AdvancementLevel == 0 ) // 2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
+	////	if(g_char_slot_ingame.m_AdvancementLevel == 0) // 2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ 
 	//	{
 	m_slot_rect[SN_HELM].Set(79, 18, 60, 60);
 	m_slot_rect[SN_NECKLACE].Set(95, 86, 30, 30);
@@ -2574,9 +2573,9 @@ C_VS_UI_SLAYER_GEAR::C_VS_UI_SLAYER_GEAR()
 	m_slot_rect[SN_PDA].Set(14, 55, 60, 60);
 	m_slot_rect[SN_SHOULDER].Set(142, 55, 60, 60);
 
-	// nanomech 2006.03.09 Item ¼öÁ¤ ÀÛ¾÷ start
-	m_slot_rect[SN_NECK_CHAIN].Set(94, 84, 30, 30);			// ¿¡Å×¸®¾ó Ã¼ÀÎ
-	// nanomech 2006.03.09 Item ¼öÁ¤ ÀÛ¾÷ end
+	// nanomech 2006.03.09 Item ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ start
+	m_slot_rect[SN_NECK_CHAIN].Set(94, 84, 30, 30);			// ï¿½ï¿½ï¿½×¸ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½
+	// nanomech 2006.03.09 Item ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ end
 
 	m_slot_rect[SN_CUEOFADAM1].Set(27, 279, 30, 30);
 	m_slot_rect[SN_CUEOFADAM2].Set(162, 279, 30, 30);
@@ -2694,7 +2693,7 @@ C_VS_UI_SLAYER_GEAR::~C_VS_UI_SLAYER_GEAR()
 //-----------------------------------------------------------------------------
 // SetZone
 //
-// ZoneID¸¦ ¹Þ¾Æ¼­ ¹Ì´Ï¸ÊÀ» ºÒ·¯¿Â´Ù & Á¸ÀÌ¸§ ¼¼ÆÃ
+// ZoneIDï¿½ï¿½ ï¿½Þ¾Æ¼ï¿½ ï¿½Ì´Ï¸ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ï¿½Â´ï¿½ & ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_SLAYER::SetZone(int zone_id)
 {
@@ -2702,21 +2701,21 @@ void C_VS_UI_SLAYER::SetZone(int zone_id)
 	int id[id_size] = {11, 12, 13, 14, 21, 22, 23 ,24, 31, 32, 33, 34, 1001, 1002, 1003, 1004, 1005, 1006, 2000, 2001, 2002, 2003, 2004, 2010, 2011, 2012, 2013, 2014, 2020, 2021, 2022, 2023, 2024, 2101, 2102, 2103, 2104, 2105, 2106};
 	char map_name[id_size][20] =
 	{
-		// ÇÊµå
-		"¿¡½½¶ó´Ï¾Æ NE", "¿¡½½¶ó´Ï¾Æ NW", "¿¡½½¶ó´Ï¾Æ SE", "¿¡½½¶ó´Ï¾Æ SW",
-		"¸²º¸¼º NE", "¸²º¸¼º NW", "¸²º¸¼º SE", "¸²º¸¼º SW",
-		"µå·Îº£Å¸ NE", "µå·Îº£Å¸ NW", "µå·Îº£Å¸ SE", "µå·Îº£Å¸ SW",
+		// ï¿½Êµï¿½
+		"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¾ï¿½ NE", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¾ï¿½ NW", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¾ï¿½ SE", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¾ï¿½ SW",
+		"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ NE", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ NW", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ SE", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ SW",
+		"ï¿½ï¿½Îºï¿½Å¸ NE", "ï¿½ï¿½Îºï¿½Å¸ NW", "ï¿½ï¿½Îºï¿½Å¸ SE", "ï¿½ï¿½Îºï¿½Å¸ SW",
 
-		// ´øÁ¯ & ¸¶À»
-		"ÁöÇÏ ¼ö·ÃÀå", "¿¡½½¶ó´Ï¾Æ ´øÀü", "¹ìÆÄÀÌ¾î ¸¶À»", "¸²º¸¼º ´øÀü", "ÀÌº¥Æ® OX", "ÀÌº¥Æ® °æ±âÀå",
+		// ï¿½ï¿½ï¿½ï¿½ & ï¿½ï¿½ï¿½ï¿½
+		"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¾ï¿½ ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½", "ï¿½Ìºï¿½Æ® OX", "ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½",
 
-		// °Ç¹°
-		"±ºÀÎ ±æµå B1", "±ºÀÎ ±æµå 1F", "±ºÀÎ ±æµå 2F", "±ºÀÎ ±æµå 3F", "±ºÀÎ ±æµå ¿Á»ó",
-		"¼ºÁ÷ÀÚ ±æµå B1", "¼ºÁ÷ÀÚ ±æµå 1F", "¼ºÁ÷ÀÚ ±æµå 2F", "¼ºÁ÷ÀÚ ±æµå 3F", "¼ºÁ÷ÀÚ ±æµå ¿Á»ó",
-		"¹«»ç ±æµå B1", "¹«»ç ±æµå 1F", "¹«»ç ±æµå 2F", "¹«»ç ±æµå 3F", "¹«»ç ±æµå ¿Á»ó",
+		// ï¿½Ç¹ï¿½
+		"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ B1", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 1F", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 2F", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 3F", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+		"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ B1", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 1F", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 2F", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 3F", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
+		"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ B1", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 1F", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 2F", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 3F", "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½",
 
-		// Æ©Åä¸®¾ó
-		"º¹µµ", "ºê¸®ÇÎ·ë", "ÄÄÇ»ÅÍ½Ç", "¹«±âÁ¡", "µµ¼­°ü", "Çï±âÀå",
+		// Æ©ï¿½ä¸®ï¿½ï¿½
+		"ï¿½ï¿½ï¿½ï¿½", "ï¿½ê¸®ï¿½Î·ï¿½", "ï¿½ï¿½Ç»ï¿½Í½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", "ï¿½ï¿½ï¿½ï¿½ï¿½",
 	};
 
 	int spk_id[id_size] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,
@@ -2754,7 +2753,7 @@ void C_VS_UI_SLAYER::SetZone(int zone_id)
 //-----------------------------------------------------------------------------
 // SetSafetyZone
 //
-// ¾ÈÀüÁö´ë ¼³Á¤
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_SLAYER::SetSafetyZone(RECT rect)
 {
@@ -2821,7 +2820,7 @@ C_VS_UI_SLAYER::C_VS_UI_SLAYER() :C_VS_UI_TRIBE()
 	// 	m_pC_menu_button_group->Add( new C_VS_UI_EVENT_BUTTON(button_x+button_x_gap*2, button_y+button_y_gap, m_pC_sys_button_spk->GetWidth(BUTTON_MAIL), m_pC_sys_button_spk->GetHeight(BUTTON_MAIL), MAIL_ID, this, BUTTON_MAIL) );
 	// //	m_pC_menu_button_group->Add( new C_VS_UI_EVENT_BUTTON(button_x+button_x_gap*1, button_y+button_y_gap, m_pC_sys_button_spk->GetWidth(BUTTON_QUEST), m_pC_sys_button_spk->GetHeight(BUTTON_QUEST), QUEST_ID, this, BUTTON_QUEST) );
 	// 
-	// 	// sms ¹öÆ° 
+	// 	// sms ï¿½ï¿½Æ° 
 	// #if __CONTENTS(__SMS_SERVICES)
 	// 	if(false == g_pUserInformation->IsNetmarble)
 	// 		m_pC_menu_button_group->Add( new C_VS_UI_EVENT_BUTTON(button_x+button_x_gap*3, button_y, m_pC_sys_button_spk->GetWidth(BUTTON_SMS), m_pC_sys_button_spk->GetHeight(BUTTON_SMS), SMS_ID, this, BUTTON_SMS) );
@@ -2832,18 +2831,18 @@ C_VS_UI_SLAYER::C_VS_UI_SLAYER() :C_VS_UI_TRIBE()
 	// 	// guild buttons
 	// 	m_pC_guild_button_group->Add( new C_VS_UI_EVENT_BUTTON(button_x+button_x_gap*0, button_y+button_y_gap*0, m_pC_sys_button_spk->GetWidth(BUTTON_TEAM_INFO), m_pC_sys_button_spk->GetHeight(BUTTON_TEAM_INFO), TEAM_INFO_ID, this, BUTTON_TEAM_INFO) );
 	// 	m_pC_guild_button_group->Add( new C_VS_UI_EVENT_BUTTON(button_x+button_x_gap*1, button_y+button_y_gap*0, m_pC_sys_button_spk->GetWidth(BUTTON_TEAM_MEMBER_LIST), m_pC_sys_button_spk->GetHeight(BUTTON_TEAM_MEMBER_LIST), TEAM_MEMBER_LIST_ID, this, BUTTON_TEAM_MEMBER_LIST) );
-	// 	// 2004, 10, 12, sobeit add start - ±æµå ¸í·É ¾ÆÀÌÄÜ
-	// //	if(false == g_pUserInformation->IsNetmarble) // 2005, 1, 12, sobeit modify - ³Ý¸¶ºí ±æµå ¿¬ÇÕ µé¾î°¨
+	// 	// 2004, 10, 12, sobeit add start - ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// //	if(false == g_pUserInformation->IsNetmarble) // 2005, 1, 12, sobeit modify - ï¿½Ý¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¨
 	// 	{
 	// 		m_pC_guild_button_group->Add( new C_VS_UI_EVENT_BUTTON(button_x+button_x_gap*0, button_y+button_y_gap*1, m_pC_sys_button_spk->GetWidth(BUTTON_GUILD_LIST), m_pC_sys_button_spk->GetHeight(BUTTON_GUILD_LIST), TEAM_LIST_ID, this, BUTTON_GUILD_LIST) );
 	// 		m_pC_guild_button_group->Add( new C_VS_UI_EVENT_BUTTON(button_x+button_x_gap*1, button_y+button_y_gap*1, m_pC_sys_button_spk->GetWidth(BUTTON_WAIT_GUILD_LIST), m_pC_sys_button_spk->GetHeight(BUTTON_WAIT_GUILD_LIST), TEAM_WAIT_LIST_ID, this, BUTTON_WAIT_GUILD_LIST) );
 	// 		m_pC_guild_button_group->Add( new C_VS_UI_EVENT_BUTTON(button_x+button_x_gap*2, button_y+button_y_gap*1, m_pC_sys_button_spk->GetWidth(BUTTON_UNION), m_pC_sys_button_spk->GetHeight(BUTTON_UNION), TEAM_UNION_ID, this, BUTTON_UNION) );
 	// 	}
-	// 	// 2004, 10, 12, sobeit add end - ±æµå ¸í·É ¾ÆÀÌÄÜ
+	// 	// 2004, 10, 12, sobeit add end - ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	// 
-	// 	// 2004, 12, 2, sobeit add start - ±â´É
+	// 	// 2004, 12, 2, sobeit add start - ï¿½ï¿½ï¿½
 	// 	m_pC_util_button_group->Add( new C_VS_UI_EVENT_BUTTON(button_x+button_x_gap*0, button_y, m_pC_sys_button_spk->GetWidth(BUTTON_STORE), m_pC_sys_button_spk->GetHeight(BUTTON_STORE), UTIL_STORE_ID, this, BUTTON_STORE) );
-	// 	if(false == g_pUserInformation->IsNetmarble && false == g_pUserInformation->IsTestServer) // º»¼·¸¸
+	// 	if(false == g_pUserInformation->IsNetmarble && false == g_pUserInformation->IsTestServer) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	// 	{
 	// //#if __CONTENTS(__POWER_JJANG_ID)
 	// //		m_pC_util_button_group->Add( new C_VS_UI_EVENT_BUTTON(button_x+button_x_gap*1, button_y, m_pC_sys_button_spk->GetWidth(BUTTON_POWER_JJANG), m_pC_sys_button_spk->GetHeight(BUTTON_POWER_JJANG), UTIL_POWER_JJANG_ID, this, BUTTON_POWER_JJANG) );
@@ -2979,7 +2978,7 @@ void C_VS_UI_SLAYER::RunGearChange()
 //-----------------------------------------------------------------------------
 // DoCommonActionBeforeEventOccured
 //
-// C_VS_UI_TRIBE::DoCommonActionBeforeEventOccured() ¼³¸í ÂüÁ¶.
+// C_VS_UI_TRIBE::DoCommonActionBeforeEventOccured() ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_SLAYER::DoCommonActionBeforeEventOccured()
 {
@@ -2989,9 +2988,9 @@ void C_VS_UI_SLAYER::DoCommonActionBeforeEventOccured()
 //-----------------------------------------------------------------------------
 // DoCommonActionAfterEventOccured
 //
-// C_VS_UI_TRIBE::DoCommonActionAfterEventOccured() ¼³¸í ÂüÁ¶.
+// C_VS_UI_TRIBE::DoCommonActionAfterEventOccured() ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 //
-// ¸ðµç Window¸¦ ´Ý´Â´Ù.
+// ï¿½ï¿½ï¿½ Windowï¿½ï¿½ ï¿½Ý´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_SLAYER::DoCommonActionAfterEventOccured()
 {
@@ -3151,7 +3150,7 @@ bool C_VS_UI_SLAYER::IsRunningQuickItemSlot()
 //-----------------------------------------------------------------------------
 // MouseControl
 //
-// ItemÀ» µé°í ÀÖÀ» °æ¿ì Window ÀÌµ¿ÀÌ³ª Main interface·ÎÀÇ ÀÔ·ÂÀ» ÇÒ ¼ö ¾ø´Ù.
+// Itemï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Window ï¿½Ìµï¿½ï¿½Ì³ï¿½ Main interfaceï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 //-----------------------------------------------------------------------------
 /*bool C_VS_UI_SLAYER::MouseControl(UINT message, int _x, int _y)
 {
@@ -3163,7 +3162,7 @@ bool C_VS_UI_SLAYER::IsRunningQuickItemSlot()
 	//
 //	int i;
 
-	if (gpC_mouse_pointer->GetPickUpItem() == NULL) // ItemÀ» µé°í ÀÖÀ¸¸é ÀÔ·ÂÇÒ ¼ö ¾ø´Ù.
+	if (gpC_mouse_pointer->GetPickUpItem() == NULL) // Itemï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	{
 //		if (m_pC_pds->GetPDS() == NO_PDS_MENU)// || m_pC_pds->PCSOnline() == true)
 		if(m_bl_mark && m_pC_main_spk->IsPixel(_x-m_mark_x, _y-m_mark_y, MARK_WINDOW))
@@ -3229,7 +3228,7 @@ void C_VS_UI_SLAYER::ShowExp()
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
 		//////////////////////////////////////////////////////////////////////////
-		// ½ºÅ³ °æÇèÄ¡
+		// ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½Ä¡
 		int skill_id = m_pC_skill->GetSelectedSkillID();
 		if (skill_id != NOT_SELECTED)
 		{
@@ -3248,7 +3247,7 @@ void C_VS_UI_SLAYER::ShowExp()
 		}
 
 		//////////////////////////////////////////////////////////////////////////
-		// ½½·¹ÀÌ¾î °æÇèÄ¡
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡
 		const int bar_x = 120, bar_y = 81, str_x = 58, num_x = 98, bar_gap = 12;
 		char sz_temp[10];
 
@@ -3325,7 +3324,7 @@ void C_VS_UI_SLAYER::ShowExp()
 				const int domain_level = (*g_pSkillManager)[domain[i]].GetDomainLevel();
 				const int exp_remain = (*g_pSkillManager)[domain[i]].GetDomainExpRemain();
 				const int goal_exp = (*g_pSkillManager)[domain[i]].GetExpInfo(domain_level).GoalExp;
-				//µµ¸ÞÀÎ °æÇèÄ¡ ¹Ù
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½
 				m_pC_main_spk->BltLocked(x + bar_x, y + bar_y + bar_gap * (3 + i), EXP_BACK);
 				rect.Set(0, 0, m_pC_main_spk->GetWidth(EXP_BAR) * (goal_exp - exp_remain) / (goal_exp), m_pC_main_spk->GetHeight(EXP_BAR));
 				m_pC_main_spk->BltLockedClip(x + bar_x + 3, y + bar_y + bar_gap * (3 + i) + 3, rect, EXP_BAR);
@@ -3418,7 +3417,7 @@ C_VS_UI_SLAYER_PORTAL::C_VS_UI_SLAYER_PORTAL(int nExtendLevel)
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x + m_close_x, y + m_close_y, m_etc_spk.GetWidth(CLOSE), m_etc_spk.GetHeight(CLOSE), CLOSE, this, CLOSE));
 
 
-	// ÇöÀç ¸Ê
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	MAP_SPK_INDEX map_convert[MAP_MAX] = { ESLANIAN, LIMBO, DROBETA, RODIN, TIMORE, PERONA , VRANCO };
 
 	int map = gC_vs_ui.GetZoneID() / 10 - 1;
@@ -3434,7 +3433,7 @@ C_VS_UI_SLAYER_PORTAL::C_VS_UI_SLAYER_PORTAL(int nExtendLevel)
 	//#define __FLAG_SET_MODE
 #ifdef  __FLAG_SET_MODE
 
-	// FLAG ¼¼ÆÃ
+	// FLAG ï¿½ï¿½ï¿½ï¿½
 	UI_PORTAL_FLAG temp_flag;
 
 	/////////////////////////////////////////////////////////////////////////////////////
@@ -3442,7 +3441,7 @@ C_VS_UI_SLAYER_PORTAL::C_VS_UI_SLAYER_PORTAL(int nExtendLevel)
 
 	temp_flag.extend_portal = 0;
 
-	// ¸µº¸¼º
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	temp_flag.zone_id = 21;
 	temp_flag.x = 292;
 	temp_flag.y = 27;
@@ -3500,7 +3499,7 @@ C_VS_UI_SLAYER_PORTAL::C_VS_UI_SLAYER_PORTAL(int nExtendLevel)
 	m_flag[LIMBO].push_back(temp_flag);
 
 
-	// ¿¡½½¶ó´Ï¾È
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¾ï¿½
 	temp_flag.zone_id = 11;
 	temp_flag.x = 206;
 	temp_flag.y = 41;
@@ -3569,7 +3568,7 @@ C_VS_UI_SLAYER_PORTAL::C_VS_UI_SLAYER_PORTAL(int nExtendLevel)
 	m_flag[ESLANIAN].push_back(temp_flag);
 
 
-	// ·Îµò»ê
+	// ï¿½Îµï¿½ï¿½
 	temp_flag.zone_id = 41;
 	temp_flag.x = 287;
 	temp_flag.y = 44;
@@ -3627,7 +3626,7 @@ C_VS_UI_SLAYER_PORTAL::C_VS_UI_SLAYER_PORTAL(int nExtendLevel)
 	m_flag[RODIN].push_back(temp_flag);
 
 
-	// µå·Îº£Å¸
+	// ï¿½ï¿½Îºï¿½Å¸
 	temp_flag.zone_id = 31;
 	temp_flag.x = 198;
 	temp_flag.y = 29;
@@ -3684,7 +3683,7 @@ C_VS_UI_SLAYER_PORTAL::C_VS_UI_SLAYER_PORTAL(int nExtendLevel)
 	temp_flag.portal_y = 117;
 	m_flag[DROBETA].push_back(temp_flag);
 
-	// Æ¼¸ð¸£
+	// Æ¼ï¿½ï¿½
 	temp_flag.zone_id = 51;
 	temp_flag.x = 201;
 	temp_flag.y = 36;
@@ -3741,7 +3740,7 @@ C_VS_UI_SLAYER_PORTAL::C_VS_UI_SLAYER_PORTAL(int nExtendLevel)
 	temp_flag.portal_y = 237;
 	m_flag[TIMORE].push_back(temp_flag);
 
-	// Æä·Î³ª
+	// ï¿½ï¿½Î³ï¿½
 	temp_flag.zone_id = 61;
 	temp_flag.x = 141;
 	temp_flag.y = 44;
@@ -4480,7 +4479,7 @@ void C_VS_UI_SLAYER_PORTAL::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_CANCEL].GetString(),
 	};
 
-	// ³Ý¸¶ºí¿ë
+	// ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½
 	int map_max = MAP_MAX;
 	//	if(g_pUserInformation->IsNetmarble)
 	//		map_max = 4;
@@ -4720,7 +4719,7 @@ int		C_VS_UI_SLAYER_PORTAL::GetNext(int map, bool bLeft)
 //-----------------------------------------------------------------------------
 void	C_VS_UI_SLAYER_PORTAL::Run(id_t id)
 {
-	// ³Ý¸¶ºí¿ë
+	// ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½
 	int map_max = MAP_MAX;
 	//	if(g_pUserInformation->IsNetmarble)
 	//		map_max = 4;

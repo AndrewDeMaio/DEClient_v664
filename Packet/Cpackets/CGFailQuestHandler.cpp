@@ -21,7 +21,6 @@
 
 
 void CGFailQuestHandler::execute (CGFailQuest* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 	__BEGIN_TRY __BEGIN_DEBUG_EX
 		
@@ -44,11 +43,11 @@ void CGFailQuestHandler::execute (CGFailQuest* pPacket , Player* pPlayer)
 	{
 		pPC->sendCurrentQuestInfo();
 
-		//cout << "Quest ½ÃÀÛ " << pPC->getName() << " " << pPacket->getQuestID() << endl;
+		//cout << "Quest ï¿½ï¿½ï¿½ï¿½ " << pPC->getName() << " " << pPacket->getQuestID() << endl;
 	}
 	else
 	{
-		//cout << "Quest ½ÃÀÛ ½ÇÆÐ " << pPC->getName() << " " << (int)code << endl;
+		//cout << "Quest ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ " << pPC->getName() << " " << (int)code << endl;
 	}
 
 #endif	// __GAME_SERVER__

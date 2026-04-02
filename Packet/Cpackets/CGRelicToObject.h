@@ -26,57 +26,57 @@ class CGRelicToObject : public Packet {
 public:
 	
 	// constructor
-	CGRelicToObject() throw();
+	CGRelicToObject();
 	
 	// destructor
-	~CGRelicToObject() throw();
+	~CGRelicToObject();
 
 	
 public:
 	
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_CG_RELIC_TO_OBJECT; }
+	PacketID_t getPacketID() const { return PACKET_CG_RELIC_TO_OBJECT; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return szObjectID + szObjectID + szCoord + szCoord; }
+	size_t getPacketSize() const { return szObjectID + szObjectID + szCoord + szCoord; }
 
 	// get/set Corpse's X
-	Coord_t getX() const throw() { return m_X; }
-	void setX(Coord_t X) throw() { m_X = X; }
+	Coord_t getX() const { return m_X; }
+	void setX(Coord_t X) { m_X = X; }
 
 	// get/set Corpse's Y
-	Coord_t getY() const throw() { return m_Y; }
-	void setY(Coord_t Y) throw() { m_Y = Y; }
+	Coord_t getY() const { return m_Y; }
+	void setY(Coord_t Y) { m_Y = Y; }
 
 	// get/set ObjectID
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	ObjectID_t getItemObjectID() const throw() { return m_ItemObjectID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	ObjectID_t getItemObjectID() const { return m_ItemObjectID; }
 
-	void setObjectID(ObjectID_t ObjectID) throw() { m_ObjectID = ObjectID; }
-	void setItemObjectID(ObjectID_t ItemObjectID) throw() { m_ItemObjectID = ItemObjectID; }
+	void setObjectID(ObjectID_t ObjectID) { m_ObjectID = ObjectID; }
+	void setItemObjectID(ObjectID_t ItemObjectID) { m_ItemObjectID = ItemObjectID; }
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet's debug std::string
-	std::string toString() const throw();
+	std::string toString() const;
 
 	// get packet name
-	std::string getPacketName() const throw() { return "CGRelicToObject"; }
+	std::string getPacketName() const { return "CGRelicToObject"; }
 #endif
 
 private :
 
 	ObjectID_t m_ItemObjectID;   // item object id
-	ObjectID_t m_ObjectID;  // ¼º¹°º¸°üÇÔ object id
+	ObjectID_t m_ObjectID;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ object id
 
 	Coord_t m_X;
 	Coord_t m_Y;
@@ -97,25 +97,25 @@ class CGRelicToObjectFactory : public PacketFactory {
 public:
 	
 	// constructor
-	CGRelicToObjectFactory() throw() {}
+	CGRelicToObjectFactory() {}
 	
 	// destructor
-	virtual ~CGRelicToObjectFactory() throw() {}
+	virtual ~CGRelicToObjectFactory() {}
 
 	
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new CGRelicToObject(); }
+	Packet* createPacket() { return new CGRelicToObject(); }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "CGRelicToObject"; }
+	std::string getPacketName() const { return "CGRelicToObject"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_RELIC_TO_OBJECT; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_RELIC_TO_OBJECT; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID + szObjectID + szCoord + szCoord; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID + szObjectID + szCoord + szCoord; }
 };
 #endif
 
@@ -131,7 +131,7 @@ class CGRelicToObjectHandler {
 public:
 
 	// execute packet's handler
-	static void execute(CGRelicToObject* pCGRelicToObject, Player* pPlayer) throw(Error);
+	static void execute(CGRelicToObject* pCGRelicToObject, Player* pPlayer);
 
 };
 #endif

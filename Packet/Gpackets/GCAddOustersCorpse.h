@@ -25,46 +25,46 @@ class GCAddOustersCorpse : public Packet {
 public :
 
 	// constructor
-	GCAddOustersCorpse() throw() { m_TreasureCount = 0; }
-	GCAddOustersCorpse(const PCOustersInfo3 & oustersInfo) throw() : m_OustersInfo(oustersInfo) {}
+	GCAddOustersCorpse() { m_TreasureCount = 0; }
+	GCAddOustersCorpse(const PCOustersInfo3 & oustersInfo) : m_OustersInfo(oustersInfo) {}
 
 	
 public :
 
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_ADD_OUSTERS_CORPSE; }
+	PacketID_t getPacketID() const { return PACKET_GC_ADD_OUSTERS_CORPSE; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return m_OustersInfo.getSize() + szBYTE; }
+	size_t getPacketSize() const { return m_OustersInfo.getSize() + szBYTE; }
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet's name
-	std::string getPacketName() const throw() { return "GCAddOustersCorpse"; }
+	std::string getPacketName() const { return "GCAddOustersCorpse"; }
 	
 	// get packet's debug string
-	std::string toString() const throw();
+	std::string toString() const;
 #endif
 
 
 public :
 
 	// get ousters info
-	PCOustersInfo3 & getOustersInfo() throw() { return m_OustersInfo; }
-	const PCOustersInfo3 & getOustersInfo() const throw() { return m_OustersInfo; }
-	void setOustersInfo(const PCOustersInfo3 & oustersInfo) throw() { m_OustersInfo = oustersInfo; }
+	PCOustersInfo3 & getOustersInfo() { return m_OustersInfo; }
+	const PCOustersInfo3 & getOustersInfo() const { return m_OustersInfo; }
+	void setOustersInfo(const PCOustersInfo3 & oustersInfo) { m_OustersInfo = oustersInfo; }
 
 	// get/set Treasure Count
-	BYTE getTreasureCount() const throw() { return m_TreasureCount; }
-	void setTreasureCount(BYTE Count) throw() { m_TreasureCount = Count; }
+	BYTE getTreasureCount() const { return m_TreasureCount; }
+	void setTreasureCount(BYTE Count) { m_TreasureCount = Count; }
 	
 private :
 	
@@ -88,18 +88,18 @@ class GCAddOustersCorpseFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet* createPacket() throw() { return new GCAddOustersCorpse(); }
+	Packet* createPacket() { return new GCAddOustersCorpse(); }
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	std::string getPacketName() const throw() { return "GCAddOustersCorpse"; }
+	std::string getPacketName() const { return "GCAddOustersCorpse"; }
 #endif
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_ADD_OUSTERS_CORPSE; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_ADD_OUSTERS_CORPSE; }
 
 	// get packet's body size
-	PacketSize_t getPacketMaxSize() const throw() { return PCOustersInfo3::getMaxSize() + szBYTE; }
+	PacketSize_t getPacketMaxSize() const { return PCOustersInfo3::getMaxSize() + szBYTE; }
 
 };
 
@@ -115,7 +115,7 @@ class GCAddOustersCorpseHandler {
 public :
 
 	// execute packet's handler
-	static void execute(GCAddOustersCorpse* pPacket, Player* pPlayer) throw(Error);
+	static void execute(GCAddOustersCorpse* pPacket, Player* pPlayer);
 
 };
 

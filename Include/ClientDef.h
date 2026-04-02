@@ -14,21 +14,22 @@
 // class
 //-----------------------------------------------------------------------------
 
-class CSpriteSurface;
-class MTopView;
-class MItem;
+
 //#include "MMusic.h"
-#include "MPlayer.h"
 //#include "Packet\Player.h"
-class ClientPlayer;
+//#include "UIFunction.h"
+#include "MPlayer.h"
 #include "MZone.h"
 #include "CMessageArray.h"
-//#include "UIFunction.h"
 #include "PacketFunction.h"
 #include "MHelpManager.h"
 #include "DebugInfo.h"
 #include "COrderedList.h"
 
+class ClientPlayer;
+class CSpriteSurface;
+class MTopView;
+class MItem;
 //-----------------------------------------------------------------------------
 // Global data
 //-----------------------------------------------------------------------------

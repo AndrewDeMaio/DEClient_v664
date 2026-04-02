@@ -16,7 +16,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -24,15 +23,15 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 
 		
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	AffectModifyInfo(g_pPlayer, pPacket);
 
-	// ÀÇ¹Ì¾ø´Ù.
+	// ï¿½Ç¹Ì¾ï¿½ï¿½ï¿½.
 	DWORD delayFrame = 16;//ConvertDurationToFrame( pPacket->getDuration() );
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -40,13 +39,13 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		//------------------------------------------------------
-		// Player°¡ »ç¿ëÇÑ ±â¼úÀÌ¶ó°í packetÀÌ ³¯¾Æ¿Â °æ¿ì
-		// --> Error´Ù
+		// Playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ packetï¿½ï¿½ ï¿½ï¿½ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½
+		// --> Errorï¿½ï¿½
 		//------------------------------------------------------
 		if (pPacket->getObjectID()==g_pPlayer->GetID())
 		{
@@ -55,7 +54,7 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 		else
 		{
 			//------------------------------------------------------
-			// »ç¿ëÀÚ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------
 			int creatureID = pPacket->getObjectID();
 			MCreature* pCreature = g_pZone->GetCreature( creatureID );
@@ -87,14 +86,14 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 			}
 
 			//------------------------------------------------------
-			// BombOK2·Î ÀÎÇÑ °á°ú 
+			// BombOK2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 			//------------------------------------------------------				
 			int size = pPacket->getCListNum();
 
 			MActionResult* pResult = new MActionResult;
 
 			//------------------------------------------------------------------
-			// effect status¸¦ Àû¿ë½ÃÅ²´Ù.
+			// effect statusï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 			//------------------------------------------------------------------
 			if (g_pPlayer->GetEFFECT_STAT()!=EFFECTSTATUS_NULL)
 			{
@@ -129,15 +128,15 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 		
 			if (size!=0)
 			{
-				// °á°ú¸¦ ´çÇÏ´Â °¢°¢ÀÇ creature¿¡ ´ëÇØ¼­ °á°ú Ç¥Çö
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
 				for (int i=0; i<size; i++)
 				{
 					//MCreature* pTargetCreature = g_pZone->GetCreature( pPacket->getCListElement() );
 						
-					// Creature¿¡°Ô Damage ÀÔÈû
+					// Creatureï¿½ï¿½ï¿½ï¿½ Damage ï¿½ï¿½ï¿½ï¿½
 					//if (pTargetCreature != NULL)
 					//{
-						// ³»(Player)°¡ ´©±º°¡°¡ »ç¿ëÇÑ SKillÀ» ¸ÂÀº °æ¿ì..
+						// ï¿½ï¿½(Player)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ SKillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 						// [ TEST CODE ]
 						
 					//	pResult->Add( new MActionResultNodeActionInfo( 
@@ -158,7 +157,7 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 						DEBUG_ADD("TCNotNULL");
 
 						//------------------------------------------------------
-						// EffectStatus°¡ ÀÖ´Ù¸é ºÙÀÎ´Ù.
+						// EffectStatusï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 						//------------------------------------------------------
 						EFFECTSTATUS es = (*g_pActionInfoTable)[skillID].GetEffectStatus();
 						
@@ -169,7 +168,7 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 
 						//------------------------------------------------------
 						//
-						// skill¿¡ °á°ú°¡ ÀÖÀ¸¸é Àû¿ë ½ÃÅ²´Ù.
+						// skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 						//
 						//------------------------------------------------------
 						MActionResultNode* pActionResultNode = NULL;
@@ -177,7 +176,7 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 						switch ((*g_pActionInfoTable)[skillID].GetActionResultID())
 						{
 							//------------------------------------------------------
-							// ´Ù¸¥ ActionInfo ½ÇÇà
+							// ï¿½Ù¸ï¿½ ActionInfo ï¿½ï¿½ï¿½ï¿½
 							//------------------------------------------------------
 							case ACTIONRESULTNODE_ACTIONINFO :
 								
@@ -195,7 +194,7 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 							break;
 
 							//------------------------------------------------------
-							// Burrow µîµî.. 
+							// Burrow ï¿½ï¿½ï¿½.. 
 							//------------------------------------------------------
 							default :
 								DEBUG_ADD("default");
@@ -203,7 +202,7 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 						}
 
 						//------------------------------------------------------
-						// NULLÀÌ ¾Æ´Ï¸é °°ÀÌ Àû¿ë
+						// NULLï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 						//------------------------------------------------------
 						if (pActionResultNode!=NULL)
 						{
@@ -223,7 +222,7 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 			DEBUG_ADD("pCreture?");
 
 			//------------------------------------------------------
-			// »ç¿ëÇÑ Ä³¸¯ÅÍ°¡ ¾ø´Â °æ¿ì --> °á°ú ¹Ù·Î Ç¥Çö
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ Ç¥ï¿½ï¿½
 			//------------------------------------------------------
 			if (pCreature==NULL)
 			{
@@ -232,39 +231,39 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 				int direction = pPacket->getDir();
 				
 				ExecuteActionInfoFromMainNode(
-							skillID,										// »ç¿ë ±â¼ú ¹øÈ£
+							skillID,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 						
 							pPacket->getX(), pPacket->getY(), 0,
-							direction,														// »ç¿ë ¹æÇâ
+							direction,														// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							
-							OBJECTID_NULL,		// 2002.3.6¿¡ ¹Ù²Þ. ¿ø·¡´Â pPacket->getObjectID()¿´´Ù.
+							OBJECTID_NULL,		// 2002.3.6ï¿½ï¿½ ï¿½Ù²ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ pPacket->getObjectID()ï¿½ï¿½ï¿½ï¿½.
 							pPacket->getX(), pPacket->getY(), 0,
 							
-							delayFrame,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+							delayFrame,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 							
 							pResult,
 							
-							false);			// ±â¼ú Ã·ºÎÅÍ ½ÃÀÛÇÑ´Ù.);
+							false);			// ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.);
 			}
 			//------------------------------------------------------
-			// Á¤»ó
+			// ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------
 			else
 			{				
 				DEBUG_ADD("C-OK");
 
 				//------------------------------------------------------
-				// ¹æÇâÀ» ¹Ù¶óº¸±â
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¶óº¸±ï¿½
 				//------------------------------------------------------
 				pCreature->SetDirectionToPosition(pPacket->getX(), pPacket->getY());		
 
 				//------------------------------------------------------
-				// range¸¦ direction¿¡ Àû¿ë½ÃÅ°´Â °æ¿ì
+				// rangeï¿½ï¿½ directionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½
 				//------------------------------------------------------
 				pCreature->SetDirection( pPacket->getDir() );				
 
 				//------------------------------------------------------
-				// BombOK2·Î ÀÎÇÑ °á°ú Ãß°¡
+				// BombOK2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 				//------------------------------------------------------
 				//Duration_t	m_Duration;
 				DEBUG_ADD("AtoSector");
@@ -272,7 +271,7 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 				pCreature->PacketSpecialActionToSector(
 									skillID, 
 									pPacket->getX(), pPacket->getY(),
-									pResult						// °á°ú
+									pResult						// ï¿½ï¿½ï¿½
 				);
 
 				DEBUG_ADD("AtoSectorOK");
@@ -283,7 +282,7 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 
 	
 	//------------------------------------------------------------
-	// Delay Frame ¼³Á¤
+	// Delay Frame ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------------
 	//g_pPlayer->SetEffectDelayFrame( resultActionInfo, delayFrame );
 
@@ -291,8 +290,8 @@ void GCThrowBombOK2Handler::execute ( GCThrowBombOK2 * pPacket , Player * pPlaye
 
 
 	//------------------------------------------------------------------
-	// UI¿¡ º¸ÀÌ´Â °ÍÀ» ¹Ù²ãÁØ´Ù.
-	// ºñ±³¿¬»êÇÏ´Â°Åº¸´Ù ÀÌ°Ô ´õ ºü¸£Áö ¾ÊÀ»±î.. À½.. - -;
+	// UIï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
+	// ï¿½ñ±³¿ï¿½ï¿½ï¿½ï¿½Ï´Â°Åºï¿½ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½.. - -;
 	//------------------------------------------------------------------
 	//UI_SetHP( g_pPlayer->GetHP(), g_pPlayer->GetMAX_HP() );
 	//UI_SetMP( g_pPlayer->GetMP(), g_pPlayer->GetMAX_MP() );

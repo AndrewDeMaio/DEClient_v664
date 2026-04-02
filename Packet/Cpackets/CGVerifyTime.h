@@ -22,8 +22,8 @@
 //
 // class CGVerifyTime;
 //
-// Å¬¶óÀÌ¾ðÆ®°¡ ¼­¹ö¿¡°Ô º¸³»´Â VerifyTime ÆÐÅ¶ÀÌ´Ù.
-// ³»ºÎ¿¡ VerifyTime String ¸¸À» µ¥ÀÌÅ¸ ÇÊµå·Î °¡Áø´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ VerifyTime ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
+// ï¿½ï¿½ï¿½Î¿ï¿½ VerifyTime String ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ ï¿½Êµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -34,29 +34,29 @@ class CGVerifyTime : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CG_VERIFY_TIME; }
+	PacketID_t getPacketID () const { return PACKET_CG_VERIFY_TIME; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () { return 0;} //sizeof(DWORD); }
+	size_t getPacketSize () const { return 0;} //sizeof(DWORD); }
 
 	void	SetTimeStamp(DWORD	dwTimeStamp) {m_TimeStamp	= dwTimeStamp;	}
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGVerifyTime"; }
+		std::string getPacketName () const { return "CGVerifyTime"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
 private :
@@ -77,19 +77,19 @@ class CGVerifyTimeFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CGVerifyTime(); }
+	Packet * createPacket () { return new CGVerifyTime(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGVerifyTime"; }
+		std::string getPacketName () const { return "CGVerifyTime"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_VERIFY_TIME; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_VERIFY_TIME; }
 
 	// get packet's max body size
-	// message ÀÇ ÃÖ´ë Å©±â¿¡ ´ëÇÑ ¼³Á¤ÀÌ ÇÊ¿äÇÏ´Ù.
-	PacketSize_t getPacketMaxSize () const throw () { return 0; }
+	// message ï¿½ï¿½ ï¿½Ö´ï¿½ Å©ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´ï¿½.
+	PacketSize_t getPacketMaxSize () const { return 0; }
 
 };
 
@@ -107,7 +107,7 @@ public :
 	public :
 
 		// execute packet's handler
-		static void execute ( CGVerifyTime * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+		static void execute ( CGVerifyTime * pPacket , Player * pPlayer );
 
 	};
 #endif

@@ -7,12 +7,10 @@
 
 //#include "DebugInfo.h"
 //#define	 new DEBUG_NEW
-std::ifstream;
-std::ofstream;
 
 //----------------------------------------------------------------------
 //
-// Info¿¡ ´ëÇÑ Á¤º¸ Table
+// Infoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Table
 //
 //----------------------------------------------------------------------
 template <class Type>
@@ -47,8 +45,8 @@ class CDataTable {
 		void			LoadFromFile(ivfstream& file);
 
 	protected :		
-		int			m_Size;					// Type Á¾·ù ¼ö
-		Type*		m_pTypeInfo;			// Type Á¤º¸
+		int			m_Size;					// Type ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+		Type*		m_pTypeInfo;			// Type ï¿½ï¿½ï¿½ï¿½
 
 		static int	s_SizeOfData;
 };
@@ -90,14 +88,14 @@ template <class Type>
 void
 CDataTable<Type>::Init(int size)
 {
-	// °³¼ö°¡ ¾øÀ» °æ¿ì 
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 	if (size==0) 
 		return;
 
-	// ÀÏ´Ü ÇØÁ¦
+	// ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
 	Release();
 
-	// ¸Þ¸ð¸® Àâ±â
+	// ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½
 	m_Size = size;
 	
 	m_pTypeInfo = new Type [m_Size];	
@@ -113,7 +111,7 @@ CDataTable<Type>::Release()
 {
 	if (m_pTypeInfo != NULL)
 	{
-		// ¸ðµç CSprite¸¦ Áö¿î´Ù.
+		// ï¿½ï¿½ï¿½ CSpriteï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 		delete [] m_pTypeInfo;
 		m_pTypeInfo = NULL;
 		
@@ -128,14 +126,14 @@ template <class Type>
 void			
 CDataTable<Type>::SaveToFile(std::ofstream& file)
 {
-	// size ÀúÀå
+	// size ï¿½ï¿½ï¿½ï¿½
 	file.write((const char*)&m_Size, 4);
 
-	// ¾Æ¹« °Íµµ ¾ø´Â °æ¿ì
+	// ï¿½Æ¹ï¿½ ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	if (m_pTypeInfo==NULL)
 		return;
 
-	// °¢°¢ÀÇ Á¤º¸ ÀúÀå
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	for (int i=0; i<m_Size; i++)
 	{
 		file.write((const char*)&m_pTypeInfo[i], s_SizeOfData);		
@@ -151,20 +149,20 @@ CDataTable<Type>::LoadFromFile(ivfstream& file)
 {
 	int numSize;
 
-	// size ÀÐ¾î¿À±â
+	// size ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½
 	file.read((char*)&numSize, 4);
 
-	// ÇöÀç ÀâÇôÀÖ´Â ¸Þ¸ð¸®¿Í ´Ù¸£¸é ´Ù½Ã ¸Þ¸ð¸®¸¦ Àâ´Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Þ¸ð¸®¿ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½Þ¸ð¸®¸ï¿½ ï¿½ï¿½Â´ï¿½.
 	if (m_Size != numSize)
 	{
-		// ¸Þ¸ð¸® ÇØÁ¦
+		// ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 		Release();
 
-		// ¸Þ¸ð¸® Àâ±â
+		// ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½
 		Init( numSize );
 	}
 
-	// file¿¡¼­ °¢°¢ÀÇ Á¤º¸¸¦ ÀÐ¾îµéÀÎ´Ù.
+	// fileï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½Î´ï¿½.
 	for (int i=0; i<m_Size; i++)
 	{
  		file.read((char*)&m_pTypeInfo[i], s_SizeOfData);

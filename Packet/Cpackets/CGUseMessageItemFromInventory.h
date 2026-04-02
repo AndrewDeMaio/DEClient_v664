@@ -2,8 +2,8 @@
 // Filename    : CGUseMessageItemFromInventory.h 
 // Written By  : excel96
 // Description : 
-// ÀÎº¥Åä¸® ¾ÈÀÇ ¾ÆÀÌÅÛÀ» »ç¿ëÇÒ ¶§, Å¬¶óÀÌ¾ðÆ®°¡ X, Y ¹× ObjectID¸¦
-// º¸³»¸é ¾ÆÀÌÅÛ Å¬·¡½º¿¡ µû¶ó¼­, ¼­¹ö°¡ ÀÌ¿¡ ¸Â´Â ÄÚµå¸¦ Ã³¸®ÇÑ´Ù.
+// ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ X, Y ï¿½ï¿½ ObjectIDï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ ï¿½Â´ï¿½ ï¿½Úµå¸¦ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __CG_USE_MESSAGE_ITEM_FROM_INVENTORY_H__
@@ -21,26 +21,26 @@ class CGUseMessageItemFromInventory : public CGUseItemFromInventory
 {
 public:
 #ifdef __DEBUG_OUTPUT__
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    void read(SocketInputStream & iStream);
 #endif
 
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_USE_MESSAGE_ITEM_FROM_INVENTORY; }
-	PacketSize_t getPacketSize() const throw() 
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_USE_MESSAGE_ITEM_FROM_INVENTORY; }
+	size_t getPacketSize() const 
 	{ 
 		return CGUseItemFromInventory::getPacketSize() 
 				+ szBYTE + m_Message.size(); 
 	}
 
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "CGUseMessageItemFromInventory"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "CGUseMessageItemFromInventory"; }
+	std::string toString() const;
 #endif
 	
 public:
-	const std::string& getMessage() const throw() { return m_Message; }
-	void setMessage(const std::string& msg) throw() { m_Message = msg; }
+	const std::string& getMessage() const { return m_Message; }
+	void setMessage(const std::string& msg) { m_Message = msg; }
 
 private:
 	std::string m_Message;
@@ -54,10 +54,10 @@ private:
 class CGUseMessageItemFromInventoryFactory : public CGUseItemFromInventoryFactory 
 {
 public:
-	Packet* createPacket() throw() { return new CGUseMessageItemFromInventory(); }
-	std::string getPacketName() const throw() { return "CGUseMessageItemFromInventory"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_USE_MESSAGE_ITEM_FROM_INVENTORY; }
-	PacketSize_t getPacketMaxSize() const throw() 
+	Packet* createPacket() { return new CGUseMessageItemFromInventory(); }
+	std::string getPacketName() const { return "CGUseMessageItemFromInventory"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_USE_MESSAGE_ITEM_FROM_INVENTORY; }
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		return CGUseItemFromInventoryFactory::getPacketMaxSize() 
 				+ szBYTE + 128; 
@@ -72,10 +72,10 @@ public:
 class CGUseMessageItemFromInventoryHandler 
 {
 public:
-	static void execute(CGUseMessageItemFromInventory* pPacket, Player* player) throw(ProtocolException, Error);
+	static void execute(CGUseMessageItemFromInventory* pPacket, Player* player);
 
 protected:
-	static void executeEventTree(CGUseMessageItemFromInventory* pPacket, Player* player) throw(ProtocolException, Error);
+	static void executeEventTree(CGUseMessageItemFromInventory* pPacket, Player* player);
 };
 #endif
 #endif

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : GCTradePrepare.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -11,23 +11,23 @@
 #include "PacketFactory.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// ±³È¯ ÄÚµå
+// ï¿½ï¿½È¯ ï¿½Úµï¿½
 ////////////////////////////////////////////////////////////////////////////////
 
 enum
 {
-	// Á¦ÀÏ Ã³À½ ±³È¯À» ¿äÃ»¹ÞÀº ÇÃ·¹ÀÌ¾î¿¡°Ô º¸³»ÁÖ´Â ÄÚµå
+	// ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Úµï¿½
 	GC_TRADE_PREPARE_CODE_REQUEST = 0,
 
 	GC_TRADE_PREPARE_CODE_CANCEL,
 
-	// ±³È¯À» ¿äÃ»¹ÞÀº ÇÃ·¹ÀÌ¾î°¡ ÀÀÇßÀ» °æ¿ì¿¡, ¿äÃ»ÀÚ¿¡°Ô º¸³»ÁØ´Ù.
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡, ï¿½ï¿½Ã»ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 	GC_TRADE_PREPARE_CODE_ACCEPT,
 
-	// ±³È¯À» ¿äÃ»¹ÞÀº ÇÃ·¹ÀÌ¾î°¡ °ÅºÎÇßÀ» °æ¿ì¿¡, ¿äÃ»ÀÚ¿¡°Ô º¸³»ÁØ´Ù.
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½Åºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡, ï¿½ï¿½Ã»ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 	GC_TRADE_PREPARE_CODE_REJECT,
 
-	// ±³È¯À» ¿äÃ»¹ÞÀº ÇÃ·¹ÀÌ¾î°¡ ÇöÀç ±³È¯ ÁßÀÌ´Ù.
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½Ì´ï¿½.
 	GC_TRADE_PREPARE_CODE_BUSY,
 
 	GC_TRADE_PREPARE_CODE_MAX
@@ -42,27 +42,27 @@ enum
 class GCTradePrepare : public Packet 
 {
 public:
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
-	PacketID_t getPacketID () const throw () { return PACKET_GC_TRADE_PREPARE; }
-	PacketSize_t getPacketSize () const throw () { return szObjectID + szBYTE; }
+	void read ( SocketInputStream & iStream );
+	void write ( SocketOutputStream & oStream ) const;
+	void execute ( Player * pPlayer );
+	PacketID_t getPacketID () const { return PACKET_GC_TRADE_PREPARE; }
+	size_t getPacketSize () const { return szObjectID + szBYTE; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "GCTradePrepare"; }
-		std::string toString () const throw ();
+		std::string getPacketName () const { return "GCTradePrepare"; }
+		std::string toString () const;
 	#endif
 
 public:
-	ObjectID_t getTargetObjectID() const throw() { return m_TargetObjectID; }
-	void setTargetObjectID(ObjectID_t id) throw() { m_TargetObjectID = id; }
+	ObjectID_t getTargetObjectID() const { return m_TargetObjectID; }
+	void setTargetObjectID(ObjectID_t id) { m_TargetObjectID = id; }
 
-	BYTE getCode() const throw() { return m_Code; }
+	BYTE getCode() const { return m_Code; }
 	void setCode(BYTE code) { m_Code = code; }
 
 private :
-	ObjectID_t m_TargetObjectID; // ±³È¯À» ¿øÇÏ´Â »ó´ë¹æÀÇ OID
-	BYTE       m_Code;           // ±³È¯ ÄÚµå
+	ObjectID_t m_TargetObjectID; // ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ OID
+	BYTE       m_Code;           // ï¿½ï¿½È¯ ï¿½Úµï¿½
 
 };
 
@@ -76,14 +76,14 @@ private :
 class GCTradePrepareFactory : public PacketFactory 
 {
 public:
-	Packet * createPacket () throw () { return new GCTradePrepare(); }
+	Packet * createPacket () { return new GCTradePrepare(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "GCTradePrepare"; }
+		std::string getPacketName () const { return "GCTradePrepare"; }
 	#endif
 
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_TRADE_PREPARE; }
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID + szBYTE; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_TRADE_PREPARE; }
+	PacketSize_t getPacketMaxSize () const { return szObjectID + szBYTE; }
 
 };
 
@@ -97,7 +97,7 @@ public:
 class GCTradePrepareHandler 
 {
 public:
-	static void execute ( GCTradePrepare * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCTradePrepare * pPacket , Player * pPlayer );
 
 };
 

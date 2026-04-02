@@ -8,7 +8,6 @@
 
 
 void CGQuitUnionDeny::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -18,7 +17,6 @@ void CGQuitUnionDeny::read (SocketInputStream & iStream)
 }
 
 void CGQuitUnionDeny::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -28,7 +26,6 @@ void CGQuitUnionDeny::write (SocketOutputStream & oStream) const
 }
 
 void CGQuitUnionDeny::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__			
@@ -38,7 +35,6 @@ void CGQuitUnionDeny::execute (Player* pPlayer)
 }
 #ifdef __DEBUG_OUTPUT__
 string CGQuitUnionDeny::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : GCTradeAddItem.cpp 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -14,7 +14,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 #if __CONTENTS(__PCITEMINFO2)
 GCTradeAddItem::GCTradeAddItem()
-	throw()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -24,7 +23,6 @@ GCTradeAddItem::GCTradeAddItem()
 // destructor
 ////////////////////////////////////////////////////////////////////////////////
 GCTradeAddItem::~GCTradeAddItem()
-	throw()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -32,10 +30,9 @@ GCTradeAddItem::~GCTradeAddItem()
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 ////////////////////////////////////////////////////////////////////////////////
 void GCTradeAddItem::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -54,10 +51,9 @@ void GCTradeAddItem::read ( SocketInputStream & iStream )
 
 		    
 ////////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 ////////////////////////////////////////////////////////////////////////////////
 void GCTradeAddItem::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -78,7 +74,6 @@ void GCTradeAddItem::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 ////////////////////////////////////////////////////////////////////////////////
 void GCTradeAddItem::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -92,7 +87,6 @@ void GCTradeAddItem::execute ( Player * pPlayer )
 // get packet's debug string
 ////////////////////////////////////////////////////////////////////////////////
 std::string GCTradeAddItem::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		
@@ -126,7 +120,6 @@ std::string GCTradeAddItem::toString () const
 #endif //__DEBUG_OUTPUT__
 #else //__PCITEMINFO2
 GCTradeAddItem::GCTradeAddItem()
-	throw()
 {
 	__BEGIN_TRY
 
@@ -140,7 +133,6 @@ GCTradeAddItem::GCTradeAddItem()
 // destructor
 ////////////////////////////////////////////////////////////////////////////////
 GCTradeAddItem::~GCTradeAddItem()
-	throw()
 {
 	__BEGIN_TRY
 
@@ -156,10 +148,9 @@ GCTradeAddItem::~GCTradeAddItem()
 
 
 ////////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 ////////////////////////////////////////////////////////////////////////////////
 void GCTradeAddItem::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -185,7 +176,7 @@ void GCTradeAddItem::read ( SocketInputStream & iStream )
 	iStream.read( m_Grade );
 	iStream.read( m_EnchantLevel );
 	iStream.read( m_ListNum );
-	for (i = 0; i < m_ListNum; i++) 
+	for (int i = 0; i < m_ListNum; i++) 
 	{
 		SubItemInfo* pInfo = new SubItemInfo();
 		pInfo->read( iStream );
@@ -193,7 +184,7 @@ void GCTradeAddItem::read ( SocketInputStream & iStream )
 	}
 	BYTE thirdOptionSize;
 	iStream.read( thirdOptionSize );
-//20071009 by diesirace ¼­µå¾ÆÀÌÅÛ¿É¼Ç Ãß°¡ 
+//20071009 by diesirace ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¿É¼ï¿½ ï¿½ß°ï¿½ 
 	m_ThirdOptionType.clear();
 	for (int thirdindex = 0; thirdindex < thirdOptionSize; thirdindex++) 
 	{
@@ -213,10 +204,9 @@ void GCTradeAddItem::read ( SocketInputStream & iStream )
 
 		    
 ////////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 ////////////////////////////////////////////////////////////////////////////////
 void GCTradeAddItem::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -270,7 +260,6 @@ void GCTradeAddItem::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 ////////////////////////////////////////////////////////////////////////////////
 void GCTradeAddItem::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -284,7 +273,6 @@ void GCTradeAddItem::execute ( Player * pPlayer )
 // get packet's debug string
 ////////////////////////////////////////////////////////////////////////////////
 std::string GCTradeAddItem::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

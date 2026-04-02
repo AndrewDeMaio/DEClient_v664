@@ -9,7 +9,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void CGFriendReqToDel::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -32,7 +31,6 @@ void CGFriendReqToDel::read ( SocketInputStream & iStream )
 }
 		    
 void CGFriendReqToDel::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -56,7 +54,6 @@ void CGFriendReqToDel::write ( SocketOutputStream & oStream ) const
 }
 
 void CGFriendReqToDel::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -66,7 +63,6 @@ void CGFriendReqToDel::execute ( Player * pPlayer )
 }
 
 string CGFriendReqToDel::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

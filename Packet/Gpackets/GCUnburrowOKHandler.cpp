@@ -15,7 +15,6 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCUnburrowOKHandler::execute ( GCUnburrowOK * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -24,7 +23,7 @@ void GCUnburrowOKHandler::execute ( GCUnburrowOK * pPacket , Player * pPlayer )
 	/*
 	ClientPlayer * pClientPlayer = dynamic_cast<ClientPlayer*>(pPlayer);
 
-	// ´ÙÀ½ ÁÂÇ¥¸¦ ÇÃ·¹ÀÌ¾î¿¡ ÁöÁ¤ÇØ ³õ´Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
 	pClientPlayer->setX( pPacket->getX() );
 	pClientPlayer->setY( pPacket->getY() );
 	pClientPlayer->setDir( pPacket->getDir() );
@@ -35,7 +34,7 @@ void GCUnburrowOKHandler::execute ( GCUnburrowOK * pPacket , Player * pPlayer )
 
 
 	//------------------------------------------------------------------
-	// Player°¡ ±â´Ù¸®´ø skillÀÇ ¼º°øÀ¯¹«¸¦ °ËÁõ¹Þ¾Ò´Ù.
+	// Playerï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Þ¾Ò´ï¿½.
 	//------------------------------------------------------------------
 	if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_SKILL_SUCCESS)
 	{		
@@ -47,34 +46,34 @@ void GCUnburrowOKHandler::execute ( GCUnburrowOK * pPacket , Player * pPlayer )
 	}
 
 	//-----------------------------------------------------------------
-	// À§Ä¡ ¼³Á¤
+	// ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½
 	//-----------------------------------------------------------------
 	g_pPlayer->SetServerPosition( pPacket->getX(), pPacket->getY() );	
 	g_pPlayer->MovePosition( pPacket->getX(), pPacket->getY() );
 	g_pPlayer->SetDirection( pPacket->getDir() );
 
 	//-----------------------------------------------------------------
-	// Áö»óÀ¸·Î ³ª¿Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
 	//-----------------------------------------------------------------
 	g_pPlayer->SetGroundCreature();
 
 	//--------------------------------------------------
-	// Burrow¿¡¼­ ºüÁ®³ª¿À´Â Effect == BurrowingÇÏ´Â Effect
+	// Burrowï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Effect == Burrowingï¿½Ï´ï¿½ Effect
 	//--------------------------------------------------		
 	ExecuteActionInfoFromMainNode(
-		RESULT_MAGIC_HIDE,										// »ç¿ë ±â¼ú ¹øÈ£
+		RESULT_MAGIC_HIDE,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 	
 		g_pPlayer->GetX(), g_pPlayer->GetY(), 0,
-		g_pPlayer->GetDirection(),														// »ç¿ë ¹æÇâ
+		g_pPlayer->GetDirection(),														// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
-		OBJECTID_NULL,												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+		OBJECTID_NULL,												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		g_pPlayer->GetX(), g_pPlayer->GetY(), 0, 
 		
-		0,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+		0,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 		
 		NULL,
 		
-		false);			// ±â¼ú Ã·ºÎÅÍ ½ÃÀÛÇÑ´Ù.
+		false);			// ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 
 #endif
 

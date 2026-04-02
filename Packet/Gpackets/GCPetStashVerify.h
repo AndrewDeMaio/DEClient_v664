@@ -22,27 +22,27 @@ public:
 		PET_STASH_OK,
 		PET_STASH_NOT_ENOUGH_MONEY,
 		PET_STASH_NO_INVENTORY_SPACE,
-		PET_STASH_RACK_IS_NOT_EMPTY,	// ÇØ´ç À§Ä¡¿¡ ÀÌ¹Ì ´Ù¸¥ Æê ¾ÆÀÌÅÛÀÌ ÀÖ½À´Ï´Ù.
-		PET_STASH_RACK_IS_EMPTY			// Ã£À¸·Á°í ÇÑ À§Ä¡¿¡ ¾ÆÀÌÅÛÀÌ ¾ø½À´Ï´Ù.
+		PET_STASH_RACK_IS_NOT_EMPTY,	// ï¿½Ø´ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
+		PET_STASH_RACK_IS_EMPTY			// Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 	};
 
-	GCPetStashVerify() throw() { m_Code = PET_STASH_OK; }
-	virtual ~GCPetStashVerify() throw() {}
+	GCPetStashVerify() { m_Code = PET_STASH_OK; }
+	virtual ~GCPetStashVerify() {}
 
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
 
-	PacketID_t getPacketID() const throw() { return PACKET_GC_PET_STASH_VERIFY; }
-	PacketSize_t getPacketSize() const throw() { return szBYTE; }
+	PacketID_t getPacketID() const { return PACKET_GC_PET_STASH_VERIFY; }
+	size_t getPacketSize() const { return szBYTE; }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCPetStashVerify"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCPetStashVerify"; }
+	string toString() const;
 #endif	
 public:
-	BYTE getCode(void) const throw() { return m_Code;}
-	void setCode(BYTE code) throw() { m_Code = code;}
+	BYTE getCode(void) const { return m_Code;}
+	void setCode(BYTE code) { m_Code = code;}
 
 private: 
 	BYTE m_Code;
@@ -56,10 +56,10 @@ private:
 class GCPetStashVerifyFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCPetStashVerify(); }
-	string getPacketName() const throw() { return "GCPetStashVerify"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_PET_STASH_VERIFY; }
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE; }
+	Packet* createPacket() { return new GCPetStashVerify(); }
+	string getPacketName() const { return "GCPetStashVerify"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_PET_STASH_VERIFY; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE; }
 };
 
 
@@ -70,7 +70,7 @@ public:
 class GCPetStashVerifyHandler 
 {
 public:
-	static void execute( GCPetStashVerify* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute( GCPetStashVerify* pPacket, Player* pPlayer);
 };
 
 #endif

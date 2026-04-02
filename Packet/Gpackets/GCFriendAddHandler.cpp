@@ -7,11 +7,11 @@
 //----------------------------------------------------------------------
 
 // include files
+//#include "VS_UI_Friend_System.h"
+//#include "MZoneTable.h"
+
 #include "GPacket_PCH.h"
 #include "GCFriendAdd.h"
-#include "VS_UI_Friend_System.h"
-#include "MZoneTable.h"
-
 #include "Assert.h"
 
 #ifdef __GAME_SERVER__
@@ -20,7 +20,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void GCFriendAddHandler::execute ( GCFriendAdd* pPacket, Player* pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -31,7 +30,7 @@ void GCFriendAddHandler::execute ( GCFriendAdd* pPacket, Player* pPlayer )
 
 	if (pPacket)
 	{
-		// Ä£±¸ ½Ã½ºÅÛ Ã¢À» °¡Áö°í ¿Â´Ù. ¾øÀ» °æ¿ì »ı¼º
+		// Ä£ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		C_VS_UI_FRIEND_SYSTEM* pFriend = (C_VS_UI_FRIEND_SYSTEM*)gpC_window_manager->GetWindowbyName("FriendSystem");
 		if (!pFriend)
 		{
@@ -39,12 +38,12 @@ void GCFriendAddHandler::execute ( GCFriendAdd* pPacket, Player* pPlayer )
 			pFriend->SetWindowName("FriendSystem");
 		}
 
-		// Ä£±¸ Á¤º¸¸¦ ¸ñ·Ï¿¡ Ãß°¡
+		// Ä£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½ ï¿½ß°ï¿½
 		FriendSimpleInfo pInfo = pPacket->GetFriendSimpleInfo();
 		int item_index = pFriend->GetListView()->GetItemSize();
-		// Ä£±¸ ÀÌ¸§
+		// Ä£ï¿½ï¿½ ï¿½Ì¸ï¿½
 		pFriend->GetListView()->InsertColumnItem(pInfo.GetFriendName().c_str(),item_index,0);
-		// Á¸ Á¤º¸ ÀúÀå
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		std::string zone_id = "";
 		if (g_pZoneTable->Get(pInfo.GetZoneID()) != NULL)
 		{
@@ -52,20 +51,20 @@ void GCFriendAddHandler::execute ( GCFriendAdd* pPacket, Player* pPlayer )
 			if (!zone_id.empty())
 				pFriend->GetListView()->InsertColumnItem(g_pZoneTable->Get(pInfo.GetZoneID())->Name,item_index,1);
 			else
-				pFriend->GetListView()->InsertColumnItem("¾Ë¼ö ¾øÀ½",item_index,1);
+				pFriend->GetListView()->InsertColumnItem("ï¿½Ë¼ï¿½ ï¿½ï¿½ï¿½ï¿½",item_index,1);
 		}
 		else
-			pFriend->GetListView()->InsertColumnItem("¾Ë¼ö ¾øÀ½",item_index,1);
-		// Á¢¼Ó ¿©ºÎ
+			pFriend->GetListView()->InsertColumnItem("ï¿½Ë¼ï¿½ ï¿½ï¿½ï¿½ï¿½",item_index,1);
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if (pInfo.GetConnect())
 			pFriend->GetListView()->InsertColumnItem("ON",item_index,2);
 		else
 			pFriend->GetListView()->InsertColumnItem("OFF",item_index,2);
 
-		// ¼­¹ö Á¤º¸´Â °¡Áö°í¸¸ ÀÖ´Â´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Â´ï¿½.
 		pFriend->GetListView()->InsertColumnItem(pInfo.GetServerName().c_str(),item_index,3);
 
-		// Ä£±¸°¡ Ãß°¡ µÇ¾ú´Ù°í È®ÀÎ ¸Ş½ÃÁö¸¦ º¸³½´Ù.
+		// Ä£ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½Ç¾ï¿½ï¿½Ù°ï¿½ È®ï¿½ï¿½ ï¿½Ş½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 		C_VS_UI_FRINEND_MESSAGE_BOX* pFriendPacket = (C_VS_UI_FRINEND_MESSAGE_BOX*)gpC_window_manager->GetWindowbyName("FriendAddOkPopupMessage");
 		if (pFriendPacket)
 		{
@@ -79,7 +78,7 @@ void GCFriendAddHandler::execute ( GCFriendAdd* pPacket, Player* pPlayer )
 				DeleteNew(pFriendPacket);
 			}
 		}
-		pFriendPacket = new C_VS_UI_FRINEND_MESSAGE_BOX("Ä£±¸ ¸ñ·Ï¿¡ Á¤»óÀûÀ¸·Î Ãß°¡ µÇ¾ú½À´Ï´Ù.");
+		pFriendPacket = new C_VS_UI_FRINEND_MESSAGE_BOX("Ä£ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
 		pFriendPacket->SetWindowName("FriendAddOkPopupMessage");
 		pFriendPacket->Start();
 	}

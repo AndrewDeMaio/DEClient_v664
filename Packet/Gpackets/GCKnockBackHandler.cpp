@@ -14,7 +14,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCKnockBackHandler::execute ( GCKnockBack * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -31,7 +30,7 @@ void GCKnockBackHandler::execute ( GCKnockBack * pPacket , Player * pPlayer )
 
 	if (pCreature!=NULL)
 	{
-		// ÀÏ¹Ý creatureÀÎ °æ¿ì´Â ½ÃÀÛÁÂÇ¥¸¦ ÀÏ´Ü ¼³Á¤ÇØÁØ´Ù.
+		// ï¿½Ï¹ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 		if (pCreature->GetID()!=g_pPlayer->GetID())
 		{
 			pCreature->SetStop();		
@@ -40,12 +39,12 @@ void GCKnockBackHandler::execute ( GCKnockBack * pPacket , Player * pPlayer )
 			pCreature->SetServerPosition( ox, oy );
 		}
 
-		// (nx, ny)·Î KnockBackµÈ´Ù.
+		// (nx, ny)ï¿½ï¿½ KnockBackï¿½È´ï¿½.
 		pCreature->KnockBackPosition( nx, ny );
 	}
 	else
 	{
-		// ±×·± creature°¡ ¾øÀ» °æ¿ì
+		// ï¿½×·ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		DEBUG_ADD_FORMAT("There's no such creature : ID=%d", pPacket->getObjectID());
 	}
 

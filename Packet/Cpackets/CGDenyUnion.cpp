@@ -8,7 +8,6 @@
 
 
 void CGDenyUnion::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -18,7 +17,6 @@ void CGDenyUnion::read (SocketInputStream & iStream)
 }
 
 void CGDenyUnion::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -28,7 +26,6 @@ void CGDenyUnion::write (SocketOutputStream & oStream) const
 }
 
 void CGDenyUnion::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__			
@@ -38,7 +35,6 @@ void CGDenyUnion::execute (Player* pPlayer)
 }
 #ifdef __DEBUG_OUTPUT__
 string CGDenyUnion::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

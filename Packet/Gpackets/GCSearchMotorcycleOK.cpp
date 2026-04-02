@@ -1,8 +1,8 @@
 //--------------------------------------------------------------------------------
 // 
 // Filename    : GCSearchMotorcycleOK.cpp 
-// Written By  : ±è¼º¹Î
-// Description : ÇÃ·¹ÀÌ¾î¿¡°Ô ¼­¹ö ÃøÀÇ »óÁ¡ ¹öÀüÀ» ¾Ë·ÁÁÙ ¶§ ¾²ÀÌ´Â ÆÐÅ¶ÀÌ´Ù.
+// Written By  : ï¿½è¼ºï¿½ï¿½
+// Description : ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 // 
 //--------------------------------------------------------------------------------
 
@@ -12,10 +12,9 @@
 #include "Assert.h"
 
 //--------------------------------------------------------------------
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //--------------------------------------------------------------------
 void GCSearchMotorcycleOK::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -28,10 +27,9 @@ void GCSearchMotorcycleOK::read ( SocketInputStream & iStream )
 
 		    
 //--------------------------------------------------------------------------------
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //--------------------------------------------------------------------------------
 void GCSearchMotorcycleOK::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -46,7 +44,6 @@ void GCSearchMotorcycleOK::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //--------------------------------------------------------------------------------
 void GCSearchMotorcycleOK::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -60,7 +57,6 @@ void GCSearchMotorcycleOK::execute ( Player * pPlayer )
 //--------------------------------------------------------------------------------
 #ifdef __DEBUG_OUTPUT__
 	std::string GCSearchMotorcycleOK::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 			

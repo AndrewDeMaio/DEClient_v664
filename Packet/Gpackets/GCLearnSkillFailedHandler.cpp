@@ -17,7 +17,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCLearnSkillFailedHandler::execute ( GCLearnSkillFailed * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -45,11 +44,11 @@ void GCLearnSkillFailedHandler::execute ( GCLearnSkillFailed * pPacket , Player 
 				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_SKILL_EXCEED_LEVEL].GetString());
 			break;
 
-			case 8 :	// ÇØ´ç ·¹º§ÀÌ ºÎÁ·ÇØ ½ºÅ³À» ¹è¿ï ¼ö ¾ø½À´Ï´Ù.
+			case 8 :	// ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_SKILL_CANNOT_LEARN_BY_LEVEL].GetString());
 			break;
 			
-			case 9 :	// ´É·ÂÄ¡·Î ÀÎÇØ ½ºÅ³À» ¹è¿ï ¼ö ¾øÀ½
+			case 9 :	// ï¿½É·ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_SKILL_CANNOT_LEARN_BY_STATUS].GetString());
 			break;
 	

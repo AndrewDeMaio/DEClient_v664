@@ -51,7 +51,7 @@ class CSetManager {
 		//--------------------------------------------------------
 		// Get functions
 		//---------------------------------------------------------
-		SizeType	GetSize() const	{ return m_List.size(); }
+		size_t	GetSize() const	{ return m_List.size(); }
 
 		//--------------------------------------------------------
 		// Sort

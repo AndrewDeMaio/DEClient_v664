@@ -33,7 +33,7 @@ void CTickTimer::StartTimer(DWORD tickSize, bool nextLimit)
 
 void CTickTimer::ResetTimer(bool nextLimit)
 {
-	m_dwRestartTime	= GetTickCount();
+	m_dwRestartTime	= GetTickCount64();
 	m_bNextLimit	= nextLimit;
 	m_dwTimeLimit	= m_dwTickSize + m_dwRestartTime;
 }
@@ -42,7 +42,7 @@ bool CTickTimer::IsTimeLimit()
 {
 	if(!IsEnable()) return false;
 
-	if(m_bNextLimit || GetTickCount() >= m_dwTimeLimit)
+	if(m_bNextLimit || GetTickCount64() >= m_dwTimeLimit)
 	{
 		ResetTimer();
 		return true;

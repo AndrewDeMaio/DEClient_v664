@@ -101,9 +101,6 @@
     <ClInclude Include="CDirectSoundStream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="codec.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -125,22 +122,10 @@
     <ClInclude Include="mp3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ogg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="os_types.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="reader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="soundbuf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vorbisenc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="vorbisfile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CMP3.h">

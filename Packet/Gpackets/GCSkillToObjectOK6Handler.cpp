@@ -14,7 +14,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSkillToObjectOK6Handler::execute ( GCSkillToObjectOK6 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -22,14 +21,14 @@ void GCSkillToObjectOK6Handler::execute ( GCSkillToObjectOK6 * pPacket , Player 
 
 
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	AffectModifyInfo(g_pPlayer, pPacket);
 
 	DWORD delayFrame = ConvertDurationToFrame( pPacket->getDuration() );
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -37,7 +36,7 @@ void GCSkillToObjectOK6Handler::execute ( GCSkillToObjectOK6 * pPacket , Player 
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{		
@@ -55,14 +54,14 @@ void GCSkillToObjectOK6Handler::execute ( GCSkillToObjectOK6 * pPacket , Player 
 			skillID = (*g_pActionInfoTable)[skillID].GetActionStep( pPacket->getGrade() - 1);
 	
 		//------------------------------------------------------
-		// »ç¿ëÀÚ°¡ ÀÖ´Â °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
-		// ³»(Player)°¡ ´©±º°¡°¡ »ç¿ëÇÑ SKillÀ» ¸ÂÀº °æ¿ì..
+		// ï¿½ï¿½(Player)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ SKillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 		// [ TEST CODE ]
 		MActionResult* pResult = new MActionResult;
 
 		//------------------------------------------------------------------
-		// effect status¸¦ Àû¿ë½ÃÅ²´Ù.
+		// effect statusï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 		//------------------------------------------------------------------
 		if (g_pPlayer->GetEFFECT_STAT()!=EFFECTSTATUS_NULL)
 		{
@@ -78,7 +77,7 @@ void GCSkillToObjectOK6Handler::execute ( GCSkillToObjectOK6 * pPacket , Player 
 		else
 		{
 			//------------------------------------------------------
-			// EffectStatus°¡ ÀÖ´Ù¸é ºÙÀÎ´Ù.
+			// EffectStatusï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 			//------------------------------------------------------
 			EFFECTSTATUS es = (*g_pActionInfoTable)[skillID].GetEffectStatus();
 			
@@ -104,41 +103,41 @@ void GCSkillToObjectOK6Handler::execute ( GCSkillToObjectOK6 * pPacket , Player 
 
 		// [ TEST CODE ]
 		//
-		// °á°ú¸¦ »ý¼º&ÀúÀåÇØ¼­ º¸³»¾ß ÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½&ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		//
-		// ¹æÇâÀ» ¹Ù¶óº¸±â
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¶óº¸±ï¿½
 		//pCreature->SetDirectionToPosition(g_pPlayer->GetX(), g_pPlayer->GetY());
 
 		//Duration_t	m_Duration;
 		//pCreature->PacketSpecialActionToOther(
 		//					pPacket->getSkillType(), 
 		//					pPacket->getObjectID(),
-		//					pResult						// °á°ú
+		//					pResult						// ï¿½ï¿½ï¿½
 		//);
 		int direction = GetDirectionToPosition(
 							pPacket->getX(), pPacket->getY(),
 							g_pPlayer->GetX(), g_pPlayer->GetY());
 
 		ExecuteActionInfoFromMainNode(
-					pPacket->getSkillType() + (*g_pActionInfoTable).GetMinResultActionInfo(),										// »ç¿ë ±â¼ú ¹øÈ£
+					pPacket->getSkillType() + (*g_pActionInfoTable).GetMinResultActionInfo(),										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 				
-					pPacket->getX(), pPacket->getY(), 0, // ±â¼ú »ç¿ëÇÏ´Â »ç¶÷(?) 
-					direction,														// »ç¿ë ¹æÇâ
+					pPacket->getX(), pPacket->getY(), 0, // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½(?) 
+					direction,														// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					
-					g_pPlayer->GetID(),												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+					g_pPlayer->GetID(),												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					g_pPlayer->GetX(), g_pPlayer->GetY(), 0,
 					
-					delayFrame,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+					delayFrame,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 					
-					pResult,										// °á°ú Á¤º¸
+					pResult,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-					false);			// ±â¼ú Ã·ºÎÅÍ ½ÃÀÛÇÑ´Ù.
+					false);			// ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		
 	}
 		
 	/*
 	//------------------------------------------------------
-	// Player°¡ ±â¼úÀ» ´çÇßÀ» ¶§ÀÇ ¸ð½À..
+	// Playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 	//------------------------------------------------------
 	int resultActionInfo =  pPacket->getSkillType() + (*g_pActionInfoTable).GetMinResultActionInfo();
 	g_pPlayer->PacketSpecialActionResult( 
@@ -149,7 +148,7 @@ void GCSkillToObjectOK6Handler::execute ( GCSkillToObjectOK6 * pPacket , Player 
 	);
 
 	//------------------------------------------------------------
-	// Delay Frame ¼³Á¤
+	// Delay Frame ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------------
 	g_pPlayer->SetEffectDelayFrame( resultActionInfo, delayFrame );
 	*/
@@ -157,8 +156,8 @@ void GCSkillToObjectOK6Handler::execute ( GCSkillToObjectOK6 * pPacket , Player 
 
 
 	//------------------------------------------------------------------
-	// UI¿¡ º¸ÀÌ´Â °ÍÀ» ¹Ù²ãÁØ´Ù.
-	// ºñ±³¿¬»êÇÏ´Â°Åº¸´Ù ÀÌ°Ô ´õ ºü¸£Áö ¾ÊÀ»±î.. À½.. - -;
+	// UIï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
+	// ï¿½ñ±³¿ï¿½ï¿½ï¿½ï¿½Ï´Â°Åºï¿½ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½.. - -;
 	//------------------------------------------------------------------
 	//UI_SetHP( g_pPlayer->GetHP(), g_pPlayer->GetMAX_HP() );
 	//UI_SetMP( g_pPlayer->GetMP(), g_pPlayer->GetMAX_MP() );

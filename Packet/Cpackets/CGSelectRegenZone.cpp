@@ -7,7 +7,6 @@
 #include "CGSelectRegenZone.h"
 
 void CGSelectRegenZone::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -17,7 +16,6 @@ void CGSelectRegenZone::read (SocketInputStream & iStream)
 }
 		    
 void CGSelectRegenZone::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -27,7 +25,6 @@ void CGSelectRegenZone::write (SocketOutputStream & oStream) const
 }
 
 void CGSelectRegenZone::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -38,7 +35,6 @@ void CGSelectRegenZone::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGSelectRegenZone::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

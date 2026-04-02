@@ -110,8 +110,7 @@ SOCKET SocketAPI::socket_ex ( int domain , int type , int protocol )
 //////////////////////////////////////////////////////////////////////
 //
 // void SocketAPI::bind_ex ( SOCKET s , const struct sockaddr * addr , uint addrlen ) 
-//      throw ( MBindException , 
-//              Error );
+//;
 //
 // exception version of bind()
 //
@@ -195,9 +194,7 @@ void SocketAPI::bind_ex ( SOCKET s , const struct sockaddr * addr , uint addrlen
 //////////////////////////////////////////////////////////////////////
 //
 // void SocketAPI::connect_ex ( SOCKET s , const struct sockaddr * addr , uint addrlen )
-//      throw ( ConnectException , 
-//              NonBlockingIOException , 
-//              Error );
+//;
 //
 // exception version of connect() system call
 //
@@ -363,8 +360,7 @@ void SocketAPI::listen_ex ( SOCKET s , uint backlog )
 //////////////////////////////////////////////////////////////////////
 //
 //SOCKET SocketAPI::accept_ex ( SOCKET s , struct sockaddr * addr , uint * addrlen ) 
-//       throw ( NonBlockingIOException , 
-//               Error );
+//;
 //
 // exception version of accept()
 //

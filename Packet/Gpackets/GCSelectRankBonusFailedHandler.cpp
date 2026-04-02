@@ -18,7 +18,6 @@ extern bool gbl_global_empty_move;
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSelectRankBonusFailedHandler::execute ( GCSelectRankBonusFailed * pGCSelectRankBonusFailed , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 

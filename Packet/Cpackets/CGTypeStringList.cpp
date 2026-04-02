@@ -7,21 +7,18 @@
 #include "CGTypeStringList.h"
 
 CGTypeStringList::CGTypeStringList () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 CGTypeStringList::~CGTypeStringList () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGTypeStringList::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -36,8 +33,8 @@ void CGTypeStringList::read (SocketInputStream & iStream)
 		BYTE szString;
 		iStream.read(szString);
 
-		if ( szString == 0 ) throw InvalidProtocolException("String ±æÀÌ°¡ 0ÀÔ´Ï´Ù.");
-		if ( szString > MAX_STRING_LENGTH ) throw InvalidProtocolException("String ±æÀÌ°¡ ³Ê¹« ±é´Ï´Ù.");
+		if ( szString == 0 ) throw InvalidProtocolException("String ï¿½ï¿½ï¿½Ì°ï¿½ 0ï¿½Ô´Ï´ï¿½.");
+		if ( szString > MAX_STRING_LENGTH ) throw InvalidProtocolException("String ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ê¹ï¿½ ï¿½ï¿½Ï´ï¿½.");
 
 		iStream.read(temp, szString);
 
@@ -49,7 +46,6 @@ void CGTypeStringList::read (SocketInputStream & iStream)
 }
 
 void CGTypeStringList::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -74,7 +70,6 @@ void CGTypeStringList::write (SocketOutputStream & oStream) const
 }
 
 void CGTypeStringList::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -87,7 +82,7 @@ void CGTypeStringList::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGTypeStringList::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 		

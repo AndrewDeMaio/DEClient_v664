@@ -7,15 +7,16 @@
 #ifndef __GC_ADD_EFFECT_TO_SCREEN_H__
 #define __GC_ADD_EFFECT_TO_SCREEN_H__
 
+//#include "MEventManager.h"
+
 #include "Types.h"
 #include "Exception.h"
 #include "Packet.h"
 #include "PacketFactory.h"
-#include "MEventManager.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // class GCAddEffectToScreen;
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
 #if __CONTENTS(__TIPOJYU_CASTLE)
@@ -23,24 +24,24 @@
 class GCAddEffectToScreen : public Packet 
 {
 public:
-	GCAddEffectToScreen() throw();
-	~GCAddEffectToScreen() throw();
+	GCAddEffectToScreen();
+	~GCAddEffectToScreen();
 	
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_ADD_EFFECT_TO_SCREEN; }
-	PacketSize_t getPacketSize() const throw() { return szEffectID + szTurn; }
-	string getPacketName() const throw() { return "GCAddEffectToScreen"; }
-	string toString() const throw();
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_ADD_EFFECT_TO_SCREEN; }
+	size_t getPacketSize() const { return szEffectID + szTurn; }
+	string getPacketName() const { return "GCAddEffectToScreen"; }
+	string toString() const;
 
 public:
-	EffectID_t getEffectID() const throw() { return m_EffectID; }
-	void setEffectID(EffectID_t e) throw() { m_EffectID = e; }
+	EffectID_t getEffectID() const { return m_EffectID; }
+	void setEffectID(EffectID_t e) { m_EffectID = e; }
 
-	Duration_t getDuration() const throw() { return m_Duration; }
-	void setDuration(Duration_t d) throw() { m_Duration = d; }
+	Duration_t getDuration() const { return m_Duration; }
+	void setDuration(Duration_t d) { m_Duration = d; }
 	
 private:
 	EffectID_t	m_EffectID;
@@ -54,10 +55,10 @@ private:
 class GCAddEffectToScreenFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCAddEffectToScreen(); }
-	string getPacketName() const throw() { return "GCAddEffectToScreen"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_ADD_EFFECT_TO_SCREEN; }
-	PacketSize_t getPacketMaxSize() const throw() { return szEffectID + szTurn; }
+	Packet* createPacket() { return new GCAddEffectToScreen(); }
+	string getPacketName() const { return "GCAddEffectToScreen"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_ADD_EFFECT_TO_SCREEN; }
+	PacketSize_t getPacketMaxSize() const { return szEffectID + szTurn; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -67,7 +68,7 @@ public:
 class GCAddEffectToScreenHandler 
 {
 public:
-	static void execute(GCAddEffectToScreen* pGCAddEffectToScreen, Player* pPlayer) throw(Error);
+	static void execute(GCAddEffectToScreen* pGCAddEffectToScreen, Player* pPlayer);
 };
 
 #endif //__TIPOJYU_CASTLE

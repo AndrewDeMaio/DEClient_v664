@@ -23,32 +23,32 @@ class CGAddMouseToGear : public Packet {
 public :
 
 	// constructor
-	CGAddMouseToGear() throw();
+	CGAddMouseToGear();
 
 	// destructor
-	~CGAddMouseToGear() throw();
+	~CGAddMouseToGear();
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CG_ADD_MOUSE_TO_GEAR; }
+	PacketID_t getPacketID () const { return PACKET_CG_ADD_MOUSE_TO_GEAR; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static CGAddMouseToGearPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () 
+	// const static CGAddMouseToGearPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const 
 	{
 		PacketSize_t	szPacketSize	= 0;
-#if __CONTENTS(__GEAR_SWAP_CHANGE)	// CGAddMouseToGear ÀåÂøÃ¢ ID ÆÐÅ¶ Ãß°¡
+#if __CONTENTS(__GEAR_SWAP_CHANGE)	// CGAddMouseToGear ï¿½ï¿½ï¿½ï¿½Ã¢ ID ï¿½ï¿½Å¶ ï¿½ß°ï¿½
 		szPacketSize	+= szGearSlotID;
 #endif //__GEAR_SWAP_CHANGE
 		szPacketSize	+= szObjectID;
@@ -58,27 +58,27 @@ public :
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGAddMouseToGear"; }
+		std::string getPacketName () const { return "CGAddMouseToGear"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
 public :
-#if __CONTENTS(__GEAR_SWAP_CHANGE)	// CGAddMouseToGear - getGearSlotID, setGearSlotID ÇÔ¼ö Ãß°¡
-	GearSlotID_t getGearSlotID() throw() { return m_GearSlotID; }
-	void setGearSlotID(GearSlotID_t GearSlotID) throw() { m_GearSlotID = GearSlotID; }
+#if __CONTENTS(__GEAR_SWAP_CHANGE)	// CGAddMouseToGear - getGearSlotID, setGearSlotID ï¿½Ô¼ï¿½ ï¿½ß°ï¿½
+	GearSlotID_t getGearSlotID() { return m_GearSlotID; }
+	void setGearSlotID(GearSlotID_t GearSlotID) { m_GearSlotID = GearSlotID; }
 #endif //__GEAR_SWAP_CHANGE
 	// get / set ObjectID
 
-	ObjectID_t getObjectID() throw () { return m_ObjectID; }
-	void setObjectID( ObjectID_t ObjectID ) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() { return m_ObjectID; }
+	void setObjectID( ObjectID_t ObjectID ) { m_ObjectID = ObjectID; }
 
-	SlotID_t getSlotID() const throw() { return m_SlotID; }
-	void setSlotID( SlotID_t SlotID ) throw() { m_SlotID = SlotID; }
+	SlotID_t getSlotID() const { return m_SlotID; }
+	void setSlotID( SlotID_t SlotID ) { m_SlotID = SlotID; }
 
 private :
-#if __CONTENTS(__GEAR_SWAP_CHANGE)	// CGAddMouseToGear m_GearSlotID Ãß°¡
+#if __CONTENTS(__GEAR_SWAP_CHANGE)	// CGAddMouseToGear m_GearSlotID ï¿½ß°ï¿½
 	GearSlotID_t	m_GearSlotID;
 #endif //__GEAR_SWAP_CHANGE
 	// ObjectID
@@ -103,24 +103,24 @@ class CGAddMouseToGearFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CGAddMouseToGear(); }
+	Packet * createPacket () { return new CGAddMouseToGear(); }
 
 	
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGAddMouseToGear"; }
+		std::string getPacketName () const { return "CGAddMouseToGear"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_ADD_MOUSE_TO_GEAR; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_ADD_MOUSE_TO_GEAR; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static CGAddMouseToGearPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () 
+	// const static CGAddMouseToGearPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const 
 	{ 
 		PacketSize_t	szPacketSize	= 0;
-#if __CONTENTS(__GEAR_SWAP_CHANGE)		//CGAddMouseToGearFactory ÆÐÅ¶ Ãß°¡
+#if __CONTENTS(__GEAR_SWAP_CHANGE)		//CGAddMouseToGearFactory ï¿½ï¿½Å¶ ï¿½ß°ï¿½
 		szPacketSize	+= szGearSlotID;
 #endif	// __GEAR_SWAP_CHANGE
 		szPacketSize	+= szObjectID;
@@ -143,7 +143,7 @@ public :
 	public :
 
 		// execute packet's handler
-		static void execute ( CGAddMouseToGear * pPacket , Player * player ) throw ( ProtocolException , Error );
+		static void execute ( CGAddMouseToGear * pPacket , Player * player );
 	};
 
 #endif

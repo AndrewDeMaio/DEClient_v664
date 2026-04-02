@@ -9,144 +9,144 @@
 //-----------------------------------------------------------------------------
 // Login
 //-----------------------------------------------------------------------------
-#include "Packet\Cpackets\CLVersionCheck.h"
-#include "Packet\Cpackets\CLLogout.h"
-#include "Packet\Cpackets\CLLogin.h"
-#include "Packet\Cpackets\CLRegisterPlayer.h"
-#include "Packet\Cpackets\CLGetPCList.h"
-#include "Packet\Cpackets\CLCreatePC.h"
-#include "Packet\Cpackets\CLDeletePC.h"
-#include "Packet\Cpackets\CLSelectPC.h"
-#include "Packet\Cpackets\CLQueryPlayerID.h"
+#include "Cpackets\CLVersionCheck.h"
+#include "Cpackets\CLLogout.h"
+#include "Cpackets\CLLogin.h"
+#include "Cpackets\CLRegisterPlayer.h"
+#include "Cpackets\CLGetPCList.h"
+#include "Cpackets\CLCreatePC.h"
+#include "Cpackets\CLDeletePC.h"
+#include "Cpackets\CLSelectPC.h"
+#include "Cpackets\CLQueryPlayerID.h"
 
 //-----------------------------------------------------------------------------
 // core
 //-----------------------------------------------------------------------------
-#include "Packet\PacketFactoryManager.h"
-#include "Packet\PacketValidator.h"
-#include "Packet\Properties.h"
-#include "Packet\ClientPlayer.h"
-#include "Packet\Socket.h"
+#include "PacketFactoryManager.h"
+#include "PacketValidator.h"
+#include "Properties.h"
+#include "ClientPlayer.h"
+#include "Socket.h"
 
 //-----------------------------------------------------------------------------
 // connect
 //-----------------------------------------------------------------------------
-#include "Packet\Cpackets\CGConnect.h"
-#include "Packet\Cpackets\CGReady.h"
-#include "Packet\Cpackets\CGMove.h"
-#include "Packet\Cpackets\CGLogout.h"
+#include "Cpackets\CGConnect.h"
+#include "Cpackets\CGReady.h"
+#include "Cpackets\CGMove.h"
+#include "Cpackets\CGLogout.h"
 
 //-----------------------------------------------------------------------------
 // Phone / Whisper
 //-----------------------------------------------------------------------------
-#include "Packet\Cpackets\CGDialUp.h"
-#include "Packet\Cpackets\CGPhoneDisconnect.h"
-#include "Packet\Cpackets\CGPhoneSay.h"
-#include "Packet\Cpackets\CGWhisper.h"
+#include "Cpackets\CGDialUp.h"
+#include "Cpackets\CGPhoneDisconnect.h"
+#include "Cpackets\CGPhoneSay.h"
+#include "Cpackets\CGWhisper.h"
 
 //-----------------------------------------------------------------------------
 // 채팅
 //-----------------------------------------------------------------------------
-#include "Packet\Cpackets\CGSay.h"
-#include "Packet\Cpackets\CGGlobalChat.h"
+#include "Cpackets\CGSay.h"
+#include "Cpackets\CGGlobalChat.h"
 
 
 //-----------------------------------------------------------------------------
 // 기술 사용
 //-----------------------------------------------------------------------------
-#include "Packet\Cpackets\CGAttack.h"
-#include "Packet\Cpackets\CGCastingSkill.h"
-#include "Packet\Cpackets\CGSkillToInventory.h"
-#include "Packet\Cpackets\CGSkillToSelf.h"
-#include "Packet\Cpackets\CGSkillToTile.h"
-#include "Packet\Cpackets\CGSkillToObject.h"
-#include "Packet\Cpackets\CGUnburrow.h"
-#include "Packet\Cpackets\CGBloodDrain.h"
+#include "Cpackets\CGAttack.h"
+#include "Cpackets\CGCastingSkill.h"
+#include "Cpackets\CGSkillToInventory.h"
+#include "Cpackets\CGSkillToSelf.h"
+#include "Cpackets\CGSkillToTile.h"
+#include "Cpackets\CGSkillToObject.h"
+#include "Cpackets\CGUnburrow.h"
+#include "Cpackets\CGBloodDrain.h"
 // 2001.4.23에 추가
-#include "Packet\Cpackets\CGThrowBomb.h"
-#include "Packet\Cpackets\CGUntransform.h"
-#include "Packet\Cpackets\CGVisible.h"
-#include "Packet\Cpackets\CGAbsorbSoul.h"
+#include "Cpackets\CGThrowBomb.h"
+#include "Cpackets\CGUntransform.h"
+#include "Cpackets\CGVisible.h"
+#include "Cpackets\CGAbsorbSoul.h"
 
 //-----------------------------------------------------------------------------
 // skill 배움 / skill 단축키
 //-----------------------------------------------------------------------------
-#include "Packet\Cpackets\CGLearnSkill.h"
-#include "Packet\Cpackets\CGUseBonusPoint.h"		// for vampire lev up
-#include "Packet\Cpackets\CGSetSlayerHotKey.h"
-#include "Packet\Cpackets\CGSetVampireHotKey.h"
+#include "Cpackets\CGLearnSkill.h"
+#include "Cpackets\CGUseBonusPoint.h"		// for vampire lev up
+#include "Cpackets\CGSetSlayerHotKey.h"
+#include "Cpackets\CGSetVampireHotKey.h"
 
 
 //-----------------------------------------------------------------------------
 // Item 
 //-----------------------------------------------------------------------------
-#include "Packet\Cpackets\CGAddGearToMouse.h"
-#include "Packet\Cpackets\CGAddInventoryToMouse.h"
-#include "Packet\Cpackets\CGAddMouseToGear.h"
-#include "Packet\Cpackets\CGAddMouseToInventory.h"
-#include "Packet\Cpackets\CGAddMouseToQuickSlot.h"
-#include "Packet\Cpackets\CGAddMouseToZone.h"
-#include "Packet\Cpackets\CGAddQuickSlotToMouse.h"
-#include "Packet\Cpackets\CGAddZoneToInventory.h"
-#include "Packet\Cpackets\CGAddZoneToMouse.h"
-#include "Packet\Cpackets\CGPickupMoney.h"
-#include "Packet\Cpackets\CGDropMoney.h"
-#include "Packet\Cpackets\CGRequestRepair.h"
-#include "Packet\Cpackets\CGMakeItem.h"
+#include "Cpackets\CGAddGearToMouse.h"
+#include "Cpackets\CGAddInventoryToMouse.h"
+#include "Cpackets\CGAddMouseToGear.h"
+#include "Cpackets\CGAddMouseToInventory.h"
+#include "Cpackets\CGAddMouseToQuickSlot.h"
+#include "Cpackets\CGAddMouseToZone.h"
+#include "Cpackets\CGAddQuickSlotToMouse.h"
+#include "Cpackets\CGAddZoneToInventory.h"
+#include "Cpackets\CGAddZoneToMouse.h"
+#include "Cpackets\CGPickupMoney.h"
+#include "Cpackets\CGDropMoney.h"
+#include "Cpackets\CGRequestRepair.h"
+#include "Cpackets\CGMakeItem.h"
 
 //-----------------------------------------------------------------------------
 // 시체 click
 //-----------------------------------------------------------------------------
-#include "Packet\Cpackets\CGDissectionCorpse.h"
+#include "Cpackets\CGDissectionCorpse.h"
 
 // 탄창
-#include "Packet\Cpackets\CGReloadFromInventory.h"
-#include "Packet\Cpackets\CGReloadFromQuickSlot.h"
+#include "Cpackets\CGReloadFromInventory.h"
+#include "Cpackets\CGReloadFromQuickSlot.h"
 
 // 오토바이
-#include "Packet\Cpackets\CGGetOffMotorCycle.h"
-#include "Packet\Cpackets\CGRideMotorCycle.h"
+#include "Cpackets\CGGetOffMotorCycle.h"
+#include "Cpackets\CGRideMotorCycle.h"
 
 // 던지기
-#include "Packet\Cpackets\CGThrowItem.h"
+#include "Cpackets\CGThrowItem.h"
 
 // potion
-#include "Packet\Cpackets\CGUsePotionFromInventory.h"
-#include "Packet\Cpackets\CGUsePotionFromQuickSlot.h"
+#include "Cpackets\CGUsePotionFromInventory.h"
+#include "Cpackets\CGUsePotionFromQuickSlot.h"
 
-#include "Packet\Cpackets\CGUseItemFromInventory.h"
+#include "Cpackets\CGUseItemFromInventory.h"
 
 //-----------------------------------------------------------------------------
 // NPC
 //-----------------------------------------------------------------------------
-#include "Packet\Cpackets\CGNPCTalk.h"
-#include "Packet\Cpackets\CGNPCAskAnswer.h"
+#include "Cpackets\CGNPCTalk.h"
+#include "Cpackets\CGNPCAskAnswer.h"
 
 //-----------------------------------------------------------------------------
 // 상점
 //-----------------------------------------------------------------------------
-#include "Packet\Cpackets\CGShopRequestList.h"
-#include "Packet\Cpackets\CGShopRequestBuy.h"
-#include "Packet\Cpackets\CGShopRequestSell.h"
+#include "Cpackets\CGShopRequestList.h"
+#include "Cpackets\CGShopRequestBuy.h"
+#include "Cpackets\CGShopRequestSell.h"
 
 //-----------------------------------------------------------------------------
 // 보관
 //-----------------------------------------------------------------------------
-#include "Packet\Cpackets\CGStashRequestBuy.h"
-#include "Packet\Cpackets\CGStashList.h"
-#include "Packet\Cpackets\CGMouseToStash.h"
-#include "Packet\Cpackets\CGStashToMouse.h"
-#include "Packet\Cpackets\CGStashDeposit.h"
-#include "Packet\Cpackets\CGStashWithdraw.h"
+#include "Cpackets\CGStashRequestBuy.h"
+#include "Cpackets\CGStashList.h"
+#include "Cpackets\CGMouseToStash.h"
+#include "Cpackets\CGStashToMouse.h"
+#include "Cpackets\CGStashDeposit.h"
+#include "Cpackets\CGStashWithdraw.h"
 
 //-----------------------------------------------------------------------------
 // 교환
 //-----------------------------------------------------------------------------
-#include "Packet\Cpackets\CGTradePrepare.h"
-#include "Packet\Cpackets\CGTradeAddItem.h"
-#include "Packet\Cpackets\CGTradeRemoveItem.h"
-#include "Packet\Cpackets\CGTradeMoney.h"
-#include "Packet\Cpackets\CGTradeFinish.h"
+#include "Cpackets\CGTradePrepare.h"
+#include "Cpackets\CGTradeAddItem.h"
+#include "Cpackets\CGTradeRemoveItem.h"
+#include "Cpackets\CGTradeMoney.h"
+#include "Cpackets\CGTradeFinish.h"
 
 
 

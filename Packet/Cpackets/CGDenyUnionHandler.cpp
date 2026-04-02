@@ -17,7 +17,6 @@
 //////////////////////////////////////////////////////////////////////////////
 #ifndef __GAME_CLIENT__			
 void CGDenyUnionHandler::execute (CGDenyUnion* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 	__BEGIN_TRY __BEGIN_DEBUG_EX
 		

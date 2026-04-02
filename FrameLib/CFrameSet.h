@@ -2,13 +2,13 @@
 // CFrameSet.h
 //----------------------------------------------------------------------
 //
-// FramePack¿¡¼­ Æ¯Á¤ Frame¸¸ LoadÇÒ ¼ö ÀÖ°Ô ÇÑ´Ù.
+// FramePackï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ Frameï¿½ï¿½ Loadï¿½ï¿½ ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½Ñ´ï¿½.
 //
-// FrameSet file(index¿ë)¿¡¼­ Á¤º¸¸¦ ÀÐ¾î¼­ 
-// FramePack¿¡¼­ Æ¯Á¤ÇÑ Frame¸¸ ÀÐ¾îµéÀÎ´Ù.
+// FrameSet file(indexï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾î¼­ 
+// FramePackï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ï¿½ï¿½ Frameï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½Î´ï¿½.
 //
-// FrameSet IndexFileÀÇ Á¤º¸¸¦ ÀÌ¿ëÇØ¼­ FramePack¿¡¼­ 
-// Æ¯Á¤ À§Ä¡(File Position)ÀÇ Frame¸¦ LoadÇÑ´Ù.
+// FrameSet IndexFileï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ø¼ï¿½ FramePackï¿½ï¿½ï¿½ï¿½ 
+// Æ¯ï¿½ï¿½ ï¿½ï¿½Ä¡(File Position)ï¿½ï¿½ Frameï¿½ï¿½ Loadï¿½Ñ´ï¿½.
 //
 //----------------------------------------------------------------------
 
@@ -16,8 +16,6 @@
 #define	__CFRAMESET_H__
 
 #include "CFrame.h"
-std::ifstream;
-std::ofstream;
 
 
 template <class Type>
@@ -35,7 +33,7 @@ public:
 	//--------------------------------------------------------
 	// file I/O		
 	//--------------------------------------------------------
-	// FramePack File¿¡¼­ Frame¸¦ LoadÇÑ´Ù.
+	// FramePack Fileï¿½ï¿½ï¿½ï¿½ Frameï¿½ï¿½ Loadï¿½Ñ´ï¿½.
 	// indexFile = FilePointer File, packFile = FramePack File
 	bool		LoadFromFile(ivfstream& indexFile, std::ifstream& packFile);
 
@@ -47,8 +45,8 @@ public:
 
 
 protected:
-	TYPE_FRAMEID		m_nFrames;			// Frame IDÀÇ °³¼ö
-	Type* m_pFrames;			// TypeÀÇ Set
+	TYPE_FRAMEID		m_nFrames;			// Frame IDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	Type* m_pFrames;			// Typeï¿½ï¿½ Set
 };
 
 
@@ -74,7 +72,7 @@ CFrameSet<Type>::CFrameSet()
 template <class Type>
 CFrameSet<Type>::~CFrameSet()
 {
-	// array¸¦ ¸Þ¸ð¸®¿¡¼­ Á¦°ÅÇÑ´Ù.
+	// arrayï¿½ï¿½ ï¿½Þ¸ð¸®¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	Release();
 }
 
@@ -91,14 +89,14 @@ template <class Type>
 void
 CFrameSet<Type>::Init(TYPE_FRAMEID count)
 {
-	// °³¼ö°¡ ¾øÀ» °æ¿ì 
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 	if (count == 0)
 		return;
 
-	// ÀÏ´Ü ÇØÁ¦
+	// ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½
 	Release();
 
-	// ¸Þ¸ð¸® Àâ±â
+	// ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½
 	m_nFrames = count;
 
 	m_pFrames = new Type[m_nFrames];
@@ -113,7 +111,7 @@ CFrameSet<Type>::Release()
 {
 	if (m_pFrames != NULL)
 	{
-		// ¸ðµç MFrame¸¦ Áö¿î´Ù.
+		// ï¿½ï¿½ï¿½ MFrameï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 		delete[] m_pFrames;
 		m_pFrames = NULL;
 
@@ -124,8 +122,8 @@ CFrameSet<Type>::Release()
 //----------------------------------------------------------------------
 // Load From File
 //----------------------------------------------------------------------
-// FrameSet IndexFileÀ» ÀÌ¿ëÇØ¼­ FramePack File¿¡¼­ 
-// Æ¯Á¤ À§Ä¡ÀÇ FrameµéÀ» LoadÇÑ´Ù.
+// FrameSet IndexFileï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ø¼ï¿½ FramePack Fileï¿½ï¿½ï¿½ï¿½ 
+// Æ¯ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ Frameï¿½ï¿½ï¿½ï¿½ Loadï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 template <class Type>
 bool
@@ -134,7 +132,7 @@ CFrameSet<Type>::LoadFromFile(ivfstream& indexFile, std::ifstream& packFile)
 	TYPE_FRAMEID	count;
 
 	//------------------------------------------------------
-	// FrameSetÀÇ Frame°³¼ö¸¦ ÀÐ¾îµéÀÎ´Ù.
+	// FrameSetï¿½ï¿½ Frameï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½Î´ï¿½.
 	//------------------------------------------------------
 	indexFile.read((char*)&count, SIZE_FRAMEID);
 
@@ -142,26 +140,26 @@ CFrameSet<Type>::LoadFromFile(ivfstream& indexFile, std::ifstream& packFile)
 	long* pIndex = new long[count];	// file position
 
 	//------------------------------------------------------
-	// FrameSet IndexFileÀ» ¸ðµÎ ÀÐ¾îµéÀÎ´Ù.
+	// FrameSet IndexFileï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½Î´ï¿½.
 	//------------------------------------------------------
 	for (TYPE_FRAMEID i = 0; i < count; i++)
 	{
 		indexFile.read((char*)&pIndex[i], 4);
 	}
 
-	// Loop¸¦ µû·Î »ç¿ëÇÏ´Â ÀÌÀ¯´Â 
-	// ¾Æ¹«·¡µµ µÎ°³ÀÇ fileÀ» µ¿½Ã¿¡ accessÇÏ¸é
-	// ´À·ÁÁú °Í °°¾Æ¼­... Á¤¸»ÀÏ±î? - -;;
+	// Loopï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+	// ï¿½Æ¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î°ï¿½ï¿½ï¿½ fileï¿½ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½ accessï¿½Ï¸ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Æ¼ï¿½... ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½? - -;;
 
 
 	//------------------------------------------------------
-	// Frame¸¦ LoadÇÒ memory¸¦ Àâ´Â´Ù.
+	// Frameï¿½ï¿½ Loadï¿½ï¿½ memoryï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
 	//------------------------------------------------------
 	Init(count);
 
 	//------------------------------------------------------
-	// Index(File Position)¸¦ ÀÌ¿ëÇØ¼­ FramePack¿¡¼­
-	// Æ¯Á¤ FrameµéÀ» LoadÇÑ´Ù.
+	// Index(File Position)ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ø¼ï¿½ FramePackï¿½ï¿½ï¿½ï¿½
+	// Æ¯ï¿½ï¿½ Frameï¿½ï¿½ï¿½ï¿½ Loadï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	for (int i = 0; i < count; i++)
 	{
@@ -176,7 +174,7 @@ CFrameSet<Type>::LoadFromFile(ivfstream& indexFile, std::ifstream& packFile)
 
 
 //----------------------------------------------------------------------
-// FrameSetÀ» defineÇÑ´Ù.
+// FrameSetï¿½ï¿½ defineï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 typedef CFrameSet<FRAME_ARRAY>			CThingFrameSet;
 typedef	CFrameSet<ACTION_FRAME_ARRAY>	CCreatureFrameSet;

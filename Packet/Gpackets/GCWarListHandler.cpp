@@ -23,7 +23,6 @@ extern bool g_bZoneSafe;
 //
 //////////////////////////////////////////////////////////////////////
 void GCWarListHandler::execute ( GCWarList * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY 
 	
@@ -43,7 +42,7 @@ void GCWarListHandler::execute ( GCWarList * pPacket , Player * pPlayer )
 		
 	}	
 	
-	// ÇöÀç Á¸µµ ÀÖ´ÂÁö °Ë»öÇØ¾ß ÇÑ´Ù.		
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.		
 	WarInfo *pInfo = g_pWarManager->GetWarInfo(g_pZone->GetID());
 	if(pInfo != NULL && pInfo->getWarType() == WAR_RACE)
 	{

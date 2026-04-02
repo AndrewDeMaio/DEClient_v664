@@ -17,7 +17,7 @@
 //
 // class LCLoginOK;
 //
-// ·Î±×ÀÎ¼­¹ö°¡ Å¬¶óÀÌ¾ðÆ®¿¡°Ô ·Î±×ÀÎ ¼º°øÀ» ¾Ë·ÁÁÖ´Â ÆÐÅ¶ÀÌ´Ù.
+// ï¿½Î±ï¿½ï¿½Î¼ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -25,80 +25,80 @@ class LCLoginOK : public Packet {
 
 public:
 
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_LC_LOGIN_OK; }
+	PacketID_t getPacketID() const { return PACKET_LC_LOGIN_OK; }
 	
 	// get packet body size
 	// *OPTIMIZATION HINT*
-	// const static LCLoginOKPacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize() const throw();
+	// const static LCLoginOKPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize() const;
 	
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName() const throw() { return "LCLoginOK"; }
+		std::string getPacketName() const { return "LCLoginOK"; }
 
 	#endif
 
 	// get / set GoreLevel
-	bool isAdult() const throw() { return m_isAdult; }
-	void setAdult(bool isAdult) throw() { m_isAdult = isAdult; }
+	bool isAdult() const { return m_isAdult; }
+	void setAdult(bool isAdult) { m_isAdult = isAdult; }
 
 	// is UnderFifthteen
-	bool isUnderFifthteen() const throw() { return m_bUnderFifthteen; }
+	bool isUnderFifthteen() const { return m_bUnderFifthteen; }
 	void setUnderFifthteen( bool bUnderFifthteen ) { m_bUnderFifthteen = bUnderFifthteen; }
 
-	bool isFamily() const throw() { return m_bFamily; }
-	void setFamily(bool isFamily) throw() { m_bFamily = isFamily; }
+	bool isFamily() const { return m_bFamily; }
+	void setFamily(bool isFamily) { m_bFamily = isFamily; }
 
-	BYTE getStat() const throw() { return m_Stat; }
-	void setStat(BYTE Stat) throw() { m_Stat = Stat; }
+	BYTE getStat() const { return m_Stat; }
+	void setStat(BYTE Stat) { m_Stat = Stat; }
 
-	WORD getLastDays() const throw() { return m_LastDays; }
-	void setLastDays( WORD day ) throw() { m_LastDays = day; }
+	WORD getLastDays() const { return m_LastDays; }
+	void setLastDays( WORD day ) { m_LastDays = day; }
 #if __CONTENTS(__PAYZONE_PASS_TICKET)
-	//	20080312 À¯·áÁ¸ Æ¼ÄÏ Ãß°¡·Î PayType Ãß°¡
-	BYTE getPayType() const throw() { return m_PayType; }
-	void setPayType(BYTE PayType) throw() { m_PayType = PayType; }
+	//	20080312 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ¼ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ PayType ï¿½ß°ï¿½
+	BYTE getPayType() const { return m_PayType; }
+	void setPayType(BYTE PayType) { m_PayType = PayType; }
 #endif //__PAYZONE_PASS_TICKET
 	// get packet's debug string
-	string toString() const throw() { return "LCLoginOK"; }
+	string toString() const { return "LCLoginOK"; }
 
 #if __CONTENTS(__LOGIN_PACKET)
-	BYTE getReservedValue() const throw() { return m_ReservedValue; }
-	void setReservedValue(BYTE ReservedValue) throw() { m_ReservedValue = ReservedValue; }
+	BYTE getReservedValue() const { return m_ReservedValue; }
+	void setReservedValue(BYTE ReservedValue) { m_ReservedValue = ReservedValue; }
 #endif //__LOGIN_PACKET
 
 private :
 
-	// °í¾î ·¹º§ : ÇöÀç ÇÃ·¹ÀÌ¾î°¡ ¹Ì¼º³âÀÚ ÀÎ°¡?
-	// trueÀÏ °æ¿ì ¼ºÀÎ
-	// false ÀÏ °æ¿ì ¹Ì¼º³âÀÚ
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î°ï¿½?
+	// trueï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// false ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ì¼ï¿½ï¿½ï¿½ï¿½ï¿½
 	bool m_isAdult;
 	
-	// 15¼¼ ¹Ì¸¸ÀÎ°¡?
+	// 15ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½Î°ï¿½?
 	bool m_bUnderFifthteen;
 	
-	// Family ¿ä±ÝÁ¦ÀÎ°¡?
+	// Family ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½?
 	bool m_bFamily;
 
-	// ¼­¹öÀÇ »óÅÂ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	BYTE m_Stat;
 
 	WORD m_LastDays;
 #if __CONTENTS(__PAYZONE_PASS_TICKET)
-	BYTE m_PayType;	//20080312 À¯·áÁ¸ Æ¼ÄÏ Ãß°¡·Î PayType Ãß°¡
+	BYTE m_PayType;	//20080312 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ¼ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ PayType ï¿½ß°ï¿½
 #endif //__PAYZONE_PASS_TICKET
 #if __CONTENTS(__LOGIN_PACKET)
-	BYTE m_ReservedValue;	// ÀÌÀü Å¬¶óÀÌ¾ðÆ® Á¢¼ÓÀ» Á¦ÇÑÇÏ±â À§ÇØ ÇÊµå Ãß°¡
+	BYTE m_ReservedValue;	// ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ ï¿½ß°ï¿½
 #endif //__LOGIN_PACKET
 };
 
@@ -116,18 +116,18 @@ class LCLoginOKFactory : public PacketFactory {
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new LCLoginOK(); }
+	Packet* createPacket() { return new LCLoginOK(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName() const throw() { return "LCLoginOK"; }
+		std::string getPacketName() const { return "LCLoginOK"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_LC_LOGIN_OK; }
+	PacketID_t getPacketID() const { return Packet::PACKET_LC_LOGIN_OK; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + szBYTE + szBYTE + szBYTE + szWORD 
+	PacketSize_t getPacketMaxSize() const { return szBYTE + szBYTE + szBYTE + szBYTE + szWORD 
 #if __CONTENTS(__PAYZONE_PASS_TICKET)
 		+ szBYTE
 #endif //__PAYZONE_PASS_TICKET
@@ -150,7 +150,7 @@ class LCLoginOKHandler {
 public:
 
 	// execute packet's handler
-	static void execute(LCLoginOK* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(LCLoginOK* pPacket, Player* pPlayer);
 
 };
 

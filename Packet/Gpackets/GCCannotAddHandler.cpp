@@ -23,7 +23,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCCannotAddHandler::execute ( GCCannotAdd * pPacket , Player * pPlayer )
-	 throw ( ProtocolException, Error )
 {
 	__BEGIN_TRY
 		
@@ -31,7 +30,7 @@ void GCCannotAddHandler::execute ( GCCannotAdd * pPacket , Player * pPlayer )
 
 
 	//-----------------------------------------------------------------
-	// Ã³¸®ÇÒ·Á´Â item bufferÀÇ »óÅÂ¿¡ µû¶ó¼­..
+	// Ã³ï¿½ï¿½ï¿½Ò·ï¿½ï¿½ï¿½ item bufferï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ ï¿½ï¿½ï¿½ï¿½..
 	//-----------------------------------------------------------------
 
 	//-----------------------------------------------------------------
@@ -41,8 +40,8 @@ void GCCannotAddHandler::execute ( GCCannotAdd * pPacket , Player * pPlayer )
 	{
 		DEBUG_ADD("Can't Drop Item to Inventory");
 		
-		// inventory¿¡ ¸ø ³Ö´Â °æ¿ì..
-		// buffer¸¸ Á¦°Å½ÃÅ°¸é µÈ´Ù.
+		// inventoryï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½..
+		// bufferï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å°ï¿½ï¿½ ï¿½È´ï¿½.
 		g_pPlayer->ClearItemCheckBuffer();
 	}
 	//-----------------------------------------------------------------
@@ -52,7 +51,7 @@ void GCCannotAddHandler::execute ( GCCannotAdd * pPacket , Player * pPlayer )
 	{
 		DEBUG_ADD("Can't Pickup Item to Mouse");
 		
-		// buffer¸¸ Á¦°Å½ÃÅ°¸é µÈ´Ù.
+		// bufferï¿½ï¿½ ï¿½ï¿½ï¿½Å½ï¿½Å°ï¿½ï¿½ ï¿½È´ï¿½.
 		g_pPlayer->ClearItemCheckBuffer();
 	}
 	//-----------------------------------------------------------------
@@ -62,16 +61,16 @@ void GCCannotAddHandler::execute ( GCCannotAdd * pPacket , Player * pPlayer )
 	{
 		DEBUG_ADD("Can't Drop Item to Zone");
 		
-		// ´Ù½Ã itemÀ» mouse¿¡ ºÙÀÎ´Ù.
+		// ï¿½Ù½ï¿½ itemï¿½ï¿½ mouseï¿½ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 		MItem* pItem = g_pPlayer->GetItemCheckBuffer();
 
 		UI_PickUpItem( pItem );
 
-		// buffer Á¦°Å		
+		// buffer ï¿½ï¿½ï¿½ï¿½		
 		g_pPlayer->ClearItemCheckBuffer();
 	}
 	//-----------------------------------------------------------------
-	// inventory¿¡¼­ ¾ÆÀÌÅÛÀ» ¸ø ºÐ¸®ÇÑ´Ù°í °ËÁõ.
+	// inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ð¸ï¿½ï¿½Ñ´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	//-----------------------------------------------------------------
 	else if (g_pPlayer->IsItemCheckBufferPickupSomeFromInventory())
 	{
@@ -98,7 +97,7 @@ void GCCannotAddHandler::execute ( GCCannotAdd * pPacket , Player * pPlayer )
 		g_pPlayer->ClearItemCheckBuffer();		
 	}
 	//-----------------------------------------------------------------
-	// ´Ù¸¥ °æ¿ì..
+	// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½..
 	//-----------------------------------------------------------------
 	else
 	{

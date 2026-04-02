@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCShopSellOKHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
@@ -16,11 +16,10 @@
 #include "UIFunction.h"
 #include "MStorage.h"
 #include "Client.h"
-// PacketFunction.cpp¿¡ ÀÖ´Ù. compile ½Ã°£ °ü°è»ó..
+// PacketFunction.cppï¿½ï¿½ ï¿½Ö´ï¿½. compile ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½..
 void	CheckItemForSkillIcon(const MItem* pItem);
 
 void GCShopSellOKHandler::execute ( GCShopSellOK * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -28,7 +27,7 @@ void GCShopSellOKHandler::execute ( GCShopSellOK * pPacket , Player * pPlayer )
 
 	//--------------------------------------------------------------
 	//
-	// Item ÆÄ´Â packetÀ» ¹Þ´Â°Ô ¸Â³ª?
+	// Item ï¿½Ä´ï¿½ packetï¿½ï¿½ ï¿½Þ´Â°ï¿½ ï¿½Â³ï¿½?
 	//
 	//--------------------------------------------------------------
 
@@ -46,7 +45,7 @@ void GCShopSellOKHandler::execute ( GCShopSellOK * pPacket , Player * pPlayer )
 			{
 				const MItem *p_slot_item = g_pStorage2->GetItem(i);
 				
-				// ½½¶ùÀÌ ºñ¾úÀ¸¸é °Á~ ³Ö´Â´Ù
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½~ ï¿½Ö´Â´ï¿½
 				if(NULL != p_slot_item)
 				{
 					if(p_slot_item->GetID() == pPacket->getObjectID())
@@ -62,11 +61,11 @@ void GCShopSellOKHandler::execute ( GCShopSellOK * pPacket , Player * pPlayer )
 				current_storage = 0;
 		}
 
-		// inventory¿¡¼­ Á¦°Å
+		// inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		MItem *TempItem = g_pInventory->RemoveItem( (TYPE_OBJECTID)pPacket->getItemObjectID() );
-		// itemÁ¤º¸ Á¦°Å
+		// itemï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		UI_RemoveDescriptor( (void*)TempItem );
-		// memory¿¡¼­ Á¦°Å
+		// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		SAFE_DELETE(TempItem);
 
 		g_pMoneyManager->AddMoney(pPacket->getPrice());
@@ -79,7 +78,7 @@ void GCShopSellOKHandler::execute ( GCShopSellOK * pPacket , Player * pPlayer )
 	{
 		MItem *TempItem = g_pInventory->RemoveItem( (TYPE_OBJECTID)pPacket->getItemObjectID() );
 		UI_RemoveDescriptor( (void*)TempItem );
-		// memory¿¡¼­ Á¦°Å
+		// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		SAFE_DELETE(TempItem);
 
 		g_pMoneyManager->AddMoney(pPacket->getPrice());
@@ -95,7 +94,7 @@ void GCShopSellOKHandler::execute ( GCShopSellOK * pPacket , Player * pPlayer )
 		
 		const MItem* pItem = g_pInventory->GetItem( pCheckItem->GetGridX(), pCheckItem->GetGridY() );
 
-		// ID °ËÁõÀ» ÇÑ´Ù.
+		// ID ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		if (pCheckItem->GetID()==pItem->GetID())
 		{
 			// ShopVersion_t getShopVersion(); -_-;;
@@ -108,7 +107,7 @@ void GCShopSellOKHandler::execute ( GCShopSellOK * pPacket , Player * pPlayer )
 
 				CheckItemForSkillIcon( pRemovedItem );
 
-				// itemÁ¤º¸ Á¦°Å
+				// itemï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				UI_RemoveDescriptor( (void*)pRemovedItem );
 
 				delete pRemovedItem;
@@ -119,7 +118,7 @@ void GCShopSellOKHandler::execute ( GCShopSellOK * pPacket , Player * pPlayer )
 			}
 
 			//--------------------------------------------------------------
-			// µ·À» ¹Ù²ãÁØ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
 			//--------------------------------------------------------------
 			if (!g_pMoneyManager->SetMoney( pPacket->getPrice() ))
 			{
@@ -131,15 +130,15 @@ void GCShopSellOKHandler::execute ( GCShopSellOK * pPacket , Player * pPlayer )
 			DEBUG_ADD_FORMAT("[Error] Different ID. Packet(%d)!=ClientTemp(%d)", pPacket->getItemObjectID(), pItem->GetID());
 		}
 
-		// mode¸¦ ¾ø¾Ø´Ù.
+		// modeï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 		g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 		
-		// °Å·¡¸¦ ´Ù½Ã È°¼ºÈ­ÇÑ´Ù.
+		// ï¿½Å·ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ È°ï¿½ï¿½È­ï¿½Ñ´ï¿½.
 		UI_UnlockItemTrade();
 	}
 	//--------------------------------------------------------------
 	//
-	// ¸ðµç ÇØ°ñÀ» ´Ù ÆÄ´Â °æ¿ì
+	// ï¿½ï¿½ï¿½ ï¿½Ø°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ä´ï¿½ ï¿½ï¿½ï¿½
 	//
 	//--------------------------------------------------------------
 	else if (g_pTempInformation->GetMode() == TempInformation::MODE_SHOP_SELL_ALL_SKULL)
@@ -147,7 +146,7 @@ void GCShopSellOKHandler::execute ( GCShopSellOK * pPacket , Player * pPlayer )
 		MItem* pSkull = g_pInventory->FindItem( ITEM_CLASS_SKULL );
 
 		//--------------------------------------------------------------
-		// ¼Ò¸® ÇÑ¹ø¸¸ ³»ÁØ´Ù.
+		// ï¿½Ò¸ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 		//--------------------------------------------------------------
 		if (pSkull!=NULL)
 		{
@@ -155,7 +154,7 @@ void GCShopSellOKHandler::execute ( GCShopSellOK * pPacket , Player * pPlayer )
 		}				
 
 		//--------------------------------------------------------------
-		// ¸ðµç ÇØ°ñÀ» ´Ù ¾ø¾ÖÁØ´Ù.
+		// ï¿½ï¿½ï¿½ ï¿½Ø°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 		//--------------------------------------------------------------
 		while (pSkull!=NULL)
 		{
@@ -163,35 +162,35 @@ void GCShopSellOKHandler::execute ( GCShopSellOK * pPacket , Player * pPlayer )
 
 			if (pRemovedItem!=NULL)
 			{
-				// itemÁ¤º¸ Á¦°Å
+				// itemï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				UI_RemoveDescriptor( (void*)pRemovedItem );
 
 				delete pRemovedItem;
 			}
 
 			//--------------------------------------------------------------
-			// ÇØ°ñÀÌ ¶Ç ÀÖ´ÂÁö °Ë»ç..
+			// ï¿½Ø°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½..
 			//--------------------------------------------------------------
 			pSkull = g_pInventory->FindItem( ITEM_CLASS_SKULL );
 		}
 
 		//--------------------------------------------------------------
-		// µ·À» ¹Ù²ãÁØ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
 		//--------------------------------------------------------------
 		if (!g_pMoneyManager->SetMoney( pPacket->getPrice() ))
 		{
 			DEBUG_ADD_FORMAT("[Error] Can't Set Money=%d, Price=%d", g_pMoneyManager->GetMoney(), pPacket->getPrice());
 		}
 
-		// mode¸¦ ¾ø¾Ø´Ù.
+		// modeï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 		g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
-		// °Å·¡¸¦ ´Ù½Ã È°¼ºÈ­ÇÑ´Ù.
+		// ï¿½Å·ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ È°ï¿½ï¿½È­ï¿½Ñ´ï¿½.
 		UI_UnlockItemTrade();
 	}	
 	//--------------------------------------------------------------
 	//
-	// ¹º°¡ Àß¸øµÈ °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//
 	//--------------------------------------------------------------
 	else

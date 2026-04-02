@@ -9,7 +9,6 @@
 
 #if __CONTENTS(__PREMIUM_GIVE_ITEM_UI)
 void CGSelectAllWeekItem::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -17,7 +16,6 @@ void CGSelectAllWeekItem::read (SocketInputStream & iStream)
 }
 		    
 void CGSelectAllWeekItem::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -25,7 +23,6 @@ void CGSelectAllWeekItem::write (SocketOutputStream & oStream) const
 }
 
 void CGSelectAllWeekItem::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -35,7 +32,6 @@ void CGSelectAllWeekItem::execute (Player* pPlayer)
 }
 
 string CGSelectAllWeekItem::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

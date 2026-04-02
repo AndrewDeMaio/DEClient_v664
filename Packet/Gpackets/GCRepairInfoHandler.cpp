@@ -18,7 +18,6 @@
 extern CMessageArray*				g_pSystemMessage;
 
 void GCRepairInfoHandler::execute ( GCRepairInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY 
 	

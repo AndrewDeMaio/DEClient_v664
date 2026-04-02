@@ -17,18 +17,18 @@
 class CGUsePowerPoint : public Packet
 {
 public:
-	CGUsePowerPoint () throw ();
-	~CGUsePowerPoint () throw ();
+	CGUsePowerPoint ();
+	~CGUsePowerPoint ();
 	
 public:
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
-    PacketID_t getPacketID () const throw () { return PACKET_CG_USE_POWER_POINT; }
-	PacketSize_t getPacketSize () const throw () { return 0; }
+    void read ( SocketInputStream & iStream );
+    void write ( SocketOutputStream & oStream ) const;
+	void execute ( Player * pPlayer );
+    PacketID_t getPacketID () const { return PACKET_CG_USE_POWER_POINT; }
+	size_t getPacketSize () const { return 0; }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName () const throw () { return "CGUsePowerPoint"; }
-	string toString () const throw ();
+	string getPacketName () const { return "CGUsePowerPoint"; }
+	string toString () const;
 #endif
 };
 
@@ -39,10 +39,10 @@ public:
 class CGUsePowerPointFactory : public PacketFactory 
 {
 public:
-	Packet * createPacket () throw () { return new CGUsePowerPoint(); }
-	string getPacketName () const throw () { return "CGUsePowerPoint"; }
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_USE_POWER_POINT; }
-	PacketSize_t getPacketMaxSize () const throw () { return 0; }
+	Packet * createPacket () { return new CGUsePowerPoint(); }
+	string getPacketName () const { return "CGUsePowerPoint"; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_USE_POWER_POINT; }
+	PacketSize_t getPacketMaxSize () const { return 0; }
 };
 #endif
 //////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ public:
 class CGUsePowerPointHandler 
 {
 public:
-	static void execute ( CGUsePowerPoint * pCGUsePowerPoint , Player * pPlayer ) throw (ProtocolException, Error);
+	static void execute ( CGUsePowerPoint * pCGUsePowerPoint , Player * pPlayer );
 };
 
 #endif

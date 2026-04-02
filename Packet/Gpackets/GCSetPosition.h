@@ -18,8 +18,8 @@
 //
 // class GCSetPosition;
 //
-// °ÔÀÓ ¼­¹ö¿¡¼­ ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¸¦ ¼³Á¤ÇØÁÖ´Â ÆÐÅ¶ÀÌ´Ù.
-// ³ªÁß¿¡ GCPatchPCInfo (°¡Äª) ÆÐÅ¶¿¡ ÅëÇÕµÉ Àü¸ÁÀÌ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
+// ï¿½ï¿½ï¿½ß¿ï¿½ GCPatchPCInfo (ï¿½ï¿½Äª) ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Õµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 //----------------------------------------------------------------------
 
@@ -27,48 +27,48 @@ class GCSetPosition : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_SET_POSITION; }
+	PacketID_t getPacketID () const { return PACKET_GC_SET_POSITION; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static GCSetPositionPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () { return szCoord + szCoord + szDir; }
+	// const static GCSetPositionPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const { return szCoord + szCoord + szDir; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCSetPosition"; }
+		std::string getPacketName () const { return "GCSetPosition"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
 	// get/set X Coordicate
-	Coord_t getX () const throw () { return m_X; }
-	void setX ( Coord_t x ) throw () { m_X = x; }
+	Coord_t getX () const { return m_X; }
+	void setX ( Coord_t x ) { m_X = x; }
 
 	// get/set Y Coordicate
-	Coord_t getY () const throw () { return m_Y; }
-	void setY ( Coord_t y ) throw () { m_Y = y; }
+	Coord_t getY () const { return m_Y; }
+	void setY ( Coord_t y ) { m_Y = y; }
 
 	// get/set Direction
-	Dir_t getDir () const throw () { return m_Dir; }
-	void setDir ( Dir_t dir ) throw () { m_Dir = dir; }
+	Dir_t getDir () const { return m_Dir; }
+	void setDir ( Dir_t dir ) { m_Dir = dir; }
 	
 private :
 	
-	Coord_t m_X;			// X ÁÂÇ¥
-	Coord_t m_Y;			// Y ÁÂÇ¥
-	Dir_t m_Dir;			// ¹æÇâ
+	Coord_t m_X;			// X ï¿½ï¿½Ç¥
+	Coord_t m_Y;			// Y ï¿½ï¿½Ç¥
+	Dir_t m_Dir;			// ï¿½ï¿½ï¿½ï¿½
 
 };
 
@@ -86,20 +86,20 @@ class GCSetPositionFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCSetPosition(); }
+	Packet * createPacket () { return new GCSetPosition(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCSetPosition"; }
+		std::string getPacketName () const { return "GCSetPosition"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_SET_POSITION; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_SET_POSITION; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCSetPositionPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return szCoord + szCoord + szDir; }
+	// const static GCSetPositionPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return szCoord + szCoord + szDir; }
 
 };
 
@@ -115,7 +115,7 @@ class GCSetPositionHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCSetPosition * pPacket , Player * player ) throw ( ProtocolException , Error );
+	static void execute ( GCSetPosition * pPacket , Player * player );
 };
 
 #endif

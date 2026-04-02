@@ -18,7 +18,6 @@
 // constructor
 //////////////////////////////////////////////////////////////////////
 SweeperBonusInfo::SweeperBonusInfo () 
-     throw ()
 {
 	__BEGIN_TRY
 	
@@ -33,7 +32,6 @@ SweeperBonusInfo::SweeperBonusInfo ()
 // destructor
 //////////////////////////////////////////////////////////////////////
 SweeperBonusInfo::~SweeperBonusInfo () 
-    throw ()
 {
 	__BEGIN_TRY
 
@@ -44,10 +42,9 @@ SweeperBonusInfo::~SweeperBonusInfo ()
 
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void SweeperBonusInfo::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -68,10 +65,10 @@ void SweeperBonusInfo::read ( SocketInputStream & iStream )
 }
 
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void SweeperBonusInfo::write ( SocketOutputStream & oStream ) 
-     const throw ( ProtocolException , Error )
+     const
 {
 	__BEGIN_TRY
 	
@@ -97,7 +94,7 @@ void SweeperBonusInfo::write ( SocketOutputStream & oStream )
 //
 //////////////////////////////////////////////////////////////////////
 std::string SweeperBonusInfo::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 

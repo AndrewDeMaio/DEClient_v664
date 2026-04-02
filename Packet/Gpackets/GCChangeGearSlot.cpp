@@ -15,7 +15,6 @@
 // constructor
 //--------------------------------------------------------------------------------
 GCChangeGearSlot::GCChangeGearSlot ()
-	throw ()
 : m_GearSlotID(0), m_pGearInfo(NULL)
 {
 }
@@ -24,17 +23,15 @@ GCChangeGearSlot::GCChangeGearSlot ()
 // destructor
 //--------------------------------------------------------------------------------
 GCChangeGearSlot::~GCChangeGearSlot ()
-	throw ()
 {
 	m_GearSlotID	= 0;
 	SAFE_DELETE(m_pGearInfo);
 }
 
 //--------------------------------------------------------------------------------
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //--------------------------------------------------------------------------------
 void GCChangeGearSlot::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -48,10 +45,9 @@ void GCChangeGearSlot::read ( SocketInputStream & iStream )
 
 		    
 //--------------------------------------------------------------------------------
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //--------------------------------------------------------------------------------
 void GCChangeGearSlot::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -67,7 +63,6 @@ void GCChangeGearSlot::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //--------------------------------------------------------------------------------
 void GCChangeGearSlot::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -81,7 +76,6 @@ void GCChangeGearSlot::execute ( Player * pPlayer )
 // get packet's debug string
 //--------------------------------------------------------------------------------
 string GCChangeGearSlot::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 
@@ -89,7 +83,7 @@ string GCChangeGearSlot::toString () const
 		
 	StringStream msg;
 	msg << "GCChangeGearSlot("
-// ¸±¸®Áî¿¡¼­´Â ¿¡·¯°¡ ³ª¿È.
+// ï¿½ï¿½ï¿½ï¿½ï¿½î¿¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 //		<< "GearInfo:" << m_pGearInfo->toString();
 		<< ")";
 	return msg.toString();

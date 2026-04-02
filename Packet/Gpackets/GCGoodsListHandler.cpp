@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : GCGoodsListHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -11,7 +11,6 @@
 #include "UIFunction.h"
 
 void GCGoodsListHandler::execute ( GCGoodsList * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 

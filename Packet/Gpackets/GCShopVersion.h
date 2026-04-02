@@ -1,8 +1,8 @@
 //--------------------------------------------------------------------------------
 // 
 // Filename    : GCShopVersion.h 
-// Written By  : ±è¼º¹Î
-// Description : ÇÃ·¹ÀÌ¾î¿¡°Ô ¼­¹ö ÃøÀÇ »óÁ¡ ¹öÀüÀ» ¾Ë·ÁÁÙ ¶§ ¾²ÀÌ´Â ÆÐÅ¶ÀÌ´Ù.
+// Written By  : ï¿½è¼ºï¿½ï¿½
+// Description : ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 // 
 //--------------------------------------------------------------------------------
 
@@ -25,23 +25,23 @@ class GCShopVersion : public Packet
 
 public :
 
-	GCShopVersion() throw ();
-	virtual ~GCShopVersion() throw ();
+	GCShopVersion();
+	virtual ~GCShopVersion();
 	
-	// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+	// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+	void read ( SocketInputStream & iStream );
 		    
-	// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+	// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_SHOP_VERSION; }
+	PacketID_t getPacketID () const { return PACKET_GC_SHOP_VERSION; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () { return szObjectID 
+	size_t getPacketSize () const { return szObjectID 
 #if __CONTENTS(__GLOBAL_NPC)
 		+ szNPCID
 #endif //__GLOBAL_NPC
@@ -49,39 +49,39 @@ public :
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCShopVersion"; }
+		std::string getPacketName () const { return "GCShopVersion"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 
 public :
 
 	// get/set NPC's object id
-	ObjectID_t getObjectID () const throw () { return m_ObjectID; }
-	void setObjectID ( ObjectID_t creatureID ) throw () { m_ObjectID = creatureID; }
+	ObjectID_t getObjectID () const { return m_ObjectID; }
+	void setObjectID ( ObjectID_t creatureID ) { m_ObjectID = creatureID; }
 
 	// get/set shop version
-	ShopVersion_t getVersion(ShopRackType_t type) const throw()
+	ShopVersion_t getVersion(ShopRackType_t type) const
 	{
-		if (type >= SHOP_RACK_TYPE_MAX) throw ("GCShopVersion::getVersion() : Out of Bound!");
+		if (type >= SHOP_RACK_TYPE_MAX) : Out of Bound!");
 		return m_Version[type];
 	}
 	
-	void setVersion(ShopRackType_t type, ShopVersion_t ver) throw()
+	void setVersion(ShopRackType_t type, ShopVersion_t ver)
 	{
-		if (type >= SHOP_RACK_TYPE_MAX) throw ("GCShopVersion::setVersion() : Out of Bound!");
+		if (type >= SHOP_RACK_TYPE_MAX) : Out of Bound!");
 		m_Version[type] = ver;
 	}
 
 	// get/set market condition sell
-	MarketCond_t getMarketCondSell(void) const throw() { return m_MarketCondSell;}
-	void setMarketCondSell(MarketCond_t cond) throw() { m_MarketCondSell = cond;}
+	MarketCond_t getMarketCondSell(void) const { return m_MarketCondSell;}
+	void setMarketCondSell(MarketCond_t cond) { m_MarketCondSell = cond;}
 
 #if __CONTENTS(__GLOBAL_NPC)
-	NPCID_t getNPCID() const throw()						{return m_NPCID; }
-	void setNPCID (NPCID_t n) throw()					{m_NPCID = n;}
+	NPCID_t getNPCID() const						{return m_NPCID; }
+	void setNPCID (NPCID_t n)					{m_NPCID = n;}
 #endif //__GLOBAL_NPC
 
 	
@@ -115,20 +115,20 @@ class GCShopVersionFactory : public PacketFactory
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCShopVersion(); }
+	Packet * createPacket () { return new GCShopVersion(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCShopVersion"; }
+		std::string getPacketName () const { return "GCShopVersion"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_SHOP_VERSION; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_SHOP_VERSION; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCShopVersionPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID
+	// const static GCShopVersionPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return szObjectID
 #if __CONTENTS(__GLOBAL_NPC)
 		+ szNPCID
 #endif //__GLOBAL_NPC
@@ -149,7 +149,7 @@ class GCShopVersionHandler
 public :
 	
 	// execute packet's handler
-	static void execute ( GCShopVersion * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCShopVersion * pPacket , Player * pPlayer );
 
 };
 

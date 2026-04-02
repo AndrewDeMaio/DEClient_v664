@@ -203,7 +203,7 @@ int					g_MaxNPC		= MAX_NPC;
 bool				g_bHAL			= true;
 bool				g_bMusicSW		= true;
 extern int			g_MorphCreatureType;
-extern LONG			g_lGameRunBreakTime;				//���� ������ ���� �� ��(��ũ�� �� �Ǵ� Pause Break)
+LONG				g_lGameRunBreakTime	= 0;			//���� ������ ���� �� ��(��ũ�� �� �Ǵ� Pause Break)
 														//2009.01.05 shootkj
 
 //--------------------------------------------

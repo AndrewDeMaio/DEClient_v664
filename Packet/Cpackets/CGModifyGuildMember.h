@@ -25,40 +25,40 @@ class CGModifyGuildMember : public Packet
 {
 public:
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_CG_MODIFY_GUILD_MEMBER; }
+	PacketID_t getPacketID() const { return PACKET_CG_MODIFY_GUILD_MEMBER; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return szGuildID + szBYTE + m_Name.size() + szGuildMemberRank; }
+	size_t getPacketSize() const { return szGuildID + szBYTE + m_Name.size() + szGuildMemberRank; }
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	std::string getPacketName() const throw() { return "CGModifyGuildMember"; }
+	std::string getPacketName() const { return "CGModifyGuildMember"; }
 
 	// get packet's debug std::string
-	std::string toString() const throw();
+	std::string toString() const;
 #endif
 
 	// get/set GuildID
-	GuildID_t getGuildID() const throw() { return m_GuildID; }
-	void setGuildID( GuildID_t guildID ) throw() { m_GuildID = guildID; }
+	GuildID_t getGuildID() const { return m_GuildID; }
+	void setGuildID( GuildID_t guildID ) { m_GuildID = guildID; }
 
 	// get/set name
-	const std::string& getName() const throw() { return m_Name; }
-	void setName( const std::string& name ) throw() { m_Name = name; }
+	const std::string& getName() const { return m_Name; }
+	void setName( const std::string& name ) { m_Name = name; }
 
 	// get/set Guild Member Rank
-	GuildMemberRank_t getGuildMemberRank() const throw() { return m_GuildMemberRank; }
-	void setGuildMemberRank( GuildMemberRank_t GuildMemberRank ) throw() { m_GuildMemberRank = GuildMemberRank; }
+	GuildMemberRank_t getGuildMemberRank() const { return m_GuildMemberRank; }
+	void setGuildMemberRank( GuildMemberRank_t GuildMemberRank ) { m_GuildMemberRank = GuildMemberRank; }
 
 private :
 
@@ -88,25 +88,25 @@ class CGModifyGuildMemberFactory : public PacketFactory {
 public:
 	
 	// constructor
-	CGModifyGuildMemberFactory() throw() {}
+	CGModifyGuildMemberFactory() {}
 	
 	// destructor
-	virtual ~CGModifyGuildMemberFactory() throw() {}
+	virtual ~CGModifyGuildMemberFactory() {}
 
 	
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new CGModifyGuildMember(); }
+	Packet* createPacket() { return new CGModifyGuildMember(); }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "CGModifyGuildMember"; }
+	std::string getPacketName() const { return "CGModifyGuildMember"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_MODIFY_GUILD_MEMBER; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_MODIFY_GUILD_MEMBER; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize() const throw() { return szGuildID + szBYTE + 20 + szGuildMemberRank; }
+	PacketSize_t getPacketMaxSize() const { return szGuildID + szBYTE + 20 + szGuildMemberRank; }
 };
 #endif
 
@@ -122,7 +122,7 @@ class CGModifyGuildMemberHandler {
 public:
 
 	// execute packet's handler
-	static void execute(CGModifyGuildMember* pCGModifyGuildMember, Player* pPlayer) throw(Error);
+	static void execute(CGModifyGuildMember* pCGModifyGuildMember, Player* pPlayer);
 
 };
 #endif

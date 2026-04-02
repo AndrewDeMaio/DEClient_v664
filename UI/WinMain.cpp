@@ -51,7 +51,7 @@
 #include "RankBonusTable.h"
 #include "FameInfo.h"
 #include "MQuestInfo.h"
-#include "Packet/Properties.h"
+#include "Properties.h"
 #include "SystemAvailabilities.h"
 #include "ShrineInfoManager.h"
 #include "RankBonusDef.h"
@@ -66,7 +66,7 @@
 
 bool g_bFamily = false;
 
-void InitSound();
+BOOL InitSound();
 
 #define CLASSNAME				"DX"
 #define TITLEBARNAME			"VS UI tester~"
@@ -205,8 +205,8 @@ void KeyboardEventReceiver(CDirectInput::E_KEYBOARD_EVENT event, DWORD scan_code
 				{
 					progress += 10;
 
-					//						gC_vs_ui.SetHP(progress, 300, true, progress);
-					//						gC_vs_ui.SetMP(progress, 300);
+					//gC_vs_ui.SetHP(progress, 300, true, progress);
+					//gC_vs_ui.SetMP(progress, 300);
 					g_char_slot_ingame.SILVER_HP += 10;
 					g_char_slot_ingame.HP += 10;
 					g_char_slot_ingame.MP += 10;

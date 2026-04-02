@@ -7,21 +7,18 @@
 #include "CGRelicToObject.h"
 
 CGRelicToObject::CGRelicToObject () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 CGRelicToObject::~CGRelicToObject () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGRelicToObject::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -34,7 +31,6 @@ void CGRelicToObject::read (SocketInputStream & iStream)
 }
 
 void CGRelicToObject::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -47,7 +43,6 @@ void CGRelicToObject::write (SocketOutputStream & oStream) const
 }
 
 void CGRelicToObject::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__		
@@ -58,7 +53,6 @@ void CGRelicToObject::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGRelicToObject::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

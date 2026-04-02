@@ -7,21 +7,18 @@
 #include "CGAddSMSAddress.h"
 
 CGAddSMSAddress::CGAddSMSAddress () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 CGAddSMSAddress::~CGAddSMSAddress () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGAddSMSAddress::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -40,7 +37,6 @@ void CGAddSMSAddress::read (SocketInputStream & iStream)
 }
 
 void CGAddSMSAddress::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -62,7 +58,6 @@ void CGAddSMSAddress::write (SocketOutputStream & oStream) const
 }
 
 void CGAddSMSAddress::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__
@@ -72,7 +67,7 @@ void CGAddSMSAddress::execute (Player* pPlayer)
 }
 
 string CGAddSMSAddress::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 		

@@ -18,7 +18,7 @@
 //
 // class RCStatusHP;
 //
-// ³»°¡ ´Ù¸¥ Å¬¶óÀÌ¾ðÆ®¿¡°Ô ¸»ÇÏ´Â ÆÐÅ¶
+// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶
 //
 //----------------------------------------------------------------------
 
@@ -27,50 +27,50 @@ class RCStatusHP : public DatagramPacket {
 public :
 	RCStatusHP();
 	
-    // Datagram °´Ã¼¿¡¼­ºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( Datagram & iDatagram ) throw ( ProtocolException , Error );
+    // Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( Datagram & iDatagram );
 		    
-    // Datagram °´Ã¼·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( Datagram & oDatagram ) const throw ( ProtocolException , Error );
+    // Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( Datagram & oDatagram ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_RC_STATUS_HP; }
+	PacketID_t getPacketID () const { return PACKET_RC_STATUS_HP; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () 
+	size_t getPacketSize () const 
 	{ 
 		return szBYTE + m_Name.size() + szHP + szHP;
 	}
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "RCStatusHP"; }
+		std::string getPacketName () const { return "RCStatusHP"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 public :
 	// get /set CurrentHP
-	HP_t getCurrentHP() const throw() { return m_CurrentHP; }
-	void setCurrentHP( HP_t CurrentHP ) throw() { m_CurrentHP = CurrentHP; }
+	HP_t getCurrentHP() const { return m_CurrentHP; }
+	void setCurrentHP( HP_t CurrentHP ) { m_CurrentHP = CurrentHP; }
 
 	// get /set MaxHP
-	HP_t getMaxHP() const throw() { return m_MaxHP; }
-	void setMaxHP( HP_t MaxHP ) throw() { m_MaxHP = MaxHP; }
+	HP_t getMaxHP() const { return m_MaxHP; }
+	void setMaxHP( HP_t MaxHP ) { m_MaxHP = MaxHP; }
 
 
 	// get/set chatting Name
-	const std::string& getName () const throw () { return m_Name; }
-	void setName ( const std::string & name ) throw () { m_Name = name; }
+	const std::string& getName () const { return m_Name; }
+	void setName ( const std::string & name ) { m_Name = name; }
 
 protected :
 	std::string		m_Name;
 
-	// ³ªÅ¸³¯ ÁÂÇ¥ÀÇ ´ë°­ÀÇ À§Ä¡
+	// ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ë°­ï¿½ï¿½ ï¿½ï¿½Ä¡
 	HP_t		m_MaxHP;
 	HP_t		m_CurrentHP;	
 };
@@ -89,17 +89,17 @@ class RCStatusHPFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new RCStatusHP(); }
+	Packet * createPacket () { return new RCStatusHP(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "RCStatusHP"; }
+		std::string getPacketName () const { return "RCStatusHP"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_RC_STATUS_HP; }
+	PacketID_t getPacketID () const { return Packet::PACKET_RC_STATUS_HP; }
 
-	PacketSize_t getPacketMaxSize () const throw () 
+	PacketSize_t getPacketMaxSize () const 
 	{ 
 		return szBYTE + 20 + szHP + szHP;
 	}
@@ -118,7 +118,7 @@ class RCStatusHPHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( RCStatusHP * pPacket ) throw ( ProtocolException , Error );
+	static void execute ( RCStatusHP * pPacket );
 
 };
 

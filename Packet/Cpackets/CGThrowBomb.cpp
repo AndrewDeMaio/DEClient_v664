@@ -7,7 +7,6 @@
 #include "CGThrowBomb.h"
 
 void CGThrowBomb::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -21,7 +20,6 @@ void CGThrowBomb::read (SocketInputStream & iStream)
 }
 
 void CGThrowBomb::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -35,7 +33,6 @@ void CGThrowBomb::write (SocketOutputStream & oStream) const
 }
 
 void CGThrowBomb::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -48,7 +45,6 @@ void CGThrowBomb::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 	std::string CGThrowBomb::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 			

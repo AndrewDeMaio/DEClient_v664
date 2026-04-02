@@ -11,7 +11,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 void GCAddBat::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -51,7 +50,7 @@ void GCAddBat::read ( SocketInputStream & iStream )
 	{
 	case 1 :
 		iStream.read( m_BatColor );
-		iStream.read( m_AdvanceBatColor ); // 2007.07.24 ½ÂÁ÷ ¹ÚÁã »ö±ò
+		iStream.read( m_AdvanceBatColor ); // 2007.07.24 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		break;
 	case 2:
 		iStream.read( m_WingColor1 );
@@ -74,7 +73,6 @@ void GCAddBat::read ( SocketInputStream & iStream )
 }
 
 void GCAddBat::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -114,7 +112,7 @@ void GCAddBat::write ( SocketOutputStream & oStream ) const
 	{
 	case 1:
 		oStream.write( m_BatColor );
-		oStream.write( m_AdvanceBatColor ); // 2007.07.24 ½ÂÁ÷ ¹ÚÁã »ö±ò
+		oStream.write( m_AdvanceBatColor ); // 2007.07.24 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		break;
 	case 2:
 		oStream.write( m_WingColor1 );
@@ -137,7 +135,6 @@ void GCAddBat::write ( SocketOutputStream & oStream ) const
 }
 
 void GCAddBat::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -149,7 +146,6 @@ void GCAddBat::execute ( Player * pPlayer )
 #ifdef __DEBUG_OUTPUT__
 	
 	std::string GCAddBat::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 

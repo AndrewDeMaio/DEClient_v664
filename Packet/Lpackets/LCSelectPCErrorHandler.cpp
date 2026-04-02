@@ -17,7 +17,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void LCSelectPCErrorHandler::execute ( LCSelectPCError * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	DEBUG_ADD("[Packet] LCSelectPCErrorHandler");

@@ -2,7 +2,7 @@
 // 
 // Filename    : GCAddEffectToTile.h 
 // Written By  : elca@ewestsoft.com
-// Description : ±â¼úÀÌ ¼º°øÇßÀ»¶§ º¸³»´Â ÆÐÅ¶À» À§ÇÑ Å¬·¡½º Á¤ÀÇ
+// Description : ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -19,7 +19,7 @@
 //
 // class GCAddEffectToTile;
 //
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -28,56 +28,56 @@ class GCAddEffectToTile : public Packet {
 public :
 	
 	// constructor
-	GCAddEffectToTile () throw ();
+	GCAddEffectToTile ();
 	
 	// destructor
-	~GCAddEffectToTile () throw ();
+	~GCAddEffectToTile ();
 
 	
 public :
 	
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_ADD_EFFECT_TO_TILE; }
+	PacketID_t getPacketID () const { return PACKET_GC_ADD_EFFECT_TO_TILE; }
 	
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getPacketSize () const throw () { return szObjectID + szCoord*2 + szEffectID + szTurn; }
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	size_t getPacketSize () const { return szObjectID + szCoord*2 + szEffectID + szTurn; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCAddEffectToTile"; }
+		std::string getPacketName () const { return "GCAddEffectToTile"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 	// get / set EffectID 
-	EffectID_t getEffectID() const throw() { return m_EffectID; }
-	void setEffectID( EffectID_t e ) throw() { m_EffectID = e; }
+	EffectID_t getEffectID() const { return m_EffectID; }
+	void setEffectID( EffectID_t e ) { m_EffectID = e; }
 	
 
 	// get / set Duration 
-	Turn_t getDuration() const throw() { return m_Duration; }
-	void setDuration( Turn_t d ) throw() { m_Duration = d; }
+	Turn_t getDuration() const { return m_Duration; }
+	void setDuration( Turn_t d ) { m_Duration = d; }
 
 	// get / set ObjectID 
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID( ObjectID_t d ) throw() { m_ObjectID = d; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID( ObjectID_t d ) { m_ObjectID = d; }
 
 	// get & set X, Y
-	Coord_t getX() const throw() { return m_X;}
-	Coord_t getY() const throw() { return m_Y;}
-	void setXY( Coord_t x, Coord_t y) throw() { m_X = x; m_Y = y;}
+	Coord_t getX() const { return m_X;}
+	Coord_t getY() const { return m_Y;}
+	void setXY( Coord_t x, Coord_t y) { m_X = x; m_Y = y;}
 	
 private :
 	
@@ -103,28 +103,28 @@ class GCAddEffectToTileFactory : public PacketFactory {
 public :
 	
 	// constructor
-	GCAddEffectToTileFactory () throw () {}
+	GCAddEffectToTileFactory () {}
 	
 	// destructor
-	virtual ~GCAddEffectToTileFactory () throw () {}
+	virtual ~GCAddEffectToTileFactory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCAddEffectToTile(); }
+	Packet * createPacket () { return new GCAddEffectToTile(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCAddEffectToTile"; }
+		std::string getPacketName () const { return "GCAddEffectToTile"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_ADD_EFFECT_TO_TILE; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_ADD_EFFECT_TO_TILE; }
 
 	// get Packet Max Size
-	// PacketSize_t getPacketMaxSize() const throw() { return szSkillType + szCEffectID + szDuration + szBYTE + szBYTE * m_ListNum * 2 ; }
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID + szCoord*2 + szEffectID + szTurn; }
+	// PacketSize_t getPacketMaxSize() const { return szSkillType + szCEffectID + szDuration + szBYTE + szBYTE * m_ListNum * 2 ; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID + szCoord*2 + szEffectID + szTurn; }
 
 };
 
@@ -140,7 +140,7 @@ class GCAddEffectToTileHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCAddEffectToTile * pGCAddEffectToTile , Player * pPlayer ) throw ( Error );
+	static void execute ( GCAddEffectToTile * pGCAddEffectToTile , Player * pPlayer );
 
 };
 

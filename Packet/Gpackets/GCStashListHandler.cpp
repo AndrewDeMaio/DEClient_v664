@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : GCStashListHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -14,7 +14,6 @@
 #include "UIFunction.h"
 
 void GCStashListHandler::execute ( GCStashList * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -23,12 +22,12 @@ void GCStashListHandler::execute ( GCStashList * pPacket , Player * pPlayer )
 	int stashNum = pPacket->getStashNum();
 
 	//------------------------------------------------------------
-	// º¸°üÇÔÀÌ ÀÖ´Â°¡?
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Â°ï¿½?
 	//------------------------------------------------------------
 	if (stashNum>0)
 	{
 		//------------------------------------------------------------
-		// ±âÁ¸¿¡°É Áö¿ì°í ´Ù½Ã »ý¼ºÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		//------------------------------------------------------------
 		if (g_pStorage!=NULL)
 		{
@@ -38,12 +37,12 @@ void GCStashListHandler::execute ( GCStashList * pPacket , Player * pPlayer )
 		g_pStorage = new MStorage;
 
 		
-		g_pStorage->Init( stashNum ); //STASH_RACK_MAX );	// ÂÁ.. 3°³ÀÏ±î??
+		g_pStorage->Init( stashNum ); //STASH_RACK_MAX );	// ï¿½ï¿½.. 3ï¿½ï¿½ï¿½Ï±ï¿½??
 
 		for (int rack=0; rack<stashNum; rack++)
 		{
 			//------------------------------------------------------------
-			// Á¢±ÙÇÏ´Â Storage¸¦ ÁöÁ¤ÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Storageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//------------------------------------------------------------
 			g_pStorage->SetCurrent( rack );
 
@@ -54,7 +53,7 @@ void GCStashListHandler::execute ( GCStashList * pPacket , Player * pPlayer )
 					const STASHITEM&	item = pPacket->getStashItem(rack, index);
 
 					//------------------------------------------------------------
-					// itemÀ» »ý¼ºÇÑ´Ù.
+					// itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 					//------------------------------------------------------------
 					MItem* pItem = MItem::NewItem( (ITEM_CLASS)item.itemClass );
 
@@ -67,18 +66,18 @@ void GCStashListHandler::execute ( GCStashList * pPacket , Player * pPlayer )
 					pItem->SetItemThirdOptionType(item.thirdEnchantType);
 
 					//------------------------------------------
-					// °³¼ö
+					// ï¿½ï¿½ï¿½ï¿½
 					//------------------------------------------
-					// ÃÑÀÎ °æ¿ì
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 					//------------------------------------------
 					if (pItem->IsGunItem())
 					{
 						MMagazine* pMagazine = (MMagazine*)MItem::NewItem( (ITEM_CLASS)ITEM_CLASS_MAGAZINE );
 
-						// ÀÇ¹Ì ¾øÀ½ - -;
+						// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ - -;
 						pMagazine->SetID( 0 );
 
-						// ÀÌ°Å´Â ÃÑ¿¡ ¸ÂÃç¼­ ÇØÁà¾ßµÈ´Ù.
+						// ï¿½Ì°Å´ï¿½ ï¿½Ñ¿ï¿½ ï¿½ï¿½ï¿½ç¼­ ï¿½ï¿½ï¿½ï¿½ßµÈ´ï¿½.
 						for (int j=0; j<(*g_pItemTable)[ITEM_CLASS_MAGAZINE].GetSize(); j++)			
 						{
 							pMagazine->SetItemType(	j );
@@ -89,20 +88,20 @@ void GCStashListHandler::execute ( GCStashList * pPacket , Player * pPlayer )
 							}
 						}
 
-						// ÀÇ¹Ì ¾øÀ½
+						// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½
 						pMagazine->ClearItemOption();
 					
-						// ÅºÃ¢ °³¼ö
+						// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 						pMagazine->SetNumber( item.num );
 
 						//------------------------------------
-						// ÅºÃ¢ ¼³Á¤
+						// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 						//------------------------------------
 						MGunItem* pGunItem = (MGunItem*)pItem;
 						pGunItem->SetMagazine( pMagazine );
 					}		
 					//------------------------------------------
-					// ÃÑÀÌ ¾Æ´Ñ °æ¿ì
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 					//------------------------------------------
 					else
 					{
@@ -114,13 +113,13 @@ void GCStashListHandler::execute ( GCStashList * pPacket , Player * pPlayer )
 					pItem->SetEnchantLevel( item.enchantLevel );
 
 					//------------------------------------------------------------
-					// Sub ItemÀÌ ÀÖÀ¸¸é »ý¼ºÇÑ´Ù.
+					// Sub Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 					//------------------------------------------------------------
 					int subNum = pPacket->getSubItemCount(rack, index);
 					if (subNum!=0)
 					{
 						//------------------------------------------------------------
-						// BeltÀÎ °æ¿ì
+						// Beltï¿½ï¿½ ï¿½ï¿½ï¿½
 						//------------------------------------------------------------
 						if (pItem->GetItemClass()==ITEM_CLASS_BELT)
 						{
@@ -131,7 +130,7 @@ void GCStashListHandler::execute ( GCStashList * pPacket , Player * pPlayer )
 							std::list<SubItemInfo*>::const_iterator iItem = listSubItem.begin();
 
 							//------------------------------------------------------------
-							// °¢°¢ÀÇ sub itemÀ» ¼³Á¤ÇÑ´Ù.
+							// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sub itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 							//------------------------------------------------------------
 							while (iItem != listSubItem.end())
 							{
@@ -140,7 +139,7 @@ void GCStashListHandler::execute ( GCStashList * pPacket , Player * pPlayer )
 								if (pItemInfo!=NULL)
 								{
 									//------------------------------------------------------------
-									// sub itemÀ» »ý¼ºÇÑ´Ù.
+									// sub itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 									//------------------------------------------------------------
 									MItem* pSubItem = MItem::NewItem( (ITEM_CLASS)pItemInfo->getItemClass() );
 
@@ -170,7 +169,7 @@ void GCStashListHandler::execute ( GCStashList * pPacket , Player * pPlayer )
 							std::list<SubItemInfo*>::const_iterator iItem = listSubItem.begin();
 
 							//------------------------------------------------------------
-							// °¢°¢ÀÇ sub itemÀ» ¼³Á¤ÇÑ´Ù.
+							// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sub itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 							//------------------------------------------------------------
 							while (iItem != listSubItem.end())
 							{
@@ -179,7 +178,7 @@ void GCStashListHandler::execute ( GCStashList * pPacket , Player * pPlayer )
 								if (pItemInfo!=NULL)
 								{
 									//------------------------------------------------------------
-									// sub itemÀ» »ý¼ºÇÑ´Ù.
+									// sub itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 									//------------------------------------------------------------
 									MItem* pSubItem = MItem::NewItem( (ITEM_CLASS)pItemInfo->getItemClass() );
 
@@ -208,11 +207,11 @@ void GCStashListHandler::execute ( GCStashList * pPacket , Player * pPlayer )
 					}
 
 					//------------------------------------------------------------
-					// Storage¿¡ item ¼³Á¤
+					// Storageï¿½ï¿½ item ï¿½ï¿½ï¿½ï¿½
 					//------------------------------------------------------------
 					if (!g_pStorage->SetItem( index, pItem ))
 					{
-						// ¹¹Áö..
+						// ï¿½ï¿½ï¿½ï¿½..
 						delete pItem;
 
 						DEBUG_ADD_FORMAT("[Error] Can't Add Item to Storage. rack=%d, slot=%d", rack, index);
@@ -222,18 +221,18 @@ void GCStashListHandler::execute ( GCStashList * pPacket , Player * pPlayer )
 		}
 		
 		//------------------------------------------------------------
-		// µ· ¼³Á¤
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//------------------------------------------------------------
 		g_pStorage->GetMoneyManager()->SetMoney( pPacket->getStashGold() );
 
 		//------------------------------------------------------------
-		// º¸°üÇÔÀ» ¶ç¿î´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		//------------------------------------------------------------
 		UI_RunStorage();
 		UI_SetStorage(g_pStorage);
 	}
 	//------------------------------------------------------------
-	// º¸°üÇÔÀÌ ¾ø´Â °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------------
 	else
 	{

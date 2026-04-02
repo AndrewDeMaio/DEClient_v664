@@ -14,27 +14,27 @@
 //////////////////////////////////////////////////////////////////////////////
 // class GCAddSlyph;
 //
-// ½Ã¾ß ¾È¿¡ °í¼Ó Slyph °¡ µé¾î¿ÔÀ» °æ¿ì, ÀÌ ÆÐÅ¶¿¡ Slyph Á¤º¸¸¦ ´ã¾Æ¼­ Àü¼Û¹Þ´Â´Ù.
+// ï¿½Ã¾ï¿½ ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ Slyph ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ Slyph ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ ï¿½ï¿½ï¿½Û¹Þ´Â´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 
 class GCAddSylph : public Packet 
 {
 public:
-	virtual ~GCAddSylph() throw() {}
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	virtual ~GCAddSylph() {}
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
 #if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
-	PacketID_t getPacketID() const throw() { return PACKET_GC_ADD_SYLPH; }
+	PacketID_t getPacketID() const { return PACKET_GC_ADD_SYLPH; }
 #endif //__FAST_TRANSFORTER||__SECOND_TRANSFORTER
-	PacketSize_t getPacketSize() const throw();
+	size_t getPacketSize() const;
 
-	string getPacketName() const throw() { return "GCAddSylph"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCAddSylph"; }
+	string toString() const;
 
 public:
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID(ObjectID_t creatureID) throw() { m_ObjectID = creatureID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID(ObjectID_t creatureID) { m_ObjectID = creatureID; }
 
 	uchar getSylphType() { return m_SylphType; }
 	void setSylphType(uchar Type) { m_SylphType = Type; }
@@ -70,10 +70,10 @@ private:
 class GCAddSylphFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCAddSylph(); }
-	string getPacketName() const throw() { return "GCAddSlyph"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_ADD_SYLPH; }
-	PacketSize_t getPacketMaxSize() const throw();
+	Packet* createPacket() { return new GCAddSylph(); }
+	string getPacketName() const { return "GCAddSlyph"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_ADD_SYLPH; }
+	PacketSize_t getPacketMaxSize() const;
 
 };
 
@@ -84,7 +84,7 @@ public:
 class GCAddSylphHandler 
 {
 public:
-	static void execute(GCAddSylph* pPacket, Player* pPlayer) throw(Error);
+	static void execute(GCAddSylph* pPacket, Player* pPlayer);
 
 };
 

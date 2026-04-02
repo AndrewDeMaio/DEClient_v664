@@ -12,7 +12,7 @@
 #ifdef __GAME_CLIENT__
 	#include "Properties.h"
 #else
-	#include "Packet\Properties.h"
+	#include "Properties.h"
 #endif
 
 #include "UtilityFunction.h"
@@ -21,7 +21,7 @@
 #ifdef __GAME_CLIENT__
 	#include "RequestUserManager.h"
 
-	#include "packet\Cpackets\CGRequestIP.h"
+	#include "Cpackets\CGRequestIP.h"
 
 	#include "ServerInfo.h"
 	#include "RequestClientPlayerManager.h"

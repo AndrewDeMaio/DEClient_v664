@@ -16,7 +16,6 @@
 //////////////////////////////////////////////////////////////////////////////
 #ifndef __GAME_CLIENT__
 void CGAcceptUnionHandler::execute (CGAcceptUnion* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 	__BEGIN_TRY __BEGIN_DEBUG_EX
 		

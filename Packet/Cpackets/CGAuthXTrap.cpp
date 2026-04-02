@@ -8,7 +8,6 @@
 
 
 void CGAuthXTrap::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -28,7 +27,6 @@ void CGAuthXTrap::read ( SocketInputStream & iStream )
 }
 		    
 void CGAuthXTrap::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -40,7 +38,6 @@ void CGAuthXTrap::write ( SocketOutputStream & oStream ) const
 }
 
 void CGAuthXTrap::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -50,7 +47,6 @@ void CGAuthXTrap::execute ( Player * pPlayer )
 }
 
 string CGAuthXTrap::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

@@ -7,7 +7,6 @@
 #include "GCAuthXTrap.h"
 
 void GCAuthXTrap::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -27,7 +26,6 @@ void GCAuthXTrap::read ( SocketInputStream & iStream )
 }
 		    
 void GCAuthXTrap::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -40,7 +38,6 @@ void GCAuthXTrap::write ( SocketOutputStream & oStream ) const
 }
 
 void GCAuthXTrap::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -50,7 +47,6 @@ void GCAuthXTrap::execute ( Player * pPlayer )
 }
 
 string GCAuthXTrap::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

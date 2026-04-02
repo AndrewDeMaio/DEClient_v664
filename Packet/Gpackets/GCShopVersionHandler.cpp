@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCShopVersionHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
@@ -16,14 +16,13 @@
 #include "UIFunction.h"
 #include "MPriceManager.h"
 void GCShopVersionHandler::execute ( GCShopVersion * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
 #ifdef __GAME_CLIENT__
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -31,13 +30,13 @@ void GCShopVersionHandler::execute ( GCShopVersion * pPacket , Player * pPlayer 
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 #if __CONTENTS(__GLOBAL_NPC)
-		//20081023 ±×·Î¹ú NPC¸¦ À§ÇÑ ºÎºÐ npc¸¦ ¸øÃ£°í ±Û·Î¹ú º¯¼ö·Î ¿ÔÀ»°æ¿ì¸¸ ´ÙÀ½°ú °°ÀÌ Å©¸®Ã³¸¦ ¸¸µé¾î¼­ ¾´´Ù.
+		//20081023 ï¿½×·Î¹ï¿½ NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ npcï¿½ï¿½ ï¿½ï¿½Ã£ï¿½ï¿½ ï¿½Û·Î¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì¸¸ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½î¼­ ï¿½ï¿½ï¿½ï¿½.
 		if(pCreature == NULL)// && pPacket->isGlobal())
 		{
 			(MNPC*) pCreature;
@@ -47,55 +46,55 @@ void GCShopVersionHandler::execute ( GCShopVersion * pPacket , Player * pPlayer 
 		}
 #endif //__GLOBAL_NPC
 		//------------------------------------------------------
-		// ±×·± creature°¡ ¾ø´Â °æ¿ì
+		// ï¿½×·ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		if (pCreature==NULL)
 		{
 			DEBUG_ADD_FORMAT("[Error] There is no such Creature id=%d", pPacket->getObjectID());
 		}
 		//------------------------------------------------------
-		// NPCÀÎ °æ¿ì
+		// NPCï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		else if (pCreature->GetClassType()==MCreature::CLASS_NPC)
 		{
 			MNPC* pNPC = (MNPC*)pCreature;
 
 			//------------------------------------------------------
-			// NPCÀÇ »óÁ¡À» ¾ò´Â´Ù.
+			// NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
 			//------------------------------------------------------
 			MShop* pShop = pNPC->GetShop();
 
 			if (pShop==NULL)
 			{
-				// »óÁ¡ÀÌ ¾ø´Â °æ¿ì --> »ý¼º.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½.
 				pShop = new MShop;
 				pShop->Init( MShopShelf::MAX_SHELF );
 				
-				// NPC¿¡ »óÁ¡ ¼³Á¤..
+				// NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 				pNPC->SetShop( pShop );				
 			}
 
 			//------------------------------------------------------
-			// default·Î normal »óÁ¡¿¡ Á¢±ÙÇÏ°Ô ÇÑ´Ù.
+			// defaultï¿½ï¿½ normal ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ñ´ï¿½.
 			//------------------------------------------------------
 			pShop->SetCurrent( 0 );
 
 			//------------------------------------------------------
-			// normal item ¼±¹ÝÀ» »ý¼ºÇÑ´Ù.
+			// normal item ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//------------------------------------------------------
 			pNPC->CreateFixedShelf();
 			pNPC->CreateFixedShelf(true);	// mysterious -_-;
 
 
 			//------------------------------------------------------
-			// °¢ shelfÀÇ version ºñ±³..
+			// ï¿½ï¿½ shelfï¿½ï¿½ version ï¿½ï¿½..
 			//------------------------------------------------------
 			BOOL bSameAll = TRUE;
 			for (ShopRackType_t i=0; i<SHOP_RACK_TYPE_MAX; i++)
 			{
 				//------------------------------------------------------
-				// normal itemÀÎ °æ¿ì´Â Ã¼Å©ÇÒ ÇÊ¿ä¾ø´Ù. 
-				// --> client¿¡ ÀÌ¹Ì Á¤º¸°¡ ÀÖÀ¸¹Ç·Î
+				// normal itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½. 
+				// --> clientï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½
 				//------------------------------------------------------
 				if (i!=SHOP_RACK_SPECIAL)
 				{
@@ -105,15 +104,15 @@ void GCShopVersionHandler::execute ( GCShopVersion * pPacket , Player * pPlayer 
 				MShopShelf* pShopShelf = pShop->GetShelf( i );
 
 				//------------------------------------------------------
-				// ¼±¹ÝÀÌ ¾ø´Â °æ¿ì --> »ý¼º
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½
 				//------------------------------------------------------
 				if (pShopShelf==NULL)
 				{
 					pShopShelf = MShopShelf::NewShelf( (MShopShelf::SHELF_TYPE)i );
 
-//20081105 Global_NPC ÀÏ°æ¿ì´Â ¹«Á¶°Ç ÀûÀ¸·Î Æ¯¼ö¾ÆÀÌÅÛ UIÀÌ°¡ ³ª¿ÀÁö ¾Êµµ·Ï ÇÑ´Ù.
-//ÀÌ ÄÚµå¿Ü¿¡µµ GCShopListHandler.cpp´Â ±Û·Î¹úÀÏ °æ¿ì ³¯¶ó°¡Áö ¾ÊÀ¸¹Ç·Î ÄÚµùÇÏÁö ¾Ê´Â´Ù.
-//È¤ ³¯¶ó¿À´õ¶óµµ ÇöÀç ObjectID°¡ NULL·Î ³¯¶ó¿Ã°æ¿ì creature Æ÷ÀÎÅÍ°¡ NULLµÇ¾î ÀÚµ¿À¸·Î ¿¹¿ÜÃ³¸®µÈ´Ù.
+//20081105 Global_NPC ï¿½Ï°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UIï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+//ï¿½ï¿½ ï¿½Úµï¿½Ü¿ï¿½ï¿½ï¿½ GCShopListHandler.cppï¿½ï¿½ ï¿½Û·Î¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
+//È¤ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ObjectIDï¿½ï¿½ NULLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã°ï¿½ï¿½ creature ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ NULLï¿½Ç¾ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½È´ï¿½.
 #if __CONTENTS(__GLOBAL_NPC)
 					if (pPacket->getObjectID() == NULL)
 					{
@@ -128,7 +127,7 @@ void GCShopVersionHandler::execute ( GCShopVersion * pPacket , Player * pPlayer 
 				unsigned int clientVersion = pShopShelf->GetVersion();
 
 				//------------------------------------------------------
-				// versionÀÌ ´Ù¸£¸é item std::list¸¦ ¿äÃ»ÇÑ´Ù.
+				// versionï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½ item std::listï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ñ´ï¿½.
 				//------------------------------------------------------
 				if (serverVersion!=clientVersion
 #if __CONTENTS(__GLOBAL_NPC)
@@ -136,10 +135,10 @@ void GCShopVersionHandler::execute ( GCShopVersion * pPacket , Player * pPlayer 
 #endif //__GLOBAL_NPC					
 					)
 				{
-					// versionÀÌ ´Ù¸¥ °ÍÀÌ ÀÖ´Ù°í Ã¼Å©
+					// versionï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ù°ï¿½ Ã¼Å©
 					bSameAll = FALSE;
 
-						// item std::list ¿äÃ» packet
+						// item std::list ï¿½ï¿½Ã» packet
 						CGShopRequestList	_CGShopRequestList;
 						_CGShopRequestList.setObjectID( pNPC->GetID() );
 						_CGShopRequestList.setRackType( i );
@@ -148,27 +147,27 @@ void GCShopVersionHandler::execute ( GCShopVersion * pPacket , Player * pPlayer 
 				}
 			}
 
-			// 2004, 10, 25, sobeit add start - ¼¼À² Á¶Àý
+			// 2004, 10, 25, sobeit add start - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			g_pPriceManager->SetMarketCondSell( pPacket->getMarketCondSell() );
 			// 2004, 10, 25, sobeit add end
 			
 			//------------------------------------------------------
-			// ¸ðµç shelfÀÇ versionÀÌ °°À¸¸é..
-			// ¹Ù·Î »óÁ¡À» ¶ç¿î´Ù.
+			// ï¿½ï¿½ï¿½ shelfï¿½ï¿½ versionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
+			// ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			//------------------------------------------------------
 			if (bSameAll)
 			{
 				//------------------------------------------------------
-				// Á¤»óÀûÀ¸·Î µÈ °æ¿ì
-				// --> »óÁ¡À» ½ÇÇàÇÑ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
+				// --> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 				//------------------------------------------------------
 				UI_RunShop();
-				UI_SetShop( pShop );		// shop ¼³Á¤				
+				UI_SetShop( pShop );		// shop ï¿½ï¿½ï¿½ï¿½				
 			}
 			
 		}
 		//------------------------------------------------------
-		// NPC°¡ ¾Æ´Ñ °æ¿ì
+		// NPCï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		else
 		{

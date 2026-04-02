@@ -17,9 +17,9 @@
 //
 // class GCReconnect;
 //
-// ¼­¹ö°£ ÀÌµ¿½Ã, ÀÌÀü ¼­¹ö°¡ Å¬¶óÀÌ¾ðÆ®¿¡°Ô ´ÙÀ½ ¼­¹ö·Î ¿¬°áÇÏ¶ó°í 
-// ÇÏ¸é¼­ Á¢¼ÓÀ» ²÷µµ·Ï ÇÏ´Â ÆÐÅ¶ÀÌ´Ù. Å¬¶óÀÌ¾ðÆ®´Â ÀÌ ÆÐÅ¶À» ¹ÞÀ¸¸é,
-// ¼­¹ö¿ÍÀÇ ¿¬°áÀ» ²÷°í ÆÐÅ¶¿¡ ´ã±ä ¼­¹öÀÇ IP/Port ·Î Á¢¼ÓÇÏ¸é µÈ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ 
+// ï¿½Ï¸é¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½. Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IP/Port ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½È´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -27,52 +27,52 @@ class GCReconnect : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_RECONNECT; }
+	PacketID_t getPacketID () const { return PACKET_GC_RECONNECT; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () 
+	size_t getPacketSize () const 
 	{ 
-		return szBYTE + m_Name.size() 		// Ä³¸¯ÅÍ ÀÌ¸§
-			+ szPCType 						// ½½·¹ÀÌ¾î or ¹ìÆÄÀÌ¾î?
-			+ szBYTE + m_ServerIP.size() 	// »õ·Î Á¢¼ÓÇÒ °ÔÀÓ ¼­¹ö IP
-			+ szDWORD; 						// ÀÎÁõ Å°
+		return szBYTE + m_Name.size() 		// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+			+ szPCType 						// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ or ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½?
+			+ szBYTE + m_ServerIP.size() 	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ IP
+			+ szDWORD; 						// ï¿½ï¿½ï¿½ï¿½ Å°
 	}
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCReconnect"; }
+		std::string getPacketName () const { return "GCReconnect"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 public :
 
 	// get/set creature name
-	const std::string& getName () const throw () { return m_Name; }
-	void setName ( const std::string & name ) throw () { m_Name = name; }
+	const std::string& getName () const { return m_Name; }
+	void setName ( const std::string & name ) { m_Name = name; }
 
 	// get/set pc type
-	PCType getPCType () const throw () { return m_PCType; }
-	void setPCType ( PCType pcType ) throw () { m_PCType = pcType; }
+	PCType getPCType () const { return m_PCType; }
+	void setPCType ( PCType pcType ) { m_PCType = pcType; }
 
 	// get/set server ip
-	const std::string& getServerIP () const throw () { return m_ServerIP; }
-	void setServerIP ( const std::string & serverIP ) throw () { m_ServerIP = serverIP; }
+	const std::string& getServerIP () const { return m_ServerIP; }
+	void setServerIP ( const std::string & serverIP ) { m_ServerIP = serverIP; }
 
 	// get/set key
-	DWORD getKey () const throw () { return m_Key; }
-	void setKey ( DWORD key ) throw () { m_Key = key; }
+	DWORD getKey () const { return m_Key; }
+	void setKey ( DWORD key ) { m_Key = key; }
 
 private :
 	
@@ -104,25 +104,25 @@ class GCReconnectFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCReconnect(); }
+	Packet * createPacket () { return new GCReconnect(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCReconnect"; }
+		std::string getPacketName () const { return "GCReconnect"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_RECONNECT; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_RECONNECT; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCReconnectPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw ()
+	// const static GCReconnectPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const
 	{
-		return szBYTE + 20 		 		// Ä³¸¯ÅÍ ÀÌ¸§
-			+ szPCType 					// ½½·¹ÀÌ¾î or ¹ìÆÄÀÌ¾î?
-			+ szBYTE + 15			 	// »õ·Î Á¢¼ÓÇÒ °ÔÀÓ ¼­¹ö IP
-			+ szDWORD; 					// ÀÎÁõ Å°
+		return szBYTE + 20 		 		// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+			+ szPCType 					// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ or ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½?
+			+ szBYTE + 15			 	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ IP
+			+ szDWORD; 					// ï¿½ï¿½ï¿½ï¿½ Å°
 	}
 
 };
@@ -139,7 +139,7 @@ class GCReconnectHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCReconnect * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCReconnect * pPacket , Player * pPlayer );
 
 };
 

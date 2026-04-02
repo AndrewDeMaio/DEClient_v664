@@ -7,14 +7,13 @@
 #include "CGGuildChat.h"
 
 void CGGuildChat::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 	
 	iStream.read( m_bType );
 	iStream.read( m_Color );
 
-	// ¸Þ¼¼Áö ÀÐ±â
+	// ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½Ð±ï¿½
 	BYTE szMessage;
 
 	iStream.read(szMessage);
@@ -31,14 +30,13 @@ void CGGuildChat::read (SocketInputStream & iStream)
 }
 		    
 void CGGuildChat::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 	
 	oStream.write( m_bType );
 	oStream.write( m_Color );
 
-	// ¸Þ¼¼Áö ¾²±â
+	// ï¿½Þ¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	BYTE szMessage = m_Message.size();
 
 	if (szMessage == 0)
@@ -54,7 +52,6 @@ void CGGuildChat::write (SocketOutputStream & oStream) const
 }
 
 void CGGuildChat::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -67,7 +64,6 @@ void CGGuildChat::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGGuildChat::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

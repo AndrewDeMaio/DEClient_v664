@@ -21,7 +21,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void CGFriendReqToDelHandler::execute ( CGFriendReqToDel * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 

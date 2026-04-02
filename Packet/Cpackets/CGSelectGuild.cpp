@@ -8,7 +8,6 @@
 
 
 void CGSelectGuild::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -18,7 +17,6 @@ void CGSelectGuild::read (SocketInputStream & iStream)
 }
 
 void CGSelectGuild::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -28,7 +26,6 @@ void CGSelectGuild::write (SocketOutputStream & oStream) const
 }
 
 void CGSelectGuild::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -40,7 +37,6 @@ void CGSelectGuild::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGSelectGuild::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

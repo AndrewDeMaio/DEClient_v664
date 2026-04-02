@@ -18,7 +18,6 @@
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 void CGRequestWebMarketHandler::execute (CGRequestWebMarket* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 	//__BEGIN_TRY __BEGIN_DEBUG_EX
 	__BEGIN_TRY
@@ -38,12 +37,12 @@ void CGRequestWebMarketHandler::execute (CGRequestWebMarket* pPacket , Player* p
 	{
 		case CGRequestWebMarket::REQUEST_WEB_MARKET:
 			{
-				// Å° »ý¼º
+				// Å° ï¿½ï¿½ï¿½ï¿½
 				DWORD key = rand() << ( time(0) % 10 ) + rand() >> ( time(0) % 10 );
 
 				cout << "Key: " << key << endl;
 
-				// Å° ÀúÀå
+				// Å° ï¿½ï¿½ï¿½ï¿½
 				Statement* pStmt = NULL;
 				Result* pResult = NULL;
 				
@@ -59,24 +58,24 @@ void CGRequestWebMarketHandler::execute (CGRequestWebMarket* pPacket , Player* p
 				}
 				END_DB( pStmt )
 
-				// ¿ùµåID ºÒ·¯¿À±â
+				// ï¿½ï¿½ï¿½ï¿½ID ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
 				static int WorldID = g_pConfig->getPropertyInt("Dimension") * 3 + g_pConfig->getPropertyInt("WorldID");
 
-				// ÆÐÅ¶ »ý¼º
+				// ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½
 				GCShowWebMarket gcShowWebMarket;
 				gcShowWebMarket.setPlayerID( pGamePlayer->getID() );
 				gcShowWebMarket.setName( pPC->getName() );
 				gcShowWebMarket.setWorldID( WorldID );
 				gcShowWebMarket.setKey( key );
 
-				// ÆÐÅ¶ º¸³»±â
+				// ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				pGamePlayer->sendPacket( &gcShowWebMarket );
 			}
 			break;
 
 		case CGRequestWebMarket::REQUEST_BUY_COMPLETE:
 			{
-				// GoodsObject ¸¦ »õ·Î ·ÎµùÇÑ´Ù
+				// GoodsObject ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½Ñ´ï¿½
 				pPC->loadGoods();
 			}
 			break;

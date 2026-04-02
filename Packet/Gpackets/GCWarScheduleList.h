@@ -16,7 +16,7 @@
 
 struct WarScheduleInfo
 {
-	BYTE warType;		// 0 : µ¿Á·°£ 1 : Á¾Á·°£
+	BYTE warType;		// 0 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	WORD year;
 	BYTE month;
 	BYTE day;
@@ -33,23 +33,23 @@ typedef WarScheduleInfoList::const_iterator WarScheduleInfoListItor;
 class GCWarScheduleList : public Packet
 {
 public:
-	GCWarScheduleList() throw();
-	virtual ~GCWarScheduleList() throw();
+	GCWarScheduleList();
+	virtual ~GCWarScheduleList();
 
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_WAR_SCHEDULE_LIST; }
-	PacketSize_t getPacketSize() const throw();
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_WAR_SCHEDULE_LIST; }
+	size_t getPacketSize() const;
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCWarScheduleList"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "GCWarScheduleList"; }
+	std::string toString() const;
 #endif
 
 public:
-	void addWarScheduleInfo( WarScheduleInfo* warInfo ) throw() { m_WarScheduleList.push_back( warInfo ); }
-	WarScheduleInfo* popWarScheduleInfo() throw();
+	void addWarScheduleInfo( WarScheduleInfo* warInfo ) { m_WarScheduleList.push_back( warInfo ); }
+	WarScheduleInfo* popWarScheduleInfo();
 
 private:
 	WarScheduleInfoList m_WarScheduleList;
@@ -59,10 +59,10 @@ class GCWarScheduleListFactory : public PacketFactory {
 
 public :
 	
-	Packet* createPacket() throw() { return new GCWarScheduleList(); }
-	std::string getPacketName() const throw() { return "GCWarScheduleList"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_WAR_SCHEDULE_LIST; }
-	PacketSize_t getPacketMaxSize() const throw() {
+	Packet* createPacket() { return new GCWarScheduleList(); }
+	std::string getPacketName() const { return "GCWarScheduleList"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_WAR_SCHEDULE_LIST; }
+	PacketSize_t getPacketMaxSize() const {
 		return (
 			szBYTE + 
 			( szBYTE+szWORD+szBYTE+szBYTE+szBYTE+szGuildID*6+(szBYTE*16)*6 ) * MAX_WAR_NUM
@@ -73,7 +73,7 @@ public :
 class GCWarScheduleListHandler {
 	
 public :
-	static void execute(GCWarScheduleList* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCWarScheduleList* pPacket, Player* pPlayer);
 
 };
 

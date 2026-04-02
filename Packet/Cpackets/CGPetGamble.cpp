@@ -9,21 +9,18 @@
 
 
 CGPetGamble::CGPetGamble () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 CGPetGamble::~CGPetGamble () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGPetGamble::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -31,7 +28,6 @@ void CGPetGamble::read (SocketInputStream & iStream)
 }
 
 void CGPetGamble::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -39,7 +35,6 @@ void CGPetGamble::write (SocketOutputStream & oStream) const
 }
 
 void CGPetGamble::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -52,7 +47,7 @@ void CGPetGamble::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGPetGamble::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 		

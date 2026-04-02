@@ -280,7 +280,7 @@
 // added by elca 2001-06-26
 #include "Cpackets/CGSelectPortal.h"
 
-// 2001-01-08 ±è¼º¹Î
+// 2001-01-08 ï¿½è¼ºï¿½ï¿½
 #include "Cpackets/CGMouseToStash.h"
 #include "Cpackets/CGStashToMouse.h"
 #include "Cpackets/CGStashList.h"
@@ -341,17 +341,16 @@
 //
 //////////////////////////////////////////////////////////////////////
 RequestClientPacketFactoryManager::RequestClientPacketFactoryManager () 
-	throw ()
 : m_Factories(NULL) , m_Size(Packet::PACKET_MAX)
 {
 	__BEGIN_TRY
 
 	Assert(m_Size > 0);
 	
-	// ÆÐÅ¶ÆÑÅä¸®¹è¿­À» »ý¼ºÇÑ´Ù.
+	// ï¿½ï¿½Å¶ï¿½ï¿½ï¿½ä¸®ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	m_Factories = new PacketFactory*[ m_Size ];
 	
-	// ÆÑÅä¸®¿¡ ´ëÇÑ Æ÷ÀÎÅÍµéÀ» NULL ·Î ÃÊ±âÈ­ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ NULL ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 	for (int i = 0 ; i < m_Size ; i ++) 
 		m_Factories[i] = NULL;
 			
@@ -365,13 +364,12 @@ RequestClientPacketFactoryManager::RequestClientPacketFactoryManager ()
 //
 //////////////////////////////////////////////////////////////////////
 RequestClientPacketFactoryManager::~RequestClientPacketFactoryManager () 
-	throw ()
 {
 	__BEGIN_TRY
 		
 	Assert(m_Factories != NULL);
 
-	// °¢°¢ÀÇ ÆÐÅ¶ÆÑÅä¸®µéÀ» »èÁ¦ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	for (int i = 0 ; i < m_Size ; i ++) 
 	{
 #ifdef __GAME_CLIENT__
@@ -385,7 +383,7 @@ RequestClientPacketFactoryManager::~RequestClientPacketFactoryManager ()
 #endif
 	}
 	
-	// ÆÐÅ¶ÆÑÅä¸®¹è¿­À» »èÁ¦ÇÑ´Ù.
+	// ï¿½ï¿½Å¶ï¿½ï¿½ï¿½ä¸®ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 #ifdef __GAME_CLIENT__
 	if (m_Factories != NULL)
 	{
@@ -402,11 +400,10 @@ RequestClientPacketFactoryManager::~RequestClientPacketFactoryManager ()
 
 //////////////////////////////////////////////////////////////////////
 //
-// Á¤ÀÇµÈ ¸ðµç ÆÐÅ¶ÆÑÅä¸®µéÀ» ¿©±â¿¡ Ãß°¡ÇÑ´Ù.
+// ï¿½ï¿½ï¿½Çµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½â¿¡ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 void RequestClientPacketFactoryManager::init ()
-	 throw (Error)
 {
 	__BEGIN_TRY
 		
@@ -740,11 +737,10 @@ void RequestClientPacketFactoryManager::init ()
 
 //////////////////////////////////////////////////////////////////////
 //
-// ÆÑÅä¸® °´Ã¼¸¦ Æ¯Á¤ ÀÎµ¦½º¿¡ Ãß°¡ÇÑ´Ù.
+// ï¿½ï¿½ï¿½ä¸® ï¿½ï¿½Ã¼ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 void RequestClientPacketFactoryManager::addFactory (PacketFactory * pFactory) 
-	 throw (Error)
 {
 	__BEGIN_TRY
 		
@@ -762,7 +758,7 @@ void RequestClientPacketFactoryManager::addFactory (PacketFactory * pFactory)
 		throw Error(msg.toString());
 	}
 	
-	// ÆÐÅ¶ÆÑÅä¸®¸¦ µî·ÏÇÑ´Ù.
+	// ï¿½ï¿½Å¶ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	m_Factories[ pFactory->getPacketID() ] = pFactory;
 			
 	__END_CATCH
@@ -771,16 +767,15 @@ void RequestClientPacketFactoryManager::addFactory (PacketFactory * pFactory)
 	
 //////////////////////////////////////////////////////////////////////
 //
-// ÆÐÅ¶¾ÆÀÌµð·Î ÆÐÅ¶°´Ã¼¸¦ »ý¼ºÇÑ´Ù.
+// ï¿½ï¿½Å¶ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 Packet * RequestClientPacketFactoryManager::createPacket (PacketID_t packetID) 
-	   throw (InvalidProtocolException , Error)
 {
 	__BEGIN_TRY
 
-	// ÆÐÅ¶ ¾ÆÀÌµð°¡ ¹üÀ§¸¦ ³Ñ¾î¼¶À¸·Î ÀÎÇØ¼­ Seg.Fault °¡ ¹ß»ýÇÏÁö ¾Êµµ·Ï.
-	// ÀÌ·± »ç¿ëÀÚ´Â ´çÀå Â©¶ó¾ß ÇÑ´Ù.
+	// ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î¼¶ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ Seg.Fault ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½.
+	// ï¿½Ì·ï¿½ ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ ï¿½ï¿½ï¿½ï¿½ Â©ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	if (packetID >= m_Size || m_Factories[packetID] == NULL) {
 		StringStream msg;
 		msg << "packet factory [" << packetID << "] not exist.";
@@ -795,16 +790,15 @@ Packet * RequestClientPacketFactoryManager::createPacket (PacketID_t packetID)
 
 //////////////////////////////////////////////////////////////////////
 //
-// ÆÐÅ¶¾ÆÀÌµð·Î Æ¯Á¤ ÆÐÅ¶ÀÇ ÃÖ´ë Å©±â¸¦ ¸®ÅÏÇÑ´Ù.
+// ï¿½ï¿½Å¶ï¿½ï¿½ï¿½Ìµï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ö´ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 PacketSize_t RequestClientPacketFactoryManager::getPacketMaxSize (PacketID_t packetID) 
-	   throw (InvalidProtocolException , Error)
 {
 	__BEGIN_TRY
 
-	// ÆÐÅ¶ ¾ÆÀÌµð°¡ ¹üÀ§¸¦ ³Ñ¾î¼¶À¸·Î ÀÎÇØ¼­ Seg.Fault °¡ ¹ß»ýÇÏÁö ¾Êµµ·Ï.
-	// ÀÌ·± »ç¿ëÀÚ´Â ´çÀå Â©¶ó¾ß ÇÑ´Ù.
+	// ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î¼¶ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ Seg.Fault ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½.
+	// ï¿½Ì·ï¿½ ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ ï¿½ï¿½ï¿½ï¿½ Â©ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	if (packetID >= m_Size || m_Factories[packetID] == NULL) {
 		StringStream msg;
 		msg << "invalid packet id(" << (int)packetID << ")";
@@ -819,17 +813,16 @@ PacketSize_t RequestClientPacketFactoryManager::getPacketMaxSize (PacketID_t pac
 
 //////////////////////////////////////////////////////////////////////
 //
-// ÆÐÅ¶¾ÆÀÌµð·Î Æ¯Á¤ ÆÐÅ¶ÀÇ ÀÌ¸§À» ¸®ÅÏÇÑ´Ù.
+// ï¿½ï¿½Å¶ï¿½ï¿½ï¿½Ìµï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 #if !defined(__GAME_CLIENT__) || defined(__GAME_CLIENT__) && defined(__DEBUG_OUTPUT__)
 std::string RequestClientPacketFactoryManager::getPacketName (PacketID_t packetID) 
-	   throw (InvalidProtocolException , Error)
 {
 	__BEGIN_TRY
 
-	// ÆÐÅ¶ ¾ÆÀÌµð°¡ ¹üÀ§¸¦ ³Ñ¾î¼¶À¸·Î ÀÎÇØ¼­ Seg.Fault °¡ ¹ß»ýÇÏÁö ¾Êµµ·Ï.
-	// ÀÌ·± »ç¿ëÀÚ´Â ´çÀå Â©¶ó¾ß ÇÑ´Ù.
+	// ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î¼¶ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ Seg.Fault ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½.
+	// ï¿½Ì·ï¿½ ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ ï¿½ï¿½ï¿½ï¿½ Â©ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	if (packetID >= m_Size || m_Factories[packetID] == NULL) {
 		StringStream msg;
 		msg << "invalid packet id(" << (int)packetID << ")";
@@ -846,7 +839,6 @@ std::string RequestClientPacketFactoryManager::getPacketName (PacketID_t packetI
 // get debug string
 //////////////////////////////////////////////////////////////////////
 std::string RequestClientPacketFactoryManager::toString () const
-	throw ()
 {
 	__BEGIN_TRY
 

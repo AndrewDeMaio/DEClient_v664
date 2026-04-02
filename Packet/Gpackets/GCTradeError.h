@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : GCTradeError.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -11,51 +11,51 @@
 #include "PacketFactory.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// ¿¡·¯ ÄÚµå
+// ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 ////////////////////////////////////////////////////////////////////////////////
 
 enum
 {
-	// ±³È¯À» ¿ä±¸ÇÑ ´ë»óÀÌ Á¸ÀçÇÏÁö ¾Ê´Â´Ù
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ä±¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½
 	GC_TRADE_ERROR_CODE_TARGET_NOT_EXIST = 0,
 
-	// ±³È¯À» ¿ä±¸ÇÑ ´ë»óÀÌ ´Ù¸¥ Á¾Á·ÀÌ´Ù
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ä±¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½
 	GC_TRADE_ERROR_CODE_RACE_DIFFER,
 
-	// ±³È¯À» ÇÏ·Á°í ÇÏ´Â °÷ÀÌ ¾ÈÀü Áö´ë°¡ ¾Æ´Ï´Ù.
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ë°¡ ï¿½Æ´Ï´ï¿½.
 	GC_TRADE_ERROR_CODE_NOT_SAFE,
 
-	// ¸ðÅÍ»çÀÌÅ¬À» Åº Ã¤·Î ±³È¯À» ½ÃµµÇÏ°í ÀÖ´Ù.
+	// ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½Å¬ï¿½ï¿½ Åº Ã¤ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ãµï¿½ï¿½Ï°ï¿½ ï¿½Ö´ï¿½.
 	GC_TRADE_ERROR_CODE_MOTORCYCLE,
 
-	// ´Á´ë³ª ¹ÚÁã »óÅÂ¿¡¼­´Â ±³È¯À» ÇÒ ¼ö ¾ø´Ù.
+	// ï¿½ï¿½ï¿½ë³ª ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	GC_TRADE_ERROR_CODE_BAT_OR_WOLF,
 
-	// ±³È¯ ÁßÀÌ¸é¼­ ´Ù½Ã ±³È¯À» ÇÏ·Á°í ÇÑ´Ù
+	// ï¿½ï¿½È¯ ï¿½ï¿½ï¿½Ì¸é¼­ ï¿½Ù½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½
 	GC_TRADE_ERROR_CODE_ALREADY_TRADING,
 
-	// ±³È¯ ÁßÀÌ ¾Æ´Ñµ¥, ±³È¯ °ü·Ã ÆÐÅ¶ÀÌ ³¯¾Æ¿Ô´Ù.
+	// ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ñµï¿½, ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Æ¿Ô´ï¿½.
 	GC_TRADE_ERROR_CODE_NOT_TRADING,
 
-	// ±³È¯ ´ë»ó¿¡ ´õÇÏ·Á°í ÇÏ´Â ¾ÆÀÌÅÛÀ» °¡Áö°í ÀÖÁö ¾Ê´Ù
+	// ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½
 	GC_TRADE_ERROR_CODE_ADD_ITEM,
 
-	// ±³È¯ ´ë»ó¿¡¼­ »©·Á°í ÇÏ´Â ¾ÆÀÌÅÛÀ» °¡Áö°í ÀÖÁö ¾Ê´Ù
+	// ï¿½ï¿½È¯ ï¿½ï¿½ó¿¡¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½
 	GC_TRADE_ERROR_CODE_REMOVE_ITEM,
 
-	// ±³È¯ ´ë»ó¿¡ ´õÇÏ·Á°í ÇÏ´Â µ·À» °¡Áö°í ÀÖÁö ¾Ê´Ù.
+	// ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½.
 	GC_TRADE_ERROR_CODE_INCREASE_MONEY,
 
-	// ±³È¯ ´ë»ó¿¡¼­ »©·Á°í ÇÏ´Â µ·À» °¡Áö°í ÀÖÁö ¾Ê´Ù.
+	// ï¿½ï¿½È¯ ï¿½ï¿½ó¿¡¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½.
 	GC_TRADE_ERROR_CODE_DECREASE_MONEY,
 
-	// ±³È¯À» Çß´Âµ¥, ÀÚ¸®°¡ ¸ðÀÚ¶ó¼­ ½ÇÆÐÇß´Ù
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ß´Âµï¿½, ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½
 	GC_TRADE_ERROR_CODE_NOT_ENOUGH_SPACE,
 
- // ±³È¯À» Çß´Âµ¥, ¼±¹° »óÀÚ ±³È¯ Á¶°Ç ¶§¹®¿¡ ½ÇÆÐÇß´Ù
+ // ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ß´Âµï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½
     GC_TRADE_ERROR_CODE_EVENT_GIFT_BOX,
 	
-	// ¾Ë ¼ö ¾ø´Â ¿¡·¯ÀÌ´Ù...
+	// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½...
 	GC_TRADE_ERROR_CODE_UNKNOWN,
 
 	GC_TRADE_ERROR_CODE_MAX
@@ -70,27 +70,27 @@ enum
 class GCTradeError : public Packet 
 {
 public:
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
-	PacketID_t getPacketID () const throw () { return PACKET_GC_TRADE_ERROR; }
-	PacketSize_t getPacketSize () const throw () { return szObjectID + szBYTE ; }
+	void read ( SocketInputStream & iStream );
+	void write ( SocketOutputStream & oStream ) const;
+	void execute ( Player * pPlayer );
+	PacketID_t getPacketID () const { return PACKET_GC_TRADE_ERROR; }
+	size_t getPacketSize () const { return szObjectID + szBYTE ; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "GCTradeError"; }
-		std::string toString () const throw ();
+		std::string getPacketName () const { return "GCTradeError"; }
+		std::string toString () const;
 	#endif
 
 public:
-	ObjectID_t getTargetObjectID() const throw() { return m_TargetObjectID; }
-	void setTargetObjectID(ObjectID_t id) throw() { m_TargetObjectID = id; }
+	ObjectID_t getTargetObjectID() const { return m_TargetObjectID; }
+	void setTargetObjectID(ObjectID_t id) { m_TargetObjectID = id; }
 
-	BYTE getCode() const throw() { return m_Code; }
-	void setCode(BYTE code) throw() { m_Code = code; }
+	BYTE getCode() const { return m_Code; }
+	void setCode(BYTE code) { m_Code = code; }
 
 private:
-	ObjectID_t m_TargetObjectID; // ±³È¯ÀÇ ´ë»ó ¾ÆÀÌµð
-	BYTE       m_Code;           // ÄÚµå
+	ObjectID_t m_TargetObjectID; // ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½
+	BYTE       m_Code;           // ï¿½Úµï¿½
 
 };
 
@@ -104,14 +104,14 @@ private:
 class GCTradeErrorFactory : public PacketFactory 
 {
 public:
-	Packet * createPacket () throw () { return new GCTradeError(); }
+	Packet * createPacket () { return new GCTradeError(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "GCTradeError"; }
+		std::string getPacketName () const { return "GCTradeError"; }
 	#endif
 
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_TRADE_ERROR; }
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID + szBYTE; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_TRADE_ERROR; }
+	PacketSize_t getPacketMaxSize () const { return szObjectID + szBYTE; }
 
 };
 
@@ -125,7 +125,7 @@ public:
 class GCTradeErrorHandler 
 {
 public:
-	static void execute ( GCTradeError * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCTradeError * pPacket , Player * pPlayer );
 
 };
 

@@ -14,12 +14,12 @@ bool SaveJPG(LPCTSTR lpszFileName, int &width, int &height, int &bpp, unsigned c
 //-----------------------------------------------------------------------------
 // RemoveStringSpace
 //-----------------------------------------------------------------------------
-// string ¾Õ µÚÀÇ °ø¹éÀ» Á¦°ÅÇÑ´Ù.
+// string ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void
 RemoveStringSpace(char*& str)
 {
-	// ¾ÕÂÊ °ø¹é Á¦°Å
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	int bExistChar = 0;
 	while (*str != '\0')
 	{
@@ -34,7 +34,7 @@ RemoveStringSpace(char*& str)
 		}
 	}
 
-	// µÚÂÊ °ø¹é Á¦°Å 
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 	if (bExistChar)
 	{
 		char* strTemp = str;
@@ -52,11 +52,11 @@ RemoveStringSpace(char*& str)
 //-----------------------------------------------------------------------------
 // SSN Check (strSSN1, strSSN2)
 //-----------------------------------------------------------------------------
-// ÁÖ¹Îµî·Ï¹øÈ£ Ã¼Å©..
+// ï¿½Ö¹Îµï¿½Ï¹ï¿½È£ Ã¼Å©..
 // strSSN1-strSSN2
 // 
-// Á¤»óÀûÀÎ ÁÖ¹Îµî·Ï¹øÈ£ÀÌ¸é	return 1
-//					¾Æ´Ï¸é		return 0
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¹Îµï¿½Ï¹ï¿½È£ï¿½Ì¸ï¿½	return 1
+//					ï¿½Æ´Ï¸ï¿½		return 0
 //-----------------------------------------------------------------------------
 int 
 IsValidSSN(const char* strSSN1, const char* strSSN2)
@@ -67,7 +67,7 @@ IsValidSSN(const char* strSSN1, const char* strSSN2)
 	}
 
 	//----------------------------------------------------------
-	// SSN1 ÀÇ ±æÀÌ Ã¼Å©. 6ÀÚ¿©¾ß ÇÑ´Ù.
+	// SSN1 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©. 6ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	//----------------------------------------------------------
 	int lenSSN1 = strlen(strSSN1);
 
@@ -77,7 +77,7 @@ IsValidSSN(const char* strSSN1, const char* strSSN2)
 	}
 
 	//----------------------------------------------------------
-	// SSN2ÀÇ ±æÀÌ Ã¼Å©. 7ÀÚ¿©¾ß ÇÑ´Ù.
+	// SSN2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å©. 7ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	//----------------------------------------------------------
 	int lenSSN2 = strlen(strSSN2);
 
@@ -87,7 +87,7 @@ IsValidSSN(const char* strSSN1, const char* strSSN2)
 	}
 
 	//----------------------------------------------------------
-	// °¢ ÀÚ¸®ÀÇ ¼ıÀÚ¸¦ ÀĞ´Â´Ù.
+	// ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½Ğ´Â´ï¿½.
 	//----------------------------------------------------------
 	const int chZero = '0';
 
@@ -107,7 +107,7 @@ IsValidSSN(const char* strSSN1, const char* strSSN2)
 	int n2_6 = strSSN2[6] - chZero;		// check number
 
 	//----------------------------------------------------------
-	// checkÇÒ·Á´Â ¼ıÀÚ¸¦ °è»êÇÑ´Ù.
+	// checkï¿½Ò·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//----------------------------------------------------------
 	int sum = n1_0*2 + n1_1*3 + n1_2*4 + n1_3*5 + n1_4*6 + n1_5*7 
 			+ n2_0*8 + n2_1*9 + n2_2*2 + n2_3*3 + n2_4*4 + n2_5*5;
@@ -115,7 +115,7 @@ IsValidSSN(const char* strSSN1, const char* strSSN2)
     int parity = sum % 11;
 
 	//----------------------------------------------------------
-	// ´Ù¸¥ °æ¿ì
+	// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½
 	//----------------------------------------------------------
     if ( ((11-n2_6)) % 10 != (parity % 10) ) 
 	{ 
@@ -128,24 +128,24 @@ IsValidSSN(const char* strSSN1, const char* strSSN2)
 //-----------------------------------------------------------------------------
 // Is Valid ID
 //-----------------------------------------------------------------------------
-// 4~10±ÛÀÚ °ø¹éÀÌ ÀÖÀ¸¸é ¾ÈµÈ´Ù.
-// ´Ù ÇÑ±ÛÀÌ°Å³ª
-// ´Ù ¿µ¾î¾ß ÇÒ±î??
+// 4~10ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÈ´ï¿½.
+// ï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½Ì°Å³ï¿½
+// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò±ï¿½??
 /*
 	char temp[3];
 	strncpy(temp, str, 2);
 	temp[2] = NULL;
 
-	if (strcmp(temp, "°¡") >= 0
-		&& strcmp(temp, "Èş") <= 0)
+	if (strcmp(temp, "ï¿½ï¿½") >= 0
+		&& strcmp(temp, "ï¿½ï¿½") <= 0)
 	{
-		// Á¦´ë·ÎµÈ ÇÑ±Û
+		// ï¿½ï¿½ï¿½ï¿½Îµï¿½ ï¿½Ñ±ï¿½
 		str += 2;					
 		continue;	
 	}
 	else
 	{
-		// 2¹ÙÀÌÆ® ¹®ÀÚ
+		// 2ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 		str += 2;
 		continue;
 	}
@@ -157,7 +157,7 @@ IsValidID(const char* strID, const char* strPermit)
 	const int minLength = 4;
 	const int maxLength = 10;
 
-	// ¾î¶°ÇÑ °æ¿ìÀÌµç Çã¿ëµÇ´Â ¹®ÀÚµé
+	// ï¿½î¶°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½Úµï¿½
 	//const char* strPermit = "_-";
 
 	int len = 0;
@@ -170,9 +170,9 @@ IsValidID(const char* strID, const char* strPermit)
 	
 	// 2005.12.8 nanomech
 	//--------------------------------------------------------
-	// ÄÚµåÆäÀÌÁö °Ë»ç
-	// ÇÑ±ÛÀÎ °æ¿ì 949°¡ ¾Æ´Ï¶ó¸é »ç¿ëÇÒ¼ö ¾ø´Â IDÀÌ´Ù.
-	// Áß±¸¾îÀÎ °æ¿ì´Â...
+	// ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
+	// ï¿½Ñ±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 949ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ò¼ï¿½ ï¿½ï¿½ï¿½ï¿½ IDï¿½Ì´ï¿½.
+	// ï¿½ß±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½...
 	//--------------------------------------------------------
 	/*if( !IsValidLocale( 949, LCID_SUPPORTED) )
 	{
@@ -181,8 +181,8 @@ IsValidID(const char* strID, const char* strPermit)
 	*/
 
 	//--------------------------------------------------------
-	// °ø¹éÀÌ µé¾î°¡¸é ¾ÈµÈ´Ù.
-	// ±æÀÌµµ ¾Ë¾Æ³½´Ù. *_*;
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½ÈµÈ´ï¿½.
+	// ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Ë¾Æ³ï¿½ï¿½ï¿½. *_*;
 	//--------------------------------------------------------
 	while (*str != '\0')
 	{
@@ -196,7 +196,7 @@ IsValidID(const char* strID, const char* strPermit)
 	}
 
 	//--------------------------------------------------------
-	// ±æÀÌ°¡ Àß¸øµÈ °æ¿ì
+	// ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//--------------------------------------------------------
 	if (len<minLength || len>maxLength)
 	{
@@ -204,7 +204,7 @@ IsValidID(const char* strID, const char* strPermit)
 	}
 
 	//--------------------------------------------------------
-	// Ã¹±ÛÀÚ°¡ ¼ıÀÚÀÌ¸é ¾ÈµÈ´Ù.
+	// Ã¹ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ÈµÈ´ï¿½.
 	//--------------------------------------------------------
 	if (strtempID[0]>='0' && strtempID[0]<='9')
 	{
@@ -212,7 +212,7 @@ IsValidID(const char* strID, const char* strPermit)
 	}
 
 	//--------------------------------------------------------
-	// ÇÑ±ÛÀ» Á¦¿ÜÇÑ Æ¯¼ö¹®ÀÚ°¡ µé¾î°¡¸é ¾ÈµÈ´Ù.
+	// ï¿½Ñ±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½ÈµÈ´ï¿½.
 	//--------------------------------------------------------
 	int bExistHangul = 0;
 	int bExistEnglish = 0;
@@ -224,16 +224,16 @@ IsValidID(const char* strID, const char* strPermit)
 
 		char ch = *str;
 		//--------------------------------------------------------
-		// Ã¹ bit°¡ '1'ÀÌ¸é ÇÑ±Û..ÀÏ±î?
+		// Ã¹ bitï¿½ï¿½ '1'ï¿½Ì¸ï¿½ ï¿½Ñ±ï¿½..ï¿½Ï±ï¿½?
 		//--------------------------------------------------------
 		if (ch & 0x80)
 		{
-			// ÇÑ±ÛÀÌ¹Ç·Î µÎ byte ´ÙÀ½ °Å Ã¼Å©
+			// ï¿½Ñ±ï¿½ï¿½Ì¹Ç·ï¿½ ï¿½ï¿½ byte ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¼Å©
 			str++;
 
 			if (*str=='\0')
 			{
-				// ´ÙÀ½°Ô ¾øÀ¸¸é Àß¸øµÈ IDÀÌ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß¸ï¿½ï¿½ï¿½ IDï¿½Ì´ï¿½.
 				return 0;				
 			}
 
@@ -251,9 +251,9 @@ IsValidID(const char* strID, const char* strPermit)
 
 /*
 			//--------------------------------------------------------
-			// ÀÚÀ½, ¸ğÀ½¸¸ ÀÖ´Â °æ¿ì¶ó¸é Àß¸øµÈ ¾ÆÀÌµğ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ï¿½.
 			//--------------------------------------------------------
-			const char* badKor = "¤²¤³¤¸¤¹¤§¤¨¤¡¤¢¤µ¤¶¤Ë¤Å¤Á¤À¤Â¤Ä¤Æ¤±¤¤¤·¤©¤¾¤Ç¤Ã¤¿¤Ó¤»¤¼¤º¤½¤Ğ¤Ì¤Ñ¤É¤Í¤Ï¤Ò";
+			const char* badKor = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë¤Å¤ï¿½ï¿½ï¿½ï¿½Â¤Ä¤Æ¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¤Ã¤ï¿½ï¿½Ó¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ¤Ì¤Ñ¤É¤Í¤Ï¤ï¿½";
 			
 			char strKor[3] = { ch, *str };
 			
@@ -261,7 +261,7 @@ IsValidID(const char* strID, const char* strPermit)
 
 			if (findPtr!=NULL)
 			{
-				if (!((findPtr - badKor) & 0x01))	// Â¦¼ö¶ó¸é..
+				if (!((findPtr - badKor) & 0x01))	// Â¦ï¿½ï¿½ï¿½ï¿½ï¿½..
 				{					
 					return 0;
 				}
@@ -270,9 +270,9 @@ IsValidID(const char* strID, const char* strPermit)
 
 			// 2005.12.8 nanomech
 			//--------------------------------------------------------
-			// ÄÚµåÆäÀÌÁö °Ë»ç
-			// ÇÑ±ÛÀÎ °æ¿ì 949°¡ ¾Æ´Ï¶ó¸é »ç¿ëÇÒ¼ö ¾ø´Â IDÀÌ´Ù.
-			// Áß±¹¾îÀÎ °æ¿ì´Â...
+			// ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
+			// ï¿½Ñ±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 949ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ò¼ï¿½ ï¿½ï¿½ï¿½ï¿½ IDï¿½Ì´ï¿½.
+			// ï¿½ß±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½...
 			//--------------------------------------------------------
 			/*
 			LPBYTE strTemp = (LPBYTE)strKor;
@@ -284,7 +284,7 @@ IsValidID(const char* strID, const char* strPermit)
 
 			//////////////////////////////////////////////////////////////////////////
 			// 2005.12.08 by chyaya
-			// À¯´ÏÄÚµå·Î Ä¡È¯ÇØ¼­ À¯´ÏÄÚµåÇ¥¿¡¼­ ÇÑ±ÛÀÎÁö °Ë»öÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ Ä¡È¯ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½Ç¥ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ñ´ï¿½.
 
 			WCHAR strWC[2];
 			
@@ -310,12 +310,12 @@ IsValidID(const char* strID, const char* strPermit)
 			bExistHangul = 1;
 		}
 		//--------------------------------------------------------
-		// ¾Æ´Ï¸é..
+		// ï¿½Æ´Ï¸ï¿½..
 		//--------------------------------------------------------
 		else
 		{
 			//--------------------------------------------------------
-			// ¿µ¾î ´ë¼Ò¹®ÀÚ..
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ò¹ï¿½ï¿½ï¿½..
 			//--------------------------------------------------------
 			if (ch>='a' && ch<='z' 
 				|| ch>='A' && ch<='Z')
@@ -323,15 +323,15 @@ IsValidID(const char* strID, const char* strPermit)
 				bExistEnglish = 1;
 			}
 			//--------------------------------------------------------
-			// ¼ıÀÚ°Å³ª 
-			// Çã¿ëµÈ ¹®ÀÚÀÎ °æ¿ì´Â ±¦Âú´Ù..
+			// ï¿½ï¿½ï¿½Ú°Å³ï¿½ 
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
 			//--------------------------------------------------------
 			else if (ch >= '0' && ch <= '9'
 				|| strPermit && *strchr(strPermit, ch) != '\0')
 			{
 			}
 			//--------------------------------------------------------
-			// ÀÌ»óÇÑ ¹®ÀÚ ¾²¸é ¾ÈµÈ´Ù.				
+			// ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÈ´ï¿½.				
 			//--------------------------------------------------------
 			else
 			{
@@ -344,7 +344,7 @@ IsValidID(const char* strID, const char* strPermit)
 	}
 
 	//--------------------------------------------------------
-	// ÇÑ±ÛÀ» »ç¿ëÇÑ °æ¿ì¿¡´Â ¿µ¾î¸¦ »ç¿ëÇÒ ¼ö ¾ø´Ù.
+	// ï¿½Ñ±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½î¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	//--------------------------------------------------------
 	if (bExistHangul && bExistEnglish)
 	{
@@ -352,7 +352,7 @@ IsValidID(const char* strID, const char* strPermit)
 	}
 
 	//--------------------------------------------------------
-	// Á¤»óÀûÀÎ ID
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ID
 	//--------------------------------------------------------
 	return 1;
 }
@@ -364,7 +364,7 @@ int
 IsValidPassword(const char* strPWD)
 {
 	//--------------------------------------------------
-	// Çã¿ë¾ÈµÇ´Â Æ¯¼ö¹®ÀÚ¸¦ »ç¿ëÇÏ¸é ¾ÈµÈ´Ù.
+	// ï¿½ï¿½ï¿½ÈµÇ´ï¿½ Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ÈµÈ´ï¿½.
 	//--------------------------------------------------
 	if (strchr(strPWD, '\\')!=NULL
 		|| strchr(strPWD, '\'')!=NULL)
@@ -373,9 +373,9 @@ IsValidPassword(const char* strPWD)
 	}
 
 	//--------------------------------------------------
-	// ¼ıÀÚ¸¸ »ç¿ëÇÏ¸é ¾ÈµÈ´Ù.
+	// ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ÈµÈ´ï¿½.
 	//--------------------------------------------------
-	// ÈæÈæ.. ÀÌ¹Ì ¼ıÀÚ°¡ ÀÔ·ÂµÈ »ç¶÷µé ¶§¸Ş.. T_T;;
+	// ï¿½ï¿½ï¿½ï¿½.. ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Ô·Âµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.. T_T;;
 	/*
 	char* str = strPWD;
 	
@@ -392,7 +392,7 @@ IsValidPassword(const char* strPWD)
 		}
 	}
 
-	if (AllNumber)	// ÀüºÎ ¼ıÀÚÀÎ °æ¿ì..
+	if (AllNumber)	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 	{
 		return 0;
 	}
@@ -404,7 +404,7 @@ IsValidPassword(const char* strPWD)
 //-----------------------------------------------------------------------------
 // LoadImageToSurface
 //-----------------------------------------------------------------------------
-// *.bmp, *.jpg¸¸ ÀĞ´Â´Ù.
+// *.bmp, *.jpgï¿½ï¿½ ï¿½Ğ´Â´ï¿½.
 //-----------------------------------------------------------------------------
 bool	
 LoadImageToSurface(const char* pFilename, CDirectDrawSurface& surface)
@@ -416,13 +416,13 @@ LoadImageToSurface(const char* pFilename, CDirectDrawSurface& surface)
 
 	int fileLen = strlen(pFilename);
 
-	// fileÀÌ¸§ÀÌ ³Ñ ÂªÀº °æ¿ì... strlen("ÀÌ¸§.bmp")==8
+	// fileï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ Âªï¿½ï¿½ ï¿½ï¿½ï¿½... strlen("ï¿½Ì¸ï¿½.bmp")==8
 	if (fileLen < 8)
 	{
 		return false;
 	}
 
-	// fileÀÌ¸§ÀÌ ÀÌ»óÇÑ °æ¿ì
+	// fileï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	char checkStr[10];
 	strcpy(checkStr, (pFilename+fileLen-4));
 	strcpy(checkStr, _strlwr(checkStr));
@@ -430,12 +430,12 @@ LoadImageToSurface(const char* pFilename, CDirectDrawSurface& surface)
 	bool bBmp = false;
 	bool bJpg = false;
 
-	// È®ÀåÀÚ Ã¼Å©¸¦ À§ÇØ lowercase
+	// È®ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ lowercase
 	for(int kkk = 0; kkk < strlen(checkStr); kkk++)
 		if(checkStr[kkk] >= 'A' && checkStr[kkk] <= 'Z')
 			checkStr[kkk] += 'a' - 'A';
 
-	// È®ÀåÀÚ Ã¼Å©..
+	// È®ï¿½ï¿½ï¿½ï¿½ Ã¼Å©..
 	if(!strncmp(".bmp", checkStr, 4))
 	{
 		bBmp = true;
@@ -549,7 +549,7 @@ LoadImageToSurface(const char* pFilename, CDirectDrawSurface& surface)
 //-----------------------------------------------------------------------------
 // SaveSurfaceToImage
 //-----------------------------------------------------------------------------
-// *.bmp, *.jpg¸¸ ¾´´Ù.
+// *.bmp, *.jpgï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 //-----------------------------------------------------------------------------
 bool	
 SaveSurfaceToImage(const char* pFilename, CDirectDrawSurface& surface)
@@ -561,13 +561,13 @@ SaveSurfaceToImage(const char* pFilename, CDirectDrawSurface& surface)
 
 	int fileLen = strlen(pFilename);
 
-	// fileÀÌ¸§ÀÌ ³Ñ ÂªÀº °æ¿ì... strlen("ÀÌ¸§.bmp")==8
+	// fileï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ Âªï¿½ï¿½ ï¿½ï¿½ï¿½... strlen("ï¿½Ì¸ï¿½.bmp")==8
 	if (fileLen < 8)
 	{
 		return false;
 	}
 
-	// fileÀÌ¸§ÀÌ ÀÌ»óÇÑ °æ¿ì
+	// fileï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	char checkStr[10];
 	strcpy(checkStr, (pFilename+fileLen-4));
 	strcpy(checkStr, _strlwr(checkStr));
@@ -575,12 +575,12 @@ SaveSurfaceToImage(const char* pFilename, CDirectDrawSurface& surface)
 	bool bBmp = false;
 	bool bJpg = false;
 
-	// È®ÀåÀÚ Ã¼Å©¸¦ À§ÇØ lowercase
+	// È®ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ lowercase
 	for(int kkk = 0; kkk < strlen(checkStr); kkk++)
 		if(checkStr[kkk] >= 'A' && checkStr[kkk] <= 'Z')
 			checkStr[kkk] += 'a' - 'A';
 
-	// È®ÀåÀÚ Ã¼Å©..
+	// È®ï¿½ï¿½ï¿½ï¿½ Ã¼Å©..
 	if(!strncmp(".bmp", checkStr, 4))
 	{
 		bBmp = true;
@@ -651,14 +651,22 @@ SaveSurfaceToImage(const char* pFilename, CDirectDrawSurface& surface)
 // CBaseImage
 
 extern "C" {
-#include "jpegLib\jpeglib.h"
+#include "jpeglib.h"
+#include <setjmp.h>
 }
+
+// Custom JPEG error manager that longjmps instead of calling exit()
+struct ima_error_mgr {
+	struct jpeg_error_mgr pub;
+	jmp_buf setjmp_buffer;
+};
+typedef struct ima_error_mgr* ima_error_ptr;
 
 /*
  * Here's the routine that will replace the standard error_exit method:
  */
 
-METHODDEF void
+METHODDEF(void)
 ima_jpeg_error_exit (j_common_ptr cinfo)
 {
   /* cinfo->err really points to a my_error_mgr struct, so coerce pointer */
@@ -981,25 +989,30 @@ bool SaveJPG(LPCTSTR lpszFileName, int &width, int &height, int &bpp, unsigned c
 //-----------------------------------------------------------------------------
 // Get DiskFreeSpace
 //-----------------------------------------------------------------------------
-// Drive°¡ NULLÀÌ¸é ÁöÁ¤À» ¾ÈÇÏ¸é ÇöÀç µå¶óÀÌºê´Ù.
+// Driveê°€ NULLì´ë©´ í˜„ì¬ì˜ íŒŒì¼ëª…ì´ ìˆëŠ” ë“œë¼ì´ë¸Œ.
 //-----------------------------------------------------------------------------
+// Undefine the Windows SDK macro so our function name isn't remapped to
+// GetDiskFreeSpaceA, which would conflict with the Windows API declaration.
+#ifdef GetDiskFreeSpace
+#undef GetDiskFreeSpace
+#endif
 unsigned long
 GetDiskFreeSpace(const char* pDrive)
-{	
+{
 	DWORD dwSectorsPerCluster;
 	DWORD dwBytesPerSector;
 	DWORD dwNumberOfFreeClusters;
 	DWORD dwTotalNumberOfClusters;
 
-	GetDiskFreeSpace(pDrive,
-						&dwSectorsPerCluster, 
-						&dwBytesPerSector, 
-						&dwNumberOfFreeClusters, 
+	// Call the explicit A-suffix Windows API to avoid recursion.
+	GetDiskFreeSpaceA(pDrive,
+						&dwSectorsPerCluster,
+						&dwBytesPerSector,
+						&dwNumberOfFreeClusters,
 						&dwTotalNumberOfClusters);
 
 	DWORD bytesPerCluster = dwSectorsPerCluster * dwBytesPerSector;
 	DWORD freeBytes = dwNumberOfFreeClusters * bytesPerCluster;
-	//DWORD totalBytes = dwTotalNumberOfClusters * bytesPerCluster;
 
 	return freeBytes;
 }

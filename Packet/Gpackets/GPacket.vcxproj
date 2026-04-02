@@ -120,7 +120,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;__FAST_TRANSFORTER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Packet;$(SolutionDir)Packet\Types;$(SolutionDir)Include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -258,7 +258,6 @@
     <ClInclude Include="GCMineExplosionOK2.h" />
     <ClInclude Include="GCMiniGameScores.h" />
     <ClInclude Include="GCModifyGuildMemberInfo.h" />
-    <ClInclude Include="GCModifyInformation.h" />
     <ClInclude Include="GCModifyNickname.h" />
     <ClInclude Include="GCMonsterKillQuestInfo.h" />
     <ClInclude Include="GCMorph1.h" />

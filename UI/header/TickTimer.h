@@ -47,7 +47,7 @@ private:
 
 	DWORD		m_dwTickSize;		// 각 시간 간격
 	DWORD		m_dwStartTime;		// 타이머를 시작한 시간
-	DWORD		m_dwRestartTime;	// 타이머를 다시 시작한 시간
+	ULONGLONG	m_dwRestartTime;	// 타이머를 다시 시작한 시간
 	DWORD		m_dwTimeLimit;		// 이시간이 넘으면 IsTimeLimit가 true를 리턴한다.
 
 	bool		m_bNextLimit;		// 바로 다음은 무조건 true

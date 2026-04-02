@@ -17,9 +17,9 @@
 //
 // class GCOtherGuildName;
 //
-// °ÔÀÓ ¼­¹ö°¡ Æ¯Á¤ ÇÃ·¹ÀÌ¾îÀÇ OtherGuildName ¸¦ ´Ù¸¥ ÇÃ·¹ÀÌ¾îµé¿¡°Ô ºê·ÎµåÄ³½ºÆ®
-// ÇÒ ¶§ Àü¼ÛÇÏ´Â ÆÐÅ¶ÀÌ´Ù. ³»ºÎ¿¡ Ä³¸¯ÅÍ¸í°ú OtherGuildName ½ºÆ®¸µÀ» µ¥ÀÌÅ¸
-// ÇÊµå·Î °¡Áö°í ÀÖ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ OtherGuildName ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½é¿¡ï¿½ï¿½ ï¿½ï¿½Îµï¿½Ä³ï¿½ï¿½Æ®
+// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½. ï¿½ï¿½ï¿½Î¿ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ OtherGuildName ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸
+// ï¿½Êµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -27,39 +27,39 @@ class GCOtherGuildName : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_OTHER_GUILD_NAME; }
+	PacketID_t getPacketID() const { return PACKET_GC_OTHER_GUILD_NAME; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return szObjectID + szGuildID + szBYTE + m_GuildName.size(); }
+	size_t getPacketSize() const { return szObjectID + szGuildID + szBYTE + m_GuildName.size(); }
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	std::string getPacketName() const throw() { return "GCOtherGuildName"; }
+	std::string getPacketName() const { return "GCOtherGuildName"; }
 	
 	// get packet's debug string
-	std::string toString() const throw();
+	std::string toString() const;
 #endif
 
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID( ObjectID_t objectID ) throw() { m_ObjectID = objectID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID( ObjectID_t objectID ) { m_ObjectID = objectID; }
 
 	// get/set Guild ID
-	GuildID_t getGuildID() const throw() { return m_GuildID; }
-	void setGuildID( GuildID_t guildID ) throw() { m_GuildID = guildID; }
+	GuildID_t getGuildID() const { return m_GuildID; }
+	void setGuildID( GuildID_t guildID ) { m_GuildID = guildID; }
 
 	// get/set Guild Name
-	const std::string& getGuildName() const throw() { return m_GuildName; }
-	void setGuildName(const std::string& guildName) throw() { m_GuildName = guildName; }
+	const std::string& getGuildName() const { return m_GuildName; }
+	void setGuildName(const std::string& guildName) { m_GuildName = guildName; }
 
 private :
 
@@ -87,18 +87,18 @@ class GCOtherGuildNameFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet* createPacket() throw() { return new GCOtherGuildName(); }
+	Packet* createPacket() { return new GCOtherGuildName(); }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "GCOtherGuildName"; }
+	std::string getPacketName() const { return "GCOtherGuildName"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_OTHER_GUILD_NAME; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_OTHER_GUILD_NAME; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCOtherGuildNamePacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID + szGuildID + szBYTE + 30; }
+	// const static GCOtherGuildNamePacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const { return szObjectID + szGuildID + szBYTE + 30; }
 
 };
 
@@ -114,7 +114,7 @@ class GCOtherGuildNameHandler {
 public :
 	
 	// execute packet's handler
-	static void execute(GCOtherGuildName* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCOtherGuildName* pPacket, Player* pPlayer);
 
 };
 

@@ -2,7 +2,7 @@
 // 
 // Filename    : GCUseBonusPointOK.cc 
 // Written By  : crazydog
-// Description : vamp°¡ bonus point»ç¿ëÀ» Çã°¡ ¹Þ´Ù.
+// Description : vampï¿½ï¿½ bonus pointï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ã°¡ ï¿½Þ´ï¿½.
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -14,7 +14,6 @@
 // Constructor
 //////////////////////////////////////////////////////////////////////
 GCUseBonusPointOK::GCUseBonusPointOK()
-	throw()
 {
 	__BEGIN_TRY
 
@@ -25,7 +24,6 @@ GCUseBonusPointOK::GCUseBonusPointOK()
 // Destructor
 //////////////////////////////////////////////////////////////////////
 GCUseBonusPointOK::~GCUseBonusPointOK()
-	throw()
 {
 	__BEGIN_TRY
 	
@@ -33,10 +31,9 @@ GCUseBonusPointOK::~GCUseBonusPointOK()
 }
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCUseBonusPointOK::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -47,10 +44,9 @@ void GCUseBonusPointOK::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCUseBonusPointOK::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -63,7 +59,6 @@ void GCUseBonusPointOK::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void GCUseBonusPointOK::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -79,7 +74,6 @@ void GCUseBonusPointOK::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 	std::string GCUseBonusPointOK::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 

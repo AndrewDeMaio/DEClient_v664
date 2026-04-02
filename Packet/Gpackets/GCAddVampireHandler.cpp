@@ -20,12 +20,11 @@ extern void SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID);
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAddVampireHandler::execute ( GCAddVampire * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -34,7 +33,7 @@ void GCAddVampireHandler::execute ( GCAddVampire * pPacket , Player * pPlayer )
 		
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -43,7 +42,7 @@ void GCAddVampireHandler::execute ( GCAddVampire * pPacket , Player * pPlayer )
 		MCreature* pCreature = g_pZone->GetCreature(vi.getObjectID());
 
 		//--------------------------------------------------
-		// »õ·Î¿î CreatureÀÌ¸é Ãß°¡
+		// ï¿½ï¿½ï¿½Î¿ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ß°ï¿½
 		//--------------------------------------------------
 		if (pCreature==NULL)
 		{
@@ -55,7 +54,7 @@ void GCAddVampireHandler::execute ( GCAddVampire * pPacket , Player * pPlayer )
 			pCreature->SetName( vi.getName().c_str() );
 				
 			//--------------------------------------------------
-			// CreatureType ¼³Á¤
+			// CreatureType ï¿½ï¿½ï¿½ï¿½
 			//--------------------------------------------------
 			Shape_t shape	= vi.getShape();
 			bool bMale		= vi.getSex() == MALE;
@@ -118,7 +117,7 @@ void GCAddVampireHandler::execute ( GCAddVampire * pPacket , Player * pPlayer )
 			pCreature->SetCurrentDirection( vi.getDir() );
 			pCreature->SetAction( ACTION_STAND );
  
-			// »ö±ò
+			// ï¿½ï¿½ï¿½ï¿½
 			
 			if(CreatureType == CREATURETYPE_WER_WOLF)
 			{
@@ -130,13 +129,13 @@ void GCAddVampireHandler::execute ( GCAddVampire * pPacket , Player * pPlayer )
 				pCreature->SetBodyColor2( vi.getCoatColor() );
 			}
 
-			// ÀÌÆÑÆ®
+			// ï¿½ï¿½ï¿½ï¿½Æ®
 			pCreature->SetMasterEffectType( vi.getMasterEffectColor() );
 
 			//--------------------------------------------------
 			// [ TEST CODE ]
 			//--------------------------------------------------
-			// ¿Ê »ö±ò ¼³Á¤ÇÏ±â
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			//--------------------------------------------------
 			/*
 			if (pCreature->IsMale())
@@ -159,11 +158,11 @@ void GCAddVampireHandler::execute ( GCAddVampire * pPacket , Player * pPlayer )
 
 
 			//vi.getName()
-			// »ö»ó Á¤º¸
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 			pCreature->SetWeaponSpeed( vi.getAttackSpeed() );
 			
-			// ÀÓ½Ã·Î
+			// ï¿½Ó½Ã·ï¿½
 			pCreature->SetGuildNumber( vi.getGuildID() );
 			pCreature->SetOriginServerNum( vi.getBorn() );
 			pCreature->SetUnionGuildID( vi.getUnionID() );
@@ -199,13 +198,13 @@ void GCAddVampireHandler::execute ( GCAddVampire * pPacket , Player * pPlayer )
 
 		}
 		//--------------------------------------------------
-		// ÀÌ¹Ì ÀÖ´Â CreatureÀÎ °æ¿ì
+		// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		else
 		{
 			pCreature->SetStatus( MODIFY_ADVANCEMENT_CLASS_LEVEL, vi.getAdvancementLevel() );
 			//--------------------------------------------------
-			// CreatureType ¼³Á¤
+			// CreatureType ï¿½ï¿½ï¿½ï¿½
 			//--------------------------------------------------
 			Shape_t shape	= vi.getShape();
 			bool bMale		= vi.getSex()==MALE;
@@ -246,7 +245,7 @@ void GCAddVampireHandler::execute ( GCAddVampire * pPacket , Player * pPlayer )
 			}
 			//pCreature->SetGroundCreature();
 
-			// ÀÓ½Ã·Î
+			// ï¿½Ó½Ã·ï¿½
 			pCreature->SetGuildNumber( vi.getGuildID() );
 			pCreature->SetOriginServerNum( vi.getBorn() );
 			pCreature->SetUnionGuildID( vi.getUnionID() );
@@ -258,7 +257,7 @@ void GCAddVampireHandler::execute ( GCAddVampire * pPacket , Player * pPlayer )
 			pCreature->SetCurrentDirection( vi.getDir() );
 			pCreature->SetAction( ACTION_STAND );
 
-			// »ö±ò
+			// ï¿½ï¿½ï¿½ï¿½
 			if( CreatureType == CREATURETYPE_WER_WOLF )
 			{
 				pCreature->SetBodyColor1( vi.getCoatColor() );
@@ -274,7 +273,7 @@ void GCAddVampireHandler::execute ( GCAddVampire * pPacket , Player * pPlayer )
 			//--------------------------------------------------
 			// [ TEST CODE ]
 			//--------------------------------------------------
-			// ¿Ê »ö±ò ¼³Á¤ÇÏ±â
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			//--------------------------------------------------
 			/*
 			if (pCreature->IsMale())
@@ -335,32 +334,32 @@ void GCAddVampireHandler::execute ( GCAddVampire * pPacket , Player * pPlayer )
 				SetAddonToVampire(pCreatureWear, &vi);
 
 			//--------------------------------------------------
-			// Effect ºÙÀÌ±â..
+			// Effect ï¿½ï¿½ï¿½Ì±ï¿½..
 			//--------------------------------------------------
 			SetEffectInfo( pCreature, pPacket->getEffectInfo() );
 						
 			//--------------------------------------------------
-			// Á¤»óÀÏ °æ¿ì¿¡´Â 0, Æ÷Å»À» ÅëÇßÀ» °æ¿ì¿¡´Â 1
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ 0, ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ 1
 			//--------------------------------------------------
 			if (pPacket->getFromFlag()==1)
 			{
 				g_pTopView->VampireComeFromPortal( pCreature );
 			}
 			
-			// Æê Ã³¸®
+			// ï¿½ï¿½ Ã³ï¿½ï¿½
 			if(pPacket->getPetInfo() != NULL)
 				SetPetInfo(pPacket->getPetInfo(), pCreature->GetID());
 			NicknameInfo* _tempNick = pPacket->getNicknameInfo();
 			if(_tempNick != NULL)
 			{
-				// Ä¿½ºÅÒ ´Ð³×ÀÓ ÀÏ¶§
+				// Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Ï¶ï¿½
 				if(_tempNick->getNicknameType() == NicknameInfo::NICK_CUSTOM_FORCED ||
 				   _tempNick->getNicknameType() == NicknameInfo::NICK_CUSTOM)
 				{
 					pCreature->SetNickName(_tempNick->getNicknameType(), (char*)_tempNick->getNickname().c_str());
 					
 				}
-				else // ´Ð³×ÀÓ ÀÎµ¦½º°¡ ÀÖÀ» ¶§
+				else // ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 				{
 					int TempIndex = _tempNick->getNicknameIndex();
 					if(TempIndex >= g_pNickNameStringTable->GetSize())
@@ -382,7 +381,7 @@ void GCAddVampireHandler::execute ( GCAddVampire * pPacket , Player * pPlayer )
 		}
 	}
 
-	// [µµ¿ò¸»] Vampire°¡ ³ªÅ¸³¯¶§
+	// [ï¿½ï¿½ï¿½ï¿½] Vampireï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½
 //	__BEGIN_HELP_EVENT
 ////		ExecuteHelpEvent( HE_CREATURE_APPEAR_VAMPIRE );
 //	__END_HELP_EVENT

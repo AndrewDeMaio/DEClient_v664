@@ -2,7 +2,7 @@
 // 
 // Filename    :  GCLearnSkillOK.h 
 // Written By  :  elca@ewestsoft.com
-// Description :  Å
+// Description :  ï¿½
 //                
 // 
 //////////////////////////////////////////////////////////////////////
@@ -27,45 +27,45 @@ class GCLearnSkillOK : public Packet {
 public :
 	
 	// constructor
-	GCLearnSkillOK () throw ();
+	GCLearnSkillOK ();
 	
 	// destructor
-	~GCLearnSkillOK () throw ();
+	~GCLearnSkillOK ();
 
 	
 public :
 	
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_LEARN_SKILL_OK; }
+	PacketID_t getPacketID () const { return PACKET_GC_LEARN_SKILL_OK; }
 	
 	// get packet size
-	PacketSize_t getPacketSize () const throw () { return szSkillType+szSkillDomainType; }
+	size_t getPacketSize () const { return szSkillType+szSkillDomainType; }
 	
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCLearnSkillOK"; }
+		std::string getPacketName () const { return "GCLearnSkillOK"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
 	// get/set m_SkillType
-	SkillType_t getSkillType() const throw () { return m_SkillType; }
-	void setSkillType( SkillType_t SkillType ) throw () { m_SkillType = SkillType; }
+	SkillType_t getSkillType() const { return m_SkillType; }
+	void setSkillType( SkillType_t SkillType ) { m_SkillType = SkillType; }
 
 	// get/set m_SkillDomainType
-	SkillDomainType_t getSkillDomainType() const throw() { return m_DomainType;}
-	void setSkillDomainType( SkillDomainType_t DomainType) throw() { m_DomainType = DomainType;}
+	SkillDomainType_t getSkillDomainType() const { return m_DomainType;}
+	void setSkillDomainType( SkillDomainType_t DomainType) { m_DomainType = DomainType;}
 
 private : 
 
@@ -90,27 +90,27 @@ class  GCLearnSkillOKFactory : public PacketFactory {
 public :
 	
 	// constructor
-	 GCLearnSkillOKFactory () throw () {}
+	 GCLearnSkillOKFactory () {}
 	
 	// destructor
-	virtual ~GCLearnSkillOKFactory () throw () {}
+	virtual ~GCLearnSkillOKFactory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCLearnSkillOK(); }
+	Packet * createPacket () { return new GCLearnSkillOK(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCLearnSkillOK"; }
+		std::string getPacketName () const { return "GCLearnSkillOK"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_LEARN_SKILL_OK; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_LEARN_SKILL_OK; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize() const throw() { return szSkillType+szSkillDomainType; }
+	PacketSize_t getPacketMaxSize() const { return szSkillType+szSkillDomainType; }
 
 };
 
@@ -126,7 +126,7 @@ class  GCLearnSkillOKHandler {
 public :
 
 	// execute packet's handler
-	static void execute (  GCLearnSkillOK * pGCLearnSkillOK , Player * pPlayer ) throw ( Error );
+	static void execute (  GCLearnSkillOK * pGCLearnSkillOK , Player * pPlayer );
 
 };
 

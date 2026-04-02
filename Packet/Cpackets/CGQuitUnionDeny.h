@@ -25,30 +25,30 @@ class CGQuitUnionDeny : public Packet
 {
 public:
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_CG_QUIT_UNION_DENY; }
+	PacketID_t getPacketID() const { return PACKET_CG_QUIT_UNION_DENY; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() { return szGuildID; }
+	size_t getPacketSize() const { return szGuildID; }
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	string getPacketName() const throw() { return "CGQuitUnionDeny"; }
+	string getPacketName() const { return "CGQuitUnionDeny"; }
 
 	// get packet's debug string
-	string toString() const throw();
+	string toString() const;
 #endif
 	// get/set GuildID
-	GuildID_t getGuildID() const throw() { return m_GuildID; }
-	void setGuildID( GuildID_t GuildID ) throw() { m_GuildID = GuildID; }
+	GuildID_t getGuildID() const { return m_GuildID; }
+	void setGuildID( GuildID_t GuildID ) { m_GuildID = GuildID; }
 
 
 private :
@@ -72,25 +72,25 @@ class CGQuitUnionDenyFactory : public PacketFactory {
 public:
 	
 	// constructor
-	CGQuitUnionDenyFactory() throw() {}
+	CGQuitUnionDenyFactory() {}
 	
 	// destructor
-	virtual ~CGQuitUnionDenyFactory() throw() {}
+	virtual ~CGQuitUnionDenyFactory() {}
 
 	
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new CGQuitUnionDeny(); }
+	Packet* createPacket() { return new CGQuitUnionDeny(); }
 
 	// get packet name
-	string getPacketName() const throw() { return "CGQuitUnionDeny"; }
+	string getPacketName() const { return "CGQuitUnionDeny"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_QUIT_UNION_DENY; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_QUIT_UNION_DENY; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize() const throw() { return szGuildID; }
+	PacketSize_t getPacketMaxSize() const { return szGuildID; }
 };
 
 
@@ -105,7 +105,7 @@ class CGQuitUnionDenyHandler {
 public:
 
 	// execute packet's handler
-	static void execute(CGQuitUnionDeny* pCGQuitUnionDeny, Player* pPlayer) throw(Error);
+	static void execute(CGQuitUnionDeny* pCGQuitUnionDeny, Player* pPlayer);
 
 };
 #endif

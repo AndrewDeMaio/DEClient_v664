@@ -14,7 +14,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSkillToInventoryOK2Handler::execute ( GCSkillToInventoryOK2 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -23,7 +22,7 @@ void GCSkillToInventoryOK2Handler::execute ( GCSkillToInventoryOK2 * pPacket , P
 
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -31,19 +30,19 @@ void GCSkillToInventoryOK2Handler::execute ( GCSkillToInventoryOK2 * pPacket , P
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 			
-		// Creature°¡ castingµ¿ÀÛ ÃëÇÔ..
+		// Creatureï¿½ï¿½ castingï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 		if (pCreature != NULL)
 		{
 			DWORD delayFrame = ConvertDurationToFrame( pPacket->getDuration() );
 
 			//------------------------------------------------------------
-			// Delay Frame ¼³Á¤
+			// Delay Frame ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------------
 			pCreature->SetEffectDelayFrame( pPacket->getSkillType(), delayFrame );
 

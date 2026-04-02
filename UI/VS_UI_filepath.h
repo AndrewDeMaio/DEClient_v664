@@ -1,7 +1,7 @@
 #ifndef __VS_UI_FILEPATH_H__
 #define __VS_UI_FILEPATH_H__
 
-// Client°¡ ReleaseµÇ¸é Directory°¡ º¯ÇÒ ÀÏÀÌ ¾ø±â ¶§¹®¿¡ directory service »ç¿ë ¾ÈÇÔ.
+// Clientï¿½ï¿½ Releaseï¿½Ç¸ï¿½ Directoryï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ directory service ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 
 #define _ROOT							"data\\ui\\"
 
@@ -27,8 +27,8 @@
 #define RPK_PROGRESS					TXT_ROOT"progress.rpk"
 #define RPK_TITLE						TXT_ROOT"title.rpk"
 
-//(!) RPK_PASSWORD defineÀº Client.h¿¡µµ ÀÖÀ½
-#define RPK_PASSWORD					"cjdgorkr"		// ¿µ¾î·Î "Ã»ÇØ°¢"
+//(!) RPK_PASSWORD defineï¿½ï¿½ Client.hï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+#define RPK_PASSWORD					"cjdgorkr"		// ï¿½ï¿½ï¿½ï¿½ï¿½ "Ã»ï¿½Ø°ï¿½"
 
 //----------------------------------------------------------------------
 // server info file // test
@@ -87,12 +87,6 @@
 //#define SPK_SKILLTREE_ETC_SLAYER		_ROOT"spk\\skilltree_etc_slayer.spk"
 //#define SPK_SKILLTREE_ETC_VAMPIRE	_ROOT"spk\\skilltree_etc_vampire.spk"
 
-#define	IFR_ROOT						_ROOT"txt\\"
-#define	IFR_UI							IFR_ROOT"ui.ifr"
-#define	IFR_ACTION						IFR_ROOT"action.ifr"
-#define	IFR_SKILL						IFR_ROOT"skill.ifr"
-#define	IFR_INVENTORY					IFR_ROOT"inventory.ifr"
-#define	IFR_USE_ITEM					IFR_ROOT"useitem.ifr"
 
 #define SPK_MINIMAP						_ROOT"spk\\Minimap.spk"
 #define SPKI_MINIMAP					_ROOT"spk\\Minimap.spki"	// by sigi 2001.9.5
@@ -215,11 +209,11 @@
 #define	SPK_PET_BUTTON_VAMPIRE				_ROOT"spk\\PetButtonVampire.spk"
 #define	SPK_PET_BUTTON_OUSTERS				_ROOT"spk\\PetButtonOusters.spk"
 
-//20071114 - ½Å±ÔÆê
+//20071114 - ï¿½Å±ï¿½ï¿½ï¿½
 #define	SPK_PET_INFO_MILITARYBEAR			_ROOT"spk\\PetMilitaryBear.spk"
 #define	SPK_PET_INFO_GARGOYLE				_ROOT"spk\\PetGargoyle.spk"
 
-// __NEW_PET_FIRE_ELEMENTAL 20080605 - ½Å±ÔÆê
+// __NEW_PET_FIRE_ELEMENTAL 20080605 - ï¿½Å±ï¿½ï¿½ï¿½
 #define	SPK_PET_INFO_FIREELEMENTAL			_ROOT"spk\\PetFireElemental.spk"
 #define	SPK_PET_INFO_SUCCUBUS				_ROOT"spk\\PetSuccubus.spk"
 #define	SPK_PET_INFO_INCUBUS				_ROOT"spk\\PetIncubus.spk"
@@ -286,7 +280,7 @@
 #define SPK_SKILL_MINI						_ROOT"spk\\SkillMini.spk"
 #define SPKI_SKILL_MINI						_ROOT"spk\\SkillMini.spki"
 
-// Ä³¸¯»ý¼º Sprite
+// Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Sprite
 #define SPK_FACE							_ROOT"spk\\Face.spk"
 #define SPKI_FACE							_ROOT"spk\\Face.spki"
 #define SPK_FACE_MAKE						_ROOT"spk\\FaceMake.spk"
@@ -322,15 +316,15 @@
 #define SPK_VAMPIRE_BUY_DIALOG		_ROOT"spk\\BuyDialogVampire.spk"
 //#define SPK_MONEY_DIALOG		_ROOT"spk\\MoneyDialog.spk"
 
-//½½·¹ÀÌ¾î Æ÷Å»
+//ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å»
 #define SPK_SLAYER_PORTAL_ETC			_ROOT"spk\\PortalEtcSlayer.spk"
 #define SPK_SLAYER_PORTAL_MAP			_ROOT"spk\\PortalMapSlayer.spk"
 
-//ÆÄÆ¼
+//ï¿½ï¿½Æ¼
 #define SPK_SLAYER_PARTY				_ROOT"spk\\PartySlayer.spk"
 #define SPK_VAMPIRE_PARTY				_ROOT"spk\\PartyVampire.spk"
 
-//±æµå
+//ï¿½ï¿½ï¿½
 #define SPK_SLAYER_TEAM					_ROOT"spk\\TeamSlayer.spk"
 #define SPK_VAMPIRE_TEAM				_ROOT"spk\\TeamVampire.spk"
 #define SPK_SLAYER_TEAM_MEMBER			_ROOT"spk\\TeamMemberSlayer.spk"
@@ -370,7 +364,7 @@
 // SoulChain
 #define SPK_SOUL_CHAIN					_ROOT"spk\\Trace.spk"
 
-// ÀÌ¿ë µî±Þ 
+// ï¿½Ì¿ï¿½ ï¿½ï¿½ï¿½ 
 #define SPK_USE_GRADE					_ROOT"spk\\UseGrade.spk"
 
 #define SPK_XMAS_CARD					_ROOT"spk\\XMasCard.spk"
@@ -378,10 +372,10 @@
 #define SPK_LOTTERY_CARD				_ROOT"spk\\LotteryCard.spk"
 #define SPKI_LOTTERY_CARD				_ROOT"spk\\LotteryCard.spki"
 
-// °Ô½ÃÆÇ  2003.5.12 by sonee
+// ï¿½Ô½ï¿½ï¿½ï¿½  2003.5.12 by sonee
 #define SPK_BULLETIN_BOARD				_ROOT"spk\\BulletinBoard.spk"
 
-// ¾Æ¿ì½ºÅÍÁî ÀÎÅÍÆäÀÌ½º ÆÄÀÏ
+// ï¿½Æ¿ì½ºï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½ï¿½ï¿½ï¿½
 #define SPK_ASSEMBLE_BOX_OUSTERS		_ROOT"spk\\AssembleMessageBoxOusters.spk"
 #define SPK_ASSEMBLE_BOX_BUTTON_OUSTERS	_ROOT"spk\\AssembleMessageBoxButtonOusters.spk"
 #define SPK_OUSTERS_GAMEMENU			_ROOT"spk\\GameMenuOusters.spk"
@@ -404,7 +398,7 @@
 #define SPK_OUSTERS_SKILL_ETC			_ROOT"spk\\SkillEtcOusters.spk"
 #define SPK_EXCHANGE_OUSTERS			_ROOT"spk\\ExchangeOusters.spk"
 
-// ¹Í½Ì Æ÷Áö 2003.5.20 by gony
+// ï¿½Í½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2003.5.20 by gony
 #define SPK_MIXING_FORGE				_ROOT"spk\\MixingForge.spk"
 
 #if __CONTENTS(__PET_MIXINGFORGE)
@@ -446,16 +440,16 @@
 
 //2004, 5, 31 sobeit add end - sms message
 
-// 2004, 6, 21 sobeit add start -  ³×ÀÌ¹Ö ½ºÆ®¸µ ÀÌ¹ÌÁö
+// 2004, 6, 21 sobeit add start -  ï¿½ï¿½ï¿½Ì¹ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
 #define SPK_SLAYER_NAMING			_ROOT"spk\\NamingSlayer.spk"
 #define SPK_VAMPIRE_NAMING			_ROOT"spk\\NamingVampire.spk"
 #define SPK_OUSTERS_NAMING			_ROOT"spk\\NamingOusters.spk"
-// 2004, 6, 21 sobeit add end -  ³×ÀÌ¹Ö ½ºÆ®¸µ ÀÌ¹ÌÁö
-// 2004, 7, 2 sobeit add start -  Äù½ºÆ® ¸Å´ÏÀú ui
+// 2004, 6, 21 sobeit add end -  ï¿½ï¿½ï¿½Ì¹ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½
+// 2004, 7, 2 sobeit add start -  ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Å´ï¿½ï¿½ï¿½ ui
 #define SPK_SLAYER_QUESTMAMAGER			_ROOT"spk\\QuestManager_Slayer.spk"
 #define SPK_VAMPIRE_QUESTMAMAGER		_ROOT"spk\\QuestManager_Vampire.spk"
 #define SPK_OUSTERS_QUESTMAMAGER		_ROOT"spk\\QuestManager_Ousters.spk"
-// 2004, 7, 2 sobeit add end -  Äù½ºÆ® ¸Å´ÏÀú ui
+// 2004, 7, 2 sobeit add end -  ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Å´ï¿½ï¿½ï¿½ ui
 
 // 2004, 7, 9 sobeit add start
 #define QUEST_XML_FILE					"SimpleGQuest.xml"
@@ -477,7 +471,7 @@
 #define SPK_PERSNALSHOP_OUSTERS							_ROOT"spk\\OustersPersnalShop.spk"
 // 2004, 8, 2 sobeit add end
 
-// 2004, 12, 1, sobeit add start - Â¯ Æ÷ÀÎÆ®
+// 2004, 12, 1, sobeit add start - Â¯ ï¿½ï¿½ï¿½ï¿½Æ®
 #define SPK_SLAYER_POWERJJANG				_ROOT"spk\\Powerjjang_Slayer.spk"
 #define SPK_VAMPIRE_POWERJJANG				_ROOT"spk\\Powerjjang_Vampire.spk"
 #define SPK_OUSTERS_POWERJJANG				_ROOT"spk\\Powerjjang_Ousters.spk"

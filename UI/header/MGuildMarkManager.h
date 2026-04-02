@@ -106,7 +106,7 @@
 #include "CSprite.h"
 #include "CSpritePack.h"
 #include "MString.h"
-#include "RaceType.h"
+#include "Types\RaceType.h"
 
 #define GRADE_MARK_MAX 50
 //----------------------------------------------------------------------

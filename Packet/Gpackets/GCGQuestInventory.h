@@ -2,7 +2,7 @@
 // Filename    : GCGQuestInventory.h 
 // Written By  : elca@ewestsoft.com
 // Description : 
-// ±â¼úÀÌ ¼º°øÇßÀ»¶§ º¸³»´Â ÆÐÅ¶À» À§ÇÑ Å¬·¡½º Á¤ÀÇ
+// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __GC_GQUEST_INVENTORY_H__
@@ -19,24 +19,24 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // class GCGQuestInventory;
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
 class GCGQuestInventory : public Packet 
 {
 public:
-	GCGQuestInventory() throw();
-	~GCGQuestInventory() throw();
+	GCGQuestInventory();
+	~GCGQuestInventory();
 	
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_GQUEST_INVENTORY; }
-	PacketSize_t getPacketSize() const throw() { return szBYTE + szItemType * m_ItemList.size(); }
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_GQUEST_INVENTORY; }
+	size_t getPacketSize() const { return szBYTE + szItemType * m_ItemList.size(); }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCGQuestInventory"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCGQuestInventory"; }
+	string toString() const;
 #endif
 public:
 	std::vector<ItemType_t>&	getItemList() { return m_ItemList; }
@@ -54,16 +54,16 @@ private:
 class GCGQuestInventoryFactory : public PacketFactory 
 {
 public :
-	GCGQuestInventoryFactory() throw() {}
-	virtual ~GCGQuestInventoryFactory() throw() {}
+	GCGQuestInventoryFactory() {}
+	virtual ~GCGQuestInventoryFactory() {}
 	
 public:
-	Packet* createPacket() throw() { return new GCGQuestInventory(); }
+	Packet* createPacket() { return new GCGQuestInventory(); }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCGQuestInventory"; }
+	string getPacketName() const { return "GCGQuestInventory"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_GQUEST_INVENTORY; }
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + szItemType * MAX_GQUEST_INVENTORY_ITEM_NUM; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_GQUEST_INVENTORY; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE + szItemType * MAX_GQUEST_INVENTORY_ITEM_NUM; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -73,7 +73,7 @@ public:
 class GCGQuestInventoryHandler 
 {
 public:
-	static void execute(GCGQuestInventory* pGCGQuestInventory, Player* pPlayer) throw(Error);
+	static void execute(GCGQuestInventory* pGCGQuestInventory, Player* pPlayer);
 
 };
 

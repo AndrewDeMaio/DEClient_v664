@@ -2,7 +2,7 @@
 #include "SystemAvailabilities.h"
 #include "MinTR.H"
 #include "RarFile.h"
-#include "packet/Properties.h"
+#include "Properties.h"
 #ifdef __GAME_CLIENT__
 #include "Client.h"
 #else

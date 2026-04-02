@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCShopBuyOKHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
@@ -21,18 +21,17 @@
 
 #define SAFE_DELETE(x)		{ if(x!=NULL) delete x; x=NULL; }
 
-// PacketFunction.cpp¿¡ ÀÖ´Ù. compile ½Ã°£ °ü°è»ó..
+// PacketFunction.cppï¿½ï¿½ ï¿½Ö´ï¿½. compile ï¿½Ã°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½..
 void	CheckItemForSkillIcon(const MItem* pItem);
 
 void GCShopBuyOKHandler::execute ( GCShopBuyOK * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
 #ifdef __GAME_CLIENT__
 
 	//--------------------------------------------------------------
-	// Item »ç´Â packetÀ» ¹Þ´Â°Ô ¸Â³ª?
+	// Item ï¿½ï¿½ï¿½ packetï¿½ï¿½ ï¿½Þ´Â°ï¿½ ï¿½Â³ï¿½?
 	//--------------------------------------------------------------
 	if (g_pTempInformation->GetMode() == TempInformation::MODE_SHOP_BUY)
 	{
@@ -48,19 +47,19 @@ void GCShopBuyOKHandler::execute ( GCShopBuyOK * pPacket , Player * pPlayer )
 		MShopShelf* pShopShelf = pShop->GetShelf( ShelfType );
 
 		//--------------------------------------------------------------
-		// »óÁ¡¿¡¼­ itemÀ» Á¦°ÅÇÑ´Ù.			
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.			
 		//--------------------------------------------------------------
 		if (pShopShelf!=NULL)
 		{
 			//------------------------------------------------------
-			// Normal shelf°¡ ¾Æ´Ñ °æ¿ì¿¡¸¸ deleteÇÑ´Ù.
+			// Normal shelfï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ deleteï¿½Ñ´ï¿½.
 			//------------------------------------------------------
 			if (ShelfType==SHOP_RACK_SPECIAL)
 			{
 				pShopShelf->DeleteItem( index );
 			}
 
-			// »óÁ¡ÀÇ VersionÀ» ¹Ù²Û´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Versionï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 			pShopShelf->SetVersion( pPacket->getShopVersion() );
 		}
 		else
@@ -69,14 +68,14 @@ void GCShopBuyOKHandler::execute ( GCShopBuyOK * pPacket , Player * pPlayer )
 		}
 
 		//--------------------------------------------------------------
-		// ¹æ±Ý ±¸ÀÔÇÑ itemÀ» »ý¼ºÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		//--------------------------------------------------------------		
 		MItem* pItem = MItem::NewItem( (ITEM_CLASS)pPacket->getItemClass() );
 
 		pItem->SetID( pPacket->getItemObjectID() );
 		pItem->SetItemType( pPacket->getItemType() );
 		pItem->SetItemOptionList( pPacket->getOptionType() );
-		pItem->SetNumber( pPacket->getItemNum() );	// ÀÌ¹Ì ½×¿©Áø °³¼ö
+		pItem->SetNumber( pPacket->getItemNum() );	// ï¿½Ì¹ï¿½ ï¿½×¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		pItem->SetCurrentDurability( pPacket->getDurability() );
 		pItem->SetSilver( pPacket->getSilver() );
 		pItem->SetGrade( pPacket->getGrade() );
@@ -85,13 +84,13 @@ void GCShopBuyOKHandler::execute ( GCShopBuyOK * pPacket , Player * pPlayer )
 		const MItem* pOldItem = g_pInventory->GetItem( x, y );
 
 		//--------------------------------------------------------------		
-		// ±× À§Ä¡¿¡ ¾Æ¹«°Íµµ ¾ø´Â °æ¿ì --> ±×³É Ãß°¡ÇÏ¸é µÈ´Ù.
+		// ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½×³ï¿½ ï¿½ß°ï¿½ï¿½Ï¸ï¿½ ï¿½È´ï¿½.
 		//--------------------------------------------------------------				
 		if (pOldItem==NULL)
 		{				
 		}
 		//--------------------------------------------------------------		
-		// ½×ÀÏ ¼ö ÀÖ´ÂÁö Ã¼Å©ÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ Ã¼Å©ï¿½Ñ´ï¿½.
 		//--------------------------------------------------------------				
 		else
 		{
@@ -103,20 +102,20 @@ void GCShopBuyOKHandler::execute ( GCShopBuyOK * pPacket , Player * pPlayer )
 								pItem->GetNumber();
 					
 					//------------------------------------------------
-					// °³¼ö ÃÊ°ú					
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½					
 					//------------------------------------------------
 					if ( total > pItem->GetMaxNumber() )
 					{
 						DEBUG_ADD_FORMAT("[Error] Cannot Add. MaxNum exceed=%d", total);
 					}
 					//------------------------------------------------
-					// Á¤»óÀûÀ¸·Î ½×¿©Áú ¼ö ÀÖ´Â °æ¿ì					
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¿ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½					
 					//------------------------------------------------
 					else
 					{
 						//pItem->SetNumber( total );
 
-						// ±âÁ¸¿¡ ÀÖ´ø itemÀ» Á¦°ÅÇÑ´Ù.
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 						MItem* pRemovedItem = g_pInventory->RemoveItem( x, y );
 						
 						SAFE_DELETE( pRemovedItem );
@@ -135,11 +134,11 @@ void GCShopBuyOKHandler::execute ( GCShopBuyOK * pPacket , Player * pPlayer )
 		}
 
 		//--------------------------------------------------------------
-		// itemÀ» inventory¿¡ Ãß°¡ÇÑ´Ù.
+		// itemï¿½ï¿½ inventoryï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 		//--------------------------------------------------------------
 		if (g_pInventory->AddItem( pItem, x, y ))
 		{
-			// Á¦´ë·Î Ãß°¡µÈ °æ¿ì --> soundÃâ·Â
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ --> soundï¿½ï¿½ï¿½
 			PlaySound( pItem->GetTileSoundID() );
 
 			// skill icon Ã¼Å©
@@ -149,21 +148,21 @@ void GCShopBuyOKHandler::execute ( GCShopBuyOK * pPacket , Player * pPlayer )
 		{
 			DEBUG_ADD_FORMAT("[Error] Cannot Add to Inventory(%d,%d)", x,y);
 			
-			// Ãß°¡°¡ ¾ÈµÇ´Â °æ¿ì Áö¿ö¾ß ÇÑ´Ù.
+			// ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ÈµÇ´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 			delete pItem;
 		}
 	
 		//--------------------------------------------------------------
-		// »óÁ¡¿¡ µû¶ó¼­ ¹»·Î »ò´Â°¡?..
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â°ï¿½?..
 		//--------------------------------------------------------------
 		switch (pShop->GetShopType())
 		{
 			//--------------------------------------------------------------
-			// µ·
+			// ï¿½ï¿½
 			//--------------------------------------------------------------
 			case MShop::SHOP_NORMAL :
 				//--------------------------------------------------------------
-				// µ·À» ¹Ù²ãÁØ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
 				//--------------------------------------------------------------
 				if (!g_pMoneyManager->SetMoney( pPacket->getPrice() ))
 				{
@@ -172,10 +171,10 @@ void GCShopBuyOKHandler::execute ( GCShopBuyOK * pPacket , Player * pPlayer )
 			break;
 
 			//--------------------------------------------------------------
-			// º°
+			// ï¿½ï¿½
 			//--------------------------------------------------------------
 			case MShop::SHOP_EVENT_STAR :
-				// ÀûÀýÇÑ °³¼ö¸¸Å­À» inventory¿¡¼­ Áö¿öÁØ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ï¿½ï¿½ inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 				if (pItem!=NULL)
 				{
 					STAR_ITEM_PRICE starPrice;
@@ -186,15 +185,15 @@ void GCShopBuyOKHandler::execute ( GCShopBuyOK * pPacket , Player * pPlayer )
 
 					if (starPrice.type!=-1 && starPrice.number!=0)
 					{
-						// ¸î°³³ª ÀÖ´ÂÁö Ã£¾Æº»´Ù.
+						// ï¿½î°³ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ Ã£ï¿½Æºï¿½ï¿½ï¿½.
 						MItemClassTypeFinder starFinder(ITEM_CLASS_EVENT_STAR, starPrice.type);
 
-						// °³¼ö¸¸Å­ inventory¿¡¼­ Á¦°ÅÇÑ´Ù.
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å­ inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 						while (remainNum > 0)
 						{
 							MItem* pStarItem = g_pInventory->FindItemGridOrder( starFinder );
 
-							// º°ÀÌ ¾ø´Â °æ¿ì - -;
+							// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ - -;
 							if (pStarItem==NULL)
 							{
 								DEBUG_ADD("[Error] Not Enough Star -_-");
@@ -210,7 +209,7 @@ void GCShopBuyOKHandler::execute ( GCShopBuyOK * pPacket , Player * pPlayer )
 							}
 							else
 							{
-								// °°°Å³ª ÀûÀº °æ¿ì
+								// ï¿½ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 								remainNum -= itemNum;
 
 								MItem* pRemovedItem = g_pInventory->RemoveItem( 
@@ -233,20 +232,20 @@ void GCShopBuyOKHandler::execute ( GCShopBuyOK * pPacket , Player * pPlayer )
 		}
 
 		
-		// mode¸¦ ¾ø¾Ø´Ù.
+		// modeï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 		g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
-		// °Å·¡¸¦ ´Ù½Ã È°¼ºÈ­ÇÑ´Ù.
+		// ï¿½Å·ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ È°ï¿½ï¿½È­ï¿½Ñ´ï¿½.
 		UI_UnlockItemTrade();
 
 		//--------------------------------------------------------------
-		// ¿ÀÅä¹ÙÀÌ (¿­¼è¸¦) »ê °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½è¸¦) ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------------------
 //		__BEGIN_HELP_EVENT
 //			if (pItem->GetItemClass()==ITEM_CLASS_KEY 
 //				&& pItem->GetItemType()==2)
 //			{
-//				// [µµ¿ò¸»] ¿ÀÅä¹ÙÀÌ »ê °æ¿ì
+//				// [ï¿½ï¿½ï¿½ï¿½] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
 ////				ExecuteHelpEvent( HE_ITEM_BUY_MOTORCYCLE );
 //			}
 //		__END_HELP_EVENT

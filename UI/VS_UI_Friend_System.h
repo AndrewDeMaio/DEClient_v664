@@ -12,8 +12,8 @@
 
 #include "ClientFunction.h"
 
-#include "Packet\FriendGlobalOptionInfo.h"
-#include "Packet\FriendIndividualOptionInfo.h"
+#include "FriendGlobalOptionInfo.h"
+#include "FriendIndividualOptionInfo.h"
 
 
 #if __CONTENTS(__FRIEND_ADDITION)

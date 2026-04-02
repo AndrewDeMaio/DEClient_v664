@@ -19,9 +19,9 @@ enum REQUEST_VERIFY
 {
 	REQUEST_VERIFY_NULL,
 	REQUEST_VERIFY_WHISPER_FAILED,
-	REQUEST_VERIFY_PROFILE_NOT_EXIST,		// profileÀÌ ¾Æ¿¹ ¾ø´Â °æ¿ì
-	REQUEST_VERIFY_PROFILE_WRONG_USER,		// Àß¸øµÈ »ç¿ëÀÚ¿¡°Ô ¿äÃ»ÇÑ °æ¿ì
-	REQUEST_VERIFY_PROFILE_DONE,			// profile ´Ù º¸³Â´Ù.
+	REQUEST_VERIFY_PROFILE_NOT_EXIST,		// profileï¿½ï¿½ ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+	REQUEST_VERIFY_PROFILE_WRONG_USER,		// ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½
+	REQUEST_VERIFY_PROFILE_DONE,			// profile ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -35,40 +35,40 @@ class RCRequestVerify : public Packet {
 public :
 	
 	// constructor
-	RCRequestVerify () throw ();
+	RCRequestVerify ();
 	
 	// destructor
-	~RCRequestVerify () throw ();
+	~RCRequestVerify ();
 
 	
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_RC_REQUEST_VERIFY; }
+	PacketID_t getPacketID () const { return PACKET_RC_REQUEST_VERIFY; }
 	
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getPacketSize () const throw () { return szBYTE; }
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	size_t getPacketSize () const { return szBYTE; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "RCRequestVerify"; }
+		std::string getPacketName () const { return "RCRequestVerify"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
-	REQUEST_VERIFY getCode() const throw () { return m_Code ; }
-	void setCode ( REQUEST_VERIFY code ) throw () { m_Code = code ; }
+	REQUEST_VERIFY getCode() const { return m_Code ; }
+	void setCode ( REQUEST_VERIFY code ) { m_Code = code ; }
 
 
 private :
@@ -89,27 +89,27 @@ class RCRequestVerifyFactory : public PacketFactory {
 public :
 	
 	// constructor
-	RCRequestVerifyFactory () throw () {}
+	RCRequestVerifyFactory () {}
 	
 	// destructor
-	virtual ~RCRequestVerifyFactory () throw () {}
+	virtual ~RCRequestVerifyFactory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new RCRequestVerify(); }
+	Packet * createPacket () { return new RCRequestVerify(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "RCRequestVerify"; }
+		std::string getPacketName () const { return "RCRequestVerify"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_RC_REQUEST_VERIFY; }
+	PacketID_t getPacketID () const { return Packet::PACKET_RC_REQUEST_VERIFY; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE; }
 
 };
 
@@ -125,7 +125,7 @@ class RCRequestVerifyHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( RCRequestVerify * pRCRequestVerify , Player * pPlayer ) throw ( Error );
+	static void execute ( RCRequestVerify * pRCRequestVerify , Player * pPlayer );
 
 };
 

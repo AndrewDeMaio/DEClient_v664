@@ -18,7 +18,6 @@ extern int g_C2G;
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCCreateItemHandler::execute ( GCCreateItem * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -35,7 +34,7 @@ void GCCreateItemHandler::execute ( GCCreateItem * pPacket , Player * pPlayer )
 
 	
 	//---------------------------------------------------------------------
-	// inventory¿¡¼­ item¸î°³¸¦ µå´Â °æ¿ì..
+	// inventoryï¿½ï¿½ï¿½ï¿½ itemï¿½î°³ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 	//---------------------------------------------------------------------
 	if (g_pPlayer->IsItemCheckBufferPickupSomeFromInventory())
 	{
@@ -44,11 +43,11 @@ void GCCreateItemHandler::execute ( GCCreateItem * pPacket , Player * pPlayer )
 
 		if (pItem!=NULL)
 		{
-			// µé¾î¾ß ÇÏ´Â itemÀÇ °³¼ö´Â
-			// ( ¿ø·¡ °³¼ö - ¹Ù´Ú¿¡ ³²Àº °³¼ö ) ÀÌ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			// ( ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½Ù´Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ) ï¿½Ì´ï¿½.
 			int numPickup = pItem->GetNumber() - pPCItemInfo->getItemNum();
 			
-			// inventory¿¡¼­ Á¦°ÅÇÑ´Ù.
+			// inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//pSubInventory = (MSubInventory*)gC_vs_ui.GetSubInventoryItem();
 
 			MItem* pRemovedItem;
@@ -67,10 +66,10 @@ void GCCreateItemHandler::execute ( GCCreateItem * pPacket , Player * pPlayer )
 
 			if (pRemovedItem==pItem)
 			{
-				// °³¼ö¸¦ ´Ù½Ã ¼³Á¤ÇØÁØ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 				pItem->SetNumber( numPickup );
 
-				// mouse¿¡ µç´Ù.
+				// mouseï¿½ï¿½ ï¿½ï¿½ï¿½.
 				UI_PickUpItem( pItem );
 			}
 			else
@@ -85,7 +84,7 @@ void GCCreateItemHandler::execute ( GCCreateItem * pPacket , Player * pPlayer )
 	}
 
 	//---------------------------------------------------------------------
-	// ItemÀ» »ý¼ºÇÑ´Ù.
+	// Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//---------------------------------------------------------------------
 	pItem = MItem::NewItem( (enum ITEM_CLASS)pPCItemInfo->getItemClass() );
 	pItem->SetItemType( pPCItemInfo->getItemType() );
@@ -105,24 +104,24 @@ void GCCreateItemHandler::execute ( GCCreateItem * pPacket , Player * pPlayer )
 #if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
 	pItem->SetCashItem(pPCItemInfo->getCashItem());
 #endif //__INTERNATIONAL_PREMIUM_SYSTEM
-//20071009 by diesirace ¼­µå¾ÆÀÌÅÛ¿É¼Ç Ãß°¡ (¼­µå ¿É¼Ç ´Þ¸° ¾ÆÀÌÅÛÀº ¸¸µé¾îÁú¸®°¡ Àý´ë ¾ø´Ü´Ù...)
+//20071009 by diesirace ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¿É¼ï¿½ ï¿½ß°ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ü´ï¿½...)
 #if __CONTENTS(__PCITEMINFO)
 	pItem->SetItemThirdOptionList(pPCItemInfo->getThirdOptionType() );
 	pItem->SetItemThirdOptionType(pPCItemInfo->getThirdEnchantType());
 #endif //__PCITEMINFO
 	//------------------------------------------
-	// °³¼ö
+	// ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------
-	// ÃÑÀÎ °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------
 	if (pItem->IsGunItem())
 	{
 		MMagazine* pMagazine = (MMagazine*)MItem::NewItem( (ITEM_CLASS)ITEM_CLASS_MAGAZINE );
 
-		// ÀÇ¹Ì ¾øÀ½ - -;
+		// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½ - -;
 		pMagazine->SetID( 0 );
 
-		// ÀÌ°Å´Â ÃÑ¿¡ ¸ÂÃç¼­ ÇØÁà¾ßµÈ´Ù.
+		// ï¿½Ì°Å´ï¿½ ï¿½Ñ¿ï¿½ ï¿½ï¿½ï¿½ç¼­ ï¿½ï¿½ï¿½ï¿½ßµÈ´ï¿½.
 		for (int j=0; j<(*g_pItemTable)[ITEM_CLASS_MAGAZINE].GetSize(); j++)			
 		{
 			pMagazine->SetItemType(	j );
@@ -133,22 +132,22 @@ void GCCreateItemHandler::execute ( GCCreateItem * pPacket , Player * pPlayer )
 			}
 		}
 
-		// ÀÇ¹Ì ¾øÀ½
+		// ï¿½Ç¹ï¿½ ï¿½ï¿½ï¿½ï¿½
 		pMagazine->ClearItemOption();
 	
-		// ÅºÃ¢ °³¼ö
+		// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 		pMagazine->SetNumber( pPCItemInfo->getItemNum() );
 
 		//------------------------------------
-		// ÅºÃ¢ ¼³Á¤
+		// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 		//------------------------------------
 		MGunItem* pGunItem = (MGunItem*)pItem;
 		pGunItem->SetMagazine( pMagazine );
 	}		
 	//------------------------------------------
-	// ÃÑÀÌ ¾Æ´Ñ °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------
-	//20080220 ÃæÀü ¾ÆÀÌÅÛÀº ÃæÀü·®À» ÀÎÃ¾Æ® ·¹º§·Î ¹Þ´Â´Ù.
+	//20080220 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¾Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ´Â´ï¿½.
 	else if(pItem->IsChargeItem())
 		pItem->SetNumber( pPCItemInfo->getEnchantLevel() );
 	else
@@ -156,7 +155,7 @@ void GCCreateItemHandler::execute ( GCCreateItem * pPacket , Player * pPlayer )
 		pItem->SetNumber( pPCItemInfo->getItemNum() );
 		//pItem->SetSilver( item.silver );
 	}
-	//20081219 Æ®¸®·ùÀÇ »çÀÌÁî¸¦ º¯°æ ÇÒ¼ö ÀÖ°Ô ÇÑ´Ù. 
+	//20081219 Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½î¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¼ï¿½ ï¿½Ö°ï¿½ ï¿½Ñ´ï¿½. 
 	int TreeSizeX = 3,TreeSizeY = 4;
 #if __CONTENTS(__CHRISTMAS_SOCKS_EVENT)	
 	if(pItem->GetItemClass() == ITEM_CLASS_EVENT_GIFT_BOX
@@ -167,7 +166,7 @@ void GCCreateItemHandler::execute ( GCCreateItem * pPacket , Player * pPlayer )
 #endif //__CHRISTMAS_SOCKS_EVENT
 
 
-	// Å©¸®½º¸¶½º Æ®¸® ÇÕÃ¼
+	// Å©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ®ï¿½ï¿½ ï¿½ï¿½Ã¼
 	if(pItem->GetItemClass() == ITEM_CLASS_EVENT_TREE 
 #if __CONTENTS(__EVENTTREE_PILE)
 		&& pItem->GetNumber() == 1
@@ -176,12 +175,12 @@ void GCCreateItemHandler::execute ( GCCreateItem * pPacket , Player * pPlayer )
 	   (pItem->GetItemType() == 12 ||
 		pItem->GetItemType() == 25 ||
 		pItem->GetItemType() == 41 ||
-		pItem->GetItemType() == 54		// ÅÍÇÁÇÑ ´«»ç¶÷ 2006.11.30 by chyaya
+		pItem->GetItemType() == 54		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 2006.11.30 by chyaya
 #if __CONTENTS(__BLITZ_COUPON_EVENT)
-		|| pItem->GetItemType() == 67	// ºí¸®Ã÷ ¹®¾ç 2008.8.29 by ij-ch
+		|| pItem->GetItemType() == 67	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2008.8.29 by ij-ch
 #endif //__BLITZ_COUPON_EVENT
 #if __CONTENTS(__2008_AUTUMN_LEAVES_EVENT)
-		|| pItem->GetItemType() == 80	// ³«¿± ¹®¾ç 2008.8.29 by ij-ch
+		|| pItem->GetItemType() == 80	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2008.8.29 by ij-ch
 #endif //__2008_AUTUMN_LEAVES_EVENT
 		)
 #if __CONTENTS(__CHRISTMAS_SOCKS_EVENT)
@@ -235,7 +234,7 @@ void GCCreateItemHandler::execute ( GCCreateItem * pPacket , Player * pPlayer )
 	}
 
 	//---------------------------------------------------------------------
-	// inventory¿¡ Ãß°¡ÇÑ´Ù.
+	// inventoryï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 	//---------------------------------------------------------------------
 
 	if(bSubInventoryUse)
@@ -258,7 +257,7 @@ void GCCreateItemHandler::execute ( GCCreateItem * pPacket , Player * pPlayer )
 				gpC_base->DispatchMessage();
 				g_C2G--;
 			}
-			// Á¦´ë·Î Ãß°¡µÈ °æ¿ì..
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½..
 		}
 		
 		else

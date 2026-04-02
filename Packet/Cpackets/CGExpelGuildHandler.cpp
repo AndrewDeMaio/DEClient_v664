@@ -16,7 +16,6 @@
 //////////////////////////////////////////////////////////////////////////////
 #ifndef __GAME_CLIENT__	
 void CGExpelGuildHandler::execute (CGExpelGuild* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 	__BEGIN_TRY __BEGIN_DEBUG_EX
 		

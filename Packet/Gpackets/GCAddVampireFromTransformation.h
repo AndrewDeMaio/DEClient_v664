@@ -18,13 +18,13 @@
 //
 // class GCAddVampireFromTransformation;
 //
-// ·Î±×ÀÎÀÌ³ª Æ÷Å», ÅÚ·¹Æ÷Æ® µîÀ¸·Î ½½·¹ÀÌ¾î°¡ Á¸¿¡ »õ·Î µé¾î°¬À» °æ¿ì, ¶Ç´Â
-// ½½·¹ÀÌ¾î°¡ Á¸¿¡¼­ ÀÌµ¿ÇÒ °æ¿ì, (1) ÀÌ¹Ì ÀÌ ½½·¹ÀÌ¾î¿¡ ´ëÇÑ Á¤º¸¸¦ °®°í ÀÖ´Â
-// (Áï ÀÌ ½½·¹ÀÌ¾î¸¦ º¸°í ÀÖ´Â..) ¿µ¿ª¿¡ Á¸ÀçÇÏ´Â PCµé¿¡°Ô´Â GCMove ÆÐÅ¶À»
-// ºê·ÎµåÄ³½ºÆ®ÇÑ´Ù. ±×·¯³ª, (2) ÀÌ ½½·¹ÀÌ¾î¸¦ Ã³À½ º¸°Ô µÇ´Â ¿µ¿ª¿¡ Á¸ÀçÇÏ´Â
-// PCµé¿¡°Ô´Â GCAddVampireFromTransformation ÆÐÅ¶À» ºê·ÎµåÄ³½ºÆ®ÇÑ´Ù. ¶ÇÇÑ, (3) ÀÌ ½½·¹ÀÌ¾î´Â
-// ÀÚ½ÅÀÌ »õ·Î °³Ã´ÇÑ ½Ã¾ß(?) ¾È¿¡ Á¸ÀçÇÏ´Â ½½·¹ÀÌ¾îµéÀÇ Á¤º¸¸¦ GCAddVampireFromTransformation¿¡
-// ´ã¾Æ¼­ ¹Þ°Ô µÈ´Ù.
+// ï¿½Î±ï¿½ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½ï¿½Å», ï¿½Ú·ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¬ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½Ç´ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, (1) ï¿½Ì¹ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½
+// (ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½..) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ PCï¿½é¿¡ï¿½Ô´ï¿½ GCMove ï¿½ï¿½Å¶ï¿½ï¿½
+// ï¿½ï¿½Îµï¿½Ä³ï¿½ï¿½Æ®ï¿½Ñ´ï¿½. ï¿½×·ï¿½ï¿½ï¿½, (2) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î¸¦ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
+// PCï¿½é¿¡ï¿½Ô´ï¿½ GCAddVampireFromTransformation ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½Îµï¿½Ä³ï¿½ï¿½Æ®ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½ï¿½, (3) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½
+// ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã´ï¿½ï¿½ ï¿½Ã¾ï¿½(?) ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ GCAddVampireFromTransformationï¿½ï¿½
+// ï¿½ï¿½Æ¼ï¿½ ï¿½Þ°ï¿½ ï¿½È´ï¿½.
 //
 //----------------------------------------------------------------------
 
@@ -33,56 +33,56 @@ class GCAddVampireFromTransformation : public Packet {
 public :
 
 	// constructor
-	GCAddVampireFromTransformation () throw () : m_pEffectInfo(NULL) {}
-	GCAddVampireFromTransformation ( const PCVampireInfo3 & vampireInfo ) throw () : m_VampireInfo(vampireInfo), m_pEffectInfo(NULL) {}
+	GCAddVampireFromTransformation () : m_pEffectInfo(NULL) {}
+	GCAddVampireFromTransformation ( const PCVampireInfo3 & vampireInfo ) : m_VampireInfo(vampireInfo), m_pEffectInfo(NULL) {}
 
-	virtual ~GCAddVampireFromTransformation() throw();
+	virtual ~GCAddVampireFromTransformation();
 
 	
 public :
 
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_ADD_VAMPIRE_FROM_TRANSFORMATION; }
+	PacketID_t getPacketID () const { return PACKET_GC_ADD_VAMPIRE_FROM_TRANSFORMATION; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () { return m_VampireInfo.getSize() + m_pEffectInfo->getSize(); }
+	size_t getPacketSize () const { return m_VampireInfo.getSize() + m_pEffectInfo->getSize(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCAddVampireFromTransformation"; }
+		std::string getPacketName () const { return "GCAddVampireFromTransformation"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 
 public :
 
 	// get/set vampire info
-	PCVampireInfo3 & getVampireInfo () throw () { return m_VampireInfo; }
-	const PCVampireInfo3 & getVampireInfo () const throw () { return m_VampireInfo; }
-	void setVampireInfo ( const PCVampireInfo3 & vampireInfo ) throw () { m_VampireInfo = vampireInfo; }
+	PCVampireInfo3 & getVampireInfo () { return m_VampireInfo; }
+	const PCVampireInfo3 & getVampireInfo () const { return m_VampireInfo; }
+	void setVampireInfo ( const PCVampireInfo3 & vampireInfo ) { m_VampireInfo = vampireInfo; }
 
 	// get /set Effect Info
-	EffectInfo * getEffectInfo () const throw() { return m_pEffectInfo; }
-	void setEffectInfo ( EffectInfo * pEffectInfo ) throw() { m_pEffectInfo = pEffectInfo; }
+	EffectInfo * getEffectInfo () const { return m_pEffectInfo; }
+	void setEffectInfo ( EffectInfo * pEffectInfo ) { m_pEffectInfo = pEffectInfo; }
 
 
 private :
 	
-	// ¹ìÆÄÀÌ¾î ¿Ü¸ð Á¤º¸
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½Ü¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	PCVampireInfo3 m_VampireInfo;
 
-	// ÀÌÆåÆ® Á¤º¸
+	// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 	EffectInfo * m_pEffectInfo;
 	
 };
@@ -101,18 +101,18 @@ class GCAddVampireFromTransformationFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCAddVampireFromTransformation(); }
+	Packet * createPacket () { return new GCAddVampireFromTransformation(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCAddVampireFromTransformation"; }
+		std::string getPacketName () const { return "GCAddVampireFromTransformation"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_ADD_VAMPIRE_FROM_TRANSFORMATION; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_ADD_VAMPIRE_FROM_TRANSFORMATION; }
 
 	// get packet's body size
-	PacketSize_t getPacketMaxSize () const throw ()
+	PacketSize_t getPacketMaxSize () const
 	{ 
 		return PCVampireInfo3::getMaxSize() + EffectInfo::getMaxSize();
 	}
@@ -131,7 +131,7 @@ class GCAddVampireFromTransformationHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCAddVampireFromTransformation * pPacket , Player * pPlayer ) throw ( Error );
+	static void execute ( GCAddVampireFromTransformation * pPacket , Player * pPlayer );
 
 };
 

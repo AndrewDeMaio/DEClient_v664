@@ -122,7 +122,6 @@ BYTE GetCreatureActionCountMax(const MCreature* pCreature, int action);
 
 #include "VS_UI.h" // KJTINC
 #include "VS_UI_Mouse_pointer.h"
-#include "CImm.h"
 
 extern	DWORD	g_CurrentTime;
 extern	int		g_x;
@@ -140,7 +139,6 @@ extern bool		g_bZoneSafe;
 extern bool		g_bHolyLand;
 extern POINT	g_SelectSector;
 
-extern LONG		g_lGameRunBreakTime;
 
 //#define	new			DEBUG_NEW
 
@@ -6261,7 +6259,7 @@ MPlayer::ActionMove()
 		{
 			m_NextDestX = m_DestX;
 			m_NextDestY = m_DestY;
-			m_listDirection.empty();
+			m_listDirection.clear();
 
 
 			DEBUG_ADD("�ٸ� ĳ���Ϳ� ���ؼ� Block����.");
@@ -6772,16 +6770,6 @@ MPlayer::AffectUsedActionInfo(TYPE_ACTIONINFO nUsedActionInfo)
 
 			PlaySound(soundID, false, m_X, m_Y);
 
-			//-------------------------------------------------
-			// Force Feel
-			//-------------------------------------------------
-			if (g_pUserOption->UseForceFeel && gpC_Imm != NULL && gpC_Imm->IsDevice()
-				&& soundID < g_pSoundTable->GetSize())
-			{
-				DEBUG_ADD_FORMAT("ForceAction-AffectUsedActionInfo(%d, %s)", soundID, strrchr((*g_pSoundTable)[soundID].Filename.GetString(), '\\'));
-
-				gpC_Imm->ForceAction(soundID);
-			}
 		}
 
 		//--------------------------------------------------------
@@ -7070,23 +7058,6 @@ MPlayer::ActionToSendPacket(bool bImmediately)
 			// ĳ������ Action�� �´� Sound�� ������ش�.
 			//------------------------------------------------
 			PlaySound(soundID, false, m_X, m_Y);
-
-			//-------------------------------------------------
-			// Force Feel
-			//-------------------------------------------------
-			if (g_pUserOption->UseForceFeel && gpC_Imm != NULL && gpC_Imm->IsDevice())
-			{
-				if ((*g_pActionInfoTable)[m_nUsedActionInfo].IsWeaponTypeGunAny())
-				{
-					soundID = SOUND_SLAYER_ATTACK_AR;
-				}
-
-				if (soundID < g_pSoundTable->GetSize())
-				{
-					DEBUG_ADD_FORMAT("ForceAction-ActionToSendPacket(%d, %s)", soundID, strrchr((*g_pSoundTable)[soundID].Filename.GetString(), '\\'));
-					gpC_Imm->ForceAction(soundID);
-				}
-			}
 
 			return;
 		}
@@ -7810,22 +7781,6 @@ MPlayer::ActionToSendPacket(bool bImmediately)
 		if (!HasEffectStatus(EFFECTSTATUS_INSTALL_TURRET) && !m_bBurningSol)
 			PlaySound(soundID, false, m_X, m_Y);
 
-		//-------------------------------------------------
-		// Force Feel
-		//-------------------------------------------------
-		if (g_pUserOption->UseForceFeel && gpC_Imm != NULL && gpC_Imm->IsDevice())
-		{
-			if ((*g_pActionInfoTable)[m_nUsedActionInfo].IsWeaponTypeGunAny())
-			{
-				soundID = SOUND_SLAYER_ATTACK_AR;
-			}
-
-			if (soundID < g_pSoundTable->GetSize())
-			{
-				DEBUG_ADD_FORMAT("ForceAction-ActionToSendPacket(%d, %s)", soundID, strrchr((*g_pSoundTable)[soundID].Filename.GetString(), '\\'));
-				gpC_Imm->ForceAction(soundID);
-			}
-		}
 	}
 }
 
@@ -11021,7 +10976,7 @@ MPlayer::PacketMoveOK(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, BYTE direc
 		m_ActionCount = m_ActionCountMax;
 
 		// ��ã�� ����
-		m_listDirection.empty();
+		m_listDirection.clear();
 
 		//----------------------------------------------------
 		// Creature�� ��� �����ϴ� ���̸�..
@@ -11137,7 +11092,7 @@ MPlayer::PacketMoveNO()
 		else
 		{
 			// ��ã�� �ߴ��� �����ش�.
-			m_listDirection.empty();
+			m_listDirection.clear();
 
 			/*
 			// �� �ּ�ó���ϸ� ���� �ɰŰ���... - -;  2001.8.1
@@ -11335,13 +11290,6 @@ MPlayer::PacketSpecialActionResult(TYPE_ACTIONINFO nResultActionInfo, TYPE_OBJEC
 			actionInfoAction = GetActionInfoAction(nResultActionInfo);
 		}
 
-		//-------------------------------------------------
-		// Force Feel
-		//-------------------------------------------------
-//		if (gpC_Imm!=NULL && gpC_Imm->IsDevice())
-//		{
-//			gpC_Imm->ForceAction( CImm::FORCE_ACTION_DAMAGED );
-//		}
 	}
 
 	//-------------------------------------------------
@@ -11430,7 +11378,7 @@ MPlayer::PacketSpecialActionResult(TYPE_ACTIONINFO nResultActionInfo, TYPE_OBJEC
 	m_TraceY = sY;
 
 	// ��ã�� �ߴ��� �����ش�.
-	m_listDirection.empty();
+	m_listDirection.clear();
 	m_DestX = m_X;//SECTORPOSITION_NULL;
 	m_DestY = m_Y;//SECTORPOSITION_NULL;
 	m_NextDestX = SECTORPOSITION_NULL;

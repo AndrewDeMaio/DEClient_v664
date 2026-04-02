@@ -24,7 +24,7 @@
 //
 // class GCMorph1;
 //
-//	slayerµîÀÌ vampire·Î º¯½ÅÇÒ¶§, º¯½ÅÇÏ½Ã´Â ºÐ¿¡°Ô º¸³»´Â ÆÐÅ¶.
+//	slayerï¿½ï¿½ï¿½ï¿½ vampireï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Ã´ï¿½ ï¿½Ð¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶.
 //--------------------------------------------------------------------------------
 
 class GCMorph1 : public Packet {
@@ -32,25 +32,25 @@ class GCMorph1 : public Packet {
 public :
 
 	// constructor
-	GCMorph1 () throw ();
+	GCMorph1 ();
 
 	// destructor
-	~GCMorph1 () throw ();
+	~GCMorph1 ();
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_MORPH_1; }
+	PacketID_t getPacketID () const { return PACKET_GC_MORPH_1; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () 
+	size_t getPacketSize () const 
 	{ 
 		// [PCType][PCInfo]
 		// [GameTime][Weather][WeatherLevel][DarkLevel][LightLevel]
@@ -64,10 +64,10 @@ public :
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCMorph1"; }
+		std::string getPacketName () const { return "GCMorph1"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 
@@ -77,20 +77,20 @@ public :
 public :
 
 	// get/set PC info
-	PCInfo * getPCInfo2 () const throw () { return m_pPCInfo; }
-	void setPCInfo2 ( PCInfo * pPCInfo ) throw ( Error ) { m_pPCInfo = pPCInfo; }
+	PCInfo * getPCInfo2 () const { return m_pPCInfo; }
+	void setPCInfo2 ( PCInfo * pPCInfo ) { m_pPCInfo = pPCInfo; }
 
 	// get/set Inventory Info
-	InventoryInfo * getInventoryInfo () const throw() { return m_pInventoryInfo; }
-	void setInventoryInfo ( InventoryInfo * pInventoryInfo ) throw ( Error ) { m_pInventoryInfo = pInventoryInfo; }
+	InventoryInfo * getInventoryInfo () const { return m_pInventoryInfo; }
+	void setInventoryInfo ( InventoryInfo * pInventoryInfo ) { m_pInventoryInfo = pInventoryInfo; }
 
 	// get/set Gear Info
-	GearInfo * getGearInfo () const throw() { return m_pGearInfo; }
-	void setGearInfo ( GearInfo * pGearInfo ) throw ( Error ) { m_pGearInfo = pGearInfo; }
+	GearInfo * getGearInfo () const { return m_pGearInfo; }
+	void setGearInfo ( GearInfo * pGearInfo ) { m_pGearInfo = pGearInfo; }
 
 	// get/set ExtraInfo
-	ExtraInfo * getExtraInfo() const throw() { return m_pExtraInfo; }
-	void setExtraInfo( ExtraInfo * pExtraInfo ) throw( Error ) { m_pExtraInfo = pExtraInfo; }
+	ExtraInfo * getExtraInfo() const { return m_pExtraInfo; }
+	void setExtraInfo( ExtraInfo * pExtraInfo ) { m_pExtraInfo = pExtraInfo; }
 
 //--------------------------------------------------
 // data members
@@ -100,7 +100,7 @@ private :
 	//--------------------------------------------------------------------------------
 	// PC Information
 	//--------------------------------------------------------------------------------
-	// PCSlayerInfo2 ¶Ç´Â PCVampireInfo2 ¸¦ »ç¿ëÇÑ´Ù.
+	// PCSlayerInfo2 ï¿½Ç´ï¿½ PCVampireInfo2 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	PCInfo * m_pPCInfo;
 
 	//--------------------------------------------------------------------------------
@@ -122,10 +122,10 @@ private :
 	// quick item slot
 	// gear
 
-	// Àú³Î(PDA)
-	// ¼öÇà Äù½ºÆ® Á¤º¸
-	// °øÁö»çÇ×, ÀÌº¥Æ® Á¤º¸
-	// ÈåÈì.. ¾êµéÀº Ã³À½ PDS¸¦ ÄÓ ¶§ ´Ù¿î¹ÞÀ»±î³ª.. - -;
+	// ï¿½ï¿½ï¿½ï¿½(PDA)
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ PDSï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½ï¿½ï¿½î³ª.. - -;
 
 
 };
@@ -144,20 +144,20 @@ class GCMorph1Factory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCMorph1(); }
+	Packet * createPacket () { return new GCMorph1(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCMorph1"; }
+		std::string getPacketName () const { return "GCMorph1"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_MORPH_1; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_MORPH_1; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCMorph1PacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () 
+	// const static GCMorph1PacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const 
 	{ 
 		return szBYTE + PCSlayerInfo2::getMaxSize() 
 			+ InventoryInfo::getMaxSize()
@@ -181,7 +181,7 @@ class GCMorph1Handler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCMorph1 * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCMorph1 * pPacket , Player * pPlayer );
 
 };
 

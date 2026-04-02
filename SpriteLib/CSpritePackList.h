@@ -49,7 +49,7 @@ class CSpritePackList {
 		//---------------------------------------------------
 		// get size
 		//---------------------------------------------------
-		TYPE_SPRITEID	GetSize() const	{ return m_listSprite.size(); }
+		size_t	GetSize() const	{ return m_listSprite.size(); }
 
 		//---------------------------------------------------
 		// file I/O
@@ -94,7 +94,7 @@ class CSpritePalPackList
 		//---------------------------------------------------
 		// get size
 		//---------------------------------------------------
-		TYPE_SPRITEID	GetSize() const	{ return m_listSprite.size(); }
+		size_t	GetSize() const	{ return m_listSprite.size(); }
 
 		//---------------------------------------------------
 		// file I/O

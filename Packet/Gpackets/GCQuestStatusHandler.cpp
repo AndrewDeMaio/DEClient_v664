@@ -18,7 +18,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCQuestStatusHandler::execute ( GCQuestStatus * pGCMonsterKillQuestStatus , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY 
 		
@@ -30,14 +29,14 @@ void GCQuestStatusHandler::execute ( GCQuestStatus * pGCMonsterKillQuestStatus ,
 
 //	MEvent event;
 //
-//	// ÇöÀç ¸ó½ºÅÍ Á¤º¸¸¦ ´ã°íÀÖ´Â ¸Å´ÏÀú¸¦ ¸¸µé¸é ÀÌ·² ÇÊ¿ä´Â ¾øÁö¸¸...-_-; °¡Áö°í ÀÖ¾îºÁ¾ß 
-//	// Àá±ñ Ç¥½ÃÇØÁÖ´Â°Ô ´ÙÀÌ¹Ç·Î, ±×³É ÀÌ·¸°Ô ¾²ÀÚ.
+//	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì·ï¿½ ï¿½Ê¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...-_-; ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ï¿½ 
+//	// ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ï¿½Ö´Â°ï¿½ ï¿½ï¿½ï¿½Ì¹Ç·ï¿½, ï¿½×³ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 //
 //	const MEvent *pEvent = g_pEventManager->GetEvent( EVENTID_MONSTER_KILL_QUEST );
 //
 //	if( pEvent != NULL)
 //	{
-//		// ±âÁ¸²¨°¡ ÀÖÀ¸¸é		
+//		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		
 //		
 //		event.eventID = EVENTID_MONSTER_KILL_QUEST;
 //		event.eventDelay = pEvent->eventDelay; //pGCMonsterKillQuestStatus->getRemainTime() * 1000 + 3000;
@@ -54,7 +53,7 @@ void GCQuestStatusHandler::execute ( GCQuestStatus * pGCMonsterKillQuestStatus ,
 //		g_pEventManager->AddEvent( event );
 //	} else
 //	{
-//		// ±âÁ¸¿¡ ÀÌº¥Æ®°¡ ¾øÀ¸¸é 
+//		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 //		event.eventID = EVENTID_MONSTER_KILL_QUEST;
 //		event.eventDelay = pGCMonsterKillQuestStatus->getRemainTime() * 1000 + 3000;
 //		event.eventFlag = EVENTFLAG_QUEST_INFO;

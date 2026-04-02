@@ -17,12 +17,11 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void LCQueryResultCharacterNameHandler::execute ( LCQueryResultCharacterName * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
-	// Ä³¸¯ »ý¼ºÁßÀÌ°í
-	// Ä³¸¯ÅÍ ¾ÆÀÌµð ¸Â´Â °æ¿ì..
+	// Ä³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½
+	// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½..
 	if (g_Mode==MODE_WAIT_SELECTPC
 		&& g_pUserInformation->WhisperID==pPacket->getCharacterName().c_str())
 	{

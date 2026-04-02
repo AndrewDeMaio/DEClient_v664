@@ -17,8 +17,8 @@
 //
 // class CLLogin;
 //
-// Å¬¶óÀÌ¾ðÆ®°¡ ·Î±×ÀÎ ¼­¹ö¿¡°Ô ÃÖÃÊ¿¡ Àü¼ÛÇÏ´Â ÆÐÅ¶ÀÌ´Ù.
-// ¾ÆÀÌµð¿Í ÆÐ½º¿öµå°¡ ¾ÏÈ£È­µÇ¾î ÀÖ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
+// ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½Ð½ï¿½ï¿½ï¿½ï¿½å°¡ ï¿½ï¿½È£È­ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -26,49 +26,49 @@ class CLLogin : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CL_LOGIN; }
+	PacketID_t getPacketID () const { return PACKET_CL_LOGIN; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw ();// { return szBYTE + m_ID.size() + szBYTE + m_Password.size(); }
+	size_t getPacketSize () const;// { return szBYTE + m_ID.size() + szBYTE + m_Password.size(); }
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	std::string getPacketName () const throw () { return "CLLogin"; }
+	std::string getPacketName () const { return "CLLogin"; }
 	
 	// get packet's debug string
-	std::string toString () const throw ();
+	std::string toString () const;
 #endif
 
 public :
 
 	// get/set player's id
-	const std::string& getID () const throw () { return m_ID; }
-	void setID ( std::string id ) throw () { m_ID = id; }
+	const std::string& getID () const { return m_ID; }
+	void setID ( std::string id ) { m_ID = id; }
 
 	// get/set player's password
-	const std::string& getPassword () const throw () { return m_Password; }
-	void setPassword ( std::string password ) throw () { m_Password = password; }
+	const std::string& getPassword () const { return m_Password; }
+	void setPassword ( std::string password ) { m_Password = password; }
 
-	const BYTE* getMacAddress() const throw () { return m_MacAddress; }
-	void setMacAddress( const BYTE* macAddress ) throw () { memcpy( m_MacAddress, macAddress, 6 * sizeof(BYTE) ); }
+	const BYTE* getMacAddress() const { return m_MacAddress; }
+	void setMacAddress( const BYTE* macAddress ) { memcpy( m_MacAddress, macAddress, 6 * sizeof(BYTE) ); }
 
 	void SetLoginMode(BYTE n) { m_LoginMode = n;}
 private :
 
-	// ÇÃ·¹ÀÌ¾î ¾ÆÀÌµð
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½Ìµï¿½
 	std::string m_ID;
 
-	// ÇÃ·¹ÀÌ¾î ÆÐ½º¿öµå
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½
 	std::string m_Password;
 
 	// Mac address
@@ -93,16 +93,16 @@ class CLLoginFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CLLogin(); }
+	Packet * createPacket () { return new CLLogin(); }
 
 	// get packet name
-	std::string getPacketName () const throw () { return "CLLogin"; }
+	std::string getPacketName () const { return "CLLogin"; }
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CL_LOGIN; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CL_LOGIN; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize () const throw () { return szBYTE + 30 + szBYTE + 20 + 6 + szBYTE; }
+	PacketSize_t getPacketMaxSize () const { return szBYTE + 30 + szBYTE + 20 + 6 + szBYTE; }
 
 };
 
@@ -120,7 +120,7 @@ public :
 	public :
 
 		// execute packet's handler
-		static void execute ( CLLogin * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+		static void execute ( CLLogin * pPacket , Player * pPlayer );
 
 	};
 #endif

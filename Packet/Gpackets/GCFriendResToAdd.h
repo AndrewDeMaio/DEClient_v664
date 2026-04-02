@@ -20,17 +20,17 @@ class GCFriendResToAdd : public Packet {
 
 public:
 	GCFriendResToAdd();
-	virtual ~GCFriendResToAdd() throw();
+	virtual ~GCFriendResToAdd();
 	
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
 
-	PacketID_t getPacketID() const throw() { return PACKET_GC_FRIEND_RES_TO_ADD; }
-	PacketSize_t getPacketSize() const throw();
+	PacketID_t getPacketID() const { return PACKET_GC_FRIEND_RES_TO_ADD; }
+	size_t getPacketSize() const;
 
-	string getPacketName() const throw() { return "GCFriendResToAdd"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCFriendResToAdd"; }
+	string toString() const;
 	
 	void SetFriendName(const string& strName) { m_FriendName.SetString(strName); }
 	string GetFriendName() const { return m_FriendName.GetString(); }
@@ -56,13 +56,13 @@ class GCFriendResToAddFactory : public PacketFactory {
 
 public:
 	
-	Packet* createPacket() throw() { return new GCFriendResToAdd(); }
-	string getPacketName() const throw() { return "GCFriendResToAdd"; }
+	Packet* createPacket() { return new GCFriendResToAdd(); }
+	string getPacketName() const { return "GCFriendResToAdd"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_FRIEND_RES_TO_ADD; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_FRIEND_RES_TO_ADD; }
 
-	PacketSize_t getPacketMaxSize() const throw() 
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		return StringInfo::getMaxSize() + szBYTE;
 	}
@@ -81,7 +81,7 @@ class GCFriendResToAddHandler {
 public:
 
 	// execute packet's handler
-	static void execute(GCFriendResToAdd* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCFriendResToAdd* pPacket, Player* pPlayer);
 
 };
 #endif //__FRIEND_ADDITION

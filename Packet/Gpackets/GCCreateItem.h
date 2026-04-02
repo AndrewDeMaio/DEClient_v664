@@ -22,48 +22,48 @@
 class GCCreateItem : public Packet 
 {
 public:
-	GCCreateItem() throw();
-	virtual ~GCCreateItem() throw() {}
+	GCCreateItem();
+	virtual ~GCCreateItem() {}
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_CREATE_ITEM; }
-	PacketSize_t getPacketSize() const throw() 
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_CREATE_ITEM; }
+	size_t getPacketSize() const 
 	{ 
 		PacketSize_t packetSize;
 		
-		packetSize = szCoordInven * 2 +		// ¾ÆÀÌÅÛ X, Y ÁÂÇ¥
-			m_PCItemInfo.getSize() +		// ¾ÆÀÌÅÛ Á¤º¸
-			szObjectID;    					// ÀÎº¥Åä¸® ¿ÀºêÁ§Æ® ¾ÆÀÌµð
+		packetSize = szCoordInven * 2 +		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ X, Y ï¿½ï¿½Ç¥
+			m_PCItemInfo.getSize() +		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			szObjectID;    					// ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ìµï¿½
 		
 		return packetSize;
 	}
-	string getPacketName() const throw() { return "GCCreateItem"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCCreateItem"; }
+	string toString() const;
 
 public:
-	CoordInven_t getInvenX() const throw() { return m_InvenX; }
-	void setInvenX(CoordInven_t InvenX) throw() { m_InvenX = InvenX; }
+	CoordInven_t getInvenX() const { return m_InvenX; }
+	void setInvenX(CoordInven_t InvenX) { m_InvenX = InvenX; }
 
-	CoordInven_t getInvenY() const throw() { return m_InvenY; }
-	void setInvenY(CoordInven_t InvenY) throw() { m_InvenY = InvenY; }
+	CoordInven_t getInvenY() const { return m_InvenY; }
+	void setInvenY(CoordInven_t InvenY) { m_InvenY = InvenY; }
 	
 	void SetPCItemInfo(PCItemInfo& pcItemInfo) { m_PCItemInfo = pcItemInfo; }
 	PCItemInfo* GetPCItemInfo() { return &m_PCItemInfo; }
 
 	// 2007 03 29 Add
-	ObjectID_t getInventoryItemObjectID() const throw() { return m_InventoryItemObjectID; }
-	void setInventoryItemObjectID(ObjectID_t InventoryItemObjectID) throw() { m_InventoryItemObjectID = InventoryItemObjectID; }
+	ObjectID_t getInventoryItemObjectID() const { return m_InventoryItemObjectID; }
+	void setInventoryItemObjectID(ObjectID_t InventoryItemObjectID) { m_InventoryItemObjectID = InventoryItemObjectID; }
 
 private:
-	CoordInven_t   		m_InvenX;       // ÀÎº¥Åä¸® X ÁÂÇ¥
-	CoordInven_t   		m_InvenY;       // ÀÎº¥Åä¸® Y ÁÂÇ¥
+	CoordInven_t   		m_InvenX;       // ï¿½Îºï¿½ï¿½ä¸® X ï¿½ï¿½Ç¥
+	CoordInven_t   		m_InvenY;       // ï¿½Îºï¿½ï¿½ä¸® Y ï¿½ï¿½Ç¥
 	
 	PCItemInfo m_PCItemInfo;
 	
 	// 2007.03.29 Add
-	ObjectID_t			m_InventoryItemObjectID;		// º¸Á¶ ÀÎº¥Åä¸®ÀÎÁö È®ÀÎÇÏ±â À§ÇÏ¿© Ãß°¡
+	ObjectID_t			m_InventoryItemObjectID;		// ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½ß°ï¿½
 };
 
 
@@ -74,16 +74,16 @@ private:
 class GCCreateItemFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCCreateItem(); }
-	string getPacketName() const throw() { return "GCCreateItem"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_CREATE_ITEM; }
-	PacketSize_t getPacketMaxSize() const throw() 
+	Packet* createPacket() { return new GCCreateItem(); }
+	string getPacketName() const { return "GCCreateItem"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_CREATE_ITEM; }
+	PacketSize_t getPacketMaxSize() const 
 	{
  		PacketSize_t packetSize = 0;
 		
-		packetSize = szCoordInven +		// ¾ÆÀÌÅÛ X ÁÂÇ¥
-					szCoordInven +				// ¾ÆÀÌÅÛ Y ÁÂÇ¥
-					szObjectID;					// ÀÎº¥Åä¸® ¿ÀºêÁ§Æ® ¾ÆÀÌµð
+		packetSize = szCoordInven +		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ X ï¿½ï¿½Ç¥
+					szCoordInven +				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Y ï¿½ï¿½Ç¥
+					szObjectID;					// ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ìµï¿½
 		packetSize +=	PCItemInfo::getMaxSize();
 		return packetSize;
 
@@ -98,7 +98,7 @@ public:
 class GCCreateItemHandler 
 {
 public:
-	static void execute(GCCreateItem* pPacket, Player* pPlayer) throw(Error);
+	static void execute(GCCreateItem* pPacket, Player* pPlayer);
 
 };
 #else //__PCITEMINFO
@@ -109,97 +109,97 @@ public:
 class GCCreateItem : public Packet 
 {
 public:
-	GCCreateItem() throw();
+	GCCreateItem();
 
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_CREATE_ITEM; }
-	PacketSize_t getPacketSize() const throw() 
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_CREATE_ITEM; }
+	size_t getPacketSize() const 
 	{ 
-		return szObjectID +  // ¾ÆÀÌÅÛ ¿ÀºêÁ§Æ® ID
-			szBYTE +         // ¾ÆÀÌÅÛ Å¬·¡½º
-			szItemType +     // ¾ÆÀÌÅÛ Å¸ÀÔ
-			szBYTE + m_OptionType.size() +   // ¾ÆÀÌÅÛ ¿É¼Ç
-			szDurability +   // ¾ÆÀÌÅÛ ³»±¸µµ
-			szSilver +       // ¾ÆÀÌÅÛ Àº µµ±Ý·®
-			szGrade +        // ¾ÆÀÌÅÛ µî±Þ
-			szEnchantLevel + // ¾ÆÀÌÅÛ ÀÎÃ¦Æ® ·¹º§
-			szItemNum +      // ¾ÆÀÌÅÛ ¼ýÀÚ
-			szCoordInven +   // ¾ÆÀÌÅÛ X ÁÂÇ¥
-			szCoordInven +   // ¾ÆÀÌÅÛ Y ÁÂÇ¥
-			szObjectID	// º¸Á¶ ÀÎº¥Åä¸® À¯¹«
-//20071009 by diesirace ¼­µå¾ÆÀÌÅÛ¿É¼Ç Ãß°¡ (¼­µå ¿É¼Ç ´Þ¸° ¾ÆÀÌÅÛÀº ¸¸µé¾îÁú¸®°¡ Àý´ë ¾ø´Ü´Ù...)
-//			+ szBYTE + m_ThirdOptionType.size() +	// ¼­µåÀÎÃ¾Æ® ¿É¼Ç¸®½ºÆ®¿Í ¸®½ºÆ® »çÀÌÁî
-//			szBYTE									// ¼­µåÀÎÃ¾Æ®  Å¸ÀÔ
+		return szObjectID +  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ID
+			szBYTE +         // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
+			szItemType +     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½
+			szBYTE + m_OptionType.size() +   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½
+			szDurability +   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			szSilver +       // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ý·ï¿½
+			szGrade +        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+			szEnchantLevel + // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¦Æ® ï¿½ï¿½ï¿½ï¿½
+			szItemNum +      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			szCoordInven +   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ X ï¿½ï¿½Ç¥
+			szCoordInven +   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Y ï¿½ï¿½Ç¥
+			szObjectID	// ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½
+//20071009 by diesirace ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¿É¼ï¿½ ï¿½ß°ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ü´ï¿½...)
+//			+ szBYTE + m_ThirdOptionType.size() +	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¾Æ® ï¿½É¼Ç¸ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//			szBYTE									// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¾Æ®  Å¸ï¿½ï¿½
 #if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-			 + szBYTE								// Ä³½¬¾ÆÀÌÅÛ
+			 + szBYTE								// Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #endif //__INTERNATIONAL_PREMIUM_SYSTEM
 			;
 	}
 
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCCreateItem"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "GCCreateItem"; }
+	std::string toString() const;
 #endif
 
 public:
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID(ObjectID_t ObjectID) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID(ObjectID_t ObjectID) { m_ObjectID = ObjectID; }
 
-	BYTE getItemClass() const throw() { return m_ItemClass; }
-	void setItemClass(BYTE ItemClass) throw() { m_ItemClass = ItemClass; }
+	BYTE getItemClass() const { return m_ItemClass; }
+	void setItemClass(BYTE ItemClass) { m_ItemClass = ItemClass; }
 
-	ItemType_t getItemType() const throw() { return m_ItemType; }
-	void setItemType(ItemType_t ItemType) throw() { m_ItemType = ItemType; }
+	ItemType_t getItemType() const { return m_ItemType; }
+	void setItemType(ItemType_t ItemType) { m_ItemType = ItemType; }
 
-	int getOptionTypeSize() const throw() { return m_OptionType.size(); }
-	const std::list<OptionType_t>& getOptionType() const throw() { return m_OptionType; }
-	OptionType_t popOptionType() throw()
+	int getOptionTypeSize() const { return m_OptionType.size(); }
+	const std::list<OptionType_t>& getOptionType() const { return m_OptionType; }
+	OptionType_t popOptionType()
 	{
 		if (m_OptionType.empty()) return 0;
 		OptionType_t optionType = m_OptionType.front();
 		m_OptionType.pop_front();
 		return optionType;
 	}
-	void addOptionType(OptionType_t OptionType) throw() { m_OptionType.push_back( OptionType ); }
-	void setOptionType(const std::list<OptionType_t>& OptionTypes) throw() { m_OptionType = OptionTypes; }
+	void addOptionType(OptionType_t OptionType) { m_OptionType.push_back( OptionType ); }
+	void setOptionType(const std::list<OptionType_t>& OptionTypes) { m_OptionType = OptionTypes; }
 
-	Durability_t getDurability() const throw() { return m_Durability; }
-	void setDurability(Durability_t Durability) throw() { m_Durability = Durability; }
+	Durability_t getDurability() const { return m_Durability; }
+	void setDurability(Durability_t Durability) { m_Durability = Durability; }
 
-	Silver_t getSilver() const throw() { return m_Silver; }
-	void setSilver(Silver_t silver) throw() { m_Silver = silver; }
+	Silver_t getSilver() const { return m_Silver; }
+	void setSilver(Silver_t silver) { m_Silver = silver; }
 
-	Grade_t getGrade() const throw() { return m_Grade; }
-	void setGrade(Grade_t grade) throw() { m_Grade = grade; }
+	Grade_t getGrade() const { return m_Grade; }
+	void setGrade(Grade_t grade) { m_Grade = grade; }
 
-	EnchantLevel_t getEnchantLevel() const throw() { return m_EnchantLevel; }
-	void setEnchantLevel(EnchantLevel_t level) throw() { m_EnchantLevel = level; }
+	EnchantLevel_t getEnchantLevel() const { return m_EnchantLevel; }
+	void setEnchantLevel(EnchantLevel_t level) { m_EnchantLevel = level; }
 
-	ItemNum_t getItemNum() const throw() { return m_ItemNum; }
-	void setItemNum(ItemNum_t num) throw() { m_ItemNum = num; }
+	ItemNum_t getItemNum() const { return m_ItemNum; }
+	void setItemNum(ItemNum_t num) { m_ItemNum = num; }
 
-	CoordInven_t getInvenX() const throw() { return m_InvenX; }
-	void setInvenX(CoordInven_t InvenX) throw() { m_InvenX = InvenX; }
+	CoordInven_t getInvenX() const { return m_InvenX; }
+	void setInvenX(CoordInven_t InvenX) { m_InvenX = InvenX; }
 
-	CoordInven_t getInvenY() const throw() { return m_InvenY; }
-	void setInvenY(CoordInven_t InvenY) throw() { m_InvenY = InvenY; }
+	CoordInven_t getInvenY() const { return m_InvenY; }
+	void setInvenY(CoordInven_t InvenY) { m_InvenY = InvenY; }
 
-	ObjectID_t getInventoryItemObjectID() const throw() {return m_InventoryItemObjectID;}
-	void setInventoryItemObjectID(ObjectID_t InventoryItemObjectID) throw() {m_InventoryItemObjectID = InventoryItemObjectID;}
+	ObjectID_t getInventoryItemObjectID() const {return m_InventoryItemObjectID;}
+	void setInventoryItemObjectID(ObjectID_t InventoryItemObjectID) {m_InventoryItemObjectID = InventoryItemObjectID;}
 
 #if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-	void setCashItem(BYTE cashItem) throw()					{m_CashItem = cashItem;}
+	void setCashItem(BYTE cashItem)					{m_CashItem = cashItem;}
 	BYTE getCashItem()										{return m_CashItem;}
 #endif //__INTERNATIONAL_PREMIUM_SYSTEM	
 	
-	void addThirdOptionType(OptionType_t ThirdOptionType) throw() { m_OptionType.push_back( ThirdOptionType ); }
-	void setThirdOptionType(const std::list<OptionType_t>& ThirdOptionType) throw() { m_ThirdOptionType = ThirdOptionType; }
-	int getThirdOptionTypeSize() const throw() { return m_ThirdOptionType.size(); }
-	const std::list<OptionType_t>& getThirdOptionType() const throw() { return m_ThirdOptionType; }
-	OptionType_t popThirdOptionType() throw() 
+	void addThirdOptionType(OptionType_t ThirdOptionType) { m_OptionType.push_back( ThirdOptionType ); }
+	void setThirdOptionType(const std::list<OptionType_t>& ThirdOptionType) { m_ThirdOptionType = ThirdOptionType; }
+	int getThirdOptionTypeSize() const { return m_ThirdOptionType.size(); }
+	const std::list<OptionType_t>& getThirdOptionType() const { return m_ThirdOptionType; }
+	OptionType_t popThirdOptionType() 
 	{ 
 		if (m_ThirdOptionType.empty()) return 0;
 		OptionType_t ThirdoptionType = m_ThirdOptionType.front(); 
@@ -207,22 +207,22 @@ public:
 		return ThirdoptionType; 
 	}
 
-	BYTE getThirdEnchantType() const throw()				{ return m_ThirdEnchantType; }
-	void setThirdEnchantType(BYTE ThirdEnchantType)throw()	{m_ThirdEnchantType = ThirdEnchantType; }
+	BYTE getThirdEnchantType() const				{ return m_ThirdEnchantType; }
+	void setThirdEnchantType(BYTE ThirdEnchantType)	{m_ThirdEnchantType = ThirdEnchantType; }
 
 private:
-	ObjectID_t     		m_ObjectID;     // ¿ÀºêÁ§Æ® ID
-	BYTE           		m_ItemClass;    // ¾ÆÀÌÅÛ Å¬·¡½º
-	ItemType_t     		m_ItemType;     // ¾ÆÀÌÅÛ Å¸ÀÔ
-	std::list<OptionType_t>  m_OptionType;   // ¿É¼Ç Å¸ÀÔ
-	Durability_t   		m_Durability;   // ³»±¸¼º
-	Silver_t       		m_Silver;       // Àº µµ±Ý·®
-	Grade_t       		m_Grade;        // µî±Þ
-	EnchantLevel_t 		m_EnchantLevel; // ÀÎÃ¦Æ® ·¹º§
-	ItemNum_t      		m_ItemNum;      // ¾ÆÀÌÅÛÀÇ ¼ýÀÚ
-	CoordInven_t   		m_InvenX;       // ÀÎº¥Åä¸® X ÁÂÇ¥
-	CoordInven_t   		m_InvenY;       // ÀÎº¥Åä¸® Y ÁÂÇ¥
-	ObjectID_t			m_InventoryItemObjectID;	// º¸Á¶ ÀÎº¥Åä¸® À¯¹«
+	ObjectID_t     		m_ObjectID;     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ID
+	BYTE           		m_ItemClass;    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
+	ItemType_t     		m_ItemType;     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½
+	std::list<OptionType_t>  m_OptionType;   // ï¿½É¼ï¿½ Å¸ï¿½ï¿½
+	Durability_t   		m_Durability;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	Silver_t       		m_Silver;       // ï¿½ï¿½ ï¿½ï¿½ï¿½Ý·ï¿½
+	Grade_t       		m_Grade;        // ï¿½ï¿½ï¿½
+	EnchantLevel_t 		m_EnchantLevel; // ï¿½ï¿½Ã¦Æ® ï¿½ï¿½ï¿½ï¿½
+	ItemNum_t      		m_ItemNum;      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	CoordInven_t   		m_InvenX;       // ï¿½Îºï¿½ï¿½ä¸® X ï¿½ï¿½Ç¥
+	CoordInven_t   		m_InvenY;       // ï¿½Îºï¿½ï¿½ä¸® Y ï¿½ï¿½Ç¥
+	ObjectID_t			m_InventoryItemObjectID;	// ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½
 	
 #if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
 	BYTE				m_CashItem;			// this item is cash
@@ -239,28 +239,28 @@ private:
 class GCCreateItemFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCCreateItem(); }
-	std::string getPacketName() const throw() { return "GCCreateItem"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_CREATE_ITEM; }
-	PacketSize_t getPacketMaxSize() const throw() 
+	Packet* createPacket() { return new GCCreateItem(); }
+	std::string getPacketName() const { return "GCCreateItem"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_CREATE_ITEM; }
+	PacketSize_t getPacketMaxSize() const 
 	{ 
-		return szObjectID +  // ¾ÆÀÌÅÛ ¿ÀºêÁ§Æ® ID
-			szBYTE +         // ¾ÆÀÌÅÛ Å¬·¡½º
-			szItemType +     // ¾ÆÀÌÅÛ Å¸ÀÔ
-			szBYTE + 255 +   // ¾ÆÀÌÅÛ ¿É¼Ç
-			szDurability +   // ¾ÆÀÌÅÛ ³»±¸µµ
-			szSilver +       // ¾ÆÀÌÅÛ Àº µµ±Ý·®
-			szGrade +        // ¾ÆÀÌÅÛ µî±Þ
-			szEnchantLevel + // ¾ÆÀÌÅÛ ÀÎÃ¦Æ® ·¹º§
-			szItemNum +      // ¾ÆÀÌÅÛ ¼ýÀÚ
-			szCoordInven +   // ¾ÆÀÌÅÛ X ÁÂÇ¥
-			szCoordInven +   // ¾ÆÀÌÅÛ Y ÁÂÇ¥
-			szObjectID;		 // º¸Á¶ ÀÎº¥Åä¸® À¯¹«
-//20071009 by diesirace ¼­µå¾ÆÀÌÅÛ¿É¼Ç Ãß°¡ (¼­µå ¿É¼Ç ´Þ¸° ¾ÆÀÌÅÛÀº ¸¸µé¾îÁú¸®°¡ Àý´ë ¾ø´Ü´Ù...)
-//			+ szBYTE + 255 + // ¼­µåÀÎÃ¾Æ® ¿É¼Ç¸®½ºÆ®¿Í ¸®½ºÆ® »çÀÌÁî
-//			szBYTE			 // ¼­µåÀÎÃ¾Æ®  Å¸ÀÔ
+		return szObjectID +  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ID
+			szBYTE +         // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
+			szItemType +     // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½
+			szBYTE + 255 +   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½
+			szDurability +   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+			szSilver +       // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ý·ï¿½
+			szGrade +        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+			szEnchantLevel + // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¦Æ® ï¿½ï¿½ï¿½ï¿½
+			szItemNum +      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			szCoordInven +   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ X ï¿½ï¿½Ç¥
+			szCoordInven +   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Y ï¿½ï¿½Ç¥
+			szObjectID;		 // ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½
+//20071009 by diesirace ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¿É¼ï¿½ ï¿½ß°ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ü´ï¿½...)
+//			+ szBYTE + 255 + // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¾Æ® ï¿½É¼Ç¸ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//			szBYTE			 // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¾Æ®  Å¸ï¿½ï¿½
 #if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-			 + szBYTE		 //	Ä³½¬ ¾ÆÀÌÅÛ
+			 + szBYTE		 //	Ä³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #endif
 			;
 	}
@@ -274,7 +274,7 @@ public:
 class GCCreateItemHandler 
 {
 public:
-	static void execute(GCCreateItem* pPacket, Player* pPlayer) throw(Error);
+	static void execute(GCCreateItem* pPacket, Player* pPlayer);
 
 };
 #endif //__PCITEMINFO

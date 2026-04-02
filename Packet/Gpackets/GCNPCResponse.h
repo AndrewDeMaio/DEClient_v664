@@ -12,7 +12,7 @@
 
 enum 
 {
-	// Å¬¶óÀÌ¾ðÆ®·Î ÇÏ¿©±Ý Àû´çÇÑ ÀÎÅÍÆäÀÌ½º¸¦ ¿­µµ·Ï ÇÏ´Â ÄÚµå
+	// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½Úµï¿½
 	NPC_RESPONSE_INTERFACE_REPAIR = 0,
 	NPC_RESPONSE_INTERFACE_STASHOPEN,
 	NPC_RESPONSE_INTERFACE_SILVER_COATING,
@@ -28,7 +28,7 @@ enum
 	NPC_RESPONSE_QUIT_DIALOGUE,
 	NPC_RESPONSE_HEAL,
 
-	// Å¬¶óÀÌ¾ðÆ®ÀÇ ÆÐÅ¶¿¡ ´ëÇÑ ÀÀ´ä ÄÚµå
+	// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 	NPC_RESPONSE_REPAIR_OK,
 	NPC_RESPONSE_REPAIR_FAIL_ITEM_NOT_EXIST,
 	NPC_RESPONSE_REPAIR_FAIL_ITEM_TYPE,
@@ -46,189 +46,189 @@ enum
 	NPC_RESPONSE_DONATION_OK,
 	NPC_RESPONSE_DONATION_FAIL_MONEY,
 
-	// ÀÓ½Ã¿ë ¾ÆÀÌµð
-	// ¿ùµåÄÅ ÆÐÄ¡¿¡¼­ Ãà±¸°øÀ» ÁÙÀ» ¹æ¹ýÀÌ ¾ø´Â °ü°è·Î NPC Response¸¦ »ç¿ëÇØ¼­ ÁÙÀÎ´Ù.
+	// ï¿½Ó½Ã¿ï¿½ ï¿½ï¿½ï¿½Ìµï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½à±¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ NPC Responseï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 	NPC_RESPONSE_DECREASE_BALL,
 
-	// ±æµå °ü·Ã
-	NPC_RESPONSE_TEAM_REGIST_FAIL_ALREADY_JOIN,			// ¾îµð ÇÑ¹ø º¼±î? ÀÚ³×´Â ÀÌ¹Ì <team_name> ÆÀ ¼Ò¼ÓÀÌ¶ó°í ³ª¿Í ÀÖ±º
-	NPC_RESPONSE_TEAM_REGIST_FAIL_QUIT_TIMEOUT,			// ÀÚ³×´Â ´Ù¸¥ ÆÀÀ» Å»ÅðÇÑÁö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á¶±Ý ´õ ½ÅÁßÇÏ°Ô »ý°¢ÇÏ°í Çàµ¿ÇÏ°Ô
-	NPC_RESPONSE_TEAM_REGIST_FAIL_CANCEL_TIMEOUT,		// ÀÚ³×´Â ÆÀÀ» Ãë¼Ò ´çÇÑ Áö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. µî·Ï Á¶°Ç¿¡ ºÎÇÕÇÏµµ·Ï ÀÚ½ÅÀ» Á» ´õ ±â¸£°í ¿À°Ô. Á» ´õ ½ÅÁßÇÏ°Ô ±âÈ¸¸¦ ¿³º¸µµ·Ï ÇÏ°Ô
-	NPC_RESPONSE_TEAM_REGIST_FAIL_LEVEL,				// ÈÇ¸¢ÇÏÁö¸¸ ¸®´õ·Î½áÀÇ ÀÚÁúÀº Á» ºÎÁ·ÇÑ °Í °°±º. ½Ç·ÂÀ» ´Û°í ¿À°Ô³ª
-	NPC_RESPONSE_TEAM_REGIST_FAIL_MONEY,				// ÆÀÀ» ¸¸µé·Á¸é ¸¹Àº µ·ÀÌ ÇÊ¿äÇÏ´Ù³×. ÀÚ³×´Â µ·ÀÌ ¾ø¾î º¸ÀÌ´Â±º...
-	NPC_RESPONSE_TEAM_REGIST_FAIL_FAME,					// <player_name>ÀÌ¶ó.. ³­ ¾ÆÁ÷ ±×·± ÀÌ¸§Àº µé¾îº¸Áöµµ ¸øÇß´Ù³×. ±×°Ç ÀÚ³×°¡ Ç²³»±â¶ó´Â °ÍÀ» ÀÇ¹ÌÇÏÁö. ½Ç·ÂÀ» ´Û°í ´Ù½Ã Ã£¾Æ¿À°Ô³ª
-	NPC_RESPONSE_TEAM_REGIST_FAIL_NAME,					// ÆÀ ÀÌ¸§ÀÌ ÀÌ¹Ì ¾²ÀÌ°í ÀÖ±º, ´Ù¸¥ ÀÌ¸§À» »ý°¢ÇØ º¸°Ô
-	NPC_RESPONSE_TEAM_REGIST_FAIL_DENY,					// °ÅºÎµÇ¾ú½À´Ï´Ù.
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_TEAM_REGIST_FAIL_ALREADY_JOIN,			// ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ï¿½ï¿½? ï¿½Ú³×´ï¿½ ï¿½Ì¹ï¿½ <team_name> ï¿½ï¿½ ï¿½Ò¼ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
+	NPC_RESPONSE_TEAM_REGIST_FAIL_QUIT_TIMEOUT,			// ï¿½Ú³×´ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½àµ¿ï¿½Ï°ï¿½
+	NPC_RESPONSE_TEAM_REGIST_FAIL_CANCEL_TIMEOUT,		// ï¿½Ú³×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½â¸£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½
+	NPC_RESPONSE_TEAM_REGIST_FAIL_LEVEL,				// ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½ï¿½ï¿½Ô³ï¿½
+	NPC_RESPONSE_TEAM_REGIST_FAIL_MONEY,				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´Ù³ï¿½. ï¿½Ú³×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´Â±ï¿½...
+	NPC_RESPONSE_TEAM_REGIST_FAIL_FAME,					// <player_name>ï¿½Ì¶ï¿½.. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½îº¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´Ù³ï¿½. ï¿½×°ï¿½ ï¿½Ú³×°ï¿½ Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½Ù½ï¿½ Ã£ï¿½Æ¿ï¿½ï¿½Ô³ï¿½
+	NPC_RESPONSE_TEAM_REGIST_FAIL_NAME,					// ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ö±ï¿½, ï¿½Ù¸ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_TEAM_REGIST_FAIL_DENY,					// ï¿½ÅºÎµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 
-	NPC_RESPONSE_TEAM_STARTING_FAIL_ALREADY_JOIN,		// ´ç½ÅÀº ÀÌ¹Ì ´Ù¸¥ ÆÀ¿¡ °¡ÀÔµÇ¾î ÀÖ½À´Ï´Ù.
-	NPC_RESPONSE_TEAM_STARTING_FAIL_QUIT_TIMEOUT,		// ÀÚ³×´Â ´Ù¸¥ ÆÀÀ» Å»ÅðÇÑÁö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á¶±Ý ´õ ½ÅÁßÇÏ°Ô »ý°¢ÇÏ°í Çàµ¿ÇÏ°Ô
-	NPC_RESPONSE_TEAM_STARTING_FAIL_CANCEL_TIMEOUT,		// ÀÚ³×´Â ÆÀÀ» Ãë¼Ò ´çÇÑ Áö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á¶°Ç¿¡ ºÎÇÕÇÏµµ·Ï ÀÚ½ÅÀ» Á» ´õ ±â¸£°í ¿À°Ô. Á» ´õ ½ÅÁßÇÏ°Ô ±âÈ¸¸¦ ¿³º¸µµ·Ï ÇÏ°Ô
-	NPC_RESPONSE_TEAM_STARTING_FAIL_LEVEL,				// ÀÚ³×´Â ¾ÆÁ÷ ºÎÁ·ÇÑ Á¡ÀÌ ¸¹¾Æ º¸ÀÌ´Â±¸¸¸. Á¶±Ý ´õ ½Ç·ÂÀ» ´Û°í Ã£°Ô³ª.
-	NPC_RESPONSE_TEAM_STARTING_FAIL_MONEY,				// <player_name>, ÆÀ µî·ÏÀ» À§ÇØ¼­´Â µ·ÀÌ ´õ ÇÊ¿äÇÏ´Ù³×
-	NPC_RESPONSE_TEAM_STARTING_FAIL_FAME,				// <player_name>ÀÌ¶ó.. ³­ ¾ÆÁ÷ ±×·± ÀÌ¸§Àº µé¾îº¸Áöµµ ¸øÇß´Ù³×. ±×°Ç ÀÚ³×°¡ Ç²³»±â¶ó´Â °ÍÀ» ÀÇ¹ÌÇÏÁö. ½Ç·ÂÀ» ´Û°í ´Ù½Ã Ã£¾Æ¿À°Ô³ª
-	NPC_RESPONSE_TEAM_STARTING_FAIL_DENY,				// °ÅºÎµÇ¾ú½À´Ï´Ù.
+	NPC_RESPONSE_TEAM_STARTING_FAIL_ALREADY_JOIN,		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÔµÇ¾ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_TEAM_STARTING_FAIL_QUIT_TIMEOUT,		// ï¿½Ú³×´ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½àµ¿ï¿½Ï°ï¿½
+	NPC_RESPONSE_TEAM_STARTING_FAIL_CANCEL_TIMEOUT,		// ï¿½Ú³×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½â¸£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½
+	NPC_RESPONSE_TEAM_STARTING_FAIL_LEVEL,				// ï¿½Ú³×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´Â±ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ Ã£ï¿½Ô³ï¿½.
+	NPC_RESPONSE_TEAM_STARTING_FAIL_MONEY,				// <player_name>, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´Ù³ï¿½
+	NPC_RESPONSE_TEAM_STARTING_FAIL_FAME,				// <player_name>ï¿½Ì¶ï¿½.. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½îº¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´Ù³ï¿½. ï¿½×°ï¿½ ï¿½Ú³×°ï¿½ Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½Ù½ï¿½ Ã£ï¿½Æ¿ï¿½ï¿½Ô³ï¿½
+	NPC_RESPONSE_TEAM_STARTING_FAIL_DENY,				// ï¿½ÅºÎµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 
-	NPC_RESPONSE_CLAN_REGIST_FAIL_ALREADY_JOIN,			// ¾îµð ÇÑ¹ø º¼±î? ÀÚ³×´Â ÀÌ¹Ì <clan_name> Å¬·£°ú ¼­¾àÀ» ¸ÎÀº »óÅÂ¶ó°í ³ª¿Í ÀÖ±º
-	NPC_RESPONSE_CLAN_REGIST_FAIL_QUIT_TIMEOUT,			// ÀÚ³×´Â ´Ù¸¥ Å¬·£À» Å»ÅðÇÑÁö ¾ó¸¶µÇÁö ¾Ê¾Ò±º. ³ª¹« ÀÌ¸®Àú¸® ¿Å°Ü ´Ù´Ï´Â °ÍÀº ÁÁÁö ¾ÊÁö. ½ÅÁßÀ» ±âÇÏ°Ô
-	NPC_RESPONSE_CLAN_REGIST_FAIL_CANCEL_TIMEOUT,		// ÀÚ³×´Â Å¬·£À» Ãë¼Ò ´çÇÑ Áö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á» ´õ ½ÅÁßÇÏ°Ô ±âÈ¸¸¦ ¿³º¸µµ·Ï ÇÏ°Ô
-	NPC_RESPONSE_CLAN_REGIST_FAIL_LEVEL,				// ÈÇ¸¢ÇÏÁö¸¸ ¿ìµÎ¸Ó¸®·Î½áÀÇ ÀÚÁúÀº Á» ºÎÁ·ÇÑ °Í °°±º. ½Ç·ÂÀ» ´Û°í ¿À°Ô³ª.
-	NPC_RESPONSE_CLAN_REGIST_FAIL_MONEY,				// Å¬·£À» µî·ÏÇÏ·Á¸é ¸¹Àº µ·ÀÌ ÇÊ¿äÇÏ´Ù³×. ÀÚ³×´Â µ·ÀÌ ¾ø¾îº¸ÀÌ´Â±º...
-	NPC_RESPONSE_CLAN_REGIST_FAIL_FAME,					// <player_name>ÀÌ¶ó.. ¾ÆÁ÷ ¾î¸° ¹ìÆÄÀÌ¾îÀÎ°¡º¸±º. ´õ ¸¹Àº ÇÇ¸¦ ¸¶½Ã°í ´Ù½Ã Ã£¾Æ¿À°Ô³ª.
+	NPC_RESPONSE_CLAN_REGIST_FAIL_ALREADY_JOIN,			// ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ï¿½ï¿½? ï¿½Ú³×´ï¿½ ï¿½Ì¹ï¿½ <clan_name> Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
+	NPC_RESPONSE_CLAN_REGIST_FAIL_QUIT_TIMEOUT,			// ï¿½Ú³×´ï¿½ ï¿½Ù¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ó¸¶µï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ ï¿½Ù´Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½
+	NPC_RESPONSE_CLAN_REGIST_FAIL_CANCEL_TIMEOUT,		// ï¿½Ú³×´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½
+	NPC_RESPONSE_CLAN_REGIST_FAIL_LEVEL,				// ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸Ó¸ï¿½ï¿½Î½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½ï¿½ï¿½Ô³ï¿½.
+	NPC_RESPONSE_CLAN_REGIST_FAIL_MONEY,				// Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´Ù³ï¿½. ï¿½Ú³×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½îº¸ï¿½Ì´Â±ï¿½...
+	NPC_RESPONSE_CLAN_REGIST_FAIL_FAME,					// <player_name>ï¿½Ì¶ï¿½.. ï¿½ï¿½ï¿½ï¿½ ï¿½î¸° ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½Î°ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½Ã°ï¿½ ï¿½Ù½ï¿½ Ã£ï¿½Æ¿ï¿½ï¿½Ô³ï¿½.
 	NPC_RESPONSE_CLAN_REGIST_FAIL_NAME,					// 
-	NPC_RESPONSE_CLAN_REGIST_FAIL_DENY,					// °ÅºÎµÇ¾ú½À´Ï´Ù.
+	NPC_RESPONSE_CLAN_REGIST_FAIL_DENY,					// ï¿½ÅºÎµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 
-	NPC_RESPONSE_CLAN_STARTING_FAIL_ALREADY_JOIN,		// ´ç½ÅÀº ÀÌ¹Ì ´Ù¸¥ Å¬·£¿¡ °¡ÀÔµÇ¾î ÀÖ½À´Ï´Ù.
-	NPC_RESPONSE_CLAN_STARTING_FAIL_QUIT_TIMEOUT,		// ÀÚ³×´Â ´Ù¸¥ Å¬·£À» Å»ÅðÇÑÁö ¾ó¸¶µÇÁö ¾Ê¾Ò±º. ³ª¹« ÀÌ¸®Àú¸® ¿Å°Ü ´Ù´Ï´Â °ÍÀº ÁÁÁö ¾ÊÁö. ½ÅÁßÀ» ±âÇÏ°Ô
-	NPC_RESPONSE_CLAN_STARTING_FAIL_CANCEL_TIMEOUT,		// ÀÚ³×´Â Å¬·£À» Ãë¼Ò ´çÇÑ Áö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á» ´õ ½ÅÁßÇÏ°Ô ±âÈ¸¸¦ ¿³º¸µµ·Ï ÇÏ°Ô
-	NPC_RESPONSE_CLAN_STARTING_FAIL_LEVEL,				// ÈÇ¸¢ÇÑ Á¶·ÂÀÚ°¡ µÇ±â¿¡´Â ÀÚÁúÀÌ Á» ºÎÁ·ÇÑ °Í °°±º. °¡¼­ Á»´õ ¼ö·ÃÀ» ÇÏ°í ¿À°Ô³ª
-	NPC_RESPONSE_CLAN_STARTING_FAIL_MONEY,				// ±â¼úÀÌ ¿ùµîÇØµµ Å¬·£À» À¯ÁöÇÒ ¼ö ÀÖ´Â µ·ÀÌ ºÎÁ·ÇÏ¸é ±× Å¬·£Àº ¹«³ÊÁö±â ½±»óÀÌÁö
-	NPC_RESPONSE_CLAN_STARTING_FAIL_FAME,				// <player_name>ÀÌ¶ó.. ³­ ¾ÆÁ÷ ±×·± ÀÌ¸§Àº µé¾îº¸Áöµµ ¸øÇß´Ù³×. ±×°Ç ÀÚ³×°¡ Ç²³»±â¶ó´Â °ÍÀ» ÀÇ¹ÌÇÏÁö. ½Ç·ÂÀ» ´Û°í ´Ù½Ã Ã£¾Æ¿À°Ô³ª
-	NPC_RESPONSE_CLAN_STARTING_FAIL_DENY,				//  °ÅºÎµÇ¾ú½À´Ï´Ù.
+	NPC_RESPONSE_CLAN_STARTING_FAIL_ALREADY_JOIN,		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÔµÇ¾ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_CLAN_STARTING_FAIL_QUIT_TIMEOUT,		// ï¿½Ú³×´ï¿½ ï¿½Ù¸ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ó¸¶µï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å°ï¿½ ï¿½Ù´Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½
+	NPC_RESPONSE_CLAN_STARTING_FAIL_CANCEL_TIMEOUT,		// ï¿½Ú³×´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½
+	NPC_RESPONSE_CLAN_STARTING_FAIL_LEVEL,				// ï¿½Ç¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Ç±â¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½Ô³ï¿½
+	NPC_RESPONSE_CLAN_STARTING_FAIL_MONEY,				// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_CLAN_STARTING_FAIL_FAME,				// <player_name>ï¿½Ì¶ï¿½.. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½îº¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´Ù³ï¿½. ï¿½×°ï¿½ ï¿½Ú³×°ï¿½ Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½Ù½ï¿½ Ã£ï¿½Æ¿ï¿½ï¿½Ô³ï¿½
+	NPC_RESPONSE_CLAN_STARTING_FAIL_DENY,				//  ï¿½ÅºÎµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 
-	NPC_RESPONSE_GUILD_SHOW_REGIST,				// ±æµå µî·Ï Ã¢ ¶ç¿ì±â
-	NPC_RESPONSE_GUILD_SHOW_STARTING_JOIN,		// ±æµå ½ºÅ¸ÆÃ ¸â¹ö °¡ÀÔ Ã¢ ¶ç¿ì±â
-	NPC_RESPONSE_GUILD_SHOW_JOIN,				// ±æµå °¡ÀÔ Ã¢ ¶ç¿ì±â
-	NPC_RESPONSE_GUILD_SHOW_QUIT,				// ±æµå Å»Åð Ã¢ ¶ç¿ì±â
-	NPC_RESPONSE_GUILD_ERROR,					// ±æµå ¿À·ù
+	NPC_RESPONSE_GUILD_SHOW_REGIST,				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ã¢ ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_GUILD_SHOW_STARTING_JOIN,		// ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¢ ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_GUILD_SHOW_JOIN,				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¢ ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_GUILD_SHOW_QUIT,				// ï¿½ï¿½ï¿½ Å»ï¿½ï¿½ Ã¢ ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_GUILD_ERROR,					// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	NPC_RESPONSE_TRADE_GIFT_BOX_OK,				// ¼±¹° »óÀÚ ±³È¯ ¼º°ø
-	NPC_RESPONSE_TRADE_GIFT_BOX_NO_ITEM,		// ¼±¹° »óÀÚ ¾ø´Ù
-	NPC_RESPONSE_TRADE_GIFT_BOX_ALREADY_TRADE,	// ¼±¹° »óÀÚ¸¦ ÀÌ¹Ì ÇÑ¹ø ±³È¯Çß´Ù.
-	NPC_RESPONSE_TRADE_GIFT_BOX_ERROR,			// ¼±¹° »óÀÚ ±³È¯¿¡ µû¸¥ ±âÅ¸ ¿À·ù
+	NPC_RESPONSE_TRADE_GIFT_BOX_OK,				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_TRADE_GIFT_BOX_NO_ITEM,		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_TRADE_GIFT_BOX_ALREADY_TRADE,	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½Ì¹ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½È¯ï¿½ß´ï¿½.
+	NPC_RESPONSE_TRADE_GIFT_BOX_ERROR,			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ ï¿½ï¿½ï¿½ï¿½
 
-	NPC_RESPONSE_REWARD_OK,		            	// º¸»óÀ» ¹Þ¾Ò½À´Ï´Ù.
-	NPC_RESPONSE_REWARD_FAIL,		            // º¸»óÀ» ¹ÞÀ» ¼ö ¾ø½À´Ï´Ù.
-	NPC_RESPONSE_NO_EMPTY_SLOT,		            // ºó ÀÚ¸®°¡ ¾ø½À´Ï´Ù.
+	NPC_RESPONSE_REWARD_OK,		            	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Ò½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_REWARD_FAIL,		            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_NO_EMPTY_SLOT,		            // ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 
-	NPC_RESPONSE_SHOW_TAX_BALANCE,				// ¼º¿¡ ½×¿©ÀÖ´Â ¼¼±ÝÀÇ ÀÜ¾×À» º¸¿©ÁØ´Ù.
-	NPC_RESPONSE_WITHDRAW_TAX_OK,				// ±æµå ¸¶½ºÅÍ°¡ ¼¼±ÝÀ» Ã£´Â µ¥¿¡ ¼º°øÇß´Ù.
-	NPC_RESPONSE_WITHDRAW_TAX_FAIL,				// ±æµå ¸¶½ºÅÍ°¡ ¼¼±ÝÀ» Ã£´Â µ¥¿¡ ½ÇÆÐÇß´Ù.
+	NPC_RESPONSE_SHOW_TAX_BALANCE,				// ï¿½ï¿½ï¿½ï¿½ ï¿½×¿ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ü¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
+	NPC_RESPONSE_WITHDRAW_TAX_OK,				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½.
+	NPC_RESPONSE_WITHDRAW_TAX_FAIL,				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½.
 
-	NPC_RESPONSE_NO_GUILD,						// ÆÀ(Å¬·£)¿¡ ¼Ò¼ÓµÇ¾î ÀÖÁö ¾Ê½À´Ï´Ù.
-	NPC_RESPONSE_NOT_GUILD_MASTER,				// ÆÀ(Å¬·£) ¸¶½ºÅÍ°¡ ¾Æ´Õ´Ï´Ù.
-	NPC_RESPONSE_HAS_NO_CASTLE,					// ÆÀ(Å¬·£)ÀÌ °¡Áø ¼ºÀÌ ¾ø½À´Ï´Ù.
-	NPC_RESPONSE_NOT_YOUR_CASTLE,				// ÆÀ(Å¬·£)ÀÌ ¼ÒÀ¯ÇÑ ¼ºÀÌ ¾Æ´Õ´Ï´Ù.
+	NPC_RESPONSE_NO_GUILD,						// ï¿½ï¿½(Å¬ï¿½ï¿½)ï¿½ï¿½ ï¿½Ò¼ÓµÇ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_NOT_GUILD_MASTER,				// ï¿½ï¿½(Å¬ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Æ´Õ´Ï´ï¿½.
+	NPC_RESPONSE_HAS_NO_CASTLE,					// ï¿½ï¿½(Å¬ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_NOT_YOUR_CASTLE,				// ï¿½ï¿½(Å¬ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Õ´Ï´ï¿½.
 
-	// ÀüÀï°ü·Ã
-	NPC_RESPONSE_NOT_ENOUGH_MONEY,				// µ·ÀÌ ºÎÁ·ÇÕ´Ï´Ù.(ÀüÀï½ÅÃ»±Ý ºÎÁ·ÀÌÁö¸¸ ¹ü¿ëÀûÀ¸·Î ¾µ·Á°í -_-;)
-	NPC_RESPONSE_WAR_SCHEDULE_FULL,				// ÀüÀï ½ºÄÉÁìÀÌ ²Ë Ã¡½À´Ï´Ù.
-	NPC_RESPONSE_WAR_ALREADY_REGISTERED,		// ÀÌ¹Ì ÀüÀïÀ» ½ÅÃ»Çß¾ú½À´Ï´Ù.
-	NPC_RESPONSE_WAR_REGISTRATION_OK,			// ÀüÀï ½ºÄÉÁì¿¡ µî·Ï µÇ¾ú½À´Ï´Ù.
-	NPC_RESPONSE_ALREADY_HAS_CASTLE,			// ÀÌ¹Ì ¼ºÀ» °¡Áö°í ÀÖ½À´Ï´Ù.
-	NPC_RESPONSE_WAR_UNAVAILABLE,				// Áö±ÝÀº ÀüÀï ½ÅÃ»ÀÌ µÇÁö ¾Ê½À´Ï´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_NOT_ENOUGH_MONEY,				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.(ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -_-;)
+	NPC_RESPONSE_WAR_SCHEDULE_FULL,				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¡ï¿½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_WAR_ALREADY_REGISTERED,		// ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ß¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_WAR_REGISTRATION_OK,			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_ALREADY_HAS_CASTLE,			// ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_WAR_UNAVAILABLE,				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½.
 
-	// ÀüÀï Âü°¡ °ü·Ã
-	NPC_RESPONSE_RACE_WAR_JOIN_FAILED,			// <»ç¿ëÀÚ> ´Ô ·¹º§´ëÀÇ Á¾Á· ÀüÀï ½ÅÃ»ÀÎ¿øÀÌ ²Ë Ã¡½À´Ï´Ù.
-	NPC_RESPONSE_RACE_WAR_JOIN_OK,				// Á¾Á· ÀüÀï Âü°¡ ½ÅÃ»À» Çß½À´Ï´Ù.
-	NPC_RESPONSE_RACE_WAR_GO_FIRST_SERVER, 		// Á¾Á· ÀüÀïÀº °¢ ¿ùµåÀÇ Ã¹¹øÂ° ¼­¹ö¿¡¼­¸¸ ½ÅÃ» ¹× Âü°¡°¡ °¡´ÉÇÕ´Ï´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_RACE_WAR_JOIN_FAILED,			// <ï¿½ï¿½ï¿½ï¿½ï¿½> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¡ï¿½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_RACE_WAR_JOIN_OK,				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ß½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_RACE_WAR_GO_FIRST_SERVER, 		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¹ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 
-	// ÀÌº¥Æ® ¼±¹°¾ÆÀÌÅÛ
-	NPC_RESPONSE_GIVE_EVENT_ITEM_FAIL_NOW,		// Áö±ÝÀº ÀÌº¥Æ® ¾ÆÀÌÅÛÀ» ¹ÞÀ» ¼ö ¾ø½À´Ï´Ù.
-	NPC_RESPONSE_GIVE_EVENT_ITEM_FAIL,			// ÀÌº¥Æ® ¾ÆÀÌÅÛÀ» ¹ÞÀ» ¼ö ¾ø½À´Ï´Ù.
-	NPC_RESPONSE_GIVE_EVENT_ITEM_OK,			// ÀÌº¥Æ®¿¡ µû¸¥ ¾ÆÀÌÅÛÀ» ¹Þ¾Ò½À´Ï´Ù.
-	NPC_RESPONSE_GIVE_PREMIUM_USER_ONLY,		// ÇÁ¸®¹Ì¾ö¼­ºñ½º »ç¿ëÀÚ¸¸ ¹ÞÀ» ¼ö ÀÖ½À´Ï´Ù.
+	// ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_GIVE_EVENT_ITEM_FAIL_NOW,		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_GIVE_EVENT_ITEM_FAIL,			// ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_GIVE_EVENT_ITEM_OK,			// ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Ò½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_GIVE_PREMIUM_USER_ONLY,		// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
 
-	// Ä¿ÇÃ½ÅÃ» °ü·Ã
-	NPC_RESPONSE_WAIT_FOR_MEET_COUPLE,			// Ä¿ÇÃ ½ÅÃ» ÇÒ »ó´ëÀÇ ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä
-	NPC_RESPONSE_COUPLE_MEET_SUCCESS,			// Ä¿ÇÃÀÌ ¼º»çµÇ¾ú½À´Ï´Ù.
-	NPC_RESPONSE_COUPLE_CANNOT_MEET,			// Ä¿ÇÃÀÌ ¼º»çµÉ ¼ö ¾ø½À´Ï´Ù. CoupleMessage Enum »ç¿ë
-	NPC_RESPONSE_MEET_WAIT_TIME_EXPIRED,		// ½Ã°£ÀÌ Áö³ª¼­ ½ÅÃ»ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù.
+	// Ä¿ï¿½Ã½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_WAIT_FOR_MEET_COUPLE,			// Ä¿ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½
+	NPC_RESPONSE_COUPLE_MEET_SUCCESS,			// Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_COUPLE_CANNOT_MEET,			// Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. CoupleMessage Enum ï¿½ï¿½ï¿½
+	NPC_RESPONSE_MEET_WAIT_TIME_EXPIRED,		// ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ÒµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 
-	NPC_RESPONSE_WAIT_FOR_APART_COUPLE,			// Çì¾îÁú »ó´ëÀÇ ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä
-	NPC_RESPONSE_COUPLE_APART_SUCCESS,			// Çì¾îÁ³½À´Ï´Ù.
-	NPC_RESPONSE_NOT_COUPLE,					// Ä¿ÇÃÀÌ ¾Æ´Ï¶ó¼­ Çì¾îÁú ¼ö ¾ø½À´Ï´Ù. CoupleMessage Enum »ç¿ë
-	NPC_RESPONSE_APART_WAIT_TIME_EXPIRED,		// ½Ã°£ÀÌ Áö³ª¼­ ½ÅÃ»ÀÌ Ãë¼ÒµÇ¾ú½À´Ï´Ù.
+	NPC_RESPONSE_WAIT_FOR_APART_COUPLE,			// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½
+	NPC_RESPONSE_COUPLE_APART_SUCCESS,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_NOT_COUPLE,					// Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. CoupleMessage Enum ï¿½ï¿½ï¿½
+	NPC_RESPONSE_APART_WAIT_TIME_EXPIRED,		// ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ÒµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 
-	NPC_RESPONSE_APART_COUPLE_FORCE,			// ÀÏ¹æÀûÀ¸·Î Çì¾îÁú »ó´ëÀÇ ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä.
-	NPC_RESPONSE_QUEST,							// Äù½ºÆ® °ü·Ã ¸Þ½ÃÁö --;
-	NPC_RESPONSE_LOTTERY,                       // º¹±Ç º¸¿©ÁÖ±â
-	NPC_RESPONSE_CANNOT_BUY,                    // Áö±ÝÀº ±¸ÀÔÇÑ ¾ÆÀÌÅÛÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.
+	NPC_RESPONSE_APART_COUPLE_FORCE,			// ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.
+	NPC_RESPONSE_QUEST,							// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ --;
+	NPC_RESPONSE_LOTTERY,                       // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
+	NPC_RESPONSE_CANNOT_BUY,                    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 	
-	NPC_RESPONSE_CLEAR_RANK_BONUS_OK,           // ¼±ÅÃÇÏ½Å °è±ÞÀÇ ½ºÅ³ÀÌ »èÁ¦ µÇ¾ú½À´Ï´Ù.
-    NPC_RESPONSE_NO_RANK_BONUS,                 // ÇØ´ç ÀÚ°ÝÀÌ ¾ø½À´Ï´Ù.
-    NPC_RESPONSE_ALREADY_CLEAR_RANK_BONUS,      // ¼±ÅÃÇÏ½Å °è±Þ ½ºÅ³À» »èÁ¦ÇÑ ÀûÀÌ ÀÖ½À´Ï´Ù.
-    NPC_RESPONSE_GNOME_CONTRACT_OK,             // ´ëÁö Á¤·É°úÀÇ °è¾àÀ» ¸Î¾ú½À´Ï´Ù.
-    NPC_RESPONSE_DOWN_SKILL,                    // ´Ù¿î½ÃÅ³ ½ºÅ³À» ¼±ÅÃÇÏ¼¼¿ä>.<
+	NPC_RESPONSE_CLEAR_RANK_BONUS_OK,           // ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NPC_RESPONSE_NO_RANK_BONUS,                 // ï¿½Ø´ï¿½ ï¿½Ú°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NPC_RESPONSE_ALREADY_CLEAR_RANK_BONUS,      // ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
+    NPC_RESPONSE_GNOME_CONTRACT_OK,             // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½É°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NPC_RESPONSE_DOWN_SKILL,                    // ï¿½Ù¿ï¿½ï¿½Å³ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½>.<
 	
-		// ¾Æ¿ì½ºÅÍÁî ±æµå °ü·Ã
-	NPC_RESPONSE_GUILD_REGIST_FAIL_ALREADY_JOIN,		// ¾îµð ÇÑ¹ø º¼±î? ÀÚ³×´Â ÀÌ¹Ì <guild_name> ±æµå ¼Ò¼ÓÀÌ¶ó°í ³ª¿Í ÀÖ±º
-	NPC_RESPONSE_GUILD_REGIST_FAIL_QUIT_TIMEOUT,		// ÀÚ³×´Â ´Ù¸¥ ±æµå¸¦ Å»ÅðÇÑÁö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á¶±Ý ´õ ½ÅÁßÇÏ°Ô »ý°¢ÇÏ°í Çàµ¿ÇÏ°Ô
-	NPC_RESPONSE_GUILD_REGIST_FAIL_CANCEL_TIMEOUT,		// ÀÚ³×´Â ±æµå¸¦ Ãë¼Ò ´çÇÑ Áö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. µî·Ï Á¶°Ç¿¡ ºÎÇÕÇÏµµ·Ï ÀÚ½ÅÀ» Á» ´õ ±â¸£°í ¿À°Ô. Á» ´õ ½ÅÁßÇÏ°Ô ±âÈ¸¸¦ ¿³º¸µµ·Ï ÇÏ°Ô
-	NPC_RESPONSE_GUILD_REGIST_FAIL_LEVEL,				// ÈÇ¸¢ÇÏÁö¸¸ ¸®´õ·Î½áÀÇ ÀÚÁúÀº Á» ºÎÁ·ÇÑ °Í °°±º. ½Ç·ÂÀ» ´Û°í ¿À°Ô³ª
-	NPC_RESPONSE_GUILD_REGIST_FAIL_MONEY,				// ±æµå¸¦ ¸¸µé·Á¸é ¸¹Àº µ·ÀÌ ÇÊ¿äÇÏ´Ù³×. ÀÚ³×´Â µ·ÀÌ ¾ø¾î º¸ÀÌ´Â±º...
-	NPC_RESPONSE_GUILD_REGIST_FAIL_FAME,				// <player_name>ÀÌ¶ó.. ³­ ¾ÆÁ÷ ±×·± ÀÌ¸§Àº µé¾îº¸Áöµµ ¸øÇß´Ù³×. ±×°Ç ÀÚ³×°¡ Ç²³»±â¶ó´Â °ÍÀ» ÀÇ¹ÌÇÏÁö. ½Ç·ÂÀ» ´Û°í ´Ù½Ã Ã£¾Æ¿À°Ô³ª
-	NPC_RESPONSE_GUILD_REGIST_FAIL_NAME,				// ±æµå ÀÌ¸§ÀÌ ÀÌ¹Ì ¾²ÀÌ°í ÀÖ±º, ´Ù¸¥ ÀÌ¸§À» »ý°¢ÇØ º¸°Ô
-	NPC_RESPONSE_GUILD_REGIST_FAIL_DENY,				// °ÅºÎµÇ¾ú½À´Ï´Ù.
+		// ï¿½Æ¿ì½ºï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_GUILD_REGIST_FAIL_ALREADY_JOIN,		// ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ ï¿½ï¿½ï¿½ï¿½? ï¿½Ú³×´ï¿½ ï¿½Ì¹ï¿½ <guild_name> ï¿½ï¿½ï¿½ ï¿½Ò¼ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½
+	NPC_RESPONSE_GUILD_REGIST_FAIL_QUIT_TIMEOUT,		// ï¿½Ú³×´ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½å¸¦ Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½àµ¿ï¿½Ï°ï¿½
+	NPC_RESPONSE_GUILD_REGIST_FAIL_CANCEL_TIMEOUT,		// ï¿½Ú³×´ï¿½ ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½â¸£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½
+	NPC_RESPONSE_GUILD_REGIST_FAIL_LEVEL,				// ï¿½Ç¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½ï¿½ï¿½Ô³ï¿½
+	NPC_RESPONSE_GUILD_REGIST_FAIL_MONEY,				// ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´Ù³ï¿½. ï¿½Ú³×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´Â±ï¿½...
+	NPC_RESPONSE_GUILD_REGIST_FAIL_FAME,				// <player_name>ï¿½Ì¶ï¿½.. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½îº¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´Ù³ï¿½. ï¿½×°ï¿½ ï¿½Ú³×°ï¿½ Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½Ù½ï¿½ Ã£ï¿½Æ¿ï¿½ï¿½Ô³ï¿½
+	NPC_RESPONSE_GUILD_REGIST_FAIL_NAME,				// ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ö±ï¿½, ï¿½Ù¸ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_GUILD_REGIST_FAIL_DENY,				// ï¿½ÅºÎµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 
-	NPC_RESPONSE_GUILD_STARTING_FAIL_ALREADY_JOIN,		// ´ç½ÅÀº ÀÌ¹Ì ´Ù¸¥ ±æµå¿¡ °¡ÀÔµÇ¾î ÀÖ½À´Ï´Ù.
-	NPC_RESPONSE_GUILD_STARTING_FAIL_QUIT_TIMEOUT,		// ÀÚ³×´Â ´Ù¸¥ ±æµå¸¦ Å»ÅðÇÑÁö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á¶±Ý ´õ ½ÅÁßÇÏ°Ô »ý°¢ÇÏ°í Çàµ¿ÇÏ°Ô
-	NPC_RESPONSE_GUILD_STARTING_FAIL_CANCEL_TIMEOUT,	// ÀÚ³×´Â ±æµå¸¦ Ãë¼Ò ´çÇÑ Áö ¾ó¸¶ µÇÁö ¾Ê¾Ò±º. Á¶°Ç¿¡ ºÎÇÕÇÏµµ·Ï ÀÚ½ÅÀ» Á» ´õ ±â¸£°í ¿À°Ô. Á» ´õ ½ÅÁßÇÏ°Ô ±âÈ¸¸¦ ¿³º¸µµ·Ï ÇÏ°Ô
-	NPC_RESPONSE_GUILD_STARTING_FAIL_LEVEL,				// ÀÚ³×´Â ¾ÆÁ÷ ºÎÁ·ÇÑ Á¡ÀÌ ¸¹¾Æ º¸ÀÌ´Â±¸¸¸. Á¶±Ý ´õ ½Ç·ÂÀ» ´Û°í Ã£°Ô³ª.
-	NPC_RESPONSE_GUILD_STARTING_FAIL_MONEY,				// <player_name>, ±æµå µî·ÏÀ» À§ÇØ¼­´Â µ·ÀÌ ´õ ÇÊ¿äÇÏ´Ù³×
-	NPC_RESPONSE_GUILD_STARTING_FAIL_FAME,				// <player_name>ÀÌ¶ó.. ³­ ¾ÆÁ÷ ±×·± ÀÌ¸§Àº µé¾îº¸Áöµµ ¸øÇß´Ù³×. ±×°Ç ÀÚ³×°¡ Ç²³»±â¶ó´Â °ÍÀ» ÀÇ¹ÌÇÏÁö. ½Ç·ÂÀ» ´Û°í ´Ù½Ã Ã£¾Æ¿À°Ô³ª
-	NPC_RESPONSE_GUILD_STARTING_FAIL_DENY,				// °ÅºÎµÇ¾ú½À´Ï´Ù.
+	NPC_RESPONSE_GUILD_STARTING_FAIL_ALREADY_JOIN,		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½å¿¡ ï¿½ï¿½ï¿½ÔµÇ¾ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_GUILD_STARTING_FAIL_QUIT_TIMEOUT,		// ï¿½Ú³×´ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½å¸¦ Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½àµ¿ï¿½Ï°ï¿½
+	NPC_RESPONSE_GUILD_STARTING_FAIL_CANCEL_TIMEOUT,	// ï¿½Ú³×´ï¿½ ï¿½ï¿½å¸¦ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò±ï¿½. ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½â¸£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½
+	NPC_RESPONSE_GUILD_STARTING_FAIL_LEVEL,				// ï¿½Ú³×´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´Â±ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ Ã£ï¿½Ô³ï¿½.
+	NPC_RESPONSE_GUILD_STARTING_FAIL_MONEY,				// <player_name>, ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´Ù³ï¿½
+	NPC_RESPONSE_GUILD_STARTING_FAIL_FAME,				// <player_name>ï¿½Ì¶ï¿½.. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½îº¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß´Ù³ï¿½. ï¿½×°ï¿½ ï¿½Ú³×°ï¿½ Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½Ç·ï¿½ï¿½ï¿½ ï¿½Û°ï¿½ ï¿½Ù½ï¿½ Ã£ï¿½Æ¿ï¿½ï¿½Ô³ï¿½
+	NPC_RESPONSE_GUILD_STARTING_FAIL_DENY,				// ï¿½ÅºÎµÇ¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 
-	// 2004, 8, 26, sobeit add start - °ø¼ºÀü °ü·Ã
-	NPC_RESPONSE_TOO_MANY_GUILD_REGISTERED,             // °ø¼º ½ÅÃ»ÇÑ ±æµå°¡ ³Ê¹« ¸¹¾Æ¼­ ½ÅÃ»ÇÒ ¼ö ¾ø½À´Ï´Ù.   // 120
-    NPC_RESPONSE_REINFORCE_DENYED,                      // ¼öºñÃø ÂüÀü ½ÅÃ»ÀÌ ÀÌ¹Ì °ÅºÎ´çÇØ¼­ Àç½ÅÃ» ÇÒ ¼ö ¾ø½À´Ï´Ù.    // 121
-    NPC_RESPONSE_ALREADY_REINFORCE_ACCEPTED,            // ¼öºñÃø ÂüÀü ½ÅÃ»ÀÌ Çã°¡µÈ ±æµå°¡ ÀÌ¹Ì ÀÖ¾î¼­ ½ÅÃ»ÇÒ ¼ö ¾ø½À´Ï´Ù. // 122
-    NPC_RESPONSE_NO_WAR_REGISTERED,                     // °ø¼º ½ÅÃ»ÇÑ ±æµå°¡ ¾ø¾î¼­ ¼öºñÃø ÂüÀü ½ÅÃ»À» ÇÒ ¼ö ¾ø½À´Ï´Ù. 
+	// 2004, 8, 26, sobeit add start - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_TOO_MANY_GUILD_REGISTERED,             // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½å°¡ ï¿½Ê¹ï¿½ ï¿½ï¿½ï¿½Æ¼ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.   // 120
+    NPC_RESPONSE_REINFORCE_DENYED,                      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ÅºÎ´ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½Ã» ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.    // 121
+    NPC_RESPONSE_ALREADY_REINFORCE_ACCEPTED,            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ã°¡ï¿½ï¿½ ï¿½ï¿½å°¡ ï¿½Ì¹ï¿½ ï¿½Ö¾î¼­ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. // 122
+    NPC_RESPONSE_NO_WAR_REGISTERED,                     // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½å°¡ ï¿½ï¿½ï¿½î¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. 
 
-	NPC_RESPONSE_CANNOT_ACCEPT,                         // ¼öºñÃø ÂüÀü ½ÅÃ»À» ¼ö¶ôÇÒ ¼ö ¾ø½À´Ï´Ù.
-    NPC_RESPONSE_ACCEPT_OK,                             // ÂüÀü ½ÅÃ»À» ¼ö¶ôÇÏ¿´½À´Ï´Ù.
-	NPC_RESPONSE_CANNOT_DENY,							// ¼öºñÃø ÂüÀü ½ÅÃ»À» °ÅºÎÇÒ ¼ö ¾ø½À´Ï´Ù.
-    NPC_RESPONSE_DENY_OK,                               // ÂüÀü ½ÅÃ»À» °ÅºÎÇÏ¿´½À´Ï´Ù.
+	NPC_RESPONSE_CANNOT_ACCEPT,                         // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NPC_RESPONSE_ACCEPT_OK,                             // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+	NPC_RESPONSE_CANNOT_DENY,							// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½Åºï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+    NPC_RESPONSE_DENY_OK,                               // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½Åºï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 
-	// 2004, 8, 26, sobeit add end - °ø¼ºÀü °ü·Ã
+	// 2004, 8, 26, sobeit add end - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	// 2004, 10, 25, sobeit add start
-	NPC_RESPONSE_SHOW_TAX_RATIO,						// À¯Àú°¡ »ì¶§ÀÇ ¼¼À² Á¶Àý
-	NPC_RESPONSE_MODIFY_TAX_RATIO_OK,					// ¼¼À² º¯°æ ¿ÀÄÉÀÌ~
-	NPC_RESPONSE_MODIFY_TAX_RATIO_FAIL,					// ¼¼À² º¯°æ ½ÇÆÐ
+	NPC_RESPONSE_SHOW_TAX_RATIO,						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ì¶§ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_MODIFY_TAX_RATIO_OK,					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½~
+	NPC_RESPONSE_MODIFY_TAX_RATIO_FAIL,					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	// 2004, 10, 25, sobeit add end
 
-	NPC_RESPONSE_SWAP_ADVANCEMENT_ITEM,                 // ½ÂÁ÷ ¾ÆÀÌÅÛÀ¸·Î ±³È¯ÇØÁØ´Ù.
-    NPC_RESPONSE_NOT_ADVANCED,                          // ½ÂÁ÷ÇÏÁö ¾Ê¾Æ¼­ ¾ÆÀÌÅÛ ±³È¯ÀÌ ¾ÈµË´Ï´Ù.
+	NPC_RESPONSE_SWAP_ADVANCEMENT_ITEM,                 // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ï¿½Ø´ï¿½.
+    NPC_RESPONSE_NOT_ADVANCED,                          // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ÈµË´Ï´ï¿½.
 
-	NPC_RESPONSE_SHOW_DONATION_DAILOG,                  // ±âºÎÃ¢À» ¶ç¿î´Ù.
-    NPC_RESPONSE_SHOW_DONATION_COMPLETE_DAILOG,         // ±âºÎ ¼º°ø Ã¢À» ¶ç¿î´Ù.
+	NPC_RESPONSE_SHOW_DONATION_DAILOG,                  // ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+    NPC_RESPONSE_SHOW_DONATION_COMPLETE_DAILOG,         // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 
-	NPC_RESPONSE_SHOW_CONFIRM_GET_EVENT_ITEM_DIALOG,    // ÀÌº¥Æ® ¾ÆÀÌÅÛ ¹Þ±â È®ÀÎ ´ÙÀÌ¾ó·Î±×¸¦ ¶ç¿î´Ù.
-	NPC_RESPONSE_SHOW_COMMON_MESSAGE_DIALOG,            // °¢Á¾ ¸Þ½ÃÁö ´ÙÀÌ¾ó·Î±×¸¦ ¶ç¿î´Ù.
+	NPC_RESPONSE_SHOW_CONFIRM_GET_EVENT_ITEM_DIALOG,    // ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ±ï¿½ È®ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½Î±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½.
+	NPC_RESPONSE_SHOW_COMMON_MESSAGE_DIALOG,            // ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½Î±×¸ï¿½ ï¿½ï¿½ï¿½ï¿½.
 
-	NPC_RESPONSE_SHOW_DONATION_WEDDING_COMPLETE_DIALOG, // ±âºÎ¼º°øÃ¢À» ¶ç¿î´Ù.
-	NPC_RESPONSE_SHOW_ALEADY_DONATED_DIALOG,			// ÀÌ¹Ì ÃàÀÇ±ÝÀ» ³»¼Ì½À´Ï´Ù.
+	NPC_RESPONSE_SHOW_DONATION_WEDDING_COMPLETE_DIALOG, // ï¿½ï¿½Î¼ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+	NPC_RESPONSE_SHOW_ALEADY_DONATED_DIALOG,			// ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½Ç±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì½ï¿½ï¿½Ï´ï¿½.
 
-	NPC_RESPONSE_NOT_CAHNGE_COLOR,                      // »ö»óÀÌ Áßº¹µÇ¾î ¹Ù²Ü¼ö ¾ø´Ù.
-    NPC_RESPONSE_NOT_ENOUGH_MONEY_CAHNGE_COLOR,         // µ·ÀÌ ÃæºÐÇÏÁö ¾Ê¾Æ »ö»óÀ» ¹Ù²Ü¼ö ¾ø´Ù.
-    NPC_RESPONSE_CHANGE_COLOR_OK,                       // ¿°»öÀÌ ¿Ï·á µÇ¾ú½À´Ï´Ù.
+	NPC_RESPONSE_NOT_CAHNGE_COLOR,                      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ßºï¿½ï¿½Ç¾ï¿½ ï¿½Ù²Ü¼ï¿½ ï¿½ï¿½ï¿½ï¿½.
+    NPC_RESPONSE_NOT_ENOUGH_MONEY_CAHNGE_COLOR,         // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ü¼ï¿½ ï¿½ï¿½ï¿½ï¿½.
+    NPC_RESPONSE_CHANGE_COLOR_OK,                       // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 	
-	NPC_NOT_ENOUGH_EXCHANGE_OF_MONEY,                   // µ·ÀÌ ÃæºÐÇÏÁö ¾Ê¾Æ ¼öÇ¥·Î ¹Ù²Ü¼ö ¾ø´Ù
-    NPC_ENOUGH_PLAYER_MONEY,                            // ÇÃ·¹ÀÌ¾îÀÇ ¼ÒÁö±ÝÀÌ ÃÖ´ë ¼ÒÁö±Ý¾×À» ³Ñ¾ú´Ù
-    NPC_NOT_ENOUGH_CHECK_MONEY,                         // ¼öÇ¥°¡ ¾ø´Ù!
-    NPC_EXCHANGE_OF_MONEY_OK,                           // Á¤»óÀûÀ¸·Î °Å·¡°¡ ¿Ï·á µÇ¾ú½À´Ï´Ù
+	NPC_NOT_ENOUGH_EXCHANGE_OF_MONEY,                   // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ù²Ü¼ï¿½ ï¿½ï¿½ï¿½ï¿½
+    NPC_ENOUGH_PLAYER_MONEY,                            // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ý¾ï¿½ï¿½ï¿½ ï¿½Ñ¾ï¿½ï¿½ï¿½
+    NPC_NOT_ENOUGH_CHECK_MONEY,                         // ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!
+    NPC_EXCHANGE_OF_MONEY_OK,                           // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
 	NPC_NOT_ENOUGH_SOCCER_BALL,
 	NPC_NOT_ENOUGH_EXCHANGE_SEALING_STONE,
 
-	NPC_RESPONSE_NOT_ENOUGH_LEVEL,                      // ·¹º§ÀÌ ÃæºÐ ÇÏÁö ¾Ê´Ù 
-    NPC_RESPONSE_NOT_ENOUGH_GUILD_MEMBER,               // ±æµå¿øÀÌ ºÎÁ·ÇÏ´Ù 
-    NPC_RESPONSE_NOT_ENOUGH_GUILD_LEVEL,                // ±æµå¿øÀÇ Æò±Õ ·¹º§ÀÌ ºÎÁ·ÇÏ´Ù 
+	NPC_RESPONSE_NOT_ENOUGH_LEVEL,                      // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ 
+    NPC_RESPONSE_NOT_ENOUGH_GUILD_MEMBER,               // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ 
+    NPC_RESPONSE_NOT_ENOUGH_GUILD_LEVEL,                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ 
 
-	NPC_RESPONSE_NOT_ENTER_SURVIVAL_ZONE,				// ¼­¹ÙÀÌ¹ú Á¸¿¡ ÀÔÀå ºÒ°¡´ÉÇÏ´Ù. (ÀÔÀå ºÒ°¡´É ½Ã°£, Á¦ÇÑ ÀÎ¿ø)
+	NPC_RESPONSE_NOT_ENTER_SURVIVAL_ZONE,				// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. (ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½)
 
-	NPC_RESPONSE_GIVE_GAMBLE_ITEM_OK,					// °×ºí¿¡¼­ ¾ÆÀÌÅÛÀ» ¹Þ¾ÒÀ» ¶§
-	NPC_RESPONSE_GAMBLE_INIT_OK,						// °×ºí ´©ÀûÁ¡¼ö ÃÊ±âÈ­ ÇÒ ¶§
+	NPC_RESPONSE_GIVE_GAMBLE_ITEM_OK,					// ï¿½×ºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ ï¿½ï¿½
+	NPC_RESPONSE_GAMBLE_INIT_OK,						// ï¿½×ºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½ï¿½ ï¿½ï¿½
 
-	NPC_NOT_ENOUGH_EVENT_ITEM,							// ±³È¯¿¡ ÇÊ¿äÇÑ ÀÌº¥Æ® ¾ÆÀÌÅÛÀÌ ºÎÁ·ÇÒ ¶§
-	NPC_NOT_ENOUGH_ITEM,								// ±³È¯¿¡ ÇÊ¿äÇÑ ¾ÆÀÌÅÛÀÌ ºÎÁ·ÇÒ ¶§
+	NPC_NOT_ENOUGH_EVENT_ITEM,							// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	NPC_NOT_ENOUGH_ITEM,								// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
-	NPC_RESPONSE_DENY_ATTEND,                           // ½Å±Ô °¡ÀÔ È¸¿ø¸¸ ÀÌº¥Æ®¿¡ Âü¿© °¡´É ÇÕ´Ï´Ù.
-    NPC_RESPONSE_TODAY_NOT_ATTEND,                      // ÀÌ¹Ì Ãâ¼® ÇÏ¼Ì½À´Ï´Ù. ³»ÀÏ ´Ù½Ã Âü¿©ÇØ ÁÖ¼¼¿ä.
-	NPC_RESPONSE_CHECK_COUNT_ATTEND,					// [Ä³¸¯ÅÍ]´ÔÀº [Ãâ¼® Ã¼Å© È¸¼ö]¹ø Ãâ¼®ÇÏ¼Ì½À´Ï´Ù.
+	NPC_RESPONSE_DENY_ATTEND,                           // ï¿½Å±ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Õ´Ï´ï¿½.
+    NPC_RESPONSE_TODAY_NOT_ATTEND,                      // ï¿½Ì¹ï¿½ ï¿½â¼® ï¿½Ï¼Ì½ï¿½ï¿½Ï´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½.
+	NPC_RESPONSE_CHECK_COUNT_ATTEND,					// [Ä³ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½ï¿½ï¿½ [ï¿½â¼® Ã¼Å© È¸ï¿½ï¿½]ï¿½ï¿½ ï¿½â¼®ï¿½Ï¼Ì½ï¿½ï¿½Ï´ï¿½.
 
 #if __CONTENTS(__BLITZ_COUPON_EVENT)
-	NPC_RESPONSE_BLITZ_COUPON,							// ºí¸®Ã÷¼­¹ö ÄíÆù °¹¼ö º¸±â
-	NPC_RESPONSE_REWORD_ITEM_OK,						// ¾ÆÀÌÅÛ º¸»ó½Ã ¾ÆÀÌÅÛ¸í±îÁö º¸¿©ÁÖ´Â ´ÙÀÌ¾ó·Î±×¶ç¿ï¶§
+	NPC_RESPONSE_BLITZ_COUPON,							// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	NPC_RESPONSE_REWORD_ITEM_OK,						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½Î±×¶ï¿½ï¶§
 #endif //__BLITZ_COUPON_EVENT
 #if __CONTENTS(__REPAIRSYSTEM_RENEWAL)
 	NPC_RESPONSE_REPAIR_FAIL_NOT_NEED,
@@ -238,41 +238,41 @@ enum
 
 enum CommonMessage
 {
-	YOU_CAN_GET_EVENT_200412_COMBACK_ITEM = 0,          // 0    ÄÄ¹é »ç¿ëÀÚ ¾ÆÀÌÅÛÀ» ¹ÞÀ» ¼ö ÀÖ½À´Ï´Ù.
-	YOU_CAN_GET_EVENT_200412_COMBACK_PREMIUM_ITEM,      // 1    ÄÄ¹é »ç¿ëÀÚ °áÁ¦ ¾ÆÀÌÅÛÀ» ¹ÞÀ» ¼ö ÀÖ½À´Ï´Ù.
-	YOU_CAN_GET_EVENT_200412_COMBACK_RECOMMEND_ITEM,    // 2    ÄÄ¹é »ç¿ëÀÚ ÃßÃµ ¾ÆÀÌÅÛÀ» ¹ÞÀ» ¼ö ÀÖ½À´Ï´Ù.
-	YOU_GET_EVENT_ITEM,                                 // 3    ÀÌº¥Æ® ¾ÆÀÌÅÛÀ» ¹Þ¾Ò½À´Ï´Ù.
-	NOT_ENOUGH_INVENTORY_SPACE,                         // 4    ÀÎº¥Åä¸®¿¡ °ø°£ÀÌ ºÎÁ·ÇÕ´Ï´Ù.
-	ALEADY_GET_EVENT_ITEM,                              // 5    ÀÌ¹Ì ÀÌº¥Æ® ¾ÆÀÌÅÛÀ» ¼ö·ÉÇÏ¼Ì½À´Ï´Ù.
-	FAIL_GET_EVENT_ITEM,                                // 6    ÀÌº¥Æ® ¾ÆÀÌÅÛ ¹Þ±â ½ÇÆÐ
-	YOU_ARE_NOT_EVENT_USER,                             // 7    ÀÌº¥Æ® ´ë»óÀÚ°¡ ¾Æ´Ô
+	YOU_CAN_GET_EVENT_200412_COMBACK_ITEM = 0,          // 0    ï¿½Ä¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
+	YOU_CAN_GET_EVENT_200412_COMBACK_PREMIUM_ITEM,      // 1    ï¿½Ä¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
+	YOU_CAN_GET_EVENT_200412_COMBACK_RECOMMEND_ITEM,    // 2    ï¿½Ä¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ãµ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
+	YOU_GET_EVENT_ITEM,                                 // 3    ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Ò½ï¿½ï¿½Ï´ï¿½.
+	NOT_ENOUGH_INVENTORY_SPACE,                         // 4    ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+	ALEADY_GET_EVENT_ITEM,                              // 5    ï¿½Ì¹ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼Ì½ï¿½ï¿½Ï´ï¿½.
+	FAIL_GET_EVENT_ITEM,                                // 6    ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ±ï¿½ ï¿½ï¿½ï¿½ï¿½
+	YOU_ARE_NOT_EVENT_USER,                             // 7    ï¿½Ìºï¿½Æ® ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Æ´ï¿½
 
-	YOU_CAN_GET_EVENT_200507_COMEBACK_ITEM,				// 8	ÄÄ¹é »ç¿ëÀÚ ¾ÆÀÌÅÛÀ» ¹ÞÀ» ¼ö ÀÖ½À´Ï´Ù. 2005.7
-	YOU_CAN_GET_EVENT_200507_COMEBACK_PREMIUM_ITEM,		// 9	ÄÄ¹é »ç¿ëÀÚ °áÁ¦ ¾ÆÀÌÅÛÀ» ¹ÞÀ» ¼ö ÀÖ½À´Ï´Ù. 2005.7
-	YOU_CAN_GET_EVENT_200507_COMEBACK_RECOMMEND_ITEM,	// 10	ÄÄ¹é »ç¿ëÀÚ ÃßÃµ ¾ÆÀÌÅÛÀ» ¹ÞÀ» ¼ö ÀÖ½À´Ï´Ù. 2005.7
+	YOU_CAN_GET_EVENT_200507_COMEBACK_ITEM,				// 8	ï¿½Ä¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½. 2005.7
+	YOU_CAN_GET_EVENT_200507_COMEBACK_PREMIUM_ITEM,		// 9	ï¿½Ä¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½. 2005.7
+	YOU_CAN_GET_EVENT_200507_COMEBACK_RECOMMEND_ITEM,	// 10	ï¿½Ä¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ãµ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½. 2005.7
 	
-	YOU_CAN_GET_EVENT_COMEBACK_200604_ITEM,				// 11   ÄÄ¹é »ç¿ëÀÚ ¾ÆÀÌÅÛÀ» ¹ÞÀ» ¼ö ÀÖ½À´Ï´Ù. 2006.4
-	YOU_CAN_GET_EVENT_COMEBACK_200604_PREMIUM_ITEM,     // 12   ÄÄ¹é »ç¿ëÀÚ °áÁ¦ ¾ÆÀÌÅÛÀ» ¹ÞÀ» ¼ö ÀÖ½À´Ï´Ù. 2006.4
+	YOU_CAN_GET_EVENT_COMEBACK_200604_ITEM,				// 11   ï¿½Ä¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½. 2006.4
+	YOU_CAN_GET_EVENT_COMEBACK_200604_PREMIUM_ITEM,     // 12   ï¿½Ä¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½. 2006.4
 
 	COMMON_MESSAGE_MAX
 };
 
 enum CoupleMessage
 {
-	COUPLE_MESSAGE_NOT_EVENT_TERM = 1,			// Ä¿ÇÃ ÀÌº¥Æ® ±â°£ÀÌ ¾Æ´Õ´Ï´Ù.
-	COUPLE_MESSAGE_ALREADY_WAITING,				// ÀÌ¹Ì »ó´ë¸¦ ±â´Ù¸®°í ÀÖ½À´Ï´Ù.
-	COUPLE_MESSAGE_LOGOFF,						// »ó´ë¹æÀÌ ·Î±×ÀÎ ÇÏÁö ¾Ê¾Ò½À´Ï´Ù.
-	COUPLE_MESSAGE_DIFFERENT_RACE,				// ¼­·Î ´Ù¸¥ Á¾Á·ÀÔ´Ï´Ù.
-	COUPLE_MESSAGE_SAME_SEX,					// ³²³à »çÀÌ¿¡¸¸ Ä¿ÇÃÀÌ ¼º¸³µË´Ï´Ù.
-	COUPLE_MESSAGE_NOT_PAY_PLAYER,				// À¯·á »ç¿ëÀÚ°¡ ¾Æ´Õ´Ï´Ù.
-	COUPLE_MESSAGE_ALREADY_COUPLE,				// ÀÌ¹Ì Ä¿ÇÃÀÔ´Ï´Ù.
-	COUPLE_MESSAGE_WAS_COUPLE,					// Ä¿ÇÃÀ» ¸ÎÀº ÀûÀÌ ÀÖ½À´Ï´Ù.
-	COUPLE_MESSAGE_NOT_ENOUGH_GOLD,				// ¼ÒÁö±ÝÀÌ ºÎÁ·ÇÕ´Ï´Ù.
-	COUPLE_MESSAGE_NOT_ENOUGH_ATTR,				// ´É·ÂÄ¡°¡ ºÎÁ·ÇÕ´Ï´Ù.
-	COUPLE_MESSAGE_NOT_ENOUGH_LEVEL,			// ·¹º§ÀÌ ºÎÁ·ÇÕ´Ï´Ù.
-	COUPLE_MESSAGE_INVENTORY_FULL,				// Ä¿ÇÃ¸µÀ» ¹ÞÀ» °ø°£ÀÌ ºÎÁ·ÇÕ´Ï´Ù.
-	COUPLE_MESSAGE_NO_WAITING,					// ´ç½ÅÀ» ±â´Ù¸®´Â ÆÄÆ®³Ê°¡ ¾ø½À´Ï´Ù.
-	COUPLE_MESSAGE_NOT_COUPLE,					// Ä¿ÇÃÀÌ ¾Æ´Õ´Ï´Ù.
+	COUPLE_MESSAGE_NOT_EVENT_TERM = 1,			// Ä¿ï¿½ï¿½ ï¿½Ìºï¿½Æ® ï¿½â°£ï¿½ï¿½ ï¿½Æ´Õ´Ï´ï¿½.
+	COUPLE_MESSAGE_ALREADY_WAITING,				// ï¿½Ì¹ï¿½ ï¿½ï¿½ë¸¦ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
+	COUPLE_MESSAGE_LOGOFF,						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò½ï¿½ï¿½Ï´ï¿½.
+	COUPLE_MESSAGE_DIFFERENT_RACE,				// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
+	COUPLE_MESSAGE_SAME_SEX,					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¿ï¿½ï¿½ï¿½ Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ë´Ï´ï¿½.
+	COUPLE_MESSAGE_NOT_PAY_PLAYER,				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Æ´Õ´Ï´ï¿½.
+	COUPLE_MESSAGE_ALREADY_COUPLE,				// ï¿½Ì¹ï¿½ Ä¿ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
+	COUPLE_MESSAGE_WAS_COUPLE,					// Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
+	COUPLE_MESSAGE_NOT_ENOUGH_GOLD,				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+	COUPLE_MESSAGE_NOT_ENOUGH_ATTR,				// ï¿½É·ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+	COUPLE_MESSAGE_NOT_ENOUGH_LEVEL,			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+	COUPLE_MESSAGE_INVENTORY_FULL,				// Ä¿ï¿½Ã¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
+	COUPLE_MESSAGE_NO_WAITING,					// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+	COUPLE_MESSAGE_NOT_COUPLE,					// Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Õ´Ï´ï¿½.
 
 	COUPLE_MESSAGE_MAX
 };
@@ -307,27 +307,27 @@ class GCNPCResponse : public Packet
 {
 
 public:
-	GCNPCResponse() throw() { m_Code = NPC_RESPONSE_MAX; m_Parameter = 0;}
-	virtual ~GCNPCResponse() throw() {}
+	GCNPCResponse() { m_Code = NPC_RESPONSE_MAX; m_Parameter = 0;}
+	virtual ~GCNPCResponse() {}
 
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
 
-	PacketID_t getPacketID() const throw() { return PACKET_GC_NPC_RESPONSE; }
-	PacketSize_t getPacketSize() const throw();
+	PacketID_t getPacketID() const { return PACKET_GC_NPC_RESPONSE; }
+	size_t getPacketSize() const;
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCNPCResponse"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "GCNPCResponse"; }
+	std::string toString() const;
 #endif 
 	
 public:
-	BYTE getCode(void) const throw() { return m_Code;}
-	void setCode(WORD code) throw() { m_Code = code;}
+	BYTE getCode(void) const { return m_Code;}
+	void setCode(WORD code) { m_Code = code;}
 
-	uint getParameter(void) const throw() { return m_Parameter; }
-	void setParameter(uint parameter) throw() { m_Parameter = parameter; }
+	uint getParameter(void) const { return m_Parameter; }
+	void setParameter(uint parameter) { m_Parameter = parameter; }
 
 private: 
 	BYTE m_Code;
@@ -343,10 +343,10 @@ private:
 class GCNPCResponseFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCNPCResponse(); }
-	std::string getPacketName() const throw() { return "GCNPCResponse"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_NPC_RESPONSE; }
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + szuint; }
+	Packet* createPacket() { return new GCNPCResponse(); }
+	std::string getPacketName() const { return "GCNPCResponse"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_NPC_RESPONSE; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE + szuint; }
 };
 
 
@@ -357,7 +357,7 @@ public:
 class GCNPCResponseHandler 
 {
 public:
-	static void execute( GCNPCResponse* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute( GCNPCResponse* pPacket, Player* pPlayer);
 };
 
 #endif

@@ -2,8 +2,8 @@
 // 
 // Filename    : GCThrowBombOK1.cpp 
 // Written By  : elca@ewestsoft.com
-// Description : ÀÚ½Å¿¡°Ô ¾²´Â ±â¼úÀÇ ¼º°øÀ» ¾Ë¸®±â À§ÇÑ ÆÐÅ¶ Å¬·¡½ºÀÇ
-//               ¸â¹ö Á¤ÀÇ.
+// Description : ï¿½Ú½Å¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//               ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -19,7 +19,6 @@
 // constructor
 //////////////////////////////////////////////////////////////////////
 GCThrowBombOK1::GCThrowBombOK1 () 
-     throw ()
 {
 	__BEGIN_TRY
 
@@ -34,7 +33,6 @@ GCThrowBombOK1::GCThrowBombOK1 ()
 // destructor
 //////////////////////////////////////////////////////////////////////
 GCThrowBombOK1::~GCThrowBombOK1 () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -42,14 +40,13 @@ GCThrowBombOK1::~GCThrowBombOK1 ()
 
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCThrowBombOK1::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
-	// ÃÖÀûÈ­ ÀÛ¾÷½Ã ½ÇÁ¦ Å©±â¸¦ ¸í½ÃÇÏµµ·Ï ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½È­ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	iStream.read( m_X );
 	iStream.read( m_Y );
 	iStream.read( m_Dir);
@@ -72,14 +69,14 @@ void GCThrowBombOK1::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCThrowBombOK1::write ( SocketOutputStream & oStream ) 
-     const throw ( ProtocolException , Error )
+     const
 {
 	__BEGIN_TRY
 		
-	// ÃÖÀûÈ­ ÀÛ¾÷½Ã ½ÇÁ¦ Å©±â¸¦ ¸í½ÃÇÏµµ·Ï ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½È­ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	oStream.write( m_X );
 	oStream.write( m_Y );
 	oStream.write( m_Dir);
@@ -98,18 +95,17 @@ void GCThrowBombOK1::write ( SocketOutputStream & oStream )
 //
 // GCThrowBombOK1::addListElement()
 // 
-// ( º¯È­ºÎÀ§, º¯È­¼öÄ¡ ) ÀÇ ÇÑ ¼ÂÀ» ¸®½ºÆ®¿¡ ³Ö±â À§ÇÑ ¸â¹ö ÇÔ¼ö. 
+// ( ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½È­ï¿½ï¿½Ä¡ ) ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½. 
 //
 //////////////////////////////////////////////////////////////////////
 void GCThrowBombOK1::addCListElement( ObjectID_t ObjectID )
-	throw()
 {
 	__BEGIN_TRY
 
-	// Creature ID¸¦ Ãß°¡ÇÑ´Ù.
+	// Creature IDï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 	m_CList.push_back( ObjectID );
 
-	// Å©¸®Ã³ ID count¸¦ Áõ°¡½ÃÅ²´Ù.
+	// Å©ï¿½ï¿½Ã³ ID countï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 	m_CListNum++;
 
 	__END_CATCH
@@ -121,18 +117,17 @@ void GCThrowBombOK1::addCListElement( ObjectID_t ObjectID )
 //
 // GCThrowBombOK1::deleteCListElement()
 // 
-// Creature ListÀÇ ¿ä¼Ò¸¦ Áö¿ï¶§ ÇÊ¿äÇÑ ¸â¹ö ÇÔ¼ö.
+// Creature Listï¿½ï¿½ ï¿½ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½ï¶§ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 void GCThrowBombOK1::deleteCListElement()
-	throw()
 {
 	__BEGIN_TRY
 
-	// Å©¸®ÃÄ ¾ÆÀÌµð¸¦ ÇÏ³ª Áö¿î´Ù.
+	// Å©ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Ï³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 	m_CList.pop_front();
 	
-	// Å©¸®Ã³ ¸®½ºÆ® Ä«¿îÅÍ¸¦ ÇÏ³ª Áö¿î´Ù.
+	// Å©ï¿½ï¿½Ã³ ï¿½ï¿½ï¿½ï¿½Æ® Ä«ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Ï³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 	m_CListNum--;
 
 	__END_CATCH
@@ -145,7 +140,6 @@ void GCThrowBombOK1::deleteCListElement()
 //
 //////////////////////////////////////////////////////////////////////
 void GCThrowBombOK1::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -162,7 +156,7 @@ void GCThrowBombOK1::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 	std::string GCThrowBombOK1::toString () 
-		const throw ()
+		const
 	{
 		__BEGIN_TRY
 

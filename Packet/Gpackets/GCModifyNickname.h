@@ -16,18 +16,18 @@
 class GCModifyNickname : public Packet
 {
 public:
-	GCModifyNickname() throw();
-	virtual ~GCModifyNickname() throw();
+	GCModifyNickname();
+	virtual ~GCModifyNickname();
 
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_MODIFY_NICKNAME; }
-	PacketSize_t getPacketSize() const throw() { return szObjectID + m_NicknameInfo.getSize(); }
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_MODIFY_NICKNAME; }
+	size_t getPacketSize() const { return szObjectID + m_NicknameInfo.getSize(); }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCModifyNickname"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCModifyNickname"; }
+	string toString() const;
 #endif
 
 public:
@@ -44,18 +44,18 @@ class GCModifyNicknameFactory : public PacketFactory {
 
 public :
 	
-	Packet* createPacket() throw() { return new GCModifyNickname(); }
+	Packet* createPacket() { return new GCModifyNickname(); }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCModifyNickname"; }
+	string getPacketName() const { return "GCModifyNickname"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_MODIFY_NICKNAME; }
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID + NicknameInfo::getMaxSize(); }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_MODIFY_NICKNAME; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID + NicknameInfo::getMaxSize(); }
 };
 
 class GCModifyNicknameHandler {
 	
 public :
-	static void execute(GCModifyNickname* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCModifyNickname* pPacket, Player* pPlayer);
 
 };
 

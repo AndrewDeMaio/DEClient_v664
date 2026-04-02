@@ -22,7 +22,6 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void LCQueryResultPlayerIDHandler::execute ( LCQueryResultPlayerID * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -57,7 +56,7 @@ void LCQueryResultPlayerIDHandler::execute ( LCQueryResultPlayerID * pPacket , P
         if ( cmd == "1" ) {
 
             //----------------------------------------------------------------------
-            // Æ¯Á¤ ¾ÆÀÌµð°¡ ÀÌ¹Ì Á¸ÀçÇÏ´ÂÁö Äõ¸®ÇÑ´Ù.
+            // Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
             //----------------------------------------------------------------------
             cout << "+----------+" << endl
 				 << "| QUERY ID |" << endl
@@ -73,13 +72,13 @@ void LCQueryResultPlayerIDHandler::execute ( LCQueryResultPlayerID * pPacket , P
 
             pClientPlayer->sendPacket( &clQueryPlayerID );
 
-            // ÇÃ·¹ÀÌ¾îÀÇ »óÅÂ¸¦ ¹Ù²Û´Ù.
+            // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½Ù²Û´ï¿½.
             pClientPlayer->setPlayerStatus( CPS_AFTER_SENDING_CL_QUERY_PLAYER_ID );
 
         } else {
 
             //----------------------------------------------------------------------
-            // »õ »ç¿ëÀÚ µî·Ï ÀÔ·ÂÀ» ¹Þ´Â´Ù.
+            // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½Þ´Â´ï¿½.
             //----------------------------------------------------------------------
             CLRegisterPlayer clRegisterPlayer;
 
@@ -88,44 +87,44 @@ void LCQueryResultPlayerIDHandler::execute ( LCQueryResultPlayerID * pPacket , P
 				 << "+---------------------+" << endl
 				 << endl;
 
-            cout << "¾ÆÀÌµð : ";
+            cout << "ï¿½ï¿½ï¿½Ìµï¿½ : ";
             string id;
             getline(cin,id);
             clRegisterPlayer.setID(id);
 
-            cout << "ÆÐ½º¿öµå : ";
+            cout << "ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ : ";
             string password;
             getline(cin,password);
             clRegisterPlayer.setPassword(password);
 
-            cout << "ÀÌ¸§ : ";
+            cout << "ï¿½Ì¸ï¿½ : ";
             string name;
 			getline(cin,name);
             clRegisterPlayer.setName(name);
 
-            cout << "¼ºº° (³²/¿©) : ";
+            cout << "ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½/ï¿½ï¿½) : ";
             string _sex;
             getline(cin,_sex);
-            Sex sex = ( _sex == "³²" ) ? MALE : FEMALE;
+            Sex sex = ( _sex == "ï¿½ï¿½" ) ? MALE : FEMALE;
             clRegisterPlayer.setSex(sex);
 
             clRegisterPlayer.setSSN("800101-2000111");
             clRegisterPlayer.setTelephone("02-222-3333");
             clRegisterPlayer.setCellular("011-222-3333");
             clRegisterPlayer.setZipCode("700-441");
-            clRegisterPlayer.setAddress("¼­¿ïÆ¯º°½Ã ¿µµîÆ÷±¸ ¿©ÀÇµµµ¿ »ç¼­ÇÔ 300¹øÁö");
+            clRegisterPlayer.setAddress("ï¿½ï¿½ï¿½ï¿½Æ¯ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Çµï¿½ï¿½ï¿½ ï¿½ç¼­ï¿½ï¿½ 300ï¿½ï¿½ï¿½ï¿½");
             clRegisterPlayer.setNation( KOREA );
             clRegisterPlayer.setEmail("jhkim@mbc.com");
             clRegisterPlayer.setHomepage("www.jhkim.com");
-            clRegisterPlayer.setProfile("Å×Å©³ëÀÇ ¿©¿Õ ÀüÁöÇö");
+            clRegisterPlayer.setProfile("ï¿½ï¿½Å©ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
             clRegisterPlayer.setPublic(false);
 
             //cout << clRegisterPlayer.toString() << endl;
 
-            // µî·Ï ÆÐÅ¶À» Àü¼ÛÇÑ´Ù.
+            // ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
             pClientPlayer->sendPacket( &clRegisterPlayer );
 
-            // ÇÃ·¹ÀÌ¾îÀÇ »óÅÂ¸¦ ¹Ù²Û´Ù.
+            // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½Ù²Û´ï¿½.
             pClientPlayer->setPlayerStatus( CPS_AFTER_SENDING_CL_REGISTER_PLAYER );
 
         }
@@ -134,15 +133,15 @@ void LCQueryResultPlayerIDHandler::execute ( LCQueryResultPlayerID * pPacket , P
 	*/
 
 
-	// ÀÌ¹Ì Á¸ÀçÇÑ´Ù¸é..
+	// ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´Ù¸ï¿½..
 	if (pPacket->isExist())
 	{
-		//g_UIDialog.PopupFreeMessageDlg("ÀÌ¹Ì »ç¿ëÁßÀÎ IDÀÔ´Ï´Ù.");
+		//g_UIDialog.PopupFreeMessageDlg("ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IDï¿½Ô´Ï´ï¿½.");
 		UI_AlreadyExistIDMessage();
 	}
 	else
 	{
-		//g_UIDialog.PopupFreeMessageDlg("µî·ÏÇÒ ¼ö ÀÖ´Â IDÀÔ´Ï´Ù.");
+		//g_UIDialog.PopupFreeMessageDlg("ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ IDï¿½Ô´Ï´ï¿½.");
 		UI_NoAlreadyExistIDMessage();
 	}
 

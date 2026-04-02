@@ -2,8 +2,8 @@
 // 
 // Filename    : GCRideMotorCycleFailed.cpp 
 // Written By  : elca@ewestsoft.com
-// Description : ÀÚ½Å¿¡°Ô ¾²´Â ±â¼úÀÇ ¼º°øÀ» ¾Ë¸®±â À§ÇÑ ÆÐÅ¶ Å¬·¡½ºÀÇ
-//               ¸â¹ö Á¤ÀÇ.
+// Description : ï¿½Ú½Å¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//               ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -20,7 +20,6 @@
 // constructor
 //////////////////////////////////////////////////////////////////////
 GCRideMotorCycleFailed::GCRideMotorCycleFailed () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -31,7 +30,6 @@ GCRideMotorCycleFailed::GCRideMotorCycleFailed ()
 // destructor
 //////////////////////////////////////////////////////////////////////
 GCRideMotorCycleFailed::~GCRideMotorCycleFailed () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -39,14 +37,13 @@ GCRideMotorCycleFailed::~GCRideMotorCycleFailed ()
 
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCRideMotorCycleFailed::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
-	// ÃÖÀûÈ­ ÀÛ¾÷½Ã ½ÇÁ¦ Å©±â¸¦ ¸í½ÃÇÏµµ·Ï ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½È­ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	iStream.read( m_ObjectID );
 
 	__END_CATCH
@@ -54,14 +51,14 @@ void GCRideMotorCycleFailed::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCRideMotorCycleFailed::write ( SocketOutputStream & oStream ) 
-     const throw ( ProtocolException , Error )
+     const
 {
 	__BEGIN_TRY
 		
-	// ÃÖÀûÈ­ ÀÛ¾÷½Ã ½ÇÁ¦ Å©±â¸¦ ¸í½ÃÇÏµµ·Ï ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½È­ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	oStream.write( m_ObjectID );
 
 	__END_CATCH
@@ -74,7 +71,6 @@ void GCRideMotorCycleFailed::write ( SocketOutputStream & oStream )
 //
 //////////////////////////////////////////////////////////////////////
 void GCRideMotorCycleFailed::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -91,7 +87,7 @@ void GCRideMotorCycleFailed::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 	std::string GCRideMotorCycleFailed::toString () 
-		const throw ()
+		const
 	{
 		__BEGIN_TRY
 

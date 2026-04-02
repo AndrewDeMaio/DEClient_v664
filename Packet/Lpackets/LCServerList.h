@@ -25,62 +25,62 @@ class LCServerList : public Packet {
 public:
 
 	// constructor
-	// PCInfo* ¹è¿­¿¡ °¢°¢ NULLÀ» ÁöÁ¤ÇÑ´Ù.
-	LCServerList() throw();
+	// PCInfo* ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ NULLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	LCServerList();
 
 	// destructor
-	// PCInfo* ¹è¿­¿¡ ÇÒ´çµÈ °´Ã¼¸¦ »èÁ¦ÇÑ´Ù.
-	~LCServerList() throw();
+	// PCInfo* ï¿½è¿­ï¿½ï¿½ ï¿½Ò´ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	~LCServerList();
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_LC_SERVER_LIST; }
+	PacketID_t getPacketID() const { return PACKET_LC_SERVER_LIST; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw();
+	size_t getPacketSize() const;
 	
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName() const throw() { return "LCServerList"; }
+		std::string getPacketName() const { return "LCServerList"; }
 		
 		// get packet's debug std::string
-		std::string toString() const throw();
+		std::string toString() const;
 	#endif
 	
 public:
 
-	// ÇöÀç ¼­¹ö ±×·ì
-	ServerGroupID_t getCurrentServerGroupID() const throw() { return m_CurrentServerGroupID; }
-	void setCurrentServerGroupID( ServerGroupID_t ServerGroupID ) throw() { m_CurrentServerGroupID = ServerGroupID; }
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½
+	ServerGroupID_t getCurrentServerGroupID() const { return m_CurrentServerGroupID; }
+	void setCurrentServerGroupID( ServerGroupID_t ServerGroupID ) { m_CurrentServerGroupID = ServerGroupID; }
 
-    BYTE getListNum() const throw() { return m_ServerGroupInfoList.size(); }
+    BYTE getListNum() const { return m_ServerGroupInfoList.size(); }
 
 	// add / delete / clear S List
-	void addListElement(ServerGroupInfo* pServerGroupInfo) throw() { m_ServerGroupInfoList.push_back(pServerGroupInfo); }
+	void addListElement(ServerGroupInfo* pServerGroupInfo) { m_ServerGroupInfoList.push_back(pServerGroupInfo); }
 
 	// ClearList
-	void clearList() throw() { m_ServerGroupInfoList.clear(); }
+	void clearList() { m_ServerGroupInfoList.clear(); }
 
 	// pop front Element in Status List
-	ServerGroupInfo* popFrontListElement() throw()
+	ServerGroupInfo* popFrontListElement()
 	{
 		ServerGroupInfo* TempServerGroupInfo = m_ServerGroupInfoList.front(); m_ServerGroupInfoList.pop_front(); return TempServerGroupInfo;
 	}
 
 private : 
 
-	// ÇöÀç ¼­¹ö ±×·ì
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½
 	ServerGroupID_t m_CurrentServerGroupID;
 
-	// Ä³¸¯ÅÍ Á¤º¸
+	// Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	std::list<ServerGroupInfo*> m_ServerGroupInfoList;
 
 };
@@ -98,21 +98,21 @@ class LCServerListFactory : public PacketFactory {
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new LCServerList(); }
+	Packet* createPacket() { return new LCServerList(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName() const throw() { return "LCServerList"; }
+		std::string getPacketName() const { return "LCServerList"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_LC_SERVER_LIST; }
+	PacketID_t getPacketID() const { return Packet::PACKET_LC_SERVER_LIST; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize() const throw() 
+	PacketSize_t getPacketMaxSize() const 
 	{ 
-		// ½½·¹ÀÌ¾î Á¤º¸°¡ ¹ìÆÄÀÌ¾î Á¤º¸º¸´Ù »çÀÌÁî°¡ Å©±â ¶§¹®¿¡,
-		// ÀÌ ÆÐÅ¶ÀÇ ÃÖ´ë Å©±â´Â ½½·¹ÀÌ¾î 3 ¸íÀÏ °æ¿ìÀÌ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½î°¡ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,
+		// ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ö´ï¿½ Å©ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ 3 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 		return szServerGroupID + ServerGroupInfo::getMaxSize();
 	}
 	
@@ -130,7 +130,7 @@ class LCServerListHandler {
 public:
 
 	// execute packet's handler
-	static void execute(LCServerList* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(LCServerList* pPacket, Player* pPlayer);
 
 };
 

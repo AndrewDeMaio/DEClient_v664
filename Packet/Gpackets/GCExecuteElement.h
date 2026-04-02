@@ -2,7 +2,7 @@
 // Filename    : GCExecuteElement.h 
 // Written By  : elca@ewestsoft.com
 // Description : 
-// ±â¼úÀÌ ¼º°øÇßÀ»¶§ º¸³»´Â ÆÐÅ¶À» À§ÇÑ Å¬·¡½º Á¤ÀÇ
+// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __GC_EXECUTE_ELEMENT_H__
@@ -15,24 +15,24 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // class GCExecuteElement;
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
 class GCExecuteElement : public Packet 
 {
 public:
-	GCExecuteElement() throw();
-	~GCExecuteElement() throw();
+	GCExecuteElement();
+	~GCExecuteElement();
 	
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error) { iStream.read(m_dwQuestID); iStream.read(m_Condition); iStream.read(m_Index); }
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error) { oStream.write(m_dwQuestID); oStream.write(m_Condition); oStream.write(m_Index); }
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_EXECUTE_ELEMENT; }
-	PacketSize_t getPacketSize() const throw() { return szDWORD + szBYTE + szWORD; }
+    void read(SocketInputStream & iStream) { iStream.read(m_dwQuestID); iStream.read(m_Condition); iStream.read(m_Index); }
+    void write(SocketOutputStream & oStream) const { oStream.write(m_dwQuestID); oStream.write(m_Condition); oStream.write(m_Index); }
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_EXECUTE_ELEMENT; }
+	size_t getPacketSize() const { return szDWORD + szBYTE + szWORD; }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCExecuteElement"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCExecuteElement"; }
+	string toString() const;
 #endif
 public:
 	BYTE	getCondition() const { return m_Condition; }
@@ -44,9 +44,9 @@ public:
 	void	setIndex(WORD idx) { m_Index = idx; }
 
 private:
-	DWORD	m_dwQuestID;	// Äù½ºÆ® ID
-	BYTE	m_Condition;	// ¾î´À Á¶°Ç¿¡ ÀÖ´Â°¡ 0 : Happen, 1 : Complete, 2 : Fail, 3 : Reward
-	WORD	m_Index;		// ÇØ´ç Á¶°ÇÀÇ ¸î¹øÂ° elementÀÎ°¡
+	DWORD	m_dwQuestID;	// ï¿½ï¿½ï¿½ï¿½Æ® ID
+	BYTE	m_Condition;	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç¿ï¿½ ï¿½Ö´Â°ï¿½ 0 : Happen, 1 : Complete, 2 : Fail, 3 : Reward
+	WORD	m_Index;		// ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â° elementï¿½Î°ï¿½
 };
 
 
@@ -57,16 +57,16 @@ private:
 class GCExecuteElementFactory : public PacketFactory 
 {
 public :
-	GCExecuteElementFactory() throw() {}
-	virtual ~GCExecuteElementFactory() throw() {}
+	GCExecuteElementFactory() {}
+	virtual ~GCExecuteElementFactory() {}
 	
 public:
-	Packet* createPacket() throw() { return new GCExecuteElement(); }
+	Packet* createPacket() { return new GCExecuteElement(); }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCExecuteElement"; }
+	string getPacketName() const { return "GCExecuteElement"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_EXECUTE_ELEMENT; }
-	PacketSize_t getPacketMaxSize() const throw() { return szDWORD + szBYTE + szWORD; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_EXECUTE_ELEMENT; }
+	PacketSize_t getPacketMaxSize() const { return szDWORD + szBYTE + szWORD; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -76,7 +76,7 @@ public:
 class GCExecuteElementHandler 
 {
 public:
-	static void execute(GCExecuteElement* pGCExecuteElement, Player* pPlayer) throw(Error);
+	static void execute(GCExecuteElement* pGCExecuteElement, Player* pPlayer);
 
 };
 

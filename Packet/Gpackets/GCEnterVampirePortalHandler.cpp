@@ -11,7 +11,6 @@
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 void GCEnterVampirePortalHandler::execute ( GCEnterVampirePortal * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -19,7 +18,7 @@ void GCEnterVampirePortalHandler::execute ( GCEnterVampirePortal * pPacket , Pla
 
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -28,7 +27,7 @@ void GCEnterVampirePortalHandler::execute ( GCEnterVampirePortal * pPacket , Pla
 		
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -37,7 +36,7 @@ void GCEnterVampirePortalHandler::execute ( GCEnterVampirePortal * pPacket , Pla
 		MCreature* pCreature = g_pZone->GetCreature( creatureID );
 
 		//--------------------------------------------------
-		// portal·Î »ç¶óÁö´Â ¸ð½À
+		// portalï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		if (pCreature!=NULL)
 		{

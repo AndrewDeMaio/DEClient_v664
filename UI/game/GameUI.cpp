@@ -17,9 +17,9 @@
 #include "MPriceManager.h"
 #include "MMoneyManager.h"
 #include "UIDialog.h"
-#include "Packet\PCSlayerInfo.h"
-#include "Packet\PCVampireInfo.h"
-#include "Packet\PCOustersInfo.h"
+#include "PCSlayerInfo.h"
+#include "PCVampireInfo.h"
+#include "PCOustersInfo.h"
 #include "SkillDef.h"
 #include "ClientFunction.h"
 #include "MGameStringTable.h"
@@ -64,7 +64,7 @@
 #include "MZoneTable.h"
 #include <string>
 #include "SoundSetting.h"
-#include "packet/GPackets/GCMiniGameScores.h"
+#include "GPackets/GCMiniGameScores.h"
 #include "SystemAvailabilities.h"
 #include "VS_UI_GameCommon2.h"
 #if __CONTENTS(__FRIEND_ADDITION)
@@ -76,7 +76,7 @@
 	#include <io.h>
 #endif
 
-#include "packet/Cpackets/CLGetWorldList.h"
+#include "Cpackets/CLGetWorldList.h"
 
 #include "BGMManager.h"
 

@@ -19,7 +19,6 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCDeleteObjectHandler::execute ( GCDeleteObject * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -28,7 +27,7 @@ void GCDeleteObjectHandler::execute ( GCDeleteObject * pPacket , Player * pPlaye
 	//cout << "Object[" << pPacket->getObjectID() << "] deleted from zone." << endl;
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -37,9 +36,9 @@ void GCDeleteObjectHandler::execute ( GCDeleteObject * pPacket , Player * pPlaye
 		
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
-	// ¾î¶² Object¸¦ Á¦°ÅÇÏ´Âµ¥..
-	// --> Á¦°ÅÇØº¸°í È®ÀÎÇØ¾ß ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½.. 
+	// ï¿½î¶² Objectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Âµï¿½..
+	// --> ï¿½ï¿½ï¿½ï¿½ï¿½Øºï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	else
 	{	
@@ -48,7 +47,7 @@ void GCDeleteObjectHandler::execute ( GCDeleteObject * pPacket , Player * pPlaye
 		if (g_pPlayer->IsItemCheckBufferDropToRelicTable())
 		{
 			//---------------------------------------------
-			// ¶³¾î¶ß¸±·Á´Â item
+			// ï¿½ï¿½ï¿½ï¿½ß¸ï¿½ï¿½ï¿½ï¿½ï¿½ item
 			//---------------------------------------------
 			MItem* pItem = g_pPlayer->GetItemCheckBuffer();
 
@@ -57,21 +56,21 @@ void GCDeleteObjectHandler::execute ( GCDeleteObject * pPacket , Player * pPlaye
 		}
 
 		//------------------------------------------------------
-		// CreatureÀÎ °æ¿ì??
+		// Creatureï¿½ï¿½ ï¿½ï¿½ï¿½??
 		//------------------------------------------------------
 		if ( g_pZone->RemoveCreature( objectID ) )
 		{
 			DEBUG_ADD_FORMAT("Remove Creature OK. ID=%d", objectID);
 		}
 		//------------------------------------------------------
-		// ItemÀÎ °æ¿ì??
+		// Itemï¿½ï¿½ ï¿½ï¿½ï¿½??
 		//------------------------------------------------------
 		else if ( g_pZone->RemoveItem( objectID ) )
 		{			
 			DEBUG_ADD_FORMAT("Remove Item OK. ID=%d", objectID);
 		}
 		//------------------------------------------------------
-		// ¹¹Áö???
+		// ï¿½ï¿½ï¿½ï¿½???
 		//------------------------------------------------------
 		else
 		{

@@ -2,8 +2,8 @@
 // Filename    : GCShopBuyFail.h 
 // Written By  : excel96
 // Description :
-// ÇÃ·¹ÀÌ¾î°¡ »óÁ¡¿¡¼­ ¾ÆÀÌÅÛÀ» ±¸ÀÔÇÏ·Á°í Çß´Âµ¥, 
-// Á¤»óÀûÀÎ ±¸¸Å°¡ ½ÇÆÐÇßÀ» °æ¿ì¿¡ ÇÃ·¹ÀÌ¾î¿¡°Ô º¸³»´Â ÆÐÅ¶.
+// ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ß´Âµï¿½, 
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶.
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __GC_SHOP_BUY_FAIL_H__
@@ -14,19 +14,19 @@
 
 enum GCShopBuyFailCode
 {
-	// µ·ÀÌ ¸ðÀÚ¶õ´Ù. 
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½. 
 	GC_SHOP_BUY_FAIL_NOT_ENOUGH_MONEY = 0,
 
-	// ÀÚ¸®°¡ ¸ðÀÚ¶õ´Ù.
+	// ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½.
 	GC_SHOP_BUY_FAIL_NOT_ENOUGH_SPACE,
 
-	// NPC°¡ Á¸ÀçÇÏÁö ¾Ê´Â´Ù.
+	// NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 	GC_SHOP_BUY_FAIL_NPC_NOT_EXIST,
 
-	// NPC¶ó°í º¸³»¿Â ³ðÀÌ NPC°¡ ¾Æ´Ï´Ù.
+	// NPCï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ NPCï¿½ï¿½ ï¿½Æ´Ï´ï¿½.
 	GC_SHOP_BUY_FAIL_NOT_NPC,
 
-	// ÁöÁ¤ÇÑ À§Ä¡¿¡ ¾ÆÀÌÅÛÀÌ Á¸ÀçÇÏÁö ¾Ê´Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 	GC_SHOP_BUY_FAIL_ITEM_NOT_EXIST,
 
 	GC_SHOP_BUY_FAIL_NOT_ENOUGH_BLACK_STAR,
@@ -59,20 +59,20 @@ const std::string GCShopBuyFailCode2String[] =
 class GCShopBuyFail : public Packet 
 {
 public :
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_SHOP_BUY_FAIL; }
-	PacketSize_t getPacketSize() const throw() { return szObjectID;}
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_SHOP_BUY_FAIL; }
+	size_t getPacketSize() const { return szObjectID;}
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "GCShopBuyFail"; }
-		std::string toString() const throw();
+		std::string getPacketName() const { return "GCShopBuyFail"; }
+		std::string toString() const;
 	#endif
 
 public:
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID(ObjectID_t creatureID) throw() { m_ObjectID = creatureID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID(ObjectID_t creatureID) { m_ObjectID = creatureID; }
 
 	BYTE getCode(void) const { return m_Code; }
 	void setCode(BYTE code) { m_Code = code; }
@@ -92,14 +92,14 @@ private :
 class GCShopBuyFailFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCShopBuyFail(); }
+	Packet* createPacket() { return new GCShopBuyFail(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "GCShopBuyFail"; }
+		std::string getPacketName() const { return "GCShopBuyFail"; }
 	#endif
 
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_SHOP_BUY_FAIL; }
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_SHOP_BUY_FAIL; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -108,7 +108,7 @@ public:
 class GCShopBuyFailHandler 
 {
 public:
-	static void execute(GCShopBuyFail* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCShopBuyFail* pPacket, Player* pPlayer);
 };
 
 #endif

@@ -36,11 +36,10 @@ extern int g_Dimension;
 extern bool		UpdateSocketOutput();
 extern BYTE g_macAddress[6];
 //--------------------------------------------------------------------------------
-// ·Î±×ÀÎ¼­¹ö·ÎºÎÅÍ °ÔÀÓ ¼­¹öÀÇ ÁÖ¼Ò¿Í Æ÷Æ®, ±×¸®°í ÀÎÁõÅ°¸¦ ¹ÞÀº Áï½Ã
-// °ÔÀÓ ¼­¹ö·Î ¿¬°áÇÑ ÈÄ, ÀÎÁõÅ°¸¦ ´ãÀº CGConnect ÆÐÅ¶À» Àü¼ÛÇÑ´Ù.
+// ï¿½Î±ï¿½ï¿½Î¼ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼Ò¿ï¿½ ï¿½ï¿½Æ®, ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ CGConnect ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //--------------------------------------------------------------------------------
 void LCReconnectHandler::execute ( LCReconnect * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -49,20 +48,20 @@ void LCReconnectHandler::execute ( LCReconnect * pPacket , Player * pPlayer )
 
 	ClientPlayer * pClientPlayer = dynamic_cast<ClientPlayer*>(pPlayer);
 
-	// ·Î±×ÀÎ ¼­¹ö¿ÍÀÇ ¿¬°áÀ» Á¾·áÇÑ´Ù
-	// ÀÌ¶§ ·Î±×ÀÎ ¼­¹ö´Â LCReconnect ÆÐÅ¶À» º¸³»¸é¼­ ¿¬°áÀ» Á¾·áÇÑ´Ù´Â »ç½Ç¿¡ À¯ÀÇÇÏ¶ó.
+	// ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
+	// ï¿½Ì¶ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ LCReconnect ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½é¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´Ù´ï¿½ ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
 	cout << "Disconnecting from login server" << endl;
 	pClientPlayer->disconnect();
 
-	// LCReconnect ÆÐÅ¶¿¡ µé¾îÀÖ´Â Á¤º¸¸¦ »ç¿ëÇØ¼­, °ÔÀÓ ¼­¹ö·Î ¿¬°áÇÑ´Ù.
+	// LCReconnect ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	cout << "Reconnecting to " << pPacket->getGameServerIP() << ":" << pPacket->getGameServerPort() << endl;
 
 	try {
 
 		pClientPlayer->getSocket()->reconnect( pPacket->getGameServerIP() , pPacket->getGameServerPort() );
 
-		// reconnectÇÏ°Ô µÇ¸é ¼ÒÄÏÀÌ »õ·Î ¸¸µé¾îÁö°Ô µÈ´Ù.
-		// µû¶ó¼­, ÀÌ ¼ÒÄÏ ¿ª½Ã ¿É¼ÇÀ» »õ·Î ÁöÁ¤ÇØÁà¾ß ÇÑ´Ù.
+		// reconnectï¿½Ï°ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È´ï¿½.
+		// ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		pClientPlayer->getSocket()->setNonBlocking();
 		pClientPlayer->getSocket()->setLinger(0);
 
@@ -70,8 +69,8 @@ void LCReconnectHandler::execute ( LCReconnect * pPacket , Player * pPlayer )
 		throw Error(ce.toString());
 	}
 
-	// ¿¬°áÀÌ ÀÌ·ç¾îÁö¸é, ¹Ù·Î CGConnect ÆÐÅ¶À» Àü¼ÛÇÑ´Ù.
-	// ÀÌÀü¿¡ Select ÇÑ PCÀÇ Å¸ÀÔ°ú ÀÌ¸§À» Å¬¶óÀÌ¾ðÆ® ÇÃ·¹ÀÌ¾î °´Ã¼¿¡ ÀúÀåÇØµÐ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ù·ï¿½ CGConnect ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Select ï¿½ï¿½ PCï¿½ï¿½ Å¸ï¿½Ô°ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ® ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ØµÐ´ï¿½.
 	cout << "Sending CGConnect with Key(" << pPacket->getKey() << ")" << endl;
 
 	CGConnect cgConnect;
@@ -131,12 +130,12 @@ void LCReconnectHandler::execute ( LCReconnect * pPacket , Player * pPlayer )
 
 	ClientPlayer * pClientPlayer = dynamic_cast<ClientPlayer*>(pPlayer);
 
-	// ·Î±×ÀÎ ¼­¹ö¿ÍÀÇ ¿¬°áÀ» Á¾·áÇÑ´Ù
-	// ÀÌ¶§ ·Î±×ÀÎ ¼­¹ö´Â LCReconnect ÆÐÅ¶À» º¸³»¸é¼­ ¿¬°áÀ» Á¾·áÇÑ´Ù´Â »ç½Ç¿¡ À¯ÀÇÇÏ¶ó.
+	// ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½
+	// ï¿½Ì¶ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ LCReconnect ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½é¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´Ù´ï¿½ ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
 	
 	pClientPlayer->disconnect();
 
-	// LCReconnect ÆÐÅ¶¿¡ µé¾îÀÖ´Â Á¤º¸¸¦ »ç¿ëÇØ¼­, °ÔÀÓ ¼­¹ö·Î ¿¬°áÇÑ´Ù.
+	// LCReconnect ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	DEBUG_ADD_FORMAT("Reconnecting to %s:%d", 
 										pPacket->getGameServerIP().c_str(), 
 										pPacket->getGameServerPort());
@@ -149,8 +148,8 @@ void LCReconnectHandler::execute ( LCReconnect * pPacket , Player * pPlayer )
 #ifdef OUTPUT_DEBUG
 		currentTempStruct.reconnectTickCount = timeGetTime()-tickCount;
 #endif
-		// reconnectÇÏ°Ô µÇ¸é ¼ÒÄÏÀÌ »õ·Î ¸¸µé¾îÁö°Ô µÈ´Ù.
-		// µû¶ó¼­, ÀÌ ¼ÒÄÏ ¿ª½Ã ¿É¼ÇÀ» »õ·Î ÁöÁ¤ÇØÁà¾ß ÇÑ´Ù.
+		// reconnectï¿½Ï°ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È´ï¿½.
+		// ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		pClientPlayer->getSocket()->setNonBlocking();
 		pClientPlayer->getSocket()->setLinger(0);
 
@@ -158,14 +157,14 @@ void LCReconnectHandler::execute ( LCReconnect * pPacket , Player * pPlayer )
 		throw Error(ce.toString());
 	}
 
-	// ¿¬°áÀÌ ÀÌ·ç¾îÁö¸é, ¹Ù·Î CGConnect ÆÐÅ¶À» Àü¼ÛÇÑ´Ù.
-	// ÀÌÀü¿¡ Select ÇÑ PCÀÇ Å¸ÀÔ°ú ÀÌ¸§À» Å¬¶óÀÌ¾ðÆ® ÇÃ·¹ÀÌ¾î °´Ã¼¿¡ ÀúÀåÇØµÐ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ù·ï¿½ CGConnect ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Select ï¿½ï¿½ PCï¿½ï¿½ Å¸ï¿½Ô°ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ® ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ØµÐ´ï¿½.
 	DEBUG_ADD_FORMAT("Sending CGConnect with Key(%ld)", 
 												pPacket->getKey());
 
 	
 
-	// ÀçÁ¢¼Ó..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
 	CGConnect cgConnect;
 	cgConnect.setKey( pPacket->getKey() );
 	cgConnect.setPCType( pClientPlayer->getPCType() );
@@ -178,14 +177,14 @@ void LCReconnectHandler::execute ( LCReconnect * pPacket , Player * pPlayer )
 	pClientPlayer->sendPacket( &cgConnect );
 	pClientPlayer->setPlayerStatus( CPS_AFTER_SENDING_CG_CONNECT );	
 
-	// ¹Ù·Î º¸³½´Ù.
+	// ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 	UpdateSocketOutput();
 #ifdef OUTPUT_DEBUG
 	currentTempStruct.sendCGConnectTickCount = timeGetTime()-tickCount;
 #endif
 	
-	// 2002.6.28 [UDP¼öÁ¤]
-	// ¼­¹ö¿¡ UDP port¸¦ ¾Ë·ÁÁÖ±â À§ÇØ¼­
+	// 2002.6.28 [UDPï¿½ï¿½ï¿½ï¿½]
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UDP portï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½
 	CGPortCheck cgPortCheck;
 	cgPortCheck.setPCName( g_pUserInformation->CharacterID.GetString() );
 

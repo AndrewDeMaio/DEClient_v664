@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCShopListMysteriousHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
@@ -16,14 +16,13 @@
 #include "UIFunction.h"
 
 void GCShopListMysteriousHandler::execute ( GCShopListMysterious * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
 #ifdef __GAME_CLIENT__
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -31,35 +30,35 @@ void GCShopListMysteriousHandler::execute ( GCShopListMysterious * pPacket , Pla
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 
 		//------------------------------------------------------
-		// ±×·± creature°¡ ¾ø´Â °æ¿ì
+		// ï¿½×·ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		if (pCreature==NULL)
 		{
 			DEBUG_ADD_FORMAT("[Error] There is no such Creature id=%d", pPacket->getObjectID());
 		}
 		//------------------------------------------------------
-		// NPCÀÎ °æ¿ì
+		// NPCï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		else if (pCreature->GetClassType()==MCreature::CLASS_NPC)
 		{
 			MNPC* pNPC = (MNPC*)pCreature;
 
 			//------------------------------------------------------
-			// »õ·Î¿î Shelf¸¦ »ý¼ºÇÑ´Ù.
+			// ï¿½ï¿½ï¿½Î¿ï¿½ Shelfï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//------------------------------------------------------
 			MShopShelf* pShelf = MShopShelf::NewShelf( (MShopShelf::SHELF_TYPE)pPacket->getShopType() );
 			
 			pShelf->SetVersion( pPacket->getShopVersion() );
 
 			//------------------------------------------------------
-			// ¾ÆÀÌÅÛµé Ãß°¡
+			// ï¿½ï¿½ï¿½ï¿½ï¿½Ûµï¿½ ï¿½ß°ï¿½
 			//------------------------------------------------------
 			for (int i=0; i<SHOP_RACK_INDEX_MAX; i++)
 			{
@@ -67,7 +66,7 @@ void GCShopListMysteriousHandler::execute ( GCShopListMysterious * pPacket , Pla
 
 				if (item.bExist)
 				{
-					// item »ý¼º
+					// item ï¿½ï¿½ï¿½ï¿½
 					MItem* pItem = MItem::NewItem( (ITEM_CLASS)item.itemClass );
 
 					//pItem->SetID( item.objectID );
@@ -77,58 +76,58 @@ void GCShopListMysteriousHandler::execute ( GCShopListMysterious * pPacket , Pla
 
 					pItem->UnSetIdentified();
 
-					// Shelf¿¡ itemÃß°¡
+					// Shelfï¿½ï¿½ itemï¿½ß°ï¿½
 					pShelf->SetItem( i, pItem );
 				}
 			}
 
 			//------------------------------------------------------
 			//
-			// NPCÀÇ »óÁ¡¿¡ shelf¸¦ Ãß°¡ÇÑ´Ù.
+			// NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ shelfï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 			//
 			//------------------------------------------------------
 			MShop* pShop = pNPC->GetShop();
 
 			if (pShop==NULL)
 			{
-				// »óÁ¡ÀÌ ¾ø¾úÀ¸¸é »ý¼ºÇÑ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 				pShop = new MShop;
 				pShop->Init( MShopShelf::MAX_SHELF );
 
-				// NPC¿¡ »óÁ¡ ¼³Á¤
+				// NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				pNPC->SetShop( pShop );
 
-				// normal item ¼±¹ÝÀ» »ý¼ºÇÑ´Ù.
+				// normal item ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 				pNPC->CreateFixedShelf();
 				pNPC->CreateFixedShelf(true);	// mystrious
 			}
 
 			//------------------------------------------------------
-			// default·Î normal »óÁ¡¿¡ Á¢±ÙÇÏ°Ô ÇÑ´Ù.
+			// defaultï¿½ï¿½ normal ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ñ´ï¿½.
 			//------------------------------------------------------
 			pShop->SetCurrent( 0 );
 
 			//------------------------------------------------------
-			// ¼±¹ÝÀÇ °¡°Ý ºñÀ² 
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 			//------------------------------------------------------
 			g_pPriceManager->SetMarketCondBuy( pPacket->getMarketCondBuy() );
 			g_pPriceManager->SetMarketCondSell( pPacket->getMarketCondSell() );			
 			
 			//------------------------------------------------------
-			// »óÁ¡¿¡ ¼±¹Ý ¼³Á¤
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------
 			pShop->SetShelf( pShelf->GetShelfType(), pShelf );
 
 			//------------------------------------------------------
-			// Á¤»óÀûÀ¸·Î µÈ °æ¿ì
-			// --> »óÁ¡À» ½ÇÇàÇÑ´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
+			// --> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 			//------------------------------------------------------
-			UI_SetShop( pShop );		// shop ¼³Á¤
+			UI_SetShop( pShop );		// shop ï¿½ï¿½ï¿½ï¿½
 			UI_RunShop();
-			UI_SetShop( pShop );		// shop ¼³Á¤
+			UI_SetShop( pShop );		// shop ï¿½ï¿½ï¿½ï¿½
 		}
 		//------------------------------------------------------
-		// NPC°¡ ¾Æ´Ñ °æ¿ì
+		// NPCï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		else
 		{

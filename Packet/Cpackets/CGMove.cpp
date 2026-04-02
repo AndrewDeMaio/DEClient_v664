@@ -11,7 +11,6 @@
 
 
 void CGMove::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -38,7 +37,6 @@ void CGMove::read (SocketInputStream & iStream)
 }
 
 void CGMove::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -65,7 +63,6 @@ void CGMove::write (SocketOutputStream & oStream) const
 }
 
 void CGMove::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -78,7 +75,6 @@ void CGMove::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGMove::toString () const
-    throw ()
 {
 	__BEGIN_TRY
 		

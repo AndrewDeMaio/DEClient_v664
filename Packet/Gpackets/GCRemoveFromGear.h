@@ -19,8 +19,8 @@
 //
 // class GCRemoveFromGear;
 //
-// °ÔÀÓ ¼­¹ö¿¡¼­ Æ¯Á¤ »ç¿ëÀÚ°¡ ¿òÁ÷¿´´Ù´Â Á¤º¸¸¦ Å¬¶óÀÌ¾ðÆ®·Î º¸³»ÁÙ 
-// ¶§ »ç¿ëÇÏ´Â ÆÐÅ¶ °´Ã¼ÀÌ´Ù. (CreatureID,X,Y,DIR) À» Æ÷ÇÔÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ ï¿½ï¿½Ã¼ï¿½Ì´ï¿½. (CreatureID,X,Y,DIR) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -29,42 +29,42 @@ class GCRemoveFromGear : public Packet {
 public :
 	
 	// constructor
-	GCRemoveFromGear () throw ();
+	GCRemoveFromGear ();
 	
 	// destructor
-	~GCRemoveFromGear () throw ();
+	~GCRemoveFromGear ();
 
 	
 public :
 	
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_REMOVE_FROM_GEAR; }
+	PacketID_t getPacketID () const { return PACKET_GC_REMOVE_FROM_GEAR; }
 	
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getPacketSize () const throw () { return szSlotID; }
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	size_t getPacketSize () const { return szSlotID; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCRemoveFromGear"; }
+		std::string getPacketName () const { return "GCRemoveFromGear"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 	// get/set SlotID
-	SlotID_t getSlotID() const throw() { return m_SlotID; }
-	void setSlotID( SlotID_t SlotID ) throw() { m_SlotID = SlotID; }
+	SlotID_t getSlotID() const { return m_SlotID; }
+	void setSlotID( SlotID_t SlotID ) { m_SlotID = SlotID; }
 
 private :
 
@@ -87,27 +87,27 @@ class GCRemoveFromGearFactory : public PacketFactory {
 public :
 	
 	// constructor
-	GCRemoveFromGearFactory () throw () {}
+	GCRemoveFromGearFactory () {}
 	
 	// destructor
-	virtual ~GCRemoveFromGearFactory () throw () {}
+	virtual ~GCRemoveFromGearFactory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCRemoveFromGear(); }
+	Packet * createPacket () { return new GCRemoveFromGear(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCRemoveFromGear"; }
+		std::string getPacketName () const { return "GCRemoveFromGear"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_REMOVE_FROM_GEAR; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_REMOVE_FROM_GEAR; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize() const throw() { return szSlotID; }
+	PacketSize_t getPacketMaxSize() const { return szSlotID; }
 
 };
 
@@ -123,7 +123,7 @@ class GCRemoveFromGearHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCRemoveFromGear * pGCRemoveFromGear , Player * pPlayer ) throw ( Error );
+	static void execute ( GCRemoveFromGear * pGCRemoveFromGear , Player * pPlayer );
 
 };
 

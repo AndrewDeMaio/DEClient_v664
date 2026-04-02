@@ -17,7 +17,6 @@
 #endif
 
 void GCUpdateSupplyItemListHandler::execute ( GCUpdateSupplyItemList * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY //__BEGIN_DEBUG_EX
 	__BEGIN_DEBUG
@@ -33,7 +32,7 @@ void GCUpdateSupplyItemListHandler::execute ( GCUpdateSupplyItemList * pPacket ,
 		MItem *pItem = MItem::NewItem( (ITEM_CLASS)pSupplyItemInfo->itemClass );
 		pItem->SetItemType(pSupplyItemInfo->itemType);
 		pItem->SetItemOptionList(pSupplyItemInfo->optionType);
-		pItem->SetGrade(pSupplyItemInfo->grade); // ½Ã°£Á¦ ¾ÆÀÌÅÛ È²»öÃ³¸® ÇÏ±â
+		pItem->SetGrade(pSupplyItemInfo->grade); // ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È²ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½Ï±ï¿½
 		pItem->SetNumber(pSupplyItemInfo->num);
 		pItem->SetTimeLimitStatic(pSupplyItemInfo->timeLimit);
 		pItem->SetCurrentDurability(pItem->GetMaxDurability());

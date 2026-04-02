@@ -19,21 +19,21 @@
 class CGGQuestCancel : public Packet 
 {
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_GQUEST_CANCEL; }
-	PacketSize_t getPacketSize() const throw() { return szDWORD; }
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_GQUEST_CANCEL; }
+	size_t getPacketSize() const { return szDWORD; }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "CGGQuestCancel"; }
-	string toString() const throw();
+	string getPacketName() const { return "CGGQuestCancel"; }
+	string toString() const;
 #endif
 public:
-	DWORD getQuestID() const throw()  { return m_QuestID; }
-	void setQuestID(DWORD QuestID) throw() { m_QuestID = QuestID; }
+	DWORD getQuestID() const  { return m_QuestID; }
+	void setQuestID(DWORD QuestID) { m_QuestID = QuestID; }
 
 private:
-	DWORD       m_QuestID;  // ±â¼úÀÇ Á¾·ù
+	DWORD       m_QuestID;  // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -43,12 +43,12 @@ private:
 class CGGQuestCancelFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new CGGQuestCancel(); }
+	Packet* createPacket() { return new CGGQuestCancel(); }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "CGGQuestCancel"; }
+	string getPacketName() const { return "CGGQuestCancel"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_GQUEST_CANCEL; }
-	PacketSize_t getPacketMaxSize() const throw() { return szDWORD; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_GQUEST_CANCEL; }
+	PacketSize_t getPacketMaxSize() const { return szDWORD; }
 };
 
 
@@ -59,7 +59,7 @@ public:
 class CGGQuestCancelHandler 
 {
 public:
-	static void execute(CGGQuestCancel* pCGGQuestCancel, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(CGGQuestCancel* pCGGQuestCancel, Player* pPlayer);
 };
 #endif
 #endif

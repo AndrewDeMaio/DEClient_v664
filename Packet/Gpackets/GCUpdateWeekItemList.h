@@ -84,17 +84,17 @@ typedef struct _WeekItemInfo
 class GCUpdateWeekItemList : public Packet 
 {
 public:
-	GCUpdateWeekItemList() throw();
-	virtual ~GCUpdateWeekItemList() throw();
+	GCUpdateWeekItemList();
+	virtual ~GCUpdateWeekItemList();
 
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_UPDATE_WEEKITEM_LIST; }
-	PacketSize_t getPacketSize() const throw();
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_UPDATE_WEEKITEM_LIST; }
+	size_t getPacketSize() const;
 #ifdef __DEBUG_OUTPUT__	
-	string getPacketName() const throw() { return "GCUpdateWeekItemList"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCUpdateWeekItemList"; }
+	string toString() const;
 #endif
 	
 public:
@@ -125,10 +125,10 @@ private:
 class GCUpdateWeekItemListFactory : public PacketFactory 
 {
 public :
-	Packet* createPacket() throw() { return new GCUpdateWeekItemList(); }
-	string getPacketName() const throw() { return "GCUpdateWeekItemList"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_UPDATE_WEEKITEM_LIST; }
-	PacketSize_t getPacketMaxSize() const throw() 
+	Packet* createPacket() { return new GCUpdateWeekItemList(); }
+	string getPacketName() const { return "GCUpdateWeekItemList"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_UPDATE_WEEKITEM_LIST; }
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		PacketSize_t size = szBYTE;
 		size += WeekItemInfo::getPacketMaxSize() * MAX_WEEKITEM_LIST;
@@ -145,7 +145,7 @@ public :
 class GCUpdateWeekItemListHandler 
 {
 public :
-	static void execute(GCUpdateWeekItemList* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCUpdateWeekItemList* pPacket, Player* pPlayer);
 
 };
 

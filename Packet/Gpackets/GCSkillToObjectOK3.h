@@ -2,8 +2,8 @@
 // 
 // Filename    : GCSkillToObjectOK3.h 
 // Written By  : elca@ewestsoft.com
-// Description : ±â¼úÀÌ ¼º°øÇßÀ»¶§ º¸³»´Â ÆÐÅ¶À» À§ÇÑ Å¬·¡½º Á¤ÀÇ
-// 				±â¼úÀ» »ç¿ëÇÑ »ç¶÷À» º¼ ¼ö ÀÖ´Â ºÐµéÀÌ ¹ÞÀ¸½Ã´Â ÆÐÅ¶(±â¼ú¿¡ ´çÇÑ »ç¶÷Àº º¼¼ö ¾ø´Â)
+// Description : ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+// 				ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ðµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ ï¿½ï¿½Å¶(ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -20,7 +20,7 @@
 //
 // class GCSkillToObjectOK3;
 //
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -30,54 +30,54 @@ class GCSkillToObjectOK3 : public Packet
 public :
 
 	// constructor
-	GCSkillToObjectOK3() throw();
+	GCSkillToObjectOK3();
 
 	// destructor
-	~GCSkillToObjectOK3() throw();
+	~GCSkillToObjectOK3();
 
 public :
 
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_SKILL_TO_OBJECT_OK_3; }
+	PacketID_t getPacketID() const { return PACKET_GC_SKILL_TO_OBJECT_OK_3; }
 
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getPacketSize() const throw() { return szObjectID + szSkillType + szCoord*2 + szBYTE + szBYTE; }
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	size_t getPacketSize() const { return szObjectID + szSkillType + szCoord*2 + szBYTE + szBYTE; }
 
 	// get packet's name
-	string getPacketName() const throw() { return "GCSkillToObjectOK3"; }
+	string getPacketName() const { return "GCSkillToObjectOK3"; }
 
 	// get packet's debug string
-	string toString() const throw();
+	string toString() const;
 
 	// get / set ObjectID
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID(ObjectID_t ObjectID) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID(ObjectID_t ObjectID) { m_ObjectID = ObjectID; }
 
 	// get / set SkillType
-	SkillType_t getSkillType() const throw() { return m_SkillType; }
-	void setSkillType(SkillType_t SkillType) throw() { m_SkillType = SkillType; }
+	SkillType_t getSkillType() const { return m_SkillType; }
+	void setSkillType(SkillType_t SkillType) { m_SkillType = SkillType; }
 
 	// get / set Target X,Y
-	Coord_t getTargetX() const throw() { return m_TargetX; }
-	Coord_t getTargetY() const throw() { return m_TargetY; }
-	void setTargetXY(Coord_t X, Coord_t Y) throw() { m_TargetX = X; m_TargetY = Y; }
+	Coord_t getTargetX() const { return m_TargetX; }
+	Coord_t getTargetY() const { return m_TargetY; }
+	void setTargetXY(Coord_t X, Coord_t Y) { m_TargetX = X; m_TargetY = Y; }
 
 	// get / set CEffectID 
-//	CEffectID_t getCEffectID() const throw() { return m_CEffectID; }
-//	void setCEffectID(CEffectID_t e) throw() { m_CEffectID = e; }
+//	CEffectID_t getCEffectID() const { return m_CEffectID; }
+//	void setCEffectID(CEffectID_t e) { m_CEffectID = e; }
 
-	BYTE getGrade() const throw() { return m_Grade; }
-	void setGrade( BYTE grade ) throw() { m_Grade = grade; }
+	BYTE getGrade() const { return m_Grade; }
+	void setGrade( BYTE grade ) { m_Grade = grade; }
 
 	// get / set Combo
 	BYTE getActionStep() const			{ return m_ActionStep; }
@@ -116,23 +116,23 @@ class GCSkillToObjectOK3Factory : public PacketFactory
 public :
 
 	// constructor
-	GCSkillToObjectOK3Factory() throw() {}
+	GCSkillToObjectOK3Factory() {}
 
 	// destructor
-	virtual ~GCSkillToObjectOK3Factory() throw() {}
+	virtual ~GCSkillToObjectOK3Factory() {}
 
 public :
 
 	// create packet
-	Packet* createPacket() throw() { return new GCSkillToObjectOK3(); }
+	Packet* createPacket() { return new GCSkillToObjectOK3(); }
 
 	// get packet name
-	string getPacketName() const throw() { return "GCSkillToObjectOK3"; }
+	string getPacketName() const { return "GCSkillToObjectOK3"; }
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_SKILL_TO_OBJECT_OK_3; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_SKILL_TO_OBJECT_OK_3; }
 
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID + szSkillType + szCoord*2 + szBYTE + szBYTE; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID + szSkillType + szCoord*2 + szBYTE + szBYTE; }
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -147,7 +147,7 @@ class GCSkillToObjectOK3Handler
 public :
 
 	// execute packet's handler
-	static void execute(GCSkillToObjectOK3* pGCSkillToObjectOK3, Player* pPlayer) throw(Error);
+	static void execute(GCSkillToObjectOK3* pGCSkillToObjectOK3, Player* pPlayer);
 };
 
 #endif

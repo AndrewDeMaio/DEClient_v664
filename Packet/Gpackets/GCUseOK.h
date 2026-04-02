@@ -26,34 +26,34 @@ class GCUseOK : public ModifyInfo {
 public :
 
 	// Constructor
-	GCUseOK() throw();
+	GCUseOK();
 
 	// Desctructor
-	~GCUseOK() throw();
+	~GCUseOK();
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_USE_OK; }
+	PacketID_t getPacketID () const { return PACKET_GC_USE_OK; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static GCUseOKPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () { return ModifyInfo::getPacketSize(); }
+	// const static GCUseOKPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const { return ModifyInfo::getPacketSize(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCUseOK"; }
+		std::string getPacketName () const { return "GCUseOK"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 };
@@ -72,20 +72,20 @@ class GCUseOKFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCUseOK(); }
+	Packet * createPacket () { return new GCUseOK(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCUseOK"; }
+		std::string getPacketName () const { return "GCUseOK"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_USE_OK; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_USE_OK; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCUseOKPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return 255; }
+	// const static GCUseOKPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return 255; }
 
 };
 
@@ -101,7 +101,7 @@ class GCUseOKHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCUseOK * pPacket , Player * player ) throw ( ProtocolException , Error );
+	static void execute ( GCUseOK * pPacket , Player * player );
 };
 
 #endif

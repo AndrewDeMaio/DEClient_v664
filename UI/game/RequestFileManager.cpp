@@ -7,8 +7,8 @@
 #include "RequestServerPlayer.h"
 #include "ProfileManager.h"
 
-#include "packet\Rpackets\RCRequestedFile.h"
-#include "packet\Rpackets\RCRequestVerify.h"
+#include "Rpackets\RCRequestedFile.h"
+#include "Rpackets\RCRequestVerify.h"
 
 #include "ServerInfo.h"
 #include "DebugInfo.h"
@@ -55,7 +55,7 @@ ReceiveFileInfo::ReceiveFileInfo(const char* pFilename,
 
 ReceiveFileInfo::~ReceiveFileInfo()
 {
-	// È­ÀÏ ´Ý±â
+	// È­ï¿½ï¿½ ï¿½Ý±ï¿½
 	if (m_FileStream.is_open())
 	{
 		m_FileStream.close();
@@ -65,15 +65,15 @@ ReceiveFileInfo::~ReceiveFileInfo()
 //---------------------------------------------------------------------------
 // Start Receive
 //---------------------------------------------------------------------------
-// ´©°¡ ³ª¿¡°Ô fileÀ» º¸³»±â ½ÃÀÛÇÒ·Á´Â ¼ø°£ÀÌ´Ù.
-// È­ÀÏÀ» ¿­°í ¹ÞÀ» ÁØºñ¸¦ ÇÏ¸é µÈ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ fileï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
+// È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Øºï¿½ ï¿½Ï¸ï¿½ ï¿½È´ï¿½.
 //---------------------------------------------------------------------------
 void
 ReceiveFileInfo::StartReceive(DWORD filesize)
 {
 	m_Mode = REQUEST_FILE_MODE_RECEIVE;
 
-	// ÀÓ½Ã ÆÄÀÏ ÀÌ¸§
+	// ï¿½Ó½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
 	m_FilenameTemp = m_Filename;
 
 	int dot = m_FilenameTemp.rfind(".");
@@ -82,7 +82,7 @@ ReceiveFileInfo::StartReceive(DWORD filesize)
 
 	m_FilenameTemp += ".tmp";
 
-	// È­ÀÏ ¿­¾îµÎ±â
+	// È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Î±ï¿½
 	if (m_FileStream.is_open())
 	{
 		m_FileStream.close();
@@ -90,14 +90,14 @@ ReceiveFileInfo::StartReceive(DWORD filesize)
 
 	m_FileStream.open( m_FilenameTemp.c_str() , std::ios::out | std::ios::binary | std::ios::trunc );
 
-	// ¹Þ¾Æ¾ßÇÒ byte¼ö
+	// ï¿½Þ¾Æ¾ï¿½ï¿½ï¿½ byteï¿½ï¿½
 	m_FileSizeLeft = filesize;
 }
 
 //---------------------------------------------------------------------------
 // Receive
 //---------------------------------------------------------------------------
-// ¹ÞÀº data¸¦ È­ÀÏ¿¡ ¾²¸é µÈ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ dataï¿½ï¿½ È­ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½È´ï¿½.
 //---------------------------------------------------------------------------
 void		
 ReceiveFileInfo::Receive(const char* pBuffer, DWORD nReceived)
@@ -110,8 +110,8 @@ ReceiveFileInfo::Receive(const char* pBuffer, DWORD nReceived)
 //---------------------------------------------------------------------------
 // End Receive
 //---------------------------------------------------------------------------
-// È­ÀÏÀ» ´Ý°í..
-// FilenameTempÈ­ÀÏÀ» ½ÇÁ¦ data¿¡ update½ÃÅ²´Ù.
+// È­ï¿½ï¿½ï¿½ï¿½ ï¿½Ý°ï¿½..
+// FilenameTempÈ­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ dataï¿½ï¿½ updateï¿½ï¿½Å²ï¿½ï¿½.
 //---------------------------------------------------------------------------
 void		
 ReceiveFileInfo::EndReceive(const std::string& requestUser)
@@ -123,7 +123,7 @@ ReceiveFileInfo::EndReceive(const std::string& requestUser)
 	switch (m_FileType)
 	{
 		//--------------------------------------------------------------------
-		// ¿äÃ»ÇÑ profileÀ» ´Ù ¹ÞÀº °æ¿ì
+		// ï¿½ï¿½Ã»ï¿½ï¿½ profileï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------------------------
 		case REQUEST_FILE_PROFILE :
 			if (rename( m_FilenameTemp.c_str(), m_Filename.c_str() )==0)
@@ -147,7 +147,7 @@ ReceiveFileInfo::EndReceive(const std::string& requestUser)
 		break;
 
 		//--------------------------------------------------------------------
-		// ¿äÃ»ÇÑ profile index¸¦ ´Ù ¹ÞÀº °æ¿ì
+		// ï¿½ï¿½Ã»ï¿½ï¿½ profile indexï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------------------------
 		case REQUEST_FILE_PROFILE_INDEX :
 			if (rename( m_FilenameTemp.c_str(), m_Filename.c_str() )==0)
@@ -196,7 +196,7 @@ RequestSendInfo::MakeRCRequestedFilePacket(RCRequestedFile& packet) const
 {
 	std::list<SendFileInfo*>::const_iterator iInfo = m_FileInfos.begin();
 
-	// ÇÏ³ª¸¸ ³Ö¾îµÐ´Ù.
+	// ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½Ð´ï¿½.
 	//while (iInfo != m_FileInfos.end())
 	if (iInfo != m_FileInfos.end())
 	{
@@ -229,7 +229,7 @@ SendFileInfo::SendFileInfo(const char* pFilename,
 
 SendFileInfo::~SendFileInfo()
 {
-	// È­ÀÏ ´Ý±â
+	// È­ï¿½ï¿½ ï¿½Ý±ï¿½
 	if (m_FileStream.is_open())
 	{
 		m_FileStream.close();
@@ -250,7 +250,7 @@ SendFileInfo::StartSend()
 	{
 		m_FileStream.seekg( 0, std::ios::end );
 
-		m_FileSizeLeft = m_FileStream.tellg();	// filesize¸¦ ¾Ë¾Æ¿À±â À§ÇØ¼­
+		m_FileSizeLeft = m_FileStream.tellg();	// filesizeï¿½ï¿½ ï¿½Ë¾Æ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½
 
 		m_FileStream.seekg( 0, std::ios::beg );
 	}
@@ -283,7 +283,7 @@ SendFileInfo::Send(char* pBuffer)
 void
 SendFileInfo::SendBack(DWORD nBack)
 {
-	long _nBack = (long)nBack; // warning ÀâÀ»·Á°í
+	long _nBack = (long)nBack; // warning ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	m_FileStream.seekg( -_nBack, std::ios::cur );
 	m_FileSizeLeft += nBack;
 }
@@ -413,11 +413,10 @@ RequestFileManager::HasMyRequest(const std::string& name) const
 //---------------------------------------------------------------------------
 // Receive MyRequest
 //---------------------------------------------------------------------------
-// pRequestClientPlayer¿¡¼­ data¸¦ ÀÐ¾îµé¿©¼­ pInfoÀÇ Á¤º¸¸¦ ÀÌ¿ëÇØ ÀúÀåÇÑ´Ù.
+// pRequestClientPlayerï¿½ï¿½ï¿½ï¿½ dataï¿½ï¿½ ï¿½Ð¾ï¿½é¿©ï¿½ï¿½ pInfoï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //---------------------------------------------------------------------------
 bool
 RequestFileManager::ReceiveMyRequest(const std::string& name, RequestClientPlayer* pRequestClientPlayer)
-	throw (ConnectException)
 {
 	REQUEST_RECEIVE_MAP::iterator iMy = m_MyRequests.find( name );
 
@@ -435,7 +434,7 @@ RequestFileManager::ReceiveMyRequest(const std::string& name, RequestClientPlaye
 		switch (pFileInfo->GetMode())
 		{
 			//------------------------------------------------------------------
-			// È­ÀÏ ¹Þ±â Àü¿¡
+			// È­ï¿½ï¿½ ï¿½Þ±ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------------------
 			case REQUEST_FILE_MODE_BEFORE :
 			{
@@ -444,7 +443,7 @@ RequestFileManager::ReceiveMyRequest(const std::string& name, RequestClientPlaye
 			return false;
 
 			//------------------------------------------------------------------
-			// È­ÀÏ ¹Þ´Â Áß¿¡..
+			// È­ï¿½ï¿½ ï¿½Þ´ï¿½ ï¿½ß¿ï¿½..
 			//------------------------------------------------------------------
 			case REQUEST_FILE_MODE_RECEIVE :
 			{
@@ -453,14 +452,14 @@ RequestFileManager::ReceiveMyRequest(const std::string& name, RequestClientPlaye
 				char buf[MAX_BUFFER+1];	// 10k
 				
 				//------------------------------------------------------------------
-				// ¸ÕÀú InputStream¿¡°É ÀÐ¾î¾ß ÇÑ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ InputStreamï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
 				//------------------------------------------------------------------
 				DWORD length = pRequestClientPlayer->getInputStreamLength();
 				
 				while ( length > 0 ) 
 				{	
-					// ³²Àº size¸¸Å­¸¸ ÀÐ´Â´Ù.
-					// buffer¸¸Å­¸¸ ÀÐ°í					
+					// ï¿½ï¿½ï¿½ï¿½ sizeï¿½ï¿½Å­ï¿½ï¿½ ï¿½Ð´Â´ï¿½.
+					// bufferï¿½ï¿½Å­ï¿½ï¿½ ï¿½Ð°ï¿½					
 					int nReceive = min(length, pFileInfo->GetFileSizeLeft());
 					nReceive = min(MAX_BUFFER, nReceive);					
 
@@ -470,7 +469,7 @@ RequestFileManager::ReceiveMyRequest(const std::string& name, RequestClientPlaye
 
 					length -= nReceived;
 
-					// ´Ù ¹ÞÀº °æ¿ì
+					// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 					if (pFileInfo->GetFileSizeLeft()==0)
 					{
 						break;
@@ -478,7 +477,7 @@ RequestFileManager::ReceiveMyRequest(const std::string& name, RequestClientPlaye
 				}
 
 				//------------------------------------------------------------------
-				// socket¿¡ ÀÖ´Â ¸¸Å­ ÀÐ´Â´Ù.
+				// socketï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½Å­ ï¿½Ð´Â´ï¿½.
 				//------------------------------------------------------------------
 				/*
 				DWORD available = pSocket->available();
@@ -495,23 +494,23 @@ RequestFileManager::ReceiveMyRequest(const std::string& name, RequestClientPlaye
 				*/
 
 				//------------------------------------------------------------------
-				// ´Ù ¹ÞÀº °æ¿ì
+				// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 				//------------------------------------------------------------------
 				if (pFileInfo->GetFileSizeLeft()==0)
 				{
 					pFileInfo->EndReceive( pInfo->GetRequestUser() );
 
-					// È­ÀÏ Á¤º¸ Á¦°Å
+					// È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					pInfo->DeleteFront();
 					
-					// ¸ðµç È­ÀÏÀ» ´Ù ¹Þ¾Ò³ª?
+					// ï¿½ï¿½ï¿½ È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Þ¾Ò³ï¿½?
 					if (pInfo->IsEnd())
 					{
 						delete pInfo;
 
 						m_MyRequests.erase( iMy );
 						
-						// ´Ù ¹Þ¾ÒÀ¸´Ï±î ²÷¾î¹ö¸°´Ù.
+						// ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 						//throw ConnectException("Receive Done");
 					}					
 				}
@@ -519,7 +518,7 @@ RequestFileManager::ReceiveMyRequest(const std::string& name, RequestClientPlaye
 			return true;
 
 			//------------------------------------------------------------------
-			// È­ÀÏ ¹Þ°í ³ª¼­
+			// È­ï¿½ï¿½ ï¿½Þ°ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------------------
 			case REQUEST_FILE_MODE_AFTER :
 			return false;
@@ -527,7 +526,7 @@ RequestFileManager::ReceiveMyRequest(const std::string& name, RequestClientPlaye
 	}
 	else
 	{
-		// ¹ÞÀ»°Ô ¾ø´Âµ¥..
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Âµï¿½..
 		delete pInfo;
 
 		m_MyRequests.erase( iMy );
@@ -599,8 +598,8 @@ RequestFileManager::HasOtherRequest(const std::string& name) const
 //---------------------------------------------------------------------------
 // Send OtherRequest
 //---------------------------------------------------------------------------
-// return°ªÀÌ trueÀÌ¸é È­ÀÏÀ» º¸³»´Â ÁßÀÌ¶ó´Â ÀÇ¹ÌÀÌ´Ù.
-// RequestServerPlayerÀÇ processCommand¸¦ Ã³¸®ÇÒ ÇÊ¿ä°¡ ¾ø´Ù.
+// returnï¿½ï¿½ï¿½ï¿½ trueï¿½Ì¸ï¿½ È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½Ç¹ï¿½ï¿½Ì´ï¿½.
+// RequestServerPlayerï¿½ï¿½ processCommandï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ä°¡ ï¿½ï¿½ï¿½ï¿½.
 //---------------------------------------------------------------------------
 bool			
 RequestFileManager::SendOtherRequest(const std::string& name, RequestServerPlayer* pRequestServerPlayer)
@@ -621,7 +620,7 @@ RequestFileManager::SendOtherRequest(const std::string& name, RequestServerPlaye
 		switch (pFileInfo->GetMode())
 		{
 			//------------------------------------------------------------------
-			// È­ÀÏ º¸³»±â Àü¿¡
+			// È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------------------
 			case REQUEST_FILE_MODE_BEFORE :
 			{
@@ -643,7 +642,7 @@ RequestFileManager::SendOtherRequest(const std::string& name, RequestServerPlaye
 			return false;
 
 			//------------------------------------------------------------------
-			// È­ÀÏ º¸³»´Â Áß
+			// È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 			//------------------------------------------------------------------
 			case REQUEST_FILE_MODE_SEND :
 			{
@@ -657,13 +656,13 @@ RequestFileManager::SendOtherRequest(const std::string& name, RequestServerPlaye
 
 					if (nSent!=nRead)
 					{
-						// ¿±±âÀÏ±î.. - -;
+						// ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½.. - -;
 						// socketInputStream
 						pFileInfo->SendBack( nRead - nSent );
 					}
 				}
 
-				if (nRead < MAX_BUFFER)	// ´Ù ÀÐÀº °æ¿ì
+				if (nRead < MAX_BUFFER)	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 				{
 					if (pFileInfo->GetFileSizeLeft()==0)
 					{
@@ -673,13 +672,13 @@ RequestFileManager::SendOtherRequest(const std::string& name, RequestServerPlaye
 
 						if (pInfo->IsEnd())
 						{
-							// ´Ù º¸³Â´Ù~..
+							// ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½~..
 							RCRequestVerify rcRequestVerify;
 							rcRequestVerify.setCode( REQUEST_VERIFY_PROFILE_DONE );
 
 							pRequestServerPlayer->sendPacket( &rcRequestVerify );
 
-							// Á¤º¸ Á¦°Å
+							// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							delete pInfo;
 							m_OtherRequests.erase( iOther );
 						}
@@ -687,7 +686,7 @@ RequestFileManager::SendOtherRequest(const std::string& name, RequestServerPlaye
 						{
 							//pFileInfo = pInfo->GetFront();
 
-							// ´ú º¸³ÂÀ¸¸é ´ÙÀ½²¨ ¶Ç º¸³½´Ù.							
+							// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.							
 						}
 					}
 					else
@@ -699,7 +698,7 @@ RequestFileManager::SendOtherRequest(const std::string& name, RequestServerPlaye
 			return true;
 			
 			//------------------------------------------------------------------
-			// È­ÀÏ º¸³»°í ³ª¼­
+			// È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//------------------------------------------------------------------
 			case REQUEST_FILE_MODE_AFTER :
 			return false;

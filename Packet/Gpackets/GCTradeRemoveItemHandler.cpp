@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCTradeRemoveItemHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
@@ -13,14 +13,13 @@
 #include "ClientDef.h"
 
 void GCTradeRemoveItemHandler::execute ( GCTradeRemoveItem * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
 #ifdef __GAME_CLIENT__
 
 	//------------------------------------------------------------------------
-	// TradeManager°¡ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì --> -_-;;
+	// TradeManagerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ --> -_-;;
 	//------------------------------------------------------------------------
 	if (g_pTradeManager==NULL)
 	{
@@ -29,21 +28,21 @@ void GCTradeRemoveItemHandler::execute ( GCTradeRemoveItem * pPacket , Player * 
 		return;
 	}
 
-	//ObjectID_t getTargetObjectID() const throw() { return m_TargetObjectID; }
+	//ObjectID_t getTargetObjectID() const { return m_TargetObjectID; }
 	
 	TYPE_OBJECTID itemID = pPacket->getItemObjectID();
 
 	MItem* pItem = g_pTradeManager->GetOtherInventory()->RemoveItem( itemID );
 
 	//------------------------------------------------------------------------
-	// ¾ÆÀÌÅÛÀÌ ¾ø´Ù¸é..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½..
 	//------------------------------------------------------------------------
 	if (pItem==NULL)
 	{
 		DEBUG_ADD_FORMAT( "[Error] There is no such item. id=%d", itemID );
 	}
 	//------------------------------------------------------------------------
-	// ÀÖÀ¸¸é ±×³É Áö¿ì¸é µÈ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È´ï¿½.
 	//------------------------------------------------------------------------
 	else
 	{
@@ -51,7 +50,7 @@ void GCTradeRemoveItemHandler::execute ( GCTradeRemoveItem * pPacket , Player * 
 	}
 	
 	//-----------------------------------------------------------
-	// ¹º°¡ ¹Ù²ï´Ù¸é... OKÃë¼Ò
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½Ù¸ï¿½... OKï¿½ï¿½ï¿½
 	//-----------------------------------------------------------
 	g_pTradeManager->RefuseOtherTrade();
 	g_pTradeManager->RefuseMyTrade();

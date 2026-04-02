@@ -24,41 +24,41 @@ class CGDropMoney : public Packet {
 public :
 
 	// constructor
-	CGDropMoney() throw();
+	CGDropMoney();
 
 	// destructor
-	~CGDropMoney() throw();
+	~CGDropMoney();
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CG_DROP_MONEY; }
+	PacketID_t getPacketID () const { return PACKET_CG_DROP_MONEY; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static CGDropMoneyPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () { return szGold; }
+	// const static CGDropMoneyPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const { return szGold; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGDropMoney"; }
+		std::string getPacketName () const { return "CGDropMoney"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
 public :
-	Gold_t getAmount(void) const throw() { return m_Amount;}
-	void setAmount(Gold_t amount) throw() { m_Amount = amount;}
+	Gold_t getAmount(void) const { return m_Amount;}
+	void setAmount(Gold_t amount) { m_Amount = amount;}
 
 private :
 	
@@ -79,20 +79,20 @@ class CGDropMoneyFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CGDropMoney(); }
+	Packet * createPacket () { return new CGDropMoney(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGDropMoney"; }
+		std::string getPacketName () const { return "CGDropMoney"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_DROP_MONEY; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_DROP_MONEY; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static CGDropMoneyPacketSize ¸¦ Á¤ÀÇÇØ¼­ ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return szGold; }
+	// const static CGDropMoneyPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return szGold; }
 
 };
 
@@ -110,7 +110,7 @@ public :
 	public :
 
 		// execute packet's handler
-		static void execute ( CGDropMoney * pPacket , Player * player ) throw ( ProtocolException , Error );
+		static void execute ( CGDropMoney * pPacket , Player * player );
 	};
 #endif
 

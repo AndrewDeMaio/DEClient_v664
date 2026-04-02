@@ -15,16 +15,15 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCCrossCounterOK2Handler::execute ( GCCrossCounterOK2 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
 #ifdef __GAME_CLIENT__
 
 
-	// ³»°¡ objectIDÇÑÅ× ¸Â´Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ objectIDï¿½ï¿½ï¿½ï¿½ ï¿½Â´Â´ï¿½.
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	AffectModifyInfo(g_pPlayer, pPacket);
 
@@ -32,7 +31,7 @@ void GCCrossCounterOK2Handler::execute ( GCCrossCounterOK2 * pPacket , Player * 
 	//int delayFrame = ConvertDurationToFrame( pPacket->getDuration() );
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -40,7 +39,7 @@ void GCCrossCounterOK2Handler::execute ( GCCrossCounterOK2 * pPacket , Player * 
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{

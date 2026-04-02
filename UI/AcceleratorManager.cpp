@@ -7,7 +7,7 @@
 #include "AcceleratorDef.h"
 #include "VS_UI.h"
 
-//#include "Packet\Cpackets\CGChangeGearSlot.h"
+//#include "Cpackets\CGChangeGearSlot.h"
 
 //-----------------------------------------------------------------------------
 // Global

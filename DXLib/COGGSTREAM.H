@@ -15,8 +15,8 @@
 
 #include <dsound.h>
 
-#include "dxlib/codec.h"
-#include "dxlib/vorbisfile.h"
+#include "vorbis\codec.h"
+#include "vorbisfile.h"
 
 #define STREAM_MAX					5
 

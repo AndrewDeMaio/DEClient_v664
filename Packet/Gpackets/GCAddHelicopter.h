@@ -2,7 +2,7 @@
 // Filename    : GCAddHelicopter.h 
 // Written By  : excel96
 // Description :
-// ½½·¹ÀÌ¾î°¡ ¹«Àü±â¸¦ »ç¿ëÇØ, Çï±â¸¦ È£ÃâÇßÀ» °æ¿ì¿¡ ³¯¾Æ°¡´Â ÆÐÅ¶
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½â¸¦ È£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½Æ°ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __GC_ADD_HELICOPTER_H__
@@ -20,15 +20,15 @@
 class GCAddHelicopter : public Packet 
 {
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_ADD_HELICOPTER; }
-	PacketSize_t getPacketSize() const throw() { return szObjectID + szBYTE + szBYTE; }
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_ADD_HELICOPTER; }
+	size_t getPacketSize() const { return szObjectID + szBYTE + szBYTE; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "GCAddHelicopter"; }
-		std::string toString() const throw();
+		std::string getPacketName() const { return "GCAddHelicopter"; }
+		std::string toString() const;
 	#endif
 
 public:
@@ -42,8 +42,8 @@ public:
 	void setExtendType(BYTE ExtendType) { m_ExtendType = ExtendType; }
 	
 private:
-	ObjectID_t  m_ObjectID; // Çï±â¸¦ È£ÃâÇÑ ½½·¹ÀÌ¾îÀÇ ¿ÀºêÁ§Æ® ID
-	BYTE        m_Code;     // 0ÀÌ È£Ãâ, 1ÀÌ Á¦°Å
+	ObjectID_t  m_ObjectID; // ï¿½ï¿½â¸¦ È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ID
+	BYTE        m_Code;     // 0ï¿½ï¿½ È£ï¿½ï¿½, 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	BYTE		m_ExtendType;
 };
 
@@ -54,14 +54,14 @@ private:
 class GCAddHelicopterFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCAddHelicopter(); }
+	Packet* createPacket() { return new GCAddHelicopter(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "GCAddHelicopter"; }
+		std::string getPacketName() const { return "GCAddHelicopter"; }
 	#endif
 
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_ADD_HELICOPTER; }
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID + szBYTE + szBYTE; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_ADD_HELICOPTER; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID + szBYTE + szBYTE; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -71,7 +71,7 @@ public:
 class GCAddHelicopterHandler 
 {
 public:
-	static void execute(GCAddHelicopter* pGCAddHelicopter, Player* pPlayer) throw(Error);
+	static void execute(GCAddHelicopter* pGCAddHelicopter, Player* pPlayer);
 };
 
 #endif

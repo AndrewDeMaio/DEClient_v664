@@ -8,7 +8,6 @@
 
 
 void CGModifyGuildMember::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -29,7 +28,6 @@ void CGModifyGuildMember::read (SocketInputStream & iStream)
 }
 
 void CGModifyGuildMember::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -49,7 +47,6 @@ void CGModifyGuildMember::write (SocketOutputStream & oStream) const
 }
 
 void CGModifyGuildMember::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -62,7 +59,6 @@ void CGModifyGuildMember::execute (Player* pPlayer)
 #ifdef __DEBUG_OUTPUT__
 
 std::string CGModifyGuildMember::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

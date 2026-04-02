@@ -7,7 +7,6 @@
 #include "CGWithdrawPet.h"
 
 void CGWithdrawPet::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY 
 		
@@ -18,7 +17,6 @@ void CGWithdrawPet::read (SocketInputStream & iStream)
 }
 
 void CGWithdrawPet::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -29,7 +27,6 @@ void CGWithdrawPet::write (SocketOutputStream & oStream) const
 }
 
 void CGWithdrawPet::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -39,7 +36,7 @@ void CGWithdrawPet::execute (Player* pPlayer)
 }
 
 string CGWithdrawPet::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 		

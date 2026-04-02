@@ -599,14 +599,14 @@ public :
 //#if __CONTENTS(__PREMIUM_CARD)					// 이것이 OFF이므로 인덱스 1씩감소해서 생각하여야함 (. .
 //		PACKET_GC_USE_PREMIUMCARD,					// 487
 //#endif //__PREMIUM_CARD
-#if __CONTENTS(__GEAR_SWAP_CHANGE)	// Packet 패킷 팩토리를 등록할 인덱스를 추가한다.
+//#if __CONTENTS(__GEAR_SWAP_CHANGE)	// Packet 패킷 팩토리를 등록할 인덱스를 추가한다.
 		PACKET_CG_CHANGE_GEARSLOT,					// 487
 		PACKET_GC_CHANGE_GEARSLOT,					// 488
-#endif	//__GEAR_SWAP_CHANGE
+//#endif	//__GEAR_SWAP_CHANGE
 
-#if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)					
+//#if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)					
 		PACKET_GC_ADD_SYLPH,						// 489
-#endif //__FAST_TRANSFORTER||__SECOND_TRANSFORTER
+//#endif //__FAST_TRANSFORTER||__SECOND_TRANSFORTER
 
 #if __CONTENTS(__TIPOJYU_CASTLE)					// 패킷 클래스를 인덱스
 		PACKET_CG_INSTANCEDOUNGEON_ENTER,			// 490
@@ -625,10 +625,10 @@ public :
 		PACKET_CG_SELECT_ALL_WEEKITEM,				// 497
 #endif //__PREMIUM_GIVE_ITEM_UI
 
-#if __CONTENTS(__REPAIRSYSTEM_RENEWAL)
-		PACKET_CG_REQUEST_REPAIR_INFO,				//498
+//#if __CONTENTS(__REPAIRSYSTEM_RENEWAL)
+		PACKET_CG_REQUEST_REPAIR_INFO = 498,		//498
 		PACKET_GC_REPAIR_INFO,						//499
-#endif //__REPAIRSYSTEM_RENEWAL
+//#endif //__REPAIRSYSTEM_RENEWAL
 
 #if __CONTENTS(__FRIEND_ADDITION)
 		PACKET_CG_FRIEND_REQ_TO_ADD = 500,			// 500
@@ -691,8 +691,9 @@ public :
 		///////////////////////////////////////////////////////////
 #endif //__FRIEND_ADDITION
 
-	//	PACKET_GC_AUTH_XTRAP = 600,                   // 600  // XTRAP 키
-	//    PACKET_CG_AUTH_XTRAP,                         // 601  // XTRAP 키
+		PACKET_GC_AUTH_XTRAP = 600,                   // 600  // XTRAP 키
+	    PACKET_CG_AUTH_XTRAP,                         // 601  // XTRAP 키
+		PACKET_GC_SUPPLYITEM_LIST,
 		PACKET_MAX,
 	};
 
@@ -739,9 +740,9 @@ public :
 	virtual PacketID_t getPacketID () const = 0;
 
 	// get packet's size
-	virtual PacketSize_t getPacketSize () const = 0;
+	virtual size_t getPacketSize () const = 0;
 
-	#if !defined(__GAME_CLIENT__) || defined(__DEBUG_OUTPUT__)
+	#if defined(__DEBUG_OUTPUT__)
 		// get packet's name
 		virtual string getPacketName () const = 0;
 		

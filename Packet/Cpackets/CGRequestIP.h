@@ -2,7 +2,7 @@
 // 
 // Filename    : CGRequestIP.h 
 // Written By  : crazydog
-// Description : Effect Á¦°Å.
+// Description : Effect ï¿½ï¿½ï¿½ï¿½.
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -19,9 +19,9 @@
 //
 // class CGRequestIP;
 //
-// client¿¡¼­ server·Î ´©±º°¡ÀÇ IP¸¦ ¿äÃ»ÇÏ´Âµ¥
-// ´©±º°¡°¡ ±ÙÃ³¿¡ ÀÖ´Ù¸é objectID·Î ¿äÃ»ÇÏ°í
-// ¾Æ´Ï¸é.. Ä³¸¯ÅÍ ÀÌ¸§À¸·Î ¿äÃ»ÇÑ´Ù.
+// clientï¿½ï¿½ï¿½ï¿½ serverï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IPï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ï´Âµï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ objectIDï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ï°ï¿½
+// ï¿½Æ´Ï¸ï¿½.. Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ñ´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -31,38 +31,38 @@ class CGRequestIP : public Packet
 public :
 	
 	// constructor
-	CGRequestIP () throw ();
+	CGRequestIP ();
 	
 	// destructor
-	~CGRequestIP () throw ();
+	~CGRequestIP ();
 	
 public :
-    PacketID_t getPacketID () const throw () { return PACKET_CG_REQUEST_IP; }
+    PacketID_t getPacketID () const { return PACKET_CG_REQUEST_IP; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "CGRequestIP"; }
+		std::string getPacketName () const { return "CGRequestIP"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getPacketSize () const throw () { return szBYTE + m_Name.size(); }
-	static PacketSize_t getPacketMaxSize() throw() { return szBYTE + 10;}
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	size_t getPacketSize () const { return szBYTE + m_Name.size(); }
+	static PacketSize_t getPacketMaxSize() { return szBYTE + 10;}
 
 	// get&set ObjectID
-	const std::string& getName() const throw() { return m_Name; }
-	void setName( const char* pName) throw() { m_Name = pName;}
+	const std::string& getName() const { return m_Name; }
+	void setName( const char* pName) { m_Name = pName;}
 
 
 protected :
@@ -85,27 +85,27 @@ class CGRequestIPFactory : public PacketFactory {
 public :
 	
 	// constructor
-	CGRequestIPFactory () throw () {}
+	CGRequestIPFactory () {}
 	
 	// destructor
-	virtual ~CGRequestIPFactory () throw () {}
+	virtual ~CGRequestIPFactory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CGRequestIP(); }
+	Packet * createPacket () { return new CGRequestIP(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CGRequestIP"; }
+		std::string getPacketName () const { return "CGRequestIP"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_REQUEST_IP; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_REQUEST_IP; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize () const throw () { return szBYTE + 10;}
+	PacketSize_t getPacketMaxSize () const { return szBYTE + 10;}
 
 };
 
@@ -123,7 +123,7 @@ class CGRequestIPHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( CGRequestIP * pCGRequestIP , Player * pPlayer ) throw ( Error );
+	static void execute ( CGRequestIP * pCGRequestIP , Player * pPlayer );
 
 };
 

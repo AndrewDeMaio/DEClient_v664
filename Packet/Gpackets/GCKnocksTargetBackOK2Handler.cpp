@@ -14,7 +14,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCKnocksTargetBackOK2Handler::execute ( GCKnocksTargetBackOK2 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -22,7 +21,7 @@ void GCKnocksTargetBackOK2Handler::execute ( GCKnocksTargetBackOK2 * pPacket , P
 
 
 	//------------------------------------------------------------------
-	// Player°¡ ±â´Ù¸®´ø skillÀÇ ¼º°øÀ¯¹«¸¦ °ËÁõ¹Þ¾Ò´Ù.
+	// Playerï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Þ¾Ò´ï¿½.
 	//------------------------------------------------------------------
 	if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_SKILL_SUCCESS)
 	{		
@@ -34,7 +33,7 @@ void GCKnocksTargetBackOK2Handler::execute ( GCKnocksTargetBackOK2 * pPacket , P
 	}
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -45,7 +44,7 @@ void GCKnocksTargetBackOK2Handler::execute ( GCKnocksTargetBackOK2 * pPacket , P
 	}	
 
 
-	int skillType = pPacket->getSkillType();	//pCreature->GetBasicActionInfo(),	// ±âº» °ø°Ý == ÃÑ!? 	
+	int skillType = pPacket->getSkillType();	//pCreature->GetBasicActionInfo(),	// ï¿½âº» ï¿½ï¿½ï¿½ï¿½ == ï¿½ï¿½!? 	
 	
 	if( skillType >= g_pActionInfoTable->GetSize() )
 	{
@@ -54,28 +53,28 @@ void GCKnocksTargetBackOK2Handler::execute ( GCKnocksTargetBackOK2 * pPacket , P
 	}
 	
 	//------------------------------------------------------
-	// ¹°·¯³ª´Â¹æÇâ(direction)Àû¿ë..
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¹ï¿½ï¿½ï¿½(direction)ï¿½ï¿½ï¿½ï¿½..
 	//------------------------------------------------------
 	unsigned short x = pPacket->getX();
 	unsigned short y = pPacket->getY();
 		
 
 	//------------------------------------------------------
-	// ´ë»óÀÌ µÇ´Â creature¸¦ ¾ò´Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ creatureï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
 	//------------------------------------------------------
 	MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 	
 	if (pCreature==NULL)
 	{
-		// ±×·± creature°¡ ¾øÀ» °æ¿ì
+		// ï¿½×·ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		DEBUG_ADD_FORMAT("There's no such creature : ID=%d, Skill=%d", pPacket->getObjectID(), pPacket->getSkillType());
 		
-		// ¹Ù·Î Àû¿ë
+		// ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½
 		g_pPlayer->SetServerPosition( x, y );		
 		g_pPlayer->MovePosition( x, y );
 		g_pPlayer->SetStop();
 
-		// °á°ú ¹Ù·Î Ç¥Çö
+		// ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ Ç¥ï¿½ï¿½
 		g_pPlayer->PacketSpecialActionResult( 
 							pPacket->getSkillType() + (*g_pActionInfoTable).GetMinResultActionInfo(),
 							OBJECTID_NULL,
@@ -85,25 +84,25 @@ void GCKnocksTargetBackOK2Handler::execute ( GCKnocksTargetBackOK2 * pPacket , P
 	}
 	else
 	{	
-		// ÀÌµ¿ÇÑ ÈÄÀÇ ÁÂÇ¥°¡ ¿Â´Ù.
+		// ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Â´ï¿½.
 		//MCreature::GetPositionToDirection(x, y, pPacket->getDir());
 
 
 		//------------------------------------------------------
-		// Çàµ¿ÇÏ´Â Creature°¡ player¸¦ ¹Ù¶óº¸µµ·Ï ÇÑ´Ù.
+		// ï¿½àµ¿ï¿½Ï´ï¿½ Creatureï¿½ï¿½ playerï¿½ï¿½ ï¿½Ù¶óº¸µï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		//------------------------------------------------------
 		pCreature->SetDirectionToPosition( g_pPlayer->GetX(), g_pPlayer->GetY() );
 
 		//------------------------------------------------------
-		// °á°ú ¼³Á¤
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//------------------------------------------------------
-		// Creature°¡ Player¸¦ °ø°ÝÇÏ´Â ¸ð½À
+		// Creatureï¿½ï¿½ Playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 		//g_pPlayer->PacketSpecialActionResult( SKILL_ATTACK_MELEE + (*g_pActionInfoTable).GetMinResultActionInfo() );
 
 		/*
 		MActionResult* pResult = new MActionResult;
 		pResult->Add( new MActionResultNodeActionInfo( 
-									skillType,		// ±âº» °ø°Ý == ÃÑ!? 
+									skillType,		// ï¿½âº» ï¿½ï¿½ï¿½ï¿½ == ï¿½ï¿½!? 
 									pPacket->getObjectID(), 
 									g_pPlayer->GetID(), 
 									g_pPlayer->GetX(),
@@ -111,12 +110,12 @@ void GCKnocksTargetBackOK2Handler::execute ( GCKnocksTargetBackOK2 * pPacket , P
 						) 
 					);
 
-		// PlayerÀÇ ÁÂÇ¥°¡ ¹Ù²î´Â °á°ú
+		// Playerï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½ ï¿½ï¿½ï¿½
 		pResult->Add( new MActionResultNodeChangePosition( g_pPlayer->GetID(), x, y) );
 		*/
 
 		//------------------------------------------------------
-		// Creature°¡ Çàµ¿À» ÃëÇÏµµ·Ï ÇÑ´Ù.
+		// Creatureï¿½ï¿½ ï¿½àµ¿ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		//------------------------------------------------------
 		pCreature->PacketSpecialActionToOther(
 						skillType,
@@ -125,15 +124,15 @@ void GCKnocksTargetBackOK2Handler::execute ( GCKnocksTargetBackOK2 * pPacket , P
 		);
 
 		//------------------------------------------------------
-		// µ¿±âÈ­ ¹®Á¦ ¶§¹®¿¡..
-		// °á°ú¸¦ ¹Ù·Î Ç¥ÇöÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ Ç¥ï¿½ï¿½ï¿½Ñ´ï¿½.
 		//------------------------------------------------------
-		// ¹Ù·Î Àû¿ë
+		// ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½
 		g_pPlayer->SetServerPosition( x, y );		
 		g_pPlayer->MovePosition( x, y );
 		g_pPlayer->SetStop();
 
-		// °á°ú ¹Ù·Î Ç¥Çö
+		// ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ Ç¥ï¿½ï¿½
 		g_pPlayer->PacketSpecialActionResult( 
 							pPacket->getSkillType() + (*g_pActionInfoTable).GetMinResultActionInfo(),
 							pCreature->GetID(),
@@ -143,13 +142,13 @@ void GCKnocksTargetBackOK2Handler::execute ( GCKnocksTargetBackOK2 * pPacket , P
 	}
 
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	AffectModifyInfo(g_pPlayer, pPacket);
 
 	//------------------------------------------------------------------
-	// UI¿¡ º¸ÀÌ´Â °ÍÀ» ¹Ù²ãÁØ´Ù.
-	// ºñ±³¿¬»êÇÏ´Â°Åº¸´Ù ÀÌ°Ô ´õ ºü¸£Áö ¾ÊÀ»±î.. À½.. - -;
+	// UIï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ï¿½Ø´ï¿½.
+	// ï¿½ñ±³¿ï¿½ï¿½ï¿½ï¿½Ï´Â°Åºï¿½ï¿½ï¿½ ï¿½Ì°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½.. - -;
 	//------------------------------------------------------------------
 	//UI_SetHP( g_pPlayer->GetHP(), g_pPlayer->GetMAX_HP() );
 	//UI_SetMP( g_pPlayer->GetMP(), g_pPlayer->GetMAX_MP() );

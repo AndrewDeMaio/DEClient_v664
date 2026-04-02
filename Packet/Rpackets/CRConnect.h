@@ -2,7 +2,7 @@
 // 
 // Filename    : CRConnect.h 
 // Written By  : crazydog
-// Description : Effect Á¦°Å.
+// Description : Effect ï¿½ï¿½ï¿½ï¿½.
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -19,9 +19,9 @@
 //
 // class CRConnect;
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡¼­ ´Ù¸¥ Å¬¶óÀÌ¾ðÆ®·Î Á¢¼ÓÀ» ¿äÃ»ÇÏ´Â°Å´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ï´Â°Å´ï¿½.
 //
-// ÀÚ±â Ä³¸¯ÅÍ ÀÌ¸§°ú »ó´ëÀÇ Ä³¸¯ÅÍ ÀÌ¸§À» ¾Ë¾Æ¾ß ÇÑ´Ù.
+// ï¿½Ú±ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ë¾Æ¾ï¿½ ï¿½Ñ´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -31,41 +31,41 @@ class CRConnect : public Packet
 public :
 	
 	// constructor
-	CRConnect () throw ();
+	CRConnect ();
 	
 	// destructor
-	~CRConnect () throw ();
+	~CRConnect ();
 	
 public :
-    PacketID_t getPacketID () const throw () { return PACKET_CR_CONNECT; }
+    PacketID_t getPacketID () const { return PACKET_CR_CONNECT; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "CRConnect"; }
+		std::string getPacketName () const { return "CRConnect"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getPacketSize () const throw () { return szBYTE + m_RequestServerName.size() + szBYTE + m_RequestClientName.size(); }
-	static PacketSize_t getPacketMaxSize() throw() { return  szBYTE + 10 + szBYTE + 10;}
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	size_t getPacketSize () const { return szBYTE + m_RequestServerName.size() + szBYTE + m_RequestClientName.size(); }
+	static PacketSize_t getPacketMaxSize() { return  szBYTE + 10 + szBYTE + 10;}
 
 	// get / set ListNumber
-	const std::string& getRequestServerName() const throw() { return m_RequestServerName; }
-	void setRequestServerName(const char* pName) throw() { m_RequestServerName = pName; }
+	const std::string& getRequestServerName() const { return m_RequestServerName; }
+	void setRequestServerName(const char* pName) { m_RequestServerName = pName; }
 
-	const std::string& getRequestClientName() const throw() { return m_RequestClientName; }
-	void setRequestClientName(const char* pName) throw() { m_RequestClientName = pName; }
+	const std::string& getRequestClientName() const { return m_RequestClientName; }
+	void setRequestClientName(const char* pName) { m_RequestClientName = pName; }
 	
 
 protected :
@@ -87,27 +87,27 @@ class CRConnectFactory : public PacketFactory {
 public :
 	
 	// constructor
-	CRConnectFactory () throw () {}
+	CRConnectFactory () {}
 	
 	// destructor
-	virtual ~CRConnectFactory () throw () {}
+	virtual ~CRConnectFactory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CRConnect(); }
+	Packet * createPacket () { return new CRConnect(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "CRConnect"; }
+		std::string getPacketName () const { return "CRConnect"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CR_CONNECT; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CR_CONNECT; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize () const throw () { return  szBYTE + 10 + szBYTE + 10; }
+	PacketSize_t getPacketMaxSize () const { return  szBYTE + 10 + szBYTE + 10; }
 
 };
 
@@ -123,7 +123,7 @@ class CRConnectHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( CRConnect * pCRConnect , Player * pPlayer ) throw ( Error );
+	static void execute ( CRConnect * pCRConnect , Player * pPlayer );
 
 };
 

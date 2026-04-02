@@ -2,8 +2,8 @@
 // 
 // Filename    : GCSkillToObjectOK4.h 
 // Written By  : elca@ewestsoft.com
-// Description : ±â¼úÀÌ ¼º°øÇßÀ»¶§ º¸³»´Â ÆÐÅ¶À» À§ÇÑ Å¬·¡½º Á¤ÀÇ
-// 				±â¼ú¿¡ ´çÇÑ »ç¶÷À» º¼ ¼ö ÀÖ´Â ºÐµéÀÌ ¹ÞÀ¸½Ã´Â ÆÐÅ¶(±â¼úÀ» »ç¿ëÇÑ »ç¶÷Àº º¼¼ö ¾ø´Â)
+// Description : ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+// 				ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ðµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã´ï¿½ ï¿½ï¿½Å¶(ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -20,7 +20,7 @@
 //
 // class GCSkillToObjectOK4;
 //
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -30,60 +30,60 @@ class GCSkillToObjectOK4 : public Packet
 public :
 
 	// constructor
-	GCSkillToObjectOK4() throw();
+	GCSkillToObjectOK4();
 
 	// destructor
-	~GCSkillToObjectOK4() throw();
+	~GCSkillToObjectOK4();
 
 public :
 
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_SKILL_TO_OBJECT_OK_4; }
+	PacketID_t getPacketID() const { return PACKET_GC_SKILL_TO_OBJECT_OK_4; }
 
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getPacketSize() const throw() { return szObjectID + szSkillType + szDuration + szBYTE + szBYTE; }
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	size_t getPacketSize() const { return szObjectID + szSkillType + szDuration + szBYTE + szBYTE; }
 
 	// get packet's name
-	string getPacketName() const throw() { return "GCSkillToObjectOK4"; }
+	string getPacketName() const { return "GCSkillToObjectOK4"; }
 
 	// get packet's debug string
-	string toString() const throw();
+	string toString() const;
 
 	// get / set ObjectID
-	ObjectID_t getTargetObjectID() const throw() { return m_ObjectID; }
-	void setTargetObjectID(ObjectID_t ObjectID) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getTargetObjectID() const { return m_ObjectID; }
+	void setTargetObjectID(ObjectID_t ObjectID) { m_ObjectID = ObjectID; }
 
 	// get / set SkillType
-	SkillType_t getSkillType() const throw() { return m_SkillType; }
-	void setSkillType(SkillType_t SkillType) throw() { m_SkillType = SkillType; }
+	SkillType_t getSkillType() const { return m_SkillType; }
+	void setSkillType(SkillType_t SkillType) { m_SkillType = SkillType; }
 
 /*
 	// get / set Target X,Y
-	Coord_t getTargetX() const throw() { return m_TargetX; }
-	Coord_t getTargetY() const throw() { return m_TargetY; }
-	void setTargetXY(Coord_t X, Coord_t Y) throw() { m_TargetX = X; m_TargetY = Y; }
+	Coord_t getTargetX() const { return m_TargetX; }
+	Coord_t getTargetY() const { return m_TargetY; }
+	void setTargetXY(Coord_t X, Coord_t Y) { m_TargetX = X; m_TargetY = Y; }
 */
 	
 	// get / set Duration
-	Duration_t getDuration() const throw() { return m_Duration; }
-	void setDuration(Duration_t Duration) throw() { m_Duration = Duration; }
+	Duration_t getDuration() const { return m_Duration; }
+	void setDuration(Duration_t Duration) { m_Duration = Duration; }
 
 	// get / set CEffectID 
-//	CEffectID_t getCEffectID() const throw() { return m_CEffectID; }
-//	void setCEffectID(CEffectID_t e) throw() { m_CEffectID = e; }
+//	CEffectID_t getCEffectID() const { return m_CEffectID; }
+//	void setCEffectID(CEffectID_t e) { m_CEffectID = e; }
 
-	BYTE getGrade() const throw() { return m_Grade; }
-	void setGrade( BYTE grade ) throw() { m_Grade = grade; }
+	BYTE getGrade() const { return m_Grade; }
+	void setGrade( BYTE grade ) { m_Grade = grade; }
 
 	// get / set Combo
 	BYTE getActionStep() const			{ return m_ActionStep; }
@@ -122,23 +122,23 @@ class GCSkillToObjectOK4Factory : public PacketFactory
 public :
 
 	// constructor
-	GCSkillToObjectOK4Factory() throw() {}
+	GCSkillToObjectOK4Factory() {}
 
 	// destructor
-	virtual ~GCSkillToObjectOK4Factory() throw() {}
+	virtual ~GCSkillToObjectOK4Factory() {}
 public :
 
 	// create packet
-	Packet* createPacket() throw() { return new GCSkillToObjectOK4(); }
+	Packet* createPacket() { return new GCSkillToObjectOK4(); }
 	
 	// get packet name
-	string getPacketName() const throw() { return "GCSkillToObjectOK4"; }
+	string getPacketName() const { return "GCSkillToObjectOK4"; }
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_SKILL_TO_OBJECT_OK_4; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_SKILL_TO_OBJECT_OK_4; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID + szSkillType + szDuration + szBYTE + szBYTE; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID + szSkillType + szDuration + szBYTE + szBYTE; }
 };
 
 //////////////////////////////////////////////////////////////////////
@@ -153,7 +153,7 @@ class GCSkillToObjectOK4Handler
 public :
 
 	// execute packet's handler
-	static void execute(GCSkillToObjectOK4* pGCSkillToObjectOK4, Player* pPlayer) throw(Error);
+	static void execute(GCSkillToObjectOK4* pGCSkillToObjectOK4, Player* pPlayer);
 };
 
 #endif

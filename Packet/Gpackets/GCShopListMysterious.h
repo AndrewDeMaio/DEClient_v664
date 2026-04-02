@@ -1,10 +1,10 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCShopListMysterious.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
-// ÇÃ·¹ÀÌ¾î°¡ °¡Áø »óÁ¡ ¹öÀüÀÌ ¼­¹ö¿¡ ÀÖ´Â °Í°ú ´Ù¸¦ °æ¿ì,
-// ÇÃ·¹ÀÌ¾î´Â ¼­¹ö¿¡ »óÁ¡¿¡ ÀÖ´Â »óÇ° ¸ñ·ÏÀ» ¿ä±¸ÇÏ°Ô µÈ´Ù.
-// ÀÌ ÆÐÅ¶Àº ±× ¶§ ÇÃ·¹ÀÌ¾î¿¡°Ô Àü´ÞÇÏ°Ô µÇ´Â ÆÐÅ¶ÀÌ´Ù.
+// ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Í°ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½,
+// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ä±¸ï¿½Ï°ï¿½ ï¿½È´ï¿½.
+// ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __GC_SHOP_LIST_MYSTERIOUS_H__
@@ -34,48 +34,48 @@ class Item;
 class GCShopListMysterious : public Packet 
 {
 public:
-	GCShopListMysterious() throw ();
-	virtual ~GCShopListMysterious() throw ();
+	GCShopListMysterious();
+	virtual ~GCShopListMysterious();
 
 public:
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
-	PacketID_t getPacketID () const throw () { return PACKET_GC_SHOP_LIST_MYSTERIOUS; }
-	PacketSize_t getPacketSize () const throw ();
+	void read ( SocketInputStream & iStream );
+	void write ( SocketOutputStream & oStream ) const;
+	void execute ( Player * pPlayer );
+	PacketID_t getPacketID () const { return PACKET_GC_SHOP_LIST_MYSTERIOUS; }
+	size_t getPacketSize () const;
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "GCShopListMysterious"; }
-		std::string toString () const throw ();
+		std::string getPacketName () const { return "GCShopListMysterious"; }
+		std::string toString () const;
 	#endif
 
 public:
-	ObjectID_t getObjectID () const throw () { return m_ObjectID; }
-	void setObjectID ( ObjectID_t creatureID ) throw () { m_ObjectID = creatureID; }
+	ObjectID_t getObjectID () const { return m_ObjectID; }
+	void setObjectID ( ObjectID_t creatureID ) { m_ObjectID = creatureID; }
 
-	ShopVersion_t getShopVersion(void) const throw() { return m_Version;}
-	void setShopVersion(ShopVersion_t ver) throw() { m_Version = ver;}
+	ShopVersion_t getShopVersion(void) const { return m_Version;}
+	void setShopVersion(ShopVersion_t ver) { m_Version = ver;}
 	
-	ShopRackType_t getShopType(void) const throw() { return m_RackType;}
+	ShopRackType_t getShopType(void) const { return m_RackType;}
 	void setShopType(const ShopRackType_t type) { m_RackType = type;}
 	
-	SHOPLISTITEM_MYSTERIOUS getShopItem(BYTE index) const throw();
+	SHOPLISTITEM_MYSTERIOUS getShopItem(BYTE index) const;
 
 #ifndef __GAME_CLIENT__
-	void setShopItem(BYTE index, const Item* pItem) throw();
+	void setShopItem(BYTE index, const Item* pItem);
 #endif
 
-	MarketCond_t getMarketCondBuy(void) const throw() { return m_MarketCondBuy;}
-	MarketCond_t getMarketCondSell(void) const throw() { return m_MarketCondSell;}
-	void setMarketCondBuy(MarketCond_t cond) throw() { m_MarketCondBuy = cond;}
-	void setMarketCondSell(MarketCond_t cond) throw() { m_MarketCondSell = cond;}
+	MarketCond_t getMarketCondBuy(void) const { return m_MarketCondBuy;}
+	MarketCond_t getMarketCondSell(void) const { return m_MarketCondSell;}
+	void setMarketCondBuy(MarketCond_t cond) { m_MarketCondBuy = cond;}
+	void setMarketCondSell(MarketCond_t cond) { m_MarketCondSell = cond;}
 	
 private:
 	ObjectID_t              m_ObjectID;                     // NPC's object id
 	ShopVersion_t           m_Version;                      // Shop version
 	ShopRackType_t          m_RackType;                     // rack type
 	SHOPLISTITEM_MYSTERIOUS m_pBuffer[SHOP_RACK_INDEX_MAX]; // buffer for i/o
-	MarketCond_t            m_MarketCondBuy;                // ½ÃÀå ½Ã¼¼
+	MarketCond_t            m_MarketCondBuy;                // ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¼ï¿½
 	MarketCond_t            m_MarketCondSell;
 
 };
@@ -87,14 +87,14 @@ private:
 class GCShopListMysteriousFactory : public PacketFactory 
 {
 public:
-	Packet * createPacket () throw () { return new GCShopListMysterious(); }
+	Packet * createPacket () { return new GCShopListMysterious(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "GCShopListMysterious"; }
+		std::string getPacketName () const { return "GCShopListMysterious"; }
 	#endif
 
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_SHOP_LIST_MYSTERIOUS; }
-	PacketSize_t getPacketMaxSize () const throw () 
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_SHOP_LIST_MYSTERIOUS; }
+	PacketSize_t getPacketMaxSize () const 
 	{ 
 		PacketSize_t unit_size = szBYTE + szItemType;
 		PacketSize_t rValue    = 0; 
@@ -120,7 +120,7 @@ public:
 class GCShopListMysteriousHandler 
 {
 public:
-	static void execute ( GCShopListMysterious * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCShopListMysterious * pPacket , Player * pPlayer );
 };
 
 #endif

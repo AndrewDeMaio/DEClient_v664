@@ -33,7 +33,6 @@ MItem*	PacketSkillToMakeItem(MItem* pItem,
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 
@@ -41,37 +40,37 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 
 
 	//------------------------------------------------------------------
-	// Player°¡ ±â´Ù¸®´ø skillÀÇ ¼º°øÀ¯¹«¸¦ °ËÁõ¹Ş¾Ò´Ù.
+	// Playerï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ş¾Ò´ï¿½.
 	//------------------------------------------------------------------	
 	if (1)//g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_SKILL_SUCCESS)
 	{		
 		g_pPlayer->SetWaitVerifyNULL();
 
 		//------------------------------------------------------------------	
-		// Item Check Buffer¸¦ È®ÀÎÇÑ´Ù.
+		// Item Check Bufferï¿½ï¿½ È®ï¿½ï¿½ï¿½Ñ´ï¿½.
 		//------------------------------------------------------------------
 		MItem* pItem = g_pPlayer->GetItemCheckBuffer();
 
 		//----------------------------------------------------
-		// Check Buffer¿¡ itemÀÌ ÀÖ´Â °æ¿ì
+		// Check Bufferï¿½ï¿½ itemï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 		//----------------------------------------------------
 		if (pItem!=NULL)
 		{
 			MPlayer::ITEM_CHECK_BUFFER status =	g_pPlayer->GetItemCheckBufferStatus();
 
 			//----------------------------------------------------
-			// InventoryÀÇ item¿¡ »ç¿ë
+			// Inventoryï¿½ï¿½ itemï¿½ï¿½ ï¿½ï¿½ï¿½
 			//----------------------------------------------------
 			if (status==MPlayer::ITEM_CHECK_BUFFER_SKILL_TO_INVENTORY)			
 			{
 				DWORD dwSubInventoryID = g_pPlayer->GetItemIDCheckBufferSubInventory();
 
 				//--------------------------------------------------
-				// Item Check Buffer¸¦ Áö¿î´Ù.
+				// Item Check Bufferï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 				//--------------------------------------------------
 				g_pPlayer->ClearItemCheckBuffer();
 		
-				// Áö¼Ó ½Ã°£ º¯È¯
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½È¯
 				DWORD delayFrame = 32;//ConvertDurationToFrame( pPacket->getDuration() );
 					
 				//pPacket->getX(),	
@@ -86,7 +85,7 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 				switch (skillID)
 				{
 					//----------------------------------------------------
-					// ¼º¼ö/ÆøÅº/Áö·Ú ¸¸µé±â
+					// ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½Åº/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 					//----------------------------------------------------
 					case MAGIC_CREATE_HOLY_WATER :
 					case SKILL_MAKE_BOMB :
@@ -94,7 +93,7 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 					case SKILL_CREATE_HOLY_POTION :
 					case SKILL_ABSORB_SOUL:
 					{
-						// pItemÀ» Á¦°ÅÇÏ°í holy water¸¦ Ãß°¡ÇÑ´Ù.
+						// pItemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ holy waterï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 						int x		= pItem->GetGridX();
 						int y		= pItem->GetGridY();
 						int targetX = pPacket->getX();
@@ -128,7 +127,7 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 								pResultItem->SetNumber( ItemNum );
 						}
 
-						// ±â¼ú Ã¼Å©..
+						// ï¿½ï¿½ï¿½ Ã¼Å©..
 						//g_SkillAvailable.CheckMP();					
 					}
 					break;
@@ -137,7 +136,7 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 					// Install Mine
 					//----------------------------------------------------
 					case SKILL_INSTALL_MINE :
-						// Inventory¿¡¼­ »ç¿ëÇÏ°Ô ¸¸µç´Ù.
+						// Inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 						g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY);
 
 						UseItemOK();
@@ -154,7 +153,7 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 					// Vampire Portal
 					//----------------------------------------------------
 					case MAGIC_BLOODY_TUNNEL :
-						// Inventory¿¡¼­ »ç¿ëÇÏ°Ô ¸¸µç´Ù.
+						// Inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 						g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY, dwSubInventoryID);
 
 						UseItemOK();
@@ -167,7 +166,7 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 
 					case MAGIC_BLOODY_MARK :
 						//-------------------------------------------------
-						// VampirePortalÀÎ °æ¿ì
+						// VampirePortalï¿½ï¿½ ï¿½ï¿½ï¿½
 						//-------------------------------------------------
 						if (pItem->GetItemClass()==ITEM_CLASS_VAMPIRE_PORTAL_ITEM)
 						{
@@ -189,14 +188,14 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 					break;
 
 					//----------------------------------------------------
-					// ´Á´ë / ¹ÚÁã º¯½Å
+					// ï¿½ï¿½ï¿½ï¿½ / ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					//----------------------------------------------------
 					case MAGIC_TRANSFORM_TO_WOLF :
 					case MAGIC_TRANSFORM_TO_BAT :
 					case SKILL_TRANSFORM_TO_WERWOLF :
 					{
 						//----------------------------------------------------
-						// pItemÀ» Á¦°ÅÇÑ´Ù.
+						// pItemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 						//----------------------------------------------------
 						/*
 						int x = pItem->GetGridX();
@@ -213,13 +212,13 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 							DEBUG_ADD_FORMAT("[Error] No Removed Item from Inventory=(%d, %d)", x, y);
 						}
 						*/
-						// Inventory¿¡¼­ »ç¿ëÇÏ°Ô ¸¸µç´Ù.
+						// Inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 						g_pPlayer->SetItemCheckBuffer( pItem, MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY, dwSubInventoryID);
 
 						UseItemOK();
 
 						//----------------------------------------------------
-						// º¯½Å
+						// ï¿½ï¿½ï¿½ï¿½
 						//----------------------------------------------------
 						MActionResult* pResult = new MActionResult;
 
@@ -266,7 +265,7 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 								}
 #endif //__SECOND_TRANSFORTER
 							}
-							// ½ÂÁ÷ ¹ìÆÄÀÌ¾î Ä³¸¯ÅÍÀÇ °æ¿ì ¹ÚÁã°¡ ¾Æ´Ï¶ó °í½ºÆ®´Ù.
+							// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ã°¡ ï¿½Æ´Ï¶ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½.
 							else 
 #endif //__FAST_TRANSFORTER||__SECOND_TRANSFORTER
 							if( g_pPlayer->IsVampire() && g_pPlayer->IsAdvancementClass() )
@@ -296,37 +295,37 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 						}							
 
 						//--------------------------------------------------
-						// º¯½Å ÀÌÆåÆ®¿¡ °á°ú Ãß°¡
+						// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 						//--------------------------------------------------
 						ExecuteActionInfoFromMainNode(
-							resultSkillID,										// »ç¿ë ±â¼ú ¹øÈ£
+							resultSkillID,										// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È£
 						
 							g_pPlayer->GetX(), g_pPlayer->GetY(), 0,
-							g_pPlayer->GetDirection(),														// »ç¿ë ¹æÇâ
+							g_pPlayer->GetDirection(),														// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							
-							OBJECTID_NULL,												// ¸ñÇ¥¿¡ ´ëÇÑ Á¤º¸
+							OBJECTID_NULL,												// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 							g_pPlayer->GetX(), g_pPlayer->GetY(), 0, 
 							
-							0,													// ±â¼úÀÇ (³²Àº) Áö¼Ó ½Ã°£		
+							0,													// ï¿½ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½		
 							
 							pResult, //NULL,
 							
-							false);			// ±â¼ú Ã·ºÎÅÍ ½ÃÀÛÇÑ´Ù.
+							false);			// ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 
 						g_pPlayer->SetDelay( 1000 );
 
 						//--------------------------------------------------
-						// º¯½Å Ã³¸®°¡ Á¦´ë·Î ¾ÈµÇ°í 
-						// ´Ù¸¥ Á¸À¸·Î ³Ñ¾î°¡´Â °æ¿ì°¡ ÀÖ¾î¼­
-						// ÀÓ½Ã·Î.. -_-;
-						// ÀÌ°Å´Â MActionResultNodeChangeCreatureType³ª
-						// GCUpdateInfoHandler¿¡¼­ Á¦°ÅÇÑ´Ù.
+						// ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÇ°ï¿½ 
+						// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¾î°¡ï¿½ï¿½ ï¿½ï¿½ì°¡ ï¿½Ö¾î¼­
+						// ï¿½Ó½Ã·ï¿½.. -_-;
+						// ï¿½Ì°Å´ï¿½ MActionResultNodeChangeCreatureTypeï¿½ï¿½
+						// GCUpdateInfoHandlerï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 						//--------------------------------------------------
 						g_MorphCreatureType = creatureType;
 
 
 						//--------------------------------------------------
-						// ±â¼ú Ã¼Å©..
+						// ï¿½ï¿½ï¿½ Ã¼Å©..
 						//--------------------------------------------------
 						g_pSkillAvailable->SetAvailableSkills();
 							
@@ -335,7 +334,7 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 				}
 
 				
-				// InventoryÀÇ Item¿¡ ±â¼úÀ» »ç¿ëÇØ¾ß ÇÑ´Ù.
+				// Inventoryï¿½ï¿½ Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 				AddNewInventoryEffect( itemID,
 										skillID + (*g_pActionInfoTable).GetMinResultActionInfo(),
 										delayFrame
@@ -343,7 +342,7 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 
 			}
 			//----------------------------------------------------
-			// ´Ù¸¥ »óÅÂ??
+			// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½??
 			//----------------------------------------------------
 			else
 			{
@@ -361,24 +360,24 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 	int resultActionInfo = skillID + (*g_pActionInfoTable).GetMinResultActionInfo();
 	
 	//------------------------------------------------------------
-	// Delay Frame ¼³Á¤
+	// Delay Frame ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------------
 	DWORD delayFrame = ConvertDurationToFrame( pPacket->getDuration() );
 	g_pPlayer->SetEffectDelayFrame(resultActionInfo, delayFrame );
 
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	AffectModifyInfo(g_pPlayer, pPacket);
 
 	//------------------------------------------------------------------
-	// effect status¸¦ Àû¿ë½ÃÅ²´Ù.
+	// effect statusï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 	//------------------------------------------------------------------
 	if (g_pPlayer->GetEFFECT_STAT()!=EFFECTSTATUS_NULL)
 	{
 		//int esDelayFrame = ConvertDurationToFrame( g_pPlayer->GetDURATION() );
 
-		// effect¸¦ ºÙÀÎ´Ù.
+		// effectï¿½ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 		g_pPlayer->AddEffectStatus((EFFECTSTATUS)g_pPlayer->GetEFFECT_STAT(), delayFrame);	
 		
 		g_pPlayer->SetStatus( MODIFY_EFFECT_STAT, EFFECTSTATUS_NULL );
@@ -386,7 +385,7 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 	else
 	{
 		//------------------------------------------------------
-		// EffectStatus°¡ ÀÖ´Ù¸é ºÙÀÎ´Ù.
+		// EffectStatusï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 		//------------------------------------------------------
 		EFFECTSTATUS es = (*g_pActionInfoTable)[skillID].GetEffectStatus();
 
@@ -405,10 +404,10 @@ void GCSkillToInventoryOK1Handler::execute ( GCSkillToInventoryOK1 * pPacket, Pl
 //-------------------------------------------------------------------------------
 // Make Item To Inventory
 //-------------------------------------------------------------------------------
-// pItem¿¡ ±â¼úÀ» »ç¿ëÇßÀ»¶§ ´Ù¸¥ itemÀÌ inventory¿¡ »ı¼ºµÇ´Â °É Ã³¸®ÇÑ´Ù.
+// pItemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ itemï¿½ï¿½ inventoryï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 //
-// Á¦´ë·Î µÆÀ¸¸é »õ·Î¿î ¾ÆÀÌÅÛ
-// (È¤Àº ±âÁ¸¿¡ ÀÖ´ø ¾ÆÀÌÅÛ¿¡ ½×ÀÎ °æ¿ì´Â ½×ÀÎ ¾ÆÀÌÅÛ)ÀÇ pointer¸¦ ³Ñ±ä´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// (È¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ pointerï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½.
 //-------------------------------------------------------------------------------
 MItem*
 PacketSkillToMakeItem(MItem* pItem,
@@ -424,8 +423,8 @@ PacketSkillToMakeItem(MItem* pItem,
 	}
 
 	//----------------------------------------------------
-	// 1°³ ³²Àº °æ¿ìÀÌ°Å³ª
-	// °°Àº À§Ä¡ÀÌ¸é.. ¿ÏÀüÈ÷ ¾ø¾Ø´Ù.
+	// 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ì°Å³ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Ì¸ï¿½.. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 	//----------------------------------------------------
 	if ((pItem->GetNumber()==1 || x==targetX && y==targetY)  && (itemClass != ITEM_CLASS_VAMPIRE_PORTAL_ITEM))
 	{
@@ -441,7 +440,7 @@ PacketSkillToMakeItem(MItem* pItem,
 		}
 	}
 	//----------------------------------------------------
-	// ¿©·¯°³ ÀÖ´Â°Å¸é °³¼ö¸¸ ÇÏ³ª ÁÙÀÌ¸é µÈ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Â°Å¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½È´ï¿½.
 	//----------------------------------------------------
 	else if(itemClass != ITEM_CLASS_VAMPIRE_PORTAL_ITEM)
 	{
@@ -452,7 +451,7 @@ PacketSkillToMakeItem(MItem* pItem,
 	MItem* pTargetItem = g_pInventory->GetItem( targetX, targetY );
 
 	//----------------------------------------------------
-	// ½×ÀÏ °÷¿¡ ¾ÆÀÌÅÛÀÌ ¾ø´Â °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//----------------------------------------------------
 	if (pTargetItem==NULL)
 	{							
@@ -474,16 +473,16 @@ PacketSkillToMakeItem(MItem* pItem,
 		}
 	}
 	//----------------------------------------------------
-	// ½×ÀÏ °÷¿¡ ¾ÆÀÌÅÛÀÌ ÀÖ´Â °æ¿ì
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 	//----------------------------------------------------	
 	else
 	{
-		// È®ÀÎ.. º°·Î ÇÊ¿ä¾øÀ»°Åµµ °°Áö¸¸..
+		// È®ï¿½ï¿½.. ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
 		if (pTargetItem->GetItemClass()==itemClass
 			&& pTargetItem->GetItemType()==itemType
 			&& pTargetItem->GetID()==itemID)
 		{
-			// Max Ã¼Å©´Â ¹«½Ã..
+			// Max Ã¼Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
 			pTargetItem->SetNumber( pTargetItem->GetNumber() + 1 );
 
 			return pTargetItem;

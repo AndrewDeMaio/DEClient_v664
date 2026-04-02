@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCPartyError.cpp 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //////////////////////////////////////////////////////////////////////////////
 
@@ -12,7 +12,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 void GCPartyError::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -23,7 +22,6 @@ void GCPartyError::read (SocketInputStream & iStream)
 }
 		    
 void GCPartyError::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 	
@@ -34,7 +32,6 @@ void GCPartyError::write (SocketOutputStream & oStream) const
 }
 
 void GCPartyError::execute (Player * pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -45,7 +42,6 @@ void GCPartyError::execute (Player * pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string GCPartyError::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

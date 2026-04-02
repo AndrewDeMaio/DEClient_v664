@@ -19,13 +19,13 @@
 class CGSelectAllWeekItem : public Packet 
 {
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_SELECT_ALL_WEEKITEM; }
-	PacketSize_t getPacketSize() const throw() { return 0; }
-	string getPacketName() const throw() { return "CGSelectAllWeekItem"; }
-	string toString() const throw();
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_SELECT_ALL_WEEKITEM; }
+	size_t getPacketSize() const { return 0; }
+	string getPacketName() const { return "CGSelectAllWeekItem"; }
+	string toString() const;
 
 public:
 
@@ -39,10 +39,10 @@ private:
 
 class CGSelectAllWeekItemFactory : public PacketFactory 
 {
-	Packet* createPacket() throw() { return new CGSelectAllWeekItem(); }
-	string getPacketName() const throw() { return "CGSelectAllWeekItem"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_SELECT_ALL_WEEKITEM; }
-	PacketSize_t getPacketMaxSize() const throw() { return 0; }
+	Packet* createPacket() { return new CGSelectAllWeekItem(); }
+	string getPacketName() const { return "CGSelectAllWeekItem"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_SELECT_ALL_WEEKITEM; }
+	PacketSize_t getPacketMaxSize() const { return 0; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ class CGSelectAllWeekItemFactory : public PacketFactory
 class CGSelectAllWeekItemHandler 
 {
 public:
-	static void execute(CGSelectAllWeekItem* pCGSelectAllWeekItem, Player* pPlayer) throw(Error);
+	static void execute(CGSelectAllWeekItem* pCGSelectAllWeekItem, Player* pPlayer);
 };
 
 #endif

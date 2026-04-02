@@ -46,13 +46,12 @@ bool	ChecknProtectCRC(HINSTANCE dll, char* FilePath);
 
 //----------------------------------------------------------------------
 //
-// ·Î±×ÀÎ ¼­¹ö·ÎºÎÅÍ ¾ÆÀÌµð¿Í ÆÐ½º¿öµåÀÇ ÀÎÁõÀ» ¹Þ¾Ò´Ù´Â ¼Ò¸®´Ù.
+// ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Ò´Ù´ï¿½ ï¿½Ò¸ï¿½ï¿½ï¿½.
 //
-// ÀÌÁ¦ ·Î±×ÀÎ ¼­¹ö¿¡°Ô PC ÀÇ ¸®½ºÆ®¸¦ ¿äÃ»ÇÏ´Â ÆÐÅ¶À» Àü¼ÛÇÏ¸é µÈ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PC ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½È´ï¿½.
 //
 //----------------------------------------------------------------------
 void LCLoginOKHandler::execute ( LCLoginOK * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -71,7 +70,7 @@ void LCLoginOKHandler::execute ( LCLoginOK * pPacket , Player * pPlayer )
 	if (!g_bNeedUpdate)
 	{
 		// 2004, 07, 20 sobeit add start
-		// ºí·° Ã³¸® µÈ°Ç ±×Àü ²¨
+		// ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½È°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 //			ClientPlayer * pClientPlayer = dynamic_cast<ClientPlayer*>(pPlayer);
 //
 //			CLGetWorldList clGetWorldList;
@@ -80,9 +79,9 @@ void LCLoginOKHandler::execute ( LCLoginOK * pPacket , Player * pPlayer )
 //
 //			SetMode( MODE_WAIT_WORLD_LIST );
 
-		g_pUserInformation->IsUnderFifthteen = pPacket->isUnderFifthteen();	// 15¼¼ ¹Ì¸¸ÀÎ°¡?
+		g_pUserInformation->IsUnderFifthteen = pPacket->isUnderFifthteen();	// 15ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½Î°ï¿½?
 
-//		if(g_pUserInformation->IsUnderFifthteen)		// 15¼¼ ¹Ì¸¸ÀÌ¸é ÇÇ°¡ ¾È¶³¾îÁø´Ù
+//		if(g_pUserInformation->IsUnderFifthteen)		// 15ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½Ì¸ï¿½ ï¿½Ç°ï¿½ ï¿½È¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //			g_pUserOption->BloodDrop = false ;
 			
 		g_pUserInformation->pLogInClientPlayer = dynamic_cast<ClientPlayer*>(pPlayer);
@@ -103,41 +102,41 @@ void LCLoginOKHandler::execute ( LCLoginOK * pPacket , Player * pPlayer )
 	
 
 		/*
-		// ¿¹Àü²¨
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		ClientPlayer * pClientPlayer = dynamic_cast<ClientPlayer*>(pPlayer);
 
 		CLGetPCList clGetPCList;
 
 		pClientPlayer->sendPacket( &clGetPCList );
 		
-		// ÇÃ·¹ÀÌ¾îÀÇ »óÅÂ¸¦ ¹Ù²Û´Ù.
+		// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¸ï¿½ ï¿½Ù²Û´ï¿½.
 		pClientPlayer->setPlayerStatus( CPS_AFTER_SENDING_CL_GET_PC_LIST );
 
 		//------------------------------------------------------------
-		// ÇöÀç Server Á¤º¸¸¦ ÀúÀåÇØµÐ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ Server ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ØµÐ´ï¿½.
 		//------------------------------------------------------------
 		SetServerGroupName( pPacket->getGroupName().c_str() );
 		SetServerGroupStatus( (int)pPacket->getStat() );
 		//SetServerName( pPacket->getServerName().c_str() );
 
 		//------------------------------------------------------------
-		// Client´Â PC List¸¦ ±â´Ù·Á¾ß ÇÑ´Ù.
+		// Clientï¿½ï¿½ PC Listï¿½ï¿½ ï¿½ï¿½Ù·ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		//------------------------------------------------------------	
 		SetMode( MODE_WAIT_PCLIST );
 		*/
 
 		//------------------------------------------------------------
-		// Gore LevelÀ» ¹Ù²Û´Ù.
+		// Gore Levelï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 		//		- 
 		//------------------------------------------------------------
 		bool bGoreLevel = pPacket->isAdult();
 
-		g_pUserInformation->bNetmarbleGoreLevel = bGoreLevel;	//bNetmarbelGoreLevel°ªÀº ÇöÀç »ç¿ëµÇ´Â °÷ÀÌ ¾ø´Ù (20071218)
+		g_pUserInformation->bNetmarbleGoreLevel = bGoreLevel;	//bNetmarbelGoreLevelï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (20071218)
 
-		if (!bGoreLevel)										//LoginÇÑ À¯Àú°¡ Ã»¼Ò³âÀÌ´Ù.
-			g_pUserOption->UseTeenVersion = TRUE;				//°­Á¦·Î, UseTeenVersionÀ¸·Î ¼³Á¤ÇÑ´Ù.
-		else if( g_pUserOption->UseTeenVersion)					//LoginÇÑ À¯Àú°¡ Ã»¼Ò³âÀÌ ¾Æ´ÏÁö¸¸, ·Î±×ÀÎÃ¢¿¡¼­ UseTeenVersionÀ» ¼³Á¤Çß´Ù¸é!!
-			bGoreLevel = FALSE;									//bGoreLevelÀ» FALSE·Î ¸¸µé¾î, °ÔÀÓÃÊ±âÈ­½Ã ¹Ý¿µÇÑ´Ù. (SetGoreLevel)
+		if (!bGoreLevel)										//Loginï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã»ï¿½Ò³ï¿½ï¿½Ì´ï¿½.
+			g_pUserOption->UseTeenVersion = TRUE;				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, UseTeenVersionï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+		else if( g_pUserOption->UseTeenVersion)					//Loginï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã»ï¿½Ò³ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Î±ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ï¿½ï¿½ UseTeenVersionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´Ù¸ï¿½!!
+			bGoreLevel = FALSE;									//bGoreLevelï¿½ï¿½ FALSEï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½È­ï¿½ï¿½ ï¿½Ý¿ï¿½ï¿½Ñ´ï¿½. (SetGoreLevel)
 
 		SetGoreLevel( bGoreLevel );			
 	}
@@ -178,8 +177,8 @@ void LCLoginOKHandler::execute ( LCLoginOK * pPacket , Player * pPlayer )
 		// 2005, 1, 24, sobeit add start
 		if(0xFFFD == pPacket->getLastDays())
 		{
-			g_LeftPremiumDays = 15;	// ÈÞ¸é °èÁ¤ ÀÌº¥Æ®°¡ 15ÀÏ·Î ¹Ù²î¾ú´Ù. (2008.04.29)
-//			g_LeftPremiumDays = 7; // ÈÞ¸é °èÁ¤ ¾ÆÀÌÅÛ ÁÖ´Â ÀÌº¥Æ® ½Ã Ã¹ Á¢¼ÓÀÏ¶§ fffd°¡ ³¯¶ó¿Â´Ù. -> ¹«·á ÇÁ¸®¹Ì¾ö 7ÀÏ ½ÃÀÛ
+			g_LeftPremiumDays = 15;	// ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ìºï¿½Æ®ï¿½ï¿½ 15ï¿½Ï·ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ï¿½. (2008.04.29)
+//			g_LeftPremiumDays = 7; // ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Ìºï¿½Æ® ï¿½ï¿½ Ã¹ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ fffdï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Â´ï¿½. -> ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ 7ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[UI_STRING_MESSAGE_GET_EVENT_ITEM_NOTICE].GetString() );
 		}
 		else

@@ -17,27 +17,27 @@
 class GCFriendReqToDel : public Packet {
 
 public:
-	virtual ~GCFriendReqToDel() throw() {}
+	virtual ~GCFriendReqToDel() {}
 	
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
 
-	PacketID_t getPacketID() const throw() { return PACKET_GC_FRIEND_REQ_TO_DEL; }
-	PacketSize_t getPacketSize() const throw()
+	PacketID_t getPacketID() const { return PACKET_GC_FRIEND_REQ_TO_DEL; }
+	size_t getPacketSize() const
 	{ 
 		return szBYTE + m_strPCName.size();
 	}
 
-	string getPacketName() const throw() { return "GCFriendReqToDel"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCFriendReqToDel"; }
+	string toString() const;
 
 public:
 	enum ResultCode
 	{
 		RESULT_SUCCESS = 0,
 		RESULT_UNKNOWN_ERROR,		
-		RESULT_NOT_EXIST			// Á¸ÀçÇÏÁö ¾Ê´Â Ä³¸¯ÅÍÀÓ
+		RESULT_NOT_EXIST			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	};
 
 	string& getPCName() { return m_strPCName; }
@@ -47,8 +47,8 @@ public:
 	void setResult(ResultCode result) { m_Result = (BYTE)result; }
 
 private :
-	string m_strPCName;		// ¿äÃ»ÇÑ Ä³¸¯ÅÍ ÀÌ¸§
-	BYTE m_Result;			// ¿äÃ» °á°ú
+	string m_strPCName;		// ï¿½ï¿½Ã»ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½
+	BYTE m_Result;			// ï¿½ï¿½Ã» ï¿½ï¿½ï¿½
 
 };
 
@@ -65,13 +65,13 @@ class GCFriendReqToDelFactory : public PacketFactory {
 
 public:
 	
-	Packet* createPacket() throw() { return new GCFriendReqToDel(); }
-	string getPacketName() const throw() { return "GCFriendReqToDel"; }
+	Packet* createPacket() { return new GCFriendReqToDel(); }
+	string getPacketName() const { return "GCFriendReqToDel"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_FRIEND_REQ_TO_DEL; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_FRIEND_REQ_TO_DEL; }
 
-	PacketSize_t getPacketMaxSize() const throw() 
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		return szBYTE + 20;
 	}
@@ -90,7 +90,7 @@ class GCFriendReqToDelHandler {
 public:
 
 	// execute packet's handler
-	static void execute(GCFriendReqToDel* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCFriendReqToDel* pPacket, Player* pPlayer);
 
 };
 #endif //__FRIEND_ADDITION

@@ -8,7 +8,6 @@
 
 
 void CGSelectNickname::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -18,7 +17,6 @@ void CGSelectNickname::read (SocketInputStream & iStream)
 }
 
 void CGSelectNickname::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -27,7 +25,6 @@ void CGSelectNickname::write (SocketOutputStream & oStream) const
 	__END_CATCH
 }
 void CGSelectNickname::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 #ifndef __GAME_CLIENT__
 	__BEGIN_TRY
@@ -40,7 +37,6 @@ void CGSelectNickname::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 string CGSelectNickname::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

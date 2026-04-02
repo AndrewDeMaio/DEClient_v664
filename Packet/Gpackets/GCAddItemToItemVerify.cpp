@@ -7,10 +7,9 @@
 #include "GCAddItemToItemVerify.h"
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCAddItemToItemVerify::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -18,7 +17,7 @@ void GCAddItemToItemVerify::read ( SocketInputStream & iStream )
 
 	switch (m_Code)
 	{
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ½á¾ß ÇÏ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½Úµï¿½
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL_DECREASE :
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_OK :
 		case ADD_ITEM_TO_ITEM_VERIFY_MIXING_OK :
@@ -26,7 +25,7 @@ void GCAddItemToItemVerify::read ( SocketInputStream & iStream )
 		case ADD_ITEM_TO_ITEM_VERIFY_REVIVAL_OK:
 		case ADD_ITEM_TO_ITEM_VERIFY_UP_GRADE_OK:
 #if __CONTENTS(__2008_FIRST_CHARGE_ITEM)
-		case ADD_ITEM_TO_ITEM_VERIFY_CHANGE_ENCHANT_OK :					//Å©¸®½ºÅ» ¾ÆÀÌÅÛ
+		case ADD_ITEM_TO_ITEM_VERIFY_CHANGE_ENCHANT_OK :					//Å©ï¿½ï¿½ï¿½ï¿½Å» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #endif	//__2008_FIRST_CHARGE_ITEM
 #if __CONTENTS(__TUNING_ITEM)
 		case ADD_ITEM_TO_ITEM_VERIFY_TUNING_OK :
@@ -36,7 +35,7 @@ void GCAddItemToItemVerify::read ( SocketInputStream & iStream )
 #endif //__IMI_LOW_LEVEL_ITEM
 			iStream.read(m_Parameter);
 			break;
-		// ½ÇÆÐÇÏ¸é µî±ÞÀ» º¸³»°í 0ÀÌ¸é µî±Þ º¯È­°¡ ¾ø´Ù µî±Þº¯È­ ¾ø´Â ½ÇÆÐ´Â ¿É¼ÇÀÌ 0
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 0ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Þºï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð´ï¿½ ï¿½É¼ï¿½ï¿½ï¿½ 0
 		case ADD_ITEM_TO_ITEM_VERIFY_THIRD_ENCHANT_FAIL:
 			{
 				iStream.read(m_Grade);
@@ -56,7 +55,7 @@ void GCAddItemToItemVerify::read ( SocketInputStream & iStream )
 				}
 				iStream.read(m_EnchantClass);
 			}
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ºñ·ÔÇÑ ´Ù¸¥ µ¥ÀÌÅÍ¸¦ ¾²Áö ¾Ê¾Æµµ µÇ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½ ï¿½Ç´ï¿½ ï¿½Úµï¿½
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL_CRASH:
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL:
 		default:
@@ -67,10 +66,9 @@ void GCAddItemToItemVerify::read ( SocketInputStream & iStream )
 }
 		    
 //////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCAddItemToItemVerify::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -78,7 +76,7 @@ void GCAddItemToItemVerify::write ( SocketOutputStream & oStream ) const
 
 	switch (m_Code)
 	{
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ½á¾ß ÇÏ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½Úµï¿½
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL_DECREASE :
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_OK :
 		case ADD_ITEM_TO_ITEM_VERIFY_MIXING_OK :
@@ -106,7 +104,7 @@ void GCAddItemToItemVerify::write ( SocketOutputStream & oStream ) const
 			}
 			break;
 
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ¾²Áö ¾Ê¾Æµµ µÇ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½ ï¿½Ç´ï¿½ ï¿½Úµï¿½
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL_CRASH :
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL:
 		default:
@@ -120,7 +118,6 @@ void GCAddItemToItemVerify::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////////////
 void GCAddItemToItemVerify::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -130,11 +127,10 @@ void GCAddItemToItemVerify::execute ( Player * pPlayer )
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÆÐÅ¶ »çÀÌÁî
+// ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
-PacketSize_t GCAddItemToItemVerify::getPacketSize () const 
-	throw() 
+size_t GCAddItemToItemVerify::getPacketSize () const  
 {
 	__BEGIN_TRY
 
@@ -142,7 +138,7 @@ PacketSize_t GCAddItemToItemVerify::getPacketSize () const
 
 	switch (m_Code)
 	{
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ½á¾ß ÇÏ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½Úµï¿½
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL_DECREASE :
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_OK :
 		case ADD_ITEM_TO_ITEM_VERIFY_DETACHING_OK :
@@ -165,7 +161,7 @@ PacketSize_t GCAddItemToItemVerify::getPacketSize () const
 				size += szBYTE;
 			}
 			break;
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ¾²Áö ¾Ê¾Æµµ µÇ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½ ï¿½Ç´ï¿½ ï¿½Úµï¿½
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL_CRASH :
 		case ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL:
 		default:
@@ -182,7 +178,6 @@ PacketSize_t GCAddItemToItemVerify::getPacketSize () const
 // get packet's debug std::string
 //////////////////////////////////////////////////////////////////////////////
 std::string GCAddItemToItemVerify::toString () const
-throw ()
 {
 	__BEGIN_TRY
 		

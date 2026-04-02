@@ -5,7 +5,7 @@
 // ��¿ �� ����... 
 //-----------------------------------------------------------------------------
 
-#include "RaceType.h"
+#include "Types\RaceType.h"
 
 #ifndef	__UIFUNCTION_H__
 #define	__UIFUNCTION_H__

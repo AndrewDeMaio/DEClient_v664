@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCShopMarketConditionHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
@@ -17,14 +17,13 @@
 #include "UIFunction.h"
 
 void GCShopMarketConditionHandler::execute ( GCShopMarketCondition * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
 #ifdef __GAME_CLIENT__
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -32,14 +31,14 @@ void GCShopMarketConditionHandler::execute ( GCShopMarketCondition * pPacket , P
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		int objectID = pPacket->getObjectID();
 		MCreature* pCreature = g_pZone->GetCreature(objectID);
 
-		//20081023 ±×·Î¹ú NPC¸¦ À§ÇÑ ºÎºÐ npc¸¦ ¸øÃ£°í ±Û·Î¹ú º¯¼ö·Î ¿ÔÀ»°æ¿ì¸¸ ´ÙÀ½°ú °°ÀÌ Å©¸®Ã³¸¦ ¸¸µé¾î¼­ ¾´´Ù.
+		//20081023 ï¿½×·Î¹ï¿½ NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ npcï¿½ï¿½ ï¿½ï¿½Ã£ï¿½ï¿½ ï¿½Û·Î¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì¸¸ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½î¼­ ï¿½ï¿½ï¿½ï¿½.
 		if(pCreature == NULL && objectID == 0)
 		{
 			(MNPC*) pCreature;
@@ -47,51 +46,51 @@ void GCShopMarketConditionHandler::execute ( GCShopMarketCondition * pPacket , P
 		}
 
 		//------------------------------------------------------
-		// ±×·± creature°¡ ¾ø´Â °æ¿ì
+		// ï¿½×·ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		if (pCreature==NULL)
 		{
 			DEBUG_ADD_FORMAT("[Error] There is no such Creature id=%d", pPacket->getObjectID());
 		}
 		//------------------------------------------------------
-		// NPCÀÎ °æ¿ì
+		// NPCï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		else if (pCreature->GetClassType()==MCreature::CLASS_NPC)
 		{
 			MNPC* pNPC = (MNPC*)pCreature;
 
 			//------------------------------------------------------
-			// »óÁ¡À» ÀÐ´Â´Ù.
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð´Â´ï¿½.
 			//------------------------------------------------------
 			MShop* pShop = pNPC->GetShop();
 
 			if (pShop==NULL)
 			{
-				// »óÁ¡ÀÌ ¾ø¾úÀ¸¸é »ý¼ºÇÑ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 				pShop = new MShop;
 				pShop->Init( MShopShelf::MAX_SHELF );
 
-				// NPC¿¡ »óÁ¡ ¼³Á¤
+				// NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				pNPC->SetShop( pShop );
 
-				// normal item ¼±¹ÝÀ» »ý¼ºÇÑ´Ù.
+				// normal item ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 				//pNPC->CreateFixedShelf();
 			}
 
 			//------------------------------------------------------
-			// ¼±¹ÝÀÇ °¡°Ý ºñÀ² 
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 			//------------------------------------------------------
 			g_pPriceManager->SetMarketCondBuy( pPacket->getMarketCondBuy() );
 			g_pPriceManager->SetMarketCondSell( pPacket->getMarketCondSell() );
 			
 			//------------------------------------------------------
-			// ÆÈ±â À§ÇØ¼­ inventory¸¦ ¿¬´Ù.
+			// ï¿½È±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ inventoryï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			//------------------------------------------------------
 			UI_OpenInventoryToSell();
 
 		}
 		//------------------------------------------------------
-		// NPC°¡ ¾Æ´Ñ °æ¿ì
+		// NPCï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		else
 		{

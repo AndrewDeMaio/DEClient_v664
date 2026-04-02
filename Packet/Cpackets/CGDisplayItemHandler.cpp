@@ -20,7 +20,6 @@
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 void CGDisplayItemHandler::execute (CGDisplayItem* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 	__BEGIN_TRY 
 		//__BEGIN_DEBUG_EX
@@ -44,7 +43,7 @@ void CGDisplayItemHandler::execute (CGDisplayItem* pPacket , Player* pPlayer)
 
 	if ( pPacket->getIndex() > MAX_ITEM_NUM )
 	{
-		filelog("Store.log", "[%s:%s] (%u) Àß¸øµÈ ÀÎµ¦½ºÀÔ´Ï´Ù.",
+		filelog("Store.log", "[%s:%s] (%u) ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.",
 				pGamePlayer->getID().c_str(), pPC->getName().c_str(), pPacket->getIndex());
 		return;
 	}
@@ -52,14 +51,14 @@ void CGDisplayItemHandler::execute (CGDisplayItem* pPacket , Player* pPlayer)
 	Item* pItem = pInventory->getItem( pPacket->getX(), pPacket->getY() );
 	if ( pItem == NULL || pItem->getObjectID() != pPacket->getItemObjectID() )
 	{
-		filelog("Store.log", "[%s:%s] (%u, %u) : %u ¾ÆÀÌÅÛ ÁÂÇ¥°¡ Àß¸øµÇ¾ú°Å³ª ¿ÀºêÁ§Æ® ¾ÆÀÌµğ°¡ Àß¸øµÇ¾ú½À´Ï´Ù.",
+		filelog("Store.log", "[%s:%s] (%u, %u) : %u ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ß¸ï¿½ï¿½Ç¾ï¿½ï¿½Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ß¸ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.",
 				pGamePlayer->getID().c_str(), pPC->getName().c_str(), pPacket->getX(), pPacket->getY(), pPacket->getItemObjectID() );
 		return;
 	}
 
 	if ( pItem->isTimeLimitItem() || !canSell( pItem ) )
 	{
-		filelog("Store.log", "[%s:%s] (%s) ÆÈ ¼ö ¾ø´Â ¾ÆÀÌÅÛÀÔ´Ï´Ù.",
+		filelog("Store.log", "[%s:%s] (%s) ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.",
 				pGamePlayer->getID().c_str(), pPC->getName().c_str(), pItem->toString().c_str());
 		return;
 	}
@@ -67,7 +66,7 @@ void CGDisplayItemHandler::execute (CGDisplayItem* pPacket , Player* pPlayer)
 	BYTE result = pStore->setStoreItem( pPacket->getIndex(), pItem, pPacket->getPrice() );
 	if (  result != 0 )
 	{
-		filelog("Store.log", "[%s:%s] (%u) ¾ÆÀÌÅÛÀ» ³õÀ» ¼ö ¾ø½À´Ï´Ù.",
+		filelog("Store.log", "[%s:%s] (%u) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.",
 				pGamePlayer->getID().c_str(), pPC->getName().c_str(), result);
 		return;
 	}

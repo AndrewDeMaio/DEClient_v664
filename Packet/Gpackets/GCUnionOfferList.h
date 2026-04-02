@@ -18,7 +18,7 @@
 //
 // class GCUnionOfferList;
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡°Ô ¿¬ÇÕÀ» ½ÅÃ»ÇÑ ±æµå ¸®½ºÆ®¸¦ ¸¸µé¾î¼­ º¸³»ÁØ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½î¼­ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -32,7 +32,7 @@ public:
         QUIT
     };
 
-	PacketSize_t getSize() const throw()
+	PacketSize_t getSize() const
 	{ 
 		return szGuildID +				// Guild ID
 			   szBYTE +					// Guild Type
@@ -43,7 +43,7 @@ public:
 			   szDWORD;			// Date
 	}
 
-	static PacketSize_t getMaxSize() throw()
+	static PacketSize_t getMaxSize()
 	{
 		return szGuildID +		// Guild ID
 			   szBYTE +			// Guild Type
@@ -54,7 +54,7 @@ public:
 			   szDWORD;			// Date
 	}
 
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error)
+    void read(SocketInputStream & iStream)
 	{
 		__BEGIN_TRY
 
@@ -84,7 +84,7 @@ public:
 		__END_CATCH
 	}
 		    
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error)
+    void write(SocketOutputStream & oStream) const
 	{
 		__BEGIN_TRY
 			
@@ -114,24 +114,24 @@ public:
 	}
 
 	// get/set Guild ID
-	GuildID_t getGuildID() const throw() { return m_GuildID; }
-	void setGuildID( GuildID_t GuildID ) throw() { m_GuildID = GuildID; }
+	GuildID_t getGuildID() const { return m_GuildID; }
+	void setGuildID( GuildID_t GuildID ) { m_GuildID = GuildID; }
 
-	// get/set OfferGuild Type (JOIN-½ÅÃ»ÀÚ ¸ñ·Ï, QUIT-Å»Åð½ÅÃ»ÇÑ ±æµå)
-	BYTE	getGuildType()	const throw() { return m_Type-1; }
-	void	setGuildType( BYTE Type ) throw() { m_Type = Type; }
+	// get/set OfferGuild Type (JOIN-ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½, QUIT-Å»ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½)
+	BYTE	getGuildType()	const { return m_Type-1; }
+	void	setGuildType( BYTE Type ) { m_Type = Type; }
 
 	// get/set Guild Name
-	const string& getGuildName() const throw() { return m_GuildName; }
-	void setGuildName( const string& GuildName ) throw() { m_GuildName = GuildName; }
+	const string& getGuildName() const { return m_GuildName; }
+	void setGuildName( const string& GuildName ) { m_GuildName = GuildName; }
 
 	// get/set Guild Master
-	const string& getGuildMaster() const throw() { return m_MasterName; }
-	void setGuildMaster( const string& GuildMaster ) throw() { m_MasterName = GuildMaster; }
+	const string& getGuildMaster() const { return m_MasterName; }
+	void setGuildMaster( const string& GuildMaster ) { m_MasterName = GuildMaster; }
 
 	// get/set Date
-	const DWORD getDate() const throw() { return m_Date; }
-	void setDate( DWORD date  ) throw() { m_Date = date; }
+	const DWORD getDate() const { return m_Date; }
+	void setDate( DWORD date  ) { m_Date = date; }
 
 private :
 
@@ -148,33 +148,33 @@ class GCUnionOfferList : public Packet {
 
 public :
 
-    ~GCUnionOfferList() throw();
+    ~GCUnionOfferList();
 
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_UNION_OFFER_LIST;}
+	PacketID_t getPacketID() const { return PACKET_GC_UNION_OFFER_LIST;}
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw();
+	size_t getPacketSize() const;
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	string getPacketName() const throw() { return "GCUnionOfferList"; }
+	string getPacketName() const { return "GCUnionOfferList"; }
 	
 	// get packet's debug string
-	string toString() const throw();
+	string toString() const;
 #endif
-	std::list<SingleGuildUnionOffer*>&	getUnionOfferList()  throw() { return m_UnionOfferList; }
+	std::list<SingleGuildUnionOffer*>&	getUnionOfferList() { return m_UnionOfferList; }
 	
-	void	addUnionOfferList(SingleGuildUnionOffer* pUnionOffer) throw()
+	void	addUnionOfferList(SingleGuildUnionOffer* pUnionOffer)
 	{
 		m_UnionOfferList.push_back(pUnionOffer);
 	}
@@ -197,19 +197,19 @@ class GCUnionOfferListFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet* createPacket() throw() { return new GCUnionOfferList(); }
+	Packet* createPacket() { return new GCUnionOfferList(); }
 
 	// get packet name
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCUnionOfferList"; }
+	string getPacketName() const { return "GCUnionOfferList"; }
 #endif
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_UNION_OFFER_LIST; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_UNION_OFFER_LIST; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCSystemMessagePacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() { return SingleGuildUnionOffer::getMaxSize() * 20; }
+	// const static GCSystemMessagePacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const { return SingleGuildUnionOffer::getMaxSize() * 20; }
 
 };
 
@@ -225,7 +225,7 @@ class GCUnionOfferListHandler {
 public :
 	
 	// execute packet's handler
-	static void execute(GCUnionOfferList* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCUnionOfferList* pPacket, Player* pPlayer);
 
 };
 

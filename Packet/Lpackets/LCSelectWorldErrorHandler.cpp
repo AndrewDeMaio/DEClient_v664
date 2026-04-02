@@ -25,7 +25,6 @@ extern UIDialog*			g_pUIDialog;
 // 
 //----------------------------------------------------------------------
 void LCSelectWorldErrorHandler::execute ( LCSelectWorldError * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 

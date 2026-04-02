@@ -8,17 +8,16 @@
 #include "CGFriendUpdateGlobalOption.h"
 
 #if __CONTENTS(__FRIEND_ADDITION)
-CGFriendUpdateGlobalOption::CGFriendUpdateGlobalOption() throw()
+CGFriendUpdateGlobalOption::CGFriendUpdateGlobalOption()
 {
 }
 
-CGFriendUpdateGlobalOption::~CGFriendUpdateGlobalOption() throw()
+CGFriendUpdateGlobalOption::~CGFriendUpdateGlobalOption()
 {
 	
 }
 
 void CGFriendUpdateGlobalOption::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -28,7 +27,6 @@ void CGFriendUpdateGlobalOption::read ( SocketInputStream & iStream )
 }
 		    
 void CGFriendUpdateGlobalOption::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -38,7 +36,6 @@ void CGFriendUpdateGlobalOption::write ( SocketOutputStream & oStream ) const
 }
 
 void CGFriendUpdateGlobalOption::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -57,13 +54,12 @@ FriendGlobalOptionInfo& CGFriendUpdateGlobalOption::GetFriendGlobalOptionInfo()
 	return m_FriendGlobalOptionInfo;
 }
 
-PacketSize_t CGFriendUpdateGlobalOption::getPacketSize() const throw()
+PacketSize_t CGFriendUpdateGlobalOption::getPacketSize() const
 {
 	return m_FriendGlobalOptionInfo.getSize();	
 }
 
 string CGFriendUpdateGlobalOption::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

@@ -12,10 +12,9 @@
 
 
 //////////////////////////////////////////////////////////////////////
-// Datagram °´Ã¼·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// Datagram ï¿½ï¿½Ã¼ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void LGIncomingConnection::read ( Datagram & iDatagram ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -69,10 +68,9 @@ void LGIncomingConnection::read ( Datagram & iDatagram )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Datagram °´Ã¼·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void LGIncomingConnection::write ( Datagram & oDatagram ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -129,7 +127,6 @@ void LGIncomingConnection::write ( Datagram & oDatagram ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void LGIncomingConnection::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -143,7 +140,6 @@ void LGIncomingConnection::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 	std::string LGIncomingConnection::toString () const
-		throw ()
 	{
 		StringStream msg;
 

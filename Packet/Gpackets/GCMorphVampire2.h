@@ -19,7 +19,7 @@
 //
 // class GCMorphVampire2;
 //
-// slayerµîÀÌ vampire·Î º¯½ÅÇÏ´Â °É ÁöÄÑº¸´Â ºÐµé¿¡°Ô º¸³½´Ù.
+// slayerï¿½ï¿½ï¿½ï¿½ vampireï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ñºï¿½ï¿½ï¿½ ï¿½Ðµé¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //----------------------------------------------------------------------
 
 class GCMorphVampire2 : public Packet {
@@ -27,45 +27,45 @@ class GCMorphVampire2 : public Packet {
 public :
 
 	// constructor
-	GCMorphVampire2 () throw () {}
-	GCMorphVampire2 ( PCVampireInfo3 info ) throw () : m_VampireInfo3(info) {}
+	GCMorphVampire2 () {}
+	GCMorphVampire2 ( PCVampireInfo3 info ) : m_VampireInfo3(info) {}
 	
 public :
 
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_MORPH_VAMPIRE_2; }
+	PacketID_t getPacketID () const { return PACKET_GC_MORPH_VAMPIRE_2; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () { return m_VampireInfo3.getSize(); }
+	size_t getPacketSize () const { return m_VampireInfo3.getSize(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCMorphVampire2"; }
+		std::string getPacketName () const { return "GCMorphVampire2"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 
 public :
 
 	// get/set vampire info
-	const PCVampireInfo3& getSlayerInfo () throw () { return m_VampireInfo3; }
-	void setVampireInfo ( PCVampireInfo3 info ) throw () { m_VampireInfo3 = info; }
+	const PCVampireInfo3& getSlayerInfo () { return m_VampireInfo3; }
+	void setVampireInfo ( PCVampireInfo3 info ) { m_VampireInfo3 = info; }
 
 
 private :
 	
-	// ¿Ü¸ð Á¤º¸
+	// ï¿½Ü¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	PCVampireInfo3 m_VampireInfo3;
 	
 };
@@ -84,18 +84,18 @@ class GCMorphVampire2Factory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCMorphVampire2(); }
+	Packet * createPacket () { return new GCMorphVampire2(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCMorphVampire2"; }
+		std::string getPacketName () const { return "GCMorphVampire2"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_MORPH_VAMPIRE_2; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_MORPH_VAMPIRE_2; }
 
 	// get packet's body size
-	PacketSize_t getPacketMaxSize () const throw ()
+	PacketSize_t getPacketMaxSize () const
 	{ 
 		return PCVampireInfo3::getMaxSize();
 	}
@@ -114,7 +114,7 @@ class GCMorphVampire2Handler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCMorphVampire2 * pPacket , Player * pPlayer ) throw ( Error );
+	static void execute ( GCMorphVampire2 * pPacket , Player * pPlayer );
 
 };
 

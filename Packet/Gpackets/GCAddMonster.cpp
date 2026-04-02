@@ -10,7 +10,6 @@
 // Constructor
 //////////////////////////////////////////////////////////////////////////////
 GCAddMonster::GCAddMonster()
-	throw( Error )
 {
 	__BEGIN_TRY
 
@@ -24,7 +23,6 @@ GCAddMonster::GCAddMonster()
 // Destructor
 //////////////////////////////////////////////////////////////////////////////
 GCAddMonster::~GCAddMonster()
-	throw( Error )
 {
 	__BEGIN_TRY
 
@@ -34,10 +32,9 @@ GCAddMonster::~GCAddMonster()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCAddMonster::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -68,10 +65,9 @@ void GCAddMonster::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCAddMonster::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -102,7 +98,6 @@ void GCAddMonster::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////////////
 void GCAddMonster::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -116,7 +111,6 @@ void GCAddMonster::execute ( Player * pPlayer )
 // get packet's debug std::string
 //////////////////////////////////////////////////////////////////////////////
 std::string GCAddMonster::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 

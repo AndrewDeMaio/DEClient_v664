@@ -8,10 +8,9 @@
 #include "GCNPCResponse.h"
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCNPCResponse::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -19,14 +18,14 @@ void GCNPCResponse::read ( SocketInputStream & iStream )
 
 	switch (m_Code)
 	{
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ½á¾ß ÇÏ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½Úµï¿½
 		case NPC_RESPONSE_REPAIR_OK:
 		case NPC_RESPONSE_SILVER_COATING_OK:
 		case NPC_RESPONSE_DONATION_OK:
 		case NPC_RESPONSE_DECREASE_BALL:
 		case NPC_RESPONSE_GUILD_SHOW_REGIST:
 		case NPC_RESPONSE_SHOW_TAX_BALANCE:
-		case NPC_RESPONSE_WITHDRAW_TAX_OK:				// ±æµå ¸¶½ºÅÍ°¡ ¼¼±ÝÀ» Ã£´Â µ¥¿¡ ¼º°øÇß´Ù.
+		case NPC_RESPONSE_WITHDRAW_TAX_OK:				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½.
 		case NPC_RESPONSE_COUPLE_CANNOT_MEET:
 		case NPC_RESPONSE_NOT_COUPLE:
 		case NPC_RESPONSE_QUEST:
@@ -38,12 +37,12 @@ void GCNPCResponse::read ( SocketInputStream & iStream )
 		case NPC_RESPONSE_GIVE_GAMBLE_ITEM_OK:
 		case NPC_RESPONSE_CHECK_COUNT_ATTEND:
 #if __CONTENTS(__BLITZ_COUPON_EVENT)
-		case NPC_RESPONSE_BLITZ_COUPON:					// ºí¸®Ã÷¼­¹ö ÄíÆù °¹¼ö º¸±â
-		case NPC_RESPONSE_REWORD_ITEM_OK:				// ¾ÆÀÌÅÛ º¸»ó½Ã ¾ÆÀÌÅÛ¸í±îÁö º¸¿©ÁÖ´Â ´ÙÀÌ¾ó·Î±×¶ç¿ï¶§
+		case NPC_RESPONSE_BLITZ_COUPON:					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		case NPC_RESPONSE_REWORD_ITEM_OK:				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½Î±×¶ï¿½ï¶§
 #endif //__BLITZ_COUPON_EVENT
 			iStream.read(m_Parameter);
 			break;
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ¾²Áö ¾Ê¾Æµµ µÇ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½ ï¿½Ç´ï¿½ ï¿½Úµï¿½
 		default:
 			break;
 	}
@@ -52,10 +51,9 @@ void GCNPCResponse::read ( SocketInputStream & iStream )
 }
 		    
 //////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCNPCResponse::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -63,14 +61,14 @@ void GCNPCResponse::write ( SocketOutputStream & oStream ) const
 
 	switch (m_Code)
 	{
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ½á¾ß ÇÏ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½Úµï¿½
 		case NPC_RESPONSE_REPAIR_OK:
 		case NPC_RESPONSE_SILVER_COATING_OK:
 		case NPC_RESPONSE_DONATION_OK:
 		case NPC_RESPONSE_DECREASE_BALL:
 		case NPC_RESPONSE_GUILD_SHOW_REGIST:
 		case NPC_RESPONSE_SHOW_TAX_BALANCE:
-		case NPC_RESPONSE_WITHDRAW_TAX_OK:				// ±æµå ¸¶½ºÅÍ°¡ ¼¼±ÝÀ» Ã£´Â µ¥¿¡ ¼º°øÇß´Ù.
+		case NPC_RESPONSE_WITHDRAW_TAX_OK:				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½.
 		case NPC_RESPONSE_COUPLE_CANNOT_MEET:
 		case NPC_RESPONSE_NOT_COUPLE:
 		case NPC_RESPONSE_QUEST:
@@ -82,12 +80,12 @@ void GCNPCResponse::write ( SocketOutputStream & oStream ) const
 		case NPC_RESPONSE_GIVE_GAMBLE_ITEM_OK:
 		case NPC_RESPONSE_CHECK_COUNT_ATTEND:
 #if __CONTENTS(__BLITZ_COUPON_EVENT)
-		case NPC_RESPONSE_BLITZ_COUPON:					// ºí¸®Ã÷¼­¹ö ÄíÆù °¹¼ö º¸±â
-		case NPC_RESPONSE_REWORD_ITEM_OK:				// ¾ÆÀÌÅÛ º¸»ó½Ã ¾ÆÀÌÅÛ¸í±îÁö º¸¿©ÁÖ´Â ´ÙÀÌ¾ó·Î±×¶ç¿ï¶§
+		case NPC_RESPONSE_BLITZ_COUPON:					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		case NPC_RESPONSE_REWORD_ITEM_OK:				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½Î±×¶ï¿½ï¶§
 #endif //__BLITZ_COUPON_EVENT
 			oStream.write(m_Parameter);
 			break;
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ¾²Áö ¾Ê¾Æµµ µÇ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½ ï¿½Ç´ï¿½ ï¿½Úµï¿½
 		default:
 			break;
 	}
@@ -99,7 +97,6 @@ void GCNPCResponse::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////////////
 void GCNPCResponse::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -109,11 +106,10 @@ void GCNPCResponse::execute ( Player * pPlayer )
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÆÐÅ¶ »çÀÌÁî
+// ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
-PacketSize_t GCNPCResponse::getPacketSize () const 
-	throw() 
+PacketSize_t GCNPCResponse::getPacketSize () const  
 {
 	__BEGIN_TRY
 
@@ -121,14 +117,14 @@ PacketSize_t GCNPCResponse::getPacketSize () const
 
 	switch (m_Code)
 	{
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ½á¾ß ÇÏ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½Úµï¿½
 		case NPC_RESPONSE_REPAIR_OK:
 		case NPC_RESPONSE_SILVER_COATING_OK:
 		case NPC_RESPONSE_DONATION_OK:
 		case NPC_RESPONSE_DECREASE_BALL:
 		case NPC_RESPONSE_GUILD_SHOW_REGIST:
 		case NPC_RESPONSE_SHOW_TAX_BALANCE:
-		case NPC_RESPONSE_WITHDRAW_TAX_OK:				// ±æµå ¸¶½ºÅÍ°¡ ¼¼±ÝÀ» Ã£´Â µ¥¿¡ ¼º°øÇß´Ù.
+		case NPC_RESPONSE_WITHDRAW_TAX_OK:				// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´ï¿½.
 		case NPC_RESPONSE_COUPLE_CANNOT_MEET:
 		case NPC_RESPONSE_NOT_COUPLE:
 		case NPC_RESPONSE_QUEST:
@@ -140,12 +136,12 @@ PacketSize_t GCNPCResponse::getPacketSize () const
 		case NPC_RESPONSE_GIVE_GAMBLE_ITEM_OK:
 		case NPC_RESPONSE_CHECK_COUNT_ATTEND:
 #if __CONTENTS(__BLITZ_COUPON_EVENT)
-		case NPC_RESPONSE_BLITZ_COUPON:					// ºí¸®Ã÷¼­¹ö ÄíÆù °¹¼ö º¸±â
-		case NPC_RESPONSE_REWORD_ITEM_OK:				// ¾ÆÀÌÅÛ º¸»ó½Ã ¾ÆÀÌÅÛ¸í±îÁö º¸¿©ÁÖ´Â ´ÙÀÌ¾ó·Î±×¶ç¿ï¶§
+		case NPC_RESPONSE_BLITZ_COUPON:					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		case NPC_RESPONSE_REWORD_ITEM_OK:				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½Î±×¶ï¿½ï¶§
 #endif //__BLITZ_COUPON_EVENT
 			size += szuint;
 			break;
-		// ÆÄ¶ó¹ÌÅÍ¸¦ ¾²Áö ¾Ê¾Æµµ µÇ´Â ÄÚµå
+		// ï¿½Ä¶ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Æµï¿½ ï¿½Ç´ï¿½ ï¿½Úµï¿½
 		default:
 			break;
 	}
@@ -160,7 +156,6 @@ PacketSize_t GCNPCResponse::getPacketSize () const
 // get packet's debug std::string
 //////////////////////////////////////////////////////////////////////////////
 std::string GCNPCResponse::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 

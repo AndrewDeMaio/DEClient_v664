@@ -2,8 +2,8 @@
 // Filename    : CGMixItem.h 
 // Written By  : excel96
 // Description : 
-// ÀÎº¥Åä¸® ¾ÈÀÇ ¾ÆÀÌÅÛÀ» »ç¿ëÇÒ ¶§, Å¬¶óÀÌ¾ðÆ®°¡ X, Y ¹× ObjectID¸¦
-// º¸³»¸é ¾ÆÀÌÅÛ Å¬·¡½º¿¡ µû¶ó¼­, ¼­¹ö°¡ ÀÌ¿¡ ¸Â´Â ÄÚµå¸¦ Ã³¸®ÇÑ´Ù.
+// ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ X, Y ï¿½ï¿½ ObjectIDï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ ï¿½Â´ï¿½ ï¿½Úµå¸¦ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __CG_MIX_ITEM_H__
@@ -20,36 +20,36 @@
 class CGMixItem : public Packet 
 {
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_MIX_ITEM; }
-	PacketSize_t getPacketSize() const throw() { return szObjectID + szCoordInven + szCoordInven + ( szObjectID * 2 ); }
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_MIX_ITEM; }
+	size_t getPacketSize() const { return szObjectID + szCoordInven + szCoordInven + ( szObjectID * 2 ); }
 
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "CGMixItem"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "CGMixItem"; }
+	std::string toString() const;
 #endif
 	
 public:
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID(ObjectID_t ObjectID) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID(ObjectID_t ObjectID) { m_ObjectID = ObjectID; }
 
-	CoordInven_t getX() const throw() { return m_InvenX; }
-	void setX(CoordInven_t InvenX) throw() { m_InvenX = InvenX; }
+	CoordInven_t getX() const { return m_InvenX; }
+	void setX(CoordInven_t InvenX) { m_InvenX = InvenX; }
 
-	CoordInven_t getY() const throw() { return m_InvenY; }
-	void setY(CoordInven_t InvenY) throw() { m_InvenY = InvenY; }
+	CoordInven_t getY() const { return m_InvenY; }
+	void setY(CoordInven_t InvenY) { m_InvenY = InvenY; }
 
-	ObjectID_t getTargetObjectID( uint index ) const throw() { Assert(index<2); return m_TargetObjectID[index]; }
-	void setTargetObjectID( uint index, ObjectID_t oid ) throw() { Assert(index<2); m_TargetObjectID[index] = oid; }
+	ObjectID_t getTargetObjectID( uint index ) const { Assert(index<2); return m_TargetObjectID[index]; }
+	void setTargetObjectID( uint index, ObjectID_t oid ) { Assert(index<2); m_TargetObjectID[index] = oid; }
 
 private:
-	ObjectID_t   m_ObjectID; // ¾ÆÀÌÅÛÀÇ object id 
-	CoordInven_t m_InvenX;   // ¾ÆÀÌÅÛÀÇ ÀÎº¥Åä¸® ÁÂÇ¥ X
-	CoordInven_t m_InvenY;   // ¾ÆÀÌÅÛÀÇ ÀÎº¥Åä¸® ÁÂÇ¥ Y
+	ObjectID_t   m_ObjectID; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ object id 
+	CoordInven_t m_InvenX;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½Ç¥ X
+	CoordInven_t m_InvenY;   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½Ç¥ Y
 
-	ObjectID_t	m_TargetObjectID[2];	// ÇÕÄ¥ µÎ ¾ÆÀÌÅÛÀÇ ¿ÀºêÁ§Æ® ID
+	ObjectID_t	m_TargetObjectID[2];	// ï¿½ï¿½Ä¥ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ID
 };
 
 
@@ -60,10 +60,10 @@ private:
 class CGMixItemFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new CGMixItem(); }
-	std::string getPacketName() const throw() { return "CGMixItem"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_MIX_ITEM; }
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID + szCoordInven + szCoordInven + ( szObjectID * 2 ); }
+	Packet* createPacket() { return new CGMixItem(); }
+	std::string getPacketName() const { return "CGMixItem"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_MIX_ITEM; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID + szCoordInven + szCoordInven + ( szObjectID * 2 ); }
 };
 #endif
 
@@ -77,7 +77,7 @@ class Item;
 class CGMixItemHandler 
 {
 public:
-	static void execute(CGMixItem* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(CGMixItem* pPacket, Player* pPlayer);
 };
 
 #endif

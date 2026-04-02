@@ -15,7 +15,6 @@
 //
 //////////////////////////////////////////////////////////////////////
 void GCModifyNicknameHandler::execute ( GCModifyNickname * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY /*__BEGIN_DEBUG_EX*/
 	
@@ -41,7 +40,7 @@ void GCModifyNicknameHandler::execute ( GCModifyNickname * pPacket , Player * pP
 			{
 				szNickName = (TempNick.getNickname()).c_str();
 			}
-			else // ´Ð³×ÀÓ ÀÎµ¦½º°¡ ÀÖÀ» ¶§
+			else // ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 			{
 				DWORD TempIndex = TempNick.getNicknameIndex();
 				if(TempIndex >= g_pNickNameStringTable->GetSize())

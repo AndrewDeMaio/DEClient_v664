@@ -17,7 +17,6 @@ extern void SetPetInfo(PetInfo* pPetInfo, TYPE_OBJECTID objectID);
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCAddOustersHandler::execute ( GCAddOusters * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -25,7 +24,7 @@ void GCAddOustersHandler::execute ( GCAddOusters * pPacket , Player * pPlayer )
 		
 	
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -34,7 +33,7 @@ void GCAddOustersHandler::execute ( GCAddOusters * pPacket , Player * pPlayer )
 		
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -43,7 +42,7 @@ void GCAddOustersHandler::execute ( GCAddOusters * pPacket , Player * pPlayer )
 		MCreature* pCreature = g_pZone->GetCreature(oi.getObjectID());
 
 		//--------------------------------------------------
-		// »õ·Î¿î CreatureÀÌ¸é Ãß°¡
+		// ï¿½ï¿½ï¿½Î¿ï¿½ Creatureï¿½Ì¸ï¿½ ï¿½ß°ï¿½
 		//--------------------------------------------------
 		if (pCreature==NULL)
 		{
@@ -56,7 +55,7 @@ void GCAddOustersHandler::execute ( GCAddOusters * pPacket , Player * pPlayer )
 			pCreature->SetName( oi.getName().c_str() );
 
 			//--------------------------------------------------
-			// CreatureType ¼³Á¤
+			// CreatureType ï¿½ï¿½ï¿½ï¿½
 			//--------------------------------------------------
 			ItemType_t coatType = oi.getCoatType();
 
@@ -78,7 +77,7 @@ void GCAddOustersHandler::execute ( GCAddOusters * pPacket , Player * pPlayer )
 			pCreature->SetCurrentDirection( oi.getDir() );
 			pCreature->SetAction( ACTION_STAND );
 
-			// »ö±ò
+			// ï¿½ï¿½ï¿½ï¿½
 			pCreature->SetBodyColor1( oi.getHairColor() );
 			pCreature->SetBodyColor2( oi.getCoatColor() );
 
@@ -94,7 +93,7 @@ void GCAddOustersHandler::execute ( GCAddOusters * pPacket , Player * pPlayer )
 			//--------------------------------------------------
 			// [ TEST CODE ]
 			//--------------------------------------------------
-			// ¿Ê »ö±ò ¼³Á¤ÇÏ±â
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			//--------------------------------------------------
 			/*
 			if (pCreature->IsMale())
@@ -115,11 +114,11 @@ void GCAddOustersHandler::execute ( GCAddOusters * pPacket , Player * pPlayer )
 			pCreature->SetStatus( MODIFY_CONTRIBUTE_POINT, oi.getContributePoint());
 #endif //__CONTRIBUTE_SYSTEM
 			//oi.getName()
-			// »ö»ó Á¤º¸
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 			pCreature->SetWeaponSpeed( oi.getAttackSpeed() );
 			
-			// ÀÓ½Ã·Î
+			// ï¿½Ó½Ã·ï¿½
 			pCreature->SetGuildNumber( oi.getGuildID() );
 			pCreature->SetOriginServerNum( oi.getBorn() );
 			pCreature->SetUnionGuildID( oi.getUnionID() );
@@ -148,12 +147,12 @@ void GCAddOustersHandler::execute ( GCAddOusters * pPacket , Player * pPlayer )
 			
 		}
 		//--------------------------------------------------
-		// ÀÌ¹Ì ÀÖ´Â CreatureÀÎ °æ¿ì
+		// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		else
 		{
 			//--------------------------------------------------
-			// CreatureType ¼³Á¤
+			// CreatureType ï¿½ï¿½ï¿½ï¿½
 			//--------------------------------------------------
 			ItemType_t coatType = oi.getCoatType();
 
@@ -167,7 +166,7 @@ void GCAddOustersHandler::execute ( GCAddOusters * pPacket , Player * pPlayer )
 				pCreature->SetCreatureType( GetOustersCreatureType( coatType ) );
 			}
 
-			// ÀÓ½Ã·Î
+			// ï¿½Ó½Ã·ï¿½
 			pCreature->SetStatus( MODIFY_ADVANCEMENT_CLASS_LEVEL, oi.getAdvancementLevel() );
 			pCreature->SetGuildNumber( oi.getGuildID() );
 			pCreature->SetOriginServerNum( oi.getBorn() );
@@ -180,7 +179,7 @@ void GCAddOustersHandler::execute ( GCAddOusters * pPacket , Player * pPlayer )
 			pCreature->SetCurrentDirection( oi.getDir() );
 			pCreature->SetAction( ACTION_STAND );
 
-			// »ö±ò
+			// ï¿½ï¿½ï¿½ï¿½
 			pCreature->SetBodyColor1( oi.getHairColor() );
 			pCreature->SetBodyColor2( oi.getCoatColor() );
 			pCreature->SetMasterEffectType( oi.getMasterEffectColor() );
@@ -195,7 +194,7 @@ void GCAddOustersHandler::execute ( GCAddOusters * pPacket , Player * pPlayer )
 			//--------------------------------------------------
 			// [ TEST CODE ]
 			//--------------------------------------------------
-			// ¿Ê »ö±ò ¼³Á¤ÇÏ±â
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
 			//--------------------------------------------------
 			/*
 			if (pCreature->IsMale())
@@ -242,13 +241,13 @@ void GCAddOustersHandler::execute ( GCAddOusters * pPacket , Player * pPlayer )
 		if (pCreature!=NULL)
 		{
 			//--------------------------------------------------
-			// Effect ºÙÀÌ±â..
+			// Effect ï¿½ï¿½ï¿½Ì±ï¿½..
 			//--------------------------------------------------
 			SetEffectInfo( pCreature, pPacket->getEffectInfo() );
 			
 			SetAddonToOusters( (MCreatureWear*)pCreature, &oi );			
 
-			// Æê Ã³¸®
+			// ï¿½ï¿½ Ã³ï¿½ï¿½
 			if(pPacket->getPetInfo() != NULL)
 				SetPetInfo(pPacket->getPetInfo(), pCreature->GetID());
 
@@ -257,14 +256,14 @@ void GCAddOustersHandler::execute ( GCAddOusters * pPacket , Player * pPlayer )
 			NicknameInfo* _tempNick = pPacket->getNicknameInfo();
 			if(_tempNick != NULL)
 			{
-				// Ä¿½ºÅÒ ´Ð³×ÀÓ ÀÏ¶§
+				// Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Ï¶ï¿½
 				if(_tempNick->getNicknameType() == NicknameInfo::NICK_CUSTOM_FORCED ||
 				   _tempNick->getNicknameType() == NicknameInfo::NICK_CUSTOM)
 				{
 					pCreature->SetNickName(_tempNick->getNicknameType(), (char*)_tempNick->getNickname().c_str());
 					
 				}
-				else // ´Ð³×ÀÓ ÀÎµ¦½º°¡ ÀÖÀ» ¶§
+				else // ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 				{
 					int TempIndex = _tempNick->getNicknameIndex();
 					if(TempIndex >= g_pNickNameStringTable->GetSize())

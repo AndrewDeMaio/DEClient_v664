@@ -30,40 +30,40 @@ class GCInstanceDoungeonLobby : public Packet {
 public :
 
 	// constructor
-	GCInstanceDoungeonLobby() throw();
+	GCInstanceDoungeonLobby();
 
 	// destructor
-	~GCInstanceDoungeonLobby() throw();
+	~GCInstanceDoungeonLobby();
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_INSTANCEDOUNGEON_LOBBY; }
+	PacketID_t getPacketID() const { return PACKET_GC_INSTANCEDOUNGEON_LOBBY; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw();
+	size_t getPacketSize() const;
 
 	// get packet name
-	string getPacketName() const throw() { return "GCInstanceDoungeonLobby"; }
+	string getPacketName() const { return "GCInstanceDoungeonLobby"; }
 	
 	// get packet's debug string
-	string toString() const throw();
+	string toString() const;
 
-	ObjectID_t getObjectID(void) const throw() { return m_ObjectID; }
-	void setObjectID(ObjectID_t creatureID) throw() { m_ObjectID = creatureID; }
+	ObjectID_t getObjectID(void) const { return m_ObjectID; }
+	void setObjectID(ObjectID_t creatureID) { m_ObjectID = creatureID; }
 
-	NPCID_t	getNPCID() const throw() { return m_NPCID; }
-	void setNPCID( NPCID_t npcID ) throw() { m_NPCID = npcID; }
+	NPCID_t	getNPCID() const { return m_NPCID; }
+	void setNPCID( NPCID_t npcID ) { m_NPCID = npcID; }
 	
-	string getDoungeonTitle() const throw() { return m_strDoungeonTitle; }
-	void setDoungeonTitle(string& s) throw() { m_strDoungeonTitle = s; }
+	string getDoungeonTitle() const { return m_strDoungeonTitle; }
+	void setDoungeonTitle(string& s) { m_strDoungeonTitle = s; }
 	
 	void addDoungeonInfo(InstanceDoungeonInfo *pInstanceDoungeonInfo) 
 	{ 
@@ -75,8 +75,8 @@ public :
 		return m_DoungeonList[DoungeonIndex]; 
 	}
 	
-	string getDoungeonDesc() const throw() { return m_strDoungeonDesc; }
-	void setDoungeonDesc(string& strDesc) throw() { m_strDoungeonDesc = strDesc; }
+	string getDoungeonDesc() const { return m_strDoungeonDesc; }
+	void setDoungeonDesc(string& strDesc) { m_strDoungeonDesc = strDesc; }
 
 	WORD	getButtonSize()	{ return m_wButtonSize; }
 private :
@@ -104,15 +104,15 @@ class GCInstanceDoungeonLobbyFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet* createPacket() throw() { return new GCInstanceDoungeonLobby(); }
+	Packet* createPacket() { return new GCInstanceDoungeonLobby(); }
 
 	// get packet name
-	string getPacketName() const throw() { return "GCInstanceDoungeonLobby"; }
+	string getPacketName() const { return "GCInstanceDoungeonLobby"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_INSTANCEDOUNGEON_LOBBY; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_INSTANCEDOUNGEON_LOBBY; }
 
-	PacketSize_t getPacketMaxSize() const throw() 
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		return szObjectID + szNPCID + szBYTE + 200 + InstanceDoungeonInfo::getMaxSize() * 256 + szBYTE + 200; 
 	}
@@ -131,7 +131,7 @@ class GCInstanceDoungeonLobbyHandler {
 public :
 	
 	// execute packet's handler
-	static void execute(GCInstanceDoungeonLobby* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCInstanceDoungeonLobby* pPacket, Player* pPlayer);
 
 };
 #endif // __TIPOJYU_CASTLE

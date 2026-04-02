@@ -17,7 +17,6 @@
 // constructor
 //--------------------------------------------------------------------------------
 GCSkillInfo::GCSkillInfo ()
-	throw ()
 {
 }
 
@@ -25,7 +24,6 @@ GCSkillInfo::GCSkillInfo ()
 // destructor
 //--------------------------------------------------------------------------------
 GCSkillInfo::~GCSkillInfo ()
-	throw ()
 {
 	while( !m_pPCSkillInfoList.empty() ) {
 		PCSkillInfo * pPCSkillInfo = m_pPCSkillInfoList.front();
@@ -35,10 +33,9 @@ GCSkillInfo::~GCSkillInfo ()
 }
 
 //--------------------------------------------------------------------------------
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //--------------------------------------------------------------------------------
 void GCSkillInfo::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -89,10 +86,9 @@ void GCSkillInfo::read ( SocketInputStream & iStream )
 }
 
 //--------------------------------------------------------------------------------
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //--------------------------------------------------------------------------------
 void GCSkillInfo::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -115,7 +111,6 @@ void GCSkillInfo::write ( SocketOutputStream & oStream ) const
 // getSize
 //--------------------------------------------------------------------
 PacketSize_t GCSkillInfo::getPacketSize() const
-	throw()
 {
 
 	PacketSize_t PacketSize = szBYTE;
@@ -136,7 +131,6 @@ PacketSize_t GCSkillInfo::getPacketSize() const
 // execute packet's handler
 //--------------------------------------------------------------------------------
 void GCSkillInfo::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -151,7 +145,6 @@ void GCSkillInfo::execute ( Player * pPlayer )
 //--------------------------------------------------------------------------------
 #ifdef __DEBUG_OUTPUT__
 	std::string GCSkillInfo::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 			

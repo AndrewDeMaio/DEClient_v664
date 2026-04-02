@@ -16,7 +16,7 @@
 //
 // class GCAddBurrowingCreature;
 //
-// ½Ã¾ß ¾È¿¡ BurrowingCreature °¡ µé¾î¿ÔÀ» °æ¿ì, ÀÌ ÆÐÅ¶¿¡ BurrowingCreature Á¤º¸¸¦ ´ã¾Æ¼­ Àü¼Û¹Þ´Â´Ù.
+// ï¿½Ã¾ï¿½ ï¿½È¿ï¿½ BurrowingCreature ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ BurrowingCreature ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ ï¿½ï¿½ï¿½Û¹Þ´Â´ï¿½.
 //
 //--------------------------------------------------------------------------------
 
@@ -24,22 +24,22 @@ class GCAddBurrowingCreature : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_ADD_BURROWING_CREATURE; }
+	PacketID_t getPacketID () const { return PACKET_GC_ADD_BURROWING_CREATURE; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static GCAddBurrowingCreaturePacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize () const throw () 
+	// const static GCAddBurrowingCreaturePacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize () const 
 	{ 
 		return szObjectID 
 			+ szBYTE + m_Name.size() 
@@ -48,44 +48,44 @@ public :
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCAddBurrowingCreature"; }
+		std::string getPacketName () const { return "GCAddBurrowingCreature"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif	
 
 
 public :
 
 	// get/set object id
-	ObjectID_t getObjectID () const throw () { return m_ObjectID; }
-	void setObjectID ( ObjectID_t creatureID ) throw () { m_ObjectID = creatureID; }
+	ObjectID_t getObjectID () const { return m_ObjectID; }
+	void setObjectID ( ObjectID_t creatureID ) { m_ObjectID = creatureID; }
 
 	// get/set name
-	const std::string& getName () const throw () { return m_Name; }
-	void setName ( std::string name ) throw () { m_Name = name; }
+	const std::string& getName () const { return m_Name; }
+	void setName ( std::string name ) { m_Name = name; }
 
 
 	// get/set X
-	Coord_t getX () const throw () { return m_X; }
-	void setX ( Coord_t x ) throw () { m_X = x; }
+	Coord_t getX () const { return m_X; }
+	void setX ( Coord_t x ) { m_X = x; }
 	
 	// get/set Y
-	Coord_t getY () const throw () { return m_Y; }
-	void setY ( Coord_t y ) throw () { m_Y = y; }
+	Coord_t getY () const { return m_Y; }
+	void setY ( Coord_t y ) { m_Y = y; }
 
 
 
 private :
 	
-    // Á¸ ·¹º§¿¡¼­ À¯´ÏÅ©ÇÑ ¾ÆÀÌµð·Î °´Ã¼ ±¸ºÐÀ» À§ÇØ¼­ »ç¿ëÇÑ´Ù.
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
     ObjectID_t m_ObjectID;
 
-    // BurrowingCreatureÀÇ ÀÌ¸§
+    // BurrowingCreatureï¿½ï¿½ ï¿½Ì¸ï¿½
     std::string m_Name;
 
-   	Coord_t m_X;				// X ÁÂÇ¥
-	Coord_t m_Y;				// Y ÁÂÇ¥
+   	Coord_t m_X;				// X ï¿½ï¿½Ç¥
+	Coord_t m_Y;				// Y ï¿½ï¿½Ç¥
 };
 
 
@@ -102,20 +102,20 @@ class GCAddBurrowingCreatureFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCAddBurrowingCreature(); }
+	Packet * createPacket () { return new GCAddBurrowingCreature(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCAddBurrowingCreature"; }
+		std::string getPacketName () const { return "GCAddBurrowingCreature"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_ADD_BURROWING_CREATURE; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_ADD_BURROWING_CREATURE; }
 
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static GCAddBurrowingCreaturePacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () 
+	// const static GCAddBurrowingCreaturePacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const 
 	{
 		int localLongName = 0;
 #if __CONTENTS(__LOCALIZING_LONGNAME)
@@ -140,7 +140,7 @@ class GCAddBurrowingCreatureHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCAddBurrowingCreature * pPacket , Player * pPlayer ) throw ( Error );
+	static void execute ( GCAddBurrowingCreature * pPacket , Player * pPlayer );
 
 };
 

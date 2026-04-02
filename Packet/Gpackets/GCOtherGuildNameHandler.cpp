@@ -12,10 +12,9 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCOtherGuildNameHandler::execute(GCOtherGuildName* pPacket, Player* pPlayer) 
-	 throw ( Error )
 {
 	__BEGIN_TRY
-	// Other Info °Ë»öÈÄ¿¡-_- ÆÄÆ¼ ¸Å´ÏÀúµµ °Ë»öÇØ¼­ ±æµåÀÌ¸§À» ³Ö¾îÁØ´Ù.
+	// Other Info ï¿½Ë»ï¿½ï¿½Ä¿ï¿½-_- ï¿½ï¿½Æ¼ ï¿½Å´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½Ø´ï¿½.
 
 	UI_SetGuildName(pPacket->getGuildID(), pPacket->getGuildName());
 	

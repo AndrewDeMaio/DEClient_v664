@@ -14,7 +14,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCGQuestInventoryHandler::execute ( GCGQuestInventory * pGCGQuestInventory , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY 
 //		__BEGIN_DEBUG_EX
@@ -22,7 +21,7 @@ void GCGQuestInventoryHandler::execute ( GCGQuestInventory * pGCGQuestInventory 
 #ifdef __GAME_CLIENT__
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -30,7 +29,7 @@ void GCGQuestInventoryHandler::execute ( GCGQuestInventory * pGCGQuestInventory 
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -50,9 +49,9 @@ void GCGQuestInventoryHandler::execute ( GCGQuestInventory * pGCGQuestInventory 
 		}
 		gC_vs_ui.UpdateQuestItemInfo(QuestItemList); 
 
-	// ¾ÆÀÌÅÛ ¸®½ºÆ® ¹Þ¾Æ¼­ ¾ÆÀÌÅÛÀ» »ý¼ºÇÑÈÄ UI¿¡ ³Ñ°ÜÁÖÀÚ..
-	// ³ªÁß¿¡ Äù½ºÆ® ¾ÆÀÌÅÛ Ãß°¡ µÇ¹È ÀÛ¾÷ÇÏÀÚ
-	//gC_vs_ui.UpdateQuestItemInfo(¾ÆÀÌÅÛ ¸®½ºÆ®)
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Þ¾Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ UIï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½ï¿½ï¿½..
+	// ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ ï¿½Ç¹ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½ï¿½ï¿½
+	//gC_vs_ui.UpdateQuestItemInfo(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®)
 
 
 

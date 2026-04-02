@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------
 // 
 // Filename    : GCShopSold.h 
-// Written By  : ±è¼º¹Î
-// Description : ÇÑ ÇÃ·¹ÀÌ¾î°¡ »óÁ¡ NPC¿¡°Ô ¹°°ÇÀ» ±¸ÀÔÇß´Âµ¥,
-//               ´Ù¸¥ ÇÃ·¹ÀÌ¾îµµ °°Àº »óÁ¡ NPC¿Í ´ëÈ­ ÁßÀÌ¾ú´Ù¸é,
-//               ±× ÇÃ·¹ÀÌ¾î¿Í ¾ÆÀÌÅÛ ¸ñ·ÏÀ» µ¿±âÈ­½ÃÄÑÁÖ¾î¾ß ÇÑ´Ù.
-//               ÀÌ ÆÐÅ¶Àº ±×¸¦ À§ÇÑ ÆÐÅ¶ÀÌ´Ù.
+// Written By  : ï¿½è¼ºï¿½ï¿½
+// Description : ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ NPCï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß´Âµï¿½,
+//               ï¿½Ù¸ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾îµµ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ NPCï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½Ù¸ï¿½,
+//               ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½ï¿½Ö¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
+//               ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½×¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 // 
 //--------------------------------------------------------------------------------
 
@@ -28,63 +28,63 @@ class GCShopSold : public Packet
 
 public :
 
-	GCShopSold() throw ();
-	virtual ~GCShopSold() throw ();
+	GCShopSold();
+	virtual ~GCShopSold();
 	
-	// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+	// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+	void read ( SocketInputStream & iStream );
 		    
-	// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+	// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_SHOP_SOLD; }
+	PacketID_t getPacketID () const { return PACKET_GC_SHOP_SOLD; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () { return szObjectID + szShopVersion + szShopRackType + szBYTE;}
+	size_t getPacketSize () const { return szObjectID + szShopVersion + szShopRackType + szBYTE;}
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCShopSold"; }	
+		std::string getPacketName () const { return "GCShopSold"; }	
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 
 public :
 
 	// get/set NPC's object id
-	ObjectID_t getObjectID () const throw () { return m_ObjectID; }
-	void setObjectID ( ObjectID_t creatureID ) throw () { m_ObjectID = creatureID; }
+	ObjectID_t getObjectID () const { return m_ObjectID; }
+	void setObjectID ( ObjectID_t creatureID ) { m_ObjectID = creatureID; }
 
 	// get/set shop version	
-	ShopVersion_t getShopVersion(void) const throw() { return m_Version;}
-	void setShopVersion(const ShopVersion_t ver) throw() { m_Version = ver;}
+	ShopVersion_t getShopVersion(void) const { return m_Version;}
+	void setShopVersion(const ShopVersion_t ver) { m_Version = ver;}
 
 	// get/set rack type
-	ShopRackType_t getShopType(void) const throw() { return m_RackType;}
-	void setShopType(ShopRackType_t type) throw() { m_RackType = type;}
+	ShopRackType_t getShopType(void) const { return m_RackType;}
+	void setShopType(ShopRackType_t type) { m_RackType = type;}
 	
 	// get/set rack index
-	BYTE getShopIndex(void) const throw() { return m_RackIndex;}
-	void setShopIndex(BYTE index) throw() { m_RackIndex = index;}
+	BYTE getShopIndex(void) const { return m_RackIndex;}
+	void setShopIndex(BYTE index) { m_RackIndex = index;}
 
 private :
 	
 	// NPC's object id
 	ObjectID_t m_ObjectID;
 	
-	// »óÁ¡ ¹öÁ¯
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	ShopVersion_t m_Version;
 
-	// Áø¿­Àå Á¾·ù	
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½	
 	ShopRackType_t m_RackType;
 	
-	// Áø¿­Àå ÀÎµ¦½º
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½
 	BYTE m_RackIndex;
 	
 	
@@ -105,20 +105,20 @@ class GCShopSoldFactory : public PacketFactory
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCShopSold(); }
+	Packet * createPacket () { return new GCShopSold(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCShopSold"; }
+		std::string getPacketName () const { return "GCShopSold"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_SHOP_SOLD; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_SHOP_SOLD; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCShopSoldPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID + szShopVersion + szShopRackType + szBYTE; }
+	// const static GCShopSoldPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return szObjectID + szShopVersion + szShopRackType + szBYTE; }
 
 };
 
@@ -135,7 +135,7 @@ class GCShopSoldHandler
 public :
 	
 	// execute packet's handler
-	static void execute ( GCShopSold * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCShopSold * pPacket , Player * pPlayer );
 
 };
 

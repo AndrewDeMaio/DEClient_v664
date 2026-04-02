@@ -13,7 +13,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCStatusCurrentHPHandler::execute ( GCStatusCurrentHP * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -21,7 +20,7 @@ void GCStatusCurrentHPHandler::execute ( GCStatusCurrentHP * pPacket , Player * 
 
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -30,14 +29,14 @@ void GCStatusCurrentHPHandler::execute ( GCStatusCurrentHP * pPacket , Player * 
 	
 	}	
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pCreature = g_pZone->GetCreature(pPacket->getObjectID());
 
 		//--------------------------------------------------
-		// ¾øÀ¸¸é.. - -;
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. - -;
 		//--------------------------------------------------
 		if (pCreature==NULL)
 		{	

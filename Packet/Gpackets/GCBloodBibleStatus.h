@@ -5,10 +5,10 @@
 // 
 //////////////////////////////////////////////////////////////////////
 //
-// STORAGE_CORPSE  ItemType, ZoneID, Race, X, Y  ÃÖÃÊ¿¡, ¿Å°ÜÁ³À»¶§: load(), returnBloodBible()  
-// STORAGE_INVENTORY  ItemType, ZoneID, OwnerName, Race, X, Y  ´©±º°¡°¡ ÁÖ¿üÀ»¶§: CGAddZoneToInventory  
-// STORAGE_MOUSE  ItemType, ZoneID, OwnerName, Race, X, Y  ´©±º°¡°¡ ÁÖ¿üÀ»¶§: CGAddZoneToMouse  
-// STORAGE_ZONE  ItemType, ZoneID, X, Y  ¹Ù´Ú¿¡ ¶³¾îÁ³À»¶§: CGAddMouseToZone, CGDissectionCorpse  
+// STORAGE_CORPSE  ItemType, ZoneID, Race, X, Y  ï¿½ï¿½ï¿½Ê¿ï¿½, ï¿½Å°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: load(), returnBloodBible()  
+// STORAGE_INVENTORY  ItemType, ZoneID, OwnerName, Race, X, Y  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¿ï¿½ï¿½ï¿½ï¿½ï¿½: CGAddZoneToInventory  
+// STORAGE_MOUSE  ItemType, ZoneID, OwnerName, Race, X, Y  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¿ï¿½ï¿½ï¿½ï¿½ï¿½: CGAddZoneToMouse  
+// STORAGE_ZONE  ItemType, ZoneID, X, Y  ï¿½Ù´Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: CGAddMouseToZone, CGDissectionCorpse  
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -24,29 +24,29 @@
 //
 // class GCBloodBibleStatus;
 //
-// °ÔÀÓ ¼­¹ö°¡ Æ¯Á¤ ÇÃ·¹ÀÌ¾îÀÇ BloodBibleStatus ¸¦ ´Ù¸¥ ÇÃ·¹ÀÌ¾îµé¿¡°Ô ºê·ÎµåÄ³½ºÆ®
-// ÇÒ ¶§ Àü¼ÛÇÏ´Â ÆÐÅ¶ÀÌ´Ù. ³»ºÎ¿¡ Ä³¸¯ÅÍ¸í°ú BloodBibleStatus ½ºÆ®¸µÀ» µ¥ÀÌÅ¸
-// ÇÊµå·Î °¡Áö°í ÀÖ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ BloodBibleStatus ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½é¿¡ï¿½ï¿½ ï¿½ï¿½Îµï¿½Ä³ï¿½ï¿½Æ®
+// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½. ï¿½ï¿½ï¿½Î¿ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ BloodBibleStatus ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸
+// ï¿½Êµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
 class GCBloodBibleStatus : public Packet {
 
 public :
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_BLOOD_BIBLE_STATUS; }
+	PacketID_t getPacketID() const { return PACKET_GC_BLOOD_BIBLE_STATUS; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() 
+	size_t getPacketSize() const 
 	{ 
 		return szItemType 
 				+ szZoneID 
@@ -58,46 +58,46 @@ public :
 	}
 
 	// get packet name
-	std::string getPacketName() const throw() { return "GCBloodBibleStatus"; }
+	std::string getPacketName() const { return "GCBloodBibleStatus"; }
 	
 	// get packet's debug std::string
-	std::string toString() const throw();
+	std::string toString() const;
 
 	// get/set text color
-	ItemType_t getItemType() const throw() { return m_ItemType; }
-	void setItemType( ItemType_t itemType ) throw() { m_ItemType = itemType; }
+	ItemType_t getItemType() const { return m_ItemType; }
+	void setItemType( ItemType_t itemType ) { m_ItemType = itemType; }
 
 	// get/set text color
-	ZoneID_t getZoneID() const throw() { return m_ZoneID; }
-	void setZoneID( ZoneID_t zoneID ) throw() { m_ZoneID = zoneID; }
+	ZoneID_t getZoneID() const { return m_ZoneID; }
+	void setZoneID( ZoneID_t zoneID ) { m_ZoneID = zoneID; }
 
 	// get/set text color
-	Storage_t getStorage() const throw() { return m_Storage; }
-	void setStorage( Storage_t storage ) throw() { m_Storage = storage; }
+	Storage_t getStorage() const { return m_Storage; }
+	void setStorage( Storage_t storage ) { m_Storage = storage; }
 
 	// get/set chatting message
-	const std::string& getOwnerName() const throw() { return m_OwnerName; }
-	void setOwnerName(const std::string & OwnerName) throw() { m_OwnerName = OwnerName; }
+	const std::string& getOwnerName() const { return m_OwnerName; }
+	void setOwnerName(const std::string & OwnerName) { m_OwnerName = OwnerName; }
 
 	// get/set text color
-	Race_t getRace() const throw() { return m_Race; }
-	void setRace( Race_t race ) throw() { m_Race = race; }
+	Race_t getRace() const { return m_Race; }
+	void setRace( Race_t race ) { m_Race = race; }
 
 	// get/set text color
-	Race_t getShrineRace() const throw() { return m_ShrineRace; }
-	void setShrineRace( Race_t race ) throw() { m_ShrineRace = race; }
+	Race_t getShrineRace() const { return m_ShrineRace; }
+	void setShrineRace( Race_t race ) { m_ShrineRace = race; }
 
 	// get/set text color
-	ZoneCoord_t getX() const throw() { return m_X; }
-	void setX( ZoneCoord_t x ) throw() { m_X = x; }
+	ZoneCoord_t getX() const { return m_X; }
+	void setX( ZoneCoord_t x ) { m_X = x; }
 
 	// get/set text color
-	ZoneCoord_t getY() const throw() { return m_Y; }
-	void setY( ZoneCoord_t y ) throw() { m_Y = y; }
+	ZoneCoord_t getY() const { return m_Y; }
+	void setY( ZoneCoord_t y ) { m_Y = y; }
 
 private :
 	
-	ItemType_t 		m_ItemType;	// ÇÇÀÇ ¼º¼­ Á¾·ù
+	ItemType_t 		m_ItemType;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	ZoneID_t		m_ZoneID; 
 
@@ -123,18 +123,18 @@ class GCBloodBibleStatusFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet* createPacket() throw() { return new GCBloodBibleStatus(); }
+	Packet* createPacket() { return new GCBloodBibleStatus(); }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "GCBloodBibleStatus"; }
+	std::string getPacketName() const { return "GCBloodBibleStatus"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_BLOOD_BIBLE_STATUS; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_BLOOD_BIBLE_STATUS; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCBloodBibleStatusPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() 
+	// const static GCBloodBibleStatusPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		return szItemType 
 				+ szZoneID 
@@ -159,7 +159,7 @@ class GCBloodBibleStatusHandler {
 public :
 	
 	// execute packet's handler
-	static void execute(GCBloodBibleStatus* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCBloodBibleStatus* pPacket, Player* pPlayer);
 
 };
 

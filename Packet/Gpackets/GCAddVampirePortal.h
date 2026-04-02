@@ -2,8 +2,8 @@
 // Filename    : GCAddVampirePortal.h 
 // Written By  : excel96
 // Description :
-// ¹ìÆÄÀÌ¾î Æ÷Å»Àº ÇöÀç ÀÌÆåÆ®ÀÇ ÀÏÁ¾À¸·Î¼­ ±¸ÇöµÇ´Âµ¥, ÀÌ ÆÐÅ¶Àº
-// Å¬¶óÀÌ¾ðÆ®¿¡°Ô ¹Ù´Ú¿¡´Ù ¹ìÆÄÀÌ¾î Æ÷Å» ÀÌÆåÆ®¸¦ ºÙÀÌ¶ó´Â ÆÐÅ¶ÀÌ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´Âµï¿½, ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Ù´Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å» ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __GC_ADD_VAMPIRE_PORTAL_H__
@@ -21,18 +21,18 @@
 class GCAddVampirePortal : public Packet 
 {
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_ADD_VAMPIRE_PORTAL; }
-	PacketSize_t getPacketSize() const throw() 
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_ADD_VAMPIRE_PORTAL; }
+	size_t getPacketSize() const 
 	{ 
 		return szObjectID + szBYTE + m_OwnerID.size() + szDuration 
 			+ szCoord*2 + szZoneID + szCoord*2 + szBYTE;
 	}
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "GCAddVampirePortal"; }
-		std::string toString() const throw();
+		std::string getPacketName() const { return "GCAddVampirePortal"; }
+		std::string toString() const;
 	#endif
 
 public:
@@ -65,15 +65,15 @@ public:
 
 	
 private:
-	ObjectID_t  m_ObjectID;       // ÀÌÆåÆ®ÀÇ OID
-	std::string      m_OwnerID;        // Æ÷Å» ÁÖÀÎ
-	Duration_t	m_Duration;       // Æ÷Å»ÀÇ Áö¼Ó ½Ã°£
-	Coord_t     m_X;              // Æ÷Å»ÀÌ ºÙ¾îÀÖ´Â Å¸ÀÏÀÇ ÁÂÇ¥ x
-	Coord_t     m_Y;              // Æ÷Å»ÀÌ ºÙ¾îÀÖ´Â Å¸ÀÏÀÇ ÁÂÇ¥ y
-	ZoneID_t    m_TargetZoneID;   // Æ÷Å»ÀÇ ¸ñÇ¥ Á¸ ID
-	Coord_t     m_TargetX;        // Æ÷Å»ÀÇ ¸ñÇ¥ ÁÂÇ¥ x
-	Coord_t     m_TargetY;        // Æ÷Å»ÀÇ ¸ñÇ¥ ÁÂÇ¥ y
-	BYTE        m_CreateFlag;     // ¹æ±Ý »ý¼ºµÇ¾ú´Â°¡? (0ÀÌ¸é »ý¼ºµÈÁö ½Ã°£ÀÌ Á» Áö³­ °Í...)
+	ObjectID_t  m_ObjectID;       // ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ OID
+	std::string      m_OwnerID;        // ï¿½ï¿½Å» ï¿½ï¿½ï¿½ï¿½
+	Duration_t	m_Duration;       // ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½
+	Coord_t     m_X;              // ï¿½ï¿½Å»ï¿½ï¿½ ï¿½Ù¾ï¿½ï¿½Ö´ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ x
+	Coord_t     m_Y;              // ï¿½ï¿½Å»ï¿½ï¿½ ï¿½Ù¾ï¿½ï¿½Ö´ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ y
+	ZoneID_t    m_TargetZoneID;   // ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ ID
+	Coord_t     m_TargetX;        // ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½Ç¥ x
+	Coord_t     m_TargetY;        // ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½Ç¥ y
+	BYTE        m_CreateFlag;     // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½Â°ï¿½? (0ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½...)
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -83,14 +83,14 @@ private:
 class GCAddVampirePortalFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCAddVampirePortal(); }
+	Packet* createPacket() { return new GCAddVampirePortal(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "GCAddVampirePortal"; }
+		std::string getPacketName() const { return "GCAddVampirePortal"; }
 	#endif
 
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_ADD_VAMPIRE_PORTAL; }
-	PacketSize_t getPacketMaxSize() const throw()
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_ADD_VAMPIRE_PORTAL; }
+	PacketSize_t getPacketMaxSize() const
 	{ 
 		return szObjectID + szBYTE + 20 + szDuration 
 			+ szCoord*2 + szZoneID + szCoord*2 + szBYTE;
@@ -104,7 +104,7 @@ public:
 class GCAddVampirePortalHandler 
 {
 public:
-	static void execute(GCAddVampirePortal* pGCAddVampirePortal, Player* pPlayer) throw(Error);
+	static void execute(GCAddVampirePortal* pGCAddVampirePortal, Player* pPlayer);
 };
 
 #endif

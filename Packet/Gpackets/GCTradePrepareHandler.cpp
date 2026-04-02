@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCTradePrepareHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
@@ -25,7 +25,6 @@
 
 
 void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -37,17 +36,17 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 		
 	//----------------------------------------------------------------------
 	//
-	//			´©°¡ ³ªÇÑÅ× °Å·¡ÇÏÀÚ°í ½ÅÃ»ÇÏ´Â °æ¿ìÀÌ´Ù.
+	//			ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½Ã»ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 	//
 	//----------------------------------------------------------------------
-	// ÀÌ¹Ì °Å·¡ ÁßÀÎ °æ¿ì... µîµî.. ¹º°¡ ÇÏ°í ÀÖÀ¸¸é.. --> °ÅºÎ
+	// ï¿½Ì¹ï¿½ ï¿½Å·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½... ï¿½ï¿½ï¿½.. ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. --> ï¿½Åºï¿½
 	//----------------------------------------------------------------------
-	if (g_pPlayer->IsWaitVerify() && g_pPlayer->GetWaitVerify()!=MPlayer::WAIT_VERIFY_TRADE			// °ËÁõ ¹Þ¾Æ¾ß ÇÏ´Â°Ô ÀÖ´Â °æ¿ì
-		|| g_pPlayer->IsRepeatAction()		// ¹Ýº¹ Çàµ¿ ÁßÀÎ °æ¿ì
-		|| g_pUIDialog->IsLockInput()		// NPC¶û ´ëÈ­Áß..
-		|| g_pPlayer->GetCreatureType()==CREATURETYPE_BAT	// ¹ÚÁãÀÎ °æ¿ì
-		|| g_pPlayer->GetCreatureType()==CREATURETYPE_VAMPIRE_GHOST	// °í½ºÆ®ÀÎ °æ¿ì
-		|| g_pPlayer->GetCreatureType()==CREATURETYPE_WOLF	// ´Á´ëÀÎ °æ¿ì
+	if (g_pPlayer->IsWaitVerify() && g_pPlayer->GetWaitVerify()!=MPlayer::WAIT_VERIFY_TRADE			// ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¾ï¿½ ï¿½Ï´Â°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
+		|| g_pPlayer->IsRepeatAction()		// ï¿½Ýºï¿½ ï¿½àµ¿ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+		|| g_pUIDialog->IsLockInput()		// NPCï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½..
+		|| g_pPlayer->GetCreatureType()==CREATURETYPE_BAT	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+		|| g_pPlayer->GetCreatureType()==CREATURETYPE_VAMPIRE_GHOST	// ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½
+		|| g_pPlayer->GetCreatureType()==CREATURETYPE_WOLF	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 #if __CONTENTS(__FAST_TRANSFORTER)
 		|| g_pPlayer->GetCreatureType()==CREATURETYPE_FLITTERMOUSE
 #endif //__FAST_TRANSFORTER
@@ -57,7 +56,7 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 		
 		)
 	{
-		// ±³È¯ °ÅºÎ
+		// ï¿½ï¿½È¯ ï¿½Åºï¿½
 		CGTradePrepare _CGTradePrepare;
 		_CGTradePrepare.setTargetObjectID( targetID );
 		_CGTradePrepare.setCode( CG_TRADE_PREPARE_CODE_REJECT );
@@ -68,12 +67,12 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 	}
 
 
-	// ÀÌ¹Ì ´Ù¸¥ ´©°¡ ³ªÇÑÅ× °Å·¡ÇÏÀÚ°í ÇØ¹ö¸° °æ¿ì --> °ÅºÎ [¼­¹ö¿¡¼­ Ã³¸®]
+	// ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Ø¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½Åºï¿½ [ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½]
 	switch (pPacket->getCode())
 	{
 		//----------------------------------------------------------------------
 		//
-		// ´Ù¸¥ »ç¶÷ÀÌ ³ªÇÑÅ× ±³È¯ ½ÅÃ»ÇÒ¶§
+		// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½Ã»ï¿½Ò¶ï¿½
 		//
 		//----------------------------------------------------------------------
 		case GC_TRADE_PREPARE_CODE_REQUEST :
@@ -81,7 +80,7 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 			bool bLookMe = false;
 
 			//----------------------------------------------------------------------
-			// ÀÌ¹Ì ³»°¡ ´Ù¸¥ ´©±¸ÇÑÅ× °Å·¡ÇÏÀÚ°í ÇÑ °æ¿ì 
+			// ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 			//----------------------------------------------------------------------
 			if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_TRADE
 				&& g_pTempInformation->GetMode()==TempInformation::MODE_TRADE_REQUEST)
@@ -89,7 +88,7 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 				int code;
 
 				//----------------------------------------------------------------------
-				// ±× »ç¶÷ÀÌ ³ªÇÑÅ× °Å·¡ ½ÅÃ»ÇÑ °æ¿ì --> OK
+				// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ --> OK
 				//----------------------------------------------------------------------
 				if (g_pTempInformation->Value1==targetID)
 				{
@@ -98,14 +97,14 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 					g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
 					//-------------------------------------------
-					// ±³È¯Ã¢ ¶ç¿î´Ù.
+					// ï¿½ï¿½È¯Ã¢ ï¿½ï¿½ï¿½ï¿½.
 					//-------------------------------------------
 					UI_RunExchange( targetID );
 
 					bLookMe = true;
 				}
 				//----------------------------------------------------------------------
-				// ¾Æ´Ñ °æ¿ì
+				// ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 				//----------------------------------------------------------------------
 				else
 				{
@@ -120,12 +119,12 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 
 			}
 			//----------------------------------------------------------------------
-			// ±³È¯ÇÒ±î? Y/N
+			// ï¿½ï¿½È¯ï¿½Ò±ï¿½? Y/N
 			//----------------------------------------------------------------------
 			else
 			{
 				//-------------------------------------------
-				// ±³È¯ÇÒ±î?
+				// ï¿½ï¿½È¯ï¿½Ò±ï¿½?
 				//-------------------------------------------
 				UI_RunExchangeAsk( targetID );	
 				
@@ -133,7 +132,7 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 			}
 
 			//----------------------------------------------------------------------
-			// ´Ù¸¥ Ä³¸¯ÅÍ°¡ ³ª¸¦ ¹Ù¶óº¸´Â °æ¿ì
+			// ï¿½Ù¸ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¶óº¸´ï¿½ ï¿½ï¿½ï¿½
 			//----------------------------------------------------------------------
 			if (bLookMe)
 			{
@@ -153,7 +152,7 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 
 		//----------------------------------------------------------------------
 		//
-		// ±³È¯ ½ÅÃ»ÇÑ »ç¶÷ÀÌ ±³È¯ Ãë¼ÒÇÑ °æ¿ì
+		// ï¿½ï¿½È¯ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//
 		//----------------------------------------------------------------------
 		case GC_TRADE_PREPARE_CODE_CANCEL :
@@ -163,7 +162,7 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 				g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 			}		
 
-			// ÀÌ¹Ì ³»°¡ OK ´­·¯¼­ ±³È¯Ã¢ÀÌ ¶° ÀÖ´Â °æ¿ì
+			// ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ OK ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯Ã¢ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 			if (UI_IsRunningExchange())
 			{
 				UI_CloseExchange();
@@ -176,12 +175,12 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 
 		//----------------------------------------------------------------------
 		//
-		// ³» ±³È¯½ÅÃ»ÀÌ ¹Þ¾Æµé¿©Áú¶§
+		// ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½Þ¾Æµé¿©ï¿½ï¿½ï¿½ï¿½
 		//
 		//----------------------------------------------------------------------
 		case GC_TRADE_PREPARE_CODE_ACCEPT :
 			//----------------------------------------------------------------------
-			// ÀÌ¹Ì ³»°¡ ´Ù¸¥ ´©±¸ÇÑÅ× °Å·¡ÇÏÀÚ°í ÇÑ °æ¿ì 
+			// ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 			//----------------------------------------------------------------------
 			if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_TRADE
 				&& g_pTempInformation->GetMode()==TempInformation::MODE_TRADE_REQUEST)
@@ -189,7 +188,7 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 				g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
 				//-------------------------------------------
-				// ±³È¯Ã¢À» ¶ç¿î´Ù.
+				// ï¿½ï¿½È¯Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 				//-------------------------------------------
 				UI_RunExchange( targetID );
 				
@@ -208,7 +207,7 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 
 		//----------------------------------------------------------------------
 		//
-		// ³» ±³È¯½ÅÃ»ÀÌ °ÅºÎµÉ¶§
+		// ï¿½ï¿½ ï¿½ï¿½È¯ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ÅºÎµÉ¶ï¿½
 		//
 		//----------------------------------------------------------------------
 		case GC_TRADE_PREPARE_CODE_REJECT :
@@ -216,14 +215,14 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 			if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_TRADE
 				&& g_pTempInformation->GetMode()==TempInformation::MODE_TRADE_REQUEST)
 			{			
-				// °ËÁõ¿ë dataÁ¦°Å
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ dataï¿½ï¿½ï¿½ï¿½
 				g_pPlayer->SetWaitVerifyNULL();
 				g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
-				// ±³È¯Ãë¼ÒÇÒ·¡?¸¦ ´Ý´Â´Ù.
+				// ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½Ò·ï¿½?ï¿½ï¿½ ï¿½Ý´Â´ï¿½.
 				UI_CloseExchangeCancel();
 
-				// °Å·¡ °ÅºÎ dialog
+				// ï¿½Å·ï¿½ ï¿½Åºï¿½ dialog
 				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TRADE_REJECTED].GetString());
 			}
 		}
@@ -231,14 +230,14 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 
 		//----------------------------------------------------------------------
 		//
-		// ±³È¯ ½ÅÃ»ÇÑ »ç¶÷ÀÌ ÇöÀç ±³È¯ ÁßÀÌ´Ù. (È¤Àº µý°ÅÇÑ´Ù..)
+		// ï¿½ï¿½È¯ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½Ì´ï¿½. (È¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½..)
 		//
 		//----------------------------------------------------------------------
 		case GC_TRADE_PREPARE_CODE_BUSY :
 			if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_TRADE
 				&& g_pTempInformation->GetMode()==TempInformation::MODE_TRADE_REQUEST)
 			{			
-				// °ËÁõ¿ë dataÁ¦°Å
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ dataï¿½ï¿½ï¿½ï¿½
 				g_pPlayer->SetWaitVerifyNULL();
 
 				g_pTempInformation->SetMode(TempInformation::MODE_NULL);				
@@ -246,7 +245,7 @@ void GCTradePrepareHandler::execute ( GCTradePrepare * pPacket , Player * pPlaye
 				UI_CloseExchangeAsk();
 				UI_CloseExchangeCancel();
 
-				// busy¶ó¼­ ±³È¯ ¾ÈµÊ
+				// busyï¿½ï¿½ ï¿½ï¿½È¯ ï¿½Èµï¿½
 				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_TRADE_BUSY].GetString());
 			}
 		break;

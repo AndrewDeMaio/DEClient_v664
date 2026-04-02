@@ -20,7 +20,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void CRRequestHandler::execute ( CRRequest * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -30,7 +29,7 @@ void CRRequestHandler::execute ( CRRequest * pPacket , Player * pPlayer )
 
 	RequestServerPlayer* pRequestServerPlayer = dynamic_cast<RequestServerPlayer*>( pPlayer );
 
-	// ÀÌ¸§ÀÌ ¾ø´Ù¸é .. IP·Î ¼³Á¤ÇÑ´Ù.
+	// ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ .. IPï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	if (pRequestServerPlayer->getName().c_str()==NULL
 		|| pRequestServerPlayer->getName().size()==0)
 	{
@@ -50,7 +49,7 @@ void CRRequestHandler::execute ( CRRequest * pPacket , Player * pPlayer )
 	{			
 		DEBUG_ADD("Not NULL");
 
-		// »ç¿ëÀÚ Á¤º¸ ´Ù½Ã ¼³Á¤
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//RequestUserInfo* pUserInfo = g_pRequestUserManager->GetUserInfo( otherName.c_str() );
 
 		//if (pUserInfo!=NULL)
@@ -64,7 +63,7 @@ void CRRequestHandler::execute ( CRRequest * pPacket , Player * pPlayer )
 		{
 			//------------------------------------------------------------------
 			//
-			//			ProfileÀ» ¿äÃ»ÇßÀ» ¶§,
+			//			Profileï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½,
 			//
 			//------------------------------------------------------------------
 			case CR_REQUEST_FILE_PROFILE :
@@ -78,13 +77,13 @@ void CRRequestHandler::execute ( CRRequest * pPacket , Player * pPlayer )
 					const char* pFilename = g_pProfileManager->GetFilename( pMyName );
 
 					//-------------------------------------------------------------
-					// profileÀÌ ÀÖ´Â °æ¿ì
+					// profileï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 					//-------------------------------------------------------------
 					if (pFilename != NULL)
 					{
 						DEBUG_ADD("profile not NULL");
 
-						// ÀÌ¹Ì ¿äÃ»ÇÑ ³»¿ëÀÌ ¾ø´Â °æ¿ì¿¡.. 
+						// ï¿½Ì¹ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡.. 
 						if (!g_pRequestFileManager->HasOtherRequest(otherName))
 						{
 							DEBUG_ADD("no Request");
@@ -119,7 +118,7 @@ void CRRequestHandler::execute ( CRRequest * pPacket , Player * pPlayer )
 						}					
 					}
 					//-------------------------------------------------------------
-					// profileÀÌ ¾Æ¿¹ ¾ø´Â °æ¿ì
+					// profileï¿½ï¿½ ï¿½Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 					//-------------------------------------------------------------
 					else
 					{
@@ -138,7 +137,7 @@ void CRRequestHandler::execute ( CRRequest * pPacket , Player * pPlayer )
 					}
 				}
 				//-------------------------------------------------------------
-				// ´Ù¸¥ »ç¶÷ÀÇ profileÀ» ¿äÃ»ÇÏ´Â °æ¿ì
+				// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ profileï¿½ï¿½ ï¿½ï¿½Ã»ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 				//-------------------------------------------------------------
 				else
 				{
@@ -158,7 +157,7 @@ void CRRequestHandler::execute ( CRRequest * pPacket , Player * pPlayer )
 		
 			//------------------------------------------------------------------
 			//
-			//			±æµå ¸¶Å©¸¦ ¿äÃ»ÇßÀ» ¶§,
+			//			ï¿½ï¿½ï¿½ ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½,
 			//
 			//------------------------------------------------------------------
 			case CR_REQUEST_FILE_GUILD_MARK :

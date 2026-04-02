@@ -37,7 +37,7 @@
 #include <time.h>
 #include <set>
 
-#include "Packet/Types/WarTypes.h"
+#include "Types\WarTypes.h"
 
 #include "MHelpDef.h"
 #include "VS_UI_ExtraDialog.h"
@@ -3814,7 +3814,6 @@ bool C_VS_UI_GEAR::MouseControl(UINT message, int _x, int _y)
 					if (m_focus_slot != i)
 					{
 						m_focus_slot = i;
-						gpC_Imm->ForceUI(CImm::FORCE_UI_GRID);
 					}
 
 					p_selected_item = gC_vs_ui.GetGearItem(m_focus_slot);
@@ -3878,7 +3877,6 @@ bool C_VS_UI_GEAR::MouseControl(UINT message, int _x, int _y)
 		if (m_focus_slot != NOT_SELECTED)
 		{
 			m_focus_slot = NOT_SELECTED;
-			gpC_Imm->ForceUI(CImm::FORCE_UI_GRID);
 		}
 		break;
 
@@ -10633,8 +10631,6 @@ bool C_VS_UI_INVENTORY::MouseControl(UINT message, int _x, int _y)
 			if (distance_x >= 0 && distance_x < m_grid_rect.w &&
 				distance_y >= 0 && distance_y < m_grid_rect.h)
 			{
-				if (gpC_Imm != NULL && (m_focus_grid_x != distance_x / GRID_UNIT_PIXEL_X || m_focus_grid_y != distance_y / GRID_UNIT_PIXEL_Y))
-					gpC_Imm->ForceUI(CImm::FORCE_UI_GRID);
 				m_focus_grid_x = distance_x / GRID_UNIT_PIXEL_X;
 				m_focus_grid_y = distance_y / GRID_UNIT_PIXEL_Y;
 
@@ -10700,8 +10696,6 @@ bool C_VS_UI_INVENTORY::MouseControl(UINT message, int _x, int _y)
 				//					break; // escape 'for'
 			}
 		}
-		if (m_focus_grid_x != NOT_SELECTED || m_focus_grid_y != NOT_SELECTED)
-			gpC_Imm->ForceUI(CImm::FORCE_UI_GRID);
 		m_focus_grid_x = NOT_SELECTED;
 		m_focus_grid_y = NOT_SELECTED;
 		break;
@@ -13012,14 +13006,11 @@ bool C_VS_UI_SKILL::MouseControl(UINT message, int _x, int _y)
 
 		if (m_focused_slot != focused_slot)
 		{
-			gpC_Imm->ForceUI(CImm::FORCE_UI_WINDOW);
 			m_focused_slot = focused_slot;
 		}
 
 		//				if(m_focused_slot != focused_slot)
 		//				{
-		//					if(gpC_Imm)
-		//						gpC_Imm->ForceUI(CImm::FORCE_UI_WINDOW);
 		//					m_focused_slot = focused_slot;
 		//				}
 		//				
@@ -31124,8 +31115,6 @@ bool	C_VS_UI_TEAM_LIST::MouseControl(UINT message, int _x, int _y)
 			{
 				if (m_iFocus != (_y - (m_print_y - 6)) / m_print_gap)
 				{
-					if (gpC_Imm)
-						gpC_Imm->ForceUI(CImm::FORCE_UI_GRID);
 					m_iFocus = (_y - (m_print_y - 6)) / m_print_gap;
 				}
 			}
@@ -31133,8 +31122,6 @@ bool	C_VS_UI_TEAM_LIST::MouseControl(UINT message, int _x, int _y)
 			{
 				if (m_iFocus != -1)
 				{
-					if (gpC_Imm)
-						gpC_Imm->ForceUI(CImm::FORCE_UI_GRID);
 					m_iFocus = -1;
 				}
 			}

@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : CGTradeMoney.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -11,15 +11,15 @@
 #include "PacketFactory.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// ±³È¯ ÄÚµå
+// ï¿½ï¿½È¯ ï¿½Úµï¿½
 ////////////////////////////////////////////////////////////////////////////////
 
 enum
 {
-	// ±³È¯ÇÒ µ·ÀÇ ¾×¼ö¸¦ ´Ã¸°´Ù.
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×¼ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ï¿½ï¿½.
 	CG_TRADE_MONEY_INCREASE = 0,
 
-	// ±³È¯ÇÒ µ·ÀÇ ¾×¼ö¸¦ ÁÙÀÎ´Ù.
+	// ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 	CG_TRADE_MONEY_DECREASE
 };
 
@@ -32,31 +32,31 @@ enum
 class CGTradeMoney : public Packet 
 {
 public:
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
-	PacketID_t getPacketID () const throw () { return PACKET_CG_TRADE_MONEY; }
-	PacketSize_t getPacketSize () const throw () { return szObjectID + szGold + szBYTE; }
+	void read ( SocketInputStream & iStream );
+	void write ( SocketOutputStream & oStream ) const;
+	void execute ( Player * pPlayer );
+	PacketID_t getPacketID () const { return PACKET_CG_TRADE_MONEY; }
+	size_t getPacketSize () const { return szObjectID + szGold + szBYTE; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "CGTradeMoney"; }
-		std::string toString () const throw ();
+		std::string getPacketName () const { return "CGTradeMoney"; }
+		std::string toString () const;
 	#endif
 	
 public:
-	ObjectID_t getTargetObjectID() const throw() { return m_TargetObjectID; }
-	void setTargetObjectID(ObjectID_t id) throw() { m_TargetObjectID = id; }
+	ObjectID_t getTargetObjectID() const { return m_TargetObjectID; }
+	void setTargetObjectID(ObjectID_t id) { m_TargetObjectID = id; }
 
-	Gold_t getAmount() const throw() { return m_Gold; }
-	void setAmount(Gold_t gold) throw() { m_Gold = gold; }
+	Gold_t getAmount() const { return m_Gold; }
+	void setAmount(Gold_t gold) { m_Gold = gold; }
 
-	BYTE getCode() const throw() { return m_Code; }
-	void setCode(BYTE code) throw() { m_Code = code; }
+	BYTE getCode() const { return m_Code; }
+	void setCode(BYTE code) { m_Code = code; }
 
 private:
-	ObjectID_t m_TargetObjectID; // ±³È¯À» ¿øÇÏ´Â »ó´ë¹æÀÇ ObjectID
-	Gold_t     m_Gold;           // ¿øÇÏ´Â ¾×¼ö
-	BYTE       m_Code;           // ÄÚµå
+	ObjectID_t m_TargetObjectID; // ï¿½ï¿½È¯ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ObjectID
+	Gold_t     m_Gold;           // ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½×¼ï¿½
+	BYTE       m_Code;           // ï¿½Úµï¿½
 
 };
 
@@ -69,14 +69,14 @@ private:
 #ifdef __DEBUG_OUTPUT__
 class CGTradeMoneyFactory : public PacketFactory {
 public:
-	Packet * createPacket () throw () { return new CGTradeMoney(); }
+	Packet * createPacket () { return new CGTradeMoney(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "CGTradeMoney"; }
+		std::string getPacketName () const { return "CGTradeMoney"; }
 	#endif
 
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CG_TRADE_MONEY; }
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID + szGold + szBYTE; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CG_TRADE_MONEY; }
+	PacketSize_t getPacketMaxSize () const { return szObjectID + szGold + szBYTE; }
 };
 #endif
 
@@ -90,10 +90,10 @@ public:
 	class CGTradeMoneyHandler 
 	{
 	public:
-		static void execute ( CGTradeMoney * pPacket , Player * player ) throw ( ProtocolException , Error );
-		static void executeSlayer ( CGTradeMoney * pPacket , Player * player ) throw ( ProtocolException , Error );
-		static void executeVampire ( CGTradeMoney * pPacket , Player * player ) throw ( ProtocolException , Error );
-		static void executeError ( CGTradeMoney * pPacket , Player * player, BYTE ErrorCode ) throw ( ProtocolException , Error );
+		static void execute ( CGTradeMoney * pPacket , Player * player );
+		static void executeSlayer ( CGTradeMoney * pPacket , Player * player );
+		static void executeVampire ( CGTradeMoney * pPacket , Player * player );
+		static void executeError ( CGTradeMoney * pPacket , Player * player, BYTE ErrorCode );
 	};
 #endif
 

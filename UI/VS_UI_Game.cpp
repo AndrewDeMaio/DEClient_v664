@@ -24,7 +24,7 @@
 #include "SystemAvailabilities.h"
 #include "SkinManager.h"
 #include "MGameStringTable.h"
-#include "Packet/Properties.h"
+#include "Properties.h"
 
 //#include "ex\DebugInfo.h"
 

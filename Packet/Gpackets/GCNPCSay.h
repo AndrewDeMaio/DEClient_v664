@@ -12,21 +12,21 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // class GCNPCSay;
-// NPC ÀÇ ´ë»ç¸¦ ÁÖº¯ÀÇ PC µé¿¡°Ô Àü¼ÛÇÑ´Ù.
+// NPC ï¿½ï¿½ ï¿½ï¿½ç¸¦ ï¿½Öºï¿½ï¿½ï¿½ PC ï¿½é¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 
 class GCNPCSay : public Packet 
 {
 public:
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
-	PacketID_t getPacketID () const throw () { return PACKET_GC_NPC_SAY; }
-	PacketSize_t getPacketSize () const throw () { return szObjectID + szScriptID + szBYTE; }
+    void read ( SocketInputStream & iStream );
+    void write ( SocketOutputStream & oStream ) const;
+	void execute ( Player * pPlayer );
+	PacketID_t getPacketID () const { return PACKET_GC_NPC_SAY; }
+	size_t getPacketSize () const { return szObjectID + szScriptID + szBYTE; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "GCNPCSay"; }
-		std::string toString () const throw ();
+		std::string getPacketName () const { return "GCNPCSay"; }
+		std::string toString () const;
 	#endif
 
 	ObjectID_t getObjectID(void) const { return m_ObjectID; }
@@ -54,14 +54,14 @@ private:
 class GCNPCSayFactory : public PacketFactory 
 {
 public:
-	Packet * createPacket () throw () { return new GCNPCSay(); }
+	Packet * createPacket () { return new GCNPCSay(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName () const throw () { return "GCNPCSay"; }
+		std::string getPacketName () const { return "GCNPCSay"; }
 	#endif
 
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_NPC_SAY; }
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID + szScriptID + szBYTE; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_NPC_SAY; }
+	PacketSize_t getPacketMaxSize () const { return szObjectID + szScriptID + szBYTE; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -71,7 +71,7 @@ public:
 class GCNPCSayHandler 
 {
 public:
-	static void execute( GCNPCSay * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute( GCNPCSay * pPacket , Player * pPlayer );
 };
 
 #endif

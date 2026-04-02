@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCTeachSkillInfoHandler.cc
-// Written By  : ±è¼º¹Î 
+// Written By  : ï¿½è¼ºï¿½ï¿½ 
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
@@ -15,11 +15,10 @@
 
 //////////////////////////////////////////////////////////////////////
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡¼­ ¼­¹ö·ÎºÎÅÍ ¸Þ½ÃÁö¸¦ ¹Þ¾ÒÀ»¶§ ½ÇÇàµÇ´Â ¸Þ½îµåÀÌ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 void GCTeachSkillInfoHandler::execute ( GCTeachSkillInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -28,10 +27,10 @@ void GCTeachSkillInfoHandler::execute ( GCTeachSkillInfo * pPacket , Player * pP
 	// get/set NPC's object id
 	//pPacket->getObjectID();
 	
-	// SkillÀ» ¹è¿ì±â À§ÇØ¼­ SkillTree¸¦ ¶ç¿î´Ù.
+	// Skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ SkillTreeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	UI_RunSkillTree( (int)pPacket->getDomainType(), 100 );//pPacket->getMaxLevel() );
 	
-	// ÀÓ½Ã·Î Á¤º¸ ÀúÀå
+	// ï¿½Ó½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	g_pTempInformation->SetMode(TempInformation::MODE_SKILL_LEARN);
 	g_pTempInformation->Value1	=	pPacket->getDomainType();
 	g_pTempInformation->Value2	=	100;//pPacket->getMaxLevel();

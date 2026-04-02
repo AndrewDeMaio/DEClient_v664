@@ -21,7 +21,7 @@
 #include "SimpleDataList.h"
 #include "PI.h"
 #include "PS.h"
-#include "RaceType.h"
+#include "Types\RaceType.h"
 #include "UserInformation.h"
 #include "ACriticalSection.h"
 

@@ -19,7 +19,6 @@ void sendCannotUse(CGMixItem* pPacket, Player* pPlayer);
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 void CGMixItemHandler::execute(CGMixItem* pPacket, Player* pPlayer)
-	throw (ProtocolException, Error)
 {
 	__BEGIN_TRY 
 
@@ -48,9 +47,9 @@ void CGMixItemHandler::execute(CGMixItem* pPacket, Player* pPlayer)
 	CoordInven_t InvenX = pPacket->getX();
 	CoordInven_t InvenY = pPacket->getY();
 
-	//cout << "ÆÐÅ¶³¯¶ó¿È : " << pPacket->toString() << endl;
+	//cout << "ï¿½ï¿½Å¶ï¿½ï¿½ï¿½ï¿½ï¿½ : " << pPacket->toString() << endl;
 
-	// ÀÎº¥Åä¸® ÁÂÇ¥¸¦ ³Ñ¾î°¡´Â ¿µ¿ªÀÌ¶ó¸é ¾È µÈ´Ù.
+	// ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½Ñ¾î°¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ ï¿½È´ï¿½.
 	if (InvenX >= pInventory->getWidth() || InvenY >= pInventory->getHeight())
 	{
 		GCCannotUse _GCCannotUse;
@@ -59,7 +58,7 @@ void CGMixItemHandler::execute(CGMixItem* pPacket, Player* pPlayer)
 		return;
 	}
 
-	// ÀÎº¥Åä¸®¿¡ ±× ¾ÆÀÌÅÛÀÌ ¾ø´Ù¸é ¿¡·¯´Ù.
+	// ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 	Item* pItem = pInventory->getItem(InvenX, InvenY);
 	if (pItem == NULL)
 	{
@@ -69,13 +68,13 @@ void CGMixItemHandler::execute(CGMixItem* pPacket, Player* pPlayer)
 		return;
 	}
 
-	// ÀÎº¥Åä¸®¿¡ ÀÖ´Â ¾ÆÀÌÅÛÀÇ Object¸¦ ¹Þ´Â´Ù.
+	// ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Objectï¿½ï¿½ ï¿½Þ´Â´ï¿½.
 	ObjectID_t ItemObjectID = pItem->getObjectID();
 
-	// OID°¡ ÀÏÄ¡ÇÏÁö ¾Ê°Å³ª, »ç¿ëÇÒ ¼ö ¾ø´Â ¾ÆÀÌÅÛÀÌ¶ó¸é ¿¡·¯´Ù.
+	// OIDï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°Å³ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 	if (ItemObjectID != pPacket->getObjectID() || !isUsableItem(pItem, pCreature))
 	{
-		//cout << "¾ÆÅÛ »ç¿ë ºÒ°¡. ¿ÉÁ§Æ® ¾Æµð°¡ ¾È ¸Â´ø°¡..." << endl;
+		//cout << "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½. ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Æµï¿½ ï¿½ï¿½ ï¿½Â´ï¿½ï¿½ï¿½..." << endl;
 		GCCannotUse _GCCannotUse;
 		_GCCannotUse.setObjectID(pPacket->getObjectID());
 		pGamePlayer->sendPacket(&_GCCannotUse);

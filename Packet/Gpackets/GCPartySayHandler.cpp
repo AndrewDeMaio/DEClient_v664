@@ -18,14 +18,13 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCPartySayHandler::execute ( GCPartySay * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY 
 		
 #ifdef __GAME_CLIENT__
 	if ((g_Mode==MODE_GAME
-			|| g_Mode==MODE_WAIT_UPDATEINFO			// ·Îµù ÁßÀÌ ¾Æ´Ï°Å³ª..
-			|| g_Mode==MODE_WAIT_SETPOSITION		// ÁÂÇ¥ ±â´Ù¸®´Â °æ¿ì
+			|| g_Mode==MODE_WAIT_UPDATEINFO			// ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï°Å³ï¿½..
+			|| g_Mode==MODE_WAIT_SETPOSITION		// ï¿½ï¿½Ç¥ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			)
 		&& g_pUserInformation!=NULL
 		&& g_pChatManager!=NULL)
@@ -43,9 +42,9 @@ void GCPartySayHandler::execute ( GCPartySay * pPacket , Player * pPlayer )
 			|| g_pChatManager->IsAcceptID( strName ))
 		{
 			//--------------------------------------------------
-			// ¿å Á¦°Å
-			// ¿î¿µÀÚ°¡ ÇÑ ¸»µµ ¾Æ´Ï°í ³ªµµ ¿î¿µÀÚ°¡ ¾Æ´Ï¸é filterÇÑ´Ù.
-			// --> ¿î¿µÀÚÀÇ ¸»Àº ´Ù º¸ÀÌ°í ¿î¿µÀÚ´Â ´Ù º»´Ù.
+			// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+			// ï¿½î¿µï¿½Ú°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½î¿µï¿½Ú°ï¿½ ï¿½Æ´Ï¸ï¿½ filterï¿½Ñ´ï¿½.
+			// --> ï¿½î¿µï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½î¿µï¿½Ú´ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 			//--------------------------------------------------
 			if (!bMasterWords && !g_pUserInformation->IsMaster 
 				&& !g_pPlayer->HasEffectStatus( EFFECTSTATUS_GHOST )
@@ -57,21 +56,21 @@ void GCPartySayHandler::execute ( GCPartySay * pPacket , Player * pPlayer )
 				g_pChatManager->RemoveCurse( str );
 
 				/*
-				// RCSay¿¡´Â mask¸¦ ¾º¿ìÁö ¾Ê´Â´Ù.
+				// RCSayï¿½ï¿½ï¿½ï¿½ maskï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 				#ifndef _DEBUG
 					//--------------------------------------------------
-					// Á¾Á·ÀÌ ´Ù¸¥ °æ¿ì
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½
 					//--------------------------------------------------
 					bool bVampireSay = pPacket->getRace();
 					if (g_pPlayer->IsSlayer() && bVampireSay)
 					{
-						// INT´Â 150±îÁöÀÌ¹Ç·Î..  
+						// INTï¿½ï¿½ 150ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½..  
 						int percent = min(75, 25+g_pPlayer->GetINT()*100/150);
 						g_pChatManager->AddMask(str, percent);
 					}
 					else if (g_pPlayer->IsVampire() && !bVampireSay)
 					{
-						// INT´Â 300±îÁöÀÌ¹Ç·Î..  
+						// INTï¿½ï¿½ 300ï¿½ï¿½ï¿½ï¿½ï¿½Ì¹Ç·ï¿½..  
 						int percent = min(75, 25+g_pPlayer->GetINT()*100/300);
 						g_pChatManager->AddMask(str, percent);
 					}
@@ -83,12 +82,12 @@ void GCPartySayHandler::execute ( GCPartySay * pPacket , Player * pPlayer )
 			// party = 3
 			UI_AddChatToHistory( str, strName, 3, pPacket->getColor() );
 
-			// ±Ó¼Ó¸» ´ë»ó ¼³Á¤ ID+' '
+			// ï¿½Ó¼Ó¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ID+' '
 			//char strWhisperID[128];
 			//sprintf(strWhisperID, "%s ", pPacket->getName().c_str());
 			//g_pUserInformation->WhisperID = strWhisperID;
 
-			// [µµ¿ò¸»] ±Ó¼Ó¸» ¹ÞÀ» ¶§
+			// [ï¿½ï¿½ï¿½ï¿½] ï¿½Ó¼Ó¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 //			__BEGIN_HELP_EVENT
 ////				ExecuteHelpEvent( HE_CHAT_WHISPERED );	
 //			__END_HELP_EVENT

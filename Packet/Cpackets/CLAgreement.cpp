@@ -8,7 +8,6 @@
 #include "CLAgreement.h"
 
 void CLAgreement::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -18,7 +17,6 @@ void CLAgreement::read (SocketInputStream & iStream)
 }
 
 void CLAgreement::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -28,7 +26,6 @@ void CLAgreement::write (SocketOutputStream & oStream) const
 }
 
 void CLAgreement::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -42,7 +39,6 @@ __END_CATCH
 
 #ifdef __DEBUG_OUTPUT__
 string CLAgreement::toString () const
-	throw ()
 {
 	StringStream msg;
 	msg << "CLAgreement("

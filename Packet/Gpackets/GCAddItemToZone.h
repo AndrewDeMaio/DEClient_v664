@@ -23,13 +23,13 @@
 class GCAddItemToZone : public Packet 
 {
 public:
-	GCAddItemToZone() throw();
-	~GCAddItemToZone() throw();
+	GCAddItemToZone();
+	~GCAddItemToZone();
 
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	PacketSize_t getPacketSize() const throw() 
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	size_t getPacketSize() const 
 	{ 
 		PacketSize_t rValue = 0;
 
@@ -42,12 +42,12 @@ public:
 public :
 
 	// get/set X
-	Coord_t getX() const throw() { return m_X; }
-	void setX(Coord_t x) throw() { m_X = x; }
+	Coord_t getX() const { return m_X; }
+	void setX(Coord_t x) { m_X = x; }
 	
 	// get/set Y
-	Coord_t getY() const throw() { return m_Y; }
-	void setY(Coord_t y) throw() { m_Y = y; }
+	Coord_t getY() const { return m_Y; }
+	void setY(Coord_t y) { m_Y = y; }
 	
 	void SetPCItemInfo(PCItemInfo& pcItemInfo) { m_PCItemInfo = pcItemInfo; }
 	PCItemInfo* GetPCItemInfo() { return &m_PCItemInfo; }
@@ -55,7 +55,7 @@ public :
 
 protected :
 
-	// ZoneÀÇ X, Y ÁÂÇ¥
+	// Zoneï¿½ï¿½ X, Y ï¿½ï¿½Ç¥
    	Coord_t m_X;
 	Coord_t m_Y;
 	
@@ -67,15 +67,15 @@ protected :
 class GCAddItemToZone : public Packet 
 {
 public:
-	GCAddItemToZone() throw();
-	~GCAddItemToZone() throw();
+	GCAddItemToZone();
+	~GCAddItemToZone();
 
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	PacketSize_t getPacketSize() const throw() 
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	size_t getPacketSize() const 
 	{ 
-		PacketSize_t rValue = 0;
+		size_t rValue = 0;
 
 		rValue += szObjectID;                       // item object id
 		rValue += szCoord*2;                        // item coord in inventory
@@ -96,80 +96,80 @@ public:
 public :
 
 	// get/set creature ID 
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID(ObjectID_t creatureID) throw() { m_ObjectID = creatureID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID(ObjectID_t creatureID) { m_ObjectID = creatureID; }
 
 	// get/set X
-	Coord_t getX() const throw() { return m_X; }
-	void setX(Coord_t x) throw() { m_X = x; }
+	Coord_t getX() const { return m_X; }
+	void setX(Coord_t x) { m_X = x; }
 	
 	// get/set Y
-	Coord_t getY() const throw() { return m_Y; }
-	void setY(Coord_t y) throw() { m_Y = y; }
+	Coord_t getY() const { return m_Y; }
+	void setY(Coord_t y) { m_Y = y; }
 
 	// get / set ItemClass
-	BYTE getItemClass() const throw() { return m_ItemClass; }
-	void setItemClass(BYTE Class) throw() { m_ItemClass = Class; }
+	BYTE getItemClass() const { return m_ItemClass; }
+	void setItemClass(BYTE Class) { m_ItemClass = Class; }
 
 	// get / set ItemType
-	ItemType_t getItemType() const throw() { return m_ItemType; }
-	void setItemType(ItemType_t ItemType) throw() { m_ItemType = ItemType; }
+	ItemType_t getItemType() const { return m_ItemType; }
+	void setItemType(ItemType_t ItemType) { m_ItemType = ItemType; }
 
 	// get / set OptionType
-	OptionType_t popOptionType() throw()
+	OptionType_t popOptionType()
 	{
 		if (m_OptionType.empty()) return 0;
 		OptionType_t optionType = m_OptionType.front();
 		m_OptionType.pop_front();
 		return optionType;
 	}
-	int getOptionTypeSize() const throw() { return m_OptionType.size(); }
-	void addOptionType(OptionType_t OptionType) throw() { m_OptionType.push_back( OptionType ); }
-	void setOptionType(const std::list<OptionType_t>& OptionTypes) throw() { m_OptionType = OptionTypes; }
-	const std::list<OptionType_t>& getOptionType() const throw() { return m_OptionType; }
+	int getOptionTypeSize() const { return m_OptionType.size(); }
+	void addOptionType(OptionType_t OptionType) { m_OptionType.push_back( OptionType ); }
+	void setOptionType(const std::list<OptionType_t>& OptionTypes) { m_OptionType = OptionTypes; }
+	const std::list<OptionType_t>& getOptionType() const { return m_OptionType; }
 
 	// get / set Silver
-	Silver_t getSilver() const throw() { return m_Silver; }
-	void setSilver(Silver_t Silver) throw() { m_Silver = Silver; }
+	Silver_t getSilver() const { return m_Silver; }
+	void setSilver(Silver_t Silver) { m_Silver = Silver; }
 
 	// get / set Grade
-	Grade_t getGrade() const throw() { return m_Grade; }
-	void setGrade(Grade_t Grade) throw() { m_Grade = Grade; }
+	Grade_t getGrade() const { return m_Grade; }
+	void setGrade(Grade_t Grade) { m_Grade = Grade; }
 
 	// get / set enchant level
-	EnchantLevel_t getEnchantLevel() const throw() { return m_EnchantLevel; }
-	void setEnchantLevel(EnchantLevel_t level) throw() { m_EnchantLevel = level; }
+	EnchantLevel_t getEnchantLevel() const { return m_EnchantLevel; }
+	void setEnchantLevel(EnchantLevel_t level) { m_EnchantLevel = level; }
 
 	// get / set Durability
-	Durability_t getDurability() const throw() { return m_Durability; }
-	void setDurability(Durability_t Durability) throw() { m_Durability = Durability; }
+	Durability_t getDurability() const { return m_Durability; }
+	void setDurability(Durability_t Durability) { m_Durability = Durability; }
 
 	// get / set ItemNum
-	ItemNum_t getItemNum() const throw() { return m_ItemNum; }
-	void setItemNum(ItemNum_t ItemNum) throw() { m_ItemNum = ItemNum; }
+	ItemNum_t getItemNum() const { return m_ItemNum; }
+	void setItemNum(ItemNum_t ItemNum) { m_ItemNum = ItemNum; }
 
 	// get / set ListNumber
-	BYTE getListNum() const throw() { return m_ListNum; }
-	void setListNum(BYTE ListNum) throw() { m_ListNum = ListNum; }
+	BYTE getListNum() const { return m_ListNum; }
+	void setListNum(BYTE ListNum) { m_ListNum = ListNum; }
 
 	// add / delete / clear S List
-	void addListElement(SubItemInfo* pSubItemInfo) throw() { m_SubItemInfoList.push_back(pSubItemInfo); }
+	void addListElement(SubItemInfo* pSubItemInfo) { m_SubItemInfoList.push_back(pSubItemInfo); }
 
 	// ClearList
-	void clearList() throw() { m_SubItemInfoList.clear(); m_ListNum = 0; }
+	void clearList() { m_SubItemInfoList.clear(); m_ListNum = 0; }
 
 	// pop front Element in Status List
-	SubItemInfo* popFrontListElement() throw() 
+	SubItemInfo* popFrontListElement() 
 	{ 
 		SubItemInfo* TempSubItemInfo = m_SubItemInfoList.front(); m_SubItemInfoList.pop_front(); return TempSubItemInfo; 
 	}
 
 protected :
 	
-    // ItemÀÇ ObjectID
+    // Itemï¿½ï¿½ ObjectID
     ObjectID_t m_ObjectID;
 
-	// ZoneÀÇ X, Y ÁÂÇ¥
+	// Zoneï¿½ï¿½ X, Y ï¿½ï¿½Ç¥
    	Coord_t m_X;
 	Coord_t m_Y;
 
@@ -203,7 +203,7 @@ protected :
 	// SubItemInfo List
 	std::list<SubItemInfo*> m_SubItemInfoList;
 	
-	//20071010 È¤½Ã¶óµµ ÈÊ³¯ ¸ó½ºÅÍ¿¡¼­ ¼­µå ÀÎÃ¾Æ® µÈ ¾ÆÀÌÅÛÀÌ ¶³¾îÁö°Ô µÇ¸é ¼öÁ¤ÇØ¾ß ÇÔ
+	//20071010 È¤ï¿½Ã¶ï¿½ ï¿½Ê³ï¿½ ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¾Æ® ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½ï¿½
 
 };
 #endif //__PCITEMINFO

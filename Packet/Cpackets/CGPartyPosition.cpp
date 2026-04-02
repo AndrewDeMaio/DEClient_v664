@@ -7,21 +7,18 @@
 #include "CGPartyPosition.h"
 
 CGPartyPosition::CGPartyPosition () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 CGPartyPosition::~CGPartyPosition () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGPartyPosition::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -35,7 +32,6 @@ void CGPartyPosition::read (SocketInputStream & iStream)
 }
 		    
 void CGPartyPosition::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -49,7 +45,6 @@ void CGPartyPosition::write (SocketOutputStream & oStream) const
 }
 
 void CGPartyPosition::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -65,7 +60,6 @@ void CGPartyPosition::execute (Player* pPlayer)
 //////////////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 string CGPartyPosition::toString () const
-    throw ()
 {
 	__BEGIN_TRY
 		

@@ -13,7 +13,6 @@ const int GCMonsterKillQuestInfo::szQuestInfo = szQuestID + szSpriteType + szWOR
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 GCMonsterKillQuestInfo::~GCMonsterKillQuestInfo() 
-	throw ()
 {
 	__BEGIN_TRY 
 
@@ -35,10 +34,9 @@ GCMonsterKillQuestInfo::~GCMonsterKillQuestInfo()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCMonsterKillQuestInfo::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -61,10 +59,9 @@ void GCMonsterKillQuestInfo::read ( SocketInputStream & iStream )
 }
 		    
 //////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCMonsterKillQuestInfo::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -94,7 +91,6 @@ void GCMonsterKillQuestInfo::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////////////
 void GCMonsterKillQuestInfo::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -104,7 +100,6 @@ void GCMonsterKillQuestInfo::execute ( Player * pPlayer )
 }
 
 PacketSize_t GCMonsterKillQuestInfo::getPacketSize() const
-	throw()
 {
 	__BEGIN_TRY
 
@@ -122,7 +117,6 @@ PacketSize_t GCMonsterKillQuestInfo::getPacketSize() const
 // get packet's debug std::string
 //////////////////////////////////////////////////////////////////////////////
 std::string GCMonsterKillQuestInfo::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

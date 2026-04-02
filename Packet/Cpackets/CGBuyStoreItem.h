@@ -1,10 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Filename    : CGBuyStoreItem.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
-// ÇÃ·¹ÀÌ¾î°¡ »óÁ¡ NPCÀÇ Áø¿­Ã¢À» º¸°í, ¹°°ÇÀ» ±¸ÀÔÇÏ°íÀÚ ÇÒ ¶§
-// º¸³»´Â ÆÐÅ¶ÀÌ´Ù. ¼­¹ö´Â ÇÃ·¹ÀÌ¾î¿¡°Ô ÃæºÐÇÑ µ·°ú ÀÎº¥Åä¸®¿¡ 
-// ÀÚ¸®°¡ ÀÖ´ÂÁö °ËÁõÇÑ ÈÄ, ÇÃ·¹ÀÌ¾î¿¡°Ô ¾ÆÀÌÅÛÀ» ³Ñ±ä´Ù.
+// ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ 
+// ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ±ï¿½ï¿½.
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifndef __CG_BUY_STORE_ITEM_H__
@@ -22,23 +22,23 @@
 class CGBuyStoreItem : public Packet 
 {
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_BUY_STORE_ITEM; }
-	PacketSize_t getPacketSize() const throw() { return szObjectID+szObjectID+szBYTE; }
-	string getPacketName() const throw() { return "CGBuyStoreItem"; }
-	string toString() const throw();
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_BUY_STORE_ITEM; }
+	size_t getPacketSize() const { return szObjectID+szObjectID+szBYTE; }
+	string getPacketName() const { return "CGBuyStoreItem"; }
+	string toString() const;
 	
 public:
-	ObjectID_t getOwnerObjectID() throw() { return m_OwnerObjectID; }
-	void setOwnerObjectID(ObjectID_t ObjectID) throw() { m_OwnerObjectID = ObjectID; }
+	ObjectID_t getOwnerObjectID() { return m_OwnerObjectID; }
+	void setOwnerObjectID(ObjectID_t ObjectID) { m_OwnerObjectID = ObjectID; }
 
-	ObjectID_t getItemObjectID() throw() { return m_ItemObjectID; }
-	void setItemObjectID(ObjectID_t ObjectID) throw() { m_ItemObjectID = ObjectID; }
+	ObjectID_t getItemObjectID() { return m_ItemObjectID; }
+	void setItemObjectID(ObjectID_t ObjectID) { m_ItemObjectID = ObjectID; }
 
-	BYTE getIndex(void) const throw() { return m_Index; }
-	void setIndex(BYTE index) throw() { m_Index = index;}
+	BYTE getIndex(void) const { return m_Index; }
+	void setIndex(BYTE index) { m_Index = index;}
 
 private:
 	ObjectID_t		m_OwnerObjectID;
@@ -56,10 +56,10 @@ private:
 class CGBuyStoreItemFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new CGBuyStoreItem(); }
-	string getPacketName() const throw() { return "CGBuyStoreItem"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_BUY_STORE_ITEM; }
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID+szObjectID+szBYTE; }
+	Packet* createPacket() { return new CGBuyStoreItem(); }
+	string getPacketName() const { return "CGBuyStoreItem"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_BUY_STORE_ITEM; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID+szObjectID+szBYTE; }
 };
 
 
@@ -72,7 +72,7 @@ public:
 class CGBuyStoreItemHandler 
 {
 public:
-	static void execute(CGBuyStoreItem* pPacket, Player* player) throw(ProtocolException, Error);
+	static void execute(CGBuyStoreItem* pPacket, Player* player);
 };
 
 #endif

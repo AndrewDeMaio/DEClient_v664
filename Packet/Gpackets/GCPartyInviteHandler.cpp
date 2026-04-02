@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCPartyInviteHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //////////////////////////////////////////////////////////////////////////////
 
@@ -18,7 +18,6 @@
 extern CMessageArray*		g_pGameMessage;
 
 void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 	
@@ -49,12 +48,12 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 	{
 		//--------------------------------------------------------------------
 		//
-		// ´©°¡ ³ª¸¦ ÃÊ´ëÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ï¿½Ñ´ï¿½.
 		//
 		//--------------------------------------------------------------------
 		case GC_PARTY_INVITE_REQUEST :
 			//----------------------------------------------------------------------
-			// ÀÌ¹Ì ³»°¡ ´Ù¸¥ ´©±¸ÇÑÅ× °Å·¡ÇÏÀÚ°í ÇÑ °æ¿ì 
+			// ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å·ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 			//----------------------------------------------------------------------
 			if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_PARTY
 				&& g_pTempInformation->GetMode()==TempInformation::MODE_PARTY_REQUEST)
@@ -62,7 +61,7 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 				int code;
 
 				//----------------------------------------------------------------------
-				// ±× »ç¶÷ÀÌ ³ªÇÑÅ× ÆÄÆ¼ ½ÅÃ»ÇÑ °æ¿ì --> OK
+				// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ --> OK
 				//----------------------------------------------------------------------
 				if (g_pTempInformation->Value1==targetID)
 				{
@@ -71,10 +70,10 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 					g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
 					//-------------------------------------------
-					// ÆÄÆ¼ ¼º°ø
+					// ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½
 					//-------------------------------------------
 					// UI_RunParty();
-					// ÆÄÆ¼ ¼º°ø ÆÐÅ¶À» ±â´Ù¸°´Ù.
+					// ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½.
 					UI_ClosePartyCancel();
 
 					bJoinedSomeone = true;
@@ -84,7 +83,7 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 					//2004, 5, 6 sobeit add end
 				}
 				//----------------------------------------------------------------------
-				// ¾Æ´Ñ °æ¿ì
+				// ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½
 				//----------------------------------------------------------------------
 				else
 				{
@@ -99,19 +98,19 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 
 			}
 			//----------------------------------------------------------------------
-			// ÆÄÆ¼ÇÒ±î? Y/N
+			// ï¿½ï¿½Æ¼ï¿½Ò±ï¿½? Y/N
 			//----------------------------------------------------------------------
 			else
 			{
 				//-------------------------------------------
-				// ÆÄÆ¼¿¡ µé¾î¿À³²?
+				// ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?
 				//-------------------------------------------
-				if (g_pPlayer->IsWaitVerify() && g_pPlayer->GetWaitVerify()!=MPlayer::WAIT_VERIFY_PARTY			// °ËÁõ ¹Þ¾Æ¾ß ÇÏ´Â°Ô ÀÖ´Â °æ¿ì
-					//|| g_pPlayer->IsRepeatAction()		// ¹Ýº¹ Çàµ¿ ÁßÀÎ °æ¿ì
-					|| g_pUIDialog->IsLockInput()		// NPC¶û ´ëÈ­Áß..
-					|| g_pPlayer->GetCreatureType()==CREATURETYPE_BAT	// ¹ÚÁãÀÎ °æ¿ì
-					|| g_pPlayer->GetCreatureType()==CREATURETYPE_VAMPIRE_GHOST	// °í½ºÆ®ÀÎ °æ¿ì
-					|| g_pPlayer->GetCreatureType()==CREATURETYPE_WOLF	// ´Á´ëÀÎ °æ¿ì
+				if (g_pPlayer->IsWaitVerify() && g_pPlayer->GetWaitVerify()!=MPlayer::WAIT_VERIFY_PARTY			// ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¾ï¿½ ï¿½Ï´Â°ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
+					//|| g_pPlayer->IsRepeatAction()		// ï¿½Ýºï¿½ ï¿½àµ¿ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+					|| g_pUIDialog->IsLockInput()		// NPCï¿½ï¿½ ï¿½ï¿½È­ï¿½ï¿½..
+					|| g_pPlayer->GetCreatureType()==CREATURETYPE_BAT	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+					|| g_pPlayer->GetCreatureType()==CREATURETYPE_VAMPIRE_GHOST	// ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½
+					|| g_pPlayer->GetCreatureType()==CREATURETYPE_WOLF	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 #if __CONTENTS(__FAST_TRANSFORTER)
 					|| g_pPlayer->GetCreatureType()==CREATURETYPE_FLITTERMOUSE
 #endif //__FAST_TRANSFORTER
@@ -121,7 +120,7 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 					|| !g_pParty->IsAcceptInvite()
 					)
 				{
-					// ÆÄÆ¼ °ÅºÎ
+					// ï¿½ï¿½Æ¼ ï¿½Åºï¿½
 					CGPartyInvite _CGPartyInvite;
 					_CGPartyInvite.setTargetObjectID( targetID );
 					_CGPartyInvite.setCode( CG_PARTY_INVITE_REJECT );
@@ -137,7 +136,7 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 
 		//--------------------------------------------------------------------
 		//
-		// ³ª¸¦ ÃÊ´ëÇÒ·Á´ø ¾Ö°¡ ÃÊ´ë¸¦ Ãë¼ÒÇß´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½Ê´ë¸¦ ï¿½ï¿½ï¿½ï¿½ß´ï¿½.
 		//
 		//--------------------------------------------------------------------
 		case GC_PARTY_INVITE_CANCEL :
@@ -152,12 +151,12 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 
 		//--------------------------------------------------------------------
 		//
-		// ³»°¡ ÃÊ´ëÇÑ ¾Ö°¡ ÆÄÆ¼¿¡ µé¾î¿Ô´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½Ô´ï¿½.
 		//
 		//--------------------------------------------------------------------
 		case GC_PARTY_INVITE_ACCEPT :
 			//----------------------------------------------------------------------
-			// ÀÌ¹Ì ³»°¡ ´Ù¸¥ ´©±¸ÇÑÅ× ÆÄÆ¼ÇÏÀÚ°í ÇÑ °æ¿ì 
+			// ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 			//----------------------------------------------------------------------
 			if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_PARTY
 				&& g_pTempInformation->GetMode()==TempInformation::MODE_PARTY_REQUEST)
@@ -176,7 +175,7 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 
 		//--------------------------------------------------------------------
 		//
-		// ³»°¡ ÃÊ´ëÇÑ ¾Ö°¡ ÆÄÆ¼¿¡ µé¾î¿À±æ °ÅºÎÇß´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Åºï¿½ï¿½ß´ï¿½.
 		//
 		//--------------------------------------------------------------------
 		case GC_PARTY_INVITE_REJECT :
@@ -187,7 +186,7 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 
 		//--------------------------------------------------------------------
 		//
-		// ³»°¡ ÃÊ´ëÇÑ ¾Ö°¡ ÀÌ¹Ì ´Ù¸¥ »ç¶÷ÀÇ ÃÊ´ë¿¡ ÀÀ´äÇÏ´Â ÁßÀÌ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ë¿¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
 		//
 		//--------------------------------------------------------------------
 		case GC_PARTY_INVITE_BUSY :
@@ -198,7 +197,7 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 
 		//--------------------------------------------------------------------
 		//
-		// ³»°¡ ÃÊ´ëÇÑ ¾Ö°¡ ÀÌ¹Ì ´Ù¸¥ ÆÄÆ¼¿¡ ¼ÓÇØÀÖ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½Ì¹ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½.
 		//
 		//--------------------------------------------------------------------
 		case GC_PARTY_INVITE_ANOTHER_PARTY :
@@ -207,7 +206,7 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 			
 			if ( pCreature!=NULL )
 			{
-				// playerÀÇ ÆÄÆ¼°¡ ¾Æ´Ñ °æ¿ì¿¡¸¸ ¸Þ½ÃÁö¸¦ Ãâ·ÂÇØÁØ´Ù.
+				// playerï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 				if (pCreature->IsPlayerParty())
 				{
 					bCancelAll = true;
@@ -225,7 +224,7 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 
 		//--------------------------------------------------------------------
 		//
-		// ²Ë Ã¡´ç.
+		// ï¿½ï¿½ Ã¡ï¿½ï¿½.
 		// 
 		//--------------------------------------------------------------------
 		case GC_PARTY_INVITE_MEMBER_FULL :
@@ -236,7 +235,7 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 	}
 
 	//-------------------------------------------
-	// ÆÄÆ¼ È®ÀÎ
+	// ï¿½ï¿½Æ¼ È®ï¿½ï¿½
 	//-------------------------------------------
 	if (bJoinedSomeone)
 	{
@@ -249,19 +248,19 @@ void GCPartyInviteHandler::execute (GCPartyInvite * pPacket , Player * pPlayer)
 	}
 
 	//--------------------------------------------------------------------
-	// ´Ù ´Ý°í message ¶ç¿ì´Â °æ¿ì
+	// ï¿½ï¿½ ï¿½Ý°ï¿½ message ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//--------------------------------------------------------------------
 	if (bCancelAll)
 	{
 		if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_PARTY
 			&& g_pTempInformation->GetMode()==TempInformation::MODE_PARTY_REQUEST)
 		{			
-			// °ËÁõ¿ë dataÁ¦°Å
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ dataï¿½ï¿½ï¿½ï¿½
 			g_pPlayer->SetWaitVerifyNULL();
 			g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 		}
 
-		// ÆÄÆ¼Ãë¼ÒÇÒ·¡?¸¦ ´Ý´Â´Ù.
+		// ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½Ò·ï¿½?ï¿½ï¿½ ï¿½Ý´Â´ï¿½.
 		UI_ClosePartyCancel();
 
 		UI_ClosePartyAsk();

@@ -8,7 +8,6 @@
 #include "GCNPCSay.h"
 
 void GCNPCSay::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -20,7 +19,6 @@ void GCNPCSay::read ( SocketInputStream & iStream )
 }
 		    
 void GCNPCSay::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -32,7 +30,6 @@ void GCNPCSay::write ( SocketOutputStream & oStream ) const
 }
 
 void GCNPCSay::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -43,7 +40,6 @@ void GCNPCSay::execute ( Player * pPlayer )
 
 #ifdef __DEBUG_OUTPUT__
 std::string GCNPCSay::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

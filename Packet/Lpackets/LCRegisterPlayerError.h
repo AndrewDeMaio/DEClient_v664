@@ -23,35 +23,35 @@ class LCRegisterPlayerError : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_LC_REGISTER_PLAYER_ERROR; }
+	PacketID_t getPacketID () const { return PACKET_LC_REGISTER_PLAYER_ERROR; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () { return szBYTE; }
+	size_t getPacketSize () const { return szBYTE; }
 	
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "LCRegisterPlayerError"; }
+		std::string getPacketName () const { return "LCRegisterPlayerError"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 	
-	BYTE getErrorID() const throw() { return m_ErrorID; }
-	void setErrorID( BYTE ErrorID ) throw() { m_ErrorID = ErrorID; }
+	BYTE getErrorID() const { return m_ErrorID; }
+	void setErrorID( BYTE ErrorID ) { m_ErrorID = ErrorID; }
 
 private : 
 
-	// ¿¡·¯ ID
+	// ï¿½ï¿½ï¿½ï¿½ ID
 	BYTE m_ErrorID;
 
 };
@@ -70,18 +70,18 @@ class LCRegisterPlayerErrorFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new LCRegisterPlayerError(); }
+	Packet * createPacket () { return new LCRegisterPlayerError(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "LCRegisterPlayerError"; }
+		std::string getPacketName () const { return "LCRegisterPlayerError"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_LC_REGISTER_PLAYER_ERROR; }
+	PacketID_t getPacketID () const { return Packet::PACKET_LC_REGISTER_PLAYER_ERROR; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize () const throw () { return szBYTE; }
+	PacketSize_t getPacketMaxSize () const { return szBYTE; }
 	
 };
 
@@ -97,7 +97,7 @@ class LCRegisterPlayerErrorHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( LCRegisterPlayerError * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( LCRegisterPlayerError * pPacket , Player * pPlayer );
 
 };
 

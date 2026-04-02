@@ -2,7 +2,7 @@
 // 
 // Filename    : GCRideMotorCycleOK.h 
 // Written By  : elca@ewestsoft.com
-// Description : ±â¼úÀÌ ¼º°øÇßÀ»¶§ º¸³»´Â ÆÐÅ¶À» À§ÇÑ Å¬·¡½º Á¤ÀÇ
+// Description : ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -19,7 +19,7 @@
 //
 // class GCRideMotorCycleOK;
 //
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //
 //////////////////////////////////////////////////////////////////////
 class GCRideMotorCycleOK : public Packet {
@@ -27,30 +27,30 @@ class GCRideMotorCycleOK : public Packet {
 public :
 	
 	// constructor
-	GCRideMotorCycleOK () throw ();
+	GCRideMotorCycleOK ();
 	
 	// destructor
-	~GCRideMotorCycleOK () throw ();
+	~GCRideMotorCycleOK ();
 
 	
 public :
 	
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_RIDE_MOTORCYCLE_OK; }
+	PacketID_t getPacketID () const { return PACKET_GC_RIDE_MOTORCYCLE_OK; }
 	
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getPacketSize () const throw () {
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	size_t getPacketSize () const {
 #if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
 		PacketSize_t size;
 
@@ -73,15 +73,15 @@ public :
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCRideMotorCycleOK"; }
+		std::string getPacketName () const { return "GCRideMotorCycleOK"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 	// get / set ObjectID
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID( ObjectID_t ObjectID ) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID( ObjectID_t ObjectID ) { m_ObjectID = ObjectID; }
 #if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
 	BYTE getMotorType() { return m_MotorType; }
 	void setMotorType(BYTE Type) { m_MotorType = Type; }
@@ -119,27 +119,27 @@ class GCRideMotorCycleOKFactory : public PacketFactory {
 public :
 	
 	// constructor
-	GCRideMotorCycleOKFactory () throw () {}
+	GCRideMotorCycleOKFactory () {}
 	
 	// destructor
-	virtual ~GCRideMotorCycleOKFactory () throw () {}
+	virtual ~GCRideMotorCycleOKFactory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCRideMotorCycleOK(); }
+	Packet * createPacket () { return new GCRideMotorCycleOK(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCRideMotorCycleOK"; }	
+		std::string getPacketName () const { return "GCRideMotorCycleOK"; }	
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_RIDE_MOTORCYCLE_OK; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_RIDE_MOTORCYCLE_OK; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID
+	PacketSize_t getPacketMaxSize () const { return szObjectID
 #if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
 		 + szBYTE + szColor * 2
 #endif //__FAST_TRANSFORTER||__SECOND_TRANSFORTER	
@@ -158,7 +158,7 @@ class GCRideMotorCycleOKHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCRideMotorCycleOK * pGCRideMotorCycleOK , Player * pPlayer ) throw ( Error );
+	static void execute ( GCRideMotorCycleOK * pGCRideMotorCycleOK , Player * pPlayer );
 
 };
 

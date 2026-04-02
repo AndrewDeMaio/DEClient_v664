@@ -21,16 +21,16 @@
 class CGFriendUpdateGlobalOption : public Packet 
 {
 public:
-	CGFriendUpdateGlobalOption() throw();
-	virtual ~CGFriendUpdateGlobalOption() throw();
+	CGFriendUpdateGlobalOption();
+	virtual ~CGFriendUpdateGlobalOption();
 	
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	string getPacketName() const throw() { return "CGFriendUpdateGlobalOption"; }
-	PacketID_t getPacketID() const throw() { return PACKET_CG_FRIEND_UPDATE_GLOBAL_OPTION; }
-	PacketSize_t getPacketSize() const throw();
-	string toString() const throw();
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	string getPacketName() const { return "CGFriendUpdateGlobalOption"; }
+	PacketID_t getPacketID() const { return PACKET_CG_FRIEND_UPDATE_GLOBAL_OPTION; }
+	size_t getPacketSize() const;
+	string toString() const;
 
 	void SetFriendGlobalOptionInfo(FriendGlobalOptionInfo& Info);
 	FriendGlobalOptionInfo& GetFriendGlobalOptionInfo();
@@ -49,10 +49,10 @@ private:
 class CGFriendUpdateGlobalOptionFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new CGFriendUpdateGlobalOption(); }
-	string getPacketName() const throw() { return "CGFriendUpdateGlobalOption"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_FRIEND_UPDATE_GLOBAL_OPTION; }
-	PacketSize_t getPacketMaxSize() const throw() { return FriendGlobalOptionInfo::getMaxSize(); }
+	Packet* createPacket() { return new CGFriendUpdateGlobalOption(); }
+	string getPacketName() const { return "CGFriendUpdateGlobalOption"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_FRIEND_UPDATE_GLOBAL_OPTION; }
+	PacketSize_t getPacketMaxSize() const { return FriendGlobalOptionInfo::getMaxSize(); }
 };
 
 
@@ -63,7 +63,7 @@ public:
 class CGFriendUpdateGlobalOptionHandler 
 {
 public:
-	static void execute(CGFriendUpdateGlobalOption* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(CGFriendUpdateGlobalOption* pPacket, Player* pPlayer);
 
 };
 #endif //__FRIEND_ADDITION

@@ -21,8 +21,8 @@
 //
 // class GCChangeShape;
 //
-// °ÔÀÓ ¼­¹ö¿¡¼­ Æ¯Á¤ »ç¿ëÀÚ°¡ ¿òÁ÷¿´´Ù´Â Á¤º¸¸¦ Å¬¶óÀÌ¾ðÆ®·Î º¸³»ÁÙ 
-// ¶§ »ç¿ëÇÏ´Â ÆÐÅ¶ °´Ã¼ÀÌ´Ù. (CreatureID,X,Y,DIR) À» Æ÷ÇÔÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ ï¿½ï¿½Ã¼ï¿½Ì´ï¿½. (CreatureID,X,Y,DIR) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -31,66 +31,66 @@ class GCChangeShape : public Packet {
 public :
 	
 	// constructor
-	GCChangeShape () throw ();
+	GCChangeShape ();
 	
 	// destructor
-	~GCChangeShape () throw ();
+	~GCChangeShape ();
 
 	
 public :
 	
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_CHANGE_SHAPE; }
+	PacketID_t getPacketID () const { return PACKET_GC_CHANGE_SHAPE; }
 	
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getPacketSize () const throw () { return szObjectID + szBYTE + szItemType + szOptionType + szSpeed + szBYTE ; }
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	size_t getPacketSize () const { return szObjectID + szBYTE + szItemType + szOptionType + szSpeed + szBYTE ; }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCChangeShape"; }
+		std::string getPacketName () const { return "GCChangeShape"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 	// get Object ID 
-	ObjectID_t getObjectID () const throw () { return m_ObjectID; }
-	void setObjectID ( ObjectID_t objectID ) throw () { m_ObjectID = objectID; }
+	ObjectID_t getObjectID () const { return m_ObjectID; }
+	void setObjectID ( ObjectID_t objectID ) { m_ObjectID = objectID; }
 
 	// get/set ItemClass
-	BYTE getItemClass() const throw() { return m_ItemClass; }
-	void setItemClass( BYTE ItemClass ) throw() { m_ItemClass = ItemClass; }
+	BYTE getItemClass() const { return m_ItemClass; }
+	void setItemClass( BYTE ItemClass ) { m_ItemClass = ItemClass; }
 
 	// get / set ItemType
-	ItemType_t getItemType() const throw() { return m_ItemType; }
-	void setItemType( ItemType_t ItemType ) throw() { m_ItemType = ItemType ; }
+	ItemType_t getItemType() const { return m_ItemType; }
+	void setItemType( ItemType_t ItemType ) { m_ItemType = ItemType ; }
 
 	// get / set OptionType
-	OptionType_t getOptionType() const throw() { return m_OptionType; }
-	void setOptionType( OptionType_t OptionType ) throw() { m_OptionType = OptionType ; }
+	OptionType_t getOptionType() const { return m_OptionType; }
+	void setOptionType( OptionType_t OptionType ) { m_OptionType = OptionType ; }
 
 	// get / set OptionType
-	Speed_t getAttackSpeed() const throw() { return m_AttackSpeed; }
-	void setAttackSpeed( Speed_t AttackSpeed ) throw() { m_AttackSpeed = AttackSpeed; }
+	Speed_t getAttackSpeed() const { return m_AttackSpeed; }
+	void setAttackSpeed( Speed_t AttackSpeed ) { m_AttackSpeed = AttackSpeed; }
 
-	// -_- 2003.4.14 Äù½ºÆ® ¾ÆÀÌÅÛ ¶«»§ ÄÚµå 
-	BYTE	getFlag()	const throw() { return m_Flag; }
-	void	setFlag(BYTE flag)	throw() { m_Flag = flag; }
+	// -_- 2003.4.14 ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½ 
+	BYTE	getFlag()	const { return m_Flag; }
+	void	setFlag(BYTE flag) { m_Flag = flag; }
 
 private :
 
-	// Å©¸®Ã³ ¾ÆÀÌµð
+	// Å©ï¿½ï¿½Ã³ ï¿½ï¿½ï¿½Ìµï¿½
 	ObjectID_t m_ObjectID;
 	
 	// Item Class
@@ -123,27 +123,27 @@ class GCChangeShapeFactory : public PacketFactory {
 public :
 	
 	// constructor
-	GCChangeShapeFactory () throw () {}
+	GCChangeShapeFactory () {}
 	
 	// destructor
-	virtual ~GCChangeShapeFactory () throw () {}
+	virtual ~GCChangeShapeFactory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCChangeShape(); }
+	Packet * createPacket () { return new GCChangeShape(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCChangeShape"; }
+		std::string getPacketName () const { return "GCChangeShape"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_CHANGE_SHAPE; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_CHANGE_SHAPE; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID + szBYTE + szItemType + szOptionType + szSpeed + szBYTE; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID + szBYTE + szItemType + szOptionType + szSpeed + szBYTE; }
 
 };
 
@@ -159,7 +159,7 @@ class GCChangeShapeHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCChangeShape * pGCChangeShape , Player * pPlayer ) throw ( Error );
+	static void execute ( GCChangeShape * pGCChangeShape , Player * pPlayer );
 
 };
 

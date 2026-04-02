@@ -2,8 +2,8 @@
 // Filename    : CGUseMessageItemFromInventory.cpp 
 // Written By  : excel96
 // Description : 
-// ÀÎº¥Åä¸® ¾ÈÀÇ ¾ÆÀÌÅÛÀ» »ç¿ëÇÒ ¶§, Å¬¶óÀÌ¾ðÆ®°¡ X, Y ¹× ObjectID¸¦
-// º¸³»¸é ¾ÆÀÌÅÛ Å¬·¡½º¿¡ µû¶ó¼­, ¼­¹ö°¡ ÀÌ¿¡ ¸Â´Â ÄÚµå¸¦ Ã³¸®ÇÑ´Ù.
+// ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ X, Y ï¿½ï¿½ ObjectIDï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½ ï¿½Â´ï¿½ ï¿½Úµå¸¦ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 #include "Client_PCH.h"
 #include "CGUseMessageItemFromInventory.h"
@@ -11,7 +11,6 @@
 
 #ifdef __DEBUG_OUTPUT__
 void CGUseMessageItemFromInventory::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -36,7 +35,6 @@ void CGUseMessageItemFromInventory::read (SocketInputStream & iStream)
 #endif
 		    
 void CGUseMessageItemFromInventory::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -60,7 +58,6 @@ void CGUseMessageItemFromInventory::write (SocketOutputStream & oStream) const
 }
 
 void CGUseMessageItemFromInventory::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__
@@ -71,7 +68,7 @@ void CGUseMessageItemFromInventory::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGUseMessageItemFromInventory::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 		

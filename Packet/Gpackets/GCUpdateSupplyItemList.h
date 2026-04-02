@@ -80,17 +80,17 @@ typedef struct _SupplyItemInfo
 class GCUpdateSupplyItemList : public Packet 
 {
 public:
-	GCUpdateSupplyItemList() throw();
-	virtual ~GCUpdateSupplyItemList() throw();
+	GCUpdateSupplyItemList();
+	virtual ~GCUpdateSupplyItemList();
 
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_SUPPLYITEM_LIST; }
-	PacketSize_t getPacketSize() const throw();
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_SUPPLYITEM_LIST; }
+	size_t getPacketSize() const;
 #ifdef __DEBUG_OUTPUT__	
-	string getPacketName() const throw() { return "GCUpdateSupplyItemList"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCUpdateSupplyItemList"; }
+	string toString() const;
 #endif
 public:
 	void		addSupplyItemInfo( SupplyItemInfo* pSI ) { m_SupplyItemList.push_back( pSI ); }
@@ -108,10 +108,10 @@ private:
 class GCUpdateSupplyItemListFactory : public PacketFactory 
 {
 public :
-	Packet* createPacket() throw() { return new GCUpdateSupplyItemList(); }
-	string getPacketName() const throw() { return "GCUpdateSupplyItemList"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_SUPPLYITEM_LIST; }
-	PacketSize_t getPacketMaxSize() const throw() 
+	Packet* createPacket() { return new GCUpdateSupplyItemList(); }
+	string getPacketName() const { return "GCUpdateSupplyItemList"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_SUPPLYITEM_LIST; }
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		PacketSize_t size = szBYTE;
 		size += SupplyItemInfo::getPacketMaxSize() * MAX_SUPPLYITEM_LIST;
@@ -128,7 +128,7 @@ public :
 class GCUpdateSupplyItemListHandler 
 {
 public :
-	static void execute(GCUpdateSupplyItemList* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCUpdateSupplyItemList* pPacket, Player* pPlayer);
 
 };
 

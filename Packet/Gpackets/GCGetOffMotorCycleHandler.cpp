@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCGetOffMotorCycleHandler::execute ( GCGetOffMotorCycle * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -23,7 +22,7 @@ void GCGetOffMotorCycleHandler::execute ( GCGetOffMotorCycle * pPacket , Player 
 
 	
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -31,9 +30,9 @@ void GCGetOffMotorCycleHandler::execute ( GCGetOffMotorCycle * pPacket , Player 
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//
-	// Creature°¡ ¿ÀÅä¹ÙÀÌ¸¦ ÀåÂøÇØÁ¦ ÇÑ´Ù.
+	// Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	else
 	{
@@ -41,23 +40,23 @@ void GCGetOffMotorCycleHandler::execute ( GCGetOffMotorCycle * pPacket , Player 
 
 		if (pCreature!=NULL)
 		{
-			// ÀåÂø°¡´ÉÇÑ creatureÀÎ °æ¿ì
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ creatureï¿½ï¿½ ï¿½ï¿½ï¿½
 			if (pCreature->IsWear())
 			{
 				MCreatureWear* pCreatureWear = (MCreatureWear*)pCreature;
 			
 				//------------------------------------------
-				// ¿ÀÅä¹ÙÀÌ ±×¸²À» ¾ø¾ÖÁØ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 				//------------------------------------------
 				pCreatureWear->RemoveAddon( ADDON_MOTOR );
 
 				//------------------------------------------
-				// ¿òÁ÷ÀÌ´Â ¹æ¹ý ¹Ù²Þ
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½
 				//------------------------------------------
 				pCreatureWear->SetMoveDevice( MCreature::MOVE_DEVICE_WALK );
 
 				//------------------------------------------
-				// ³»¸®´Â ¼Ò¸® Ãâ·Â
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ ï¿½ï¿½ï¿½
 				//------------------------------------------
 				PlaySound( SOUND_WORLD_BIKE_STOP,
 							false,

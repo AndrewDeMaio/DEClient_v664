@@ -14,7 +14,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCGetOffMotorCycleFailedHandler::execute ( GCGetOffMotorCycleFailed * pPacket, Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -22,7 +21,7 @@ void GCGetOffMotorCycleFailedHandler::execute ( GCGetOffMotorCycleFailed * pPack
 
 
 	//------------------------------------------
-	// ¾îÂ¶µç °£¿¡.. °ËÁõÀÌ µÇ¾ú´Ù°í º»´Ù.
+	// ï¿½ï¿½Â¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	//------------------------------------------
 	g_pPlayer->SetWaitVerifyNULL();
 

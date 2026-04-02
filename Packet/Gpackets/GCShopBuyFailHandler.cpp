@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////
 //
 // Filename    : GCShopBuyFailHandler.cpp
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //
 //////////////////////////////////////////////////////////////////////
@@ -16,41 +16,40 @@
 #include "UIFunction.h"
 
 void GCShopBuyFailHandler::execute ( GCShopBuyFail * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
 #ifdef __GAME_CLIENT__
 
-	// mode¸¦ ¾ø¾Ø´Ù.
+	// modeï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 	g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
-	// °Å·¡¸¦ ´Ù½Ã È°¼ºÈ­ÇÑ´Ù.
+	// ï¿½Å·ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ È°ï¿½ï¿½È­ï¿½Ñ´ï¿½.
 	UI_UnlockItemTrade();
 
-	switch (pPacket->getCode())		//¹ö±× ¼öÁ¤½Ã ¼Ò½º ÁÖ¼®À» Ç®¾îÁÖÀÚ.	//2008.08.26 shootkj
+	switch (pPacket->getCode())		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò½ï¿½ ï¿½Ö¼ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.	//2008.08.26 shootkj
 	{
-/*		case GC_SHOP_BUY_FAIL_NOT_ENOUGH_MONEY:	//µ·ÀÌ ¸ðÀÚ¶õ´Ù.
+/*		case GC_SHOP_BUY_FAIL_NOT_ENOUGH_MONEY:	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_BUY_NO_MONEY].GetString() );
 			break;
 
-		case GC_SHOP_BUY_FAIL_NOT_ENOUGH_SPACE:	// ÀÚ¸®°¡ ¸ðÀÚ¶õ´Ù.
+		case GC_SHOP_BUY_FAIL_NOT_ENOUGH_SPACE:	// ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¶ï¿½ï¿½ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_BUY_NO_SPACE].GetString() );
 			break;
 
-		case GC_SHOP_BUY_FAIL_NPC_NOT_EXIST:	// NPC°¡ Á¸ÀçÇÏÁö ¾Ê´Â´Ù.
+		case GC_SHOP_BUY_FAIL_NPC_NOT_EXIST:	// NPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_NPC_NOT_EXIST].GetString() );
 			break;
 
-		case GC_SHOP_BUY_FAIL_NOT_NPC:	// NPC¶ó°í º¸³»¿Â ³ðÀÌ NPC°¡ ¾Æ´Ï´Ù.
+		case GC_SHOP_BUY_FAIL_NOT_NPC:	// NPCï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ NPCï¿½ï¿½ ï¿½Æ´Ï´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_NOT_NPC].GetString() );
 			break;
 
-		case GC_SHOP_BUY_FAIL_ITEM_NOT_EXIST:	// ÁöÁ¤ÇÑ À§Ä¡¿¡ ¾ÆÀÌÅÛÀÌ Á¸ÀçÇÏÁö ¾Ê´Â´Ù.
+		case GC_SHOP_BUY_FAIL_ITEM_NOT_EXIST:	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_ITEM_NOT_EXIST].GetString() );
 			break;
 */
-			//pPacket->getAmount()	// ºÎÁ·ÇÑ °³¼ö
+			//pPacket->getAmount()	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		case GC_SHOP_BUY_FAIL_NOT_ENOUGH_BLACK_STAR :
 		case GC_SHOP_BUY_FAIL_NOT_ENOUGH_RED_STAR :
 		case GC_SHOP_BUY_FAIL_NOT_ENOUGH_BLUE_STAR :

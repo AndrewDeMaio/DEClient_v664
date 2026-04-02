@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////////////
 #ifndef __GAME_CLIENT__
 void CGRequestUnionInfoHandler::execute (CGRequestUnionInfo* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 	__BEGIN_TRY __BEGIN_DEBUG_EX
 		

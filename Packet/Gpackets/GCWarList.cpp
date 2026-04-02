@@ -15,7 +15,6 @@
 // constructor
 //////////////////////////////////////////////////////////////////////////////
 GCWarList::GCWarList() 
-	throw ()
 {
 	__BEGIN_TRY 
 
@@ -26,7 +25,6 @@ GCWarList::GCWarList()
 // destructor
 //////////////////////////////////////////////////////////////////////////////
 GCWarList::~GCWarList() 
-	throw ()
 {
 	__BEGIN_TRY 
 
@@ -40,7 +38,6 @@ GCWarList::~GCWarList()
 //////////////////////////////////////////////////////////////////////////////
 void
 GCWarList::clear()
-	throw ()
 {
 	__BEGIN_TRY 
 
@@ -63,10 +60,9 @@ GCWarList::clear()
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCWarList::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -107,10 +103,9 @@ void GCWarList::read (SocketInputStream & iStream)
 
 		    
 //////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 void GCWarList::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -137,7 +132,6 @@ void GCWarList::write (SocketOutputStream & oStream) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////////////
 void GCWarList::execute (Player * pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -150,7 +144,6 @@ void GCWarList::execute (Player * pPlayer)
 //////////////////////////////////////////////////////////////////////////////
 
 PacketSize_t GCWarList::getPacketSize () const 
-	throw ()
 { 
 	__BEGIN_TRY
 
@@ -176,7 +169,6 @@ PacketSize_t GCWarList::getPacketSize () const
 // get packet's debug string
 //////////////////////////////////////////////////////////////////////////////
 std::string GCWarList::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		
@@ -202,7 +194,6 @@ std::string GCWarList::toString () const
 #endif
 
 WarInfo* GCWarList::popWarInfo() 
-	throw()
 {
 	__BEGIN_TRY
 

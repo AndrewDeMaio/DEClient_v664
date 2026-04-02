@@ -933,21 +933,21 @@ void
 SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo3* pInfo)
 {	
 	/*
-	HairStyle getHairStyle () const throw () 
-	HelmetType getHelmetType () const throw () 
-	JacketType getJacketType () const throw () 
-	PantsType getPantsType () const throw () 
-	WeaponType getWeaponType () const throw ()
-	MotorcycleType getMotorcycleType () const throw ()
+	HairStyle getHairStyle () const 
+	HelmetType getHelmetType () const 
+	JacketType getJacketType () const 
+	PantsType getPantsType () const 
+	WeaponType getWeaponType () const
+	MotorcycleType getMotorcycleType () const
 	
-	Color_t getHairColor () const throw () 
-	Color_t getSkinColor () const throw () 
-	Color_t getHelmetColor ( ColorType colorType = MAIN_COLOR ) const throw () 
-	Color_t getJacketColor ( ColorType colorType = MAIN_COLOR ) const throw () 
-	Color_t getPantsColor ( ColorType colorType = MAIN_COLOR ) const throw () 
-	Color_t getWeaponColor ( ColorType colorType = MAIN_COLOR ) const throw () 
-	Color_t getShieldColor ( ColorType colorType = MAIN_COLOR ) const throw () 
-	Color_t getMotorcycleColor ( ColorType colorType = MAIN_COLOR ) const throw () 
+	Color_t getHairColor () const 
+	Color_t getSkinColor () const 
+	Color_t getHelmetColor ( ColorType colorType = MAIN_COLOR ) const 
+	Color_t getJacketColor ( ColorType colorType = MAIN_COLOR ) const 
+	Color_t getPantsColor ( ColorType colorType = MAIN_COLOR ) const 
+	Color_t getWeaponColor ( ColorType colorType = MAIN_COLOR ) const 
+	Color_t getShieldColor ( ColorType colorType = MAIN_COLOR ) const 
+	Color_t getMotorcycleColor ( ColorType colorType = MAIN_COLOR ) const 
 	*/
 
 
@@ -956,14 +956,14 @@ SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo3* pInfo)
 	// option�� color�� ���� �����ؾ� �Ѵ�.
 	//
 	//----------------------------------------	
-	//Color_t getHairColor () const throw () 
-	//Color_t getSkinColor () const throw () 
-	//Color_t getHelmetColor ( ColorType colorType = MAIN_COLOR ) const throw () 
-	//Color_t getJacketColor ( ColorType colorType = MAIN_COLOR ) const throw () 
-	//Color_t getPantsColor ( ColorType colorType = MAIN_COLOR ) const throw () 
-	//Color_t getWeaponColor ( ColorType colorType = MAIN_COLOR ) const throw () 
-	//Color_t getShieldColor ( ColorType colorType = MAIN_COLOR ) const throw () 
-	//Color_t getMotorcycleColor ( ColorType colorType = MAIN_COLOR ) const throw () 
+	//Color_t getHairColor () const 
+	//Color_t getSkinColor () const 
+	//Color_t getHelmetColor ( ColorType colorType = MAIN_COLOR ) const 
+	//Color_t getJacketColor ( ColorType colorType = MAIN_COLOR ) const 
+	//Color_t getPantsColor ( ColorType colorType = MAIN_COLOR ) const 
+	//Color_t getWeaponColor ( ColorType colorType = MAIN_COLOR ) const 
+	//Color_t getShieldColor ( ColorType colorType = MAIN_COLOR ) const 
+	//Color_t getMotorcycleColor ( ColorType colorType = MAIN_COLOR ) const 
 
 	//----------------------------------------	
 	// �Ӹ�

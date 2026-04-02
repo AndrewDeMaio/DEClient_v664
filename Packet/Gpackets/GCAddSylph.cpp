@@ -12,7 +12,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 void GCAddSylph::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -39,7 +38,6 @@ void GCAddSylph::read ( SocketInputStream & iStream )
 }
 
 void GCAddSylph::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -64,7 +62,7 @@ void GCAddSylph::write ( SocketOutputStream & oStream ) const
 	__END_CATCH
 }
 
-PacketSize_t GCAddSylph::getPacketSize() const throw() 
+size_t GCAddSylph::getPacketSize() const 
 { 
 	PacketSize_t PacketSize;
 
@@ -89,7 +87,6 @@ PacketSize_t GCAddSylph::getPacketSize() const throw()
 }
 
 void GCAddSylph::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -99,7 +96,6 @@ void GCAddSylph::execute ( Player * pPlayer )
 }
 #ifdef __DEBUG_OUTPUT__
 string GCAddSylph::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 
@@ -130,7 +126,7 @@ string GCAddSylph::toString () const
 	__END_CATCH
 }
 #endif //__DEBUG_OUTPUT__
-PacketSize_t GCAddSylphFactory::getPacketMaxSize() const throw() 
+PacketSize_t GCAddSylphFactory::getPacketMaxSize() const 
 {
 	PacketSize_t MaxPacketSize;
 

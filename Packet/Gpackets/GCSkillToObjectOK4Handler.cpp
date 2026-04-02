@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSkillToObjectOK4Handler::execute ( GCSkillToObjectOK4 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -23,7 +22,7 @@ void GCSkillToObjectOK4Handler::execute ( GCSkillToObjectOK4 * pPacket , Player 
 
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -31,7 +30,7 @@ void GCSkillToObjectOK4Handler::execute ( GCSkillToObjectOK4 * pPacket , Player 
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -49,16 +48,16 @@ void GCSkillToObjectOK4Handler::execute ( GCSkillToObjectOK4 * pPacket , Player 
 		
 			MCreature* pTargetCreature = g_pZone->GetCreature( pPacket->getTargetObjectID() );		
 
-		// TargetCreature¿¡°Ô °á°ú Ç¥Çö
+		// TargetCreatureï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
 		if (pTargetCreature != NULL)
 		{
-			// delay frame¼ö °è»ê
+			// delay frameï¿½ï¿½ ï¿½ï¿½ï¿½
 			DWORD delayFrame = ConvertDurationToFrame( pPacket->getDuration() );
 
-			// effect delay¼³Á¤
+			// effect delayï¿½ï¿½ï¿½ï¿½
 			pTargetCreature->SetEffectDelayFrame( pPacket->getSkillType(), delayFrame );
 
-			// ¹Ù·Î °á°ú Ç¥Çö
+			// ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
 			pTargetCreature->PacketSpecialActionResult( 
 										skillID + (*g_pActionInfoTable).GetMinResultActionInfo(), 
 										pTargetCreature->GetID(),
@@ -67,7 +66,7 @@ void GCSkillToObjectOK4Handler::execute ( GCSkillToObjectOK4 * pPacket , Player 
 			);
 
 			//------------------------------------------------------
-			// EffectStatus°¡ ÀÖ´Ù¸é ºÙÀÎ´Ù.
+			// EffectStatusï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 			//------------------------------------------------------
 			EFFECTSTATUS es = (*g_pActionInfoTable)[skillID].GetEffectStatus();
 			

@@ -17,7 +17,6 @@
 // constructor
 //----------------------------------------------------------------------
 LCServerList::LCServerList ()
-	throw ()
 {
 	m_CurrentServerGroupID = 0;
 }
@@ -27,11 +26,10 @@ LCServerList::LCServerList ()
 // destructor
 //----------------------------------------------------------------------
 LCServerList::~LCServerList ()
-	throw ()
 {
 	__BEGIN_TRY
 
-	// ¼Ò¼ÓµÈ ¸ðµç °´Ã¼µéÀ» »èÁ¦ÇÑ´Ù.
+	// ï¿½Ò¼Óµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	while ( !m_ServerGroupInfoList.empty() ) 
 	{
 		ServerGroupInfo * pServerGroupInfo = m_ServerGroupInfoList.front();
@@ -48,10 +46,9 @@ LCServerList::~LCServerList ()
 
 
 //----------------------------------------------------------------------
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 void LCServerList::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -59,7 +56,7 @@ void LCServerList::read ( SocketInputStream & iStream )
 
 	BYTE ListNum;
 
-    // ÃÖÀûÈ­ ÀÛ¾÷½Ã ½ÇÁ¦ Å©±â¸¦ ¸í½ÃÇÏµµ·Ï ÇÑ´Ù.
+    // ï¿½ï¿½ï¿½ï¿½È­ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	iStream.read( ListNum );
 	for( int i = 0; i < ListNum; i++ ) {
 		ServerGroupInfo * pServerGroupInfo = new ServerGroupInfo();
@@ -72,17 +69,16 @@ void LCServerList::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void LCServerList::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
 	oStream.write( m_CurrentServerGroupID );
 
 	BYTE ListNum = m_ServerGroupInfoList.size();
-	// ÃÖÀûÈ­ ÀÛ¾÷½Ã ½ÇÁ¦ Å©±â¸¦ ¸í½ÃÇÏµµ·Ï ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½È­ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	oStream.write( ListNum );
 
 	for ( std::list<ServerGroupInfo*>:: const_iterator itr = m_ServerGroupInfoList.begin(); itr!= m_ServerGroupInfoList.end(); itr++) {
@@ -97,7 +93,6 @@ void LCServerList::write ( SocketOutputStream & oStream ) const
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////
 void LCServerList::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -109,11 +104,10 @@ void LCServerList::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 PacketSize_t LCServerList::getPacketSize () const 
-	throw ()
 {
 	__BEGIN_TRY
 
-	// ¸®½ºÆ® ÀÎÀÚÀÇ °¹¼ö
+	// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	PacketSize_t PacketSize = szServerGroupID + szBYTE;
 
 	for ( std::list< ServerGroupInfo* >::const_iterator itr = m_ServerGroupInfoList.begin() ; itr != m_ServerGroupInfoList.end() ; itr ++ ) {
@@ -133,7 +127,6 @@ PacketSize_t LCServerList::getPacketSize () const
 //////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 	std::string LCServerList::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 

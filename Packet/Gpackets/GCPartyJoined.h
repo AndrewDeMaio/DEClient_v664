@@ -19,7 +19,7 @@ typedef struct
 	IP_t   ip;
 } PARTY_MEMBER_INFO;
 
-// ±¸Á¶Ã¼ ¸Æ½º Å©±â(14) + ÀÌ¸§ ±æÀÌ (1)
+// ï¿½ï¿½ï¿½ï¿½Ã¼ ï¿½Æ½ï¿½ Å©ï¿½ï¿½(14) + ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ (1)
 const uint PARTY_MEMBER_INFO_MAX_SIZE = 17; 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -33,24 +33,24 @@ public:
 	~GCPartyJoined();
 
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_PARTY_JOINED; }
-	PacketSize_t getPacketSize() const throw();
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_PARTY_JOINED; }
+	size_t getPacketSize() const;
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "GCPartyJoined"; }
-		std::string toString() const throw();
+		std::string getPacketName() const { return "GCPartyJoined"; }
+		std::string toString() const;
 	#endif
 
 public:
 	BYTE getMemberInfoCount(void) { return m_MemberCount; }
 
-	void addMemberInfo(PARTY_MEMBER_INFO* pInfo) throw();
-	PARTY_MEMBER_INFO* popMemberInfo(void) throw();
+	void addMemberInfo(PARTY_MEMBER_INFO* pInfo);
+	PARTY_MEMBER_INFO* popMemberInfo(void);
 
-	void clear(void) throw();
+	void clear(void);
 
 private:
 	BYTE                     m_MemberCount;
@@ -65,14 +65,14 @@ private:
 class GCPartyJoinedFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCPartyJoined(); }
+	Packet* createPacket() { return new GCPartyJoined(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "GCPartyJoined"; }
+		std::string getPacketName() const { return "GCPartyJoined"; }
 	#endif
 
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_PARTY_JOINED; }
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + PARTY_MEMBER_INFO_MAX_SIZE * 6; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_PARTY_JOINED; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE + PARTY_MEMBER_INFO_MAX_SIZE * 6; }
 };
 
 
@@ -83,7 +83,7 @@ public:
 class GCPartyJoinedHandler 
 {
 public:
-	static void execute(GCPartyJoined* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCPartyJoined* pPacket, Player* pPlayer);
 };
 
 #endif

@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCPartyInvite.cpp 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
 //////////////////////////////////////////////////////////////////////////////
 
@@ -12,7 +12,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 void GCPartyInvite::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -23,7 +22,6 @@ void GCPartyInvite::read (SocketInputStream & iStream)
 }
 		    
 void GCPartyInvite::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 	
@@ -34,7 +32,6 @@ void GCPartyInvite::write (SocketOutputStream & oStream) const
 }
 
 void GCPartyInvite::execute (Player * pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -45,7 +42,6 @@ void GCPartyInvite::execute (Player * pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string GCPartyInvite::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

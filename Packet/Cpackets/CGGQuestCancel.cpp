@@ -7,7 +7,6 @@
 #include "CGGQuestCancel.h"
 
 void CGGQuestCancel::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -17,7 +16,6 @@ void CGGQuestCancel::read (SocketInputStream & iStream)
 }
 		    
 void CGGQuestCancel::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -27,7 +25,6 @@ void CGGQuestCancel::write (SocketOutputStream & oStream) const
 }
 
 void CGGQuestCancel::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 #ifndef __GAME_CLIENT__
 	__BEGIN_TRY
@@ -39,7 +36,6 @@ void CGGQuestCancel::execute (Player* pPlayer)
 }
 #ifdef __DEBUG_OUTPUT__
 string CGGQuestCancel::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

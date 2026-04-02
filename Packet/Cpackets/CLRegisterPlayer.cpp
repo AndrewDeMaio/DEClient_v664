@@ -12,15 +12,14 @@
 
 
 //----------------------------------------------------------------------
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //----------------------------------------------------------------------
 void CLRegisterPlayer::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
 	//----------------------------------------------------------------------
-	// ÇÃ·¹ÀÌ¾î ±âº» Á¤º¸ ( ID - Password )
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ ( ID - Password )
 	//----------------------------------------------------------------------
 	BYTE szID;
 	iStream.read( szID );
@@ -43,7 +42,7 @@ void CLRegisterPlayer::read ( SocketInputStream & iStream )
 	iStream.read( m_Password , szPassword );
 
 	//----------------------------------------------------------------------
-	// ÇÃ·¹ÀÌ¾î °³ÀÎ Á¤º¸ ( Name - Sex - SSN )
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ( Name - Sex - SSN )
 	//----------------------------------------------------------------------
 	BYTE szName;
 	iStream.read( szName );
@@ -66,7 +65,7 @@ void CLRegisterPlayer::read ( SocketInputStream & iStream )
 	iStream.read( m_SSN , szSSN );
 
 	//----------------------------------------------------------------------
-	// ÇÃ·¹ÀÌ¾î ¿¬¶ôÃ³ ( Telephone - Cellular - ZipCode - Address - Nation )
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ ( Telephone - Cellular - ZipCode - Address - Nation )
 	//----------------------------------------------------------------------
 	BYTE szTelephone;
 	iStream.read( szTelephone );
@@ -105,7 +104,7 @@ void CLRegisterPlayer::read ( SocketInputStream & iStream )
 	m_Nation = (Nation)nation;
 
 	//----------------------------------------------------------------------
-	// ÇÃ·¹ÀÌ¾î ÀüÀÚ Á¤º¸ ( Email - Homepage )
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ( Email - Homepage )
 	//----------------------------------------------------------------------
 	BYTE szEmail;
 	iStream.read( szEmail );
@@ -124,7 +123,7 @@ void CLRegisterPlayer::read ( SocketInputStream & iStream )
 	iStream.read( m_Homepage , szHomepage );
 
 	//----------------------------------------------------------------------
-	// ±âÅ¸ ( Profile - Public )
+	// ï¿½ï¿½Å¸ ( Profile - Public )
 	//----------------------------------------------------------------------
 	BYTE szProfile;
 	iStream.read( szProfile );
@@ -143,12 +142,11 @@ void CLRegisterPlayer::read ( SocketInputStream & iStream )
 // write data to socket output stream
 //////////////////////////////////////////////////////////////////////
 void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
-	throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
 	//----------------------------------------------------------------------
-	// ÇÃ·¹ÀÌ¾î ±âº» Á¤º¸ ( ID - Password )
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½ ( ID - Password )
 	//----------------------------------------------------------------------
 	BYTE szID = m_ID.size();
 	if ( szID == 0 )
@@ -171,7 +169,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 	oStream.write( m_Password );
 
 	//----------------------------------------------------------------------
-	// ÇÃ·¹ÀÌ¾î °³ÀÎ Á¤º¸ ( Name - Sex - SSN )
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ( Name - Sex - SSN )
 	//----------------------------------------------------------------------
 	BYTE szName = m_Name.size();
 	if ( szName == 0 )
@@ -192,7 +190,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 	oStream.write( m_SSN );
 
 	//----------------------------------------------------------------------
-	// ÇÃ·¹ÀÌ¾î ¿¬¶ôÃ³ ( Telephone - Cellular - ZipCode - Address - Nation )
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ ( Telephone - Cellular - ZipCode - Address - Nation )
 	//----------------------------------------------------------------------
 	BYTE szTelephone = m_Telephone.size();
 	if ( szTelephone == 0 )
@@ -229,7 +227,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 	oStream.write( (BYTE)m_Nation );
 
 	//----------------------------------------------------------------------
-	// ÇÃ·¹ÀÌ¾î ÀüÀÚ Á¤º¸ ( Email - Homepage )
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ( Email - Homepage )
 	//----------------------------------------------------------------------
 	BYTE szEmail = m_Email.size();
 	if ( szEmail == 0 )
@@ -248,7 +246,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 	oStream.write( m_Homepage );
 
 	//----------------------------------------------------------------------
-	// ±âÅ¸ ( Profile - Public )
+	// ï¿½ï¿½Å¸ ( Profile - Public )
 	//----------------------------------------------------------------------
 	BYTE szProfile = m_Profile.size();
 	if ( szProfile == 0 )
@@ -267,7 +265,6 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 // execute packet handler
 //////////////////////////////////////////////////////////////////////
 void CLRegisterPlayer::execute ( Player * pPlayer )
-	throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -283,7 +280,6 @@ void CLRegisterPlayer::execute ( Player * pPlayer )
 //////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 	std::string CLRegisterPlayer::toString () const 
-		throw ()
 	{
 		__BEGIN_TRY
 

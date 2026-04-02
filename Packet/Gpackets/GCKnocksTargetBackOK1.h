@@ -2,7 +2,7 @@
 // 
 // Filename    : GCKnocksTargetBackOK1.h 
 // Written By  : elca@ewestsoft.com
-// Description : ±â¼úÀÌ ¼º°øÇßÀ»¶§ º¸³»´Â ÆÐÅ¶À» À§ÇÑ Å¬·¡½º Á¤ÀÇ
+// Description : ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -20,7 +20,7 @@
 //
 // class GCKnocksTargetBackOK1;
 //
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -29,61 +29,61 @@ class GCKnocksTargetBackOK1 : public ModifyInfo {
 public :
 	
 	// constructor
-	GCKnocksTargetBackOK1 () throw ();
+	GCKnocksTargetBackOK1 ();
 	
 	// destructor
-	~GCKnocksTargetBackOK1 () throw ();
+	~GCKnocksTargetBackOK1 ();
 
 	
 public :
 	
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_KNOCKS_TARGET_BACK_OK_1; }
+	PacketID_t getPacketID () const { return PACKET_GC_KNOCKS_TARGET_BACK_OK_1; }
 	
 	// get packet's body size
-	// ÃÖÀûÈ­½Ã, ¹Ì¸® °è»êµÈ Á¤¼ö¸¦ »ç¿ëÇÑ´Ù.
-	PacketSize_t getPacketSize () const throw () { return szSkillType + szDir + szCoord*2 + szObjectID + szBullet + szbool + ModifyInfo::getPacketSize() ;}
+	// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½, ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	size_t getPacketSize () const { return szSkillType + szDir + szCoord*2 + szObjectID + szBullet + szbool + ModifyInfo::getPacketSize() ;}
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet's name
-		std::string getPacketName () const throw () { return "GCKnocksTargetBackOK1"; }
+		std::string getPacketName () const { return "GCKnocksTargetBackOK1"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 	// get / set ObjectID
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID( ObjectID_t ObjectID ) throw() { m_ObjectID = ObjectID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID( ObjectID_t ObjectID ) { m_ObjectID = ObjectID; }
 
 	// get / set Success
-	bool getSkillSuccess() const throw() { return m_bSuccess; }
-	void setSkillSuccess( bool Success ) throw() { m_bSuccess = Success; }
+	bool getSkillSuccess() const { return m_bSuccess; }
+	void setSkillSuccess( bool Success ) { m_bSuccess = Success; }
 	
 	// get / set Bullet Num
-	Bullet_t getBullet() const throw() { return m_BulletNum; }
+	Bullet_t getBullet() const { return m_BulletNum; }
 	void setBulletNum( Bullet_t BulletNum ) { m_BulletNum = BulletNum; }
 
-	void setXYDir( Coord_t x, Coord_t y, Coord_t dir) throw()
+	void setXYDir( Coord_t x, Coord_t y, Coord_t dir)
 	{
 		m_X = x; m_Y = y; m_dir = dir;
 	}
-	Coord_t getX() const throw() { return m_X;}
-	Coord_t getY() const throw() { return m_Y;}
-	Dir_t getDir() const throw() { return m_dir;}
+	Coord_t getX() const { return m_X;}
+	Coord_t getY() const { return m_Y;}
+	Dir_t getDir() const { return m_dir;}
 
-	SkillType_t getSkillType() const throw() { return m_SkillType;}
-	void setSkillType( SkillType_t s) throw() { m_SkillType = s;}
+	SkillType_t getSkillType() const { return m_SkillType;}
+	void setSkillType( SkillType_t s) { m_SkillType = s;}
 
 
 private :
@@ -96,8 +96,8 @@ private :
 
 	bool m_bSuccess;
 	
-	Coord_t m_X, m_Y;	// ÀÌµ¿µÈ ÁÂÇ¥.
-	Dir_t m_dir;		// ¹Ð·Á³­ ¹æÇâ.
+	Coord_t m_X, m_Y;	// ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥.
+	Dir_t m_dir;		// ï¿½Ð·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	SkillType_t m_SkillType;
 };
 
@@ -115,27 +115,27 @@ class GCKnocksTargetBackOK1Factory : public PacketFactory {
 public :
 	
 	// constructor
-	GCKnocksTargetBackOK1Factory () throw () {}
+	GCKnocksTargetBackOK1Factory () {}
 	
 	// destructor
-	virtual ~GCKnocksTargetBackOK1Factory () throw () {}
+	virtual ~GCKnocksTargetBackOK1Factory () {}
 
 	
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCKnocksTargetBackOK1(); }
+	Packet * createPacket () { return new GCKnocksTargetBackOK1(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCKnocksTargetBackOK1"; }
+		std::string getPacketName () const { return "GCKnocksTargetBackOK1"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_KNOCKS_TARGET_BACK_OK_1; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_KNOCKS_TARGET_BACK_OK_1; }
 
 	// get Packet Max Size
-	PacketSize_t getPacketMaxSize () const throw () { return szSkillType + szDir + szCoord*2 + szObjectID + szBullet + szbool + ModifyInfo::getPacketMaxSize(); }
+	PacketSize_t getPacketMaxSize () const { return szSkillType + szDir + szCoord*2 + szObjectID + szBullet + szbool + ModifyInfo::getPacketMaxSize(); }
 
 };
 
@@ -151,7 +151,7 @@ class GCKnocksTargetBackOK1Handler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCKnocksTargetBackOK1 * pGCKnocksTargetBackOK1 , Player * pPlayer ) throw ( Error );
+	static void execute ( GCKnocksTargetBackOK1 * pGCKnocksTargetBackOK1 , Player * pPlayer );
 
 };
 

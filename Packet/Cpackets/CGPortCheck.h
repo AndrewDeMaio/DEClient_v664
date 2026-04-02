@@ -18,18 +18,18 @@
 //
 // class CGPortCheck;
 //
-// ·Î±×ÀÎ ¼­¹ö¿¡¼­ »ç¿ëÀÚ°¡ °ÔÀÓ ¼­¹ö·Î Á¢¼ÓÇÏ·Á°í ÇÒ ¶§, ·Î±×ÀÎ ¼­¹ö´Â
-// ±× °ÔÀÓ ¼­¹ö¿¡°Ô ¾î¶² ÁÖ¼Ò¿¡¼­ ¾î¶² »ç¿ëÀÚ°¡ ¾î¶² Å©¸®Ã³·Î ·Î±×ÀÎÇÒ
-// °ÍÀÌ´Ù.. ¶ó°í ¾Ë·ÁÁÖ´Â ÆÐÅ¶ÀÌ´Ù.
+// ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½, ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½î¶² ï¿½Ö¼Ò¿ï¿½ï¿½ï¿½ ï¿½î¶² ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½î¶² Å©ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½Ì´ï¿½.. ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 //
 // *CAUTION*
 //
-// ±»ÀÌ Å©¸®Ã³ ÀÌ¸§ÀÌ ÇÊ¿äÇÑ°¡? ÇÏ´Â ÀÇ¹®ÀÌ ÀÖÀ» ¼ö ÀÖ°Ú´Âµ¥, ´ÙÀ½°ú °°Àº
-// °æ¿ì¸¦ °í·ÁÇßÀ»¶§ ÇÊ¿äÇÏ°Ô µÈ´Ù. ·Î±×ÀÎ ¼­¹ö·ÎºÎÅÍ Slot3 Ä³¸¯ÅÍ¸¦ ¼±ÅÃ
-// ÇØ³õ°í, ½ÇÁ¦·Î °ÔÀÓ ¼­¹ö¿¡ Á¢¼ÓÇØ¼­´Â SLOT2 Ä³¸¯ÅÍ¸¦ ·ÎµùÇØ´Þ¶ó°í ÇÒ
-// ¼ö°¡ ÀÖ´Â °ÍÀÌ´Ù. ÀÌ¸¦ ¸·±â À§ÇØ¼­, CLSelectPC·Î ¼±ÅÃÇÑ Ä³¸¯ÅÍ¸¦ 
-// °ÔÀÓ ¼­¹ö¿¡°Ô ¾Ë·ÁÁà¾ß ÇÏ¸ç, CGConnect ¿¡¼­µµ Ä³¸¯ÅÍ ¾ÆÀÌµð¸¦ Æ÷ÇÔÇØ¼­
-// ¹Ù·Î ·ÎµùÇÏµµ·Ï ÇØ¾ß ÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½Ã³ ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ñ°ï¿½? ï¿½Ï´ï¿½ ï¿½Ç¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö°Ú´Âµï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ì¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï°ï¿½ ï¿½È´ï¿½. ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ Slot3 Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+// ï¿½Ø³ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ SLOT2 Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Îµï¿½ï¿½Ø´Þ¶ï¿½ï¿½ ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½. ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½, CLSelectPCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ 
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¸ï¿½, CGConnect ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½
+// ï¿½Ù·ï¿½ ï¿½Îµï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 //
 //----------------------------------------------------------------------
 
@@ -37,37 +37,37 @@ class CGPortCheck : public DatagramPacket {
 
 public:
 	
-    // Datagram °´Ã¼¿¡¼­ºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(Datagram & iDatagram) throw(ProtocolException, Error);
+    // Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(Datagram & iDatagram);
 		    
-    // Datagram °´Ã¼·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(Datagram & oDatagram) const throw(ProtocolException, Error);
+    // Datagram ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(Datagram & oDatagram) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_CG_PORT_CHECK; }
+	PacketID_t getPacketID() const { return PACKET_CG_PORT_CHECK; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() 
+	size_t getPacketSize() const 
 	{ 
 		return szBYTE + m_PCName.size();		// PC name
 	}
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName() const throw() { return "CGPortCheck"; }
+		std::string getPacketName() const { return "CGPortCheck"; }
 		
 		// get packet's debug std::string
-		std::string toString() const throw();
+		std::string toString() const;
 	#endif
 
 public:
 
 	// get/set pcName
-	const std::string& getPCName() const throw() { return m_PCName; }
-	void setPCName(const std::string& pcName) throw() { m_PCName = pcName; }
+	const std::string& getPCName() const { return m_PCName; }
+	void setPCName(const std::string& pcName) { m_PCName = pcName; }
 
 private :
 
@@ -89,20 +89,20 @@ class CGPortCheckFactory : public PacketFactory {
 public:
 	
 	// create packet
-	Packet* createPacket() throw() { return new CGPortCheck(); }
+	Packet* createPacket() { return new CGPortCheck(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName() const throw() { return "CGPortCheck"; }
+		std::string getPacketName() const { return "CGPortCheck"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_PORT_CHECK; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_PORT_CHECK; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static CGPortCheckPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() 
+	// const static CGPortCheckPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		return szBYTE + 20;		// PC name
 	}
@@ -122,7 +122,7 @@ class CGPortCheckHandler {
 public:
 
 	// execute packet's handler
-	static void execute(CGPortCheck* pPacket) throw(ProtocolException, Error);
+	static void execute(CGPortCheck* pPacket);
 
 };
 #endif

@@ -21,11 +21,10 @@ extern ClientPlayer*		g_pSocket;
 #endif
 //////////////////////////////////////////////////////////////////////
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡¼­ ¼­¹ö·ÎºÎÅÍ ¸Þ½ÃÁö¸¦ ¹Þ¾ÒÀ»¶§ ½ÇÇàµÇ´Â ¸Þ½îµåÀÌ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 void GCAuthXTrapHandler::execute ( GCAuthXTrap * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -33,7 +32,7 @@ void GCAuthXTrapHandler::execute ( GCAuthXTrap * pPacket , Player * pPlayer )
 
 #if !defined(_DEBUG)
 
-	//MessageBox(NULL, "GCAuthKeyHandler¹ÞÀ½1", "Warning", MB_OK);
+	//MessageBox(NULL, "GCAuthKeyHandlerï¿½ï¿½ï¿½ï¿½1", "Warning", MB_OK);
 
 	CGAuthXTrap SendPack;
 	
@@ -50,7 +49,7 @@ void GCAuthXTrapHandler::execute ( GCAuthXTrap * pPacket , Player * pPlayer )
 		}
 		else
 		{
-			//MessageBox(NULL, "GCAuthKeyHandlerº¸³¿2", "Warning", MB_OK);
+			//MessageBox(NULL, "GCAuthKeyHandlerï¿½ï¿½ï¿½ï¿½2", "Warning", MB_OK);
 		}
 	}
 

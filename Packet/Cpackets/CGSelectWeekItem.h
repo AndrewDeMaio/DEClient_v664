@@ -19,17 +19,17 @@
 class CGSelectWeekItem : public Packet 
 {
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_SELECT_WEEKITEM; }
-	PacketSize_t getPacketSize() const throw() { return szObjectID; }
-	string getPacketName() const throw() { return "CGSelectWeekItem"; }
-	string toString() const throw();
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_SELECT_WEEKITEM; }
+	size_t getPacketSize() const { return szObjectID; }
+	string getPacketName() const { return "CGSelectWeekItem"; }
+	string toString() const;
 
 public:
-	ZoneID_t getSelectID() const throw()  { return m_SelectID; }
-	void setSelectID(ObjectID_t SelectID) throw() { m_SelectID = SelectID; }
+	ZoneID_t getSelectID() const  { return m_SelectID; }
+	void setSelectID(ObjectID_t SelectID) { m_SelectID = SelectID; }
 
 private:
 	ObjectID_t   m_SelectID;
@@ -42,10 +42,10 @@ private:
 
 class CGSelectWeekItemFactory : public PacketFactory 
 {
-	Packet* createPacket() throw() { return new CGSelectWeekItem(); }
-	string getPacketName() const throw() { return "CGSelectWeekItem"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_SELECT_WEEKITEM; }
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID; }
+	Packet* createPacket() { return new CGSelectWeekItem(); }
+	string getPacketName() const { return "CGSelectWeekItem"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_SELECT_WEEKITEM; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -55,7 +55,7 @@ class CGSelectWeekItemFactory : public PacketFactory
 class CGSelectWeekItemHandler 
 {
 public:
-	static void execute(CGSelectWeekItem* pCGSelectWeekItem, Player* pPlayer) throw(Error);
+	static void execute(CGSelectWeekItem* pCGSelectWeekItem, Player* pPlayer);
 };
 
 #endif

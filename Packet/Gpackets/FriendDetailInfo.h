@@ -29,21 +29,21 @@ class FriendDetailInfo {
 public :
 	
 	// constructor
-	FriendDetailInfo () throw ();
+	FriendDetailInfo ();
 	
 	// destructor
-	~FriendDetailInfo () throw ();
+	~FriendDetailInfo ();
 
 public :
 	
-    void read (SocketInputStream & iStream) throw (ProtocolException, Error);
-    void write (SocketOutputStream & oStream) const throw (ProtocolException, Error);
+    void read (SocketInputStream & iStream);
+    void write (SocketOutputStream & oStream) const;
 
-	PacketSize_t getSize () const throw ();
-	static uint getMaxSize() throw();
+	PacketSize_t getSize () const;
+	static uint getMaxSize();
 
 	// get packet's debug string
-	string toString () const throw ();
+	string toString () const;
 	
 	void SetFriendName(const string& strFriendName) { m_FriendName.SetString(strFriendName); }
 	string GetFriendName() const  { return m_FriendName.GetString(); }
@@ -76,7 +76,7 @@ public :
 	int GetContributePoint() const  { return m_ContributePoint; }
 
 private :
-	StringInfo m_FriendName;		// 模备 捞抚
+	StringInfo m_FriendName;		// 模锟斤拷 锟教革拷
 	Rank_t m_Rank;
 	SkillDomainType_t m_SkillDomainType;
 	Level_t m_AdvLevel;

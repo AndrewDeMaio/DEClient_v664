@@ -28,43 +28,43 @@ class GCSweeperBonusInfo : public Packet {
 public :
 
 	// constructor
-	GCSweeperBonusInfo() throw();
+	GCSweeperBonusInfo();
 
 	// destructor
-	~GCSweeperBonusInfo() throw();
+	~GCSweeperBonusInfo();
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_SWEEPER_BONUS_INFO; }
+	PacketID_t getPacketID() const { return PACKET_GC_SWEEPER_BONUS_INFO; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw();
+	size_t getPacketSize() const;
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	std::string getPacketName() const throw() { return "GCSweeperBonusInfo"; }
+	std::string getPacketName() const { return "GCSweeperBonusInfo"; }
 	
 	// get packet's debug string
-	std::string toString() const throw();
+	std::string toString() const;
 #endif
 
 public:
 
-	BYTE getListNum() const throw() { return m_SweeperBonusInfoList.size(); }
+	BYTE getListNum() const { return m_SweeperBonusInfoList.size(); }
 
-	void addSweeperBonusInfo( SweeperBonusInfo* pSweeperBonusInfo ) throw() { m_SweeperBonusInfoList.push_back( pSweeperBonusInfo ); }
+	void addSweeperBonusInfo( SweeperBonusInfo* pSweeperBonusInfo ) { m_SweeperBonusInfoList.push_back( pSweeperBonusInfo ); }
 
-	void clearSweeperBonusInfoList() throw();
+	void clearSweeperBonusInfoList();
 
-	SweeperBonusInfo* popFrontSweeperBonusInfoList() throw()
+	SweeperBonusInfo* popFrontSweeperBonusInfoList()
 	{
 		if ( !m_SweeperBonusInfoList.empty() )
 		{
@@ -95,18 +95,18 @@ class GCSweeperBonusInfoFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet* createPacket() throw() { return new GCSweeperBonusInfo(); }
+	Packet* createPacket() { return new GCSweeperBonusInfo(); }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "GCSweeperBonusInfo"; }
+	std::string getPacketName() const { return "GCSweeperBonusInfo"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_SWEEPER_BONUS_INFO; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_SWEEPER_BONUS_INFO; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCSystemMessagePacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + SweeperBonusInfo::getMaxSize() * 12 ; }
+	// const static GCSystemMessagePacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const { return szBYTE + SweeperBonusInfo::getMaxSize() * 12 ; }
 
 };
 
@@ -122,7 +122,7 @@ class GCSweeperBonusInfoHandler {
 public :
 	
 	// execute packet's handler
-	static void execute(GCSweeperBonusInfo* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCSweeperBonusInfo* pPacket, Player* pPlayer);
 
 };
 

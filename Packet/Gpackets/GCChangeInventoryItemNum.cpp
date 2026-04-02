@@ -2,8 +2,8 @@
 // 
 // Filename    : GCChangeInventoryItemNum.cpp 
 // Written By  : elca@ewestsoft.com
-// Description : ÀÚ½Å¿¡°Ô ¾²´Â ±â¼úÀÇ ¼º°øÀ» ¾Ë¸®±â À§ÇÑ ÆÐÅ¶ Å¬·¡½ºÀÇ
-//               ¸â¹ö Á¤ÀÇ.
+// Description : ï¿½Ú½Å¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//               ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 // 
 //////////////////////////////////////////////////////////////////////
 
@@ -19,7 +19,6 @@
 // constructor
 //////////////////////////////////////////////////////////////////////
 GCChangeInventoryItemNum::GCChangeInventoryItemNum () 
-     throw ()
 {
 	__BEGIN_TRY
 	m_ChangedItemListNum = 0;
@@ -31,7 +30,6 @@ GCChangeInventoryItemNum::GCChangeInventoryItemNum ()
 // destructor
 //////////////////////////////////////////////////////////////////////
 GCChangeInventoryItemNum::~GCChangeInventoryItemNum () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
@@ -39,14 +37,13 @@ GCChangeInventoryItemNum::~GCChangeInventoryItemNum ()
 
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCChangeInventoryItemNum::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
-	// ÃÖÀûÈ­ ÀÛ¾÷½Ã ½ÇÁ¦ Å©±â¸¦ ¸í½ÃÇÏµµ·Ï ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½È­ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	iStream.read( m_ChangedItemListNum );
 
 	int i;
@@ -67,14 +64,14 @@ void GCChangeInventoryItemNum::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCChangeInventoryItemNum::write ( SocketOutputStream & oStream ) 
-     const throw ( ProtocolException , Error )
+     const
 {
 	__BEGIN_TRY
 		
-	// ÃÖÀûÈ­ ÀÛ¾÷½Ã ½ÇÁ¦ Å©±â¸¦ ¸í½ÃÇÏµµ·Ï ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½È­ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	oStream.write( m_ChangedItemListNum );
 
     for ( std::list<ObjectID_t>:: const_iterator itr = m_ChangedItemList.begin(); itr!= m_ChangedItemList.end(); itr++) {
@@ -91,19 +88,18 @@ void GCChangeInventoryItemNum::write ( SocketOutputStream & oStream )
 //
 // GCChangeInventoryItemNum::addListElement()
 // 
-// ( º¯È­ºÎÀ§, º¯È­¼öÄ¡ ) ÀÇ ÇÑ ¼ÂÀ» ¸®½ºÆ®¿¡ ³Ö±â À§ÇÑ ¸â¹ö ÇÔ¼ö. 
+// ( ï¿½ï¿½È­ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½È­ï¿½ï¿½Ä¡ ) ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½. 
 //
 //////////////////////////////////////////////////////////////////////
 void GCChangeInventoryItemNum::addChangedItemListElement( ObjectID_t id, ItemNum_t num)
-	throw()
 {
 	__BEGIN_TRY
 
-	// º¯ÇÏ´Â °ÍÀÌ ¹«¾ùÀÎÁö List¿¡ ³Ö´Â´Ù.
+	// ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Listï¿½ï¿½ ï¿½Ö´Â´ï¿½.
 	m_ChangedItemList.push_back( id);
 	m_ChangedItemNumList.push_back( num);
 
-	// º¯È­ ¼ÂÀÇ °¹¼ö¸¦ ÇÏ³ª Áõ°¡ ½ÃÅ²´Ù.
+	// ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 	m_ChangedItemListNum++;
 
 	__END_CATCH
@@ -117,7 +113,7 @@ void GCChangeInventoryItemNum::addChangedItemListElement( ObjectID_t id, ItemNum
 //////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 	std::string GCChangeInventoryItemNum::toString () 
-		const throw ()
+		const
 	{
 		__BEGIN_TRY
 

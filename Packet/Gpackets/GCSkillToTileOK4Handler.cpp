@@ -15,7 +15,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSkillToTileOK4Handler::execute ( GCSkillToTileOK4 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -23,7 +22,7 @@ void GCSkillToTileOK4Handler::execute ( GCSkillToTileOK4 * pPacket , Player * pP
 
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -31,7 +30,7 @@ void GCSkillToTileOK4Handler::execute ( GCSkillToTileOK4 * pPacket , Player * pP
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
@@ -55,7 +54,7 @@ void GCSkillToTileOK4Handler::execute ( GCSkillToTileOK4 * pPacket , Player * pP
 			skillID = (*g_pActionInfoTable)[skillID].GetActionStep( pPacket->getGrade() - 1);
 
 			//------------------------------------------------------
-		// °á°ú »ý¼º
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		MActionResult* pResult = new MActionResult;
 	
@@ -66,13 +65,13 @@ void GCSkillToTileOK4Handler::execute ( GCSkillToTileOK4 * pPacket , Player * pP
 		for (int i=0; i<size; i++)
 		{
 			//pResult->Add( new MActionResultNodeActionInfo( 
-			//					OBJECTID_NULL,		// »ç¿ëÀÚ ¾ø¾îµµ µÇ´Â°É±î?
+			//					OBJECTID_NULL,		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½îµµ ï¿½Ç´Â°É±ï¿½?
 			//					pPacket->popCListElement(), 
 			//					skillType,
 			//					delayFrame ) );
 			//------------------------------------------------------
 			//
-			// skill¿¡ °á°ú°¡ ÀÖÀ¸¸é Àû¿ë ½ÃÅ²´Ù.
+			// skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 			//
 			//------------------------------------------------------
 			int targetID = pPacket->popCListElement();
@@ -82,7 +81,7 @@ void GCSkillToTileOK4Handler::execute ( GCSkillToTileOK4 * pPacket , Player * pP
 			if (pTargetCreature!=NULL)
 			{
 				//------------------------------------------------------
-				// EffectStatus°¡ ÀÖ´Ù¸é ºÙÀÎ´Ù.
+				// EffectStatusï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 				//------------------------------------------------------
 				EFFECTSTATUS es = (*g_pActionInfoTable)[skillID].GetEffectStatus();
 							
@@ -96,14 +95,14 @@ void GCSkillToTileOK4Handler::execute ( GCSkillToTileOK4 * pPacket , Player * pP
 				switch ((*g_pActionInfoTable)[skillID].GetActionResultID())
 				{
 					//------------------------------------------------------
-					// ´Ù¸¥ ActionInfo ½ÇÇà
+					// ï¿½Ù¸ï¿½ ActionInfo ï¿½ï¿½ï¿½ï¿½
 					//------------------------------------------------------
 					case ACTIONRESULTNODE_ACTIONINFO :
 						if( (*g_pActionInfoTable)[skillID].IsUseActionGrade() )
 						{
 							pActionResultNode =  new MActionResultNodeActionInfo( 
 								(*g_pActionInfoTable)[skillID].GetActionResultValue(),
-								OBJECTID_NULL, // »ç¿ëÀÚ ¾ø´Ù - -;
+								OBJECTID_NULL, // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - -;
 								targetID, 
 								pTargetCreature->GetX(),
 								pTargetCreature->GetY(),
@@ -112,7 +111,7 @@ void GCSkillToTileOK4Handler::execute ( GCSkillToTileOK4 * pPacket , Player * pP
 						{
 							pActionResultNode =  new MActionResultNodeActionInfo( 
 								(*g_pActionInfoTable)[skillID].GetActionResultValue(),
-								OBJECTID_NULL, // »ç¿ëÀÚ ¾ø´Ù - -;
+								OBJECTID_NULL, // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - -;
 								targetID, 
 								pTargetCreature->GetX(),
 								pTargetCreature->GetY(),
@@ -121,14 +120,14 @@ void GCSkillToTileOK4Handler::execute ( GCSkillToTileOK4 * pPacket , Player * pP
 					break;
 
 					//------------------------------------------------------
-					// Burrow µî..
+					// Burrow ï¿½ï¿½..
 					//------------------------------------------------------
 					default :
 						pActionResultNode = CreateActionResultNode(pTargetCreature, skillID);					
 				}
 
 				//------------------------------------------------------
-				// NULLÀÌ ¾Æ´Ï¸é °°ÀÌ Àû¿ë
+				// NULLï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 				//------------------------------------------------------
 				if (pActionResultNode!=NULL)
 				{
@@ -138,7 +137,7 @@ void GCSkillToTileOK4Handler::execute ( GCSkillToTileOK4 * pPacket , Player * pP
 		}
 
 		//------------------------------------------------------
-		// Sector¿¡ ¹Ù·Î Àû¿ë
+		// Sectorï¿½ï¿½ ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		int resultActionInfo = skillID + (*g_pActionInfoTable).GetMinResultActionInfo();
 
@@ -146,7 +145,7 @@ void GCSkillToTileOK4Handler::execute ( GCSkillToTileOK4 * pPacket , Player * pP
 		int direction;
 
 		//------------------------------------------------------
-		// range¸¦ direction¿¡ Àû¿ë½ÃÅ°´Â °æ¿ì
+		// rangeï¿½ï¿½ directionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//------------------------------------------------------
 		if ((*g_pActionInfoTable)[skillID].IsOptionRangeToDirection())
 		{

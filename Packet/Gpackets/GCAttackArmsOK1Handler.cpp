@@ -17,7 +17,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAttackArmsOK1Handler::execute ( GCAttackArmsOK1 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -27,15 +26,15 @@ void GCAttackArmsOK1Handler::execute ( GCAttackArmsOK1 * pPacket , Player * pPla
 	// message
 
 	//------------------------------------------------------------------
-	// Player°¡ SkillÀ» ¼º°ø½ÃÅ² °æ¿ì¿¡ ³¯¾Æ¿À´Â PacketÀÌ¹Ç·Î
-	// °á°ú¸¦ ¹Ý¿µ½ÃÄÑ¾ß ÇÑ´Ù.
+	// Playerï¿½ï¿½ Skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å² ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½Æ¿ï¿½ï¿½ï¿½ Packetï¿½Ì¹Ç·ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½Ñ¾ï¿½ ï¿½Ñ´ï¿½.
 	//------------------------------------------------------------------
-	// »óÅÂ°ªÀ» ¹Ù²Û´Ù.
+	// ï¿½ï¿½ï¿½Â°ï¿½ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 	//------------------------------------------------------------------
 	AffectModifyInfo(g_pPlayer, pPacket);
 
 	//------------------------------------------------------------------
-	// Player°¡ ±â´Ù¸®´ø skillÀÇ ¼º°øÀ¯¹«¸¦ °ËÁõ¹Þ¾Ò´Ù.
+	// Playerï¿½ï¿½ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ skillï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Þ¾Ò´ï¿½.
 	//------------------------------------------------------------------
 	if (g_pPlayer->GetWaitVerify()==MPlayer::WAIT_VERIFY_SKILL_SUCCESS)
 	{		
@@ -47,7 +46,7 @@ void GCAttackArmsOK1Handler::execute ( GCAttackArmsOK1 * pPacket , Player * pPla
 	}
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -55,18 +54,18 @@ void GCAttackArmsOK1Handler::execute ( GCAttackArmsOK1 * pPacket , Player * pPla
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 
-		// Creature¿¡°Ô Damage ÀÔÈû
+		// Creatureï¿½ï¿½ï¿½ï¿½ Damage ï¿½ï¿½ï¿½ï¿½
 		/*
 		if (pCreature != NULL)
 		{
-			// ¹Ù·Î ¸Â´Â µ¿ÀÛ
-			// SKILL_ATTACK_GUN1~4?¿¡ ´ëÇÑ °á°ú¸¦ Ç¥ÇöÇØÁØ´Ù.
+			// ï¿½Ù·ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½
+			// SKILL_ATTACK_GUN1~4?ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 			pCreature->PacketSpecialActionResult( 
 				g_pPlayer->GetBasicActionInfo() + g_ActionInfoTable.GetMinResultActionInfo(),
 				g_pPlayer->GetID(),
@@ -78,11 +77,11 @@ void GCAttackArmsOK1Handler::execute ( GCAttackArmsOK1 * pPacket , Player * pPla
 		*/
 
 		//------------------------------------------------------
-		// ¸ÂÀº °æ¿ì¸¸ ¸ÂÀº µ¿ÀÛÀº º¸ÀÎ´Ù.
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¸¸ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
 		//------------------------------------------------------
 		if (pPacket->getSkillSuccess())
 		{
-			// actionÀÌ ³¡³ª°í ¸Â´Â µ¿ÀÛ
+			// actionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½
 			if (pCreature!=NULL)
 			{
 				MActionResult* pResult = new MActionResult;
@@ -117,7 +116,7 @@ void GCAttackArmsOK1Handler::execute ( GCAttackArmsOK1 * pPacket , Player * pPla
 		}
 					
 		//------------------------------------------------------
-		// ÃÑ¾Ë »©ÁØ´Ù.
+		// ï¿½Ñ¾ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 		//------------------------------------------------------
 		if (g_pCurrentMagazine==NULL)
 		{

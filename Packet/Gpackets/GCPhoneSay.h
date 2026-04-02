@@ -18,9 +18,9 @@
 //
 // class GCPhoneSay;
 //
-// °ÔÀÓ ¼­¹ö°¡ Æ¯Á¤ ÇÃ·¹ÀÌ¾îÀÇ PhoneSay ¸¦ ´Ù¸¥ ÇÃ·¹ÀÌ¾îµé¿¡°Ô ºê·ÎµåÄ³½ºÆ®
-// ÇÒ ¶§ Àü¼ÛÇÏ´Â ÆÐÅ¶ÀÌ´Ù. ³»ºÎ¿¡ Ä³¸¯ÅÍ¸í°ú PhoneSay ½ºÆ®¸µÀ» µ¥ÀÌÅ¸
-// ÇÊµå·Î °¡Áö°í ÀÖ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ PhoneSay ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½é¿¡ï¿½ï¿½ ï¿½ï¿½Îµï¿½Ä³ï¿½ï¿½Æ®
+// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½. ï¿½ï¿½ï¿½Î¿ï¿½ Ä³ï¿½ï¿½ï¿½Í¸ï¿½ï¿½ï¿½ PhoneSay ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸
+// ï¿½Êµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -28,36 +28,36 @@ class GCPhoneSay : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_PHONE_SAY; }
+	PacketID_t getPacketID () const { return PACKET_GC_PHONE_SAY; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () { return szSlotID + szBYTE + m_Message.size(); }
+	size_t getPacketSize () const { return szSlotID + szBYTE + m_Message.size(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCPhoneSay"; }
+		std::string getPacketName () const { return "GCPhoneSay"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 	// get/set SlotID
-	SlotID_t getSlotID() const throw() { return m_SlotID; }
-	void setSlotID( SlotID_t SlotID ) throw() { m_SlotID = SlotID; }
+	SlotID_t getSlotID() const { return m_SlotID; }
+	void setSlotID( SlotID_t SlotID ) { m_SlotID = SlotID; }
 
 	// get/set chatting message
-	const std::string& getMessage () const throw () { return m_Message; }
-	void setMessage ( const std::string & msg ) throw () { m_Message = msg; }
+	const std::string& getMessage () const { return m_Message; }
+	void setMessage ( const std::string & msg ) { m_Message = msg; }
 	
 
 private :
@@ -84,20 +84,20 @@ class GCPhoneSayFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCPhoneSay(); }
+	Packet * createPacket () { return new GCPhoneSay(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCPhoneSay"; }
+		std::string getPacketName () const { return "GCPhoneSay"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_PHONE_SAY; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_PHONE_SAY; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCPhoneSayPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return szSlotID + szBYTE + 128 ; }
+	// const static GCPhoneSayPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return szSlotID + szBYTE + 128 ; }
 
 };
 
@@ -113,7 +113,7 @@ class GCPhoneSayHandler {
 public :
 	
 	// execute packet's handler
-	static void execute ( GCPhoneSay * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCPhoneSay * pPacket , Player * pPlayer );
 
 };
 

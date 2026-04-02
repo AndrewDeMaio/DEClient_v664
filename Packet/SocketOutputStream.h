@@ -54,7 +54,7 @@ public :
 	// 패킷의 크기는 작을 수록 좋다는 정책하에서 필요에 따라서 string size 값을
 	// BYTE 또는 WORD 를 수동으로 사용하도록 한다.
 	uint write ( const char * buf , uint len );
-	uint write ( const std::string & buf ) { return write(buf.c_str(),buf.size()); }
+	uint write(const std::string& buf) { return write(buf.c_str(), static_cast<uint>(buf.size())); }
 	void write ( const Packet * pPacket );
 	
     uint write ( bool   buf ) { return write( (const char*)&buf, szbool   ); }
@@ -66,6 +66,7 @@ public :
     uint write ( uint   buf ) { return write( (const char*)&buf, szuint   ); }
     uint write ( long   buf ) { return write( (const char*)&buf, szlong   ); }
     uint write ( ulong  buf ) { return write( (const char*)&buf, szulong  ); }
+	uint write ( size_t buf ) { return write( (const char*)&buf, sizeof(size_t)   ); }
 
 	// flush stream (output buffer) to socket
 	uint flush ();

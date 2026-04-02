@@ -7,21 +7,18 @@
 #include "CGResurrect.h"
 
 void CGResurrect::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 		    
 void CGResurrect::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGResurrect::execute ( Player * pPlayer ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -34,7 +31,7 @@ void CGResurrect::execute ( Player * pPlayer )
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGResurrect::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 

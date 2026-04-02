@@ -14,7 +14,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCTakeOffHandler::execute ( GCTakeOff * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -22,11 +21,11 @@ void GCTakeOffHandler::execute ( GCTakeOff * pPacket , Player * pPlayer )
 
 	//------------------------------------------------------
 	//
-	//  CreatureÀÇ AddonÀ» Á¦°ÅÇÑ´Ù.
+	//  Creatureï¿½ï¿½ Addonï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//
 	//------------------------------------------------------
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -34,28 +33,28 @@ void GCTakeOffHandler::execute ( GCTakeOff * pPacket , Player * pPlayer )
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 
 		//--------------------------------------------------
-		// Creature°¡ ¾ø´Â °æ¿ì
+		// Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		if (pCreature==NULL)
 		{
 			DEBUG_ADD_FORMAT("[Error] Not Exist Creature. ID=%d", pPacket->getObjectID());
 		}
 		//--------------------------------------------------
-		// Á¸ÀçÇÏ´Â CreatureÀÎ °æ¿ì
-		// º¹ÀåÀÌ ÀÖ´Â creatureÀÌ¸é --> AddonÁ¦°Å
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ creatureï¿½Ì¸ï¿½ --> Addonï¿½ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		else if (pCreature->IsWear())
 		{
 			MCreatureWear* pCreatureWear = (MCreatureWear*)pCreature;
 			
-			// Ä³¸¯ÅÍ¸¦ Á¤Áö½ÃÅ²´Ù.
+			// Ä³ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
 			pCreatureWear->SetStop();
 
 			#ifdef	OUTPUT_DEBUG				
@@ -74,7 +73,7 @@ void GCTakeOffHandler::execute ( GCTakeOff * pPacket , Player * pPlayer )
 		}
 			
 		//--------------------------------------------------
-		// ¿ÊÀ» ÀÔÀ» ¼ö ¾ø´Â CreatureÀÎ °æ¿ì
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½
 		//--------------------------------------------------
 		else 
 		{

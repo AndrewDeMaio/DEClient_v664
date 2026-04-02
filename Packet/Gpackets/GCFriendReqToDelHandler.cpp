@@ -7,10 +7,10 @@
 //----------------------------------------------------------------------
 
 // include files
+//#include "VS_UI_Friend_System.h"
+
 #include "GPacket_PCH.h"
 #include "GCFriendReqToDel.h"
-#include "VS_UI_Friend_System.h"
-
 #include "Assert.h"
 
 #ifdef __GAME_SERVER__
@@ -19,7 +19,6 @@
 
 #if __CONTENTS(__FRIEND_ADDITION)
 void GCFriendReqToDelHandler::execute ( GCFriendReqToDel* pPacket, Player* pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -30,7 +29,7 @@ void GCFriendReqToDelHandler::execute ( GCFriendReqToDel* pPacket, Player* pPlay
 		
 	if (pPacket)
 	{
-		// Ä£±¸ ´ë±âÀÚ Ã¢À» °¡Áö°í ¿Â´Ù. ¾øÀ» °æ¿ì »ý¼º
+		// Ä£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		C_VS_UI_FRIEND_WAIT* pFriend = (C_VS_UI_FRIEND_WAIT*)gpC_window_manager->GetWindowbyName("FriendWaitList");
 		if (!pFriend)
 		{
@@ -38,7 +37,7 @@ void GCFriendReqToDelHandler::execute ( GCFriendReqToDel* pPacket, Player* pPlay
 			pFriend->SetWindowName("FriendWaitList");
 		}
 
-		// ´ë±â ÁßÀÎ Ä£±¸ ¸ñ·Ï¿¡¼­ ÇØ´ç Ä£±¸¸¦ »èÁ¦ÇÑ´Ù.
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä£ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½Ø´ï¿½ Ä£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		int index = pFriend->GetListView()->GetItemIndexByName(pPacket->getPCName().c_str());
 		if (index != -1)
 		{

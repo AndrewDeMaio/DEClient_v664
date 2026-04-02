@@ -1,9 +1,9 @@
 //--------------------------------------------------------------------------------
 // 
 // Filename    : GCShopSellFail.h 
-// Written By  : ±è¼º¹Î
-// Description : ÇÃ·¹ÀÌ¾î°¡ NPC¿¡°Ô ¹°°ÇÀ» ÆÈ·Á°í Çß´Âµ¥, ¾î¶² ÀÌÀ¯·Î 
-//               ½ÇÆÐÇßÀ» °æ¿ì¿¡´Â ÀÌ ÆÐÅ¶À» ÇÃ·¹ÀÌ¾î¿¡°Ô º¸³»ÁØ´Ù.
+// Written By  : ï¿½è¼ºï¿½ï¿½
+// Description : ï¿½Ã·ï¿½ï¿½Ì¾î°¡ NPCï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È·ï¿½ï¿½ï¿½ ï¿½ß´Âµï¿½, ï¿½î¶² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+//               ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 // 
 //--------------------------------------------------------------------------------
 
@@ -26,38 +26,38 @@ class GCShopSellFail : public Packet
 
 public :
 
-	GCShopSellFail() throw ();
-	virtual ~GCShopSellFail() throw ();
+	GCShopSellFail();
+	virtual ~GCShopSellFail();
 	
-	// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-	void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+	// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+	void read ( SocketInputStream & iStream );
 		    
-	// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-	void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+	// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_SHOP_SELL_FAIL; }
+	PacketID_t getPacketID () const { return PACKET_GC_SHOP_SELL_FAIL; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () { return szObjectID;}
+	size_t getPacketSize () const { return szObjectID;}
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCShopSellFail"; }
+		std::string getPacketName () const { return "GCShopSellFail"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 
 public :
 
 	// get/set NPC's object id
-	ObjectID_t getObjectID () const throw () { return m_ObjectID; }
-	void setObjectID ( ObjectID_t creatureID ) throw () { m_ObjectID = creatureID; }
+	ObjectID_t getObjectID () const { return m_ObjectID; }
+	void setObjectID ( ObjectID_t creatureID ) { m_ObjectID = creatureID; }
 
 
 private :
@@ -82,20 +82,20 @@ class GCShopSellFailFactory : public PacketFactory
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCShopSellFail(); }
+	Packet * createPacket () { return new GCShopSellFail(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCShopSellFail"; }
+		std::string getPacketName () const { return "GCShopSellFail"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_SHOP_SELL_FAIL; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_SHOP_SELL_FAIL; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCShopSellFailPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize () const throw () { return szObjectID; }
+	// const static GCShopSellFailPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize () const { return szObjectID; }
 
 };
 
@@ -112,7 +112,7 @@ class GCShopSellFailHandler
 public :
 	
 	// execute packet's handler
-	static void execute ( GCShopSellFail * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+	static void execute ( GCShopSellFail * pPacket , Player * pPlayer );
 
 };
 

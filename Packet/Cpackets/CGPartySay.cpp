@@ -7,21 +7,18 @@
 #include "CGPartySay.h"
 
 CGPartySay::CGPartySay () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 CGPartySay::~CGPartySay () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGPartySay::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -34,7 +31,6 @@ void CGPartySay::read (SocketInputStream & iStream)
 }
 		    
 void CGPartySay::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -47,7 +43,6 @@ void CGPartySay::write (SocketOutputStream & oStream) const
 }
 
 void CGPartySay::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__
@@ -61,7 +56,6 @@ void CGPartySay::execute (Player* pPlayer)
 //////////////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 string CGPartySay::toString () const
-    throw ()
 {
 	__BEGIN_TRY
 		

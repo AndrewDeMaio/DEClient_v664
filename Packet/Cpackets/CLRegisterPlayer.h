@@ -18,8 +18,8 @@
 //
 // class CLRegisterPlayer;
 //
-// Å¬¶óÀÌ¾ðÆ®°¡ ·Î±×ÀÎ ¼­¹ö¿¡°Ô ÃÖÃÊ¿¡ Àü¼ÛÇÏ´Â ÆÐÅ¶ÀÌ´Ù.
-// ¾ÆÀÌµð¿Í ÆÐ½º¿öµå°¡ ¾ÏÈ£È­µÇ¾î ÀÖ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
+// ï¿½ï¿½ï¿½Ìµï¿½ï¿½ ï¿½Ð½ï¿½ï¿½ï¿½ï¿½å°¡ ï¿½ï¿½È£È­ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -27,141 +27,141 @@ class CLRegisterPlayer : public Packet {
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_CL_REGISTER_PLAYER; }
+	PacketID_t getPacketID () const { return PACKET_CL_REGISTER_PLAYER; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw ()
+	size_t getPacketSize () const
 	{
-		// ÃÖÀûÈ­½Ã ¹Ì¸® °è»êµÈ »ó¼ö¸¦ »ç¿ëÇÏµµ·Ï ÇÑ´Ù.
-		return    szBYTE + m_ID.size() 			// ¾ÆÀÌµð
-				+ szBYTE + m_Password.size() 	// ¾ÏÈ£
-				+ szBYTE + m_Name.size() 		// ÀÌ¸§
-				+ szBYTE						// ¼ºº°
-				+ szBYTE + m_SSN.size() 		// ÁÖ¹Îµî·Ï¹øÈ£
-				+ szBYTE + m_Telephone.size() 	// ÀüÈ­¹øÈ£
-				+ szBYTE + m_Cellular.size() 	// ÈÞ´ëÆù¹øÈ£
-				+ szBYTE + m_ZipCode.size() 	// ¿ìÆí¹øÈ£
-				+ szBYTE + m_Address.size() 	// ÁÖ¼Ò
-				+ szBYTE 						// ±¹°¡ÄÚµå
-				+ szBYTE + m_Email.size() 		// ÀüÀÚ¸ÞÀÏ
-				+ szBYTE + m_Homepage.size() 	// È¨ÆäÀÌÁö
-				+ szBYTE + m_Profile.size() 	// ÀÚ±â¼Ò°³±Û
-				+ szBYTE;						// °ø°³¿©ºÎ
+		// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+		return    szBYTE + m_ID.size() 			// ï¿½ï¿½ï¿½Ìµï¿½
+				+ szBYTE + m_Password.size() 	// ï¿½ï¿½È£
+				+ szBYTE + m_Name.size() 		// ï¿½Ì¸ï¿½
+				+ szBYTE						// ï¿½ï¿½ï¿½ï¿½
+				+ szBYTE + m_SSN.size() 		// ï¿½Ö¹Îµï¿½Ï¹ï¿½È£
+				+ szBYTE + m_Telephone.size() 	// ï¿½ï¿½È­ï¿½ï¿½È£
+				+ szBYTE + m_Cellular.size() 	// ï¿½Þ´ï¿½ï¿½ï¿½ï¿½ï¿½È£
+				+ szBYTE + m_ZipCode.size() 	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+				+ szBYTE + m_Address.size() 	// ï¿½Ö¼ï¿½
+				+ szBYTE 						// ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
+				+ szBYTE + m_Email.size() 		// ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½
+				+ szBYTE + m_Homepage.size() 	// È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				+ szBYTE + m_Profile.size() 	// ï¿½Ú±ï¿½Ò°ï¿½ï¿½ï¿½
+				+ szBYTE;						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	}
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	std::string getPacketName () const throw () { return "CLRegisterPlayer"; }
+	std::string getPacketName () const { return "CLRegisterPlayer"; }
 	
 	// get packet's debug string
-	std::string toString () const throw ();
+	std::string toString () const;
 #endif
 
 public :
 
 	//----------------------------------------------------------------------
 	// *CAUTION* 
-	// °¢ setXXX()µéÀº ÃÖ´ë ±æÀÌ¸¦ Ã¼Å©ÇØ¼­ truncate ÇÏÁö¸¸, ÃÖ¼Ò±æÀÌ´Â 
-	// Ã¼Å©ÇÏÁö ¾Ê´Â´Ù. ÃÖ¼Ò ±æÀÌ´Â read()/write() ¿¡¼­ Ã¼Å©µÈ´Ù. 
+	// ï¿½ï¿½ setXXX()ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ Ã¼Å©ï¿½Ø¼ï¿½ truncate ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ö¼Ò±ï¿½ï¿½Ì´ï¿½ 
+	// Ã¼Å©ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½. ï¿½Ö¼ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ read()/write() ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½È´ï¿½. 
 	//----------------------------------------------------------------------
 
     // get/set player's id
-	const std::string& getID () const throw () { return m_ID; }
-	void setID ( std::string id ) throw () { m_ID = ( id.size() > PlayerInfo::maxIDLength ) ? id.substr(0,PlayerInfo::maxIDLength) : id; }
+	const std::string& getID () const { return m_ID; }
+	void setID ( std::string id ) { m_ID = ( id.size() > PlayerInfo::maxIDLength ) ? id.substr(0,PlayerInfo::maxIDLength) : id; }
 
     // get/set player's password
-    const std::string& getPassword () const throw () { return m_Password; }
-    void setPassword ( std::string password ) throw () { m_Password = ( password.size() > PlayerInfo::maxPasswordLength ) ? password.substr(0,PlayerInfo::maxPasswordLength) : password; }
+    const std::string& getPassword () const { return m_Password; }
+    void setPassword ( std::string password ) { m_Password = ( password.size() > PlayerInfo::maxPasswordLength ) ? password.substr(0,PlayerInfo::maxPasswordLength) : password; }
 
     // get/set player's name
-    const std::string& getName () const throw () { return m_Name; }
-    void setName ( std::string name ) throw () { m_Name = ( name.size() > PlayerInfo::maxNameLength ) ? name.substr(0,PlayerInfo::maxNameLength) : name; }
+    const std::string& getName () const { return m_Name; }
+    void setName ( std::string name ) { m_Name = ( name.size() > PlayerInfo::maxNameLength ) ? name.substr(0,PlayerInfo::maxNameLength) : name; }
 
     // get/set player's sex
-    Sex getSex () const throw () { return m_Sex; }
-    void setSex ( Sex sex ) throw () { m_Sex = sex; }
+    Sex getSex () const { return m_Sex; }
+    void setSex ( Sex sex ) { m_Sex = sex; }
 
     // get/set player's ssn
-    const std::string& getSSN () const throw () { return m_SSN; }
-    void setSSN ( std::string ssn ) throw () { m_SSN = ( ssn.size() > PlayerInfo::maxSSNLength ) ? ssn.substr(0,PlayerInfo::maxSSNLength) : ssn; }
+    const std::string& getSSN () const { return m_SSN; }
+    void setSSN ( std::string ssn ) { m_SSN = ( ssn.size() > PlayerInfo::maxSSNLength ) ? ssn.substr(0,PlayerInfo::maxSSNLength) : ssn; }
 
     // get/set player's telephone
-    const std::string& getTelephone () const throw () { return m_Telephone; }
-    void setTelephone ( std::string telephone ) throw () { m_Telephone = ( telephone.size() > PlayerInfo::maxTelephoneLength ) ? telephone.substr(0,PlayerInfo::maxTelephoneLength) : telephone; }
+    const std::string& getTelephone () const { return m_Telephone; }
+    void setTelephone ( std::string telephone ) { m_Telephone = ( telephone.size() > PlayerInfo::maxTelephoneLength ) ? telephone.substr(0,PlayerInfo::maxTelephoneLength) : telephone; }
 
     // get/set player's cellular
-    const std::string& getCellular () const throw () { return m_Cellular; }
-    void setCellular ( std::string cellular ) throw () { m_Cellular = ( cellular.size() > PlayerInfo::maxCellularLength ) ? cellular.substr(0,PlayerInfo::maxCellularLength) : cellular; }
+    const std::string& getCellular () const { return m_Cellular; }
+    void setCellular ( std::string cellular ) { m_Cellular = ( cellular.size() > PlayerInfo::maxCellularLength ) ? cellular.substr(0,PlayerInfo::maxCellularLength) : cellular; }
 
     // get/set player's zipcode
-    const std::string& getZipCode () const throw () { return m_ZipCode; }
-    void setZipCode ( std::string zipcode ) throw () { m_ZipCode = ( zipcode.size() > PlayerInfo::maxZipCodeLength ) ? zipcode.substr(0,PlayerInfo::maxZipCodeLength) : zipcode; }
+    const std::string& getZipCode () const { return m_ZipCode; }
+    void setZipCode ( std::string zipcode ) { m_ZipCode = ( zipcode.size() > PlayerInfo::maxZipCodeLength ) ? zipcode.substr(0,PlayerInfo::maxZipCodeLength) : zipcode; }
 
     // get/set player's address
-    const std::string& getAddress () const throw () { return m_Address; }
-    void setAddress ( std::string address ) throw () { m_Address = ( address.size() > PlayerInfo::maxAddressLength ) ? address.substr(0,PlayerInfo::maxAddressLength) : address; }
+    const std::string& getAddress () const { return m_Address; }
+    void setAddress ( std::string address ) { m_Address = ( address.size() > PlayerInfo::maxAddressLength ) ? address.substr(0,PlayerInfo::maxAddressLength) : address; }
 
     // get/set player's nation
-    Nation getNation () const throw () { return m_Nation; }
-    void setNation ( Nation nation ) throw () { m_Nation = nation; }
+    Nation getNation () const { return m_Nation; }
+    void setNation ( Nation nation ) { m_Nation = nation; }
 
     // get/set player's email
-    const std::string& getEmail () const throw () { return m_Email; }
-    void setEmail ( std::string email ) throw () { m_Email = ( email.size() > PlayerInfo::maxEmailLength ) ? email.substr(0,PlayerInfo::maxEmailLength) : email; }
+    const std::string& getEmail () const { return m_Email; }
+    void setEmail ( std::string email ) { m_Email = ( email.size() > PlayerInfo::maxEmailLength ) ? email.substr(0,PlayerInfo::maxEmailLength) : email; }
 
     // get/set player's homepage
-    const std::string& getHomepage () const throw () { return m_Homepage; }
-    void setHomepage ( std::string homepage ) throw () { m_Homepage = ( homepage.size() > PlayerInfo::maxHomepageLength ) ? homepage.substr(0,PlayerInfo::maxHomepageLength) : homepage; }
+    const std::string& getHomepage () const { return m_Homepage; }
+    void setHomepage ( std::string homepage ) { m_Homepage = ( homepage.size() > PlayerInfo::maxHomepageLength ) ? homepage.substr(0,PlayerInfo::maxHomepageLength) : homepage; }
 
     // get/set player's profile
-    const std::string& getProfile () const throw () { return m_Profile; }
-    void setProfile ( std::string profile ) throw () { m_Profile = ( profile.size() > PlayerInfo::maxProfileLength ) ? profile.substr(0,PlayerInfo::maxProfileLength) : profile; }
+    const std::string& getProfile () const { return m_Profile; }
+    void setProfile ( std::string profile ) { m_Profile = ( profile.size() > PlayerInfo::maxProfileLength ) ? profile.substr(0,PlayerInfo::maxProfileLength) : profile; }
 
 	// get/set player info's publicability (?) 
-	bool getPublic () const throw () { return m_bPublic; }
-	void setPublic ( bool bPublic ) throw () { m_bPublic = bPublic; }
+	bool getPublic () const { return m_bPublic; }
+	void setPublic ( bool bPublic ) { m_bPublic = bPublic; }
 
 private :
 
 	//--------------------------------------------------
-	// ÇÃ·¹ÀÌ¾î ±âº» Á¤º¸
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½âº» ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
-    std::string m_ID; 			// ¾ÆÀÌµð
-    std::string m_Password; 		// ÆÐ½º¿öµå
+    std::string m_ID; 			// ï¿½ï¿½ï¿½Ìµï¿½
+    std::string m_Password; 		// ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
-	// ÇÃ·¹ÀÌ¾î °³ÀÎ Á¤º¸
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
-    std::string m_Name; 			// ÀÌ¸§
-    Sex m_Sex; 				// ¼ºº°
-    std::string m_SSN; 			// ÁÖ¹Îµî·Ï¹øÈ£
+    std::string m_Name; 			// ï¿½Ì¸ï¿½
+    Sex m_Sex; 				// ï¿½ï¿½ï¿½ï¿½
+    std::string m_SSN; 			// ï¿½Ö¹Îµï¿½Ï¹ï¿½È£
 	//--------------------------------------------------
-	// ÇÃ·¹ÀÌ¾î ¿¬¶ôÃ³/ÁÖ¼Ò
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³/ï¿½Ö¼ï¿½
 	//--------------------------------------------------
-    std::string m_Telephone; 	// ÀüÈ­¹øÈ£
-    std::string m_Cellular; 		// ÇÚµåÆù
-    std::string m_ZipCode; 		// ¿ìÆí¹øÈ£
-    std::string m_Address; 		// ÁÖ¼Ò
-    Nation m_Nation; 		// ±¹°¡ ÄÚµå
+    std::string m_Telephone; 	// ï¿½ï¿½È­ï¿½ï¿½È£
+    std::string m_Cellular; 		// ï¿½Úµï¿½ï¿½ï¿½
+    std::string m_ZipCode; 		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+    std::string m_Address; 		// ï¿½Ö¼ï¿½
+    Nation m_Nation; 		// ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 	//--------------------------------------------------
-	// ÇÃ·¹ÀÌ¾î ÀüÀÚÁ¤º¸
+	// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
-    std::string m_Email; 		// ÀüÀÚ¸ÞÀÏ
-    std::string m_Homepage; 		// È¨ÆäÀÌÁö
+    std::string m_Email; 		// ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½
+    std::string m_Homepage; 		// È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//--------------------------------------------------
-	// ±âÅ¸ 
+	// ï¿½ï¿½Å¸ 
 	//--------------------------------------------------
-    std::string m_Profile; 		// ÇÏ°íÇÂ¸»
-	bool m_bPublic; 		// °ø°³ ¿©ºÎ
+    std::string m_Profile; 		// ï¿½Ï°ï¿½ï¿½Â¸ï¿½
+	bool m_bPublic; 		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 };
 
@@ -179,32 +179,32 @@ class CLRegisterPlayerFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new CLRegisterPlayer(); }
+	Packet * createPacket () { return new CLRegisterPlayer(); }
 
 	// get packet name
-	std::string getPacketName () const throw () { return "CLRegisterPlayer"; }
+	std::string getPacketName () const { return "CLRegisterPlayer"; }
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_CL_REGISTER_PLAYER; }
+	PacketID_t getPacketID () const { return Packet::PACKET_CL_REGISTER_PLAYER; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize () const throw ()
+	PacketSize_t getPacketMaxSize () const
 	{
-		// ÃÖÀûÈ­½Ã ¹Ì¸® °è»êµÈ »ó¼ö¸¦ »ç¿ëÇÏµµ·Ï ÇÑ´Ù.
-		return    szBYTE + PlayerInfo::maxIDLength 			// ¾ÆÀÌµð
-				+ szBYTE + PlayerInfo::maxPasswordLength 	// ÆÐ½º¿öµå
-				+ szBYTE + PlayerInfo::maxNameLength 		// ÀÌ¸§
-				+ szBYTE									// ¼ºº°
-				+ szBYTE + PlayerInfo::maxSSNLength 		// ÁÖ¹Îµî·Ï¹øÈ£
-				+ szBYTE + PlayerInfo::maxTelephoneLength 	// ÀüÈ­¹øÈ£
-				+ szBYTE + PlayerInfo::maxCellularLength 	// ÈÞ´ëÆù¹øÈ£
-				+ szBYTE + PlayerInfo::maxZipCodeLength 	// ¿ìÆí¹øÈ£
-				+ szBYTE + PlayerInfo::maxAddressLength 	// ÁÖ¼Ò
-				+ szBYTE 									// ±¹°¡ÄÚµå
-				+ szBYTE + PlayerInfo::maxEmailLength 		// ÀüÀÚ¸ÞÀÏ
-				+ szBYTE + PlayerInfo::maxHomepageLength 	// È¨ÆäÀÌÁö
-				+ szBYTE + PlayerInfo::maxProfileLength 	// ÀÚ±â¼Ò°³
-				+ szBYTE;									// °ø°³¿©ºÎ
+		// ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+		return    szBYTE + PlayerInfo::maxIDLength 			// ï¿½ï¿½ï¿½Ìµï¿½
+				+ szBYTE + PlayerInfo::maxPasswordLength 	// ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½
+				+ szBYTE + PlayerInfo::maxNameLength 		// ï¿½Ì¸ï¿½
+				+ szBYTE									// ï¿½ï¿½ï¿½ï¿½
+				+ szBYTE + PlayerInfo::maxSSNLength 		// ï¿½Ö¹Îµï¿½Ï¹ï¿½È£
+				+ szBYTE + PlayerInfo::maxTelephoneLength 	// ï¿½ï¿½È­ï¿½ï¿½È£
+				+ szBYTE + PlayerInfo::maxCellularLength 	// ï¿½Þ´ï¿½ï¿½ï¿½ï¿½ï¿½È£
+				+ szBYTE + PlayerInfo::maxZipCodeLength 	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
+				+ szBYTE + PlayerInfo::maxAddressLength 	// ï¿½Ö¼ï¿½
+				+ szBYTE 									// ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
+				+ szBYTE + PlayerInfo::maxEmailLength 		// ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½
+				+ szBYTE + PlayerInfo::maxHomepageLength 	// È¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				+ szBYTE + PlayerInfo::maxProfileLength 	// ï¿½Ú±ï¿½Ò°ï¿½
+				+ szBYTE;									// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	}
 
 
@@ -224,7 +224,7 @@ public :
 	public :
 
 		// execute packet's handler
-		static void execute ( CLRegisterPlayer * pPacket , Player * pPlayer ) throw ( ProtocolException , Error );
+		static void execute ( CLRegisterPlayer * pPacket , Player * pPlayer );
 
 	};
 #endif

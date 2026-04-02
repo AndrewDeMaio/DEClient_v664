@@ -23,16 +23,16 @@
 #include "RideMotorcycleInfo.h"
 #include "NPCInfo.h"
 
-#define FLAG_PREMIUM_ZONE			0x10	// premiumÀ¸·Î ¼³Á¤µÈ Á¸ÀÌ´Ù.
-#define FLAG_PREMIUM_PLAY			0x01	// premium play¸¦ ÇÏ´Â ÁßÀÎ°¡?
+#define FLAG_PREMIUM_ZONE			0x10	// premiumï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
+#define FLAG_PREMIUM_PLAY			0x01	// premium playï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Î°ï¿½?
 
 //--------------------------------------------------------------------------------
 //
 // class GCNPCInfo;
 //
-// Å¬¶óÀÌ¾ðÆ®°¡ °ÔÀÓ ¼­¹ö¿¡ Á¢¼ÓÇØ¼­ CGConnect ÆÐÅ¶À» º¸³»¸é, °ÔÀÓ ¼­¹ö´Â Å©¸®Ã³¿Í
-// ¼ÒÀ¯ ¾ÆÀÌÅÛÀ» ·ÎµùÇØ¼­ Á¸¿¡ µé¾î°¥ ÁØºñ¸¦ ÇÏ°Ô µÈ´Ù. ±×´ÙÀ½ PC¿Í ¾ÆÀÌÅÛ Á¤º¸,
-// ±×¸®°í Á¸ Á¤º¸¸¦ GCNPCInfo¿¡ ´ã¾Æ¼­ Å¬¶óÀÌ¾ðÆ®·Î Àü¼ÛÇÏ°Ô µÈ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ CGConnect ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½Ã³ï¿½ï¿½
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¥ ï¿½Øºï¿½ ï¿½Ï°ï¿½ ï¿½È´ï¿½. ï¿½×´ï¿½ï¿½ï¿½ PCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½,
+// ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ GCNPCInfoï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½È´ï¿½.
 //
 //--------------------------------------------------------------------------------
 
@@ -41,25 +41,25 @@ class GCNPCInfo : public Packet {
 public :
 
 	// constructor
-	GCNPCInfo() throw();
+	GCNPCInfo();
 
 	// destructor
-	~GCNPCInfo() throw();
+	~GCNPCInfo();
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_NPC_INFO; }
+	PacketID_t getPacketID() const { return PACKET_GC_NPC_INFO; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize() const throw() 
+	size_t getPacketSize() const 
 	{ 
 		PacketSize_t size = 0;
 
@@ -76,10 +76,10 @@ public :
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet name
-	std::string getPacketName() const throw() { return "GCNPCInfo"; }
+	std::string getPacketName() const { return "GCNPCInfo"; }
 	
 	// get packet's debug std::string
-	std::string toString() const throw();
+	std::string toString() const;
 #endif
 
 
@@ -95,7 +95,7 @@ public :
 // data members
 //--------------------------------------------------
 private :
-	// ÇöÀç Á¸¿¡ Á¸ÀçÇÏ´Â NPCµé¿¡ ´ëÇÑ Á¤º¸
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ NPCï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	std::list<NPCInfo*> m_NPCInfos;
 };
 
@@ -113,18 +113,18 @@ class GCNPCInfoFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet* createPacket() throw() { return new GCNPCInfo(); }
+	Packet* createPacket() { return new GCNPCInfo(); }
 
 	// get packet name
-	std::string getPacketName() const throw() { return "GCNPCInfo"; }
+	std::string getPacketName() const { return "GCNPCInfo"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_NPC_INFO; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_NPC_INFO; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCNPCInfoPacketMaxSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() 
+	// const static GCNPCInfoPacketMaxSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		PacketSize_t size = 0;
 
@@ -149,7 +149,7 @@ class GCNPCInfoHandler {
 public :
 
 	// execute packet's handler
-	static void execute(GCNPCInfo* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCNPCInfo* pPacket, Player* pPlayer);
 
 };
 

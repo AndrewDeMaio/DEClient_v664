@@ -1,10 +1,10 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCShopList.cpp 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description :
-// ÇÃ·¹ÀÌ¾î°¡ °¡Áø »óÁ¡ ¹öÀüÀÌ ¼­¹ö¿¡ ÀÖ´Â °Í°ú ´Ù¸¦ °æ¿ì,
-// ÇÃ·¹ÀÌ¾î´Â ¼­¹ö¿¡ »óÁ¡¿¡ ÀÖ´Â »óÇ° ¸ñ·ÏÀ» ¿ä±¸ÇÏ°Ô µÈ´Ù.
-// ÀÌ ÆÐÅ¶Àº ±× ¶§ ÇÃ·¹ÀÌ¾î¿¡°Ô Àü´ÞÇÏ°Ô µÇ´Â ÆÐÅ¶ÀÌ´Ù.
+// ï¿½Ã·ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Í°ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½,
+// ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ä±¸ï¿½Ï°ï¿½ ï¿½È´ï¿½.
+// ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾î¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 
 #include "GPacket_PCH.h"
@@ -15,13 +15,12 @@
 //////////////////////////////////////////////////////////////////////////////
 // constructor
 //////////////////////////////////////////////////////////////////////////////
-GCShopList::GCShopList() 
-	throw ()
+GCShopList::GCShopList()
 {
-	__BEGIN_TRY 
+	__BEGIN_TRY
 
-	for (int i=0; i<SHOP_RACK_INDEX_MAX; i++)
-		m_pBuffer[i].bExist = false;
+		for (int i = 0; i < SHOP_RACK_INDEX_MAX; i++)
+			m_pBuffer[i].bExist = false;
 
 	m_ShopType = 0;
 
@@ -31,26 +30,24 @@ GCShopList::GCShopList()
 //////////////////////////////////////////////////////////////////////////////
 // destructor
 //////////////////////////////////////////////////////////////////////////////
-GCShopList::~GCShopList() 
-	throw ()
+GCShopList::~GCShopList()
 {
-	__BEGIN_TRY 
-	__END_CATCH;
+	__BEGIN_TRY
+		__END_CATCH;
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
-void GCShopList::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
+void GCShopList::read(SocketInputStream& iStream)
 {
 	__BEGIN_TRY
 
 
-	BYTE i = 0;
+		BYTE i = 0;
 	BYTE nTotal = 0;
 	BYTE index = 0;
-	
+
 	// read NPC id & version & rack type & number of item
 	iStream.read(m_ObjectID);
 	iStream.read(m_Version);
@@ -58,30 +55,30 @@ void GCShopList::read (SocketInputStream & iStream)
 	iStream.read(nTotal);
 
 	// read each item info
-	for (i=0; i<nTotal; i++)
+	for (i = 0; i < nTotal; i++)
 	{
 		iStream.read(index);
 
 		_SHOPLISTITEM& item = m_pBuffer[index];
-		
+
 		iStream.read(item.objectID);
 		iStream.read(item.itemClass);
 		iStream.read(item.itemType);
 
 		BYTE optionSize;
 		iStream.read(optionSize);
-		for (int j=0; j<optionSize; j++)
+		for (int j = 0; j < optionSize; j++)
 		{
 			OptionType_t optionType;
 			iStream.read(optionType);
-			item.optionType.push_back( optionType );
+			item.optionType.push_back(optionType);
 		}
 
 		iStream.read(item.durability);
 		iStream.read(item.silver);
 		iStream.read(item.grade);
 		iStream.read(item.enchantLevel);
-		
+
 		m_pBuffer[index].bExist = true;
 	}
 
@@ -92,22 +89,21 @@ void GCShopList::read (SocketInputStream & iStream)
 	__END_CATCH
 }
 
-		    
+
 //////////////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////////////
-void GCShopList::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
+void GCShopList::write(SocketOutputStream& oStream) const
 {
 	__BEGIN_TRY
-		
-	BYTE i = 0;
+
+		BYTE i = 0;
 	BYTE nTotal = 0;
-	
+
 	// calculate total number of items
-	for (i=0; i<SHOP_RACK_INDEX_MAX; i++)
+	for (i = 0; i < SHOP_RACK_INDEX_MAX; i++)
 		if (m_pBuffer[i].bExist) nTotal++;
-		
+
 	// write NPC id & version & rack type & number of item
 	oStream.write(m_ObjectID);
 	oStream.write(m_Version);
@@ -115,7 +111,7 @@ void GCShopList::write (SocketOutputStream & oStream) const
 	oStream.write(nTotal);
 
 	// write each item info
-	for (i=0; i<SHOP_RACK_INDEX_MAX; i++)
+	for (i = 0; i < SHOP_RACK_INDEX_MAX; i++)
 	{
 		const _SHOPLISTITEM& item = m_pBuffer[i];
 
@@ -130,7 +126,7 @@ void GCShopList::write (SocketOutputStream & oStream) const
 			oStream.write(optionSize);
 
 			std::list<OptionType_t>::const_iterator itr;
-			for (itr=item.optionType.begin(); itr!=item.optionType.end(); itr++)
+			for (itr = item.optionType.begin(); itr != item.optionType.end(); itr++)
 			{
 				OptionType_t optionType = *itr;
 				oStream.write(optionType);
@@ -146,19 +142,18 @@ void GCShopList::write (SocketOutputStream & oStream) const
 	oStream.write(m_MarketCondBuy);
 	oStream.write(m_MarketCondSell);
 	oStream.write(m_ShopType);
-	
+
 	__END_CATCH
 }
 
 //////////////////////////////////////////////////////////////////////////////
 // execute packet's handler
 //////////////////////////////////////////////////////////////////////////////
-void GCShopList::execute (Player * pPlayer) 
-	 throw (ProtocolException , Error)
+void GCShopList::execute(Player* pPlayer)
 {
 	__BEGIN_TRY
-		
-	GCShopListHandler::execute(this , pPlayer);
+
+		GCShopListHandler::execute(this, pPlayer);
 
 	__END_CATCH
 }
@@ -166,17 +161,16 @@ void GCShopList::execute (Player * pPlayer)
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 
-PacketSize_t GCShopList::getPacketSize () const 
-	throw ()
-{ 
-	PacketSize_t size = szObjectID +     // NPC id
-	                    szShopVersion +  // shop version
-	                    szShopRackType + // rack type
-	                    szBYTE;          // total number of item
+size_t GCShopList::getPacketSize() const
+{
+	size_t size = szObjectID +     // NPC id
+		szShopVersion +  // shop version
+		szShopRackType + // rack type
+		szBYTE;          // total number of item
 
-	for (int i=0; i<SHOP_RACK_INDEX_MAX; i++)
+	for (int i = 0; i < SHOP_RACK_INDEX_MAX; i++)
 	{
-		if (m_pBuffer[i].bExist) 
+		if (m_pBuffer[i].bExist)
 		{
 			size += szBYTE;         // Item index in shop rack
 			size += szObjectID;     // item OID
@@ -200,42 +194,41 @@ PacketSize_t GCShopList::getPacketSize () const
 //////////////////////////////////////////////////////////////////////////////
 // get packet's debug std::string
 //////////////////////////////////////////////////////////////////////////////
-std::string GCShopList::toString () const
-       throw ()
+std::string GCShopList::toString() const
 {
 	__BEGIN_TRY
-		
-	StringStream msg;
-	
+
+		StringStream msg;
+
 	msg << "GCShopList(" << "ObjectID:" << m_ObjectID << ","
-	    << "ShopVersion:" << (int)m_Version << ","
-	    << "RackType:" << (int)m_RackType << ",";
-	
-	for (int i=0; i<SHOP_RACK_INDEX_MAX; i++)
+		<< "ShopVersion:" << (int)m_Version << ","
+		<< "RackType:" << (int)m_RackType << ",";
+
+	for (int i = 0; i < SHOP_RACK_INDEX_MAX; i++)
 	{
 		msg << "(Item" << i << ":";
 		if (m_pBuffer[i].bExist)
 		{
-			msg << "ObjectID:"     << (int)(m_pBuffer[i].objectID)
-			    << "ItemClass:"    << (int)(m_pBuffer[i].itemClass) 
-			    << "ItemType:"     << (int)(m_pBuffer[i].itemType)
-			    << "OptionTypeSize:"   << (int)(m_pBuffer[i].optionType.size())
-			    << "Durability:"   << (int)(m_pBuffer[i].durability)
-				<< "Silver:"       << (int)(m_pBuffer[i].silver)
-				<< "Grade:"        << (int)(m_pBuffer[i].grade)
+			msg << "ObjectID:" << (int)(m_pBuffer[i].objectID)
+				<< "ItemClass:" << (int)(m_pBuffer[i].itemClass)
+				<< "ItemType:" << (int)(m_pBuffer[i].itemType)
+				<< "OptionTypeSize:" << (int)(m_pBuffer[i].optionType.size())
+				<< "Durability:" << (int)(m_pBuffer[i].durability)
+				<< "Silver:" << (int)(m_pBuffer[i].silver)
+				<< "Grade:" << (int)(m_pBuffer[i].grade)
 				<< "EnchantLevel:" << (int)(m_pBuffer[i].enchantLevel);
 			msg << ")";
 		}
 	}
 
-	msg << "MarketCondBuy:"  << (int)m_MarketCondBuy
-	    << "MarketCondSell:" << (int)m_MarketCondSell
+	msg << "MarketCondBuy:" << (int)m_MarketCondBuy
+		<< "MarketCondSell:" << (int)m_MarketCondSell
 		<< "ShopType:" << (int)m_ShopType;
 
 	msg << ")";
 
 	return msg.toString();
-		
+
 	__END_CATCH
 }
 #endif
@@ -244,10 +237,14 @@ std::string GCShopList::toString () const
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 SHOPLISTITEM GCShopList::getShopItem(BYTE index) const
-	throw()
 {
 	// check bound
-	if (index >= SHOP_RACK_INDEX_MAX) throw ("GCShopList::getShopItem() : Out of Bound!");
+	if (index >= SHOP_RACK_INDEX_MAX)
+	{
+		SHOPLISTITEM emptyItem;
+		emptyItem.bExist = false;
+		return emptyItem;
+	}
 
 	// return shop item info
 	return m_pBuffer[index];
@@ -256,24 +253,23 @@ SHOPLISTITEM GCShopList::getShopItem(BYTE index) const
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 #ifndef __GAME_CLIENT__
-void GCShopList::setShopItem(BYTE index, const Item* pItem) 
-	throw()
+void GCShopList::setShopItem(BYTE index, const Item* pItem)
 {
 	// check bound
-	if (index >= SHOP_RACK_INDEX_MAX) throw ("GCShopList::setShopItem() : Out of Bound!");
+	if (index >= SHOP_RACK_INDEX_MAX) return;
 
 	// check pointer 
-	Assert(pItem != NULL);	
+	Assert(pItem != NULL);
 
 	// set shop item info
-	m_pBuffer[index].bExist       = true;
-	m_pBuffer[index].objectID     = pItem->getObjectID();
-	m_pBuffer[index].itemClass    = pItem->getItemClass();
-	m_pBuffer[index].itemType     = pItem->getItemType();
-	m_pBuffer[index].optionType   = pItem->getOptionTypeList();
-	m_pBuffer[index].durability   = pItem->getDurability();
-	m_pBuffer[index].silver       = pItem->getSilver();
-	m_pBuffer[index].grade        = pItem->getGrade();
+	m_pBuffer[index].bExist = true;
+	m_pBuffer[index].objectID = pItem->getObjectID();
+	m_pBuffer[index].itemClass = pItem->getItemClass();
+	m_pBuffer[index].itemType = pItem->getItemType();
+	m_pBuffer[index].optionType = pItem->getOptionTypeList();
+	m_pBuffer[index].durability = pItem->getDurability();
+	m_pBuffer[index].silver = pItem->getSilver();
+	m_pBuffer[index].grade = pItem->getGrade();
 	m_pBuffer[index].enchantLevel = pItem->getEnchantLevel();
 }
 

@@ -17,20 +17,20 @@
 //
 // class GCDeleteObject;
 //
-// Á¸ÀÇ Æ¯Á¤ °´Ã¼°¡ ½Ã¾ß¿¡¼­ »ç¶óÁø °æ¿ì¿¡ Àü¼ÛµÇ¸ç, Å¬¶óÀÌ¾ðÆ®´Â ÀÌ ÆÐÅ¶À» ¹ÞÀ¸¸é
-// ÆÐÅ¶ ³»ºÎÀÇ OID¸¦ »ç¿ëÇØ¼­ ÇØ´çµÇ´Â °´Ã¼¸¦ Ã£¾Æ¼­ Å¬¶óÀÌ¾ðÆ®ÀÇ Á¸¿¡¼­ »èÁ¦ÇØ¾ß ÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ã¾ß¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½ÛµÇ¸ï¿½, Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ OIDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½Ø´ï¿½Ç´ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ Ã£ï¿½Æ¼ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 //
-// ´ÙÀ½Àº ÀÌ ÆÐÅ¶ÀÌ Àü¼ÛµÇ´Â ±¸Ã¼ÀûÀÎ »óÈ²ÀÇ ¿¹½ÃÀÌ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµÇ´ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È²ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
-// (1) PC°¡ ·Î±×¾Æ¿ôÇÑ °æ¿ì
-// (2) ¾ÆÀÌÅÛÀ» Å©¸®Ã³°¡ ÁÝ´Â °æ¿ì
-// (3) Æ¯Á¤ ÀÌÆåÆ®°¡ »ç¶óÁø °æ¿ì
-// (4) ½ÃÃ¼°¡ »ç¶óÁø °æ¿ì
+// (1) PCï¿½ï¿½ ï¿½Î±×¾Æ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+// (2) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½Ã³ï¿½ï¿½ ï¿½Ý´ï¿½ ï¿½ï¿½ï¿½
+// (3) Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
+// (4) ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 //
 // *CAUTION*
 //
-// (3) Æ¯Á¤ ÀÌÆåÆ®°¡ »ç¶óÁø °æ¿ì.. ´Â ÀÌÆåÆ®°¡ »ý¼ºµÉ ¶§, »ç¶óÁö´Â ½Ã°£ÀÌ Àü¼ÛµÇ±â
-// ¶§¹®¿¡, »èÁ¦µÇ¾îµµ ¹«¹æÇÒ °ÍÀÌ´Ù. -_-;
+// (3) Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµÇ±ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾îµµ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½. -_-;
 //
 //--------------------------------------------------------------------------------
 
@@ -39,11 +39,11 @@ class GCDeleteObject : public Packet {
 public :
 
 	// constructor
-	GCDeleteObject () throw ()
+	GCDeleteObject ()
 	{
 	}
 
-	GCDeleteObject ( ObjectID_t objectID ) throw ()
+	GCDeleteObject ( ObjectID_t objectID )
 		: m_ObjectID(objectID)
 	{
 	}
@@ -51,37 +51,37 @@ public :
 
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read ( SocketInputStream & iStream ) throw ( ProtocolException , Error );
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read ( SocketInputStream & iStream );
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write ( SocketOutputStream & oStream ) const throw ( ProtocolException , Error );
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write ( SocketOutputStream & oStream ) const;
 
 	// execute packet's handler
-	void execute ( Player * pPlayer ) throw ( ProtocolException , Error );
+	void execute ( Player * pPlayer );
 
 	// get packet id
-	PacketID_t getPacketID () const throw () { return PACKET_GC_DELETE_OBJECT; }
+	PacketID_t getPacketID () const { return PACKET_GC_DELETE_OBJECT; }
 	
 	// get packet's body size
-	PacketSize_t getPacketSize () const throw () 
+	size_t getPacketSize () const 
 	{ 
 		return szObjectID; 
 	}
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCDeleteObject"; }
+		std::string getPacketName () const { return "GCDeleteObject"; }
 		
 		// get packet's debug std::string
-		std::string toString () const throw ();
+		std::string toString () const;
 	#endif
 
 public :
 
 	// get/set object id
-	ObjectID_t getObjectID () const throw () { return m_ObjectID; }
-	void setObjectID ( ObjectID_t objectID ) throw () { m_ObjectID = objectID; }
+	ObjectID_t getObjectID () const { return m_ObjectID; }
+	void setObjectID ( ObjectID_t objectID ) { m_ObjectID = objectID; }
 
 private :
 
@@ -104,18 +104,18 @@ class GCDeleteObjectFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet * createPacket () throw () { return new GCDeleteObject(); }
+	Packet * createPacket () { return new GCDeleteObject(); }
 
 	#ifdef __DEBUG_OUTPUT__
 		// get packet name
-		std::string getPacketName () const throw () { return "GCDeleteObject"; }
+		std::string getPacketName () const { return "GCDeleteObject"; }
 	#endif
 	
 	// get packet id
-	PacketID_t getPacketID () const throw () { return Packet::PACKET_GC_DELETE_OBJECT; }
+	PacketID_t getPacketID () const { return Packet::PACKET_GC_DELETE_OBJECT; }
 
 	// get packet's max body size
-	PacketSize_t getPacketMaxSize () const throw () 
+	PacketSize_t getPacketMaxSize () const 
 	{ 
 		return szObjectID; 
 	}
@@ -134,7 +134,7 @@ class GCDeleteObjectHandler {
 public :
 
 	// execute packet's handler
-	static void execute ( GCDeleteObject * pPacket , Player * player ) throw ( ProtocolException , Error );
+	static void execute ( GCDeleteObject * pPacket , Player * player );
 
 };
 

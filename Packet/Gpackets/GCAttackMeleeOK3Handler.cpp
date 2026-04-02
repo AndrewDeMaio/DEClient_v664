@@ -16,7 +16,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAttackMeleeOK3Handler::execute ( GCAttackMeleeOK3 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -25,7 +24,7 @@ void GCAttackMeleeOK3Handler::execute ( GCAttackMeleeOK3 * pPacket , Player * pP
 	// message
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -36,7 +35,7 @@ void GCAttackMeleeOK3Handler::execute ( GCAttackMeleeOK3 * pPacket , Player * pP
 	}	
 
 	//------------------------------------------------------
-	// ´ë»óÀÌ µÇ´Â creature¸¦ ¾ò´Â´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ creatureï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
 	//------------------------------------------------------
 	MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 	MCreature* pTargetCreature = g_pZone->GetCreature( pPacket->getTargetObjectID() );
@@ -47,7 +46,7 @@ void GCAttackMeleeOK3Handler::execute ( GCAttackMeleeOK3 * pPacket , Player * pP
 	}
 
 	//------------------------------------------------------
-	// ¸Â´Â »ç¶÷¸¸ ÀÖ´Â °æ¿ì´Â ¸Â´Â µ¿ÀÛ¸¸ º¸¿©ÁÖ¸é µÈ´Ù.
+	// ï¿½Â´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½Û¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ ï¿½È´ï¿½.
 	//------------------------------------------------------
 	if (pCreature==NULL)
 	{
@@ -64,7 +63,7 @@ void GCAttackMeleeOK3Handler::execute ( GCAttackMeleeOK3 * pPacket , Player * pP
 		return;
 	}
 	//------------------------------------------------------
-	// ¶§¸®´Â »ç¶÷¸¸ ÀÖ´Â °æ¿ì´Â ¶§¸®´Â µ¿ÀÛ¸¸ º¸¿©ÁØ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 	//------------------------------------------------------
 	else if (pTargetCreature==NULL)
 	{
@@ -72,7 +71,7 @@ void GCAttackMeleeOK3Handler::execute ( GCAttackMeleeOK3 * pPacket , Player * pP
 		DEBUG_ADD_FORMAT("There's no such creature : TargetID=%d, Skill=%d", pPacket->getTargetObjectID(), SKILL_ATTACK_MELEE);
 
 		//------------------------------------------------------
-		// Creature°¡ Çàµ¿À» ÃëÇÏµµ·Ï ÇÑ´Ù.
+		// Creatureï¿½ï¿½ ï¿½àµ¿ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 		//------------------------------------------------------
 		pCreature->PacketSpecialActionToNobody(
 						pCreature->GetBasicActionInfo(), 
@@ -80,21 +79,21 @@ void GCAttackMeleeOK3Handler::execute ( GCAttackMeleeOK3 * pPacket , Player * pP
 						pCreature->GetY()						
 		);
 
-		// PacketSpecialActionToNobody¿¡´Ù°¡ MActionResult¸¦ Ãß°¡ÇØ¼­
-		// ÇÇ°¡ Æ¢´Â°É º¸¿©ÁÖ´Â °Íµµ ±¦ÂúÀ» °ÍÀÌ´ç..
-		// ±Ùµ¥, targetCreature°¡ ¾ø±â ¶§¹®¿¡..
-		// Á¤È®ÇÑ ÁÂÇ¥¸¦ ¼­¹ö¿¡¼­ ¹Þ¾Æ¿À´Â°Ô ¸ÕÀúÀÏ±î... À¸Èì~~		
+		// PacketSpecialActionToNobodyï¿½ï¿½ï¿½Ù°ï¿½ MActionResultï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¼ï¿½
+		// ï¿½Ç°ï¿½ Æ¢ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½..
+		// ï¿½Ùµï¿½, targetCreatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..
+		// ï¿½ï¿½È®ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾Æ¿ï¿½ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½... ï¿½ï¿½ï¿½ï¿½~~		
 		
 		return;
 	}
 
 	//------------------------------------------------------
-	// °ø°ÝÇÏ´Â CreatureÀÇ ¾×¼Ç StepÀ» ¼¼ÆÃÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Creatureï¿½ï¿½ ï¿½×¼ï¿½ Stepï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	pCreature->SetActionStep(pPacket->getActionStep());
 
 	//------------------------------------------------------
-	// °á°ú(´Ù¸¥ Ä³¸¯ÅÍ°¡ ¸Â´Â ¸ð½À)¸¦ ¼³Á¤ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½(ï¿½Ù¸ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Â´ï¿½ ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	MActionResult* pResult = new MActionResult;
 	pResult->Add( new MActionResultNodeActionInfo( 
@@ -107,12 +106,12 @@ void GCAttackMeleeOK3Handler::execute ( GCAttackMeleeOK3 * pPacket , Player * pP
 				);
 
 	//------------------------------------------------------
-	// Çàµ¿ÇÏ´Â Creature°¡ TargetCreature¸¦ ¹Ù¶óº¸µµ·Ï ÇÑ´Ù.
+	// ï¿½àµ¿ï¿½Ï´ï¿½ Creatureï¿½ï¿½ TargetCreatureï¿½ï¿½ ï¿½Ù¶óº¸µï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	pCreature->SetDirectionToPosition( pTargetCreature->GetX(), pTargetCreature->GetY() );
 
 	//------------------------------------------------------
-	// Creature°¡ Çàµ¿À» ÃëÇÏµµ·Ï ÇÑ´Ù.
+	// Creatureï¿½ï¿½ ï¿½àµ¿ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	//------------------------------------------------------
 	pCreature->PacketSpecialActionToOther(
 					pCreature->GetBasicActionInfo(), 

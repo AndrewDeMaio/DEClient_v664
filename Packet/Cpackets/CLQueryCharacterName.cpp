@@ -7,7 +7,6 @@
 #include "CLQueryCharacterName.h"
 
 void CLQueryCharacterName::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -28,7 +27,6 @@ void CLQueryCharacterName::read (SocketInputStream & iStream)
 }
 		    
 void CLQueryCharacterName::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -49,7 +47,6 @@ void CLQueryCharacterName::write (SocketOutputStream & oStream) const
 }
 
 void CLQueryCharacterName::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -62,7 +59,6 @@ void CLQueryCharacterName::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 	std::string CLQueryCharacterName::toString () const
-		throw ()
 	{
 		__BEGIN_TRY
 			

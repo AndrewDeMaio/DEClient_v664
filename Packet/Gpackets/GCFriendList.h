@@ -22,17 +22,17 @@
 class GCFriendList : public Packet {
 
 public:
-	virtual ~GCFriendList() throw();
+	virtual ~GCFriendList();
 	
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
 
-	PacketID_t getPacketID() const throw() { return PACKET_GC_FRIEND_LIST; }
-	PacketSize_t getPacketSize() const throw();
+	PacketID_t getPacketID() const { return PACKET_GC_FRIEND_LIST; }
+	size_t getPacketSize() const;
 
-	string getPacketName() const throw() { return "GCFriendList"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCFriendList"; }
+	string toString() const;
 	
 	int GetFriendListCount() const { return m_FriendSimpleInfoList.size(); } 
 	
@@ -74,13 +74,13 @@ class GCFriendListFactory : public PacketFactory {
 
 public:
 	
-	Packet* createPacket() throw() { return new GCFriendList(); }
-	string getPacketName() const throw() { return "GCFriendList"; }
+	Packet* createPacket() { return new GCFriendList(); }
+	string getPacketName() const { return "GCFriendList"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_FRIEND_LIST; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_FRIEND_LIST; }
 
-	PacketSize_t getPacketMaxSize() const throw() 
+	PacketSize_t getPacketMaxSize() const 
 	{ 
 		//##??PacketSize_t packetSize;
 		PacketSize_t packetSize = 0;//##fuck
@@ -105,7 +105,7 @@ class GCFriendListHandler {
 public:
 
 	// execute packet's handler
-	static void execute(GCFriendList* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCFriendList* pPacket, Player* pPlayer);
 
 };
 #endif //__FRIEND_ADDITION

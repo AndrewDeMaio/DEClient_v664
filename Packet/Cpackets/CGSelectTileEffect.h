@@ -19,15 +19,15 @@
 class CGSelectTileEffect : public Packet 
 {
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_CG_SELECT_TILE_EFFECT; }
-	PacketSize_t getPacketSize() const throw() { return szObjectID; }
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_CG_SELECT_TILE_EFFECT; }
+	size_t getPacketSize() const { return szObjectID; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "CGSelectTileEffect"; }
-		std::string toString() const throw();
+		std::string getPacketName() const { return "CGSelectTileEffect"; }
+		std::string toString() const;
 	#endif
 
 public:
@@ -35,7 +35,7 @@ public:
 	void setEffectObjectID(ObjectID_t id) { m_EffectObjectID = id; }
 
 private:
-	ObjectID_t m_EffectObjectID; // ¼±ÅÃÇÑ ÀÌÆåÆ®ÀÇ ¿ÀºêÁ§Æ® ID
+	ObjectID_t m_EffectObjectID; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ID
 };
 
 
@@ -44,14 +44,14 @@ private:
 //////////////////////////////////////////////////////////////////////////////
 #ifdef __DEBUG_OUTPUT__
 class CGSelectTileEffectFactory : public PacketFactory {
-	Packet* createPacket() throw() { return new CGSelectTileEffect(); }
+	Packet* createPacket() { return new CGSelectTileEffect(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "CGSelectTileEffect"; }
+		std::string getPacketName() const { return "CGSelectTileEffect"; }
 	#endif
 
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_CG_SELECT_TILE_EFFECT; }
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_SELECT_TILE_EFFECT; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID; }
 };
 #endif
 
@@ -65,8 +65,8 @@ class Effect;
 	class CGSelectTileEffectHandler 
 	{
 	public:
-		static void execute(CGSelectTileEffect* pCGSelectTileEffect, Player* pPlayer) throw(Error);
-		static void executeVampirePortal(CGSelectTileEffect* pCGSelectTileEffect, Player* pPlayer, Effect* pEffect) throw(Error);
+		static void execute(CGSelectTileEffect* pCGSelectTileEffect, Player* pPlayer);
+		static void executeVampirePortal(CGSelectTileEffect* pCGSelectTileEffect, Player* pPlayer, Effect* pEffect);
 	};
 #endif
 

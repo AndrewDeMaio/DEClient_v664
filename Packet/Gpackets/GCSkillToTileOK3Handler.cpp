@@ -14,14 +14,13 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCSkillToTileOK3Handler::execute ( GCSkillToTileOK3 * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
 #ifdef __GAME_CLIENT__
 
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
@@ -29,14 +28,14 @@ void GCSkillToTileOK3Handler::execute ( GCSkillToTileOK3 * pPacket , Player * pP
 		DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{
 		MCreature* pCreature = g_pZone->GetCreature( pPacket->getObjectID() );
 
 
-		// Creature°¡ Tile¿¡ ¹º°¡¸¦?...
+		// Creatureï¿½ï¿½ Tileï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?...
 		if (pCreature != NULL)
 		{	
 			int skillID = pPacket->getSkillType();
@@ -61,17 +60,17 @@ void GCSkillToTileOK3Handler::execute ( GCSkillToTileOK3 * pPacket , Player * pP
 									skillID : (*g_pActionInfoTable)[skillID].GetActionStep( pPacket->getGrade() - 1);
 
 			//------------------------------------------------------
-			// Creature°¡ Çàµ¿ÇÏ´Â ¸ð½À
+			// Creatureï¿½ï¿½ ï¿½àµ¿ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½
 			//------------------------------------------------------
 			//Duration_t	m_Duration;
 			pCreature->PacketSpecialActionToSector(
 								skillID, 
 								pPacket->getX(), 
 								pPacket->getY(),
-								NULL		// °á°ú
+								NULL		// ï¿½ï¿½ï¿½
 			);		
 
-			// ¹æÇâ º¸±â
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			pCreature->SetDirectionToPosition(pPacket->getX(), pPacket->getY());		
 		}
 		else

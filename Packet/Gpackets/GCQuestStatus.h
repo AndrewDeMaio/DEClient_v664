@@ -2,7 +2,7 @@
 // Filename    : GCMonsterKillQuestStatus.h 
 // Written By  : elca@ewestsoft.com
 // Description : 
-// ±â¼úÀÌ ¼º°øÇßÀ»¶§ º¸³»´Â ÆÐÅ¶À» À§ÇÑ Å¬·¡½º Á¤ÀÇ
+// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __GC_MONSTER_KILL_QUEST_STATUS_H__
@@ -15,36 +15,36 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // class GCMonsterKillQuestStatus;
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
 class GCQuestStatus : public Packet 
 {
 public:
-	GCQuestStatus() throw();
-	~GCQuestStatus() throw();
+	GCQuestStatus();
+	~GCQuestStatus();
 	
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_QUEST_STATUS; }
-	PacketSize_t getPacketSize() const throw() { return szWORD + szWORD + szDWORD; }
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_QUEST_STATUS; }
+	size_t getPacketSize() const { return szWORD + szWORD + szDWORD; }
 
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCQuestStatus"; }
-	std::string toString() const throw();
+	std::string getPacketName() const { return "GCQuestStatus"; }
+	std::string toString() const;
 #endif
 
 public:
-	WORD getQuestID() const throw() { return m_QuestID; }
-	void setQuestID(WORD e) throw() { m_QuestID = e; }
+	WORD getQuestID() const { return m_QuestID; }
+	void setQuestID(WORD e) { m_QuestID = e; }
 	
-	WORD getCurrentNum() const throw() { return m_CurrentNum; }
-	void setCurrentNul(WORD n) throw() { m_CurrentNum = n; }
+	WORD getCurrentNum() const { return m_CurrentNum; }
+	void setCurrentNul(WORD n) { m_CurrentNum = n; }
 
-	DWORD getRemainTime() const throw() { return m_Time; }
-	void setRemainTime(DWORD d) throw() { m_Time = d; }
+	DWORD getRemainTime() const { return m_Time; }
+	void setRemainTime(DWORD d) { m_Time = d; }
 	
 private :
 	WORD m_QuestID;
@@ -60,16 +60,16 @@ private :
 class GCQuestStatusFactory : public PacketFactory 
 {
 public :
-	GCQuestStatusFactory() throw() {}
-	virtual ~GCQuestStatusFactory() throw() {}
+	GCQuestStatusFactory() {}
+	virtual ~GCQuestStatusFactory() {}
 	
 public:
-	Packet* createPacket() throw() { return new GCQuestStatus(); }
+	Packet* createPacket() { return new GCQuestStatus(); }
 #ifdef __DEBUG_OUTPUT__
-	std::string getPacketName() const throw() { return "GCQuestStatus"; }
+	std::string getPacketName() const { return "GCQuestStatus"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_QUEST_STATUS; }
-	PacketSize_t getPacketMaxSize() const throw() { return szWORD + szWORD + szDWORD; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_QUEST_STATUS; }
+	PacketSize_t getPacketMaxSize() const { return szWORD + szWORD + szDWORD; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -79,7 +79,7 @@ public:
 class GCQuestStatusHandler 
 {
 public:
-	static void execute(GCQuestStatus* pGCQuestStatus, Player* pPlayer) throw(Error);
+	static void execute(GCQuestStatus* pGCQuestStatus, Player* pPlayer);
 
 };
 

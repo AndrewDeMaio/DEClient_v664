@@ -13,7 +13,6 @@
 #include "Assert.h"
 #if __CONTENTS(__PCITEMINFO)
 GCAddItemToZone::GCAddItemToZone() 
-     throw ()
 {
 	__BEGIN_TRY
 //	m_ListNum = 0;
@@ -25,7 +24,6 @@ GCAddItemToZone::GCAddItemToZone()
 // Destructor
 //--------------------------------------------------------------------
 GCAddItemToZone::~GCAddItemToZone() 
-    throw ()
 {
 	__BEGIN_TRY
 
@@ -33,10 +31,9 @@ GCAddItemToZone::~GCAddItemToZone()
 }
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCAddItemToZone::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 	
@@ -50,10 +47,9 @@ void GCAddItemToZone::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCAddItemToZone::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 
@@ -69,7 +65,6 @@ void GCAddItemToZone::write ( SocketOutputStream & oStream ) const
 // Constructor
 //--------------------------------------------------------------------
 GCAddItemToZone::GCAddItemToZone() 
-     throw ()
 {
 	__BEGIN_TRY
 	m_ListNum = 0;
@@ -81,11 +76,10 @@ GCAddItemToZone::GCAddItemToZone()
 // Destructor
 //--------------------------------------------------------------------
 GCAddItemToZone::~GCAddItemToZone() 
-    throw ()
 {
 	__BEGIN_TRY
 
-	// ¼Ò¼ÓµÈ ¸ðµç °´Ã¼µéÀ» »èÁ¦ÇÑ´Ù.
+	// ï¿½Ò¼Óµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	while ( !m_SubItemInfoList.empty() ) {
 		SubItemInfo * pSubItemInfo = m_SubItemInfoList.front();
 		delete pSubItemInfo;
@@ -96,10 +90,9 @@ GCAddItemToZone::~GCAddItemToZone()
 }
 
 //////////////////////////////////////////////////////////////////////
-// ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
+// ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCAddItemToZone::read ( SocketInputStream & iStream ) 
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -141,9 +134,9 @@ void GCAddItemToZone::read ( SocketInputStream & iStream )
 	iStream.read( m_EnchantLevel );
 	iStream.read( m_ItemNum );
 
-	// Sub ¾ÆÀÌÅÛ Á¤º¸¸¦ ÀÐ¾î µéÀÎ´Ù.
+	// Sub ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ ï¿½ï¿½ï¿½Î´ï¿½.
     iStream.read( m_ListNum );
-	for( i = 0; i < m_ListNum; i++ ) {
+	for(int i = 0; i < m_ListNum; i++ ) {
 		SubItemInfo * pSubItemInfo = new SubItemInfo();
 		pSubItemInfo->read( iStream );
 		m_SubItemInfoList.push_back( pSubItemInfo );
@@ -155,10 +148,9 @@ void GCAddItemToZone::read ( SocketInputStream & iStream )
 
 		    
 //////////////////////////////////////////////////////////////////////
-// Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
+// ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 void GCAddItemToZone::write ( SocketOutputStream & oStream ) const 
-     throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -200,7 +192,7 @@ void GCAddItemToZone::write ( SocketOutputStream & oStream ) const
 	oStream.write( m_EnchantLevel );
 	oStream.write( m_ItemNum );
 
-	// Sub ¾ÆÀÌÅÛÀÇ Á¤º¸¸¦ ¾´´Ù.
+	// Sub ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	oStream.write( m_ListNum );
 
     for ( std::list<SubItemInfo*>:: const_iterator sitr = m_SubItemInfoList.begin(); sitr!= m_SubItemInfoList.end(); sitr++) {

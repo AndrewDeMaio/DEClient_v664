@@ -14,11 +14,11 @@ enum
 {
 	ADD_ITEM_TO_ITEM_VERIFY_ERROR,					// error
 
-	ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_IMPOSSIBLE,		// enchant ¿ÏÀü ºÒ°¡
-	ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL_CRASH,		// enchant ½ÇÆÐ: ¾ÆÀÌÅÛ ºÎ¼­Áü
-	ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL_DECREASE,	// enchant ½ÇÆÐ: ¿É¼Ç ¶³¾îÁü
-	ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_OK,				// enchant ¼º°ø
-	ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_IMPOSSIBLE_NO_PREMIUM,	// enchant ºÒ°¡ : ÇÁ¸®¹Ì¾ö ¾Æ´Ô
+	ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_IMPOSSIBLE,		// enchant ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½
+	ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL_CRASH,		// enchant ï¿½ï¿½ï¿½ï¿½: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¼ï¿½ï¿½ï¿½
+	ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL_DECREASE,	// enchant ï¿½ï¿½ï¿½ï¿½: ï¿½É¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_OK,				// enchant ï¿½ï¿½ï¿½ï¿½
+	ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_IMPOSSIBLE_NO_PREMIUM,	// enchant ï¿½Ò°ï¿½ : ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½Æ´ï¿½
 
 	ADD_ITEM_TO_ITEM_VERIFY_TRANS_OK,
 	ADD_ITEM_TO_ITEM_VERIFY_TRANS_IMPOSSIBLE,
@@ -26,20 +26,20 @@ enum
 	ADD_ITEM_TO_ITEM_VERIFY_MIXING_OK,
 	ADD_ITEM_TO_ITEM_VERIFY_DETACHING_OK,
 
-	ADD_ITEM_TO_ITEM_VERIFY_MIXING_FAILED_SAME_OPTION_GROUP,	// ¾ÆÀÌÅÛÀÇ ¿É¼Ç ±×·ìÀÌ °°¾Æ¼­ ¼¯À» ¼ö ¾ø½À´Ï´Ù.
-	ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL,				// enchant ½ÇÆÐ
+	ADD_ITEM_TO_ITEM_VERIFY_MIXING_FAILED_SAME_OPTION_GROUP,	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½É¼ï¿½ ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ¼ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
+	ADD_ITEM_TO_ITEM_VERIFY_ENCHANT_FAIL,				// enchant ï¿½ï¿½ï¿½ï¿½
 
-	ADD_ITEM_TO_ITEM_VERIFY_REVIVAL_OK,					// Æê ºÎÈ° ¼º°ø
+	ADD_ITEM_TO_ITEM_VERIFY_REVIVAL_OK,					// ï¿½ï¿½ ï¿½ï¿½È° ï¿½ï¿½ï¿½ï¿½
 
-	ADD_ITEM_TO_ITEM_VERIFY_CLEAR_OPTION_OK,			// option Á¦°Å ¼º°ø
-	ADD_ITEM_TO_ITEM_VERIFY_UP_GRADE_OK,				// grade¿Ã¸®±â ¼º°ø
+	ADD_ITEM_TO_ITEM_VERIFY_CLEAR_OPTION_OK,			// option ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	ADD_ITEM_TO_ITEM_VERIFY_UP_GRADE_OK,				// gradeï¿½Ã¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	ADD_ITEM_TO_ITEM_VERIFY_PET_MAGIC_ENCHANT_OK,		// Pet Magic Enchant ¼º°ø
+	ADD_ITEM_TO_ITEM_VERIFY_PET_MAGIC_ENCHANT_OK,		// Pet Magic Enchant ï¿½ï¿½ï¿½ï¿½
 
-	ADD_ITEM_TO_ITEM_VERIFY_PET_ENCHANT_LEVEL_FAIL,		// Æê ·¹º§ÀÌ ³·¾Æ ÀÎÃ¦ ºÒ°¡
-	ADD_ITEM_TO_ITEM_VERIFY_PET_ENCHANT_DUPLICATE_FAIL,		// ¶È°°Àº ÀÎÃ¦À» ÇÏ·Á°í ½Ãµµ
+	ADD_ITEM_TO_ITEM_VERIFY_PET_ENCHANT_LEVEL_FAIL,		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¦ ï¿½Ò°ï¿½
+	ADD_ITEM_TO_ITEM_VERIFY_PET_ENCHANT_DUPLICATE_FAIL,		// ï¿½È°ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¦ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ãµï¿½
 
-	ADD_ITEM_TO_ITEM_VERIFY_PET_ENCHANT_OK_MESSAGE,				// enchant ¼º°ø ¸Þ½ÃÁö
+	ADD_ITEM_TO_ITEM_VERIFY_PET_ENCHANT_OK_MESSAGE,				// enchant ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½
 
 #if __CONTENTS(__ENCHANT_REQUIRE_LEVE)
 	ADD_ITEM_TO_ITEM_VERIFY_NEED_LEVEL_FAIL,
@@ -53,16 +53,16 @@ enum
 #if __CONTENTS(__TUNING_ITEM)
 	ADD_ITEM_TO_ITEM_VERIFY_TUNING_OK = 22,
 #endif	//__TUNING_ITEM
-	ADD_ITEM_TO_ITEM_VERIFY_PET_EXPERT_ENCHANT_OK = 23,	// Pet Expert --> 1202 wlzzi º» ¼·¿¡ Àû¿ë
+	ADD_ITEM_TO_ITEM_VERIFY_PET_EXPERT_ENCHANT_OK = 23,	// Pet Expert --> 1202 wlzzi ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
 	ADD_ITEM_TO_ITEM_VERIFY_PET_MIXING_OK = 24,			//20090527 ksym555
 	ADD_ITEM_TO_ITEM_VERIFY_PET_MIXING_FAIL = 25,		//20090527 ksym555
 
 #if __CONTENTS(__TREASURE_BOX)
 	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_OK = 26,
-	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_FAIL_NOT_ENOUGH_SPACE = 27,	// ÀÎº¥Åä¸® °ø°£ÀÌ ºÎÁ·ÇÔ
-	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_FAIL_NO_ITEM = 28,			// »óÀÚ¿¡ ¾ÆÀÌÅÛÀÌ ¾øÀ½
-	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_FAIL_INCORRECT_KEY = 29,		// »óÀÚ¿¡ ¸ÂÁö ¾Ê´Â ¿­¼è
+	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_FAIL_NOT_ENOUGH_SPACE = 27,	// ï¿½Îºï¿½ï¿½ä¸® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_FAIL_NO_ITEM = 28,			// ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	ADD_ITEM_TO_ITEM_VERIFY_OPEN_CASE_FAIL_INCORRECT_KEY = 29,		// ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 #endif //__TREASURE_BOX
 #if __CONTENTS(__IMI_LOW_LEVEL_ITEM)
@@ -85,31 +85,31 @@ class GCAddItemToItemVerify : public Packet
 {
 
 public:
-	GCAddItemToItemVerify() throw() { m_Code = ADD_ITEM_TO_ITEM_VERIFY_MAX; m_Parameter = 0;}
-	virtual ~GCAddItemToItemVerify() throw() {}
+	GCAddItemToItemVerify() { m_Code = ADD_ITEM_TO_ITEM_VERIFY_MAX; m_Parameter = 0;}
+	virtual ~GCAddItemToItemVerify() {}
 
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
 
-	PacketID_t getPacketID() const throw() { return PACKET_GC_ADD_ITEM_TO_ITEM_VERIFY; }
-	PacketSize_t getPacketSize() const throw();
-	string getPacketName() const throw() { return "GCAddItemToItemVerify"; }
-	string toString() const throw();
+	PacketID_t getPacketID() const { return PACKET_GC_ADD_ITEM_TO_ITEM_VERIFY; }
+	size_t getPacketSize() const;
+	string getPacketName() const { return "GCAddItemToItemVerify"; }
+	string toString() const;
 	
 public:
-	BYTE getCode(void) const throw() { return m_Code;}
-	void setCode(BYTE code) throw() { m_Code = code;}
+	BYTE getCode(void) const { return m_Code;}
+	void setCode(BYTE code) { m_Code = code;}
 
-	uint getParameter(void) const throw() { return m_Parameter; }
-	void setParameter(uint parameter) throw() { m_Parameter = parameter; }
+	uint getParameter(void) const { return m_Parameter; }
+	void setParameter(uint parameter) { m_Parameter = parameter; }
 
-	void setThirdOptionType(const list<OptionType_t>& optionType) throw() { m_ThirdOptionType = optionType; }
-	std::list<OptionType_t>& getThirdOptionType() throw() { return m_ThirdOptionType; }
-	BYTE getThirdEnchantType() const throw() { return m_EnchantClass; }
-	void setThirdEnchantType(BYTE ThirdEnchantType)throw() {m_EnchantClass = ThirdEnchantType; }
-	BYTE getGrade() const throw() { return m_Grade; }
+	void setThirdOptionType(const list<OptionType_t>& optionType) { m_ThirdOptionType = optionType; }
+	std::list<OptionType_t>& getThirdOptionType() { return m_ThirdOptionType; }
+	BYTE getThirdEnchantType() const { return m_EnchantClass; }
+	void setThirdEnchantType(BYTE ThirdEnchantType) {m_EnchantClass = ThirdEnchantType; }
+	BYTE getGrade() const { return m_Grade; }
 	void setGrade(BYTE grade) { m_Grade = grade; }
 
 private: 
@@ -129,10 +129,10 @@ private:
 class GCAddItemToItemVerifyFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCAddItemToItemVerify(); }
-	string getPacketName() const throw() { return "GCAddItemToItemVerify"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_ADD_ITEM_TO_ITEM_VERIFY; }
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + szuint + 255 + szBYTE; }
+	Packet* createPacket() { return new GCAddItemToItemVerify(); }
+	string getPacketName() const { return "GCAddItemToItemVerify"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_ADD_ITEM_TO_ITEM_VERIFY; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE + szuint + 255 + szBYTE; }
 };
 
 
@@ -143,7 +143,7 @@ public:
 class GCAddItemToItemVerifyHandler 
 {
 public:
-	static void execute( GCAddItemToItemVerify* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute( GCAddItemToItemVerify* pPacket, Player* pPlayer);
 };
 
 #endif

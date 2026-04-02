@@ -6,8 +6,10 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "GPacket_PCH.h"
+#include "ClientDef.h"
 #include "MTopView.h"
+
+#include "GPacket_PCH.h"
 #include "GCChangeDarkLight.h"
 #include "UserInformation.h"
 
@@ -15,12 +17,10 @@
 	#include "ClientPlayer.h"
 #endif
 
-#include "ClientDef.h"
 
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCChangeDarkLightHandler::execute ( GCChangeDarkLight * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY
 		
@@ -42,10 +42,10 @@ void GCChangeDarkLightHandler::execute ( GCChangeDarkLight * pPacket , Player * 
 		lightSight = 13;
 	}
 
-	// È­¸éÀÇ ¾îµÓ±â
+	// È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ó±ï¿½
 	g_pTopView->SetDarkBits( darkLevel );		
 	
-	// Player½Ã¾ß ºûÀÇ Å©±â
+	// Playerï¿½Ã¾ï¿½ ï¿½ï¿½ï¿½ï¿½ Å©ï¿½ï¿½
 	g_pPlayer->SetTimeLightSight( lightSight );		
 
 	

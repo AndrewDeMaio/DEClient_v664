@@ -8,7 +8,6 @@
 #include "CGAddItemToItem.h"
 
 void CGAddItemToItem::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -20,7 +19,6 @@ void CGAddItemToItem::read (SocketInputStream & iStream)
 }
 
 void CGAddItemToItem::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -32,7 +30,6 @@ void CGAddItemToItem::write (SocketOutputStream & oStream) const
 }
 
 void CGAddItemToItem::execute (Player* pPlayer) 
-	throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -45,7 +42,6 @@ void CGAddItemToItem::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 std::string CGAddItemToItem::toString () const
-	throw ()
 {
 	__BEGIN_TRY
 		

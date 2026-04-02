@@ -396,9 +396,6 @@
     <ClInclude Include="GCModifyGuildMemberInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GCModifyInformation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GCModifyNickname.h">
       <Filter>Header Files</Filter>
     </ClInclude>

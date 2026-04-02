@@ -7,14 +7,13 @@
 #include "GCAddInjuriousCreature.h"
 
 void GCAddInjuriousCreature::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 	int localLongName = 0;
 #if __CONTENTS(__LOCALIZING_LONGNAME)
 	localLongName = 22;
 #endif //__LOCALIZING_LONGNAME		
-	// ÀÌ¸§ ÀÐ±â
+	// ï¿½Ì¸ï¿½ ï¿½Ð±ï¿½
 	BYTE szName;
 
 	iStream.read(szName);
@@ -31,7 +30,6 @@ void GCAddInjuriousCreature::read (SocketInputStream & iStream)
 }
 		    
 void GCAddInjuriousCreature::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -40,7 +38,7 @@ void GCAddInjuriousCreature::write (SocketOutputStream & oStream) const
 	localLongName = 22;
 #endif //__LOCALIZING_LONGNAME
 		
-	// ÀÌ¸§ ¾²±â
+	// ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	BYTE szName = m_Name.size();
 
 	if (szName == 0)
@@ -57,7 +55,6 @@ void GCAddInjuriousCreature::write (SocketOutputStream & oStream) const
 }
 
 void GCAddInjuriousCreature::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -69,7 +66,6 @@ void GCAddInjuriousCreature::execute (Player* pPlayer)
 
 #ifdef __DEBUG_OUTPUT__
 	std::string GCAddInjuriousCreature::toString () const
-		   throw ()
 	{
 		__BEGIN_TRY
 			

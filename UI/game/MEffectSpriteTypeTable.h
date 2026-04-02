@@ -21,7 +21,7 @@
 #include "DrawTypeDef.h"
 #include "CTypeTable.h"
 //#include "EffectSpriteTypeDef.h"
-#include "Packet/Types/CreatureTypes.h"
+#include "Types\CreatureTypes.h"
 
 //----------------------------------------------------------------------
 //

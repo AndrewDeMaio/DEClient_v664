@@ -2,7 +2,7 @@
 // Filename    : GCGQuestStatusModify.h 
 // Written By  : elca@ewestsoft.com
 // Description : 
-// ±â¼úÀÌ ¼º°øÇßÀ»¶§ º¸³»´Â ÆÐÅ¶À» À§ÇÑ Å¬·¡½º Á¤ÀÇ
+// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __GC_GQUEST_STATUS_MODIFY_H__
@@ -17,7 +17,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // class GCGQuestStatusModify;
-// °ÔÀÓ¼­¹ö¿¡¼­ Å¬¶óÀÌ¾ðÆ®·Î ÀÚ½ÅÀÇ ±â¼úÀÌ ¼º°øÀ» ¾Ë·ÁÁÖ±â À§ÇÑ Å¬·¡½º
+// ï¿½ï¿½ï¿½Ó¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////////////
 
 class GCGQuestStatusModify : public Packet 
@@ -25,24 +25,24 @@ class GCGQuestStatusModify : public Packet
 public:
 	enum ModifyType
 	{
-		NO_MODIFY,		// »óÅÂ°¡ ¹Ù²îÁö ¾Ê¾ÒÀ½
-		CURRENT,		// Äù½ºÆ®°¡ ½ÃÀÛµÇ¾úÀ½
-		SUCCESS,		// Äù½ºÆ®°¡ ¼º°øÇßÀ½
-		FAIL,			// Äù½ºÆ®°¡ ½ÇÆÐÇßÀ½
+		NO_MODIFY,		// ï¿½ï¿½ï¿½Â°ï¿½ ï¿½Ù²ï¿½ï¿½ï¿½ ï¿½Ê¾ï¿½ï¿½ï¿½
+		CURRENT,		// ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ÛµÇ¾ï¿½ï¿½ï¿½
+		SUCCESS,		// ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		FAIL,			// ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	};
 
-	GCGQuestStatusModify() throw();
-	~GCGQuestStatusModify() throw();
+	GCGQuestStatusModify();
+	~GCGQuestStatusModify();
 	
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error) { iStream.read(m_Type); m_pInfo = new QuestStatusInfo(); m_pInfo->read(iStream); }
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error) { oStream.write(m_Type); m_pInfo->write(oStream); }
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_GQUEST_STATUS_MODIFY; }
-	PacketSize_t getPacketSize() const throw() { return szBYTE + m_pInfo->getSize(); }
+    void read(SocketInputStream & iStream) { iStream.read(m_Type); m_pInfo = new QuestStatusInfo(); m_pInfo->read(iStream); }
+    void write(SocketOutputStream & oStream) const { oStream.write(m_Type); m_pInfo->write(oStream); }
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_GQUEST_STATUS_MODIFY; }
+	size_t getPacketSize() const { return szBYTE + m_pInfo->getSize(); }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCGQuestStatusModify"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCGQuestStatusModify"; }
+	string toString() const;
 #endif
 public:
 	BYTE	getType() const { return m_Type; }
@@ -64,16 +64,16 @@ private:
 class GCGQuestStatusModifyFactory : public PacketFactory 
 {
 public :
-	GCGQuestStatusModifyFactory() throw() {}
-	virtual ~GCGQuestStatusModifyFactory() throw() {}
+	GCGQuestStatusModifyFactory() {}
+	virtual ~GCGQuestStatusModifyFactory() {}
 	
 public:
-	Packet* createPacket() throw() { return new GCGQuestStatusModify(); }
+	Packet* createPacket() { return new GCGQuestStatusModify(); }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCGQuestStatusModify"; }
+	string getPacketName() const { return "GCGQuestStatusModify"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_GQUEST_STATUS_MODIFY; }
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + QuestStatusInfo::getMaxSize(); }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_GQUEST_STATUS_MODIFY; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE + QuestStatusInfo::getMaxSize(); }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -83,7 +83,7 @@ public:
 class GCGQuestStatusModifyHandler 
 {
 public:
-	static void execute(GCGQuestStatusModify* pGCGQuestStatusModify, Player* pPlayer) throw(Error);
+	static void execute(GCGQuestStatusModify* pGCGQuestStatusModify, Player* pPlayer);
 
 };
 

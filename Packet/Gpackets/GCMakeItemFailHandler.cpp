@@ -16,7 +16,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCMakeItemFailHandler::execute ( GCMakeItemFail * pPacket , Player * pPlayer )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -32,7 +31,7 @@ void GCMakeItemFailHandler::execute ( GCMakeItemFail * pPacket , Player * pPlaye
 		//g_pTempInformation->Value1 = itemClass;
 		//g_pTempInformation->Value2 = itemType;
 
-		// ¸ø ¿òÁ÷ÀÌ°Ô Çß´ø°Å Ç®±â
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½ß´ï¿½ï¿½ï¿½ Ç®ï¿½ï¿½
 		UI_UnlockItem();
 	}
 	else

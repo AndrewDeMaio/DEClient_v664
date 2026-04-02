@@ -18,8 +18,8 @@
 //
 // class GCPartySay;
 //
-// °ÔÀÓ ¼­¹ö¿¡¼­ Æ¯Á¤ »ç¿ëÀÚ°¡ ¿òÁ÷¿´´Ù´Â Á¤º¸¸¦ Å¬¶óÀÌ¾ðÆ®·Î º¸³»ÁÙ 
-// ¶§ »ç¿ëÇÏ´Â ÆÐÅ¶ °´Ã¼ÀÌ´Ù.(ObjectID,X,Y,DIR) À» Æ÷ÇÔÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Æ¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½Å¶ ï¿½ï¿½Ã¼ï¿½Ì´ï¿½.(ObjectID,X,Y,DIR) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -27,29 +27,29 @@ class GCPartySay : public Packet
 {
 public :
 	
-    // ÀÔ·Â½ºÆ®¸²(¹öÆÛ)À¸·ÎºÎÅÍ µ¥ÀÌÅ¸¸¦ ÀÐ¾î¼­ ÆÐÅ¶À» ÃÊ±âÈ­ÇÑ´Ù.
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
+    // ï¿½Ô·Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½Ð¾î¼­ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½Ñ´ï¿½.
+    void read(SocketInputStream & iStream);
 		    
-    // Ãâ·Â½ºÆ®¸²(¹öÆÛ)À¸·Î ÆÐÅ¶ÀÇ ¹ÙÀÌ³Ê¸® ÀÌ¹ÌÁö¸¦ º¸³½´Ù.
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
+    // ï¿½ï¿½Â½ï¿½Æ®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½Ì³Ê¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+    void write(SocketOutputStream & oStream) const;
 
 	// execute packet's handler
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
+	void execute(Player* pPlayer);
 
 	// get packet id
-	PacketID_t getPacketID() const throw() { return PACKET_GC_PARTY_SAY; }
+	PacketID_t getPacketID() const { return PACKET_GC_PARTY_SAY; }
 	
 	// get packet's body size
 	// *OPTIMIZATION HINT*
-	// const static GCPartySayPacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketSize() const throw() { return szBYTE + m_Name.size() + szBYTE + m_Message.size() + szuint; }
+	// const static GCPartySayPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	size_t getPacketSize() const { return szBYTE + m_Name.size() + szBYTE + m_Message.size() + szuint; }
 
 #ifdef __DEBUG_OUTPUT__
 	// get packet's name
-	string getPacketName() const throw() { return "GCPartySay"; }
+	string getPacketName() const { return "GCPartySay"; }
 	
 	// get packet's debug string
-	string toString() const throw();
+	string toString() const;
 #endif
 
 public :
@@ -59,8 +59,8 @@ public :
 	const std::string&	getMessage() const { return m_Message; }
 	void	setMessage( const string& msg ) { m_Message = msg; }
 
-	uint getColor() const throw() { return m_Color; }
-	void setColor( uint color ) throw() { m_Color = color; }
+	uint getColor() const { return m_Color; }
+	void setColor( uint color ) { m_Color = color; }
 
 private :
 	string	m_Name;
@@ -82,18 +82,18 @@ class GCPartySayFactory : public PacketFactory {
 public :
 	
 	// create packet
-	Packet* createPacket() throw() { return new GCPartySay(); }
+	Packet* createPacket() { return new GCPartySay(); }
 
 	// get packet name
-	string getPacketName() const throw() { return "GCPartySay"; }
+	string getPacketName() const { return "GCPartySay"; }
 	
 	// get packet id
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_PARTY_SAY; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_PARTY_SAY; }
 
 	// get packet's max body size
 	// *OPTIMIZATION HINT*
-	// const static GCPartySayPacketSize ¸¦ Á¤ÀÇ, ¸®ÅÏÇÏ¶ó.
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + 20 + szBYTE + 128 + szuint; }
+	// const static GCPartySayPacketSize ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½.
+	PacketSize_t getPacketMaxSize() const { return szBYTE + 20 + szBYTE + 128 + szuint; }
 
 };
 
@@ -109,7 +109,7 @@ class GCPartySayHandler {
 public :
 
 	// execute packet's handler
-	static void execute(GCPartySay* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCPartySay* pPacket, Player* pPlayer);
 
 };
 

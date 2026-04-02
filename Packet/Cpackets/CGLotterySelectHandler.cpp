@@ -19,7 +19,6 @@
 #endif	// __GAME_SERVER__
 
 void CGLotterySelectHandler::execute (CGLotterySelect* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 	__BEGIN_TRY 
 		
@@ -43,15 +42,15 @@ void CGLotterySelectHandler::execute (CGLotterySelect* pPacket , Player* pPlayer
 			break;
 		case TYPE_FINISH_SCRATCH:
 			{
-				// È®ÀÎÇÏ°í µðºñ¿¡ ÀúÀåÇÏ±â
-				// ÆÐÅ¶ ¸¸µé¾î¼­ ¿Ã¿ùµå¿¡ ºê·ÎµåÄ³½ºÆÃÇØÁÖ±â
-				// ÆøÁ× ÀÌÆåÆ® ºÙ¿©ÁÖ±â..
+				// È®ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½
+				// ï¿½ï¿½Å¶ ï¿½ï¿½ï¿½ï¿½î¼­ ï¿½Ã¿ï¿½ï¿½å¿¡ ï¿½ï¿½Îµï¿½Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ù¿ï¿½ï¿½Ö±ï¿½..
 
 			}
 			break;
 		case TYPE_OVER_ENDING:
 			{
-				// Á×ÀÎ´Ù.
+				// ï¿½ï¿½ï¿½Î´ï¿½.
 				pPC->setHP(0);
 			}
 			break;

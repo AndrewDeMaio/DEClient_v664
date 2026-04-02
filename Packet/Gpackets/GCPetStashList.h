@@ -1,6 +1,6 @@
 //////////////////////////////////////////////////////////////////////////////
 // Filename    : GCPetStashList.h 
-// Written By  : ±è¼º¹Î
+// Written By  : ï¿½è¼ºï¿½ï¿½
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -20,7 +20,7 @@ struct PetStashItemInfo
 	PetInfo* pPetInfo;
 	DWORD KeepDays;
 
-	PacketSize_t getPacketSize() const { return szBYTE + pPetInfo->getSize() + szDWORD; }
+	size_t getPacketSize() const { return szBYTE + pPetInfo->getSize() + szDWORD; }
 	static PacketSize_t	getPacketMaxSize() { return szBYTE + PetInfo::getMaxSize() + szDWORD; }
 };
 
@@ -31,17 +31,17 @@ struct PetStashItemInfo
 class GCPetStashList : public Packet 
 {
 public:
-	GCPetStashList() throw();
-	virtual ~GCPetStashList() throw();
+	GCPetStashList();
+	virtual ~GCPetStashList();
 
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_PET_STASH_LIST; }
-	PacketSize_t getPacketSize() const throw();
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_PET_STASH_LIST; }
+	size_t getPacketSize() const;
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCPetStashList"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCPetStashList"; }
+	string toString() const;
 #endif
 public:
 	BYTE	getCode() const { return m_Code; }
@@ -62,10 +62,10 @@ private:
 class GCPetStashListFactory : public PacketFactory 
 {
 public :
-	Packet* createPacket() throw() { return new GCPetStashList(); }
-	string getPacketName() const throw() { return "GCPetStashList"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_PET_STASH_LIST; }
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + PetStashItemInfo::getPacketMaxSize() * MAX_PET_STASH; }
+	Packet* createPacket() { return new GCPetStashList(); }
+	string getPacketName() const { return "GCPetStashList"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_PET_STASH_LIST; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE + PetStashItemInfo::getPacketMaxSize() * MAX_PET_STASH; }
 };
 
 
@@ -76,7 +76,7 @@ public :
 class GCPetStashListHandler 
 {
 public :
-	static void execute(GCPetStashList* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCPetStashList* pPacket, Player* pPlayer);
 
 };
 

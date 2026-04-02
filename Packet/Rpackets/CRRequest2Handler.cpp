@@ -17,7 +17,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void CRRequest2Handler::execute ( CRRequest2 * pPacket )
-	 throw ( Error )
 {
 	__BEGIN_TRY
 		
@@ -26,8 +25,8 @@ void CRRequest2Handler::execute ( CRRequest2 * pPacket )
 	DEBUG_ADD("CRRequest2Handler");
 
 	if ((g_Mode==MODE_GAME
-			|| g_Mode==MODE_WAIT_UPDATEINFO			// ·Îµù ÁßÀÌ ¾Æ´Ï°Å³ª..
-			|| g_Mode==MODE_WAIT_SETPOSITION		// ÁÂÇ¥ ±â´Ù¸®´Â °æ¿ì
+			|| g_Mode==MODE_WAIT_UPDATEINFO			// ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï°Å³ï¿½..
+			|| g_Mode==MODE_WAIT_SETPOSITION		// ï¿½ï¿½Ç¥ ï¿½ï¿½Ù¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			)
 		&& g_pUserInformation!=NULL)
 	{

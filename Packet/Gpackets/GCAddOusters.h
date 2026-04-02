@@ -17,14 +17,14 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // class GCAddOusters;
-// ·Î±×ÀÎÀÌ³ª Æ÷Å», ÅÚ·¹Æ÷Æ® µîÀ¸·Î ½½·¹ÀÌ¾î°¡ Á¸¿¡ »õ·Î µé¾î°¬À» °æ¿ì, ¶Ç´Â 
-// ½½·¹ÀÌ¾î°¡ Á¸¿¡¼­ ÀÌµ¿ÇÒ °æ¿ì,(1) ÀÌ¹Ì ÀÌ ½½·¹ÀÌ¾î¿¡ ´ëÇÑ Á¤º¸¸¦ °®°í ÀÖ´Â 
-//(Áï ÀÌ ½½·¹ÀÌ¾î¸¦ º¸°í ÀÖ´Â..) ¿µ¿ª¿¡ Á¸ÀçÇÏ´Â PCµé¿¡°Ô´Â GCMove ÆÐÅ¶À» 
-// ºê·ÎµåÄ³½ºÆ®ÇÑ´Ù. ±×·¯³ª,(2) ÀÌ ½½·¹ÀÌ¾î¸¦ Ã³À½ º¸°Ô µÇ´Â ¿µ¿ª¿¡ Á¸ÀçÇÏ´Â 
-// PCµé¿¡°Ô´Â GCAddOusters ÆÐÅ¶À» ºê·ÎµåÄ³½ºÆ®ÇÑ´Ù. ¶ÇÇÑ,(3) ÀÌ ½½·¹ÀÌ¾î´Â 
-// ÀÚ½ÅÀÌ »õ·Î °³Ã´ÇÑ ½Ã¾ß(?) ¾È¿¡ Á¸ÀçÇÏ´Â ½½·¹ÀÌ¾îµéÀÇ Á¤º¸¸¦ GCAddOusters¿¡ 
-// ´ã¾Æ¼­ ¹Þ°Ô µÈ´Ù.
-// ¸Û~~
+// ï¿½Î±ï¿½ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½ï¿½Å», ï¿½Ú·ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½î°¬ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½Ç´ï¿½ 
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½,(1) ï¿½Ì¹ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ 
+//(ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î¸¦ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½..) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ PCï¿½é¿¡ï¿½Ô´ï¿½ GCMove ï¿½ï¿½Å¶ï¿½ï¿½ 
+// ï¿½ï¿½Îµï¿½Ä³ï¿½ï¿½Æ®ï¿½Ñ´ï¿½. ï¿½×·ï¿½ï¿½ï¿½,(2) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î¸¦ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ 
+// PCï¿½é¿¡ï¿½Ô´ï¿½ GCAddOusters ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½Îµï¿½Ä³ï¿½ï¿½Æ®ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½ï¿½,(3) ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ 
+// ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã´ï¿½ï¿½ ï¿½Ã¾ï¿½(?) ï¿½È¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ GCAddOustersï¿½ï¿½ 
+// ï¿½ï¿½Æ¼ï¿½ ï¿½Þ°ï¿½ ï¿½È´ï¿½.
+// ï¿½ï¿½~~
 //////////////////////////////////////////////////////////////////////////////
 
 class GCAddOusters : public Packet 
@@ -32,39 +32,39 @@ class GCAddOusters : public Packet
 public:
 	GCAddOusters();
 	GCAddOusters(const PCOustersInfo3 & slayerInfo);
-	virtual ~GCAddOusters() throw();
+	virtual ~GCAddOusters();
 
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_ADD_OUSTERS; }
-	PacketSize_t getPacketSize() const throw();
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_ADD_OUSTERS; }
+	size_t getPacketSize() const;
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCAddOusters"; }
-	string toString() const throw();
+	string getPacketName() const { return "GCAddOusters"; }
+	string toString() const;
 #endif
 public:
-	PCOustersInfo3 & getOustersInfo() throw() { return m_OustersInfo; }
-	const PCOustersInfo3 & getOustersInfo() const throw() { return m_OustersInfo; }
-	void setOustersInfo(const PCOustersInfo3 & slayerInfo) throw() { m_OustersInfo = slayerInfo; }
+	PCOustersInfo3 & getOustersInfo() { return m_OustersInfo; }
+	const PCOustersInfo3 & getOustersInfo() const { return m_OustersInfo; }
+	void setOustersInfo(const PCOustersInfo3 & slayerInfo) { m_OustersInfo = slayerInfo; }
 
-	EffectInfo* getEffectInfo() const throw() { return m_pEffectInfo; }
-	void setEffectInfo(EffectInfo* pEffectInfo) throw() { m_pEffectInfo = pEffectInfo; }
+	EffectInfo* getEffectInfo() const { return m_pEffectInfo; }
+	void setEffectInfo(EffectInfo* pEffectInfo) { m_pEffectInfo = pEffectInfo; }
 
-	PetInfo* getPetInfo() const throw() { return m_pPetInfo; }
-	void setPetInfo(PetInfo* pPetInfo) throw() { m_pPetInfo = pPetInfo; }
+	PetInfo* getPetInfo() const { return m_pPetInfo; }
+	void setPetInfo(PetInfo* pPetInfo) { m_pPetInfo = pPetInfo; }
 
-	NicknameInfo* getNicknameInfo() const throw() { return m_pNicknameInfo; }
-	void setNicknameInfo(NicknameInfo* pNicknameInfo) throw() { m_pNicknameInfo = pNicknameInfo; }
+	NicknameInfo* getNicknameInfo() const { return m_pNicknameInfo; }
+	void setNicknameInfo(NicknameInfo* pNicknameInfo) { m_pNicknameInfo = pNicknameInfo; }
 
 	StoreOutlook	getStoreOutlook() const { return m_StoreOutlook; }
 	void		setStoreInfo(StoreInfo* pInfo) { pInfo->makeStoreOutlook(m_StoreOutlook); }
 
 private:
-	PCOustersInfo3  m_OustersInfo;  // ½½·¹ÀÌ¾îÀÇ ¿Ü¸ð Á¤º¸
-	EffectInfo*    m_pEffectInfo; // °É·ÁÀÖ´Â ÀÌÆåÆ® Á¤º¸
-	PetInfo*    m_pPetInfo; // °É·ÁÀÖ´Â ÀÌÆåÆ® Á¤º¸
+	PCOustersInfo3  m_OustersInfo;  // ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½Ü¸ï¿½ ï¿½ï¿½ï¿½ï¿½
+	EffectInfo*     m_pEffectInfo; // ï¿½É·ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
+	PetInfo*		m_pPetInfo; // ï¿½É·ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 	NicknameInfo*	m_pNicknameInfo;
 	StoreOutlook	m_StoreOutlook;
 };
@@ -76,12 +76,12 @@ private:
 class GCAddOustersFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCAddOusters(); }
+	Packet* createPacket() { return new GCAddOusters(); }
 #ifdef __DEBUG_OUTPUT__
-	string getPacketName() const throw() { return "GCAddOusters"; }
+	string getPacketName() const { return "GCAddOusters"; }
 #endif
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_ADD_OUSTERS; }
-	PacketSize_t getPacketMaxSize() const throw()
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_ADD_OUSTERS; }
+	PacketSize_t getPacketMaxSize() const
 	{ 
 		return PCOustersInfo3::getMaxSize() + EffectInfo::getMaxSize() + PetInfo::getMaxSize() + NicknameInfo::getMaxSize() + StoreOutlook::getMaxSize();
 	}
@@ -94,7 +94,7 @@ public:
 class GCAddOustersHandler 
 {
 public:
-	static void execute(GCAddOusters* pPacket, Player* pPlayer) throw(Error);
+	static void execute(GCAddOusters* pPacket, Player* pPlayer);
 };
 
 #endif

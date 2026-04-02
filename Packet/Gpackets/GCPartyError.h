@@ -11,32 +11,32 @@
 #include "PacketFactory.h"
 
 //////////////////////////////////////////////////////////////////////////////
-// ÆÄÆ¼ °¡ÀÔ °ü·Ã ÄÚµå
+// ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 //////////////////////////////////////////////////////////////////////////////
 enum
 {
-	// ÆÄÆ¼¿¡ °¡ÀÔ½ÃÅ°°Å³ª Å»Åð½ÃÅ³ ´ë»óÀÌ Á¸ÀçÇÏÁö ¾Ê´Â´Ù.
+	// ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½Ô½ï¿½Å°ï¿½Å³ï¿½ Å»ï¿½ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 	GC_PARTY_ERROR_TARGET_NOT_EXIST = 0,
 
-	// ÆÄÆ¼¿¡ °¡ÀÔ½ÃÅ°°Å³ª Å»Åð½ÃÅ³ ´ë»óÀÌ ´Ù¸¥ Á¾Á·ÀÌ´Ù.
+	// ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½Ô½ï¿½Å°ï¿½Å³ï¿½ Å»ï¿½ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½.
 	GC_PARTY_ERROR_RACE_DIFFER,
 
-	// ¾ÈÀüÁö´ë°¡ ¾Æ´Ï´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë°¡ ï¿½Æ´Ï´ï¿½.
 	GC_PARTY_ERROR_NOT_SAFE,
 
-	// ´Á´ë³ª ¹ÚÁã »óÅÂ¿¡¼­´Â ÇÒ ¼ö ¾ø´Ù.
+	// ï¿½ï¿½ï¿½ë³ª ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	GC_PARTY_ERROR_NOT_NORMAL_FORM,
 
-	// ÃÊ´ë ÁßÀÌ¸é¼­ ¶Ç ÃÊ´ë¸¦ ÇÏ·Á°í ÇÑ´Ù.
+	// ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½Ì¸é¼­ ï¿½ï¿½ ï¿½Ê´ë¸¦ ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	GC_PARTY_ERROR_ALREADY_INVITING,
 
-	// ÃÊ´ë ÁßÀÌ ¾Æ´Ï¸é¼­ ÃÊ´ë¿¡ ´ëÇÑ ÀÀ´äÀ» º¸³»¿Ô´Ù.
+	// ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¸é¼­ ï¿½Ê´ë¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½.
 	GC_PARTY_ERROR_NOT_INVITING,
 
-	// ÆÄÆ¼¿øÀ» Ãß¹æÇÒ ¼ö ÀÖ´Â ±ÇÇÑÀÌ ¾ø´Ù.
+	// ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ ï¿½ß¹ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	GC_PARTY_ERROR_NO_AUTHORITY,
 
-	// ¾Ë ¼ö ¾ø´Â ¿¡·¯´Ù
+	// ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	GC_PARTY_ERROR_UNKNOWN,
 
 	GC_PARTY_ERROR_MAX
@@ -49,16 +49,16 @@ enum
 class GCPartyError : public Packet 
 {
 public:
-	void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-	void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_PARTY_ERROR; }
-	PacketSize_t getPacketSize() const throw() { return szBYTE + szObjectID; }
-	std::string getPacketName() const throw() { return "GCPartyError"; }
-	std::string toString() const throw();
+	void read(SocketInputStream & iStream);
+	void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_PARTY_ERROR; }
+	size_t getPacketSize() const { return szBYTE + szObjectID; }
+	std::string getPacketName() const { return "GCPartyError"; }
+	std::string toString() const;
 
 public:
-	BYTE getCode() const throw() { return m_Code; }
+	BYTE getCode() const { return m_Code; }
 	void setCode(BYTE code) { m_Code = code; }
 
 	ObjectID_t getTargetObjectID(void) const { return m_TargetObjectID; }
@@ -66,7 +66,7 @@ public:
 
 private :
 	ObjectID_t m_TargetObjectID;
-	BYTE       m_Code; // ÄÚµå
+	BYTE       m_Code; // ï¿½Úµï¿½
 };
 
 
@@ -77,10 +77,10 @@ private :
 class GCPartyErrorFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCPartyError(); }
-	std::string getPacketName() const throw() { return "GCPartyError"; }
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_PARTY_ERROR; }
-	PacketSize_t getPacketMaxSize() const throw() { return szBYTE + szObjectID; }
+	Packet* createPacket() { return new GCPartyError(); }
+	std::string getPacketName() const { return "GCPartyError"; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_PARTY_ERROR; }
+	PacketSize_t getPacketMaxSize() const { return szBYTE + szObjectID; }
 };
 
 
@@ -91,7 +91,7 @@ public:
 class GCPartyErrorHandler 
 {
 public:
-	static void execute(GCPartyError* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCPartyError* pPacket, Player* pPlayer);
 };
 
 #endif

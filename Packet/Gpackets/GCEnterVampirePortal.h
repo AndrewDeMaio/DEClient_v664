@@ -2,8 +2,8 @@
 // Filename    : GCEnterVampirePortal.h 
 // Written By  : excel96
 // Description : 
-// ¹ìÆÄÀÌ¾î°¡ ¹ìÆÄÀÌ¾î Æ÷Å»¿¡ µé¾î°¡¼­ »ç¶óÁö´Â °æ¿ì,
-// ÁÖÀ§¿¡ ºê·ÎµåÄ³½ºÆÃµÇ´Â ÆÐÅ¶ÀÌ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾î°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½,
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Îµï¿½Ä³ï¿½ï¿½ï¿½ÃµÇ´ï¿½ ï¿½ï¿½Å¶ï¿½Ì´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 
 #ifndef __GC_ENTER_VAMPIRE_PORTAL_H__
@@ -19,20 +19,20 @@
 class GCEnterVampirePortal : public Packet 
 {
 public:
-    void read(SocketInputStream & iStream) throw(ProtocolException, Error);
-    void write(SocketOutputStream & oStream) const throw(ProtocolException, Error);
-	void execute(Player* pPlayer) throw(ProtocolException, Error);
-	PacketID_t getPacketID() const throw() { return PACKET_GC_ENTER_VAMPIRE_PORTAL; }
-	PacketSize_t getPacketSize() const throw() { return szObjectID + szCoord*2; }
+    void read(SocketInputStream & iStream);
+    void write(SocketOutputStream & oStream) const;
+	void execute(Player* pPlayer);
+	PacketID_t getPacketID() const { return PACKET_GC_ENTER_VAMPIRE_PORTAL; }
+	size_t getPacketSize() const { return szObjectID + szCoord*2; }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "GCEnterVampirePortal"; }
-		std::string toString() const throw();
+		std::string getPacketName() const { return "GCEnterVampirePortal"; }
+		std::string toString() const;
 	#endif
 
 public:
-	ObjectID_t getObjectID() const throw() { return m_ObjectID; }
-	void setObjectID(const ObjectID_t & creatureID) throw() { m_ObjectID = creatureID; }
+	ObjectID_t getObjectID() const { return m_ObjectID; }
+	void setObjectID(const ObjectID_t & creatureID) { m_ObjectID = creatureID; }
 
 	Coord_t getX(void) const { return m_X; }
 	void setX(Coord_t X) { m_X = X; }
@@ -53,14 +53,14 @@ private:
 class GCEnterVampirePortalFactory : public PacketFactory 
 {
 public:
-	Packet* createPacket() throw() { return new GCEnterVampirePortal(); }
+	Packet* createPacket() { return new GCEnterVampirePortal(); }
 
 	#ifdef __DEBUG_OUTPUT__
-		std::string getPacketName() const throw() { return "GCEnterVampirePortal"; }
+		std::string getPacketName() const { return "GCEnterVampirePortal"; }
 	#endif
 
-	PacketID_t getPacketID() const throw() { return Packet::PACKET_GC_ENTER_VAMPIRE_PORTAL; }
-	PacketSize_t getPacketMaxSize() const throw() { return szObjectID + szCoord*2; }
+	PacketID_t getPacketID() const { return Packet::PACKET_GC_ENTER_VAMPIRE_PORTAL; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID + szCoord*2; }
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -70,7 +70,7 @@ public:
 class GCEnterVampirePortalHandler 
 {
 public:
-	static void execute(GCEnterVampirePortal* pPacket, Player* pPlayer) throw(ProtocolException, Error);
+	static void execute(GCEnterVampirePortal* pPacket, Player* pPlayer);
 };
 
 #endif

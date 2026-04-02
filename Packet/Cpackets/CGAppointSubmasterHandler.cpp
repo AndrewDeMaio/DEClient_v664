@@ -17,7 +17,6 @@
 //////////////////////////////////////////////////////////////////////////////
 #ifndef __GAME_CLIENT__	
 void CGAppointSubmasterHandler::execute (CGAppointSubmaster* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 	__BEGIN_TRY __BEGIN_DEBUG_EX
 		

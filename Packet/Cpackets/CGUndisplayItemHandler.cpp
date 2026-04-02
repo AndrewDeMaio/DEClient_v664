@@ -19,7 +19,6 @@
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 void CGUndisplayItemHandler::execute (CGUndisplayItem* pPacket , Player* pPlayer)
-	 throw (Error)
 {
 	__BEGIN_TRY
 		//__BEGIN_DEBUG_EX
@@ -40,7 +39,7 @@ void CGUndisplayItemHandler::execute (CGUndisplayItem* pPacket , Player* pPlayer
 
 	if ( pPacket->getIndex() > MAX_ITEM_NUM )
 	{
-		filelog("Store.log", "[%s:%s] (%u) Àß¸øµÈ ÀÎµ¦½ºÀÔ´Ï´Ù.",
+		filelog("Store.log", "[%s:%s] (%u) ï¿½ß¸ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.",
 				pGamePlayer->getID().c_str(), pPC->getName().c_str(), pPacket->getIndex());
 		return;
 	}
@@ -48,7 +47,7 @@ void CGUndisplayItemHandler::execute (CGUndisplayItem* pPacket , Player* pPlayer
 	BYTE result = pStore->removeStoreItem( pPacket->getIndex() );
 	if ( result != 0 )
 	{
-		filelog("Store.log", "[%s:%s] (%u) ¾ÆÀÌÅÛÀ» »¬ ¼ö ¾ø½À´Ï´Ù.",
+		filelog("Store.log", "[%s:%s] (%u) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.",
 				pGamePlayer->getID().c_str(), pPC->getName().c_str(), result);
 		return;
 	}

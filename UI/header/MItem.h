@@ -67,7 +67,7 @@
 //#include "SkillDef.h"
 //#include "AddonDef.h"
 #include "CAnimationFrame.h"
-#include "RaceType.h"
+#include "Types\RaceType.h"
 class MCreature;
 
 

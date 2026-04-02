@@ -8,7 +8,6 @@
 #include "CGSelectAllSupplyItem.h"
 
 void CGSelectAllSupplyItem::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -16,7 +15,6 @@ void CGSelectAllSupplyItem::read (SocketInputStream & iStream)
 }
 		    
 void CGSelectAllSupplyItem::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -24,7 +22,6 @@ void CGSelectAllSupplyItem::write (SocketOutputStream & oStream) const
 }
 
 void CGSelectAllSupplyItem::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 		
@@ -34,7 +31,6 @@ void CGSelectAllSupplyItem::execute (Player* pPlayer)
 }
 
 string CGSelectAllSupplyItem::toString () const
-       throw ()
 {
 	__BEGIN_TRY
 		

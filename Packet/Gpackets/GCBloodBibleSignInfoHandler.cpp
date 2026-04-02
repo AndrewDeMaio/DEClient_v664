@@ -11,20 +11,19 @@
 #include "PacketFunction.h"
 //////////////////////////////////////////////////////////////////////
 //
-// Å¬¶óÀÌ¾ðÆ®¿¡¼­ ¼­¹ö·ÎºÎÅÍ ¸Þ½ÃÁö¸¦ ¹Þ¾ÒÀ»¶§ ½ÇÇàµÇ´Â ¸Þ½îµåÀÌ´Ù.
+// Å¬ï¿½ï¿½ï¿½Ì¾ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 //////////////////////////////////////////////////////////////////////
 
 #if __CONTENTS(__GEAR_SWAP_CHANGE)	// BloodBibleSignInfo*	g_pBloodBibleSignInfo	= NULL;
-BloodBibleSignInfo*	g_pBloodBibleSignInfo	= NULL;	//ÀåÂøÃ¢ÀÌ ¹Ù²ð¶§¿¡ ÀÎ¼ö·Î »ç¿ëµÉ ±Û·Î¹ú °ª
-															//SetGearInfo 2¹øÂ° ÀÎ¼ö°¡ NULL·Î °¡´Ï±ñ ÇÇÀÇ ¼º¼­°¡ ¾Èº¸ÀÌ´Â Çö»óÀÌ ¹ß»ý.
-															//GCChangeGearSlot¿¡¼­ BloodBibleSignInfo ÆÐÅ¶µµ °°ÀÌ ¹ÞÀ¸¸é ÁÁ°Ú´Ù. ¤Ì.¤Ì
+BloodBibleSignInfo*	g_pBloodBibleSignInfo	= NULL;	//ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½Ù²ð¶§¿ï¿½ ï¿½Î¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Û·Î¹ï¿½ ï¿½ï¿½
+															//SetGearInfo 2ï¿½ï¿½Â° ï¿½Î¼ï¿½ï¿½ï¿½ NULLï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Èºï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½.
+															//GCChangeGearSlotï¿½ï¿½ï¿½ï¿½ BloodBibleSignInfo ï¿½ï¿½Å¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú´ï¿½. ï¿½ï¿½.ï¿½ï¿½
 #endif // __GEAR_SWAP_CHANGE
 
 
 
 void GCBloodBibleSignInfoHandler::execute ( GCBloodBibleSignInfo * pPacket , Player * pPlayer )
-	 throw ( ProtocolException , Error )
 {
 	__BEGIN_TRY 
 	

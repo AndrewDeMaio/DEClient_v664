@@ -3,8 +3,6 @@
 
 #include "CTypeTable.h"
 
-std::ifstream;
-std::ofstream;
 
 typedef unsigned char	BYTE;
 

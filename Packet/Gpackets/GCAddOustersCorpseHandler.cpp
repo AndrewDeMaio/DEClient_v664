@@ -15,46 +15,45 @@
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 void GCAddOustersCorpseHandler::execute ( GCAddOustersCorpse * pPacket , Player * pPlayer )
-throw ( Error )
 {
 	__BEGIN_TRY
 	
-	// Creature¸¦ »ý¼ºÇØ¼­ MCorpse¿¡ Ãß°¡ÇØ¼­ Zone¿¡ ³Ö´Â´Ù.
+	// Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ MCorpseï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ø¼ï¿½ Zoneï¿½ï¿½ ï¿½Ö´Â´ï¿½.
 	//------------------------------------------------------
-	// ZoneÀÌ ¾ÆÁ÷ »ý¼ºµÇÁö ¾ÊÀº °æ¿ì
+	// Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	//------------------------------------------------------
 	if (g_pZone==NULL)
 	{
 		// message
-		DEBUG_ADD("[Error] GCAddOusterCorpseHandler. Zone ÀÌ NULL ÀÌ¿¹¿ä.");
+		DEBUG_ADD("[Error] GCAddOusterCorpseHandler. Zone ï¿½ï¿½ NULL ï¿½Ì¿ï¿½ï¿½ï¿½.");
 	}
 	//------------------------------------------------------
-	// Á¤»ó.. 
+	// ï¿½ï¿½ï¿½ï¿½.. 
 	//------------------------------------------------------
 	else
 	{	
 		const PCOustersInfo3 & oi = pPacket->getOustersInfo();
 		
 		//----------------------------------------	
-		// ÀÌ¹Ì ÀÖ´Â CreatureÀÎ°¡?
+		// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Creatureï¿½Î°ï¿½?
 		//----------------------------------------	
 		MCreature* pCreature = g_pZone->GetCreatureOnly( oi.getObjectID() );
 		
 		//---------------------------------------------------------
-		//					Zone¿¡ ¾ø´Â °æ¿ì
+		//					Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//---------------------------------------------------------
 		if (pCreature==NULL)
 		{
-			// ÀÌ¹Ì ½ÃÃ¼°¡ ÀÖ³ª?
+			// ï¿½Ì¹ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ö³ï¿½?
 			MItem* pItem = g_pZone->GetItem( oi.getObjectID() );
 			
 			//---------------------------------------------------------
-			// »õ·Î¿î ½ÃÃ¼¸¦ »ý¼º
+			// ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			//---------------------------------------------------------
 			if (pItem==NULL)
 			{
 				//----------------------------------------	
-				// Á×Àº Creature¸¦ »ý¼ºÇÑ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ Creatureï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 				//----------------------------------------	
 				DEBUG_ADD("[GCAddOustersCorpseHandler] New OustersCorpse");				
 				MCreatureWear*	pDeadCreature = new MCreatureWear;				
@@ -80,23 +79,23 @@ throw ( Error )
 				pDeadCreature->SetCurrentDirection( oi.getDir() );				
 				pDeadCreature->SetStatus( MODIFY_MAX_HP, oi.getMaxHP() );
 				pDeadCreature->SetStatus( MODIFY_CURRENT_HP, 0 );				
-				// ½ÃÃ¼·Î ¹Ù²Û´Ù.
+				// ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ù²Û´ï¿½.
 				pDeadCreature->SetCorpse();
 				pDeadCreature->SetName( oi.getName().c_str() );				
-				// ÀÓ½Ã·Î
+				// ï¿½Ó½Ã·ï¿½
 				pDeadCreature->SetGuildNumber( oi.getGuildID() );
 				pDeadCreature->SetOriginServerNum( oi.getBorn() );
 				
 				pDeadCreature->SetWeaponSpeed( oi.getAttackSpeed() );
 				pDeadCreature->SetStatus( MODIFY_ALIGNMENT, oi.getAlignment() );				
-				// »ö±ò
+				// ï¿½ï¿½ï¿½ï¿½
 				pDeadCreature->SetBodyColor1( oi.getHairColor() );
 				pDeadCreature->SetBodyColor2( oi.getCoatColor() );
 
 				SetAddonToOusters( pDeadCreature, &oi );				
 				
 				//----------------------------------------	
-				// ½ÃÃ¼itemÀ» »ý¼ºÇÑ´Ù.
+				// ï¿½ï¿½Ã¼itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 				//----------------------------------------	
 				MCorpse* pCorpse = (MCorpse*)MItem::NewItem( ITEM_CLASS_CORPSE );
 				
@@ -107,13 +106,13 @@ throw ( Error )
 				pCorpse->SetNumber( pPacket->getTreasureCount() );
 				
 				//----------------------------------------
-				// Zone¿¡ ItemÃß°¡
+				// Zoneï¿½ï¿½ Itemï¿½ß°ï¿½
 				//----------------------------------------
 				if (!g_pZone->AddItem( pCorpse ))
 				{
 					//---------------------------------------------------------
-					// Ãß°¡°¡ ¾ÈµÈ °æ¿ì
-					// ÀÌ¹Ì ÀÖ´Â ItemÀ» Á¦°ÅÇÏ°í ´Ù½Ã Ãß°¡ÇÑ´Ù.
+					// ï¿½ß°ï¿½ï¿½ï¿½ ï¿½Èµï¿½ ï¿½ï¿½ï¿½
+					// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ Itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ù½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 					//---------------------------------------------------------
 					TYPE_OBJECTID oldItemID = g_pZone->GetItemID( oi.getX(), oi.getY() );
 					
@@ -121,7 +120,7 @@ throw ( Error )
 					
 					if (g_pZone->RemoveItem( oldItemID ))				
 					{
-						// ´Ù½Ã Ãß°¡ÇÑ´Ù.
+						// ï¿½Ù½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½.
 						if (!g_pZone->AddItem( pCorpse ))
 						{
 							DEBUG_ADD_FORMAT("[Error] Can't add Corpse to Zone, too. id=%d, xy=(%d, %d)", oi.getObjectID(), oi.getX(), oi.getY());
@@ -131,7 +130,7 @@ throw ( Error )
 					}
 					else
 					{
-						// ÀÌ¹Ì ÀÖ´Â itemÀ» Á¦°ÅÇÒ ¼ö ¾ø´Â °æ¿ì
+						// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 						DEBUG_ADD_FORMAT("[Error] Can't remove old Item. id=%d, xy=(%d, %d)", oldItemID, oi.getX(), oi.getY());
 						
 						delete pCorpse;
@@ -140,7 +139,7 @@ throw ( Error )
 			}
 			//---------------------------------------------------------
 			//
-			// ÀÌ¹Ì ½ÃÃ¼°¡ ÀÖ´Â °æ¿ì 
+			// ï¿½Ì¹ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ 
 			//
 			//---------------------------------------------------------
 			else
@@ -150,8 +149,8 @@ throw ( Error )
 				if (pItem->GetItemClass()==ITEM_CLASS_CORPSE)
 				{
 					//---------------------------------------------------------					
-					// ½ÃÃ¼°¡ ÀÌ¹Ì ÀÖ´Â °æ¿ì
-					// ½ÃÃ¼¿¡ µé¾îÀÖ´Â Item °³¼ö ¼³Á¤
+					// ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
+					// ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ Item ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					//---------------------------------------------------------
 					pItem->SetNumber( pPacket->getTreasureCount() );
 				}
@@ -163,7 +162,7 @@ throw ( Error )
 		}
 		//---------------------------------------------------------
 		//
-		//				Zone¿¡ ÀÌ¹Ì ÀÖ´Â °æ¿ì
+		//				Zoneï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 		//
 		//---------------------------------------------------------		
 		else
@@ -203,7 +202,7 @@ throw ( Error )
 
 			
 			//---------------------------------------------------------
-			// Creature¸¦ Á×¿©¾ß ÇÑ´Ù.
+			// Creatureï¿½ï¿½ ï¿½×¿ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 			//---------------------------------------------------------
 			if (!pCreature->IsDead())
 			{

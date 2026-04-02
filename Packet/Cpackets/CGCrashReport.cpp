@@ -8,21 +8,18 @@
 #include "Assert.h"
 
 CGCrashReport::CGCrashReport () 
-     throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 CGCrashReport::~CGCrashReport () 
-    throw ()
 {
 	__BEGIN_TRY
 	__END_CATCH
 }
 
 void CGCrashReport::read (SocketInputStream & iStream) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -48,7 +45,6 @@ void CGCrashReport::read (SocketInputStream & iStream)
 }
 
 void CGCrashReport::write (SocketOutputStream & oStream) const 
-     throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 
@@ -78,7 +74,6 @@ void CGCrashReport::write (SocketOutputStream & oStream) const
 }
 
 void CGCrashReport::execute (Player* pPlayer) 
-	 throw (ProtocolException , Error)
 {
 	__BEGIN_TRY
 #ifndef __GAME_CLIENT__
@@ -91,7 +86,7 @@ void CGCrashReport::execute (Player* pPlayer)
 #ifdef __DEBUG_OUTPUT__
 
 std::string CGCrashReport::toString () 
-	const throw ()
+	const
 {
 	__BEGIN_TRY
 		

@@ -21,7 +21,6 @@
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCReloadOKHandler::execute ( GCReloadOK * pPacket , Player * pPlayer )
-	 throw ( ProtocolException, Error )
 {
 	__BEGIN_TRY
 		
@@ -29,7 +28,7 @@ void GCReloadOKHandler::execute ( GCReloadOK * pPacket , Player * pPlayer )
 	// message
 
 	//------------------------------------------------------------------
-	// SlayerÀÎ °æ¿ì¸¸ Àû¿ëµÇ´Â packetÀÌ´Ù.
+	// Slayerï¿½ï¿½ ï¿½ï¿½ì¸¸ ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ packetï¿½Ì´ï¿½.
 	//------------------------------------------------------------------
 	if (g_pPlayer->IsVampire())
 	{
@@ -38,17 +37,17 @@ void GCReloadOKHandler::execute ( GCReloadOK * pPacket , Player * pPlayer )
 		return;
 	}
 
-	// À½.. cut & pasteÀÇ °ÉÀÛ.. - -;;
+	// ï¿½ï¿½.. cut & pasteï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.. - -;;
 
 	//------------------------------------------------------------------
 	//
-	//				Item Check Buffer È®ÀÎ
+	//				Item Check Buffer È®ï¿½ï¿½
 	//
 	//------------------------------------------------------------------	
 	MItem* pItem = g_pPlayer->GetItemCheckBuffer();
 
 	//----------------------------------------------------
-	// Check Buffer¿¡ itemÀÌ ÀÖ´Â °æ¿ì
+	// Check Bufferï¿½ï¿½ itemï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 	//----------------------------------------------------
 	if (pItem!=NULL)
 	{
@@ -57,11 +56,11 @@ void GCReloadOKHandler::execute ( GCReloadOK * pPacket , Player * pPlayer )
 		MPlayer::ITEM_CHECK_BUFFER status =	g_pPlayer->GetItemCheckBufferStatus();
 
 		//----------------------------------------------------
-		// Inventory¿¡¼­ »ç¿ë
+		// Inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//----------------------------------------------------
 		if (status==MPlayer::ITEM_CHECK_BUFFER_USE_FROM_INVENTORY)			
 		{
-			// Item Check Buffer¸¦ Áö¿î´Ù.
+			// Item Check Bufferï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 			g_pPlayer->ClearItemCheckBuffer();
 
 			//----------------------------------------------------
@@ -72,32 +71,32 @@ void GCReloadOKHandler::execute ( GCReloadOK * pPacket , Player * pPlayer )
 				MMagazine* pMagazineItem;
 
 				//-------------------------------------------------
-				// °³¼ö Ã¼Å©¸¦ ÇØ¾ßÇÑ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½ï¿½ ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½.
 				//-------------------------------------------------
 				if (pItem->GetNumber()>1)
 				{
-					// ¾ÆÁ÷ °³¼ö°¡ ´õ ³²¾Æ ÀÖ´Â °æ¿ì,
-					// °³¼ö¸¦ ÇÏ³ª ÁÙ¿©ÁØ´Ù.
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½,
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½Ù¿ï¿½ï¿½Ø´ï¿½.
 					pItem->SetNumber( pItem->GetNumber() - 1 );
 
 					//-------------------------------------------------
-					// »õ·Î¿î ÅºÃ¢À» »ý¼ºÇØ¼­ ÃÑ¿¡ Ãß°¡ÇØ¾ß ÇÑ´Ù.
+					// ï¿½ï¿½ï¿½Î¿ï¿½ ÅºÃ¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½Ñ¿ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 					//-------------------------------------------------
 					pMagazineItem = (MMagazine*)MItem::NewItem( ITEM_CLASS_MAGAZINE );
 
-					pMagazineItem->SetID( 0 );	// ÀÓÀÇÀÇ ID.. »ç¿ëÇÏÁö ¾ÊÀ» µí.. 
+					pMagazineItem->SetID( 0 );	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ID.. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½.. 
 					pMagazineItem->SetItemType( pItem->GetItemType() );
 					pMagazineItem->SetItemOptionList( pItem->GetItemOptionList() );
 				}
 				//-------------------------------------------------
-				// ´Ù »ç¿ëÇÑ °æ¿ì --> Á¦°ÅÇÑ´Ù.
+				// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 				//-------------------------------------------------
 				else
 				{
-					// inventory¿¡¼­ Á¦°Å
+					// inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					g_pInventory->RemoveItem( pItem->GetID() );
 
-					// memory¿¡¼­ Á¦°ÅÇÏ¸é ¾ÈµÈ´Ù --> ÃÑ¿¡ µé¾î°¡¹Ç·Î..
+					// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ÈµÈ´ï¿½ --> ï¿½Ñ¿ï¿½ ï¿½ï¿½î°¡ï¿½Ç·ï¿½..
 					//delete pItem;	
 					
 					pMagazineItem = (MMagazine*)pItem;
@@ -105,20 +104,20 @@ void GCReloadOKHandler::execute ( GCReloadOK * pPacket , Player * pPlayer )
 
 				
 				//----------------------------------------------------
-				// ÃÑ¾Ë °³¼ö¸¦ ´Ù½Ã ¼³Á¤ÇÑ´Ù.
+				// ï¿½Ñ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 				//----------------------------------------------------
 				// Magazine.GetNumber()
 				//
-				// ÅºÃ¢À¸·Î ÀÖÀ» ¶§´Â ÅºÃ¢ ½×ÀÎ °³¼ö
-				// ÃÑ¿¡ µé¾î ÀÖÀ» ¶§ Number´Â ÃÑ¾ËÀÇ °³¼ö.
+				// ÅºÃ¢ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+				// ï¿½Ñ¿ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Numberï¿½ï¿½ ï¿½Ñ¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 				//----------------------------------------------------
 				pMagazineItem->SetNumber( pPacket->getBulletNum() );
 
-				// SlayerÀÎ °æ¿ì¸¸ °¡´ÉÇÏ´Ù.
+				// Slayerï¿½ï¿½ ï¿½ï¿½ì¸¸ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 				const MItem* pRightHandItem = g_pSlayerGear->GetItem( (MSlayerGear::GEAR_SLAYER)MSlayerGear::GEAR_SLAYER_RIGHTHAND );
 
 				//----------------------------------------------------
-				// ¿À¸¥¼Õ¿¡ ÃÑÀ» µé°í ÀÖ´Â °æ¿ìÀÌ¸é
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Õ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½
 				//----------------------------------------------------
 				if (pRightHandItem!=NULL)
 				{
@@ -126,13 +125,13 @@ void GCReloadOKHandler::execute ( GCReloadOK * pPacket , Player * pPlayer )
 					{
 						MGunItem* pGunItem = (MGunItem*)pRightHandItem;
 
-						// ÅºÃ¢ ÀåÂø
+						// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 						MMagazine* pOldMagazine = pGunItem->SetMagazine( pMagazineItem );
 
-						// ÇöÀçÀÇ ÅºÃ¢ ¼³Á¤
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 						g_pCurrentMagazine = pMagazineItem;
 
-						// ±âÁ¸¿¡ ÀÖ´ø ÅºÃ¢ÀÌ ÀÖÀ¸¸é Á¦°ÅÇÑ´Ù.
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ÅºÃ¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 						if (pOldMagazine!=NULL)
 						{
 							DEBUG_ADD("Delete Old Magazine");
@@ -142,23 +141,23 @@ void GCReloadOKHandler::execute ( GCReloadOK * pPacket , Player * pPlayer )
 					}									
 				}
 				//----------------------------------------------------
-				// ÃÑÀÌ ¾Æ´Ñ °æ¿ì --> Error´ç..
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ --> Errorï¿½ï¿½..
 				//----------------------------------------------------
 				else
 				{
 					DEBUG_ADD_FORMAT("[Error] Player not Use GUN. the ItemClass=%d", (int)pRightHandItem->GetItemClass());
 					
-					// inventory¿¡¼­ Á¦°Å
+					// inventoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					g_pInventory->RemoveItem( pItem->GetID() );
 
-					// itemÁ¤º¸ Á¦°Å - ÀÇ¹ÌÀÕÀ»±î - -;
+					// itemï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½Ç¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ - -;
 					UI_RemoveDescriptor( (void*)pItem );
 
 					delete pItem;
 				}
 			}
 			//----------------------------------------------------
-			// ÅºÃ¢ÀÌ ¾Æ´Ï¸é ¿¡·¯´Ù.
+			// ÅºÃ¢ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 			//----------------------------------------------------
 			else
 			{
@@ -166,11 +165,11 @@ void GCReloadOKHandler::execute ( GCReloadOK * pPacket , Player * pPlayer )
 			}
 		}
 		//----------------------------------------------------
-		// QuickSlot¿¡¼­ »ç¿ë
+		// QuickSlotï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		//----------------------------------------------------
 		else if (status==MPlayer::ITEM_CHECK_BUFFER_USE_FROM_QUICKSLOT)
 		{
-			// Item Check Buffer¸¦ Áö¿î´Ù.
+			// Item Check Bufferï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 			g_pPlayer->ClearItemCheckBuffer();
 
 			//----------------------------------------------------
@@ -181,55 +180,55 @@ void GCReloadOKHandler::execute ( GCReloadOK * pPacket , Player * pPlayer )
 				MMagazine* pMagazineItem;
 
 				//-------------------------------------------------
-				// °³¼ö Ã¼Å©¸¦ ÇØ¾ßÇÑ´Ù.
+				// ï¿½ï¿½ï¿½ï¿½ Ã¼Å©ï¿½ï¿½ ï¿½Ø¾ï¿½ï¿½Ñ´ï¿½.
 				//-------------------------------------------------
 				if (pItem->GetNumber()>1)
 				{
-					// ¾ÆÁ÷ °³¼ö°¡ ´õ ³²¾Æ ÀÖ´Â °æ¿ì,
-					// °³¼ö¸¦ ÇÏ³ª ÁÙ¿©ÁØ´Ù.
+					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½,
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï³ï¿½ ï¿½Ù¿ï¿½ï¿½Ø´ï¿½.
 					pItem->SetNumber( pItem->GetNumber() - 1 );
 
 					//-------------------------------------------------
-					// »õ·Î¿î ÅºÃ¢À» »ý¼ºÇØ¼­ ÃÑ¿¡ Ãß°¡ÇØ¾ß ÇÑ´Ù.
+					// ï¿½ï¿½ï¿½Î¿ï¿½ ÅºÃ¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½Ñ¿ï¿½ ï¿½ß°ï¿½ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 					//-------------------------------------------------
 					pMagazineItem = (MMagazine*)MItem::NewItem( ITEM_CLASS_MAGAZINE );
 
-					pMagazineItem->SetID( 0 );	// ÀÓÀÇÀÇ ID.. »ç¿ëÇÏÁö ¾ÊÀ» µí.. 
+					pMagazineItem->SetID( 0 );	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ID.. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½.. 
 					pMagazineItem->SetItemType( pItem->GetItemType() );
 					pMagazineItem->SetItemOptionList( pItem->GetItemOptionList() );					
 				}
 				//-------------------------------------------------
-				// ´Ù »ç¿ëÇÑ °æ¿ì --> Á¦°ÅÇÑ´Ù.
+				// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 				//-------------------------------------------------
 				else
 				{
-					// ¾ÆÀÌÅÛÀ» ´Ù »ç¿ëÇßÀ» °æ¿ì °°Àº ¾ÆÀÌÅÛÀÌ ÀÎº¥Åä¸®¿¡ ÀÖ´Ù¸é Äü½½·ÔÀ¸·Î ¿Å±ä´Ù.
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å±ï¿½ï¿½.
 					MItem* pNextItem	= g_pInventory->FindItem(pItem->GetItemClass(), pItem->GetItemType());
 					BYTE nItemSlot		= pItem->GetItemSlot();
 
-					// QuickSlot¿¡¼­ Á¦°Å
+					// QuickSlotï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					g_pQuickSlot->RemoveItem( pItem->GetID() );
 
 					if(pNextItem != NULL)
 						gC_vs_ui.AutoMoveInventoryItemToQuickSlot(
-							pNextItem->GetGridX(), pNextItem->GetGridY(), nItemSlot);	// Äü½½·ÔÀ¸·Î °í°í
+							pNextItem->GetGridX(), pNextItem->GetGridY(), nItemSlot);	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-					// memory¿¡¼­ Á¦°ÅÇÏ¸é ¾ÈµÈ´Ù --> ÃÑ¿¡ µé¾î°¡¹Ç·Î..
+					// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ÈµÈ´ï¿½ --> ï¿½Ñ¿ï¿½ ï¿½ï¿½î°¡ï¿½Ç·ï¿½..
 					//delete pItem;	
 					
 					pMagazineItem = (MMagazine*)pItem;
 				}
 
 				//----------------------------------------------------
-				// ÃÑ¾Ë °³¼ö¸¦ ´Ù½Ã ¼³Á¤ÇÑ´Ù.
+				// ï¿½Ñ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 				//----------------------------------------------------
 				pMagazineItem->SetNumber( pPacket->getBulletNum() );
 
-				// SlayerÀÎ °æ¿ì¸¸ °¡´ÉÇÏ´Ù.
+				// Slayerï¿½ï¿½ ï¿½ï¿½ì¸¸ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.
 				const MItem* pRightHandItem = g_pSlayerGear->GetItem( (MSlayerGear::GEAR_SLAYER)MSlayerGear::GEAR_SLAYER_RIGHTHAND );
 
 				//----------------------------------------------------
-				// ¿À¸¥¼Õ¿¡ ÃÑÀ» µé°í ÀÖ´Â °æ¿ìÀÌ¸é
+				// ï¿½ï¿½ï¿½ï¿½ï¿½Õ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½
 				//----------------------------------------------------
 				if (pRightHandItem!=NULL)
 				{
@@ -237,13 +236,13 @@ void GCReloadOKHandler::execute ( GCReloadOK * pPacket , Player * pPlayer )
 					{
 						MGunItem* pGunItem = (MGunItem*)pRightHandItem;
 
-						// ÅºÃ¢ ÀåÂø
+						// ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 						MMagazine* pOldMagazine = pGunItem->SetMagazine( pMagazineItem );
 
-						// ÇöÀçÀÇ ÅºÃ¢ ¼³Á¤
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ÅºÃ¢ ï¿½ï¿½ï¿½ï¿½
 						g_pCurrentMagazine = pMagazineItem;
 
-						// ±âÁ¸¿¡ ÀÖ´ø ÅºÃ¢ÀÌ ÀÖÀ¸¸é Á¦°ÅÇÑ´Ù.
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ÅºÃ¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 						if (pOldMagazine!=NULL)
 						{
 							DEBUG_ADD("Delete Old Magazine");
@@ -253,20 +252,20 @@ void GCReloadOKHandler::execute ( GCReloadOK * pPacket , Player * pPlayer )
 					}									
 				}
 				//----------------------------------------------------
-				// ÃÑÀÌ ¾Æ´Ñ °æ¿ì --> Error´ç..
+				// ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ï¿½ --> Errorï¿½ï¿½..
 				//----------------------------------------------------
 				else
 				{
 					DEBUG_ADD_FORMAT("[Error] Player not Use GUN. the ItemClass=%d", (int)pRightHandItem->GetItemClass());
 					
-					// QuickSlot¿¡¼­ Á¦°Å
+					// QuickSlotï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 					g_pQuickSlot->RemoveItem( pItem->GetID() );
 
 					SAFE_DELETE( pItem );					
 				}
 			}
 			//----------------------------------------------------
-			// ÅºÃ¢ÀÌ ¾Æ´Ï¸é ¿¡·¯´Ù.
+			// ÅºÃ¢ï¿½ï¿½ ï¿½Æ´Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 			//----------------------------------------------------
 			else
 			{
@@ -274,7 +273,7 @@ void GCReloadOKHandler::execute ( GCReloadOK * pPacket , Player * pPlayer )
 			}
 		}
 		//----------------------------------------------------
-		// ´Ù¸¥ »óÅÂ??
+		// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½??
 		//----------------------------------------------------
 		else
 		{
@@ -283,12 +282,12 @@ void GCReloadOKHandler::execute ( GCReloadOK * pPacket , Player * pPlayer )
 			return;
 		}
 
-		// ÀºÃÑ¾Ë ¶§¹®¿¡... µ¥¹ÌÁö µîµî.. ´Ù½Ã °è»ê..
+		// ï¿½ï¿½ï¿½Ñ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½... ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.. ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½..
 		g_pPlayer->CalculateStatus();
 
 	}
 	//----------------------------------------------------
-	// itemÀÌ ¾ø´Â °æ¿ì.. - -;;
+	// itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.. - -;;
 	//----------------------------------------------------
 	else
 	{
