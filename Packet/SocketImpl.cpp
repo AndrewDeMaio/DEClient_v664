@@ -17,7 +17,7 @@
 #if __LINUX__
 #include <sys/socket.h>
 #include <arpa/inet.h>	// for inet_ntoa()
-#elif __WINDOWS__
+#elif _WIN32
 #endif
 
 //////////////////////////////////////////////////

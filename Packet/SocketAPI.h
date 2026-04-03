@@ -13,7 +13,7 @@
 #include "Types.h"
 #include "Exception.h"
 
-#if __WINDOWS__
+#if _WIN32
 #include <WinSock.h>
 #elif __LINUX__
 #include <netinet/in.h>

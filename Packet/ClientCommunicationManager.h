@@ -1,7 +1,7 @@
 //--------------------------------------------------------------------------------
 // ClientCommunicationManager.h
 //--------------------------------------------------------------------------------
-// 다른 클라이언트로부터의 정보를 받아들어 
+// Processes the data received from the server packet
 //--------------------------------------------------------------------------------
 
 #ifndef __CLIENT_COMMUNICATION_MANAGER_H__
@@ -16,27 +16,27 @@ class Datagram;
 class DatagramPacket;
 
 class ClientCommunicationManager {
-	public :
-		ClientCommunicationManager();
-		~ClientCommunicationManager();
+public:
+	ClientCommunicationManager();
+	~ClientCommunicationManager();
 
-		//------------------------------------------------------------------
-		// Update
-		//------------------------------------------------------------------
-		void	Update();
+	//------------------------------------------------------------------
+	// Update
+	//------------------------------------------------------------------
+	void	Update();
 
-		//------------------------------------------------------------------
-		// send
-		//------------------------------------------------------------------
-		void	sendDatagram ( Datagram * pDatagram );
-		void	sendPacket ( const std::string& host , uint port , DatagramPacket * pPacket );
+	//------------------------------------------------------------------
+	// Send
+	//------------------------------------------------------------------
+	void	sendDatagram(Datagram* pDatagram);
+	void	sendPacket(const std::string& host, uint port, DatagramPacket* pPacket);
 
-	private :
-		// UDP 서버 소켓
-		DatagramSocket *	m_pDatagramSocket;
+private:
+	// Handle UDP packets
+	DatagramSocket* m_pDatagramSocket;
 };
 
 
-extern ClientCommunicationManager*	g_pClientCommunicationManager;
+extern ClientCommunicationManager* g_pClientCommunicationManager;
 
 #endif
