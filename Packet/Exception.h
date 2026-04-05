@@ -109,6 +109,8 @@ private :
 #ifdef NDEBUG
 	#define __BEGIN_TRY ((void)0);
 	#define __END_CATCH ((void)0);
+	#define __BEGIN_DEBUG_EX ((void)0);
+	#define __END_DEBUG_EX ((void)0);
 #else
 	#define __BEGIN_TRY \
 				try {

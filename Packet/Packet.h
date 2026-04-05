@@ -28,7 +28,7 @@ const uint szPacketID = sizeof(PacketID_t);
 //----------------------------------------------------------------------
 // Packet Size Type
 //----------------------------------------------------------------------
-typedef uint   PacketSize_t;
+typedef size_t PacketSize_t;
 const uint szPacketSize   = sizeof(PacketSize_t);
 
 //----------------------------------------------------------------------
@@ -694,6 +694,8 @@ public :
 		PACKET_GC_AUTH_XTRAP = 600,                   // 600  // XTRAP Ű
 	    PACKET_CG_AUTH_XTRAP,                         // 601  // XTRAP Ű
 		PACKET_GC_SUPPLYITEM_LIST,
+		PACKET_CG_SELECT_ALL_SUPPLYITEM,
+		PACKET_CG_SELECT_SUPPLYITEM,
 		PACKET_MAX,
 	};
 

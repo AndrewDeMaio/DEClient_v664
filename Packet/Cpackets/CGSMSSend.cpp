@@ -70,7 +70,7 @@ void CGSMSSend::write (SocketOutputStream & oStream) const
 	__END_CATCH
 }
 
-PacketSize_t CGSMSSend::getPacketSize() const
+size_t CGSMSSend::getPacketSize() const
 {
 	__BEGIN_TRY
 

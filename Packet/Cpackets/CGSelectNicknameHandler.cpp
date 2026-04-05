@@ -9,6 +9,7 @@
 #ifdef __GAME_SERVER__
 #endif	// __GAME_SERVER__
 
+#ifndef __GAME_CLIENT__
 void CGSelectNicknameHandler::execute (CGSelectNickname* pPacket , Player* pPlayer)
 {
 	__BEGIN_TRY __BEGIN_DEBUG_EX
@@ -18,4 +19,4 @@ void CGSelectNicknameHandler::execute (CGSelectNickname* pPacket , Player* pPlay
 		
 	__END_DEBUG_EX __END_CATCH
 }
-
+#endif

@@ -13,6 +13,7 @@
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
+#ifndef __GAME_CLIENT__
 void CGSMSSendHandler::execute (CGSMSSend* pPacket , Player* pPlayer)
 {
 	__BEGIN_TRY __BEGIN_DEBUG_EX
@@ -28,3 +29,4 @@ void CGSMSSendHandler::execute (CGSMSSend* pPacket , Player* pPlayer)
 	
 	__END_DEBUG_EX __END_CATCH
 }
+#endif

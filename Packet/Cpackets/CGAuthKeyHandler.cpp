@@ -15,9 +15,11 @@
 // Ŭ���̾�Ʈ���� �����κ��� �޽����� �޾����� ����Ǵ� �޽���̴�.
 //
 //////////////////////////////////////////////////////////////////////
+#ifndef __GAME_CLIENT__
 void CGAuthKeyHandler::execute ( CGAuthKey * pPacket , Player * pPlayer )
 {
 	__BEGIN_TRY
 	
 	__END_CATCH
 }
+#endif

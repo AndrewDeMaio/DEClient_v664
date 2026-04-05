@@ -22,7 +22,7 @@ public:
     void read(SocketInputStream & iStream);
     void write(SocketOutputStream & oStream) const;
 	void execute(Player* pPlayer);
-	PacketID_t getPacketID() const { return PACKET_CG_SELECT_SUPPLYITEM; }
+	PacketID_t getPacketID() const { return Packet::PACKET_CG_SELECT_SUPPLYITEM; }
 	size_t getPacketSize() const { return szObjectID; }
 	string getPacketName() const { return "CGSelectSupplyItem"; }
 	string toString() const;

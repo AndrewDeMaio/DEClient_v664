@@ -2493,7 +2493,7 @@ void SetBloodBibleSlot(BloodBibleSignInfo* pBloodBibleInfo)
 
 			g_pSlayerGear->SetBloodBibleOpenSlot(pBloodBibleInfo->getOpenNum());
 
-			for(i = 0; i<TempSignList.size() ; i++)
+			for(int i = 0; i<TempSignList.size() ; i++)
 			{
 				MItem* pItem = MItem::NewItem( ITEM_CLASS_BLOOD_BIBLE_SIGN );
 				pItem->SetItemType(	TempSignList[i] );
@@ -2513,7 +2513,7 @@ void SetBloodBibleSlot(BloodBibleSignInfo* pBloodBibleInfo)
 			}
 			g_pVampireGear->SetBloodBibleOpenSlot(pBloodBibleInfo->getOpenNum());
 
-			for(i = 0; i<TempSignList.size() ; i++)
+			for(int i = 0; i<TempSignList.size() ; i++)
 			{
 				MItem* pItem = MItem::NewItem( ITEM_CLASS_BLOOD_BIBLE_SIGN );
 				pItem->SetItemType(	TempSignList[i] );
@@ -2533,7 +2533,7 @@ void SetBloodBibleSlot(BloodBibleSignInfo* pBloodBibleInfo)
 			}
 			g_pOustersGear->SetBloodBibleOpenSlot(pBloodBibleInfo->getOpenNum());
 
-			for(i = 0; i<TempSignList.size() ; i++)
+			for(int i = 0; i<TempSignList.size() ; i++)
 			{ 
 				MItem* pItem = MItem::NewItem( ITEM_CLASS_BLOOD_BIBLE_SIGN );
 				pItem->SetItemType(	TempSignList[i] );

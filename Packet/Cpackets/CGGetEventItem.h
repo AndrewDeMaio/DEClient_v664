@@ -60,15 +60,15 @@ enum EventType
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class CGGetEventItem : public Packet 
+class CGGetEventItem : public Packet
 
 {
 
 public:
 
-	void read(SocketInputStream & iStream);
+	void read(SocketInputStream& iStream);
 
-	void write(SocketOutputStream & oStream) const;
+	void write(SocketOutputStream& oStream) const;
 
 	void execute(Player* pPlayer);
 
@@ -80,7 +80,7 @@ public:
 
 	string toString() const;
 
-	
+
 
 public:
 
@@ -88,7 +88,7 @@ public:
 
 	BYTE getEventType() const { return m_EventType; }
 
-	void setEventType( BYTE eventType ) { m_EventType = eventType; }
+	void setEventType(BYTE eventType) { m_EventType = eventType; }
 
 
 
@@ -114,7 +114,7 @@ private:
 
 
 
-class CGGetEventItemFactory : public PacketFactory 
+class CGGetEventItemFactory : public PacketFactory
 
 {
 
@@ -135,23 +135,15 @@ public:
 
 
 ////////////////////////////////////////////////////////////////////////////////
-
 //
-
 // class CGGetEventItemHandler
-
 //
-
 ////////////////////////////////////////////////////////////////////////////////
 
-class CGGetEventItemHandler 
-
+class CGGetEventItemHandler
 {
-
 public:
-
-//	static void execute(CGGetEventItem* pPacket, Player* player);
-
+	static void execute(CGGetEventItem* pPacket, Player* player);
 };
 
 

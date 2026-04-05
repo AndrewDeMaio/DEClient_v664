@@ -7,8 +7,6 @@
 #include "CGModifyNickname.h"
 
 #ifdef __GAME_SERVER__
-#endif
-
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
 void CGModifyNicknameHandler::execute (CGModifyNickname* pPacket , Player* pPlayer)
@@ -20,3 +18,4 @@ void CGModifyNicknameHandler::execute (CGModifyNickname* pPacket , Player* pPlay
 
     __END_DEBUG_EX __END_CATCH
 }
+#endif

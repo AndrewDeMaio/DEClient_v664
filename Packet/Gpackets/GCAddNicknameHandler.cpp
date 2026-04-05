@@ -9,7 +9,7 @@
 // include files
 #include "GPacket_PCH.h"
 #include "GCAddNickname.h"
-//#include "VS_UI.h"
+#include "VS_UI.h"
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 void GCAddNicknameHandler::execute ( GCAddNickname * pGCAddNickname , Player * pPlayer )

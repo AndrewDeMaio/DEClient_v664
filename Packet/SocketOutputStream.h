@@ -66,7 +66,10 @@ public :
     uint write ( uint   buf ) { return write( (const char*)&buf, szuint   ); }
     uint write ( long   buf ) { return write( (const char*)&buf, szlong   ); }
     uint write ( ulong  buf ) { return write( (const char*)&buf, szulong  ); }
+
+#ifdef _WIN64
 	uint write ( size_t buf ) { return write( (const char*)&buf, sizeof(size_t)   ); }
+#endif
 
 	// flush stream (output buffer) to socket
 	uint flush ();

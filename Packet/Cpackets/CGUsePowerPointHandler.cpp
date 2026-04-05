@@ -9,7 +9,6 @@
 #ifdef __GAME_SERVER__
 	#include "GamePlayer.h"
 	#include "Assert.h"
-#endif
 
 //////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -26,3 +25,4 @@ void CGUsePowerPointHandler::execute (CGUsePowerPoint* pPacket , Player* pPlayer
 		
 	__END_DEBUG_EX __END_CATCH
 }
+#endif

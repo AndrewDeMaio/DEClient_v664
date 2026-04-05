@@ -26,12 +26,12 @@ void GCRegenZoneStatusHandler::execute ( GCRegenZoneStatus * pPacket , Player * 
 		pInfo.owner = (int)pPacket->getStatus( i );
 	}
 
-	for(;i < g_pRegenTowerInfoManager->GetSize(); i++)
+	for (int i = 0; i < g_pRegenTowerInfoManager->GetSize(); i++)
 	{
-		RegenTowerInfo& pInfo = g_pRegenTowerInfoManager->Get( i );
-		if( i >= 8 && i <= 11 )
+		RegenTowerInfo& pInfo = g_pRegenTowerInfoManager->Get(i);
+		if (i >= 8 && i <= 11)
 		{
-			pInfo.owner = (i&0x1) ? RACE_VAMPIRE : RACE_SLAYER;			
+			pInfo.owner = (i & 0x1) ? RACE_VAMPIRE : RACE_SLAYER;
 		}
 		else
 			pInfo.owner = RACE_OUSTERS;

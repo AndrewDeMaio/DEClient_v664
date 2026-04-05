@@ -1,30 +1,15 @@
 //////////////////////////////////////////////////////////////////////////////
-
 // Filename    : CLAgreementHandler.cpp
-
 // Written By  : elca
-
 // Description : 
-
 //////////////////////////////////////////////////////////////////////////////
-
-
 
 #include "CLAgreement.h"
 
-
-
 #ifdef __LOGIN_SERVER__
-
 	#include "LoginPlayer.h"
-
 	#include "DB.h"
-
 	#include "Assert.h"
-
-#endif
-
-
 
 //////////////////////////////////////////////////////////////////////////////
 
@@ -106,7 +91,6 @@ void CLAgreementHandler::execute (CLAgreement* pPacket , Player* pPlayer)
 
 
 #endif
-
 #endif
 
 
@@ -114,4 +98,4 @@ void CLAgreementHandler::execute (CLAgreement* pPacket , Player* pPlayer)
 	__END_DEBUG_EX __END_CATCH
 
 }
-
+#endif

@@ -7,8 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-//#include "ClientDef.h"
-
+#include "ClientDef.h"
 #include "GPacket_PCH.h"
 #include "GCUseBonusPointOK.h"
 #include "Cpackets\CGUseBonusPoint.h"

@@ -2946,7 +2946,7 @@ UI_SetMP(int current, int max)
 // Add Chat To History
 //-----------------------------------------------------------------------------
 void
-UI_AddChatToHistory(const char* str, char* sz_id, int cond, DWORD color)
+UI_AddChatToHistory(const char* str, const char* sz_id, int cond, DWORD color)
 {
 	if(g_pUserOption->ChatWhite)
 		color = gpC_base->m_chatting_pi.text_color;

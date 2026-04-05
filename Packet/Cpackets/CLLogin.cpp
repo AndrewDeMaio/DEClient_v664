@@ -149,7 +149,7 @@ void CLLogin::execute ( Player * pPlayer )
 
 #endif
 
-PacketSize_t CLLogin::getPacketSize () const
+size_t CLLogin::getPacketSize () const
 {
 	if( g_pUserInformation == NULL || !g_pUserInformation->IsNetmarble )
 	{

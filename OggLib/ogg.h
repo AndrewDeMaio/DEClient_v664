@@ -22,6 +22,7 @@ extern "C" {
 #endif
 
 #include <os_types.h>
+#include <stddef.h>  /* for size_t used in ogg_iovec_t */
 
 typedef struct {
   long endbyte;
@@ -201,9 +202,3 @@ extern void     ogg_packet_clear(ogg_packet *op);
 #endif
 
 #endif  /* _OGG_H */
-
-
-
-
-
-

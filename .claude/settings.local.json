@@ -112,7 +112,10 @@
       "Bash(powershell -Command \"Get-ChildItem ''D:\\\\GitHub\\\\DEClient_v664\\\\Vorbis'' -Recurse | Select-Object FullName, Length\")",
       "Bash(powershell -Command \"Get-ChildItem ''D:\\\\GitHub\\\\DEClient_v664\\\\Vorbis'' -Recurse | Where-Object { $_Name -like ''*.log'' } | Select-Object FullName\")",
       "Bash(xargs sed:*)",
-      "Bash(find D:GitHubDEClient_v664 -iname *ifc* -type f)"
+      "Bash(find D:GitHubDEClient_v664 -iname *ifc* -type f)",
+      "Bash(grep -rn SUPPLYITEM D:/GitHub/DEServer_v664/src/ --include=*.h -l)",
+      "Bash(grep -rn SUPPLY D:/GitHub/DEServer_v664/src/ --include=*.h -l)",
+      "Bash(grep -rn SUPPLY D:/GitHub/DEServer_v664/src/ --include=*.cpp -l)"
     ]
   }
 }
