@@ -91,7 +91,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;__DESIGNED_INTERNATION;WIN32;__ATTACK_SPEED;__CONTRIBUTION_SYSTEM;_WINDOWS;_CRT_SECURE_NO_WARNINGS;__GAME_CLIENT__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;__DESIGNED_INTERNATION;WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;__GAME_CLIENT__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

@@ -161,7 +161,7 @@ void ClientPlayer::processCommand ()
 		try {
 
 			// ����� �ӽ������� ���� ����
-			char header[szPacketHeader];
+			//char header[szPacketHeader];
 			PacketID_t packetID = 0;
 			PacketSize_t packetSize = 0;		
 			pPacket = NULL;

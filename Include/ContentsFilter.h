@@ -921,9 +921,9 @@
 #define __CONTENTS(f)	((f) == __ON)
 
 
-#ifdef __DESIGN_NAME
+/*#ifdef __DESIGN_NAME
 #	pragma message ("Darkeden project \"" __DESIGN_NAME "\"")
 #else
 #	pragma message ("Darkeden design macro undefined")
-#endif
+#endif/*/
 #undef __DESIGN_NAME
