@@ -8,7 +8,7 @@
 #include <Windows.h>
 #include "MTypeDef.h"
 //#include "SkillDef.h"
-#include "Types\PacketItemDef.h"
+#include "PacketItemDef.h"
 #include "MEventManager.h"
 //#include "Packet\Types\ItemTypes.h"
 class MActionResult;

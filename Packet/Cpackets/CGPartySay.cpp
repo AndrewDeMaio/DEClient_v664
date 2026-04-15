@@ -34,7 +34,7 @@ void CGPartySay::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	BYTE szMessage = m_Message.size();
+	size_t szMessage = m_Message.size();
 	oStream.write(m_Color);
 	oStream.write(szMessage);
 	oStream.write(m_Message);

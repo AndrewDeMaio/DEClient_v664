@@ -13,7 +13,7 @@
 #include "Types.h"
 #include "Exception.h"
 #include "Packet.h"
-#include "Types/ModifyDef.h"
+#include "ModifyDef.h"
 #include <list>
 
 

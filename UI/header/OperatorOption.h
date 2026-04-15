@@ -37,11 +37,7 @@ public :
 	aqa::Robot* pAutoQARobot;		// AutoQA Robot
 };
 
-
 extern	OperatorOption*		g_pOperatorOption;
-
-extern	void	UI_AddChatToHistory(const char* str, char* sz_id, int cond, DWORD color);
-
 
 #endif
 

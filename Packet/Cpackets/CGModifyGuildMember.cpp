@@ -31,7 +31,7 @@ void CGModifyGuildMember::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	BYTE szName = m_Name.size();
+	size_t szName = m_Name.size();
 
 	if ( szName == 0 )
 		throw InvalidProtocolException( "szName == 0" );

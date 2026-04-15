@@ -147,7 +147,7 @@ void PCSlayerInfo::write ( SocketOutputStream & oStream ) const
 	//--------------------------------------------------
 	// write slayer name
 	//--------------------------------------------------
-	BYTE szName = m_Name.size();
+	size_t szName = m_Name.size();
 
 	if ( szName == 0 )
 		throw InvalidProtocolException("szName == 0");
@@ -197,7 +197,7 @@ void PCSlayerInfo::write ( SocketOutputStream & oStream ) const
 	// write misc
 	//--------------------------------------------------
 	oStream.write( m_Fame );
-//	oStream.write( m_Gold );
+	//oStream.write( m_Gold );
 
 	//--------------------------------------------------
 	// write skills

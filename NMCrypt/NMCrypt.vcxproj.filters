@@ -9,19 +9,44 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Crypt.cpp">
+    <ClCompile Include="FileAPILocal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileAPILocal.cpp">
+    <ClCompile Include="NMCryptAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NMCryptDll.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StdAfx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Crypt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Crypt.h">
+    <ClInclude Include="NMCrypt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FileAPILocal.h">
+    <ClInclude Include="NMCryptAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NMCryptDll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StdAfx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="NMCryptDll.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NMCryptDll.def" />
+    <None Include="NMCryptDll.rc2" />
   </ItemGroup>
 </Project>

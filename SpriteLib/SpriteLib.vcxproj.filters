@@ -215,5 +215,11 @@
     <ClInclude Include="CTexturePartManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="COrderedList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteLib_PCH.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -20,13 +20,10 @@
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
-#if __CONTENTS(__HIDDEN_BOSS_SYSTEM	)
-void	SetScreenEffect_Dark_FadeOut(GCAddEffectToScreen *pGCAddEffectToScreen,		MEvent	&event);
-#endif //__HIDDEN_BOSS_SYSTEM
-
 #if __CONTENTS(__TIPOJYU_CASTLE)
 void	SetScreenEffect_Shake(GCAddEffectToScreen *pGCAddEffectToScreen, 	MEvent	&event);
 void	SetScreenEffect_Dark_FadeIn(GCAddEffectToScreen *pGCAddEffectToScreen,		MEvent	&event);
+void	SetScreenEffect_Dark_FadeOut(GCAddEffectToScreen *pGCAddEffectToScreen,		MEvent	&event);
 
 void GCAddEffectToScreenHandler::execute ( GCAddEffectToScreen *pGCAddEffectToScreen , Player *pPlayer )
 {
@@ -78,8 +75,7 @@ void	SetScreenEffect_Dark_FadeIn(GCAddEffectToScreen *pGCAddEffectToScreen,	MEve
 	event.parameter3 = 3;
 }
 
-#endif //__TIPOJYU_CASTLE
-#if __CONTENTS(__HIDDEN_BOSS_SYSTEM	)
+
 void	SetScreenEffect_Dark_FadeOut(GCAddEffectToScreen *pGCAddEffectToScreen,	MEvent &event)
 {
 	event.eventID = EVENTID_FADE_OUT;
@@ -88,4 +84,5 @@ void	SetScreenEffect_Dark_FadeOut(GCAddEffectToScreen *pGCAddEffectToScreen,	MEv
 	event.eventFlag = EVENTFLAG_FADE_SCREEN;
 	event.parameter3 = 3;
 }
-#endif //__HIDDEN_BOSS_SYSTEM	
+
+#endif //__TIPOJYU_CASTLE

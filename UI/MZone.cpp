@@ -1033,7 +1033,7 @@ MZone::LoadFromFile(ivfstream& file)
 		//-------------------------------------------------
 		// Zone�� ImageObject���� Load
 		//-------------------------------------------------
-		MImageObject				*pImageObject;
+		MImageObject				*pImageObject = nullptr;
 		IMAGEOBJECT_POSITION_LIST	ImageObjectPositionList;
 		BYTE						ObjectType;
 		for (i=0; i<size; i++)	
@@ -5696,15 +5696,15 @@ MZone::GetNearOrderAllSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& I
 
 	int maxLength		= max(m_Width, m_Height);
 
-	register int findX		= sX;
-	register int findY		= sY;
-	register int findDir	= 0;
-	register int findLength = 1;
+	int findX		= sX;
+	int findY		= sY;
+	int findDir	= 0;
+	int findLength = 1;
 	bool bIncreaseLength	= false;
 
 	while(findLength < maxLength)
 	{
-		for(register int i = 0; i < findLength; ++i)
+		for(int i = 0; i < findLength; ++i)
 		{
 			//------------------------------------------------------
 			// Zone�� ������ �ƴ� ��쿡 Skip...
@@ -5743,7 +5743,7 @@ MZone::GetNearOrderAllSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& I
 					// Sector�� �ִ� ��� ImageObject���� �˻��Ѵ�.
 					// �� ImageObject�� SpriteID�� ��� �߰��Ѵ�.
 					//--------------------------------------------
-					for (register int j = 0; j < sector.GetImageObjectSize(); j++)
+					for (int j = 0; j < sector.GetImageObjectSize(); j++)
 					{
 						MImageObject* const pImageObject = (MImageObject* const)((*iImageObject).second);
 						
@@ -5764,7 +5764,7 @@ MZone::GetNearOrderAllSpriteSet(CSpriteSetManager& TileSSM, CSpriteSetManager& I
 								FRAME_ARRAY* pFrameArray = &(g_pTopView->m_ImageObjectFPK[ fid ]);
 								
 								// �� Frame���� SpriteID�� �˻��Ѵ�.
-								for (register int k = 0; k < pFrameArray->GetSize(); k++)
+								for (int k = 0; k < pFrameArray->GetSize(); k++)
 								{
 									if ((*pFrameArray)[k].GetSpriteID() != SPRITEID_NULL)
 									{

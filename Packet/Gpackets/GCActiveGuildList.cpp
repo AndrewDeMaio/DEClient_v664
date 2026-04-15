@@ -58,7 +58,7 @@ void GCActiveGuildList::write ( SocketOutputStream & oStream ) const
 {
 	__BEGIN_TRY
 		
-	WORD ListNum = m_GuildInfoList.size();
+	size_t ListNum = m_GuildInfoList.size();
 	oStream.write( ListNum );
 
 	GuildInfoListConstItor itr = m_GuildInfoList.begin();

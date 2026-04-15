@@ -61,7 +61,7 @@ void GCNPCAskVariable::write ( SocketOutputStream & oStream ) const
 	oStream.write( m_ObjectID );
 	oStream.write( m_ScriptID );
 
-	BYTE szParam = m_ScriptParameters.size();
+	size_t szParam = m_ScriptParameters.size();
 	oStream.write( szParam );
 
 	HashMapScriptParameterConstItor itr = m_ScriptParameters.begin();

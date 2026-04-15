@@ -41,7 +41,7 @@ void GCDisconnect::write ( SocketOutputStream & oStream ) const
 {
 	__BEGIN_TRY
 		
-	BYTE szMessage = m_Message.size();
+	size_t szMessage = m_Message.size();
 
 	if ( szMessage == 0 )
 		throw InvalidProtocolException("szMessage == 0");

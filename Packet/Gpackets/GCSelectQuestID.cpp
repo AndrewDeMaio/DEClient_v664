@@ -64,7 +64,7 @@ void GCSelectQuestID::write ( SocketOutputStream & oStream ) const
 
 	Assert( m_QuestIDList.size() <= maxQuestNum );
 
-	BYTE num = m_QuestIDList.size();
+	size_t num = m_QuestIDList.size();
 
 	oStream.write(num);
 

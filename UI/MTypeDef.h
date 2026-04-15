@@ -7,11 +7,13 @@
 
 #pragma warning(disable:4786)
 
+#include "ContentsFilter.h"
+
 //------------------------------------------------------------------
-// NULL°ª
+// NULLï¿½ï¿½
 //------------------------------------------------------------------
 #define	ZONEID_NULL						0xFFFF
-#define	OBJECTID_NULL					0xFFFFFFFF		// ¾Æ¹«°Íµµ ¾ø´Ù´Â ÀÇ¹Ì..
+#define	OBJECTID_NULL					0xFFFFFFFF		// ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½Ù´ï¿½ ï¿½Ç¹ï¿½..
 #define	INTERACTIONOBJECTTYPE_NULL		0xFFFF
 #define	SECTORPOSITION_NULL				0xFFFF
 
@@ -60,7 +62,7 @@ typedef	unsigned short	TYPE_ITEM_WEIGHT;
 
 //----------------------------------------------------------------------
 //
-//                 Creature °ü·Ã
+//                 Creature ï¿½ï¿½ï¿½ï¿½
 //
 //----------------------------------------------------------------------
 
@@ -71,7 +73,7 @@ typedef	unsigned short	TYPE_ITEM_WEIGHT;
 typedef	unsigned short	TYPE_CREATURETYPE;
 
 //----------------------------------------------------------------------
-// ¹æÇâ¿¡ ´ëÇÑ °ª
+// ï¿½ï¿½ï¿½â¿¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 //----------------------------------------------------------------------
 enum DIRECTIONS
 {			
@@ -90,10 +92,10 @@ enum DIRECTIONS
 #define	MAX_DIRECTION	DIRECTION_MAX
 
 //----------------------------------------------------------------------
-// Çàµ¿¿¡ ´ëÇÑ °ª
+// ï¿½àµ¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 //----------------------------------------------------------------------
-// VAMPIRE¿Í SLAYER°¡ °°Àº °ªÀ» °¡Áö´Â ÀÌÀ¯´Â
-// FramePack¿¡¼­ÀÇ Action¹øÈ£ ¶§¹®ÀÌ´Ù..
+// VAMPIREï¿½ï¿½ SLAYERï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// FramePackï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Actionï¿½ï¿½È£ ï¿½ï¿½ï¿½ï¿½ï¿½Ì´ï¿½..
 //
 
 //////////////////////////////////////////////////////////////////////////
@@ -104,7 +106,7 @@ enum {
 	ACTION_ATTACK,								// 2
 	ACTION_MAGIC,								// 3
 	ACTION_DAMAGED,								// 4
-	ACTION_DRAINED,								// 5	//±¸½Ã¿Â°ú ¸ð¸£°í½º´Â ÈíÇ÷À» ¾ÈÇÑ´Ù. ´Ù¸¥ °ø°Ý ½ºÅ³À» »ç¿ëÇÑ´Ù.
+	ACTION_DRAINED,								// 5	//ï¿½ï¿½ï¿½Ã¿Â°ï¿½ ï¿½ð¸£°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½. ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	ACTION_DIE,									// 6
 
 	ACTION_MAX_COMMON,
@@ -115,37 +117,37 @@ enum {
 
 // 2007.09.06 - Slayer Renewal
 enum {
-	ACTION_SLAYER_GUN_SR = ACTION_MAX_COMMON,	// 7			// Àú°Ý¿ë(TR)
-	ACTION_SLAYER_GUN_AR,						// 8			// ¼ÒÃÑ(AG)
-	ACTION_SLAYER_GUN_SG,						// 9			// ¼¦°Ç(SG)
-	ACTION_SLAYER_GUN_SMG,						// 10			// ÀÚµ¿¼ÒÃÑ(SMG)
+	ACTION_SLAYER_GUN_SR = ACTION_MAX_COMMON,	// 7			// ï¿½ï¿½ï¿½Ý¿ï¿½(TR)
+	ACTION_SLAYER_GUN_AR,						// 8			// ï¿½ï¿½ï¿½ï¿½(AG)
+	ACTION_SLAYER_GUN_SG,						// 9			// ï¿½ï¿½ï¿½ï¿½(SG)
+	ACTION_SLAYER_GUN_SMG,						// 10			// ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½(SMG)
 
 	ACTION_SLAYER_SWORD,						// 11			// Ä®
-	ACTION_SLAYER_BLADE,						// 12			// µµ
-	ACTION_SLAYER_SWORD_2,						// 13			// Ä® Æ¯¼öµ¿ÀÛ
-	ACTION_SLAYER_BLADE_2,						// 14			// µµ Æ¯¼öµ¿ÀÛ
+	ACTION_SLAYER_BLADE,						// 12			// ï¿½ï¿½
+	ACTION_SLAYER_SWORD_2,						// 13			// Ä® Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ACTION_SLAYER_BLADE_2,						// 14			// ï¿½ï¿½ Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	ACTION_SLAYER_MOTOR_MOVE,					// 15
 	ACTION_SLAYER_MOTOR_STAND,					// 16
 
-	ACTION_SLAYER_GUN_SR_SLOW,					// 17			// Àú°Ý¿ë(TR)
-	ACTION_SLAYER_GUN_SR_FAST,					// 18			// Àú°Ý¿ë(TR)
-	ACTION_SLAYER_GUN_AR_SLOW,					// 19			// ¼ÒÃÑ(AG)
-	ACTION_SLAYER_GUN_AR_FAST,					// 20	 		// ¼ÒÃÑ(AG)
-	ACTION_SLAYER_GUN_SG_SLOW,					// 21			// ¼¦°Ç(SG)
-	ACTION_SLAYER_GUN_SG_FAST,					// 22			// ¼¦°Ç(SG)
-	ACTION_SLAYER_GUN_SMG_SLOW,					// 23			// ÀÚµ¿¼ÒÃÑ(SMG)
-	ACTION_SLAYER_GUN_SMG_FAST,					// 24			// ÀÚµ¿¼ÒÃÑ(SMG)
+	ACTION_SLAYER_GUN_SR_SLOW,					// 17			// ï¿½ï¿½ï¿½Ý¿ï¿½(TR)
+	ACTION_SLAYER_GUN_SR_FAST,					// 18			// ï¿½ï¿½ï¿½Ý¿ï¿½(TR)
+	ACTION_SLAYER_GUN_AR_SLOW,					// 19			// ï¿½ï¿½ï¿½ï¿½(AG)
+	ACTION_SLAYER_GUN_AR_FAST,					// 20	 		// ï¿½ï¿½ï¿½ï¿½(AG)
+	ACTION_SLAYER_GUN_SG_SLOW,					// 21			// ï¿½ï¿½ï¿½ï¿½(SG)
+	ACTION_SLAYER_GUN_SG_FAST,					// 22			// ï¿½ï¿½ï¿½ï¿½(SG)
+	ACTION_SLAYER_GUN_SMG_SLOW,					// 23			// ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½(SMG)
+	ACTION_SLAYER_GUN_SMG_FAST,					// 24			// ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½(SMG)
 
 	ACTION_SLAYER_SWORD_SLOW,					// 25			// Ä®
 	ACTION_SLAYER_SWORD_FAST,					// 26			// Ä®
-	ACTION_SLAYER_BLADE_SLOW,					// 27			// µµ
-	ACTION_SLAYER_BLADE_FAST,					// 28			// µµ
+	ACTION_SLAYER_BLADE_SLOW,					// 27			// ï¿½ï¿½
+	ACTION_SLAYER_BLADE_FAST,					// 28			// ï¿½ï¿½
 
-	ACTION_SLAYER_SWORD_2_SLOW,					// 29			// Ä® Æ¯¼öµ¿ÀÛ
-	ACTION_SLAYER_SWORD_2_FAST,					// 30			// Ä® Æ¯¼öµ¿ÀÛ
-	ACTION_SLAYER_BLADE_2_SLOW,					// 31			// µµ Æ¯¼öµ¿ÀÛ
-	ACTION_SLAYER_BLADE_2_FAST,					// 32			// µµ Æ¯¼öµ¿ÀÛ
+	ACTION_SLAYER_SWORD_2_SLOW,					// 29			// Ä® Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ACTION_SLAYER_SWORD_2_FAST,					// 30			// Ä® Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ACTION_SLAYER_BLADE_2_SLOW,					// 31			// ï¿½ï¿½ Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ACTION_SLAYER_BLADE_2_FAST,					// 32			// ï¿½ï¿½ Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 	ACTION_SLAYER_BATTLE_STAND_GUN,				// 33
 	ACTION_SLAYER_BATTLE_STAND_SWORD,			// 34
@@ -164,12 +166,12 @@ enum {
 //////////////////////////////////////////////////////////////////////////
 // Vampire Action
 enum {
-	// 2001.6.5 Ãß°¡µÈ°Å
+	// 2001.6.5 ï¿½ß°ï¿½ï¿½È°ï¿½
 	ACTION_VAMPIRE_DRAIN = ACTION_MAX_COMMON,	// 7
-	ACTION_VAMPIRE_ATTACK_SLOW,					// 8			// vampireÀü¿ë
-	ACTION_VAMPIRE_ATTACK_FAST,					// 9			// vampireÀü¿ë
+	ACTION_VAMPIRE_ATTACK_SLOW,					// 8			// vampireï¿½ï¿½ï¿½ï¿½
+	ACTION_VAMPIRE_ATTACK_FAST,					// 9			// vampireï¿½ï¿½ï¿½ï¿½
 
-	// chyaya 2007.05.06 ¹ìÆÄÀÌ¾î °ø°Ý ¸ð¼Çx2, ½ÃÀüÇü ¸¶¹ý ¸ð¼Ç Ãß°¡
+	// chyaya 2007.05.06 ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½x2, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 	ACTION_VAMPIRE_ATTACK_2,					// 10
 	ACTION_VAMPIRE_ATTACK_2_SLOW,				// 11
 	ACTION_VAMPIRE_ATTACK_2_FAST,				// 12
@@ -182,30 +184,30 @@ enum {
 };
 
 /*
-// 2005.6.20 Ãß°¡µÈ°Å
-#define	ACTION_VAMPIRE_SKILL_ATTACK				10			// vampireÀü¿ë
-#define	ACTION_VAMPIRE_SKILL_ATTACK_SLOW		11			// vampireÀü¿ë
-#define	ACTION_VAMPIRE_SKILL_ATTACK_FAST		12			// vampireÀü¿ë
+// 2005.6.20 ï¿½ß°ï¿½ï¿½È°ï¿½
+#define	ACTION_VAMPIRE_SKILL_ATTACK				10			// vampireï¿½ï¿½ï¿½ï¿½
+#define	ACTION_VAMPIRE_SKILL_ATTACK_SLOW		11			// vampireï¿½ï¿½ï¿½ï¿½
+#define	ACTION_VAMPIRE_SKILL_ATTACK_FAST		12			// vampireï¿½ï¿½ï¿½ï¿½
 */
 
 // 2001.7.6
-#define	ACTION_MONSTER_DIE_BODY		10			// Vampire MonsterÀü¿ë - ¸Ó¸®¾ø°í ¸ñ¸¸ ÀÖ´Â °Í
+#define	ACTION_MONSTER_DIE_BODY		10			// Vampire Monsterï¿½ï¿½ï¿½ï¿½ - ï¿½Ó¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½
 
 
 //////////////////////////////////////////////////////////////////////////
 // Ousters Action
 enum {
-	ACTION_OUSTERS_STAND = ACTION_MAX_COMMON,	// 7			// ¼­ÀÖ±â
-	ACTION_OUSTERS_MOVE,						// 8			// °È±â
-	ACTION_OUSTERS_CHAKRAM,						// 9			// Â÷Å©¶÷ °ø°Ý
-	ACTION_OUSTERS_MAGIC_ATTACK,				// 10			// ¸¶¹ý °ø°Ý
-	ACTION_OUSTERS_DRAIN,						// 11			// Èí¿µ
-	ACTION_OUSTERS_FAST_MOVE_STAND,				// 12			// °øÁß Á¤Áö
-	ACTION_OUSTERS_FAST_MOVE_MOVE,				// 13			// °øÁß ¿òÁ÷ÀÓ
-	ACTION_OUSTERS_ATTACK_SLOW,					// 14			// ÀÏ¹Ý °ø°Ý ´À¸²
-	ACTION_OUSTERS_ATTACK_FAST,					// 15			// ÀÏ¹Ý °ø°Ý ºü¸§
-	ACTION_OUSTERS_CHAKRAM_SLOW,				// 16			// Â÷Å©¶÷ °ø°Ý ´À¸²
-	ACTION_OUSTERS_CHAKRAM_FAST,				// 17			// Â÷Å©¶÷ °ø°Ý ºü¸§
+	ACTION_OUSTERS_STAND = ACTION_MAX_COMMON,	// 7			// ï¿½ï¿½ï¿½Ö±ï¿½
+	ACTION_OUSTERS_MOVE,						// 8			// ï¿½È±ï¿½
+	ACTION_OUSTERS_CHAKRAM,						// 9			// ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	ACTION_OUSTERS_MAGIC_ATTACK,				// 10			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	ACTION_OUSTERS_DRAIN,						// 11			// ï¿½ï¿½ï¿½ï¿½
+	ACTION_OUSTERS_FAST_MOVE_STAND,				// 12			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	ACTION_OUSTERS_FAST_MOVE_MOVE,				// 13			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	ACTION_OUSTERS_ATTACK_SLOW,					// 14			// ï¿½Ï¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	ACTION_OUSTERS_ATTACK_FAST,					// 15			// ï¿½Ï¹ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	ACTION_OUSTERS_CHAKRAM_SLOW,				// 16			// ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	ACTION_OUSTERS_CHAKRAM_FAST,				// 17			// ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //#if __CONTENTS(__FAST_TRANSFORTER)
 	ACTION_OUSTERS_WING_STAND,					// 18
 	ACTION_OUSTERS_WING_MOVE,					// 19
@@ -224,25 +226,25 @@ enum {
 
 
 //----------------------------------------------------------------------
-// AddonÀ§Ä¡
-// ADDON_NULL´Â ½½·¹ÀÏ ¶§ ¾î±ú °ªÀ¸·Î ÀÌ¿ëµÈ´Ù ¼­¹ö¿¡¼­´Â ADDON_MOTOR´ÙÀ½ enum°ªÀ¸·Î ¼±¾ðÀÌ µÇ¾î ÀÖÀ¸¸ç 
-// ¾î±ú´Â ¿ÜÇü º¯È­ ¾øÀÌ »ö°ª¸¸ º¯°æµÈ´Ù. Á¤»óÀûÀ¸·Î Ãß°¡ÇÏ¿© ADDON_MAXº¸´Ù ÀÛÀº °ªÀ¸·Î ¾î±ú¸¦ Ãß°¡ÇÏ¸é ÁÁÀ¸³ª 
-// ½ÇÁúÀûÀ¸·Î ¿ÜÇü Àû¿ëÀÌ ¾ø±âµµ ÇÏ°Å´Ï¿Í ¸®¼Ò½º µ¥ÀÌÅÍ¸¦ °Çµå·Á¾ß ÇÒ ºÎºÐÀÌ ¸¹À» °ÍÀ¸·Î ÆÇ´Ü µÈ´Ù. 
-// Â÷ÈÄ¿¡ ½½·¹ÀÌ¾î ¸®´º¾óÀÌ ÀÖ°Å³ª addonÆÄÃ÷¸¦ ÁÙÀÌ°Å³ª ´ÃÀÏ¶§ µî Å« ÀÛ¾÷ÀÌ ÀÖÀ»¶§ ¼­¹ö¿Í µ¿±âÈ­¸¦ ¸ÂÃß´Â °ÍÀÌ ÁÁÀ»°ÍÀ¸·Î ÆÇ´ÜµÈ´Ù.
+// Addonï¿½ï¿½Ä¡
+// ADDON_NULLï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¿ï¿½È´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ADDON_MOTORï¿½ï¿½ï¿½ï¿½ enumï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È´ï¿½. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï¿ï¿½ ADDON_MAXï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½âµµ ï¿½Ï°Å´Ï¿ï¿½ ï¿½ï¿½ï¿½Ò½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½Çµï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½ ï¿½È´ï¿½. 
+// ï¿½ï¿½ï¿½Ä¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö°Å³ï¿½ addonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°Å³ï¿½ ï¿½ï¿½ï¿½Ï¶ï¿½ ï¿½ï¿½ Å« ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­ï¿½ï¿½ ï¿½ï¿½ï¿½ß´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ÜµÈ´ï¿½.
 //----------------------------------------------------------------------
 enum ADDON
 {
-	ADDON_HAIR,			// ¸Ó¸®
-	ADDON_HELM,			// ¸ðÀÚ
-	ADDON_COAT,			// »óÀÇ
-	ADDON_TROUSER,		// ÇÏÀÇ
-	//ADDON_SHOES,		// ½Å¹ß
-	//ADDON_LEFTGLOVE,		// ¿Þ¼Õ Àå°©
-	//ADDON_RIGHTGLOVE,		// ¿À¸¥¼Õ Àå°©
-	ADDON_LEFTHAND,		// ¿Þ¼Õ			
-	ADDON_RIGHTHAND,	// ¿À¸¥¼Õ
-	//ADDON_CLOAK,		// ¿ÜÅõ
-	ADDON_MOTOR,		// ¿ÀÅä¹ÙÀÌ
+	ADDON_HAIR,			// ï¿½Ó¸ï¿½
+	ADDON_HELM,			// ï¿½ï¿½ï¿½ï¿½
+	ADDON_COAT,			// ï¿½ï¿½ï¿½ï¿½
+	ADDON_TROUSER,		// ï¿½ï¿½ï¿½ï¿½
+	//ADDON_SHOES,		// ï¿½Å¹ï¿½
+	//ADDON_LEFTGLOVE,		// ï¿½Þ¼ï¿½ ï¿½å°©
+	//ADDON_RIGHTGLOVE,		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½å°©
+	ADDON_LEFTHAND,		// ï¿½Þ¼ï¿½			
+	ADDON_RIGHTHAND,	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ADDON_CLOAK,		// ï¿½ï¿½ï¿½ï¿½
+	ADDON_MOTOR,		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	ADDON_MAX,
 	ADDON_NULL	= 0xFFFF,
 };
@@ -251,7 +253,7 @@ enum ADDON
 
 //----------------------------------------------------------------------
 //
-//                          Effect °ü·Ã
+//                          Effect ï¿½ï¿½ï¿½ï¿½
 //
 //----------------------------------------------------------------------
 #define	ACTIONINFO_NULL					0xFFFF
@@ -261,7 +263,7 @@ typedef	unsigned short	TYPE_ACTIONINFO;
 
 //----------------------------------------------------------------------
 //
-//                       EffectGenerator °ü·Ã
+//                       EffectGenerator ï¿½ï¿½ï¿½ï¿½
 //
 //----------------------------------------------------------------------
 typedef	unsigned short TYPE_EFFECTGENERATORID;
@@ -272,7 +274,7 @@ typedef	unsigned short TYPE_EFFECTGENERATORID;
 
 //----------------------------------------------------------------------
 //
-//                       Sound / Music °ü·Ã
+//                       Sound / Music ï¿½ï¿½ï¿½ï¿½
 //
 //----------------------------------------------------------------------
 
@@ -286,7 +288,7 @@ typedef unsigned short TYPE_MUSICID;
 
 
 //----------------------------------------------------------------------
-// EffectSpriteType Á¤ÀÇ
+// EffectSpriteType ï¿½ï¿½ï¿½ï¿½
 //----------------------------------------------------------------------
 typedef	unsigned short				TYPE_EFFECTSPRITETYPE;
 #define	SIZE_EFFECTSPRITETYPE		2
@@ -499,12 +501,12 @@ enum AC_SLAYER_PART
 
 enum AC_ADDON
 {
-	AC_ADDON_BODY,		// ¸öÅë
-	AC_ADDON_HELM,		// Çï¸ä
-	AC_ADDON_LEFTHAND,	// ¿Þ¼Õ
-	AC_ADDON_RIGHTHAND,	// ¿À¸¥¼Õ
-	AC_ADDON_MOTOR,		// ¿ÀÅä¹ÙÀÌ
-	AC_ADDON_SHOULDER,	// °ßÀå
+	AC_ADDON_BODY,		// ï¿½ï¿½ï¿½ï¿½
+	AC_ADDON_HELM,		// ï¿½ï¿½ï¿½
+	AC_ADDON_LEFTHAND,	// ï¿½Þ¼ï¿½
+	AC_ADDON_RIGHTHAND,	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	AC_ADDON_MOTOR,		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	AC_ADDON_SHOULDER,	// ï¿½ï¿½ï¿½ï¿½
 	AC_ADDON_MAX,
 	AC_ADDON_NULL	= 0xFFFF,
 };

@@ -16,7 +16,7 @@
 #include <objbase.h>
 
 #include <mmsystem.h>
-#include <dmusici.h>
+#include "dmusici.h"
 
 #include <pshpack8.h>
 

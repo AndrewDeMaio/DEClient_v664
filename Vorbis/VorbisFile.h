@@ -4,8 +4,8 @@
 
 #include "FileStream.h"
 
-#include "vorbis/codec.h"
-#include "vorbis/vorbisfile.h"
+#include "ivorbiscodec.h"
+#include "ivorbisfile.h"
 
 // #	pragma comment(lib, "ogg_static.lib")
 // #	pragma comment(lib, "vorbis_static.lib")

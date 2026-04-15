@@ -881,7 +881,7 @@ void C_VS_UI_CHAR_DELETE::Run(id_t id)
 		if (
 #if __CONTENTS(__CHAR_DELETE)
 			(m_lev_ssn_part1.Size() == SSN_PART1_CHAR_COUNT) &&
-			(wcscmp(m_lev_ssn_part1.GetString(), _L("delete")) == 0)
+			(strcmp(m_lev_ssn_part1.GetString(), ("delete")) == 0)
 #else
 			((gC_ci->IsKorean() && (m_lev_ssn_part1.Size() == SSN_PART1_CHAR_COUNT &&
 				m_lev_ssn_part2.Size() == SSN_PART2_CHAR_COUNT)) ||

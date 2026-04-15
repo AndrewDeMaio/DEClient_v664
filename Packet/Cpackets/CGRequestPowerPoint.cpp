@@ -46,7 +46,7 @@ void CGRequestPowerPoint::write ( SocketOutputStream & oStream )
 {
 	__BEGIN_TRY
 		
-	BYTE szCellNum = m_CellNum.size();
+	size_t szCellNum = m_CellNum.size();
 
 	if ( szCellNum == 0 )
 		throw InvalidProtocolException( "szCellNum == 0" );

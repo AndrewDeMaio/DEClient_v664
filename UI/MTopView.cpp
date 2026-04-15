@@ -3751,8 +3751,8 @@ MTopView::InitFilters()
 	//
 	//------------------------------------------------------------
 	/*
-	register int i;
-	register int k;
+	int i;
+	int k;
 
 	//
 	m_ImageObjectFilter.Init(200,200);
@@ -6350,8 +6350,8 @@ MTopView::LoadMinimap(const char* filename)//, MZoneInfo* pZoneInfo)
 	/*
 	if (pZoneInfo!=NULL)
 	{
-		register int i;
-		register int j;
+		int i;
+		int j;
 
 		int spWidth = m_pMinimapSPR->GetWidth();
 		int spHeight = m_pMinimapSPR->GetHeight();
@@ -7513,7 +7513,7 @@ MTopView::LoadFromFileTileAndImageObjectSet(CSpriteSetManager& TileSSM, CSpriteS
 	bLoad = m_TileSPK.LoadFromFilePart(TileSSM);
 
 	// 	CSpriteSetManager::DATA_LIST::const_iterator iID = TileSSM.GetIterator();
-	// 	register int t;
+	// 	int t;
 	// 
 	// 	for(t = 0; t < TileSSM.GetSize(); ++t, ++iID)
 	// 	{
@@ -7571,7 +7571,7 @@ MTopView::LoadFromFileTileAndImageObjectSetThread(CSpriteSetManager& TileSSM, CS
 	bool bLoad = true;
 	// 
 	// 	CSpriteSetManager::DATA_LIST::const_iterator iID = TileSSM.GetIterator();
-	// 	register int t;
+	// 	int t;
 	// 
 	// 	for(t = 0; t < TileSSM.GetSize(); ++t, ++iID)
 	// 	{
@@ -7629,7 +7629,7 @@ MTopView::ReleaseTileSPKLargeZone(ivfstream& file)
 	COrderedList<TYPE_SPRITEID>	oldTileID;
 	COrderedList<TYPE_SPRITEID>	newTileID;
 
-	register int i;
+	int i;
 
 	DEBUG_ADD("Sort Part1");
 
@@ -7694,7 +7694,7 @@ MTopView::ReleaseImageObjectSPKLargeZone(ivfstream& file)
 	COrderedList<TYPE_SPRITEID>	oldImageObjectID;
 	COrderedList<TYPE_SPRITEID>	newImageObjectID;
 
-	register int i;
+	int i;
 
 	// Sort
 	if (pOldImageObjectSFPA)
@@ -7756,7 +7756,7 @@ MTopView::ReleaseTileSPKSmallZone(ivfstream& file)
 	COrderedList<TYPE_SPRITEID>	oldTileID;
 	COrderedList<TYPE_SPRITEID>	newTileID;
 
-	register int i;
+	int i;
 
 	DEBUG_ADD("Sort Part1");
 
@@ -7821,7 +7821,7 @@ MTopView::ReleaseImageObjectSPKSmallZone(ivfstream& file)
 	COrderedList<TYPE_SPRITEID>	oldImageObjectID;
 	COrderedList<TYPE_SPRITEID>	newImageObjectID;
 
-	register int i;
+	int i;
 
 	// Sort
 	if (pOldImageObjectSFPA != NULL)
@@ -7864,7 +7864,7 @@ MTopView::ReleaseImageObjectSPKSmallZone(ivfstream& file)
 // 	COrderedList<TYPE_SPRITEID>	SmallZoneTileID;
 // 	COrderedList<TYPE_SPRITEID>	LargeZoneTileID;
 // 	
-// 	register int i;
+// 	int i;
 // 	
 // 	// Sort
 // 	if(m_pTileSFPArraySmallZone)
@@ -7928,7 +7928,7 @@ MTopView::ReleaseImageObjectSPKSmallZone(ivfstream& file)
 // 	COrderedList<TYPE_SPRITEID>	SmallZoneImageObjectID;
 // 	COrderedList<TYPE_SPRITEID>	LargeZoneImageObjectID;
 // 
-// 	register int i;
+// 	int i;
 // 
 // 	// Sort
 // 	if(m_pImageObjectSFPArraySmallZone)
@@ -7993,7 +7993,7 @@ MTopView::ReleaseImageObjectSPKSmallZone(ivfstream& file)
 // 	COrderedList<TYPE_SPRITEID>	SmallZoneTileID;
 // 	COrderedList<TYPE_SPRITEID>	LargeZoneTileID;
 // 
-// 	register int i;
+// 	int i;
 // 
 // 	// Sort
 // 	if(m_pTileSFPArraySmallZone)
@@ -8042,7 +8042,7 @@ MTopView::ReleaseImageObjectSPKSmallZone(ivfstream& file)
 // 	COrderedList<TYPE_SPRITEID>	SmallZoneImageObjectID;
 // 	COrderedList<TYPE_SPRITEID>	LargeZoneImageObjectID;
 // 
-// 	register int i;
+// 	int i;
 // 
 // 	// Sort
 // 	if(m_pImageObjectSFPArraySmallZone)
@@ -8806,8 +8806,8 @@ MTopView::GetSelectedObject(int x, int y, BYTE_ATTRIBUTE actionTarget)
 
 
 	// ���� check�ϴ� ��ǥ
-	register int currentX;
-	register int currentY;
+	int currentX;
+	int currentY;
 
 	int numCreature = 0;
 
@@ -9940,8 +9940,8 @@ MTopView::GetSelectedObjectSprite(int x, int y, BYTE_ATTRIBUTE actionTarget)
 
 
 	// ���� check�ϴ� ��ǥ
-	register int currentX;
-	register int currentY;
+	int currentX;
+	int currentY;
 
 	int numCreature = 0;
 
@@ -11160,7 +11160,7 @@ MTopView::ClearLightBufferFilter3D()
 		//--------------------------------------------------
 		BYTE* pBuffer;
 
-		register int i = SCREENLIGHT_HEIGHT - 1;
+		int i = SCREENLIGHT_HEIGHT - 1;
 		do {
 			pBuffer = m_LightBufferFilter.GetFilter(i);
 			memset(pBuffer, DarkColor, SCREENLIGHT_WIDTH);
@@ -11214,7 +11214,7 @@ MTopView::ClearLightBufferFilter2D()
 		//--------------------------------------------------
 		BYTE* pBuffer;
 
-		register int i = SCREENLIGHT_HEIGHT - 1;
+		int i = SCREENLIGHT_HEIGHT - 1;
 		do {
 			pBuffer = m_LightBufferFilter.GetFilter(i);
 			memset(pBuffer, DarkColor, SCREENLIGHT_WIDTH);
@@ -14229,9 +14229,9 @@ MTopView::DrawZone(int firstPointX, int firstPointY)
 	POINT	tilePoint, point;
 	RECT	rect;
 
-	register int x;
-	register int y;
-	register int i;
+	int x;
+	int y;
+	int i;
 
 	//-------------------------------------------------
 	// Player�� ������ ImageObject�鿡 ���� ����
@@ -15109,7 +15109,7 @@ MTopView::DrawZone(int firstPointX, int firstPointY)
 		//   �κ������� Tile���� �����ϱ�..
 		//
 		//------------------------------------------------------
-		register int n;
+		int n;
 		for (n = 0; n < changeCount; n++)
 		{
 			POINT tilePointTemp;
@@ -17830,8 +17830,8 @@ MTopView::DrawTileSurface()
 	POINT tilePointTemp;
 	tilePointTemp.y = tilePoint.y;
 
-	register int x;
-	register int y;
+	int x;
+	int y;
 
 	DEBUG_ADD_FORMAT("[DrawTileSurface] (%d, %d) ~ (%d, %d)", sX1, sX2, sY1, sY2);
 
@@ -18353,7 +18353,7 @@ MTopView::DrawChatString(POINT* pPoint, MCreature* pCreature, COLORREF color, BY
 	int maxLen = 0;
 	int numString = g_pClientConfig->MAX_CHATSTRING;
 	int maxWidth = 0;
-	for (register int i = g_pClientConfig->MAX_CHATSTRING_MINUS_1; i >= 0; i--)
+	for (int i = g_pClientConfig->MAX_CHATSTRING_MINUS_1; i >= 0; i--)
 	{
 		const char* str = pCreature->GetChatString(i);
 
@@ -21524,7 +21524,7 @@ MTopView::DrawMinimap(int x, int y, BYTE scale)
 	TYPE_SECTORPOSITION		pX = g_pPlayer->GetX(),
 							pY = g_pPlayer->GetY();
 
-	register int i,j;
+	int i,j;
 
 	// Draw Minimap
 	for (i=0; i<m_pZone->GetHeight(); i++)
@@ -21600,7 +21600,7 @@ MTopView::DrawItemBroken(int x, int y)
 			MAX_GEAR�� -10 �Ѱ� core zap+bloodbible ���� ��ŭ ����..^^;
 		*/
 		// �μ������� item���
-	MPlayerGear* pGear;
+	MPlayerGear* pGear = nullptr;
 	int spriteID;
 	int frameType;
 	int toSomewhatBroken;

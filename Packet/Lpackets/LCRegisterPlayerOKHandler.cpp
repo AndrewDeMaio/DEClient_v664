@@ -55,7 +55,10 @@ void LCRegisterPlayerOKHandler::execute ( LCRegisterPlayerOK * pPacket , Player 
 		if( g_pUserInformation->UserID != NULL && g_pUserInformation->UserID.GetLength() < 12 )
 			UI_BackupLoginID( g_pUserInformation->UserID );
 		else
-			UI_BackupLoginID( "DarkEden" );
+		{
+			char pId[] = "DarkEden";
+			UI_BackupLoginID(pId);
+		}
 
 
 		//------------------------------------------------------------

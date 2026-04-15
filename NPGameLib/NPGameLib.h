@@ -159,10 +159,10 @@ NPGAMEDLL_API BOOL  __cdecl IsAdminPrivilege();	// 2009.02.25
 #define SendUserIDToGameMon	SendUserIDToGameMonW
 #define ResourceAuth				ResourceAuthW
 #else
-#define SetModulePath			SetModulePathA
-#define PreInitNPGameMon		PreInitNPGameMonA
+#define SetModulePath		SetModulePathA
+#define PreInitNPGameMon	PreInitNPGameMonA
 #define SendUserIDToGameMon	SendUserIDToGameMonA
-#define ResourceAuth				ResourceAuthA
+#define ResourceAuth		ResourceAuthA
 #endif
 
 

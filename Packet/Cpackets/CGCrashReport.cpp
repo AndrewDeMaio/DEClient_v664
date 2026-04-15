@@ -55,7 +55,7 @@ void CGCrashReport::write (SocketOutputStream & oStream) const
 	oStream.write( m_Version );
 	oStream.write( m_Address );
 
-	WORD szSTR = m_OS.size();
+	size_t szSTR = m_OS.size();
 	oStream.write( szSTR );
 	Assert( szSTR <= 100 );
 	oStream.write( m_OS );

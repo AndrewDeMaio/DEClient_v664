@@ -24,9 +24,7 @@ public:
 	void read(SocketInputStream & iStream);
 	void write(SocketOutputStream & oStream) const;
 	void execute(Player* pPlayer);
-#if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
 	PacketID_t getPacketID() const { return PACKET_GC_ADD_SYLPH; }
-#endif //__FAST_TRANSFORTER||__SECOND_TRANSFORTER
 	size_t getPacketSize() const;
 
 	string getPacketName() const { return "GCAddSylph"; }

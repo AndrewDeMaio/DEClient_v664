@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-//#include "vs_ui.h"
+#include "vs_ui.h"
 
 #include "GPacket_PCH.h"
 #include "GCNicknameList.h"

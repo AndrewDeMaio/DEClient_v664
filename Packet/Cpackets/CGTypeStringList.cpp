@@ -51,7 +51,7 @@ void CGTypeStringList::write (SocketOutputStream & oStream) const
 
 	oStream.write(m_StringType);
 
-	BYTE szList = m_StringList.size();
+	size_t szList = m_StringList.size();
 
 	oStream.write( szList );
 
@@ -59,7 +59,7 @@ void CGTypeStringList::write (SocketOutputStream & oStream) const
 
 	for( ; itr != m_StringList.end() ; ++itr )
 	{
-		BYTE szString = (*itr).size();
+		size_t szString = (*itr).size();
 		oStream.write( szString );
 		oStream.write( *itr );
 	}

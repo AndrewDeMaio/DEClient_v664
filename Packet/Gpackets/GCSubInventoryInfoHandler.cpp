@@ -42,7 +42,8 @@ void GCSubInventoryInfoHandler::execute ( GCSubInventoryInfo * pPacket , Player 
 
 	TYPE_OBJECTID subInventoryID = pPacket->getObjectID();
 
-	MItem* pSubInventory = g_pInventory->MItemManager::FindItem(MItemObjectFinder(subInventoryID));
+	MItemObjectFinder subInventoryFinder(subInventoryID);
+	MItem* pSubInventory = g_pInventory->MItemManager::FindItem(subInventoryFinder);
 
 	if(pSubInventory)
 	{

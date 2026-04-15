@@ -31,7 +31,7 @@ void CLQueryCharacterName::write (SocketOutputStream & oStream) const
 	__BEGIN_TRY
 
 	// write player id
-	BYTE szCharacterName = m_CharacterName.size();
+	size_t szCharacterName = m_CharacterName.size();
 
 	if (szCharacterName == 0)
 		throw InvalidProtocolException("empty CharacterName");

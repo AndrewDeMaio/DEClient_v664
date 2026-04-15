@@ -224,7 +224,7 @@ class MCreature : public MObject, public MStatus
 #endif //__FAST_TRANSFORTER
 #if __CONTENTS(__SECOND_TRANSFORTER)
 		void		SetWingItemType(BYTE set)			{ m_WingItemType = set;		}
-		BYTE		GetWingItemType() const				{ return m_WingItemType;	}
+		WORD		GetWingItemType() const				{ return m_WingItemType;	}
 
 		void		SetWingEffect2();	// 이동수단 2차
 #endif //__SECOND_TRANSFORTER

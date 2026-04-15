@@ -68,8 +68,6 @@ bool g_bCheckError = false;	// �׽�Ʈ�� ���ؼ� �ӽ÷�..
 extern bool g_bLight;
 #endif
 
-extern void		UI_AddChatToHistory(const char* str, char* sz_id, int cond, DWORD color);
-
 //----------------------------------------------------------------------
 // Get ArmageddonSprite
 //----------------------------------------------------------------------

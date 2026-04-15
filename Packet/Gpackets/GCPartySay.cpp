@@ -36,7 +36,7 @@ void GCPartySay::write ( SocketOutputStream & oStream ) const
 {
 	__BEGIN_TRY
 
-	BYTE szName = m_Name.size();
+	size_t szName = m_Name.size();
 	oStream.write(szName);
 	oStream.write(m_Name);
 	szName = m_Message.size();

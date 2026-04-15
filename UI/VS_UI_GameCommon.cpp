@@ -711,7 +711,7 @@ void g_StartRepairAllConfirmDialog(int _x, int _y, int price)
 	gpC_dialog_repairall_confirm = new C_VS_UI_DIALOG(_x, _y, 2, 0, ExecF_RepairAllConfirm, DIALOG_OK);
 
 
-	static char* pp_dmsg_repairall_confirm[1] = {
+	static std::string pp_dmsg_repairall_confirm[1] = {
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_DESC_DC_PRICE_COUNT].GetString(),
 	};
 
@@ -2521,14 +2521,14 @@ void	C_VS_UI_TRIBE::OnClick_HelpTap(id_t execidx)
 	if (execidx < HELP_ID || execidx > GUILD_HELP_ID) return;
 
 	// RunDescDialog �ѱ� �Ķ���� ����
-	void* pParm;
+	void* pParm = nullptr;
 	switch (execidx)
 	{
-	case HELP_ID:			pParm = NULL;										break;
-	case CHAT_HELP_ID:		pParm = (void*)C_VS_UI_DESC_DIALOG::CHATTING;		break;
+	case HELP_ID:			pParm = nullptr;								break;
+	case CHAT_HELP_ID:		pParm = (void*)C_VS_UI_DESC_DIALOG::CHATTING;	break;
 	case BATTLE_HELP_ID:	pParm = (void*)C_VS_UI_DESC_DIALOG::BATTLE;		break;
-	case SKILL_HELP_ID:		pParm = (void*)C_VS_UI_DESC_DIALOG::SKILL;			break;
-	case GUILD_HELP_ID:		pParm = (void*)C_VS_UI_DESC_DIALOG::GUILD;			break;
+	case SKILL_HELP_ID:		pParm = (void*)C_VS_UI_DESC_DIALOG::SKILL;		break;
+	case GUILD_HELP_ID:		pParm = (void*)C_VS_UI_DESC_DIALOG::GUILD;		break;
 	}
 
 	if (gC_vs_ui.IsRunningMainHelp())
@@ -4905,7 +4905,7 @@ void C_VS_UI_GEAR::Use()
 	}
 	else
 	{
-		MPlayerGear* pGear;
+		MPlayerGear* pGear = nullptr;
 
 		switch (g_eRaceInterface)
 		{
@@ -19755,7 +19755,7 @@ bool C_VS_UI_INFO::MouseControl(UINT message, int _x, int _y)
 						// Grade Level Bar Description						
 						int GradeID = (g_char_slot_ingame.GRADE - 1) / 5;
 
-						char* pszGrade;
+						char* pszGrade = nullptr;
 						switch (g_eRaceInterface)
 						{
 						case RACE_SLAYER:
@@ -29103,7 +29103,7 @@ void C_VS_UI_MINIMAP::MouseControlExtra(UINT message, int _x, int _y)
 					g_descriptor_manager.Set(DID_INFO, gpC_mouse_pointer->GetPointerX(), gpC_mouse_pointer->GetPointerY(), g_pZoneTable->Get(m_portal_zone_id[i])->Name.GetString());
 				else
 				{
-					char* TempStr;
+					char* TempStr = nullptr;
 					switch (i)
 					{
 					case 0:
@@ -39910,7 +39910,7 @@ void	C_VS_UI_QUEST_STATUS::Show()
 					if (SECOND_PET_QUEST == QuestInfo->GetID())
 					{// 2���� ����Ʈ ��ǥ �޼� ���� ��
 						g_PrintColorStrOut(x + 20 + tab_x, y + 20 + tab_y, sz_temp, gpC_base->m_chatting_pi, ColorTitle, BackTitle);
-						char* szNpc;
+						char* szNpc = nullptr;
 						switch (g_eRaceInterface)
 						{
 						case RACE_SLAYER:
@@ -40097,18 +40097,15 @@ void	C_VS_UI_QUEST_STATUS::ShowDesc(int strX, int strY, const char* str)
 	const int print_gap = 14;
 
 	std::string sstr = str;
-	char sz_string[512] = { 0, };
+	std::string sz_string;
 	while (sstr.size() > next)
 	{
 		if (sstr.size() - next > 2048)
-		{
-			memcpy(sz_string, sstr.c_str() + next, 2047);
-			sz_string[2047] = '\0';
-		}
+			sz_string = sstr.substr(next, 2047);
 		else
-			strcpy(sz_string, sstr.c_str() + next);
+			sz_string = sstr.substr(next);
 
-		char* sz_string2 = sz_string;
+		char* sz_string2 = sz_string.data();
 
 		while (*sz_string2 == ' ')		// ���� ��������
 		{
@@ -41056,18 +41053,15 @@ void	C_VS_UI_LOTTERY_CARD::ShowDesc(int strX, int strY, const char* str)
 	const int print_gap = 18;
 
 	std::string sstr = str;
-	char sz_string[512] = { 0, };
+	std::string sz_string;
 	while (sstr.size() > next)
 	{
 		if (sstr.size() - next > 2048)
-		{
-			memcpy(sz_string, sstr.c_str() + next, 2047);
-			sz_string[2047] = '\0';
-		}
+			sz_string = sstr.substr(next, 2047);
 		else
-			strcpy(sz_string, sstr.c_str() + next);
+			sz_string = sstr.substr(next);
 
-		char* sz_string2 = sz_string;
+		char* sz_string2 = sz_string.data();
 
 		while (*sz_string2 == ' ')		// ���� ��������
 		{

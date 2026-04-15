@@ -1,12 +1,11 @@
 //-----------------------------------------------------------------------------
 // MathTable.cpp
 //-----------------------------------------------------------------------------
-#include "Client_PCH.h"
 #include <math.h>
 #include "MathTable.h"
 
-int MathTable::FSinTab[MAX_ANGLE];
-int MathTable::FCosTab[MAX_ANGLE];
+unsigned int MathTable::FSinTab[MAX_ANGLE];
+unsigned int MathTable::FCosTab[MAX_ANGLE];
 /*
 int MathTable::FCosTab[MAX_ANGLE] = {
 0x00010000, 0x0000fffe, 0x0000fffb, 0x0000fff4, 0x0000ffec, 
@@ -424,7 +423,7 @@ int MathTable::FSinTab[MAX_ANGLE] = {
 0xfffff9b8, 0xfffffb4a, 0xfffffcdc, 0xfffffe6e };
 */
 
-int MathTable::FArcTanTab[MAX_ANGLE+1] = {
+unsigned int MathTable::FArcTanTab[MAX_ANGLE+1] = {
 0xffffff80, 0xffffff80, 0xffffff80, 0xffffff80, 0xffffff80, 
 0xffffff80, 0xffffff80, 0xffffff80, 0xffffff80, 0xffffff80, 
 0xffffff80, 0xffffff81, 0xffffff81, 0xffffff81, 0xffffff81, 

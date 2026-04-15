@@ -2948,10 +2948,10 @@ UI_SetMP(int current, int max)
 void
 UI_AddChatToHistory(const char* str, const char* sz_id, int cond, DWORD color)
 {
-	if(g_pUserOption->ChatWhite)
+	if (g_pUserOption->ChatWhite)
 		color = gpC_base->m_chatting_pi.text_color;
 
-	if (str==NULL || cond>=CLD_TOTAL)
+	if (str == NULL || cond >= CLD_TOTAL)
 	{
 		return;
 	}
@@ -2973,31 +2973,31 @@ UI_AddChatToHistory(const char* str, const char* sz_id, int cond, DWORD color)
 	*/
 
 	DEBUG_ADD_FORMAT("[UI_AddChatToHistory][%d:%s] %s, %x", cond, sz_id, str, color);
-/*
-#ifdef OUTPUT_DEBUG
-const char g_sz_chat_id_divisor[CLD_TOTAL][3] = 
-{
-	">",
-	">",
-	"->",
-	")",
-	"}",
-	":",
-};
+	/*
+	#ifdef OUTPUT_DEBUG
+	const char g_sz_chat_id_divisor[CLD_TOTAL][3] =
+	{
+		">",
+		">",
+		"->",
+		")",
+		"}",
+		":",
+	};
 
-//	extern int CLogFile;
-//
-//	if(sz_id != NULL)
-//	{
-//	if(strcmp(sz_id, g_char_slot_ingame.sz_name.c_str()) == 0 || strstr(str, g_char_slot_ingame.sz_name.c_str()) != NULL)
-//		_write( CLogFile, "]]]", 3);
-//	_write( CLogFile, sz_id, strlen(sz_id) );
-//	_write( CLogFile, g_sz_chat_id_divisor[cond], strlen(g_sz_chat_id_divisor[cond]) );
-//	_write( CLogFile, str, strlen(str));
-//	_write( CLogFile, "\n", 1 );
-//	}
-#endif
-*/	
+	//	extern int CLogFile;
+	//
+	//	if(sz_id != NULL)
+	//	{
+	//	if(strcmp(sz_id, g_char_slot_ingame.sz_name.c_str()) == 0 || strstr(str, g_char_slot_ingame.sz_name.c_str()) != NULL)
+	//		_write( CLogFile, "]]]", 3);
+	//	_write( CLogFile, sz_id, strlen(sz_id) );
+	//	_write( CLogFile, g_sz_chat_id_divisor[cond], strlen(g_sz_chat_id_divisor[cond]) );
+	//	_write( CLogFile, str, strlen(str));
+	//	_write( CLogFile, "\n", 1 );
+	//	}
+	#endif
+	*/
 
 	gC_vs_ui.AddChatToHistory(const_cast<char*>(str), sz_id, condition, color);
 }

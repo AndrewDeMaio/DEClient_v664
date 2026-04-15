@@ -65,13 +65,15 @@ public :
 	// get/set shop version
 	ShopVersion_t getVersion(ShopRackType_t type) const
 	{
-		if (type >= SHOP_RACK_TYPE_MAX) : Out of Bound!");
+		if (type >= SHOP_RACK_TYPE_MAX)
+			return -1;
 		return m_Version[type];
 	}
 	
 	void setVersion(ShopRackType_t type, ShopVersion_t ver)
 	{
-		if (type >= SHOP_RACK_TYPE_MAX) : Out of Bound!");
+		if (type >= SHOP_RACK_TYPE_MAX)
+			return;
 		m_Version[type] = ver;
 	}
 

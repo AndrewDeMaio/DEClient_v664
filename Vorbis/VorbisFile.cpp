@@ -1,7 +1,7 @@
 #include "VorbisFile.h"
 
-//µ¥ÀÌÅÍ ¼Ò½º·ÎºÎÅÍ º¸ºñ½º ¶óÀÌºê·¯¸® ³»ºÎÀÇ ¾ÐÃà ÇØÁ¦¿ë ¹öÆÛ·Î
-//µ¥ÀÌÅÍ¸¦ Àü¼ÛÇÏ°í °Ë»öÇÏ´Â ½ÇÁ¦ÀÇ ÀÛ¾÷À» ¼öÇàÇÏ´Â ÄÝ¹éÇÔ¼ö
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºê·¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Û·ï¿½
+//ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ë»ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ý¹ï¿½ï¿½Ô¼ï¿½
 size_t read_func_stream(void * ptr, size_t size,
 						size_t nmemb, void * datasoure)
 {
@@ -70,20 +70,20 @@ bool VorbisFile::Open(std::string sFileName)
 		return false;
 	}
 
-	//ÆÄÀÏ¿­±â
+	//ï¿½ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½
 	if(FAILED(m_StreamSrc.Open(sFileName)))
 	{
 		return false;
 	}
 
-	//ÀûÀýÇÑ ÄÝ¹éÇÔ¼ö¸¦ ¼³Á¤
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¹ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	ov_callbacks cb;
 	cb.read_func = &read_func_stream;
 	cb.seek_func = &seek_func_stream;
 	cb.close_func = &close_func_stream;
 	cb.tell_func = &tell_func_stream;
 	
-	//Ogg ºñÆ® ½ºÆ®¸²À» ¿¬´Ù.
+	//Ogg ï¿½ï¿½Æ® ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	int res = ov_open_callbacks((void*)&m_StreamSrc, &m_VorbisFile, NULL, 0, cb);		
 	if ( res < 0 )
 	{
@@ -107,24 +107,24 @@ bool VorbisFile::GetSreamInfo()
 		return false;
 	}
 
-	//Vorbis ÆÄÀÏ Á¤º¸¸¦ °¡Á®¿Â´Ù.
+	//Vorbis ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
 	m_pVorbisInfo = ov_info(&m_VorbisFile, -1);
 
-	//ÆÄÀÏ³» PCM »ùÇÃÀÇ °³¼ö¸¦ °¡Á®¿Â´Ù.
+	//ï¿½ï¿½ï¿½Ï³ï¿½ PCM ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â´ï¿½.
 	m_nNumSamples = (UINT32)ov_pcm_total(&m_VorbisFile, -1);
 	
-	//WAVEFORMAT ±¸Á¶Ã¼¸¦ ¼³Á¤ÇÑ´Ù.
-	m_WaveFormatEx.wFormatTag = WAVE_FORMAT_PCM;				//Æ÷¸ËÁ¾·ù
-	m_WaveFormatEx.nChannels =	m_pVorbisInfo->channels;		//¿þÀÌºê ÆÄÀÏ³»ÀÇ ÃÑ Ã¤³Î¼ö
-	m_WaveFormatEx.nSamplesPerSec = m_pVorbisInfo->rate;		//ÃÊ´ç »ùÇÃ¼ö(Hertz)	
-	m_WaveFormatEx.wBitsPerSample = 16;							//ÇÏ³ªÀÇ »ùÇÃÀÌ °°´Â ÃÑ ºñÆ®¼ö °ª
+	//WAVEFORMAT ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	m_WaveFormatEx.wFormatTag = WAVE_FORMAT_PCM;				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	m_WaveFormatEx.nChannels =	m_pVorbisInfo->channels;		//ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã¤ï¿½Î¼ï¿½
+	m_WaveFormatEx.nSamplesPerSec = m_pVorbisInfo->rate;		//ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½Ã¼ï¿½(Hertz)	
+	m_WaveFormatEx.wBitsPerSample = 16;							//ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½
 	m_WaveFormatEx.nBlockAlign = 
 		m_WaveFormatEx.nChannels * m_WaveFormatEx.wBitsPerSample / 8;  
-	//ÇÏ³ªÀÇ »ùÇÃ±×·ìÀÌ Â÷ÁöÇÏ´ÂÅ©±â(¹ÙÀÌÆ®)
+	//ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã±×·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½Å©ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½Æ®)
 	m_WaveFormatEx.nAvgBytesPerSec = 
 		m_WaveFormatEx.nSamplesPerSec * m_WaveFormatEx.nBlockAlign;
-	//¿þÀÌºê ÆÄÀÏÀÌ ÇÊ¿ä·Î ÇÏ´Â 1ÃÊ´ç ¹ÙÀÌÆ®¼öÀÇ ´ë¿ªÆø
-	m_WaveFormatEx.cbSize = 0;									//¿þÀÌºê ÆÄÀÏÀ» È®ÀåÇÏ·Á´Â °æ¿ì¿¡ »ç¿ë
+	//ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ ï¿½Ï´ï¿½ 1ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ë¿ªï¿½ï¿½
+	m_WaveFormatEx.cbSize = 0;									//ï¿½ï¿½ï¿½Ìºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ ï¿½ï¿½ï¿½
 	
 	return true;
 }
@@ -150,15 +150,15 @@ bool VorbisFile::Read(BYTE * pBuffer, UINT32 dwSizeToRead,
 	while( ( nBytesRead < dwSizeToRead ) && !m_bEOF )
 	{
 		INT32 iRet = ov_read(&m_VorbisFile, pCurBuffer,
-			dwSizeToRead - nBytesRead, 0, 2, 1, &iSection);
+			dwSizeToRead - nBytesRead, &iSection);
 
 		if( iRet == 0 || iSection != 0 )
 		{
-			m_bEOF = true;				// iRet°¡ 0 ÀÌ¸é ÆÄÀÏÀÇ ³¡¿¡ µµ´ÞÇÑ °ÍÀÓ
+			m_bEOF = true;				// iRetï¿½ï¿½ 0 ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		}
 		else if( iRet < 0 )
 		{
-			return false;				// iRet°¡ 0 º¸´Ù ÀÛÀ¸¸é ¿À·ù°¡ ¹ß»ýÇÑ °ÍÀÓ
+			return false;				// iRetï¿½ï¿½ 0 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		}
 
 		nBytesRead += iRet;
@@ -177,7 +177,7 @@ bool VorbisFile::Reset()
 		return false;
 	}
 
-	//´Ù½Ã ÀÐ±â ÀÛ¾÷À» ½ÃÀÛÇÏ±â À§ÇØ ÆÄÀÏÀÇ ¸ÇÃ³À½À¸·Î ÀÌµ¿ÇÑ´Ù.
+	//ï¿½Ù½ï¿½ ï¿½Ð±ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½Ñ´ï¿½.
 	m_bEOF = false;
 	ov_pcm_seek(&m_VorbisFile, 0);
 
@@ -191,7 +191,7 @@ bool VorbisFile::Close()
 		return false;
 	}
 	
-	//Vorbis ÆÄÀÏ ½ºÆ®¸²À» ´Ý¾Æ¹ö¸°´Ù.
+	//Vorbis ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¾Æ¹ï¿½ï¿½ï¿½ï¿½ï¿½.
 	ov_clear(&m_VorbisFile);
 
 	return true;

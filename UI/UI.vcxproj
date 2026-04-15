@@ -24,6 +24,8 @@
     <ProjectGuid>{9af21cc1-b56b-4bc2-ba89-4b1e8729b1a5}</ProjectGuid>
     <RootNamespace>UI</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <!-- Use the 64-bit hosted toolchain so cl.exe (pass2 / LTCG codegen) has unlimited heap -->
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -73,6 +75,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;__GAME_CLIENT__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -88,24 +91,27 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;__DESIGNED_INTERNATION;WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;__GAME_CLIENT__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)JpegLib;$(SolutionDir)NPGameLib;$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)GL;$(SolutionDir)DEUtil;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)PS;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration);$(SolutionDir)ExternalLib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;Vorbis.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;JpegLib.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;NPGameLib.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);$(SolutionDir)ExternalLib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;Vorbis.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;JpegLib.lib;SXml.lib;GL.lib;Timer.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;d3d9.lib;NPGameLib.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;ws2_32.lib;wininet.lib;shlwapi.lib;netapi32.lib;DEUtil.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;__GAME_CLIENT__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -121,20 +127,21 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;__DESIGNED_INTERNATION;_CRT_SECURE_NO_WARNINGS;__GAME_CLIENT__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)JpegLib;$(SolutionDir)NPGameLib;$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)GL;$(SolutionDir)DEUtil;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)PS;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration);$(SolutionDir)ExternalLib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;Vorbis.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;JpegLib.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;NPGameLib.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib</AdditionalDependencies>
+      <AdditionalDependencies>D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;Vorbis.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;JpegLib.lib;SXml.lib;GL.lib;Timer.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;d3d9.lib;NPGameLib.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;ws2_32.lib;wininet.lib;shlwapi.lib;netapi32.lib;DEUtil.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -665,6 +672,7 @@
     <ClInclude Include="..\Packet\PlayerInfo.h" />
     <ClInclude Include="..\Packet\PlayerStatus.h" />
     <ClInclude Include="..\Packet\Properties.h" />
+    <ClInclude Include="..\Packet\QuestDef.h" />
     <ClInclude Include="..\Packet\QuestStatusInfo.h" />
     <ClInclude Include="..\Packet\RaceWarInfo.h" />
     <ClInclude Include="..\Packet\RequestClientPlayer.h" />
@@ -719,22 +727,47 @@
     <ClInclude Include="hangul\Fl2.h" />
     <ClInclude Include="header\AcceleratorDef.h" />
     <ClInclude Include="header\AcceleratorManager.h" />
+    <ClInclude Include="header\ACriticalSection.h" />
+    <ClInclude Include="header\BitAttribute.h" />
+    <ClInclude Include="header\Client_PCH.h" />
     <ClInclude Include="header\CWebPage.h" />
     <ClInclude Include="header\KeyAccelerator.h" />
     <ClInclude Include="header\OperatorCategory.h" />
     <ClInclude Include="header\OperatorOption.h" />
     <ClInclude Include="header\SkinManager.h" />
     <ClInclude Include="Imm\CImm.h" />
+    <ClInclude Include="MActionResultDef.h" />
+    <ClInclude Include="MAttachSkipEffect.h" />
+    <ClInclude Include="MAttachZoneAroundEffectGenerator.h" />
+    <ClInclude Include="MBloodyBreakerEffectGenerator.h" />
     <ClInclude Include="MChaseEffect.h" />
     <ClInclude Include="MCreature.h" />
     <ClInclude Include="MCreatureWear.h" />
+    <ClInclude Include="MEffectGenerator.h" />
+    <ClInclude Include="MEffectGeneratorDef.h" />
+    <ClInclude Include="MEffectStatusDef.h" />
     <ClInclude Include="MEffectTarget.h" />
     <ClInclude Include="MFakeCreature.h" />
+    <ClInclude Include="MFileDef.h" />
+    <ClInclude Include="MGameDef.h" />
+    <ClInclude Include="MGameTime.h" />
+    <ClInclude Include="MGuildType.h" />
+    <ClInclude Include="MHelpDef.h" />
+    <ClInclude Include="MItemFinder.h" />
     <ClInclude Include="MPlayer.h" />
     <ClInclude Include="MRequestMode.h" />
     <ClInclude Include="MSector.h" />
+    <ClInclude Include="MSectorInfo.h" />
+    <ClInclude Include="MStopZoneEmptyHorizontalWallEffectGenerator.h" />
+    <ClInclude Include="MStopZoneEmptyVerticalEffectGenerator.h" />
     <ClInclude Include="MTopView.h" />
+    <ClInclude Include="MTypeDef.h" />
+    <ClInclude Include="MusicDef.h" />
+    <ClInclude Include="MViewDef.h" />
+    <ClInclude Include="MWeather.h" />
     <ClInclude Include="MZone.h" />
+    <ClInclude Include="MZoneDef.h" />
+    <ClInclude Include="MZoneInfo.h" />
     <ClInclude Include="OustersSkillInfo.h" />
     <ClInclude Include="SectorSoundInfo.h" />
     <ClInclude Include="SoundNode.h" />
@@ -802,7 +835,6 @@
     <ClInclude Include="header\ExpInfo.h" />
     <ClInclude Include="header\FameInfo.h" />
     <ClInclude Include="header\MCreatureTable.h" />
-    <ClInclude Include="header\MGameStringTable.h" />
     <ClInclude Include="header\MGuildInfoMapper.h" />
     <ClInclude Include="header\MGuildMarkManager.h" />
     <ClInclude Include="header\MHelpManager.h" />
@@ -927,7 +959,6 @@
     <ClInclude Include="game\MSkipEffectGenerator.h" />
     <ClInclude Include="game\MSpreadOutEffectGenerator.h" />
     <ClInclude Include="game\MStatus.h" />
-    <ClInclude Include="game\MStatusManager.h" />
     <ClInclude Include="game\MStopInventoryEffectGenerator.h" />
     <ClInclude Include="game\MStopZoneCrossEffectGenerator.h" />
     <ClInclude Include="game\MStopZoneEffectGenerator.h" />
@@ -961,7 +992,6 @@
     <ClInclude Include="game\ServerInfoFileParser.h" />
     <ClInclude Include="game\ServerInformation.h" />
     <ClInclude Include="game\ShowTimeChecker.h" />
-    <ClInclude Include="game\SkillDef.h" />
     <ClInclude Include="game\TalkBox.h" />
     <ClInclude Include="game\UIDialog.h" />
     <ClInclude Include="game\UIMessageManager.h" />
@@ -1906,6 +1936,8 @@
     <ClCompile Include="hangul\FL2.cpp" />
     <ClCompile Include="Imm\CImm.cpp" />
     <ClCompile Include="KeyAccelerator.cpp" />
+    <ClCompile Include="MAttachZoneAroundEffectGenerator.cpp" />
+    <ClCompile Include="MBloodyBreakerEffectGenerator.cpp" />
     <ClCompile Include="MChaseEffect.cpp" />
     <ClCompile Include="MCreature.cpp" />
     <ClCompile Include="MCreatureWear.cpp" />
@@ -1979,13 +2011,11 @@
     <ClCompile Include="CMessageArray.cpp" />
     <ClCompile Include="ClientConfig.cpp" />
     <ClCompile Include="ClientFunction.cpp" />
-    <ClCompile Include="DebugInfo.cpp" />
     <ClCompile Include="ExperienceTable.cpp" />
     <ClCompile Include="ExpInfo.cpp" />
     <ClCompile Include="FameInfo.cpp" />
     <ClCompile Include="MCreatureTable.cpp" />
     <ClCompile Include="MEventManager.cpp" />
-    <ClCompile Include="MGameStringTable.cpp" />
     <ClCompile Include="MGuildInfoMapper.cpp" />
     <ClCompile Include="MGuildMarkManager.cpp" />
     <ClCompile Include="MGridItemManager.cpp" />
@@ -2114,7 +2144,6 @@
     <ClCompile Include="game\MSkipEffectGenerator.cpp" />
     <ClCompile Include="game\MSpreadOutEffectGenerator.cpp" />
     <ClCompile Include="game\MStatus.cpp" />
-    <ClCompile Include="game\MStatusManager.cpp" />
     <ClCompile Include="game\MStopInventoryEffectGenerator.cpp" />
     <ClCompile Include="game\MStopZoneCrossEffectGenerator.cpp" />
     <ClCompile Include="game\MStopZoneEffectGenerator.cpp" />
@@ -2154,12 +2183,12 @@
     <ClCompile Include="game\ServerInformation.cpp" />
     <ClCompile Include="game\ShowTimeChecker.cpp" />
     <ClCompile Include="game\SizeOfObjects.cpp" />
-    <ClCompile Include="game\SkillDef.cpp" />
     <ClCompile Include="game\TalkBox.cpp" />
     <ClCompile Include="game\UIDialog.cpp" />
     <ClCompile Include="game\UIMessageManager.cpp" />
     <ClCompile Include="game\WavePackFileManager.cpp" />
     <ClCompile Include="game\WhisperManager.cpp" />
+    <ClCompile Include="ClientGlobals.cpp" />
     <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="ZoneFileHeader.cpp" />
   </ItemGroup>

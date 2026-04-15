@@ -21,7 +21,7 @@ void CGStoreSign::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	BYTE size = m_Sign.size();
+	size_t size = m_Sign.size();
 	oStream.write(size);
 	oStream.write(m_Sign);
 

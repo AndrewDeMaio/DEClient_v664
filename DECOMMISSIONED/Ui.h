@@ -147,16 +147,16 @@ public:
 /*-----------------------------------------------------------------------------
   UI graphic library - start
 -----------------------------------------------------------------------------*/
-	void  Clear(WINDOW_ID wid, int c);
-	void  Vertline(WINDOW_ID wid, int x, int y, int h, int c);
-	void  Horzline(WINDOW_ID wid, int x, int y, int w, int c);
+	void	Clear(WINDOW_ID wid, int c);
+	void	Vertline(WINDOW_ID wid, int x, int y, int h, int c);
+	void	Horzline(WINDOW_ID wid, int x, int y, int w, int c);
 	void	Line(WINDOW_ID wid, int x1, int y1, int x2, int y2, int c);
 	void	FillRect(WINDOW_ID wid, int x, int y, int w, int h, int c);
 	void	Rectangle(WINDOW_ID wid, int x, int y, int w, int h, int c);
-	int	GetPixel(WINDOW_ID wid, int x, int y);
+	int		GetPixel(WINDOW_ID wid, int x, int y);
 	void	PutPixel(WINDOW_ID wid, int x, int y, int c);
 	void	Bltz(WINDOW_ID wid, int x, int y, S_SURFACEINFO &src_surface, S_RECT &src_rect);
-	void  CkBltz(WINDOW_ID wid, int x, int y, S_SURFACEINFO &src_surface, S_RECT &src_rect, int colorkey);
+	void	CkBltz(WINDOW_ID wid, int x, int y, S_SURFACEINFO &src_surface, S_RECT &src_rect, int colorkey);
 /*-----------------------------------------------------------------------------
   UI graphic library - end
 -----------------------------------------------------------------------------*/

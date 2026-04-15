@@ -15,7 +15,7 @@
 #define	FILTERID_NULL		0xFFFF
 
 
-typedef	size_t				TYPE_SPRITEID;
+typedef	unsigned short		TYPE_SPRITEID;
 typedef unsigned short		TYPE_FRAMEID;
 typedef unsigned short		TYPE_FILTERID;
 

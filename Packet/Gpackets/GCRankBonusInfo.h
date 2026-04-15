@@ -55,7 +55,7 @@ public :
 //--------------------------------------------------
 public :
 
-	BYTE getListNum() const { return m_RankBonusInfoList.size(); }
+	size_t getListNum() const { return m_RankBonusInfoList.size(); }
 
     // add
 	void addListElement( DWORD rankBonusType ) { m_RankBonusInfoList.push_back( rankBonusType ); }

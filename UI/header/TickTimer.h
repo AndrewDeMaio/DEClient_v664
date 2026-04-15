@@ -40,7 +40,7 @@ public:
 	DWORD		GetTickSize() const				{ return m_dwTickSize;		}
 	DWORD		GetTimeLimit() const			{ return m_dwTimeLimit;		}
 
-	DWORD		GetRestartTime() const			{ return m_dwRestartTime;	}
+	ULONGLONG	GetRestartTime() const			{ return m_dwRestartTime;	}
 	DWORD		GetStartTime() const			{ return m_dwStartTime;		}
 
 private:

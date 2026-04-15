@@ -32,7 +32,7 @@ void CGJoinGuild::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	BYTE szGuildMemberIntro = m_GuildMemberIntro.size();
+	size_t szGuildMemberIntro = m_GuildMemberIntro.size();
 
 	if ( szGuildMemberIntro > 256 )
 		throw InvalidProtocolException( "szGuildMemberIntro > 256" );

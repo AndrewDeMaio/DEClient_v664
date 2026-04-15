@@ -34,7 +34,7 @@ void AddressUnit::write( SocketOutputStream& oStream ) const
 {
 	__BEGIN_TRY
 
-	BYTE szStr;
+	size_t szStr;
 
 	oStream.write( ElementID );
 

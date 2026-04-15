@@ -38,7 +38,7 @@ void GCRemoveInjuriousCreature::write (SocketOutputStream & oStream) const
 	localLongName = 22;
 #endif //__LOCALIZING_LONGNAME		
 	// �̸� ����
-	BYTE szName = m_Name.size();
+	size_t szName = m_Name.size();
 
 	if (szName == 0)
 		throw InvalidProtocolException("szName == 0");

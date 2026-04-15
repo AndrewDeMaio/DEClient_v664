@@ -4,7 +4,7 @@
 #include "huffman.h"
 #include "soundbuf.h"
 #include "CDirectSound.h"
-#include "debuginfo.h"
+#include "DebugInfo.h"
 #include <math.h>
 
 #define	MP3BUFSIZE		1024

@@ -985,6 +985,7 @@ InitSound()
 	}
 	else
 	{
+		MessageBox(NULL, "Entering Sound Init", "Sound Init", MB_OK);
 		if (g_DXSound.Init(g_hWnd))
 		{	
 			// filename�� ����.. Wav file�� Load�Ѵ�.

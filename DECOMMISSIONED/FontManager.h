@@ -33,55 +33,30 @@
 /*-----------------------------------------------------------------------------
   Font Full Path
 -----------------------------------------------------------------------------*/
-/*
-//#ifndef RELEASE_FONT
-#if !defined(RELEASE_FONT)
+#define PATH_CODE			gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"code.dat")
 
-#define PATH_CODE						"d:\\designed\\project\\fl\\font\\code.dat"
+#define PATH_MYUNGJO		gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"han10.fnt")
+#define PATH_IYAGI			gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"han01.fnt")
+#define PATH_GOOLRIM		gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"han10.fnt")
+#define PATH_PILGI			gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"han03.fnt")
+#define PATH_MOLRA7			gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"han21.fnt")
+#define PATH_SALBERL		gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"han55.fnt")
+#define PATH_CUTE			gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"han54.fnt")
+#define PATH_HSMALL			gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"hsmall(12x12).fnt")
 
-#define PATH_MYUNGJO					"d:\\designed\\project\\fl\\font\\han02.fnt"
-#define PATH_IYAGI					"d:\\designed\\project\\fl\\font\\han01.fnt"
-#define PATH_GOOLRIM					"d:\\designed\\project\\fl\\font\\han10.fnt"
-#define PATH_PILGI					"d:\\designed\\project\\fl\\font\\han03.fnt"
-#define PATH_MOLRA7					"d:\\designed\\project\\fl\\font\\han21.fnt"
-#define PATH_SALBERL					"d:\\designed\\project\\fl\\font\\han55.fnt"
-#define PATH_CUTE						"d:\\designed\\project\\fl\\font\\han54.fnt"
-#define PATH_HSMALL					"d:\\designed\\project\\fl\\font\\hsmall(12x12).fnt"
-
-#define PATH_ENG1						"d:\\designed\\project\\fl\\font\\eng01.fnt"
-#define PATH_ENG2						"d:\\designed\\project\\fl\\font\\eng02.fnt"
-#define PATH_ENG3						"d:\\designed\\project\\fl\\font\\eng03.fnt"
-#define PATH_ENG7						"d:\\designed\\project\\fl\\font\\eng07.fnt"
-#define PATH_JORRO					"d:\\designed\\project\\fl\\font\\eng-zorro.fnt"
-#define PATH_MERT						"d:\\designed\\project\\fl\\font\\eng20.fnt"
-#define PATH_ESMALL					"d:\\designed\\project\\fl\\font\\eng24.fnt"
-
-#else*/
-
-#define PATH_CODE						gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"code.dat")
-
-#define PATH_MYUNGJO					gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"han10.fnt")
-#define PATH_IYAGI					gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"han01.fnt")
-#define PATH_GOOLRIM					gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"han10.fnt")
-#define PATH_PILGI					gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"han03.fnt")
-#define PATH_MOLRA7					gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"han21.fnt")
-#define PATH_SALBERL					gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"han55.fnt")
-#define PATH_CUTE						gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"han54.fnt")
-#define PATH_HSMALL					gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"hsmall(12x12).fnt")
-
-#define PATH_ENG1						gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"eng01.fnt")
-#define PATH_ENG2						gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"eng02.fnt")
-#define PATH_ENG3						gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"eng03.fnt")
-#define PATH_ENG7						gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"eng07.fnt")
-#define PATH_JORRO					gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"eng-zorro.fnt")
-#define PATH_MERT						gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"eng20.fnt")
-#define PATH_ESMALL					gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"eng24.fnt")
+#define PATH_ENG1			gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"eng01.fnt")
+#define PATH_ENG2			gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"eng02.fnt")
+#define PATH_ENG3			gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"eng03.fnt")
+#define PATH_ENG7			gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"eng07.fnt")
+#define PATH_JORRO			gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"eng-zorro.fnt")
+#define PATH_MERT			gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"eng20.fnt")
+#define PATH_ESMALL			gC_directory.GetMixedPathWidthProgramDir(FONT_PATH"eng24.fnt")
 
 //#endif
 
 /*-----------------------------------------------------------------------------
   Font Group Id
-  `(한글, 영어)가 하나의 group이 되어 객체로 존재하게된다. 글꼴의 등록도 
+  `(한글, 영어)가 하나의 group이 되어 객체로 존재하게된다. 글꼴의 등록도
    group 단위로 하게 된다. 등록을 하면 id를 받아 이것으로 font group을 선택할
 	수 있다.
 -----------------------------------------------------------------------------*/
@@ -94,8 +69,8 @@ typedef short FONT_GID;
 class DllClass C_FONT_MANAGER
 {
 public:
-	enum 
-	{ 
+	enum
+	{
 		NO_GID = -1,
 		TOTAL_FONT_GROUP_COUNT = 5, // 한 번에 등록할 수 있는 font group. 여기서 제한 해줌.
 	};
@@ -104,7 +79,7 @@ private:
 	FONT_GID				m_selected_gid;
 
 	int					m_total; // 현재까지 등록된 font group.
-	C_HAN_VIEW *		m_pC_han_view[TOTAL_FONT_GROUP_COUNT];
+	C_HAN_VIEW* m_pC_han_view[TOTAL_FONT_GROUP_COUNT];
 
 public:
 	static timer_id_t		m_tid_cursor_blink; // C_HAN_VIEW에서 참조하므로...
@@ -141,15 +116,15 @@ public:
 
 	void	Initialize();
 
-	FONT_GID RegisterFont(C_FONT_MANAGER::HFONT_NAME e_hfontname, 
-								 C_FONT_MANAGER::EFONT_NAME e_efontname);
-	bool	LoadEnglishFont(const char *sz_filename);
-	bool	LoadHangulFont(const char *sz_filename);
+	FONT_GID RegisterFont(C_FONT_MANAGER::HFONT_NAME e_hfontname,
+		C_FONT_MANAGER::EFONT_NAME e_efontname);
+	bool	LoadEnglishFont(const char* sz_filename);
+	bool	LoadHangulFont(const char* sz_filename);
 
 	bool	SelectFont(FONT_GID gid);
-	void	PrintString(const S_SURFACEINFO *surface_info, const char *str, int x, int y, int color);
-	void	PrintStringNoConvert(const S_SURFACEINFO *surface_info, const char *str, int x, int y, int color);
-	void	Update(const S_SURFACEINFO *surface_info, int x, int y, int color);
+	void	PrintString(const S_SURFACEINFO* surface_info, const char* str, int x, int y, int color);
+	void	PrintStringNoConvert(const S_SURFACEINFO* surface_info, const char* str, int x, int y, int color);
+	void	Update(const S_SURFACEINFO* surface_info, int x, int y, int color);
 	void	Update(int x, int y, int color); // to test this library
 	//void	PauseCursorBlink();
 	void	ContinueCursorBlink();
@@ -167,27 +142,27 @@ public:
 	}
 #endif
 
-/*-----------------------------------------------------------------------------
-  Input Control.
------------------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------------
+	  Input Control.
+	-----------------------------------------------------------------------------*/
 	void  KeyInput(UINT message, UINT key, long extra);
 
-/*-----------------------------------------------------------------------------
-  Get.
------------------------------------------------------------------------------*/
-	int	GetStringWidth(const char * sz_str) const;
+	/*-----------------------------------------------------------------------------
+	  Get.
+	-----------------------------------------------------------------------------*/
+	int	GetStringWidth(const char* sz_str) const;
 	FONT_GID	GetSelectedGID() const { return m_selected_gid; }
 	bool	GetHangulInputState() const;
-	int   GetEngCountInString(const char *str) const;
-	int   GetHangulCountInString(const char *str) const;
-	bool	PossibleStringCut(const char * str, int position);
+	int   GetEngCountInString(const char* str) const;
+	int   GetHangulCountInString(const char* str) const;
+	bool	PossibleStringCut(const char* str, int position);
 
-	C_STRING_LINE * GetStringBuffer() const;
-	C_STRING_LINE * GetStringBackupBuffer() const;
+	C_STRING_LINE* GetStringBuffer() const;
+	C_STRING_LINE* GetStringBackupBuffer() const;
 
-/*-----------------------------------------------------------------------------
-  Set.
------------------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------------
+	  Set.
+	-----------------------------------------------------------------------------*/
 	void	SetCursorColor(int color);
 	void	SetInputLimit(WORD char_count);
 	void	SetInputWidth(WORD width);
@@ -197,13 +172,13 @@ public:
 	void	PasswordMode();
 	void	NoPasswordMode();
 	void	PutCursorToEnd();
-	void	SetInputLine(const char * sz_str);
+	void	SetInputLine(const char* sz_str);
 	void	UseSmallHangul() { C_HAN_VIEW::m_han_x = 12; }
 	void	NotUseSmallHangul() { C_HAN_VIEW::m_han_x = HAN_X_SIZE; }
 
-/*-----------------------------------------------------------------------------
-  Friend.
------------------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------------
+	  Friend.
+	-----------------------------------------------------------------------------*/
 	friend void BlinkCursor();
 };
 

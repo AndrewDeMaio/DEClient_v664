@@ -186,7 +186,8 @@ std::string GCShopListMysterious::toString () const
 SHOPLISTITEM_MYSTERIOUS GCShopListMysterious::getShopItem(BYTE index) const
 {
 	// check bound
-	if (index >= SHOP_RACK_INDEX_MAX) : Out of Bound!");
+	if (index >= SHOP_RACK_INDEX_MAX)
+		return SHOPLISTITEM_MYSTERIOUS();
 
 	// return shop item info
 	return m_pBuffer[index];
@@ -198,7 +199,8 @@ SHOPLISTITEM_MYSTERIOUS GCShopListMysterious::getShopItem(BYTE index) const
 void GCShopListMysterious::setShopItem(BYTE index, const Item* pItem) 
 {
 	// check bound
-	if (index >= SHOP_RACK_INDEX_MAX) : Out of Bound!");
+	if (index >= SHOP_RACK_INDEX_MAX) 
+		return SHOPLISTITEM_MYSTERIOUS();
 
 	// check pointer 
 	Assert(pItem != NULL);

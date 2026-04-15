@@ -44,7 +44,7 @@ void CGSMSSend::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	BYTE size;
+	size_t size;
 	
 	size = m_Numbers.size();
 	oStream.write(size);

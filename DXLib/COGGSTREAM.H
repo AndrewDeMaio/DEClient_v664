@@ -5,9 +5,9 @@
   Date : 2003/06/30
 
 
-  µµ¿ò : fuzzface
+  ï¿½ï¿½ï¿½ï¿½ : fuzzface
 
-  Áö±ÝÀº OggLib·Î ´ëÃ¼µÇ¾î »ç¿ëµÇÁö ¾ÊÀ½ by chyaya
+  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ OggLibï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½Ç¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ by chyaya
 
 -------------------------------------------------------------------------------------*/
 #ifndef __OGG_STREAMING__
@@ -15,8 +15,8 @@
 
 #include <dsound.h>
 
-#include "vorbis\codec.h"
-#include "vorbisfile.h"
+#include "ivorbiscodec.h"
+#include "ivorbisfile.h"
 
 #define STREAM_MAX					5
 
@@ -234,12 +234,12 @@ class CDirectSoundBuffer
 typedef struct tag_position_set
 {
 
-	DWORD						index;				//	Æ÷Áö¼Ç Á¤º¸ÀÇ ÀÎµ¦½º ³Ñ¹ö
-	DWORD						option;				//	¿É¼Ç
-	DWORD						start_pos;			//	½ÃÀÛ ºÎºÐÀÇ »ùÇÃ ³Ñ¹ö
-	DWORD						loop_start_pos;		//	·çÇÎÇÒ ºÎºÐÀÇ »ùÇÃ ³Ñ¹ö
-	DWORD						size;				//	ÀüÃ¼ »ùÇÃ ¼ö
-	struct tag_position_set		*next;				//	´ÙÀ½ Æ÷Áö¼Ç Á¤º¸ÀÇ ÁÖ¼Ò
+	DWORD						index;				//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½
+	DWORD						option;				//	ï¿½É¼ï¿½
+	DWORD						start_pos;			//	ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½
+	DWORD						loop_start_pos;		//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½
+	DWORD						size;				//	ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	struct tag_position_set		*next;				//	ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½
 
 } position_set;
 
@@ -252,24 +252,24 @@ class COGGSTREAM
 
 private:
 
-	IDirectSoundBuffer	*buffer;					//	½ÇÁ¦ ½ºÆ®¸²ÀÇ ¹öÆÛ
-	HWND				hWnd;						//	À©µµ ÇÚµé
-	CDirectSoundBuffer				*snd;						//	»ç¿îµå °´Ã¼ÀÇ Æ÷ÀÎÅÍ
-	DWORD				buffer_size;				//	¹öÆÛÀÇ ÀüÃ¼ Å©Áö (»ùÇÃ ´ÜÀ§)
-	DWORD				gap;						//	½ºÆ®¸² ÀÐ±â Ä¿¼­¿Í ÇÃ·¹ÀÌ Ä¿¼­°£ÀÇ ÃÖ¼Ò °Å¸®
-	DWORD				read_once;					//	ÇÑ¹ø¿¡ ÀÐ´Â ÃÖ´ë »ùÇÃ ¼ö
-	DWORD				option;						//	¿É¼Ç
-	DWORD				state;						//	ÇöÀç »óÅÂ
-	DWORD				size;						//	¹öÆÛÀÇ ÀüÃ¼ »ùÇÃ ¼ö
-	DWORD				play_size;					//	ÇöÀç±îÁö ÇÃ·¹ÀÌÇÑ »ùÇÃ ¼ö
-	DWORD				read_size;					//	ÇöÀç±îÁö ÀÐ¾îµéÀÎ »ùÇÃ ¼ö
-	DWORD				temp_play_size;				//	½ºÆ®¸²ÀÌ ÇÑ¹ÙÄû µ¹¶§ ÀÌÀü ·çÇÁ¿¡ ÇÃ·¹ÀÌ µÇÁö ¾ÊÀº »ùÇÃ ¼ö
-	DWORD				cur_play;					//	ÇöÀç ÇÃ·¹ÀÌ Ä¿¼­
-	DWORD				old_play;					//	ÀÌÀü ÇÃ·¹ÀÌ Ä¿¼­
-	DWORD				cur_write;					//	ÇöÀç ÀÐ±â	Ä¿¼­
+	IDirectSoundBuffer	*buffer;					//	ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	HWND				hWnd;						//	ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
+	CDirectSoundBuffer				*snd;						//	ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	DWORD				buffer_size;				//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ Å©ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
+	DWORD				gap;						//	ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ð±ï¿½ Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¼ï¿½ ï¿½Å¸ï¿½
+	DWORD				read_once;					//	ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½Ð´ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	DWORD				option;						//	ï¿½É¼ï¿½
+	DWORD				state;						//	ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	DWORD				size;						//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	DWORD				play_size;					//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	DWORD				read_size;					//	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	DWORD				temp_play_size;				//	ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	DWORD				cur_play;					//	ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ Ä¿ï¿½ï¿½
+	DWORD				old_play;					//	ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ Ä¿ï¿½ï¿½
+	DWORD				cur_write;					//	ï¿½ï¿½ï¿½ï¿½ ï¿½Ð±ï¿½	Ä¿ï¿½ï¿½
 	position_set		pos;
 	position_set		*next_pos;
-	sound_handle		handle;						//	»ç¿îµå ÇÚµé
+	sound_handle		handle;						//	ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 #ifdef _MT
 	HANDLE				thread_handle;
 	DWORD				thread_id;

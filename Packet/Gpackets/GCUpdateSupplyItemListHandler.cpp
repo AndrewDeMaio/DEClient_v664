@@ -34,7 +34,7 @@ void GCUpdateSupplyItemListHandler::execute ( GCUpdateSupplyItemList * pPacket ,
 		pItem->SetItemOptionList(pSupplyItemInfo->optionType);
 		pItem->SetGrade(pSupplyItemInfo->grade); // �ð��� ������ Ȳ��ó�� �ϱ�
 		pItem->SetNumber(pSupplyItemInfo->num);
-		pItem->SetTimeLimitStatic(pSupplyItemInfo->timeLimit);
+		//pItem->SetTimeLimitStatic(pSupplyItemInfo->timeLimit);
 		pItem->SetCurrentDurability(pItem->GetMaxDurability());
 
 		MPremiumGiveItemInfo *pPremiumGiveItemInfo = new MPremiumGiveItemInfo(pItem,pSupplyItemInfo->ID,pSupplyItemInfo->timeLimit);
@@ -43,7 +43,10 @@ void GCUpdateSupplyItemListHandler::execute ( GCUpdateSupplyItemList * pPacket ,
 		DeleteNew(pSupplyItemInfo);
 	}
 	
+#if __CONTENTS(__PREMIUM_GIVE_ITEM_UI)
 	gC_vs_ui.Request_PremiumGiveItem();
+#endif
+
 #endif
 	
 	__END_DEBUG

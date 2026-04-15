@@ -62,7 +62,8 @@ void LCLoginOKHandler::execute ( LCLoginOK * pPacket , Player * pPlayer )
 #endif //__XTRAP
 	if( g_pUserInformation->UserID.GetLength() >= 12 )
 	{
-		UI_BackupLoginID( "DarkEden" );
+		char pId[] = "DarkEden";
+		UI_BackupLoginID( pId );
 	} 
 	else 
 		UI_BackupLoginID( g_pUserInformation->UserID );

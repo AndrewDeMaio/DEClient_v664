@@ -6,8 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "GPacket_PCH.h"
-
+#include "Client_PCH.h"
 #include "GCInstanceDoungeonLobby.h"
 
 
@@ -32,7 +31,7 @@ GCInstanceDoungeonLobby::~GCInstanceDoungeonLobby()
 	while(subitr1 != m_DoungeonList.end())
 	{
 		InstanceDoungeonInfo *pInstanceDoungeonInfo = (*subitr1);
-		m_DoungeonList.erase((std::vector<InstanceDoungeonInfo *>::iterator)subitr1);
+		m_DoungeonList.erase(subitr1);
 
 		if(pInstanceDoungeonInfo != NULL)
         {
@@ -83,9 +82,9 @@ void GCInstanceDoungeonLobby::write ( SocketOutputStream & oStream ) const
 {
 	__BEGIN_TRY
 	
-	BYTE szDoungeonTitle;
-	BYTE szDoungeonDesc;
-	BYTE szDoungeonListCount;
+	size_t szDoungeonTitle;
+	size_t szDoungeonDesc;
+	size_t szDoungeonListCount;
 	
 	oStream.write( m_ObjectID );
 	oStream.write( m_NPCID );

@@ -41,7 +41,7 @@ void CGUseMessageItemFromInventory::write (SocketOutputStream & oStream) const
 	CGUseItemFromInventory::write(oStream);
 	
 	// message
-	BYTE szMessage = m_Message.size();
+	size_t szMessage = m_Message.size();
 
 	if (szMessage == 0)
 		throw InvalidProtocolException("szMessage == 0");

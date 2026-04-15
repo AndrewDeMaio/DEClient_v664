@@ -103,6 +103,7 @@ _Chutzpah*
 
 # Visual C++ cache files
 ipch/
+Darkeden_client/
 *.aps
 *.ncb
 *.opendb

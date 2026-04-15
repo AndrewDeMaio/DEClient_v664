@@ -65,7 +65,7 @@ void GCGlobalChatHandler::execute ( GCGlobalChat * pPacket , Player * pPlayer )
 
 				strcpy(strName, str);
  
-//				bool bMasterWords = (strstr(strName, "GM")!=NULL);
+				//bool bMasterWords = (strstr(strName, "GM")!=NULL);
 				bool bMasterWords = strncmp( strName, (*g_pGameStringTable)[UI_STRING_MESSAGE_MASTER_NAME].GetString(), (*g_pGameStringTable)[UI_STRING_MESSAGE_MASTER_NAME].GetLength() ) == 0 ;
 
 				//--------------------------------------------------
@@ -107,8 +107,8 @@ void GCGlobalChatHandler::execute ( GCGlobalChat * pPacket , Player * pPlayer )
 							{
 								// INT�� 150�����̹Ƿ�..  
 								int percent = min(75, 25+g_pPlayer->GetINT()*100/(min(2, g_pPlayer->GetRace()+1)*150));
-//								if(g_pPlayer->GetRace() == RACE_OUSTERS || race == RACE_OUSTERS)
-//									percent = 70;
+								//if(g_pPlayer->GetRace() == RACE_OUSTERS || race == RACE_OUSTERS)
+									//percent = 70;
 								
 								g_pChatManager->AddMask(str, percent);
 							}

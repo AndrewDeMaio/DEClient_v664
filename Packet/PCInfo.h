@@ -12,9 +12,10 @@
 // include files
 #include "Types.h"
 #include "Exception.h"
+#include "ContentsFilter.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"
-#include "Types\PacketItemDef.h"
+#include "PacketItemDef.h"
 
 //----------------------------------------------------------------------
 //

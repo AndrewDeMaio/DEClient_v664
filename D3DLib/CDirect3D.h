@@ -16,7 +16,7 @@
 #endif
 
 #include <D3D.h>
-
+#include <d3d9.h>
 
 #include <ddraw.h>
 

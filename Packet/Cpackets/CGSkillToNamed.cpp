@@ -42,7 +42,7 @@ void CGSkillToNamed::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 		
-	BYTE szTargetName = m_TargetName.size();
+	size_t szTargetName = m_TargetName.size();
 
 	if ( szTargetName == 0 )
 		throw InvalidProtocolException( "szTargetName == 0" );

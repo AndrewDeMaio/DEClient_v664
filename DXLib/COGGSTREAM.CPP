@@ -2,7 +2,7 @@
 
 	stream.c
 
-	½ºÆ®¸² °ü¸® (sound classÀÇ friend class)
+	ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (sound classï¿½ï¿½ friend class)
 
 
 
@@ -104,7 +104,7 @@ HRESULT CDirectSoundBuffer::createBuffer (IDirectSoundBuffer **buf, DSBUFFERDESC
 	
 	if (FAILED(temp_buf->QueryInterface(IID_IDirectSoundBuffer, (void**)buf)))
 	{	deleteBuffer (*buf); return SOUND_ERR_CANNOT_GET_INTERFACE;}
-	//	À§ ÇÔ¼ö¸¦ ¾²±â À§ÇØ¼­´Â dxguid.lib¸¦ ¸µÅ©ÇÏ°í WIN32_DCOMÀ» ¼±¾ðÇÑ´Ù.
+	//	ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½ï¿½ dxguid.libï¿½ï¿½ ï¿½ï¿½Å©ï¿½Ï°ï¿½ WIN32_DCOMï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 
 	deleteBuffer (temp_buf);
 
@@ -362,7 +362,7 @@ HRESULT	CDirectSoundBuffer::readFromFile (IDirectSoundBuffer *buf, sound_handle 
 
 						if (sz - loop < limit) limit = sz - loop;
 						else limit = SOUND_OGG_BUFFER_MAX;
-						loop_temp = ov_read (&handle->vf, temp_v, limit, SOUND_ENDIAN, handle->fmt.wBitsPerSample / 8, SOUND_SIGN_TYPE, &handle->ogg_current_section);
+						loop_temp = ov_read (&handle->vf, temp_v, limit, &handle->ogg_current_section);
 
 						if (loop_temp > 0)
 						{
@@ -1025,14 +1025,14 @@ EnterCriticalSection (&str->cs);
 						str->play_size = 0;
 
 						if (str->next_pos != NULL && (str->pos.option == STREAM_PERMIT_NEXT_ON || str->pos.option == STREAM_PERMIT_NEXT_NOW))
-							// »õ Æ÷Áö¼Ç Á¤º¸¸¦ °»½ÅÇÑ´Ù.
+							// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 						{
 							
 							str->streamSetCurrentPosition (str->next_pos);
 
 						} 
 						else 
-							// ÇöÀç Æ÷Áö¼Ç Á¤º¸¸¦ ¼öÁ¤ÇØ¼­ loop
+							// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ loop
 						{
 							
 							str->pos.start_pos = str->pos.loop_start_pos;

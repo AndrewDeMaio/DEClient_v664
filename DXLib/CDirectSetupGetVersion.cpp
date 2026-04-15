@@ -14,7 +14,7 @@
 #include <dinput.h>
 #include <d3d.h>
 #include <d3d9.h>
-#include <dmusici.h>
+#include "dmusici.h"
 #include <VersionHelpers.h>
 #include "CDirectSetup.h"
 

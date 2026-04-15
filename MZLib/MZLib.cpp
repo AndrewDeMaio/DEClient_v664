@@ -2,7 +2,8 @@
 // MZLib.cpp
 //--------------------------------------------------------------------------
 
-/*	using namespace std 를 쓰면 좋지 않다는 한가지 교훈 --;;
+/*	
+using namespace std
 #include <windows.h>
 #include "MString.h"
 #include <io.h>
@@ -14,12 +15,11 @@
 #include <mmsystem.h>
 #include <iostream.h>
 #include <fstream>
-#include "DebugInfo.h"
-/*/
-#include "Client_PCH.h"
-//*/
-#include "MZLib.h"
 #include <assert.h>
+#include "DebugInfo.h"
+*/
+#include <fstream>
+#include "MZLib.h"
 #include "zlib.h"
 
 #ifdef __GAME_CLIENT__
@@ -189,7 +189,7 @@ MZLib::Compress(const char* filename)
 	packFile.write((const char*)m_ZLibHeader, MZLIB_HEADER_SIZE);
 
 	// fileInfo가 저장된 위치
-	long fpFileInfoFP = packFile.tellp();	
+	auto fpFileInfoFP = packFile.tellp();	
 	packFile.write((const char*)&fpFileInfoFP, 4);
 
 
@@ -212,7 +212,7 @@ MZLib::Compress(const char* filename)
 		// bufferSize는 압축된 buffer의 size가 된다.
 		// 
 		long filesize = pInfo->GetFilesize();
-		unsigned long compLen = max((float)filesize*1.5f , filesize+4096);
+		unsigned long compLen = max((float)filesize * 1.5f, filesize + 4096);
 		unsigned long beforeCompLen = compLen;
 		
 		InitPackBuffer( compLen );
@@ -232,7 +232,7 @@ MZLib::Compress(const char* filename)
 			return false;
 		}
 
-		long startBuffer = packFile.tellp();
+		auto startBuffer = packFile.tellp();
 		WriteBufferToFile( packFile, compLen );
 
 		pInfo->SetBufferInfo( startBuffer, compLen );
@@ -243,7 +243,7 @@ MZLib::Compress(const char* filename)
 	//--------------------------------------------------------------
 	// FileInfo를 packFile끝에 저장
 	//--------------------------------------------------------------
-	long fpFileInfo = packFile.tellp();	
+	auto fpFileInfo = packFile.tellp();	
 	WriteFileInfoToFile( packFile );
 
 	// fileInfo가 저장된 위치를 저장한다.

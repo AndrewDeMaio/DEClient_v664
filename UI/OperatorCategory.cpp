@@ -12,13 +12,13 @@
 #include <sstream>
 #endif //__ITEM_SHOW
 
-int COperatorCategorySimpleCommand:: m_saveSelectIndexFirst = -1;
-int COperatorCategorySimpleCommand:: m_saveSelectIndexSecond = -1;
-int COperatorCategorySimpleCommand:: m_saveSelectIndexText = -1;
+int COperatorCategorySimpleCommand::m_saveSelectIndexFirst = -1;
+int COperatorCategorySimpleCommand::m_saveSelectIndexSecond = -1;
+int COperatorCategorySimpleCommand::m_saveSelectIndexText = -1;
 
 #if __CONTENTS(__ITEM_SHOW)
-int COperatorCategoryShowItemSetting:: m_saveSelectIndexItemClass = -1;
-int COperatorCategoryShowItemSetting:: m_saveSelectIndexItemType = -1;
+int COperatorCategoryShowItemSetting::m_saveSelectIndexItemClass = -1;
+int COperatorCategoryShowItemSetting::m_saveSelectIndexItemType = -1;
 
 using namespace std;
 #endif //__ITEM_SHOW
@@ -48,11 +48,11 @@ COperatorCategoryUtility::COperatorCategoryUtility(LPCTSTR categoryName, Window*
 	m_pC_button_group->Init();
 
 	CPoint ptButton(15, 15);
-	
-//	m_pC_button_group->Add(new C_VS_UI_EVENT_PUSH_BUTTON(CRect(CPoint(ptButton.x, ptButton.y), CSize(200, 30)),
-//		EID_RELOAD_INFO_FILE, this, "정보파일 모두 다시 읽기"));
 
-//	ptButton.y += 40;
+	//	m_pC_button_group->Add(new C_VS_UI_EVENT_PUSH_BUTTON(CRect(CPoint(ptButton.x, ptButton.y), CSize(200, 30)),
+	//		EID_RELOAD_INFO_FILE, this, "정보파일 모두 다시 읽기"));
+
+	//	ptButton.y += 40;
 	m_pC_button_group->Add(new C_VS_UI_EVENT_CHECK_BUTTON(ptButton,
 		-1, this, &g_pOperatorOption->bSlideScreenShot,
 		"슬라이드 스크린샷 활성화 (Shift+Drag: 영역선택)"));
@@ -75,15 +75,15 @@ void COperatorCategoryUtility::Start()
 
 void COperatorCategoryUtility::Finish()
 {
-	
+
 }
 
 
-void COperatorCategoryUtility::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
+void COperatorCategoryUtility::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
 	C_VS_UI_EVENT_STRING_BUTTON* pStringButton = dynamic_cast<C_VS_UI_EVENT_STRING_BUTTON*>(p_button);
-	
-	if(pStringButton)
+
+	if (pStringButton)
 	{
 		CPoint showOffset(TopLeft());
 		showOffset.x += GetParentWindowPtr()->x;
@@ -93,7 +93,7 @@ void COperatorCategoryUtility::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 }
 
 
-void COperatorCategoryUtility::ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button)
+void COperatorCategoryUtility::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 {
 
 }
@@ -101,12 +101,12 @@ void COperatorCategoryUtility::ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_but
 
 void COperatorCategoryUtility::Run(id_t id)
 {
-//	switch(id)
-//	{
-// 	case EID_RELOAD_INFO_FILE:
-// 		gpC_base->SendMessage(UI_RELOAD_INFO_FILE);
-// 		break;
-//	}
+	//	switch(id)
+	//	{
+	// 	case EID_RELOAD_INFO_FILE:
+	// 		gpC_base->SendMessage(UI_RELOAD_INFO_FILE);
+	// 		break;
+	//	}
 }
 
 
@@ -172,7 +172,7 @@ COperatorCategoryShowInfo::COperatorCategoryShowInfo(LPCTSTR categoryName, Windo
 	m_pC_button_group->Add(new C_VS_UI_EVENT_CHECK_BUTTON(ptButton,
 		-1, this, &g_pOperatorOption->bRecordCharName, "캐릭터 이름 저장하기 (Rshift Key누르고 클릭)"));
 
-		ptButton.y += 25;
+	ptButton.y += 25;
 	m_pC_button_group->Add(new C_VS_UI_EVENT_CHECK_BUTTON(ptButton,
 		-1, this, &g_pOperatorOption->bCanRootingGhost, "고스트 모드에서 아이템 루팅하기"));
 
@@ -193,15 +193,15 @@ void COperatorCategoryShowInfo::Start()
 
 void COperatorCategoryShowInfo::Finish()
 {
-	
+
 }
 
 
-void COperatorCategoryShowInfo::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
+void COperatorCategoryShowInfo::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
 	C_VS_UI_EVENT_STRING_BUTTON* pStringButton = dynamic_cast<C_VS_UI_EVENT_STRING_BUTTON*>(p_button);
-	
-	if(pStringButton)
+
+	if (pStringButton)
 	{
 		CPoint showOffset(TopLeft());
 		showOffset.x += GetParentWindowPtr()->x;
@@ -211,7 +211,7 @@ void COperatorCategoryShowInfo::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button
 }
 
 
-void COperatorCategoryShowInfo::ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button)
+void COperatorCategoryShowInfo::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 {
 
 }
@@ -278,15 +278,15 @@ void COperatorCategoryGameSetting::Start()
 
 void COperatorCategoryGameSetting::Finish()
 {
-	
+
 }
 
 
-void COperatorCategoryGameSetting::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
+void COperatorCategoryGameSetting::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
 	C_VS_UI_EVENT_STRING_BUTTON* pStringButton = dynamic_cast<C_VS_UI_EVENT_STRING_BUTTON*>(p_button);
-	
-	if(pStringButton)
+
+	if (pStringButton)
 	{
 		CPoint showOffset(TopLeft());
 		showOffset.x += GetParentWindowPtr()->x;
@@ -296,7 +296,7 @@ void COperatorCategoryGameSetting::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_but
 }
 
 
-void COperatorCategoryGameSetting::ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button)
+void COperatorCategoryGameSetting::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 {
 
 }
@@ -340,33 +340,33 @@ COperatorCategorySimpleCommand::COperatorCategorySimpleCommand(LPCTSTR categoryN
 
 	char tempstring[256];
 
-	if(file.is_open())
+	if (file.is_open())
 	{
-		while(!file.eof())
+		while (!file.eof())
 		{
 			file.getline(tempstring, 256);
 			m_firstCommand.push_back(tempstring);
 		}
 		file.close();
 	}
-	
+
 	//뒤쪽에 올수 있는 명령어
 	file.open("Operator\\secondCommand.txt", 0);
-	if(file.is_open())
+	if (file.is_open())
 	{
-		while(!file.eof())
+		while (!file.eof())
 		{
 			file.getline(tempstring, 256);
 			m_secondCommand.push_back(tempstring);
 		}
 		file.close();
 	}
-	
+
 	//명령어 뒤에 들어갈 text
 	file.open("Operator\\textList.txt", 0);
-	if(file.is_open())
+	if (file.is_open())
 	{
-		while(!file.eof())
+		while (!file.eof())
 		{
 			file.getline(tempstring, 256);
 			m_textList.push_back(tempstring);
@@ -374,11 +374,11 @@ COperatorCategorySimpleCommand::COperatorCategorySimpleCommand(LPCTSTR categoryN
 		file.close();
 	}
 
-	CRect firstListBOX(CPoint(5, 5), CSize(position.Width()/2 - 5, position.Height()/3 - 5));
-	
-	CRect secondListBOX(CPoint(position.Width()/2 + 5, 5), CSize(position.Width()/2 - 5, position.Height()/3 - 5));
+	CRect firstListBOX(CPoint(5, 5), CSize(position.Width() / 2 - 5, position.Height() / 3 - 5));
 
-	CRect thirdListBOX(CPoint(5, position.Height()/3 + 5), CSize(position.Width() - 10, position.Height() * 2 / 3 - 35));
+	CRect secondListBOX(CPoint(position.Width() / 2 + 5, 5), CSize(position.Width() / 2 - 5, position.Height() / 3 - 5));
+
+	CRect thirdListBOX(CPoint(5, position.Height() / 3 + 5), CSize(position.Width() - 10, position.Height() * 2 / 3 - 35));
 
 	m_pC_button_group = new ButtonGroup(this);
 	m_pC_button_group->Init();
@@ -390,10 +390,10 @@ COperatorCategorySimpleCommand::COperatorCategorySimpleCommand(LPCTSTR categoryN
 	m_pC_button_group->Add(m_pfirstCommand);
 	m_pC_button_group->Add(m_psecondCommand);
 	m_pC_button_group->Add(m_ptextList);
-	m_pC_button_group->Add(new C_VS_UI_EVENT_PUSH_BUTTON(CRect(CPoint(25,482), CSize(position.Width()/5, position.Height()/20)),
-		1 , this, "명령어 확인"));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_PUSH_BUTTON(CRect(CPoint(165,482), CSize(position.Width()/5, position.Height()/20)),
-		2 , this, "EmptyALL"));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_PUSH_BUTTON(CRect(CPoint(25, 482), CSize(position.Width() / 5, position.Height() / 20)),
+		1, this, "명령어 확인"));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_PUSH_BUTTON(CRect(CPoint(165, 482), CSize(position.Width() / 5, position.Height() / 20)),
+		2, this, "EmptyALL"));
 
 	m_pfirstCommand->SetSelectListIndex(m_saveSelectIndexFirst);
 	m_psecondCommand->SetSelectListIndex(m_saveSelectIndexSecond);
@@ -402,13 +402,13 @@ COperatorCategorySimpleCommand::COperatorCategorySimpleCommand(LPCTSTR categoryN
 
 COperatorCategorySimpleCommand::~COperatorCategorySimpleCommand()
 {
-	if(m_pfirstCommand)
+	if (m_pfirstCommand)
 		m_saveSelectIndexFirst = m_pfirstCommand->GetSelectListIndex();
 
-	if(m_psecondCommand)
+	if (m_psecondCommand)
 		m_saveSelectIndexSecond = m_psecondCommand->GetSelectListIndex();
 
-	if(m_ptextList)
+	if (m_ptextList)
 		m_saveSelectIndexText = m_ptextList->GetSelectListIndex();
 
 	DeleteNew(m_pC_button_group);
@@ -425,19 +425,19 @@ COperatorCategorySimpleCommand::Finish()
 }
 
 void
-COperatorCategorySimpleCommand::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
+COperatorCategorySimpleCommand::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
 	C_VS_UI_EVENT_STRING_BUTTON* pStringButton = dynamic_cast<C_VS_UI_EVENT_STRING_BUTTON*>(p_button);
 	C_VS_UI_LISTBOX* pListString = dynamic_cast<C_VS_UI_LISTBOX*>(p_button);
-	
-	if(pStringButton)
+
+	if (pStringButton)
 	{
 		CPoint showOffset(TopLeft());
 		showOffset.x += GetParentWindowPtr()->x;
 		showOffset.y += GetParentWindowPtr()->y;
 		pStringButton->Show(showOffset);
 	}
-	if(pListString)
+	if (pListString)
 	{
 		CPoint showOffset(TopLeft());
 		showOffset.x += GetParentWindowPtr()->x;
@@ -447,7 +447,7 @@ COperatorCategorySimpleCommand::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button
 
 }
 void
-COperatorCategorySimpleCommand::ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button)
+COperatorCategorySimpleCommand::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 {
 }
 
@@ -455,26 +455,26 @@ void
 COperatorCategorySimpleCommand::Run(id_t id)
 {
 
-	std::string finalstring ="";
+	std::string finalstring = "";
 
-	switch(id)
+	switch (id)
 	{
 	case 1:
-		if(m_pfirstCommand->GetSelectListString(m_pfirstCommand->GetSelectListIndex()))
+		if (m_pfirstCommand->GetSelectListString(m_pfirstCommand->GetSelectListIndex()))
 		{
 			finalstring += m_pfirstCommand->GetSelectListString(m_pfirstCommand->GetSelectListIndex());
 			finalstring += " ";
 		}
-		if(m_psecondCommand->GetSelectListString(m_psecondCommand->GetSelectListIndex()))
+		if (m_psecondCommand->GetSelectListString(m_psecondCommand->GetSelectListIndex()))
 		{
 			finalstring += m_psecondCommand->GetSelectListString(m_psecondCommand->GetSelectListIndex());
 			finalstring += " ";
 		}
-		if(m_ptextList->GetSelectListString(m_ptextList->GetSelectListIndex()))
+		if (m_ptextList->GetSelectListString(m_ptextList->GetSelectListIndex()))
 		{
 			finalstring += m_ptextList->GetSelectListString(m_ptextList->GetSelectListIndex());
 		}
-		if(finalstring.size()<=256)
+		if (finalstring.size() <= 256)
 		{
 			gC_vs_ui.SetInputString(finalstring.c_str());
 		}
@@ -484,10 +484,10 @@ COperatorCategorySimpleCommand::Run(id_t id)
 			g_pUIDialog->PopupFreeMessageDlg((*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_USE].GetString());
 #endif
 		}
-		
+
 		break;
 
-	case 2:	
+	case 2:
 		m_pfirstCommand->SetSelectListIndex(-1);
 		m_psecondCommand->SetSelectListIndex(-1);
 		m_ptextList->SetSelectListIndex(-1);
@@ -506,7 +506,7 @@ COperatorCategorySimpleCommand::Show()
 {
 	m_pC_button_group->Show();
 }
-	
+
 bool
 COperatorCategorySimpleCommand::MouseControl(UINT message, int _x, int _y)
 {
@@ -527,8 +527,8 @@ COperatorCategoryShowItemSetting::COperatorCategoryShowItemSetting(LPCTSTR categ
 	m_find_str = "";
 
 	// 배경
-	CRect rc_ItemClassListBOX(CPoint(5, 5), CSize(position.Width()/2 - 5, position.Height() - 10));
-	CRect rc_ItemTypeListBOX(CPoint(position.Width()/2 + 5, 5), CSize(position.Width()/2 - 10, position.Height() - 10));
+	CRect rc_ItemClassListBOX(CPoint(5, 5), CSize(position.Width() / 2 - 5, position.Height() - 10));
+	CRect rc_ItemTypeListBOX(CPoint(position.Width() / 2 + 5, 5), CSize(position.Width() / 2 - 10, position.Height() - 10));
 
 	m_pItemClassListBox = new C_VS_UI_LISTBOX(m_ItemClassListBox, rc_ItemClassListBOX, -1, this, &gpC_base->m_chatting_pi);
 	m_pItemTypeListBox = new C_VS_UI_LISTBOX(m_ItemTypeListBox, rc_ItemTypeListBOX, -1, this, &gpC_base->m_chatting_pi);
@@ -539,10 +539,10 @@ COperatorCategoryShowItemSetting::COperatorCategoryShowItemSetting(LPCTSTR categ
 	m_pC_button_group->Add(m_pItemClassListBox);
 	m_pC_button_group->Add(m_pItemTypeListBox);
 
-	for(int i=0;i<MAX_ITEM_CLASS;i++)
+	for (int i = 0; i < MAX_ITEM_CLASS; i++)
 	{
 		ostringstream ostr;
-		ostr<<i<<". "<<ITEM_SHOW_NAME[i];
+		ostr << i << ". " << ITEM_SHOW_NAME[i];
 
 		m_pItemClassListBox->AddString(ostr.str());
 	}
@@ -552,14 +552,14 @@ COperatorCategoryShowItemSetting::COperatorCategoryShowItemSetting(LPCTSTR categ
 	m_pItemClassListBox->AddString("");
 
 	int item_size = (*g_pItemTable)[0].GetSize();
-	
-	for(i=0;i<item_size;i++)
+
+	for (int i = 0; i < item_size; i++)
 	{
 		ostringstream ostr;
-		ostr<<0<<"-"<<i<<". "
-			<<(*g_pItemTable)[0][i].HName.GetString()<<"("
-			<<(*g_pItemTable)[0][i].EName.GetString()<<")";
-	
+		ostr << 0 << "-" << i << ". "
+			<< (*g_pItemTable)[0][i].HName.GetString() << "("
+			<< (*g_pItemTable)[0][i].EName.GetString() << ")";
+
 		m_pItemTypeListBox->AddString(ostr.str());
 	}
 
@@ -572,9 +572,9 @@ COperatorCategoryShowItemSetting::COperatorCategoryShowItemSetting(LPCTSTR categ
 
 COperatorCategoryShowItemSetting::~COperatorCategoryShowItemSetting()
 {
-	if(m_pItemClassListBox)
+	if (m_pItemClassListBox)
 		m_saveSelectIndexItemClass = m_pItemClassListBox->GetSelectListIndex();
-	if(m_pItemTypeListBox)
+	if (m_pItemTypeListBox)
 		m_saveSelectIndexItemType = m_pItemTypeListBox->GetSelectListIndex();
 
 	DeleteNew(m_pC_button_group);
@@ -584,19 +584,19 @@ COperatorCategoryShowItemSetting::~COperatorCategoryShowItemSetting()
 
 void COperatorCategoryShowItemSetting::Start()
 {
-	
+
 }
 
 void COperatorCategoryShowItemSetting::Finish()
 {
-	
+
 }
 
-void COperatorCategoryShowItemSetting::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
+void COperatorCategoryShowItemSetting::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
 	C_VS_UI_LISTBOX* pListString = dynamic_cast<C_VS_UI_LISTBOX*>(p_button);
 
-	if(pListString)
+	if (pListString)
 	{
 		CPoint showOffset(TopLeft());
 		showOffset.x += GetParentWindowPtr()->x;
@@ -605,7 +605,7 @@ void COperatorCategoryShowItemSetting::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p
 	}
 }
 
-void COperatorCategoryShowItemSetting::ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button)
+void COperatorCategoryShowItemSetting::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 {
 
 }
@@ -624,112 +624,123 @@ void COperatorCategoryShowItemSetting::Show()
 {
 	m_pC_button_group->Show();
 
-	const char *Find_Str = gC_vs_ui.GetNewInputString();
+	const char* Find_Str = gC_vs_ui.GetNewInputString();
 	char find_str[256];
-	if(Find_Str!=NULL)
+	if (Find_Str != NULL)
 	{
-		strcpy(find_str,Find_Str);
-		delete (char *)Find_Str;
+		strcpy(find_str, Find_Str);
+		delete (char*)Find_Str;
 		Find_Str = NULL;
 	}
 	else
 	{
-		strcpy(find_str,"");
+		strcpy(find_str, "");
 	}
 
 	// 문자열 삭제해주기
 	string find_str_delete = "검색어";
-	string find_str_str	= find_str;
+	string find_str_str = find_str;
 
-	if( lstrlen("검색어를 입력해주세요.")!=find_str_str.size() )
+	if (lstrlen("검색어를 입력해주세요.") != find_str_str.size())
 	{
-		if( find_str_delete.size()!=0 && find_str_str.find(find_str_delete.c_str()) != std::string::npos )
+		if (find_str_delete.size() != 0 && find_str_str.find(find_str_delete.c_str()) != std::string::npos)
 		{
-			if(lstrlen("검색어를 입력해주세요.")<find_str_str.size())
+			if (lstrlen("검색어를 입력해주세요.") < find_str_str.size())
 			{
-				string str = &find_str_str[find_str_str.size()-1];
+				string str = &find_str_str[find_str_str.size() - 1];
 				gC_vs_ui.SetInputString(str.c_str());
-				strcpy(find_str,str.c_str());
+				strcpy(find_str, str.c_str());
 			}
 			else
 			{
 				gC_vs_ui.SetInputString("");
-				strcpy(find_str,"");
+				strcpy(find_str, "");
 			}
 		}
 	}
-	
+
 	ShowItem_Find(find_str);
 }
 
 bool COperatorCategoryShowItemSetting::MouseControl(UINT message, int _x, int _y)
 {
 	m_pC_button_group->MouseControl(message, _x, _y);
-	
-	CPoint ptLocalMouse(_x , _y );
-//	if(!m_RectList.PtInRect(ptLocalMouse))
-//		message = M_LEFTBUTTON_UP; // 스크롤바 스크롤 하면서 밖으로 끌어내면 마우스떼도 계속 스크롤 되는거 고칠려고했던것.
+
+	CPoint ptLocalMouse(_x, _y);
+	//	if(!m_RectList.PtInRect(ptLocalMouse))
+	//		message = M_LEFTBUTTON_UP; // 스크롤바 스크롤 하면서 밖으로 끌어내면 마우스떼도 계속 스크롤 되는거 고칠려고했던것.
 
 	bool ClassList_bt = m_pItemClassListBox->MouseControl(message, _x, _y);
 	bool TypeList_bt = m_pItemTypeListBox->MouseControl(message, _x, _y);
-	
-	bool bClickMessage = (message==M_LEFTBUTTON_DOWN||message==M_LB_DOUBLECLICK);
-	
-	if(!ClassList_bt&&bClickMessage&&m_pItemClassListBox->GetSelectListIndex()<m_pItemClassListBox->ListNodeMax()&&m_pItemClassListBox->GetSelectListIndex()<=MAX_ITEM_CLASS||m_pItemClassListBox->GetSelectListIndex()==MAX_ITEM_CLASS+2)
+
+	bool bClickMessage = (message == M_LEFTBUTTON_DOWN || message == M_LB_DOUBLECLICK);
+
+	if (!ClassList_bt && bClickMessage && m_pItemClassListBox->GetSelectListIndex() < m_pItemClassListBox->ListNodeMax() && m_pItemClassListBox->GetSelectListIndex() <= MAX_ITEM_CLASS || m_pItemClassListBox->GetSelectListIndex() == MAX_ITEM_CLASS + 2)
 	{
 		m_pItemTypeListBox->DelListNodeAll();
-		
-		if(m_pItemClassListBox->GetSelectListIndex()==MAX_ITEM_CLASS)
+
+		if (m_pItemClassListBox->GetSelectListIndex() == MAX_ITEM_CLASS)
 		{
 			gpC_base->SendMessage(UI_ITEM_SHOW_AND_CLEAR_ITEM, 0, 0);
 		}
 		else
 		{
 			char src_str[20];
-			if(m_pItemClassListBox->IsFindStringOK())
+			if (m_pItemClassListBox->IsFindStringOK())
 			{
 				char mark_str[256];
 				string _find_str;
 
-				strcpy(mark_str,m_pItemClassListBox->GetSelectListString(m_pItemClassListBox->GetSelectListIndex()));
+				strcpy(mark_str, m_pItemClassListBox->GetSelectListString(m_pItemClassListBox->GetSelectListIndex()));
 				_find_str = mark_str;
 
 				// find mark..
-				if( m_find_mark_str.size()!=0 && _find_str.find(m_find_mark_str.c_str()) != std::string::npos )
-					sscanf(&mark_str[m_find_mark_str_size],"%s",src_str);
+				if (m_find_mark_str.size() != 0 && _find_str.find(m_find_mark_str.c_str()) != std::string::npos)
+					sscanf(&mark_str[m_find_mark_str_size], "%s", src_str);
 				else
-					sscanf(m_pItemClassListBox->GetSelectListString(m_pItemClassListBox->GetSelectListIndex()),"%s",src_str);
+					sscanf(m_pItemClassListBox->GetSelectListString(m_pItemClassListBox->GetSelectListIndex()), "%s", src_str);
 			}
 			else
 			{
-				sscanf(m_pItemClassListBox->GetSelectListString(m_pItemClassListBox->GetSelectListIndex()),"%s",src_str);
+				sscanf(m_pItemClassListBox->GetSelectListString(m_pItemClassListBox->GetSelectListIndex()), "%s", src_str);
 			}
 
 			int Class_Num = atoi(src_str);
-		
+
 			int item_size = (*g_pItemTable)[Class_Num].GetSize();
-	
-			for(int i=0;i<item_size;i++)
+
+			for (int i = 0; i < item_size; i++)
 			{
 				ostringstream ostr;
-				ostr<<Class_Num<<"-"<<i<<". "
-					<<(*g_pItemTable)[Class_Num][i].HName.GetString()<<"("
-					<<(*g_pItemTable)[Class_Num][i].EName.GetString()<<")";
-	
+				ostr << Class_Num << "-" << i << ". "
+					<< (*g_pItemTable)[Class_Num][i].HName.GetString() << "("
+					<< (*g_pItemTable)[Class_Num][i].EName.GetString() << ")";
+
 				m_pItemTypeListBox->AddString(ostr.str());
 			}
 			m_pItemTypeListBox->SetSelectListIndex(-1);
 		}
 	}
-	
+
 	// create item..
-	if(!TypeList_bt&&bClickMessage&&m_pItemTypeListBox->GetSelectListIndex()!=-1&&m_pItemTypeListBox->GetSelectListIndex()<m_pItemTypeListBox->ListNodeMax())
+	if (!TypeList_bt && bClickMessage && m_pItemTypeListBox->GetSelectListIndex() != -1 && m_pItemTypeListBox->GetSelectListIndex() < m_pItemTypeListBox->ListNodeMax())
 	{
 		char src_str[20];
-		sscanf(m_pItemTypeListBox->GetSelectListString(m_pItemTypeListBox->GetSelectListIndex()),"%s",src_str);
+		sscanf(m_pItemTypeListBox->GetSelectListString(m_pItemTypeListBox->GetSelectListIndex()), "%s", src_str);
 
 		int Class_Num = atoi(src_str);
-		for(char *ptr=src_str;(ptr!=NULL&&*ptr!=45);ptr++); ptr++;
+		char* ptr = src_str;
+
+		while (*ptr && *ptr != '-')
+		{
+			ptr++;
+		}
+
+		if (*ptr == '-')  // only advance if we actually found '-'
+		{
+			ptr++;
+		}
+
 		int Type_Num = atoi(ptr);
 
 		gpC_base->SendMessage(UI_ITEM_SHOW_AND_CREATE_ITEM, Class_Num, Type_Num);
@@ -740,19 +751,19 @@ bool COperatorCategoryShowItemSetting::MouseControl(UINT message, int _x, int _y
 
 bool COperatorCategoryShowItemSetting::ShowItem_Find(string find_str)
 {
-	if(m_pItemClassListBox->ListNodeMax()==0 || m_pItemTypeListBox->ListNodeMax()==0)
+	if (m_pItemClassListBox->ListNodeMax() == 0 || m_pItemTypeListBox->ListNodeMax() == 0)
 		return false;
 
-	if(m_find_str.size()==find_str.size())
+	if (m_find_str.size() == find_str.size())
 	{
-		if( find_str.size()==0 || find_str.size()>30 || (find_str.size()!=0 && m_find_str.find(find_str.c_str()) != std::string::npos) )
+		if (find_str.size() == 0 || find_str.size() > 30 || (find_str.size() != 0 && m_find_str.find(find_str.c_str()) != std::string::npos))
 			return false;
 	}
 
 	m_find_str = find_str;
 	m_pItemClassListBox->DelListNodeAll();
 
-	for(int i=0;i<MAX_ITEM_CLASS;i++)
+	for (int i = 0; i < MAX_ITEM_CLASS; i++)
 	{
 		ostringstream ostr;
 		string _str;
@@ -762,12 +773,12 @@ bool COperatorCategoryShowItemSetting::ShowItem_Find(string find_str)
 		int item_size = (*g_pItemTable)[i].GetSize();
 		m_pItemTypeListBox->DelListNodeAll();
 
-		for(int j=0;j<item_size;j++)
+		for (int j = 0; j < item_size; j++)
 		{
 			ostringstream ostr;
-			ostr<<i<<"-"<<j<<". "
-				<<(*g_pItemTable)[i][j].HName.GetString()<<"("
-				<<(*g_pItemTable)[i][j].EName.GetString()<<")";
+			ostr << i << "-" << j << ". "
+				<< (*g_pItemTable)[i][j].HName.GetString() << "("
+				<< (*g_pItemTable)[i][j].EName.GetString() << ")";
 
 			m_pItemTypeListBox->AddString(ostr.str());
 		}
@@ -776,44 +787,44 @@ bool COperatorCategoryShowItemSetting::ShowItem_Find(string find_str)
 		m_pItemTypeListBox->SetSelectListIndex(-1);
 		//////////////////////////////////////////////////////////////////////////
 
-		ostr<<i<<". "<<ITEM_SHOW_NAME[i];
+		ostr << i << ". " << ITEM_SHOW_NAME[i];
 		_str = ostr.str();
 
-		if( m_pItemTypeListBox->IsFindStringOK())
+		if (m_pItemTypeListBox->IsFindStringOK())
 		{
 			ostr.str("");
-			ostr<<m_find_mark_str<<i<<". "<<ITEM_SHOW_NAME[i];
+			ostr << m_find_mark_str << i << ". " << ITEM_SHOW_NAME[i];
 		}
-		
+
 		m_pItemClassListBox->AddString(ostr.str());
 	}
 	m_pItemClassListBox->AddString("<<인벤토리 삭제>>");
 	m_pItemClassListBox->AddString("");
 	m_pItemClassListBox->AddString("create by ij-ch");
 	m_pItemClassListBox->AddString("");
-	
+
 	m_pItemClassListBox->SetFindString(m_find_mark_str);
 
 	// 선택된 아이템 타입리스트
 	//////////////////////////////////////////////////////////////////////////
 	char src_str[20];
-	if(m_pItemClassListBox->IsFindStringOK())
+	if (m_pItemClassListBox->IsFindStringOK())
 	{
 		char mark_str[256];
 		string _find_str;
 
-		strcpy(mark_str,m_pItemClassListBox->GetSelectListString(m_pItemClassListBox->GetSelectListIndex()));
+		strcpy(mark_str, m_pItemClassListBox->GetSelectListString(m_pItemClassListBox->GetSelectListIndex()));
 		_find_str = mark_str;
 
 		// find mark..
-		if( m_find_mark_str.size()!=0 && _find_str.find(m_find_mark_str.c_str()) != std::string::npos )
-			sscanf(&mark_str[m_find_mark_str_size],"%s",src_str);
+		if (m_find_mark_str.size() != 0 && _find_str.find(m_find_mark_str.c_str()) != std::string::npos)
+			sscanf(&mark_str[m_find_mark_str_size], "%s", src_str);
 		else
-			sscanf(m_pItemClassListBox->GetSelectListString(m_pItemClassListBox->GetSelectListIndex()),"%s",src_str);
+			sscanf(m_pItemClassListBox->GetSelectListString(m_pItemClassListBox->GetSelectListIndex()), "%s", src_str);
 	}
 	else
 	{
-		sscanf(m_pItemClassListBox->GetSelectListString(m_pItemClassListBox->GetSelectListIndex()),"%s",src_str);
+		sscanf(m_pItemClassListBox->GetSelectListString(m_pItemClassListBox->GetSelectListIndex()), "%s", src_str);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -822,13 +833,13 @@ bool COperatorCategoryShowItemSetting::ShowItem_Find(string find_str)
 	int item_size = (*g_pItemTable)[Class_Num].GetSize();
 	m_pItemTypeListBox->DelListNodeAll();
 
-	for(i=0;i<item_size;i++)
+	for (int i = 0; i < item_size; i++)
 	{
 		ostringstream ostr;
-		ostr<<Class_Num<<"-"<<i<<". "
-			<<(*g_pItemTable)[Class_Num][i].HName.GetString()<<"("
-			<<(*g_pItemTable)[Class_Num][i].EName.GetString()<<")";
-	
+		ostr << Class_Num << "-" << i << ". "
+			<< (*g_pItemTable)[Class_Num][i].HName.GetString() << "("
+			<< (*g_pItemTable)[Class_Num][i].EName.GetString() << ")";
+
 		m_pItemTypeListBox->AddString(ostr.str());
 	}
 	return true;
@@ -849,32 +860,32 @@ COperatorCategoryAutoQA::COperatorCategoryAutoQA(LPCTSTR categoryName, Window* p
 	m_pC_button_group->Init();
 
 	const int gap = 5;
-	CSize buttonSize((position.Width()/2 - gap*2)/2, 28);
+	CSize buttonSize((position.Width() / 2 - gap * 2) / 2, 28);
 	CPoint buttonPos(gap, position.Height() - buttonSize.cy - gap);
 
 	m_pC_button_group->Add(new C_VS_UI_EVENT_PUSH_BUTTON(
 		CRect(buttonPos, buttonSize),
-		EID_START_ALL , this, "Start All"));
+		EID_START_ALL, this, "Start All"));
 	buttonPos.x += gap + buttonSize.cx;
 
 	m_pC_button_group->Add(new C_VS_UI_EVENT_PUSH_BUTTON(
 		CRect(buttonPos, buttonSize),
-		EID_STOP , this, "Stop"));
+		EID_STOP, this, "Stop"));
 	buttonPos.x += gap + buttonSize.cx;
 
 	m_pC_button_group->Add(new C_VS_UI_EVENT_PUSH_BUTTON(
 		CRect(buttonPos, buttonSize),
-		EID_SHOW_ALL , this, "Show All"));
+		EID_SHOW_ALL, this, "Show All"));
 	buttonPos.x += gap + buttonSize.cx;
 
 	// 마지막 하나만 크기가 다름 -_-;;
 	m_pC_button_group->Add(new C_VS_UI_EVENT_PUSH_BUTTON(
 		CRect(buttonPos, CSize(buttonSize.cx - gap, buttonSize.cy)),
-		EID_SHOW_ERROR , this, "Show Error"));
+		EID_SHOW_ERROR, this, "Show Error"));
 
 
-	CRect rcWorkListBox(CPoint(gap, gap), CSize(position.Width()/2 - gap, position.Height() - gap*2 - buttonSize.cy - gap));
-	CRect rcReportListBox(CPoint(position.Width()/2 + gap, gap), CSize(position.Width()/2 - gap*2, position.Height() - gap*2 - buttonSize.cy - gap));
+	CRect rcWorkListBox(CPoint(gap, gap), CSize(position.Width() / 2 - gap, position.Height() - gap * 2 - buttonSize.cy - gap));
+	CRect rcReportListBox(CPoint(position.Width() / 2 + gap, gap), CSize(position.Width() / 2 - gap * 2, position.Height() - gap * 2 - buttonSize.cy - gap));
 
 	m_pWorkListBox = new C_VS_UI_LISTBOX(m_WorkStringList, rcWorkListBox, -1, this, &gpC_base->m_chatting_pi);
 	m_pReportListBox = new C_VS_UI_LISTBOX(m_ReportStringList, rcReportListBox, -1, this, &gpC_base->m_chatting_pi);
@@ -883,21 +894,21 @@ COperatorCategoryAutoQA::COperatorCategoryAutoQA(LPCTSTR categoryName, Window* p
 	m_pC_button_group->Add(m_pReportListBox);
 
 	static bool s_bOneTime = false;
-	if(!s_bOneTime)
+	if (!s_bOneTime)
 	{
 		RegisterWorks();
 		s_bOneTime = true;
 	}
-/*by kim
-	const aqa::WorkPtrList works = aqa::Robot::Instance().GetWorks();
-	aqa::WorkPtrList::const_iterator iter = works.begin();
-	aqa::WorkPtrList::const_iterator endIter = works.end();
-	
-	for(; iter != endIter; ++iter)
-	{
-		m_pWorkListBox->AddString((*iter)->GetName().c_str());
-	}
-	*/	
+	/*by kim
+		const aqa::WorkPtrList works = aqa::Robot::Instance().GetWorks();
+		aqa::WorkPtrList::const_iterator iter = works.begin();
+		aqa::WorkPtrList::const_iterator endIter = works.end();
+
+		for(; iter != endIter; ++iter)
+		{
+			m_pWorkListBox->AddString((*iter)->GetName().c_str());
+		}
+		*/
 	m_bWorking = false;
 }
 
@@ -924,15 +935,15 @@ void COperatorCategoryAutoQA::Start()
 
 void COperatorCategoryAutoQA::Finish()
 {
-	
+
 }
 
 
-void COperatorCategoryAutoQA::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
+void COperatorCategoryAutoQA::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
 	C_VS_UI_LISTBOX* pListBox = dynamic_cast<C_VS_UI_LISTBOX*>(p_button);
-	
-	if(pListBox)
+
+	if (pListBox)
 	{
 		CPoint showOffset(TopLeft());
 		showOffset.x += GetParentWindowPtr()->x;
@@ -941,8 +952,8 @@ void COperatorCategoryAutoQA::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 	}
 
 	C_VS_UI_EVENT_PUSH_BUTTON* pPushBox = dynamic_cast<C_VS_UI_EVENT_PUSH_BUTTON*>(p_button);
-	
-	if(pPushBox)
+
+	if (pPushBox)
 	{
 		CPoint showOffset(TopLeft());
 		showOffset.x += GetParentWindowPtr()->x;
@@ -952,7 +963,7 @@ void COperatorCategoryAutoQA::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 }
 
 
-void COperatorCategoryAutoQA::ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button)
+void COperatorCategoryAutoQA::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 {
 
 }
@@ -960,34 +971,34 @@ void COperatorCategoryAutoQA::ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_butt
 
 void COperatorCategoryAutoQA::Run(id_t id)
 {
-/*by kim	if(id == EID_START_ALL)
-	{
-		m_pReportListBox->DelListNodeAll();
-		m_UnitList.clear();
-		aqa::Robot::Instance().DoAllWorks(m_AQAFunctions, *this);
-		m_bWorking = true;
-	}
-*/
+	/*by kim	if(id == EID_START_ALL)
+		{
+			m_pReportListBox->DelListNodeAll();
+			m_UnitList.clear();
+			aqa::Robot::Instance().DoAllWorks(m_AQAFunctions, *this);
+			m_bWorking = true;
+		}
+	*/
 }
 
 
 void COperatorCategoryAutoQA::Process()
 {
-/* by kim	m_pC_button_group->Process();
+	/* by kim	m_pC_button_group->Process();
 
-	if(m_bWorking && aqa::Robot::Instance().IsWorking() == false)
-	{
-		aqa::ReportUnitList::iterator iter = m_UnitList.begin();
-		aqa::ReportUnitList::iterator endIter = m_UnitList.end();
+		if(m_bWorking && aqa::Robot::Instance().IsWorking() == false)
+		{
+			aqa::ReportUnitList::iterator iter = m_UnitList.begin();
+			aqa::ReportUnitList::iterator endIter = m_UnitList.end();
 
-		for(; iter != endIter; ++iter)
-		{	
-			m_pReportListBox->AddString(iter->desc.c_str());
+			for(; iter != endIter; ++iter)
+			{
+				m_pReportListBox->AddString(iter->desc.c_str());
+			}
+
+			m_bWorking = false;
 		}
-
-		m_bWorking = false;
-	}
-*/
+	*/
 }
 
 
@@ -999,23 +1010,23 @@ void COperatorCategoryAutoQA::Show()
 
 bool COperatorCategoryAutoQA::MouseControl(UINT message, int _x, int _y)
 {
-/* by kim	m_pC_button_group->MouseControl(message, _x, _y);
+	/* by kim	m_pC_button_group->MouseControl(message, _x, _y);
 
-	bool bClickMessage = (message==M_LB_DOUBLECLICK);
+		bool bClickMessage = (message==M_LB_DOUBLECLICK);
 
-	if(bClickMessage&&
-		m_pWorkListBox->GetSelectListIndex() < m_pWorkListBox->ListNodeMax() && 
-		m_pWorkListBox->GetSelectListIndex() <= MAX_ITEM_CLASS)
-	{
-		int idx = m_pWorkListBox->GetSelectListIndex();
+		if(bClickMessage&&
+			m_pWorkListBox->GetSelectListIndex() < m_pWorkListBox->ListNodeMax() &&
+			m_pWorkListBox->GetSelectListIndex() <= MAX_ITEM_CLASS)
+		{
+			int idx = m_pWorkListBox->GetSelectListIndex();
 
-		m_pReportListBox->DelListNodeAll();
-		m_UnitList.clear();
-		aqa::Robot::Instance().DoWork(idx, m_AQAFunctions, *this);
-		m_bWorking = true;
-	}
-	
-*/
+			m_pReportListBox->DelListNodeAll();
+			m_UnitList.clear();
+			aqa::Robot::Instance().DoWork(idx, m_AQAFunctions, *this);
+			m_bWorking = true;
+		}
+
+	*/
 
 	return true;
 }

@@ -1277,7 +1277,7 @@ bool CTypePack2<TypeBase, Type1, Type2>::LoadFromFilePart(CSpriteSetManager& SSM
 	for (; t < SSM.GetSize(); ++t, ++iID)
 	{
 		if (*iID != 0xFFFF)
-			Get(*iID);
+			Get((WORD)*iID);
 	}
 
 	return true;

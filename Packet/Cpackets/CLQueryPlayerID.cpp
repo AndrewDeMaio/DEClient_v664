@@ -47,7 +47,7 @@ void CLQueryPlayerID::write ( SocketOutputStream & oStream ) const
 	//--------------------------------------------------
 	// write player id
 	//--------------------------------------------------
-	BYTE szPlayerID = m_PlayerID.size();
+	size_t szPlayerID = m_PlayerID.size();
 
 	if ( szPlayerID == 0 )
 		throw InvalidProtocolException("empty PlayerID");

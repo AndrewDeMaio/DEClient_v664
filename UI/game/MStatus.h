@@ -8,7 +8,7 @@
 #define	__MSTATUS_H__
 
 #include <Windows.h>
-#include "Types\ModifyDef.h"
+#include "ModifyDef.h"
 
 class MStatus {
 	public :

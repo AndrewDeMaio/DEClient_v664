@@ -69,7 +69,7 @@ void GCNPCAskDynamic::write ( SocketOutputStream & oStream ) const
 {
 	__BEGIN_TRY
 
-	WORD size = 0;
+	size_t size = 0;
 
 	oStream.write( m_ObjectID );
 	oStream.write( m_ScriptID );

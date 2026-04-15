@@ -17,6 +17,7 @@
 #include "MEffectSpriteTypeTable.h"
 
 #include "OperatorOption.h"
+#include "UIFunction.h"
 
 extern void SetDragonTorando(int Type, DWORD ObjectID, int TileX, int TileY);
 //////////////////////////////////////////////////////////////////////

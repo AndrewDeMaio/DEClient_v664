@@ -75,6 +75,9 @@
     <ClCompile Include="Profiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DebugInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BIT_RES.H">
@@ -141,6 +144,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Profiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dmusicf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dmusici.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MinTr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPartManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CTypeTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ContentsFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,6 +4,7 @@
 #include "Client_PCH.h"
 #include "MSkillManager.h"
 #include "MTypeDef.h"
+#include "ContentsFilter.h"
 
 #ifdef __GAME_CLIENT__
 #include "MPlayer.h"
@@ -1249,13 +1250,14 @@ MSkillSet::SetAvailableSkills()
 
 					case MAGIC_TRANSFORM_TO_BAT:
 					{
+						MItemClassTypeFinder finder_alt(ITEM_CLASS_VAMPIRE_ETC, 0);
 						MItemClassTypeFinder finder(ITEM_CLASS_VAMPIRE_ETC, 1);
 						if (NULL == g_pInventory->FindItemAll(finder, pSubInventory)
 #if __CONTENTS(__FAST_TRANSFORTER)
-							&& NULL == g_pInventory->FindItemAll(MItemClassTypeFinder(ITEM_CLASS_VAMPIREWING_ITEM, 0), pSubInventory)
+							&& NULL == g_pInventory->FindItemAll(finder_alt, pSubInventory)
 #endif //__FAST_TRANSFORTER
 #if __CONTENTS(__SECOND_TRANSFORTER)
-							&& NULL == g_pInventory->FindItemAll(MItemClassTypeFinder(ITEM_CLASS_VAMPIREWING_ITEM, 1), pSubInventory)
+							&& NULL == g_pInventory->FindItemAll(finder, pSubInventory)
 #endif //__SECOND_TRANSFORTER
 							)
 
@@ -1460,13 +1462,14 @@ MSkillSet::SetAvailableSkills()
 					if (id == SKILL_SUMMON_SYLPH)
 					{
 						MItem* pSubInventory = NULL;
-						MOustersSummonGemItemFinder finder;
+						MItemClassTypeFinder finder(ITEM_CLASS_OUSTERSWING_ITEM, 0);
+						MItemClassTypeFinder finder_alt(ITEM_CLASS_OUSTERSWING_ITEM, 0);
 						if (NULL == ((MItemManager*)g_pInventory)->FindItemAll(finder, pSubInventory)
 #if __CONTENTS(__FAST_TRANSFORTER)
-							&& NULL == g_pInventory->FindItemAll(MItemClassTypeFinder(ITEM_CLASS_OUSTERSWING_ITEM, 0), pSubInventory)
+							&& NULL == g_pInventory->FindItemAll(finder, pSubInventory)
 #endif //__FAST_TRANSFORTER
 #if __CONTENTS(__SECOND_TRANSFORTER)
-							&& NULL == g_pInventory->FindItemAll(MItemClassTypeFinder(ITEM_CLASS_OUSTERSWING_ITEM, 1), pSubInventory)
+							&& NULL == g_pInventory->FindItemAll(finder_alt, pSubInventory)
 #endif //__SECOND_TRANSFORTER
 							)
 							flag = 0;
@@ -1578,7 +1581,7 @@ MSkillSet::SetAvailableSkills()
 		}
 		else
 		{
-			MPlayerGear* pGear;
+			MPlayerGear* pGear = nullptr;
 			MItemClassFinder itemFinder(ITEM_CLASS_COUPLE_RING);
 
 			switch (g_pPlayer->GetRace())

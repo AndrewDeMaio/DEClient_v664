@@ -74,7 +74,7 @@ void GCAddMonsterFromBurrowing::write ( SocketOutputStream & oStream ) const
 {
 	__BEGIN_TRY
 		
-	BYTE name_length = m_MonsterName.size();
+	size_t name_length = m_MonsterName.size();
 
 	oStream.write( m_ObjectID );
 	oStream.write( m_MonsterType );

@@ -40,7 +40,7 @@ void CGAddSMSAddress::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	BYTE szSTR;
+	size_t szSTR;
 
 	szSTR = m_CharacterName.size();
 	oStream.write( szSTR );

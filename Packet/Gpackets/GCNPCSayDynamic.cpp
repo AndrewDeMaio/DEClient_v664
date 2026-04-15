@@ -34,7 +34,7 @@ void GCNPCSayDynamic::write ( SocketOutputStream & oStream ) const
 		
 	oStream.write( m_ObjectID );
 
-	BYTE szMessage = m_Message.size();
+	size_t szMessage = m_Message.size();
 
 	if ( szMessage == 0 )
 		throw InvalidProtocolException("szMessage == 0");

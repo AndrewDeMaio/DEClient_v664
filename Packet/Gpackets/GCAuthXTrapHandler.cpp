@@ -30,12 +30,12 @@ void GCAuthXTrapHandler::execute ( GCAuthXTrap * pPacket , Player * pPlayer )
 	
 #ifdef __GAME_CLIENT__
 
-#if !defined(_DEBUG)
+#if !defined(_DEBUG) && defined(__USE_XTRAP__)
 
 	//MessageBox(NULL, "GCAuthKeyHandler����1", "Warning", MB_OK);
 
 	CGAuthXTrap SendPack;
-	
+
 	if(pPacket->m_shCmdFlag == XTRAP_CMD_STEP_ONE)
 	{
 		BYTE szTemp[128] = {0};
@@ -43,9 +43,9 @@ void GCAuthXTrapHandler::execute ( GCAuthXTrap * pPacket , Player * pPlayer )
 		SendPack.setKey(szTemp);
 		SendPack.m_shCmdFlag = XTRAP_CMD_STEP_TWO;
 		g_pSocket->sendPacket( &SendPack );
-		
+
 		if(ret == XTRAP_API_RETURN_OK )
-		{			
+		{
 		}
 		else
 		{

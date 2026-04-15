@@ -14,7 +14,9 @@
 #include "StringStream.h"
 
 #if _WIN32
-#include "WarningKiller.h"
+// Warning Killer
+#pragma warning(disable:4786)
+#pragma warning(disable:4290)
 #endif
 
 #include <list>

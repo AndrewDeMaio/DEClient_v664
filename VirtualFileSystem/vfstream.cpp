@@ -60,9 +60,9 @@ void iovfs_base::close()
 }
 
 
-void iovfs_base::start_vfs(LPCTSTR filename, int flags)
+bool iovfs_base::start_vfs(LPCTSTR filename, int flags)
 {
-	s_VFSystem.Start(filename, flags);
+	return s_VFSystem.Start(filename, flags);
 }
 
 

@@ -92,7 +92,7 @@ void GCAddItemToItemVerify::write ( SocketOutputStream & oStream ) const
 			break;
 		case ADD_ITEM_TO_ITEM_VERIFY_THIRD_ENCHANT_OK:
 			{
-				BYTE thirdoptionSize = m_ThirdOptionType.size();
+				size_t thirdoptionSize = m_ThirdOptionType.size();
 				oStream.write( thirdoptionSize );
 				std::list<OptionType_t>::const_iterator iOption = m_ThirdOptionType.begin();
 				for (; iOption!= m_ThirdOptionType.end(); iOption++) 

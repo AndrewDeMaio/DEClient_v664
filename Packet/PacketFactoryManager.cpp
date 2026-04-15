@@ -238,11 +238,8 @@
 #include "Gpackets/GCShowUnionInfo.h"
 //#include "Gpackets/GCAuthXTrap.h"	//by kim
 
-#include "Gpackets/GMServerInfo.h"
-#include "Gpackets/GLIncomingConnection.h"
 #include "Gpackets/GLIncomingConnectionError.h"
 #include "Gpackets/GLIncomingConnectionOK.h"
-#include "Gpackets/GLKickVerify.h"
 
 #include "Lpackets/LCCreatePCError.h"
 #include "Lpackets/LCCreatePCOK.h"
@@ -259,9 +256,6 @@
 #include "Lpackets/LCSelectPCError.h"
 
 #include "Lpackets/LGIncomingConnection.h"
-#include "Lpackets/LGIncomingConnectionOK.h"
-#include "Lpackets/LGIncomingConnectionError.h"
-#include "Lpackets/LGKickCharacter.h"
 
 #include "Lpackets/LCVersionCheckOK.h"
 #include "Lpackets/LCVersionCheckError.h"
@@ -354,7 +348,6 @@
 
 #include "Gpackets/GCOtherModifyInfo.h"
 
-#include "Gpackets/GGCommand.h"
 #include "Rpackets/CRConnect.h"
 #include "Rpackets/RCConnectVerify.h"
 #include "Rpackets/CRRequest.h"
@@ -389,30 +382,12 @@
 #include "Gpackets/GCGuildMemberList.h"
 #include "Gpackets/GCModifyGuildMemberInfo.h"
 
-#include "Gpackets/GSAddGuild.h"
-#include "Gpackets/GSAddGuildMember.h"
-#include "Gpackets/GSQuitGuild.h"
-#include "Gpackets/GSExpelGuildMember.h"
-#include "Gpackets/GSModifyGuildMember.h"
-#include "Spackets/SGAddGuildOK.h"
-#include "Spackets/SGAddGuildMemberOK.h"
-#include "Spackets/SGQuitGuildOK.h"
-#include "Spackets/SGExpelGuildMemberOK.h"
-#include "Spackets/SGModifyGuildMemberOK.h"
-#include "Spackets/SGDeleteGuildOK.h"
-#include "Spackets/SGModifyGuildOK.h"
-
-
 #include "Cpackets/CGRelicToObject.h"
 
 #include "Cpackets/CGPortCheck.h"
 
 #include "Cpackets/CGGuildChat.h"
 #include "Gpackets/GCGuildChat.h"
-
-#include "Gpackets/GGGuildChat.h"
-#include "Gpackets/GSRequestGuildInfo.h"
-#include "Spackets/SGGuildInfo.h"
 
 #include "Cpackets/CGAddItemToItem.h"
 #include "Gpackets/GCAddItemToItemVerify.h"
@@ -422,12 +397,6 @@
 
 #include "Cpackets/CGModifyGuildIntro.h"
 #include "Cpackets/CGModifyGuildMemberIntro.h"
-
-#include "Gpackets/GSModifyGuildIntro.h"
-#include "Spackets/SGModifyGuildIntroOK.h"
-
-#include "Gpackets/GSGuildMemberLogOn.h"
-#include "Spackets/SGGuildMemberLogOnOK.h"
 
 #include "Cpackets/CGSelectRankBonus.h"
 #include "Gpackets/GCSelectRankBonusOK.h"
@@ -508,9 +477,6 @@
 #include "Gpackets/GCExecuteElement.h"
 #include "Gpackets/GCGQuestInventory.h"
 
-#include "Upackets/CURequestLoginMode.h"
-#include "Upackets/UCRequestLoginMode.h"
-
 #include "Gpackets/GCAuthKey.h"
 #include "Cpackets/CGAuthKey.h"
 
@@ -577,6 +543,41 @@
 
 
 #include "Lpackets/LCSelectWorldError.h"
+
+#ifndef __GAME_CLIENT__
+#include "Gpackets/GMServerInfo.h"
+#include "Gpackets/GLIncomingConnection.h"
+#include "Gpackets/GLKickVerify.h"
+
+#include "Upackets/CURequestLoginMode.h"
+#include "Upackets/UCRequestLoginMode.h"
+
+#include "Gpackets/GSAddGuild.h"
+#include "Gpackets/GSAddGuildMember.h"
+#include "Gpackets/GSQuitGuild.h"
+#include "Gpackets/GSExpelGuildMember.h"
+#include "Gpackets/GSModifyGuildMember.h"
+#include "Spackets/SGAddGuildOK.h"
+#include "Spackets/SGAddGuildMemberOK.h"
+#include "Spackets/SGQuitGuildOK.h"
+#include "Spackets/SGExpelGuildMemberOK.h"
+#include "Spackets/SGModifyGuildMemberOK.h"
+#include "Spackets/SGDeleteGuildOK.h"
+#include "Spackets/SGModifyGuildOK.h"
+#include "Gpackets/GGGuildChat.h"
+#include "Gpackets/GSRequestGuildInfo.h"
+#include "Spackets/SGGuildInfo.h"
+#include "Gpackets/GSModifyGuildIntro.h"
+#include "Spackets/SGModifyGuildIntroOK.h"
+
+#include "Gpackets/GSGuildMemberLogOn.h"
+#include "Spackets/SGGuildMemberLogOnOK.h"
+
+#include "Lpackets/LGIncomingConnectionOK.h"
+#include "Lpackets/LGIncomingConnectionError.h"
+#include "Lpackets/LGKickCharacter.h"
+#include "Gpackets/GGCommand.h"
+#endif
 
 #if __CONTENTS(__PREMIUM_GIVE_ITEM_UI)
 #include "Gpackets/GCUpdateWeekItemList.h"
@@ -1191,8 +1192,8 @@ void PacketFactoryManager::init()
 	addFactory(new GCExecuteElementFactory());
 	addFactory(new GCGQuestInventoryFactory());
 
-	addFactory(new CURequestLoginModeFactory());
-	addFactory(new UCRequestLoginModeFactory());
+	//addFactory(new CURequestLoginModeFactory());
+	//addFactory(new UCRequestLoginModeFactory());
 
 	addFactory(new GCAuthKeyFactory());
 

@@ -72,7 +72,7 @@ public:
 	/// @warning        . (flags FS_READ)
 	///          VFS             .
 	/// @sa s_VFSystem
-	static void			start_vfs(LPCTSTR filename, int flags);
+	static bool			start_vfs(LPCTSTR filename, int flags);
 
 	/// @brief  VirtualFileSystem .
 	/// @sa s_VFSystem

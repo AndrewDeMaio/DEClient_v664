@@ -27,7 +27,7 @@ void CGGlobalChat::write (SocketOutputStream & oStream) const
 
 	oStream.write( m_Color );
 	
-	BYTE szMessage = m_Message.size();
+	size_t szMessage = m_Message.size();
 
 	if (szMessage == 0) throw InvalidProtocolException("szMessage == 0");
 

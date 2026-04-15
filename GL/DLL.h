@@ -14,15 +14,15 @@
 #define _CPP
 
 #ifndef _CPP
-#define export extern "C" __declspec (dllexport)
-#define import extern "C" __declspec (dllimport)
+#define _dllexport extern "C" __declspec (dllexport)
+#define _dllimport extern "C" __declspec (dllimport)
 #else
-#define export __declspec (dllexport)
-#define import __declspec (dllimport)
+#define _dllexport __declspec (dllexport)
+#define _dllimport __declspec (dllimport)
 #endif
 
-#define DllExport		export
-#define DllImport		import
+#define DllExport		_dllexport
+#define DllImport		_dllimport
 
 #ifdef _DLL_EXPORT
 #define DllClass		DllExport

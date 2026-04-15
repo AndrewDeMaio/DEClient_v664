@@ -73,7 +73,7 @@ void GCNPCSayHandler::execute ( GCNPCSay * pPacket , Player * pPlayer )
 			//-------------------------------------------------
 			else
 			{
-				pCreature->SetChatString( "......" );
+				//pCreature->SetChatString( "......" );
 			}
 
 			// history�� �߰�

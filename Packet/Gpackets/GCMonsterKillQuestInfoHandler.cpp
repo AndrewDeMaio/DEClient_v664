@@ -25,7 +25,7 @@ void GCMonsterKillQuestInfoHandler::execute ( GCMonsterKillQuestInfo * pPacket ,
 		
 	while(! pPacket->empty() )
 	{
-		std::auto_ptr<GCMonsterKillQuestInfo::QuestInfo> pInfo( pPacket->popQuestInfo() );
+		std::unique_ptr<GCMonsterKillQuestInfo::QuestInfo> pInfo( pPacket->popQuestInfo() );
 //		GCMonsterKillQuestInfo::QuestInfo* pInfo = pPacket->popQuestInfo();	
 		std::string str;
 		//pInfo->sType

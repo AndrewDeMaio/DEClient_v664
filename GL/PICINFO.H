@@ -6,11 +6,12 @@
 -----------------------------------------------------------------------------*/
 typedef struct
 {
-	BYTE *	p_data;    // pointer to a real image data uncompressed
 	int		width;
 	int		height;
-   int		bpp;        // bit per pixel
-   char *	filename;  // loaded filename included file extension name
+	int		bpp;        // bit per pixel
+
+	std::string	p_data;    // pointer to a real image data uncompressed
+	std::string	filename;  // loaded filename included file extension name
 
 } S_PICINFO;
 

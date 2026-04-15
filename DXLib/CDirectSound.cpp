@@ -51,7 +51,8 @@ CDirectSound::Init(HWND hwnd)
 	if (m_bInit)
 		return false;
 
-	if (FAILED(CoInitialize(NULL)))
+	HRESULT hr = CoInitialize(NULL);
+	if (FAILED(hr))
 		return false;
 
 	// Direct Sound Create
@@ -61,6 +62,7 @@ CDirectSound::Init(HWND hwnd)
 		DirectSoundFailed("Direct Sound Create Error!");
 		return false;
 	}
+	MessageBox(NULL, "DirectSoundCreate() Success!", "DirectSoundCreate()", MB_OK);
 
 	// Interface Cooperativelevel
 	if (FAILED(m_pDS->SetCooperativeLevel(hwnd, DSSCL_NORMAL)))
@@ -69,14 +71,15 @@ CDirectSound::Init(HWND hwnd)
 		DirectSoundFailed("Direct Sound CooperativeLevel Error!");
 		return false;
 	}
+	MessageBox(NULL, "SetCooperativeLevel() Success!", "SetCooperativeLevel()", MB_OK);
 
 	// Speaker Setting
-	if (FAILED(m_pDS->SetSpeakerConfig(DSSPEAKER_COMBINED(DSSPEAKER_STEREO, DSSPEAKER_GEOMETRY_WIDE))))
+	/*if (FAILED(m_pDS->SetSpeakerConfig(DSSPEAKER_COMBINED(DSSPEAKER_STEREO, DSSPEAKER_GEOMETRY_WIDE))))
 	{
 		Release();
 		DirectSoundFailed("Direct Sound Speaker Setting Error!");
 		return false;
-	}
+	}*/
 
 
 	m_bInit = true;

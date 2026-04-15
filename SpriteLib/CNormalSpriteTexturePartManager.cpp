@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
 // CSpriteTexturePartManager.cpp
 //----------------------------------------------------------------------
-#include "Client_PCH.h"
+#include "SpriteLib_PCH.h"
 #include "DX3D.h"
 #include "CFileIndexTable.h"
 #include "CSpriteTexturePartManager.h"

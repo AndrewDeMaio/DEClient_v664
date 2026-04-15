@@ -3,7 +3,7 @@
 //--------------------------------------------------------------------------
 
 
-/*	using namespace std ¸¦ ¾²¸é ÁÁÁö ¾Ê´Ù´Â ÇÑ°¡Áö ±³ÈÆ --;;
+/*	using namespace std ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Ù´ï¿½ ï¿½Ñ°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ --;;
 #include <windows.h>
 #include "MString.h"
 #include <io.h>
@@ -16,11 +16,12 @@
 #include <iostream.h>
 #include <fstream>
 #include "DebugInfo.h"
-/*/
-#include "Client_PCH.h"
+*/
+
+#include "MLib_PCH.h"
 #include <stdarg.h>
+#include <new>
 #include "MString.h"
-//*/
 
 //#include "DebugInfo.h"
 //#define	new			DEBUG_NEW
@@ -72,7 +73,7 @@ MString::~MString()
 //--------------------------------------------------------------------------
 // Init( len )
 //--------------------------------------------------------------------------
-// size¸¸Å­ memoryÈ®º¸
+// sizeï¿½ï¿½Å­ memoryÈ®ï¿½ï¿½
 //--------------------------------------------------------------------------
 void	
 MString::Init(int len)
@@ -87,7 +88,7 @@ MString::Init(int len)
 //--------------------------------------------------------------------------
 // Relase
 //--------------------------------------------------------------------------
-// memory¿¡¼­ Á¦°Å
+// memoryï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //--------------------------------------------------------------------------
 void	
 MString::Release()
@@ -135,7 +136,7 @@ void
 MString::operator = (const MString& str)
 {
 	//--------------------------------
-	// ±æÀÌ°¡ 0ÀÎ °æ¿ì..
+	// ï¿½ï¿½ï¿½Ì°ï¿½ 0ï¿½ï¿½ ï¿½ï¿½ï¿½..
 	//--------------------------------
 	if (str.m_Length==0)
 	{
@@ -147,7 +148,7 @@ MString::operator = (const MString& str)
 		}		
 	}
 	//--------------------------------
-	// ±æÀÌ°¡ 0 ÀÌ»óÀÎ °æ¿ì...
+	// ï¿½ï¿½ï¿½Ì°ï¿½ 0 ï¿½Ì»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½...
 	//--------------------------------
 	else
 	{
@@ -166,7 +167,7 @@ MString::operator = (const MString& str)
 //--------------------------------------------------------------------------
 // Format
 //--------------------------------------------------------------------------
-// ÀûÀýÇÑ Çü½ÄÀ¸·Î stringÀ» ¸¸µç´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ stringï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 //--------------------------------------------------------------------------
 void
 MString::Format(const char* format, ...)
@@ -188,7 +189,7 @@ MString::SaveToFile(std::ofstream& file)
 {
 	file.write((const char*)&m_Length, 4);
 
-	// length°¡ 0ÀÌ ¾Æ´Ñ °æ¿ì¿¡¸¸..
+	// lengthï¿½ï¿½ 0ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½..
 	if (m_Length!=0)
 	{
 		file.write((const char*)m_pString, static_cast<int>(m_Length));
@@ -198,23 +199,49 @@ MString::SaveToFile(std::ofstream& file)
 //--------------------------------------------------------------------------
 // Load From File
 //--------------------------------------------------------------------------
-void		
+void
 MString::LoadFromFile(ivfstream& file)
 {
 	if (m_pString!=NULL)
 	{
 		delete [] m_pString;
-		m_pString = NULL;		
+		m_pString = NULL;
 	}
 
+	// --- diagnostic: capture offset before read ---
+	int preOff = file.tellg();
+
+	m_Length = 0;
 	file.read((char*)&m_Length, 4);
 
+	// Sanity-check the length.  Anything over 64 KB in .inf strings is almost
+	// certainly a read that drifted off alignment due to a struct layout change.
+	if (m_Length > 0x10000)
+	{
+		FILE* dbg = fopen("winmain_step.log", "a");
+		if (dbg)
+		{
+			fprintf(dbg,
+				"\n*** MString::LoadFromFile absurd length ***\n"
+				"  preReadOffset=%d (0x%X)\n"
+				"  m_Length=%u (0x%X)\n"
+				"  postReadOffset=%d\n"
+				"This means an earlier read drifted off-alignment.\n",
+				preOff, preOff,
+				(unsigned)m_Length, (unsigned)m_Length,
+				(int)file.tellg());
+			fflush(dbg);
+			fclose(dbg);
+		}
+		// Force a controlled throw so the catch block in WinMain reports it.
+		throw std::bad_alloc();
+	}
 
 	bool bNull = (m_Length != 0);
 
 	if(bNull)
 	{
-		// lenÀÌ 0ÀÌ ¾Æ´Ñ °æ¿ì¿¡¸¸...
+		// lenï¿½ï¿½ 0ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½...
 		m_pString = new char [m_Length + 1];
 
 		if (m_Length != 0)
@@ -231,7 +258,7 @@ MString::LoadFromFile(ivfstream& file)
 
 		m_pString = new char [nullStringLen + 1];
 		//m_Length = nullStringLen+1;
-		
+
 		strcpy(m_pString, nullString);
 	}
 }

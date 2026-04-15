@@ -218,7 +218,7 @@ void GCSayHandler::execute ( GCSay * pPacket , Player * pPlayer )
 			else
 			{
 				//DEBUG_ADD("no see");
-				pCreature->SetChatString( "......", pPacket->getColor() );
+				//pCreature->SetChatString( "......", pPacket->getColor() );
 			}
 		}
 	}

@@ -1,12 +1,12 @@
 //----------------------------------------------------------------------
 // CShadowPartManager.cpp
 //----------------------------------------------------------------------
-#include "Client_PCH.h"
+#include "SpriteLib_PCH.h"
 #include "DX3D.h"
 #include "CFileIndexTable.h"
 #include "CShadowPartManager.h"
-#include "MGameTime.h"
-#include "MWeather.h"
+//#include "MGameTime.h" FIX THIS
+//#include "MWeather.h"
 
 #include "DebugInfo.h"
 //#define	new			DEBUG_NEW
@@ -14,7 +14,7 @@
 
 extern bool FileOpenBinary(const char* filename, ivfstream& fil);
 
-extern bool		g_bZonePlayerInLarge;
+extern bool	g_bZonePlayerInLarge;
 
 // 이거 128하면 memory가 장난이 아니다.
 // detail이 문제인데... 흠냐..
@@ -633,7 +633,7 @@ CShadowPartManager::GetTexture(TYPE_SPRITEID id)
 			0x4000		// 23시			
 		};
 
-		WORD shadowColor = timeShadow[(*g_pGameTime).GetHour()];
+		WORD shadowColor;// = timeShadow[(*g_pGameTime).GetHour()];
 
 
 		//---------------------------------------------------
@@ -648,7 +648,7 @@ CShadowPartManager::GetTexture(TYPE_SPRITEID id)
 			//---------------------------------------------------
 			// 비가 오면 그림자가 더 엷어진다.
 			//---------------------------------------------------
-			if (g_pWeather->GetWeatherType() == MWeather::WEATHER_RAIN)
+			/*if (g_pWeather->GetWeatherType() == MWeather::WEATHER_RAIN)
 			{
 				int test = (int)shadowColor - (int)0x4000;
 
@@ -658,7 +658,7 @@ CShadowPartManager::GetTexture(TYPE_SPRITEID id)
 				}
 
 				shadowColor = test;
-			}
+			}*/
 		}
 
 

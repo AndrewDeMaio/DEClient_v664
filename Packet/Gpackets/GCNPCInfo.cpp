@@ -75,7 +75,7 @@ void GCNPCInfo::write ( SocketOutputStream & oStream ) const
 	//////////////////////////////////////////////////
 	// write npc info
 	//////////////////////////////////////////////////
-	BYTE NPCInfoCount = m_NPCInfos.size();
+	size_t NPCInfoCount = m_NPCInfos.size();
 	oStream.write(NPCInfoCount);
 
 	std::list<NPCInfo*>::const_iterator itr = m_NPCInfos.begin();

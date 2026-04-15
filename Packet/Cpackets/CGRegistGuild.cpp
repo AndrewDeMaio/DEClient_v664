@@ -39,8 +39,8 @@ void CGRegistGuild::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 		
-	BYTE szGuildName = m_GuildName.size();
-	BYTE szGuildIntro = m_GuildIntro.size();
+	size_t szGuildName = m_GuildName.size();
+	size_t szGuildIntro = m_GuildIntro.size();
 
 	if ( szGuildName == 0 )
 		throw InvalidProtocolException( "szGuildName == 0 " );

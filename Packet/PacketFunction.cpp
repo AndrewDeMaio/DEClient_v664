@@ -19,7 +19,6 @@
 #include "ClientConfig.h"
 #include "MitemOptionTable.h"
 #include "AddonDef.h"
-#include "MItem.h"
 #include "MInventory.h"
 #include "MSlayerGear.h"
 #include "MVampireGear.h"
@@ -37,6 +36,7 @@
 #include "MGuildInfoMapper.h"
 #include "UIFunction.h"
 #include "ServerInfo.h"
+#include "ContentsFilter.h"
 
 // packet
 #include "PetInfo.h"
@@ -4917,7 +4917,7 @@ SkillIllendue(MCreature* pUserCreature, MCreature* pTargetCreature, int skillID,
 		{ 0, -2 },
 	};
 
-	POINT *Position;
+	POINT *Position = nullptr;
 	
 	switch(shape) {
 		case 0: // �ڵ�

@@ -125,6 +125,9 @@
     <ClInclude Include="nFS\nfs_pmatch.h">
       <Filter>nFS</Filter>
     </ClInclude>
+    <ClInclude Include="TSingleton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="CNFS.inl">

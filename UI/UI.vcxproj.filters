@@ -420,9 +420,6 @@
     <ClInclude Include="game\MFollowPathEffectGenerator.h">
       <Filter>M Header</Filter>
     </ClInclude>
-    <ClInclude Include="header\MGameStringTable.h">
-      <Filter>M Header</Filter>
-    </ClInclude>
     <ClInclude Include="game\MGpsTable.h">
       <Filter>M Header</Filter>
     </ClInclude>
@@ -624,9 +621,6 @@
     <ClInclude Include="game\MStatus.h">
       <Filter>M Header</Filter>
     </ClInclude>
-    <ClInclude Include="game\MStatusManager.h">
-      <Filter>M Header</Filter>
-    </ClInclude>
     <ClInclude Include="game\MStopInventoryEffectGenerator.h">
       <Filter>M Header</Filter>
     </ClInclude>
@@ -745,9 +739,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\ShrineInfoManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="game\SkillDef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\SystemAvailabilities.h">
@@ -2544,6 +2535,84 @@
     <ClInclude Include="..\Packet\Cpackets\CLVersionCheck.h">
       <Filter>Packets\CPacket</Filter>
     </ClInclude>
+    <ClInclude Include="header\ACriticalSection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\BitAttribute.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MAttachSkipEffect.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MAttachZoneAroundEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MBloodyBreakerEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MEffectGeneratorDef.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MEffectStatusDef.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MFileDef.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MGameDef.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MGameTime.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MGuildType.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MHelpDef.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MItemFinder.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MSectorInfo.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MStopZoneEmptyHorizontalWallEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MStopZoneEmptyVerticalEffectGenerator.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MTypeDef.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MusicDef.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MViewDef.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MWeather.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MZoneDef.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MZoneInfo.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MActionResultDef.h">
+      <Filter>M Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Packet\QuestDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="header\Client_PCH.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="hangul\FL2.cpp">
@@ -2783,9 +2852,6 @@
     <ClCompile Include="game\CWaitUIUpdate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DebugInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ExperienceTable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -2963,9 +3029,6 @@
     <ClCompile Include="game\MGameTime.cpp">
       <Filter>M Source</Filter>
     </ClCompile>
-    <ClCompile Include="MGameStringTable.cpp">
-      <Filter>M Source</Filter>
-    </ClCompile>
     <ClCompile Include="game\MFollowPathEffectGenerator.cpp">
       <Filter>M Source</Filter>
     </ClCompile>
@@ -3128,9 +3191,6 @@
     <ClCompile Include="game\MStatus.cpp">
       <Filter>M Source</Filter>
     </ClCompile>
-    <ClCompile Include="game\MStatusManager.cpp">
-      <Filter>M Source</Filter>
-    </ClCompile>
     <ClCompile Include="game\MStopInventoryEffectGenerator.cpp">
       <Filter>M Source</Filter>
     </ClCompile>
@@ -3255,9 +3315,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SystemAvailabilities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="game\SkillDef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game\SizeOfObjects.cpp">
@@ -6121,6 +6178,15 @@
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CLGetServerList.cpp">
       <Filter>Packets\CPacket</Filter>
+    </ClCompile>
+    <ClCompile Include="MBloodyBreakerEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MAttachZoneAroundEffectGenerator.cpp">
+      <Filter>M Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientGlobals.cpp">
+      <Filter>VS Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

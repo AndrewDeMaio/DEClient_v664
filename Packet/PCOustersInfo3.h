@@ -12,8 +12,8 @@
 
 //////////////////////////////////////////////////////////////////////////////
 // class PCOustersInfo3;
-// ¹ìÆÄÀÌ¾îÀÇ ¿Ü¸ð Á¤º¸¸¦ ´ã°í ÀÖ´Â °´Ã¼
-// GCAddOusters, GCAddOustersCorpse ¿¡ ´ã°Ü¼­ Àü¼ÛµÈ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½Ü¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½Ã¼
+// GCAddOusters, GCAddOustersCorpse ï¿½ï¿½ ï¿½ï¿½Ü¼ï¿½ ï¿½ï¿½ï¿½ÛµÈ´ï¿½.
 //////////////////////////////////////////////////////////////////////////////
 
 class PCOustersInfo3 : public PCInfo 
@@ -49,9 +49,9 @@ public:
 		m_CurrentHP(oustersInfo.m_CurrentHP), m_MaxHP(oustersInfo.m_MaxHP), m_AttackSpeed(oustersInfo.m_AttackSpeed),
 		m_Alignment(oustersInfo.m_Alignment), m_GuildID(oustersInfo.m_GuildID),
 		m_Rank(oustersInfo.m_Rank), m_AdvancementLevel(oustersInfo.m_AdvancementLevel)
-#if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
+#if __CONTENTS(__CONTRIBUTE_SYSTEM)
 		,m_ContributePoint(oustersInfo.m_ContributePoint)
-#endif//__FAST_TRANSFORTER||__SECOND_TRANSFORTER
+#endif //__CONTRIBUTE_SYSTEM
 	{
 		for (uint i = 0 ; i < OUSTERS_COLOR_MAX ; i ++)
 			m_Colors[i] = oustersInfo.m_Colors[i];
@@ -68,9 +68,9 @@ public:
 	uint getSize () const
 	{
 		return szObjectID					// ObjectID
-			+ szBYTE + m_Name.size() 		// ¹ìÆÄÀÌ¾î ÀÌ¸§
-			+ szCoord + szCoord + szDir 	// ÁÂÇ¥¿Í ¹æÇâ				
-			+ szSex							// ¼ºº°
+			+ szBYTE + m_Name.size() 		// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½Ì¸ï¿½
+			+ szCoord + szCoord + szDir 	// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½				
+			+ szSex							// ï¿½ï¿½ï¿½ï¿½
 			+ szBYTE						// shape
 #if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
 			+ szBYTE						// wingSylphType
@@ -78,15 +78,15 @@ public:
 			+ szItemType					// Wing ItemType
 #endif //__SECOND_TRANSFORTER
 #endif //__FAST_TRANSFORTER||__SECOND_TRANSFORTER
-			+ szColor* OUSTERS_COLOR_MAX	// »ö»ó
-			+ szBYTE						// ¸¶½ºÅÍ ÀÌÆåÆ®
-			+ szBYTE						// Ãâ½Å
-			+ szHP* 2						// ÃÖ´ë Ã¼·Â
-			+ szAlignment					// ¼ºÇâ
-			+ szSpeed						// °ø°Ý ¼Óµµ
-			+ szGuildID						// ±æµå ¾ÆÀÌµð
-			+ szRank						// °è±Þ
-			+ szBYTE						// ±ÇÇÑ
+			+ szColor* OUSTERS_COLOR_MAX	// ï¿½ï¿½ï¿½ï¿½
+			+ szBYTE						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
+			+ szBYTE						// ï¿½ï¿½ï¿½
+			+ szHP* 2						// ï¿½Ö´ï¿½ Ã¼ï¿½ï¿½
+			+ szAlignment					// ï¿½ï¿½ï¿½ï¿½
+			+ szSpeed						// ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½
+			+ szGuildID						// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½
+			+ szRank						// ï¿½ï¿½ï¿½
+			+ szBYTE						// ï¿½ï¿½ï¿½ï¿½
 			+ szuint
 			+ szLevel
 #if __CONTENTS(__CONTRIBUTE_SYSTEM)
@@ -99,9 +99,9 @@ public:
 	static uint getMaxSize ()
 	{
 		return szObjectID					// ObjectID
-			+ szBYTE + 20 					// ¹ìÆÄÀÌ¾î ÀÌ¸§
-			+ szCoord + szCoord + szDir 	// ÁÂÇ¥¿Í ¹æÇâ				
-			+ szSex							// ¼ºº°
+			+ szBYTE + 20 					// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½Ì¸ï¿½
+			+ szCoord + szCoord + szDir 	// ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½				
+			+ szSex							// ï¿½ï¿½ï¿½ï¿½
 			+ szBYTE						// shape
 #if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
 			+ szBYTE						// wingSylphType
@@ -109,14 +109,14 @@ public:
 			+ szItemType					// Wing ItemType
 #endif //__SECOND_TRANSFORTER
 #endif //__FAST_TRANSFORTER||__SECOND_TRANSFORTER
-			+ szColor* OUSTERS_COLOR_MAX	// »ö»ó
-			+ szBYTE						// ¸¶½ºÅÍ ÀÌÆåÆ®
-			+ szBYTE						// Ãâ½Å
-			+ szHP* 2						// ÃÖ´ë Ã¼·Â
-			+ szSpeed						// °ø°Ý ¼Óµµ
-			+ szGuildID						// ±æµå ¾ÆÀÌµð
-			+ szRank						// °è±Þ
-			+ szBYTE						// ±ÇÇÑ
+			+ szColor* OUSTERS_COLOR_MAX	// ï¿½ï¿½ï¿½ï¿½
+			+ szBYTE						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
+			+ szBYTE						// ï¿½ï¿½ï¿½
+			+ szHP* 2						// ï¿½Ö´ï¿½ Ã¼ï¿½ï¿½
+			+ szSpeed						// ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½
+			+ szGuildID						// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½
+			+ szRank						// ï¿½ï¿½ï¿½
+			+ szBYTE						// ï¿½ï¿½ï¿½ï¿½
 			+ szuint
 			+ szLevel
 #if __CONTENTS(__CONTRIBUTE_SYSTEM)
@@ -303,10 +303,10 @@ private :
 	// colors
 	Color_t m_Colors[OUSTERS_COLOR_MAX];
 
-	// ¸¶½ºÅÍ ÀÌÆåÆ® »ö±ò
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 	BYTE m_MasterEffectColor;
 
-	// Ãâ½Å
+	// ï¿½ï¿½ï¿½
 	BYTE m_Born;
 
 	// Current HP
@@ -319,18 +319,18 @@ private :
 	// Attack Speed
 	Speed_t m_AttackSpeed;
 
-	// ¼ºÇâ
+	// ï¿½ï¿½ï¿½ï¿½
 	Alignment_t m_Alignment;
 
-	// ±ÇÇÑ
+	// ï¿½ï¿½ï¿½ï¿½
 	BYTE m_Competence; 
 
-	// ±æµå ¾ÆÀÌµð
+	// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìµï¿½
 	GuildID_t m_GuildID;
 
 	uint m_UnionID;
 
-	// °è±Þ
+	// ï¿½ï¿½ï¿½
 	Rank_t		m_Rank;
 
 	Level_t		m_AdvancementLevel;

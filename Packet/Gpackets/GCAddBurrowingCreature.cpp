@@ -57,7 +57,7 @@ void GCAddBurrowingCreature::write ( SocketOutputStream & oStream ) const
 	// ����ȭ �۾��� ���� ũ�⸦ �����ϵ��� �Ѵ�.
 	oStream.write( m_ObjectID );
 
-	BYTE szName = m_Name.size();
+	size_t szName = m_Name.size();
 
 	if ( szName == 0 )
 		throw InvalidProtocolException("szName == 0");

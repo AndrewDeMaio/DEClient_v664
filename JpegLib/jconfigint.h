@@ -20,7 +20,11 @@
 #define VERSION  "3.1.0"
 
 /* The size of `size_t', as computed by sizeof. */
+#ifdef _WIN64
 #define SIZEOF_SIZE_T  8
+#else
+#define SIZEOF_SIZE_T 4
+#endif
 
 /* Define if your compiler has __builtin_ctzl() and sizeof(unsigned long) == sizeof(size_t). */
 /* #undef HAVE_BUILTIN_CTZL */

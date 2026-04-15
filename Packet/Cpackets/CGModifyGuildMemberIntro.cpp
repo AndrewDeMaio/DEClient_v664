@@ -31,7 +31,7 @@ void CGModifyGuildMemberIntro::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	BYTE szGuildMemberIntro = m_GuildMemberIntro.size();
+	size_t szGuildMemberIntro = m_GuildMemberIntro.size();
 
 	if ( szGuildMemberIntro > 255 )
 		throw InvalidProtocolException( "too long szGuildMemberIntro length" );

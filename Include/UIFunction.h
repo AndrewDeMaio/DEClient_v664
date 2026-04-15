@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 
 #include "Types\RaceType.h"
+#include "MTypeDef.h"
 
 #ifndef	__UIFUNCTION_H__
 #define	__UIFUNCTION_H__
@@ -118,7 +119,7 @@ extern void		UI_UnlockGear();
 //-----------------------------------------------------------------------------
 // Chat
 //-----------------------------------------------------------------------------
-extern void		UI_AddChatToHistory(const char* str, char* sz_id, int cond, DWORD color);
+extern void		UI_AddChatToHistory(const char* str, const char* sz_id, int cond, DWORD color);
 
 //-----------------------------------------------------------------------------
 // Tutorial

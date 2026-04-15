@@ -1,4 +1,4 @@
-#include "Client_PCH.h"
+#include "Crypt_PCH.h"
 #include "crypt.h"
 
 WORD CryptTable[] = {
@@ -320,7 +320,7 @@ void CCryptManager::Encrypt(PACKETDATA* data)
 
 DWORD CCryptManager::GetKey()
 {
-	//// ·£´ýÅ° »ý¼º
+	//// ï¿½ï¿½ï¿½ï¿½Å° ï¿½ï¿½ï¿½ï¿½
 	KEY_TYPE key;
 	key.KeyValue.key1 = GetRandKey();
 	key.KeyValue.key2 = GetRandKey();
@@ -357,7 +357,7 @@ void CCryptManager::CryptBuf(char* data, int len, KEY_TYPE key)
 	int iPtr = 0;
 	BYTE index = 0;
 
-	//// ·£´ýÅ° »ý¼º
+	//// ï¿½ï¿½ï¿½ï¿½Å° ï¿½ï¿½ï¿½ï¿½
 	//key.KeyValue.key1 = GetRandKey();
 	//key.KeyValue.key2 = GetRandKey();
 	//key.KeyValue.key3 = GetRandKey();
@@ -369,7 +369,7 @@ void CCryptManager::CryptBuf(char* data, int len, KEY_TYPE key)
 
 	int iMod = len % sizeof(DWORD);
 
-	// ¾ÏÈ£È­ÇÒ ±æÀÌ¸¦ ±¸ÇÑ´Ù.
+	// ï¿½ï¿½È£È­ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 	if (iMod == 0)
 	{
 		iEncryptSize = len / sizeof(DWORD);
@@ -377,7 +377,7 @@ void CCryptManager::CryptBuf(char* data, int len, KEY_TYPE key)
 
 		for (int i = 0; i < iEncryptSize; i++)
 		{
-			// Ä¡È¯ÇÒ °ªÀ» rand ÇÔ¼ö¿¡¼­ ¸¸µç´Ù.
+			// Ä¡È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ rand ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 			*((DWORD*)(data + iPtr)) = *((DWORD*)(data + iPtr)) ^ key.dwKey ^ m_Rand1->rand();
 
@@ -392,7 +392,7 @@ void CCryptManager::CryptBuf(char* data, int len, KEY_TYPE key)
 
 		for (int i = 0; i < iEncryptSize; i++)
 		{
-			// Ä¡È¯ÇÒ °ªÀ» rand ÇÔ¼ö¿¡¼­ ¸¸µç´Ù.
+			// Ä¡È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ rand ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 			*((WORD*)(data + iPtr)) = *((WORD*)(data + iPtr)) ^ key.wKeyValue.wKey1 ^ (WORD)m_Rand1->rand();
 
@@ -407,7 +407,7 @@ void CCryptManager::CryptBuf(char* data, int len, KEY_TYPE key)
 
 		for (int i = 0; i < iEncryptSize; i++)
 		{
-			// Ä¡È¯ÇÒ °ªÀ» rand ÇÔ¼ö¿¡¼­ ¸¸µç´Ù.
+			// Ä¡È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ rand ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 			*(data + iPtr) = *(data + iPtr) ^ key.KeyValue.index ^ (BYTE)m_Rand1->rand();
 
@@ -471,7 +471,7 @@ void CCryptManager::Encrypt1(PACKETDATA* data)
 	BYTE index = 0;
 	TABLE_VALUE vt;
 
-	// ·£´ýÅ° »ý¼º
+	// ï¿½ï¿½ï¿½ï¿½Å° ï¿½ï¿½ï¿½ï¿½
 	key.KeyValue.key1 = GetRandKey();
 	key.KeyValue.key2 = GetRandKey();
 	key.KeyValue.key3 = GetRandKey();
@@ -479,19 +479,19 @@ void CCryptManager::Encrypt1(PACKETDATA* data)
 	key.KeyValue.index = rand() % MAX_TABLE_DATA_SIZE;
 	key.KeyValue.type = CRYPT_TYPE1;
 
-	// 4¹ÙÀÌÆ®·Î µ¥ÀÌÅ¸¸¦ ¸ÂÃá´Ù.
+	// 4ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 	int iMod = data->m_wMsgSize % sizeof(DWORD);
 	if (iMod)
 		data->m_wMsgSize = (data->m_wMsgSize + sizeof(DWORD));
 
-	// ¾ÏÈ£È­ÇÒ ±æÀÌ¸¦ ±¸ÇÑ´Ù.
+	// ï¿½ï¿½È£È­ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 	iEncryptSize = data->m_wMsgSize / sizeof(DWORD);
 
 	index = key.KeyValue.index;
 
 	for (int i = 0; i < iEncryptSize; i++)
 	{
-		// Ä¡È¯ÇÒ °ªÀ» Å×ÀÌºí¿¡¼­ ¸¸µç´Ù.
+		// Ä¡È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 		vt.Value.value1 = *(m_pCryptTable + index + (key.KeyValue.key1 * MAX_TABLE_DATA_SIZE));
 		vt.Value.value2 = *(m_pCryptTable + index + (key.KeyValue.key2 * MAX_TABLE_DATA_SIZE));
 		vt.Value.value3 = *(m_pCryptTable + index + (key.KeyValue.key3 * MAX_TABLE_DATA_SIZE));
@@ -534,14 +534,14 @@ void CCryptManager::Decrypt1(PACKETDATA* data)
 	TABLE_VALUE vt;
 	vt.dwValue = 0;
 
-	// Decrypt ÇÔ¼ö·Î ¿Å±è.
+	// Decrypt ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½Å±ï¿½.
 	//data->m_Key.dwKey = data->m_Key.dwKey ^ *((DWORD*)(data->m_Buffer)) ^ CRYPTION_KEY;
 	//data->m_Key.dwKey = _lrotr(data->m_Key.dwKey, *(data->m_Buffer)%32);
 	key.dwKey = data->m_Key.dwKey;
 	//	data->m_wMsgType = data->m_wMsgType ^ key.dwKey ^ *((DWORD*)(data->m_Buffer)) ^ CRYPTION_KEY;
 
 
-		// ¾ÏÈ£ÇØÁ¦ ÇÒ ±æÀÌ¸¦ ±¸ÇÑ´Ù.
+		// ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 	iEncryptSize = (data->m_wMsgSize) / sizeof(DWORD);
 
 	index = key.KeyValue.index;
@@ -586,7 +586,7 @@ void CCryptManager::Encrypt2(PACKETDATA* data)
 	BYTE index = 0;
 	CRNGRand random;
 
-	// ·£´ýÅ° »ý¼º
+	// ï¿½ï¿½ï¿½ï¿½Å° ï¿½ï¿½ï¿½ï¿½
 	key.KeyValue.key1 = GetRandKey();
 	key.KeyValue.key2 = GetRandKey();
 	key.KeyValue.key3 = GetRandKey();
@@ -600,14 +600,14 @@ void CCryptManager::Encrypt2(PACKETDATA* data)
 	if (iMod)
 		data->m_wMsgSize = (data->m_wMsgSize + sizeof(DWORD));
 
-	// ¾ÏÈ£È­ÇÒ ±æÀÌ¸¦ ±¸ÇÑ´Ù.
+	// ï¿½ï¿½È£È­ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 	iEncryptSize = data->m_wMsgSize / sizeof(DWORD);
 
 	index = key.KeyValue.index;
 
 	for (int i = 0; i < iEncryptSize; i++)
 	{
-		// Ä¡È¯ÇÒ °ªÀ» rand ÇÔ¼ö¿¡¼­ ¸¸µç´Ù.
+		// Ä¡È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ rand ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 		*((DWORD*)(data->m_Buffer + iPtr)) = *((DWORD*)(data->m_Buffer + iPtr)) ^ key.dwKey ^ random.rand();
 
@@ -646,14 +646,14 @@ void CCryptManager::Decrypt2(PACKETDATA* data)
 	//key.KeyValue.key4 = data->m_Key.KeyValue.key4;
 	//key.KeyValue.index = data->m_Key.KeyValue.index;
 
-	// ¾ÏÈ£ÇØÁ¦ ÇÒ ±æÀÌ¸¦ ±¸ÇÑ´Ù.
+	// ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 	iEncryptSize = (data->m_wMsgSize) / sizeof(DWORD);
 
 	index = key.KeyValue.index;
 
 	for (int i = 0; i < iEncryptSize; i++)
 	{
-		// Ä¡È¯ÇÒ °ªÀ» rand ÇÔ¼ö¿¡¼­ ¸¸µç´Ù.
+		// Ä¡È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ rand ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 		*((DWORD*)(data->m_Buffer + iPtr)) = *((DWORD*)(data->m_Buffer + iPtr)) ^ key.dwKey ^ random.rand();
 
@@ -675,7 +675,7 @@ void CCryptManager::Encrypt3(PACKETDATA* data)
 	BYTE index = 0;
 	CRandom random;
 
-	// ·£´ýÅ° »ý¼º
+	// ï¿½ï¿½ï¿½ï¿½Å° ï¿½ï¿½ï¿½ï¿½
 	key.KeyValue.key1 = GetRandKey();
 	key.KeyValue.key2 = GetRandKey();
 	key.KeyValue.key3 = GetRandKey();
@@ -689,14 +689,14 @@ void CCryptManager::Encrypt3(PACKETDATA* data)
 	if (iMod)
 		data->m_wMsgSize = (data->m_wMsgSize + sizeof(DWORD));
 
-	// ¾ÏÈ£È­ÇÒ ±æÀÌ¸¦ ±¸ÇÑ´Ù.
+	// ï¿½ï¿½È£È­ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 	iEncryptSize = data->m_wMsgSize / sizeof(DWORD);
 
 	index = key.KeyValue.index;
 
 	for (int i = 0; i < iEncryptSize; i++)
 	{
-		// Ä¡È¯ÇÒ °ªÀ» rand ÇÔ¼ö¿¡¼­ ¸¸µç´Ù.
+		// Ä¡È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ rand ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 		*((DWORD*)(data->m_Buffer + iPtr)) = *((DWORD*)(data->m_Buffer + iPtr)) ^ key.dwKey ^ random.RandomMT();
 
@@ -735,14 +735,14 @@ void CCryptManager::Decrypt3(PACKETDATA* data)
 	//key.KeyValue.key4 = data->m_Key.KeyValue.key4;
 	//key.KeyValue.index = data->m_Key.KeyValue.index;
 
-	// ¾ÏÈ£ÇØÁ¦ ÇÒ ±æÀÌ¸¦ ±¸ÇÑ´Ù.
+	// ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 	iEncryptSize = (data->m_wMsgSize) / sizeof(DWORD);
 
 	index = key.KeyValue.index;
 
 	for (int i = 0; i < iEncryptSize; i++)
 	{
-		// Ä¡È¯ÇÒ °ªÀ» rand ÇÔ¼ö¿¡¼­ ¸¸µç´Ù.
+		// Ä¡È¯ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ rand ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 		*((DWORD*)(data->m_Buffer + iPtr)) = *((DWORD*)(data->m_Buffer + iPtr)) ^ key.dwKey ^ random.RandomMT();
 
@@ -808,6 +808,11 @@ void CCryptManager::StopManager(void)
 		delete[] m_pRandomTable;
 }
 
+bool GetNMClipData(char* pstr, unsigned int maxlen, const char* key, bool bClearData)
+{
+	return false;
+}
+
 DWORD CRNGRand::rand()
 {
 	LONGLONG n;
@@ -836,8 +841,8 @@ CRandom::~CRandom()
 
 //----------------------------------------------------------------------------------------------
 //		Name	:	SeedMT
-//		Desc	:	* ½Ãµå °ªÀ» ÃÊ±âÈ­ ÇÑ´Ù.
-//					- ½Ãµå °ªÀÌ °°À¸¸é °°Àº ³­¼ö¸¦ ¹ß»ý ½ÃÅ²´Ù.
+//		Desc	:	* ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½Ñ´ï¿½.
+//					- ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ ï¿½ï¿½Å²ï¿½ï¿½.
 //----------------------------------------------------------------------------------------------
 void CRandom::SeedMT(DWORD seed)
 {
@@ -850,10 +855,10 @@ void CRandom::SeedMT(DWORD seed)
 
 //----------------------------------------------------------------------------------------------
 //		Name	:	ReloadMT
-//		Desc	:	* ½Ãµå°¡ ¼ÂÆÃµÈ »óÅÂ·Î ´Ù½Ã ÃÊ±âÈ­¸¦ ÇÏ¿© ³­¼ö¸¦ ¹ß»ý½ÃÅ°°í ½ÍÀ»¶§ È£Ãâ
-//					- ¿¹¸¦ µé¸é °ÔÀÓ ½ÃÀÛÀü¿¡ ¸ðµÎ ½Ãµå°ªÀ» °°Àº °ªÀ¸·Î ÃÊ±âÈ­ ÇÏ°í °ÔÀÓÀ» ÁøÇàÇßÀ»¶§,
-//					  ·ÎÁ÷¿¡ µû¶ó¼­ ·»´ý ÇÔ¼ö¸¦ ´õ È£ÃâÇÑ »ç¶÷°ú µé È£ÃâÇÑ »ç¶÷ÀÌ ÀÖÀ»¼ö ÀÖ´Ù.
-//					  ´ÙÀ½ °ÔÀÓÀ» ½ÃÀÛÇÒ¶§ °íÁ¤ ÀÎ¿øÀÌ¶ó°í ÇÏ¸é ´Ù½Ã ½Ãµå°ªÀ» ÁÙÇÊ¿ä ¾øÀÌ ÀÌ ÇÔ¼ö¸¸ È£ÃâÇÏ¿© ÁÖ¸é µÈ´Ù.
+//		Desc	:	* ï¿½Ãµå°¡ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½Â·ï¿½ ï¿½Ù½ï¿½ ï¿½Ê±ï¿½È­ï¿½ï¿½ ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
+//					- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ãµå°ªï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,
+//					  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ È£ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½.
+//					  ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò¶ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½ï¿½Ì¶ï¿½ï¿½ ï¿½Ï¸ï¿½ ï¿½Ù½ï¿½ ï¿½Ãµå°ªï¿½ï¿½ ï¿½ï¿½ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô¼ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ö¸ï¿½ ï¿½È´ï¿½.
 //----------------------------------------------------------------------------------------------
 DWORD CRandom::ReloadMT(void)
 {
@@ -881,7 +886,7 @@ DWORD CRandom::ReloadMT(void)
 
 //----------------------------------------------------------------------------------------------
 //		Name	:	RandomMT
-//		Desc	:	* ³­¼ö ¹ß»ý
+//		Desc	:	* ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½
 //----------------------------------------------------------------------------------------------
 DWORD CRandom::RandomMT(void)
 {
@@ -901,7 +906,7 @@ DWORD CRandom::RandomMT(void)
 
 //----------------------------------------------------------------------------------------------
 //		Name	:	FrandomMT
-//		Desc	:	* float Çü ³­¼ö ¹ß»ý
+//		Desc	:	* float ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½
 //----------------------------------------------------------------------------------------------
 float CRandom::FrandomMT(void)
 {

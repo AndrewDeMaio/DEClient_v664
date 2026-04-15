@@ -55,7 +55,7 @@ void CLDeletePC::write ( SocketOutputStream & oStream ) const
 {
 	__BEGIN_TRY
 		
-	BYTE szName = m_Name.size();
+	size_t szName = m_Name.size();
 
 	if ( szName == 0 )
 		throw InvalidProtocolException("szName == 0");
@@ -68,7 +68,7 @@ void CLDeletePC::write ( SocketOutputStream & oStream ) const
 
 	oStream.write( (BYTE)m_Slot );
 
-	BYTE szSSN = m_SSN.size();
+	size_t szSSN = m_SSN.size();
 
 	if ( szSSN== 0 )
 		throw InvalidProtocolException("szSSN == 0");

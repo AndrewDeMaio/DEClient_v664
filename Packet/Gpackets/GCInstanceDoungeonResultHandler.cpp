@@ -6,8 +6,8 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-//#include "VS_UI_INDOUN_NPC_DIALOG.h"
-//#include "VS_UI.h"
+#include "VS_UI_INDOUN_NPC_DIALOG.h"
+#include "VS_UI.h"
 
 #include "GPacket_PCH.h"
 #include "GCInstanceDoungeonResult.h"
@@ -73,7 +73,7 @@ void GCInstanceDoungeonResultHandler::execute ( GCInstanceDoungeonResult * pPack
 
 
 		Indoun_Dlg_Info.strDlgTitleName		= pPacket->getTitleName();
-//		Indoun_Dlg_Info.wButtonSize			= contentSize;
+		//Indoun_Dlg_Info.wButtonSize			= contentSize;
 
 		gC_vs_ui.RunIndounNpcDlg(Indoun_Dlg_Info, COMPENSATION_DLG);
 

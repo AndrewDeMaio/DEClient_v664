@@ -8,15 +8,15 @@
 	19971226. KJTINC
 	19991106.
 	2000.8.5.
-	
+
 -----------------------------------------------------------------------------*/
 
 #ifndef __TYPEDEF_H__
 #define __TYPEDEF_H__
 
-#define NULL						      0
+#define NULL 0
 
-#define NOT_SELECTED						-1
+#define NOT_SELECTED -1
 
 //
 // type is all upper case and
@@ -24,7 +24,7 @@
 //
 typedef unsigned char	BYTE;
 typedef unsigned short	WORD;
-typedef unsigned int		UINT;
+typedef unsigned int	UINT;
 typedef unsigned long   DWORD;
 
 //

@@ -13,7 +13,7 @@ void CGPartyLeave::read (SocketInputStream & iStream)
 {
 	__BEGIN_TRY
 
-	BYTE name_length = 0;
+	size_t name_length = 0;
 	iStream.read(name_length);
 	if (name_length > 0)
 	{
@@ -30,7 +30,7 @@ void CGPartyLeave::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	BYTE name_length = m_TargetName.size();
+	size_t name_length = m_TargetName.size();
 	oStream.write(name_length);
 	if (name_length > 0)
 	{

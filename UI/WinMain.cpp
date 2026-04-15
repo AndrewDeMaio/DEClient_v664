@@ -16,6 +16,7 @@
 
 #include "VS_UI.h" // include VS UI master header file.
 #include <math.h>
+#include <stdio.h>
 
 #include <crtdbg.h>
 #include <process.h>
@@ -99,7 +100,7 @@ CDirectDraw				gC_DD;
 CSpriteSurface			gC_DDSurface;
 extern CDirectInput* g_pDXInput;// = new CDirectInput;
 
-static DWORD			g_double_click_time;
+DWORD				g_double_click_time;
 int						g_mouse_x, g_mouse_y;
 
 bool						gbl_info_show = false;//true;
@@ -1814,661 +1815,801 @@ void SaveResolutionConfig()
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWinMode)
 {
 	// for Memory Leak Detecting
-
-	iovfs_base::start_vfs("data/darkeden", O_RDONLY);
-
-	g_pFileDef = new Properties;
-	g_pFileDef->load(FILE_INFO_FILEDEF);
-
-	g_pUserInformation = new UserInformation;
-
-	InitResolutionConfig();
-
-	g_pUserInformation->attrOperator.SetAttr(OPERATORTYPE_RELEASELOG);
-
-	int tmpDbgFlag;
-	tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
-	tmpDbgFlag |= _CRTDBG_DELAY_FREE_MEM_DF;
-	tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;
-	_CrtSetDbgFlag(tmpDbgFlag);
-
-	HWND hwnd;
-	MSG	msg;
-	WNDCLASSEX wcl;
-
-	//-------------------------------------
-	// client�� global �ʱ�ȭ by sigi
-	//-------------------------------------	
-	g_pClientConfig = new ClientConfig;
-	//		g_pClientConfig->Use3DHAL			= TRUE;
-
-
-	g_pUserOption = new UserOption;
-	g_pUserOption->Use3DHAL = TRUE;
-	g_pUserOption->UseSmoothCursor = FALSE;	//TRUE;
-	g_pUserOption->DrawMinimap = FALSE;	// minimap�� �׸���?
-	g_pUserOption->DrawZoneName = TRUE;		// Zone�̸� ���
-	g_pUserOption->DrawGameTime = TRUE;		// ���� �ð� ���
-	g_pUserOption->DrawInterface = FALSE;	// interface
-	g_pUserOption->DrawFPS = FALSE;	// FPS
-	g_pUserOption->BlendingShadow = FALSE;	//TRUE;			// �׸��� ������
-	g_pUserOption->FilteringCurse = TRUE;		// ���� �� ����
-	g_pUserOption->PlayMusic = TRUE;		// ���� ���
-	g_pUserOption->PlaySound = TRUE;		// ȿ���� ���
-	g_pUserOption->VolumeMusic = 10;		// ���� �Ҹ� ũ��
-	g_pUserOption->VolumeSound = 10;		// ȿ���� �Ҹ� ũ��
-	g_pUserOption->UseEnterChat = true;
-	//	g_pUserOption->Resolution1024		= g_pUserInformation->IsResolution1024;
-
-	g_pOperatorOption = new OperatorOption;
-	g_pOperatorOption->SetDefault();
-
-	g_pGameStringTable = new MStringArray;
-	InitGameStringTable();
-
-	g_pRegenTowerInfoManager = new RegenTowerInfoManager;
-	g_pRegenTowerInfoManager->LoadRegenTowerInfo();
-
-
-	g_pInventory = new MInventory;
-	g_pSlayerGear = new MSlayerGear;
-	g_pVampireGear = new MVampireGear;
-	g_pOustersGear = new MOustersGear;
-	g_pTimeItemManager = new MTimeItemManager;
-
-	g_pTimeItemManager->AddTimeItem(0, 70 + (60 * 60));
-
-	g_pGuildMarkManager = new MGuildMarkManager(SPK_GUILD_MARK, FILE_INFO_GUILD_MAPPER, SPK_GRADE_SLAYER, SPK_GRADE_VAMPIRE, SPK_GRADE_OUSTERS, SPK_LEVEL_MARK, SPK_ORIGIN_MARK);
-	g_pGuildInfoMapper = new MGuildInfoMapper;
-
-	ivfstream guildFile(FILE_INFO_GUILD_MAPPER, std::ios::binary);
-	g_pGuildInfoMapper->LoadFromFile(guildFile);
-	guildFile.close();
-
-	g_pAcceleratorManager = new AcceleratorManager;
-	g_pKeyAccelerator = new KeyAccelerator;
-	g_pKeyAccelerator->Init(MAX_ACCELERATOR);
-	SetDefaultAccelerator();		// �ϴ���..
-
-	g_pSystemAvailableManager = new SystemAvailabilitiesManager;
-
-	g_pItemTable = new ITEMCLASS_TABLE;
-	ivfstream itemFile(FILE_INFO_ITEM_INFO, std::ios::binary);
-	g_pItemTable->LoadFromFile(itemFile);
-	itemFile.close();
-
-	g_pNPCTable = new MNPCTable;
-	ivfstream npcFile(FILE_INFO_NPC_INFO, std::ios::binary);
-	g_pNPCTable->LoadFromFile(npcFile);
-	npcFile.close();
-
-	g_pCreatureTable = new CREATURE_TABLE;
-	ivfstream creatureFile(FILE_INFO_CREATURE_INFO, std::ios::binary);
-	g_pCreatureTable->LoadFromFile(creatureFile);
-	creatureFile.close();
-
-	g_pZoneTable = new CZoneTable;
-	ivfstream zoneFile(FILE_INFO_ZONE_TABLE, std::ios::binary);
-	g_pZoneTable->LoadFromFile(zoneFile);
-	zoneFile.close();
-
-	g_pRankBonusTable = new RankBonusTable;
-	ivfstream rankFile(FILE_INFO_RANK_BONUS_TABLE, std::ios::binary);
-	g_pRankBonusTable->LoadFromFile(rankFile);
-	rankFile.close();
-
-	g_pItemOptionTable = new ITEMOPTION_TABLE;
-	g_pMoneyManager = new MMoneyManager;
-	g_pPriceManager = new MPriceManager;
-
-	// infoȭ�� �̸��� MFileDef.h ����	// test
-	g_pDXInput = new CDirectInput;
-
-	g_pParty = new MParty;
-
-	g_pQuestInfoManager = new MQuestInfoManager;
-	DWORD ver;
-
-	ivfstream questinfo("data\\info\\questinfo.inf", std::ios::binary);
-	questinfo.read((char*)&ver, sizeof(DWORD));
-	g_pQuestInfoManager->LoadFromFile(questinfo);
-	questinfo.close();
-
-	//---------------------------------------------------------------------
-	// nick name string table Loading
-	//---------------------------------------------------------------------
-	g_pNickNameStringTable = new MStringArray;
-	ivfstream gameStringTableTable("data\\info\\Nickname.inf", std::ios::binary);
-	if (false == (*g_pNickNameStringTable).LoadFromFile_NickNameString(gameStringTableTable))
-		MessageBox(NULL, "File read Error - NickName.inf", "Error", MB_OK | MB_ICONERROR);
-	gameStringTableTable.close();
-
-
-	//---------------------------------------------------------------------
-	//
-	//    SkillInfoTable�� ���� ���� ����
-	//
-	//---------------------------------------------------------------------
-	g_pSkillInfoTable = new MSkillInfoTable;
-	g_pSkillInfoTable->Init();
-
-	//------------------------------------------------
-	// Server ������ loading�Ѵ�.
-	//------------------------------------------------
-	ivfstream serverSkillInfoFile(FILE_INFO_SKILL_INFO, std::ios::binary);
-	g_pSkillInfoTable->LoadFromFileServerSkillInfo(serverSkillInfoFile);
-	serverSkillInfoFile.close();
-
-	//---------------------------------------------------------------------
-	//
-	//    SkillManager�� ���� ���� ����
-	//
-	//---------------------------------------------------------------------
-
-	g_pSkillManager = new MSkillManager;
-	g_pSkillManager->Init();
-
-	//------------------------------------------------
-	// Server ������ loading�Ѵ�.
-	//------------------------------------------------
-	ivfstream serverDomainInfoFile(FILE_INFO_SKILL_DOMAIN_EXP, std::ios::binary);
-	g_pSkillManager->LoadFromFileServerDomainInfo(serverDomainInfoFile);
-	serverDomainInfoFile.close();
-
-
-	//---------------------------------------------------
-	// ������ ���� ���� ���� ���� Info ������ �ε��Ѵ�.
-	//---------------------------------------------------
-	g_pFameInfoTable = new FameInfoTable;
-	ivfstream FameLimit("Data\\Info\\FameLimit.inf", std::ios::binary);
-	g_pFameInfoTable->LoadFromFile(FameLimit);
-	FameLimit.close();
-
-	//---------------------------------------------------------------------
-	//
-	//    ExperienceTable�� ���� ���� ����
-	//
-	//---------------------------------------------------------------------
-
-	g_pExperienceTable = new ExperienceTable;
-
-	//------------------------------------------------
-	// Load
-	//------------------------------------------------
-	ivfstream strExpFile(FILE_INFO_STR_EXP, std::ios::binary);
-	ivfstream dexExpFile(FILE_INFO_DEX_EXP, std::ios::binary);
-	ivfstream intExpFile(FILE_INFO_INT_EXP, std::ios::binary);
-	ivfstream vampireExpFile(FILE_INFO_VAMPIRE_EXP, std::ios::binary);
-	ivfstream oustersExpFile(FILE_INFO_OUSTERS_EXP, std::ios::binary);
-	ivfstream slayerRankExp(FILE_INFO_SLAYER_RANK_EXP, std::ios::binary);
-	ivfstream vampireRankExp(FILE_INFO_VAMPIRE_RANK_EXP, std::ios::binary);
-	ivfstream oustersRankExp(FILE_INFO_OUSTERS_RANK_EXP, std::ios::binary);
-	ivfstream advancementExp(FILE_INFO_ADVANCEMENT_EXP, std::ios::binary);
-	ivfstream petExpInfo("DATA\\INFO\\PETEXP.INF", std::ios::binary);
-
-	g_pExperienceTable->LoadFromFileSTR(strExpFile);
-	g_pExperienceTable->LoadFromFileDEX(dexExpFile);
-	g_pExperienceTable->LoadFromFileINT(intExpFile);
-	g_pExperienceTable->LoadFromFileVampire(vampireExpFile);
-	g_pExperienceTable->LoadFromFileOusters(oustersExpFile);
-	g_pExperienceTable->LoadFromFileSlayerRank(slayerRankExp);
-	g_pExperienceTable->LoadFromFileVampireRank(vampireRankExp);
-	g_pExperienceTable->LoadFromFileOustersRank(oustersRankExp);
-	g_pExperienceTable->LoadFromFilePetExp(petExpInfo);
-	g_pExperienceTable->LoadFromFileAdvanceMent(advancementExp);
-
-	strExpFile.close();
-	dexExpFile.close();
-	intExpFile.close();
-	vampireExpFile.close();
-	oustersExpFile.close();
-	slayerRankExp.close();
-	vampireRankExp.close();
-	oustersRankExp.close();
-	petExpInfo.close();
-	advancementExp.close();
-
-
-	//	g_pSkillInfoTable = new MSkillInfoTable;
-	//	g_pSkillManager = new SKILLDOMAIN_TABLE;
-	//	g_pSkillManager = new MSkillManager;
-	g_pSkillAvailable = new MSkillSet;
-
-	g_pTradeManager = new MTradeManager;
-	g_pTradeManager->Init();
-	g_pTradeManager->SetOtherName("�ʻ챳ȯ��");
-	g_pTradeManager->GetOtherMoneyManager()->SetMoney(42566);
-	g_pTradeManager->GetMyMoneyManager()->SetMoney(13344);
-
-
-	//CoInitialize(NULL);
-
-//	HRESULT hr;
-//	if (hr = FAILED(CoCreateInstance(CLSID_InternetExplorer,NULL,
-//		CLSCTX_LOCAL_SERVER, IID_IWebBrowser2,(LPVOID*)&g_pWebBrowser))) 
-//	{
-//		MessageBox(NULL, "IWebBrowser2 Create failed", "ERROR", MB_OK);
-//		return 0;
-//	}
-
-	//
-	// `������� �׻� �ϳ��� ������ Ŭ������ ����Ͽ� ���������, ������ Ŭ������
-	//  �� �����쿡 ���� �޽����� ó���� ������ ���ν����� �����Ѵ�.
-	//
-	// `�ϳ��� ������ Ŭ�������� �ϳ� �̻��� �����찡 ������� �� �ִ�.
-	//
-	g_hInstance = hInst;
-	wcl.hInstance = hInst;
-	wcl.lpszClassName = CLASSNAME;
-	wcl.lpfnWndProc = WindowProc;
-	//
-	// `wcl.style =	CS_HREDRAW | CS_VREDRAW;
-	//  ���������� ũ�⳪ ���������� ũ�Ⱑ ���� ������ �ٽ� �׷����� �Ѵٴ� ����
-	//  ����Ų��. ���� �������� ũ�⸦ �����ϸ� WM_PAINT �޽����� ������.
-	//
-	wcl.style = CS_HREDRAW;// | CS_VREDRAW;
-	wcl.cbSize = sizeof(WNDCLASSEX);
-	wcl.hIcon = LoadIcon(NULL, IDI_WINLOGO);
-	wcl.hIconSm = LoadIcon(NULL, IDI_WINLOGO);
-	wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wcl.lpszMenuName = NULL; //MAKEINTRESOURCE(KJTMENU);
-	wcl.cbClsExtra = 0;
-	wcl.cbWndExtra = 0;
-	wcl.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-
-	RegisterClassEx(&wcl);
-
-	WAR_INFO s;
-	s.left_time = 7200 + (timeGetTime() / 1000);
-	s.war_type = 0;
-	s.zone_id = 1204;
-	s.zone_name = "���Ƹ�����";
-	g_pUserInformation->WarInfo.push_back(s);
-
-	InitResolutionConfig();
-
-#ifndef _FULLSCREEN
-	//* // Window mode
-		// Calculate the proper size for the window given a client of 640x480
-		//int cx = RESOLUTION_X+GetSystemMetrics(SM_CXSIZEFRAME)*2+2;
-		//int cy = RESOLUTION_Y+GetSystemMetrics(SM_CYSIZEFRAME)*2+GetSystemMetrics(SM_CYMENU)+2;
-
-	int cx = g_pUserInformation->iResolution_x + GetSystemMetrics(SM_CXSIZEFRAME) * 2 + 2;
-	int cy = g_pUserInformation->iResolution_y + GetSystemMetrics(SM_CYSIZEFRAME) * 2 + GetSystemMetrics(SM_CYMENU) + 2;
-
-
-	hwnd = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW,
-		CLASSNAME,
-		TITLEBARNAME,
-		WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_OVERLAPPEDWINDOW, // WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW  & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX ,
-		CW_USEDEFAULT,
-		CW_USEDEFAULT,
-		cx,
-		cy,
-		HWND_DESKTOP,
-		NULL,
-		hInst,
-		NULL);
-	//	*/
-#else
-	///*	// Fullscreen mode
-	hwnd = CreateWindowEx(WS_EX_TOPMOST,
-		CLASSNAME,
-		TITLEBARNAME,
-		WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
-		0,
-		0,
-		GetSystemMetrics(SM_CXSCREEN),
-		GetSystemMetrics(SM_CXSCREEN),
-		HWND_DESKTOP,
-		NULL,
-		hInst,
-		NULL);
-	//*/
-#endif
-
-	if (!hwnd) return 0;
-
-	ShowWindow(hwnd, nWinMode);
-	UpdateWindow(hwnd);
-	SetFocus(hwnd);
-
-	g_hWnd = hwnd;
-
-	InitSound();
-
-
-
-#ifndef _FULLSCREEN
-	//
-	// Init DirectDraw
-	//
-	//if (!gC_DD.Init(hwnd, RESOLUTION_X, RESOLUTION_Y, CDirectDraw::WINDOWMODE, false, true))
-	//	return 0;
-
-	if (!gC_DD.Init(hwnd, g_pUserInformation->iResolution_x, g_pUserInformation->iResolution_y, CDirectDraw::WINDOWMODE, false, true))
-		return 0;
-
-	//gC_DD.Init( hwnd, RESOLUTION_X, RESOLUTION_Y, CDirectDraw::WINDOWMODE);
-#else
-	//if (!gC_DD.Init(hwnd, RESOLUTION_X, RESOLUTION_Y, CDirectDraw::FULLSCREEN, false, true))
-	//	return 0;
-	if (!gC_DD.Init(hwnd, g_pUserInformation->iResolution_x, g_pUserInformation->iResolution_y, CDirectDraw::FULLSCREEN, false, true))
-		return 0;
-#endif
-
-#if _DEBUGGING
-	g_pDXInput->Init(hwnd, hInst, CDirectInput::NONEXCLUSIVE);
-#else
-	g_pDXInput->Init(hwnd, hInst, CDirectInput::EXCLUSIVE);
-#endif
-
-	gC_ci = new CI_KOREAN;
-	//gC_ci = new CI_CHINESE;	
-
-
-	g_pDXInput->SetMouseEventReceiver(MouseEventReceiver);
-	//g_pDXInput->SetMouseMoveLimit(RESOLUTION_X-1, RESOLUTION_Y-1);
-	g_pDXInput->SetMouseMoveLimit(g_pUserInformation->iResolution_x - 1, g_pUserInformation->iResolution_y - 1);
-	g_pDXInput->SetKeyboardEventReceiver(KeyboardEventReceiver);
-
-	InitializeGL(CDirectDraw::Get_BPP(),
-		CDirectDraw::Get_Count_Rbit(),
-		CDirectDraw::Get_Count_Gbit(),
-		CDirectDraw::Get_Count_Bbit());
-	//	gC_font.Initialize();
-
-	gC_DDSurface.InitBacksurface();
-
-	CIndexSprite::SetColorSet();
-
-	CSpriteSurface::InitEffectTable();
-	gC_vs_ui.Init(&gC_DDSurface, UI_ResultReceiver);
-
-
-	g_pProfileManager = new ProfileManager;
-	g_pProfileManager->InitProfiles();
-
-	//g_pUserInformation = new UserInformation;
-	//WAR_INFO s;
-	//s.left_time = 7200+(timeGetTime()/1000);
-	//s.war_type = 0;
-	//s.zone_id = 1204;
-	//s.zone_name = "���Ƹ�����";
-	//g_pUserInformation->WarInfo.push_back(s);
-
-	WAR_INFO ss;
-	ss.left_time = 3600 + 212 + (timeGetTime() / 1000);
-	ss.war_type = 0;
-	ss.zone_id = 1201;
-	ss.zone_name = "���Ƹ�����a";
-	g_pUserInformation->WarInfo.push_back(ss);
-
-	g_char_slot_ingame.m_AdvancementLevel = 10;
-
-	//	gC_vs_ui.StartProgress();
-	//	gC_vs_ui.SetProgressStyle(SLAYER_PROGRESS_1); // default 'SLAYER_PROGRESS'
-	//
-	//	for (int i=0; i<=300; i++)
-	//	{
-	//		if (i==0)
-	//		{
-	//			CSpriteSurface* pSurface = new CSpriteSurface;
-	//			
-	//			pSurface->InitOffsurface(1056, 774);
-	//
-	//			pSurface->SetTransparency( 0 );
-	//
-	//			delete pSurface;
-	//		}
-	//
-	//		gC_vs_ui.SetProgress(i, 300);
-	//		gC_vs_ui.Show();
-	//		gC_DD.Flip();
-	//	}
-
-	//	gC_vs_ui.EndProgress();
-
-//	g_pUserInformation->IsNetmarble = false;
-
-	g_pUserInformation->IsNetmarble = true;
-	g_pUserInformation->IsNetmarbleLogin = true;
-
-
-	// g_char_slot_ingame ���ӽ��� �� �Լ� ��������� �Ѵ�.
-	g_char_slot_ingame.sz_name = "����";
-	g_char_slot_ingame.sz_guild_name = "�����Ͷ�ϱ�";
-	g_char_slot_ingame.GUILD_ID = 102;
-	g_char_slot_ingame.Race = RACE_SLAYER;
-	g_char_slot_ingame.bl_drained = true;
-	g_char_slot_ingame.MP_MAX = 100;
-	g_char_slot_ingame.HP_MAX = 100;
-	g_char_slot_ingame.HP = 100;
-	g_char_slot_ingame.MP = 230;
-	g_char_slot_ingame.FAME = 1234567890;
-	g_char_slot_ingame.alignment = UI_GOOD_PLUS;
-	g_char_slot_ingame.alignment_num = -10000;
-	g_char_slot_ingame.TOHIT = 123;
-	g_char_slot_ingame.DAM = 223;
-	g_char_slot_ingame.DAM2 = 123;
-	g_char_slot_ingame.SILVER_DAM = 3;
-	g_char_slot_ingame.SILVER_DAM2 = 1;
-	g_char_slot_ingame.STR_CUR = 120;
-	g_char_slot_ingame.STR_PURE = 100;
-	g_char_slot_ingame.STR_MAX = 130;
-	g_char_slot_ingame.STR_EXP_REMAIN = 500;
-	g_char_slot_ingame.DEX_CUR = 6;
-	g_char_slot_ingame.DEX_PURE = 6;
-	g_char_slot_ingame.DEX_MAX = 6;
-	g_char_slot_ingame.DEX_EXP_REMAIN = 300;
-	g_char_slot_ingame.INT_CUR = 6;
-	g_char_slot_ingame.INT_PURE = 6;
-	g_char_slot_ingame.INT_MAXX = 6;
-	g_char_slot_ingame.INT_EXP_REMAIN = 350;
-	g_char_slot_ingame.level = 1;
-	g_char_slot_ingame.EXP_REMAIN = 1000000;
-	g_char_slot_ingame.SILVER_HP = 0;
-	g_char_slot_ingame.GRADE = 36;
-	g_char_slot_ingame.WS = 0;
-	g_char_slot_ingame.WeaponSpeed = 30;
-	g_char_slot_ingame.STATUS.clear();
-	g_char_slot_ingame.m_SMS_Charge = 10;
-	S_SLOT::UI_EFFECTSTATUS_STRUCT efs;
-	/*efs.actionInfo = SKILL_BLOOD_DRAIN;
-	efs.delayFrame = timeGetTime()+360000;
-	g_char_slot_ingame.STATUS.push_back(efs);
-	efs.actionInfo = MAGIC_GREEN_POISON;
-	efs.delayFrame = timeGetTime()+360000;
-	g_char_slot_ingame.STATUS.push_back(efs);
-	efs.actionInfo = MAGIC_YELLOW_POISON;
-	efs.delayFrame = timeGetTime()+3700;
-	g_char_slot_ingame.STATUS.push_back(efs);
-	efs.actionInfo = MAGIC_DARKBLUE_POISON;
-	efs.delayFrame = timeGetTime()+80;
-	g_char_slot_ingame.STATUS.push_back(efs);
-	efs.actionInfo = MAGIC_GREEN_STALKER;
-	efs.delayFrame = timeGetTime()+600;*/
-	efs.actionInfo = SKILL_CLIENT_HOODLUM_STIGMA;
-	efs.delay100msec = 10;
-	g_char_slot_ingame.STATUS.push_back(efs);
-
-	//efs.actionInfo = SKILL_CLIENT_CAN_ENTER_GDR_LAIR;
-	//efs.delayFrame = timeGetTime()+8000;
-	//g_char_slot_ingame.STATUS.push_back(efs);
-	//				g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
-	//				g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
-	//				g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
-	//				g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
-	//				g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
-	//				g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
-	//				g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
-	//				g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
-	//				g_char_slot_ingame.STATUS.push_back(SKILL_BLOOD_DRAIN);
-	//g_char_slot_ingame.STATUS.push_back(6);
-	//g_char_slot_ingame.STATUS.push_back(7);
-	//g_char_slot_ingame.STATUS.push_back(8);
-	//g_char_slot_ingame.STATUS.push_back(9);
-	g_char_slot_ingame.bl_female = true;//false;
-	g_char_slot_ingame.man_info.helmet = M_HELMET1;
-	g_char_slot_ingame.man_info.coat = M_COAT1;
-	g_char_slot_ingame.man_info.trouser = M_TROUSER1;
-	g_char_slot_ingame.man_info.hair = M_HAIR1;
-	g_char_slot_ingame.man_info.face = M_FACE1;
-	g_char_slot_ingame.man_info.left = M_SHIELD1;//M_TR;//M_SWORD;
-	g_char_slot_ingame.man_info.right = M_CROSS;//W_SWORD;//W_DRAGON_SHIELD;
-	g_char_slot_ingame.skin_color = 0;
-	g_char_slot_ingame.hair_color = 0;
-	g_char_slot_ingame.left_color = 405;
-	g_char_slot_ingame.right_color = 405;
-	g_char_slot_ingame.helmet_color = 0xFFFF;
-	g_char_slot_ingame.trouser_color = 0XFFFF;
-	g_char_slot_ingame.coat_color = 255;
-	g_char_slot_ingame.bonus_point = 5;
-	g_char_slot_ingame.skill_point = 50;
-
-	//2005.08
-	g_char_slot_ingame.AttackBloodBurstPoint = 150;
-	g_char_slot_ingame.DefenseBloodBurstPoint = 250;
-	g_char_slot_ingame.PartyBloodBurstPoint = 350;
-
-
-	//	gC_vs_ui.StartTitle();
-	//	gC_vs_ui.StartCharacterManager();
-	gC_vs_ui.StartGame();
-	//	gC_vs_ui.ChangeToOustersInterface();
-	gC_vs_ui.ChangeToSlayerInterface();
-
-	std::vector<C_VS_UI_NicknameInfo*>	TempNickNameList;
-	C_VS_UI_NicknameInfo nik;
-	nik.setNickname("�ٺ�0");
-	nik.setNicknameID(0);
-	nik.setNicknameIndex(0);
-	nik.setNicknameType(0);
-	TempNickNameList.push_back(&nik);
-	//gC_vs_ui.AddNickNameList((void*)&nik);
-	C_VS_UI_NicknameInfo nik1;
-	nik1.setNickname("�ٺ�1");
-	nik1.setNicknameID(1);
-	nik1.setNicknameIndex(1);
-	nik1.setNicknameType(1);
-	//gC_vs_ui.AddNickNameList((void*)&nik);
-	TempNickNameList.push_back(&nik1);
-	C_VS_UI_NicknameInfo nik2;
-	nik2.setNickname("�ٺ�2");
-	nik2.setNicknameID(2);
-	nik2.setNicknameIndex(2);
-	nik2.setNicknameType(2);
-	//gC_vs_ui.AddNickNameList((void*)&nik);
-	TempNickNameList.push_back(&nik2);
-	C_VS_UI_NicknameInfo nik3;
-	nik3.setNickname("�ٺ�3");
-	nik3.setNicknameID(3);
-	nik3.setNicknameIndex(3);
-	nik3.setNicknameType(3);
-	//gC_vs_ui.AddNickNameList((void*)&nik);
-	TempNickNameList.push_back(&nik3);
-	C_VS_UI_NicknameInfo nik4;
-	nik4.setNickname("�ٺ�4");
-	nik4.setNicknameID(4);
-	nik4.setNicknameIndex(4);
-	nik4.setNicknameType(4);
-	//gC_vs_ui.AddNickNameList((void*)&nik);
-	TempNickNameList.push_back(&nik4);
-	C_VS_UI_NicknameInfo nik5;
-	nik5.setNickname("�ٺ�5");
-	nik5.setNicknameID(5);
-	nik5.setNicknameIndex(5);
-	nik5.setNicknameType(5);
-	TempNickNameList.push_back(&nik5);
-	gC_vs_ui.SetNickNameList((void*)&TempNickNameList);
-
-	g_char_slot_ingame.m_Powerjjang_Point = 0;
-	//gC_vs_ui.AddNickNameList((void*)&nik);
-	//	gC_vs_ui.RunQuickItemSlot();
-
-	SIZE size = { 256, 256 };
-	gC_vs_ui.SetSize(size);
-	gC_vs_ui.SetZone(61);
-	RECT rect = { 100, 100, 200, 200 };
-	gC_vs_ui.SetSafetyZone(rect, 0);
-	SetRect(&rect, 50, 50, 50, 50);
-	gC_vs_ui.SetPortal(rect, 1001);
-	SetRect(&rect, 50, 52, 60, 52);
-	gC_vs_ui.SetPortal(rect, 2024);
-	gC_vs_ui.SetNPC(50, 100, 21, "����߳���");
-
-	gC_vs_ui.SetNPC(100, 100, 670, "���չ�");
-
-
-
-
-	//	gC_vs_ui.SetZoneName("������Ͼ� NW");
-	//	gC_vs_ui.SetTime("23:00:05");
-
-	//	gC_vs_ui.ServerDisconnectMessage();
-
-	SetCursorPos(0, 0);
-
-	//	gC_vs_ui.SetHP( 80, 100, TRUE );
-
-	//	SIZE size = {256, 256};
-	//	gC_vs_ui.SetZone(11);
-	//	gC_vs_ui.SetSize(size);
-
-
-	/*
-	// color test
-	int color = Convert24RGBto16(180, 240, 0);
-	color = Convert24RGBto16(180, 240, 10);
-	color = Convert24RGBto16(180, 240, 50);
-	color = Convert24RGBto16(159, 151, 146);
-	color = Convert24RGBto16(192, 192, 192);
-	color = Convert24RGBto16(100, 100, 100);
-	*/
-
-
-	// ��ü�� ���� �ε�
-	LoadWorldMapInfo();
-
-	while (1)
+	if (!iovfs_base::start_vfs("data/darkeden", O_RDONLY))
 	{
-		if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE))
-		{
-			if (GetMessage(&msg, NULL, 0, 0))
-			{
-				TranslateMessage(&msg);
-				DispatchMessage(&msg);
-			}
-			else
-				// for delete
-				break;
-			//return msg.wParam;
-		}
-		else
-		{
-			if (gbl_active)
-			{
-				ProgramLoop();
-				g_CurrentFrame++;
-			}
-			else
-				WaitMessage();
-		}
+		MessageBox(
+			NULL,
+			"Failed to start virtual file system!",
+			"Error",
+			MB_OK | MB_ICONERROR
+		);
+		return -1;
 	}
 
-	delete g_pGameStringTable;
+	const char* step = "<start>";
+	FILE* g_stepLog = fopen("winmain_step.log", "w");
+	if (g_stepLog) {
+		fputs("=== WinMain step log begin ===\n", g_stepLog);
+		fflush(g_stepLog);
+	}
+	#define STEP(s) do { step = (s); if (g_stepLog) { fputs(step, g_stepLog); fputc('\n', g_stepLog); fflush(g_stepLog); } } while(0)
+	try {
 
-	SaveResolutionConfig();
+		STEP("new Properties + load FILE_INFO_FILEDEF (Data\\Info\\FileDef.inf)");
+		g_pFileDef = new Properties;
+		g_pFileDef->load(FILE_INFO_FILEDEF);
 
-	ReleaseAllObject();
-	gC_vs_ui.Release();
+		g_pUserInformation = new UserInformation;
 
-	// �ػ� ���� ����
+		InitResolutionConfig();
 
-//	if(NULL != g_pWebBrowser)
-//		g_pWebBrowser->Release();
-//	CoUninitialize();
-//	DumpUnfreed();
+		g_pUserInformation->attrOperator.SetAttr(OPERATORTYPE_RELEASELOG);
 
+		int tmpDbgFlag;
+		tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
+		tmpDbgFlag |= _CRTDBG_DELAY_FREE_MEM_DF;
+		tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;
+		_CrtSetDbgFlag(tmpDbgFlag);
+
+		HWND hwnd;
+		MSG	msg;
+		WNDCLASSEX wcl;
+
+		//-------------------------------------
+		// client�� global �ʱ�ȭ by sigi
+		//-------------------------------------	
+		g_pClientConfig = new ClientConfig;
+		//		g_pClientConfig->Use3DHAL			= TRUE;
+
+
+		g_pUserOption = new UserOption;
+		g_pUserOption->Use3DHAL = TRUE;
+		g_pUserOption->UseSmoothCursor = FALSE;	//TRUE;
+		g_pUserOption->DrawMinimap = FALSE;	// minimap�� �׸���?
+		g_pUserOption->DrawZoneName = TRUE;		// Zone�̸� ���
+		g_pUserOption->DrawGameTime = TRUE;		// ���� �ð� ���
+		g_pUserOption->DrawInterface = FALSE;	// interface
+		g_pUserOption->DrawFPS = FALSE;	// FPS
+		g_pUserOption->BlendingShadow = FALSE;	//TRUE;			// �׸��� ������
+		g_pUserOption->FilteringCurse = TRUE;		// ���� �� ����
+		g_pUserOption->PlayMusic = TRUE;		// ���� ���
+		g_pUserOption->PlaySound = TRUE;		// ȿ���� ���
+		g_pUserOption->VolumeMusic = 10;		// ���� �Ҹ� ũ��
+		g_pUserOption->VolumeSound = 10;		// ȿ���� �Ҹ� ũ��
+		g_pUserOption->UseEnterChat = true;
+		//	g_pUserOption->Resolution1024		= g_pUserInformation->IsResolution1024;
+
+		g_pOperatorOption = new OperatorOption;
+		g_pOperatorOption->SetDefault();
+
+		STEP("InitGameStringTable()");
+		g_pGameStringTable = new MStringArray;
+		InitGameStringTable();
+
+		STEP("g_pRegenTowerInfoManager->LoadRegenTowerInfo()");
+		g_pRegenTowerInfoManager = new RegenTowerInfoManager;
+		g_pRegenTowerInfoManager->LoadRegenTowerInfo();
+
+
+		g_pInventory = new MInventory;
+		g_pSlayerGear = new MSlayerGear;
+		g_pVampireGear = new MVampireGear;
+		g_pOustersGear = new MOustersGear;
+		g_pTimeItemManager = new MTimeItemManager;
+
+		g_pTimeItemManager->AddTimeItem(0, 70 + (60 * 60));
+
+		STEP("new MGuildMarkManager (loads several SPKs + GuildMapper.inf)");
+		g_pGuildMarkManager = new MGuildMarkManager(SPK_GUILD_MARK, FILE_INFO_GUILD_MAPPER, SPK_GRADE_SLAYER, SPK_GRADE_VAMPIRE, SPK_GRADE_OUSTERS, SPK_LEVEL_MARK, SPK_ORIGIN_MARK);
+		g_pGuildInfoMapper = new MGuildInfoMapper;
+
+		STEP("Load FILE_INFO_GUILD_MAPPER (Data\\Info\\GuildMapper.inf)");
+		ivfstream guildFile(FILE_INFO_GUILD_MAPPER, std::ios::binary);
+		g_pGuildInfoMapper->LoadFromFile(guildFile);
+		guildFile.close();
+
+		g_pAcceleratorManager = new AcceleratorManager;
+		g_pKeyAccelerator = new KeyAccelerator;
+		g_pKeyAccelerator->Init(MAX_ACCELERATOR);
+		SetDefaultAccelerator();		// �ϴ���..
+
+		g_pSystemAvailableManager = new SystemAvailabilitiesManager;
+
+		STEP("Load FILE_INFO_ITEM_INFO (Data\\Info\\item.inf)");
+		g_pItemTable = new ITEMCLASS_TABLE;
+		ivfstream itemFile(FILE_INFO_ITEM_INFO, std::ios::binary);
+		// --- diagnostic probe: verify file opened and peek first 16 bytes ---
+		if (g_stepLog) {
+			fprintf(g_stepLog, "  item.inf is_open=%d\n", (int)itemFile.is_open());
+			fflush(g_stepLog);
+			if (itemFile.is_open()) {
+				unsigned char probe[16] = { 0 };
+				itemFile.read((char*)probe, 16);
+				fprintf(g_stepLog, "  item.inf first16=");
+				for (int _i = 0; _i < 16; _i++) fprintf(g_stepLog, "%02X ", probe[_i]);
+				unsigned int outerCount = *(unsigned int*)probe;
+				unsigned int innerCount = *(unsigned int*)(probe + 4);
+				fprintf(g_stepLog, "\n  outerCount=%u innerCount0=%u\n", outerCount, innerCount);
+				fflush(g_stepLog);
+				itemFile.seekg(0, std::ios_base::beg);
+			}
+		}
+		g_pItemTable->LoadFromFile(itemFile);
+		itemFile.close();
+
+		STEP("Load FILE_INFO_NPC_INFO (Data\\Info\\NPC.inf)");
+		g_pNPCTable = new MNPCTable;
+		ivfstream npcFile(FILE_INFO_NPC_INFO, std::ios::binary);
+		g_pNPCTable->LoadFromFile(npcFile);
+		npcFile.close();
+
+		STEP("Load FILE_INFO_CREATURE_INFO (Data\\Info\\Creature.inf)");
+		g_pCreatureTable = new CREATURE_TABLE;
+		ivfstream creatureFile(FILE_INFO_CREATURE_INFO, std::ios::binary);
+		g_pCreatureTable->LoadFromFile(creatureFile);
+		creatureFile.close();
+
+		STEP("Load FILE_INFO_ZONE_TABLE (Data\\Info\\Zone.inf)");
+		g_pZoneTable = new CZoneTable;
+		ivfstream zoneFile(FILE_INFO_ZONE_TABLE, std::ios::binary);
+		g_pZoneTable->LoadFromFile(zoneFile);
+		zoneFile.close();
+
+		STEP("Load FILE_INFO_RANK_BONUS_TABLE (Data\\Info\\RankBonus.inf)");
+		g_pRankBonusTable = new RankBonusTable;
+		ivfstream rankFile(FILE_INFO_RANK_BONUS_TABLE, std::ios::binary);
+		g_pRankBonusTable->LoadFromFile(rankFile);
+		rankFile.close();
+
+		g_pItemOptionTable = new ITEMOPTION_TABLE;
+		g_pMoneyManager = new MMoneyManager;
+		g_pPriceManager = new MPriceManager;
+
+		// infoȭ�� �̸��� MFileDef.h ����	// test
+		g_pDXInput = new CDirectInput;
+
+		g_pParty = new MParty;
+
+		STEP("Load data\\info\\questinfo.inf");
+		g_pQuestInfoManager = new MQuestInfoManager;
+		DWORD ver;
+
+		ivfstream questinfo("data\\info\\questinfo.inf", std::ios::binary);
+		questinfo.read((char*)&ver, sizeof(DWORD));
+		g_pQuestInfoManager->LoadFromFile(questinfo);
+		questinfo.close();
+
+		//---------------------------------------------------------------------
+		// nick name string table Loading
+		//---------------------------------------------------------------------
+		STEP("Load data\\info\\Nickname.inf");
+		g_pNickNameStringTable = new MStringArray;
+		ivfstream gameStringTableTable("data\\info\\Nickname.inf", std::ios::binary);
+		if (false == (*g_pNickNameStringTable).LoadFromFile_NickNameString(gameStringTableTable))
+			MessageBox(NULL, "File read Error - NickName.inf", "Error", MB_OK | MB_ICONERROR);
+		gameStringTableTable.close();
+
+
+		//---------------------------------------------------------------------
+		//
+		//    SkillInfoTable�� ���� ���� ����
+		//
+		//---------------------------------------------------------------------
+		STEP("g_pSkillInfoTable->Init() + Load FILE_INFO_SKILL_INFO (Data\\Info\\SkillInfo.inf)");
+		g_pSkillInfoTable = new MSkillInfoTable;
+		g_pSkillInfoTable->Init();
+
+		//------------------------------------------------
+		// Server ������ loading�Ѵ�.
+		//------------------------------------------------
+		ivfstream serverSkillInfoFile(FILE_INFO_SKILL_INFO, std::ios::binary);
+		g_pSkillInfoTable->LoadFromFileServerSkillInfo(serverSkillInfoFile);
+		serverSkillInfoFile.close();
+
+		//---------------------------------------------------------------------
+		//
+		//    SkillManager�� ���� ���� ����
+		//
+		//---------------------------------------------------------------------
+
+		STEP("g_pSkillManager->Init() + Load FILE_INFO_SKILL_DOMAIN_EXP (Data\\Info\\DomainExp.inf)");
+		g_pSkillManager = new MSkillManager;
+		g_pSkillManager->Init();
+
+		//------------------------------------------------
+		// Server ������ loading�Ѵ�.
+		//------------------------------------------------
+		ivfstream serverDomainInfoFile(FILE_INFO_SKILL_DOMAIN_EXP, std::ios::binary);
+		g_pSkillManager->LoadFromFileServerDomainInfo(serverDomainInfoFile);
+		serverDomainInfoFile.close();
+
+
+		//---------------------------------------------------
+		// ������ ���� ���� ���� ���� Info ������ �ε��Ѵ�.
+		//---------------------------------------------------
+		STEP("Load Data\\Info\\FameLimit.inf");
+		g_pFameInfoTable = new FameInfoTable;
+		ivfstream FameLimit("Data\\Info\\FameLimit.inf", std::ios::binary);
+		g_pFameInfoTable->LoadFromFile(FameLimit);
+		FameLimit.close();
+
+		//---------------------------------------------------------------------
+		//
+		//    ExperienceTable�� ���� ���� ����
+		//
+		//---------------------------------------------------------------------
+
+		STEP("new ExperienceTable + open all exp files");
+		g_pExperienceTable = new ExperienceTable;
+
+		//------------------------------------------------
+		// Load
+		//------------------------------------------------
+		ivfstream strExpFile(FILE_INFO_STR_EXP, std::ios::binary);
+		ivfstream dexExpFile(FILE_INFO_DEX_EXP, std::ios::binary);
+		ivfstream intExpFile(FILE_INFO_INT_EXP, std::ios::binary);
+		ivfstream vampireExpFile(FILE_INFO_VAMPIRE_EXP, std::ios::binary);
+		ivfstream oustersExpFile(FILE_INFO_OUSTERS_EXP, std::ios::binary);
+		ivfstream slayerRankExp(FILE_INFO_SLAYER_RANK_EXP, std::ios::binary);
+		ivfstream vampireRankExp(FILE_INFO_VAMPIRE_RANK_EXP, std::ios::binary);
+		ivfstream oustersRankExp(FILE_INFO_OUSTERS_RANK_EXP, std::ios::binary);
+		ivfstream advancementExp(FILE_INFO_ADVANCEMENT_EXP, std::ios::binary);
+		ivfstream petExpInfo("DATA\\INFO\\PETEXP.INF", std::ios::binary);
+
+		STEP("ExperienceTable->LoadFromFileSTR (FILE_INFO_STR_EXP)");
+		g_pExperienceTable->LoadFromFileSTR(strExpFile);
+		STEP("ExperienceTable->LoadFromFileDEX (FILE_INFO_DEX_EXP)");
+		g_pExperienceTable->LoadFromFileDEX(dexExpFile);
+		STEP("ExperienceTable->LoadFromFileINT (FILE_INFO_INT_EXP)");
+		g_pExperienceTable->LoadFromFileINT(intExpFile);
+		STEP("ExperienceTable->LoadFromFileVampire (FILE_INFO_VAMPIRE_EXP)");
+		g_pExperienceTable->LoadFromFileVampire(vampireExpFile);
+		STEP("ExperienceTable->LoadFromFileOusters (FILE_INFO_OUSTERS_EXP)");
+		g_pExperienceTable->LoadFromFileOusters(oustersExpFile);
+		STEP("ExperienceTable->LoadFromFileSlayerRank (FILE_INFO_SLAYER_RANK_EXP)");
+		g_pExperienceTable->LoadFromFileSlayerRank(slayerRankExp);
+		STEP("ExperienceTable->LoadFromFileVampireRank (FILE_INFO_VAMPIRE_RANK_EXP)");
+		g_pExperienceTable->LoadFromFileVampireRank(vampireRankExp);
+		STEP("ExperienceTable->LoadFromFileOustersRank (FILE_INFO_OUSTERS_RANK_EXP)");
+		g_pExperienceTable->LoadFromFileOustersRank(oustersRankExp);
+		STEP("ExperienceTable->LoadFromFilePetExp (PETEXP.INF)");
+		g_pExperienceTable->LoadFromFilePetExp(petExpInfo);
+		STEP("ExperienceTable->LoadFromFileAdvanceMent (FILE_INFO_ADVANCEMENT_EXP)");
+		g_pExperienceTable->LoadFromFileAdvanceMent(advancementExp);
+
+		strExpFile.close();
+		dexExpFile.close();
+		intExpFile.close();
+		vampireExpFile.close();
+		oustersExpFile.close();
+		slayerRankExp.close();
+		vampireRankExp.close();
+		oustersRankExp.close();
+		petExpInfo.close();
+		advancementExp.close();
+
+
+		//	g_pSkillInfoTable = new MSkillInfoTable;
+		//	g_pSkillManager = new SKILLDOMAIN_TABLE;
+		//	g_pSkillManager = new MSkillManager;
+		STEP("new MSkillSet + MTradeManager->Init()");
+		g_pSkillAvailable = new MSkillSet;
+
+		g_pTradeManager = new MTradeManager;
+		g_pTradeManager->Init();
+		g_pTradeManager->SetOtherName("�ʻ챳ȯ��");
+		g_pTradeManager->GetOtherMoneyManager()->SetMoney(42566);
+		g_pTradeManager->GetMyMoneyManager()->SetMoney(13344);
+
+
+		//CoInitialize(NULL);
+
+	//	HRESULT hr;
+	//	if (hr = FAILED(CoCreateInstance(CLSID_InternetExplorer,NULL,
+	//		CLSCTX_LOCAL_SERVER, IID_IWebBrowser2,(LPVOID*)&g_pWebBrowser))) 
+	//	{
+	//		MessageBox(NULL, "IWebBrowser2 Create failed", "ERROR", MB_OK);
+	//		return 0;
+	//	}
+
+		//
+		// `������� �׻� �ϳ��� ������ Ŭ������ ����Ͽ� ���������, ������ Ŭ������
+		//  �� �����쿡 ���� �޽����� ó���� ������ ���ν����� �����Ѵ�.
+		//
+		// `�ϳ��� ������ Ŭ�������� �ϳ� �̻��� �����찡 ������� �� �ִ�.
+		//
+		STEP("RegisterClassEx (main window class setup)");
+		g_hInstance = hInst;
+		wcl.hInstance = hInst;
+		wcl.lpszClassName = CLASSNAME;
+		wcl.lpfnWndProc = WindowProc;
+		//
+		// `wcl.style =	CS_HREDRAW | CS_VREDRAW;
+		//  ���������� ũ�⳪ ���������� ũ�Ⱑ ���� ������ �ٽ� �׷����� �Ѵٴ� ����
+		//  ����Ų��. ���� �������� ũ�⸦ �����ϸ� WM_PAINT �޽����� ������.
+		//
+		wcl.style = CS_HREDRAW;// | CS_VREDRAW;
+		wcl.cbSize = sizeof(WNDCLASSEX);
+		wcl.hIcon = LoadIcon(NULL, IDI_WINLOGO);
+		wcl.hIconSm = LoadIcon(NULL, IDI_WINLOGO);
+		wcl.hCursor = LoadCursor(NULL, IDC_ARROW);
+		wcl.lpszMenuName = NULL; //MAKEINTRESOURCE(KJTMENU);
+		wcl.cbClsExtra = 0;
+		wcl.cbWndExtra = 0;
+		wcl.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+
+		RegisterClassEx(&wcl);
+
+		WAR_INFO s;
+		s.left_time = 7200 + (timeGetTime() / 1000);
+		s.war_type = 0;
+		s.zone_id = 1204;
+		s.zone_name = "���Ƹ�����";
+		g_pUserInformation->WarInfo.push_back(s);
+
+		InitResolutionConfig();
+
+		STEP("CreateWindowEx (main game window)");
+#ifndef _FULLSCREEN
+		//* // Window mode
+			// Calculate the proper size for the window given a client of 640x480
+			//int cx = RESOLUTION_X+GetSystemMetrics(SM_CXSIZEFRAME)*2+2;
+			//int cy = RESOLUTION_Y+GetSystemMetrics(SM_CYSIZEFRAME)*2+GetSystemMetrics(SM_CYMENU)+2;
+
+		int cx = g_pUserInformation->iResolution_x + GetSystemMetrics(SM_CXSIZEFRAME) * 2 + 2;
+		int cy = g_pUserInformation->iResolution_y + GetSystemMetrics(SM_CYSIZEFRAME) * 2 + GetSystemMetrics(SM_CYMENU) + 2;
+
+
+		hwnd = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW,
+			CLASSNAME,
+			TITLEBARNAME,
+			WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_OVERLAPPEDWINDOW, // WS_CLIPCHILDREN | WS_OVERLAPPEDWINDOW  & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX ,
+			CW_USEDEFAULT,
+			CW_USEDEFAULT,
+			cx,
+			cy,
+			HWND_DESKTOP,
+			NULL,
+			hInst,
+			NULL);
+		//	*/
+#else
+		///*	// Fullscreen mode
+		hwnd = CreateWindowEx(WS_EX_TOPMOST,
+			CLASSNAME,
+			TITLEBARNAME,
+			WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
+			0,
+			0,
+			GetSystemMetrics(SM_CXSCREEN),
+			GetSystemMetrics(SM_CXSCREEN),
+			HWND_DESKTOP,
+			NULL,
+			hInst,
+			NULL);
+		//*/
+#endif
+
+		if (!hwnd) {
+			if (g_stepLog) { fputs("CreateWindowEx returned NULL\n", g_stepLog); fflush(g_stepLog); }
+			return 0;
+		}
+
+		STEP("ShowWindow/UpdateWindow/SetFocus + InitSound()");
+		ShowWindow(hwnd, nWinMode);
+		UpdateWindow(hwnd);
+		SetFocus(hwnd);
+
+		g_hWnd = hwnd;
+
+		InitSound();
+		STEP("PAST SOUND");
+
+
+		STEP("gC_DD.Init (DirectDraw)");
+#ifndef _FULLSCREEN
+		//
+		// Init DirectDraw
+		//
+		//if (!gC_DD.Init(hwnd, RESOLUTION_X, RESOLUTION_Y, CDirectDraw::WINDOWMODE, false, true))
+		//	return 0;
+
+		if (!gC_DD.Init(hwnd, g_pUserInformation->iResolution_x, g_pUserInformation->iResolution_y, CDirectDraw::WINDOWMODE, false, true)) {
+			if (g_stepLog) { fputs("gC_DD.Init returned false\n", g_stepLog); fflush(g_stepLog); }
+			return 0;
+		}
+
+		//gC_DD.Init( hwnd, RESOLUTION_X, RESOLUTION_Y, CDirectDraw::WINDOWMODE);
+#else
+		//if (!gC_DD.Init(hwnd, RESOLUTION_X, RESOLUTION_Y, CDirectDraw::FULLSCREEN, false, true))
+		//	return 0;
+		if (!gC_DD.Init(hwnd, g_pUserInformation->iResolution_x, g_pUserInformation->iResolution_y, CDirectDraw::FULLSCREEN, false, true)) {
+			if (g_stepLog) { fputs("gC_DD.Init (fullscreen) returned false\n", g_stepLog); fflush(g_stepLog); }
+			return 0;
+		}
+#endif
+
+		STEP("g_pDXInput->Init (DirectInput)");
+#if _DEBUGGING
+		g_pDXInput->Init(hwnd, hInst, CDirectInput::NONEXCLUSIVE);
+#else
+		g_pDXInput->Init(hwnd, hInst, CDirectInput::EXCLUSIVE);
+#endif
+
+		gC_ci = new CI_KOREAN;
+		//gC_ci = new CI_CHINESE;	
+
+
+		g_pDXInput->SetMouseEventReceiver(MouseEventReceiver);
+		//g_pDXInput->SetMouseMoveLimit(RESOLUTION_X-1, RESOLUTION_Y-1);
+		g_pDXInput->SetMouseMoveLimit(g_pUserInformation->iResolution_x - 1, g_pUserInformation->iResolution_y - 1);
+		g_pDXInput->SetKeyboardEventReceiver(KeyboardEventReceiver);
+
+		STEP("InitializeGL");
+		InitializeGL(CDirectDraw::Get_BPP(),
+			CDirectDraw::Get_Count_Rbit(),
+			CDirectDraw::Get_Count_Gbit(),
+			CDirectDraw::Get_Count_Bbit());
+		//	gC_font.Initialize();
+
+		STEP("gC_DDSurface.InitBacksurface()");
+		gC_DDSurface.InitBacksurface();
+
+		STEP("CIndexSprite::SetColorSet()");
+		CIndexSprite::SetColorSet();
+
+		STEP("CSpriteSurface::InitEffectTable()");
+		CSpriteSurface::InitEffectTable();
+		STEP("gC_vs_ui.Init(&gC_DDSurface, UI_ResultReceiver)");
+		gC_vs_ui.Init(&gC_DDSurface, UI_ResultReceiver);
+
+
+		STEP("new ProfileManager + InitProfiles()");
+		g_pProfileManager = new ProfileManager;
+		g_pProfileManager->InitProfiles();
+
+		//g_pUserInformation = new UserInformation;
+		//WAR_INFO s;
+		//s.left_time = 7200+(timeGetTime()/1000);
+		//s.war_type = 0;
+		//s.zone_id = 1204;
+		//s.zone_name = "���Ƹ�����";
+		//g_pUserInformation->WarInfo.push_back(s);
+
+		WAR_INFO ss;
+		ss.left_time = 3600 + 212 + (timeGetTime() / 1000);
+		ss.war_type = 0;
+		ss.zone_id = 1201;
+		ss.zone_name = "���Ƹ�����a";
+		g_pUserInformation->WarInfo.push_back(ss);
+
+		g_char_slot_ingame.m_AdvancementLevel = 10;
+
+		//	gC_vs_ui.StartProgress();
+		//	gC_vs_ui.SetProgressStyle(SLAYER_PROGRESS_1); // default 'SLAYER_PROGRESS'
+		//
+		//	for (int i=0; i<=300; i++)
+		//	{
+		//		if (i==0)
+		//		{
+		//			CSpriteSurface* pSurface = new CSpriteSurface;
+		//			
+		//			pSurface->InitOffsurface(1056, 774);
+		//
+		//			pSurface->SetTransparency( 0 );
+		//
+		//			delete pSurface;
+		//		}
+		//
+		//		gC_vs_ui.SetProgress(i, 300);
+		//		gC_vs_ui.Show();
+		//		gC_DD.Flip();
+		//	}
+
+		//gC_vs_ui.EndProgress();
+
+		//g_pUserInformation->IsNetmarble = false;
+
+		g_pUserInformation->IsNetmarble = true;
+		g_pUserInformation->IsNetmarbleLogin = true;
+
+
+		// g_char_slot_ingame ���ӽ��� �� �Լ� ��������� �Ѵ�.
+		g_char_slot_ingame.sz_name = "����";
+		g_char_slot_ingame.sz_guild_name = "�����Ͷ�ϱ�";
+		g_char_slot_ingame.GUILD_ID = 102;
+		g_char_slot_ingame.Race = RACE_SLAYER;
+		g_char_slot_ingame.bl_drained = true;
+		g_char_slot_ingame.MP_MAX = 100;
+		g_char_slot_ingame.HP_MAX = 100;
+		g_char_slot_ingame.HP = 100;
+		g_char_slot_ingame.MP = 230;
+		g_char_slot_ingame.FAME = 1234567890;
+		g_char_slot_ingame.alignment = UI_GOOD_PLUS;
+		g_char_slot_ingame.alignment_num = -10000;
+		g_char_slot_ingame.TOHIT = 123;
+		g_char_slot_ingame.DAM = 223;
+		g_char_slot_ingame.DAM2 = 123;
+		g_char_slot_ingame.SILVER_DAM = 3;
+		g_char_slot_ingame.SILVER_DAM2 = 1;
+		g_char_slot_ingame.STR_CUR = 120;
+		g_char_slot_ingame.STR_PURE = 100;
+		g_char_slot_ingame.STR_MAX = 130;
+		g_char_slot_ingame.STR_EXP_REMAIN = 500;
+		g_char_slot_ingame.DEX_CUR = 6;
+		g_char_slot_ingame.DEX_PURE = 6;
+		g_char_slot_ingame.DEX_MAX = 6;
+		g_char_slot_ingame.DEX_EXP_REMAIN = 300;
+		g_char_slot_ingame.INT_CUR = 6;
+		g_char_slot_ingame.INT_PURE = 6;
+		g_char_slot_ingame.INT_MAXX = 6;
+		g_char_slot_ingame.INT_EXP_REMAIN = 350;
+		g_char_slot_ingame.level = 1;
+		g_char_slot_ingame.EXP_REMAIN = 1000000;
+		g_char_slot_ingame.SILVER_HP = 0;
+		g_char_slot_ingame.GRADE = 36;
+		g_char_slot_ingame.WS = 0;
+		g_char_slot_ingame.WeaponSpeed = 30;
+		g_char_slot_ingame.STATUS.clear();
+		g_char_slot_ingame.m_SMS_Charge = 10;
+		S_SLOT::UI_EFFECTSTATUS_STRUCT efs;
+		/*efs.actionInfo = SKILL_BLOOD_DRAIN;
+		efs.delayFrame = timeGetTime()+360000;
+		g_char_slot_ingame.STATUS.push_back(efs);
+		efs.actionInfo = MAGIC_GREEN_POISON;
+		efs.delayFrame = timeGetTime()+360000;
+		g_char_slot_ingame.STATUS.push_back(efs);
+		efs.actionInfo = MAGIC_YELLOW_POISON;
+		efs.delayFrame = timeGetTime()+3700;
+		g_char_slot_ingame.STATUS.push_back(efs);
+		efs.actionInfo = MAGIC_DARKBLUE_POISON;
+		efs.delayFrame = timeGetTime()+80;
+		g_char_slot_ingame.STATUS.push_back(efs);
+		efs.actionInfo = MAGIC_GREEN_STALKER;
+		efs.delayFrame = timeGetTime()+600;*/
+		efs.actionInfo = SKILL_CLIENT_HOODLUM_STIGMA;
+		efs.delay100msec = 10;
+		g_char_slot_ingame.STATUS.push_back(efs);
+
+		//efs.actionInfo = SKILL_CLIENT_CAN_ENTER_GDR_LAIR;
+		//efs.delayFrame = timeGetTime()+8000;
+		//g_char_slot_ingame.STATUS.push_back(efs);
+		//g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
+		//g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
+		//g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
+		//g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
+		//g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
+		//g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
+		//g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
+		//g_char_slot_ingame.STATUS.push_back(MAGIC_GREEN_STALKER);
+		//g_char_slot_ingame.STATUS.push_back(SKILL_BLOOD_DRAIN);
+		//g_char_slot_ingame.STATUS.push_back(6);
+		//g_char_slot_ingame.STATUS.push_back(7);
+		//g_char_slot_ingame.STATUS.push_back(8);
+		//g_char_slot_ingame.STATUS.push_back(9);
+		g_char_slot_ingame.bl_female = true;//false;
+		g_char_slot_ingame.man_info.helmet = M_HELMET1;
+		g_char_slot_ingame.man_info.coat = M_COAT1;
+		g_char_slot_ingame.man_info.trouser = M_TROUSER1;
+		g_char_slot_ingame.man_info.hair = M_HAIR1;
+		g_char_slot_ingame.man_info.face = M_FACE1;
+		g_char_slot_ingame.man_info.left = M_SHIELD1;//M_TR;//M_SWORD;
+		g_char_slot_ingame.man_info.right = M_CROSS;//W_SWORD;//W_DRAGON_SHIELD;
+		g_char_slot_ingame.skin_color = 0;
+		g_char_slot_ingame.hair_color = 0;
+		g_char_slot_ingame.left_color = 405;
+		g_char_slot_ingame.right_color = 405;
+		g_char_slot_ingame.helmet_color = 0xFFFF;
+		g_char_slot_ingame.trouser_color = 0XFFFF;
+		g_char_slot_ingame.coat_color = 255;
+		g_char_slot_ingame.bonus_point = 5;
+		g_char_slot_ingame.skill_point = 50;
+
+		//2005.08
+		g_char_slot_ingame.AttackBloodBurstPoint = 150;
+		g_char_slot_ingame.DefenseBloodBurstPoint = 250;
+		g_char_slot_ingame.PartyBloodBurstPoint = 350;
+
+
+		//	gC_vs_ui.StartTitle();
+		//	gC_vs_ui.StartCharacterManager();
+		STEP("gC_vs_ui.StartGame()");
+		gC_vs_ui.StartGame();
+		//	gC_vs_ui.ChangeToOustersInterface();
+		gC_vs_ui.ChangeToSlayerInterface();
+
+		std::vector<C_VS_UI_NicknameInfo*>	TempNickNameList;
+		C_VS_UI_NicknameInfo nik;
+		nik.setNickname("�ٺ�0");
+		nik.setNicknameID(0);
+		nik.setNicknameIndex(0);
+		nik.setNicknameType(0);
+		TempNickNameList.push_back(&nik);
+		//gC_vs_ui.AddNickNameList((void*)&nik);
+		C_VS_UI_NicknameInfo nik1;
+		nik1.setNickname("�ٺ�1");
+		nik1.setNicknameID(1);
+		nik1.setNicknameIndex(1);
+		nik1.setNicknameType(1);
+		//gC_vs_ui.AddNickNameList((void*)&nik);
+		TempNickNameList.push_back(&nik1);
+		C_VS_UI_NicknameInfo nik2;
+		nik2.setNickname("�ٺ�2");
+		nik2.setNicknameID(2);
+		nik2.setNicknameIndex(2);
+		nik2.setNicknameType(2);
+		//gC_vs_ui.AddNickNameList((void*)&nik);
+		TempNickNameList.push_back(&nik2);
+		C_VS_UI_NicknameInfo nik3;
+		nik3.setNickname("�ٺ�3");
+		nik3.setNicknameID(3);
+		nik3.setNicknameIndex(3);
+		nik3.setNicknameType(3);
+		//gC_vs_ui.AddNickNameList((void*)&nik);
+		TempNickNameList.push_back(&nik3);
+		C_VS_UI_NicknameInfo nik4;
+		nik4.setNickname("�ٺ�4");
+		nik4.setNicknameID(4);
+		nik4.setNicknameIndex(4);
+		nik4.setNicknameType(4);
+		//gC_vs_ui.AddNickNameList((void*)&nik);
+		TempNickNameList.push_back(&nik4);
+		C_VS_UI_NicknameInfo nik5;
+		nik5.setNickname("�ٺ�5");
+		nik5.setNicknameID(5);
+		nik5.setNicknameIndex(5);
+		nik5.setNicknameType(5);
+		TempNickNameList.push_back(&nik5);
+		gC_vs_ui.SetNickNameList((void*)&TempNickNameList);
+
+		g_char_slot_ingame.m_Powerjjang_Point = 0;
+		//gC_vs_ui.AddNickNameList((void*)&nik);
+		//	gC_vs_ui.RunQuickItemSlot();
+
+		SIZE size = { 256, 256 };
+		gC_vs_ui.SetSize(size);
+		gC_vs_ui.SetZone(61);
+		RECT rect = { 100, 100, 200, 200 };
+		gC_vs_ui.SetSafetyZone(rect, 0);
+		SetRect(&rect, 50, 50, 50, 50);
+		gC_vs_ui.SetPortal(rect, 1001);
+		SetRect(&rect, 50, 52, 60, 52);
+		gC_vs_ui.SetPortal(rect, 2024);
+		gC_vs_ui.SetNPC(50, 100, 21, "����߳���");
+
+		gC_vs_ui.SetNPC(100, 100, 670, "���չ�");
+
+
+
+
+		//	gC_vs_ui.SetZoneName("������Ͼ� NW");
+		//	gC_vs_ui.SetTime("23:00:05");
+
+		//	gC_vs_ui.ServerDisconnectMessage();
+
+		SetCursorPos(0, 0);
+
+		//	gC_vs_ui.SetHP( 80, 100, TRUE );
+
+		//	SIZE size = {256, 256};
+		//	gC_vs_ui.SetZone(11);
+		//	gC_vs_ui.SetSize(size);
+
+
+		/*
+		// color test
+		int color = Convert24RGBto16(180, 240, 0);
+		color = Convert24RGBto16(180, 240, 10);
+		color = Convert24RGBto16(180, 240, 50);
+		color = Convert24RGBto16(159, 151, 146);
+		color = Convert24RGBto16(192, 192, 192);
+		color = Convert24RGBto16(100, 100, 100);
+		*/
+
+
+		STEP("LoadWorldMapInfo()");
+		// ��ü�� ���� �ε�
+		LoadWorldMapInfo();
+
+		STEP("Entering main message loop");
+		if (g_stepLog) { fputs("=== Reached main message loop ===\n", g_stepLog); fflush(g_stepLog); }
+		while (1)
+		{
+			if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE))
+			{
+				if (GetMessage(&msg, NULL, 0, 0))
+				{
+					TranslateMessage(&msg);
+					DispatchMessage(&msg);
+				}
+				else
+					// for delete
+					break;
+				//return msg.wParam;
+			}
+			else
+			{
+				if (gbl_active)
+				{
+					ProgramLoop();
+					g_CurrentFrame++;
+				}
+				else
+					WaitMessage();
+			}
+		}
+
+		delete g_pGameStringTable;
+
+		SaveResolutionConfig();
+
+		ReleaseAllObject();
+		gC_vs_ui.Release();
+
+		// �ػ� ���� ����
+
+	//	if(NULL != g_pWebBrowser)
+	//		g_pWebBrowser->Release();
+	//	CoUninitialize();
+	//	DumpUnfreed();
+
+	}
+	catch (Throwable& t) {
+		char __msg[4096];
+		_snprintf_s(__msg, sizeof(__msg), _TRUNCATE,
+			"Step: %s\n\n%s",
+			step ? step : "(null)",
+			t.toString().c_str());
+		if (g_stepLog) {
+			fputs("\n*** Throwable caught ***\n", g_stepLog);
+			fputs(__msg, g_stepLog);
+			fputc('\n', g_stepLog);
+			fclose(g_stepLog);
+			g_stepLog = NULL;
+		}
+		MessageBox(NULL, __msg,
+			"Fatal Throwable in WinMain", MB_OK | MB_ICONERROR);
+		return -1;
+	}
+	catch (std::exception& e) {
+		char __msg[4096];
+		_snprintf_s(__msg, sizeof(__msg), _TRUNCATE,
+			"Step: %s\n\nstd::exception: %s",
+			step ? step : "(null)",
+			e.what() ? e.what() : "(no message)");
+		if (g_stepLog) {
+			fputs("\n*** std::exception caught ***\n", g_stepLog);
+			fputs(__msg, g_stepLog);
+			fputc('\n', g_stepLog);
+			fclose(g_stepLog);
+			g_stepLog = NULL;
+		}
+		MessageBox(NULL, __msg,
+			"Fatal std::exception in WinMain", MB_OK | MB_ICONERROR);
+		return -1;
+	}
+	catch (...) {
+		char __msg[4096];
+		_snprintf_s(__msg, sizeof(__msg), _TRUNCATE,
+			"Step: %s\n\nUnknown exception (not Throwable or std::exception)",
+			step ? step : "(null)");
+		if (g_stepLog) {
+			fputs("\n*** Unknown exception caught ***\n", g_stepLog);
+			fputs(__msg, g_stepLog);
+			fputc('\n', g_stepLog);
+			fclose(g_stepLog);
+			g_stepLog = NULL;
+		}
+		MessageBox(NULL, __msg,
+			"Fatal unknown exception in WinMain", MB_OK | MB_ICONERROR);
+		return -1;
+	}
+
+	if (g_stepLog) {
+		fputs("=== WinMain exited normally ===\n", g_stepLog);
+		fclose(g_stepLog);
+		g_stepLog = NULL;
+	}
+	#undef STEP
 	return 0;
 }

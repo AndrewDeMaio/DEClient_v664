@@ -2585,7 +2585,8 @@ MPlayer::SelfSpecialAction()
 							#endif //__SECOND_TRANSFORTER
 							*/
 #if __CONTENTS(__FAST_TRANSFORTER || __SECOND_TRANSFORTER)
-							pItem = ((MItemManager*)g_pInventory)->FindItemOrderByIndex(MVampireWingItemFinder());
+							MVampireWingItemFinder finder_summon_gem;
+							pItem = ((MItemManager*)g_pInventory)->FindItemOrderByIndex(finder_summon_gem);
 #endif
 							if (pItem == NULL)
 							{
@@ -2687,7 +2688,7 @@ MPlayer::SelfSpecialAction()
 					#endif //__SECOND_TRANSFORTER
 												pItem = ((MItemManager*)g_pInventory)->FindItemAll( MOustersSummonGemItemFinder(), pSubInventory );*/
 					
-					MItem* pItem = nullptr;
+					//MItem* pItem = nullptr;
 #if __CONTENTS(__FAST_TRANSFORTER || __SECOND_TRANSFORTER)
 
 /* 1. When moving an item, we need to update the positions of other items accordingly.
@@ -2702,11 +2703,12 @@ MPlayer::SelfSpecialAction()
     FindItemAllOrderByIndex to correctly update their positions. */
 //							pItem = ((MItemManager*)g_pInventory)->FindItemAll( MOustersWingItemFinder(), pSubInventory );
 //							pItem = ((MItemManager*)g_pInventory)->FindItemAllOrderByIndex( MOustersWingItemFinder(), pSubInventory);
-					MItem* pItem = ((MItemManager*)g_pInventory)->FindItemOrderByIndex(MOustersWingItemFinder());
+
+					MOustersSummonGemItemFinder finder_summon_gem;
+					MItem* pItem = ((MItemManager*)g_pInventory)->FindItemOrderByIndex(finder_summon_gem);
 					if (pItem == NULL)
 #endif
-						MOustersSummonGemItemFinder finder_summon_gem;
-						pItem = ((MItemManager*)g_pInventory)->FindItemAll(finder_summon_gem, pSubInventory);
+					//pItem = ((MItemManager*)g_pInventory)->FindItemAll(finder_summon_gem, pSubInventory);
 
 					if (pItem != NULL)
 					{
@@ -13258,7 +13260,7 @@ MPlayer::CalculateStatus()
 	//-----------------------------------------------------------------
 	// item �����Ѱſ� ����...
 	//-----------------------------------------------------------------
-	MItemManager* pGear;
+	MItemManager* pGear = nullptr;
 
 	int weaponSpeed = 0;
 	int weaponTohit = 0;

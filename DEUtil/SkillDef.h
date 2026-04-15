@@ -5,6 +5,7 @@
 #ifndef	__SKILLDEF_H__
 #define	__SKILLDEF_H__
 
+#include "DllInfo.h"
 #include "ContentsFilter.h"
 
 // defines
@@ -33,7 +34,7 @@ enum SKILLDOMAIN {
 };
 
 // Name String
-extern int SKILLDOMAIN_NAME[MAX_SKILLDOMAIN];
+extern __EX int SKILLDOMAIN_NAME[MAX_SKILLDOMAIN];
 
 //----------------------------------------------------------------------
 // Skill Step

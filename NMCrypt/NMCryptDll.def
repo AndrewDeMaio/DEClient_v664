@@ -1,0 +1,7 @@
+; NMCryptDll.def : Declares the module parameters for the DLL.
+
+LIBRARY      "NMCryptDll"
+DESCRIPTION  'NMCryptDll Windows Dynamic Link Library'
+
+EXPORTS
+    ; Explicit exports can go here

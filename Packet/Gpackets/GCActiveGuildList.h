@@ -60,7 +60,7 @@ public :
 
 public:
 
-	BYTE getListNum() const { return m_GuildInfoList.size(); }
+	size_t getListNum() const { return m_GuildInfoList.size(); }
 
 	// add GuildInfo
 	void addGuildInfo( GuildInfo* pGuildInfo ) { m_GuildInfoList.push_front( pGuildInfo ); }

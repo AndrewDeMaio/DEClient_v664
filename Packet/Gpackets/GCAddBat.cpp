@@ -83,7 +83,7 @@ void GCAddBat::write ( SocketOutputStream & oStream ) const
 #endif //__LOCALIZING_LONGNAME
 	oStream.write( m_ObjectID );
 
-	BYTE szName = m_Name.size();
+	size_t szName = m_Name.size();
 
 	if ( szName == 0 )
 		throw InvalidProtocolException("szName == 0");

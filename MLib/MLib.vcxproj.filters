@@ -33,9 +33,33 @@
     <ClCompile Include="MStringMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MGameStringTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MFunctionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MStringList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MStringMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MStringArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MathTable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MLib_PCH.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MGameStringTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

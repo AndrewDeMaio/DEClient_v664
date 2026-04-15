@@ -146,7 +146,7 @@ void GCPartyJoined::write (SocketOutputStream & oStream) const
 		PARTY_MEMBER_INFO* pInfo = (*itr);
 		Assert(pInfo != NULL);
 
-		BYTE name_length = (pInfo->name).size();
+		size_t name_length = (pInfo->name).size();
 		oStream.write(name_length);
 
 		if (name_length > 0)

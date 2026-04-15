@@ -13,9 +13,9 @@
 #include "Packet.h"
 #include "PacketFactory.h"
 #include "PCInfo.h"
-#include "packet/PCSlayerInfo.h"
-#include "packet/PCVampireInfo.h"
-#include "packet/PCOustersInfo.h"
+#include "PCSlayerInfo.h"
+#include "PCVampireInfo.h"
+#include "PCOustersInfo.h"
 
 //////////////////////////////////////////////////////////////////////
 //

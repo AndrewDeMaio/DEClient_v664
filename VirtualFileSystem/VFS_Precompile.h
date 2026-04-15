@@ -20,5 +20,7 @@
 #include <map>
 #include <functional>
 
-#include "WarningKiller.h"
 #include "TSingleton.h"
+
+#pragma warning(disable:4786)	// Warning Killers
+#pragma warning(disable:4290)

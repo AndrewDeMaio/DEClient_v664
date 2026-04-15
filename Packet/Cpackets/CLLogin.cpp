@@ -62,7 +62,7 @@ void CLLogin::write ( SocketOutputStream & oStream ) const
 	if( g_pUserInformation == NULL || !g_pUserInformation->IsNetmarbleLogin || !g_pUserInformation->IsNetmarble )
 #endif
 	{
-		BYTE szID = m_ID.size();
+		size_t szID = m_ID.size();
 
 		if ( szID == 0 )
 			throw InvalidProtocolException("empty ID");
@@ -74,7 +74,7 @@ void CLLogin::write ( SocketOutputStream & oStream ) const
 
 		oStream.write( m_ID );
 
-		BYTE szPassword = m_Password.size();
+		size_t szPassword = m_Password.size();
 
 		if ( szPassword == 0 )
 			throw InvalidProtocolException("szPassword == 0");

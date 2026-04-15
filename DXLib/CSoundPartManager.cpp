@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // CSoundPartManager.cpp
 //-----------------------------------------------------------------------------
-#include "Client_PCH.h"
+#include "DirectXLib_PCH.h"
 #include "CSoundPartManager.h"
 
 //-----------------------------------------------------------------------------
@@ -13,11 +13,11 @@ CSoundPartManager::Release()
 	//---------------------------------------------------
 	// 내부에 있는 LPDIRECTSOUNDBUFFER를 다 지워준다.
 	//---------------------------------------------------
-	if (m_pData!=NULL)
+	if (m_pData != NULL)
 	{
-		for (int i=0; i<m_nPart; i++)
-		{		
-			if (m_pData[i]!=NULL)
+		for (int i = 0; i < m_nPart; i++)
+		{
+			if (m_pData[i] != NULL)
 			{
 				m_pData[i]->Stop();
 				m_pData[i]->Release();
@@ -25,7 +25,7 @@ CSoundPartManager::Release()
 			}
 		}
 	}
-	
+
 	//---------------------------------------------------
 	// base class release
 	//---------------------------------------------------
@@ -41,13 +41,13 @@ CSoundPartManager::Stop()
 	//---------------------------------------------------
 	// 내부에 있는 LPDIRECTSOUNDBUFFER를 다 stop한다.
 	//---------------------------------------------------
-	if (m_pData!=NULL)
+	if (m_pData != NULL)
 	{
-		for (int i=0; i<m_nPart; i++)
-		{		
-			if (m_pData[i]!=NULL)
+		for (int i = 0; i < m_nPart; i++)
+		{
+			if (m_pData[i] != NULL)
 			{
-				m_pData[i]->Stop();				
+				m_pData[i]->Stop();
 			}
 		}
 	}

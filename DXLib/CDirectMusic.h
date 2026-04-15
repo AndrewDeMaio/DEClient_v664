@@ -5,8 +5,8 @@
 #ifndef __CDIRECTMUSIC_H__
 #define __CDIRECTMUSIC_H__
 
-#include <DMusicI.h>
-#include <DMusicF.h>
+#include "DMusicI.h"
+#include "DMusicF.h"
 
 enum DIRECTMUSIC_TYPE	
 {

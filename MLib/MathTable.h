@@ -59,9 +59,9 @@ namespace MathTable {
 	//--------------------------------------------------------------
 	// tables
 	//--------------------------------------------------------------
-	extern int FSinTab[MAX_ANGLE];
-	extern int FCosTab[MAX_ANGLE];
-	extern int FArcTanTab[MAX_ANGLE+1];	// 실제로 angle 개수와는 무관하다.
+	extern unsigned int FSinTab[MAX_ANGLE];
+	extern unsigned int FCosTab[MAX_ANGLE];
+	extern unsigned int FArcTanTab[MAX_ANGLE+1];	// 실제로 angle 개수와는 무관하다.
 
 
 	//--------------------------------------------------------------

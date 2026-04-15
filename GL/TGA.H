@@ -17,6 +17,7 @@
 //----------------------------------------------------------------------------
 // Tga head
 //----------------------------------------------------------------------------
+#pragma pack(push, 1)
 struct S_TGAHEAD
 {
 	BYTE idsize;
@@ -45,12 +46,14 @@ struct S_TGAHEAD
 	BYTE bpp;   // bit per pixel
 	BYTE descriptor;
 };
+#pragma pack(pop)
 
 //-----------------------------------------------------------------------------
 // TGA class
 //
 // ÇÏ³ªÀÇ TGA object.
 //-----------------------------------------------------------------------------
+/*
 class DllClass Tga
 {
 private:
@@ -98,5 +101,6 @@ public:
 	//
 	bool	GetSurfaceInfo(S_SURFACEINFO &surfaceinfo) const;
 };
+*/
 
 #endif

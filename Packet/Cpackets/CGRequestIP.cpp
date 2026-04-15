@@ -63,7 +63,7 @@ void CGRequestIP::write ( SocketOutputStream & oStream )
 	__BEGIN_TRY
 	
 	// ����ȭ �۾��� ���� ũ�⸦ �����ϵ��� �Ѵ�.
-	BYTE num = m_Name.size();
+	size_t num = m_Name.size();
 	oStream.write( num );
 
 	if (num > 0)

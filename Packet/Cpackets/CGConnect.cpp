@@ -69,7 +69,7 @@ void CGConnect::write ( SocketOutputStream & oStream ) const
 	//--------------------------------------------------
 	// write PC name
 	//--------------------------------------------------
-	BYTE szPCName = m_PCName.size();
+	size_t szPCName = m_PCName.size();
 
 	if ( szPCName == 0 )
 		throw InvalidProtocolException("szPCName == 0");

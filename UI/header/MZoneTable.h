@@ -1,14 +1,14 @@
 //----------------------------------------------------------------------
 // MZoneTable.h
 //----------------------------------------------------------------------
-// Zone Loading½Ã¿¡ Zone¸¶´Ù ÇÊ¿äÇÑ Á¤º¸¸¦ ÀúÀåÇÏ´Â class
+// Zone Loadingï¿½Ã¿ï¿½ Zoneï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ class
 //----------------------------------------------------------------------
 //
-// [ Zoneº°·Î Loadind¿¡ ÇÊ¿äÇÑ Á¤º¸ ] 
+// [ Zoneï¿½ï¿½ï¿½ï¿½ Loadindï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ] 
 //
 // - ZoneID
-// - ZoneÅ©±âType (Large or Small)
-// - fileÀÌ¸§
+// - ZoneÅ©ï¿½ï¿½Type (Large or Small)
+// - fileï¿½Ì¸ï¿½
 // 
 //----------------------------------------------------------------------
 
@@ -16,6 +16,7 @@
 #define	__MZONETABLE_H__
 
 #include <Windows.h>
+#include <atltypes.h>
 #include "MTypeDef.h"
 #include "MString.h"
 #include <map>
@@ -25,15 +26,15 @@
 #define	FLAG_ZONESIZE_SMALL		0x01
 
 
-// 2004, 5, 14 sobeit add start - pk zone °ü·Ã
-#define PK_TYPE_NULL			0			// ±×³É default map
-#define PK_TYPE_DISABLE			0x01		// ´Ù ¿ì¸®Æí..-_-; pk ±ÝÁö
-#define PK_TYPE_ALL				0x02		// ³ª »©°í ´Ù Àû
-#define PK_TYPE_GUILD			0x03		// ¿ì¸® ±æµå »©°í ´Ù Àû..
-#define PK_TYPE_SIEGE			0x04		// Siege ¸Ê // effect status¿¡µû¶ó Àû
-#define PK_TYPE_USER_PK			0x10		// À¯Àú°£ PK °¡´É Áö¿ª 
+// 2004, 5, 14 sobeit add start - pk zone ï¿½ï¿½ï¿½ï¿½
+#define PK_TYPE_NULL			0			// ï¿½×³ï¿½ default map
+#define PK_TYPE_DISABLE			0x01		// ï¿½ï¿½ ï¿½ì¸®ï¿½ï¿½..-_-; pk ï¿½ï¿½ï¿½ï¿½
+#define PK_TYPE_ALL				0x02		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½
+#define PK_TYPE_GUILD			0x03		// ï¿½ì¸® ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½..
+#define PK_TYPE_SIEGE			0x04		// Siege ï¿½ï¿½ // effect statusï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+#define PK_TYPE_USER_PK			0x10		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ PK ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 
-// 2007.01.17 by chyaya - ¿ùµå ¸Ê °ü·Ã Á¤º¸	
+// 2007.01.17 by chyaya - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½	
 class WORLDMAP_INFO
 {
 public:
@@ -50,28 +51,28 @@ public:
 	void				LoadFromFile(ivfstream& file);
 
 public:
-	WORLDMAP_TYPE		WorldMapType;				// ¿ùµå ¸Ê Á¾·ù (WORLDMAP_MAX·Î ¼¼ÆÃµÇ¾î ÀÖÀ¸¸é ¾Æ·¡ Á¤º¸±îÁö ÀúÀå¾ÈµÊ)
-	PAYMENT_TYPE		PaymentType;				// °áÁ¦ Á¾·ù
+	WORLDMAP_TYPE		WorldMapType;				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (WORLDMAP_MAXï¿½ï¿½ ï¿½ï¿½ï¿½ÃµÇ¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Èµï¿½)
+	PAYMENT_TYPE		PaymentType;				// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	CRect				WorldMapPosition;			// ¿ùµå ¸Ê¿¡¼­ÀÇ À§Ä¡
+	CRect				WorldMapPosition;			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 
-	BYTE				EncourageSlayerLevelMin;	// ±ÇÀå ·¹º§ ½½·¹ÀÌ¾î
+	BYTE				EncourageSlayerLevelMin;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½
 	BYTE				EncourageSlayerLevelMax;
 
-	BYTE				EncourageVampireLevelMin;	// ±ÇÀå ·¹º§ ¹ìÆÄÀÌ¾î
+	BYTE				EncourageVampireLevelMin;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½
 	BYTE				EncourageVampireLevelMax;
 
-	BYTE				EncourageOustersLevelMin;	// ±ÇÀå ·¹º§ ¾Æ¿ì½ºÅÍÁî
+	BYTE				EncourageOustersLevelMin;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Æ¿ì½ºï¿½ï¿½ï¿½ï¿½
 	BYTE				EncourageOustersLevelMax;
 
-	MString				MiscDescription;			// ±âÅ¸ Á¤º¸
+	MString				MiscDescription;			// ï¿½ï¿½Å¸ ï¿½ï¿½ï¿½ï¿½
 };
 
 
-// 2004, 5, 14 sobeit add end - pk zone °ü·Ã
+// 2004, 5, 14 sobeit add end - pk zone ï¿½ï¿½ï¿½ï¿½
 //----------------------------------------------------------------------
 //
-// ÇÑ Á¾·ùÀÇ Zone¿¡ ´ëÇÑ Á¤º¸
+// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //
 //----------------------------------------------------------------------
 class ZONETABLE_INFO {
@@ -82,33 +83,33 @@ class ZONETABLE_INFO {
 	
 	public :
 		TYPE_ZONEID				ID;						// Zone ID
-		MString					Name;					// Zone ÀÌ¸§
-		BYTE					Property;				// ZoneÀÇ ¼Ó¼º
-		MString					Filename;				// Zone FileÀÌ¸§
-		MString					InfoFilename;			// ZoneInfo FileÀÌ¸§
-		MString					TeenFilename;			// Minimap FileÀÌ¸§
-//		TYPE_MUSICID			MusicIDSlayer;			// MusicÁ¾·ù		
-//		TYPE_MUSICID			MusicIDVampire;			// MusicÁ¾·ù		
-		TYPE_MUSICID			MusicID;				// MusicÁ¾·ù
-		SOUNDID_LIST			SoundIDList;			// randomÇÏ°Ô ³ª´Â ¼Ò¸®µé..
-		WORD					CreatureColorSet;		// Zone ÀüÃ¼ÀÇ ¸÷ »ö±ò ¹Ù²Ù±â
+		MString					Name;					// Zone ï¿½Ì¸ï¿½
+		BYTE					Property;				// Zoneï¿½ï¿½ ï¿½Ó¼ï¿½
+		MString					Filename;				// Zone Fileï¿½Ì¸ï¿½
+		MString					InfoFilename;			// ZoneInfo Fileï¿½Ì¸ï¿½
+		MString					TeenFilename;			// Minimap Fileï¿½Ì¸ï¿½
+//		TYPE_MUSICID			MusicIDSlayer;			// Musicï¿½ï¿½ï¿½ï¿½		
+//		TYPE_MUSICID			MusicIDVampire;			// Musicï¿½ï¿½ï¿½ï¿½		
+		TYPE_MUSICID			MusicID;				// Musicï¿½ï¿½ï¿½ï¿½
+		SOUNDID_LIST			SoundIDList;			// randomï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸ï¿½ï¿½ï¿½..
+		WORD					CreatureColorSet;		// Zone ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ù²Ù±ï¿½
 		bool					Safety;
-		unsigned short			MinimapSpriteID;		// ¹Ì´Ï¸ÊÀÇ ½ºÇÁ¶óÀÌÆ® ¾ÆÀÌµð
-		bool					HolyLand;				// ¾Æ´ãÀÇ ¼ºÁöÀÎ°¡
-		bool					ChatMaskByRace;			// Á¾Á·¿¡ µû¶ó Ã¤ÆÃ³»¿ë¿¡ ¸¶½ºÅ©¸¦ ¾º¿ì´Â°¡
-		bool					CannotAttackInSafe;		// ¾ÈÀüÁö´ë¿¡¼­ °ø°ÝÇÒ ¼ö ¾ø´Â°¡
-		bool					CannotUseSpecialItem;	// º¯½ÅÀÌ³ª ¼ÒÈ¯ ±ÝÁö ¿©ºÎ
+		unsigned short			MinimapSpriteID;		// ï¿½Ì´Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ìµï¿½
+		bool					HolyLand;				// ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½
+		bool					ChatMaskByRace;			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¤ï¿½Ã³ï¿½ï¿½ë¿¡ ï¿½ï¿½ï¿½ï¿½Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Â°ï¿½
+		bool					CannotAttackInSafe;		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¿¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Â°ï¿½
+		bool					CannotUseSpecialItem;	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì³ï¿½ ï¿½ï¿½È¯ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		bool					CompetenceZone;
-		BYTE					PKType;					// ÀÚÀ¯ PK Áö¿ªÀÎ°¡?
-		WORLDMAP_INFO			WorldMapInfo;			// ¿ùµå ¸Ê °ü·Ã Á¤º¸
+		BYTE					PKType;					// ï¿½ï¿½ï¿½ï¿½ PK ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½?
+		WORLDMAP_INFO			WorldMapInfo;			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-		MAPSHAPE_VEC			MapShapeList;			// ¸ÊÀÇ ´Ù¾çÇÑ ¸ð¾ç
+		MAPSHAPE_VEC			MapShapeList;			// ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 
 	public :
 		ZONETABLE_INFO();
 
 		TYPE_SOUNDID			GetRandomSoundID() const;
-		bool					IsShownInWorldMap() const	// ¿ùµå¸Ê¿¡¼­ º¸ÀÌ´Â ¸ÊÀÎ°¡?
+		bool					IsShownInWorldMap() const	// ï¿½ï¿½ï¿½ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½Î°ï¿½?
 								{ return WorldMapInfo.WorldMapType != WORLDMAP_INFO::WORLDMAP_MAX; }
 
 		//-------------------------------------------------------
@@ -120,7 +121,7 @@ class ZONETABLE_INFO {
 
 //----------------------------------------------------------------------
 //
-// ÀüÃ¼ Zone¿¡ ´ëÇÑ Á¤º¸
+// ï¿½ï¿½Ã¼ Zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //
 //----------------------------------------------------------------------
 class CZoneTable {
@@ -137,7 +138,7 @@ class CZoneTable {
 		void				Release();
 
 		//-------------------------------------------------------
-		// zoneID°¡ idÀÎ zoneÀÇ Á¤º¸¸¦ ¾ò´Â´Ù.
+		// zoneIDï¿½ï¿½ idï¿½ï¿½ zoneï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Â´ï¿½.
 		//-------------------------------------------------------
 		bool				Add(ZONETABLE_INFO* pZoneInfo);
 		ZONETABLE_INFO*		Get(TYPE_ZONEID id);
@@ -151,7 +152,7 @@ class CZoneTable {
 		void				LoadFromFile(ivfstream& file);
 	
 	protected :
-		ZONEINFO_MAP		m_mapZoneInfo;		// zoneÁ¤º¸ map
+		ZONEINFO_MAP		m_mapZoneInfo;		// zoneï¿½ï¿½ï¿½ï¿½ map
 };
 
 extern CZoneTable*		g_pZoneTable;

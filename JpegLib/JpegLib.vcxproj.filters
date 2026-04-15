@@ -269,5 +269,8 @@
     <ClCompile Include="jcapimin.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="jprecision_stubs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -37,7 +37,7 @@ void CGModifyNickname::write (SocketOutputStream & oStream) const
 
 	oStream.write( m_NicknameID );
 
-	BYTE szSTR;
+	size_t szSTR;
 	szSTR = m_Nickname.size();
 	oStream.write( szSTR );
 	oStream.write( m_Nickname );
