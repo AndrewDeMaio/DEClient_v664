@@ -90,7 +90,7 @@
 #endif
 
 extern BOOL g_bSetHotKey;
-extern CSoundPartManager*	g_pSoundManager;
+//extern CSoundPartManager*	g_pSoundManager;
 
 
 // ����� �����緯 �Ҹ�.. - -;
@@ -203,8 +203,7 @@ int					g_MaxNPC		= MAX_NPC;
 bool				g_bHAL			= true;
 bool				g_bMusicSW		= true;
 extern int			g_MorphCreatureType;
-LONG				g_lGameRunBreakTime	= 0;			//���� ������ ���� �� ��(��ũ�� �� �Ǵ� Pause Break)
-														//2009.01.05 shootkj
+extern LONG			g_lGameRunBreakTime;				//defined in Client.cpp
 
 //--------------------------------------------
 // ������ Client Mode�� ���� ����..
@@ -214,33 +213,27 @@ enum CLIENT_MODE	g_ModeNext = MODE_NULL;
 
 CWinUpdate*				g_pUpdate = NULL;
 
-// App state
-BOOL				g_bActiveApp		= FALSE;
-BOOL				g_bActiveGame		= FALSE;
-BOOL				g_bNeedUpdate		= FALSE;
+// App state — defined in Client.cpp
+extern BOOL			g_bActiveApp;
+extern BOOL			g_bActiveGame;
+extern BOOL			g_bNeedUpdate;
 
-// Mouse position
-int					g_x					= 400;
-int					g_y					= 300;
+// Mouse position — defined in Client.cpp
+extern int			g_x;
+extern int			g_y;
 
-// FPS & Timing
-DWORD				g_CurrentTime		= 0;
-int					g_FrameCount		= 0;
-int					g_StartFrameCount	= 0;
-DWORD				g_StartTime			= 0;
-DWORD				g_EndTime			= 0;
-int					g_FrameRate			= 0;
-bool				g_bGoodFPS			= true;
-DWORD				g_gameStartTime		= 0;
+// FPS & Timing — defined in Client.cpp
+extern DWORD		g_CurrentTime;
+extern int			g_FrameCount;
+extern int			g_StartFrameCount;
+extern DWORD		g_StartTime;
+extern DWORD		g_EndTime;
+extern int			g_FrameRate;
+extern bool			g_bGoodFPS;
+extern DWORD		g_gameStartTime;
 
-// Application run time (returns ms since game start, or resets the clock)
-DWORD gGetApplcationRunTime(bool bReset)
-{
-	DWORD dwCurrentTime = timeGetTime();
-	if (bReset)
-		g_gameStartTime = dwCurrentTime;
-	return dwCurrentTime - g_gameStartTime;
-}
+// Application run time — defined in Client.cpp
+extern DWORD gGetApplcationRunTime(bool bReset);
 
 extern MCreature*		AddClientCreature();
 extern void Add_GDR_Effect(int nEffect, bool bAppearBossMonster);

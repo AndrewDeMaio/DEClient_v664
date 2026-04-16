@@ -7,8 +7,8 @@
 #include <string>
 #include "NPGameLib.h"
 
-// Global definition (declared extern in nProtect.h)
-std::map<DWORD, std::string> g_nProtectMessage;
+// g_nProtectMessage is declared extern in nProtect.h.
+// Definition is now in Client.cpp, so we don't duplicate it here.
 
 #ifdef __cplusplus
 extern "C" {

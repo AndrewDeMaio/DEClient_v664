@@ -15,13 +15,6 @@
     <Filter Include="widget">
       <UniqueIdentifier>{b620d0b8-e32a-4a7e-98aa-b5894fb388bc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="VS Source">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="VS Header">
-      <UniqueIdentifier>{0f395f23-e9d4-402c-9c8e-5e297ca550b6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="CImm">
       <UniqueIdentifier>{e54a196f-b8eb-4338-a9a3-a37a583d1d6c}</UniqueIdentifier>
     </Filter>
@@ -51,6 +44,12 @@
     </Filter>
     <Filter Include="Packets\CPacket">
       <UniqueIdentifier>{fa8e5e9c-4371-4b39-a09f-374eadf84008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VS Header">
+      <UniqueIdentifier>{a00b70c9-d716-456f-b02f-6c183d1893c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VS Source">
+      <UniqueIdentifier>{dcecc458-5a34-4791-a654-47414bfaccfb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -110,150 +109,6 @@
     </ClInclude>
     <ClInclude Include="header\OperatorOption.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Base.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_bbs.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Control.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_DESC.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Description.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_descriptor.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Dialog.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_ELEVATOR.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Exception.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Exchange.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_ExtraDialog.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_filepath.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Friend_System.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Game.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_GameCommon.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_GameCommon2.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_GameOusters.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_GameSlayer.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_GameVampire.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_GlobalResource.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_GPS.H">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Helper.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_INDOUN_NPC_DIALOG.H">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_item.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Message.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_mouse_pointer.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Newtitle.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Operator.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_PetMixingForge.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_PetStorage.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_PremiumGiveItem.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_progress.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Shop.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_skill_tree.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_SKILL_VIEW.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Storage.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_TaxRate.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_TIMECOUNT.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_title.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_Tutorial.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_ui_result_receiver.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_UIMessage.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_UserGrade.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_util.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_WebBrowser.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_widget.h">
-      <Filter>VS Header</Filter>
-    </ClInclude>
-    <ClInclude Include="VS_UI_WorldMap.h">
-      <Filter>VS Header</Filter>
     </ClInclude>
     <ClInclude Include="MZone.h">
       <Filter>M Header</Filter>
@@ -2613,6 +2468,165 @@
     <ClInclude Include="header\Client_PCH.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_WorldMap.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Base.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_bbs.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Control.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_DESC.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Description.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_descriptor.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Dialog.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_ELEVATOR.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Exception.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Exchange.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_ExtraDialog.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_filepath.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Friend_System.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Game.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_GameCommon.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_GameCommon2.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_GameOusters.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_GameSlayer.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_GameVampire.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_GlobalResource.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_GPS.H">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Helper.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_INDOUN_NPC_DIALOG.H">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_item.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Message.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_mouse_pointer.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Newtitle.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Operator.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_PetMixingForge.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_PetStorage.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_PremiumGiveItem.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_progress.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Shop.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_skill_tree.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_SKILL_VIEW.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Storage.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_TaxRate.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_TIMECOUNT.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_title.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_Tutorial.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_ui_result_receiver.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_UIMessage.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_UserGrade.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_util.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_WebBrowser.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="VSUI\VS_UI_widget.h">
+      <Filter>VS Header</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PackageUpdateUtility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Update.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateDef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="hangul\FL2.cpp">
@@ -2661,150 +2675,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SkinManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vs_ui.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Base.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_BBS.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Control.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_DESC.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Description.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Descriptor.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Dialog.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_ELEVATOR.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Exception.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Exchange.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_ExtraDialog.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Friend_System.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Game.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_GameCommon.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="vs_ui_gamecommon2.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_GameOusters.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_GameSlayer.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_GameVampire.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_GlobalResource.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_GPS.CPP">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Helper.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_INDOUN_NPC_DIALOG.CPP">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Item.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Message.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_mouse_pointer.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_NewTitle.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Operator.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_PetMixingForge.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_PetStorage.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_PremiumGiveItem.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_progress.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Shop.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_skill_tree.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_SKILL_VIEW.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Storage.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_TaxRate.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_TIMECOUNT.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Title.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_TITLE_SHOWCHAR.CPP">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_Tutorial.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_ui_result_receiver.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_UserGrade.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_util.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_WebBrowser.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_widget.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VS_UI_WorldMap.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="game\MHelicopterManager.cpp">
@@ -6185,13 +6055,169 @@
     <ClCompile Include="MAttachZoneAroundEffectGenerator.cpp">
       <Filter>M Source</Filter>
     </ClCompile>
-    <ClCompile Include="ClientGlobals.cpp">
+    <ClCompile Include="VSUI\VS_UI_Tutorial.cpp">
       <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_ui_result_receiver.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_UserGrade.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_util.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_WebBrowser.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_widget.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_WorldMap.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\Vs_ui.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Base.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_BBS.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Control.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_DESC.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Description.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Descriptor.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Dialog.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_ELEVATOR.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Exception.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Exchange.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_ExtraDialog.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Friend_System.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Game.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_GameCommon.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\vs_ui_gamecommon2.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_GameOusters.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_GameSlayer.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_GameVampire.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_GlobalResource.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_GPS.CPP">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Helper.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_INDOUN_NPC_DIALOG.CPP">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Item.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Message.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_mouse_pointer.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_NewTitle.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Operator.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_PetMixingForge.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_PetStorage.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_PremiumGiveItem.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_progress.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Shop.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_skill_tree.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_SKILL_VIEW.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Storage.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_TaxRate.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_TIMECOUNT.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_Title.cpp">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="VSUI\VS_UI_TITLE_SHOWCHAR.CPP">
+      <Filter>VS Source</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateUtility.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Update.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientGlobals.cpp" />
+    <ClCompile Include="WinMain.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="game\MTopViewDraw.inl">
       <Filter>M Header</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -40,6 +40,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -98,14 +99,16 @@
       <PreprocessorDefinitions>NDEBUG;__DESIGNED_INTERNATION;WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;__GAME_CLIENT__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)JpegLib;$(SolutionDir)NPGameLib;$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)GL;$(SolutionDir)DEUtil;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)PS;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)JpegLib;$(SolutionDir)NPGameLib;$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)GL;$(SolutionDir)DEUtil;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)PS;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MZLib;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir)VSUI;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Configuration);$(SolutionDir)ExternalLib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;Vorbis.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;JpegLib.lib;SXml.lib;GL.lib;Timer.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;d3d9.lib;NPGameLib.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;ws2_32.lib;wininet.lib;shlwapi.lib;netapi32.lib;DEUtil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;Vorbis.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;JpegLib.lib;SXml.lib;GL.lib;Timer.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;d3d9.lib;NPGameLib.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;ws2_32.lib;wininet.lib;shlwapi.lib;netapi32.lib;DEUtil.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -134,14 +137,14 @@
       <PreprocessorDefinitions>NDEBUG;__DESIGNED_INTERNATION;_CRT_SECURE_NO_WARNINGS;__GAME_CLIENT__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)JpegLib;$(SolutionDir)NPGameLib;$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)GL;$(SolutionDir)DEUtil;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)PS;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)JpegLib;$(SolutionDir)NPGameLib;$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)GL;$(SolutionDir)DEUtil;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)PS;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MZLib;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(ProjectDir)game;$(ProjectDir)widget;$(ProjectDir)header;$(ProjectDir)hangul;$(ProjectDir)imm;$(ProjectDir)VSUI;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration);$(SolutionDir)ExternalLib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;Vorbis.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;JpegLib.lib;SXml.lib;GL.lib;Timer.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;d3d9.lib;NPGameLib.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;ws2_32.lib;wininet.lib;shlwapi.lib;netapi32.lib;DEUtil.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;Vorbis.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;JpegLib.lib;SXml.lib;GL.lib;Timer.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;d3d9.lib;NPGameLib.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;ws2_32.lib;wininet.lib;shlwapi.lib;netapi32.lib;DEUtil.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -769,56 +772,61 @@
     <ClInclude Include="MZoneDef.h" />
     <ClInclude Include="MZoneInfo.h" />
     <ClInclude Include="OustersSkillInfo.h" />
+    <ClInclude Include="PackageUpdateUtility.h" />
     <ClInclude Include="SectorSoundInfo.h" />
     <ClInclude Include="SoundNode.h" />
-    <ClInclude Include="VS_UI.h" />
-    <ClInclude Include="VS_UI_Base.h" />
-    <ClInclude Include="VS_UI_bbs.h" />
-    <ClInclude Include="VS_UI_Control.h" />
-    <ClInclude Include="VS_UI_DESC.h" />
-    <ClInclude Include="VS_UI_Description.h" />
-    <ClInclude Include="VS_UI_descriptor.h" />
-    <ClInclude Include="VS_UI_Dialog.h" />
-    <ClInclude Include="VS_UI_ELEVATOR.h" />
-    <ClInclude Include="VS_UI_Exception.h" />
-    <ClInclude Include="VS_UI_Exchange.h" />
-    <ClInclude Include="VS_UI_ExtraDialog.h" />
-    <ClInclude Include="VS_UI_filepath.h" />
-    <ClInclude Include="VS_UI_Friend_System.h" />
-    <ClInclude Include="VS_UI_Game.h" />
-    <ClInclude Include="VS_UI_GameCommon.h" />
-    <ClInclude Include="VS_UI_GameCommon2.h" />
-    <ClInclude Include="VS_UI_GameOusters.h" />
-    <ClInclude Include="VS_UI_GameSlayer.h" />
-    <ClInclude Include="VS_UI_GameVampire.h" />
-    <ClInclude Include="VS_UI_GlobalResource.h" />
-    <ClInclude Include="VS_UI_GPS.H" />
-    <ClInclude Include="VS_UI_Helper.h" />
-    <ClInclude Include="VS_UI_INDOUN_NPC_DIALOG.H" />
-    <ClInclude Include="VS_UI_item.h" />
-    <ClInclude Include="VS_UI_Message.h" />
-    <ClInclude Include="VS_UI_mouse_pointer.h" />
-    <ClInclude Include="VS_UI_Newtitle.h" />
-    <ClInclude Include="VS_UI_Operator.h" />
-    <ClInclude Include="VS_UI_PetMixingForge.h" />
-    <ClInclude Include="VS_UI_PetStorage.h" />
-    <ClInclude Include="VS_UI_PremiumGiveItem.h" />
-    <ClInclude Include="VS_UI_progress.h" />
-    <ClInclude Include="VS_UI_Shop.h" />
-    <ClInclude Include="VS_UI_skill_tree.h" />
-    <ClInclude Include="VS_UI_SKILL_VIEW.h" />
-    <ClInclude Include="VS_UI_Storage.h" />
-    <ClInclude Include="VS_UI_TaxRate.h" />
-    <ClInclude Include="VS_UI_TIMECOUNT.h" />
-    <ClInclude Include="VS_UI_title.h" />
-    <ClInclude Include="VS_UI_Tutorial.h" />
-    <ClInclude Include="VS_UI_UIMessage.h" />
-    <ClInclude Include="VS_UI_ui_result_receiver.h" />
-    <ClInclude Include="VS_UI_UserGrade.h" />
-    <ClInclude Include="VS_UI_util.h" />
-    <ClInclude Include="VS_UI_WebBrowser.h" />
-    <ClInclude Include="VS_UI_widget.h" />
-    <ClInclude Include="VS_UI_WorldMap.h" />
+    <ClInclude Include="Update.h" />
+    <ClInclude Include="UpdateDef.h" />
+    <ClInclude Include="UpdateManager.h" />
+    <ClInclude Include="UpdateUtility.h" />
+    <ClInclude Include="VSUI\VS_UI.h" />
+    <ClInclude Include="VSUI\VS_UI_Base.h" />
+    <ClInclude Include="VSUI\VS_UI_bbs.h" />
+    <ClInclude Include="VSUI\VS_UI_Control.h" />
+    <ClInclude Include="VSUI\VS_UI_DESC.h" />
+    <ClInclude Include="VSUI\VS_UI_Description.h" />
+    <ClInclude Include="VSUI\VS_UI_descriptor.h" />
+    <ClInclude Include="VSUI\VS_UI_Dialog.h" />
+    <ClInclude Include="VSUI\VS_UI_ELEVATOR.h" />
+    <ClInclude Include="VSUI\VS_UI_Exception.h" />
+    <ClInclude Include="VSUI\VS_UI_Exchange.h" />
+    <ClInclude Include="VSUI\VS_UI_ExtraDialog.h" />
+    <ClInclude Include="VSUI\VS_UI_filepath.h" />
+    <ClInclude Include="VSUI\VS_UI_Friend_System.h" />
+    <ClInclude Include="VSUI\VS_UI_Game.h" />
+    <ClInclude Include="VSUI\VS_UI_GameCommon.h" />
+    <ClInclude Include="VSUI\VS_UI_GameCommon2.h" />
+    <ClInclude Include="VSUI\VS_UI_GameOusters.h" />
+    <ClInclude Include="VSUI\VS_UI_GameSlayer.h" />
+    <ClInclude Include="VSUI\VS_UI_GameVampire.h" />
+    <ClInclude Include="VSUI\VS_UI_GlobalResource.h" />
+    <ClInclude Include="VSUI\VS_UI_GPS.H" />
+    <ClInclude Include="VSUI\VS_UI_Helper.h" />
+    <ClInclude Include="VSUI\VS_UI_INDOUN_NPC_DIALOG.H" />
+    <ClInclude Include="VSUI\VS_UI_item.h" />
+    <ClInclude Include="VSUI\VS_UI_Message.h" />
+    <ClInclude Include="VSUI\VS_UI_mouse_pointer.h" />
+    <ClInclude Include="VSUI\VS_UI_Newtitle.h" />
+    <ClInclude Include="VSUI\VS_UI_Operator.h" />
+    <ClInclude Include="VSUI\VS_UI_PetMixingForge.h" />
+    <ClInclude Include="VSUI\VS_UI_PetStorage.h" />
+    <ClInclude Include="VSUI\VS_UI_PremiumGiveItem.h" />
+    <ClInclude Include="VSUI\VS_UI_progress.h" />
+    <ClInclude Include="VSUI\VS_UI_Shop.h" />
+    <ClInclude Include="VSUI\VS_UI_skill_tree.h" />
+    <ClInclude Include="VSUI\VS_UI_SKILL_VIEW.h" />
+    <ClInclude Include="VSUI\VS_UI_Storage.h" />
+    <ClInclude Include="VSUI\VS_UI_TaxRate.h" />
+    <ClInclude Include="VSUI\VS_UI_TIMECOUNT.h" />
+    <ClInclude Include="VSUI\VS_UI_title.h" />
+    <ClInclude Include="VSUI\VS_UI_Tutorial.h" />
+    <ClInclude Include="VSUI\VS_UI_UIMessage.h" />
+    <ClInclude Include="VSUI\VS_UI_ui_result_receiver.h" />
+    <ClInclude Include="VSUI\VS_UI_UserGrade.h" />
+    <ClInclude Include="VSUI\VS_UI_util.h" />
+    <ClInclude Include="VSUI\VS_UI_WebBrowser.h" />
+    <ClInclude Include="VSUI\VS_UI_widget.h" />
+    <ClInclude Include="VSUI\VS_UI_WorldMap.h" />
     <ClInclude Include="widget\mother.h" />
     <ClInclude Include="widget\PI.H" />
     <ClInclude Include="widget\pi_core.h" />
@@ -1930,7 +1938,10 @@
     <ClCompile Include="AcceleratorDef.cpp" />
     <ClCompile Include="AcceleratorManager.cpp" />
     <ClCompile Include="CAvi.cpp" />
+    <ClCompile Include="Client.cpp" />
+    <ClCompile Include="ClientGlobals.cpp" />
     <ClCompile Include="Client_PCH.cpp" />
+    <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="game\MHelicopterManager.cpp" />
     <ClCompile Include="hangul\Ci.cpp" />
     <ClCompile Include="hangul\FL2.cpp" />
@@ -1955,53 +1966,56 @@
     <ClCompile Include="SectorSoundInfo.cpp" />
     <ClCompile Include="SkinManager.cpp" />
     <ClCompile Include="SoundNode.cpp" />
-    <ClCompile Include="Vs_ui.cpp" />
-    <ClCompile Include="VS_UI_Base.cpp" />
-    <ClCompile Include="VS_UI_BBS.cpp" />
-    <ClCompile Include="VS_UI_Control.cpp" />
-    <ClCompile Include="VS_UI_DESC.cpp" />
-    <ClCompile Include="VS_UI_Description.cpp" />
-    <ClCompile Include="VS_UI_Descriptor.cpp" />
-    <ClCompile Include="VS_UI_Dialog.cpp" />
-    <ClCompile Include="VS_UI_ELEVATOR.cpp" />
-    <ClCompile Include="VS_UI_Exception.cpp" />
-    <ClCompile Include="VS_UI_Exchange.cpp" />
-    <ClCompile Include="VS_UI_ExtraDialog.cpp" />
-    <ClCompile Include="VS_UI_Friend_System.cpp" />
-    <ClCompile Include="VS_UI_Game.cpp" />
-    <ClCompile Include="VS_UI_GameCommon.cpp" />
-    <ClCompile Include="vs_ui_gamecommon2.cpp" />
-    <ClCompile Include="VS_UI_GameOusters.cpp" />
-    <ClCompile Include="VS_UI_GameSlayer.cpp" />
-    <ClCompile Include="VS_UI_GameVampire.cpp" />
-    <ClCompile Include="VS_UI_GlobalResource.cpp" />
-    <ClCompile Include="VS_UI_GPS.CPP" />
-    <ClCompile Include="VS_UI_Helper.cpp" />
-    <ClCompile Include="VS_UI_INDOUN_NPC_DIALOG.CPP" />
-    <ClCompile Include="VS_UI_Item.cpp" />
-    <ClCompile Include="VS_UI_Message.cpp" />
-    <ClCompile Include="VS_UI_mouse_pointer.cpp" />
-    <ClCompile Include="VS_UI_NewTitle.cpp" />
-    <ClCompile Include="VS_UI_Operator.cpp" />
-    <ClCompile Include="VS_UI_PetMixingForge.cpp" />
-    <ClCompile Include="VS_UI_PetStorage.cpp" />
-    <ClCompile Include="VS_UI_PremiumGiveItem.cpp" />
-    <ClCompile Include="VS_UI_progress.cpp" />
-    <ClCompile Include="VS_UI_Shop.cpp" />
-    <ClCompile Include="VS_UI_skill_tree.cpp" />
-    <ClCompile Include="VS_UI_SKILL_VIEW.cpp" />
-    <ClCompile Include="VS_UI_Storage.cpp" />
-    <ClCompile Include="VS_UI_TaxRate.cpp" />
-    <ClCompile Include="VS_UI_TIMECOUNT.cpp" />
-    <ClCompile Include="VS_UI_Title.cpp" />
-    <ClCompile Include="VS_UI_TITLE_SHOWCHAR.CPP" />
-    <ClCompile Include="VS_UI_Tutorial.cpp" />
-    <ClCompile Include="VS_UI_ui_result_receiver.cpp" />
-    <ClCompile Include="VS_UI_UserGrade.cpp" />
-    <ClCompile Include="VS_UI_util.cpp" />
-    <ClCompile Include="VS_UI_WebBrowser.cpp" />
-    <ClCompile Include="VS_UI_widget.cpp" />
-    <ClCompile Include="VS_UI_WorldMap.cpp" />
+    <ClCompile Include="Update.cpp" />
+    <ClCompile Include="UpdateManager.cpp" />
+    <ClCompile Include="UpdateUtility.cpp" />
+    <ClCompile Include="VSUI\Vs_ui.cpp" />
+    <ClCompile Include="VSUI\VS_UI_Base.cpp" />
+    <ClCompile Include="VSUI\VS_UI_BBS.cpp" />
+    <ClCompile Include="VSUI\VS_UI_Control.cpp" />
+    <ClCompile Include="VSUI\VS_UI_DESC.cpp" />
+    <ClCompile Include="VSUI\VS_UI_Description.cpp" />
+    <ClCompile Include="VSUI\VS_UI_Descriptor.cpp" />
+    <ClCompile Include="VSUI\VS_UI_Dialog.cpp" />
+    <ClCompile Include="VSUI\VS_UI_ELEVATOR.cpp" />
+    <ClCompile Include="VSUI\VS_UI_Exception.cpp" />
+    <ClCompile Include="VSUI\VS_UI_Exchange.cpp" />
+    <ClCompile Include="VSUI\VS_UI_ExtraDialog.cpp" />
+    <ClCompile Include="VSUI\VS_UI_Friend_System.cpp" />
+    <ClCompile Include="VSUI\VS_UI_Game.cpp" />
+    <ClCompile Include="VSUI\VS_UI_GameCommon.cpp" />
+    <ClCompile Include="VSUI\vs_ui_gamecommon2.cpp" />
+    <ClCompile Include="VSUI\VS_UI_GameOusters.cpp" />
+    <ClCompile Include="VSUI\VS_UI_GameSlayer.cpp" />
+    <ClCompile Include="VSUI\VS_UI_GameVampire.cpp" />
+    <ClCompile Include="VSUI\VS_UI_GlobalResource.cpp" />
+    <ClCompile Include="VSUI\VS_UI_GPS.CPP" />
+    <ClCompile Include="VSUI\VS_UI_Helper.cpp" />
+    <ClCompile Include="VSUI\VS_UI_INDOUN_NPC_DIALOG.CPP" />
+    <ClCompile Include="VSUI\VS_UI_Item.cpp" />
+    <ClCompile Include="VSUI\VS_UI_Message.cpp" />
+    <ClCompile Include="VSUI\VS_UI_mouse_pointer.cpp" />
+    <ClCompile Include="VSUI\VS_UI_NewTitle.cpp" />
+    <ClCompile Include="VSUI\VS_UI_Operator.cpp" />
+    <ClCompile Include="VSUI\VS_UI_PetMixingForge.cpp" />
+    <ClCompile Include="VSUI\VS_UI_PetStorage.cpp" />
+    <ClCompile Include="VSUI\VS_UI_PremiumGiveItem.cpp" />
+    <ClCompile Include="VSUI\VS_UI_progress.cpp" />
+    <ClCompile Include="VSUI\VS_UI_Shop.cpp" />
+    <ClCompile Include="VSUI\VS_UI_skill_tree.cpp" />
+    <ClCompile Include="VSUI\VS_UI_SKILL_VIEW.cpp" />
+    <ClCompile Include="VSUI\VS_UI_Storage.cpp" />
+    <ClCompile Include="VSUI\VS_UI_TaxRate.cpp" />
+    <ClCompile Include="VSUI\VS_UI_TIMECOUNT.cpp" />
+    <ClCompile Include="VSUI\VS_UI_Title.cpp" />
+    <ClCompile Include="VSUI\VS_UI_TITLE_SHOWCHAR.CPP" />
+    <ClCompile Include="VSUI\VS_UI_Tutorial.cpp" />
+    <ClCompile Include="VSUI\VS_UI_ui_result_receiver.cpp" />
+    <ClCompile Include="VSUI\VS_UI_UserGrade.cpp" />
+    <ClCompile Include="VSUI\VS_UI_util.cpp" />
+    <ClCompile Include="VSUI\VS_UI_WebBrowser.cpp" />
+    <ClCompile Include="VSUI\VS_UI_widget.cpp" />
+    <ClCompile Include="VSUI\VS_UI_WorldMap.cpp" />
     <ClCompile Include="widget\mother.cpp" />
     <ClCompile Include="widget\pi_core.cpp" />
     <ClCompile Include="widget\u_button.cpp" />
@@ -2188,12 +2202,13 @@
     <ClCompile Include="game\UIMessageManager.cpp" />
     <ClCompile Include="game\WavePackFileManager.cpp" />
     <ClCompile Include="game\WhisperManager.cpp" />
-    <ClCompile Include="ClientGlobals.cpp" />
-    <ClCompile Include="WinMain.cpp" />
     <ClCompile Include="ZoneFileHeader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="game\MTopViewDraw.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -34,6 +34,7 @@
 #include "VS_UI_filepath.h"
 #include "MNPCTable.h"
 #include "MSoundTable.h"
+#include "MMusicTable.h"
 #include "CSoundPartManager.h"
 #include "MParty.h"
 #include "AcceleratorManager.h"
@@ -64,8 +65,14 @@
 
 #include "OperatorOption.h"
 #include "VS_UI_TIMECOUNT.h"
+#include "MTopView.h"
+#include "MViewDef.h"
 
-bool g_bFamily = false;
+extern bool g_bFamily;
+
+// g_pLast is the off-screen CSpriteSurface used as the rendering target.
+// Defined in GameMain.cpp; needs extern here for InitSurface-equivalent setup.
+extern CSpriteSurface* g_pLast;
 
 BOOL InitSound();
 
@@ -85,13 +92,15 @@ void ProgramLoop();
 
 /*-----------------------------------------------------------------------------
   GLOBALS
+  NOTE: Definitions for most globals have moved to Client.cpp.
+  Only unique-to-WinMain items are defined here; the rest are extern.
 -----------------------------------------------------------------------------*/
-HWND						g_hWnd;
-HINSTANCE					g_hInstance;
-int							g_Dimension = 0;
+extern HWND					g_hWnd;
+extern HINSTANCE			g_hInstance;
+extern int					g_Dimension;
 
 bool	gbl_ui_input_state; // UI�� �Է��� �޾Ҵ°�?
-int		g_LeftPremiumDays = 10;
+extern int		g_LeftPremiumDays;
 
 extern EventButton* g_EventButton;
 
@@ -100,7 +109,7 @@ CDirectDraw				gC_DD;
 CSpriteSurface			gC_DDSurface;
 extern CDirectInput* g_pDXInput;// = new CDirectInput;
 
-DWORD				g_double_click_time;
+extern DWORD			g_double_click_time;
 int						g_mouse_x, g_mouse_y;
 
 bool						gbl_info_show = false;//true;
@@ -111,7 +120,7 @@ C_VS_UI_NPC_DIALOG* m_pC_dialog = NULL;
 
 extern CSoundPartManager* g_pSoundManager;
 
-DWORD	g_CurrentFrame = 0;
+extern DWORD	g_CurrentFrame;
 
 void kk(C_VS_UI_DIALOG* b, unsigned long a)
 {
@@ -1210,7 +1219,9 @@ void MouseEventReceiver(CDirectInput::E_MOUSE_EVENT event, int x, int y, int z)
 //-----------------------------------------------------------------------------
 // Name: WindowProc()
 // Desc: The Main Window Procedure
+// NOTE: Duplicate — primary definition is in Client.cpp
 //-----------------------------------------------------------------------------
+#if 0  // WindowProc disabled — defined in Client.cpp
 LRESULT CALLBACK
 WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -1297,6 +1308,7 @@ WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
+#endif  // WindowProc disabled
 
 //.......................................................................................
 // ���� ȿ���� �ʿ��� tan ��.
@@ -1787,6 +1799,7 @@ ReleaseAllObject()
 
 //-----------------------------------------------------------------------------
 
+#if 0  // Defined in Client.cpp
 void InitResolutionConfig()
 {
 	Properties ResolutionConfig;
@@ -1807,11 +1820,14 @@ void SaveResolutionConfig()
 	file << "ResolutionX: " << (g_pUserOption->Resolution1024 ? "1024" : "800") << std::endl;
 	file << "ResolutionY: " << (g_pUserOption->Resolution1024 ? "768" : "600") << std::endl;
 }
+#endif  // Defined in Client.cpp
 
 /*-----------------------------------------------------------------------------
 - WinMainf
 - Windows program entry point
+- NOTE: Entry point moved to Client.cpp — this copy is disabled.
 -----------------------------------------------------------------------------*/
+#if 0  // WinMain disabled — entry point is now in Client.cpp
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWinMode)
 {
 	// for Memory Leak Detecting
@@ -1859,8 +1875,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 		// client�� global �ʱ�ȭ by sigi
 		//-------------------------------------	
 		g_pClientConfig = new ClientConfig;
-		//		g_pClientConfig->Use3DHAL			= TRUE;
-
 
 		g_pUserOption = new UserOption;
 		g_pUserOption->Use3DHAL = TRUE;
@@ -2104,13 +2118,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 
 		//CoInitialize(NULL);
 
-	//	HRESULT hr;
-	//	if (hr = FAILED(CoCreateInstance(CLSID_InternetExplorer,NULL,
-	//		CLSCTX_LOCAL_SERVER, IID_IWebBrowser2,(LPVOID*)&g_pWebBrowser))) 
-	//	{
-	//		MessageBox(NULL, "IWebBrowser2 Create failed", "ERROR", MB_OK);
-	//		return 0;
-	//	}
+		//HRESULT hr;
+		//if (hr = FAILED(CoCreateInstance(CLSID_InternetExplorer,NULL,
+		//CLSCTX_LOCAL_SERVER, IID_IWebBrowser2,(LPVOID*)&g_pWebBrowser))) 
+		//{
+			//MessageBox(NULL, "IWebBrowser2 Create failed", "ERROR", MB_OK);
+			//return 0;
+		//}
 
 		//
 		// `������� �׻� �ϳ��� ������ Ŭ������ ����Ͽ� ���������, ������ Ŭ������
@@ -2202,9 +2216,19 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 
 		g_hWnd = hwnd;
 
-		InitSound();
-		STEP("PAST SOUND");
+		// ---------------------------------------------------------------
+		// Allocate sound/music/zone tables that InitSound() depends on.
+		// ---------------------------------------------------------------
+		if (g_pSoundTable == NULL)
+			g_pSoundTable = new SOUND_TABLE;
+		if (g_pMusicTable == NULL)
+			g_pMusicTable = new MUSIC_TABLE;
+		if (g_pZoneTable == NULL)
+			g_pZoneTable = new CZoneTable;
+		if (g_pSoundManager == NULL)
+			g_pSoundManager = new CSoundPartManager;
 
+		InitSound();
 
 		STEP("gC_DD.Init (DirectDraw)");
 #ifndef _FULLSCREEN
@@ -2250,7 +2274,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 			CDirectDraw::Get_Count_Rbit(),
 			CDirectDraw::Get_Count_Gbit(),
 			CDirectDraw::Get_Count_Bbit());
-		//	gC_font.Initialize();
+		//gC_font.Initialize();
 
 		STEP("gC_DDSurface.InitBacksurface()");
 		gC_DDSurface.InitBacksurface();
@@ -2613,3 +2637,4 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 	#undef STEP
 	return 0;
 }
+#endif  // WinMain disabled

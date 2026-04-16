@@ -115,7 +115,9 @@
       "Bash(find D:GitHubDEClient_v664 -iname *ifc* -type f)",
       "Bash(grep -rn SUPPLYITEM D:/GitHub/DEServer_v664/src/ --include=*.h -l)",
       "Bash(grep -rn SUPPLY D:/GitHub/DEServer_v664/src/ --include=*.h -l)",
-      "Bash(grep -rn SUPPLY D:/GitHub/DEServer_v664/src/ --include=*.cpp -l)"
+      "Bash(grep -rn SUPPLY D:/GitHub/DEServer_v664/src/ --include=*.cpp -l)",
+      "Bash(ls \"D:\\\\GitHub\\\\DEClient_v664\\\\UI\\\\Release/\"*.log)",
+      "Bash(iconv -f UTF-16 -t UTF-8 \"D:\\\\GitHub\\\\DEClient_v664\\\\UI\\\\Client.cpp\")"
     ]
   }
 }

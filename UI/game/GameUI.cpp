@@ -3072,13 +3072,15 @@ UI_UnlockGear()
 //-----------------------------------------------------------------------------
 void UI_ResultReceiver(DWORD message, int left, int right, void *void_ptr)
 {
-//	DEBUG_ADD("[UI_ResultReceiver] Start");
+	//DEBUG_ADD("[UI_ResultReceiver] Start");
+
 	if (g_pUIMessageManager==NULL)
 	{
 		g_pUIMessageManager = new UIMessageManager;
 	}
-	g_pUIMessageManager->Execute(message, left, right, void_ptr);	
-//	DEBUG_ADD("[UI_ResultReceiver] End");
+	g_pUIMessageManager->Execute(message, left, right, void_ptr);
+
+	//DEBUG_ADD("[UI_ResultReceiver] End");
 }
 
 //-----------------------------------------------------------------------------

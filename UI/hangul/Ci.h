@@ -73,7 +73,7 @@ public:
 
 	bool	GetComposion()	{ return m_bCompsition ; } 
 	bool	GetCompositionMode()	{ return m_bCompositionMode ; } 
-	void SetComposion(bool	bComposition) { m_bCompsition = bComposition; } 
+	void	SetComposion(bool	bComposition) { m_bCompsition = bComposition; } 
 	
 	virtual void	IME_NextComposition() = 0;
 	virtual void	IME_Composition() = 0;

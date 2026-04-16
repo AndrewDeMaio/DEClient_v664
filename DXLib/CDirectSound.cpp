@@ -62,7 +62,6 @@ CDirectSound::Init(HWND hwnd)
 		DirectSoundFailed("Direct Sound Create Error!");
 		return false;
 	}
-	MessageBox(NULL, "DirectSoundCreate() Success!", "DirectSoundCreate()", MB_OK);
 
 	// Interface Cooperativelevel
 	if (FAILED(m_pDS->SetCooperativeLevel(hwnd, DSSCL_NORMAL)))
@@ -71,7 +70,6 @@ CDirectSound::Init(HWND hwnd)
 		DirectSoundFailed("Direct Sound CooperativeLevel Error!");
 		return false;
 	}
-	MessageBox(NULL, "SetCooperativeLevel() Success!", "SetCooperativeLevel()", MB_OK);
 
 	// Speaker Setting
 	/*if (FAILED(m_pDS->SetSpeakerConfig(DSSPEAKER_COMBINED(DSSPEAKER_STEREO, DSSPEAKER_GEOMETRY_WIDE))))

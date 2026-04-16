@@ -16395,7 +16395,12 @@ C_VS_UI_INFO::C_VS_UI_INFO()
 				level = level_temp;
 				m_skill_domain = (SKILLDOMAIN)i;
 				m_iDomain = BLADE_ID + i;
-				m_pC_skill_scroll_bar->SetPosMax(((*g_pSkillManager)[m_skill_domain].GetSkillStepList((SKILL_STEP)(SKILL_STEP_APPRENTICE)))->size() - 7);
+				// Guard: GetSkillStepList returns NULL when no skill data loaded yet (boot time)
+				if (m_pC_skill_scroll_bar) {
+					const MSkillDomain::SKILL_STEP_LIST* pList = (*g_pSkillManager)[m_skill_domain].GetSkillStepList((SKILL_STEP)(SKILL_STEP_APPRENTICE));
+					if (pList)
+						m_pC_skill_scroll_bar->SetPosMax(pList->size() - 7);
+				}
 				//				m_pC_skill_scroll_bar->SetPosMax((*g_pSkillManager)[(SKILLDOMAIN)i].GetSize()-7);
 			}
 		}
@@ -16408,7 +16413,12 @@ C_VS_UI_INFO::C_VS_UI_INFO()
 	{
 		m_skill_domain = SKILLDOMAIN_VAMPIRE;
 		m_iDomain = POISON_ID;
-		m_pC_skill_scroll_bar->SetPosMax(((*g_pSkillManager)[SKILLDOMAIN_VAMPIRE].GetSkillStepList((SKILL_STEP)(m_iDomain - POISON_ID + SKILL_STEP_VAMPIRE_POISON)))->size() - 7);
+		// Guard: GetSkillStepList returns NULL when no skill data loaded yet (boot time)
+		if (m_pC_skill_scroll_bar) {
+			const MSkillDomain::SKILL_STEP_LIST* pList = (*g_pSkillManager)[SKILLDOMAIN_VAMPIRE].GetSkillStepList((SKILL_STEP)(m_iDomain - POISON_ID + SKILL_STEP_VAMPIRE_POISON));
+			if (pList)
+				m_pC_skill_scroll_bar->SetPosMax(pList->size() - 7);
+		}
 
 		//m_iGrade = RITTER_ID;
 		m_iGrade = ((g_char_slot_ingame.GRADE - 1) / 5) + RITTER_ID;

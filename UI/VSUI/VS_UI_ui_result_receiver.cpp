@@ -35,7 +35,7 @@ void C_VS_UI_RESULT_RECEIVER::SetResultReceiver(void (*fp)(DWORD, int, int, void
 
 /*-----------------------------------------------------------------------------
 - SendMessage
-- Message queue¿¡ message¸¦ ³Ö´Â´Ù.
+- Message queueï¿½ï¿½ messageï¿½ï¿½ ï¿½Ö´Â´ï¿½.
 -----------------------------------------------------------------------------*/
 void C_VS_UI_RESULT_RECEIVER::_SendMessage(DWORD message, int left, int right, 
 															 void *void_ptr)
@@ -54,7 +54,7 @@ void C_VS_UI_RESULT_RECEIVER::_SendMessage(DWORD message, int left, int right,
 
 /*-----------------------------------------------------------------------------
 - DispatchMessage
-- °¡Àå »¡¸® ÀúÀåµÈ message¸¦ ÇÑ °³ º¸³½´Ù. ±×¸®°í ±×°ÍÀ» queue¿¡¼­ »èÁ¦ÇÑ´Ù.
+- ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ messageï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½×¸ï¿½ï¿½ï¿½ ï¿½×°ï¿½ï¿½ï¿½ queueï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 -----------------------------------------------------------------------------*/
 void C_VS_UI_RESULT_RECEIVER::_DispatchMessage()
 {
@@ -65,9 +65,20 @@ void C_VS_UI_RESULT_RECEIVER::_DispatchMessage()
 			MESSAGE * data;
 			if (m_message_queue.Data(0, data))
 			{
-				m_fp_result_receiver(data->message, data->left, data->right, data->void_ptr);
-				delete data;
+				// Remove from queue BEFORE calling the handler and freeing.
+				// The handler can re-enter _DispatchMessage (Windows CriticalSections
+				// are recursive), which would dispatch the same MESSAGE again
+				// and double-free it.
 				m_message_queue.Delete(data);
+
+				// Copy fields before freeing, in case data is on a guard page
+				DWORD msg   = data->message;
+				int   left  = data->left;
+				int   right = data->right;
+				void* vptr  = data->void_ptr;
+				delete data;
+
+				m_fp_result_receiver(msg, left, right, vptr);
 			}
 		}
 	}
