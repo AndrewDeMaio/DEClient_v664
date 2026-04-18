@@ -1390,7 +1390,7 @@ MTopView::InitSurfaces()
 		{
 			DEBUG_ADD("[ InitGame ]  MTopView::InitSurface() - TileSurface vidmem failed");
 
-			m_pTileSurface->InitOffsurface(TILESURFACE_WIDTH,
+			m_pTileSurface->InitOffsurface16(TILESURFACE_WIDTH,
 				TILESURFACE_HEIGHT,
 				DDSCAPS_SYSTEMMEMORY);
 
@@ -1420,7 +1420,7 @@ MTopView::InitSurfaces()
 	//----------------------------------------------------------------
 	else
 	{
-		m_pTileSurface->InitOffsurface(TILESURFACE_WIDTH,
+		m_pTileSurface->InitOffsurface16(TILESURFACE_WIDTH,
 			TILESURFACE_HEIGHT,
 			DDSCAPS_SYSTEMMEMORY);
 	}

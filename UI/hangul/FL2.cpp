@@ -9,14 +9,38 @@
 //-----------------------------------------------------------------------------
 
 //
-// FL2¿¡¼­´Â DC¸¦ »ç¿ëÇÏ¹Ç·Î surface°¡ ÇÊ¿äÇÏ´Ù. ÀÌ°ÍÀº ÀÏ¹ÝÀûÀ¸·Î ÀÔÃâ·Â 
-// surfaceÀÌ°ÚÁö¸¸, offscreen surface·Îµµ ÇÒ ¼ö ÀÖ°Ú´Ù.
+// FL2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ DCï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ surfaceï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½Ï´ï¿½. ï¿½Ì°ï¿½ï¿½ï¿½ ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ 
+// surfaceï¿½Ì°ï¿½ï¿½ï¿½ï¿½ï¿½, offscreen surfaceï¿½Îµï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö°Ú´ï¿½.
 //
-// Unicorn edit line widget¿¡¼­ FL2¸¦ »ç¿ëÇÏ¹Ç·Î ±×°÷¿¡¼­ ÀÌ surface¸¦ ÂüÁ¶ÇÒ
-// °ÍÀÌ´Ù.
+// Unicorn edit line widgetï¿½ï¿½ï¿½ï¿½ FL2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ ï¿½×°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ surfaceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+// ï¿½ï¿½ï¿½Ì´ï¿½.
 //
 LPDIRECTDRAWSURFACE7	gpC_fl2_surface = NULL;
 HDC gh_FL2_DC = NULL;
+
+// ---------------------------------------------------------------------------
+// Fallback GDI DC for 16-bit DirectDraw surfaces
+//
+// IDirectDrawSurface7::GetDC fails on 16-bit surfaces on modern Windows.
+// As a workaround we keep a 32-bit GDI DIBSection the same size as
+// gpC_fl2_surface.  Text is drawn there; on ReleaseDC the non-colorkey pixels
+// are colour-converted and written into the 16-bit DirectDraw surface.
+// ---------------------------------------------------------------------------
+static HDC     s_fl2_fb_dc      = NULL;  // memory DC backed by the DIBSection
+static HBITMAP s_fl2_fb_bmp     = NULL;  // 32-bit DIBSection HBITMAP
+static HBITMAP s_fl2_fb_bmp_old = NULL;  // saved HBITMAP (for SelectObject cleanup)
+static DWORD*  s_fl2_fb_bits    = NULL;  // raw pixel data pointer
+static int     s_fl2_fb_w       = 0;
+static int     s_fl2_fb_h       = 0;
+static bool    s_fl2_fb_is565   = true;  // pixel format of gpC_fl2_surface
+static bool    s_fl2_fb_active  = false; // true while the fallback DC is in use
+static bool    s_fl2_fb_dirty   = false; // true once text has actually been drawn
+static HDC     s_fl2_bare_dc    = NULL;  // last-resort measure-only DC
+static bool    s_fl2_bare_active = false;// true when bare DC is in use
+
+// Colorkey: pixels equal to this value in the DIBSection are skipped (transparent)
+// during copy-back.  Deliberately unusual to avoid colliding with real colours.
+static const DWORD FL2_FB_COLORKEY = 0x00FE01FEu;
 
 //-----------------------------------------------------------------------------
 // g_SetFL2Surface
@@ -31,8 +55,8 @@ void g_SetFL2Surface(LPDIRECTDRAWSURFACE7 surface)
 //-----------------------------------------------------------------------------
 // g_PossibleStringCut
 //
-// sz_strÀÇ position(byte)ÀÌ cutµÉ ¼ö ÀÖ´Â°¡ ¿©ºÎ¸¦ ¹ÝÈ¯ÇÑ´Ù.
-// sz_strÀº ÇÑ±Û 2byte, ¿µ¹® 1byteÀÌ´Ù.
+// sz_strï¿½ï¿½ position(byte)ï¿½ï¿½ cutï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´Â°ï¿½ ï¿½ï¿½ï¿½Î¸ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
+// sz_strï¿½ï¿½ ï¿½Ñ±ï¿½ 2byte, ï¿½ï¿½ï¿½ï¿½ 1byteï¿½Ì´ï¿½.
 //-----------------------------------------------------------------------------
 bool g_PossibleStringCut(const char* sz_str, int position)
 {
@@ -42,14 +66,14 @@ bool g_PossibleStringCut(const char* sz_str, int position)
 			return true;
 
 		//
-		// position¿¡´Â ¼¼°¡Áö °æ¿ìÀÇ data°¡ ÀÖÀ» ¼ö ÀÖ´Ù.
+		// positionï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ dataï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
 		//
 		// (1) ASCII
-		// (2) ÇÑ±Û 1 byte
-		// (3) ÇÑ±Û 2 byte
+		// (2) ï¿½Ñ±ï¿½ 1 byte
+		// (3) ï¿½Ñ±ï¿½ 2 byte
 		//
-		// ±×·¯³ª (3)ÀÇ °æ¿ì ±× °ªÀÌ ASCII°¡ ¾Æ´Ï¶ó°í Àå´ãÇÒ ¼ö ¾ø´Ù.
-		// ±×·¡¼­ Ã³À½ºÎÅÍ position±îÁö °Ë»ç¸¦ ÇØ¾ß ÇÑ´Ù.
+		// ï¿½×·ï¿½ï¿½ï¿½ (3)ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ASCIIï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+		// ï¿½×·ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ positionï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ç¸¦ ï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 		//
 		enum _CODE
 		{
@@ -111,14 +135,14 @@ int g_GetStringWidth2(const char* sz_str, int Index, HFONT hfont)
 	return size.cx;
 }
 
-// sz_str¹®ÀÚ¿­Áß, WidthÆø¿¡ Æ÷ÇÔµÉ ¼ö ÀÖ´Â ¹®ÀÚ¿­ÀÇ Index (base 0)¸¦ ¾Ë·ÁÁØ´Ù. 
+// sz_strï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½, Widthï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ôµï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ Index (base 0)ï¿½ï¿½ ï¿½Ë·ï¿½ï¿½Ø´ï¿½. 
 int g_GetStringIndexByWidth(const char* sz_str, int Width, HFONT hfont)
 {
 	int iStrWidth = g_GetStringWidth(sz_str, hfont);
 	int resIndex;
 	int Len = strlen(sz_str);
 
-	if (iStrWidth <= Width)	//¸ðµÎ Æ÷ÇÔµÈ´Ù.
+	if (iStrWidth <= Width)	//ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÔµÈ´ï¿½.
 		resIndex = Len - 1;
 	else
 	{
@@ -132,7 +156,7 @@ int g_GetStringIndexByWidth(const char* sz_str, int Width, HFONT hfont)
 			if (iStrWidth <= Width)
 				break;
 		}
-		//ÀÌÁ¦ Index°ªÀº.. WidthÆøÀ» ³ÑÁö ¾Ê´Â ¹®ÀÚ¿­ÀÇ ¸¶Áö¸· Ä³¸¯ÅÍÀÇ À§Ä¡.
+		//ï¿½ï¿½ï¿½ï¿½ Indexï¿½ï¿½ï¿½ï¿½.. Widthï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡.
 		resIndex = Index;
 	}
 
@@ -146,7 +170,7 @@ int g_PrintColorStr2(int x, int y, const char* sz_str, PrintInfo& pi, COLORREF s
 		return g_PrintColorStr(x, y, sz_str, pi, str_rgb);
 	else
 	{
-		// Ãâ·ÂÇÒ ¹®ÀÚ¿­ÀÇ ÇÈ¼¿ ±æÀÌ°¡, Á¦ÇÑ ±æÀÌº¸´Ù ±æ´Ù. Á¦ÇÑ ±æÀÌ¸¦ ³ÑÁö ¾Êµµ·Ï.. ¹®ÀÚ¿­À» ÀÚ¸¥´Ù..
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½È¼ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ìºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½.. ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ú¸ï¿½ï¿½ï¿½..
 		int Len = strlen(sz_str);
 		char* strTemp = new char[Len + 1];
 
@@ -155,18 +179,18 @@ int g_PrintColorStr2(int x, int y, const char* sz_str, PrintInfo& pi, COLORREF s
 		{
 			if (!g_PossibleStringCut(sz_str, Index))
 			{
-				//ÀÚ¸¦ ¼ö ¾ø´Â Index (ÇÑ±Ûµî 2¹ÙÀÌÆ® ¹®ÀÚ±¸Á¶¿¡¼­¸¸ .. °¡´É)ÀÏ °æ¿ì.. ÇÑ¹ø ´õ --
+				//ï¿½Ú¸ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Index (ï¿½Ñ±Ûµï¿½ 2ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½Ú±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ .. ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½.. ï¿½Ñ¹ï¿½ ï¿½ï¿½ --
 				Index--;
 			}
-			//¹®ÀÚ¿­ ±æÀÌ ºñ±³..
+			//ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½..
 			iStrWidth = g_GetStringWidth2((const char*)sz_str, Index - 1, pi.hfont);
 			if (iStrWidth <= LimitWidth)
 				break;
 		}
-		// ¹®ÀÚ¿­ÀÇ Ã³À½±îÁö ¿Ô´Ù¸é.. ±×·²¸®´Â °ÅÀÇ ¾ø°ÚÁö¸¸.. Ã¼Å©
+		// ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô´Ù¸ï¿½.. ï¿½×·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. Ã¼Å©
 		if (Index == 0)
 			return g_PrintColorStr(x, y, sz_str, pi, str_rgb);
-		// ¾Æ´Ï¶ó¸é.. Index ¸¸Å­¸¸.. ±×¸°´Ù. ÀÏ´Ü.. Á»´õ ÀÚ¸¥ ´ÙÀ½¿¡.. '..'À» ºÙ¿©ÁÖÀÚ.
+		// ï¿½Æ´Ï¶ï¿½ï¿½.. Index ï¿½ï¿½Å­ï¿½ï¿½.. ï¿½×¸ï¿½ï¿½ï¿½. ï¿½Ï´ï¿½.. ï¿½ï¿½ï¿½ï¿½ ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.. '..'ï¿½ï¿½ ï¿½Ù¿ï¿½ï¿½ï¿½ï¿½ï¿½.
 		strncpy_s(strTemp, Len, sz_str, Index - 2);
 		strTemp[Index - 2] = '.';
 		strTemp[Index - 1] = '.';
@@ -180,10 +204,10 @@ int g_PrintColorStr2(int x, int y, const char* sz_str, PrintInfo& pi, COLORREF s
 //-----------------------------------------------------------------------------
 // g_GetStringWidth
 //
-// p_strÀº null terminated stringÀÌ´Ù.
-// hfont¸¦ ¿Ã¹Ù¸£°Ô settingÇØ¾ß Á¤È®ÇÑ °ªÀÌ ³ª¿Â´Ù.
+// p_strï¿½ï¿½ null terminated stringï¿½Ì´ï¿½.
+// hfontï¿½ï¿½ ï¿½Ã¹Ù¸ï¿½ï¿½ï¿½ settingï¿½Ø¾ï¿½ ï¿½ï¿½È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
 //
-// ! ¿ÜºÎ¿¡¼­ lock°É¸é ¾ÈµÈ´Ù.
+// ! ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ lockï¿½É¸ï¿½ ï¿½ÈµÈ´ï¿½.
 //-----------------------------------------------------------------------------
 int g_GetStringWidth(const char* sz_str, HFONT hfont)
 {
@@ -215,10 +239,10 @@ int g_GetStringWidth(const char* sz_str, HFONT hfont)
 //-----------------------------------------------------------------------------
 // g_GetStringHeight
 //
-// p_strÀº null terminated stringÀÌ´Ù.
-// hfont¸¦ ¿Ã¹Ù¸£°Ô settingÇØ¾ß Á¤È®ÇÑ °ªÀÌ ³ª¿Â´Ù.
+// p_strï¿½ï¿½ null terminated stringï¿½Ì´ï¿½.
+// hfontï¿½ï¿½ ï¿½Ã¹Ù¸ï¿½ï¿½ï¿½ settingï¿½Ø¾ï¿½ ï¿½ï¿½È®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
 //
-// !¿ÜºÎ¿¡¼­ lock°É¸é ¾ÈµÈ´Ù.
+// !ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ lockï¿½É¸ï¿½ ï¿½ÈµÈ´ï¿½.
 //-----------------------------------------------------------------------------
 int g_GetStringHeight(const char* sz_str, HFONT hfont)
 {
@@ -251,10 +275,10 @@ int g_GetStringHeight(const char* sz_str, HFONT hfont)
 //-----------------------------------------------------------------------------
 // g_PrintLen
 //
-// gpC_fl2_surface¿¡ Ãâ·ÂÇÑ´Ù.
-// p_strÀº null terminated stringÀÌ´Ù.
+// gpC_fl2_surfaceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+// p_strï¿½ï¿½ null terminated stringï¿½Ì´ï¿½.
 //
-// !¿ÜºÎ¿¡¼­ lock°É¸é ¾ÈµÈ´Ù.
+// !ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ lockï¿½É¸ï¿½ ï¿½ÈµÈ´ï¿½.
 //-----------------------------------------------------------------------------
 void g_PrintLen(int x, int y, const char* sz_str, int str_length, PrintInfo* p_print_info)
 {
@@ -282,6 +306,7 @@ void g_PrintLen(int x, int y, const char* sz_str, int str_length, PrintInfo* p_p
 		}
 
 		TextOut(hdc, x, y, sz_str, str_length);
+		if (s_fl2_fb_active) s_fl2_fb_dirty = true;
 
 		if (bGetDC)
 			g_FL2_ReleaseDC();
@@ -322,7 +347,7 @@ void g_DrawText(RECT* pRt, const char* sz_str, PrintInfo* p_print_info)
 		//assert(sz_str != NULL);
 		assert(gpC_fl2_surface != NULL);
 
-		//sz_strÀÇ °¡·ÎÇÈ¼¿ Å©±â¿Í pRtÀÇ ÆøÀ» ºñ±³ÇÏ¿©, ¹®ÀÚ¿­À» ¶óÀÎÇÇµåµÉ ¼ö ÀÖµµ·Ï ¼± Ã³¸®ÇÑ´Ù.
+		//sz_strï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½ Å©ï¿½ï¿½ï¿½ pRtï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¿ï¿½, ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Çµï¿½ï¿½ ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½ ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ñ´ï¿½.
 
 		int str_length = strlen(sz_str);
 		int destWidth = pRt->right - pRt->left;
@@ -366,17 +391,18 @@ void g_DrawText(RECT* pRt, const char* sz_str, PrintInfo* p_print_info)
 			SetBkMode(hdc, p_print_info->bk_mode);
 			SetBkColor(hdc, p_print_info->back_color);
 			SelectObject(hdc, p_print_info->hfont);
-			//±×¸²ÀÚ Ãâ·Â
+			//ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 			SetTextColor(hdc, 0);
 			RECT sRt = { pRt->left + 1, pRt->top + 1, pRt->right + 1, pRt->bottom + 1 };
 			DrawText(hdc, srcStr.c_str(), srcStr.length(), &sRt, p_print_info->text_align);
-			//¹®ÀÚ¿­ Ãâ·Â
+			//ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½
 			SetTextColor(hdc, p_print_info->text_color);
 			DrawText(hdc, srcStr.c_str(), srcStr.length(), pRt, p_print_info->text_align);
 
 		}
 		else
 			DrawText(hdc, srcStr.c_str(), srcStr.length(), pRt, DT_LEFT);
+		if (s_fl2_fb_active) s_fl2_fb_dirty = true;
 
 		if (bGetDC)
 			g_FL2_ReleaseDC();
@@ -389,7 +415,7 @@ void g_DrawText(RECT* pRt, const char* sz_str, PrintInfo* p_print_info)
 //-----------------------------------------------------------------------------
 // g_DBCSLen
 //
-// p_dbcsÀÇ length¸¦ ¹ÝÈ¯ÇÑ´Ù.
+// p_dbcsï¿½ï¿½ lengthï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 int g_DBCSLen(const char_t* p_dbcs)
 {
@@ -427,10 +453,10 @@ int	g_GetByteLenth(const char_t* p_dbcs, int dbcs_len)
 //-----------------------------------------------------------------------------
 // g_Convert_DBCS_Ascii2SingleByte
 //
-// DBCS Ascii code¸¦ single byte·Î ¹Ù²Û´Ù. ´Ù¸¥ ¹®ÀÚµéÀ» ±×´ë·Î À¯Áö½ÃÅ²´Ù.
-// p_new_buf¸¦ new·Î ÇÒ´çÇÑ´Ù. µû¶ó¼­ ¿ÜºÎ¿¡¼­ p_new_buf¸¦ deleteÇØÁà¾ß ÇÑ´Ù.
+// DBCS Ascii codeï¿½ï¿½ single byteï¿½ï¿½ ï¿½Ù²Û´ï¿½. ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ ï¿½×´ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
+// p_new_bufï¿½ï¿½ newï¿½ï¿½ ï¿½Ò´ï¿½ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½ï¿½ ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ p_new_bufï¿½ï¿½ deleteï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 //
-// ÀúÀåµÈ bufferÀÇ ±æÀÌ(by byte)¸¦ ¹ÝÈ¯ÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ bufferï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(by byte)ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 int g_Convert_DBCS_Ascii2SingleByte(const char_t* p_dbcs, int dbcs_len, char*& p_new_buf)
 {
@@ -466,7 +492,7 @@ int g_Convert_DBCS_Ascii2SingleByte(const char_t* p_dbcs, int dbcs_len, char*& p
 	p_new_buf = new char[len + 1];
 	CheckMemAlloc(p_new_buf);
 
-	strcpy_s(p_new_buf, len, p_temp);
+	strcpy_s(p_new_buf, len + 1, p_temp);
 
 	DeleteNewArray(p_temp);
 
@@ -476,8 +502,8 @@ int g_Convert_DBCS_Ascii2SingleByte(const char_t* p_dbcs, int dbcs_len, char*& p
 //-----------------------------------------------------------------------------
 // g_ConvertAscii2DBCS
 //
-// ascii code(single byte±îÁö Æ÷ÇÔ)¸¦ DBCS·Î º¯È¯ÇÏ¿© p_new_buf¿¡ ÇÒ´çÇÑ´Ù.
-// p_new_buf´Â ¿ÜºÎ¿¡¼­ deleteÇØ¾ß ÇÑ´Ù.
+// ascii code(single byteï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ DBCSï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ï¿ï¿½ p_new_bufï¿½ï¿½ ï¿½Ò´ï¿½ï¿½Ñ´ï¿½.
+// p_new_bufï¿½ï¿½ ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ deleteï¿½Ø¾ï¿½ ï¿½Ñ´ï¿½.
 //
 //-----------------------------------------------------------------------------
 // p_ascii:		single byte string
@@ -511,8 +537,8 @@ int g_ConvertAscii2DBCS(const char* p_ascii, int ascii_len, char_t*& p_new_buf)
 			i++;
 		}
 
-	// Á¤È®ÇÑ sizeÀÇ buffer¸¦ p_new_buf°¡ °¡¸®Å°µµ·Ï ÇÑ´Ù.
-	// ÇÑ±ÛÀÌ Æ÷ÇÔµÇ¸é dbcs¿Í ascii_lenÀº ´Ù¸£´Ù.
+	// ï¿½ï¿½È®ï¿½ï¿½ sizeï¿½ï¿½ bufferï¿½ï¿½ p_new_bufï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+	// ï¿½Ñ±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÔµÇ¸ï¿½ dbcsï¿½ï¿½ ascii_lenï¿½ï¿½ ï¿½Ù¸ï¿½ï¿½ï¿½.
 	p_new_buf = new char_t[dbcs + 1];
 
 	for (int m = 0; m < dbcs; m++)
@@ -524,7 +550,109 @@ int g_ConvertAscii2DBCS(const char* p_ascii, int ascii_len, char_t*& p_new_buf)
 	return dbcs;
 }
 
-// DC¸¦ GetÇÑ´Ù.
+// DCï¿½ï¿½ Getï¿½Ñ´ï¿½.
+// ---------------------------------------------------------------------------
+// s_FL2_EnsureFallbackDC
+// Lazily creates the DIBSection and memory DC on first use.
+// ---------------------------------------------------------------------------
+static bool s_FL2_EnsureFallbackDC()
+{
+	if (s_fl2_fb_dc != NULL)
+		return true;   // already initialised
+
+	if (gpC_fl2_surface == NULL)
+		return false;
+
+	// Query the surface dimensions and pixel format
+	DDSURFACEDESC2 ddsd = {};
+	ddsd.dwSize = sizeof(ddsd);
+	if (FAILED(gpC_fl2_surface->GetSurfaceDesc(&ddsd)))
+		return false;
+
+	s_fl2_fb_w = (int)ddsd.dwWidth;
+	s_fl2_fb_h = (int)ddsd.dwHeight;
+	if (ddsd.dwFlags & DDSD_PIXELFORMAT)
+		s_fl2_fb_is565 = (ddsd.ddpfPixelFormat.dwGBitMask == 0x07E0u);
+	else
+		s_fl2_fb_is565 = true;   // assume 565 if we can't tell
+
+	// Create a 32-bit top-down DIBSection of the same dimensions
+	BITMAPINFO bmi   = {};
+	bmi.bmiHeader.biSize        = sizeof(BITMAPINFOHEADER);
+	bmi.bmiHeader.biWidth       =  s_fl2_fb_w;
+	bmi.bmiHeader.biHeight      = -s_fl2_fb_h;  // negative = top-down rows
+	bmi.bmiHeader.biPlanes      = 1;
+	bmi.bmiHeader.biBitCount    = 32;
+	bmi.bmiHeader.biCompression = BI_RGB;
+
+	HDC screen_dc    = GetDC(NULL);
+	s_fl2_fb_bmp     = CreateDIBSection(screen_dc, &bmi, DIB_RGB_COLORS,
+	                                     (void**)&s_fl2_fb_bits, NULL, 0);
+	s_fl2_fb_dc      = CreateCompatibleDC(screen_dc);
+	ReleaseDC(NULL, screen_dc);
+
+	if (!s_fl2_fb_bmp || !s_fl2_fb_dc || !s_fl2_fb_bits)
+	{
+		if (s_fl2_fb_dc)  { DeleteDC(s_fl2_fb_dc);       s_fl2_fb_dc  = NULL; }
+		if (s_fl2_fb_bmp) { DeleteObject(s_fl2_fb_bmp);  s_fl2_fb_bmp = NULL; }
+		s_fl2_fb_bits = NULL;
+		return false;
+	}
+
+	s_fl2_fb_bmp_old = (HBITMAP)SelectObject(s_fl2_fb_dc, s_fl2_fb_bmp);
+	return true;
+}
+
+// ---------------------------------------------------------------------------
+// s_FL2_BlitFallbackToSurface
+// Colour-converts and copies the DIBSection pixels onto gpC_fl2_surface.
+// Pixels equal to FL2_FB_COLORKEY are skipped (transparent).
+// Only runs when s_fl2_fb_dirty is set (i.e. something was actually drawn).
+// ---------------------------------------------------------------------------
+static void s_FL2_BlitFallbackToSurface()
+{
+	if (!s_fl2_fb_dirty || !s_fl2_fb_bits || !gpC_fl2_surface)
+		return;
+
+	DDSURFACEDESC2 ddsd = {};
+	ddsd.dwSize = sizeof(ddsd);
+	if (FAILED(gpC_fl2_surface->Lock(NULL, &ddsd,
+	           DDLOCK_WAIT | DDLOCK_WRITEONLY, NULL)))
+		return;
+
+	WORD*        dst_base   = (WORD*)ddsd.lpSurface;
+	int          dst_stride = (int)(ddsd.lPitch / sizeof(WORD));
+	const DWORD* src_base   = s_fl2_fb_bits;
+
+	for (int y = 0; y < s_fl2_fb_h; y++)
+	{
+		WORD*        dst = dst_base + y * dst_stride;
+		const DWORD* src = src_base + y * s_fl2_fb_w;
+
+		for (int x = 0; x < s_fl2_fb_w; x++)
+		{
+			DWORD p = src[x];
+			if (p == FL2_FB_COLORKEY)
+				continue;   // transparent â€“ leave destination pixel untouched
+
+			// GDI DIBSection (BI_RGB, 32-bit) stores pixels as 0x00RRGGBB
+			BYTE r = (BYTE)(p >> 16);
+			BYTE g = (BYTE)(p >>  8);
+			BYTE b = (BYTE)(p);
+
+			WORD w;
+			if (s_fl2_fb_is565)
+				w = (WORD)(((WORD)(r >> 3) << 11) | ((WORD)(g >> 2) << 5) | (WORD)(b >> 3));
+			else   // RGB555
+				w = (WORD)(((WORD)(r >> 3) << 10) | ((WORD)(g >> 3) << 5) | (WORD)(b >> 3));
+
+			dst[x] = w;
+		}
+	}
+
+	gpC_fl2_surface->Unlock(NULL);
+}
+
 bool	g_FL2_GetDC()
 {
 	assert(!gpC_base->m_p_DDSurface_back->IsLock());
@@ -533,15 +661,44 @@ bool	g_FL2_GetDC()
 
 	if (gh_FL2_DC == NULL)
 	{
-		gpC_fl2_surface->GetDC(&gh_FL2_DC);
+		// Try DirectDraw GetDC first (works on 32-bit surfaces).
+		HRESULT hr = gpC_fl2_surface->GetDC(&gh_FL2_DC);
+		if (SUCCEEDED(hr))
+			return true;
 
-		return true;
+		// GetDC failed â€“ this surface is likely 16-bit (modern Windows limitation).
+		// Use the GDI DIBSection fallback instead.
+		gh_FL2_DC = NULL;
+		if (s_FL2_EnsureFallbackDC())
+		{
+			// Clear the DIBSection so stale pixels from a previous call don't bleed through.
+			int nPx = s_fl2_fb_w * s_fl2_fb_h;
+			for (int i = 0; i < nPx; i++)
+				s_fl2_fb_bits[i] = FL2_FB_COLORKEY;
+
+			gh_FL2_DC       = s_fl2_fb_dc;
+			s_fl2_fb_active = true;
+			s_fl2_fb_dirty  = false;
+			return true;
+		}
+
+		// Last resort: bare screen-compatible DC (measurement only, no rendering).
+		if (s_fl2_bare_dc == NULL)
+			s_fl2_bare_dc = CreateCompatibleDC(NULL);
+		if (s_fl2_bare_dc != NULL)
+		{
+			gh_FL2_DC        = s_fl2_bare_dc;
+			s_fl2_bare_active = true;
+			return true;
+		}
+
+		return false;   // completely out of options â€“ caller gets NULL hdc
 	}
 
 	return false;
 }
 
-// DC¸¦ Release ÇÑ´Ù.
+// DCï¿½ï¿½ Release ï¿½Ñ´ï¿½.
 bool	g_FL2_ReleaseDC()
 {
 	assert(!gpC_base->m_p_DDSurface_back->IsLock());
@@ -550,9 +707,24 @@ bool	g_FL2_ReleaseDC()
 
 	if (gh_FL2_DC != NULL)
 	{
-		gpC_fl2_surface->ReleaseDC(gh_FL2_DC);
+		if (s_fl2_fb_active)
+		{
+			// Copy rendered text from the DIBSection onto the DirectDraw surface.
+			s_FL2_BlitFallbackToSurface();
+			s_fl2_fb_active = false;
+			s_fl2_fb_dirty  = false;
+		}
+		else if (s_fl2_bare_active)
+		{
+			// Bare measure-only DC â€“ nothing to copy back.
+			s_fl2_bare_active = false;
+		}
+		else
+		{
+			// Real DirectDraw DC â€“ release normally.
+			gpC_fl2_surface->ReleaseDC(gh_FL2_DC);
+		}
 		gh_FL2_DC = NULL;
-
 		return true;
 	}
 
@@ -561,11 +733,11 @@ bool	g_FL2_ReleaseDC()
 
 
 ////////////////////////////////////////////////
-// ÀÌ¸§ ÁÙ¿©ÁÖ´Â ¼Ò½º by sonee
+// ï¿½Ì¸ï¿½ ï¿½Ù¿ï¿½ï¿½Ö´ï¿½ ï¿½Ò½ï¿½ by sonee
 //
-// ±ä ¹®ÀÚ¸¦ 40ÀÚ·Î ÁÙÀÌ°í ½ÍÀ¸¸é ReduceString(str,40);
-// str ÀÚÃ¼¸¦ º¯°æÇÑ´Ù.
-// º¯°æÇÏÁö ¾Ê°í ¸®ÅÏ°ªÀ¸·Î ÇÒ°æ¿ì ¸¶Áö¸· º¹»çºÎºÐÀ» »©°í ±×³É ¸®ÅÏÇÏ¸é‰Î
+// ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¸ï¿½ 40ï¿½Ú·ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ReduceString(str,40);
+// str ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½
 ////////////////////////////////////////////////
 
 void ReduceString(char* str, int len)
@@ -606,7 +778,7 @@ void ReduceString(char* str, int len)
 	}
 }
 
-// µÞºÎºÐ¿¡ ... À» Âï¾îÁØ´Ù.				 by sonee
+// ï¿½ÞºÎºÐ¿ï¿½ ... ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.				 by sonee
 void ReduceString2(char* str, int len)
 {
 	if (len < 15) return;
@@ -665,7 +837,7 @@ void ReduceString3(char* str, int len)
 //-----------------------------------------------------------------------------
 // g_PrintColorStrLen
 //
-// strÀ» Ãâ·ÂÇÑ ÈÄÀÇ x¸¦ ¹ÝÈ¯ÇÑ´Ù.
+// strï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ xï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 int g_PrintColorStrLen(int x, int y, const char* sz_str, int str_length, PrintInfo& pi, COLORREF str_rgb)
 {
@@ -689,7 +861,7 @@ int g_PrintColorStrLen(int x, int y, const char* sz_str, int str_length, PrintIn
 //-----------------------------------------------------------------------------
 // g_PrintColorStrOut
 //
-// strÀ» Ãâ·ÂÇÑ ÈÄÀÇ x¸¦ ¹ÝÈ¯ÇÑ´Ù.
+// strï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ xï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 int g_PrintColorStrOut(int x, int y, const char* sz_str, PrintInfo& pi, COLORREF str_rgb, COLORREF out_rgb)
 {
@@ -716,7 +888,7 @@ int g_PrintColorStrOut(int x, int y, const char* sz_str, PrintInfo& pi, COLORREF
 //-----------------------------------------------------------------------------
 // g_PrintColorStrShadow
 //
-// strÀ» Ãâ·ÂÇÑ ÈÄÀÇ x¸¦ ¹ÝÈ¯ÇÑ´Ù.
+// strï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ xï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 int g_PrintColorStrShadow(int x, int y, const char* sz_str, PrintInfo& pi, COLORREF str_rgb, COLORREF shadow_rgb)
 {
@@ -765,21 +937,21 @@ std::string g_GetStringByMoney(DWORD dwMoney)
 	char TempBuffer[32] = { 0, };
 	std::string sstr;
 	DWORD TempMoney = 0;
-	if (dwMoney >= 100000000) // ¾ï
+	if (dwMoney >= 100000000) // ï¿½ï¿½
 	{
 		TempMoney = dwMoney / 100000000;
 		if (TempMoney)
 		{
-			wsprintf(TempBuffer, "%d¾ï", TempMoney);
+			wsprintf(TempBuffer, "%dï¿½ï¿½", TempMoney);
 			sstr += TempBuffer;
 		}
 	}
-	if (dwMoney >= 10000) // ¸¸
+	if (dwMoney >= 10000) // ï¿½ï¿½
 	{
 		TempMoney = (dwMoney % 100000000) / 10000;
 		if (TempMoney)
 		{
-			wsprintf(TempBuffer, "%d¸¸", TempMoney);
+			wsprintf(TempBuffer, "%dï¿½ï¿½", TempMoney);
 			sstr += TempBuffer;
 		}
 	}

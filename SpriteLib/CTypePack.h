@@ -93,7 +93,7 @@ public:
 
 protected:
 	static bool	IsTwoMultiplier(int num);
-	static int	LogTwoMultiplier(int num);	// 2ÀÇ ½Â¼ö¸¸ »ç¿ëÇÒ ¼ö ÀÖ´Â Math Log
+	static int	LogTwoMultiplier(int num);	// 2?? ?¼??? ????? ?? ??? Math Log
 	int			GetSplitFile(int idx, char* szBuf = NULL);
 
 protected:
@@ -107,7 +107,7 @@ protected:
 
 	bool			m_bSplitFile;
 	int				m_nUnitCount;
-	int				m_nUnitTwoMultiplier;	// (!)m_nUnitCount¸¦ 2ÀÇ ½Â¼ö·Î ÀúÀå¸¦
+	int				m_nUnitTwoMultiplier;	// (!)m_nUnitCount?? 2?? ?¼??? ????
 	std::string		m_strFileName;
 	std::string		m_strFileExt;
 
@@ -170,9 +170,16 @@ Type& CTypePack<Type>::operator [] (WORD n)
 template <class Type>
 Type& CTypePack<Type>::Get(WORD n)
 {
+	// Bounds / NULL safety
+	if (m_pData == NULL || n >= m_Size)
+	{
+		static Type s_empty;
+		return s_empty;
+	}
+
 	if (m_bRunningLoad && !m_pData[n].IsInit())
 	{
-		// file¿¡ ÀÖ´Â SpriteµéÀ» Load
+		// file?? ??? Sprite???? Load
 		if (m_bSplitFile)
 		{
 			int fileIdx = GetSplitFile(n);
@@ -181,12 +188,12 @@ Type& CTypePack<Type>::Get(WORD n)
 
 			ivfstream* pFile = NULL;
 
-			// ÆÄÀÏÀÌ Ä³½Ã¿¡ ÀÖÀ¸¸é ÀÖ´Â°É·Î ¾´´Ù.
+			// ?????? ??ÿ? ?????? ??°?? ????.
 			if (pos != m_FileCacheMap.end())
 			{
 				pFile = pos->second;
 			}
-			// ÆÄÀÏÀÌ Ä³½Ã¿¡ ¾øÀ¸¸é ºÒ·¯¿Â´Ù.
+			// ?????? ??ÿ? ?????? ????´?.
 			else
 			{
 				char fileName[MAX_PATH];
@@ -199,21 +206,21 @@ Type& CTypePack<Type>::Get(WORD n)
 			pFile->seekg(0);
 			pFile->read((char*)&unitSize, 2);
 
-			// ÀÎµ¦½º ÆÄÀÏÀÌ ÀÖÀ» °æ¿ì
+			// ????? ?????? ???? ???
 			if (m_file_index)
 			{
-				// ÆÄÀÏ¿¡¼­ÀÇ À§Ä¡¸¦ ¾ò´Â´Ù.
+				// ????????? ????? ??´?.
 				int offset = m_file_index[n] - m_file_index[fileIdx];
 
-				// 2´Â ÆÄÀÏ Å©±â ºÎºÐ
+				// 2?? ???? ??? ???
 				pFile->seekg(offset + 2);
 
 				m_pData[n].LoadFromFile(*pFile);
 			}
-			// ¾ø´Â °æ¿ì´Â ÀüºÎ ·Îµå
+			// ???? ???? ???? ???
 			else
 			{
-				// ÆÄÀÏ µ¥ÀÌÅÍ ºÎºÐÀ¸·Î °í°í½Ì
+				// ???? ?????? ??????? ??????
 				pFile->seekg(2);
 
 				for (int i = 0; i < unitSize && fileIdx + i < m_Size; ++i)
@@ -249,7 +256,7 @@ Type& CTypePack<Type>::Get(WORD n)
 		else
 		{
 			m_file->seekg(m_file_index[n]);
-			m_pData[n].LoadFromFile(*m_file);	// Sprite ÀÐ¾î¿À±â
+			m_pData[n].LoadFromFile(*m_file);	// Sprite ??????
 		}
 	}
 
@@ -313,14 +320,14 @@ bool CTypePack<Type>::SaveToFile(LPCTSTR lpszFilename)
 //----------------------------------------------------------------------
 // Load From File Running
 //----------------------------------------------------------------------
-// ½Ç½Ã°£ ·Îµù
+// ??ð? ???
 //----------------------------------------------------------------------
 template <class Type>
 bool CTypePack<Type>::LoadFromFileRunning(LPCTSTR lpszFilename)
 {
 	Release();
 
-	//´ÙÀ½À¸·Î ÀÎµ¦½º ÆÄÀÏÀÌ ÀÖ´Ù¸é ·ÎµåÇÑ´Ù.
+	//???????? ????? ?????? ???? ??????.
 	std::string indexFileName = lpszFilename;
 	indexFileName += 'i';
 
@@ -357,8 +364,8 @@ bool CTypePack<Type>::LoadFromFileRunning(LPCTSTR lpszFilename)
 #endif
 	}
 
-	// µ¥ÀÌÅÍ ÆÄÀÏÀ» ÀÐÀ» ÁØºñ¸¦ ÇÑ´Ù.
-	// ÀÌ¶§ ºÐÇÒ µ¥ÀÌÅÍ¿Í Åëµ¥ÀÌÅÍ´Â ºÐ±âÃ³¸®ÇÑ´Ù.
+	// ?????? ?????? ???? ??? ???.
+	// ??? ???? ??????? ??????? ???ó?????.
 	m_bSplitFile = !iovfs_base::get_vfs()->IsFileExist(lpszFilename);
 
 	if (m_bSplitFile)
@@ -386,7 +393,7 @@ bool CTypePack<Type>::LoadFromFileRunning(LPCTSTR lpszFilename)
 
 		fileHeader.close();
 
-		// È®ÀåÀÚ ÀúÀå
+		// ????? ????
 		char szExt[_MAX_EXT];
 		_splitpath_s(lpszFilename, nullptr, 0, nullptr, 0, nullptr, 0, szExt, sizeof(szExt));
 
@@ -411,7 +418,7 @@ bool CTypePack<Type>::LoadFromFileRunning(LPCTSTR lpszFilename)
 			m_file = new ivfstream;
 		}
 
-		// file¿¡¼­ sprite °³¼ö¸¦ ÀÐ¾î¿Â´Ù.	
+		// file???? sprite ?????? ???´?.	
 		m_file->open(lpszFilename, std::ios::binary);
 
 		if (!m_file->is_open())
@@ -439,13 +446,13 @@ template <class Type>
 bool CTypePack<Type>::SaveToFile(std::ofstream& dataFile, std::ofstream& indexFile)
 {
 	//--------------------------------------------------
-	// index fileÀ» »ý¼ºÇÏ±â À§ÇÑ Á¤º¸
+	// index file?? ??????? ???? ????
 	//--------------------------------------------------
 //	long*	pIndex = new long [m_Size];
 	std::vector<DWORD> vIndex;
 
 	//--------------------------------------------------
-	// Size ÀúÀå
+	// Size ????
 	//--------------------------------------------------
 	dataFile.write((const char*)&m_Size, 2);
 	indexFile.write((const char*)&m_Size, 2);
@@ -474,7 +481,7 @@ bool CTypePack<Type>::SaveToFile(std::ofstream& dataFile, std::ofstream& indexFi
 	}
 
 	//--------------------------------------------------
-	// index ÀúÀå
+	// index ????
 	//--------------------------------------------------
 	for (int i = 0; i < (int)vIndex.size(); i++)
 	{
@@ -622,7 +629,7 @@ bool CTypePack<Type>::LoadFromFileData(int dataID, int fileID, LPCTSTR packFilen
 	}
 
 	//-------------------------------------------------------------------
-	// loadÇÒ dataÀÇ file pointer¸¦ ÀÐ´Â´Ù.
+	// load?? data?? file pointer?? ??´?.
 	//-------------------------------------------------------------------
 	bool bSplitFile = !iovfs_base::get_vfs()->IsFileExist(packFilename);
 
@@ -652,7 +659,7 @@ bool CTypePack<Type>::LoadFromFileData(int dataID, int fileID, LPCTSTR packFilen
 			return false;
 		}
 
-		// È®ÀåÀÚ ÀúÀå
+		// ????? ????
 		char szExt[_MAX_EXT];
 		_splitpath_s(packFilename, nullptr, 0, nullptr, 0, nullptr, 0, szExt, sizeof(szExt));
 
@@ -693,7 +700,7 @@ bool CTypePack<Type>::LoadFromFileData(int dataID, int fileID, LPCTSTR packFilen
 
 
 		//-------------------------------------------------------------------
-		// indexÀÇ °³¼ö¸¦ Ã¼Å©ÇÑ´Ù. fileID°¡ ÀÖ´ÂÁö..?
+		// index?? ?????? ü????. fileID?? ?????..?
 		//-------------------------------------------------------------------
 		TYPE_SPRITEID num;
 		indexFile.read((char*)&num, sizeof(WORD));
@@ -837,7 +844,7 @@ public:
 
 protected:
 	static bool	IsTwoMultiplier(int num);
-	static int	LogTwoMultiplier(int num);	// 2ÀÇ ½Â¼ö¸¸ »ç¿ëÇÒ ¼ö ÀÖ´Â Math Log
+	static int	LogTwoMultiplier(int num);	// 2?? ?¼??? ????? ?? ??? Math Log
 	int			GetSplitFile(int idx, char* szBuf = NULL);
 
 protected:
@@ -852,7 +859,7 @@ protected:
 
 	bool			m_bSplitFile;
 	int				m_nUnitCount;
-	int				m_nUnitTwoMultiplier;	// (!)m_nUnitCount¸¦ 2ÀÇ ½Â¼ö·Î ÀúÀå¸¦
+	int				m_nUnitTwoMultiplier;	// (!)m_nUnitCount?? 2?? ?¼??? ????
 	std::string		m_strFileName;
 	std::string		m_strFileExt;
 
@@ -921,9 +928,15 @@ TypeBase& CTypePack2<TypeBase, Type1, Type2>::operator [] (WORD n)
 template <class TypeBase, class Type1, class Type2>
 TypeBase& CTypePack2<TypeBase, Type1, Type2>::Get(WORD n)
 {
+	// Bounds safety — clamp to valid range
+	if (m_pData == NULL || m_Size == 0)
+		n = 0;
+	else if (n >= m_Size)
+		n = m_Size - 1;
+
 	if (m_bRunningLoad && !m_pData[n].IsInit())
 	{
-		// file¿¡ ÀÖ´Â SpriteµéÀ» Load
+		// file?? ??? Sprite???? Load
 		if (m_bSplitFile)
 		{
 			int fileIdx = GetSplitFile(n);
@@ -932,12 +945,12 @@ TypeBase& CTypePack2<TypeBase, Type1, Type2>::Get(WORD n)
 
 			ivfstream* pFile = NULL;
 
-			// ÆÄÀÏÀÌ Ä³½Ã¿¡ ÀÖÀ¸¸é ÀÖ´Â°É·Î ¾´´Ù.
+			// Treat as if player has cache data
 			if (pos != m_FileCacheMap.end())
 			{
 				pFile = pos->second;
 			}
-			// ÆÄÀÏÀÌ Ä³½Ã¿¡ ¾øÀ¸¸é ºÒ·¯¿Â´Ù.
+			// Load info into player cache
 			else
 			{
 				char fileName[MAX_PATH];
@@ -950,21 +963,21 @@ TypeBase& CTypePack2<TypeBase, Type1, Type2>::Get(WORD n)
 			pFile->seekg(0);
 			pFile->read((char*)&unitSize, 2);
 
-			// ÀÎµ¦½º ÆÄÀÏÀÌ ÀÖÀ» °æ¿ì
+			// ????? ?????? ???? ???
 			if (m_file_index)
 			{
-				// ÆÄÀÏ¿¡¼­ÀÇ À§Ä¡¸¦ ¾ò´Â´Ù.
+				// ????????? ????? ??´?.
 				int offset = m_file_index[n] - m_file_index[fileIdx];
 
-				// 2´Â ÆÄÀÏ Å©±â ºÎºÐ
+				// 2?? ???? ??? ???
 				pFile->seekg(offset + 2);
 
 				m_pData[n].LoadFromFile(*pFile);
 			}
-			// ¾ø´Â °æ¿ì´Â ÀüºÎ ·Îµå
+			// ???? ???? ???? ???
 			else
 			{
-				// ÆÄÀÏ µ¥ÀÌÅÍ ºÎºÐÀ¸·Î °í°í½Ì
+				// ???? ?????? ??????? ??????
 				pFile->seekg(2);
 
 				for (int i = 0; i < unitSize && fileIdx + i < m_Size; ++i)
@@ -1000,7 +1013,7 @@ TypeBase& CTypePack2<TypeBase, Type1, Type2>::Get(WORD n)
 		else
 		{
 			m_file->seekg(m_file_index[n]);
-			m_pData[n].LoadFromFile(*m_file);	// Sprite ÀÐ¾î¿À±â
+			m_pData[n].LoadFromFile(*m_file);	// Sprite ??????
 		}
 	}
 
@@ -1063,14 +1076,14 @@ bool CTypePack2<TypeBase, Type1, Type2>::SaveToFile(LPCTSTR lpszFilename)
 //----------------------------------------------------------------------
 // Load From File Running
 //----------------------------------------------------------------------
-// ½Ç½Ã°£ ·Îµù
+// ??ð? ???
 //----------------------------------------------------------------------
 template <class TypeBase, class Type1, class Type2>
 bool CTypePack2<TypeBase, Type1, Type2>::LoadFromFileRunning(LPCTSTR lpszFilename)
 {
 	Release();
 
-	//´ÙÀ½À¸·Î ÀÎµ¦½º ÆÄÀÏÀÌ ÀÖ´Ù¸é ·ÎµåÇÑ´Ù.
+	//???????? ????? ?????? ???? ??????.
 	std::string indexFileName = lpszFilename;
 	indexFileName += 'i';
 
@@ -1107,8 +1120,8 @@ bool CTypePack2<TypeBase, Type1, Type2>::LoadFromFileRunning(LPCTSTR lpszFilenam
 #endif
 	}
 
-	// µ¥ÀÌÅÍ ÆÄÀÏÀ» ÀÐÀ» ÁØºñ¸¦ ÇÑ´Ù.
-	// ÀÌ¶§ ºÐÇÒ µ¥ÀÌÅÍ¿Í Åëµ¥ÀÌÅÍ´Â ºÐ±âÃ³¸®ÇÑ´Ù.
+	// ?????? ?????? ???? ??? ???.
+	// ??? ???? ??????? ??????? ???ó?????.
 	m_bSplitFile = !iovfs_base::get_vfs()->IsFileExist(lpszFilename);
 
 	if (m_bSplitFile)
@@ -1136,7 +1149,7 @@ bool CTypePack2<TypeBase, Type1, Type2>::LoadFromFileRunning(LPCTSTR lpszFilenam
 
 		fileHeader.close();
 
-		// È®ÀåÀÚ ÀúÀå
+		// ????? ????
 		char szExt[_MAX_EXT];
 		_splitpath(lpszFilename, NULL, NULL, NULL, szExt);
 
@@ -1167,7 +1180,7 @@ bool CTypePack2<TypeBase, Type1, Type2>::LoadFromFileRunning(LPCTSTR lpszFilenam
 			m_file = new ivfstream;
 		}
 
-		// file¿¡¼­ sprite °³¼ö¸¦ ÀÐ¾î¿Â´Ù.	
+		// file???? sprite ?????? ???´?.	
 		m_file->open(lpszFilename, std::ios::binary);
 
 		if (!m_file->is_open())
@@ -1195,13 +1208,13 @@ template <class TypeBase, class Type1, class Type2>
 bool CTypePack2<TypeBase, Type1, Type2>::SaveToFile(std::ofstream& dataFile, std::ofstream& indexFile)
 {
 	//--------------------------------------------------
-	// index fileÀ» »ý¼ºÇÏ±â À§ÇÑ Á¤º¸
+	// index file?? ??????? ???? ????
 	//--------------------------------------------------
 //	long*	pIndex = new long [m_Size];
 	std::vector<DWORD> vIndex;
 
 	//--------------------------------------------------
-	// Size ÀúÀå
+	// Size ????
 	//--------------------------------------------------
 	dataFile.write((const char*)&m_Size, 2);
 	indexFile.write((const char*)&m_Size, 2);
@@ -1230,7 +1243,7 @@ bool CTypePack2<TypeBase, Type1, Type2>::SaveToFile(std::ofstream& dataFile, std
 	}
 
 	//--------------------------------------------------
-	// index ÀúÀå
+	// index ????
 	//--------------------------------------------------
 	for (int i = 0; i < (int)vIndex.size(); i++)
 	{
@@ -1404,7 +1417,7 @@ bool CTypePack2<TypeBase, Type1, Type2>::LoadFromFileData(int dataID, int fileID
 	}
 
 	//-------------------------------------------------------------------
-	// loadÇÒ dataÀÇ file pointer¸¦ ÀÐ´Â´Ù.
+	// load?? data?? file pointer?? ??´?.
 	//-------------------------------------------------------------------
 	bool bSplitFile = !iovfs_base::get_vfs()->IsFileExist(packFilename);
 
@@ -1434,7 +1447,7 @@ bool CTypePack2<TypeBase, Type1, Type2>::LoadFromFileData(int dataID, int fileID
 			return false;
 		}
 
-		// È®ÀåÀÚ ÀúÀå
+		// ????? ????
 		char szExt[_MAX_EXT];
 		_splitpath(packFilename, NULL, NULL, NULL, szExt);
 
@@ -1475,7 +1488,7 @@ bool CTypePack2<TypeBase, Type1, Type2>::LoadFromFileData(int dataID, int fileID
 
 
 		//-------------------------------------------------------------------
-		// indexÀÇ °³¼ö¸¦ Ã¼Å©ÇÑ´Ù. fileID°¡ ÀÖ´ÂÁö..?
+		// index?? ?????? ü????. fileID?? ?????..?
 		//-------------------------------------------------------------------
 		TYPE_SPRITEID num;
 		indexFile.read((char*)&num, sizeof(WORD));

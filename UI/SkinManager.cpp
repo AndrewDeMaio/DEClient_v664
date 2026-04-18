@@ -53,11 +53,33 @@ bool			SkinManager::LoadInformation(const char *szFileName)
 {
 	CRarFile rarfile;
 	rarfile.SetRAR(RPK_INFO,RPK_PASSWORD);
-	rarfile.Open(szFileName);
-	
-	if( !rarfile.IsSet() )
+	bool bOpened = rarfile.Open(szFileName);
+
+	if( !bOpened || !rarfile.IsSet() )
+	{
+		char cwd[MAX_PATH] = {0};
+		GetCurrentDirectoryA(MAX_PATH, cwd);
+
+		// Check if the RPK is reachable from CWD
+		DWORD rpkAttr = GetFileAttributesA(RPK_INFO);
+
+		char msg[1024];
+		sprintf(msg, "SkinManager: Failed to open \"%s\" from RPK \"%s\"\n"
+		             "  Open returned: %s\n"
+		             "  IsSet: %s  size=%d  ptr=%p\n"
+		             "  CWD: %s\n"
+		             "  RPK exists at CWD: %s",
+		        szFileName, RPK_INFO,
+		        bOpened ? "true" : "false",
+		        rarfile.IsSet() ? "true" : "false",
+		        rarfile.GetSize(),
+		        rarfile.GetFilePointer(),
+		        cwd,
+		        (rpkAttr != INVALID_FILE_ATTRIBUTES) ? "YES" : "NO");
+		MessageBox(NULL, msg, "SkinManager Debug", MB_OK);
 		return false;
-		
+	}
+
 	Init( INTERFACE_MAX );
 
 	char szLine[256];

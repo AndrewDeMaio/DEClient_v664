@@ -65,7 +65,7 @@ void CRarFile::Release()
 
 //////////////////////////////////////////////////////////////////////
 // DeleteTempFile
-// ÀÓ½Ã ÆÄÀÏ »èÁ¦
+// ï¿½Ó½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////
 void CRarFile::DeleteTempFile()
 {
@@ -78,7 +78,7 @@ void CRarFile::DeleteTempFile()
 
 //////////////////////////////////////////////////////////////////////
 // SetRAR
-// RARÆÄÀÏ ÀÌ¸§ ¼¼ÆÃ
+// RARï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 //////////////////////////////////////////////////////////////////////
 void CRarFile::SetRAR(const char* rar_filename, const char* pass)
 {
@@ -86,7 +86,7 @@ void CRarFile::SetRAR(const char* rar_filename, const char* pass)
 
 	LPCSTR szRealFileName = rar_filename;
 
-	// ½ÇÁ¦ ÆÄÀÏÀÌ ¾øÀ» °æ¿ì ÀÓ½Ã ÆÄÀÏÀ» ¿¬´Ù.
+	// If the real file does not exist, open a temporary file.
 	if (_access(rar_filename, 0))
 	{
 		m_pTempFile = new VirtualTempFileIO(iovfs_base::get_vfs());
@@ -101,7 +101,7 @@ void CRarFile::SetRAR(const char* rar_filename, const char* pass)
 
 //////////////////////////////////////////////////////////////////////
 // Open
-// RAR ÆÄÀÏÀ» ¿¬´Ù.
+// RAR ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 //////////////////////////////////////////////////////////////////////
 bool CRarFile::Open(const char* in_filename)
 {
@@ -116,12 +116,12 @@ bool CRarFile::Open(const char* in_filename)
 
 //////////////////////////////////////////////////////////////////////
 // Read
-// size ¸¸Å­ buf¿¡ ÀÐ´Â´Ù.
+// size ï¿½ï¿½Å­ bufï¿½ï¿½ ï¿½Ð´Â´ï¿½.
 //////////////////////////////////////////////////////////////////////
 char* CRarFile::Read(char* buf, int size)
 {
 	if (!m_file_pointer || IsEOF())
-		return nullptr;	// ÆÄÀÏÀ» ÀÐÁö ¾Ê¾Ò°Å³ª ÆÄÀÏÀÇ ³¡ÀÌ¸é
+		return nullptr;	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½
 
 	memcpy(buf, m_file_pointer, size);
 	char* re = m_data;
@@ -131,12 +131,12 @@ char* CRarFile::Read(char* buf, int size)
 
 //////////////////////////////////////////////////////////////////////
 // Read
-// ÇöÀç µ¥ÀÌÅÍ¸¦ ¸®ÅÏÇÏ°í size¸¸Å­ plus
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ sizeï¿½ï¿½Å­ plus
 //////////////////////////////////////////////////////////////////////
 char* CRarFile::Read(int size)
 {
 	if (!m_file_pointer || IsEOF())
-		return nullptr;	// ÆÄÀÏÀ» ÀÐÁö ¾Ê¾Ò°Å³ª ÆÄÀÏÀÇ ³¡ÀÌ¸é
+		return nullptr;	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½
 
 	char* re = m_file_pointer;
 	m_file_pointer += size;
@@ -145,7 +145,7 @@ char* CRarFile::Read(int size)
 
 //////////////////////////////////////////////////////////////////////
 // IsEOF
-// È­ÀÏÀÇ ³¡ÀÎ°¡.
+// È­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Î°ï¿½.
 //////////////////////////////////////////////////////////////////////
 bool CRarFile::IsEOF(int plus)
 {
@@ -157,15 +157,15 @@ bool CRarFile::IsEOF(int plus)
 
 //////////////////////////////////////////////////////////////////////
 // GetString
-// ¹®ÀÚ¿­ ÀÐ±â
+// ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½Ð±ï¿½
 //////////////////////////////////////////////////////////////////////
 bool CRarFile::GetString(char* buf, int size)
 {
 	if (m_file_pointer == NULL || IsEOF())
-		return false;	// ÆÄÀÏÀ» ÀÐÁö ¾Ê¾Ò°Å³ª ÆÄÀÏÀÇ ³¡ÀÌ¸é
+		return false;	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¾Ò°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½
 
 	int i;
-	for (i = 0; m_file_pointer + i < m_data + m_size && i < size; i++)
+	for (i = 0; m_file_pointer + i < m_data + m_size && i < size - 1; i++)
 	{
 		if (IsEOF(i))break;
 		if (m_file_pointer[i] == '\0' || m_file_pointer[i] == '\n')
@@ -176,9 +176,10 @@ bool CRarFile::GetString(char* buf, int size)
 	}
 
 	memcpy(buf, m_file_pointer, i);
-	if (IsEOF(i))buf[i] = '\0';
-	if (buf[i - 1] == '\n')buf[i - 1] = '\0';
-	if (buf[i - 2] == 13)buf[i - 2] = '\0';
+	buf[i] = '\0';	// always null-terminate
+	// Strip trailing \n and \r (check bounds before indexing)
+	if (i >= 1 && buf[i - 1] == '\n') buf[i - 1] = '\0';
+	if (i >= 2 && buf[i - 2] == '\r') buf[i - 2] = '\0';
 
 	m_file_pointer += i;
 
@@ -187,7 +188,7 @@ bool CRarFile::GetString(char* buf, int size)
 
 //////////////////////////////////////////////////////////////////////
 // GetList
-// ¸®½ºÆ® ÀÐ±â
+// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ð±ï¿½
 //////////////////////////////////////////////////////////////////////
 std::vector<std::string>* CRarFile::GetList(char* filter)
 {
@@ -967,6 +968,8 @@ bool ExtrFile(void)
 				}
 			}
 #endif
+			if (FileFound)
+				ReturnCode = TRUE;              /* file extracted successfully!  */
 
 		}
 

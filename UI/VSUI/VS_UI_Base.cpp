@@ -105,11 +105,11 @@ void Base::SetFont(PrintInfo &pi, LOGFONT &lf, COLORREF textcolor, COLORREF back
 void Base::SetDefaultLogfont(LOGFONT &lf) const
 {
 	lf.lfHeight = 0; // 0 = default
-	lf.lfWidth = 0; // 0 = ³ôÀÌ¿¡ ±âÁØÇÏ¿© ÀÚµ¿À¸·Î ¼³Á¤µÊ.
-	lf.lfEscapement = 0; // ¹æÇâ¼³Á¤ (900, 2700)
+	lf.lfWidth = 0; // 0 = ????? ??????? ??????? ??????.
+	lf.lfEscapement = 0; // ?????? (900, 2700)
 	lf.lfOrientation = 0;
 	lf.lfWeight = FW_NORMAL; // FW_BOLD
-	lf.lfItalic = 0; // 0 ¾Æ´Ñ °ªÀÌ¸é italicÀÌ´Ù.
+	lf.lfItalic = 0; // 0 ??? ????? italic???.
 	lf.lfUnderline = 0;
 	lf.lfStrikeOut = 0;
 	if(gC_ci->IsChinese())
@@ -132,7 +132,7 @@ void Base::SetDefaultLogfont(LOGFONT &lf) const
 		lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf.lfQuality = DEFAULT_QUALITY;
 		lf.lfPitchAndFamily = DEFAULT_PITCH|FF_DONTCARE;
-		strcpy(lf.lfFaceName, "±¼¸²Ã¼");//"Times New Roman");
+		strcpy(lf.lfFaceName, "????ü");//"Times New Roman");
 	}
 }
 
@@ -206,11 +206,11 @@ void Base::InitFont()
 	LOGFONT lf;
 
 	// 
-	// ±¦ÂúÀº style
+	// ?????? style
 	//
-	// - ¹ÙÅÁ, 13
+	// - ????, 13
 	//
-	// !Times New Romans·Î ÇÏÁö ¸»°Í. OS°£ À§Ä¡ ¾È¸Â´Â ¹®Á¦ ¹ß»ýÇÔ.
+	// !Times New Romans?? ???? ????. OS?? ??? ??´? ???? ?????.
 	//
 	const char szFontName[5][3][20] = {
 		// Hangul Font      Chinese Font
@@ -325,11 +325,11 @@ void Base::InitFont()
 	SetFont(m_char_value_pi, lf, RGB(255, 255, 255));
 
 	//
-	//font used by Client by larosel ¹ÛÀÇ ÆùÆ®º¸´Ù 2¾¿ Å©°Ô ÇØÁà¾ßÇÔ.
+	//font used by Client by larosel ???? ??????? 2?? ??? ???????.
 	//
 	//SetDefaultLogfont(lf);
 	//lf.lfHeight = 12;
-	//strcpy(lf.lfFaceName, "±¼¸²");
+	//strcpy(lf.lfFaceName, "????");
 	//SetFont(m_chat_dialog_pi, lf, RGB(255, 255, 255));
 
 	SetDefaultLogfont(lf);
@@ -381,7 +381,7 @@ void Base::InitFont()
 	strcpy(lf.lfFaceName, szFontName[0][Language]);
 	SetFont(m_money2_pi, lf, RGB(255, 255, 255), 0, TRANSPARENT, TA_RIGHT);
 
-	// Event Message¿ë pi
+	// Event Message?? pi
 	SetDefaultLogfont(lf);
 	lf.lfHeight = 20 + local_font_size;
 	lf.lfWeight = FW_BOLD;
@@ -411,7 +411,7 @@ void Base::InitSurface(CSpriteSurface *surface)
 	//g_pUserInformation->IsResolution1024
 
 
-	bool ret = m_DDSurface_offscreen.InitOffsurface(g_pUserInformation->iResolution_x, g_pUserInformation->iResolution_y, DDSCAPS_SYSTEMMEMORY);
+	bool ret = m_DDSurface_offscreen.InitOffsurface16(g_pUserInformation->iResolution_x, g_pUserInformation->iResolution_y, DDSCAPS_SYSTEMMEMORY);
 
 	//bool ret = m_DDSurface_offscreen.InitOffsurface(RESOLUTION_X, RESOLUTION_Y, DDSCAPS_SYSTEMMEMORY);
 
@@ -420,8 +420,8 @@ void Base::InitSurface(CSpriteSurface *surface)
 		_Error(FAILED_JOB);
 
 	//
-	// offscreenÀÇ colorkey¸¦ ¼³Á¤ÇÑ´Ù. »óÈ²¿¡ µû¶ó¼­ Image¿¡¼­ ¾È ¾²´Â »öÀ» 
-	// °áÁ¤ÇØ¾ß ÇÑ´Ù.
+	// offscreen?? colorkey?? ???????. ????? ???? Image???? ?? ???? ???? 
+	// ??????? ???.
 	//
 	m_colorkey_red = RED;
 

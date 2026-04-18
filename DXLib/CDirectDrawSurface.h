@@ -13,28 +13,28 @@
 //----------------------------------------------------------------------
 //
 //
-// 5:6:5 ¿Í  5:5:5ÀÇ Â÷ÀÌ´Â 
-// Bit Mask¿¡ ÀÇÇØ Ã³¸®µÇ´Â ºÎºÐ¿¡¼­ ¹ß»ýÇÏ´Âµ¥
-// CDirectDraw classÀÇ InitMask()¿¡¼­ Video Card¿¡ ¸Â´Â
-// ÀûÀýÇÑ Mask¸¦ »ý¼ºÇÏ¹Ç·Î ±×³É~ CDirectDrawÀÇ Mask¸¦ »ç¿ëÇÏ¸é µÈ´Ù.
+// 5:6:5 ï¿½ï¿½  5:5:5ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½ 
+// Bit Maskï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ç´ï¿½ ï¿½ÎºÐ¿ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½Ï´Âµï¿½
+// CDirectDraw classï¿½ï¿½ InitMask()ï¿½ï¿½ï¿½ï¿½ Video Cardï¿½ï¿½ ï¿½Â´ï¿½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Maskï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½ ï¿½×³ï¿½~ CDirectDrawï¿½ï¿½ Maskï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½È´ï¿½.
 //
 //
 //
 //----------------------------------------------------------------------
 /*
 
-  < DDSurface°¡ »ý¼ºµÇ´Â MEMORY >
+  < DDSurfaceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ MEMORY >
 
-	- DDSCAPS_SYSTEMMEMORY´Â LockÀ» »ç¿ëÇÒ ¶§ ºü¸£´Ù.
-	- DDSCAPS_VIDEOMEMORY´Â Blt¸¦ »ç¿ëÇÒ ¶§ ºü¸£´Ù.
-	  ´Ü, VIDEOMEMORY°¡ ºÎÁ·ÇÏ¸é Surface¸¦ »ý¼ºÇÏÁö ¾ÊÀ¸¹Ç·Î error!
-	- ÁöÁ¤À» ¾È ÇØ ÁÖ¸é VIDEOMEMORY°¡ »ç¿ë°¡´ÉÇÏ¸é »ç¿ëÇÏ°í 
-   	  ¾Æ´Ï¸é SYSTEMMEMORY¸¦ »ç¿ëÇÑ´Ù.
+	- DDSCAPS_SYSTEMMEMORYï¿½ï¿½ Lockï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	- DDSCAPS_VIDEOMEMORYï¿½ï¿½ Bltï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
+	  ï¿½ï¿½, VIDEOMEMORYï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ Surfaceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ error!
+	- ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö¸ï¿½ VIDEOMEMORYï¿½ï¿½ ï¿½ï¿½ë°¡ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ 
+   	  ï¿½Æ´Ï¸ï¿½ SYSTEMMEMORYï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	
   < Alpha Blending >
-    - »ç¿ëÇÏ·Á¸é DDSCAPS_SYSTEMMEMORY¸¦ »ç¿ëÇÏ´Â°Ô ÁÁ´Ù.
-	- Surface --> Surface·ÎÀÇ Alpha Blendingº¸´Ù
-	  Memory(SpriteFile) --> Surface·ÎÀÇ Alpha BlendingÀÌ ºü¸£´Ù.
+    - ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ DDSCAPS_SYSTEMMEMORYï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½ ï¿½ï¿½ï¿½ï¿½.
+	- Surface --> Surfaceï¿½ï¿½ï¿½ï¿½ Alpha Blendingï¿½ï¿½ï¿½ï¿½
+	  Memory(SpriteFile) --> Surfaceï¿½ï¿½ï¿½ï¿½ Alpha Blendingï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 
 */
 //----------------------------------------------------------------------
@@ -58,7 +58,7 @@ public :
 	void	GDI_Text(int x, int y, const char *str, COLORREF fcolor, 
 																 COLORREF bcolor = 0, 
 																 bool option = true);
-	void	ShowFPS(int x, int y, COLORREF bcolor, COLORREF fcolor); // FPS¸¦ Ãâ·ÂÇÑ´Ù.
+	void	ShowFPS(int x, int y, COLORREF bcolor, COLORREF fcolor); // FPSï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 
 
 	//------------------------------------------------------------
@@ -80,8 +80,9 @@ public :
 	//------------------------------------------------------------
 	// Init
 	//------------------------------------------------------------
-	bool	InitBacksurface();	
-	bool	InitOffsurface(int wWidth, int wHeight, DWORD dwCaps = 0);	
+	bool	InitBacksurface();
+	bool	InitOffsurface(int wWidth, int wHeight, DWORD dwCaps = 0);
+	bool	InitOffsurface16(int wWidth, int wHeight, DWORD dwCaps = 0);
 	bool	InitFromBMP(LPCSTR szBitmap, DWORD dwCaps = 0);
 	bool	InitTextureSurface(int wWidth, int wHeight, DWORD dwCaps = 0, const LPDDPIXELFORMAT pDDPF = NULL);
 	bool	InitTextureSurfaceFromBMP(LPCSTR szBitmap, DWORD dwCaps = 0);
@@ -99,7 +100,7 @@ public :
 
 	//------------------------------------------------------------
 	// Set Transparency color
-	// `BltÇÒ ¶§ ¹Ýµå½Ã ÇØÁà¾ß ÇÑ´Ù.
+	// `Bltï¿½ï¿½ ï¿½ï¿½ ï¿½Ýµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	//------------------------------------------------------------
 	void	SetTransparency(DWORD dwValue);
 
@@ -110,11 +111,11 @@ public :
 	void	BltNoColorkey(POINT* pPoint, CDirectDrawSurface* SourceSurface, RECT*  pRect);
 	void	Blt(RECT* pDestRect, CDirectDrawSurface* SourceSurface, RECT* pSourceRect);	
 
-	// ÇöÀç surfaceÀÇ pPoint¿¡ PrimarySurfaceÀÇ pRect¸¦ bltÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ surfaceï¿½ï¿½ pPointï¿½ï¿½ PrimarySurfaceï¿½ï¿½ pRectï¿½ï¿½ bltï¿½Ñ´ï¿½.
 	void	BltPrimarySurface(POINT* pPoint, RECT* pRect);
 
 	//------------------------------------------------------------
-	// DirectDraw Á¦°ø Drawing ÇÔ¼öµé...
+	// DirectDraw ï¿½ï¿½ï¿½ï¿½ Drawing ï¿½Ô¼ï¿½ï¿½ï¿½...
 	//------------------------------------------------------------
 	void	FillSurface(WORD color);
 	void	FillRect(RECT* rect, WORD Color);
@@ -130,7 +131,7 @@ public :
 	inline int		GetHeight() const	{ return m_Height; } // no const...
 
 	//------------------------------------------------------------
-	// Clip ¿µ¿ª
+	// Clip ï¿½ï¿½ï¿½ï¿½
 	//------------------------------------------------------------
 	///*
 	inline void		SetClipLeft(int Left)				{ if (Left>=0) m_ClipLeft = Left; }
@@ -155,7 +156,7 @@ public :
 	//*/
 
 	//
-	// ! Pitch¿Í Surface pointer¸¦ ¾òÀ¸·Á¸é, CDirectDrawÀÇ GetDDDesc()¸¦ ÀÌ¿ëÇÑ´Ù.
+	// ! Pitchï¿½ï¿½ Surface pointerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, CDirectDrawï¿½ï¿½ GetDDDesc()ï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ñ´ï¿½.
 	//
 
 	//------------------------------------------------------------
@@ -165,7 +166,7 @@ public :
 	bool		Unlock();
 	bool		IsLock() const		{ return m_bLock; }
 
-	// À½... ±×³É castÇØ¼­ ¾²´Â°Ô...
+	// ï¿½ï¿½... ï¿½×³ï¿½ castï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½Â°ï¿½...
 	void	LockW(WORD*& lpSurface, WORD& lPitch);
 	//void	LockDW(DWORD*& lpSurface, WORD& lPitch);
 	//void	LockQW(QWORD*& lpSurface, WORD& lPitch);
@@ -175,24 +176,24 @@ public :
 	//------------------------------------------------------------		
 	operator const LPDIRECTDRAWSURFACE7&()	{ return m_pDDSurface; }
 	
-	// class ³»ºÎ¿¡¼­ ¾²´Â ÇÔ¼ö
+	// class ï¿½ï¿½ï¿½Î¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 protected :
 	bool	CopyBitmap(HBITMAP hbm, int x, int y, int dx, int dy);
 
 protected :
 	LPDIRECTDRAWSURFACE7	m_pDDSurface;
 
-	// SurfaceÀÇ Å©±â, ¾²ÀÓ»õ°¡ ¸¹À¸¹Ç·Î member·Î °¡Áö°í ÀÖ´Â´Ù.
+	// Surfaceï¿½ï¿½ Å©ï¿½ï¿½, ï¿½ï¿½ï¿½Ó»ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ memberï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Â´ï¿½.
 	int					m_Width;
 	int					m_Height;
 
-	// surface°¡ back surfaceÀÎ°¡¸¦ ³ªÅ¸³»´Â flag.
+	// surfaceï¿½ï¿½ back surfaceï¿½Î°ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ flag.
 	bool					m_bBackSurface;	
 
-	// LockÀÌ µÈ »óÅÂÀÎ°¡?
+	// Lockï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½?
 	bool					m_bLock;	
 
-	// ½ÇÁ¦ Å©±âº¸´Ù ÀÛÀº.. ClipÀÌ µÇ¾î¼­ º¸¿©Áö´Â ¿µ¿ªÀ» ¼³Á¤	
+	// ï¿½ï¿½ï¿½ï¿½ Å©ï¿½âº¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.. Clipï¿½ï¿½ ï¿½Ç¾î¼­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½	
 	int					m_ClipRight;
 	int					m_ClipBottom;
 	int					m_ClipLeft;
