@@ -45,9 +45,9 @@ class UIMessageManager {
 		//static void	Execute_UI_CHAT_SELECT_NAME(int left, int right, void* void_ptr);
 		static void	Execute_UI_LOGOUT(int left, int right, void* void_ptr);
 	
-	#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+	#if __CONTENTS(__GAMEMENU_QUITEXIT)
 		static void	Execute_UI_QUITEXIT(int left, int right, void* void_ptr);
-	#endif //__080405_FIREST_UI_UPDATE
+	#endif //__GAMEMENU_QUITEXIT
 
 		static void	Execute_UI_SELECT_SKILL(int left, int right, void* void_ptr);
 		static void	Execute_UI_CANCEL_SELECT_SKILL(int left, int right, void* void_ptr);

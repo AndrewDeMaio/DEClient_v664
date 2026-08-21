@@ -57,7 +57,7 @@ struct S_BLOOD_BIBLE_DESCRIPTION
 // SHOW_WINDOW_ATTR은 각 Window에 Window상태를 출력하기 위한 것이다. Window를 디버깅하기 위해
 // 만든 것이다.
 //
-#if (defined(_SHOW_WINDOW_ATTR) && !defined(_LIB))
+#if defined(_SHOW_WINDOW_ATTR)
 #define SHOW_WINDOW_ATTR { \
 								char buf[200]; \
 								sprintf(buf, "[move=%d, pin=%d, topmost=%d, kctrl=%d", GetAttributes()->window_move, GetAttributes()->pin, GetAttributes()->topmost, GetAttributes()->keyboard_control); \
@@ -340,9 +340,7 @@ public:
 	void	SendMessage(DWORD message, int left = 0, int right = 0, void *void_ptr = NULL);
 //	void	SelectFont(font_id_t id);
 
-#ifndef _LIB
 	int	GetMessageSize() const { return m_C_ui_result_receiver.GetMessageSize(); }
-#endif
 };
 
 extern Base * gpC_base;

@@ -57,7 +57,7 @@ void GCReconnectLogin::write ( SocketOutputStream & oStream ) const
 	//--------------------------------------------------
 	// write game server's ip
 	//--------------------------------------------------
-	size_t szLoginServerIP = m_LoginServerIP.size();
+	BYTE szLoginServerIP = (BYTE)m_LoginServerIP.size();
 
 	if ( szLoginServerIP == 0 )
 		throw InvalidProtocolException("szLoginServerIP == 0");

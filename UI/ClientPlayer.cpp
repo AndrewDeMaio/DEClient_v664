@@ -161,7 +161,12 @@ void ClientPlayer::processCommand ()
 		try {
 
 			// ����� �ӽ������� ���� ����
-			//char header[szPacketHeader];
+			// header is only referenced by the !__CRYPT branch below, which reads the
+			// packet header as raw bytes. The __CRYPT branch uses PACKETDATA pData
+			// instead, which is why this declaration shipped commented out.
+			#if !__CONTENTS(__CRYPT)
+				char header[szPacketHeader];
+			#endif
 			PacketID_t packetID = 0;
 			PacketSize_t packetSize = 0;		
 			pPacket = NULL;
@@ -333,7 +338,39 @@ void ClientPlayer::processCommand ()
 				// ���� �� ��Ŷ��Ʈ��ó�� �ʱ�ȭ�Ѵ�.
 				// ��Ŷ����Ŭ������ ���ǵ� read()�� virtual ��Ŀ���� ���ؼ� ȣ��Ǿ�
 				// �ڵ������� �ʱ�ȭ�ȴ�.
+				// The server writes exactly packetSize bytes for this body, but this
+				// client only stays in sync if its own read() consumes the same
+				// number. When a field is compiled out here by ContentsFilter, or is
+				// a different width from the 64-bit server's (GCCannotAdd and
+				// ModifyInfo were each one of those), read() takes the wrong amount,
+				// every packet after it is garbage, and processCommand() throws --
+				// which UpdateSocketInput() turns into MODE_MAINMENU, i.e. a silent
+				// "force DC" with no crash and no error shown. Name the packet that
+				// actually did it instead of dying on the wreckage afterwards.
+				const uint lenBeforeRead = m_pInputStream->length();
+
 				m_pInputStream->read( pPacket );
+
+				const uint consumed = lenBeforeRead - m_pInputStream->length();
+				const uint expected = szPacketHeader + packetSize;
+
+				if ( consumed != expected )
+				{
+					// Diagnostic ONLY -- deliberately does not touch the stream and
+					// does not send anything. An earlier version called
+					// SendBugReport() here, but that puts a CGSay on whichever
+					// connection is current, and during login that is the LOGIN
+					// server, which drops the client for an unexpected packet ID.
+					// Recording the mismatch is enough: it names the packet class to
+					// fix, and the desync that follows behaves exactly as it did
+					// before this check existed.
+					std::ofstream mismatch("PacketSizeMismatch.log", std::ios::out | std::ios::app);
+					mismatch << "PacketID " << (int)packetID
+					         << " declared " << (int)packetSize
+					         << " but read " << ((int)consumed - (int)szPacketHeader)
+					         << std::endl;
+					mismatch.close();
+				}
 /*#if __CONTENTS(__CRYPT)
 				if(pData.m_wMsgSize > 0)
 				{
@@ -561,8 +598,24 @@ void ClientPlayer::setEncryptCode()
 //		else if ( g_pUserInformation->bChinese )
 //			code = (uchar) ( ( ( ( ( serverID ) + 1 ) << 4 ) | ( zoneID ) ) ^ ( ( zoneID ) >> 8 ) );
 //			code = (uchar)( ( ( ( zoneID ) >> 8 ) ^ ( zoneID ) ) ^ ( ( ( serverID ) + 1 ) << 4 ) );
-		else if ( g_pUserInformation->bEnglish )
-			code = (uchar)( ( ( ( zoneID ) >> 8 ) ^ ( zoneID ) ) ^ ( ( ( serverID ) + 1 ) * 51 ) );
+		// DE_ENGLISH_ENCRYPT_ALIGNED
+		//
+		// The English branch here used the *51 seed, which matches only a server
+		// built as __INTERNATIONAL_SERVER__. DEServer_v664 builds as
+		// __METRO_SERVER__ (src/Core/types/ServerType.h:8), whose EncryptCode
+		// macro is the <<4 form - the same one the default branch below uses.
+		//
+		// This path is live in our build: Packet/Encrypter.h defines
+		// __USE_ENCRYPTER__ when __CRYPT is OFF (that flag means the International
+		// crypt scheme, which the global build does not use), and we set
+		// __CRYPT __OFF. With *51 left in place an English client would derive a
+		// different code than the server, and every packet after connect would
+		// decode to garbage.
+		//
+		// Restore this branch if the client is ever pointed at a genuine
+		// __INTERNATIONAL_SERVER__ build.
+		//		else if ( g_pUserInformation->bEnglish )
+		//			code = (uchar)( ( ( ( zoneID ) >> 8 ) ^ ( zoneID ) ) ^ ( ( ( serverID ) + 1 ) * 51 ) );
 		else
 			code = (uchar)( ( ( ( zoneID ) >> 8 ) ^ ( zoneID ) ) ^ ( ( ( serverID ) + 1 ) << 4 ) );
 

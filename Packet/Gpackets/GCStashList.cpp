@@ -191,7 +191,7 @@ void GCStashList::write ( SocketOutputStream & oStream ) const
 				oStream.write(item.silver);
 				oStream.write(item.grade);
 				oStream.write(item.enchantLevel);
-				size_t thirdOptionSize = item.thirdOptionType.size();
+				BYTE thirdOptionSize = (BYTE)item.thirdOptionType.size();
 				oStream.write( thirdOptionSize );
 				
 				std::list<OptionType_t>::const_iterator iThirdOption = item.thirdOptionType.begin();

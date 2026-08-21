@@ -24581,6 +24581,9 @@ MTopView::ExcuteOustersFinEvent()
 						CCreatureFramePack& addonFPK = pCreatureWear->IsMale() ? m_AddonManFPK : m_AddonWomanFPK;
 						CIndexSpritePack& addonSPK = pCreatureWear->IsMale() ? m_AddonManSPK : m_AddonWomanSPK;
 
+						// AddonWoman.cfpk is shorter than AddonMan.cfpk and TArray::operator[]
+						// does no bounds check, so an out-of-range FrameID crashes. Skip it.
+						if (clothes >= (int)addonFPK.GetSize()) continue;
 						FRAME_ARRAY& FA = addonFPK[clothes][action][direction];
 
 						// �ִ� ������ ���

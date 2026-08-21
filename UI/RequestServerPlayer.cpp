@@ -1,37 +1,38 @@
 //--------------------------------------------------------------------------------
 // 
-// Filename    : RequestClientPlayer.cpp 
+// Filename    : RequestServerPlayer.cpp 
 // Written By  : sigi
 // 
 //--------------------------------------------------------------------------------
 
 // include files
 #include "Client_PCH.h"
-#include "RequestClientPlayer.h"
+#include "RequestServerPlayer.h"
 #include "Assert.h"
 #include "Packet.h"
 #include "PacketFactoryManager.h"
 #include "PacketValidator.h"
-#include "ClientDef.h"
-#include "RequestFileManager.h"
 #include "ClientConfig.h"
+#include "RequestFileManager.h"
+#include "ClientDef.h"
 #include "DebugInfo.h"
+
 
 #if defined(_DEBUG) && defined(OUTPUT_DEBUG)
 	extern CMessageArray*		g_pGameMessage;
 #endif
 
+
 #define	EXPIRE_DELAY	60000		//60*1000	// 1분
 
-
-	void	SendBugReport(const char *bug, ...);
+void	SendBugReport(const char *bug, ...);
 
 //--------------------------------------------------------------------------------
 //
 // constructor
 //
 //--------------------------------------------------------------------------------
-RequestClientPlayer::RequestClientPlayer ( Socket * pSocket )
+RequestServerPlayer::RequestServerPlayer ( Socket * pSocket )
 : Player(pSocket), m_PlayerStatus(CPS_NONE)
 {
 	m_RequestMode = REQUEST_CLIENT_MODE_NULL;
@@ -39,41 +40,19 @@ RequestClientPlayer::RequestClientPlayer ( Socket * pSocket )
 	m_ExpireTime = g_CurrentTime + EXPIRE_DELAY;
 }
 
-//--------------------------------------------------------------------------------
-// get InputStream Length
-//--------------------------------------------------------------------------------
-uint 
-RequestClientPlayer::getInputStreamLength () const
-
-{
-	return m_pInputStream->length();
-}
-
-//--------------------------------------------------------------------------------
-// read InputStream
-//--------------------------------------------------------------------------------
-// file전송할때 이렇게 할 수 밖에 없을까.. 으흠..
-//--------------------------------------------------------------------------------
-uint 
-RequestClientPlayer::readInputStream ( char * buf , uint len )
-{
-	uint nRead = m_pInputStream->read( buf, len );
-
-	return nRead;
-}
 
 //--------------------------------------------------------------------------------
 //
 // destructor
 //
 //--------------------------------------------------------------------------------
-RequestClientPlayer::~RequestClientPlayer ()
+RequestServerPlayer::~RequestServerPlayer ()
 {
 	__BEGIN_TRY
 	
 	#if defined(_DEBUG) && defined(OUTPUT_DEBUG)
 		if (g_pGameMessage!=NULL)
-			g_pGameMessage->AddFormat("Disonnected From %s", m_RequestServerName.c_str());
+			g_pGameMessage->AddFormat("Close Connection to %s", m_Name.c_str() );
 	#endif
 
 	// 그 어떤 플레이어 객체가 삭제될 때에도, 그 상태는 로그아웃이어야 한다.
@@ -83,12 +62,13 @@ RequestClientPlayer::~RequestClientPlayer ()
 	__END_CATCH
 }
 
+
 //--------------------------------------------------------------------------------
 //
 // parse packet and execute handler for the packet
 //
 //--------------------------------------------------------------------------------
-void RequestClientPlayer::processCommand ()
+void RequestServerPlayer::processCommand ()
 {
 	__BEGIN_TRY
 
@@ -101,7 +81,7 @@ void RequestClientPlayer::processCommand ()
 		// Profile을 보내는 중..
 		//-----------------------------------------------------------------
 		case REQUEST_CLIENT_MODE_PROFILE :
-			if (g_pRequestFileManager->ReceiveMyRequest(m_RequestServerName, this))
+			if (g_pRequestFileManager->SendOtherRequest(m_Name, this))
 			{
 				// 화일을 보내는 중이므로 processCommand()가 필요없다.
 				m_ExpireTime = g_CurrentTime + EXPIRE_DELAY;
@@ -153,13 +133,15 @@ void RequestClientPlayer::processCommand ()
 				// 패킷 아이디가 이상하면 프로토콜 에러로 간주한다.
 				if ( packetID >= Packet::PACKET_MAX )
 				{
-					DEBUG_ADD_FORMAT("[PacketError-RequestClientPlayer::processCommand] exceed MAX=%d. packetID=%d", Packet::PACKET_MAX, packetID);		
-					SendBugReport("RCP,Exceed PacketID:%d",packetID);
+					DEBUG_ADD_FORMAT("[PacketError-RequestServerPlayer::processCommand] exceed MAX=%d. packetID=%d", Packet::PACKET_MAX, packetID);		
 					
-					throw InvalidProtocolException("[PacketError-RequestClientPlayer::processCommand] exceed MAX packetID");
+					SendBugReport("RSP,Exceed PacketID:%d",packetID);
+					
+					throw InvalidProtocolException("[PacketError-RequestServerPlayer::processCommand] exceed MAX packetID");
 				}
 
 				#ifdef __DEBUG_OUTPUT__
+					DEBUG_ADD_FORMAT("[RECEIVE] [ID=%d] InputStream(%s)", m_pInputStream->toString().c_str() );
 					DEBUG_ADD_FORMAT("[RECEIVE] [ID=%d] %s", packetID, g_pPacketFactoryManager->getPacketName(packetID).c_str());
 				#endif
 				
@@ -204,11 +186,10 @@ void RequestClientPlayer::processCommand ()
 		
 					throw InsufficientDataException();
 				}
-
-				if (g_Mode!=MODE_GAME)	
-					throw InvalidProtocolException("not MODE_GAME");
-
 				
+				//if (g_Mode!=MODE_GAME)	
+					//throw InvalidProtocolException("not MODE_GAME");
+
 				// 여기까지 왔다면 입력버퍼에는 완전한 패킷 하나 이상이 들어있다는 뜻이다.
 				// 패킷팩토리매니저로부터 패킷아이디를 사용해서 패킷 스트럭처를 생성하면 된다.
 				// 패킷아이디가 잘못될 경우는 패킷팩토리매니저에서 처리한다.
@@ -232,11 +213,11 @@ void RequestClientPlayer::processCommand ()
 
 					//DEBUG_ADD_FORMAT("[Executed] %s", pPacket->toString().c_str());
 					DEBUG_ADD("[PacketExecute OK]");				
-				}				
+				}
+				
 				
 				delete pPacket;
 				pPacket = NULL;
-
 
 				m_ExpireTime = g_CurrentTime + EXPIRE_DELAY;
 
@@ -246,19 +227,10 @@ void RequestClientPlayer::processCommand ()
 				//---------------------------------------------------------
 				if (++processedPacket > maxProcessPacket)
 				{
-					DEBUG_ADD_FORMAT("[PacketSkip] So many Packets. at RequestClientPlayer");
+					DEBUG_ADD_FORMAT("[PacketSkip] So many Packets. at RequestServerPlayer");
 
 					break;
-				}
-				
-				//---------------------------------------------------------
-				// 화일 받는 packet 다음에는
-				// data들이 좌르륵~ 넘어온다.
-				//---------------------------------------------------------
-				if (packetID==Packet::PACKET_RC_REQUESTED_FILE)
-				{
-					break;
-				}
+				}			
 			}
 
 		} catch ( InsufficientDataException ) {
@@ -268,8 +240,11 @@ void RequestClientPlayer::processCommand ()
 			{
 				throw InvalidProtocolException("timeout - -;;");			
 			}
+
 		}
+
 	} catch (Throwable)	{
+
 		if (pPacket!=NULL)
 		{
 			delete pPacket;
@@ -278,7 +253,6 @@ void RequestClientPlayer::processCommand ()
 
 		throw;
 	}
-
 	__END_CATCH
 }
 		    
@@ -286,15 +260,16 @@ void RequestClientPlayer::processCommand ()
 //--------------------------------------------------------------------------------
 // disconnect player
 //--------------------------------------------------------------------------------
-void RequestClientPlayer::disconnect ( bool bDisconnected )
+void RequestServerPlayer::disconnect ( bool bDisconnected )
 {
 	__BEGIN_TRY
 
+	
 	// file요청중이던거 있으면 제거한다.
 	if (g_pRequestFileManager!=NULL
-		&& g_pRequestFileManager->HasMyRequest(m_RequestServerName.c_str()))
+		&& g_pRequestFileManager->HasOtherRequest(m_Name.c_str()))
 	{
-		g_pRequestFileManager->RemoveMyRequest(m_RequestServerName.c_str());
+		g_pRequestFileManager->RemoveOtherRequest(m_Name.c_str());
 	}
 
 	if ( bDisconnected == UNDISCONNECTED ) {
@@ -304,7 +279,7 @@ void RequestClientPlayer::disconnect ( bool bDisconnected )
 		//sendPacket( gcDisconnect );
 
 		// 출력 버퍼에 남아있는 데이타를 전송한다.
-		m_pOutputStream->flush();		
+		m_pOutputStream->flush();
 	}
 
 	// 소켓 연결을 닫는다.
@@ -319,21 +294,34 @@ void RequestClientPlayer::disconnect ( bool bDisconnected )
 	__END_CATCH
 }
 
+uint
+RequestServerPlayer::send(const char* pBuffer, uint nBytes)
+{
+	__BEGIN_TRY
+
+	#ifdef __DEBUG_OUTPUT__
+		DEBUG_ADD_FORMAT("[Send] %d bytes", nBytes);
+	#endif
+
+	return m_pOutputStream->write( pBuffer, nBytes );
+
+	__END_CATCH
+}
 
 //--------------------------------------------------------------------------------
 //
 // get debug string
 //
 //--------------------------------------------------------------------------------
-std::string RequestClientPlayer::toString () const
+std::string RequestServerPlayer::toString () const
 
 {
 	__BEGIN_TRY
 		
 	StringStream msg;
 	
-	msg << "RequestClientPlayer("
-		<< "SocketID:" << m_pSocket->getSOCKET() 
+	msg << "RequestServerPlayer("
+		<< "SocketID:" << (uint)m_pSocket->getSOCKET() 
 		<< ",Host:" << m_pSocket->getHost() 
 		<< ")" ;
 

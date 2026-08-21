@@ -3,7 +3,7 @@
 // Written By  : 
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGJoinGuild.h"
 
 
@@ -32,7 +32,7 @@ void CGJoinGuild::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	size_t szGuildMemberIntro = m_GuildMemberIntro.size();
+	BYTE szGuildMemberIntro = (BYTE)m_GuildMemberIntro.size();
 
 	if ( szGuildMemberIntro > 256 )
 		throw InvalidProtocolException( "szGuildMemberIntro > 256" );

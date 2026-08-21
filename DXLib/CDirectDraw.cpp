@@ -37,6 +37,8 @@ WORD								CDirectDraw::m_AddGammaStep[3] = { 0, 0, 0 };
 RECT								CDirectDraw::m_rcWindow;
 RECT								CDirectDraw::m_rcScreen;
 RECT								CDirectDraw::m_rcViewport;
+RECT								CDirectDraw::m_rcLetterbox[2];
+int									CDirectDraw::m_nLetterbox = 0;
 
 // Mask
 WORD								CDirectDraw::s_wMASK_SHIFT[5];
@@ -200,11 +202,47 @@ bool CDirectDraw::InitFullscreen(WORD wWidth, WORD wHeight)
 	m_rcViewport.right  = (LONG)wWidth;
 	m_rcViewport.bottom = (LONG)wHeight;
 
-	// Stretch the game viewport to fill the entire window edge-to-edge.
-	m_rcScreen.left   = 0;
-	m_rcScreen.top    = 0;
-	m_rcScreen.right  = cx;
-	m_rcScreen.bottom = cy;
+	// Scale up by the largest factor that still fits both axes, so a 4:3 game
+	// frame keeps its proportions on a 16:9 desktop instead of being stretched
+	// 33% too wide. The leftover strips become the letterbox/pillarbox bars.
+	int dstW = cx;
+	int dstH = cy;
+
+	if (wWidth > 0 && wHeight > 0)
+	{
+		// Compare cx/cy against wWidth/wHeight without floating point:
+		// cx/cy > wWidth/wHeight  <=>  cx*wHeight > cy*wWidth
+		if ((__int64)cx * wHeight > (__int64)cy * wWidth)
+		{
+			// Window is proportionally wider than the game -> pillarbox.
+			dstH = cy;
+			dstW = (int)(((__int64)cy * wWidth) / wHeight);
+		}
+		else
+		{
+			// Window is proportionally taller than the game -> letterbox.
+			dstW = cx;
+			dstH = (int)(((__int64)cx * wHeight) / wWidth);
+		}
+	}
+
+	m_rcScreen.left   = (cx - dstW) / 2;
+	m_rcScreen.top    = (cy - dstH) / 2;
+	m_rcScreen.right  = m_rcScreen.left + dstW;
+	m_rcScreen.bottom = m_rcScreen.top + dstH;
+
+	// Bars left over around the scaled frame.
+	m_nLetterbox = 0;
+	if (m_rcScreen.left > 0)
+	{
+		SetRect(&m_rcLetterbox[m_nLetterbox++], 0, 0, m_rcScreen.left, cy);
+		SetRect(&m_rcLetterbox[m_nLetterbox++], m_rcScreen.right, 0, cx, cy);
+	}
+	else if (m_rcScreen.top > 0)
+	{
+		SetRect(&m_rcLetterbox[m_nLetterbox++], 0, 0, cx, m_rcScreen.top);
+		SetRect(&m_rcLetterbox[m_nLetterbox++], 0, m_rcScreen.bottom, cx, cy);
+	}
 
 	//------------------------------------------------------
 	// Create Primary Surface (no flip chain)
@@ -483,6 +521,50 @@ bool CDirectDraw::RestoreAllSurfaces()
 }
 
 //----------------------------------------------------------------------
+// WindowToViewport
+//
+// Window client coordinates -> game coordinates.
+//
+// The back surface is m_ScreenWidth x m_ScreenHeight (the resolution the UI
+// lays itself out in) and gets scaled onto m_rcScreen when presented. The
+// mouse arrives in window client pixels, so it has to travel the same
+// transform backwards or every hit test is off by the scale factor.
+//----------------------------------------------------------------------
+void CDirectDraw::WindowToViewport(int &x, int &y)
+{
+	if (!m_bFullscreen)
+		return;		// window mode presents 1:1
+
+	int dstW = m_rcScreen.right - m_rcScreen.left;
+	int dstH = m_rcScreen.bottom - m_rcScreen.top;
+
+	if (dstW <= 0 || dstH <= 0)
+		return;
+
+	x = (int)(((__int64)(x - m_rcScreen.left) * m_ScreenWidth) / dstW);
+	y = (int)(((__int64)(y - m_rcScreen.top) * m_ScreenHeight) / dstH);
+
+	// Clamp into the frame so clicks on the bars land on the nearest edge
+	// instead of running off the end of a widget array.
+	if (x < 0)						x = 0;
+	else if (x >= m_ScreenWidth)	x = m_ScreenWidth - 1;
+
+	if (y < 0)						y = 0;
+	else if (y >= m_ScreenHeight)	y = m_ScreenHeight - 1;
+}
+
+void CDirectDraw::WindowToViewport(POINT &pt)
+{
+	int x = (int)pt.x;
+	int y = (int)pt.y;
+
+	WindowToViewport(x, y);
+
+	pt.x = x;
+	pt.y = y;
+}
+
+//----------------------------------------------------------------------
 // Flip Surface : Back --> Primary
 //----------------------------------------------------------------------
 void CDirectDraw::Flip()
@@ -496,6 +578,20 @@ void CDirectDraw::Flip()
 		//-------------------------------------------------------
 		if (m_bFullscreen)
 		{
+			// Keep the letterbox/pillarbox strips black, otherwise whatever
+			// was on the desktop behind the window stays visible there.
+			if (m_nLetterbox > 0)
+			{
+				DDBLTFX ddbltfx;
+				::ZeroMemory(&ddbltfx, sizeof(ddbltfx));
+				ddbltfx.dwSize = sizeof(ddbltfx);
+				ddbltfx.dwFillColor = 0;
+
+				for (int i = 0; i < m_nLetterbox; i++)
+					m_pDDSPrimary->Blt(&m_rcLetterbox[i], NULL, NULL,
+					                   DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx);
+			}
+
 			hRet = m_pDDSPrimary->Blt(&m_rcScreen, m_pDDSBack, NULL, DDBLT_WAIT, NULL);
 		}
 

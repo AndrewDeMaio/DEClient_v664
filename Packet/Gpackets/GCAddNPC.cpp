@@ -93,7 +93,7 @@ void GCAddNPC::write ( SocketOutputStream & oStream ) const
 	// ����ȭ �۾��� ���� ũ�⸦ �����ϵ��� �Ѵ�.
 	oStream.write( m_ObjectID );
 
-	size_t szName = m_Name.size();
+	BYTE szName = (BYTE)m_Name.size();
 
 	if ( szName == 0 )
 		throw InvalidProtocolException("szName == 0");

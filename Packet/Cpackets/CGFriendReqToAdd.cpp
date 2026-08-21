@@ -4,7 +4,7 @@
 // Description :
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGFriendReqToAdd.h"
 
 #if __CONTENTS(__FRIEND_ADDITION)

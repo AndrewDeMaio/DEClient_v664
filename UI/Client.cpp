@@ -385,8 +385,26 @@ RemoveProgressBar()
 	}
 }
 
+// DE_FORCE_LANGUAGE
+//
+// Language normally comes from Language.inf inside Data\Info\infodata.rpk.
+// That archive is left byte-for-byte original on purpose: it is a classic
+// RAR the client reads with its own bundled unrar, and an archive rebuilt by
+// modern WinRAR/7-Zip - even as -ma4 with matching Rar!\x1A\x07\x00 magic -
+// fails to decode at runtime (SkinManager reports Open()==false, size 0).
+//
+// So the language is selected here instead. Comment the define out to go back
+// to reading Language.inf from the archive.
+//
+// Note this also selects the socket encryption seed - see
+// ClientPlayer::setEncryptCode and DE_ENGLISH_ENCRYPT_ALIGNED there.
+#define DE_FORCE_LANGUAGE  DARKEDEN_ENGLISH
+
 DARKEDEN_LANGUAGE CheckDarkEdenLanguage()
 {
+#ifdef DE_FORCE_LANGUAGE
+	return DE_FORCE_LANGUAGE;
+#else
 	// Language ������ DATA\INFO\Infodata.rpk �� ����ִ�.
 
 	CRarFile rarfile;
@@ -418,6 +436,7 @@ DARKEDEN_LANGUAGE CheckDarkEdenLanguage()
 	rarfile.Release();
 
 	return (DARKEDEN_LANGUAGE)(DARKEDEN_KOREAN + num);
+#endif	// DE_FORCE_LANGUAGE
 }
 
 void PrecalculateAdvancementClassCreatureFrames()
@@ -558,7 +577,7 @@ HWND		g_hPatchLogWnd = NULL;
 HWND		g_hPatchLogEdit = NULL;
 char* g_pPatchLogBuffer = NULL;	// �󸶳� Ŭ�� ���󼭸� global�� �״�.
 
-long FAR PASCAL PatchLogWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT FAR PASCAL PatchLogWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -778,7 +797,7 @@ CheckDXVersion()
 // Name: WindowProc()
 // Desc: The Main Window Procedure
 //-----------------------------------------------------------------------------
-long FAR PASCAL WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT FAR PASCAL WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	//MINMAXINFO      *pMinMax;
 
@@ -3981,6 +4000,9 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		gC_ci = new CI_JAPAN;
 		break;
 	}
+	case DARKEDEN_ENGLISH:
+		gC_ci = new CI_ENGLISH;
+		break;
 	default:
 		gC_ci = new CI_KOREAN;
 		break;
@@ -4064,6 +4086,8 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			g_pUserInformation->SetChinese();
 		else if (gC_ci->IsJapanese())
 			g_pUserInformation->SetJapanese();
+		else if (gC_ci->IsEnglish())
+			g_pUserInformation->SetEnglish();
 
 		//#if !defined(OUTPUT_DEBUG) && !defined(__DEBUG_OUTPUT__)
 		//g_hHook = SetWindowsHookEx(WH_KEYBOARD_LL,(HOOKPROC)KeyboardHook, hInstance, 0);

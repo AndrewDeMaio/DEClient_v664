@@ -6109,11 +6109,14 @@ void C_VS_UI_CHATTING::KeyboardControl(UINT message, UINT key, long extra)
 
 				for (int i = 0; i < ChatCommandCnt; ++i)
 				{
-					char szEnglishBuf[16];
-					char szKoreanBuf[16];
+					// Same pattern as the spacebar handler below. This one happens to
+					// fit today (1 + 6 + NUL = 8 into 16), but it is the identical
+					// unbounded sprintf, so bound it too.
+					char szEnglishBuf[32];
+					char szKoreanBuf[32];
 
-					sprintf(szEnglishBuf, "/%s", szEnglishCommand[i]);
-					sprintf(szKoreanBuf, "/%s", szKoreanCommand[i]);
+					_snprintf_s(szEnglishBuf, sizeof(szEnglishBuf), _TRUNCATE, "/%s", szEnglishCommand[i]);
+					_snprintf_s(szKoreanBuf, sizeof(szKoreanBuf), _TRUNCATE, "/%s", szKoreanCommand[i]);
 
 					if (!strcmp(chat_str, szEnglishBuf) ||
 						!strcmp(chat_str, szKoreanBuf))
@@ -6395,11 +6398,18 @@ void C_VS_UI_CHATTING::KeyboardControl(UINT message, UINT key, long extra)
 
 				for (int i = 0; i < ChatCommandCnt; ++i)
 				{
-					char szEnglishBuf[8];
-					char szKoreanBuf[8];
+					// These were char[8] with plain sprintf, which smashed the stack
+					// on every spacebar. The entries in szKoreanCommand are no longer
+					// 2-byte CP949 characters: this file is now UTF-8 and the Korean
+					// text has been replaced by U+FFFD (ef bf bd), 3 bytes each. So
+					// "/%s " expands to 1 + 6 + 1 + NUL = 9 bytes and overran the
+					// buffer by one, tripping /GS. Size generously and truncate
+					// rather than overflow.
+					char szEnglishBuf[32];
+					char szKoreanBuf[32];
 
-					sprintf(szEnglishBuf, "/%s ", szEnglishCommand[i]);
-					sprintf(szKoreanBuf, "/%s ", szKoreanCommand[i]);
+					_snprintf_s(szEnglishBuf, sizeof(szEnglishBuf), _TRUNCATE, "/%s ", szEnglishCommand[i]);
+					_snprintf_s(szKoreanBuf, sizeof(szKoreanBuf), _TRUNCATE, "/%s ", szKoreanCommand[i]);
 
 					if (!strcmp(sz_chat_str, szEnglishBuf) ||
 						!strcmp(sz_chat_str, szKoreanBuf))
@@ -9042,20 +9052,13 @@ void C_VS_UI_INVENTORY::AutoMove(int grid_x, int grid_y)
 			// Ŭ���̾�Ʈ���� �Ⱦ��� �������� �����ϹǷ� ���� �Ⱦ�
 			// �Ⱦ��Ҷ��� ���ڴ� �ƹ��ų� ������ ������� �ٷ� ����߸����ϱ�
 			g_pInventory->RemoveItem(grid_x, grid_y);
-#ifdef _LIB
+			// Pickup restored. It was inside #ifdef _LIB, which is never defined
+			// for the exe, so the item left the inventory with nothing on the
+			// cursor and UI_ITEM_DROP_TO_GEAR had nothing to drop. Plain grid
+			// coords: GCTradeVerifyHandler reads them back as gridX/gridY.
 			gpC_base->SendMessage(UI_ITEM_PICKUP_FROM_INVENTORY,
 				grid_x, grid_y,
 				(MItem*)p_item);
-			//#else
-			//			int item_x = x+grid_start_x+p_item->GetGridX()*GRID_UNIT_PIXEL_X+(p_item->GetGridWidth()*GRID_UNIT_PIXEL_X)/2-gpC_item->GetWidth(p_item->GetInventoryFrameID())/2;
-			//			int item_y = y+grid_start_y+p_item->GetGridY()*GRID_UNIT_PIXEL_Y+(p_item->GetGridHeight()*GRID_UNIT_PIXEL_Y)/2-gpC_item->GetHeight(p_item->GetInventoryFrameID())/2;
-			//			
-			//			
-			//			gpC_base->SendMessage(UI_ITEM_PICKUP_FROM_INVENTORY,
-			//				MAKEDWORD(grid_x, grid_y),
-			//				MAKEDWORD(item_x, item_y),
-			//				(MItem *)p_item);
-#endif
 
 			// �� �ִ´�
 			gpC_base->SendMessage(UI_ITEM_DROP_TO_GEAR,

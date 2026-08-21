@@ -3,7 +3,7 @@
 // Written By  : Reiot
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGRequestInfo.h"
 
 void CGRequestInfo::read (SocketInputStream & iStream) 

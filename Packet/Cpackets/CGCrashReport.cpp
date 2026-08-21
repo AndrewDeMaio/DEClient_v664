@@ -3,7 +3,7 @@
 // Written By  : elca@ewestsoft.com
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGCrashReport.h"
 #include "Assert.h"
 
@@ -55,7 +55,7 @@ void CGCrashReport::write (SocketOutputStream & oStream) const
 	oStream.write( m_Version );
 	oStream.write( m_Address );
 
-	size_t szSTR = m_OS.size();
+	WORD szSTR = (WORD)m_OS.size();
 	oStream.write( szSTR );
 	Assert( szSTR <= 100 );
 	oStream.write( m_OS );

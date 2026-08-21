@@ -49,7 +49,7 @@ void GCRequestedIP::write (SocketOutputStream & oStream)
 {
 	__BEGIN_TRY
 		
-	size_t num = m_Name.size();
+	BYTE num = (BYTE)m_Name.size();
 	oStream.write(num);
 
 	if (num==0)

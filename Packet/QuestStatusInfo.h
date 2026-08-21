@@ -69,7 +69,7 @@ struct MissionInfo
 		iStream.read(m_Index);
 		iStream.read(m_Status);
 
-		size_t szSTR;
+		BYTE szSTR;
 		iStream.read(szSTR);
 		if ( szSTR != 0 ) iStream.read(m_StrArg, szSTR);
 
@@ -82,7 +82,7 @@ struct MissionInfo
 		oStream.write(m_Index);
 		oStream.write(m_Status);
 
-		size_t szSTR = m_StrArg.size();
+		BYTE szSTR = (BYTE)m_StrArg.size();
 		oStream.write( szSTR );
 		if ( szSTR != 0 ) oStream.write( m_StrArg );
 

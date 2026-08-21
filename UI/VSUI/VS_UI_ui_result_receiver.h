@@ -52,9 +52,7 @@ public:
 -----------------------------------------------------------------------------*/
 	void SetResultReceiver(void (*fp)(DWORD, int, int, void *));
 
-#ifndef _LIB
 	int	GetMessageSize() const { return m_message_queue.Size(); }
-#endif
 };
 
 #endif

@@ -93,9 +93,9 @@ extern void	KeepConnection();
 extern BOOL	InitInfomation();
 extern void	ExecuteLogout();
 
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+#if __CONTENTS(__GAMEMENU_QUITEXIT)
 extern void	ExecuteQuitExit();
-#endif //__080405_FIREST_UI_UPDATE
+#endif //__GAMEMENU_QUITEXIT
 
 extern char	g_CWD[_MAX_PATH];
 
@@ -2869,7 +2869,7 @@ CGameUpdate::Update(void)
 		return;
 	}
 
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+#if __CONTENTS(__GAMEMENU_QUITEXIT)
 	//------------------------------------------
 	// ���������� �ð���ġ üũ�Ѵ�.
 	//------------------------------------------
@@ -2888,7 +2888,7 @@ CGameUpdate::Update(void)
 
 		return;
 	}
-#endif //__080405_FIREST_UI_UPDATE
+#endif //__GAMEMENU_QUITEXIT
 
 	//------------------------------------------
 	// Sound Stream
@@ -3477,6 +3477,8 @@ CGameUpdate::Update(void)
 			POINT cursorPoint;
 			GetCursorPos(&cursorPoint);
 			ScreenToClient(g_hWnd, &cursorPoint);
+			// Window pixels -> back-surface pixels, the space the UI uses.
+			CDirectDraw::WindowToViewport(cursorPoint);
 
 
 			// UI�� ���콺 ��ǥ ����
@@ -4155,6 +4157,8 @@ CGameUpdate::ProcessInput()
 	POINT cursorPoint;
 	GetCursorPos(&cursorPoint);
 	ScreenToClient(g_hWnd, &cursorPoint);
+	// Window pixels -> back-surface pixels, the space the UI uses.
+	CDirectDraw::WindowToViewport(cursorPoint);
 
 	#ifdef OUTPUT_DEBUG_PROCESS_INPUT
 		DEBUG_ADD("UIMM");
@@ -6011,7 +6015,9 @@ CGameUpdate::UpdateDraw()
 	//-----------------------------------------------------------------
 	GetCursorPos(&point);
 	ScreenToClient(g_hWnd, &point);
-		
+	// Window pixels -> back-surface pixels, the space the UI uses.
+	CDirectDraw::WindowToViewport(point);
+
 	// ui�� mouse��ǥ ����
 	gC_vs_ui.MouseControl(M_MOVING, point.x, point.y);
 
@@ -6397,7 +6403,9 @@ CGameUpdate::UpdateDraw()
 		{
 			GetCursorPos(&point);
 			ScreenToClient(g_hWnd, &point);
-			
+			// Window pixels -> back-surface pixels, the space the UI uses.
+			CDirectDraw::WindowToViewport(point);
+
 			// ui�� mouse��ǥ ����
 			gC_vs_ui.MouseControl(M_MOVING, point.x, point.y);
 

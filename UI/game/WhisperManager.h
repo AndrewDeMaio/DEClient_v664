@@ -107,11 +107,7 @@
 #include <string>
 #include <list>
 
-struct WHISPER_MESSAGE
-{
-	std::string msg;
-	DWORD color;
-};
+#include "WhisperTypes.h"
 
 //----------------------------------------------------------------------
 // WhisperInfo

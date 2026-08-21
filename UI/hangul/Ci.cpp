@@ -476,3 +476,15 @@ void	CI::SetJapanInput()
 		//::ImmReleaseContext ( g_hWnd, hIMC ) ;
 	//	m_bCompsition		= false ; 
 }
+
+//-----------------------------------------------------------------------------
+// CI_ENGLISH::IME_MessageProcessor
+//
+// English input is single-byte and never goes through IME composition, so all
+// messages - WM_CHAR included - go straight to IME_Normal. This mirrors the
+// default: branch of CI_KOREAN::IME_MessageProcessor, minus the WM_IME_* cases.
+//-----------------------------------------------------------------------------
+void CI_ENGLISH::IME_MessageProcessor(UINT message, WPARAM wParam, LPARAM lParam)
+{
+	IME_Normal(message, wParam, lParam);
+}

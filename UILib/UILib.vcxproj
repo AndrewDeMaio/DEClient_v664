@@ -19,44 +19,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>17.0</VCProjectVersion>
-    <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{0bd65c9c-65fe-4776-b542-9616af5eddeb}</ProjectGuid>
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{7c1a4e30-55d2-4f18-9b6a-2d3e6f8a1c44}</ProjectGuid>
     <RootNamespace>UILib</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(MSBuildThisFileDirectory)..\Build\DEClient.Common.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
-  <ImportGroup Label="Shared">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -70,82 +52,128 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <TargetName>$(ProjectName)</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>$(ProjectName)</TargetName>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)JpegLib;$(SolutionDir)NPGameLib;$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)GL;$(SolutionDir)DEUtil;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)PS;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MZLib;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(SolutionDir)UI\game;$(SolutionDir)UI\widget;$(SolutionDir)UI\header;$(SolutionDir)UI\hangul;$(SolutionDir)UI\imm;$(SolutionDir)UI\VSUI;$(SolutionDir)UI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Client_PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>Client_PCH.h</ForcedIncludeFiles>
     </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)JpegLib;$(SolutionDir)NPGameLib;$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)GL;$(SolutionDir)DEUtil;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)PS;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MZLib;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(SolutionDir)UI\game;$(SolutionDir)UI\widget;$(SolutionDir)UI\header;$(SolutionDir)UI\hangul;$(SolutionDir)UI\imm;$(SolutionDir)UI\VSUI;$(SolutionDir)UI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Client_PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>Client_PCH.h</ForcedIncludeFiles>
     </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)JpegLib;$(SolutionDir)NPGameLib;$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)GL;$(SolutionDir)DEUtil;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)PS;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MZLib;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(SolutionDir)UI\game;$(SolutionDir)UI\widget;$(SolutionDir)UI\header;$(SolutionDir)UI\hangul;$(SolutionDir)UI\imm;$(SolutionDir)UI\VSUI;$(SolutionDir)UI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Client_PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>Client_PCH.h</ForcedIncludeFiles>
     </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Include;$(SolutionDir)SXml;$(SolutionDir)UI\imm;$(SolutionDir)UI\header;$(SolutionDir)UI\hangul;$(SolutionDir)UI\widget;$(SolutionDir)FrameLib;$(SolutionDir)SpriteLib;$(SolutionDir)DXLib;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)JpegLib;$(SolutionDir)NPGameLib;$(SolutionDir)Timer;$(SolutionDir)Packet;$(SolutionDir)GL;$(SolutionDir)DEUtil;$(SolutionDir)RarLib;$(SolutionDir)VirtualFileSystem;$(SolutionDir)PS;$(SolutionDir)OggLib;$(SolutionDir)Vorbis;$(SolutionDir)NMCrypt;$(SolutionDir)Include;$(SolutionDir)MZLib;$(SolutionDir)MLib;$(SolutionDir)VolumeLib;$(SolutionDir)xerces\include;$(SolutionDir)SXml;$(SolutionDir)FrameLib;$(SolutionDir)WinLib;$(SolutionDir)D3DLib;$(SolutionDir)DXLib;$(SolutionDir)SpriteLib;$(SolutionDir)UI\game;$(SolutionDir)UI\widget;$(SolutionDir)UI\header;$(SolutionDir)UI\hangul;$(SolutionDir)UI\imm;$(SolutionDir)UI\VSUI;$(SolutionDir)UI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Client_PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>Client_PCH.h</ForcedIncludeFiles>
     </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AcceleratorDef.cpp" />
-    <ClCompile Include="AcceleratorManager.cpp" />
-    <ClCompile Include="Client_PCH.cpp" />
-    <ClCompile Include="vs_ui_gamecommon2.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Client_PCH.h" />
+    <ClCompile Include="..\UI\Client_PCH.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\UI\VSUI\Vs_ui.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Base.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_BBS.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Control.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_DESC.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Description.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Descriptor.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Dialog.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_ELEVATOR.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Exception.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Exchange.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_ExtraDialog.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Friend_System.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Game.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_GameCommon.cpp" />
+    <ClCompile Include="..\UI\VSUI\vs_ui_gamecommon2.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_GameOusters.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_GameSlayer.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_GameVampire.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_GlobalResource.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_GPS.CPP" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Helper.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_INDOUN_NPC_DIALOG.CPP" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Item.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Message.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_mouse_pointer.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_NewTitle.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Operator.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_PetMixingForge.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_PetStorage.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_PremiumGiveItem.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_progress.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Shop.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_skill_tree.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_SKILL_VIEW.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Storage.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_TaxRate.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_TIMECOUNT.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Title.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_TITLE_SHOWCHAR.CPP" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_Tutorial.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_ui_result_receiver.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_UserGrade.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_util.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_WebBrowser.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_widget.cpp" />
+    <ClCompile Include="..\UI\VSUI\VS_UI_WorldMap.cpp" />
+    <ClCompile Include="..\UI\widget\mother.cpp" />
+    <ClCompile Include="..\UI\widget\pi_core.cpp" />
+    <ClCompile Include="..\UI\widget\u_button.cpp" />
+    <ClCompile Include="..\UI\widget\U_edit.cpp" />
+    <ClCompile Include="..\UI\widget\u_scrollbar.cpp" />
+    <ClCompile Include="..\UI\widget\u_window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>

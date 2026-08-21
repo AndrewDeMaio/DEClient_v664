@@ -38,7 +38,7 @@ void GCPartyPosition::write ( SocketOutputStream & oStream ) const
 {
 	__BEGIN_TRY
 
-	size_t szName = m_Name.size();
+	BYTE szName = (BYTE)m_Name.size();
 	oStream.write(szName);
 	oStream.write(m_Name);
 	oStream.write(m_ZoneID);

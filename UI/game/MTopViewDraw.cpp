@@ -1745,6 +1745,9 @@ void	MTopView::DrawSelectedSlayerCreature( POINT* pPoint, MCreature* pCreature, 
 			CCreatureFramePack& addonFPK = pCreatureWear->IsMale() ? m_AddonManFPK : m_AddonWomanFPK;
 			CIndexSpritePack&	addonSPK = pCreatureWear->IsMale() ? m_AddonManSPK : m_AddonWomanSPK;
 			
+			// AddonWoman.cfpk is shorter than AddonMan.cfpk and TArray::operator[]
+			// does no bounds check, so an out-of-range FrameID crashes. Skip it.
+			if (clothes >= (int)addonFPK.GetSize()) continue;
 			FRAME_ARRAY &FA = addonFPK[clothes][action][direction];
 			
 			// 있는 동작인 경우
@@ -3285,6 +3288,9 @@ void	MTopView::DrawSlayerCharacter( POINT *pPoint, MCreature* pCreature, int act
 					CCreatureFramePack& addonFPK = pCreature->IsMale() ? m_AddonManFPK : m_AddonWomanFPK;
 					CIndexSpritePack&	addonSPK = pCreature->IsMale() ? m_AddonManSPK : m_AddonWomanSPK;
 
+					// AddonWoman.cfpk is shorter than AddonMan.cfpk and TArray::operator[]
+					// does no bounds check, so an out-of-range FrameID crashes. Skip it.
+					if (clothes >= (int)addonFPK.GetSize()) continue;
 					FRAME_ARRAY &FA = addonFPK[clothes][action][direction];
 					//m_AddonSPK.LoadFromFilePart(DFA[LEFT][0].GetSpriteID(), DFA[LEFTUP][FA.GetSize()-1].GetSpriteID());
 					

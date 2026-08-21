@@ -8,21 +8,21 @@
 
 #ifdef _DEBUG
 
-void AddTrack(DWORD addr,  DWORD asize,  const char *fname, DWORD lnum);
+void AddTrack(DWORD_PTR addr,  DWORD asize,  const char *fname, DWORD lnum);
 void DumpUnfreed();
-void RemoveTrack(DWORD addr);
+void RemoveTrack(DWORD_PTR addr);
 
-__inline void * __cdecl operator new(unsigned int size,
+__inline void * __cdecl operator new(size_t size,
 								   const char *file, int line)
 {
 	void *ptr = (void *)malloc(size);
-	AddTrack((unsigned int)ptr, size, file, line);
+	AddTrack((DWORD_PTR)ptr, (DWORD)size, file, line);
 	return(ptr);
 }
 
 __inline void __cdecl operator delete(void *p)
 {
-	RemoveTrack((unsigned int)p);
+	RemoveTrack((DWORD_PTR)p);
 	free(p);
 }
 

@@ -1,4 +1,4 @@
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "QuestStatusInfo.h"
 
 void QuestStatusInfo::read(SocketInputStream& iStream)

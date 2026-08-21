@@ -3,7 +3,7 @@
 // Written By  : 
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGStoreSign.h"
 
 void CGStoreSign::read (SocketInputStream & iStream) 
@@ -21,7 +21,7 @@ void CGStoreSign::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	size_t size = m_Sign.size();
+	BYTE size = (BYTE)m_Sign.size();
 	oStream.write(size);
 	oStream.write(m_Sign);
 

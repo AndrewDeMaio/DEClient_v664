@@ -3,7 +3,7 @@
 // Written By  : elca@ewestsoft.com
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGSkillToNamed.h"
 
 CGSkillToNamed::CGSkillToNamed () 
@@ -42,7 +42,7 @@ void CGSkillToNamed::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 		
-	size_t szTargetName = m_TargetName.size();
+	BYTE szTargetName = (BYTE)m_TargetName.size();
 
 	if ( szTargetName == 0 )
 		throw InvalidProtocolException( "szTargetName == 0" );

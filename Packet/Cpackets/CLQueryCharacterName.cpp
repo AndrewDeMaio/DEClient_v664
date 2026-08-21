@@ -3,7 +3,7 @@
 // Written By  : reiot@ewestsoft.com
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CLQueryCharacterName.h"
 
 void CLQueryCharacterName::read (SocketInputStream & iStream) 
@@ -31,7 +31,7 @@ void CLQueryCharacterName::write (SocketOutputStream & oStream) const
 	__BEGIN_TRY
 
 	// write player id
-	size_t szCharacterName = m_CharacterName.size();
+	BYTE szCharacterName = (BYTE)m_CharacterName.size();
 
 	if (szCharacterName == 0)
 		throw InvalidProtocolException("empty CharacterName");

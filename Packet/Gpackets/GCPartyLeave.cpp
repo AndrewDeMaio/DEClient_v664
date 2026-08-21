@@ -32,7 +32,7 @@ void GCPartyLeave::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 	
-	size_t name_length = 0;
+	BYTE name_length = (BYTE)0;
 
 	name_length = m_Expeller.size();
 	oStream.write(name_length);

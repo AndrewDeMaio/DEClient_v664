@@ -9086,9 +9086,9 @@ MPlayer::SetDead()
 		// Logout�ð� ����
 		g_pUserInformation->LogoutTime = 0;
 
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+#if __CONTENTS(__GAMEMENU_QUITEXIT)
 		g_pUserInformation->QuitExitTime = 0;
-#endif //__080405_FIREST_UI_UPDATE
+#endif //__GAMEMENU_QUITEXIT
 
 		SetWaitVerifyNULL();
 

@@ -8,8 +8,37 @@
 #include "DebugInfo.h"
 #include "Packet.h"
 
+//#ifdef _DEBUG
+//	#include "../ClientInfo/initInfo.h"
+//#endif
+
+// ClientInfo\initInfo.h is not present in this repository, which is
+// why the Debug-only include above is disabled (MCreatureTable.cpp already had
+// the same include commented out).
 #ifdef _DEBUG
-	#include "../ClientInfo/initInfo.h"
+//---------------------------------------------------------------------------
+// SaveToCSVFile helpers
+//
+// These came from the missing initInfo.h. Because that header has never been
+// present here, the Debug-only SaveToCSVFile() diagnostics have never compiled,
+// so there is no original formatting to preserve. These emit RFC-4180 style
+// fields (quoted, embedded quotes doubled).
+//---------------------------------------------------------------------------
+static void SaveStringToCSVFile(std::ofstream& file, const char* str)
+{
+	file << '"';
+	for (const char* p = (str != NULL ? str : ""); *p != '\0'; ++p)
+	{
+		if (*p == '"') file << '"';
+		file << *p;
+	}
+	file << "\",";
+}
+
+static void SaveNumberToCSVFile(std::ofstream& file, unsigned int number)
+{
+	file << number << ",";
+}
 #endif
 
 //#include "ScriptParameter.h"

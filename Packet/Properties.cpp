@@ -7,7 +7,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include <wtypes.h>
 #include <cstdlib>			// atoi()
 #include "Properties.h"

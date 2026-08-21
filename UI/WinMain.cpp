@@ -114,7 +114,7 @@ int						g_mouse_x, g_mouse_y;
 
 bool						gbl_info_show = false;//true;
 bool						gbl_game_back = false;
-bool						gbl_show_item = true;
+bool						gbl_show_item = false;//true;
 
 C_VS_UI_NPC_DIALOG* m_pC_dialog = NULL;
 
@@ -1131,18 +1131,20 @@ void MouseEventReceiver(CDirectInput::E_MOUSE_EVENT event, int x, int y, int z)
 	g_mouse_x = point.x;
 	g_mouse_y = point.y;
 
+	// The cursor is in window client pixels, but the whole UI lays itself out
+	// in back-surface pixels (iResolution_x/y) and that surface is scaled up
+	// to the window when presented. Undo the scale, otherwise every click is
+	// off by the scale factor and anything past the surface size is dead
+	// because the old code just clamped instead of mapping.
+	CDirectDraw::WindowToViewport(g_mouse_x, g_mouse_y);
+
 	if (g_mouse_x < 0)
 		g_mouse_x = 0;
-	//else if (g_mouse_x >= RESOLUTION_X)
-	//	g_mouse_x = RESOLUTION_X-1;
-
 	else if (g_mouse_x >= g_pUserInformation->iResolution_x)
 		g_mouse_x = g_pUserInformation->iResolution_x - 1;
 
 	if (g_mouse_y < 0)
 		g_mouse_y = 0;
-	//else if (g_mouse_y >= RESOLUTION_Y)
-	//	g_mouse_y = RESOLUTION_Y-1;
 	else if (g_mouse_y >= g_pUserInformation->iResolution_y)
 		g_mouse_y = g_pUserInformation->iResolution_y - 1;
 

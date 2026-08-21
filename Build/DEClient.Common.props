@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  DEClient.Common.props
+  ===========================================================================
+  Single source of truth for settings that MUST be identical across every
+  project in DEClient_v664.sln.
+
+  WHY THIS FILE EXISTS
+  ====================
+  The packet classes in Packet\ change their member layout and their
+  getPacketSize() results based on preprocessor flags:
+
+      142 packet headers branch on __GAME_CLIENT__
+       75 packet headers branch on __CONTENTS(...)   (DXLib\ContentsFilter.h)
+
+  __CONTENTS(f) expands to ((f) == 1). A feature macro that is not defined
+  evaluates to 0, i.e. OFF. ContentsFilter.h only defines those macros when a
+  design macro (__DESIGNED_INTERNATION, __DESIGNED_KOREA, ...) is defined.
+
+  Therefore: if two projects are compiled with different design macros they
+  disagree about struct layout and wire format. That does NOT produce a
+  compiler or linker error, it produces silent memory corruption at runtime.
+
+  Every project imports this file so that cannot happen. Do not override
+  DEDesignMacro, CharacterSet or RuntimeLibrary in an individual project.
+
+  IMPORT LOCATION
+  ===============
+  Imported immediately after Microsoft.Cpp.Default.props, because
+  CharacterSet / PlatformToolset / UseDebugLibraries must be set before
+  Microsoft.Cpp.props is imported.
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <DEClientCommonImported>true</DEClientCommonImported>
+  </PropertyGroup>
+
+  <!--
+    ===========================================================================
+    1. Toolchain. Identical everywhere.
+    ===========================================================================
+  -->
+  <PropertyGroup>
+    <PlatformToolset>v143</PlatformToolset>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+
+    <!--
+      MultiByte, not Unicode.
+
+      Release|Win32 is the only configuration that has ever produced a working
+      UI.exe, and it is MultiByte. The codebase is char* / std::string
+      throughout and carries MBCS Korean string literals. The single
+      '#ifdef UNICODE' in the tree (UI\VSUI\VS_UI_Base.cpp) is an inert debug
+      leftover.
+
+      Debug was previously Unicode while Release was MultiByte, which meant
+      Debug and Release were not the same program.
+    -->
+    <CharacterSet>MultiByte</CharacterSet>
+
+    <!-- Build with the 64 bit hosted toolchain: cl.exe pass2 / LTCG codegen
+         on UI.exe exhausts the 32 bit compiler's heap. -->
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+
+  <!--
+    ===========================================================================
+    2. Output layout.
+    ===========================================================================
+    Preserves the existing on disk convention deliberately: Release\UI.exe sits
+    next to Release\Data\, Release\UserSet\ and Release\temp\, which is the
+    game's working directory. Moving it would break running the client.
+
+        Win32 to $(DERoot)$(Configuration)\        e.g. Release\
+        x64   to $(DERoot)$(Platform)\$(Configuration)\   e.g. x64\Release\
+
+    Intermediates are consolidated under obj\ so they stop being scattered
+    through the source tree as <Project>\Release\, <Project>\x64\Debug\ etc.
+  -->
+  <PropertyGroup>
+    <!-- $(SolutionDir), to match every AdditionalIncludeDirectories in the
+         solution. Building a .vcxproj directly (where $(SolutionDir) resolves
+         to the project folder) is already unsupported for that same reason;
+         pass /p:SolutionDir=<repo root>\ if you need to do it. -->
+    <DERoot>$(SolutionDir)</DERoot>
+
+    <DEOutDir Condition="'$(Platform)' == 'Win32'">$(DERoot)$(Configuration)\</DEOutDir>
+    <DEOutDir Condition="'$(Platform)' != 'Win32'">$(DERoot)$(Platform)\$(Configuration)\</DEOutDir>
+
+    <OutDir>$(DEOutDir)</OutDir>
+    <IntDir>$(DERoot)obj\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</IntDir>
+
+    <!-- ExternalLib\ contains 32-bit DirectX import libs only (ddraw, dinput8,
+         dsound, dxguid). On x64 it must stay off the library path, or it
+         shadows the Windows SDK's x64 versions and the link fails with
+         unresolved IID_IDirectDraw7, DirectInput8Create, etc. Deliberately
+         empty for any non-Win32 platform. -->
+    <DEExternalLibDir Condition="'$(Platform)' == 'Win32'">$(DERoot)ExternalLib</DEExternalLibDir>
+  </PropertyGroup>
+
+  <!--
+    ===========================================================================
+    3. The feature flag world. This is the ABI critical part.
+    ===========================================================================
+  -->
+  <PropertyGroup>
+    <!-- Change this in ONE place to retarget the build to another region. -->
+    <DEDesignMacro>__DESIGNED_INTERNATION</DEDesignMacro>
+  </PropertyGroup>
+
+  <!--
+    NOTE: OUTPUT_DEBUG is deliberately NOT set here.
+
+    It switches DEBUG_ADD / DEBUG_ADD_FORMAT from no op inlines into real
+    logging (DXLib\DebugInfo.h), but it is not only logging: it gates 715
+    conditional blocks across 71 files, and under it DebugInfo.h includes
+    CMessageArray.h, which lives in UI\header. Setting it solution wide makes
+    DXLib, SpriteLib and Packet all fail to compile, and "fixing" that would
+    put a UI header on the include path of the lower level libraries.
+
+    It is set per configuration in UI.vcxproj instead, where UI\header is
+    already on the include path. Never set it for Release.
+  -->
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>$(DEDesignMacro);__GAME_CLIENT__;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+
+      <!-- Static CRT everywhere. Release|Win32 (the known good configuration)
+           already links every static lib as /MT; several projects were falling
+           through to the /MD and /MDd defaults, which mixes CRTs in one link. -->
+      <RuntimeLibrary Condition="'$(Configuration)' == 'Debug'">MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary Condition="'$(Configuration)' == 'Release'">MultiThreaded</RuntimeLibrary>
+
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+</Project>

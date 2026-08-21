@@ -192,7 +192,7 @@ bool CRarFile::GetString(char* buf, int size)
 //////////////////////////////////////////////////////////////////////
 std::vector<std::string>* CRarFile::GetList(char* filter)
 {
-	struct ArchiveList_struct* list, * listTemp;
+	struct ArchiveList_struct* list = nullptr, * listTemp = nullptr;
 	urarlib_list(m_rar_filename.c_str(), &list);
 
 	if (!list) return nullptr;

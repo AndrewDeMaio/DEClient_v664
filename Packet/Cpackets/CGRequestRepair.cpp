@@ -6,7 +6,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGRequestRepair.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"

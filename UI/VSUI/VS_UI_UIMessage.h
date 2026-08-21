@@ -68,9 +68,9 @@ enum UI_MESSAGE
 	UI_TERMINATION,						// 종료
 	UI_LOGIN,								// 사용자 login 요청
 	UI_LOGOUT,								
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+#if __CONTENTS(__GAMEMENU_QUITEXIT)
 	UI_QUITEXIT,						// 빠른종료
-#endif //__080405_FIREST_UI_UPDATE
+#endif //__GAMEMENU_QUITEXIT
 //	UI_NEW_USER_REGISTRATION,			// 새 사용자 등록 요청
 	UI_CONNECT,							   // Game connection.
 	UI_CHAT_RETURN,						// 채팅창 입력.

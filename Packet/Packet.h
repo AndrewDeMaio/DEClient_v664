@@ -28,7 +28,7 @@ const uint szPacketID = sizeof(PacketID_t);
 //----------------------------------------------------------------------
 // Packet Size Type
 //----------------------------------------------------------------------
-typedef size_t PacketSize_t;
+typedef uint   PacketSize_t;
 const uint szPacketSize   = sizeof(PacketSize_t);
 
 //----------------------------------------------------------------------
@@ -729,7 +729,7 @@ public :
 		oStream.write( (char*)&pData , MSG_HEADER_SIZE );
 #else
 		oStream.write( getPacketID() );
-		oStream.write( getPacketSize() );
+		oStream.write( (PacketSize_t)getPacketSize() );
 #endif
 		if ( getPacketSize() != 0 )
 			write( oStream );

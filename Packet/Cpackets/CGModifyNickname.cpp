@@ -3,7 +3,7 @@
 // Written By  : elca@ewestsoft.com
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGModifyNickname.h"
 
 CGModifyNickname::CGModifyNickname () 
@@ -37,7 +37,7 @@ void CGModifyNickname::write (SocketOutputStream & oStream) const
 
 	oStream.write( m_NicknameID );
 
-	size_t szSTR;
+	BYTE szSTR;
 	szSTR = m_Nickname.size();
 	oStream.write( szSTR );
 	oStream.write( m_Nickname );

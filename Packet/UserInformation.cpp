@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
 // UserInformation.cpp
 //----------------------------------------------------------------------
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "UserInformation.h"
 //#include <fstream>
 
@@ -50,9 +50,9 @@ UserInformation::UserInformation()
 	// 0이면 시간이 설정되어 있지 않는거다.
 	LogoutTime			= 0;
 
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+#if __CONTENTS(__GAMEMENU_QUITEXIT)
 	QuitExitTime		= 0;
-#endif //__080405_FIREST_UI_UPDATE
+#endif //__GAMEMENU_QUITEXIT
 
 	GameVersion			= 0;
 

@@ -5,7 +5,7 @@
 // �κ��丮 ���� �������� ����� ��, Ŭ���̾�Ʈ�� X, Y �� ObjectID��
 // ������ ������ Ŭ������ ����, ������ �̿� �´� �ڵ带 ó���Ѵ�.
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGUseItemFromGQuestInventory.h"
 
 void CGUseItemFromGQuestInventory::read (SocketInputStream & iStream) 

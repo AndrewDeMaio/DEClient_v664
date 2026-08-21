@@ -3,7 +3,7 @@
 // Written By  : �輺��
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGPartyLeave.h"
 
 //////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@ void CGPartyLeave::read (SocketInputStream & iStream)
 {
 	__BEGIN_TRY
 
-	size_t name_length = 0;
+	BYTE name_length = 0;
 	iStream.read(name_length);
 	if (name_length > 0)
 	{
@@ -30,7 +30,7 @@ void CGPartyLeave::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	size_t name_length = m_TargetName.size();
+	BYTE name_length = (BYTE)m_TargetName.size();
 	oStream.write(name_length);
 	if (name_length > 0)
 	{

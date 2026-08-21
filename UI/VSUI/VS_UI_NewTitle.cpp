@@ -35,9 +35,9 @@
 #if __CONTENTS(__TITLE_UI_RENWEAL)
 
 #define LOGIN_ID_X 7 // ��밪
-#define LOGIN_ID_Y 3
+#define LOGIN_ID_Y 33
 #define LOGIN_PASSWORD_X 7
-#define LOGIN_PASSWORD_Y 34
+#define LOGIN_PASSWORD_Y 64
 
 #define	MAX_SOUND_VOLUME		15
 #define	MAX_MUSIC_VOLUME		15
@@ -582,11 +582,11 @@ void C_VS_UI_CHAR_DELETE::Run(id_t id)
 #if __CONTENTS(__CHAR_DELETE)
 					// �������� ���� �ѵ���.
 					&&	(m_lev_ssn_part1.Size() == SSN_PART1_CHAR_COUNT)
-					&& ( wcscmp( m_lev_ssn_part1.GetString(), _L("delete")) == 0 )
+					&& ( strcmp( m_lev_ssn_part1.GetString(), "delete") == 0 )
 #else
 					&& ( ( gC_ci->IsKorean()&& (	m_lev_ssn_part1.Size() == SSN_PART1_CHAR_COUNT &&
 					 m_lev_ssn_part2.Size() == SSN_PART2_CHAR_COUNT ) ) 
-					 || ( !gC_ci->IsKorean() && ( wcscmp( m_lev_ssn_part1.GetString(), _L("yes")) == 0 ) )
+					 || ( !gC_ci->IsKorean() && ( strcmp( m_lev_ssn_part1.GetString(), "yes") == 0 ) )
 					 )
 #endif	//__CHAR_DELETE
 					 )
@@ -597,7 +597,7 @@ void C_VS_UI_CHAR_DELETE::Run(id_t id)
 				else if(
 						//((g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin) && (	m_lev_ssn_part1.Size() == SSN_PART1_CHAR_COUNT) && 
 						((g_pUserInformation->IsNetmarble) && (	m_lev_ssn_part1.Size() == SSN_PART1_CHAR_COUNT) 
-						&& ( wcscmp( m_lev_ssn_part1.GetString(), _L("delete")) == 0 )
+						&& ( strcmp( m_lev_ssn_part1.GetString(), "delete") == 0 )
 						)) 
 				{
 					SendCharacterDeleteToClient();
@@ -3168,6 +3168,7 @@ C_VS_UI_CHAR_MANAGER::C_VS_UI_CHAR_MANAGER()
 
  		m_image_spk.Open(SPK_CHAR_MANAGER);
 
+
 	// �ݸ����� �ƴѰ��
 	if(g_pUserInformation!=NULL)
 	{
@@ -3883,9 +3884,12 @@ void C_VS_UI_CHAR_MANAGER::Run(id_t id)
 				bool bSlotEmpty = false;
 			
 				// search empty slot
-				if(m_stSelect_Slot < 0)
+				// The slot the player clicked on wins, so a new character is
+				// created in the box that was actually picked instead of
+				// always landing in the first free one.
+				if (m_stSelect_Slot >= SLOT_LEFT && m_stSelect_Slot < SLOT &&
+					m_slot[m_stSelect_Slot].bl_set == false)
 				{
-					m_stSelect_Slot = 0;
 					bSlotEmpty = true;
 				}
 				else
@@ -3930,7 +3934,8 @@ void C_VS_UI_CHAR_MANAGER::Run(id_t id)
 				break;
 			}
 
-			if (m_slot[m_stSelect_Slot].bl_set)
+			if (m_stSelect_Slot >= SLOT_LEFT && m_stSelect_Slot < SLOT &&
+				m_slot[m_stSelect_Slot].bl_set)
 				gpC_base->SendMessage(UI_CONNECT, m_stSelect_Slot, 0);
 			else
 				g_msg_not_select_char->Start();
@@ -3942,7 +3947,12 @@ void C_VS_UI_CHAR_MANAGER::Run(id_t id)
 			break;
 
 		case DELETE_ID:
-			if (m_slot[m_stSelect_Slot].bl_set == true)
+			// m_stSelect_Slot is NOT_SELECTED (-1) until a character is picked,
+			// so the range has to be checked before indexing m_slot. Reading
+			// m_slot[-1] used to open the delete dialog on whatever garbage
+			// happened to sit in front of the array.
+			if (m_stSelect_Slot >= SLOT_LEFT && m_stSelect_Slot < SLOT &&
+				m_slot[m_stSelect_Slot].bl_set == true)
 			{
 				DeleteNew(m_pC_char_delete);
 				
@@ -3963,19 +3973,23 @@ void C_VS_UI_CHAR_MANAGER::Run(id_t id)
 				m_pC_biling->Start();
 			}
 			break;
+		// Clicking a character box selects that box. The selection used to be
+		// written from ShowButtonWidget(), which only ran while the button was
+		// held down at the instant a frame was drawn - a normal click released
+		// before the next frame left the previous slot selected. Empty boxes
+		// are selectable too, so CREATE_ID knows where to put the character.
 		case CHAR_SELECT_LEFT_ID:
-			if(m_slot[SLOT_LEFT].bl_set == TRUE)
-				AddCharInfoString(SLOT_LEFT);
-			break;
-
 		case CHAR_SELECT_CENTER_ID:
-			if(m_slot[SLOT_CENTER].bl_set == TRUE)
-				AddCharInfoString(SLOT_CENTER);
-			break;
-
 		case CHAR_SELECT_RIGHT_ID:
-			if(m_slot[SLOT_RIGHT].bl_set == TRUE)
-				AddCharInfoString(SLOT_RIGHT);
+			{
+				int iSlot = (int)id - (int)CHAR_SELECT_LEFT_ID;
+
+				m_stSelect_Slot	= (short)iSlot;
+				g_char_index	= 0;
+
+				if(m_slot[iSlot].bl_set == TRUE)
+					AddCharInfoString(iSlot);
+			}
 			break;
 
 	}
@@ -4037,16 +4051,32 @@ bool C_VS_UI_CHAR_MANAGER::MouseControl(UINT message, int _x, int _y)
 			{
 				for(int i = 0; i < SLOT; i++)
 				{
-					if (((m_ptArrCharSelect_Button[i].x <= _x) 
+					// The sprite enum interleaves a _PUSHED entry before every
+					// box, so stepping one box over means adding 2. Using
+					// CHAR_SELECT_LEFT + i measured the _PUSHED sprite for the
+					// centre and right boxes.
+					int iSpriteID = CHAR_SELECT_LEFT + (i * 2);
+
+					if (((m_ptArrCharSelect_Button[i].x <= _x)
 						&& (m_ptArrCharSelect_Button[i].y - m_w_CharHeight <= _y))
-						&& 
-						((m_ptArrCharSelect_Button[i].x + m_image_spk.GetWidth(CHAR_SELECT_LEFT + i) >= _x)
-						&& (m_ptArrCharSelect_Button[i].y + m_image_spk.GetHeight(CHAR_SELECT_LEFT + i) >= _y)))
+						&&
+						((m_ptArrCharSelect_Button[i].x + m_image_spk.GetWidth(iSpriteID) >= _x)
+						&& (m_ptArrCharSelect_Button[i].y + m_image_spk.GetHeight(iSpriteID) >= _y)))
 					{
+						// Act on the box that was double clicked, not on
+						// whatever happened to be selected beforehand.
+						m_stSelect_Slot	= (short)i;
+						g_char_index	= 0;
+
 						if(m_slot[i].bl_set == true)
+						{
+							AddCharInfoString(i);
 							Run(NEXT_ID);
+						}
 						else
 							Run(CREATE_ID);
+
+						break;
 					}
 				}
 			break;
@@ -4166,51 +4196,31 @@ void C_VS_UI_CHAR_MANAGER::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 
 
 
+	// The three character boxes. Selection itself is handled in Run(), this
+	// only draws them - and re-anchors the clickable rect on the position the
+	// box is actually drawn at. Show() re-reads interface.ini every frame, so
+	// the layout can move after the buttons were constructed; the other four
+	// buttons above already re-sync their x/y the same way, these did not and
+	// kept whatever rect they were built with.
 	case CHAR_SELECT_LEFT_ID:
-		if(p_button->GetFocusState())
-		{
-			if (p_button->GetPressState()) // push state
-			{
-				m_stSelect_Slot	= SLOT_LEFT;
-			}
-		}
-
-		m_image_spk.BltLocked(m_ptArrCharSelect_Button[SLOT_LEFT].x, m_ptArrCharSelect_Button[SLOT_LEFT].y, p_button->m_image_index);
-		if(m_stSelect_Slot == SLOT_LEFT)
-		{
-			m_image_spk.BltLocked(m_ptArrCharSelect_Button[SLOT_LEFT].x, m_ptArrCharSelect_Button[SLOT_LEFT].y, p_button->m_image_index-1);
-		}
-		break;
-
 	case CHAR_SELECT_CENTER_ID:
-		if(p_button->GetFocusState())
-		{
-			if (p_button->GetPressState()) // push state
-			{
-				m_stSelect_Slot	= SLOT_CENTER;
-			}
-		}
-
-		m_image_spk.BltLocked(m_ptArrCharSelect_Button[SLOT_CENTER].x, m_ptArrCharSelect_Button[SLOT_CENTER].y, p_button->m_image_index);
-		if(m_stSelect_Slot == SLOT_CENTER)
-		{
-			m_image_spk.BltLocked(m_ptArrCharSelect_Button[SLOT_CENTER].x, m_ptArrCharSelect_Button[SLOT_CENTER].y, p_button->m_image_index-1);
-		}		
-		break;
-
 	case CHAR_SELECT_RIGHT_ID:
-		if(p_button->GetFocusState())
 		{
-			if (p_button->GetPressState()) // push state
-			{
-				m_stSelect_Slot	= SLOT_RIGHT;
-			}
-		}
+			int iSlot		= (int)p_button->GetID() - (int)CHAR_SELECT_LEFT_ID;
+			// The sprite enum interleaves a _PUSHED entry before every box,
+			// so the stride from one box sprite to the next is 2.
+			int iSpriteID	= CHAR_SELECT_LEFT + (iSlot * 2);
 
-		m_image_spk.BltLocked(m_ptArrCharSelect_Button[SLOT_RIGHT].x, m_ptArrCharSelect_Button[SLOT_RIGHT].y, p_button->m_image_index);
-		if(m_stSelect_Slot == SLOT_RIGHT)
-		{
-			m_image_spk.BltLocked(m_ptArrCharSelect_Button[SLOT_RIGHT].x, m_ptArrCharSelect_Button[SLOT_RIGHT].y, p_button->m_image_index-1);
+			p_button->x = m_ptArrCharSelect_Button[iSlot].x;
+			p_button->y = m_ptArrCharSelect_Button[iSlot].y - m_w_CharHeight;
+			p_button->w = m_image_spk.GetWidth(iSpriteID);
+			p_button->h = m_image_spk.GetHeight(iSpriteID) + m_w_CharHeight;
+
+			m_image_spk.BltLocked(m_ptArrCharSelect_Button[iSlot].x, m_ptArrCharSelect_Button[iSlot].y, p_button->m_image_index);
+			if(m_stSelect_Slot == iSlot)
+			{
+				m_image_spk.BltLocked(m_ptArrCharSelect_Button[iSlot].x, m_ptArrCharSelect_Button[iSlot].y, p_button->m_image_index-1);
+			}
 		}
 		break;
 	}
@@ -4365,7 +4375,7 @@ void C_VS_UI_CHAR_MANAGER::Show()
 			m_image_spk.BltLocked( (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_800_600)) / 2, 
 				(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_800_600)) / 2, WINDOW_800_600);
 
-			if(m_stSelect_Slot >= 0 && m_stSelect_Slot <= SLOT)
+			if(m_stSelect_Slot >= 0 && m_stSelect_Slot < SLOT)
 			{
 				if(m_slot[m_stSelect_Slot].Race	== RACE_SLAYER)
 				{
@@ -4978,13 +4988,19 @@ void C_VS_UI_SERVER_SELECT::Run(id_t id)
 
 		if(m_blAccep_World_Chenenl)
 		{
-			validIndex	= m_server_select_world > -1 && m_server_select_world < (int)m_server_name_world.size();
-			validWorld	= m_blAccep_World_Chenenl && m_server_status_world[m_server_select_world] != STATUS_CLOSED;
+			validIndex	= m_server_select_world > -1
+						&& m_server_select_world < (int)m_server_name_world.size()
+						&& m_server_select_world < (int)m_server_status_world.size();
+			// Short circuit: validIndex was computed and then ignored, so an
+			// empty world list indexed [0] and crashed on the first click.
+			validWorld	= validIndex && m_blAccep_World_Chenenl && m_server_status_world[m_server_select_world] != STATUS_CLOSED;
 		}
 		else
 		{
-			validIndex	= m_server_select_chenel > -1 && m_server_select_chenel < (int)m_server_name_chenel.size();
-			validServer = !m_blAccep_World_Chenenl && m_server_status_chenel[m_server_select_chenel] != STATUS_VERY_BAD;
+			validIndex	= m_server_select_chenel > -1
+						&& m_server_select_chenel < (int)m_server_name_chenel.size()
+						&& m_server_select_chenel < (int)m_server_status_chenel.size();
+			validServer = validIndex && !m_blAccep_World_Chenenl && m_server_status_chenel[m_server_select_chenel] != STATUS_VERY_BAD;
 		}
 
 		if(m_blAccep_World_Chenenl)
@@ -4995,6 +5011,7 @@ void C_VS_UI_SERVER_SELECT::Run(id_t id)
 				if( m_blAccep_World_Chenenl == 0
 #if __CONTENTS(__USER_GRADE)
 					&& g_pUserInformation->IsUnderFifthteen
+					&& m_server_select_chenel < (int)m_server_nonpk_chenel.size()
 					&& !m_server_nonpk_chenel.at(m_server_select_chenel)
 #endif //__USER_GRADE
 #if __CONTENTS(__CONECT_LIMITER)
@@ -5019,6 +5036,7 @@ void C_VS_UI_SERVER_SELECT::Run(id_t id)
 				if( m_blAccep_World_Chenenl == 0
 #if __CONTENTS(__USER_GRADE)
 					&& g_pUserInformation->IsUnderFifthteen
+					&& m_server_select_chenel < (int)m_server_nonpk_chenel.size()
 					&& !m_server_nonpk_chenel.at(m_server_select_chenel)
 #endif //__USER_GRADE
 #if __CONTENTS(__CONECT_LIMITER)
@@ -5159,7 +5177,7 @@ bool C_VS_UI_SERVER_SELECT::MouseControl(UINT message, int _x, int _y)
 
 			if(m_focus_server != -1 
 #if __CONTENTS(__CONECT_LIMITER)
-				&& (m_server_status[m_server_select] < STATUS_VERY_BAD)
+				&& IsSelectedServerConnectable()
 #endif
 				)
 			{
@@ -5207,6 +5225,32 @@ bool C_VS_UI_SERVER_SELECT::MouseControl(UINT message, int _x, int _y)
 	return true;
 }
 
+//-----------------------------------------------------------------------------
+// IsSelectedServerConnectable
+//
+// m_server_status and m_server_select are leftovers from the old single list
+// version of this screen. This class keeps separate world and channel lists
+// and never fills those two, so m_server_status stayed empty while
+// m_server_select stayed at its -1 initialiser - indexing it faulted at
+// address -4. Reads the list that is actually in use, and reports false
+// instead of indexing when nothing is selected.
+//-----------------------------------------------------------------------------
+bool C_VS_UI_SERVER_SELECT::IsSelectedServerConnectable()
+{
+	if(m_blAccep_World_Chenenl)
+	{
+		if(m_server_select_world < 0 || m_server_select_world >= (int)m_server_status_world.size())
+			return false;
+
+		return m_server_status_world[m_server_select_world] < STATUS_VERY_BAD;
+	}
+
+	if(m_server_select_chenel < 0 || m_server_select_chenel >= (int)m_server_status_chenel.size())
+		return false;
+
+	return m_server_status_chenel[m_server_select_chenel] < STATUS_VERY_BAD;
+}
+
 /*-----------------------------------------------------------------------------
 - KeyboardControl
 -
@@ -5226,7 +5270,7 @@ void C_VS_UI_SERVER_SELECT::KeyboardControl(UINT message, UINT key, long extra)
 
 		case VK_RETURN:
 #if __CONTENTS(__CONECT_LIMITER)
-		if (m_server_status[m_server_select] < STATUS_VERY_BAD)
+			if (IsSelectedServerConnectable())
 #endif
 			{
 				Run(NEXT_ID);
@@ -5310,6 +5354,7 @@ void C_VS_UI_SERVER_SELECT::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 // SetServerDefault
 //
 ///////////////////////////////////////////////////////////////////////////////
+#if __CONTENTS(__SERVER_SELECT_REVEWAL)
 void C_VS_UI_SERVER_SELECT::SetServerList(LPSTR *name, int *id, int *status, int size, int default_id, bool *nonpk, WORD *pwSlayer, WORD *pwVampire, WORD *pwOusters)
 {
 	m_server_name_chenel.clear();
@@ -5434,6 +5479,91 @@ void C_VS_UI_SERVER_SELECT::SetServerList(LPSTR *name, int *id, int *status, int
 		}
 	}
 }
+#else
+///////////////////////////////////////////////////////////////////////////////
+// SetServerList
+//
+// __SERVER_SELECT_REVEWAL off: the class declares the six argument
+// std::string form, so this is the definition that has to exist. Mirrors
+// C_VS_UI_SERVER_SELECT::SetServerList in VS_UI_Title.cpp.
+///////////////////////////////////////////////////////////////////////////////
+void C_VS_UI_SERVER_SELECT::SetServerList(std::string *name, int *id, int *status, int size, int default_id, bool *nonpk)
+{
+	m_server_name_chenel.clear();
+	m_server_id_chenel.clear();
+	m_server_status_chenel.clear();
+	m_server_nonpk_chenel.clear();
+
+	// Same split as the nine argument version above: grouping fills the world
+	// list, otherwise the channel list. Filling only the channel list left
+	// m_server_status_world empty and the connect path indexed it anyway.
+	if(m_bl_group == true)
+	{
+		m_server_name_world.clear();
+		m_server_id_world.clear();
+		m_server_status_world.clear();
+		m_server_nonpk_world.clear();
+
+		m_server_size = size;
+
+		for(int i = 0; i < size; i++)
+		{
+			m_server_name_world.push_back(name[i]);
+			m_server_id_world.push_back(id[i]);
+			m_server_status_world.push_back(status[i]);
+
+			if(id[i] == default_id)
+			{
+				m_server_select_world		= i;
+				m_wSelect_World_Click_Index	= i;
+				if(i >= 12)
+					m_scroll = i - 12;
+			}
+
+			if(nonpk != NULL)
+				m_server_nonpk_world.push_back(nonpk[i]);
+		}
+
+		m_blAccep_World_Chenenl = TRUE;
+	}
+	else
+	{
+		m_server_size = size;
+
+		for(int i = 0; i < size; i++)
+		{
+			m_server_name_chenel.push_back(name[i]);
+			m_server_id_chenel.push_back(id[i]);
+			m_server_status_chenel.push_back(status[i]);
+
+			if(id[i] == default_id)
+			{
+				m_server_select_chenel = i;
+				if(i >= 12)
+					m_scroll = i - 12;
+			}
+
+			if(nonpk != NULL)
+				m_server_nonpk_chenel.push_back(nonpk[i]);
+		}
+
+		m_blAccep_World_Chenenl = FALSE;
+	}
+
+	CharBarCount();
+
+	if(m_bl_group == true)
+	{
+		if(m_server_id_world.size())
+		{
+			if(m_server_select_world < 0)
+				m_server_select_world = 0;
+
+			gpC_base->SendMessage(UI_CONNECT_SERVER, true, m_server_id_world[m_server_select_world]);
+		}
+	}
+}
+#endif //__SERVER_SELECT_REVEWAL
 
 /*-----------------------------------------------------------------------------
 - Show
@@ -5923,7 +6053,7 @@ void	C_VS_UI_SERVER_SELECT::ChannelCharBarView()
 - S_SLOT
 -
 -----------------------------------------------------------------------------*/
-S_SLOT::Init()
+void S_SLOT::Init()
 {
 	bl_set			= false; // slot�� �����Ǿ��°�?
 	bl_female		= false;
@@ -6197,12 +6327,11 @@ void C_VS_UI_LOGIN::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 	{
 		m_pC_login_menu.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
 	}
-	
-//	m_pC_login_menu_default.Blt(p_button->x, y, p_button->GetID());
-
 	else if (p_button->m_alpha)
 		m_pC_login_menu.BltLockedAlpha(x+p_button->x, y+p_button->y, p_button->GetID(), p_button->m_alpha);
-	
+	else
+		// Default state: always draw so buttons are visible before hover
+		m_pC_login_menu.BltLocked(x+p_button->x, y+p_button->y, p_button->GetID());
 }
 
 //-----------------------------------------------------------------------------
@@ -7674,7 +7803,7 @@ void C_VS_UI_TITLE::Run(id_t id)
 				DeleteNew(m_pC_dialog);
 				m_pC_dialog = new C_VS_UI_DIALOG(-1, -1, 2, 0, ExecF_EXITQuestion, DIALOG_TITLE_OK|DIALOG_TITLE_CANCEL);
 			
-				char * pp_dmsg[1] = {(*g_pGameStringTable)[STRING_MESSAGE_EXIT_QUESTION].GetString(),};
+				std::string pp_dmsg[1] = {(*g_pGameStringTable)[STRING_MESSAGE_EXIT_QUESTION].GetString(),};
 				m_pC_dialog->SetMessage( pp_dmsg, 1, SMO_NOFIT , true );
 				m_pC_dialog->Start();
 				break;
@@ -8478,7 +8607,7 @@ void C_VS_UI_OPTION::Run(id_t id)
 			DeleteNew(m_pC_dialog);
 			m_pC_dialog = new C_VS_UI_DIALOG(-1, -1, 3, 0, ExecF_OptionResetButton, DIALOG_TITLE_OK|DIALOG_TITLE_CANCEL);
 			
-			char * pp_dmsg[1] = {
+			std::string pp_dmsg[1] = {
 					(*g_pGameStringTable)[UI_STRING_MESSAGE_KEYSETTING_INIT].GetString(),
 			};
 			m_pC_dialog->SetMessage( pp_dmsg, 1, SMO_NOFIT , true );
@@ -8494,7 +8623,7 @@ void C_VS_UI_OPTION::Run(id_t id)
 			DeleteNew(m_pC_dialog);
 			m_pC_dialog = new C_VS_UI_DIALOG(-1, -1, 3, 0, ExecF_OptionResetButton, DIALOG_TITLE_OK|DIALOG_TITLE_CANCEL);
 			
-			char * pp_dmsg[1] = {
+			std::string pp_dmsg[1] = {
 					(*g_pGameStringTable)[UI_STRING_MESSAGE_KEYSETTING_INIT].GetString(),
 			};
 			m_pC_dialog->SetMessage( pp_dmsg, 1, SMO_NOFIT , true );
@@ -8989,7 +9118,7 @@ bool C_VS_UI_OPTION::MouseControl(UINT message, int _x, int _y)
 			}
 			else
 
-			if (gpC_mouse_pointer->GetPickUpItem() == false && re)
+			if (gpC_mouse_pointer->GetPickUpItem() == NULL && re)
 			{
 				MoveReady();
 				SetOrigin(_x, _y);

@@ -1251,9 +1251,9 @@ SetMode(enum CLIENT_MODE mode)
 			//-----------------------------------------------------------
 			g_pUserInformation->LogoutTime = 0;
 
-		#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+		#if __CONTENTS(__GAMEMENU_QUITEXIT)
 			g_pUserInformation->QuitExitTime = 0;
-		#endif //__080405_FIREST_UI_UPDATE
+		#endif //__GAMEMENU_QUITEXIT
 
 			//-----------------------------------------------------------
 			// hot key�� �����Ѵ�.
@@ -1460,13 +1460,14 @@ CheckActivate(BOOL bActiveGame)
 			{
 				//CDirect3D::Restore();
 
-				DEBUG_ADD("IsHAL : Before CDirect3D::Release()");
-				
-				CDirect3D::Release();
+				// Disabled: at DDSCL_NORMAL the D3D device is not lost on focus change,
+				// so the Restore() below is sufficient. Re-enable these two if
+				// rendering misbehaves after alt-tab.
+				//DEBUG_ADD("IsHAL : Before CDirect3D::Release()");
+				//CDirect3D::Release();
 
-				DEBUG_ADD("IsHAL : Before CDirect3D::Init()");
-				
-				CDirect3D::Init();		// �ٽ�... 
+				//DEBUG_ADD("IsHAL : Before CDirect3D::Init()");
+				//CDirect3D::Init();		// �ٽ�... 
 
 				
 				DEBUG_ADD("IsHAL : Before CDirect3D::Restore()");
@@ -1478,8 +1479,12 @@ CheckActivate(BOOL bActiveGame)
 			{				
 				DEBUG_ADD("FullScreen : Before DD::SetDisplayMode()");
 				
-				CDirectDraw::GetDD()->SetDisplayMode(
-					SURFACE_WIDTH, SURFACE_HEIGHT, 16, 0, 0);
+				// Disabled: this build is pseudo-fullscreen at DDSCL_NORMAL (see
+				// CDirectDraw::InitFullscreen, which deliberately does no SetDisplayMode).
+				// A 16 bit modeset here contradicts that and costs a driver round trip
+				// on every alt-tab back; it also needs exclusive mode to take effect.
+				//CDirectDraw::GetDD()->SetDisplayMode(
+				//	SURFACE_WIDTH, SURFACE_HEIGHT, 16, 0, 0);
 			}
 
 			DEBUG_ADD("Before Restore All Surfaces");
@@ -4958,6 +4963,8 @@ UpdateMouse()
 	POINT point;
 	GetCursorPos(&point);
 	ScreenToClient(g_hWnd, &point);
+	// Window pixels -> back-surface pixels, the space the UI uses.
+	CDirectDraw::WindowToViewport(point);
 	g_x = point.x;
 	g_y = point.y;
 	

@@ -43,7 +43,7 @@ void	g_DrawText(RECT* pRt, const char* sz_str, PrintInfo* p_print_info = nullptr
 
 int		g_GetStringWidth(const char* sz_str, HFONT hfont = nullptr);
 
-//Index±îÁöÀÇ ¹®ÀÚ¿­ ±æÀÌ È®ÀÎ.
+//Indexï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½.
 int		g_GetStringWidth2(const char* sz_str, int Index, HFONT hfont);
 int		g_PrintColorStr2(int x, int y, const char* sz_str, PrintInfo& pi, COLORREF str_rgb, int LimitWidth);
 int		g_GetStringIndexByWidth(const char* sz_str, int Width, HFONT hfont);
@@ -54,6 +54,7 @@ bool	g_PossibleStringCut(const char* sz_str, int position);
 
 bool	g_FL2_GetDC();
 bool	g_FL2_ReleaseDC();
+void	g_FL2_MarkDirty();  // mark fallback DC dirty after direct GDI drawing
 
 void	ReduceString(char* str, int len);
 void	ReduceString2(char* str, int len);
@@ -67,13 +68,13 @@ std::string g_GetNumberString(int number);
 std::string g_GetStringByMoney(DWORD dwMoney);
 std::string g_MakeLinefeedString(char* sz_src, int linewidth, HFONT hfont);
 
-// g_PrintLen¿¡ ¹®ÀÚ¿­ ±æÀÌ¸¦ ÀÚµ¿À¸·Î °è»êÇØÁØ´Ù.
+// g_PrintLenï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 inline void g_Print(int x, int y, const char* sz_str, PrintInfo* p_print_info = nullptr)
 {
 	g_PrintLen(x, y, sz_str, strlen(sz_str), p_print_info);
 }
 
-// g_PrintColorStrLen¿¡ ¹®ÀÚ¿­ ±æÀÌ¸¦ ÀÚµ¿À¸·Î °è»êÇØÁØ´Ù.
+// g_PrintColorStrLenï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
 inline int g_PrintColorStr(int x, int y, const char* sz_str, PrintInfo& pi, COLORREF str_rgb)
 {
 	return g_PrintColorStrLen(x, y, sz_str, strlen(sz_str), pi, str_rgb);

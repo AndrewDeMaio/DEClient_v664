@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGPhoneSay.h"
 
 
@@ -45,7 +45,7 @@ void CGPhoneSay::write ( SocketOutputStream & oStream ) const
 	
 	oStream.write( m_SlotID );
 		
-	size_t szMessage = m_Message.size();
+	BYTE szMessage = (BYTE)m_Message.size();
 
 	if ( szMessage == 0 )
 		throw InvalidProtocolException("szMessage == 0");

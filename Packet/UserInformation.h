@@ -80,9 +80,9 @@ class UserInformation {
 		bool			HasSkillRestore;	// Restore 사용할 수 있는가?
 		DWORD			LogoutTime;			// Logout이 가능한 시간
 
-	#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+	#if __CONTENTS(__GAMEMENU_QUITEXIT)
 		DWORD			QuitExitTime;		// QuitExit가 가능한 시간
-	#endif //__080405_FIREST_UI_UPDATE
+	#endif //__GAMEMENU_QUITEXIT
 
 		DWORD			GameVersion;		// Game의 Version
 		bool			HasMagicGroundAttack;	// 불기둥 사용할 수 있는가?
@@ -114,6 +114,7 @@ class UserInformation {
 		void			SetKorean() { bKorean = true; bChinese=bJapanese=bEnglish=false;}
 		void			SetChinese() { bChinese = true; bKorean=bJapanese=bEnglish=false;}
 		void			SetJapanese() { bJapanese = true; bKorean=bChinese=bEnglish=false;}
+		void			SetEnglish() { bEnglish = true; bKorean=bChinese=bJapanese=false;}
 		
 		// 머리가격 조정용
 		int				HeadPrice;

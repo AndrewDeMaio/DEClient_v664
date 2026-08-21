@@ -5,7 +5,7 @@
 // �κ��丮 ���� �������� ����� ��, Ŭ���̾�Ʈ�� X, Y �� ObjectID��
 // ������ ������ Ŭ������ ����, ������ �̿� �´� �ڵ带 ó���Ѵ�.
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGUseMessageItemFromInventory.h"
 #include "Assert.h"
 
@@ -41,7 +41,7 @@ void CGUseMessageItemFromInventory::write (SocketOutputStream & oStream) const
 	CGUseItemFromInventory::write(oStream);
 	
 	// message
-	size_t szMessage = m_Message.size();
+	BYTE szMessage = (BYTE)m_Message.size();
 
 	if (szMessage == 0)
 		throw InvalidProtocolException("szMessage == 0");

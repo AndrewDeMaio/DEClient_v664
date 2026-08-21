@@ -57,7 +57,7 @@ void GLIncomingConnectionOK::write ( Datagram & oDatagram ) const
 	//--------------------------------------------------
 	// write Player ID
 	//--------------------------------------------------
-	size_t szPlayerID = m_PlayerID.size();
+	BYTE szPlayerID = (BYTE)m_PlayerID.size();
 
 	if ( szPlayerID == 0 )
 		throw InvalidProtocolException("szPlayerID == 0");

@@ -4,7 +4,7 @@
 // Description :
 // ������ ���ϴ� ����� IP ��û
 //////////////////////////////////////////////////////////////////////////////
-#include "client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGRequestPowerPoint.h"
 
 //////////////////////////////////////////////////////////////////////////////
@@ -46,7 +46,7 @@ void CGRequestPowerPoint::write ( SocketOutputStream & oStream )
 {
 	__BEGIN_TRY
 		
-	size_t szCellNum = m_CellNum.size();
+	BYTE szCellNum = (BYTE)m_CellNum.size();
 
 	if ( szCellNum == 0 )
 		throw InvalidProtocolException( "szCellNum == 0" );

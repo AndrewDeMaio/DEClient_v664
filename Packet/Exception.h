@@ -120,6 +120,10 @@ private :
 				} catch ( Throwable &  ) { \
 					throw; \
 				}
+	// Debug builds previously left these two undefined, so every translation
+	// unit using them failed to compile. Release defines them as no-ops.
+	#define __BEGIN_DEBUG_EX ((void)0);
+	#define __END_DEBUG_EX ((void)0);
 #endif
 
 //--------------------------------------------------------------------------------
@@ -165,6 +169,13 @@ private :
 					AfxMessageBox(t.toString()); \
 					throw; \
 				}
+#else
+	// Windows Debug lands here: NDEBUG is undefined, and the guard above tests
+	// __WIN32__, which MSVC never defines (it defines _WIN32). Without this
+	// fallback __BEGIN_DEBUG / __END_DEBUG stay undefined and every use is a
+	// syntax error, which is why Debug has never compiled.
+	#define __BEGIN_DEBUG ((void)0);
+	#define __END_DEBUG ((void)0);
 #endif
 
 

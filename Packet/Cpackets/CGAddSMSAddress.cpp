@@ -3,7 +3,7 @@
 // Written By  : elca@ewestsoft.com
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGAddSMSAddress.h"
 
 CGAddSMSAddress::CGAddSMSAddress () 
@@ -40,7 +40,7 @@ void CGAddSMSAddress::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	size_t szSTR;
+	BYTE szSTR;
 
 	szSTR = m_CharacterName.size();
 	oStream.write( szSTR );
