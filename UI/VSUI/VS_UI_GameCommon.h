@@ -72,7 +72,7 @@ struct WindowStatus
 //-----------------------------------------------------------------------------
 // class C_VS_UI_LEVELUP
 //
-// vampire/slayer level up½Ã ³ªÅ¸³ª´Â button.
+// vampire/slayer level upï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ button.
 //-----------------------------------------------------------------------------
 class C_VS_UI_LEVELUP : public Window
 {
@@ -113,7 +113,7 @@ public:
 //-----------------------------------------------------------------------------
 // class C_VS_UI_REQUEST_PREMIUM_GIVE_ITEM
 //
-// Áö±Þ¹ÞÁö ¾ÊÀº ÇÁ¸®¹Ì¾ö ¾ÆÀÌÅÛÀÌ Á¸ÀçÇÒ °æ¿ì ³ªÅ¸³ª´Â button.
+// ï¿½ï¿½ï¿½Þ¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ button.
 //-----------------------------------------------------------------------------
 class C_VS_UI_REQUEST_PREMIUM_GIVE_ITEM : public Window
 {
@@ -122,26 +122,26 @@ private:
 
 	enum IMAGE_SPK_INDEX
 	{
-		REQUEST_GUARD_SLAYER,		// - 00 ½½·¹ÀÌ¾î ¾×ÀÚ
-		REQUEST_GUARD_VAMPIRE,		// - 01 º¨ÆÄÀÌ¾î ¾×ÀÚ
-		REQUEST_GUARD_OUSTERS,		// - 02 ¾Æ¿ì½ºÅÍÁî ¾×ÀÚ
-		PARTY_REQUEST,				// - 03	ÆÄÆ¼°¡ÀÔ½ÅÃ»
-		PARTY_INVITE,				// - 04	ÆÄÆ¼ÃÊ´ë
-		RESURRECT_SLAYER,			// - 05	½½·¹ÀÌ¾î ºÎÈ°		- Á×¾úÀ»¶§.
-		RESURRECT_VAMPIRE,			// - 06	¹ìÆÄÀÌ¾î ºÎÈ°		- Á×¾úÀ»¶§.
-		RESURRECT_OUSTERS,			// - 07	¾Æ¿ì½ºÅÍÁî ºÎÈ°		- Á×¾úÀ»¶§.
-		LVU_BUTTON,					// - 08	º¨ÆÄÀÌ¾î ·¹º§¾÷
-		LVU_BUTTON_OUSTERS,			// - 09	¾Æ¿ì½ºÅÍÁî ·¹º§¾÷
-		RESURRECT_SCROLL,			// - 10	ºÎÈ°½ºÅ©·Ñ			- Á×¾úÀ»¶§.
-		ELIXIR_SCROLL,				// - 11	¿¤¸¯¼­				- Á×¾úÀ»¶§.
-		ETERNITY,					// - 12	ÀÌ½º´ÏÆ¼			- Á×¾úÀ»¶§. (½½·¹ÀÌ¾î¿ëÀÎ°¡?)
-		SKILL_FROM_OTHER_SLAYER,	// - 13 ½½·¹ÀÌ¾î »ì¸®´Â ½ºÅ³
-		SKILL_FROM_OTHER_OUSTERS,	// - 14 ¾Æ¿ì½ºÅÍÁî »ì¸®´Â ½ºÅ³
-		SKILL_FROM_OTHER_VAMPIRE,	// - 15 ¹ìÆÄÀÌ¾î »ì¸®´Â ½ºÅ³
-		GIVE_ITEM01,				// - 16 ÇÁ¸®¹Ì¾ö Áö±Þ¾ÆÀÌÅÛ ¾ÆÀÌÄÜ 01 (ÇöÀç UI°¡ ¾µ ÀÌ¹ÌÁö)
-		GIVE_ITEM02,				// - 17 ÇÁ¸®¹Ì¾ö Áö±Þ¾ÆÀÌÅÛ ¾ÆÀÌÄÜ 02 (ÇöÀç UI°¡ ¾µ ÀÌ¹ÌÁö)
-		GIVE_ITEM_CASE01,			// - 18 ÇÁ¸®¹Ì¾ö Áö±Þ¾ÆÀÌÅÛ ¾ÆÀÌÄÜ ²®µ¥±â 01
-		GIVE_ITEM_CASE02,			// - 19 ÇÁ¸®¹Ì¾ö Áö±Þ¾ÆÀÌÅÛ ¾ÆÀÌÄÜ ²®µ¥±â 02
+		REQUEST_GUARD_SLAYER,		// - 00 ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½
+		REQUEST_GUARD_VAMPIRE,		// - 01 ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½
+		REQUEST_GUARD_OUSTERS,		// - 02 ï¿½Æ¿ì½ºï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		PARTY_REQUEST,				// - 03	ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½Ô½ï¿½Ã»
+		PARTY_INVITE,				// - 04	ï¿½ï¿½Æ¼ï¿½Ê´ï¿½
+		RESURRECT_SLAYER,			// - 05	ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½È°		- ï¿½×¾ï¿½ï¿½ï¿½ï¿½ï¿½.
+		RESURRECT_VAMPIRE,			// - 06	ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½È°		- ï¿½×¾ï¿½ï¿½ï¿½ï¿½ï¿½.
+		RESURRECT_OUSTERS,			// - 07	ï¿½Æ¿ì½ºï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°		- ï¿½×¾ï¿½ï¿½ï¿½ï¿½ï¿½.
+		LVU_BUTTON,					// - 08	ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		LVU_BUTTON_OUSTERS,			// - 09	ï¿½Æ¿ì½ºï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		RESURRECT_SCROLL,			// - 10	ï¿½ï¿½È°ï¿½ï¿½Å©ï¿½ï¿½			- ï¿½×¾ï¿½ï¿½ï¿½ï¿½ï¿½.
+		ELIXIR_SCROLL,				// - 11	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½				- ï¿½×¾ï¿½ï¿½ï¿½ï¿½ï¿½.
+		ETERNITY,					// - 12	ï¿½Ì½ï¿½ï¿½ï¿½Æ¼			- ï¿½×¾ï¿½ï¿½ï¿½ï¿½ï¿½. (ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½Î°ï¿½?)
+		SKILL_FROM_OTHER_SLAYER,	// - 13 ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ì¸®ï¿½ï¿½ ï¿½ï¿½Å³
+		SKILL_FROM_OTHER_OUSTERS,	// - 14 ï¿½Æ¿ì½ºï¿½ï¿½ï¿½ï¿½ ï¿½ì¸®ï¿½ï¿½ ï¿½ï¿½Å³
+		SKILL_FROM_OTHER_VAMPIRE,	// - 15 ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ì¸®ï¿½ï¿½ ï¿½ï¿½Å³
+		GIVE_ITEM01,				// - 16 ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 01 (ï¿½ï¿½ï¿½ï¿½ UIï¿½ï¿½ ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½)
+		GIVE_ITEM02,				// - 17 ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 02 (ï¿½ï¿½ï¿½ï¿½ UIï¿½ï¿½ ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½)
+		GIVE_ITEM_CASE01,			// - 18 ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 01
+		GIVE_ITEM_CASE02,			// - 19 ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½Þ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 02
 	};
 	
 	C_SPRITE_PACK				m_image_spk;
@@ -404,11 +404,11 @@ public:
 	virtual void HotKey_PetInfo() = 0;		// ctrl+CapsLock
 	virtual void HotKey_MailBox() = 0;		// ctrl+b
 	virtual void HotKey_Party() = 0;		// ctrl+p
-	virtual void HotKey_Mark() = 0;			// 'ÇÑÀÚ'Å°
+	virtual void HotKey_Mark() = 0;			// 'ï¿½ï¿½ï¿½ï¿½'Å°
 //	virtual void HotKey_WindowToggle()=0;	// ctrl + space
 	virtual void HotKey_Inventory(bool IsCheckSubInventory = false)=0;		// tab
 	virtual void HotKey_Gear()=0;			// ctrl + tab
-#if __CONTENTS(__GEAR_SWAP_CHANGE)		//	C_VS_UI_GAME	ÀåÂøÃ¢ ±³Ã¼Å°¿¡ »ç¿ë µÉ °¡»ó ÇÔ¼ö ¼±¾ð
+#if __CONTENTS(__GEAR_SWAP_CHANGE)		//	C_VS_UI_GAME	ï¿½ï¿½ï¿½ï¿½Ã¢ ï¿½ï¿½Ã¼Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 	virtual void HotKey_GearChange()=0;		// Alt + A
 	virtual void HotKey_GearChangeShow()=0;	// Alt + S
 #endif	// __GEAR_SWAP_CHANGE
@@ -421,7 +421,7 @@ public:
 	virtual void HotKey_Grade1Info()=0;		// ctrl + c
 	virtual void HotKey_Help()=0;			// ctrl + h
 	virtual void HotKey_WorldMap()=0;		// ctrl + m
-	virtual void HotKey_Minimap()=0;		// Á¦°Å
+	virtual void HotKey_Minimap()=0;		// ï¿½ï¿½ï¿½ï¿½
 	virtual void HotKey_Chat_Up()=0;		// ctrl + PgUp
 	virtual void HotKey_Chat_Dn()=0;		// ctrl + PgDn
 	virtual void HotKey_Tribe_Prior()=0;	// alt	+ PgUp
@@ -436,10 +436,10 @@ public:
 	virtual void HotKey_ExtendChat()=0;		// ctrl + e
 	virtual void HotKey_Sysrq()=0;			// printscreen sysrq
 	virtual void HotKey_Slash()=0;			// ctrl + /
-	virtual void HotKey_Background_Music()=0;	// Ã¤ÆÃ¸í·É¾î /¹è°æÀ½
-	virtual void HotKey_Effect_Music()=0;		// Ã¤ÆÃ¸í·É¾î /È¿°úÀ½
-	virtual void HotKey_Chat_Help()=0;			// Ã¤ÆÃ¸í·É¾î /Ã¤ÆÃµµ¿ò
-	virtual void HotKey_Where()=0;				// Ã¤ÆÃ¸í·É¾î /¾îµð
+	virtual void HotKey_Background_Music()=0;	// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /ï¿½ï¿½ï¿½ï¿½ï¿½
+	virtual void HotKey_Effect_Music()=0;		// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /È¿ï¿½ï¿½ï¿½ï¿½
+	virtual void HotKey_Chat_Help()=0;			// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /Ã¤ï¿½Ãµï¿½ï¿½ï¿½
+	virtual void HotKey_Where()=0;				// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /ï¿½ï¿½ï¿½
 
 	virtual void HotKey_ESC() {}			// esc
 
@@ -455,7 +455,7 @@ public:
 	virtual void HotKey_F10(){}				// f10
 	virtual void HotKey_F11(){}				// f11
 	virtual void HotKey_F12(){}				// f12
-	virtual void Hotkey_Function(int FKey)	{} // HotKey Ã³¸® ÇÔ¼ö 
+	virtual void Hotkey_Function(int FKey)	{} // HotKey Ã³ï¿½ï¿½ ï¿½Ô¼ï¿½ 
 
 //	virtual void HotKey_F9()=0;				// f9
 //	virtual void HotKey_F10()=0;			// f10
@@ -481,9 +481,9 @@ enum CHAT_LINE_CONDITION
 	CLD_PARTY,				//3
 	CLD_GUILD,				//4
 	CLD_UNION,				//5
-	CLD_INFO,				//6 Á¤º¸ ¸Þ½ÃÁö.
-	CLD_GRADEDISPLAY,		//7 »ç¿ëÀÚ µî±Þ ¸Þ¼¼Áö
-	CLD_MASTER,				//8 ¿î¿µÀÚ ¸Þ½ÃÁö
+	CLD_INFO,				//6 ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½.
+	CLD_GRADEDISPLAY,		//7 ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
+	CLD_MASTER,				//8 ï¿½î¿µï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½
 
 	CLD_TOTAL = CLD_MASTER,	//8
 };
@@ -520,8 +520,13 @@ public:
 			return;
 
 		Release();
-		m_sz_string = new char[strlen(sz_str) + 1];
-		strcpy_s(m_sz_string, strlen(sz_str), sz_str);
+		// strcpy_s wants the destination size INCLUDING the null terminator.
+		// Passing strlen() alone makes it reject every non-empty string with
+		// ERANGE, which fast-fails the process through the CRT invalid
+		// parameter handler -- so any chat line with a non-empty id died here.
+		const size_t len = strlen(sz_str);
+		m_sz_string = new char[len + 1];
+		strcpy_s(m_sz_string, len + 1, sz_str);
 	}
 
 	const char* GetString() const { return m_sz_string; }
@@ -597,7 +602,7 @@ public:
 
 	C_VS_UI_CHAT_LINE *	PopBack()
 	{
-		// !data¸¦ deleteÇÏÁö´Â ¾Ê´Â´Ù.
+		// !dataï¿½ï¿½ deleteï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 
 		C_VS_UI_CHAT_LINE * data;
 
@@ -612,7 +617,7 @@ public:
 
 	C_VS_UI_CHAT_LINE *	GetLine(int n) const
 	{
-		// nÀÌ 0¿¡ °¡±î¿ï¼ö·Ï ÃÖ±Ù¿¡ ÀÔ·ÂµÈ lineÀÌ´Ù.
+		// nï¿½ï¿½ 0ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±Ù¿ï¿½ ï¿½Ô·Âµï¿½ lineï¿½Ì´ï¿½.
 
 		if (n < 0)
 			return NULL;
@@ -638,7 +643,7 @@ class PAPERING_HISTORY
 //-----------------------------------------------------------------------------
 // C_VS_UI_CHATTING
 //
-// ÀÏ¹ÝÀûÀÎ chatting°ú ±Ó¼Ó¸»(slayer = PCS)À» ¼öÇàÇÑ´Ù.
+// ï¿½Ï¹ï¿½ï¿½ï¿½ï¿½ï¿½ chattingï¿½ï¿½ ï¿½Ó¼Ó¸ï¿½(slayer = PCS)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 class C_VS_UI_CHATTING : public Window, public Exec, public ButtonVisual
 {
@@ -793,7 +798,7 @@ private:
 	int							m_history_line;
 	std::vector<PAPERING_HISTORY>	m_history;
 	
-//	int							m_string_output_x; // ÁÖ¼®Ã³¸® by larosel
+//	int							m_string_output_x; // ï¿½Ö¼ï¿½Ã³ï¿½ï¿½ by larosel
 	
 	void	ScrollHistory();
 	
@@ -823,12 +828,12 @@ private:
 	int								m_whisper_index;	// by larosel
 
 	//
-	// Vampire/Slayer µÑ ´Ù ³ªÅ¸³¯ ¼ö ÀÖ´Â WindowÀÇ ¼ö´Â 2°³(Inventory, Gear)ÀÌ´Ù.
-	// È­¸é ÀÌ µÑÀÌ ³ªÅ¸³µÀ» °æ¿ì click focus°¡ ÀÖ±â ¶§¹®¿¡ ±×°ÍÀ» ±¸º°ÇØÁà¾ß ÇÑ´Ù.
+	// Vampire/Slayer ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ Windowï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2ï¿½ï¿½(Inventory, Gear)ï¿½Ì´ï¿½.
+	// È­ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ click focusï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	//
 
-//	int								m_slayer_chat_mode;	// ÁÖ¼®Ã³¸® by larosel
-//	void	AddChatToHistoryTemp(char * str, char * sz_id, CHAT_LINE_CONDITION condition);	// ÁÖ¼®Ã³¸® by laorsel
+//	int								m_slayer_chat_mode;	// ï¿½Ö¼ï¿½Ã³ï¿½ï¿½ by larosel
+//	void	AddChatToHistoryTemp(char * str, char * sz_id, CHAT_LINE_CONDITION condition);	// ï¿½Ö¼ï¿½Ã³ï¿½ï¿½ by laorsel
 
 	enum
 	{
@@ -936,7 +941,7 @@ public:
 
 	void	Process();
 	
-	bool	IsCannotSendChatInput();		// Chat Message Àü¼ÛÀÌ ºÒ°¡´ÉÇÑ »óÅÂÀÎ°¡?
+	bool	IsCannotSendChatInput();		// Chat Message ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½?
 };
 
 //-----------------------------------------------------------------------------
@@ -944,10 +949,10 @@ public:
 //
 // slayer/vampire inventory base class.
 //
-// - slayer/vampire inventory °øÅëÀÇ interface¸¦ Á¤ÀÇÇÑ´Ù. 
-// - slayer¿¡¼­ vampire·Î ¹Ù²î°Å³ª ¶Ç´Â ±× ¹Ý´ëÀÏ ¶§, °´Ã¼¸¦ Àç»ý¼ºÇÏ¿©
-//   inventory´Â ÃÊ±âÈ­µÇÁö¸¸, inventoryÀÇ itemÀº ±×´ë·Î À¯ÁöµÈ´Ù. interface»ó¿¡¼­ÀÇ
-//   inventory´Â itemÀ» ÀúÀåÇÏ°í ÀÖÁö ¾Ê´Ù. ±×·¡¼­ ÀÌ class¸¦ base·Î ÇÏ´Â °ÍÀÌ´Ù.
+// - slayer/vampire inventory ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ interfaceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. 
+// - slayerï¿½ï¿½ï¿½ï¿½ vampireï¿½ï¿½ ï¿½Ù²ï¿½Å³ï¿½ ï¿½Ç´ï¿½ ï¿½ï¿½ ï¿½Ý´ï¿½ï¿½ï¿½ ï¿½ï¿½, ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¿ï¿½
+//   inventoryï¿½ï¿½ ï¿½Ê±ï¿½È­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, inventoryï¿½ï¿½ itemï¿½ï¿½ ï¿½×´ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½È´ï¿½. interfaceï¿½ó¿¡¼ï¿½ï¿½ï¿½
+//   inventoryï¿½ï¿½ itemï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½. ï¿½×·ï¿½ï¿½ï¿½ ï¿½ï¿½ classï¿½ï¿½ baseï¿½ï¿½ ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
 //-----------------------------------------------------------------------------
 class C_VS_UI_INVENTORY : public Window, public Exec, public ButtonVisual
 {
@@ -998,11 +1003,11 @@ protected:
 	bool						m_bl_shift, m_bl_set_load;;
 
 	C_SPRITE_PACK *				m_pC_inventory_spk;
-	Rect						m_grid_rect; // ÀüÃ¼ Grid rect.
+	Rect						m_grid_rect; // ï¿½ï¿½Ã¼ Grid rect.
 
 	int							m_focus_grid_x, m_focus_grid_y;
 
-	// »ó¼Ó¹Þ´Â class¿¡¼­ ¹Ýµå½Ã setÇØÁà¾ß ÇÑ´Ù.
+	// ï¿½ï¿½Ó¹Þ´ï¿½ classï¿½ï¿½ï¿½ï¿½ ï¿½Ýµï¿½ï¿½ setï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	int							m_grid_start_offset_x, m_grid_start_offset_y;
 	int							m_money_button_offset_x, m_money_button_offset_y;
 
@@ -1011,8 +1016,8 @@ private:
 	int							m_focus_grid_x_Prev, m_focus_grid_y_Prev;
 
 	//2008.09.24 shootkj
-	//¹°¾à°ú °°Àº ¿µ±¸ ¾ÆÀÌÅÛÀ» ½Ã°£Á¦ ¾ÆÀÌÅÛ°ú ±³Ã¼ ÇÒ¶§ ¼­¹ö¿¡¼­ cannotadd·Î ¿Ã ¼ö ÀÖ´Âµ¥ ÀÌ¶§¿¡´Â 
-	//±³Ã¼°¡ µÇÁö ¾Êµµ·Ï ´Ù½Ã ¿øÀ§Ä¡ ½ÃÄÑ Áà¾ß ÇÑ´Ù.
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û°ï¿½ ï¿½ï¿½Ã¼ ï¿½Ò¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ cannotaddï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´Âµï¿½ ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½ï¿½ 
+	//ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 
 	//------------
 	// Method
@@ -1054,15 +1059,15 @@ public:
 	C_VS_UI_INVENTORY();
 	virtual ~C_VS_UI_INVENTORY();
 
-	//Áö·Ú¼³Ä¡
+	//ï¿½ï¿½ï¿½Ú¼ï¿½Ä¡
 	bool	StartInstallMineProgress(int focus_grid_x, int focus_grid_y);
 	bool	IsInstallMineProgress()		{ return gbl_mine_progress; }
 	void	EndInstallMineProgress()	{ gbl_mine_progress = false; }
-	//Áö·Ú¸¸µé±â
+	//ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ï¿½
 	bool	StartCreateMineProgress(int focus_grid_x, int focus_grid_y);
 	bool	IsCreateMineProgress()		{ return gbl_mine_progress; }
 	void	EndCreateMineProgress()	{ gbl_mine_progress = false; }
-	//ÆøÅº ¸¸µé±â
+	//ï¿½ï¿½Åº ï¿½ï¿½ï¿½ï¿½ï¿½
 	bool	StartCreateBombProgress(int focus_grid_x, int focus_grid_y);
 	bool	IsCreateBombProgress()		{ return gbl_mine_progress; }
 	void	EndCreateBombProgress()	{ gbl_mine_progress = false; }
@@ -1093,8 +1098,8 @@ public:
 
 	void	Prev_Item_Position_Remove();
 	//2008.09.24 shootkj
-	//¹°¾à°ú °°Àº ¿µ±¸ ¾ÆÀÌÅÛÀ» ½Ã°£Á¦ ¾ÆÀÌÅÛ°ú ±³Ã¼ ÇÒ¶§ ¼­¹ö¿¡¼­ cannotadd·Î ¿Ã ¼ö ÀÖ´Âµ¥ ÀÌ¶§¿¡´Â 
-	//±³Ã¼°¡ µÇÁö ¾Êµµ·Ï ´Ù½Ã ¿øÀ§Ä¡ ½ÃÄÑ Áà¾ß ÇÑ´Ù.
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û°ï¿½ ï¿½ï¿½Ã¼ ï¿½Ò¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ cannotaddï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´Âµï¿½ ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½ï¿½ 
+	//ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 
 	DWORD	m_dwWidth;
 	DWORD	m_dwHight;
@@ -1123,7 +1128,7 @@ protected:
 		GEAR_CHANGE_ID1_UNCHECK,
 		GEAR_CHANGE_ID2_UNCHECK,
 
-		// ¿©±â¼­ºÎÅÏ ½½·¹ÀÌ¾î Àü¿ë (½½·¹ Àü¿ë »ó¼ö´Â »ç¿ëÇÏÁö ¾Ê´Â °ÍÀ¸·Î º¸ÀÓ - Gamecommon.cpp¿¡ Ã£¾ÆºÁµµ ¾È³ª¿È.)
+		// ï¿½ï¿½ï¿½â¼­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - Gamecommon.cppï¿½ï¿½ Ã£ï¿½Æºï¿½ï¿½ï¿½ ï¿½È³ï¿½ï¿½ï¿½.)
 		BUTTON_FIRST,
 		BUTTON_FIRST_HILIGHTED,
 		BUTTON_FIRST_HILIGHTED_PUSHED,
@@ -1137,13 +1142,13 @@ protected:
 		HELP_ID,
 		CLOSE_ID,
 
-		// ¿©±â¼­ºÎÅÏ ½½·¹ÀÌ¾î Àü¿ë
+		// ï¿½ï¿½ï¿½â¼­ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½
 		FIRST_ID,
 		SECOND_ID,
 
 		ALPHA_ID,
 
-		// ÀåÂøÃ¢ ±³Ã¼ ¹öÆ°
+		// ï¿½ï¿½ï¿½ï¿½Ã¢ ï¿½ï¿½Ã¼ ï¿½ï¿½Æ°
 		GEAR_ID1,
 		GEAR_ID2,
 	};
@@ -1159,22 +1164,22 @@ protected:
 	int							m_focus_slot;
 	bool						m_bl_set_load;
 
-	// »ó¼Ó¹Þ´Â class¿¡¼­ ¹Ýµå½Ã setÇØÁà¾ß ÇÑ´Ù.
+	// ï¿½ï¿½Ó¹Þ´ï¿½ classï¿½ï¿½ï¿½ï¿½ ï¿½Ýµï¿½ï¿½ setï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	int								m_slot_size;
 	Rect *							m_p_slot_rect;
 	int *							m_p_slot_image;
 	BOOL 							m_bl_Abvencement;
 
-#if __CONTENTS(__GEAR_SWAP_CHANGE)	// C_VS_UI_GEAR ÀåÂø Ã¢ ¹öÆ° ¹× ID¿¡ »ç¿ëµÉ º¯¼ö ¼±¾ð
-	DWORD							m_dwSendGearID;							//¼­¹ö¿¡ º¸³¾ GearID
-	DWORD							m_dwAccepGearID;						//¼­¹ö¿¡¼­ ¹ÞÀº GearID
-	DWORD							m_dwGearChange_ID1_Button_Pos_X;		//ÀÚÂøÃ¢À» ±³Ã¼ÇÒ ¹öÆ°ÀÇ À§Ä¡
+#if __CONTENTS(__GEAR_SWAP_CHANGE)	// C_VS_UI_GEAR ï¿½ï¿½ï¿½ï¿½ Ã¢ ï¿½ï¿½Æ° ï¿½ï¿½ IDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	DWORD							m_dwSendGearID;							//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ GearID
+	DWORD							m_dwAccepGearID;						//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ GearID
+	DWORD							m_dwGearChange_ID1_Button_Pos_X;		//ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½Ä¡
 	DWORD							m_dwGearChange_ID1_Button_Pos_Y;
-	DWORD							m_dwGearChange_ID1_Button_Width;		//ÀåÂøÃ¢À» ±³Ã¼ÇÒ ¹öÆ°ÀÇ Å©±â
+	DWORD							m_dwGearChange_ID1_Button_Width;		//ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ Å©ï¿½ï¿½
 	DWORD							m_dwGearChange_ID1_Button_Height;
-	DWORD							m_dwGearChange_ID2_Button_Pos_X;		//ÀÚÂøÃ¢À» ±³Ã¼ÇÒ ¹öÆ°ÀÇ À§Ä¡
+	DWORD							m_dwGearChange_ID2_Button_Pos_X;		//ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½Ä¡
 	DWORD							m_dwGearChange_ID2_Button_Pos_Y;
-	DWORD							m_dwGearChange_ID2_Button_Width;		//ÀåÂøÃ¢À» ±³Ã¼ÇÒ ¹öÆ°ÀÇ Å©±â
+	DWORD							m_dwGearChange_ID2_Button_Width;		//ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ Å©ï¿½ï¿½
 	DWORD							m_dwGearChange_ID2_Button_Height;
 #endif	// __GEAR_SWAP_CHANGE
 // 
@@ -1218,7 +1223,7 @@ public:
 	void	Run(id_t id);
 	void	SetFocusSlot(BYTE Slot) { m_focus_slot = Slot;}
 
-#if __CONTENTS(__GEAR_SWAP_CHANGE)			// C_VS_UI_GEAR ÀåÂøÃ¢ ±³Ã¼ ÇÔ¼ö ¹× ¹öÆ° º¸ÀÌ±â ÇÔ¼ö ¼±¾ð
+#if __CONTENTS(__GEAR_SWAP_CHANGE)			// C_VS_UI_GEAR ï¿½ï¿½ï¿½ï¿½Ã¢ ï¿½ï¿½Ã¼ ï¿½Ô¼ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½Ì±ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 	void	GearChange();
 	void	GearChange(DWORD	dwGearID);
 	void	GearChangeButtonShow();
@@ -1245,7 +1250,7 @@ public:
 		HOTKEY3,
 		HOTKEY4,
 
-		//¹ìÆÄ¿ë ÇÖÅ°
+		//ï¿½ï¿½ï¿½Ä¿ï¿½ ï¿½ï¿½Å°
 		HOTKEY5,
 		HOTKEY6,
 		HOTKEY7,
@@ -1274,14 +1279,14 @@ protected:
 	int							m_current_skill_set, m_current_skill_grade;
 	enum 
 	{ 
-		// ÇÑ Ä³¸¯ÅÍ°¡ ¹è¿ï ¼ö ÀÖ´Â skill ¼ö´Â 100°³ ÀÌÇÏ¶ó°í...
-		SPREAD_X_MAX = 10, // ÆîÃÄÁ³À» ¶§ÀÇ °¡·ÎÀÇ ÃÖ´ë °³¼ö(Ã¹ lineÀº Spread buttonÀ» Æ÷ÇÔÇÑ´Ù).
+		// ï¿½ï¿½ Ä³ï¿½ï¿½ï¿½Í°ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ skill ï¿½ï¿½ï¿½ï¿½ 100ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½...
+		SPREAD_X_MAX = 10, // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½(Ã¹ lineï¿½ï¿½ Spread buttonï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½).
 		SPREAD_Y_MAX = 10,
 	};
 
 	C_SPRITE_PACK				m_etc_spk;
 
-	// »ó¼Ó¹Þ´Â °´Ã¼¿¡¼­ setÇØÁÙ °Í.
+	// ï¿½ï¿½Ó¹Þ´ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ setï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½.
 	int							m_skill_guard_x, m_skill_guard_y;
 	int							m_skill_start_x, m_skill_start_y;
 	int							m_skill_guard_extra_offset;
@@ -1289,19 +1294,19 @@ protected:
 
 	enum ETC_SPK_INDEX
 	{
-		SKILL_GUARD, // skill icon Å×µÎ¸®
+		SKILL_GUARD, // skill icon ï¿½×µÎ¸ï¿½
 		SKILL_EMPTY_BUTTON,
 		SKILL_PUSHED_BUTTON,
 	};
 	
 	int							m_comboCnt ;
-	int							m_selected_skillid; // NOT_SELECTEDÀÌ¸é ¼±ÅÃµÇÁö ¾ÊÀº °ÍÀÌ´Ù. ACTIONINFOÁß ÇÏ³ªÀÌ´Ù.
+	int							m_selected_skillid; // NOT_SELECTEDï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½. ACTIONINFOï¿½ï¿½ ï¿½Ï³ï¿½ï¿½Ì´ï¿½.
 	bool						m_selected_comboAttackskill ; 
-	int							m_focused_slot; // Spread buttonÀ» 0À¸·Î ÇÏ°í ÁÂ¿¡¼­ ¿ì·Î Áõ°¡ÇÑ´Ù.
+	int							m_focused_slot; // Spread buttonï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ ï¿½Â¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 	bool						m_bl_pushed;
 	bool						m_bl_open;
 
-	// Progress Bar °ü·Ã
+	// Progress Bar ï¿½ï¿½ï¿½ï¿½
 	bool						m_bl_show_progress;
 	int							m_progress_skill_id;
 	CPoint						m_progress_inventory_grid;
@@ -1857,7 +1862,7 @@ private:
 	DWORD						m_dw_minimap_prev_tickcount;
 	DWORD						m_dw_minimap_millisec;
 
-	bool						m_bMiniMapDisableZone;	// ¹Ì´Ï¸ÊÀ» Ãâ·ÂÇÏÁö ¾Ê´Â ¸ÊÀÌ´Ù.
+	bool						m_bMiniMapDisableZone;	// ï¿½Ì´Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
 
 #if __CONTENTS(__GPS_ADD)
 	int							m_GPSBoard_X;
@@ -1981,7 +1986,7 @@ public :
 		DWORD			quest_time;
 	};
 	
-	QUEST_STATUS		m_quest_status;					// ÇöÀç ÁøÇàÁßÀÎ Äù½ºÆ® Á¤º¸
+	QUEST_STATUS		m_quest_status;					// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 	bool				m_bl_active;
 	bool				m_bl_timeover;
 	bool				m_bl_focus;
@@ -1989,7 +1994,7 @@ public :
 	DWORD				m_timer;
 	DWORD				m_timer2;
 	CSpriteSurface *	m_p_back_surface;
-	std::vector<std::string>					m_hard_cording;		// ³¯ ¸·¾ÆÁà!!!
+	std::vector<std::string>					m_hard_cording;		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½!!!
 
 
 private :
@@ -2154,8 +2159,8 @@ protected:
 // 		BUTTON_TEAM_MEMBER_LIST_HILIGHTED,
 // 		BUTTON_TEAM_MEMBER_LIST_HILIGHTED_PUSHED,
 // 
-// 		// etc-_- È÷½Â¹Ì¿ö by ¾¦°«
-// 		BUTTON_MAIL,					// ¸Þ´ºÅÇ¿¡ ³ÖÀð
+// 		// etc-_- ï¿½ï¿½ï¿½Â¹Ì¿ï¿½ by ï¿½ï¿½ï¿½ï¿½
+// 		BUTTON_MAIL,					// ï¿½Þ´ï¿½ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½
 // 		BUTTON_MAIL_HILIGHTED,
 // 		BUTTON_MAIL_HILIGHTED_PUSHED,
 // 
@@ -2191,7 +2196,7 @@ protected:
 // 		BUTTON_POWER_JJANG_HILIGHTED,
 // 		BUTTON_POWER_JJANG_HILIGHTED_PUSHED,
 // 		
-// 		// ¸¶ÄÏ ¹öÆ°
+// 		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
 // 		BUTTON_MARKETM,
 // 		BUTTON_MARKETM_HILIGHTED, 
 // 		BUTTON_MARKETM_PUSHED,
@@ -2200,7 +2205,7 @@ protected:
 // 		BUTTON_MARKETB_HILIGHTED,
 // 		BUTTON_MARKETB_PUSHED,
 // 
-// 		// ¿ùµå ¸Ê ¹öÆ°
+// 		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Æ°
 // 		BUTTON_WORLD_MAP,
 // 		BUTTON_WORLD_MAP_HILIGHTED,
 // 		BUTTON_WORLD_MAP_PUSHED,
@@ -2257,15 +2262,15 @@ protected:
 		NAMING_ID,
 		
 		// TEAM TAB
-		TEAM_INFO_ID, // ¿µÃ¤ ¾ÆÀÌµð
-		TEAM_MEMBER_LIST_ID, // ¿µÃ¤ ¸É¹ö ¸ñ·Ï
-//		TEAM_COMMAND_ID, // ±æµå ¸í·É
-		TEAM_LIST_ID, // ±æµå ¸®½ºÆ®
-		TEAM_WAIT_LIST_ID, // ´ë±â ±æµå ¸®½ºÆ®
-		TEAM_UNION_ID,		// ¿¬ÇÕ ¸í·É
+		TEAM_INFO_ID, // ï¿½ï¿½Ã¤ ï¿½ï¿½ï¿½Ìµï¿½
+		TEAM_MEMBER_LIST_ID, // ï¿½ï¿½Ã¤ ï¿½É¹ï¿½ ï¿½ï¿½ï¿½
+//		TEAM_COMMAND_ID, // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		TEAM_LIST_ID, // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
+		TEAM_WAIT_LIST_ID, // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®
+		TEAM_UNION_ID,		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 		// UTIL TAB
-		UTIL_STORE_ID, // ¿µÃ¤ ¹Ùº¸ ¸í·É
+		UTIL_STORE_ID, // ï¿½ï¿½Ã¤ ï¿½Ùºï¿½ ï¿½ï¿½ï¿½ï¿½
 //#if __CONTENTS(__POWER_JJANG_ID)
 //		UTIL_POWER_JJANG_ID,
 //#endif
@@ -2363,23 +2368,23 @@ public:
 	}
 	void	ResetOpenedHelpIdx()		{ m_OpenedHelpIdx = EXEC_MAX;	}
 
-	//Áö·Ú¼³Ä¡
+	//ï¿½ï¿½ï¿½Ú¼ï¿½Ä¡
 	void	StartInstallMineProgress(int focus_grid_x, int focus_grid_y)
 	{ if(m_pC_inventory)m_pC_inventory->StartInstallMineProgress(focus_grid_x, focus_grid_y); }
 	bool	IsInstallMineProgress()		{ return gbl_mine_progress; }
 	void	EndInstallMineProgress()	{ gbl_mine_progress = false; }
-	//Áö·Ú¸¸µé±â
+	//ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½ï¿½
 	void	StartCreateMineProgress(int focus_grid_x, int focus_grid_y)
 	{ if(m_pC_inventory)m_pC_inventory->StartCreateMineProgress(focus_grid_x, focus_grid_y); }
 	bool	IsCreateMineProgress()		{ return gbl_mine_progress; }
 	void	EndCreateMineProgress()	{ gbl_mine_progress = false; }
-	//ÆøÅº ¸¸µé±â
+	//ï¿½ï¿½Åº ï¿½ï¿½ï¿½ï¿½ï¿½
 	void	StartCreateBombProgress(int focus_grid_x, int focus_grid_y)
 	{ if(m_pC_inventory)m_pC_inventory->StartCreateBombProgress(focus_grid_x, focus_grid_y); }
 	bool	IsCreateBombProgress()		{ return gbl_mine_progress; }
 	void	EndCreateBombProgress()	{ gbl_mine_progress = false; }
 
-	//¹ü¿ë Progress Bar
+	//ï¿½ï¿½ï¿½ï¿½ Progress Bar
 	void	StartSkillCastingProgress(int skillID, DWORD time, CPoint inventoryGrid = CPoint(-1, -1))
 	{ if(m_pC_skill) m_pC_skill->StartSkillCastingProgress(skillID, time, inventoryGrid); }
 	bool	IsSkillCastingProgress()
@@ -2501,8 +2506,8 @@ public:
 
 	void	LevelUp()
 	{
-		// ÀÌ¹Ì ¶° ÀÖÀ¸¸é ¾Æ¹«°Íµµ ¾ÈÇÑ´Ù.
-		// ´Ý´Â °ÍÀº closing interface·Î...
+		// ï¿½Ì¹ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
+		// ï¿½Ý´ï¿½ ï¿½ï¿½ï¿½ï¿½ closing interfaceï¿½ï¿½...
 
 		if (!m_pC_level_up)
 		{
@@ -2531,8 +2536,8 @@ public:
 		return m_pC_chatting->IsEmpty();
 	}
 
-	virtual void	DoCommonActionBeforeEventOccured(); // ¹ß»ýÇÏ±â Àü
-	virtual void	DoCommonActionAfterEventOccured()  // ¹ß»ýÇÑ ÈÄ
+	virtual void	DoCommonActionBeforeEventOccured(); // ï¿½ß»ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½
+	virtual void	DoCommonActionAfterEventOccured()  // ï¿½ß»ï¿½ï¿½ï¿½ ï¿½ï¿½
 	{
 		CloseInventory();
 		CloseGear();
@@ -2568,7 +2573,7 @@ public:
 		GetGearWindow()->XY(_x, _y);
 	}
 
-	void	ShopRunningAnnounced(); // ShopÀ» À§ÇÑ ÇÊ¿äÇÑ Window¸¦ ¶ç¿î´Ù.
+	void	ShopRunningAnnounced(); // Shopï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ Windowï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	
 	void	StorageRunningAnnounced();
 	
@@ -2581,7 +2586,7 @@ public:
 	virtual void	ResetSlayerQuickItemSize() {}
 	virtual void	ResetOustersQuickItemSize() {}
 	virtual void	OpenGear(bool bl_set_load = true)=0;
-#if __CONTENTS(__GEAR_SWAP_CHANGE)			//ÀåÂøÂø ±³Ã¼ ½ÇÇà °¡»ó ÇÔ¼ö ¼±¾ð
+#if __CONTENTS(__GEAR_SWAP_CHANGE)			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½
 	virtual	void	RunGearChange()=0;
 #endif //__GEAR_SWAP_CHANGE
 	virtual void	CloseGear()=0;
@@ -2717,20 +2722,20 @@ public:
 	void	HotKey_Coer_Attack();		// ctrl	+ o
 	void	HotKey_Sysrq();				// printscreen sysrq
 	void	HotKey_Slash();				// ctrl + /
-	void	HotKey_Background_Music();	// Ã¤ÆÃ¸í·É¾î /¹è°æÀ½
-	void	HotKey_Effect_Music();		// Ã¤ÆÃ¸í·É¾î /È¿°úÀ½
-	void	HotKey_Chat_Help();			// Ã¤ÆÃ¸í·É¾î /Ã¤ÆÃµµ¿ò
-	void	HotKey_ZoneChat();			// Ã¤ÆÃ¸í·É¾î /z
-	void	HotKey_GuildChat();			// Ã¤ÆÃ¸í·É¾î /g
-	void	HotKey_UnionChat();			// Ã¤ÆÃ¸í·É¾î /u
-	void	HotKey_Whisper();			// Ã¤ÆÃ¸í·É¾î /w
-	void	HotKey_Where();				// Ã¤ÆÃ¸í·É¾î /¾îµð
+	void	HotKey_Background_Music();	// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /ï¿½ï¿½ï¿½ï¿½ï¿½
+	void	HotKey_Effect_Music();		// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /È¿ï¿½ï¿½ï¿½ï¿½
+	void	HotKey_Chat_Help();			// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /Ã¤ï¿½Ãµï¿½ï¿½ï¿½
+	void	HotKey_ZoneChat();			// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /z
+	void	HotKey_GuildChat();			// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /g
+	void	HotKey_UnionChat();			// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /u
+	void	HotKey_Whisper();			// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /w
+	void	HotKey_Where();				// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /ï¿½ï¿½ï¿½
 //	void	HotKey_F9();	
 //	void	HotKey_F10();
 //	void	HotKey_F11();
 //	void	HotKey_F12();
-	void	HotKey_PartyChat();			// Ã¤ÆÃ¸í·É¾î /p
-	void	HotKey_NormalChat();		// Ã¤ÆÃ¸í·É¾î /c
+	void	HotKey_PartyChat();			// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /p
+	void	HotKey_NormalChat();		// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /c
 	void	HotKey_Quest();				// ctrl + q
 	void	HotKey_MailBox();			// ctrl + b
 	void	HotKey_PetInfo();			// ctrl + CapsLock
@@ -2745,9 +2750,9 @@ public:
 
 	void	Inventory_Item_Position_Remove();
 	//2008.09.24 shootkj
-	//½Ã°£Á¦ ¾ÆÀÌÅÛ°ú À§Ä¡¸¦ ±³Ã¼ ÇÏ·Á ÇÒ°æ¿ì ¼­¹ö¿¡¼­ cannotadd·Î ¿¡·¯¸¦ º¸³»ÁØ´Ù.
-	//´Ù½Ã ¸»ÇØ ±³Ã¼ µÉ ¼ö ¾ø´Ù. ±Ùµ¥ Å¬¶ó¿¡¼­´Â ±³Ã¼ ½Ãµµ¸¦ ÇÑ´Ù.
-	//±³Ã¼°¡ µÇÁö ¾Êµµ·Ï À§Ä¡¸¦ ´Ù½Ã ¿ø·¡ ´ë·Î ¹Ù²ã Áà¾ß ÇÑ´Ù.
+	//ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û°ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½Ï·ï¿½ ï¿½Ò°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ cannotaddï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½.
+	//ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½Ùµï¿½ Å¬ï¿½ó¿¡¼ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ ï¿½Ãµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+	//ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Êµï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 };
 
 //-----------------------------------------------------------------------------
@@ -2797,10 +2802,10 @@ private:
 	
 	SKILLDOMAIN				m_skill_domain;
 
-	MSkillDomain::SKILL_STEP_LIST	m_advance_skill_id_vec;		// È­¸é¿¡ Ç¥½ÃµÇ´Â ½ÂÁ÷ ½ºÅ³ ¾ÆÀÌµð¸¦ ÀúÀåÇÑ´Ù.
-	MSkillDomain::SKILL_STEP_LIST	m_rare_skill_id_vec;		// È­¸é¿¡ Ç¥½ÃµÇ´Â ·¹¾î ½ºÅ³ ¾ÆÀÌµð¸¦ ÀúÀåÇÑ´Ù.
+	MSkillDomain::SKILL_STEP_LIST	m_advance_skill_id_vec;		// È­ï¿½é¿¡ Ç¥ï¿½ÃµÇ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	MSkillDomain::SKILL_STEP_LIST	m_rare_skill_id_vec;		// È­ï¿½é¿¡ Ç¥ï¿½ÃµÇ´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 
-	int						m_rare_skill_max;					// À¯Àú°¡ ¹è¿ï ¼ö ÀÖ´Â ·¹¾î½ºÅ³ÀÇ ÃÖ´ë°ª
+	int						m_rare_skill_max;					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½î½ºÅ³ï¿½ï¿½ ï¿½Ö´ë°ª
 
 	
 	ButtonGroup *			m_pC_common_button_group;
@@ -2875,11 +2880,11 @@ private:
 		HERZOG_ID,
 		LANDESHER_ID,
 
-		MALCHUT_ID,					// ¸¶¸£ÄíÆ®
-		YESOD_ID,						// ¿¹¼Òµå
-		HOD_ID,						// È£µå
-		NETRETH_ID,					// ³×Â÷Å©
-		TIPHRETH_ID,					// Æ¼ÆÄ·¹Æ®
+		MALCHUT_ID,					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+		YESOD_ID,						// ï¿½ï¿½ï¿½Òµï¿½
+		HOD_ID,						// È£ï¿½ï¿½
+		NETRETH_ID,					// ï¿½ï¿½ï¿½ï¿½Å©
+		TIPHRETH_ID,					// Æ¼ï¿½Ä·ï¿½Æ®
 		GEBURAH_ID,
 		CHESED_ID,
 		BINSH_ID,								
@@ -2919,7 +2924,7 @@ private:
 //		GRADE3_BUTTON_TAB_ID8,
 //		GRADE3_BUTTON_TAB_ID9,
 //		GRADE3_BUTTON_TAB_ID10,
-		CHANGE_IMAGE_ID,		// ÀÌ¹ÌÁö º¯°æ ¹öÆ°
+		CHANGE_IMAGE_ID,		// ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°
 		PET_INFO_ID,
 		
 		// grade 2
@@ -2987,13 +2992,13 @@ public:
 	void	_Show2();	// Character Info
 	void	_Show3();	// Grade1
 	void	_Show4();	// Grade2
-	//by csm 2004.12.30 ÀüÁ÷ °ü·Ã ÀÎÅÍÆäÀÌ½º Ãß°¡ 
+	//by csm 2004.12.30 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ ï¿½ß°ï¿½ 
 	
 	void	_Show5();	// Grade2
-	void	_Show5_ACSkillList();		// ½ÂÁ÷ ½ºÅ³ ¸®½ºÆ® Ãâ·Â
+	void	_Show5_ACSkillList();		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½
 	
 	void	_Show6();	// Rare Skill	by chyaya
-	void	_Show6_RareSkillList();		// ·¹¾î ½ºÅ³ ¸®½ºÆ® Ãâ·Â
+	void	_Show6_RareSkillList();		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å³ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½
 
 	void	Process();
 //	void	Start(bool skill_mode);
@@ -3011,13 +3016,13 @@ public:
 	void	SetCorrectGrade();
 	const char * GetChinhoLevel(const int level);
 
-	// ½ÂÁ÷ÅÇ °ü·Ã Ã³¸®
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	void	Process5_ACSkillList();
 	void	Process5_ACSkillList_Slayer();
 	void	Process5_ACSkillList_Vampire();
 	void	Process5_ACSkillList_Ousters();
 
-	// ·¹¾î½ºÅ³ÅÇ °ü·Ã Ã³¸®
+	// ï¿½ï¿½ï¿½î½ºÅ³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 	void	Process6_RareSkillList();
 };
 
@@ -3049,10 +3054,10 @@ public:
 
 		NAMING_WINDOW,
 
-		QUEST_MANAGER_LIST, // ¸ÞÀÎ Ã¢
-		QUEST_MANAGER_DETAIL, // ¼¼ºÎ»çÇ×
-		QUEST_MANAGER_MISSION, // ÀÓ¹«
-		QUEST_MANAGER_ITEM, // ÀÎº¥Åä¸®
+		QUEST_MANAGER_LIST, // ï¿½ï¿½ï¿½ï¿½ Ã¢
+		QUEST_MANAGER_DETAIL, // ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½
+		QUEST_MANAGER_MISSION, // ï¿½Ó¹ï¿½
+		QUEST_MANAGER_ITEM, // ï¿½Îºï¿½ï¿½ä¸®
 		INVENTORY_SUB,
 		BLOOD_BURST_WINDOW,
 		WINDOW_TOTAL,
@@ -3211,13 +3216,13 @@ private:
 		INDEX_WAR_DATE,
 		INDEX_WAR_DATE_HILIGHTED,
 
-		INDEX_UNITED_JOIN,				// ¿¬ÇÕ°¡ÀÔ
+		INDEX_UNITED_JOIN,				// ï¿½ï¿½ï¿½Õ°ï¿½ï¿½ï¿½
 		INDEX_UNITED_JOIN_HILIGHTED,	
-		INDEX_UNITED_WITHDRAWAL,		// ¿¬ÇÕÅ»Åð
+		INDEX_UNITED_WITHDRAWAL,		// ï¿½ï¿½ï¿½ï¿½Å»ï¿½ï¿½
 		INDEX_UNITED_WITHDRAWAL_HILIGHTED,
-		INDEX_UNITED_EXPEL,				// ¿¬ÇÕÃß¹æ
+		INDEX_UNITED_EXPEL,				// ï¿½ï¿½ï¿½ï¿½ï¿½ß¹ï¿½
 		INDEX_UNITED_EXPEL_HILIGHTED,
-		INDEX_GUILD_APPOINT,			// ÀÓ¸í
+		INDEX_GUILD_APPOINT,			// ï¿½Ó¸ï¿½
 		INDEX_GUILD_APPOINT_HILIGHTED,
 
 
@@ -3354,7 +3359,7 @@ private:
 	int		m_print_x[2], m_print_y, m_print_gap;
 	int		m_focus;
 	std::vector<TEAM_MEMBER_LIST>	m_v_member_list;
-	BYTE	m_bAvailableRecall; // Å¸ÀÔ¿¡ µû¶ó ±æ¿ø È£ÃâÇÏ±â 
+	BYTE	m_bAvailableRecall; // Å¸ï¿½Ô¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ï±ï¿½ 
 	char	m_SelectedID[16];
 	char	m_AskingMessage[128];
 public:
@@ -3457,13 +3462,13 @@ private:
 		INDEX_WAR_DATE,
 		INDEX_WAR_DATE_HILIGHTED,
 
-		INDEX_UNITED_JOIN,				// ¿¬ÇÕ°¡ÀÔ
+		INDEX_UNITED_JOIN,				// ï¿½ï¿½ï¿½Õ°ï¿½ï¿½ï¿½
 		INDEX_UNITED_JOIN_HILIGHTED,	
-		INDEX_UNITED_WITHDRAWAL,		// ¿¬ÇÕÅ»Åð
+		INDEX_UNITED_WITHDRAWAL,		// ï¿½ï¿½ï¿½ï¿½Å»ï¿½ï¿½
 		INDEX_UNITED_WITHDRAWAL_HILIGHTED,
-		INDEX_UNITED_EXPEL,				// ¿¬ÇÕÃß¹æ
+		INDEX_UNITED_EXPEL,				// ï¿½ï¿½ï¿½ï¿½ï¿½ß¹ï¿½
 		INDEX_UNITED_EXPEL_HILIGHTED,
-		INDEX_GUILD_APPOINT,			// ÀÓ¸í
+		INDEX_GUILD_APPOINT,			// ï¿½Ó¸ï¿½
 		INDEX_GUILD_APPOINT_HILIGHTED,
 
 
@@ -3615,16 +3620,16 @@ private:
 		INDEX_WAR_DATE,
 		INDEX_WAR_DATE_HILIGHTED,
 
-		INDEX_UNITED_JOIN,							// ¿¬ÇÕ°¡ÀÔ
+		INDEX_UNITED_JOIN,							// ï¿½ï¿½ï¿½Õ°ï¿½ï¿½ï¿½
 		INDEX_UNITED_JOIN_HILIGHTED,	
-		INDEX_UNITED_WITHDRAWAL,					// ¿¬ÇÕÅ»Åð
+		INDEX_UNITED_WITHDRAWAL,					// ï¿½ï¿½ï¿½ï¿½Å»ï¿½ï¿½
 		INDEX_UNITED_WITHDRAWAL_HILIGHTED,
-		INDEX_UNITED_EXPEL,							// ¿¬ÇÕÃß¹æ
+		INDEX_UNITED_EXPEL,							// ï¿½ï¿½ï¿½ï¿½ï¿½ß¹ï¿½
 		INDEX_UNITED_EXPEL_HILIGHTED,
-		INDEX_GUILD_APPOINT,						// ÀÓ¸í
+		INDEX_GUILD_APPOINT,						// ï¿½Ó¸ï¿½
 		INDEX_GUILD_APPOINT_HILIGHTED,
 		
-		INDEX_GUILD_DELEGATION_OF_POWER,			// ±ÇÇÑ ÀÌÀÓ
+		INDEX_GUILD_DELEGATION_OF_POWER,			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		INDEX_GUILD_DELEGATION_OF_POWER_HILIGHTED,
 
 	};
@@ -3764,13 +3769,13 @@ private:
 		INDEX_WAR_DATE,
 		INDEX_WAR_DATE_HILIGHTED,
 
-		INDEX_UNITED_JOIN,				// ¿¬ÇÕ°¡ÀÔ
+		INDEX_UNITED_JOIN,				// ï¿½ï¿½ï¿½Õ°ï¿½ï¿½ï¿½
 		INDEX_UNITED_JOIN_HILIGHTED,	
-		INDEX_UNITED_WITHDRAWAL,		// ¿¬ÇÕÅ»Åð
+		INDEX_UNITED_WITHDRAWAL,		// ï¿½ï¿½ï¿½ï¿½Å»ï¿½ï¿½
 		INDEX_UNITED_WITHDRAWAL_HILIGHTED,
-		INDEX_UNITED_EXPEL,				// ¿¬ÇÕÃß¹æ
+		INDEX_UNITED_EXPEL,				// ï¿½ï¿½ï¿½ï¿½ï¿½ß¹ï¿½
 		INDEX_UNITED_EXPEL_HILIGHTED,
-		INDEX_GUILD_APPOINT,			// ÀÓ¸í
+		INDEX_GUILD_APPOINT,			// ï¿½Ó¸ï¿½
 		INDEX_GUILD_APPOINT_HILIGHTED,
 
 
@@ -3802,7 +3807,7 @@ private:
 	CDirectDrawSurface				*m_guild_mark;
 
 public:
-	C_VS_UI_TEAM_REGIST(bool member, int reg_fee, int rank, const char *team_name = NULL, const char *date = NULL, int guild_id = -1); // team_nameÀº memberÀÎ °æ¿ì¿¡¸¸
+	C_VS_UI_TEAM_REGIST(bool member, int reg_fee, int rank, const char *team_name = NULL, const char *date = NULL, int guild_id = -1); // team_nameï¿½ï¿½ memberï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½
 	~C_VS_UI_TEAM_REGIST();
 
 	void	Process();
@@ -4052,7 +4057,7 @@ public :
 //-----------------------------------------------------------------------------
 // class C_VS_UI_BRING_FEE
 //
-// ¼¼±Ý °¡Á®¿À±â
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //
 //-----------------------------------------------------------------------------
 class C_VS_UI_BRING_FEE : public Window, public Exec, public ButtonVisual
@@ -4180,13 +4185,13 @@ class C_VS_UI_WAR_LIST : public Window, public Exec, public ButtonVisual
 		INDEX_WAR_DATE,
 		INDEX_WAR_DATE_HILIGHTED,
 
-		INDEX_UNITED_JOIN,				// ¿¬ÇÕ°¡ÀÔ
+		INDEX_UNITED_JOIN,				// ï¿½ï¿½ï¿½Õ°ï¿½ï¿½ï¿½
 		INDEX_UNITED_JOIN_HILIGHTED,	
-		INDEX_UNITED_WITHDRAWAL,		// ¿¬ÇÕÅ»Åð
+		INDEX_UNITED_WITHDRAWAL,		// ï¿½ï¿½ï¿½ï¿½Å»ï¿½ï¿½
 		INDEX_UNITED_WITHDRAWAL_HILIGHTED,
-		INDEX_UNITED_EXPEL,				// ¿¬ÇÕÃß¹æ
+		INDEX_UNITED_EXPEL,				// ï¿½ï¿½ï¿½ï¿½ï¿½ß¹ï¿½
 		INDEX_UNITED_EXPEL_HILIGHTED,
-		INDEX_GUILD_APPOINT,			// ÀÓ¸í
+		INDEX_GUILD_APPOINT,			// ï¿½Ó¸ï¿½
 		INDEX_GUILD_APPOINT_HILIGHTED,
 
 
@@ -4217,7 +4222,7 @@ public:
 			reinforceGuildID = 0;
 		};
 	
-		BYTE warType;		// 0 : µ¿Á·°£ 1 : Á¾Á·°£
+		BYTE warType;		// 0 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		WORD year;
 		BYTE month;
 		BYTE day;
@@ -4230,7 +4235,7 @@ public:
 	
 	struct _WarList
 	{
-		BYTE warType;		// 0 : µ¿Á·°£ 1 : Á¾Á·°£
+		BYTE warType;		// 0 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1 : ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		WORD year;
 		BYTE month;
 		BYTE day;
@@ -4307,7 +4312,7 @@ public :
 		int y;
 		BYTE shrine_race;
 		BLOOD_BIBLE_STATUS_INFO status;
-		//BYTE bonus;										-_- ¾È¾´´Ù. 
+		//BYTE bonus;										-_- ï¿½È¾ï¿½ï¿½ï¿½. 
 		std::string name;
 	};
 
@@ -4353,16 +4358,16 @@ public :
 //-----------------------------------------------------------------------------
 // class C_VS_UI_BRING_FEE
 //
-// ÀÌ¸§ ÀÔ·ÂÇÏ±â
-// -_- ´Ù¿ëµµ·Î ¾¹½Ã´Ù.
+// ï¿½Ì¸ï¿½ ï¿½Ô·ï¿½ï¿½Ï±ï¿½
+// -_- ï¿½Ù¿ëµµï¿½ï¿½ ï¿½ï¿½ï¿½Ã´ï¿½.
 //-----------------------------------------------------------------------------
 class C_VS_UI_INPUT_NAME : public Window, public Exec, public ButtonVisual
 {
 public :
 	enum INPUT_NAME_MODE_LIST
 	{
-		INPUT_NAME_HOPE_COUPLE = 0,					// Ä¿ÇÃ Èñ¸Á½Ã
-		INPUT_NAME_BREAK_UP,					// Ä¿ÇÃ °áº°½Ã		
+		INPUT_NAME_HOPE_COUPLE = 0,					// Ä¿ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
+		INPUT_NAME_BREAK_UP,					// Ä¿ï¿½ï¿½ ï¿½áº°ï¿½ï¿½		
 		INPUT_NAME_FORCE_BREAK_UP,
 
 		INPUT_NAME_MAX,
@@ -4431,8 +4436,8 @@ public :
 //-----------------------------------------------------------------------------
 // class C_VS_UI_BRING_FEE
 //
-// ÀÌ¸§ ÀÔ·ÂÇÏ±â
-// -_- ´Ù¿ëµµ·Î ¾¹½Ã´Ù.
+// ï¿½Ì¸ï¿½ ï¿½Ô·ï¿½ï¿½Ï±ï¿½
+// -_- ï¿½Ù¿ëµµï¿½ï¿½ ï¿½ï¿½ï¿½Ã´ï¿½.
 //-----------------------------------------------------------------------------
 class C_VS_UI_POPUP_MESSAGE : public Window, public Exec, public ButtonVisual
 {
@@ -4444,7 +4449,7 @@ public :
 		POPUP_WELCOME,
 		POPUP_EVENT_QUEST,
 		POPUP_MINI_WINDOW,
-		POPUP_ASK_BEGINNER_ZONE,			// ÃÊº¸ÀÚ Á¸À¸·Î °¥·¡?
+		POPUP_ASK_BEGINNER_ZONE,			// ï¿½Êºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½?
 		
 		POPUP_MAX,
 		POPUP_NULL,
@@ -4658,8 +4663,8 @@ public :
 //-----------------------------------------------------------------------------
 // class C_VS_UI_ITEM_LIST
 //
-// ÀÌ¸§ ÀÔ·ÂÇÏ±â
-// -_- ´Ù¿ëµµ·Î ¾¹½Ã´Ù.
+// ï¿½Ì¸ï¿½ ï¿½Ô·ï¿½ï¿½Ï±ï¿½
+// -_- ï¿½Ù¿ëµµï¿½ï¿½ ï¿½ï¿½ï¿½Ã´ï¿½.
 //-----------------------------------------------------------------------------
 class C_VS_UI_ITEM_LIST : public Window, public Exec, public ButtonVisual
 {
@@ -4730,8 +4735,8 @@ public :
 //-----------------------------------------------------------------------------
 // class C_VS_UI_IMAGE_NOTICE
 //
-// ÀÌ¸§ ÀÔ·ÂÇÏ±â
-// -_- ´Ù¿ëµµ·Î ¾¹½Ã´Ù.
+// ï¿½Ì¸ï¿½ ï¿½Ô·ï¿½ï¿½Ï±ï¿½
+// -_- ï¿½Ù¿ëµµï¿½ï¿½ ï¿½ï¿½ï¿½Ã´ï¿½.
 //-----------------------------------------------------------------------------
 class C_VS_UI_IMAGE_NOTICE : public Window, public Exec, public ButtonVisual
 {
@@ -4887,7 +4892,7 @@ public :
 		// 2004, 11, 16, sobeit add start
 		RESURRECT_MODE_SIEGE_ATTACKER,
 		// 2004, 11, 16, sobeit add end
-		RESURRECT_MODE_SKILL_FROM_OTHER,	// ´Ù¸¥ »ç¶÷ÀÌ ºÎÈ°½ÃÄÑ ÁÖ·ÁÇÑ´Ù.
+		RESURRECT_MODE_SKILL_FROM_OTHER,	// ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È°ï¿½ï¿½ï¿½ï¿½ ï¿½Ö·ï¿½ï¿½Ñ´ï¿½.
 		RESURRECT_MODE_MAX
 	};
 
@@ -5244,10 +5249,10 @@ private:
 
 	enum GAME_STATUS
 	{
-		GAMESTATUS_GAME,	// °ÔÀÓÁß
-		GAMESTATUS_DIE,		// °ÔÀÓ ³¡³² ÅÍÁ®¼­-¤µ-
-		GAMESTATUS_CLEAR,	// °ÔÀÓ ³¡³² ´Ù Ã£¾Æ¼­
-		GAMESTATUS_READY,	// »õ °ÔÀÓ
+		GAMESTATUS_GAME,	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		GAMESTATUS_DIE,		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½-
+		GAMESTATUS_CLEAR,	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Ã£ï¿½Æ¼ï¿½
+		GAMESTATUS_READY,	// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	};
 
 	enum LEFTMINE
@@ -5332,7 +5337,7 @@ extern C_VS_UI_WINDOW_MANAGER* gpC_vs_ui_window_manager;
 extern S_SLOT	g_char_slot_ingame;
 extern Point g_item_ref_point[];
 
-extern int g_HISTORY_LINE;	// Ã¤ÆÃÃ¢ ±æÀÌ
+extern int g_HISTORY_LINE;	// Ã¤ï¿½ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½
 
 void g_SetItemRefPoint(int item_rect_w, int item_rect_h);
 

@@ -33,7 +33,6 @@
 //----------------------------------------------------------------------
 // server info file // test
 //----------------------------------------------------------------------
-#ifndef _LIB
 #define	FILE_INFO_STR_EXP						"Data\\Info\\STRExp.inf"
 #define	FILE_INFO_DEX_EXP						"Data\\Info\\DEXExp.inf"
 #define	FILE_INFO_INT_EXP						"Data\\Info\\INTExp.inf"
@@ -63,7 +62,6 @@
 #define	SPK_GRADE_OUSTERS						"Data\\Image\\GradeMarkOusters.spk"
 #define	SPK_LEVEL_MARK							"Data\\Image\\LevelMarkPet.spk"
 #define SPK_ORIGIN_MARK							"Data\\Image\\OriginMark.spk"
-#endif
 
 #define FILE_INFO_TITLE_UI						"\\interface.ini"
 #define FILE_INFO_HORN							"Data\\Info\\Horn.inf"

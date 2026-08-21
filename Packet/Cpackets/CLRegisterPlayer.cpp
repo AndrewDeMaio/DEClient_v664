@@ -7,7 +7,7 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CLRegisterPlayer.h"
 
 
@@ -148,7 +148,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 	//----------------------------------------------------------------------
 	// �÷��̾� �⺻ ���� ( ID - Password )
 	//----------------------------------------------------------------------
-	size_t szID = m_ID.size();
+	BYTE szID = (BYTE)m_ID.size();
 	if ( szID == 0 )
 		throw InvalidProtocolException("szID == 0");
 	if ( szID < PlayerInfo::minIDLength )
@@ -158,7 +158,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 	oStream.write( szID );
 	oStream.write( m_ID );
 
-	size_t szPassword = m_Password.size();
+	BYTE szPassword = (BYTE)m_Password.size();
 	if ( szPassword == 0 )
 		throw InvalidProtocolException("szPassword == 0");
 	if ( szPassword < PlayerInfo::minPasswordLength )
@@ -171,7 +171,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 	//----------------------------------------------------------------------
 	// �÷��̾� ���� ���� ( Name - Sex - SSN )
 	//----------------------------------------------------------------------
-	size_t szName = m_Name.size();
+	BYTE szName = (BYTE)m_Name.size();
 	if ( szName == 0 )
 		throw InvalidProtocolException("szName == 0");
 	if ( szName > PlayerInfo::maxNameLength )
@@ -181,7 +181,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 
 	oStream.write( (BYTE)m_Sex );
 
-	size_t szSSN = m_SSN.size();
+	BYTE szSSN = (BYTE)m_SSN.size();
 	if ( szSSN == 0 )
 		throw InvalidProtocolException("szSSN == 0");
 	if ( szSSN > PlayerInfo::maxSSNLength )
@@ -192,7 +192,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 	//----------------------------------------------------------------------
 	// �÷��̾� ����ó ( Telephone - Cellular - ZipCode - Address - Nation )
 	//----------------------------------------------------------------------
-	size_t szTelephone = m_Telephone.size();
+	BYTE szTelephone = (BYTE)m_Telephone.size();
 	if ( szTelephone == 0 )
 		throw InvalidProtocolException("szTelephone == 0");
 	if ( szTelephone > PlayerInfo::maxTelephoneLength )
@@ -200,7 +200,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 	oStream.write( szTelephone );
 	oStream.write( m_Telephone );
 
-	size_t szCellular = m_Cellular.size();
+	BYTE szCellular = (BYTE)m_Cellular.size();
 	if ( szCellular == 0 )
 		throw InvalidProtocolException("szCellular == 0");
 	if ( szCellular > PlayerInfo::maxCellularLength )
@@ -208,7 +208,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 	oStream.write( szCellular );
 	oStream.write( m_Cellular );
 
-	size_t szZipCode = m_ZipCode.size();
+	BYTE szZipCode = (BYTE)m_ZipCode.size();
 	if ( szZipCode == 0 )
 		throw InvalidProtocolException("szZipCode == 0");
 	if ( szZipCode > PlayerInfo::maxZipCodeLength )
@@ -216,7 +216,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 	oStream.write( szZipCode );
 	oStream.write( m_ZipCode );
 
-	size_t szAddress = m_Address.size();
+	BYTE szAddress = (BYTE)m_Address.size();
 	if ( szAddress == 0 )
 		throw InvalidProtocolException("szAddress == 0");
 	if ( szAddress > PlayerInfo::maxAddressLength )
@@ -229,7 +229,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 	//----------------------------------------------------------------------
 	// �÷��̾� ���� ���� ( Email - Homepage )
 	//----------------------------------------------------------------------
-	size_t szEmail = m_Email.size();
+	BYTE szEmail = (BYTE)m_Email.size();
 	if ( szEmail == 0 )
 		throw InvalidProtocolException("szEmail == 0");
 	if ( szEmail > PlayerInfo::maxEmailLength )
@@ -237,7 +237,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 	oStream.write( szEmail );
 	oStream.write( m_Email );
 
-	size_t szHomepage = m_Homepage.size();
+	BYTE szHomepage = (BYTE)m_Homepage.size();
 	if ( szHomepage == 0 )
 		throw InvalidProtocolException("szHomepage == 0");
 	if ( szHomepage > PlayerInfo::maxHomepageLength )
@@ -248,7 +248,7 @@ void CLRegisterPlayer::write ( SocketOutputStream & oStream ) const
 	//----------------------------------------------------------------------
 	// ��Ÿ ( Profile - Public )
 	//----------------------------------------------------------------------
-	size_t szProfile = m_Profile.size();
+	BYTE szProfile = (BYTE)m_Profile.size();
 	if ( szProfile == 0 )
 		throw InvalidProtocolException("szProfile == 0");
 	if ( szProfile > PlayerInfo::maxProfileLength )

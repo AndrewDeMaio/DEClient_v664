@@ -11,7 +11,7 @@
 // include files
 //////////////////////////////////////////////////////////////////////
 
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "GearInfo.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"

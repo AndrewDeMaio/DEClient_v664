@@ -6605,12 +6605,12 @@ C_VS_UI_GAMEMENU::C_VS_UI_GAMEMENU()
 //		gC_ci.SetEngInput();
 //	}
 
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+#if __CONTENTS(__GAMEMENU_QUITEXIT)
 	POINT pt[MENU_COUNT];
 	int i;
 #else
 	int x_offset, /*y1_offset,*/ y2_offset, y3_offset, y4_offset,px=0,py=0;
-#endif //__080405_FIREST_UI_UPDATE
+#endif //__GAMEMENU_QUITEXIT
 
 
 	const InterfaceInformation *pSkin = &g_pSkinManager->Get( SkinManager::GAME_MENU );
@@ -6619,7 +6619,7 @@ C_VS_UI_GAMEMENU::C_VS_UI_GAMEMENU()
 	{
 	case RACE_SLAYER:
 		m_pC_gamemenu_spk = new C_SPRITE_PACK(SPK_SLAYER_GAMEMENU);
-	#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+	#if __CONTENTS(__GAMEMENU_QUITEXIT)
 		for(i=0;i<MENU_COUNT;i++)
 		{
 			pt[i].x = pSkin->GetPoint(i).x;
@@ -6631,12 +6631,12 @@ C_VS_UI_GAMEMENU::C_VS_UI_GAMEMENU()
 		y2_offset = pSkin->GetPoint(0).y;
 		y3_offset = pSkin->GetPoint(1).x;
 		y4_offset = pSkin->GetPoint(1).y;
-	#endif //__080405_FIREST_UI_UPDATE
+	#endif //__GAMEMENU_QUITEXIT
 		break;
 
 	case RACE_VAMPIRE:
 		m_pC_gamemenu_spk = new C_SPRITE_PACK(SPK_VAMPIRE_GAMEMENU);
-	#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+	#if __CONTENTS(__GAMEMENU_QUITEXIT)
 		for(i=MENU_COUNT;i<MENU_COUNT+MENU_COUNT;i++)
 		{
 			pt[i-MENU_COUNT].x = pSkin->GetPoint(i).x;
@@ -6648,12 +6648,12 @@ C_VS_UI_GAMEMENU::C_VS_UI_GAMEMENU()
 		y2_offset = pSkin->GetPoint(2).y;
 		y3_offset = pSkin->GetPoint(3).x;
 		y4_offset = pSkin->GetPoint(3).y;
-	#endif //__080405_FIREST_UI_UPDATE
+	#endif //__GAMEMENU_QUITEXIT
 		break;
 
 	case RACE_OUSTERS:
 		m_pC_gamemenu_spk = new C_SPRITE_PACK(SPK_OUSTERS_GAMEMENU);
-	#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+	#if __CONTENTS(__GAMEMENU_QUITEXIT)
 		for(i=MENU_COUNT+MENU_COUNT;i<MENU_COUNT+MENU_COUNT+MENU_COUNT;i++)
 		{
 			pt[i-MENU_COUNT-MENU_COUNT].x = pSkin->GetPoint(i).x;
@@ -6665,7 +6665,7 @@ C_VS_UI_GAMEMENU::C_VS_UI_GAMEMENU()
 		y2_offset = pSkin->GetPoint(4).y;
 		y3_offset = pSkin->GetPoint(5).x;
 		y4_offset = pSkin->GetPoint(5).y;
-	#endif //__080405_FIREST_UI_UPDATE
+	#endif //__GAMEMENU_QUITEXIT
 		break;
 	}	
 
@@ -6675,7 +6675,7 @@ C_VS_UI_GAMEMENU::C_VS_UI_GAMEMENU()
 	m_pC_button_group = new ButtonGroup(this);
 
 //	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x+x_offset, y+y1_offset, m_pC_gamemenu_spk->GetWidth(CANCEL_IMAGE), m_pC_gamemenu_spk->GetHeight(CANCEL_IMAGE), TO_BOARD, this, TO_BOARD_IMAGE));
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+#if __CONTENTS(__GAMEMENU_QUITEXIT)
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pt[OPTION].x, pt[OPTION].y, m_pC_gamemenu_spk->GetWidth(OPTION_IMAGE), m_pC_gamemenu_spk->GetHeight(OPTION_IMAGE), OPTION, this, OPTION_IMAGE));
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pt[LOGOUT].x, pt[LOGOUT].y, m_pC_gamemenu_spk->GetWidth(LOGOUT_IMAGE), m_pC_gamemenu_spk->GetHeight(LOGOUT_IMAGE), LOGOUT, this, LOGOUT_IMAGE));
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pt[QUITEXIT].x, pt[QUITEXIT].y, m_pC_gamemenu_spk->GetWidth(QUITEXIT_IMAGE), m_pC_gamemenu_spk->GetHeight(QUITEXIT_IMAGE), QUITEXIT, this, QUITEXIT_IMAGE));
@@ -6685,7 +6685,7 @@ C_VS_UI_GAMEMENU::C_VS_UI_GAMEMENU()
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x_offset+px, y2_offset, m_pC_gamemenu_spk->GetWidth(OPTION_IMAGE), m_pC_gamemenu_spk->GetHeight(OPTION_IMAGE), OPTION, this, OPTION_IMAGE));
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x_offset, y3_offset, m_pC_gamemenu_spk->GetWidth(LOGOUT_IMAGE), m_pC_gamemenu_spk->GetHeight(LOGOUT_IMAGE), LOGOUT, this, LOGOUT_IMAGE));
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x_offset, y4_offset, m_pC_gamemenu_spk->GetWidth(3), m_pC_gamemenu_spk->GetHeight(3), CONTINUE, this, 3));
-#endif //__080405_FIREST_UI_UPDATE
+#endif //__GAMEMENU_QUITEXIT
 }
 
 /*-----------------------------------------------------------------------------
@@ -6804,11 +6804,11 @@ void C_VS_UI_GAMEMENU::Run(id_t id)
 			gpC_base->SendMessage(UI_LOGOUT, 0, 0);
 			break;
 			
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+#if __CONTENTS(__GAMEMENU_QUITEXIT)
 		case QUITEXIT:
 			gpC_base->SendMessage(UI_QUITEXIT, 0, 0);
 			break;
-#endif //__080405_FIREST_UI_UPDATE
+#endif //__GAMEMENU_QUITEXIT
 
 		case CONTINUE:
 			//gC_vs_ui.HotKey_ESC(); // 버튼 눌리는 것과 u_window에서 push window 해제 우선순위 문제가 있어서 안됨.
@@ -6855,11 +6855,11 @@ void C_VS_UI_GAMEMENU::KeyboardControl(UINT message, UINT key, long extra)
 				id = OPTION;
 				break;
 
-	#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+	#if __CONTENTS(__GAMEMENU_QUITEXIT)
 			case SCANCODE_X:
 				id = QUITEXIT;
 				break;
-	#endif //__080405_FIREST_UI_UPDATE
+	#endif //__GAMEMENU_QUITEXIT
 
 //			case SCANCODE_ESC:
 			case SCANCODE_C: // 'C'ancel

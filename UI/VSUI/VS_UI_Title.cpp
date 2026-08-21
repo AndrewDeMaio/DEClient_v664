@@ -27,9 +27,9 @@
 #else //__TITLE_UI_RENWEAL
 
 #define LOGIN_ID_X 7 // ��밪
-#define LOGIN_ID_Y 3
+#define LOGIN_ID_Y 33
 #define LOGIN_PASSWORD_X 7
-#define LOGIN_PASSWORD_Y 34
+#define LOGIN_PASSWORD_Y 64
 
 #define	MAX_SOUND_VOLUME		15
 #define	MAX_MUSIC_VOLUME		15
@@ -3103,7 +3103,7 @@ void C_VS_UI_CHAR_MANAGER::DeleteCharacter(int slot)
 	int convx = (g_pUserInformation->iResolution_x - 800) / 2;
 	int convy = (g_pUserInformation->iResolution_y - 600) / 2;
 
-	m_pC_button_create_char[slot] = new C_VS_UI_EVENT_BUTTON(x + g_heart_rect[slot] + 14 - convx, y + HEART_Y + 204 - convy, m_image_spk.GetWidth(CREATE_BUTTON), m_image_spk.GetHeight(CREATE_BUTTON), CREATE_1_ID + slot, this, CREATE_BUTTON);
+	m_pC_button_create_char[slot] = new C_VS_UI_EVENT_BUTTON(g_heart_rect[slot] + 14, HEART_Y + 204, m_image_spk.GetWidth(CREATE_BUTTON), m_image_spk.GetHeight(CREATE_BUTTON), CREATE_1_ID + slot, this, CREATE_BUTTON);
 	m_pC_button_group->Add(m_pC_button_create_char[slot]);
 
 	// search new character for selection
@@ -3270,8 +3270,8 @@ C_VS_UI_CHAR_MANAGER::C_VS_UI_CHAR_MANAGER()
 
 	for (int i = 0; i < 3; i++)
 	{
-		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x + g_heart_rect[i] + 115 - convx, y + HEART_Y + 19 - convy, m_image_spk.GetWidth(DELETE_BUTTON), m_image_spk.GetHeight(DELETE_BUTTON), DELETE_1_ID + i, this, DELETE_BUTTON));
-		m_pC_button_create_char[i] = new C_VS_UI_EVENT_BUTTON(x + g_heart_rect[i] + 14 - convx, y + HEART_Y + 204 - convy, m_image_spk.GetWidth(CREATE_BUTTON), m_image_spk.GetHeight(CREATE_BUTTON), CREATE_1_ID + i, this, CREATE_BUTTON);
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(g_heart_rect[i] + 115, HEART_Y + 19, m_image_spk.GetWidth(DELETE_BUTTON), m_image_spk.GetHeight(DELETE_BUTTON), DELETE_1_ID + i, this, DELETE_BUTTON));
+		m_pC_button_create_char[i] = new C_VS_UI_EVENT_BUTTON(g_heart_rect[i] + 14, HEART_Y + 204, m_image_spk.GetWidth(CREATE_BUTTON), m_image_spk.GetHeight(CREATE_BUTTON), CREATE_1_ID + i, this, CREATE_BUTTON);
 		m_pC_button_group->Add(m_pC_button_create_char[i]);
 	}
 
@@ -3584,8 +3584,8 @@ bool C_VS_UI_CHAR_MANAGER::MouseControl(UINT message, int _x, int _y)
 		{
 			for (int i = 0; i < 3; i++)
 			{
-				if (_x > x + g_heart_rect[i] - convx && _x < x + g_heart_rect[i] - convx + m_image_spk.GetWidth() &&
-					_y > y + HEART_Y - convy && _y < y + HEART_Y - convy + m_image_spk.GetHeight())
+				if (_x > g_heart_rect[i] && _x < g_heart_rect[i] + m_image_spk.GetWidth() &&
+					_y > HEART_Y && _y < HEART_Y + m_image_spk.GetHeight())
 				{
 					m_focused_help = HELP_MAX + i;
 					break;
@@ -4441,9 +4441,14 @@ void C_VS_UI_SERVER_SELECT::Run(id_t id)
 	case NEXT_ID:
 	{
 
+		// validIndex must gate the two lines below: they index m_server_status
+		// eagerly, so with nothing selected (m_server_select stays -1 until a
+		// list entry is clicked) this read out of bounds and crashed with an
+		// access violation. && short-circuits, so the access now only happens
+		// once the index is known good.
 		bool validIndex = m_server_select > -1 && m_server_select < (int)m_server_name.size();
-		bool validWorld = m_bl_group && m_server_status[m_server_select] != STATUS_CLOSED;
-		bool validServer = !m_bl_group && m_server_status[m_server_select] != STATUS_VERY_BAD;
+		bool validWorld = validIndex && m_bl_group && m_server_status[m_server_select] != STATUS_CLOSED;
+		bool validServer = validIndex && !m_bl_group && m_server_status[m_server_select] != STATUS_VERY_BAD;
 
 		//if( validIndex && (validServer || validWorld))
 		//	gpC_base->SendMessage(UI_CONNECT_SERVER, m_bl_group, m_server_id[m_server_select]);
@@ -4554,7 +4559,11 @@ bool C_VS_UI_SERVER_SELECT::MouseControl(UINT message, int _x, int _y)
 #endif //__SERVER_SELECT_REVEWAL
 
 #if __CONTENTS(__CONECT_LIMITER)
-			&& (m_server_status[m_server_select] < STATUS_VERY_BAD)
+			// Was m_server_status[m_server_select], but m_server_select is not
+			// assigned until below -- on a double click with nothing previously
+			// selected it is still -1. Test the entry actually being clicked.
+			&& (m_focus_server < (int)m_server_status.size())
+			&& (m_server_status[m_focus_server] < STATUS_VERY_BAD)
 #endif
 			)
 		{
@@ -4613,7 +4622,11 @@ void C_VS_UI_SERVER_SELECT::KeyboardControl(UINT message, UINT key, long extra)
 
 		case VK_RETURN:
 #if __CONTENTS(__CONECT_LIMITER)
-			if (m_server_status[m_server_select] < STATUS_VERY_BAD)
+			// Unguarded index -- pressing Enter with nothing selected read
+			// m_server_status[-1] and crashed, same as the Next button did.
+			if (m_server_select > -1
+				&& m_server_select < (int)m_server_status.size()
+				&& m_server_status[m_server_select] < STATUS_VERY_BAD)
 #endif
 			{
 				Run(NEXT_ID);
@@ -5593,12 +5606,11 @@ void C_VS_UI_LOGIN::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 	{
 		m_pC_login_menu.BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
 	}
-
-	//	m_pC_login_menu_default.Blt(p_button->x, y, p_button->GetID());
-
 	else if (p_button->m_alpha)
 		m_pC_login_menu.BltLockedAlpha(x + p_button->x, y + p_button->y, p_button->GetID(), p_button->m_alpha);
-
+	else
+		// Default state: always draw so buttons are visible before hover
+		m_pC_login_menu.BltLocked(x + p_button->x, y + p_button->y, p_button->GetID());
 }
 
 //-----------------------------------------------------------------------------
@@ -6520,6 +6532,11 @@ void C_VS_UI_TITLE::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 	else if (p_button->GetFocusState())
 	{
 		m_title_menu_default.BltLockedAlpha(p_button->x, p_button->y, (p_button->m_image_index), p_button->m_alpha);
+	}
+	else
+	{
+		// Default state: always draw so buttons are visible before hover/press
+		m_title_menu_default.BltLocked(p_button->x, p_button->y, p_button->m_image_index);
 	}
 
 

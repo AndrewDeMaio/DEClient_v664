@@ -3,7 +3,7 @@
 // Written By  : reiot@ewestsoft.com
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CLGetWorldList.h"
 
 void CLGetWorldList::read (SocketInputStream & iStream) 

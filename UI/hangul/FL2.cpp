@@ -698,6 +698,14 @@ bool	g_FL2_GetDC()
 	return false;
 }
 
+// Mark the fallback DIBSection as dirty so g_FL2_ReleaseDC() will blit it back.
+// Call this after drawing directly into gh_FL2_DC without going through g_PrintLen / g_DrawText.
+void g_FL2_MarkDirty()
+{
+	if (s_fl2_fb_active)
+		s_fl2_fb_dirty = true;
+}
+
 // DC�� Release �Ѵ�.
 bool	g_FL2_ReleaseDC()
 {

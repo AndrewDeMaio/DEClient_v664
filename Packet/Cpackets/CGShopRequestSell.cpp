@@ -5,7 +5,7 @@
 // �÷��̾�� �ڽ��� ������ �ִ� �������� ���� NPC����
 // �ȱ⸦ ��û�� �� ���̴� ��Ŷ�̴�.
 ////////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGShopRequestSell.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"

@@ -4,7 +4,7 @@
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
 
-#include "client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGSelectAllWeekItem.h"
 
 #if __CONTENTS(__PREMIUM_GIVE_ITEM_UI)

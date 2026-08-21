@@ -3,7 +3,7 @@
 // Written By  : �輺��
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGDonationMoney.h"
 
 void CGDonationMoney::read (SocketInputStream & iStream) 

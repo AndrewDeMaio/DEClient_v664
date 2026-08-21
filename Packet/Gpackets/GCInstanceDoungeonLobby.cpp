@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "GCInstanceDoungeonLobby.h"
 
 
@@ -82,9 +82,9 @@ void GCInstanceDoungeonLobby::write ( SocketOutputStream & oStream ) const
 {
 	__BEGIN_TRY
 	
-	size_t szDoungeonTitle;
-	size_t szDoungeonDesc;
-	size_t szDoungeonListCount;
+	BYTE szDoungeonTitle;
+	BYTE szDoungeonDesc;
+	BYTE szDoungeonListCount;
 	
 	oStream.write( m_ObjectID );
 	oStream.write( m_NPCID );

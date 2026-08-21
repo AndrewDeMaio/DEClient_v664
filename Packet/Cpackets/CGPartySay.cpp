@@ -3,7 +3,7 @@
 // Written By  : elca@ewestsoft.com
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGPartySay.h"
 
 CGPartySay::CGPartySay () 
@@ -34,7 +34,7 @@ void CGPartySay::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	size_t szMessage = m_Message.size();
+	BYTE szMessage = (BYTE)m_Message.size();
 	oStream.write(m_Color);
 	oStream.write(szMessage);
 	oStream.write(m_Message);

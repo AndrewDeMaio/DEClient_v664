@@ -12,7 +12,6 @@
 //////////////////////////////////////////////////////////////////////
 #include "GPacket_PCH.h"
 #include "GCGQuestStatusInfo.h"
-#include "Client.h"
 
 //////////////////////////////////////////////////////////////////////
 // constructor
@@ -35,7 +34,7 @@ GCGQuestStatusInfo::~GCGQuestStatusInfo ()
 
 	for ( ; itr != m_Infos.end() ; ++itr )
 	{
-		SAFE_DELETE( (*itr) );
+		delete (*itr);
 	}
 
 	__END_CATCH
@@ -73,7 +72,7 @@ void GCGQuestStatusInfo::write ( SocketOutputStream & oStream )
 {
 	__BEGIN_TRY
 
-	size_t size = m_Infos.size();
+	BYTE size = (BYTE)m_Infos.size();
 	oStream.write(size);
 
 	std::list<QuestStatusInfo*>::const_iterator itr = m_Infos.begin();

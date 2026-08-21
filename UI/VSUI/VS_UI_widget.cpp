@@ -10,9 +10,7 @@
 void makeLowerChar(char& c) { c = tolower(c); }
 #endif //__ITEM_SHOW
 
-#ifndef _LIB
 Button *	gpC_press_button;
-#endif
 
 //-----------------------------------------------------------------------------
 // C_VS_UI_EVENT_STRING_BUTTON

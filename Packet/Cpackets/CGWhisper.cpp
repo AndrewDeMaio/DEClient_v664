@@ -3,7 +3,7 @@
 // Written By  : reiot@ewestsoft.com
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGWhisper.h"
 
 void CGWhisper::read (SocketInputStream & iStream) 
@@ -45,7 +45,7 @@ void CGWhisper::write (SocketOutputStream & oStream) const
 	__BEGIN_TRY
 		
 	// �̸� ����
-	size_t szName = m_Name.size();
+	BYTE szName = (BYTE)m_Name.size();
 
 	if (szName == 0)
 		throw InvalidProtocolException("szName == 0");
@@ -60,7 +60,7 @@ void CGWhisper::write (SocketOutputStream & oStream) const
 	oStream.write( m_Color );
 
 	// �޼��� ����
-	size_t szMessage = m_Message.size();
+	BYTE szMessage = (BYTE)m_Message.size();
 
 	if (szMessage == 0)
 		throw InvalidProtocolException("szMessage == 0");

@@ -3,7 +3,7 @@
 // Written By  : reiot@ewestsoft.com
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGSMSSend.h"
 #include "SocketEncryptInputStream.h"
 #include "SocketEncryptOutputStream.h"
@@ -44,9 +44,9 @@ void CGSMSSend::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	size_t size;
+	BYTE size;
 	
-	size = m_Numbers.size();
+	size = (BYTE)m_Numbers.size();
 	oStream.write(size);
 
 	std::list<string>::const_iterator itr = m_Numbers.begin();
@@ -54,16 +54,16 @@ void CGSMSSend::write (SocketOutputStream & oStream) const
 
 	for ( ; itr != endItr ; ++itr )
 	{
-		size = itr->size();
+		size = (BYTE)itr->size();
 		oStream.write(size);
 		oStream.write(*itr);
 	}
 
-	size = m_CallerNumber.size();
+	size = (BYTE)m_CallerNumber.size();
 	oStream.write(size);
 	oStream.write(m_CallerNumber);
 
-	size = m_Message.size();
+	size = (BYTE)m_Message.size();
 	oStream.write(size);
 	oStream.write(m_Message);
 

@@ -9,7 +9,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGShopRequestList.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"

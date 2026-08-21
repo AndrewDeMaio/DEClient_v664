@@ -15500,85 +15500,101 @@ C_VS_UI_QUEST_MANAGER::C_VS_UI_QUEST_MANAGER()
 
 
 		//RunAllWinow();
-	_GQuestInfo* Temp1 = new _GQuestInfo;
-	Temp1->bStatus = C_VS_UI_QUEST_LIST::CAN_ACCEPT;
-	Temp1->dwQuestID = 1001;
-	_GMissionInfo* Temp1_sub1 = new _GMissionInfo;
-	Temp1_sub1->bStatus = C_VS_UI_QUEST_MISSION::CURRENT;
-	Temp1_sub1->bCondition = 2;
-	Temp1_sub1->bIndex = 1;
-	Temp1_sub1->m_NumArg = 2;
-	Temp1_sub1->dwTimeLimit = 0;
-	Temp1->vMissionList.push_back(Temp1_sub1);
-	SetQuestManagerInfo((void*)Temp1);
+	//=========================================================================
+	// DE_QUEST_TESTDATA_DISABLED
+	//
+	// The block below was a developer test harness living in the constructor:
+	// it injected five fabricated quests (Temp1..Temp5), thirteen fabricated
+	// GQUEST items, and then queued two quest script elements for execution.
+	//
+	// That last part is what made it visible. GCGQuestStatusInfoHandler calls
+	// CloseQuestManager() then RunQuestManager() whenever the server sends a
+	// quest status sync, and Zone::addPC sends one on EVERY zone entry. So the
+	// manager was destroyed and reconstructed on every map change, and this
+	// constructor replayed the harness each time - producing an NPC dialog on
+	// every transition.
+	//
+	// ReleaseQuestXML() (which balances the LoadQuestXML() above) and
+	// RunQuestIcon() are genuine and remain active below.
+	//=========================================================================//	_GQuestInfo* Temp1 = new _GQuestInfo;
+//	Temp1->bStatus = C_VS_UI_QUEST_LIST::CAN_ACCEPT;
+//	Temp1->dwQuestID = 1001;
+//	_GMissionInfo* Temp1_sub1 = new _GMissionInfo;
+//	Temp1_sub1->bStatus = C_VS_UI_QUEST_MISSION::CURRENT;
+//	Temp1_sub1->bCondition = 2;
+//	Temp1_sub1->bIndex = 1;
+//	Temp1_sub1->m_NumArg = 2;
+//	Temp1_sub1->dwTimeLimit = 0;
+//	Temp1->vMissionList.push_back(Temp1_sub1);
+//	SetQuestManagerInfo((void*)Temp1);
 
-	_GQuestInfo* Temp2 = new _GQuestInfo;
-	Temp2->bStatus = C_VS_UI_QUEST_LIST::CAN_ACCEPT;
-	Temp2->dwQuestID = 102;
-	_GMissionInfo* Temp2_sub1 = new _GMissionInfo;
-	Temp2_sub1->bStatus = C_VS_UI_QUEST_MISSION::CURRENT;
-	Temp2_sub1->bCondition = 2;
-	Temp2_sub1->bIndex = 1;
-	Temp2->vMissionList.push_back(Temp2_sub1);
-	SetQuestManagerInfo((void*)Temp2);
+//	_GQuestInfo* Temp2 = new _GQuestInfo;
+//	Temp2->bStatus = C_VS_UI_QUEST_LIST::CAN_ACCEPT;
+//	Temp2->dwQuestID = 102;
+//	_GMissionInfo* Temp2_sub1 = new _GMissionInfo;
+//	Temp2_sub1->bStatus = C_VS_UI_QUEST_MISSION::CURRENT;
+//	Temp2_sub1->bCondition = 2;
+//	Temp2_sub1->bIndex = 1;
+//	Temp2->vMissionList.push_back(Temp2_sub1);
+//	SetQuestManagerInfo((void*)Temp2);
 
-	_GQuestInfo* Temp3 = new _GQuestInfo;
-	Temp3->bStatus = C_VS_UI_QUEST_LIST::DOING;
-	Temp3->dwQuestID = 102;
-	_GMissionInfo* Temp3_sub1 = new _GMissionInfo;
-	Temp3_sub1->bStatus = C_VS_UI_QUEST_MISSION::CURRENT;
-	Temp3_sub1->bCondition = 1;
-	Temp3_sub1->bIndex = 1;
-	Temp3->vMissionList.push_back(Temp3_sub1);
-	_GMissionInfo* Temp3_sub2 = new _GMissionInfo;
-	Temp3_sub2->bStatus = C_VS_UI_QUEST_MISSION::CURRENT;
-	Temp3_sub2->bCondition = 1;
-	Temp3_sub2->bIndex = 1;
-	Temp3_sub2->m_NumArg = 2;
-	Temp3->vMissionList.push_back(Temp3_sub2);
-	ModifyQuestManagerInfo((void*)Temp3);
+//	_GQuestInfo* Temp3 = new _GQuestInfo;
+//	Temp3->bStatus = C_VS_UI_QUEST_LIST::DOING;
+//	Temp3->dwQuestID = 102;
+//	_GMissionInfo* Temp3_sub1 = new _GMissionInfo;
+//	Temp3_sub1->bStatus = C_VS_UI_QUEST_MISSION::CURRENT;
+//	Temp3_sub1->bCondition = 1;
+//	Temp3_sub1->bIndex = 1;
+//	Temp3->vMissionList.push_back(Temp3_sub1);
+//	_GMissionInfo* Temp3_sub2 = new _GMissionInfo;
+//	Temp3_sub2->bStatus = C_VS_UI_QUEST_MISSION::CURRENT;
+//	Temp3_sub2->bCondition = 1;
+//	Temp3_sub2->bIndex = 1;
+//	Temp3_sub2->m_NumArg = 2;
+//	Temp3->vMissionList.push_back(Temp3_sub2);
+//	ModifyQuestManagerInfo((void*)Temp3);
 
-	_GQuestInfo* Temp4 = new _GQuestInfo;
-	Temp4->bStatus = C_VS_UI_QUEST_LIST::FAIL;
-	Temp4->dwQuestID = 103;
-	_GMissionInfo* Temp4_sub1 = new _GMissionInfo;
-	Temp4_sub1->bStatus = C_VS_UI_QUEST_MISSION::CURRENT;
-	Temp4_sub1->bCondition = 2;
-	Temp4_sub1->bIndex = 1;
-	Temp4->vMissionList.push_back(Temp4_sub1);
-	SetQuestManagerInfo((void*)Temp4);
+//	_GQuestInfo* Temp4 = new _GQuestInfo;
+//	Temp4->bStatus = C_VS_UI_QUEST_LIST::FAIL;
+//	Temp4->dwQuestID = 103;
+//	_GMissionInfo* Temp4_sub1 = new _GMissionInfo;
+//	Temp4_sub1->bStatus = C_VS_UI_QUEST_MISSION::CURRENT;
+//	Temp4_sub1->bCondition = 2;
+//	Temp4_sub1->bIndex = 1;
+//	Temp4->vMissionList.push_back(Temp4_sub1);
+//	SetQuestManagerInfo((void*)Temp4);
 
-	_GQuestInfo* Temp5 = new _GQuestInfo;
-	Temp5->bStatus = C_VS_UI_QUEST_LIST::CAN_REPLAY;
-	Temp5->dwQuestID = 104;
-	_GMissionInfo* Temp5_sub1 = new _GMissionInfo;
-	Temp5_sub1->bStatus = C_VS_UI_QUEST_MISSION::CURRENT;
-	Temp5_sub1->bCondition = 2;
-	Temp5_sub1->bIndex = 1;
-	Temp5->vMissionList.push_back(Temp5_sub1);
-	SetQuestManagerInfo((void*)Temp5);
+//	_GQuestInfo* Temp5 = new _GQuestInfo;
+//	Temp5->bStatus = C_VS_UI_QUEST_LIST::CAN_REPLAY;
+//	Temp5->dwQuestID = 104;
+//	_GMissionInfo* Temp5_sub1 = new _GMissionInfo;
+//	Temp5_sub1->bStatus = C_VS_UI_QUEST_MISSION::CURRENT;
+//	Temp5_sub1->bCondition = 2;
+//	Temp5_sub1->bIndex = 1;
+//	Temp5->vMissionList.push_back(Temp5_sub1);
+//	SetQuestManagerInfo((void*)Temp5);
 
 
-	MItem* pItem;
+//	MItem* pItem;
 
-	std::vector<MItem*> TempItemList;
-	for (int TempCount = 0; TempCount < 13; TempCount++)
-	{
-		//----------------------------------------------------
-		// Item ���� --> �߰�
-		//----------------------------------------------------
-		pItem = MItem::NewItem(ITEM_CLASS_GQUEST_ITEM);
-		//	pItem->SetID( 0 );
-		pItem->SetItemType(TempCount);
-		//	pItem->SetItemOptionList( 0 );
-		pItem->SetCurrentDurability(1);
-		TempItemList.push_back(pItem);
-	}
+//	std::vector<MItem*> TempItemList;
+//	for (int TempCount = 0; TempCount < 13; TempCount++)
+//	{
+//		//----------------------------------------------------
+//		// Item ���� --> �߰�
+//		//----------------------------------------------------
+//		pItem = MItem::NewItem(ITEM_CLASS_GQUEST_ITEM);
+//		//	pItem->SetID( 0 );
+//		pItem->SetItemType(TempCount);
+//		//	pItem->SetItemOptionList( 0 );
+//		pItem->SetCurrentDurability(1);
+//		TempItemList.push_back(pItem);
+//	}
 
 	ReleaseQuestXML();
-	UpdateQuestItemInfo(TempItemList);
-	PushGQuestExcuteElement(1010, 1, 2);
-	PushGQuestExcuteElement(1010, 1, 3);
+//	UpdateQuestItemInfo(TempItemList);
+//	PushGQuestExcuteElement(1010, 1, 2);
+//	PushGQuestExcuteElement(1010, 1, 3);
 
 	RunQuestIcon();
 
@@ -16558,7 +16574,12 @@ void	C_VS_UI_QUEST_MANAGER::RunQuestFail_or_Sucess(const XMLTree* pElement, int 
 
 			C_VS_UI_NPC_DIALOG* TempDialog = new C_VS_UI_NPC_DIALOG(ExecF_GQuestNpcScript, NpcID, Sender, 500, 280, DIALOG_OK, IsShowItemDescription);
 			std::string pp_dmsg[] = { pElement2->GetText().c_str(), };
-			TempDialog->SetMessage(pp_dmsg, sizeof(pp_dmsg) / sizeof(char*), SMO_NOFIT, 2);
+			// Divisor must be the element type, not char*. This array used to be
+			// char*[] (see the untouched copy in UILib/vs_ui_gamecommon2.cpp:14830);
+			// when it became std::string[] the divisor was left behind, so
+			// sizeof(std::string)/sizeof(char*) = 24/4 reported 6 lines for a
+			// 1-element array and SetMessage walked off the end of the stack.
+			TempDialog->SetMessage(pp_dmsg, sizeof(pp_dmsg) / sizeof(pp_dmsg[0]), SMO_NOFIT, 2);
 			gC_vs_ui.SetQuestNpcDialog((void*)TempDialog);
 		}
 
@@ -16718,7 +16739,9 @@ void	C_VS_UI_QUEST_MANAGER::RunGQuestExcuteElement(DWORD qID, BYTE bCondition, W
 
 				C_VS_UI_NPC_DIALOG* TempDialog = new C_VS_UI_NPC_DIALOG(ExecF_GQuestNpcScript, NpcID, Sender, 500, 280, DIALOG_OK, IsShowItemDescription);
 				std::string pp_dmsg[] = { pElement3->GetText().c_str(), };
-				TempDialog->SetMessage(pp_dmsg, sizeof(pp_dmsg) / sizeof(char*));//, SMO_NOFIT);
+				// Same std::string[]-with-a-char* divisor bug as the quest
+				// fail/success dialog above; this one just had not been reached yet.
+				TempDialog->SetMessage(pp_dmsg, sizeof(pp_dmsg) / sizeof(pp_dmsg[0]));//, SMO_NOFIT);
 				gC_vs_ui.SetQuestNpcDialog((void*)TempDialog);
 
 			}

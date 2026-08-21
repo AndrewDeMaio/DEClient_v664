@@ -131,7 +131,7 @@ enum ALIGNMENT
 struct S_SLOT
 {
 	S_SLOT() { m_AdvancementLevel = 0; }
-	Init();
+	void Init();
 
 	bool								bl_set; // slot이 설정되었는가?
 	//	bool								bl_vampire;
@@ -1784,6 +1784,10 @@ public:
 #endif	//__SERVER_SELECT_REVEWAL
 
 private:
+	// True when the currently highlighted server can be connected to. Reads
+	// whichever of the world/channel lists is actually in use.
+	bool	IsSelectedServerConnectable();
+
 	void	SelectBarPos();
 	void	SelectBarView();
 	void	GroupView();
@@ -2217,7 +2221,7 @@ public:
 	}
 
 #else
-	void	SetServerList(LPSTR* name, int* id, int* status, int size, int default_id, bool* nonpk = NULL) {
+	void	SetServerList(std::string* name, int* id, int* status, int size, int default_id, bool* nonpk = NULL) {
 		if (m_pC_server_select)m_pC_server_select->SetServerList(name, id, status, size, default_id, nonpk);
 	}
 #endif	//__SERVER_SELECT_REVEWAL

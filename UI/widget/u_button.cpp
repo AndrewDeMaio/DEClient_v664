@@ -4,9 +4,7 @@
 
 #include "u_button.h"
 
-#ifndef _LIB
 EventButton *g_EventButton = NULL;
-#endif
 
 //-----------------------------------------------------------------------------
 // EventButton
@@ -94,12 +92,10 @@ bool EventButton::MouseControl(UINT message, int _x, int _y)
 			}
 			break;
 
-#ifndef _LIB
 		case M_RIGHTBUTTON_UP:
 			if (GetFocusState()) // focus: yes
 				g_EventButton = this;
 			break;
-#endif
 	}
 
 	return Button::MouseControl(message, _x, _y); // left up시 GetPressState()를 확인할 수 있음.
@@ -112,9 +108,7 @@ ButtonBase::ButtonBase()
 
 ButtonBase::~ButtonBase()
 {
-#ifndef _LIB
 	if(g_EventButton == this)g_EventButton = NULL;
-#endif
 
 }
 

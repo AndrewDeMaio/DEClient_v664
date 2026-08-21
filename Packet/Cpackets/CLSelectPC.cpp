@@ -7,7 +7,7 @@
 //--------------------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CLSelectPC.h"
 
 
@@ -64,7 +64,7 @@ void CLSelectPC::write ( SocketOutputStream & oStream ) const
 	//--------------------------------------------------
 	// write creature's name
 	//--------------------------------------------------
-	size_t szPCName = m_PCName.size();
+	BYTE szPCName = (BYTE)m_PCName.size();
 
 	if ( szPCName == 0 ) 
 		throw InvalidProtocolException("szPCName == 0");

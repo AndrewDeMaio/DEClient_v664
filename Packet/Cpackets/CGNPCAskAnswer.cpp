@@ -3,7 +3,7 @@
 // Written By  : Reiot
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGNPCAskAnswer.h"
 #include "SocketEncryptInputStream.h"
 #include "SocketEncryptOutputStream.h"

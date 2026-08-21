@@ -55,7 +55,7 @@ void GCReconnect::write ( SocketOutputStream & oStream ) const
 {
 	__BEGIN_TRY
 		
-	size_t szName = m_Name.size();
+	BYTE szName = (BYTE)m_Name.size();
 	
 	if ( szName == 0 )
 		throw InvalidProtocolException("szName == 0");
@@ -67,7 +67,7 @@ void GCReconnect::write ( SocketOutputStream & oStream ) const
 
 	oStream.write( m_Name );
 
-	size_t szServerIP = m_ServerIP.size();
+	BYTE szServerIP = (BYTE)m_ServerIP.size();
 
 	if ( szServerIP == 0 )
 		throw InvalidProtocolException("szServerIP == 0");

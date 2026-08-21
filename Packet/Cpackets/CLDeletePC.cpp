@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CLDeletePC.h"
 
 
@@ -55,7 +55,7 @@ void CLDeletePC::write ( SocketOutputStream & oStream ) const
 {
 	__BEGIN_TRY
 		
-	size_t szName = m_Name.size();
+	BYTE szName = (BYTE)m_Name.size();
 
 	if ( szName == 0 )
 		throw InvalidProtocolException("szName == 0");
@@ -68,7 +68,7 @@ void CLDeletePC::write ( SocketOutputStream & oStream ) const
 
 	oStream.write( (BYTE)m_Slot );
 
-	size_t szSSN = m_SSN.size();
+	BYTE szSSN = (BYTE)m_SSN.size();
 
 	if ( szSSN== 0 )
 		throw InvalidProtocolException("szSSN == 0");

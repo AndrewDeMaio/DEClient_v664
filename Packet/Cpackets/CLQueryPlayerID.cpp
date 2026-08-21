@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CLQueryPlayerID.h"
 
 
@@ -47,7 +47,7 @@ void CLQueryPlayerID::write ( SocketOutputStream & oStream ) const
 	//--------------------------------------------------
 	// write player id
 	//--------------------------------------------------
-	size_t szPlayerID = m_PlayerID.size();
+	BYTE szPlayerID = (BYTE)m_PlayerID.size();
 
 	if ( szPlayerID == 0 )
 		throw InvalidProtocolException("empty PlayerID");

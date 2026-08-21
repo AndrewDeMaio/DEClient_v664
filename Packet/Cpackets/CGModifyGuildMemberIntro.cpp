@@ -3,7 +3,7 @@
 // Written By  : 
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGModifyGuildMemberIntro.h"
 
 
@@ -31,7 +31,7 @@ void CGModifyGuildMemberIntro::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 
-	size_t szGuildMemberIntro = m_GuildMemberIntro.size();
+	BYTE szGuildMemberIntro = (BYTE)m_GuildMemberIntro.size();
 
 	if ( szGuildMemberIntro > 255 )
 		throw InvalidProtocolException( "too long szGuildMemberIntro length" );

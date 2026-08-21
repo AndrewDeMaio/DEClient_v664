@@ -6,7 +6,7 @@
 // ������ ��Ŷ�̴�. ������ �÷��̾�� ����� ���� �κ��丮��
 // �ڸ��� �ִ��� ������ �� �÷��̾�� �������� �ѱ��.
 ////////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGBuyStoreItem.h"
 
 void CGBuyStoreItem::read (SocketInputStream & iStream) 

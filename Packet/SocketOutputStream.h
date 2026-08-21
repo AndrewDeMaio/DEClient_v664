@@ -67,9 +67,11 @@ public :
     uint write ( long   buf ) { return write( (const char*)&buf, szlong   ); }
     uint write ( ulong  buf ) { return write( (const char*)&buf, szulong  ); }
 
-#ifdef _WIN64
-	uint write ( size_t buf ) { return write( (const char*)&buf, sizeof(size_t)   ); }
-#endif
+// Deliberately NOT provided: uint write(size_t).
+// It existed under #ifdef _WIN64 and silently wrote sizeof(size_t) bytes, which
+// is how commit db7b6ba's size_t length prefixes compiled on x64 while emitting
+// 8 bytes where DEServer reads 1. Without it, passing a size_t to write() is a
+// compile error on both platforms, which is the behaviour we want.
 
 	// flush stream (output buffer) to socket
 	uint flush ();

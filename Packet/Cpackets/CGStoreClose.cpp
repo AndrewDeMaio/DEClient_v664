@@ -3,7 +3,7 @@
 // Written By  : 
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGStoreClose.h"
 
 void CGStoreClose::read (SocketInputStream & iStream) 

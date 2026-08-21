@@ -3,7 +3,7 @@
 // Written By  : elca@ewestsoft.com
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGTypeStringList.h"
 
 CGTypeStringList::CGTypeStringList () 
@@ -51,7 +51,7 @@ void CGTypeStringList::write (SocketOutputStream & oStream) const
 
 	oStream.write(m_StringType);
 
-	size_t szList = m_StringList.size();
+	BYTE szList = (BYTE)m_StringList.size();
 
 	oStream.write( szList );
 
@@ -59,7 +59,7 @@ void CGTypeStringList::write (SocketOutputStream & oStream) const
 
 	for( ; itr != m_StringList.end() ; ++itr )
 	{
-		size_t szString = (*itr).size();
+		BYTE szString = (BYTE)(*itr).size();
 		oStream.write( szString );
 		oStream.write( *itr );
 	}

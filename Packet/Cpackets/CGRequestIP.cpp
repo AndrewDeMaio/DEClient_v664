@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////
 // include files
 //////////////////////////////////////////////////////////////////////
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGRequestIP.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"
@@ -63,7 +63,7 @@ void CGRequestIP::write ( SocketOutputStream & oStream )
 	__BEGIN_TRY
 	
 	// ����ȭ �۾��� ���� ũ�⸦ �����ϵ��� �Ѵ�.
-	size_t num = m_Name.size();
+	BYTE num = (BYTE)m_Name.size();
 	oStream.write( num );
 
 	if (num > 0)

@@ -3,7 +3,7 @@
 // Written By  : 
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGSelectGuildMember.h"
 
 
@@ -30,7 +30,7 @@ void CGSelectGuildMember::write (SocketOutputStream & oStream) const
 {
 	__BEGIN_TRY
 		
-	size_t szName = m_Name.size();
+	BYTE szName = (BYTE)m_Name.size();
 
 	if ( szName == 0 )
 		throw InvalidProtocolException( "szName == 0" );

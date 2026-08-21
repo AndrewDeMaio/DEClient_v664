@@ -1,11 +1,11 @@
 //----------------------------------------------------------------------
 // CTypeMap2.h
 //----------------------------------------------------------------------
-// DataTypeÀº pointer typeÀÌ¾î¾ß ÇÑ´Ù.
+// DataTypeï¿½ï¿½ pointer typeï¿½Ì¾ï¿½ï¿½ ï¿½Ñ´ï¿½.
 //
-// fstream¿Í fstreamÀÇ Ãæµ¹·Î ÀÎÇØ¼­..
-// ÀÓ½Ã·Î...
-// fstreamÀ» »ç¿ëÇÏÁö ¾Ê´Â versionÀÌ´ç. - -;
+// fstreamï¿½ï¿½ fstreamï¿½ï¿½ ï¿½æµ¹ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½..
+// ï¿½Ó½Ã·ï¿½...
+// fstreamï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ versionï¿½Ì´ï¿½. - -;
 //----------------------------------------------------------------------
 
 #ifndef __CTYPEMAP2_H__
@@ -16,7 +16,7 @@
 #include <map>
 
 //----------------------------------------------------------------------
-// CTypeMap2 (id, DataType*)ÀÇ map
+// CTypeMap2 (id, DataType*)ï¿½ï¿½ map
 //----------------------------------------------------------------------
 template <class DataType>
 class CTypeMap2 : public std::map<unsigned int, DataType*> {
@@ -39,6 +39,28 @@ public:
 	virtual DataType*		GetData(unsigned int id);
 	virtual const DataType* GetData(unsigned int id) const;
 	virtual bool			RemoveData(unsigned int id);
+
+	//-----------------------------------------------------
+	// Container access.
+	//
+	// This class derives from std::map AND owns data_map, but every
+	// method above operates only on data_map -- so the inherited base
+	// map is permanently empty. Callers using size()/begin()/end()
+	// therefore saw an empty container no matter how much AddData()
+	// had been called. That is what made the world list render blank:
+	// UI_SetWorldList() reads g_pServerInformation->size().
+	//
+	// Shadow the base accessors so they report the data that is
+	// actually stored. (Removing the inheritance would be cleaner but
+	// is a wider change than this needs to be.)
+	//-----------------------------------------------------
+	typename TYPE_MAP::size_type size() const { return data_map.size(); }
+	bool empty() const { return data_map.empty(); }
+
+	typename TYPE_MAP::iterator begin() { return data_map.begin(); }
+	typename TYPE_MAP::iterator end() { return data_map.end(); }
+	typename TYPE_MAP::const_iterator begin() const { return data_map.begin(); }
+	typename TYPE_MAP::const_iterator end() const { return data_map.end(); }
 
 protected:
 	TYPE_MAP data_map;
@@ -92,13 +114,13 @@ CTypeMap2<DataType>::AddData(unsigned int id, DataType* pData)
 
 	if (iData != data_map.end())
 	{
-		// ÀÌ¹Ì ÀÖ´Â °æ¿ì
-		// pData´Â ¿ÜºÎ¿¡¼­ Áö¿öÁà¾ßÇÑ´Ù.
+		// ï¿½Ì¹ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
+		// pDataï¿½ï¿½ ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		return false;
 	}
 
 	//------------------------------------------------------
-	// ¾ø´Â °æ¿ì --> Ãß°¡
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ --> ï¿½ß°ï¿½
 	//------------------------------------------------------
 	data_map.insert({ id, pData });
 
@@ -116,11 +138,11 @@ CTypeMap2<DataType>::GetData(unsigned int id)
 
 	if (iData == data_map.end())
 	{
-		// ¾ø´Â °æ¿ì 
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 		return nullptr;
 	}
 
-	// ÀÖ´Â °æ¿ì
+	// ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 	return (*iData).second;
 }
 
@@ -135,11 +157,11 @@ CTypeMap2<DataType>::GetData(unsigned int id) const
 
 	if (iData == data_map.end())
 	{
-		// ¾ø´Â °æ¿ì 
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 		return nullptr;
 	}
 
-	// ÀÖ´Â °æ¿ì
+	// ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½
 	return (*iData).second;
 }
 
@@ -154,11 +176,11 @@ CTypeMap2<DataType>::RemoveData(unsigned int id)
 
 	if (iData == data_map.end())
 	{
-		// ¾ø´Â °æ¿ì 
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
 		return false;
 	}
 
-	// ÀÖÀ¸¸é Áö¿öÁà¾ß ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	delete (*iData).second;
 
 	data_map.erase(iData);

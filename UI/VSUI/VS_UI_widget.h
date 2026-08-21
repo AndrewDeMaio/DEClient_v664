@@ -220,9 +220,7 @@ public:
 
 };
 
-#ifndef _LIB
 extern Button *	gpC_press_button;
-#endif
 
 //-----------------------------------------------------------------------------
 // ButtonGroup
@@ -346,12 +344,9 @@ public:
 		for (int i=0; i < Size(); i++)
 			if (Data(i, data))
 			{
-#ifndef _LIB
 				if (!g_GetCtrlPushState())
-#endif
 					re = data->MouseControl(message, _x, _y) && re;
 
-#ifndef _LIB
 				static bool press;
 				static int gapx, gapy;
 
@@ -381,7 +376,6 @@ public:
 						}
 						break;
 				}
-#endif
 			}
 		return re;
 	}

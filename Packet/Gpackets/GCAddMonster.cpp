@@ -71,7 +71,7 @@ void GCAddMonster::write ( SocketOutputStream & oStream ) const
 {
 	__BEGIN_TRY
 		
-	size_t name_length = m_MonsterName.size();
+	BYTE name_length = (BYTE)m_MonsterName.size();
 
 	oStream.write( m_ObjectID );
 	oStream.write( m_MonsterType );

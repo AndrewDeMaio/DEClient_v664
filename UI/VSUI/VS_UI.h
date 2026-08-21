@@ -19,9 +19,7 @@
 #include "VS_UI_Progress.h"
 #include "ProfileManager.h"
 
-#ifndef _LIB
 #include "VS_UI_ExtraDialog.h"
-#endif
 
 
 #if __CONTENTS(__TITLE_UI_RENWEAL)
@@ -48,9 +46,7 @@ private:
 	C_VS_UI_OPTION *		m_pC_option;
 	
 
-#ifndef _LIB
 //	C_VS_UI_MONEY_DIALOG *	m_p_edit_dialog;
-#endif
 
 	void	EndGame();
 	void	EndTitle();

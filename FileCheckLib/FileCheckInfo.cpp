@@ -32,7 +32,10 @@ FileCheckInfo::~FileCheckInfo()
 
 void FileCheckInfo::GenerateFileInfo(LPCTSTR fileName)
 {
-	assert("GenerateFileInfo : file didn't exist" && !access(fileName, 0));
+	// _access, not access: the POSIX name is deprecated and /sdl promotes the
+	// C4996 to an error. Release never hit this because NDEBUG makes assert a
+	// no-op, so the call was compiled out entirely.
+	assert("GenerateFileInfo : file didn't exist" && !_access(fileName, 0));
 
 // 	char szUniqueNameBuf[MAX_PATH];
 // 	strcpy(szUniqueNameBuf, fileName);

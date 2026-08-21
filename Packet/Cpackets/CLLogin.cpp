@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CLLogin.h"
 #include "UserInformation.h"
 
@@ -62,7 +62,7 @@ void CLLogin::write ( SocketOutputStream & oStream ) const
 	if( g_pUserInformation == NULL || !g_pUserInformation->IsNetmarbleLogin || !g_pUserInformation->IsNetmarble )
 #endif
 	{
-		size_t szID = m_ID.size();
+		BYTE szID = (BYTE)m_ID.size();
 
 		if ( szID == 0 )
 			throw InvalidProtocolException("empty ID");
@@ -74,7 +74,7 @@ void CLLogin::write ( SocketOutputStream & oStream ) const
 
 		oStream.write( m_ID );
 
-		size_t szPassword = m_Password.size();
+		BYTE szPassword = (BYTE)m_Password.size();
 
 		if ( szPassword == 0 )
 			throw InvalidProtocolException("szPassword == 0");

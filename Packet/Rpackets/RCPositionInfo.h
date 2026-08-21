@@ -10,7 +10,6 @@
 #define __RC_POSITION_INFO_H__
 
 // include files
-#include "Client_PCH.h"
 #include "DatagramPacket.h"
 #include "PacketFactory.h"
 

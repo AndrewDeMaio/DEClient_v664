@@ -7,7 +7,7 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "PCSlayerInfo.h"
 
 //----------------------------------------------------------------------
@@ -147,7 +147,7 @@ void PCSlayerInfo::write ( SocketOutputStream & oStream ) const
 	//--------------------------------------------------
 	// write slayer name
 	//--------------------------------------------------
-	size_t szName = m_Name.size();
+	BYTE szName = (BYTE)m_Name.size();
 
 	if ( szName == 0 )
 		throw InvalidProtocolException("szName == 0");

@@ -24,7 +24,7 @@ typedef	unsigned __int64		QWORD;
 
 /*-----------------------------------------------------------------------------
   Class DirectDraw
-  `CDirectDrawSurface¿¡¼­ »ó¼Ó¹Þ´Â´Ù. µû¶ó¼­ memberµéÀ» staticÀ¸·Î ÇÏ¿©¾ß ÇÑ´Ù.
+  `CDirectDrawSurfaceï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ó¹Þ´Â´ï¿½. ï¿½ï¿½ï¿½ï¿½ memberï¿½ï¿½ï¿½ï¿½ staticï¿½ï¿½ï¿½ï¿½ ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 -----------------------------------------------------------------------------*/
 class CDirectDraw
 {	
@@ -40,13 +40,13 @@ protected:
 
 	static HWND								m_hWnd;
 
-	// SurfaceÀÇ Å©±â
+	// Surfaceï¿½ï¿½ Å©ï¿½ï¿½
 	static WORD								m_ScreenWidth;
 	static WORD								m_ScreenHeight;
 
 	static bool								m_b565;
 
-	// 3D »ç¿ë?
+	// 3D ï¿½ï¿½ï¿½?
 	static bool								m_b3D;
 
 	static bool								m_bMMX;
@@ -55,10 +55,16 @@ protected:
 	static WORD								m_GammaStep;
 	static WORD								m_AddGammaStep[3];
 
-	// Ã¢¸ðµå¿¡ ÇÊ¿äÇÑ °Íµé
+	// Ã¢ï¿½ï¿½å¿¡ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½Íµï¿½
 	static RECT								m_rcWindow;		// Saves the window size & pos.
 	static RECT								m_rcViewport;	// Pos. & size to blt from
 	static RECT								m_rcScreen;		// Screen pos. for blt
+
+	// Pseudo-fullscreen letterbox / pillarbox bars. The game renders a 4:3
+	// frame that is scaled up to a 16:9 window, so the leftover strips have to
+	// be painted black or stale desktop pixels show through.
+	static RECT								m_rcLetterbox[2];
+	static int								m_nLetterbox;
 
 	static bool		Check565();
 	static bool		CheckGammaControl();
@@ -97,13 +103,22 @@ public:
 	static const LPDIRECTDRAW7 GetDD()	{ return m_pDD; }
 
 	//------------------------------------
-	// Window Message Ã³¸®
+	// Window Message Ã³ï¿½ï¿½
 	//------------------------------------
 	static void		OnMove();
 
 	//------------------------------------
 	// Get Functions
 	//------------------------------------
+	//------------------------------------
+	// Maps a point in window client coordinates onto the game's own
+	// coordinate space (the back surface). Needed because the back surface is
+	// scaled up to the window on present, so raw mouse coordinates do not
+	// match the coordinates the UI lays its widgets out in.
+	//------------------------------------
+	static void		WindowToViewport(int &x, int &y);
+	static void		WindowToViewport(POINT &pt);
+
 	static inline bool		IsFullscreen()			{ return m_bFullscreen; }
 	static inline WORD		GetScreenWidth()		{ return m_ScreenWidth; }
 	static inline WORD		GetScreenHeight()		{ return m_ScreenHeight; }
@@ -122,7 +137,7 @@ public:
 
 	//     0RRRRRGG GGGBBBBB 
 	// --> RRRRRGGG GG0BBBBB
-	static inline WORD	Convert555to565(WORD pixel)		// 5:5:5¸¦ 5:6:5·Î ¹Ù²Ü ¶§
+	static inline WORD	Convert555to565(WORD pixel)		// 5:5:5ï¿½ï¿½ 5:6:5ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½
 	{
 		return ((pixel & 0x7FE0)<<1)	// RRRRRGGG GG000000
 				| (pixel & 0x001F);		// 00000000 000BBBBB										
@@ -130,7 +145,7 @@ public:
 
 	//     RRRRRGGG GGGBBBBB
 	// --> 0RRRRRGG GGGBBBBB 
-	static inline WORD Convert565to555(WORD pixel)		// 5:6:5¸¦ 5:5:5·Î ¹Ù²Ü ¶§
+	static inline WORD Convert565to555(WORD pixel)		// 5:6:5ï¿½ï¿½ 5:5:5ï¿½ï¿½ ï¿½Ù²ï¿½ ï¿½ï¿½
 	{
 		return (((pixel & 0xFFE0) >> 1)		// 0RRRRRGG GGGG0000
 				& 0x7FE0)					// 0RRRRRGG GGG00000
@@ -140,21 +155,21 @@ public:
 	//-----------------------------------
 	// (R,G,B) <--> RGB
 	//-----------------------------------
-	// 5:5:5ÀÌ¸é (32,32,32)
-	// 5:6:5ÀÌ¸é (32,64,32)
-	// `´Ü¼øÈ÷ ÇÕÄ¡±â¸¸ ÇÑ´Ù.
+	// 5:5:5ï¿½Ì¸ï¿½ (32,32,32)
+	// 5:6:5ï¿½Ì¸ï¿½ (32,64,32)
+	// `ï¿½Ü¼ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½â¸¸ ï¿½Ñ´ï¿½.
 	static inline WORD	Color(const BYTE& r, const BYTE& g, const BYTE& b)
 	{			
 		return (r << s_bSHIFT_R) | (g << s_bSHIFT_G) | b;
 	}
 
-	// Red°ª
+	// Redï¿½ï¿½
 	static inline BYTE	Red(const WORD& c)
 	{			
 		return (c >> s_bSHIFT_R);
 	}
 
-	// Green°ª
+	// Greenï¿½ï¿½
 	static inline BYTE	Green(const WORD& c)
 	{
 		//return ((c >> s_bSHIFT_G) & s_bMASK_G);	
@@ -165,7 +180,7 @@ public:
 		return g;			
 	}
 
-	// Blue°ª
+	// Blueï¿½ï¿½
 	static inline BYTE	Blue(const WORD& c)
 	{
 		return (c & 0x1F);
@@ -200,7 +215,7 @@ public :
 	static BYTE		s_bSHIFT4_G;	
 	static BYTE		s_bSHIFT4_B;
 	
-	// ±âº» »ö»ó
+	// ï¿½âº» ï¿½ï¿½ï¿½ï¿½
 	static WORD		RED;
 	static WORD		GREEN;
 	static WORD		BLUE;

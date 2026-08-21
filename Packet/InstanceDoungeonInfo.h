@@ -10,7 +10,7 @@
 #define __INSTANCEDOUNGEON_INFO_H__
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "Types.h"
 #include "Exception.h"
 #include "Packet.h"

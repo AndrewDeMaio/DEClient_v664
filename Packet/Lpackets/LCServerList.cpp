@@ -7,7 +7,7 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "LCServerList.h"
 #include "PCSlayerInfo.h"
 #include "PCVampireInfo.h"

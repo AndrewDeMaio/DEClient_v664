@@ -177,7 +177,7 @@ void GCAddItemToZone::write ( SocketOutputStream & oStream ) const
 		oStream.write( m_ItemType );
 	}
 
-	size_t optionSize = m_OptionType.size();
+	BYTE optionSize = (BYTE)m_OptionType.size();
 	oStream.write( optionSize );
 	std::list<OptionType_t>::const_iterator itr = m_OptionType.begin();
 	for (; itr!=m_OptionType.end(); itr++)

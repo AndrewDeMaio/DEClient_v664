@@ -67,7 +67,7 @@ void GCPhoneConnected::write ( SocketOutputStream & oStream ) const
 	oStream.write( m_PhoneNumber );
 	oStream.write( m_SlotID );
 
-	size_t szName = m_Name.size();
+	BYTE szName = (BYTE)m_Name.size();
 
 	if ( szName == 0 )
 		throw InvalidProtocolException("szName == 0");

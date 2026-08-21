@@ -7,7 +7,7 @@
 //////////////////////////////////////////////////////////////////////
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGAddQuickSlotToMouse.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"

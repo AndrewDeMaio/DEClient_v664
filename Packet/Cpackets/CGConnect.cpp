@@ -7,7 +7,7 @@
 //----------------------------------------------------------------------
 
 // include files
-#include "Client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGConnect.h"
 
 //----------------------------------------------------------------------
@@ -69,7 +69,7 @@ void CGConnect::write ( SocketOutputStream & oStream ) const
 	//--------------------------------------------------
 	// write PC name
 	//--------------------------------------------------
-	size_t szPCName = m_PCName.size();
+	BYTE szPCName = (BYTE)m_PCName.size();
 
 	if ( szPCName == 0 )
 		throw InvalidProtocolException("szPCName == 0");

@@ -321,7 +321,7 @@ std::string RequestServerPlayer::toString () const
 	StringStream msg;
 	
 	msg << "RequestServerPlayer("
-		<< "SocketID:" << m_pSocket->getSOCKET() 
+		<< "SocketID:" << (uint)m_pSocket->getSOCKET() 
 		<< ",Host:" << m_pSocket->getHost() 
 		<< ")" ;
 

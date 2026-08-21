@@ -3,7 +3,7 @@
 // Written By  : �輺��
 // Description : 
 //////////////////////////////////////////////////////////////////////////////
-#include "client_PCH.h"
+#include "Packet_PCH.h"
 #include "CGRequestRepairInfo.h"
 
 void CGRequestRepairInfo::read (SocketInputStream & iStream) 

@@ -214,9 +214,9 @@ void Base::InitFont()
 	//
 	const char szFontName[5][3][20] = {
 		// Hangul Font      Chinese Font
-		{ "±¼¸²Ã¼",			"ËÎÌå",			"‚l‚r ƒSƒVƒbƒN"},
-		{ "MS Sans Serif",	"MS Sans Serif","‚l‚r ƒSƒVƒbƒN"},
-		{ "µ¸¿òÃ¼",			"ÐÂËÎÌå",		"‚l‚r ƒSƒVƒbƒN"},
+		{ "±¼¸²Ã¼",			"ËÎÌå",			"‚l‚r ƒSƒVƒb"},
+		{ "MS Sans Serif",	"MS Sans Serif","‚l‚r ƒSƒVƒb"},
+		{ "µ¸¿òÃ¼",			"ÐÂËÎÌå",		"‚l‚r ƒSƒVƒb"},
 		{ "±¼¸²",			"ËÎÌå",			"‚l‚r –¾’©"},
 		{ "¸¼Àº°íµñ",		"ËÎÌå",			"‚l‚r –¾’©"}
 	};
@@ -237,7 +237,7 @@ void Base::InitFont()
 		Language = 2;
 		gC_ci->SetJapanInput() ;  
 	}
-	else 
+	else
 		Language = 0;
 	
 	SetDefaultLogfont(lf); //by larosel
@@ -288,7 +288,7 @@ void Base::InitFont()
 	// new style...
 	SetDefaultLogfont(lf);
 	lf.lfHeight = 14 + local_font_size;
-//	lf.lfWeight = FW_BOLD;
+	//lf.lfWeight = FW_BOLD;
 	strcpy(lf.lfFaceName, szFontName[0][Language]);
 	SetFont(m_dialog_menu_pi, lf, RGB(255, 255, 255));
 
@@ -357,14 +357,14 @@ void Base::InitFont()
 	//party
 	SetDefaultLogfont(lf); //by larosel
 	lf.lfHeight = 12 + local_font_size;
-//	lf.lfWeight = FW_BOLD;
+	//lf.lfWeight = FW_BOLD;
 	strcpy(lf.lfFaceName, szFontName[3][Language]);
 	SetFont(m_party_name_pi, lf, RGB(20, 70, 0));
 
 	//xmas
 	SetDefaultLogfont(lf); //by larosel
 	lf.lfHeight = 10 + local_font_size;
-//	lf.lfWeight = FW_BOLD;
+	//lf.lfWeight = FW_BOLD;
 	lf.lfItalic = true;
 	strcpy(lf.lfFaceName, szFontName[3][Language]);
 	SetFont(m_xmas_pi, lf, RGB(20, 70, 0));

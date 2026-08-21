@@ -5,7 +5,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "GPacket_PCH.h"
-#include "MNPCScriptTable.h"
 
 #include "GCNPCAskVariable.h"
 
@@ -61,7 +60,7 @@ void GCNPCAskVariable::write ( SocketOutputStream & oStream ) const
 	oStream.write( m_ObjectID );
 	oStream.write( m_ScriptID );
 
-	size_t szParam = m_ScriptParameters.size();
+	BYTE szParam = (BYTE)m_ScriptParameters.size();
 	oStream.write( szParam );
 
 	HashMapScriptParameterConstItor itr = m_ScriptParameters.begin();

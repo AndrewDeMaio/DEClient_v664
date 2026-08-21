@@ -274,6 +274,15 @@ void	C_VS_UI_NEWCHAR::_ShowCharacterSlayer( int _x, int _y, S_SLOT* p_slot, int 
 		{
 			clothes = addonInfo.FrameID;
 
+			// addonFPK can be SHORTER than ADDON_MAX. The female slayer pack
+			// (AddonWoman.cfpk) has fewer frame entries than the male one, and
+			// TArray::operator[] does no bounds checking -- it just does
+			// pointer arithmetic -- so an addon whose FrameID is past the end
+			// dereferenced garbage and crashed character select for every
+			// female character. The existing FA.GetSize()==0 test below only
+			// guards the INNER array, which is already too late.
+			if (clothes >= (int)addonFPK.GetSize()) continue;
+
 			const FRAME_ARRAY &FA = addonFPK[clothes][action][m_chDirection];
 
 			if(FA.GetSize() == 0) continue;
@@ -966,6 +975,15 @@ void	C_VS_UI_NEWCHAR::_ShowCharacterSlayer( int _x, int _y, S_SLOT* p_slot, int 
 		if (addonInfo.bAddon)
 		{
 			clothes = addonInfo.FrameID;
+
+			// addonFPK can be SHORTER than ADDON_MAX. The female slayer pack
+			// (AddonWoman.cfpk) has fewer frame entries than the male one, and
+			// TArray::operator[] does no bounds checking -- it just does
+			// pointer arithmetic -- so an addon whose FrameID is past the end
+			// dereferenced garbage and crashed character select for every
+			// female character. The existing FA.GetSize()==0 test below only
+			// guards the INNER array, which is already too late.
+			if (clothes >= (int)addonFPK.GetSize()) continue;
 
 			const FRAME_ARRAY &FA = addonFPK[clothes][action][direction];
 

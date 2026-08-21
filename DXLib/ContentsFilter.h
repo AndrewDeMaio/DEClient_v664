@@ -11,6 +11,15 @@
 #define __ON	(1)
 #define __OFF	(0)
 
+// The 2008.04.05 UI update is __OFF for several designs, but the in game menu
+// artwork and its skin point list (interface.inf, dated 2008.04.04) ship with
+// the four row layout in every build - option / logout / quit / cancel. With
+// the update off, the menu still draws four rows while the code only wires
+// three buttons and misreads the four point skin data as a packed two point
+// format, so the quit row does nothing. This turns on just the quit entry and
+// its supporting code, without enabling the rest of that UI update.
+#define __GAMEMENU_QUITEXIT	__ON
+
 //////////////////////////////////////////////////////////////////////////
 // Korea
 
@@ -229,7 +238,7 @@
 #	define __OX_EVENT						__OFF	// OX�̺�Ʈ
 #	define __ITEM_SHOW						__ON	// ������ ����
 #	define __BLITZ_COUPON_EVENT				__OFF	// ���������� ���� �̺�Ʈ
-#	define __TITLE_UI_RENWEAL				__OFF	// Ÿ��Ʋ UI ������(2008. 08 ������)
+#	define __TITLE_UI_RENWEAL				__ON 	// Ÿ��Ʋ UI ������(2008. 08 ������)
 #	define __LOGIN_PACKET					__OFF	// ���ǵ� ���� ���� ���� Ŭ���̾�Ʈ�� �ٿ� ���� �� �ֵ��� ��Ŷ���� ���Ҵ� �κ�(2008.09.08)
 #	define __PET_FOOD_ITEM_ADD				__OFF	// �ƽ�Ǫ�� �߰�(2008.09.08)
 #	define __DYNAMIC_UI						__OFF

@@ -47,7 +47,7 @@ void GCBloodBibleList::write ( SocketOutputStream & oStream ) const
 
 	Assert( m_BloodBibleList.size() <= 12 );
 
-	size_t num = m_BloodBibleList.size();
+	BYTE num = (BYTE)m_BloodBibleList.size();
 
 	oStream.write(num);
 

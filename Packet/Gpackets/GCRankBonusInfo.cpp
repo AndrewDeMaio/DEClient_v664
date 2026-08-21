@@ -55,7 +55,7 @@ void GCRankBonusInfo::write ( SocketOutputStream & oStream ) const
 	//--------------------------------------------------
 	// write pc type
 	//--------------------------------------------------
-	oStream.write( m_RankBonusInfoList.size() );
+	oStream.write( (BYTE)m_RankBonusInfoList.size() );
 
 	for (std::list<DWORD>::const_iterator itr = m_RankBonusInfoList.begin(); itr!= m_RankBonusInfoList.end(); itr++) 
 	{

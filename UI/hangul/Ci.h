@@ -115,6 +115,28 @@ public :
 };
 
 
+class CI_ENGLISH : public CI
+{
+public :
+	bool	IsEnglish() { return true; }
+
+	// DE_ENGLISH_INPUT
+	//
+	// CI declares IME_MessageProcessor with an EMPTY body, and every other
+	// subclass overrides it. Without an override here every keystroke was
+	// silently dropped - nothing could be typed at all.
+	//
+	// Single-byte English needs no composition, so this forwards straight to
+	// IME_Normal(), which is what CI_KOREAN's own default: branch does for
+	// ordinary (non-IME) messages such as WM_CHAR.
+	void IME_MessageProcessor(UINT message, WPARAM wParam, LPARAM lParam);
+
+	// Nothing is ever composed, so these stay empty (they are pure virtual
+	// in CI and must be provided).
+	void IME_NextComposition() {}
+	void IME_Composition() {}
+};
+
 extern CI *gC_ci;
 
 #endif

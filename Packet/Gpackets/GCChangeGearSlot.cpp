@@ -8,7 +8,6 @@
 // include files
 #include "GPacket_PCH.h"
 #include "GCChangeGearSlot.h"
-#include "Client.h"
 #include "Assert.h"
 #if __CONTENTS(__GEAR_SWAP_CHANGE) // GCChangeGearSlot.cpp
 //--------------------------------------------------------------------------------

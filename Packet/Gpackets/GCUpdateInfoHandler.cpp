@@ -834,8 +834,26 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 
 //	MWorkThreadGlobal::Instance()->SetPriority(WORKTHREAD_PRIORITY_THREAD_LOADING);
 	
-	// Packet Encrypt
-	g_pSocket->setEncryptCode();
+	// Packet Encrypt -- DISABLED to match the server.
+	//
+	// This is the moment the client switched its cipher on, which is why
+	// everything up to and including character load worked and everything
+	// afterwards was corrupted. Packets whose read/write have an encrypt
+	// branch (CGMove, GCMoveError, ...) started going out enciphered while
+	// the server read them plain: the server saw CGMove(X:64,Dir:DIR_MAX)
+	// for a packet the client wrote as X=124 Y=119 Dir=3, and the client
+	// decoded GCMoveError(124,119) as (54,61). Packets without an encrypt
+	// branch were unaffected, which is why chat and items kept working.
+	//
+	// The two sides cannot agree on a key anyway: the client derives it as
+	// ((zoneID>>8) ^ zoneID) ^ ((serverID+1) * 51) for the English build,
+	// while GamePlayer::setEncryptCode() uses Zone::getEncryptCode().
+	// Leaving the code at 0 makes every packet take the plain branch, which
+	// is what the server (plain SocketInputStream/SocketOutputStream) speaks.
+	//
+	// To re-enable, this and the server's stream construction plus key
+	// derivation must be restored together -- they only work as a pair.
+	//g_pSocket->setEncryptCode();
 
 	//-----------------------------------------------------------
 	//
