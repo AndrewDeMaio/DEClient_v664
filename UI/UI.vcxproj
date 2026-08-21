@@ -77,7 +77,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(DEOutDir);$(DEExternalLibDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Packet.lib;D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;Vorbis.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;JpegLib.lib;SXml.lib;GL.lib;Timer.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;d3d9.lib;NPGameLib.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;ws2_32.lib;wininet.lib;shlwapi.lib;netapi32.lib;DEUtil.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;d3d9.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;ws2_32.lib;wininet.lib;shlwapi.lib;netapi32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -101,7 +101,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(DEOutDir);$(DEExternalLibDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Packet.lib;D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;Vorbis.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;JpegLib.lib;SXml.lib;GL.lib;Timer.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;d3d9.lib;NPGameLib.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;ws2_32.lib;wininet.lib;shlwapi.lib;netapi32.lib;DEUtil.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;d3d9.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;ws2_32.lib;wininet.lib;shlwapi.lib;netapi32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -121,7 +121,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(DEOutDir);$(DEExternalLibDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Packet.lib;D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;Vorbis.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;JpegLib.lib;SXml.lib;GL.lib;Timer.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;d3d9.lib;NPGameLib.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;ws2_32.lib;wininet.lib;shlwapi.lib;netapi32.lib;DEUtil.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;d3d9.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;ws2_32.lib;wininet.lib;shlwapi.lib;netapi32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -143,7 +143,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(DEOutDir);$(DEExternalLibDir)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Packet.lib;D3DLib.lib;DXLib.lib;FileCheckLib.lib;FrameLib.lib;MLib.lib;MiniLZO.lib;MZLib.lib;NMCrypt.lib;OggLib.lib;Vorbis.lib;PS.lib;RarLib.lib;SpriteLib.lib;VirtualFileSystem.lib;VolumeLib.lib;WinLib.lib;JpegLib.lib;SXml.lib;GL.lib;Timer.lib;ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;d3d9.lib;NPGameLib.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;ws2_32.lib;wininet.lib;shlwapi.lib;netapi32.lib;DEUtil.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ddraw.lib;dinput8.lib;dsound.lib;dxguid.lib;d3d9.lib;gdi32.lib;user32.lib;winmm.lib;imm32.lib;ws2_32.lib;wininet.lib;shlwapi.lib;netapi32.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -1030,6 +1030,75 @@
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\D3DLib\D3DLib.vcxproj">
+      <Project>{7c2e074b-9652-4f66-b384-92bd616628bc}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\DEUtil\DEUtil.vcxproj">
+      <Project>{44d15d6f-e770-4acf-9b69-c8d4a5d435e4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\DXLib\DXLib.vcxproj">
+      <Project>{3a5523b4-fa3d-42e3-8eca-dd2891316519}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\FileCheckLib\FileCheckLib.vcxproj">
+      <Project>{b04805cc-8d73-4a8d-a641-bc160290fac8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\FrameLib\FrameLib.vcxproj">
+      <Project>{cfc69368-9639-46c1-914f-9078ca75c2e7}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\GL\GL.vcxproj">
+      <Project>{e68a3d69-025b-4856-9170-a081cabc5de3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\JpegLib\JpegLib.vcxproj">
+      <Project>{6f2ce723-445a-4f6a-986b-7cb59ecd75e0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\MLib\MLib.vcxproj">
+      <Project>{df6496a5-9eb4-4e36-9a8c-32df3b18a14d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\MZLib\MZLib.vcxproj">
+      <Project>{59f5e341-ec34-4438-b3ba-e364219f29a2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\MiniLZO\MiniLZO.vcxproj">
+      <Project>{f0c7ecf8-7eb6-4b55-9dcb-3e9d43b0618d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\NMCrypt\NMCrypt.vcxproj">
+      <Project>{2a874a88-5aec-4c4a-8621-4d419270d51f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\NPGameLib\NPGameLib.vcxproj">
+      <Project>{4ba229ea-e91a-4b61-824c-32c18f5bb3a1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\OggLib\OggLib.vcxproj">
+      <Project>{b43da500-ff93-4583-a9f8-882038258e11}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\PS\PS.vcxproj">
+      <Project>{26b545c4-505f-4a9e-99fa-b8d23bccf53e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Packet\Packet.vcxproj">
+      <Project>{7b1e4c3a-9d25-4f08-b6a1-2c5e8f3d7a94}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\RarLib\RarLib.vcxproj">
+      <Project>{e1cca2ee-38bf-4178-b525-f515ce3fb148}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SXml\SXml.vcxproj">
+      <Project>{352b1367-8f70-4cce-bd76-3a6460aa8097}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\SpriteLib\SpriteLib.vcxproj">
+      <Project>{a33c102e-0230-448c-852b-9ac83a7ff03f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Timer\Timer.vcxproj">
+      <Project>{34d50056-5e49-4224-8447-998d36ad09d5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\VirtualFileSystem\VirtualFileSystem.vcxproj">
+      <Project>{7523af44-a7ce-4f68-a955-63606ab0924e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\VolumeLib\VolumeLib.vcxproj">
+      <Project>{cf229339-5f57-45a9-acc2-3afb3aca226c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Vorbis\Vorbis.vcxproj">
+      <Project>{7753dc08-5fa2-4f79-a8fe-95b2266009da}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\WinLib\WinLib.vcxproj">
+      <Project>{c4a07088-d3b4-4050-9955-98e3785d12c8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\UILib\UILib.vcxproj">
       <Project>{7c1a4e30-55d2-4f18-9b6a-2d3e6f8a1c44}</Project>
     </ProjectReference>
