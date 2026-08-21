@@ -690,7 +690,7 @@ InitGameStringTable()
 
 	(*g_pGameStringTable)[UI_STRING_MESSAGE_BUY_ITEM] ="이 아이템을 사시겠습니까?";
 	(*g_pGameStringTable)[UI_STRING_MESSAGE_BUY_ITEM_NUM] = "이 아이템            개를 사시겠습니까?";
-	(*g_pGameStringTable)[UI_STRING_MESSAGE_ASK_DIALOG_BUY_STORAGE] = "보관함을 $%d에 사시겠습니까?";
+	(*g_pGameStringTable)[UI_STRING_MESSAGE_ASK_DIALOG_BUY_STORAGE] = "Storage?";
 	(*g_pGameStringTable)[UI_STRING_MESSAGE_ASK_DIALOG_TRADE_OTHER_PLAYER]= "%s 님과 거래하겠습니까?";
 	(*g_pGameStringTable)[UI_STRING_MESSAGE_ASK_DIALOG_WAIT_OTHER_PLAYER]= "%s 님의 응답을 기다립니다.";
 	(*g_pGameStringTable)[UI_STRING_MESSAGE_ASK_DIALOG_CANCEL]	="취소하시려면 취소버튼을 누르세요.";
