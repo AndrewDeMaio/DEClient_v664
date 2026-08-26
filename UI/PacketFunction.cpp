@@ -7175,7 +7175,7 @@ SkillGhostShadow(MCreature* pUserCreature, MCreature* pTargetCreature, int skill
 		{ 0, -2 },
 	};
 
-	POINT *Position;
+	POINT *Position = nullptr;
 	
 	switch(shape) {
 		case 0: // �ڵ�
@@ -7188,6 +7188,11 @@ SkillGhostShadow(MCreature* pUserCreature, MCreature* pTargetCreature, int skill
 			Position = Straight;
 			break;
 	}
+
+	// shape arrives from the server; a value outside the cases above
+	// leaves Position unset, so bail rather than walk a null pointer.
+	if (Position == NULL)
+		return;
 	
 	for (int i=0; i<shadowCount; i++)
 	{	

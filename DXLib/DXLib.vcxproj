@@ -126,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="BIT_RES.CPP" />
     <ClCompile Include="CDirectDraw.cpp" />
+    <ClCompile Include="CDirectDrawSmooth.cpp" />
     <ClCompile Include="CDirectDrawSurface.cpp" />
     <ClCompile Include="CDirectInput.cpp" />
     <ClCompile Include="CDirectMusic.cpp" />

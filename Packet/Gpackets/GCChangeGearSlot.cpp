@@ -9,6 +9,7 @@
 #include "GPacket_PCH.h"
 #include "GCChangeGearSlot.h"
 #include "Assert.h"
+#define SAFE_DELETE(p)  { if(p) { delete (p);     (p)=NULL; } }
 #if __CONTENTS(__GEAR_SWAP_CHANGE) // GCChangeGearSlot.cpp
 //--------------------------------------------------------------------------------
 // constructor

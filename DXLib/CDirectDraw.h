@@ -88,6 +88,12 @@ public:
 	static bool		RestoreAllSurfaces();
 
 	static void		Flip();
+	// DE_SMOOTH_SCALE - see DXLib/CDirectDrawSmooth.cpp
+	static bool		m_bSmoothScale;
+	static bool		BltSmoothStretch(const RECT* pSrcRect);
+	static void		SetSmoothScale(bool b)	{ m_bSmoothScale = b; }
+	static bool		GetSmoothScale()		{ return m_bSmoothScale; }
+	static void		ToggleSmoothScale()	{ m_bSmoothScale = !m_bSmoothScale; }
 	static void		FlipToGDISurface();
 
 	static void		SetGammaRamp(WORD step = -1);

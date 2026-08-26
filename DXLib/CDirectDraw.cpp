@@ -592,7 +592,14 @@ void CDirectDraw::Flip()
 					                   DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx);
 			}
 
-			hRet = m_pDDSPrimary->Blt(&m_rcScreen, m_pDDSBack, NULL, DDBLT_WAIT, NULL);
+			// DE_SMOOTH_SCALE: filtered upscale when enabled. The original point
+			// sampled Blt stays as the fallback and runs whenever the filtered
+			// path declines - unknown pixel format, lock failure, or no
+			// magnification to do.
+			if (m_bSmoothScale && BltSmoothStretch(NULL))
+				hRet = DD_OK;
+			else
+				hRet = m_pDDSPrimary->Blt(&m_rcScreen, m_pDDSBack, NULL, DDBLT_WAIT, NULL);
 		}
 
 		//-------------------------------------------------------
@@ -600,7 +607,11 @@ void CDirectDraw::Flip()
 		//-------------------------------------------------------
 		else
 		{
-			hRet = m_pDDSPrimary->Blt(&m_rcScreen, m_pDDSBack, &m_rcViewport, DDBLT_WAIT, NULL);
+			// DE_SMOOTH_SCALE: window mode presents m_rcViewport as the source.
+			if (m_bSmoothScale && BltSmoothStretch(&m_rcViewport))
+				hRet = DD_OK;
+			else
+				hRet = m_pDDSPrimary->Blt(&m_rcScreen, m_pDDSBack, &m_rcViewport, DDBLT_WAIT, NULL);
 		}
 
 		if (hRet == DD_OK)

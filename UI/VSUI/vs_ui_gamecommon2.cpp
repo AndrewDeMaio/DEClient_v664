@@ -115,7 +115,7 @@ static C_VS_UI_DIALOG* gpC_dialog_all_stage_clear = NULL;
 static C_VS_UI_DIALOG* gpC_dialog_show_web_page = NULL;
 
 
-#if __CONTENTS(__HERO_SYSTEM)
+#if __CONTENTS(__CONTRIBUTE_SYSTEM)	// was __HERO_SYSTEM; must match the declaration in VS_UI_GameCommon2.h
 int countContributeGrade(int contributePoint)
 {
 	int contributeGrade = 0;
@@ -146,7 +146,7 @@ int countContributeGrade(int contributePoint)
 
 	return 0;
 }
-#endif //__HERO_SYSTEM
+#endif //__CONTRIBUTE_SYSTEM
 
 
 void ExecF_GameOverMessage(C_VS_UI_DIALOG* p_this_dialog, id_t id)
