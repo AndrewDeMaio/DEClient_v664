@@ -364,3 +364,4 @@ MigrationBackup/
 FodyWeavers.xsd
 # Claude Code local settings (machine-specific: permissions, allowlists)
 .claude/
+/Tools/Localization
