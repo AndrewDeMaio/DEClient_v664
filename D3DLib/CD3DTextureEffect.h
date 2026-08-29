@@ -1,12 +1,12 @@
 //----------------------------------------------------------------------
 // CD3DTextureEffect.h
 //----------------------------------------------------------------------
-// CDirect3D를 이용해서..
-// 2D좌표계의 사각 영역에 texture를 입히는 방법으로 effect를 표현한다.
+// Using CDirect3D
+// An effect is implemented by applying a texture to a rectangular area in a 2D Coordinate Space.
 //
-// Draw..()가 실행될때는
-// BeginScene()이 되어 있는 상태어야 하고..
-// 임의의 Texture가 설정되어 있다고 가정한다.
+// When Draw() is executed,
+// BeginScene() must already have been called,
+// and it is assumed that an arbitrary Texture is already set.
 //----------------------------------------------------------------------
 
 #ifndef __CD3DTEXTUREEFFECT_H__

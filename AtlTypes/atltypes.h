@@ -8,8 +8,6 @@
 // See these sources for detailed information regarding the
 // Microsoft Foundation Classes product.
 
-// VS 6.0�� Darkeden ������Ʈ������ ��밡���ϰ� �ٲ� by chyaya
-
 #ifndef __ATLTYPES_H__
 #define __ATLTYPES_H__
 

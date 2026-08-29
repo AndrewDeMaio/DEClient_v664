@@ -1955,19 +1955,25 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpszArgs, int nWi
 
 		STEP("Load FILE_INFO_NPC_INFO (Data\\Info\\NPC.inf)");
 		g_pNPCTable = new MNPCTable;
-		ivfstream npcFile(FILE_INFO_NPC_INFO, std::ios::binary);
+		// DE_LANG_VARIANT: go through FileOpenBinary so a ".en" copy is picked up.
+		ivfstream npcFile;
+		FileOpenBinary(FILE_INFO_NPC_INFO, npcFile);
 		g_pNPCTable->LoadFromFile(npcFile);
 		npcFile.close();
 
 		STEP("Load FILE_INFO_CREATURE_INFO (Data\\Info\\Creature.inf)");
 		g_pCreatureTable = new CREATURE_TABLE;
-		ivfstream creatureFile(FILE_INFO_CREATURE_INFO, std::ios::binary);
+		// DE_LANG_VARIANT: go through FileOpenBinary so a ".en" copy is picked up.
+		ivfstream creatureFile;
+		FileOpenBinary(FILE_INFO_CREATURE_INFO, creatureFile);
 		g_pCreatureTable->LoadFromFile(creatureFile);
 		creatureFile.close();
 
 		STEP("Load FILE_INFO_ZONE_TABLE (Data\\Info\\Zone.inf)");
 		g_pZoneTable = new CZoneTable;
-		ivfstream zoneFile(FILE_INFO_ZONE_TABLE, std::ios::binary);
+		// DE_LANG_VARIANT: go through FileOpenBinary so a ".en" copy is picked up.
+		ivfstream zoneFile;
+		FileOpenBinary(FILE_INFO_ZONE_TABLE, zoneFile);
 		g_pZoneTable->LoadFromFile(zoneFile);
 		zoneFile.close();
 

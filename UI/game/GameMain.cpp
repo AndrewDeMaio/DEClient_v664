@@ -63,7 +63,7 @@
 #include "UtilityFunction.h"
 #include "BGMManager.h"
 
-// 2002.6.28 [UDP����]
+// 2002.6.28 [UDP????]
 #include "Cpackets\CGPortCheck.h"
 
 //#include "MZoneInfo.h"
@@ -93,7 +93,7 @@ extern BOOL g_bSetHotKey;
 //extern CSoundPartManager*	g_pSoundManager;
 
 
-// ����� �����緯 �Ҹ�.. - -;
+// ????? ?????? ???.. - -;
 extern BOOL g_bPlayPropeller;
 
 extern bool g_bSaveSlideScreenShot;
@@ -112,7 +112,7 @@ extern RECT g_rectScreenShot;
 // Avi
 CAVI				*g_pAvi = NULL;
 
-// Volume ����
+// Volume ????
 IVolume				*g_pMasterVolume = NULL;
 IVolume				*g_pWaveVolume = NULL;
 DWORD				g_MasterVolumeOriginal = 0;
@@ -169,18 +169,18 @@ int						g_SoundPerSecond = 0;
 	CMessageArray*		g_pDebugMessage = NULL;
 #endif
 
-bool				g_bPutMessage = false;		// ȭ�鿡 debug�޼����� ����ұ�?
+bool				g_bPutMessage = false;		// ??? debug??????? ???????
 
-bool				g_bNewDraw = false;			// ȭ���� �ٽ� �׷ȴ°�? (Ŀ�� ����)
-bool				g_bSmoothCursor = false;	// �ε巯��(?) cursor�� ����� �� �ֳ�?
-bool				g_bNetStatusGood = true;		// ��Ʈ�� ���°� ������?
+bool				g_bNewDraw = false;			// ????? ??? ???�?? (??? ????)
+bool				g_bSmoothCursor = false;	// ?????(?) cursor?? ????? ?? ????
+bool				g_bNetStatusGood = true;		// ????? ???�? ???????
 
 CMessageArray*		g_pSystemMessage = NULL;
 CMessageArray*		g_pNoticeMessage = NULL;
 CMessageArray*		g_pGameMessage = NULL;
 CMessageArray*		g_pHelpMessage = NULL;
-CMessageArray*		g_pGMMessage = NULL;		// ������ ��� ����
-CMessageArray*		g_pEventMessage = NULL;		// Ư�����ڿ� .. ȭ�� �߻�ܿ� ��µȴ�. ���� �ϳ��� ���ڿ��� ����Ѵ�. �α׾ƿ��� �ϰų� �� ���ڿ��� ������ ������ �����ȴ�.
+CMessageArray*		g_pGMMessage = NULL;		// ?????? ???? ????
+CMessageArray*		g_pEventMessage = NULL;		// ???????? .. ??? ????? ??�??. ???? ????? ??????? ??????. ??????? ???? ?? ??????? ?????? ?????? ???????.
 #if __CONTENTS(__WORLDCHATING)
 CMessageArray*		g_pWorldChatingMessage = NULL;
 #endif //__WORLDCHATING
@@ -206,23 +206,23 @@ extern int			g_MorphCreatureType;
 extern LONG			g_lGameRunBreakTime;				//defined in Client.cpp
 
 //--------------------------------------------
-// ������ Client Mode�� ���� ����..
+// ?????? Client Mode?? ???? ????..
 //--------------------------------------------
 enum CLIENT_MODE	g_Mode = MODE_NULL;
 enum CLIENT_MODE	g_ModeNext = MODE_NULL;
 
 CWinUpdate*				g_pUpdate = NULL;
 
-// App state — defined in Client.cpp
+// App state � defined in Client.cpp
 extern BOOL			g_bActiveApp;
 extern BOOL			g_bActiveGame;
 extern BOOL			g_bNeedUpdate;
 
-// Mouse position — defined in Client.cpp
+// Mouse position � defined in Client.cpp
 extern int			g_x;
 extern int			g_y;
 
-// FPS & Timing — defined in Client.cpp
+// FPS & Timing � defined in Client.cpp
 extern DWORD		g_CurrentTime;
 extern int			g_FrameCount;
 extern int			g_StartFrameCount;
@@ -232,7 +232,7 @@ extern int			g_FrameRate;
 extern bool			g_bGoodFPS;
 extern DWORD		g_gameStartTime;
 
-// Application run time — defined in Client.cpp
+// Application run time � defined in Client.cpp
 extern DWORD gGetApplcationRunTime(bool bReset);
 
 extern MCreature*		AddClientCreature();
@@ -268,7 +268,7 @@ UpdateSocketInput()
 		DEBUG_ADD_ERR("[Error] UpdateSocketInput");			
 		DEBUG_ADD(t.toString().c_str());
 		
-		//InitFail("Server���� ������ ���������ϴ�.");
+		//InitFail("Server???? ?????? ???????????.");
 		SetMode( MODE_MAINMENU );
 		UpdateDisconnected();
 
@@ -278,7 +278,7 @@ UpdateSocketInput()
 
 
 	//----------------------------------------------------------------
-	// RequestServerPlayerManager�� ó���Ѵ�.
+	// RequestServerPlayerManager?? �?????.
 	//----------------------------------------------------------------
 	static DWORD nextTime = g_CurrentTime;
 
@@ -380,7 +380,7 @@ UpdateSocketInput()
 			#endif
 		}
 
-		// �ʴ� 3�� update�Ѵ�.
+		// ??? 3?? update???.
 		nextTime = g_CurrentTime + 330;
 	}
 
@@ -417,7 +417,7 @@ UpdateSocketOutput()
 		DEBUG_ADD_ERR("[Error] UpdateSocketInput");
 		DEBUG_ADD(t.toString().c_str());
 		
-		//InitFail("Server���� ������ ���������ϴ�.");
+		//InitFail("Server???? ?????? ???????????.");
 		SetMode( MODE_MAINMENU );
 		UpdateDisconnected();
 
@@ -432,19 +432,19 @@ UpdateSocketOutput()
 }
 
 //-----------------------------------------------------------------------------
-// Client�� ���� Mode�� �����Ѵ�.
+// Client?? ???? Mode?? ???????.
 //-----------------------------------------------------------------------------
-// game ���� ����� 
-// UI�� mode������ ó���Ѵ�.
+// game ???? ????? 
+// UI?? mode?????? �?????.
 //
-// (!)�ٸ� ��~������ game���º����̳� UI mode������ ó������ �ʵ��� �ؾ��Ѵ�.
+// (!)??? ??~?????? game???�?????? UI mode?????? �?????? ????? ??????.
 //-----------------------------------------------------------------------------
 void		
 SetMode(enum CLIENT_MODE mode)
 {
 	g_Mode = mode;
 
-	// �Է��� �ʱ�ȭ�Ѵ�.
+	// ????? ???????.
 	if (g_pDXInput!=NULL)
 	{
 		g_pDXInput->UpdateInput();
@@ -453,7 +453,7 @@ SetMode(enum CLIENT_MODE mode)
 		// acquire
 		g_pDXInput->SetAcquire(true);			
 		
-		// �Է��� �ʱ�ȭ�Ѵ�.
+		// ????? ???????.
 		g_pDXInput->Clear();
 	}
 
@@ -465,30 +465,30 @@ SetMode(enum CLIENT_MODE mode)
 	switch (g_Mode)
 	{
 		//------------------------------------------------------
-		// �ʱ� ȭ��
+		// ??? ???
 		//------------------------------------------------------
 		case MODE_OPENING :
 			// Debug Message
 			DEBUG_ADD("[ SetMode ]  OPENING");
 			
-			UnInitSound();		// ��� Sound ����
+			UnInitSound();		// ??? Sound ????
 
 			g_pCOpeningUpdate->PlayMPG((char*)"test.mpg");
 
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_pUpdate = g_pCOpeningUpdate;
 			g_pCOpeningUpdate->Init();
 		break;
 
 		//------------------------------------------------------
-		// ���� option�� �ٲ۴�. - -;
+		// ???? option?? ????. - -;
 		//------------------------------------------------------
 		case MODE_CHANGE_OPTION :			
-			if (// 3D���� ���ε�.. ���� ���� ���
+			if (// 3D???? ?????.. ???? ???? ???
 				CDirect3D::IsHAL() && !g_pUserOption->Use3DHAL
-				// 3D���� �ƴѵ�.. ���� �ϴ� ���
+				// 3D???? ????.. ???? ??? ???
 				|| !CDirect3D::IsHAL() && g_pUserOption->Use3DHAL)
 			{
 				//if (g_pTopView!=NULL)
@@ -497,7 +497,7 @@ SetMode(enum CLIENT_MODE mode)
 				//	g_pTopView = NULL;
 				}			
 				//--------------------------------------------------
-				// ���� �����.
+				// ???? ?????.
 				//--------------------------------------------------
 				if (g_pUserOption->PlayWaveMusic)
 				{
@@ -530,7 +530,7 @@ SetMode(enum CLIENT_MODE mode)
 				InitSurface();
 				
 				//-----------------------------------------------------------------
-				// ��� ��ٷ� �޶�� ���..
+				// ??? ???? ???? ???..
 				//-----------------------------------------------------------------
 				g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_WAIT].GetString(), -1, -1, 0 );
 				
@@ -543,7 +543,7 @@ SetMode(enum CLIENT_MODE mode)
 //				else
 				{
 					//-----------------------------------------------------------------
-					// Last�� Back���� copy - 3D HAL�� �ƴ� ��츸..
+					// Last?? Back???? copy - 3D HAL?? ??? ???..
 					//-----------------------------------------------------------------
 					POINT point = { 0, 0 };
 					RECT rect = { 0, 0, SURFACE_WIDTH, SURFACE_HEIGHT };
@@ -554,7 +554,7 @@ SetMode(enum CLIENT_MODE mode)
 				CDirectDraw::Flip();
 
 				//-----------------------------------------------------------------
-				// g_pTopView : 2D <--> 3D �ٲ�..
+				// g_pTopView : 2D <--> 3D ???..
 				//-----------------------------------------------------------------
 				if (g_pTopView!=NULL)
 				{
@@ -564,12 +564,12 @@ SetMode(enum CLIENT_MODE mode)
 				g_pUIDialog->CloseMessageDlg();
 			}			
 
-			// �ٷ� ������ MAINMENU��.. - -;
+			// ??? ?????? MAINMENU??.. - -;
 			SetMode( MODE_MAINMENU );
 		break;
 
 		//------------------------------------------------------
-		// Login ���� ����..
+		// Login ???? ????..
 		//------------------------------------------------------
 		case MODE_MAINMENU :
 			// Debug Message
@@ -580,16 +580,16 @@ SetMode(enum CLIENT_MODE mode)
 
 
 			//------------------------------------------------------
-			// Socket ����..
+			// Socket ????..
 			//------------------------------------------------------
 			if(NULL == g_pUserInformation->pLogInClientPlayer &&
-				true == g_pUserInformation->IsAutoLogIn)// �� �α��̰� �ѹ��� �α��� ���� �ʾ������
+				true == g_pUserInformation->IsAutoLogIn)// ?? ?????? ????? ????? ???? ????????
 				ReleaseSocket();
 
 
 			//------------------------------------------------------
 			// [ TEST CODE ]
-			// ���⼭ sound�� �ʱ�ȭ�ص� �ǳ�??
+			// ???? sound?? ??????? ?????
 			//------------------------------------------------------
 			InitSound();			
 
@@ -604,12 +604,12 @@ SetMode(enum CLIENT_MODE mode)
 
 
 			//------------------------------------------------------
-			// ��� ��ȭ ���
+			// ??? ??? ???
 			//------------------------------------------------------
 			g_pChatManager->ClearID();
 			g_pChatManager->SetAcceptMode();
 
-			// Titleȭ�� UI����
+			// Title??? UI????
 			//gC_vs_ui.EndTitle();
 			gC_vs_ui.StartTitle();	
 		
@@ -617,17 +617,17 @@ SetMode(enum CLIENT_MODE mode)
 
 			g_bUIInput = FALSE;			
 
-			// �ӼӸ� �� ��������... �� -- ;
+			// ???? ?? ????????... ?? -- ;
 			if (g_pUserInformation!=NULL)
 			{
-				// �ӼӸ� ����� �����ش�.
+				// ???? ????? ???????.
 				g_pUserInformation->WhisperID.Release();
 
 				g_pUserInformation->CharacterID.Release();
 			}
 
 			//----------------------------------------------
-			// message ����
+			// message ????
 			//----------------------------------------------
 			g_pSystemMessage->Clear();
 			g_pGameMessage->Clear();
@@ -636,7 +636,7 @@ SetMode(enum CLIENT_MODE mode)
 			//UpdateDisconnected();
 
 			//------------------------------------------------------
-			// ���� ����
+			// ???? ????
 			//------------------------------------------------------
 			if (g_pUserOption->PlayWaveMusic)
 			{
@@ -727,7 +727,7 @@ SetMode(enum CLIENT_MODE mode)
 			//g_DXMusic.Play( (*g_pMusicTable)[ g_pClientConfig->MUSIC_THEME ].Filename );
 		
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_LOGIN;	
 			g_pUpdate = g_pCWaitUIUpdate;
@@ -735,7 +735,7 @@ SetMode(enum CLIENT_MODE mode)
 		break;
 
 		//------------------------------------------------------
-		// PC�� �����ϱ� ���� ������ ��ٸ���.
+		// PC?? ??????? ???? ?????? ??????.
 		//------------------------------------------------------
 		case MODE_NEWUSER :
 		{
@@ -743,12 +743,12 @@ SetMode(enum CLIENT_MODE mode)
 			DEBUG_ADD("[ SetMode ]  MODE_NEWUSER");
 			
 			//----------------------------------------------
-			// Player�� ���� �ʱ�ȭ
+			// Player?? ???? ????
 			//----------------------------------------------
 			//g_pPlayer->SetCreatureType( 0 );			
 			
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_LOGIN;	
 			g_pUpdate = g_pCWaitUIUpdate;
@@ -757,10 +757,10 @@ SetMode(enum CLIENT_MODE mode)
 		break;
 
 		//------------------------------------------------------
-		// Login�� �����Ǳ⸦ ��ٸ���.
+		// Login?? ??????? ??????.
 		//------------------------------------------------------
-		// (ID, Password)�� ������
-		// Login�� ���� �Ǳ⸦ ��ٸ���.
+		// (ID, Password)?? ??????
+		// Login?? ???? ??? ??????.
 		//------------------------------------------------------
 		case MODE_WAIT_LOGINOK :
 		{
@@ -768,12 +768,12 @@ SetMode(enum CLIENT_MODE mode)
 			DEBUG_ADD("[ SetMode ]  MODE_WAIT_LOGINOK");
 			
 			//------------------------------------------------------
-			// Loading ����
+			// Loading ????
 			//------------------------------------------------------
 			//StopFileThread();
 
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_WAITING;			
 			g_pUpdate = g_pCWaitPacketUpdate;
@@ -791,7 +791,7 @@ SetMode(enum CLIENT_MODE mode)
 			DEBUG_ADD("[ SetMode ]  MODE_WAIT_WORLD_LIST");
 
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_WAITING;			
 			g_pUpdate = g_pCWaitPacketUpdate;
@@ -811,7 +811,7 @@ SetMode(enum CLIENT_MODE mode)
 			g_pUserInformation->KeepConnection = FALSE;			
 
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_LOGIN;	
 			g_pUpdate = g_pCWaitUIUpdate;
@@ -828,7 +828,7 @@ SetMode(enum CLIENT_MODE mode)
 			DEBUG_ADD("[ SetMode ]  MODE_WAIT_SERVER_LIST");
 			
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_WAITING;			
 			g_pUpdate = g_pCWaitPacketUpdate;
@@ -848,7 +848,7 @@ SetMode(enum CLIENT_MODE mode)
 			g_pUserInformation->KeepConnection = FALSE;			
 
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_LOGIN;	
 			g_pUpdate = g_pCWaitUIUpdate;
@@ -858,24 +858,24 @@ SetMode(enum CLIENT_MODE mode)
 
 		
 		//------------------------------------------------------
-		// �߸� �Է��� ����̴�.
+		// ??? ????? ??????.
 		//------------------------------------------------------
 		case MODE_LOGIN_WRONG :
 		{
 			//gC_vs_ui.InvalidIdPasswordMessage();
 
 			/*
-			//InitFail("Server�� �������� �ʽ��ϴ�.");
-			//InitFail("Server���� ������ ���������ϴ�.");
-			g_pBack->GDI_Text(101,201, "ID�� Password�� Ʋ�Ƚ��ϴ�.", RGB(0,0,0));
-			g_pBack->GDI_Text(100,200, "ID�� Password�� Ʋ�Ƚ��ϴ�.", RGB(220,220,220));
+			//InitFail("Server?? ???????? ??????.");
+			//InitFail("Server???? ?????? ???????????.");
+			g_pBack->GDI_Text(101,201, "ID?? Password?? ???????.", RGB(0,0,0));
+			g_pBack->GDI_Text(100,200, "ID?? Password?? ???????.", RGB(220,220,220));
 
-			g_pBack->GDI_Text(101,221, "[ESC]�� ��������.", RGB(0,0,0));
-			g_pBack->GDI_Text(100,220, "[ESC]�� ��������.", RGB(220,220,220));
+			g_pBack->GDI_Text(101,221, "[ESC]?? ????????.", RGB(0,0,0));
+			g_pBack->GDI_Text(100,220, "[ESC]?? ????????.", RGB(220,220,220));
 
 			CDirectDraw::Flip();
 
-			// return�� ���� ������...
+			// return?? ???? ??????...
 			while (1)
 			{
 				UpdateInput();
@@ -887,17 +887,17 @@ SetMode(enum CLIENT_MODE mode)
 			}
 			*/
 			
-			// �ٽ� mainmenu��..
+			// ??? mainmenu??..
 
 			g_Mode = MODE_MAINMENU;
 
 			//-----------------------
-			// Socket ����..
+			// Socket ????..
 			//-----------------------
 			ReleaseSocket();
 
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_LOGIN;	
 			g_pUpdate = g_pCWaitUIUpdate;
@@ -906,7 +906,7 @@ SetMode(enum CLIENT_MODE mode)
 		break;
 
 		//------------------------------------------------------
-		// Register�Ǳ⸦ ��ٸ���.
+		// Register??? ??????.
 		//------------------------------------------------------		
 		case MODE_WAIT_REGISTERPLAYEROK :
 		{
@@ -914,7 +914,7 @@ SetMode(enum CLIENT_MODE mode)
 			DEBUG_ADD("[ SetMode ]  MODE_WAIT_REGISTERPLAYEROK");
 			
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_WAITING;			
 			g_pUpdate = g_pCWaitPacketUpdate;
@@ -924,7 +924,7 @@ SetMode(enum CLIENT_MODE mode)
 		break;
 
 		//------------------------------------------------------
-		// PC�� �����ϱ� ���� ������ ��ٸ���.
+		// PC?? ??????? ???? ?????? ??????.
 		//------------------------------------------------------
 		case MODE_WAIT_PCLIST :
 		{			
@@ -932,15 +932,15 @@ SetMode(enum CLIENT_MODE mode)
 			DEBUG_ADD("[ SetMode ]  MODE_WAIT_PCLIST");				
 			
 			//------------------------------------------------------------
-			// Characer ���� â�� ����� �Ѵ�.
+			// Characer ???? �?? ????? ???.
 			//------------------------------------------------------------
-			// LCPCListHandler���� �ϰ� �ߴ�.
+			// LCPCListHandler???? ??? ???.
 			//UI_StartCharacterManager();				
 
 			g_ZoneRandomSoundTime = g_CurrentTime;
 
 			//------------------------------------------------------------
-			// server name ����
+			// server name ????
 			//------------------------------------------------------------
 			/*
 			int serverID = g_pServerInformation->GetServerGroupID();
@@ -962,7 +962,7 @@ SetMode(enum CLIENT_MODE mode)
 			*/
 
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_WAITING;		
 			g_pUpdate = g_pCWaitPacketUpdate;
@@ -972,7 +972,7 @@ SetMode(enum CLIENT_MODE mode)
 		break;
 
 		//------------------------------------------------------
-		// PC�� �����ϱ� ���� ������ ��ٸ���.
+		// PC?? ??????? ???? ?????? ??????.
 		//------------------------------------------------------
 		case MODE_WAIT_SELECTPC :
 		{
@@ -980,7 +980,7 @@ SetMode(enum CLIENT_MODE mode)
 			DEBUG_ADD("[ SetMode ]  MODE_WAIT_SELECTPC");
 			
 			//----------------------------------------------
-			// Player�� ���� �ʱ�ȭ
+			// Player?? ???? ????
 			//----------------------------------------------
 			//g_pPlayer->SetCreatureType( 0 );	
 			g_pUserInformation->KeepConnection = FALSE;
@@ -990,7 +990,7 @@ SetMode(enum CLIENT_MODE mode)
 			SelectLastSelectedCharacter();
 
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_MorphCreatureType = 0;
 			g_UpdateDelay = DELAY_UPDATE_LOGIN;	
@@ -1000,7 +1000,7 @@ SetMode(enum CLIENT_MODE mode)
 		break;
 
 		//------------------------------------------------------
-		// PC�� ����� �����Ǿ���?
+		// PC?? ????? ??????????
 		//------------------------------------------------------
 		case MODE_WAIT_CREATEPCOK :
 		{
@@ -1008,7 +1008,7 @@ SetMode(enum CLIENT_MODE mode)
 			DEBUG_ADD("[ SetMode ]  MODE_WAIT_CREATEPCOK");
 			
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_WAITING;		
 			g_pUpdate = g_pCWaitPacketUpdate;
@@ -1018,7 +1018,7 @@ SetMode(enum CLIENT_MODE mode)
 		break;
 
 		//------------------------------------------------------
-		// PC�� ����� �����Ǿ���?
+		// PC?? ????? ??????????
 		//------------------------------------------------------
 		case MODE_WAIT_DELETEPCOK :
 		{
@@ -1026,7 +1026,7 @@ SetMode(enum CLIENT_MODE mode)
 			DEBUG_ADD("[ SetMode ]  MODE_WAIT_DELETEPCOK");
 			
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_WAITING;		
 			g_pUpdate = g_pCWaitPacketUpdate;
@@ -1036,7 +1036,7 @@ SetMode(enum CLIENT_MODE mode)
 		break;
 
 		//------------------------------------------------------
-		// GameServer�� �����ϱ� ���ؼ�...
+		// GameServer?? ??????? ?????...
 		//------------------------------------------------------
 		case MODE_WAIT_RECONNECT :
 		{				
@@ -1044,7 +1044,7 @@ SetMode(enum CLIENT_MODE mode)
 			DEBUG_ADD("[ SetMode ]  MODE_WAIT_RECONNECT");
 			
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_WAITING;		
 			g_pUpdate = g_pCWaitPacketUpdate;
@@ -1054,21 +1054,21 @@ SetMode(enum CLIENT_MODE mode)
 		break;
 
 		//------------------------------------------------------
-		// GameServer���� LoginServer�� �������ϱ� ���ؼ�...
+		// GameServer???? LoginServer?? ????????? ?????...
 		//------------------------------------------------------
 		case MODE_WAIT_RECONNECT_LOGIN :
 		{				
 			// Debug Message
 			DEBUG_ADD("[ SetMode ]  MODE_WAIT_RECONNECT_LOGIN");
 
-			// �ӼӸ� �� ��������... �� -- ;
+			// ???? ?? ????????... ?? -- ;
 			if (g_pUserInformation!=NULL)
 			{
 				g_pUserInformation->CharacterID.Release();
 			}
 			
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_WAITING;		
 			g_pUpdate = g_pCWaitPacketUpdate;
@@ -1078,12 +1078,12 @@ SetMode(enum CLIENT_MODE mode)
 		break;
 
 		//------------------------------------------------------
-		// UpdateInfo�� �޴´�.
+		// UpdateInfo?? ??�?.
 		//------------------------------------------------------
 		case MODE_WAIT_UPDATEINFO :
 		{	
 			//--------------------------------------------------
-			// Player �ʱ�ȭ
+			// Player ????
 			//--------------------------------------------------
 			if (g_pPlayer!=NULL)
 			{
@@ -1097,19 +1097,19 @@ SetMode(enum CLIENT_MODE mode)
 			}
 
 			//--------------------------------------------------
-			// ������� �ʱ�ȭ
+			// ??????? ????
 			//--------------------------------------------------
 			g_pJusticeAttackManager->Release();
 
 			//--------------------------------------------------
 			//
-			// Skill Tree �ʱ�ȭ - �ӽ÷�.. - -;;
+			// Skill Tree ???? - ??�?.. - -;;
 			//
 			//--------------------------------------------------
 			g_pSkillManager->Init();
 
 			//------------------------------
-			// ���� UI �� �����Ѵ�.
+			// ???? UI ?? ???????.
 			//------------------------------
 			UI_SetCharInfoName(g_pUserInformation->CharacterID);
 			DEBUG_ADD("[ SetMode ] SET CHARINFO");
@@ -1123,7 +1123,7 @@ SetMode(enum CLIENT_MODE mode)
 			DEBUG_ADD("[ SetMode ]  MODE_WAIT_UPDATEINFO");
 			
 			//----------------------------------------------
-			// update �Լ� ����
+			// update ??? ????
 			//----------------------------------------------
 			g_UpdateDelay = DELAY_UPDATE_WAITING;		
 			g_pUpdate = g_pCWaitPacketUpdate;
@@ -1133,7 +1133,7 @@ SetMode(enum CLIENT_MODE mode)
 		break;
 
 		//------------------------------------------------------
-		// Player�� ��ǥ�� �ޱ� ���ؼ� ��ٸ���.
+		// Player?? ????? ??? ????? ??????.
 		//------------------------------------------------------
 		case MODE_WAIT_SETPOSITION :
 		{
@@ -1141,18 +1141,18 @@ SetMode(enum CLIENT_MODE mode)
 			DEBUG_ADD("[ SetMode ]  MODE_WAIT_SETPOSITION");
 			
 			//--------------------------------------------------
-			// Option ����
+			// Option ????
 			//--------------------------------------------------
 			if (g_pUserOption!=NULL)
 			{
 				g_pUserOption->SaveToFile( g_pFileDef->getProperty("FILE_INFO_USEROPTION").c_str());
 			}
 			
-			// ����..
+			// ????..
 			g_pPlayer->SetStop();
 			g_pPlayer->SetAction( ACTION_STAND );
 
-			// Ű �Է� ����
+			// ? ??? ????
 			g_pDXInput->Clear();
 
 			g_bLButtonDown = FALSE;
@@ -1170,7 +1170,7 @@ SetMode(enum CLIENT_MODE mode)
 			}
 
 			//--------------------------------------------------
-			// ���� ������ CGReady ��Ŷ�� ������.
+			// ???? ?????? CGReady ????? ??????.
 			//--------------------------------------------------
 				CGReady cgReady;
 				g_pSocket->sendPacket( &cgReady );
@@ -1182,7 +1182,7 @@ SetMode(enum CLIENT_MODE mode)
 					if (id != NOT_SELECTED)
 					{
 						 //save(i, id)
-						 //���� �ȵ� ���̶�.. �״�� ������״ٰ� �޾ƿ��� �ȴ�.
+						 //???? ??? ?????.. ???? ????????? ?????? ???.
 						_CGSetVampireHotKey.setHotKey( i, id );
 					}
 				}
@@ -1191,11 +1191,11 @@ SetMode(enum CLIENT_MODE mode)
 */
 				g_pSocket->setPlayerStatus( CPS_WAITING_FOR_GC_SET_POSITION );
 				
-				// �ٷ� ������.
+				// ??? ??????.
 				UpdateSocketOutput();
 
-				// 2002.6.28 [UDP����]
-				// ������ UDP port�� �˷��ֱ� ���ؼ�
+				// 2002.6.28 [UDP????]
+				// ?????? UDP port?? ?????? ?????
 //				CGPortCheck cgPortCheck;
 //				cgPortCheck.setPCName( g_pUserInformation->CharacterID.GetString() );
 //				
@@ -1218,7 +1218,7 @@ SetMode(enum CLIENT_MODE mode)
 				g_pTopView->SetSelectedNULL();
 			}
 		
-			// update �Լ�
+			// update ???
 			g_UpdateDelay = DELAY_UPDATE_WAITING;			
 			g_pUpdate = g_pCWaitPacketUpdate;
 			g_pCWaitPacketUpdate->SetDelay( g_pClientConfig->MAX_WAIT_PACKET );
@@ -1227,7 +1227,7 @@ SetMode(enum CLIENT_MODE mode)
 		break;
 
 		//------------------------------------------------------
-		// ������ �����Ѵ�.
+		// ?????? ???????.
 		//------------------------------------------------------
 		case MODE_GAME :
 			DEBUG_ADD("---------- Start Game ---------- ");
@@ -1241,13 +1241,13 @@ SetMode(enum CLIENT_MODE mode)
 			DEBUG_ADD("TempInformation");
 
 			//-----------------------------------------------------------
-			// temp information����
+			// temp information????
 			//-----------------------------------------------------------
 			g_pTempInformation->SetMode(TempInformation::MODE_NULL);
 
 			DEBUG_ADD("UserInformation");
 			//-----------------------------------------------------------
-			// Logout �ð� ����
+			// Logout ?�? ????
 			//-----------------------------------------------------------
 			g_pUserInformation->LogoutTime = 0;
 
@@ -1256,27 +1256,27 @@ SetMode(enum CLIENT_MODE mode)
 		#endif //__GAMEMENU_QUITEXIT
 
 			//-----------------------------------------------------------
-			// hot key�� �����Ѵ�.
+			// hot key?? ???????.
 			//-----------------------------------------------------------
 			DEBUG_ADD("SaveHotKey");
 			UI_SaveHotKeyToServer();			
 
 			//-----------------------------------------
-			// Button �ʱ�ȭ
+			// Button ????
 			//-----------------------------------------
 			g_bLButtonDown = FALSE;
 			g_bRButtonDown = FALSE;
 			g_bCButtonDown = FALSE;
 
 			//-----------------------------------------
-			// UI Dialog���� �Է� ������ Ǯ����..
+			// UI Dialog???? ??? ?????? ?????..
 			//-----------------------------------------
 			DEBUG_ADD("UIDialog");
 			UIDialog::UnSetLockInputPCTalk();
 			UIDialog::UnSetLockInputMessage();
 
-			// ��Ȱ ��ư ���ֱ�
-			// �̰Ŵ� GCUpdateInfoHandler���� �ؾ��ϴµ�.. �ϴ�. - -;
+			// ??? ??? ?????
+			// ???? GCUpdateInfoHandler???? ?????�?.. ???. - -;
 			DEBUG_ADD("FinishRequestDie");
 			gC_vs_ui.FinishRequestDie();
 			gC_vs_ui.FinishRequestResurrect();
@@ -1284,7 +1284,7 @@ SetMode(enum CLIENT_MODE mode)
 
 
 //			//-----------------------------------------
-//			// ��ũ ����..
+//			// ??? ????..
 //			//-----------------------------------------
 //			if (g_pPlayer!=NULL
 //				&& g_pPlayer->IsSlayer()
@@ -1313,7 +1313,7 @@ SetMode(enum CLIENT_MODE mode)
 //			}
 
 			//--------------------------------------------------------
-			// �÷��� ȭ������ �ٲ� �� ������� ���
+			// ?�??? ??????? ??? ?? ??????? ???
 			//--------------------------------------------------------
 			PlayMusicCurrentZone();
 			gGetApplcationRunTime(true);
@@ -1322,19 +1322,19 @@ SetMode(enum CLIENT_MODE mode)
 
 		
 		//------------------------------------------------------
-		// Program�� ������.
+		// Program?? ??????.
 		//------------------------------------------------------
 		case MODE_QUIT :
-			// Logout�� ������.
+			// Logout?? ??????.
 				if (g_pSocket!=NULL)
 				{
 					//--------------------------------------------------
-					// update�ҷ��� �����ϴ� ���� CLLogout�� ������.
+					// update????? ??????? ???? CLLogout?? ??????.
 					//--------------------------------------------------
 					if (g_bNeedUpdate)
 					{
 						//--------------------------------------------------
-						// Login ������ CLLogout ��Ŷ�� ������.
+						// Login ?????? CLLogout ????? ??????.
 						//--------------------------------------------------
 							CLLogout clLogout;
 						
@@ -1343,7 +1343,7 @@ SetMode(enum CLIENT_MODE mode)
 
 					}
 					//--------------------------------------------------
-					// game�߿� �����ϴ� ���.. CG Logout
+					// game??? ??????? ???.. CG Logout
 					//--------------------------------------------------
 					else
 					{
@@ -1358,30 +1358,30 @@ SetMode(enum CLIENT_MODE mode)
 				}
 
 			//--------------------------------------------------
-			// Thread Loading ����..
+			// Thread Loading ????..
 			//--------------------------------------------------
 //			StopLoadingThread();
 
-			// Update�Լ� ����
+			// Update??? ????
 			g_pUpdate = NULL;
 
 			g_bUIInput = FALSE;
 
-			// window �ݱ�
+			// window ???
 			g_bActiveApp = FALSE;
 			PostMessage(g_hWnd, WM_CLOSE, 0, 0);
 		break;
 	}
 
-	// �Է��� �ʱ�ȭ�Ѵ�.
+	// ????? ???????.
 	g_pDXInput->Clear();
 }
 
 //-----------------------------------------------------------------------------
 // Check Activate
 //-----------------------------------------------------------------------------
-// ���α׷��� ���������� �ƴ����� ���� ó��..
-// ALT + TAB �� ������ ����. - -;
+// ???????? ?????????? ??????? ???? �??..
+// ALT + TAB ?? ?????? ????. - -;
 //-----------------------------------------------------------------------------
 void
 CheckActivate(BOOL bActiveGame)
@@ -1424,12 +1424,12 @@ CheckActivate(BOOL bActiveGame)
 		// acquire
 		g_pDXInput->SetAcquire(bActiveGame==TRUE);			
 		
-		// �Է��� �ʱ�ȭ�Ѵ�.
+		// ????? ???????.
 		g_pDXInput->Clear();
 	}
 	
 	//----------------------------------------------------
-	// ���α׷� ����..
+	// ?????? ????..
 	//----------------------------------------------------
 	g_bActiveGame = FALSE;
 
@@ -1467,7 +1467,7 @@ CheckActivate(BOOL bActiveGame)
 				//CDirect3D::Release();
 
 				//DEBUG_ADD("IsHAL : Before CDirect3D::Init()");
-				//CDirect3D::Init();		// �ٽ�... 
+				//CDirect3D::Init();		// ???... 
 
 				
 				DEBUG_ADD("IsHAL : Before CDirect3D::Restore()");
@@ -1509,7 +1509,7 @@ CheckActivate(BOOL bActiveGame)
 			}
 
 			//--------------------------------------------------------
-			// ������ �� ����
+			// ?????? ?? ????
 			//--------------------------------------------------------
 			if (g_pUserOption!=NULL
 				&& g_pClientConfig!=NULL)				
@@ -1521,7 +1521,7 @@ CheckActivate(BOOL bActiveGame)
 				}
 				
 				//------------------------------------
-				// �������̸�.. �ߴ�..
+				// ?????????.. ???..
 				//------------------------------------
 				if (g_pUserOption->PlayMusic)
 				{
@@ -1600,7 +1600,7 @@ CheckActivate(BOOL bActiveGame)
 					}
 				}
 				//------------------------------------
-				// �������� �ƴ� ���
+				// ???????? ??? ???
 				//------------------------------------
 				else
 				{
@@ -1614,7 +1614,7 @@ CheckActivate(BOOL bActiveGame)
 			}
 
 			//--------------------------------
-			// mouse ��ư ���� ���� ����
+			// mouse ??? ???? ???? ????
 			//--------------------------------
 			g_bLButtonDown = FALSE;
 			g_bRButtonDown = FALSE;
@@ -1626,7 +1626,7 @@ CheckActivate(BOOL bActiveGame)
 			}
 
 			
-			// UI���� alt+tabó��
+			// UI???? alt+tab�??
 			DEBUG_ADD("UI_RestoreWhenActivateGame");
 
 			gC_vs_ui.RestoreWhenActivateGame();
@@ -1634,7 +1634,7 @@ CheckActivate(BOOL bActiveGame)
 			DEBUG_ADD("UI_Restore_ok");
 		}
 		//----------------------------------------------------
-		// ����..
+		// ????..
 		//----------------------------------------------------
 		else
 		{
@@ -1684,7 +1684,7 @@ CheckActivate(BOOL bActiveGame)
 				g_DXSound.SetMute();			
 			}
 			
-			// �ݺ� ���� ����
+			// ??? ???? ????
 			if (g_pPlayer!=NULL)
 			{
 				g_pPlayer->UnSetRepeatAction();
@@ -1716,7 +1716,7 @@ FileThreadProc(LPVOID lpParameter)
 		switch (g_ThreadJob)
 		{
 			//--------------------------------------------------------
-			// Large Zone�� ImageObject�� Loading�Ѵ�.
+			// Large Zone?? ImageObject?? Loading???.
 			//--------------------------------------------------------
 			case THREADJOB_LOAD_IMAGEOBJECT_LARGEZONE :	
 				g_bZoneLargeLoadImage = false;
@@ -1729,7 +1729,7 @@ FileThreadProc(LPVOID lpParameter)
 						//DEBUG_ADD("[Thread Job] Load Tile LargeZone");
 					#endif
 					file.seekg(g_pZone->GetTileFilePosition(), ios::beg);
-					if (!g_pTopView->LoadFromFileTileSPKLargeZone( file ))	// tile�� load
+					if (!g_pTopView->LoadFromFileTileSPKLargeZone( file ))	// tile?? load
 					{
 						#ifdef OUTPUT_DEBUG
 						//		DEBUG_ADD("[Thread Job] Stop Loading Tile");
@@ -1746,7 +1746,7 @@ FileThreadProc(LPVOID lpParameter)
 						//	DEBUG_ADD("[Thread Job] Load Imageobject LargeZone");
 					#endif
 					file.seekg(g_pZone->GetImageObjectFilePosition(), ios::beg);				
-					// ��� load�� ����̸�..
+					// ??? load?? ??????..
 					if (g_pTopView->LoadFromFileImageObjectSPKLargeZone( file ))
 					{
 						#ifdef OUTPUT_DEBUG
@@ -1769,7 +1769,7 @@ FileThreadProc(LPVOID lpParameter)
 			break;
 
 			//--------------------------------------------------------
-			// Small Zone�� ImageObject�� Loading�Ѵ�.
+			// Small Zone?? ImageObject?? Loading???.
 			//--------------------------------------------------------
 			case THREADJOB_LOAD_IMAGEOBJECT_SMALLZONE :
 				g_bZoneSmallLoadImage = false;
@@ -1783,7 +1783,7 @@ FileThreadProc(LPVOID lpParameter)
 					#endif
 
 					file.seekg(g_pZone->GetTileFilePosition(), ios::beg);
-					if (!g_pTopView->LoadFromFileTileSPKLargeZone( file ))	// tile�� load
+					if (!g_pTopView->LoadFromFileTileSPKLargeZone( file ))	// tile?? load
 					{
 						#ifdef OUTPUT_DEBUG
 								//DEBUG_ADD("[Thread Job] Stop Loading Tile");
@@ -1820,7 +1820,7 @@ FileThreadProc(LPVOID lpParameter)
 			break;
 
 			//--------------------------------------------------------
-			// Creature�� Loading�Ѵ�.
+			// Creature?? Loading???.
 			//--------------------------------------------------------
 			case THREADJOB_LOAD_CREATURE :
 				g_pTopView->LoadFromFileCreatureSPK( 0 );
@@ -1855,12 +1855,12 @@ StopFileThread()
 		case THREADJOB_LOAD_IMAGEOBJECT_LARGEZONE :
 			//g_nZoneLarge = ZONEID_NULL;
 
-			// ImageObject Loading�� �ߴ��Ѵ�.
+			// ImageObject Loading?? ??????.
 			g_pTopView->StopLoadTileSPK();
 			g_pTopView->StopLoadImageObjectSPK();
 			g_bZoneLargeLoadImage = false;
 			
-			// �켱 ������ ���� ���...
+			// ?? ?????? ???? ???...
 			SetThreadPriority(g_hFileThread, 
 								THREAD_PRIORITY_HIGHEST);
 		break;
@@ -1868,12 +1868,12 @@ StopFileThread()
 		case THREADJOB_LOAD_IMAGEOBJECT_SMALLZONE :
 			//g_nZoneSmall = ZONEID_NULL;
 
-			// ImageObject Loading�� �ߴ��Ѵ�.
+			// ImageObject Loading?? ??????.
 			g_pTopView->StopLoadTileSPK();
 			g_pTopView->StopLoadImageObjectSPK();	
 			g_bZoneSmallLoadImage = false;
 
-			// �켱 ������ ���� ���...
+			// ?? ?????? ???? ???...
 			SetThreadPriority(g_hFileThread, 
 								THREAD_PRIORITY_HIGHEST);
 		break;
@@ -1882,8 +1882,8 @@ StopFileThread()
 
 			//g_pTopView->StopLoadCreature();
 
-			// ĳ���� �׸� Load���ΰ�?
-			// �켱 ������ ���� ���...
+			// ????? ??? Load??????
+			// ?? ?????? ???? ???...
 			SetThreadPriority(g_hFileThread, 
 								THREAD_PRIORITY_HIGHEST);
 		break;
@@ -1897,13 +1897,13 @@ StopFileThread()
 
 	while (WaitForSingleObject(g_hFileEvent, 0) == WAIT_OBJECT_0);
 
-		// Thread�� �ϴ� Loading�� ���������� ��ٸ���.
+		// Thread?? ??? Loading?? ?????????? ??????.
 	#ifdef OUTPUT_DEBUG
 	//		DEBUG_ADD("[Thread Job] Stop File Thread");
 	#endif
 	
 
-	// ������ �� �����.
+	// ?????? ?? ?????.
 	SetThreadPriority(g_hFileThread, 
 						THREAD_PRIORITY_BELOW_NORMAL);
 }
@@ -1912,7 +1912,7 @@ StopFileThread()
 //-----------------------------------------------------------------------------
 // Load Creature
 //-----------------------------------------------------------------------------
-// n��° Creature Type ID�� Sprite�� load�Ѵ�.
+// n??� Creature Type ID?? Sprite?? load???.
 //-----------------------------------------------------------------------------
 BOOL
 LoadCreature(int spriteType)
@@ -1928,7 +1928,7 @@ LoadCreature(int spriteType)
 //-----------------------------------------------------------------------------
 // Load CreatureType
 //-----------------------------------------------------------------------------
-// creature type�� ���� sprite�� load�Ѵ�.
+// creature type?? ???? sprite?? load???.
 //-----------------------------------------------------------------------------
 BOOL
 LoadCreatureType(int creatureType)
@@ -1969,13 +1969,13 @@ ReleaseUselessCreatureSPKExcept(const COrderedList<int>& listUse)
 //-----------------------------------------------------------------------------
 // Release GameObject
 //-----------------------------------------------------------------------------
-// game�� ���õ� object���� ���Ž�Ų��.
+// game?? ???�? object???? ???�????.
 //-----------------------------------------------------------------------------
 void
 ReleaseGameObject()
 {
 	//------------------------------------------------------
-	// ���� ����
+	// ???? ????
 	//------------------------------------------------------
 	g_pWeather->Release();
 
@@ -1986,7 +1986,7 @@ ReleaseGameObject()
 	g_pTimeItemManager->clear();
 
 	//------------------------------------------------------
-	// Zone���� Player���� / Zone ����
+	// Zone???? Player???? / Zone ????
 	//------------------------------------------------------
 	if (g_pZone!=NULL)
 	{
@@ -2009,7 +2009,7 @@ ReleaseGameObject()
 	}
 
 	//------------------------------------------------------
-	// Small Zone ����
+	// Small Zone ????
 	//------------------------------------------------------
 	/*
 	if (g_pZoneSmall != NULL)
@@ -2023,7 +2023,7 @@ ReleaseGameObject()
 	*/
 
 	//------------------------------------------------------
-	// Large Zone ����
+	// Large Zone ????
 	//------------------------------------------------------
 	/*
 	if (g_pZoneLarge != NULL)
@@ -2037,7 +2037,7 @@ ReleaseGameObject()
 	*/
 
 	//------------------------------------------------------
-	// player����
+	// player????
 	//------------------------------------------------------
 	if (g_pPlayer!=NULL)
 	{
@@ -2077,16 +2077,16 @@ ReleaseGameObject()
 //-----------------------------------------------------------------------------
 // Load Zone
 //-----------------------------------------------------------------------------
-// n��° zone�� load�Ѵ�.
+// n??� zone?? load???.
 //-----------------------------------------------------------------------------
 BOOL
 LoadZone(int n)
 {	
 	//------------------------------------------------
-	// Zone�� ����(size)�� ���� ó	��
+	// Zone?? ????(size)?? ???? �	??
 	//------------------------------------------------
 	// 
-	// ���� ����(size)�� ���� Zone�� Load�� �ؾ��Ѵ�.
+	// ???? ????(size)?? ???? Zone?? Load?? ??????.
 	//
 	//------------------------------------------------
 	ZONETABLE_INFO* pZoneInfo = g_pZoneTable->Get( n );
@@ -2099,7 +2099,7 @@ LoadZone(int n)
 	}
 
 	//------------------------------------------------
-	// ��� ���带 �����ع�����.
+	// ??? ???? ???????????.
 	//------------------------------------------------
 	if (g_pSoundManager!=NULL)
 	{
@@ -2113,7 +2113,7 @@ LoadZone(int n)
 	DEBUG_ADD_FORMAT("LoadZone : ID=%d, Filename=%s", pZoneInfo->ID, pZoneInfo->Filename.GetString());		
 	
 	//------------------------------------------------
-	// Music ����...
+	// Music ????...
 	//------------------------------------------------
 	//BOOL bMusicPause = g_DXMusic.IsPause();
 	//g_DXMusic.Stop();
@@ -2149,7 +2149,7 @@ LoadZone(int n)
 	}
 
 	//------------------------------------------------
-	// Fade Out ����
+	// Fade Out ????
 	//------------------------------------------------
 		/*
 	if (g_pZone!=NULL && g_Mode==MODE_GAME )
@@ -2162,19 +2162,19 @@ LoadZone(int n)
 			g_pUpdate->Update();
 		}
 
-		// ���� ����
+		// ???? ????
 		//g_Music.Stop();
 	}
 	*/
 
 	//------------------------------------------------
-	// Fade In ����
+	// Fade In ????
 	//------------------------------------------------
 	//g_pTopView->SetFadeIn(10);
 
 
 	//------------------------------------------------
-	// ���� �ٸ� Zone�� Loading���̶��
+	// ???? ??? Zone?? Loading??????
 	//------------------------------------------------
 	/*
 	if  (WaitForSingleObject(g_hFileEvent, 0) == WAIT_OBJECT_0)
@@ -2185,11 +2185,11 @@ LoadZone(int n)
 	//g_pLoadingThread->Remove( 1 );
 
 	//-------------------------------------------------------------
-	// Loading ���̴��� ��� ����
+	// Loading ??????? ??? ????
 	//-------------------------------------------------------------
 //	StopLoadingThread();
 
-	// priority�� �ִ��� �����.
+	// priority?? ????? ?????.
 // 	if (g_pLoadingThread!=NULL)
 // 	{
 // 		g_pLoadingThread->SetPriority( THREAD_PRIORITY_IDLE );
@@ -2199,7 +2199,7 @@ LoadZone(int n)
 //	MWorkThreadGlobal::Instance()->SetPriority(WORKTHREAD_PRIORITY_MAIN_LOADING);
 
 	//----------------------------------------------------------------------
-	// ���� Zone�� object�� ����
+	// ???? Zone?? object?? ????
 	//----------------------------------------------------------------------
 	if (g_pZone!=NULL)
 	{
@@ -2210,7 +2210,7 @@ LoadZone(int n)
 	bool bChangeMapShape = false;
 
 	//----------------------------------------------------------------------
-	// ���� Zone�� ���� Zone�� ���� Shape List�� ������ �ִٸ� Index ����
+	// ???? Zone?? ???? Zone?? ???? Shape List?? ?????? ???? Index ????
 	//----------------------------------------------------------------------
 	if (g_pZone!=NULL)
 	{
@@ -2232,7 +2232,7 @@ LoadZone(int n)
 	}
 
 	//----------------------------------------------------------------------
-	// �� ���� �̸�
+	// ?? ???? ???
 	//----------------------------------------------------------------------
 	MString mapFileName = pZoneInfo->Filename;
 	
@@ -2250,7 +2250,7 @@ LoadZone(int n)
 	}
 
 	//----------------------------------------------------------------------
-	// �ٷ� ���� �ִ� zone�� ����
+	// ??? ???? ??? zone?? ????
 	//----------------------------------------------------------------------
 	ZONETABLE_INFO* pPreviousZoneInfo = (*g_pZoneTable).Get( (g_bZonePlayerInLarge?g_nZoneLarge : g_nZoneSmall) );		
 
@@ -2275,7 +2275,7 @@ LoadZone(int n)
 		pLoadZoneNum	= &g_nZoneSmall;
 	}
 
-	// *���̱� ������ ����δٰ�
+	// *????? ?????? ???????
 	MZone	*&rLoadZone		= *pLoadZone;
 	int		&rLoadZoneNum	= *pLoadZoneNum;
 	
@@ -2286,8 +2286,8 @@ LoadZone(int n)
 	//----------------------------------------------------------------------
 
 	//-------------------------------------------
-	// ������ ���� ũ���� ���� �ƴϿ��ٸ�
-	// �׸��� �ٽ� ����
+	// ?????? ???? ????? ???? ???????
+	// ????? ??? ????
 	//-------------------------------------------
 	if(g_bZonePlayerInLarge != bLoadLargeZone)
 	{
@@ -2295,44 +2295,44 @@ LoadZone(int n)
 	}
 	
 	//-------------------------------------------
-	// �ٽ� load�� �ʿ䰡 ���� ���
+	// ??? load?? ??? ???? ???
 	//-------------------------------------------
 	if (rLoadZoneNum == n && rLoadZone != NULL && !bChangeMapShape)
 	{
 		DEBUG_ADD("ReleaseObject in SmallZone");
 		
-		// object�� ����
+		// object?? ????
 		rLoadZone->ReleaseObject();
 		
 		DEBUG_ADD("OK");
 		
-		// �׸��� Load���� ���� ���¸�..
+		// ????? Load???? ???? ???�?..
 		/*
 		if (!g_bZoneSmallLoadImage)
 		{
-		// Thread�� ������ ����				
+		// Thread?? ?????? ????				
 		g_ThreadJob = THREADJOB_LOAD_IMAGEOBJECT_SMALLZONE;				
 		SetEvent(g_hFileEvent);
 		}
 		*/
 		
-		// SmallZone�� pointer�� ����
+		// SmallZone?? pointer?? ????
 		g_pZone	= rLoadZone;
 		
 		UI_DrawProgress( 85 );
 	}
 	//-------------------------------------------
-	// �ٽ� Load�ؾߵ� ���
+	// ??? Load???? ???
 	//-------------------------------------------
 	else
 	{
-		// Load�� Zone�� ����(size)�� ���
+		// Load?? Zone?? ????(size)?? ???
 		rLoadZoneNum = n;	
 		
 		DEBUG_ADD("[Load Zone] Release Old Tile&ImageObject SPK");
 		
 		/* chyaya delete
-		// ���� Zone�� �ִ� Sprite���� �����ش�.
+		// ???? Zone?? ??? Sprite???? ???????.
 		if(bLoadLargeZone)
 		{
 			g_pTopView->ReleaseTileSPKLargeZone();
@@ -2345,7 +2345,7 @@ LoadZone(int n)
 		}
 		//*/
 		
-		// Zone�� �ʱ�ȭ�Ѵ�.
+		// Zone?? ???????.
 		if (rLoadZone != NULL)
 		{
 			DEBUG_ADD( "Delete old Zone");
@@ -2357,13 +2357,13 @@ LoadZone(int n)
 		
 		rLoadZone = new MZone;
 		
-		// SmallZone�� pointer�� ����
+		// SmallZone?? pointer?? ????
 		g_pZone	= rLoadZone;
 		
 		ivfstream file;
 		if (!FileOpenBinary(mapFileName.GetString(), file))
 		{
-			// priority�� ��������
+			// priority?? ????????
 // 			if (g_pLoadingThread!=NULL)
 // 			{
 // 				g_pLoadingThread->SetPriority( THREAD_PRIORITY_LOWEST );
@@ -2378,12 +2378,12 @@ LoadZone(int n)
 		
 		UI_DrawProgress( 75 );
 		
-		// Zone loading ����?
+		// Zone loading ?????
 		if (!g_pZone->LoadFromFile( file ))
 		{
 			SetMode( MODE_QUIT );
 			
-			// priority�� ��������
+			// priority?? ????????
 // 			if (g_pLoadingThread!=NULL)
 // 			{
 // 				g_pLoadingThread->SetPriority( THREAD_PRIORITY_LOWEST );
@@ -2396,14 +2396,14 @@ LoadZone(int n)
 		
 		g_pZone->SetCurrentZoneID( n );
 		
-		//g_pTopView->LoadFromFileTileSPKLargeZone( file );	// tile�� load
+		//g_pTopView->LoadFromFileTileSPKLargeZone( file );	// tile?? load
 		//g_pTopView->LoadFromFileImageObjectSPKLargeZone( file );
 		file.close();			
 	}
 
  	//* chyaya add
 	//-------------------------------------------------------
-	// Tile & ImageObject SPK�� Thread�� �ε��Ѵ�.
+	// Tile & ImageObject SPK?? Thread?? ??????.
 	//-------------------------------------------------------
 	ivfstream fileSPKPos;
 	fileSPKPos.open(mapFileName.GetString(), std::ios::binary);
@@ -2439,14 +2439,14 @@ LoadZone(int n)
 	//*/
 
 	//-------------------------------------------------------
- 	// Player�� ��ǥ ��ó�� Sprite���� Load�Ѵ�.
+ 	// Player?? ??? ??�?? Sprite???? Load???.
  	//-------------------------------------------------------
 	DEBUG_ADD("[Load Zone] Find Tile&ImageObject ID");
 
 	CSpriteSetManager NearTileSSM;
 	CSpriteSetManager NearImageObjectSSM;
 	
-	// �÷��̾��� �þ��� 3������� Main Thread���� �ε��Ѵ�.
+	// ?�?????? ?�??? 3??????? Main Thread???? ??????.
 	g_pZone->GetNearSpriteSet(
 		NearTileSSM, NearImageObjectSSM, g_pPlayer->GetX(), g_pPlayer->GetY());
 
@@ -2457,7 +2457,7 @@ LoadZone(int n)
 // 	CSpriteSetManager NearOrderAllTileSSM;
 // 	CSpriteSetManager NearOrderAllImageObjectSSM;
 // 
-// 	// �÷��̾��� �þ��� 3�踦 ������ ������ �κе��� ����� ������� WorkThread�� �ε��Ѵ�.
+// 	// ?�?????? ?�??? 3?? ?????? ?????? ?????? ????? ??????? WorkThread?? ??????.
 // 	g_pZone->GetNearOrderAllSpriteSet(
 // 		NearOrderAllTileSSM, NearOrderAllImageObjectSSM,
 // 		g_pPlayer->GetX(), g_pPlayer->GetY(),
@@ -2479,47 +2479,47 @@ LoadZone(int n)
 // 		//ZONETABLE_INFO* pOldZoneInfo = (*g_pZoneTable).Get( g_nZoneSmall );
 // 
 // 		//-------------------------------------------
-// 		// �ٽ� load�� �ʿ䰡 ���� ���
+// 		// ??? load?? ??? ???? ???
 // 		//-------------------------------------------
 // 		if (g_nZoneSmall==n && g_pZoneSmall!=NULL && !bChangeMapShape)
 // 		{
 // 			DEBUG_ADD("ReleaseObject in SmallZone");
 // 			
-// 			// object�� ����
+// 			// object?? ????
 // 			g_pZoneSmall->ReleaseObject();
 // 
 // 			DEBUG_ADD("OK");
 // 			
-// 			// �׸��� Load���� ���� ���¸�..
+// 			// ????? Load???? ???? ???�?..
 // 			/*
 // 			if (!g_bZoneSmallLoadImage)
 // 			{
-// 				// Thread�� ������ ����				
+// 				// Thread?? ?????? ????				
 // 				g_ThreadJob = THREADJOB_LOAD_IMAGEOBJECT_SMALLZONE;				
 // 				SetEvent(g_hFileEvent);
 // 			}
 // 			*/
 // 
-// 			// SmallZone�� pointer�� ����
+// 			// SmallZone?? pointer?? ????
 // 			g_pZone	= g_pZoneSmall;
 // 
 // 			UI_DrawProgress( 95 );
 // 		}
 // 		//-------------------------------------------
-// 		// �ٽ� Load�ؾߵ� ���
+// 		// ??? Load???? ???
 // 		//-------------------------------------------
 // 		else
 // 		{
-// 			// Load�� Zone�� ����(size)�� ���
+// 			// Load?? Zone?? ????(size)?? ???
 // 			g_nZoneSmall = n;	
 // 
 // 			DEBUG_ADD("[Load Zone] Release Old Tile&ImageObject SPK");
 // 			
-// 			// ���� Zone�� �ִ� Sprite���� �����ش�.
+// 			// ???? Zone?? ??? Sprite???? ???????.
 // 			g_pTopView->ReleaseTileSPKSmallZone();		
 // 			g_pTopView->ReleaseImageObjectSPKSmallZone();	
 // 			
-// 			// SmallZone�� �ʱ�ȭ�Ѵ�.
+// 			// SmallZone?? ???????.
 // 			if (g_pZoneSmall != NULL)
 // 			{
 // 				DEBUG_ADD( "Delete old ZoneSmall");
@@ -2531,13 +2531,13 @@ LoadZone(int n)
 // 			
 // 			g_pZoneSmall = new MZone;
 // 
-// 			// SmallZone�� pointer�� ����
+// 			// SmallZone?? pointer?? ????
 // 			g_pZone	= g_pZoneSmall;
 // 
 // 			ivfstream file;
 // 			if (!FileOpenBinary(mapFileName, file))
 // 			{
-// 				// priority�� ��������
+// 				// priority?? ????????
 // 				if (g_pLoadingThread!=NULL)
 // 				{
 // 					g_pLoadingThread->SetPriority( THREAD_PRIORITY_LOWEST );
@@ -2550,12 +2550,12 @@ LoadZone(int n)
 // 			
 // 			UI_DrawProgress( 75 );
 // 
-// 			// Zone loading ����?
+// 			// Zone loading ?????
 // 			if (!g_pZone->LoadFromFile( file ))
 // 			{
 // 				SetMode( MODE_QUIT );
 // 
-// 				// priority�� ��������
+// 				// priority?? ????????
 // 				if (g_pLoadingThread!=NULL)
 // 				{
 // 					g_pLoadingThread->SetPriority( THREAD_PRIORITY_LOWEST );
@@ -2565,7 +2565,7 @@ LoadZone(int n)
 // 
 // 			g_pZone->SetCurrentZoneID( n );
 // 		
-// 			//g_pTopView->LoadFromFileTileSPKLargeZone( file );	// tile�� load
+// 			//g_pTopView->LoadFromFileTileSPKLargeZone( file );	// tile?? load
 // 			//g_pTopView->LoadFromFileImageObjectSPKLargeZone( file );
 // 			file.close();			
 // 			
@@ -2574,7 +2574,7 @@ LoadZone(int n)
 // 			UI_DrawProgress( 85 );
 // 
 // 			//-------------------------------------------------------
-// 			// Player�� ��ǥ ��ó�� Sprite���� Load�Ѵ�.
+// 			// Player?? ??? ??�?? Sprite???? Load???.
 // 			//-------------------------------------------------------
 // 			DEBUG_ADD("[Load Zone] Find Tile&ImageObject ID");
 // 			
@@ -2589,7 +2589,7 @@ LoadZone(int n)
 // 		}
 // 		
 // 		//-------------------------------------------------------
-// 		// LoadingThread�� ������ ����			
+// 		// LoadingThread?? ?????? ????			
 // 		//-------------------------------------------------------
 // 		//g_ThreadJob = THREADJOB_LOAD_IMAGEOBJECT_SMALLZONE;				
 // 		//SetEvent(g_hFileEvent);
@@ -2612,13 +2612,13 @@ LoadZone(int n)
 // 		DEBUG_ADD("[Load Zone] Before Music Play");
 // 		
 // 		//------------------------------------------
-// 		// ���� �����ؾ� �Ǵ� ����̸�
+// 		// ???? ??????? ??? ??????
 // 		//------------------------------------------
 // 		/*
 // 		if (g_pUserOption->PlayMusic)
 // 		{
 // 			//------------------------------------------
-// 			// ������ ���� ������ �޶�����.
+// 			// ?????? ???? ?????? ???????.
 // 			//------------------------------------------
 // 			TYPE_MUSICID	newMusicID = 0;
 // 
@@ -2674,47 +2674,47 @@ LoadZone(int n)
 // 		//ZONETABLE_INFO* pOldZoneInfo = (*g_pZoneTable).Get( g_nZoneLarge );
 // 
 // 		//-----------------------------------------------
-// 		// �ٽ� Load�ؾ��� �ʿ䰡 ���� ���
+// 		// ??? Load????? ??? ???? ???
 // 		//-----------------------------------------------
 // 		if (g_nZoneLarge==n && g_pZoneLarge!=NULL && !bChangeMapShape)
 // 		{
 // 			DEBUG_ADD("ReleaseObject in LargeZone");
 // 			
-// 			// object�� ����
+// 			// object?? ????
 // 			g_pZoneLarge->ReleaseObject();
 // 			
 // 			DEBUG_ADD("OK");
 // 			
-// 			// �׸��� Load���� ���� ���¸�..
+// 			// ????? Load???? ???? ???�?..
 // 			/*
 // 			if (!g_bZoneLargeLoadImage)
 // 			{
-// 				// Thread�� ������ ����				
+// 				// Thread?? ?????? ????				
 // 				g_ThreadJob = THREADJOB_LOAD_IMAGEOBJECT_LARGEZONE;				
 // 				SetEvent(g_hFileEvent);
 // 			}
 // 			*/
 // 
-// 			// LargeZone�� pointer�� ����
+// 			// LargeZone?? pointer?? ????
 // 			g_pZone	= g_pZoneLarge;
 // 
 // 			UI_DrawProgress( 95 );
 // 		}
 // 		//-----------------------------------------------
-// 		// �ٽ� Load�ؾߵ� ���
+// 		// ??? Load???? ???
 // 		//-----------------------------------------------
 // 		else
 // 		{
-// 			// Load�� Zone�� ����(size)�� ���
+// 			// Load?? Zone?? ????(size)?? ???
 // 			g_nZoneLarge = n;	
 // 
 // 			DEBUG_ADD("[Load Zone] Release Old Tile&ImageObject SPK");
 // 			
-// 			// ���� Zone�� �ִ� Sprite���� �����ش�.
+// 			// ???? Zone?? ??? Sprite???? ???????.
 // 			g_pTopView->ReleaseTileSPKLargeZone();		
 // 			g_pTopView->ReleaseImageObjectSPKLargeZone();	
 // 			
-// 			// LargeZone�� �ʱ�ȭ�Ѵ�.
+// 			// LargeZone?? ???????.
 // 			if (g_pZoneLarge != NULL)
 // 			{
 // 				DEBUG_ADD( "Delete old ZoneLarge");
@@ -2726,13 +2726,13 @@ LoadZone(int n)
 // 			
 // 			g_pZoneLarge = new MZone;
 // 
-// 			// LargeZone�� pointer�� ����
+// 			// LargeZone?? pointer?? ????
 // 			g_pZone	= g_pZoneLarge;			
 // 			
 // 			ivfstream file;
 // 			if (!FileOpenBinary(mapFileName, file))
 // 			{
-// 				// priority�� ��������
+// 				// priority?? ????????
 // 				if (g_pLoadingThread!=NULL)
 // 				{
 // 					g_pLoadingThread->SetPriority( THREAD_PRIORITY_LOWEST );
@@ -2745,12 +2745,12 @@ LoadZone(int n)
 // 			
 // 			UI_DrawProgress( 80 );
 // 
-// 			// Zone loading ����?
+// 			// Zone loading ?????
 // 			if (!g_pZone->LoadFromFile( file ))
 // 			{
 // 				SetMode( MODE_QUIT );
 // 
-// 				// priority�� ��������
+// 				// priority?? ????????
 // 				if (g_pLoadingThread!=NULL)
 // 				{
 // 					g_pLoadingThread->SetPriority( THREAD_PRIORITY_LOWEST );
@@ -2759,14 +2759,14 @@ LoadZone(int n)
 // 				return FALSE;
 // 			}
 // 
-// 			//g_pTopView->LoadFromFileTileSPKLargeZone( file );	// Tile�� load
+// 			//g_pTopView->LoadFromFileTileSPKLargeZone( file );	// Tile?? load
 // 			//g_pTopView->LoadFromFileImageObjectSPKLargeZone( file );
 // 			file.close();
 // 
 // 			UI_DrawProgress( 90 );
 // 			
 // 			//-------------------------------------------------------
-// 			// Player�� ��ǥ ��ó�� Sprite���� Load�Ѵ�.
+// 			// Player?? ??? ??�?? Sprite???? Load???.
 // 			//-------------------------------------------------------
 // 			DEBUG_ADD("[Load Zone] Find Tile&ImageObject ID");
 // 			
@@ -2781,7 +2781,7 @@ LoadZone(int n)
 // 		}
 // 
 // 		//-------------------------------------------------------
-// 		// LoadingThread�� ������ ����			
+// 		// LoadingThread?? ?????? ????			
 // 		//-------------------------------------------------------
 // 		//g_ThreadJob = THREADJOB_LOAD_IMAGEOBJECT_SMALLZONE;				
 // 		//SetEvent(g_hFileEvent);
@@ -2804,13 +2804,13 @@ LoadZone(int n)
 // 		DEBUG_ADD("[Load Zone] Before Music Play");
 // 		
 // 		//------------------------------------------
-// 		// ���� �����ؾ� �Ǵ� ����̸�
+// 		// ???? ??????? ??? ??????
 // 		//------------------------------------------
 // 		/*
 // 		if (g_pUserOption->PlayMusic)
 // 		{
 // 			//------------------------------------------
-// 			// ������ ���� ������ �޶�����.
+// 			// ?????? ???? ?????? ???????.
 // 			//------------------------------------------
 // 			//TYPE_MUSICID	oldMusicID = 0;
 // 			TYPE_MUSICID	newMusicID = 0;
@@ -2864,7 +2864,7 @@ LoadZone(int n)
 	DEBUG_ADD("[Load Zone] Before Minimap Loading");
 	
 	//------------------------------------------------
-	// UI�� zone����..
+	// UI?? zone????..
 	//------------------------------------------------
 	SIZE zoneSize = { g_pZone->GetWidth(), g_pZone->GetHeight() };
 
@@ -2886,12 +2886,12 @@ LoadZone(int n)
 	LoadZoneInfo( n );
 	g_pZone->SetCurrentZoneID( n );
 
-	// 2004, 6, 22 sobeit add start - ���巹 �ھ� ����
+	// 2004, 6, 22 sobeit add start - ???? ??? ????
 	Add_GDR_Ghost(n);
 	Add_GDR_Effect(1,false);
 	Add_GDR_Effect(2,false);
 	Add_GDR_Portal_Effect(n);
-	// 2005, 1, 18, sobeit add start-����Ʈ ���� - bDisableTileImage==false�� ��κ��̹Ƿ�..
+	// 2005, 1, 18, sobeit add start-????? ???? - bDisableTileImage==false?? ????????..
 	if(n == 4001)
 	{
 		for (int i=0; i<g_pZone->GetHeight(); i++)
@@ -2903,7 +2903,7 @@ LoadZone(int n)
 		}
 	}
 	// 2005, 1, 18, sobeit add end
-	// 2004, 9, 21, sobeit add start - �ƴ� �� ����
+	// 2004, 9, 21, sobeit add start - ??? ?? ????
 	else if(n == 74)
 	{
 		if(g_pPlayer->GetY()<60)
@@ -2913,13 +2913,13 @@ LoadZone(int n)
 	}
 	// 2004, 9, 21, sobeit add end
 //	BYTE PkType = g_pZone->GetPKType();
-//	if(PkType != PK_TYPE_NULL)	// �׳� �Ϲ� ��
+//	if(PkType != PK_TYPE_NULL)	// ??? ??? ??
 //	{
-//		if(PkType == PK_TYPE_DISABLE)		// �� �츮��..-_-; pk ����
+//		if(PkType == PK_TYPE_DISABLE)		// ?? ????..-_-; pk ????
 //			g_pPlayer->SetAttackModePeace();
-//		else if(PkType == PK_TYPE_ALL)		// �� ���� �� ��
+//		else if(PkType == PK_TYPE_ALL)		// ?? ???? ?? ??
 //			g_pPlayer->SetAttackModeAggress();
-//		else if(PkType == PK_TYPE_GUILD)	// �츮 ��� ���� �� ��..
+//		else if(PkType == PK_TYPE_GUILD)	// ?? ??? ???? ?? ??..
 //		{
 //			int myGuildID = g_pPlayer->GetGuildNumber();	
 //			int OtherGuildID = pCreature->GetGuildNumber();	
@@ -2928,11 +2928,11 @@ LoadZone(int n)
 //				myGuildID		== GUILDID_OUSTERS_DEFAULT ||
 //				OtherGuildID	== GUILDID_VAMPIRE_DEFAULT ||
 //				OtherGuildID	== GUILDID_SLAYER_DEFAULT ||
-//				OtherGuildID	== GUILDID_OUSTERS_DEFAULT ) // ��尡 ���� �༮ ����..
-//				return TRUE; // ȥ�� �ο���..-_-;
+//				OtherGuildID	== GUILDID_OUSTERS_DEFAULT ) // ??? ???? ?? ????..
+//				return TRUE; // ??? ?????..-_-;
 //
 //			if(myGuildID == OtherGuildID)
-//				return FALSE; // �츮 ���...
+//				return FALSE; // ?? ???...
 //			else
 //				return TRUE;
 //		}
@@ -2942,20 +2942,20 @@ LoadZone(int n)
 
 	// 2004, 6, 22 sobeit add end
 	//------------------------------------------------
-	// minimap �׸� ����
+	// minimap ??? ????
 	//------------------------------------------------
 	//g_pTopView->LoadMinimap( pZoneInfo->MinimapFilename );	
 	
 	//------------------------------------------------
-	// Random SoundID �ð� ����
+	// Random SoundID ?�? ????
 	//------------------------------------------------
-	g_ZoneRandomSoundTime = g_CurrentTime + ((rand()%5)+10)*1000;	// 10~15����..
+	g_ZoneRandomSoundTime = g_CurrentTime + ((rand()%5)+10)*1000;	// 10~15????..
 	
 	
 
 
 	//---------------------------------------------------------------
-	// �ϳ��� �Ҹ��� ���� ����
+	// ????? ????? ???? ????
 	//---------------------------------------------------------------
 	/*
 	ZONESOUND_INFO* pSoundInfo	= new ZONESOUND_INFO;
@@ -2975,7 +2975,7 @@ LoadZone(int n)
 	
 
 	//------------------------------------------------
-	// �� Zone���� �����ϴ� Creature�� ���� Sprite��
+	// ?? Zone???? ??????? Creature?? ???? Sprite??
 	//------------------------------------------------
 	//g_pTopView->LoadFromFileCreatureSPK( 0 );
 	//g_pTopView->LoadFromFileCreatureSPK( 1 );
@@ -2983,16 +2983,16 @@ LoadZone(int n)
 	
 
 	//------------------------------------------------
-	// View���� ����ؾ��� Zone�� �����Ѵ�.
+	// View???? ???????? Zone?? ???????.
 	//------------------------------------------------
-	// ������ ��µ� creature���� ���ش�.
+	// ?????? ??�? creature???? ?????.
 	g_pTopView->SetZone(g_pZone);	
 
 	// Debug Message
 	DEBUG_ADD_FORMAT("LoadZone OK : size=(%d, %d)", g_pZone->GetWidth(), g_pZone->GetHeight());			
 		
 
-	// priority�� ��������
+	// priority?? ????????
 // 	if (g_pLoadingThread!=NULL)
 // 	{
 // 		g_pLoadingThread->SetPriority( THREAD_PRIORITY_LOWEST );
@@ -3051,13 +3051,13 @@ LoadZone(int n)
 //-----------------------------------------------------------------------------
 // Move Zone 
 //-----------------------------------------------------------------------------
-// Zone�� �̵��Ѵ�.
+// Zone?? ??????.
 //-----------------------------------------------------------------------------
 void
 MoveZone(int n)
 {
 	//------------------------------------------------
-	// Zone���� Player�� ������.
+	// Zone???? Player?? ??????.
 	//------------------------------------------------
 	if (g_pZone != NULL)
 	{
@@ -3068,7 +3068,7 @@ MoveZone(int n)
 		g_pZone->RemovePlayer();
 	}
 	
-	// n Zone�� load�Ѵ�.
+	// n Zone?? load???.
 	LoadZone( n );
 
 	g_pPlayer->SetZone(g_pZone);
@@ -3107,7 +3107,7 @@ LoadZoneInfo(int n)
 	//------------------------------------------------
 //	MZoneInfo zoneInfo;
 	//------------------------------------------------
-	// File�� �ִ� ��츸 loading�Ѵ�.
+	// File?? ??? ??? loading???.
 	//------------------------------------------------
 	ivfstream zoneInfoFile(pZoneInfo->InfoFilename.GetString(), std::ios::binary);
 
@@ -3120,7 +3120,7 @@ LoadZoneInfo(int n)
 		zoneInfo.LoadFromFile( zoneInfoFile );		
 
 		//------------------------------------------------
-		// minimap�� �������븦 ǥ���Ѵ�.
+		// minimap?? ???????? ??????.
 		//------------------------------------------------
 		g_pTopView->LoadMinimap( pZoneInfo->MinimapFilename, &zoneInfo );	
 		*/
@@ -3130,15 +3130,15 @@ LoadZoneInfo(int n)
 		zoneInfoFile.read((char*)&height, 2);
 
 		//------------------------------------------------
-		// size üũ
+		// size �?
 		//------------------------------------------------
 		if (width==g_pZone->GetWidth() && height==g_pZone->GetHeight())
 		{		
 			DEBUG_ADD("[Load Zone] Load PortalInfo");
 			
 			//------------------------------------------------
-			// ��Ż ������ loading�Ѵ�.
-			// ���ο��� ���ִ°� ������... �ϴ�..
+			// ??? ?????? loading???.
+			// ??????? ????�? ??????... ???..
 			//------------------------------------------------
 			int numPortal;
 			
@@ -3172,7 +3172,7 @@ LoadZoneInfo(int n)
 				}
 
 				//------------------------------------------------
-				// UI�� �����Ѵ�.
+				// UI?? ???????.
 				//------------------------------------------------
 				if (numZoneID==1)
 				{					
@@ -3184,7 +3184,7 @@ LoadZoneInfo(int n)
 				{
 					DEBUG_ADD("UI SetPortal - 60001");
 
-					// ��Ƽ ��Ż�� ���.. ����.. _-_;
+					// ??? ????? ???.. ????.. _-_;
 					gC_vs_ui.SetPortal( rect, 60001 );
 				}
 			}
@@ -3192,7 +3192,7 @@ LoadZoneInfo(int n)
 			DEBUG_ADD("PortalInfo OK");
 
 			//------------------------------------------------
-			// �������� ����
+			// ???????? ????
 			//------------------------------------------------
 			int numSafe;
 			
@@ -3246,7 +3246,7 @@ LoadZoneInfo(int n)
 
 					g_pZone->SetSafeSector(safeRect, fSafe);
 
-					// ���� ������ ��ġ�ΰ�?
+					// ???? ?????? ???????
 
 					if (MyRace == RACE_OUSTERS && (rect2.flag & FLAG_MIP_SAFE_OUSTERS) ||
 						MyRace == RACE_VAMPIRE && (rect2.flag & FLAG_MIP_SAFE_VAMPIRE) ||
@@ -3255,7 +3255,7 @@ LoadZoneInfo(int n)
 					{
 						gC_vs_ui.SetSafetyZone(safeRect, true);
 					}
-					// �ٸ� ������ ������ ��ġ�ΰ�?
+					// ??? ?????? ?????? ???????
 					else
 					{
 						gC_vs_ui.SetSafetyZone(safeRect, false);
@@ -3269,7 +3269,7 @@ LoadZoneInfo(int n)
 			DEBUG_ADD("zoneinfoclose OK");
 			
 			DEBUG_ADD("Horn Setting Start");
-			// ousters horn�� �ʿ� �ɴ´�
+			// ousters horn?? ??? ??�?
 			UI_PORTAL_LIST portalList;
 			
 			for(int i = 0; i < g_pZone->GetHorn().size(); i++)
@@ -3344,14 +3344,14 @@ LoadZoneInfo(int n)
 /*
 			//---------------------------------------------------------------
 			//
-			//  Zone�� ȯ�� ���� ����
+			//  Zone?? ??? ???? ????
 			//
 			//---------------------------------------------------------------
 			long fpCurrent = zoneInfoFile.tellg();
 			zoneInfoFile.seekg( 0, ios::end );
 			long fpEof = zoneInfoFile.tellg();
 				
-			if (!zoneInfoFile.eof()	// �� �̰� ����� �ȵ���- -;
+			if (!zoneInfoFile.eof()	// ?? ??? ????? ?????- -;
 				&& fpCurrent!=fpEof)
 			{
 				zoneInfoFile.seekg( fpCurrent, ios::beg );
@@ -3372,25 +3372,25 @@ LoadZoneInfo(int n)
 
 				DEBUG_ADD("New ZoneSoundTable");
 				
-				// Zone�� ���带 ��� ����?�� ���� ����
+				// Zone?? ???? ???? ??????? ???? ????
 				g_pZoneSoundTable = new MZoneSoundTable;
 
 				DEBUG_ADD("Delete ZoneSoundManager");
 				
-				// Zone�� �ִ� ���� ��ü�� ���� ����
+				// Zone?? ??? ???? ??�?? ???? ????
 				g_pZoneSoundManager = new MZoneSoundManager;
 
 				
 				DEBUG_ADD("Load SectorSound");
 				
 				//---------------------------------------------------------------
-				// Sector�� ���� ������ Loading�Ѵ�.
+				// Sector?? ???? ?????? Loading???.
 				//---------------------------------------------------------------
 				g_pZone->LoadFromFileSectorSound( zoneInfoFile );
 				
 				//---------------------------------------------------------------
-				// ZoneSoundTable�� 
-				// ���� Map�� ���� ���� ������ Loading�Ѵ�.
+				// ZoneSoundTable?? 
+				// ???? Map?? ???? ???? ?????? Loading???.
 				//---------------------------------------------------------------
 				DEBUG_ADD("Load ZoneSoundTable");	
 				
@@ -3444,7 +3444,7 @@ LoadWorldMapInfo()
 		//------------------------------------------------
 		ZONETABLE_INFO* pZoneInfo = pos->second;	
 
-		// ����ʿ��� ������ �ʴ� �ٸ� ��ŵ
+		// ???????? ?????? ??? ??? ???
 		if(!pZoneInfo->IsShownInWorldMap()) continue;
 
 		if (pZoneInfo==NULL)
@@ -3468,7 +3468,7 @@ LoadWorldMapInfo()
 		WORLDMAP_UI_INFO& rWorldMapUIInfo = C_VS_UI_WORLD_MAP::GetWorldMapUIInfo(pZoneInfo->ID);
 
 		//------------------------------------------------
-		// File�� �ִ� ��츸 loading�Ѵ�.
+		// File?? ??? ??? loading???.
 		//------------------------------------------------
 		ivfstream zoneInfoFile(pZoneInfo->InfoFilename.GetString(), std::ios::binary);
 
@@ -3487,8 +3487,8 @@ LoadWorldMapInfo()
 			DEBUG_ADD("[Load Zone] Load PortalInfo");
 				
 			//------------------------------------------------
-			// ��Ż ������ loading�Ѵ�.
-			// ���ο��� ���ִ°� ������... �ϴ�..
+			// ??? ?????? loading???.
+			// ??????? ????�? ??????... ???..
 			//------------------------------------------------
 			int numPortal;
 			
@@ -3516,20 +3516,20 @@ LoadWorldMapInfo()
 
 				const int skipEdge = 2;
 
-				// ȭ�� ���κ��� ��Ż������ ������� �ʴ´�.
+				// ??? ??????? ????????? ??????? ??�?.
 				if(rect.left >= skipEdge && rect.top >= skipEdge &&
 				   rect.right <= width - skipEdge - 1 && rect.bottom <= height - skipEdge - 1)
 				{			
 					//------------------------------------------------
-					// UI�� �����Ѵ�.
+					// UI?? ???????.
 					//------------------------------------------------
-					if (numZoneID==1)	// �� ��Ż
+					if (numZoneID==1)	// ?? ???
 					{					
 						DEBUG_ADD("UI SetPortal");
 						
 						rWorldMapUIInfo.SetPortal( rect, zoneID[0] );
 					}
-					else				// ��Ƽ ��Ż
+					else				// ??? ???
 					{
 						DEBUG_ADD("UI SetPortal - 60001");
 						rWorldMapUIInfo.SetPortal( rect, 60001 );
@@ -3540,7 +3540,7 @@ LoadWorldMapInfo()
 
 				/*&
 				//------------------------------------------------
-				// �������� ���� - Skip
+				// ???????? ???? - Skip
 				//------------------------------------------------
 				int numSafe;
 				
@@ -3576,7 +3576,7 @@ InitPlayer(int x, int y, int dir)
 	DEBUG_ADD_FORMAT("InitPlayer : (%d,%d) Dir=%d", x, y, dir);			
 	
 	//------------------------------------------------
-	// Creature�� ����
+	// Creature?? ????
 	//------------------------------------------------
 	//g_pPlayer->SetCreatureType( 0 );
 
@@ -3586,12 +3586,12 @@ InitPlayer(int x, int y, int dir)
 	g_pPlayer->ClearChatString();
 
 	//------------------------------------------------
-	// ����ְ� �Ѵ�. Ȯ�ο�...
+	// ?????? ???. ????...
 	//------------------------------------------------
 	g_pTopView->SetFadeEnd();
 
 	//------------------------------------------------
-	// ��ġ ����
+	// ??? ????
 	//------------------------------------------------
 	//g_pPlayer->SetPosition(x, y);	
 	g_pPlayer->SetStop();
@@ -3609,29 +3609,29 @@ InitPlayer(int x, int y, int dir)
 	g_pPlayer->SetZone(g_pZone);
 
 	//------------------------------------------------
-	// �þ� Ȯ��..
+	// ?�? ???..
 	//------------------------------------------------
 	//#ifdef CONNECT_SERVER
 	//	g_pZone->KeepObjectInSight(x, y, g_pPlayer->GetSight());
 	//#endif
 
 	//------------------------------------------------
-	// ���°�
+	// ???�?
 	//------------------------------------------------
 	//g_pPlayer->SetStatus(MODIFY_HP, 100);
 	//g_pPlayer->SetStatus(MODIFY_MP, 100);
 	
 	//------------------------------------------------
-	// �� ������	
+	// ?? ??????	
 	//------------------------------------------------
 	///*
-	//g_pPlayer->SetAddonEnable(ADDON_HAIR);		// �Ӹ�
-	//g_pPlayer->SetAddonEnable(ADDON_COAT);		// ����
-	//g_pPlayer->SetAddonEnable(ADDON_TROUSER);	// ����
-	//g_pPlayer->SetAddonEnable(ADDON_HELM);		// ����
-	//g_pPlayer->SetAddonEnable(ADDON_LEFTHAND);	// �޼� 
-	//g_pPlayer->SetAddonEnable(ADDON_RIGHTHAND);	// ������	
-	//g_pPlayer->SetAddonEnable(ADDON_MOTOR);		// �������
+	//g_pPlayer->SetAddonEnable(ADDON_HAIR);		// ???
+	//g_pPlayer->SetAddonEnable(ADDON_COAT);		// ????
+	//g_pPlayer->SetAddonEnable(ADDON_TROUSER);	// ????
+	//g_pPlayer->SetAddonEnable(ADDON_HELM);		// ????
+	//g_pPlayer->SetAddonEnable(ADDON_LEFTHAND);	// ??? 
+	//g_pPlayer->SetAddonEnable(ADDON_RIGHTHAND);	// ??????	
+	//g_pPlayer->SetAddonEnable(ADDON_MOTOR);		// ???????
 	
 	//g_pPlayer->SetAddon(ADDON_COAT, ADDONID_COAT1_MALE);	
 	//g_pPlayer->SetAddon(ADDON_TROUSER, ADDONID_TROUSER1_MALE);
@@ -3642,24 +3642,24 @@ InitPlayer(int x, int y, int dir)
 	//*/
 
 	//------------------------------------------------
-	// �þ� ����
+	// ?�? ????
 	//------------------------------------------------
-	//g_pPlayer->SetLightSight( 12 );	// ���� ũ��
-	//g_pPlayer->SetSight( 12 );		// ĳ������ �þ�
+	//g_pPlayer->SetLightSight( 12 );	// ???? ???
+	//g_pPlayer->SetSight( 12 );		// ??????? ?�?
 
 	//------------------------------------------------
-	// ����, ��� ����
+	// ????, ??? ????
 	//------------------------------------------------
-	// ����
+	// ????
 	//g_pPlayer->SetBasicActionInfo( SKILL_ATTACK_MELEE );
 	
-	// ���� ���ɰŸ� ����
+	// ???? ????�? ????
 	//g_pPlayer->SetBasicAttackDistance( 1 );
 
-	// Ư�� ����
+	// ??? ????
 	//g_pPlayer->SetSpecialActionInfo( MAGIC_BLESS );
 
-	// ���� ����
+	// ???? ????
 	if (g_pPlayer->IsAlive())
 	{
 		g_pPlayer->SetAction( ACTION_STAND );
@@ -3669,18 +3669,18 @@ InitPlayer(int x, int y, int dir)
 		g_pPlayer->SetAction( ACTION_DIE );
 	}
 
-	// �����̴� ���
+	// ??????? ???
 	//g_pPlayer->SetMoveDevice( MCreature::MOVE_DEVICE_WALK );
 
 	//-------------------------------------------------------
-	// UI�� ���� ����
+	// UI?? ???? ????
 	//-------------------------------------------------------
 	//gC_vs_ui.SetHP(g_pPlayer->GetHP(), g_pPlayer->GetMAX_HP());
 	//gC_vs_ui.SetMP(g_pPlayer->GetMP(), g_pPlayer->GetMAX_MP());
 
 	//-------------------------------------------------------
-	// Server�� ���� move packet ������ �����
-	// ó������~~ �ٽ� move�ϰ� �Ѵ�.
+	// Server?? ???? move packet ?????? ?????
+	// �??????~~ ??? move??? ???.
 	//-------------------------------------------------------
 	g_pPlayer->ResetSendMove();
 
@@ -3692,14 +3692,14 @@ InitPlayer(int x, int y, int dir)
 
 	//-------------------------------------------------------
 	//
-	//				����� �� �ִ� ���
+	//				????? ?? ??? ???
 	//
 	//-------------------------------------------------------
 	/*
 	(*g_pSkillManager).Init( MAX_SKILLDOMAIN );
 
 	//---------------------------------------------------------------------
-	// �⺻ ����κ��� skill tree�� �ʱ�ȭ�Ѵ�.
+	// ?? ???????? skill tree?? ???????.
 	//---------------------------------------------------------------------
 	(*g_pSkillManager)[SKILLDOMAIN_BLADE].SetRootSkill( SKILL_SINGLE_BLOW );
 	(*g_pSkillManager)[SKILLDOMAIN_SWORD].SetRootSkill( SKILL_DOUBLE_IMPACT );
@@ -3717,7 +3717,7 @@ InitPlayer(int x, int y, int dir)
 	*/
 
 	//---------------------------------------------------------------------
-	// ��� skill�� ����ٰ� ǥ���Ѵ�.
+	// ???? skill?? ?????? ??????.
 	//---------------------------------------------------------------------
 	/*
 	swordDomain.LearnSkill( SKILL_DOUBLE_IMPACT );
@@ -3758,22 +3758,22 @@ InitPlayer(int x, int y, int dir)
 	//g_SkillAvailable.AddSkill( MAGIC_CURE_PARALYSIS );
 
 	//-------------------------------------------------------
-	// ��� ���� ����..
+	// ??? ???? ????..
 	//-------------------------------------------------------
 	g_pPlayer->SetWaitVerifyNULL();
 
 	//-------------------------------------------------------
 	//
-	//						Item ����
+	//						Item ????
 	//
 	//-------------------------------------------------------
 	//------------------------------------------------
-	// ItemCheckBuffer����
+	// ItemCheckBuffer????
 	//------------------------------------------------
 	g_pPlayer->ClearItemCheckBuffer();
 	
 	//------------------------------------------------
-	// Gear �ʱ�ȭ
+	// Gear ????
 	//------------------------------------------------
 	/*
 	if (g_pPlayer->IsSlayer())
@@ -3786,13 +3786,13 @@ InitPlayer(int x, int y, int dir)
 	}
 
 	//------------------------------------------------
-	//  Inventory �ʱ�ȭ
+	//  Inventory ????
 	//------------------------------------------------
 	g_Inventory.Init(10,6);
 	*/
 
 	//------------------------------------------------
-	// ����â�� �����ִ� ����..
+	// ????�?? ??????? ????..
 	//------------------------------------------------
 	g_char_slot_ingame.Race = g_pPlayer->GetRace();
 	g_char_slot_ingame.bl_female = !g_pPlayer->IsMale();
@@ -3803,7 +3803,7 @@ InitPlayer(int x, int y, int dir)
 //-----------------------------------------------------------------------------
 // Make ScreenShot
 //-----------------------------------------------------------------------------
-// ���� ȭ���� ScreenShot�� �����Ѵ�.
+// ???? ????? ScreenShot?? ???????.
 //-----------------------------------------------------------------------------
 void	
 MakeScreenShot()
@@ -3817,14 +3817,14 @@ MakeScreenShot()
 	#endif
 
 	_mkdir("ScreenShot");
-	// MAX_SCREENSHOT���� ScreenCapture�� �����ϴ�.
+	// MAX_SCREENSHOT???? ScreenCapture?? ???????.
 	for (; g_ScreenShotNumber<maxScreenShot; g_ScreenShotNumber++)
 	{		
 		sprintf(str, "%s%03d.jpg", g_pFileDef->getProperty("PATH_SCREENSHOT").c_str(), g_ScreenShotNumber);
 		
 		int fd = _open( str, _O_RDONLY );
 
-		// file�� ���� ��쿡 save�ϱ� ���ؼ�..
+		// file?? ???? ??? save??? ?????..
 		if( fd == -1 )
 		{
 			// Save
@@ -3877,9 +3877,9 @@ MakeScreenShot()
 //-----------------------------------------------------------------------------
 // PlaySound
 //-----------------------------------------------------------------------------
-// (*g_pSoundTable)������ soundID�� ���õǴ� Filename�� Play�ϸ� �ȴ�.
-// (*g_pSoundManager)�� ������ �ٷ� play�ϸ� �ǰ�.. 
-// ������ Wav�� Load�ؼ� play�ϸ� �ȴ�.
+// (*g_pSoundTable)?????? soundID?? ???�?? Filename?? Play??? ???.
+// (*g_pSoundManager)?? ?????? ??? play??? ???.. 
+// ?????? Wav?? Load??? play??? ???.
 //-----------------------------------------------------------------------------
 void	
 PlaySound(TYPE_SOUNDID soundID, bool repeat, int x, int y)
@@ -3893,7 +3893,7 @@ PlaySound(TYPE_SOUNDID soundID, bool repeat, int x, int y)
 	//static int reuse	= 0;
 
 	//-----------------------------------------------------------
-	// ���ǵ��� �ʴ� sound ID�� ���..
+	// ??????? ??? sound ID?? ???..
 	//-----------------------------------------------------------
 	if (!g_DXSound.IsInit() || soundID >= (*g_pSoundTable).GetSize()
 		|| !g_pUserOption->PlaySound)
@@ -3903,7 +3903,7 @@ PlaySound(TYPE_SOUNDID soundID, bool repeat, int x, int y)
 	}
 
 	//-----------------------------------------------------------
-	// �ʴ� �Ҹ��� �� �ִ� ���� ����
+	// ??? ????? ?? ??? ???? ????
 	//-----------------------------------------------------------
 	if (!repeat 
 		&& g_SoundPerSecond > g_pClientConfig->MAX_SOUND_PER_SECOND)
@@ -3918,11 +3918,11 @@ PlaySound(TYPE_SOUNDID soundID, bool repeat, int x, int y)
 	int dist = max(abs(gapX), abs(gapY));				
 
 
-	// �Ÿ��� ��� ���� �̻��̸� �Ҹ��� ������� �ʾƾ� �Ѵ�.
+	// ?�??? ??? ???? ?????? ????? ??????? ???? ???.
 	if (dist < 25)
 	{			
 		//-----------------------------------------------------------
-		// ������ --> Load & Play
+		// ?????? --> Load & Play
 		//-----------------------------------------------------------
 		if ((*g_pSoundManager).IsDataNULL(soundID))
 		{
@@ -3941,7 +3941,7 @@ PlaySound(TYPE_SOUNDID soundID, bool repeat, int x, int y)
 			//LPDIRECTSOUNDBUFFER	pBuffer = g_pWavePackFileManager->LoadFromFileData(soundID);
 
 			//-----------------------------------------------------------
-			// Loading ����
+			// Loading ????
 			//-----------------------------------------------------------
 			if (pBuffer==NULL)
 			{
@@ -3950,10 +3950,10 @@ PlaySound(TYPE_SOUNDID soundID, bool repeat, int x, int y)
 			}
 			else
 			//-----------------------------------------------------------
-			// Load�� ���� ������...			
+			// Load?? ???? ??????...			
 			//-----------------------------------------------------------
 			{
-				// Replace������ �������� �޸𸮿��� �����.
+				// Replace?????? ???????? ??????? ?????.
 				LPDIRECTSOUNDBUFFER pOld;
 				if ((*g_pSoundManager).SetData( soundID, pBuffer, pOld )!=0xFFFF)
 				{
@@ -3979,7 +3979,7 @@ PlaySound(TYPE_SOUNDID soundID, bool repeat, int x, int y)
 				}			
 
 				
-				// ������� �Ҹ� �� ���̱� �ϵ��ڵ�. - -;
+				// ??????? ??? ?? ????? ??????. - -;
 				if (soundID==SOUND_WORLD_BIKE_GO
 					|| soundID==SOUND_WORLD_BIKE_STOP)
 				{
@@ -4007,7 +4007,7 @@ PlaySound(TYPE_SOUNDID soundID, bool repeat, int x, int y)
 			}
 		}
 		//-----------------------------------------------------------
-		// �ִ� ��� --> Play
+		// ??? ??? --> Play
 		//-----------------------------------------------------------
 		else
 		{
@@ -4028,7 +4028,7 @@ PlaySound(TYPE_SOUNDID soundID, bool repeat, int x, int y)
 					g_DXSound.CenterPan( pBuffer );
 				}
 
-				// ������� �Ҹ� �� ���̱� �ϵ��ڵ�. - -;
+				// ??????? ??? ?? ????? ??????. - -;
 				if (soundID==SOUND_WORLD_BIKE_GO
 					|| soundID==SOUND_WORLD_BIKE_STOP)
 				{
@@ -4075,7 +4075,7 @@ PlaySound(TYPE_SOUNDID soundID, bool repeat, int x, int y)
 //-----------------------------------------------------------------------------
 // PlaySound
 //-----------------------------------------------------------------------------
-// �Ҹ����� ��ġ�� �� player�� ��ġ..
+// ??????? ????? ?? player?? ???..
 // CenterPan & MaxVolume
 //-----------------------------------------------------------------------------
 void	
@@ -4087,7 +4087,7 @@ PlaySound(TYPE_SOUNDID soundID)
 	__BEGIN_PROFILE("PlaySound2")
 
 	//-----------------------------------------------------------
-	// ���ǵ��� �ʴ� sound ID�� ���..
+	// ??????? ??? sound ID?? ???..
 	//-----------------------------------------------------------
 	if (!g_DXSound.IsInit() || soundID >= (*g_pSoundTable).GetSize()
 		|| !g_pUserOption->PlaySound)
@@ -4097,9 +4097,9 @@ PlaySound(TYPE_SOUNDID soundID)
 	}
 
 	//-----------------------------------------------------------
-	// �ʴ� �Ҹ��� �� �ִ� ���� ����
+	// ??? ????? ?? ??? ???? ????
 	//-----------------------------------------------------------
-	// player�� �Ҹ��� ������ �ʿ䰡 ����.
+	// player?? ????? ?????? ??? ????.
 	//if (g_SoundPerSecond > g_pClientConfig->MAX_SOUND_PER_SECOND)
 	//{
 	//	__END_PROFILE("PlaySound2")
@@ -4107,7 +4107,7 @@ PlaySound(TYPE_SOUNDID soundID)
 	//}
 
 	//-----------------------------------------------------------
-	// ������ --> Load & Play
+	// ?????? --> Load & Play
 	//-----------------------------------------------------------
 	if ((*g_pSoundManager).IsDataNULL(soundID))
 	{
@@ -4125,7 +4125,7 @@ PlaySound(TYPE_SOUNDID soundID)
 		//LPDIRECTSOUNDBUFFER	pBuffer = g_pWavePackFileManager->LoadFromFileData(soundID);
 
 		//-----------------------------------------------------------
-		// Loading ����
+		// Loading ????
 		//-----------------------------------------------------------
 		if (pBuffer==NULL)
 		{
@@ -4133,11 +4133,11 @@ PlaySound(TYPE_SOUNDID soundID)
 			DEBUG_ADD_FORMAT("[Error] Failed to Load WAV. id=%d, fn=%s", soundID, (*g_pSoundTable)[soundID].Filename );
 		}
 		//-----------------------------------------------------------
-		// Load�� ���� ������...
+		// Load?? ???? ??????...
 		//-----------------------------------------------------------
 		else		
 		{
-			// Replace������ �������� �޸𸮿��� �����.
+			// Replace?????? ???????? ??????? ?????.
 			LPDIRECTSOUNDBUFFER pOld;
 			if ((*g_pSoundManager).SetData( soundID, pBuffer, pOld )!=0xFFFF)
 			{
@@ -4165,7 +4165,7 @@ PlaySound(TYPE_SOUNDID soundID)
 		}
 	}
 	//-----------------------------------------------------------
-	// �ִ� ��� --> Play
+	// ??? ??? --> Play
 	//-----------------------------------------------------------
 	else
 	{
@@ -4208,7 +4208,7 @@ void PlaySoundForce(TYPE_SOUNDID soundID)
 	__BEGIN_PROFILE("PlaySound2")
 
 	//-----------------------------------------------------------
-	// ���ǵ��� �ʴ� sound ID�� ���..
+	// ??????? ??? sound ID?? ???..
 	//-----------------------------------------------------------
 	if (!g_DXSound.IsInit() || soundID >= (*g_pSoundTable).GetSize()
 		)
@@ -4218,9 +4218,9 @@ void PlaySoundForce(TYPE_SOUNDID soundID)
 	}
 
 	//-----------------------------------------------------------
-	// �ʴ� �Ҹ��� �� �ִ� ���� ����
+	// ??? ????? ?? ??? ???? ????
 	//-----------------------------------------------------------
-	// player�� �Ҹ��� ������ �ʿ䰡 ����.
+	// player?? ????? ?????? ??? ????.
 	//if (g_SoundPerSecond > g_pClientConfig->MAX_SOUND_PER_SECOND)
 	//{
 	//	__END_PROFILE("PlaySound2")
@@ -4228,7 +4228,7 @@ void PlaySoundForce(TYPE_SOUNDID soundID)
 	//}
 
 	//-----------------------------------------------------------
-	// ������ --> Load & Play
+	// ?????? --> Load & Play
 	//-----------------------------------------------------------
 	if ((*g_pSoundManager).IsDataNULL(soundID))
 	{
@@ -4246,7 +4246,7 @@ void PlaySoundForce(TYPE_SOUNDID soundID)
 		//LPDIRECTSOUNDBUFFER	pBuffer = g_pWavePackFileManager->LoadFromFileData(soundID);
 
 		//-----------------------------------------------------------
-		// Loading ����
+		// Loading ????
 		//-----------------------------------------------------------
 		if (pBuffer==NULL)
 		{
@@ -4254,11 +4254,11 @@ void PlaySoundForce(TYPE_SOUNDID soundID)
 			DEBUG_ADD_FORMAT("[Error] Failed to Load WAV. id=%d, fn=%s", soundID, (*g_pSoundTable)[soundID].Filename );
 		}
 		//-----------------------------------------------------------
-		// Load�� ���� ������...
+		// Load?? ???? ??????...
 		//-----------------------------------------------------------
 		else		
 		{
-			// Replace������ �������� �޸𸮿��� �����.
+			// Replace?????? ???????? ??????? ?????.
 			LPDIRECTSOUNDBUFFER pOld;
 			if ((*g_pSoundManager).SetData( soundID, pBuffer, pOld )!=0xFFFF)
 			{
@@ -4286,7 +4286,7 @@ void PlaySoundForce(TYPE_SOUNDID soundID)
 		}
 	}
 	//-----------------------------------------------------------
-	// �ִ� ��� --> Play
+	// ??? ??? --> Play
 	//-----------------------------------------------------------
 	else
 	{
@@ -4331,19 +4331,19 @@ void
 StopSound(TYPE_SOUNDID soundID)
 {
 	//-----------------------------------------------------------
-	// ���ǵ��� �ʴ� sound ID�� ���..
+	// ??????? ??? sound ID?? ???..
 	//-----------------------------------------------------------
 	if (!g_DXSound.IsInit() || soundID == SOUNDID_NULL)
 		return;
 
 	//-----------------------------------------------------------
-	// ���ǵ��� �ʴ� sound ID�� ���..
+	// ??????? ??? sound ID?? ???..
 	//-----------------------------------------------------------
 	if (soundID == SOUNDID_NULL)
 		return;
 
 	//-----------------------------------------------------------
-	// ������ --> �׳� return
+	// ?????? --> ??? return
 	//-----------------------------------------------------------
 	if (soundID < g_pSoundManager->GetMaxIndex())
 	{
@@ -4352,7 +4352,7 @@ StopSound(TYPE_SOUNDID soundID)
 			return;
 		}
 		//-----------------------------------------------------------
-		// �ִ� ��� --> Stop
+		// ??? ??? --> Stop
 		//-----------------------------------------------------------
 		else
 		{
@@ -4369,24 +4369,24 @@ StopSound(TYPE_SOUNDID soundID)
 //---------------------------------------------------------------------------
 // Play Music Current Zone
 //---------------------------------------------------------------------------
-// ���� ���� �뷡�� �ٲ۴�.
+// ???? ???? ???? ????.
 //---------------------------------------------------------------------------
 void		
 PlayMusicCurrentZone()
 {
-	// ���� ���ǿ����� �뷡�� ������� �ʴ´�.
+	// ???? ????????? ???? ??????? ??�?.
 	if(g_Mode != MODE_GAME || g_pZone == NULL || !g_pUserOption->PlayMusic ||
 	   g_pEventManager->GetEventByFlag(EVENTFLAG_NOT_PLAY_SOUND))
 		return;
 	
-	// �� ����
+	// ?? ????
 	TYPE_ZONEID		zoneID		= g_bZonePlayerInLarge ? g_nZoneLarge : g_nZoneSmall;
 	ZONETABLE_INFO* pZoneInfo	= g_pZoneTable->Get( zoneID );	
 
-	// �÷����� �뷡 ����
+	// ?�????? ?? ????
 	TYPE_MUSICID	MusicID		= pZoneInfo->MusicID;
 	
-	// �ƴ��� ������ �������� �� �뷡�� �ٸ���.
+	// ????? ?????? ???????? ?? ???? ?????.
 	if(zoneID >= 71 && zoneID <= 75 && g_pUserOption->PlayWaveMusic)
 	{
 		const TYPE_MUSICID musicByAdam[] = {
@@ -4397,7 +4397,7 @@ PlayMusicCurrentZone()
 
 		MusicID = musicByAdam[musicIdx];
 	}
-	// ������ ������ ���ٸ� ����
+	// ?????? ?????? ????? ????
 	else if(MusicID == MUSICID_NULL)
 	{
 		const int randomSize = 13;
@@ -4416,7 +4416,7 @@ PlayMusicCurrentZone()
 		MusicID =  musicByRandom[randomIdx];
 	}
 	
-	// �÷����� �뷡�� �ִٸ� �뷡 ����
+	// ?�????? ???? ???? ?? ????
 	if (MusicID != MUSICID_NULL)
 	{
 		if (g_pUserOption->PlayWaveMusic)
@@ -4446,7 +4446,7 @@ PlayMusicCurrentZone()
 // 				g_oggfile = fopen( (*g_pMusicTable)[ MusicID ].FilenameWav, "rb");
 // 				if( g_oggfile != NULL )
 // 				{
-// 					// 2004, 11, 8, sobeit add start - �׳� ���� üũ
+// 					// 2004, 11, 8, sobeit add start - ??? ???? �?
 // 					if(SOUND_ERR_OK == g_pOGG->streamLoad( g_oggfile, NULL ))
 // 					{
 // 						if(SOUND_ERR_OK == g_pOGG->streamPlay( SOUND_PLAY_ONCE ))
@@ -4455,7 +4455,7 @@ PlayMusicCurrentZone()
 // 							g_pOGG->streamVolume( max( -10000, min( -1, volume ) ) );
 // 						}
 // 					}
-// 					// 2004, 11, 8, sobeit add end - �׳� ���� üũ
+// 					// 2004, 11, 8, sobeit add end - ??? ???? �?
 // 				}
 // 			}
 
@@ -4477,12 +4477,12 @@ PlayMusicCurrentZone()
 //---------------------------------------------------------------------------
 // Play Music Current Zone
 //---------------------------------------------------------------------------
-// ���� ���� �뷡�� �ٲ۴�.
+// ???? ???? ???? ????.
 //---------------------------------------------------------------------------
 void		
 PlayMusicCurrentZone()
 {
-	// �ð��� ���� play
+	// ?�??? ???? play
 	if(g_pEventManager->GetEventByFlag(EVENTFLAG_NOT_PLAY_SOUND))
 		return;
 	
@@ -4503,7 +4503,7 @@ PlayMusicCurrentZone()
 	};
 
 
-	// �ð��� ���� play
+	// ?�??? ???? play
 	const MUSIC_ID musicByTimeXmas[] = 
 	{
 		MUSIC_XMAS_SILENTNIGHT,
@@ -4530,14 +4530,14 @@ PlayMusicCurrentZone()
 		MUSIC_QUARTUS,
 	};
 
-	// ũ�������� �̺�Ʈ ��¥ üũ
+	// ????????? ???? ??� �?
 //	SYSTEMTIME st;
 //	GetLocalTime( &st ); 
 	
-	// ũ���������� ũ�������� �뷡�� Ʋ���ش�.
+	// ??????????? ????????? ???? ??????.
 	int newMusicID;
 
-	// ���������ΰ�?
+	// ????????????
 	int zoneID	= (g_bZonePlayerInLarge?g_nZoneLarge : g_nZoneSmall);
 	ZONETABLE_INFO* pZoneInfo = g_pZoneTable->Get( zoneID );	
 	bool bSafetyZone = (pZoneInfo!=NULL && pZoneInfo->Safety);
@@ -4593,7 +4593,7 @@ PlayMusicCurrentZone()
 	{
 		newMusicID = musicByTime[ (g_pGameTime->GetHour() / 2) % 12 ];
 	}	
-	// 2004, 7, 6 sobeit add start - ���巹 ���� ����� - bgm�� info���� ���� ���� �ʴ°���..
+	// 2004, 7, 6 sobeit add start - ???? ???? ????? - bgm?? info???? ???? ???? ??�???..
 	//if(zoneID == 1410 || zoneID == 1411)
 	//	newMusicID = MUSIC_ADVANCE ; //MUSIC_ILLUSIONS_WAY;
 	//else if(zoneID == 1412 || zoneID == 1413)
@@ -4613,7 +4613,7 @@ PlayMusicCurrentZone()
 		//if (pZoneInfo!=NULL)
 		{
 			//------------------------------------------
-			// ������ ���� ������ �޶�����.
+			// ?????? ???? ?????? ???????.
 			//------------------------------------------
 			//TYPE_MUSICID	newMusicID = 0;
 
@@ -4657,7 +4657,7 @@ PlayMusicCurrentZone()
 						g_oggfile = fopen( (*g_pMusicTable)[ musicID ].FilenameWav, "rb");
 						if( g_oggfile != NULL )
 						{
-							// 2004, 11, 8, sobeit add start - �׳� ���� üũ
+							// 2004, 11, 8, sobeit add start - ??? ???? �?
 							if(SOUND_ERR_OK == g_pOGG->streamLoad( g_oggfile, NULL ))
 							{
 								if(SOUND_ERR_OK == g_pOGG->streamPlay( SOUND_PLAY_ONCE ))
@@ -4666,7 +4666,7 @@ PlayMusicCurrentZone()
 									g_pOGG->streamVolume( max( -10000, min( -1, volume ) ) );
 								}
 							}
-							// 2004, 11, 8, sobeit add end - �׳� ���� üũ
+							// 2004, 11, 8, sobeit add end - ??? ???? �?
 						}
 					}
 #endif
@@ -4684,7 +4684,7 @@ PlayMusicCurrentZone()
 //---------------------------------------------------------------------------
 // Set Weather
 //---------------------------------------------------------------------------
-// ������ �ٲ۴�.
+// ?????? ????.
 //---------------------------------------------------------------------------
 void		
 SetWeather(int weather, int level)
@@ -4692,7 +4692,7 @@ SetWeather(int weather, int level)
 	static int previousWeather = weather;
 
 	//---------------------------------------------
-	// ������ ������ ���õ� Sound�� ���ش�.
+	// ?????? ?????? ???�? Sound?? ?????.
 	//---------------------------------------------
 	StopSound( g_previousSoundID );
 	
@@ -4700,7 +4700,7 @@ SetWeather(int weather, int level)
 	DEBUG_ADD_FORMAT("[Set Weather] %d, %d", weather, level);
 	
 	//---------------------------------------------
-	// ���� ������ ����...
+	// ???? ?????? ????...
 	//---------------------------------------------
 	if(previousWeather == WEATHER_SPOT)
 		g_pWeather->Release();
@@ -4708,10 +4708,10 @@ SetWeather(int weather, int level)
 	switch (weather)
 	{
 		//------------------------------
-		// ���� ����
+		// ???? ????
 		//------------------------------
 		case WEATHER_CLEAR :	
-			// ������ �� ���� ����������...
+			// ?????? ?? ???? ??????????...
 			if (previousWeather==WEATHER_RAINY)
 			{
 				if (g_pTopView!=NULL && g_pTopView->IsInit())
@@ -4725,10 +4725,10 @@ SetWeather(int weather, int level)
 		break;
 
 		//------------------------------
-		// ��
+		// ??
 		//------------------------------
 		case WEATHER_RAINY :
-			// ������ ���� �������ٸ�...
+			// ?????? ???? ?????????...
 			if (previousWeather!=WEATHER_RAINY)
 			{
 				if (g_pTopView!=NULL && g_pTopView->IsInit())
@@ -4739,20 +4739,20 @@ SetWeather(int weather, int level)
 
 			g_pWeather->SetRain( level<<3 );
 
-			// 2�� �� �� ���� �ö��� �Ҹ�
+			// 2?? ?? ?? ???? ?�??? ???
 			g_previousSoundID = (level>=15)? SOUND_WORLD_WEATHER_RAIN_2 : SOUND_WORLD_WEATHER_RAIN_1; 
 			
-			// �ݺ��ؼ� �� �Ҹ� ����...
+			// ?????? ?? ??? ????...
 			PlaySound( g_previousSoundID , 
 						true, 
 						g_pPlayer->GetX(), g_pPlayer->GetY() );
 		break;
 
 		//------------------------------
-		// ��
+		// ??
 		//------------------------------
 		case WEATHER_SNOWY  :
-			// ������ �� ���� ����������...
+			// ?????? ?? ???? ??????????...
 			if (previousWeather==WEATHER_RAINY)
 			{
 				if (g_pTopView!=NULL && g_pTopView->IsInit())
@@ -4769,7 +4769,7 @@ SetWeather(int weather, int level)
 		// Spot
 		//------------------------------
 		case WEATHER_SPOT  :
-			// ������ �� ���� ����������...
+			// ?????? ?? ???? ??????????...
 			if (previousWeather==WEATHER_RAINY)
 			{
 				if (g_pTopView!=NULL && g_pTopView->IsInit())
@@ -4797,18 +4797,18 @@ SetLightning(DWORD delay)
 	DEBUG_ADD("[Set Lightning]");
 	
 	//---------------------------------------------
-	// ���� ǥ��..
+	// ???? ???..
 	//---------------------------------------------
 	if (g_pTopView!=NULL && g_pTopView->IsInit())
 	{
 		g_pTopView->SetFadeStart(1, 31, 10, 31,31,31);
 	}
 
-	// 1�� ���� �Ÿ��� ������.. THUNDER1
-	// �� �ָ� THUNDER2
+	// 1?? ???? ?�??? ??????.. THUNDER1
+	// ?? ??? THUNDER2
 	TYPE_SOUNDID sid = (delay<=1000)? SOUND_WORLD_WEATHER_THUNDER_1 : SOUND_WORLD_WEATHER_THUNDER_2;
 
-	// sound�� ����ص״ٰ� ���߿� ����Ѵ�.
+	// sound?? ???????? ????? ??????.
 	SOUND_NODE* pNode = new SOUND_NODE( sid, delay, g_pPlayer->GetX(), g_pPlayer->GetY() );
 
 	g_pZone->AddSound( pNode );
@@ -4817,6 +4817,8 @@ SetLightning(DWORD delay)
 //---------------------------------------------------------------------------
 // Open File
 //---------------------------------------------------------------------------
+extern bool DE_IsEnglish();	// Client.cpp - DE_LANG_VARIANT
+
 bool 
 FileOpenBinary(const char* filename, ivfstream& file)
 {
@@ -4825,11 +4827,30 @@ FileOpenBinary(const char* filename, ivfstream& file)
 		file.close();
 	}
 
+	if (filename != NULL && DE_IsEnglish())
+	{
+		const char* dot   = strrchr(filename, 0x2E);
+		const char* slash = strrchr(filename, 0x5C);
+		const char* fwd   = strrchr(filename, 0x2F);
+		if (fwd > slash) slash = fwd;
+		if (dot != NULL && dot > slash)
+		{
+			char szEn[MAX_PATH];
+			const size_t head = (size_t)(dot - filename);
+			if (head + strlen(dot) + 4 < sizeof(szEn))
+			{
+				memcpy(szEn, filename, head);
+				memcpy(szEn + head, ".en", 3);
+				strcpy(szEn + head + 3, dot);
+				file.open(szEn, std::ios::binary);
+				if (file.is_open())
+					return true;
+			}
+		}
+	}
+
 	file.open(filename, std::ios::binary);
 
-	/*
-	DEBUG_ADD_FORMAT("File Open OK : [%s]", filename);
-	*/
 	return file.is_open();
 }
 
@@ -4858,7 +4879,7 @@ UpdateInput()
 	static int ySign = 0;
 	static int mouseStep = 1;
 	
-	// ��ȣ ����
+	// ??? ????
 	int xSignNew = 0;
 	int ySignNew = 0;
 
@@ -4873,30 +4894,30 @@ UpdateInput()
 	}
 
 	//------------------------------------------------------
-	// ������ ����
+	// ?????? ????
 	//------------------------------------------------------
 	if (xSignNew==0 && ySignNew==0)
 	{		
 		mouseStep = 6;
 	}
 	//------------------------------------------------------
-	// ������ ���
+	// ?????? ???
 	//------------------------------------------------------
 	else
 	{
 		//------------------------------------------------------
-		// ���� �������� �̵��ϸ�..
+		// ???? ???????? ??????..
 		//------------------------------------------------------
 		if (xSignNew==xSign && ySignNew==ySign)
 		{
-			// �ִ� mouse �̵� pixel����
+			// ??? mouse ??? pixel????
 			if (abs(mouseStep) < 20)
 			{
 				mouseStep ++;
 			}
 		}
 		//------------------------------------------------------
-		// �ٸ� �������� �̵��ϴ� ���
+		// ??? ???????? ?????? ???
 		//------------------------------------------------------
 		else
 		{
@@ -4906,7 +4927,7 @@ UpdateInput()
 		xSign = xSignNew;
 		ySign = ySignNew;
 
-		// Ŀ���� ������ �ش�.
+		// ????? ?????? ???.
 		int step = mouseStep >> 1;
 		if (g_pDXInput->m_mouse_x) g_x += g_pDXInput->m_mouse_xdata * (step? step : 1);
 		if (g_pDXInput->m_mouse_y) g_y += g_pDXInput->m_mouse_ydata * (step? step : 1);
@@ -4922,7 +4943,7 @@ UpdateInput()
 	//if (g_pDXInput->m_mouse_x) g_x += g_pDXInput->m_mouse_xdata*3;
 	//if (g_pDXInput->m_mouse_y) g_y += g_pDXInput->m_mouse_ydata*3;	
 
-	// Cursor�� position�� ����.
+	// Cursor?? position?? ?????.
 	/*
 	POINT point;
 	GetCursorPos(&point);
@@ -4931,7 +4952,7 @@ UpdateInput()
 
 
 	//-----------------------------------------------
-	// Mouse Cursor�� ������ ������ �ʵ��� �Ѵ�.
+	// Mouse Cursor?? ?????? ?????? ????? ???.
 	//-----------------------------------------------
 	if (g_x<0) g_x=0;
 	else if (g_x>=SURFACE_WIDTH) g_x=SURFACE_WIDTH-1;
@@ -4942,7 +4963,7 @@ UpdateInput()
 	//g_pDXInput->SetMousePosition( g_x, g_y );
 
 	//-----------------------------------------------
-	// ���� �Էµ� ���� CInputManager�� ����
+	// ???? ??�? ???? CInputManager?? ????
 	//-----------------------------------------------
 	/*
 	g_InputManager.SetPosition( g_x, g_y );
@@ -4959,7 +4980,7 @@ UpdateInput()
 void
 UpdateMouse()
 {
-	// Cursor�� position�� ����.
+	// Cursor?? position?? ?????.
 	POINT point;
 	GetCursorPos(&point);
 	ScreenToClient(g_hWnd, &point);
@@ -4969,7 +4990,7 @@ UpdateMouse()
 	g_y = point.y;
 	
 	//-----------------------------------------------
-	// Mouse Cursor�� ������ ������ �ʵ��� �Ѵ�.
+	// Mouse Cursor?? ?????? ?????? ????? ???.
 	//-----------------------------------------------
 	/*
 	if (g_x<0) g_x=0;
@@ -4982,7 +5003,7 @@ UpdateMouse()
 //---------------------------------------------------------------------------
 // Check Time
 //---------------------------------------------------------------------------
-// speedhacküũ�� ���ؼ� 1�и��� �ѹ��� ��Ŷ�� ������.
+// speedhack�??? ????? 1????? ????? ????? ??????.
 //---------------------------------------------------------------------------
 void
 CheckTime()
@@ -4990,13 +5011,13 @@ CheckTime()
 		if (g_pSocket!=NULL)
 		{
 #if __CONTENTS(__CHECKTIME_CONTROLL)
-			static DWORD nextTime = g_CurrentTime + 5000;			//���� ������ ����
+			static DWORD nextTime = g_CurrentTime + 5000;			//???? ?????? ????
 #else
-			static DWORD nextTime = g_CurrentTime + 60000;			//���� �ڵ�
+			static DWORD nextTime = g_CurrentTime + 60000;			//???? ???
 #endif //__CHECKTIME_CONTROLL
 
 			//------------------------------------------------------------------
-			// 1�� ���� �ѹ��� garbarge packet�� ������.
+			// 1?? ???? ????? garbarge packet?? ??????.
 			//------------------------------------------------------------------
 			if (g_CurrentTime > nextTime)		// 60 * 1000
 			{
@@ -5006,9 +5027,9 @@ CheckTime()
 					g_pSocket->sendPacket( &_CGVerifyTime );					
 
 #if __CONTENTS(__CHECKTIME_CONTROLL)
-				nextTime = timeGetTime() + 5000;//g_CurrentTime;	//���� ������ ����
+				nextTime = timeGetTime() + 5000;//g_CurrentTime;	//???? ?????? ????
 #else
-				nextTime = timeGetTime() + 60000;//g_CurrentTime;	//���� �ڵ�
+				nextTime = timeGetTime() + 60000;//g_CurrentTime;	//???? ???
 #endif //__CHECKTIME_CONTROLL
 			}
 		}
@@ -5022,10 +5043,10 @@ void
 KeepConnection()
 {
 	/*
-	// CGVerifyTime�� �����Ƿ� ���� �ʿ����.
+	// CGVerifyTime?? ??????? ???? ??????.
 	#ifdef CONNECT_SERVER	
 		if (
-			#ifndef _DEBUG		// debug���������� ������ KeepConnection�̴�.
+			#ifndef _DEBUG		// debug?????????? ?????? KeepConnection???.
 				(g_pUserInformation->KeepConnection || g_pUserInformation->IsMaster)
 				&&				
 			#endif
@@ -5035,7 +5056,7 @@ KeepConnection()
 			static DWORD lastTime = g_CurrentTime;
 
 			//------------------------------------------------------------------
-			// 3�� ���� �ѹ��� garbarge packet�� ������.
+			// 3?? ???? ????? garbarge packet?? ??????.
 			//------------------------------------------------------------------
 			if (g_CurrentTime - lastTime > 180000)		// 3 * 60 * 1000
 			{
@@ -5061,18 +5082,18 @@ UpdateDisconnected()
 	DEBUG_ADD("UpdateDisconnected : Start Process");
 	
 	//--------------------------------------------------
-	// socket����
+	// socket????
 	//--------------------------------------------------
 	ReleaseSocket();
 
 	//--------------------------------------------------
-	// �Ҹ� ����
+	// ??? ????
 	//--------------------------------------------------
 	StopSound( g_previousSoundID );
 	StopSound( SOUND_WORLD_PROPELLER );
 
 	//--------------------------------------------------
-	// ���� �����.
+	// ???? ?????.
 	//--------------------------------------------------
 	if (g_pUserOption->PlayWaveMusic)
 	{
@@ -5095,21 +5116,21 @@ UpdateDisconnected()
 	DEBUG_ADD("UpdateDisconnected : Stop Music OK");
 	
 	//--------------------------------------------------
-	// Thread Loading ����..
+	// Thread Loading ????..
 	//--------------------------------------------------
 //	StopLoadingThread();
 
 //	DEBUG_ADD("UpdateDisconnected : Stop Thread OK");
 	
 	//--------------------------------------------------
-	// game object�� ����
+	// game object?? ????
 	//--------------------------------------------------
 	ReleaseGameObject();
 
 	DEBUG_ADD("UpdateDisconnected : Release GameObject OK");
 	
 	//------------------------------------------------------
-	// dialog�� �� �ݱ�.
+	// dialog?? ?? ???.
 	//------------------------------------------------------
 	gC_vs_ui.CloseOption();
 //	gC_vs_ui.CloseInfo();
@@ -5131,9 +5152,9 @@ UpdateDisconnected()
 	
 
 	//--------------------------------------------------
-	// ���� ����ٴ� dialog
+	// ???? ?????? dialog
 	//--------------------------------------------------
-	// �ʻ�~ �ӽ� �ڵ�..
+	// ???~ ??? ???..
 	CSpritePack		SPK;
 	CFileIndexTable	FIT;
 	
@@ -5143,7 +5164,7 @@ UpdateDisconnected()
 
 	SPK.Init( FIT.GetSize() );
 	
-	// return�� ���� ������...
+	// return?? ???? ??????...
 	CSprite* pSpriteDisconected = &SPK[ SPRITEID_DISCONNECTED ];
 	CSprite* pSpriteDisconectedCloseFocused = &SPK[ SPRITEID_DISCONNECTED_CLOSE_FOCUSED ];
 	CSprite* pSpriteDisconectedClosePushed = &SPK[ SPRITEID_DISCONNECTED_CLOSE_PUSHED ];
@@ -5178,7 +5199,7 @@ UpdateDisconnected()
 	DEBUG_ADD("UpdateDisconnected : Load Disconnected Dialog OK");
 	
 	//--------------------------------------------------
-	// ���� ����ٴ� �� ���� �ѹ� ����ش�.
+	// ???? ?????? ?? ???? ??? ??????.
 	//--------------------------------------------------
 //	if (CDirect3D::IsHAL())
 //	{
@@ -5240,7 +5261,7 @@ UpdateDisconnected()
 		//gC_vs_ui.DrawMousePointer();
 
 		//-----------------------------------------------------------------
-		// Last�� Back���� copy - 3D HAL�� �ƴ� ��츸..
+		// Last?? Back???? copy - 3D HAL?? ??? ???..
 		//-----------------------------------------------------------------
 		point.x = 0;
 		point.y = 0;
@@ -5255,14 +5276,14 @@ UpdateDisconnected()
 	
 	
 	//------------------------------------------------------
-	// Main ȭ��..
+	// Main ???..
 	//------------------------------------------------------
 //	gC_vs_ui.StartTitle();
 	
 	DEBUG_ADD("UpdateDisconnected : UI Start Title OK");
 	
 	//------------------------------------------------------
-	// ALT + TAB ���°� �ƴ� ��
+	// ALT + TAB ???�? ??? ??
 	//------------------------------------------------------
 	extern bool	g_bTestMode;
 	if (g_bActiveGame
@@ -5284,7 +5305,7 @@ UpdateDisconnected()
 
 		while (1)
 		{
-			// UI���� �Է��� ���ƾ� �Ǵµ�...
+			// UI???? ????? ????? ??�?...
 			if (PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE))
 			{	
 				if (!GetMessage(&msg, NULL, 0, 0))
@@ -5451,7 +5472,7 @@ UpdateDisconnected()
 				gC_vs_ui.DrawMousePointer();
 
 				//-----------------------------------------------------------------
-				// Last�� Back���� copy - 3D HAL�� �ƴ� ��츸..
+				// Last?? Back???? copy - 3D HAL?? ??? ???..
 				//-----------------------------------------------------------------
 				point.x = 0;
 				point.y = 0;
@@ -5468,8 +5489,8 @@ UpdateDisconnected()
 		pSpriteDisconectedCloseFocused->Release();
 		pSpriteDisconectedClosePushed->Release();
 
-		// 2004, 07, 19 sobeit add start - ������ �����Ҽ� �����ϴ�. Ȯ�� ������ ���� �����ϰ� ����
-		if(true == g_pUserInformation->IsAutoLogIn) // �� �ڵ� �α��� �� ����
+		// 2004, 07, 19 sobeit add start - ?????? ??????? ???????. ??? ?????? ???? ??????? ????
+		if(true == g_pUserInformation->IsAutoLogIn) // ?? ??? ????? ?? ????
 			SetMode(MODE_QUIT);
 		// 2004, 07, 19 sobeit add end
 
@@ -5502,7 +5523,7 @@ UpdateDisconnected()
 			gC_vs_ui.DrawMousePointer();
 
 			//-----------------------------------------------------------------
-			// Last�� Back���� copy - 3D HAL�� �ƴ� ��츸..
+			// Last?? Back???? copy - 3D HAL?? ??? ???..
 			//-----------------------------------------------------------------
 			point.x = 0;
 			point.y = 0;
@@ -5521,17 +5542,17 @@ UpdateDisconnected()
 	DEBUG_ADD("UpdateDisconnected : OK");
 	
 	/*
-	//InitFail("Server�� �������� �ʽ��ϴ�.");
-	//InitFail("Server���� ������ ���������ϴ�.");
-	g_pBack->GDI_Text(101,201, "Server�� �������� �ʽ��ϴ�.", RGB(0,0,0));
-	g_pBack->GDI_Text(100,200, "Server�� �������� �ʽ��ϴ�.", RGB(220,220,220));
+	//InitFail("Server?? ???????? ??????.");
+	//InitFail("Server???? ?????? ???????????.");
+	g_pBack->GDI_Text(101,201, "Server?? ???????? ??????.", RGB(0,0,0));
+	g_pBack->GDI_Text(100,200, "Server?? ???????? ??????.", RGB(220,220,220));
 
-	g_pBack->GDI_Text(101,221, "[ESC]�� ��������.", RGB(0,0,0));
-	g_pBack->GDI_Text(100,220, "[ESC]�� ��������.", RGB(220,220,220));
+	g_pBack->GDI_Text(101,221, "[ESC]?? ????????.", RGB(0,0,0));
+	g_pBack->GDI_Text(100,220, "[ESC]?? ????????.", RGB(220,220,220));
 
 	CDirectDraw::Flip();
 
-	// return�� ���� ������...
+	// return?? ???? ??????...
 	while (1)
 	{
 		UpdateInput();
@@ -5542,16 +5563,16 @@ UpdateDisconnected()
 		}
 	}
 
-	// Titleȭ�� UI����
+	// Title??? UI????
 	//gC_vs_ui.StartTitle();	
 
-	//g_pBack->GDI_Text(101,201, "��� ��ٷ� �ּ���.", RGB(0,0,0));
-	//g_pBack->GDI_Text(100,200, "��� ��ٷ� �ּ���.", RGB(220,220,220));
+	//g_pBack->GDI_Text(101,201, "??? ???? ?????.", RGB(0,0,0));
+	//g_pBack->GDI_Text(100,200, "??? ???? ?????.", RGB(220,220,220));
 	//CDirectDraw::Flip();
 	*/
 }
 
-// ok�� ���� �� ����Ǵ� ��.
+// ok?? ???? ?? ?????? ??.
 void RunAfterServerDisconnect()
 {
 
@@ -5560,7 +5581,7 @@ void RunAfterServerDisconnect()
 //-----------------------------------------------------------------------------
 // Select LastSelected Character
 //-----------------------------------------------------------------------------
-// ������ ������ ĳ���͸� �����ϱ�
+// ?????? ?????? ?????? ???????
 //-----------------------------------------------------------------------------
 void
 SelectLastSelectedCharacter()
@@ -5603,7 +5624,7 @@ SelectLastSelectedCharacter()
 //-----------------------------------------------------------------------------
 // Select LastSelected Character
 //-----------------------------------------------------------------------------
-// ���� ������ ĳ���͸� �����ϱ�
+// ???? ?????? ?????? ???????
 //-----------------------------------------------------------------------------
 void
 SaveLastSelectedCharacter(int slot)
@@ -5624,7 +5645,7 @@ SaveLastSelectedCharacter(int slot)
 
 		if (pPCTable==NULL)
 		{
-			// worldID�� ������ �����ؼ� �߰�
+			// worldID?? ?????? ??????? ???
 			pPCTable = new PlayerConfigTable;
 
 			g_pWorldPlayerConfigTable->AddPlayerConfigTable( worldID, pPCTable );
@@ -5637,7 +5658,7 @@ SaveLastSelectedCharacter(int slot)
 		{
 			bNewPlayer = true;
 
-			// playerID�� ������ �����ؼ� �߰�
+			// playerID?? ?????? ??????? ???
 			pConfig = new PlayerConfig;
 			if( playerID != NULL && strlen( playerID ) < 12 )
 				pConfig->SetPlayerID( playerID );
@@ -5649,7 +5670,7 @@ SaveLastSelectedCharacter(int slot)
 
 		int oldSlot = pConfig->GetLastSlot();
 
-		// �׻� �����ϰ� ����..
+		// ??? ??????? ????..
 		//if (oldSlot != slot || bNewPlayer)
 		{
 			pConfig->SetLastSlot( slot );		
@@ -5662,15 +5683,15 @@ SaveLastSelectedCharacter(int slot)
 //-----------------------------------------------------------------------------
 // Set WatchMode ( true || false )
 //-----------------------------------------------------------------------------
-// �����ϴ� mode..
+// ??????? mode..
 //-----------------------------------------------------------------------------
 void	
 SetWatchMode(bool active)
 {
 	//-------------------------------------------------------------------
-	// Player�� Zone���� ����
-	// UI �۵� ���ϰ� ����?
-	// �̵� ��� ����
+	// Player?? Zone???? ????
+	// UI ??? ????? ?????
+	// ??? ??? ????
 	//-------------------------------------------------------------------
 	if (active)
 	{
@@ -5794,7 +5815,7 @@ AddClientCreature()
 	int x, y;
 
 	//-----------------------------------
-	// �� �Դ� Creature
+	// ?? ??? Creature
 	//-----------------------------------
 	if (0)//rand()%2)
 	{
@@ -5802,10 +5823,10 @@ AddClientCreature()
 
 		pCreature->SetZone(g_pZone);
 
-		// (*g_pCreatureTable)�� ������ ���� �ϳ�..
+		// (*g_pCreatureTable)?? ?????? ???? ???..
 		pCreature->SetCreatureType( rand()%2 );
 
-		// Move ������ �ٸ��� �Ѵ�.
+		// Move ?????? ????? ???.
 		switch (0)//rand()%2)//rand()%3)
 		{
 			case 0 :
@@ -5858,7 +5879,7 @@ AddClientCreature()
 		
 		pCreature->SetID( creatureID );
 
-		// �̸� ���� - �ϴ��� ID��
+		// ??? ???? - ????? ID??
 		//char str[80];
 		//sprintf(str, "ID=%d", pCreature->GetID());
 		//pCreature->SetName( str );
@@ -5889,7 +5910,7 @@ AddClientCreature()
 		return pCreature;
 	}
 	//-----------------------------------
-	// �� ���� Creature
+	// ?? ???? Creature
 	//-----------------------------------
 	else
 	{				
@@ -5914,14 +5935,14 @@ AddClientCreature()
 			pCreature->SetCreatureType( cType );//11+rand()%(23-11+1) );
 		}
 
-		// �����ϴ� Zone�� �����Ѵ�.
+		// ??????? Zone?? ???????.
 		pCreature->SetZone(g_pZone);
 
-		// (*g_pCreatureTable)�� ������ ���� �ϳ�..
+		// (*g_pCreatureTable)?? ?????? ???? ???..
 		//pCreature->SetCreatureType( (rand()%((*g_pCreatureTable).GetSize()-4))+4 );				
 		
 		//------------------------------------------------------------
-		// ���丮�� ���.. �ϵ��ڵ�(-_-);
+		// ?????? ???.. ??????(-_-);
 		//------------------------------------------------------------
 		pCreature->SetStatus( MODIFY_MAX_HP, 100 );
 		if (cType==217)
@@ -6011,7 +6032,7 @@ AddClientCreature()
 		}
 		
 
-		// Move ������ �ٸ��� �Ѵ�.
+		// Move ?????? ????? ???.
 		switch (0)//rand()%2)//rand()%3)
 		{
 			case 0 :
@@ -6067,14 +6088,14 @@ AddClientCreature()
 		pCreature->SetID( creatureID );
 
 				
-		// �̸� ���� - �ϴ��� ID��
+		// ??? ???? - ????? ID??
 		//if (pCreature->IsVampire())
 		{
 			//char str[80];
 			//sprintf(str, "ID=%d, Type=%d", pCreature->GetID(), pCreature->GetCreatureType());
 			pCreature->SetName( (*g_pCreatureTable)[pCreature->GetCreatureType()].Name.GetString() );
 
-			// �Լ���ü�� Ŭ���̾�Ʈ ����-.-;;; ����-_-;
+			// ?????�?? ??????? ????-.-;;; ????-_-;
 			if ((pCreature->GetID() & 0x00000007)==7)
 			{
 				pCreature->SetPlayerParty();
@@ -6131,7 +6152,7 @@ AddClientCreature()
 		// [ TEST CODE ]
 		//pCreature->SetChatString( "1234567890abcdefgijklmnopqrstuvwxyz");
 		
-		// ������ frame���� �����Ѵ�.
+		// ?????? frame???? ???????.
 		//int end = rand()%20;
 		//for (int a=0; a<end; a++)
 		//{
@@ -6150,20 +6171,20 @@ AddClientCreature()
 // GetMakeItemFitPosition
 //-----------------------------------------------------------------------------
 //
-// ���������, ��ź/���� �����.. ��� ���ȴ�.
+// ?????????, ???/???? ?????.. ???? ?????.
 //
-// pItem���� ���ؼ� �����Ǵ� item(itemClass, itemType)�� �� ��ġ��
-// fitPoint�� ���ؼ� ���� �� �ִ�.
+// pItem???? ????? ??????? item(itemClass, itemType)?? ??? ?????
+// fitPoint?? ????? ???? ?? ???.
 //
-// return true�� ��츸 fitPoint�� �� �� �ִ� ��ġ�� ����ȴ�.
-// return false�̸� �� ��ġ�� ���ٴ� �ǹ��̴�.
+// return true?? ??? fitPoint?? ??? ?? ??? ????? ??????.
+// return false??? ??? ????? ????? ??????.
 //-----------------------------------------------------------------------------
 bool
 GetMakeItemFitPosition(MItem* pItem, ITEM_CLASS itemClass, int itemType, POINT& fitPoint)
 {
-	bool bFindPos = false;	// �ڸ��� �ֳ�?
+	bool bFindPos = false;	// ????? ????
 	
-	// �ӽ÷� ������ ���� �� �ڸ��� ã�´�.
+	// ??�? ?????? ????? ??? ????? �?�?.
 	MItem* pResultItem = MItem::NewItem( itemClass );
 	pResultItem->SetItemType( itemType );
 
@@ -6173,9 +6194,9 @@ GetMakeItemFitPosition(MItem* pItem, ITEM_CLASS itemClass, int itemType, POINT& 
 
 		MItem* pOldItem = g_pInventory->GetItem(fitPoint.x, fitPoint.y);
 
-		// �� ���� �߰��ҷ��� �ϰ�..
-		// �ϳ��� �����ִٸ�.. 
-		// ���� ��ġ���� �״�� �ٲ۴�.
+		// ?? ???? ???????? ???..
+		// ????? ????????.. 
+		// ???? ??????? ???? ????.
 		if (pOldItem==NULL
 			&& pItem->GetNumber()==1)
 		{
@@ -6188,8 +6209,8 @@ GetMakeItemFitPosition(MItem* pItem, ITEM_CLASS itemClass, int itemType, POINT& 
 	/*
 	else
 	{
-		// �� �ڸ��� ���� ��쿡
-		// �ϳ��� �����ִٸ�.. �� �ڸ����� �ٲٸ� �ȴ�.
+		// ?? ????? ???? ???
+		// ????? ????????.. ?? ??????? ???? ???.
 		if (pItem->GetNumber()==1)
 		{
 			fitPoint.x = pItem->GetGridX();
@@ -6200,16 +6221,16 @@ GetMakeItemFitPosition(MItem* pItem, ITEM_CLASS itemClass, int itemType, POINT& 
 	}
 	*/
 
-	// �ӽ÷� ����� ����
+	// ??�? ????? ????
 	delete pResultItem;
 
 	return bFindPos;
 }
-// 2004, 03, 29 sobeit add start - ���巹 �� ����Ʈ �߰�
+// 2004, 03, 29 sobeit add start - ???? ?? ????? ???
 void 
 Add_GDR_Ghost(int ZoneID)
 {
-	if(1412 != ZoneID && 1413 != ZoneID) // ���巹 ����, ���巹 �ϵ�
+	if(1412 != ZoneID && 1413 != ZoneID) // ???? ????, ???? ???
 		return;
 	CRarFile GhostFile;
 	GhostFile.SetRAR("data\\ui\\txt\\TutorialEtc.rpk", RPK_PASSWORD);
@@ -6263,5 +6284,5 @@ Add_GDR_Ghost(int ZoneID)
 	}
 	GhostFile.Release();
 }
-// 2004, 03, 29 sobeit add end - ���巹 �� ����Ʈ �߰�
+// 2004, 03, 29 sobeit add end - ???? ?? ????? ???
 

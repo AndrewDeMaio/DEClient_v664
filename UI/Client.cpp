@@ -132,8 +132,8 @@ int					g_Dimension = 0;
 DWORD				g_TimerNPMON = 0;
 
 // FPS
-DWORD				g_CurrentTime = 0;		// �ð�
-DWORD				g_CurrentFrame = 0;		// frame��
+DWORD				g_CurrentTime = 0;		// ?�?
+DWORD				g_CurrentFrame = 0;		// frame??
 
 int					g_FrameCount = 0;
 int					g_StartFrameCount = 0;
@@ -144,7 +144,7 @@ bool				g_bGoodFPS = true;
 
 const int			g_FrameGood = 15;
 
-LONG				g_lGameRunBreakTime = 0;	//���� ������ ���� �� ��(��ũ�� �� �Ǵ� Pause Break)
+LONG				g_lGameRunBreakTime = 0;	//???? ?????? ???? ?? ??(????? ?? ??? Pause Break)
 //2009.01.05 shootkj
 
 // Application Time
@@ -172,7 +172,7 @@ DWORD WINAPI XTrap_Check_Alive(LPVOID temp)
 // minimize | anotherWnd click--> !ActiveGame
 BOOL				g_bActiveApp = FALSE; // Is application active?
 BOOL				g_bActiveGame = FALSE; // Is Game Active?
-BOOL				g_bNeedUpdate = FALSE; // update�ؾߵǳ�?
+BOOL				g_bNeedUpdate = FALSE; // update??????
 
 DWORD				g_double_click_time = 0;
 
@@ -190,7 +190,7 @@ BYTE				g_PayType = 1;
 //void SizeOfObjects();
 //#define				__WEB_BROWSER__
 //IWebBrowser2*			g_pWebBrowser = NULL; 
-// [Futec����]
+// [Futec????]
 char g_FutecIP[20] = { 0, };
 unsigned int g_FutecPort = 0;
 BYTE g_AdvanceVampireActionMaxCount[ACTION_ADVANCEMENT_MAX - ACTION_ADVANCEMENT_STOP];
@@ -221,8 +221,8 @@ struct NETMARBLE_INFO
 struct REALSERVER_INFO
 {
 	REALSERVER_INFO() { bMode = false; WorldID = 0; }
-	bool bMode;		// 0: ��������, 1:��������
-	int WorldID;	// 0: ���, 1: �緹��
+	bool bMode;		// 0: ????????, 1:????????
+	int WorldID;	// 0: ???, 1: ????
 	MString ID;		// id
 	MString Key;	// Key
 };
@@ -235,7 +235,7 @@ extern BOOL GetMacAddressFromSock();
 // define function
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-// addFile�� �о originalFile�� ���� ���δ�.
+// addFile?? ??? originalFile?? ???? ?????.
 //-----------------------------------------------------------------------------			
 #define WRITE_FROM_FILE(originalFile, patchFile)		\
 		{												\
@@ -259,7 +259,7 @@ extern BOOL GetMacAddressFromSock();
 		}
 
 //-----------------------------------------------------------------------
-// Get Futec Address [Futec����]
+// Get Futec Address [Futec????]
 //-----------------------------------------------------------------------
 // DarkEden.exe Futec(IP:Port)
 //              01234567890123
@@ -313,7 +313,7 @@ ParsingRealServer(const char* pCommandLine, int Dimention, REALSERVER_INFO& info
 
 	int argcnt = 0;
 	char* token = NULL;
-	//�ش� ���ڿ��� 32����Ʈ�� �ø��鼭 NULL���� ������ ������ �ʵ��� +1 ���ش�.
+	//??? ??????? 32??????? ?�??? NULL???? ?????? ?????? ????? +1 ?????.
 	char arg2[4][32 + 1];
 	argcnt = 0;
 
@@ -342,7 +342,7 @@ ParsingRealServer(const char* pCommandLine, int Dimention, REALSERVER_INFO& info
 //-----------------------------------------------------------------------------
 HRESULT InitFail(LPCTSTR szError, ...)
 {
-	// ���α׷� �ߴ�..
+	// ?????? ???..
 	g_bActiveApp = FALSE;
 
 	ShowCursor(TRUE);
@@ -371,7 +371,7 @@ bool g_bUseProgressBar = true;
 HWND g_hWndProgress = NULL;
 const int progressBarWidth = 300;
 const int progressBarHeight = 40;
-const int g_numAppendFiles = 16;		// AppendPatch.inf�� file�� ����
+const int g_numAppendFiles = 16;		// AppendPatch.inf?? file?? ????
 
 std::map<DWORD, std::string> g_nProtectMessage;
 
@@ -405,7 +405,7 @@ DARKEDEN_LANGUAGE CheckDarkEdenLanguage()
 #ifdef DE_FORCE_LANGUAGE
 	return DE_FORCE_LANGUAGE;
 #else
-	// Language ������ DATA\INFO\Infodata.rpk �� ����ִ�.
+	// Language ?????? DATA\INFO\Infodata.rpk ?? ??????.
 
 	CRarFile rarfile;
 
@@ -437,6 +437,11 @@ DARKEDEN_LANGUAGE CheckDarkEdenLanguage()
 
 	return (DARKEDEN_LANGUAGE)(DARKEDEN_KOREAN + num);
 #endif	// DE_FORCE_LANGUAGE
+}
+
+bool DE_IsEnglish()
+{
+	return CheckDarkEdenLanguage() == DARKEDEN_ENGLISH;
 }
 
 void PrecalculateAdvancementClassCreatureFrames()
@@ -575,7 +580,7 @@ void UpdateProgressBar()
 //-----------------------------------------------------------------------------
 HWND		g_hPatchLogWnd = NULL;
 HWND		g_hPatchLogEdit = NULL;
-char* g_pPatchLogBuffer = NULL;	// �󸶳� Ŭ�� ���󼭸� global�� �״�.
+char* g_pPatchLogBuffer = NULL;	// ???? ??? ?????? global?? ???.
 
 LRESULT FAR PASCAL PatchLogWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -599,7 +604,7 @@ bool ReadPatchLogFromFile()
 		return false;
 	}
 
-	std::ifstream file(filename);	// text file�̴�.
+	std::ifstream file(filename);	// text file???.
 
 	file.seekg(0, std::ios::end);
 	long fpEnd = file.tellg();
@@ -629,7 +634,7 @@ bool ReadPatchLogFromFile()
 			n -= 1;
 		}
 
-		// \r\n�� �ٿ���� �������� �ȴ�.		
+		// \r\n?? ?????? ???????? ???.		
 		strBuffer[n] = '\r';
 		strBuffer[n + 1] = '\n';
 
@@ -679,7 +684,7 @@ void ShowPatchLogWindow()
 		style &= ~WS_MAXIMIZEBOX;
 		style &= ~WS_THICKFRAME;
 
-		g_hPatchLogWnd = CreateWindow("PatchLog", "��ũ���� ��ġ����",
+		g_hPatchLogWnd = CreateWindow("PatchLog", "??????? ???????",
 								style,
 								GetSystemMetrics(SM_CXSCREEN)/2 - width/2,
 								GetSystemMetrics(SM_CYSCREEN)/2 - height/2,
@@ -705,7 +710,7 @@ void ShowPatchLogWindow()
 		{
 			DestroyWindow( g_hPatchLogWnd );
 
-			// �ٷ� return�ϸ� main window�� �״´�. - -;
+			// ??? return??? main window?? ??�?. - -;
 		}
 		else
 		{
@@ -736,7 +741,7 @@ void ShowPatchLogWindow()
 //-----------------------------------------------------------------------------
 // Check DX Version
 //-----------------------------------------------------------------------------
-// DirectX Version�� check�Ѵ�.
+// DirectX Version?? check???.
 //-----------------------------------------------------------------------------
 /*
 bool
@@ -765,7 +770,7 @@ CheckDXVersion()
 	//------------------------------------------------------
 	// DirectX Version check
 	//------------------------------------------------------
-	// DX 7.0 �̻�
+	// DX 7.0 ???
 	if (dwVer==DXVER_DX_7)
 	{
 		return true;
@@ -773,20 +778,20 @@ CheckDXVersion()
 
 	//InitFail("You need to install DirectX 7.0 or later version...");
 
-	// �� ������� �ƿ� ��ƹ�����..
+	// ?? ??????? ??? ????????..
 	char directory[_MAX_PATH];
 
-	// ���� ���丮�� ��
+	// ???? ?????? ???
 	GetCurrentDirectory( _MAX_PATH, directory );
 
-	// ����ȭ�� �̸��� ���δ�.
+	// ??????? ????? ?????.
 	sprintf(directory, "%s\\%s", directory, PROGRAM_FILENAME);
 
 	CDirectSetup::SetRestartProgram(directory);
 	CDirectSetup::DirectXInstall(g_hWnd, g_hInstance, "DirectX7", true);
 
-	// ���� ��� ���� �ٷ� �����ص� �Ǵ°ɱ�?
-	// rebooting �ؾ����� ������??
+	// ???? ??? ???? ??? ??????? ??�???
+	// rebooting ??????? ????????
 
 	return true;
 	//return false;
@@ -830,9 +835,9 @@ LRESULT FAR PASCAL WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 		break;
 #endif
 #endif
-		// zzi	-  20071010 �ѱ��Է� ���� ����.
-		//			IME ��� ��ȭ �޼����� �޾Ƽ�~~~ ������.. NONCONVERSION ���Ѻ��Ҵ�.
-		//		�����ϱ� ������ WM_IME_NOTIFY ó�� case���� �ּ����� ó���Ǿ� �־�����, ������ ������. 
+		// zzi	-  20071010 ?????? ???? ????.
+		//			IME ??? ??? ??????? ????~~~ ??????.. NONCONVERSION ????????.
+		//		??????? ?????? WM_IME_NOTIFY �?? case???? ??????? �????? ???????, ?????? ??????. 
 #if !__CONTENTS (__LANGUAGE_CHANGE)
 	case WM_IME_NOTIFY:
 	{
@@ -869,24 +874,24 @@ LRESULT FAR PASCAL WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 	//---------------------------------------------------------------
 	case MM_MCINOTIFY:
 	{
-		// Mid�� �� ���ֵǾ��ٴ� ���̴�.
+		// Mid?? ?? ????????? ?????.
 		if (wParam == MCI_NOTIFY_SUCCESSFUL)
 		{
-			// Opening �������� ���� ���
+			// Opening ???????? ???? ???
 			if (g_pAvi != NULL && (DWORD)lParam == g_pAvi->dwID)
 			{
 				g_pAvi->bEndFlag = true;
 				g_pAvi->Close();
 
-				// Login ȭ������...
+				// Login ???????...
 				SetMode(MODE_MAINMENU);
 			}
-			// ���� ���ְ� ���� ���
+			// ???? ????? ???? ???
 			else
 			{
 				/*
-				// �ݺ� ���� ���Ѵ�.
-				if (g_pUserOption->PlayMusic)//g_Music.IsPause())	// ���� �ʿ��ұ�.. - -;
+				// ??? ???? ?????.
+				if (g_pUserOption->PlayMusic)//g_Music.IsPause())	// ???? ??????.. - -;
 				{
 					if (g_pUserOption->PlayWaveMusic)
 					{
@@ -900,7 +905,7 @@ LRESULT FAR PASCAL WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 				*/
 				//else
 				//{
-					// �ݺ��ؼ� �����Ѵ�.
+					// ?????? ???????.
 				//	g_Music.RePlay();
 				//}
 //					if(g_pMP3->IsLoop())
@@ -957,7 +962,7 @@ LRESULT FAR PASCAL WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 			//WORD fActive = LOWORD(wParam);           // activation flag
 			//BOOL fMinimized = (BOOL) HIWORD(wParam); // minimized flag
 
-			// active�ư� minimized�� �ƴ� ���°� ActiveGame�̴�..
+			// active??? minimized?? ??? ???�? ActiveGame???..
 			//BOOL bActive = (fActive==WA_ACTIVE) || (fActive==WA_CLICKACTIVE);
 			//				//&& !fMinimized;
 
@@ -977,7 +982,7 @@ LRESULT FAR PASCAL WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 				// acquire
 				g_pDXInput->SetAcquire(bActive);
 
-				// �Է��� �ʱ�ȭ�Ѵ�.
+				// ????? ???????.
 				g_pDXInput->Clear();
 			}
 		}
@@ -1116,7 +1121,7 @@ LRESULT FAR PASCAL WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 
 		if (g_Mode == MODE_OPENING)
 		{
-			// Opening�� ������.
+			// Opening?? ??????.
 			if (wParam == VK_ESCAPE || wParam == VK_RETURN || wParam == VK_SPACE)
 			{
 				if (g_pAvi != NULL)
@@ -1177,7 +1182,7 @@ LRESULT FAR PASCAL WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 			*/
 
 			//-----------------------------------------------
-			// Volume ����
+			// Volume ????
 			//-----------------------------------------------
 			/*
 			case VK_F5 :
@@ -1208,7 +1213,7 @@ LRESULT FAR PASCAL WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 
 			//-----------------------------------------------
 			//
-			//				Debug Mode ��
+			//				Debug Mode ??
 			//
 			//-----------------------------------------------
 #if defined(OUTPUT_DEBUG)
@@ -1231,14 +1236,14 @@ LRESULT FAR PASCAL WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 			//	return 0L;	
 
 			//-----------------------------------------------
-			// �����̴� ��� ����
+			// ??????? ??? ????
 			//-----------------------------------------------
 			/*
 			case VK_F2 :
 			{
 				if (g_pPlayer->IsStop())
 				{
-					// �����̴� ���� �ٲٱ�
+					// ??????? ???? ????
 					//if (g_pPlayer->GetMoveDevice()==MCreature::MOVE_DEVICE_NULL)
 					//{
 					//	g_pPlayer->SetMoveDevice( MCreature::MOVE_DEVICE_MOTOR1 );
@@ -1263,7 +1268,7 @@ LRESULT FAR PASCAL WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 						g_pPlayer->SetCreatureType( type );
 					}
 
-					// ���� Slayer
+					// ???? Slayer
 					if (g_pPlayer->GetCreatureType()==0)
 					{
 						g_pPlayer->RemoveAddon( ADDON_COAT );
@@ -1303,7 +1308,7 @@ color
 							}
 
 
-							// ��½~~
+							// ??�~~
 							g_pTopView->SetFadeStart(1, 31, 10,  31,0,0);
 						}
 					}
@@ -1322,7 +1327,7 @@ color
 							//g_pPlayer->SetAddonNULL(MCreatureWear::ADDON_SHOES);
 						//else g_pPlayer->SetAddon(MCreatureWear::ADDON_SHOES, 2);
 
-						// ���� ��� ��ȯ
+						// ???? ??? ???
 						if (g_pPlayer->IsAttackModeAggress())
 						{
 							g_pPlayer->SetAttackModePeace();
@@ -1380,14 +1385,14 @@ color
 			return 0L;
 
 			//-----------------------------------------------
-			// debug �޼���
+			// debug ?????
 			//-----------------------------------------------
 		case VK_F12:
 			g_bPutMessage = !g_bPutMessage;
 			return 0L;
 
 			//-----------------------------------------------
-			// Debug Message û��~�ϱ�
+			// Debug Message �??~???
 			//-----------------------------------------------
 		case VK_DELETE:
 		{
@@ -1477,7 +1482,7 @@ color
 					}
 					else
 					{
-						// ���� ���..
+						// ???? ???..
 						g_pPlayer->SetDead();
 					}
 				}
@@ -1488,7 +1493,7 @@ color
 			// [ TEST CODE ]
 			case '/':
 			{
-				// ���� ����
+				// ???? ????
 				/*
 				int newHP = g_pPlayer->GetHP() - 5;
 				int newMP = g_pPlayer->GetMP() - 3;
@@ -1500,19 +1505,19 @@ color
 				pStatus->SetStatus(MODIFY_HP, newHP);
 				pStatus->SetStatus(MODIFY_MP, newMP);
 
-				// UI����
+				// UI????
 				gC_vs_ui.SetHP(newHP, 100);
 				gC_vs_ui.SetMP(newMP, 100);
 
-				// ����� HP�� ���ϵ��� ����
+				// ????? HP?? ??????? ????
 				MActionResult *pResult = new MActionResult;
 				pResult->Add( new MActionResultNodeChangeStatus(g_pPlayer->GetID(), pStatus) );
 
-				// ��� Action ���
+				// ??? Action ???
 				//g_pPlayer->PacketSpecialActionResult( SKILL_ATTACK_MELEE );
 				g_pPlayer->PacketSpecialActionResult( RESULT_VAMPIRE_DIE );
 
-				// ��� ���� ���(effectID�� �־�� �Ǵµ�..)
+				// ??? ???? ???(effectID?? ???? ??�?..)
 				g_pPlayer->PacketAddActionResult(0, pResult);
 
 
@@ -1530,14 +1535,14 @@ color
 			return 0L;
 			//*/
 
-			// ��¦ �Ӱ� ���ϱ�
+			// ??� ??? ?????
 			case '6':
 			{
 				g_pTopView->SetFadeStart(25, 31, 2, 31, 0, 0);
 			}
 			break;
 
-			// ����
+			// ????
 			case '7':
 			{
 				SetLightning(rand() % 4 * 500 + 500);
@@ -1567,7 +1572,7 @@ color
 
 					g_pPlayer->SetSpecialActionInfo(newActionInfo);
 
-					// player�� �ִ� action�� ���..
+					// player?? ??? action?? ???..
 					if (newActionInfoAction <= maxPlayerAction)
 						break;
 				} while (1);
@@ -1596,7 +1601,7 @@ color
 
 					g_pPlayer->SetSpecialActionInfo(newActionInfo);
 
-					// player�� �ִ� action�� ���..
+					// player?? ??? action?? ???..
 					if (newActionInfoAction <= maxPlayerAction)
 						break;
 				} while (1);
@@ -1632,7 +1637,7 @@ color
 		}
 		return TRUE;
 	*/
-	// `�ѱ��Է½� IMEǥ�ð� ������ ���ϵ��� �Ѵ�.
+	// `?????�? IME??�? ?????? ??????? ???.
 	//
 
 	//---------------------------------------------------------------
@@ -1756,11 +1761,11 @@ BOOL InitApp(int nCmdShow)
 #endif
 
 
-	// ������ ���� ������ BoA��~
-	// ������ ��� �Ϲ� ����
+	// ?????? ???? ?????? BoA??~
+	// ?????? ??? ??? ????
 	// 091112 fakaus
-	// ���� ���� â ��� ���� �����ϵ���
-	if/*(true)*/ (g_pUserInformation->attrOperator.GetValue())//by kim �ּ����� 
+	// ???? ???? � ??? ???? ?????????
+	if/*(true)*/ (g_pUserInformation->attrOperator.GetValue())//by kim ??????? 
 		// 091112 fakaus	
 	{
 #if __CONTENTS(__INTERNATIONAL_UI || __CHINESE_UI || __JAPAN_UI)
@@ -1769,7 +1774,7 @@ BOOL InitApp(int nCmdShow)
 			MB_YESNOCANCEL | MB_ICONQUESTION);
 #else
 		int nAnswer = MessageBox(g_hWnd,
-			"â���� �����Ͻðڽ��ϱ�?", "â��� ����",
+			"�???? ??????�??????", "�??? ????",
 			MB_YESNOCANCEL | MB_ICONQUESTION);
 #endif
 
@@ -1781,10 +1786,10 @@ BOOL InitApp(int nCmdShow)
 
 
 
-	// 2004, 8, 27, sobeit add end - mac address üũ ��, mac screen mode üũ
+	// 2004, 8, 27, sobeit add end - mac address �? ??, mac screen mode �?
 	if (g_bFullScreen)
 	{
-		exStyle = WS_EX_APPWINDOW;  // Pseudo-fullscreen: no TOPMOST — InitFullscreen uses HWND_NOTOPMOST to allow alt-tab
+		exStyle = WS_EX_APPWINDOW;  // Pseudo-fullscreen: no TOPMOST � InitFullscreen uses HWND_NOTOPMOST to allow alt-tab
 		//style = WS_POPUP;
 		style = WS_POPUP | WS_CLIPCHILDREN;
 		//	style = WS_POPUP|WS_CLIPCHILDREN| WS_CLIPSIBLINGS;
@@ -1793,7 +1798,7 @@ BOOL InitApp(int nCmdShow)
 	}
 	else
 	{
-		// 16��Ʈ ���� ȭ�� ��ȯ
+		// 16??? ???? ??? ???
 		//*
 		DEVMODE devModeScreen;
 		memset(&devModeScreen, 0, sizeof(devModeScreen));
@@ -1840,7 +1845,7 @@ BOOL InitApp(int nCmdShow)
 		if( (nProtectResult = RunNPROTECT()) != NPROTECT_OK )
 		{
 			char szTemp[256];
-			wsprintf(szTemp,"nProtect�� ������� �ʾҽ��ϴ�.\n��ũ�� ���α׷��̳� ��ŷ ���α׷��� ����� ��찡 �ƴ϶�� \n bug@darkeden.com ���� ������ �����ֽñ� �ٶ��ϴ�.[ErrorCode:%d]",nProtectResult);
+			wsprintf(szTemp,"nProtect?? ??????? ???????.\n????? ????????? ??? ???????? ????? ??? ????? \n bug@darkeden.com ???? ?????? ??????�? ??????.[ErrorCode:%d]",nProtectResult);
 			MessageBox(NULL, szTemp,"nProtect Error", MB_OK);
 			CloseNPROTECT();
 			return FALSE;
@@ -1863,7 +1868,7 @@ BOOL InitApp(int nCmdShow)
 		{
 			char szTemp[256];
 
-			sprintf(szTemp,"NProtect�� %d ���� �Դϴ�. ��ũ������ �����մϴ�.",g_nProtectErrorMessage);
+			sprintf(szTemp,"NProtect?? %d ???? ????. ????????? ????????.",g_nProtectErrorMessage);
 			MessageBox(NULL,szTemp, "Error", MB_OK);
 			return FALSE;
 		}
@@ -1884,11 +1889,11 @@ BOOL InitApp(int nCmdShow)
 	//	return 0;
 	//}
 
-	// cursor�� �����ش�.
+	// cursor?? ???????.
 	SetCursor(NULL);
 	ShowCursor(FALSE);
 
-	// window�� �����ش�.
+	// window?? ???????.
 	ShowWindow(g_hWnd, nCmdShow);
 	UpdateWindow(g_hWnd);
 	//SetFocus(g_hWnd);
@@ -1901,7 +1906,7 @@ BOOL InitApp(int nCmdShow)
 	if ((nProtectResult = RunNPROTECT()) != NPROTECT_OK)
 	{
 		char szTemp[256];
-		wsprintf(szTemp, "nProtect�� ������� �ʾҽ��ϴ�.\n��ũ�� ���α׷��̳� ��ŷ ���α׷��� ����� ��찡 �ƴ϶�� \n bug@darkeden.com ���� ������ �����ֽñ� �ٶ��ϴ�.[ErrorCode:%d]", nProtectResult);
+		wsprintf(szTemp, "nProtect?? ??????? ???????.\n????? ????????? ??? ???????? ????? ??? ????? \n bug@darkeden.com ???? ?????? ??????�? ??????.[ErrorCode:%d]", nProtectResult);
 		MessageBox(NULL, szTemp, "nProtect Error", MB_OK);
 		CloseNPROTECT();
 		return FALSE;
@@ -1925,7 +1930,7 @@ BOOL InitApp(int nCmdShow)
 	{
 		char szTemp[256];
 
-		sprintf(szTemp, "NProtect�� %d ���� �Դϴ�. ��ũ������ �����մϴ�.", g_nProtectErrorMessage);
+		sprintf(szTemp, "NProtect?? %d ???? ????. ????????? ????????.", g_nProtectErrorMessage);
 		MessageBox(NULL, szTemp, "Error", MB_OK);
 		return FALSE;
 	}
@@ -2001,7 +2006,7 @@ bool CheckTerriblePatch()
 
 
 	//-----------------------------------------------------------------------------
-	// Append ��ġ�� �Ѵ�.
+	// Append ????? ???.
 	//-----------------------------------------------------------------------------
 	errorCode = 0;
 	for (int i = 0; i < apt.GetSize(); i++)
@@ -2030,12 +2035,12 @@ bool CheckTerriblePatch()
 	}
 
 	//-----------------------------------------------------------------------
-	// �ɰ��� ��Ȳ�ΰ�? - -; 
+	// ????? ??????? - -; 
 	//-----------------------------------------------------------------------
 	if (bCrash)
 	{
 		char str[256];
-		sprintf(str, "ȭ���� �ջ�Ǿ����ϴ�. ��ũ���� ������� �����ּ��� [�����ڵ�:%d]", errorCode);
+		sprintf(str, "????? ??????????. ??????? ???????? ????????? [???????:%d]", errorCode);
 		MessageBox(NULL, str, PROGRAM_TITLE, MB_OK);
 
 		return false;
@@ -2047,9 +2052,9 @@ bool CheckTerriblePatch()
 //-----------------------------------------------------------------------------
 // Check TerriblePatch
 //-----------------------------------------------------------------------------
-// auto-patch�� �Ǽ��� ���Ͽ�
-// ��¿ �� ���� ����ȭ�Ͽ��� üũ�ؼ� ��ġ�ؾ��ϴ� ����̴�.
-// �׸��Ͽ�.. �Լ� �̸��� �̷��� �Ǿ���.  --;;
+// auto-patch?? ????? ?????
+// ??� ?? ???? ?????????? �???? ????????? ??????.
+// ??????.. ??? ????? ????? ?????.  --;;
 //-----------------------------------------------------------------------------
 /*
 bool
@@ -2063,19 +2068,19 @@ CheckTerriblePatchOLD()
 	// Update SpritePack
 	//
 	//-----------------------------------------------------------------------
-	// Data\\Image\\�� New18ImageObjectSPK.spk�� ������..
-	// ImageObject�� ������ ��ü������ ������.. �뷮�� �ٸ��ٸ�
-	// "��ġ �۾��� �ϴµ� �ð��� �� �ɸ��ϴ�."��� �޽����� ����ش�.
-	// ��ü������ŭ SPK ũ�⸦ ���
-	// ImageObjectSPK�� SPK�� Load�Ѵ�.
-	// New18ImageObjectSPK�� SPK�� Load�Ѵ�.
-	// SPK�� ImageObjectSPK�� write�Ѵ�.
-	// New18ImageObjectSPK.spk�� �����.
+	// Data\\Image\\?? New18ImageObjectSPK.spk?? ??????..
+	// ImageObject?? ?????? ??�?????? ??????.. ???? ??????
+	// "??? ????? ??�? ?�??? ?? ??????."??? ??????? ??????.
+	// ??�??????? SPK ??? ???
+	// ImageObjectSPK?? SPK?? Load???.
+	// New18ImageObjectSPK?? SPK?? Load???.
+	// SPK?? ImageObjectSPK?? write???.
+	// New18ImageObjectSPK.spk?? ?????.
 	//
-	// [22�� ��ġ�Ҷ����ʹ�..]
-	// ������ �߸��� �κ��� �� �������������� ��ġȭ���� �غ�Ǿ� �����Ƿ�
-	// 18��ġȭ���� ������ 18�� ��ġ��ġ���� ����
-	// 22��ġȭ���� ������ 22�� ��ġ��ġ���� ����... �ȴ�.
+	// [22?? ???????????..]
+	// ?????? ????? ????? ?? ?????????????? ???????? ????? ???????
+	// 18???????? ?????? 18?? ?????????? ????
+	// 22???????? ?????? 22?? ?????????? ????... ???.
 	const int numWrite = 2;
 	char newSpkFilename[numWrite][80] =
 	{
@@ -2084,29 +2089,29 @@ CheckTerriblePatchOLD()
 	};
 	const long writePosition[numWrite] =
 	{
-		47564158,	// 18�� ��ġ ������ file position
-		49532618	// 22�� ��ġ ������ file position
+		47564158,	// 18?? ??? ?????? file position
+		49532618	// 22?? ??? ?????? file position
 	};
 	const WORD orgSpkSize[numWrite] =
 	{
-		0x054C,		// 18�� ��ġ ������ ����
-		0x05D6		// 22�� ��ġ ������ ����
+		0x054C,		// 18?? ??? ?????? ????
+		0x05D6		// 22?? ??? ?????? ????
 	};
 	const long orgFileSize[numWrite] =
 	{
-		49532618,	// 18�� ��ġ ������ ȭ�ϻ�����
-		55239016	// 22�� ��ġ ������ ȭ�ϻ�����
+		49532618,	// 18?? ??? ?????? ????????
+		55239016	// 22?? ??? ?????? ????????
 	};
 
 	WORD spkSize;
 	std::ifstream imageObjectFile;//(FILE_ISPRITEINDEX_CREATURE, ios::binary);
 	if (!FileOpenBinary(FILE_SPRITE_IMAGEOBJECT, imageObjectFile))
 		return false;
-	imageObjectFile.read((char*)&spkSize, 2);	// Sprite�� ����
+	imageObjectFile.read((char*)&spkSize, 2);	// Sprite?? ????
 	imageObjectFile.close();
 
 	//-----------------------------------------------------------------------
-	// �뷮 �ٸ��� ��ġ
+	// ?? ????? ???
 	//-----------------------------------------------------------------------
 	bool bImageObjectPatch;
 	if (spkSize==orgSpkSize[numWrite-1])
@@ -2119,20 +2124,20 @@ CheckTerriblePatchOLD()
 	}
 
 	//-----------------------------------------------------------------------
-	// ��ġ�� ������Ѿ� �ϴ� ���
+	// ????? ???????? ??? ???
 	//-----------------------------------------------------------------------
 	if (bImageObjectPatch)
 	{
-		//MessageBox(NULL, "��ũ���� ����Ÿ�� �����ϰ� ������ �����Դϴ�.\n OK�� ������ ������ ������ �ڵ����� ����Ǵ� ��ø� ��
+		//MessageBox(NULL, "??????? ????�?? ??????? ?????? ????????.\n OK?? ?????? ?????? ?????? ??????? ?????? ??�? ??
 
-�ٷ��ּ���.", PROGRAM_TITLE, MB_OK);
+????????.", PROGRAM_TITLE, MB_OK);
 
 		for (int i=0; i<numWrite; i++)
 		{
 			std::ifstream newfile(newSpkFilename[i], ios::binary | ios::nocreate);
 
 			//-------------------------------------------------------------
-			// ��ġ ȭ���� ���� ���.. ������ üũ
+			// ??? ????? ???? ???.. ?????? �?
 			//-------------------------------------------------------------
 			if (!newfile.is_open())
 			{
@@ -2140,25 +2145,25 @@ CheckTerriblePatchOLD()
 			}
 			else
 			{
-				SetProgressBarText("��ġ ȭ���� �����Ű�� �ֽ��ϴ�.");
+				SetProgressBarText("??? ????? ???????? ??????.");
 				UpdateProgressBar();
 
 				std::ofstream imageObjectFile(FILE_SPRITE_IMAGEOBJECT, ios::binary | ios::ate);
 
-				newfile.seekg( 2 );	// size�κ� ����
+				newfile.seekg( 2 );	// size??? ????
 				imageObjectFile.seekp( writePosition[i] );
 
 				WRITE_FROM_FILE( imageObjectFile, newfile );
 
 				newfile.close();
 
-				// ���� ����
+				// ???? ????
 				spkSize = orgSpkSize[i];
 				imageObjectFile.seekp( 0, ios::beg );
 				imageObjectFile.write((const char*)&spkSize, 2);
 				imageObjectFile.close();
 
-				// ��ġȭ���� �����.
+				// ???????? ?????.
 				remove( newSpkFilename[i] );
 			}
 		}
@@ -2173,8 +2178,8 @@ CheckTerriblePatchOLD()
 	//
 	//-----------------------------------------------------------------------
 	// Data\\Image\\New18Creature.ispk - 2001.9.26
-	// �����ִ�ȭ��, �߰��Ǵ�ȭ��, �����İ���
-	// �� ��Ŀ����� spki�� ���� ����� �Ѵ�.
+	// ??????????, ?????????, ?????????
+	// ?? ???????? spki?? ???? ????? ???.
 	if (!bCrash)
 	{
 		const int numAppend = 2;
@@ -2195,7 +2200,7 @@ CheckTerriblePatchOLD()
 			0x35FE
 		};
 
-		// ������ append�ؼ� total�� �����ϰ� �Ǵ� ��찡 �ִ�.
+		// ?????? append??? total?? ??????? ??? ??? ???.
 
 		WORD orgNum, appNum;
 
@@ -2206,7 +2211,7 @@ CheckTerriblePatchOLD()
 			std::ifstream appFile(appFilename[i], ios::binary | ios::nocreate);
 
 			//-------------------------------------------------------------
-			// ���� ȭ���� ���� ��� - -;
+			// ???? ????? ???? ??? - -;
 			//-------------------------------------------------------------
 			if (!orgFile.is_open())
 			{
@@ -2216,44 +2221,44 @@ CheckTerriblePatchOLD()
 			}
 
 			orgFile.seekg( 0, ios::beg );
-			orgFile.read((char*)&orgNum, 2);	// Sprite�� ����
+			orgFile.read((char*)&orgNum, 2);	// Sprite?? ????
 
 			if (orgNum>=total[i])
 			{
-				// �̹� ��ġ�� ��Ȳ�̴�. ������ üũ.
+				// ??? ????? ??????. ?????? �?.
 				orgFile.close();
 				appFile.close();
 				continue;
 			}
 
 			//-------------------------------------------------------------
-			// app�Ҳ� ���� ���
+			// app??? ???? ???
 			//-------------------------------------------------------------
 			if (!appFile.is_open())
 			{
-				// ������ �ٸ��� app�Ұ��� ���� ���
+				// ?????? ????? app????? ???? ???
 				bCrash = true;
 				errorCode = 2;
 				break;
 			}
 
-			// total size�� üũ�ؼ� append�� �ʿ䰡 �ִ��� üũ�Ѵ�.
-			appFile.read((char*)&appNum, 2);	// Sprite�� ����
+			// total size?? �???? append?? ??? ????? �????.
+			appFile.read((char*)&appNum, 2);	// Sprite?? ????
 
 			//-------------------------------------------------------------
-			// �ΰ� ���ļ� total�� �ȴٸ�..
+			// ??? ????? total?? ????..
 			//-------------------------------------------------------------
 			if (orgNum+appNum == total[i])
 			{
-				SetProgressBarText("��ġ ȭ���� �����Ű�� �ֽ��ϴ�.");
+				SetProgressBarText("??? ????? ???????? ??????.");
 				UpdateProgressBar();
 
-				// orgFile�� ������..
+				// orgFile?? ??????..
 				orgFile.seekp(0, ios::end);
 
 				WRITE_FROM_FILE( orgFile, appFile );
 
-				// ���� ȭ���� ������ �ٲ��ش�.
+				// ???? ????? ?????? ??????.
 				orgFile.seekp(0, ios::beg);
 				orgFile.write((const char*)&total[i], 2);
 
@@ -2261,17 +2266,17 @@ CheckTerriblePatchOLD()
 				appFile.close();
 
 				//---------------------------------------------------------------
-				// Appȭ���� �����.
+				// App????? ?????.
 				//---------------------------------------------------------------
 				remove( appFilename[i] );
 			}
 			//-------------------------------------------------------------
-			// size �ᰡ��.. - -;
+			// size ????.. - -;
 			//-------------------------------------------------------------
 			else
 			{
-				// �� �� ���ĵ� ����ε� ���ڰ� ������ �ʴ� ���
-				// �ɰ��� ��Ȳ�̴�.
+				// ?? ?? ????? ?????? ????? ?????? ??? ???
+				// ????? ??????.
 				bCrash = true;
 				errorCode = 3;
 				break;
@@ -2280,12 +2285,12 @@ CheckTerriblePatchOLD()
 	}
 
 	//-----------------------------------------------------------------------
-	// �ɰ��� ��Ȳ�̴�.
+	// ????? ??????.
 	//-----------------------------------------------------------------------
 	if (bCrash)
 	{
 		char str[256];
-		sprintf(str, "ȭ���� �ջ�Ǿ����ϴ�. ��ũ���� ������� �����ּ��� [�����ڵ�:%d]", errorCode);
+		sprintf(str, "????? ??????????. ??????? ???????? ????????? [???????:%d]", errorCode);
 		MessageBox(NULL, str, PROGRAM_TITLE, MB_OK);
 
 		return false;
@@ -2298,14 +2303,14 @@ CheckTerriblePatchOLD()
 //-----------------------------------------------------------------------------
 // ConvertScreenEffect
 //-----------------------------------------------------------------------------
-// ������ AlphaEffect�� ScreenEffect�� �°� �ٲ۴�.
+// ?????? AlphaEffect?? ScreenEffect?? ?�? ????.
 //-----------------------------------------------------------------------------
 /*
 bool
 ConvertScreenEffect()
 {
 	//------------------------------------------------------------
-	// Screen SpritePack Ȯ��
+	// Screen SpritePack ???
 	//------------------------------------------------------------
 
 //	std::ifstream fileSPK2(FILE_SPRITE_SCREENEFFECT, ios::binary | ios::nocreate);
@@ -2314,7 +2319,7 @@ ConvertScreenEffect()
 //		TYPE_SPRITEID num;
 //		fileSPK2.read((char*)&num, SIZE_SPRITEID);
 //
-//		// ũ�Ⱑ ������.. convert�� �ʿ� ����.
+//		// ??? ??????.. convert?? ??? ????.
 //		if (num >= 0x06BE)
 //		{
 //			return false;
@@ -2334,30 +2339,30 @@ ConvertScreenEffect()
 	const int MAX_EST = 135;
 	const int est[MAX_EST] =
 	{
-		SCR_EFFECTSPRITETYPE_ACID_BALL_1,		// ���ư���
-		SCR_EFFECTSPRITETYPE_ACID_BALL_2,		// ������
-		SCR_EFFECTSPRITETYPE_ACID_BOLT_1,		// ���ư���
-		SCR_EFFECTSPRITETYPE_ACID_BOLT_2,		// ������
+		SCR_EFFECTSPRITETYPE_ACID_BALL_1,		// ???????
+		SCR_EFFECTSPRITETYPE_ACID_BALL_2,		// ??????
+		SCR_EFFECTSPRITETYPE_ACID_BOLT_1,		// ???????
+		SCR_EFFECTSPRITETYPE_ACID_BOLT_2,		// ??????
 		SCR_EFFECTSPRITETYPE_ACID_TOUCH,
-		SCR_EFFECTSPRITETYPE_AURA_PRISM_SHIELD,	// ��
-		SCR_EFFECTSPRITETYPE_AURA_BALL_1,	// ĳ����
-		SCR_EFFECTSPRITETYPE_AURA_BALL_2,	// ���ư���
-		SCR_EFFECTSPRITETYPE_AURA_BALL_3,	// ������
-		SCR_EFFECTSPRITETYPE_AURA_PRISM_1,	// ĳ���� - �ٴڿ� �ٴ�
-		SCR_EFFECTSPRITETYPE_AURA_PRISM_2,	// ĳ���� - �ٴڿ��� ���� �ö󰡱�
-		SCR_EFFECTSPRITETYPE_AURA_PRISM_3,	// �پ ����
-		SCR_EFFECTSPRITETYPE_AURA_PRISM_4,	// �پ �ݺ�
-		SCR_EFFECTSPRITETYPE_AURA_PRISM_5,	// �پ ��
-		SCR_EFFECTSPRITETYPE_AURA_SHIELD_1,	// ĳ����
-		SCR_EFFECTSPRITETYPE_AURA_SHIELD_2,	// ����
-		SCR_EFFECTSPRITETYPE_AURA_SHIELD_3,	// ���� �� ��½~
+		SCR_EFFECTSPRITETYPE_AURA_PRISM_SHIELD,	// ???
+		SCR_EFFECTSPRITETYPE_AURA_BALL_1,	// ?????
+		SCR_EFFECTSPRITETYPE_AURA_BALL_2,	// ???????
+		SCR_EFFECTSPRITETYPE_AURA_BALL_3,	// ??????
+		SCR_EFFECTSPRITETYPE_AURA_PRISM_1,	// ????? - ???? ???
+		SCR_EFFECTSPRITETYPE_AURA_PRISM_2,	// ????? - ?????? ???? ?�???
+		SCR_EFFECTSPRITETYPE_AURA_PRISM_3,	// ??? ????
+		SCR_EFFECTSPRITETYPE_AURA_PRISM_4,	// ??? ???
+		SCR_EFFECTSPRITETYPE_AURA_PRISM_5,	// ??? ??
+		SCR_EFFECTSPRITETYPE_AURA_SHIELD_1,	// ?????
+		SCR_EFFECTSPRITETYPE_AURA_SHIELD_2,	// ????
+		SCR_EFFECTSPRITETYPE_AURA_SHIELD_3,	// ???? ?? ??�~
 		SCR_EFFECTSPRITETYPE_AURA_RING,
 		SCR_EFFECTSPRITETYPE_BLESS_GROUND_1,
 		SCR_EFFECTSPRITETYPE_BLESS_GROUND_2,
 		SCR_EFFECTSPRITETYPE_BLESS_GROUND_3,
 		SCR_EFFECTSPRITETYPE_BLESS_GROUND_4,
-		SCR_EFFECTSPRITETYPE_BLESS_ING,		// �ݺ�
-		SCR_EFFECTSPRITETYPE_BLESS,			// �ϳ� �ݺ����� �ٲ� //����
+		SCR_EFFECTSPRITETYPE_BLESS_ING,		// ???
+		SCR_EFFECTSPRITETYPE_BLESS,			// ??? ??????? ??? //????
 		SCR_EFFECTSPRITETYPE_CHAOS_COMBO,
 		SCR_EFFECTSPRITETYPE_CONTINUAL_LIGHT_1,
 		SCR_EFFECTSPRITETYPE_CONTINUAL_LIGHT_2,
@@ -2397,8 +2402,8 @@ ConvertScreenEffect()
 		SCR_EFFECTSPRITETYPE_HOLY_SHOOTING_TR_FEMALE,
 		SCR_EFFECTSPRITETYPE_HOLY_SHOOTING_SG_FEMALE,
 		SCR_EFFECTSPRITETYPE_HOLY_SHOOTING_HIT,
-		SCR_EFFECTSPRITETYPE_HOLY_WATER_1,	// �����°�
-		SCR_EFFECTSPRITETYPE_HOLY_WATER_2,	// ����? - -;
+		SCR_EFFECTSPRITETYPE_HOLY_WATER_1,	// ?????�?
+		SCR_EFFECTSPRITETYPE_HOLY_WATER_2,	// ????? - -;
 		SCR_EFFECTSPRITETYPE_HURRICANE_COMBO,
 		SCR_EFFECTSPRITETYPE_LIGHT_1,
 		SCR_EFFECTSPRITETYPE_LIGHT_2,
@@ -2448,30 +2453,30 @@ ConvertScreenEffect()
 		SCR_EFFECTSPRITETYPE_IDENTIFY_2x2,
 		SCR_EFFECTSPRITETYPE_IDENTIFY_2x3,
 		SCR_EFFECTSPRITETYPE_SACRIFICE_1,			// casting
-		SCR_EFFECTSPRITETYPE_SACRIFICE_2,			// ����
+		SCR_EFFECTSPRITETYPE_SACRIFICE_2,			// ????
 		SCR_EFFECTSPRITETYPE_SNAKE_COMBO,
-		SCR_EFFECTSPRITETYPE_SWORD_WAVE_1,			// frame�� ���� ����.
-		SCR_EFFECTSPRITETYPE_SWORD_WAVE_2,			// frame�� ���� ����.
-		SCR_EFFECTSPRITETYPE_SWORD_WAVE_3,			// frame�� ���� ����.
-		SCR_EFFECTSPRITETYPE_TORNADO_SEVER_1,		// �ٴڿ� �����°� (5������ �Ŀ� ���)
-		SCR_EFFECTSPRITETYPE_TORNADO_SEVER_2,		// ���� �ٴ°�
+		SCR_EFFECTSPRITETYPE_SWORD_WAVE_1,			// frame?? ???? ????.
+		SCR_EFFECTSPRITETYPE_SWORD_WAVE_2,			// frame?? ???? ????.
+		SCR_EFFECTSPRITETYPE_SWORD_WAVE_3,			// frame?? ???? ????.
+		SCR_EFFECTSPRITETYPE_TORNADO_SEVER_1,		// ???? ?????�? (5?????? ??? ???)
+		SCR_EFFECTSPRITETYPE_TORNADO_SEVER_2,		// ???? ??�?
 
 		SCR_EFFECTSPRITETYPE_EXPLOSION,
 
 		// 2001.9.3
 		SCR_EFFECTSPRITETYPE_LIGHTNING_HANDS_1,8
-		SCR_EFFECTSPRITETYPE_LIGHTNING_HANDS_2,		// �ݺ�
+		SCR_EFFECTSPRITETYPE_LIGHTNING_HANDS_2,		// ???
 		SCR_EFFECTSPRITETYPE_LIGHTNING_HANDS_3,
 
 		// 2001.9.6
-		SCR_EFFECTSPRITETYPE_PROTECTION_FROM_ACID_1,		// ����
-		SCR_EFFECTSPRITETYPE_PROTECTION_FROM_ACID_2,		// ����
+		SCR_EFFECTSPRITETYPE_PROTECTION_FROM_ACID_1,		// ????
+		SCR_EFFECTSPRITETYPE_PROTECTION_FROM_ACID_2,		// ????
 
 		// 2001.10.8
 		SCR_EFFECTSPRITETYPE_EXPLOSION_2,
 		SCR_EFFECTSPRITETYPE_EXPLOSION_3,
-		SCR_EFFECTSPRITETYPE_CURE_ALL_1,				// ����
-		SCR_EFFECTSPRITETYPE_CURE_ALL_2,				// bless �ѷ��ֱ�
+		SCR_EFFECTSPRITETYPE_CURE_ALL_1,				// ????
+		SCR_EFFECTSPRITETYPE_CURE_ALL_2,				// bless ??????
 		SCR_EFFECTSPRITETYPE_ENCHANT_1x1,
 		SCR_EFFECTSPRITETYPE_ENCHANT_1x3,
 		SCR_EFFECTSPRITETYPE_ENCHANT_2x2,
@@ -2479,9 +2484,9 @@ ConvertScreenEffect()
 	};
 
 	//------------------------------------------------------------
-	// convert�Ҷ�.. progress.. ��..
+	// convert???.. progress.. ??..
 	//------------------------------------------------------------
-	SetProgressBarText("����Ÿ ȭ���� üũ���Դϴ�.");
+	SetProgressBarText("????� ????? �???????.");
 	SetProgressBarCount( MAX_EST );
 
 	int cx = GetSystemMetrics(SM_CXSCREEN);
@@ -2499,14 +2504,14 @@ ConvertScreenEffect()
 	ShowWindow(g_hWndProgress, SW_SHOW);
 
 
-	// 16 bit ���� �ٲ�� �Ѵ�.
+	// 16 bit ???? ???? ???.
 	//DDSURFACEDESC2 ddsd;
 	//CDirectDraw::GetDD()->GetDisplayMode( &ddsd );
 	//CDirectDraw::GetDD()->SetDisplayMode(800, 600, 16, 0, 0);
 
 
 	//------------------------------------------------------------
-	// �ʿ��� Frame �̱�
+	// ????? Frame ???
 	//------------------------------------------------------------
 	COrderedList<int> intList;
 
@@ -2519,7 +2524,7 @@ ConvertScreenEffect()
 	NewEFPK.Init( MAX_EST );
 
 	//------------------------------------------------------------
-	// �ʿ��� EFPK�� �����ϸ鼭 ���� SpriteID�� ���Ѵ�.
+	// ????? EFPK?? ??????? ???? SpriteID?? ?????.
 	//------------------------------------------------------------
 	for (int e=0; e<MAX_EST; e++)
 	{
@@ -2549,7 +2554,7 @@ ConvertScreenEffect()
 	EFPK.Release();
 
 	//------------------------------------------------------------
-	// Alpha --> Normal �غ�..
+	// Alpha --> Normal ???..
 	//------------------------------------------------------------
 	CSpriteSurface	surface;
 	surface.InitOffsurface( 640, 480, DDSCAPS_SYSTEMMEMORY );
@@ -2576,9 +2581,9 @@ ConvertScreenEffect()
 	WORD *lpSurface, lPitch;
 
 	//------------------------------------------------------------
-	// convert�Ҷ�.. progress.. ��..
+	// convert???.. progress.. ??..
 	//------------------------------------------------------------
-	SetProgressBarText("����Ÿ ȭ���� �������Դϴ�.");
+	SetProgressBarText("????� ????? ??????????.");
 	SetProgressBarCount( spriteNum/8 );
 
 
@@ -2593,7 +2598,7 @@ ConvertScreenEffect()
 		aspkiFile.seekg( 0 );
 
 		//--------------------------------------------------------
-		// Load�� FilePointer�� �о�´�.
+		// Load?? FilePointer?? ???�?.
 		//--------------------------------------------------------
 		long fp;
 		aspkiFile.seekg( 2 + spriteID*4 );		// 2(num) + spriteID * (4 bytes)
@@ -2606,14 +2611,14 @@ ConvertScreenEffect()
 		ASPR.LoadFromFile( aspkFile );
 
 		//--------------------------------------------------------
-		// ũ�� ���.. �� - -
+		// ??? ???.. ?? - -
 		//--------------------------------------------------------
 		int width = ASPR.GetWidth();
 		int height = ASPR.GetHeight();
 
 		//--------------------------------------------------------
-		// AlphaSprite�� ����� �Ŀ�
-		// Sprite�� �����Ѵ�.
+		// AlphaSprite?? ????? ???
+		// Sprite?? ???????.
 		//--------------------------------------------------------
 		surface.FillSurface( 0 );
 
@@ -2623,7 +2628,7 @@ ConvertScreenEffect()
 
 		surface.Unlock();
 
-		// ������ ID�� spriteID������ sid�� �ٲ�� �ȴ�.
+		// ?????? ID?? spriteID?????? sid?? ???? ???.
 		pNewID[ spriteID ] = sid;
 
 		if ((sid & 0x00000007)==0x00000007)
@@ -2637,11 +2642,11 @@ ConvertScreenEffect()
 	aspkiFile.close();
 	aspkFile.close();
 
-	// �������
+	// ???????
 	//CDirectDraw::GetDD()->RestoreDisplayMode();
 
 	//------------------------------------------------------------
-	// SpriteID�� �����Ѵ�.
+	// SpriteID?? ???????.
 	//------------------------------------------------------------
 	int numFPK = NewEFPK.GetSize();
 	for (e=0; e<numFPK; e++)
@@ -2669,7 +2674,7 @@ ConvertScreenEffect()
 	delete [] pNewID;
 
 	//------------------------------------------------------------
-	// FramePack����
+	// FramePack????
 	//------------------------------------------------------------
 	std::ofstream fileFPK(FILE_EFRAME_SCREENEFFECT, ios::binary);
 	std::ofstream fileFPKI(FILE_EFRAMEINDEX_SCREENEFFECT, ios::binary);
@@ -2678,7 +2683,7 @@ ConvertScreenEffect()
 	fileFPKI.close();
 
 	//------------------------------------------------------------
-	// SpritePack ����
+	// SpritePack ????
 	//------------------------------------------------------------
 	std::ofstream fileSPK(FILE_SPRITE_SCREENEFFECT, ios::binary);
 	std::ofstream fileSPKI(FILE_SPRITEINDEX_SCREENEFFECT, ios::binary);
@@ -2700,7 +2705,7 @@ ConvertScreenEffect()
 	ShowWindow(g_hWndProgress, SW_SHOW);
 
 	//------------------------------------------------------------
-	// ��ȯ üũ
+	// ??? �?
 	//------------------------------------------------------------
 	std::ofstream fileCheck("Data\\Info\\EffectScreenConvert.inf", ios::binary);
 	int a = 1;
@@ -2713,12 +2718,12 @@ ConvertScreenEffect()
 //------------------------------------------------------------------------
 // ApplyPatch 
 //------------------------------------------------------------------------
-// ���ڱ� ������ �ϰ� �Ǵ� �ٶ���... - -;
+// ????? ?????? ??? ??? ?????... - -;
 //------------------------------------------------------------------------
 bool ApplyPatch()
 {
 	//-----------------------------------------------------------------
-	// ���� version
+	// ???? version
 	//-----------------------------------------------------------------
 //	std::ifstream versionFile(FILE_INFO_VERSION, ios::binary);
 //	int version;
@@ -2726,7 +2731,7 @@ bool ApplyPatch()
 //	versionFile.close();
 
 	//-----------------------------------------------------------------
-	// ��ġ����ȭ���� �ֳ� Ȯ��
+	// ???????????? ??? ???
 	//-----------------------------------------------------------------
 //	char packFilename[256];
 //	char infoFilename[256];
@@ -2735,7 +2740,7 @@ bool ApplyPatch()
 //	long				hFile;
 
 	//-----------------------------------------------------------------
-	// *.mpk file�� ã�´�.
+	// *.mpk file?? �?�?.
 	//-----------------------------------------------------------------
 //	if ( (hFile = _findfirst( "*.mpk", &FileData )) != -1L )
 //	{		
@@ -2750,30 +2755,30 @@ bool ApplyPatch()
 //		_findclose( hFile );			
 
 		//-----------------------------------------------------------------
-		// ��ġ����ȭ���� ���� ���� 
+		// ???????????? ???? ???? 
 		//-----------------------------------------------------------------
 //		_mkdir( "Update" );
 //
-//		SetProgressBarText("��ġ ȭ���� ������ �����ϰ� �ֽ��ϴ�.");
+//		SetProgressBarText("??? ????? ?????? ??????? ??????.");
 //
 //		MZLib mzlib;
 //
-//		// �����Ҷ� Updater��θ� ���� ���������Ƿ� ���� Ǯ����.
+//		// ??????? Updater???? ???? ??????????? ???? ?????.
 //		mzlib.Uncompress( packFilename );	
 //
 //		//-----------------------------------------------------------------
-//		// infofile�̸� ���� - packFilename�� ����..
+//		// infofile??? ???? - packFilename?? ????..
 //		//-----------------------------------------------------------------
 //		int len = strlen(packFilename);
 //		char str[256];
-//		strncpy(str, packFilename, len-4);	// �� .���� ���ش�.
+//		strncpy(str, packFilename, len-4);	// ?? .???? ?????.
 //		str[len-4] = '\0';
 //		sprintf(infoFilename, "Update\\%s.inf", str);
 //
 //	}
 	//-----------------------------------------------------------------
-	// mpkȭ���� ���� ���� ������ġ�� ��츦 üũ�غ����Ѵ�.
-	// packFilename�� ��� version�� ����Ǵ°��� �˾Ƴ���.
+	// mpk????? ???? ???? ????????? ??? �?????????.
+	// packFilename?? ??? version?? ?????�??? ??????.
 	//-----------------------------------------------------------------
 //	else
 //	{
@@ -2787,7 +2792,7 @@ bool ApplyPatch()
 //		}
 //		*/
 //		
-//		// ���� ������ �´� ��ġȭ���� ã�´�.
+//		// ???? ?????? ?�? ???????? �?�?.
 //		sprintf(infoFilename, "Update\\Patch%d_*.inf", version);
 //
 //		if ( (hFile = _findfirst( infoFilename, &FileData )) != -1L )
@@ -2804,25 +2809,25 @@ bool ApplyPatch()
 //		}
 //		else
 //		{
-//			// ������ġ�� ���� ��� == ���� ����
+//			// ????????? ???? ??? == ???? ????
 //			return false;
 //		}
 //	}
 //
 //	//-----------------------------------------------------------------
-//	// info �б�
+//	// info ???
 //	//-----------------------------------------------------------------	
-//	CreateProgressBar("��ġ ������ üũ ���Դϴ�.");
+//	CreateProgressBar("??? ?????? �? ??????.");
 //	
 //	UpdateManager	UM;
 //	UM.load( infoFilename );
 //
 //	SetProgressBarCount( UM.getNum()+g_numAppendFiles );	
 //
-//	SetProgressBarText("��ġ ȭ���� �����Ű�� �ֽ��ϴ�.");
+//	SetProgressBarText("??? ????? ???????? ??????.");
 //	
 //	//-----------------------------------------------------------------
-//	// ��ġȭ�� ����
+//	// ?????? ????
 //	//-----------------------------------------------------------------
 //	int newVersion = 0;
 //	while (!UM.empty())
@@ -2835,7 +2840,7 @@ bool ApplyPatch()
 //			// -_-;;
 //		}	
 //
-//		// version up�ΰ�?
+//		// version up????
 //		if (pUpdate->getVersion() > newVersion)
 //		{
 //			newVersion = pUpdate->getVersion();
@@ -2845,19 +2850,19 @@ bool ApplyPatch()
 //	}
 //
 //	//-----------------------------------------------------------------
-//	// �� version����
+//	// ?? version????
 //	//-----------------------------------------------------------------
 //	std::ofstream versionFile2(FILE_INFO_VERSION, ios::binary);
 //	versionFile2.write((const char*)&newVersion, 4);
 //	versionFile2.close();
 //	
 //	//-----------------------------------------------------------------
-//	// ��ġ����ȭ�� ����
+//	// ?????????? ????
 //	//-----------------------------------------------------------------
 //	remove( packFilename );
 //
 //	//-----------------------------------------------------------------
-//	// ��ġȭ�� ���� - Updater ���丮 ����鼭 �ǹǷ� .. �Ű� �� �ᵵ �ȴ�.
+//	// ?????? ???? - Updater ???? ????? ???? .. ??? ?? ?? ???.
 //	//-----------------------------------------------------------------
 //
 	return true;
@@ -2881,7 +2886,7 @@ bool ApplyPatch()
 //		long				hFile;
 //
 //		//-----------------------------------------------------------------
-//		// *.spk file�� ã�´�.
+//		// *.spk file?? �?�?.
 //		//-----------------------------------------------------------------
 //		if ( (hFile = _findfirst( "Data\\UI\\txt\\Log*.txt", &FileData )) != -1L )
 //		{
@@ -2909,7 +2914,7 @@ bool ApplyPatch()
 //						GetComputerName( computerName,  &numSize );
 //					}
 //					
-//					sprintf(buffer, "\\\\����\\Log\\%s-%s", computerName, FileData.name);
+//					sprintf(buffer, "\\\\????\\Log\\%s-%s", computerName, FileData.name);
 //					
 //					_chmod( filename, _S_IREAD | _S_IWRITE );
 //					rename(filename, buffer);						
@@ -2939,7 +2944,7 @@ CheckLogFile()
 	_mkdir("Log");
 
 	//-----------------------------------------------------------------
-	// *.spk file�� ã�´�.
+	// *.spk file?? �?�?.
 	//-----------------------------------------------------------------
 	if ((hFile = _findfirst("Log\\Log*.txt", &FileData)) != -1L)
 	{
@@ -2978,7 +2983,7 @@ CheckLogFile()
 //							GetComputerName( computerName,  &numSize );
 //						}
 //						
-//						sprintf(buffer, "\\\\����\\Log\\%s-%s", computerName, FileData.name);
+//						sprintf(buffer, "\\\\????\\Log\\%s-%s", computerName, FileData.name);
 //						
 //						_chmod( filename, _S_IREAD | _S_IWRITE );
 //						rename(filename, buffer);						
@@ -3026,7 +3031,7 @@ CheckFlushLogFile()
 			DEBUG_ADD_FORMAT("[Time = %d]", g_CurrentTime);
 		}
 
-		// 3�� ��
+		// 3?? ??
 		flushTime = g_CurrentTime + flushDelay;
 	}
 	//#endif
@@ -3044,7 +3049,7 @@ CheckFlushLogFile()
 //    {
 //        KBDLLHOOKSTRUCT* kbhook = (KBDLLHOOKSTRUCT*)lParam;
 //
-//// ��ƮŰ�� ����������....
+//// ?????? ??????????....
 //        if(kbhook->flags & LLKHF_ALTDOWN)
 //        {
 //            switch(kbhook->vkCode)
@@ -3056,7 +3061,7 @@ CheckFlushLogFile()
 //                break;
 //            }
 //        }
-//// Control + ESC�� ����
+//// Control + ESC?? ????
 //		else if(((GetAsyncKeyState( VK_CONTROL ) & 0x8000) || g_pDXInput != NULL && (g_pDXInput->KeyDown(DIK_LCONTROL) || g_pDXInput->KeyDown(DIK_RCONTROL))) && kbhook->vkCode == VK_ESCAPE)
 //		{
 //			SHORT control = GetAsyncKeyState( VK_CONTROL );
@@ -3081,7 +3086,7 @@ CheckFlushLogFile()
 //}
 
 //----------------------------------------------------------
-// �ػ� ������ �ε�/���̺��Ѵ�.
+// ??? ?????? ???/????????.
 //----------------------------------------------------------
 void InitResolutionConfig()
 {
@@ -3096,14 +3101,14 @@ void InitResolutionConfig()
 		nResolutionY = ResolutionConfig.getPropertyInt("ResolutionY");
 		nFullScreen = ResolutionConfig.getPropertyInt("FullScreen");	//add by kim
 	}
-	catch (...)	// ������ ���� ���
+	catch (...)	// ?????? ???? ???
 	{
 		nResolutionX = 1024;
 		nResolutionY = 768;
 		nFullScreen = 1;	//add by kim
 	}
 
-	// VS_UI�� Client �������� ���� ������ ����
+	// VS_UI?? Client ???????? ???? ?????? ????
 //	g_pUserInformation->IsResolution1024	= ( nResolutionX == 1024 );
 	g_pUserInformation->iResolution_x = nResolutionX;
 	g_pUserInformation->iResolution_y = nResolutionY;
@@ -3140,7 +3145,7 @@ void SaveResolutionConfig()
 int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 #if __CONTENTS(__XTRAP)
-	//2009 04 21 �ϱ� �ּ��� �߱��� ��ȣ ���� ������ �ƴ�..
+	//2009 04 21 ??? ????? ????? ??? ???? ?????? ???..
 	//http://patch.wiselogic.co.kr/DarkEden
 	//660970B478E9CD6790316D9844CFE862EEE63E3F2BAD301E5F3D81C30324E0EBAAE8D9458994D60E58688AACDA8FE61389ECBD25D6B246C09E4B18F747C51F420F7D04245246E403AE73194E9554761FEBE0CB630673E9ADAFB81AF9B7ECAC
 	//660970B47809CDE555336D9844CFE86287416167DEC365483208B760E262AA7D84A0660BAA6116039CE2CBB0C332B21FC86DAE63C50560522AD880E5933D746E0F7D04245246E417A4610E5695477E1EF47455B309945CB0D27B7C7D3821396080E71928F0
@@ -3269,7 +3274,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		*/
 #endif
 
-	//���� directory�� �����صд�.
+	//???? directory?? ????????.
 	//strcpy(g_CWD, __argv[0]);
 	GetModuleFileName(NULL, g_CWD, _MAX_PATH);
 	char* tempCut = strrchr(g_CWD, '\\');
@@ -3280,21 +3285,21 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//GetCurrentDirectory( _MAX_PATH, g_CWD );
 	SetCurrentDirectory(g_CWD);
 
-	// 	//	// ���ο� updater����ȭ���� �����ϸ�..
+	// 	//	// ????? updater????????? ???????..
 	//	if (_access(UPDATER_NEW_FILENAME, 0) == 0/* && _access(UPDATER_FILENAME, 0)*/)//updaterNewFile)
 	//	{	
-	//		// ���� Patcher�� �����..
+	//		// ???? Patcher?? ?????..
 	//		if (remove( UPDATER_FILENAME )==0)
 	//		{
-	//			// ������ �����ɷ� rename
+	//			// ?????? ??????? rename
 	//			if (rename( UPDATER_NEW_FILENAME, UPDATER_FILENAME )==0)
 	//			{
 	//				DEBUG_ADD("Update Updater.exe OK"); 
 	//			}
 	//		}
-	//		// ���� updater�� �����..
+	//		// ???? updater?? ?????..
 	//		//remove( UPDATER_FILENAME );
-	//		// ������ �����ɷ� rename
+	//		// ?????? ??????? rename
 	//		if (rename( UPDATER_NEW_FILENAME, UPDATER_FILENAME )==0)
 	//		{
 	//			DEBUG_ADD("Update Updater.exe OK"); 
@@ -3309,12 +3314,12 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	/*
 #include "packet\ServerSocket.h"
 
-	// �� Client�� ���ÿ� �ٸ� �� Client�� ����Ѵ�.
-	// ���������� resource(��帶ũ, profile...)�� �ʿ��� ���
-	//		ResourceQueue�� �����ߴٰ� ƴƴ�� �޵��� �Ѵ�.
-	// while(1)�κ��� �ٸ� thread�� ���ߵȴ�.
-	// RequestManager �����Ҷ��� mutex������ �ؾߵȴ�.
-	// RequestManager�� Update()�� main thread���� �Ѵ�.
+	// ?? Client?? ???�? ??? ?? Client?? ??????.
+	// ?????????? resource(????, profile...)?? ????? ???
+	//		ResourceQueue?? ???????? ???? ????? ???.
+	// while(1)????? ??? thread?? ??????.
+	// RequestManager ????????? mutex?????? ?????.
+	// RequestManager?? Update()?? main thread???? ???.
 	//
 	ServerSocket* pServerSocket = new ServerSocket( 9650 );
 
@@ -3325,11 +3330,11 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	{
 		Socket* pSocket = pServerSocket->accept();
 
-		// request�� ���
+		// request?? ???
 		RequestServerPlayer* pRequestServerPlayer = new RequestServerPlayer( pSocket );
 		g_pRequestManager->AddPlayer( pRequestServerPlayer );
 
-		// g_pRequestManager�� ��ϵ� RequestServerPlayer�� ���ؼ� processInput/Command/Output ó��
+		// g_pRequestManager?? ???? RequestServerPlayer?? ????? processInput/Command/Output �??
 
 		strcpy(strClient, pSocket->getHost().c_str());
 		port = pSocket->getPort();
@@ -3484,16 +3489,16 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 #ifdef 	__DESIGNED_JAPAN
-	//�Ϻ� �ݸ����� ���� ����.
+	//??? ??????? ???? ????.
 	bool bNetmarbleJapan = false;
 	try
 	{
-		// �ݸ��� �α��� ���� ����
+		// ????? ????? ???? ????
 		bNetmarbleJapan = NetmarbleConfig.getPropertyInt("NetmarbleJapan") != 0;
 	}
-	catch (...)	// ������ ���ų� NetmarbleLogin�� ���ǵ��� �ʾ��� ���
+	catch (...)	// ?????? ????? NetmarbleLogin?? ??????? ????? ???
 	{
-		bNetmarbleJapan = false;	// ����Ʈ�� ���� 
+		bNetmarbleJapan = false;	// ??????? ???? 
 	}
 #endif
 
@@ -3567,7 +3572,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		//strcpy(g_ServerIP, SERVER_IP);
 		g_MaxNPC = 0;//MAX_NPC;
 
-		//g_bFullScreen	= true;	//by kim 2021-08-14 ��
+		//g_bFullScreen	= true;	//by kim 2021-08-14 ??
 		g_bHAL = true;
 		g_bMusicSW = true;
 
@@ -3654,7 +3659,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 
 #ifdef OUTPUT_DEBUG
-		// â��� ����..
+		// �??? ????..
 		g_bTestMode = true;
 		char checkTestMode[] = "TestMode";
 		for (i = 0; i < strlen(checkTestMode); i++)
@@ -3700,8 +3705,8 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			//_spawnl(_P_NOWAIT, "Updater.exe", "Updater.exe", NULL);	
 			_chdir(g_CWD);
 
-			// ����
-			// [Futec����]
+			// ????
+			// [Futec????]
 //			char szTemp[512];
 //			sprintf(szTemp, "%s %s", UPDATER_FILENAME, lpCmdLine);
 //			DWORD error = WinExec(szTemp, SW_SHOW);
@@ -3730,7 +3735,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			return FALSE;
 		}
 
-		//g_bFullScreen	= true;	by kim 2021-08-14 ��
+		//g_bFullScreen	= true;	by kim 2021-08-14 ??
 
 		//strcpy(g_ServerIP, SERVER_IP);
 		g_MaxNPC = 0;//MAX_NPC;
@@ -3743,20 +3748,20 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	GetFutecAddress(lpCmdLine);
 
 	//------------------------------------------------------------------------
-	// �������� Patch 
-	// ���ڱ� ������ �ϰ� �Ǵ� �ٶ���... - -;
+	// ???????? Patch 
+	// ????? ?????? ??? ??? ?????... - -;
 	//------------------------------------------------------------------------
 	//bool bPatched = ApplyPatch();
 
 	//------------------------------------------------------------------------
-	// ScreenEffect ����
+	// ScreenEffect ????
 	//------------------------------------------------------------------------
 	//ConvertScreenEffect();
 
 	//------------------------------------------------------------------------
-	// �������� EffectScreen�� Append�Ǵ� SPK�� 
-	// �� �������� Append�ؾ� �Ѵ�.
-	// CheckTerriblePatch�� ���� �־ �ȴ�. - -;;
+	// ???????? EffectScreen?? Append??? SPK?? 
+	// ?? ???????? Append??? ???.
+	// CheckTerriblePatch?? ???? ??? ???. - -;;
 	//------------------------------------------------------------------------
 	//AppendScreenEffect();
 
@@ -3826,35 +3831,35 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		if (_rmdir(UpdateDir) != 0)
 		{
-			// PATH�� �߸��� ���
+			// PATH?? ????? ???
 			if (errno == ENOENT)
 			{
 			}
-			// ���� �־ �� ������ ���..		
+			// ???? ??? ?? ?????? ???..		
 			else //if (errno==ENOTEMPTY)
 			{
-				// ���� directory�� ����صд�.				
+				// ???? directory?? ???????.				
 				if (_chdir(UpdateDir) == 0)
 				{
 					//---------------------------------------------------
-					// file�ϳ��ϳ��� �����ش�. T_T;
+					// file???????? ???????. T_T;
 					//---------------------------------------------------
 					struct _finddata_t	FileData;
 					long				hFile;
 
-					// ��� ȭ���� �о�´�.
+					// ??? ????? ???�?.
 					if ((hFile = _findfirst("*.*", &FileData)) != -1L)
 					{
 						while (_findnext(hFile, &FileData) == 0)
 						{
-							// .���� �����ϴ� �� ���� �ʿ� ����..
+							// .???? ??????? ?? ???? ??? ????..
 							if (FileData.name[0] != '.')
 							{
 								remove(FileData.name);
 							}
 						}
 
-						// ��
+						// ??
 						_findclose(hFile);
 					}
 
@@ -3862,7 +3867,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					if (_rmdir(UpdateDir) == 0)
 					{
-						// �� ��������.
+						// ?? ????????.
 					}
 				}
 			}
@@ -3907,7 +3912,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		if (ParsingRealServer(lpCmdLine, g_Dimension, RealServerInfo) == false)
 		{
 			//#ifndef OUTPUT_DEBUG
-				//MessageBox(NULL, "�� ������ ���� �ٽ� �������ֽñ� �ٶ��ϴ�.", PROGRAM_TITLE, MB_OK);
+				//MessageBox(NULL, "?? ?????? ???? ??? ????????�? ??????.", PROGRAM_TITLE, MB_OK);
 				//ShellExecute(NULL, NULL, "www.darkeden.com", NULL, NULL, SW_SHOW);
 				//return -1;
 			//#endif
@@ -4008,7 +4013,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		break;
 	}
 
-	// BugTrap���� ��ü
+	// BugTrap???? ??�
 	// #ifndef _DEBUG
 	// 	if( gC_ci->IsKorean() == true )
 	// 		InitCrashReport();
@@ -4097,7 +4102,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		//static DWORD lastTime=1;
 		//------------------------------
-		// �ʱ�ȭ ���� �ʾ����� �ʱ�ȭ�Ѵ�.
+		// ???? ???? ??????? ???????.
 		//------------------------------
 		if (!g_pTopView->IsInit())
 		{
@@ -4107,7 +4112,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		g_bActiveApp = TRUE;
 		//g_bActiveGame = TRUE;
-		DEBUG_CMD(MIN_CLRSCR, "����");
+		DEBUG_CMD(MIN_CLRSCR, "????");
 		DEBUG_CMD(MIN_SHOWWND, "------------------------------");
 
 		int iGameRunTime = 0;
@@ -4149,11 +4154,11 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 					//if (g_CurrentTime - lastTime > g_UpdateDelay)
 					{
-						// CDirectDraw�� �۵������� ���� ��쿡�� return
+						// CDirectDraw?? ????????? ???? ????? return
 						//if (g_bActiveApp)// && CDirectDraw::IsActive())
 						if (g_pUpdate != NULL)
 						{
-							// ���Ľ�.. ����.. --;;
+							// ?????.. ????.. --;;
 							CWinUpdate* pCurrentUpdate = g_pUpdate;
 
 							pCurrentUpdate->Update();
@@ -4168,7 +4173,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 #ifdef __NPROTECT__
 #ifndef __DESIGNED_INTERNATION
-					//20080902 �ǽð� üũ �ڴʰԶ� ���� ���� ���� ���� closeNPROTECT�� �ƹ� ��ɵ� ����.
+					//20080902 ??�? �? ????? ????? ???? ???? ???? closeNPROTECT?? ??? ???? ????.
 #if __CONTENTS(__NPROTECT)
 					if (CheckNPROTECT() != NPROTECT_OK)
 					{
@@ -4199,7 +4204,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 						g_FrameRate = (g_FrameCount - g_StartFrameCount) * 1000 / timeGap;
 
-						// 15 fps �̻�
+						// 15 fps ???
 						g_bGoodFPS = (g_FrameRate >= g_FrameGood);
 
 						g_StartTime = g_CurrentTime;
@@ -4209,7 +4214,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 /*
 					//--------------------------------------------------
-					// ���������� timer�� üũ�ϱ� ���ؼ�..
+					// ?????????? timer?? �???? ?????..
 					//--------------------------------------------------
 					const int checkSecond = 3;
 					const int checkMillisecond = 3000;
@@ -4221,18 +4226,18 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					//static int	lastSecond = 0;
 
 					//--------------------------------------------------
-					// SpeedHack üũ
+					// SpeedHack �?
 					//--------------------------------------------------
-					if (g_CurrentTime - lastHackTime > checkHackMillisecond)	// 5�ʸ���
+					if (g_CurrentTime - lastHackTime > checkHackMillisecond)	// 5?????
 					{
 						static int checker = 0;
 
 						if (++checker & 0x01)
 //						{
-							// ������� Spy++�� ����.. WndClass�� ���δ�.
-							if (FindWindow("#32770", "���ǵ��� Ver 1.0 ")!=NULL)
+							// ??????? Spy++?? ????.. WndClass?? ?????.
+							if (FindWindow("#32770", "??????? Ver 1.0 ")!=NULL)
 							{
-								// �� -_-;
+								// ?? -_-;
 								bBadTimer = TRUE;
 
 								DEBUG_ADD("Find Speeder3!!!!");
@@ -4242,10 +4247,10 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 //						}
 						else
 //						{
-							// ������� Spy++�� ����.. WndClass�� ���δ�.
+							// ??????? Spy++?? ????.. WndClass?? ?????.
 							if (FindWindow("#32770", "Brothers Speeder")!=NULL)
 							{
-								// �� -_-;
+								// ?? -_-;
 								bBadTimer = TRUE;
 
 								DEBUG_ADD("Find Speeder!!!!");
@@ -4255,10 +4260,10 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 //						}
 						else
 //						{
-							// ������� Spy++�� ����.. WndClass�� ���δ�.
-							if (FindWindow("#32770", "���?����")!=NULL)
+							// ??????? Spy++?? ????.. WndClass?? ?????.
+							if (FindWindow("#32770", "????????")!=NULL)
 							{
-								// �� -_-;
+								// ?? -_-;
 								bBadTimer = TRUE;
 
 								DEBUG_ADD("Find Speeder4!!!!");
@@ -4268,10 +4273,10 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 //						}
 						else
 //						{
-							// ������� Spy++�� ����.. WndClass�� ���δ�.
+							// ??????? Spy++?? ????.. WndClass?? ?????.
 							if (FindWindow("TApplication", "Macro Express 2000")!=NULL)
 							{
-								// �� -_-;
+								// ?? -_-;
 								bBadTimer = TRUE;
 
 								DEBUG_ADD("Find Macro Express!!!!");
@@ -4284,10 +4289,10 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 					}
 
 					//--------------------------------------------------
-					// timer�� 3�ʰ� �귶�µ�.. �ð��� 3�ʰ� �ȵƴٸ�
+					// timer?? 3??? ???�?.. ?�??? 3??? ?????
 					//--------------------------------------------------
 					///*
-					if (g_CurrentTime - lastTime > checkMillisecond)	// 3�ʸ���
+					if (g_CurrentTime - lastTime > checkMillisecond)	// 3?????
 					{
 						SYSTEMTIME st;
 						GetLocalTime( &st );
@@ -4303,13 +4308,13 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 							elapsedSecond = st.wSecond + 60 - lastSecond;
 						}
 
-						// �ð��� 3�ʰ� �ȵ�����..
+						// ?�??? 3??? ???????..
 						if (elapsedSecond < checkSecond)
 						{
-							// ����..
+							// ????..
 							if (++badTimes > 5)
 							{
-								// �� -_-;
+								// ?? -_-;
 								bBadTimer = TRUE;
 
 								DEBUG_ADD("Bad Timer!!!!");
@@ -4361,7 +4366,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				g_pUIDialog->PopupFreeMessageDlg(g_nProtectMessage[g_nProtectSTATUS].c_str());
 			}
 			else
-				g_pUIDialog->PopupFreeMessageDlg("��ũ�γ� ���̷����� �߰ߵǾ� ��ũ������ ����˴ϴ�. ���̷��� �˻縦 �غ��ð�, ���������� ���� ������ �ϴµ� �̷��� ������ �� �߻��ȴٸ� bug@darkeden.com���� ������ �����ּ���.", -1, -1, 0);
+				g_pUIDialog->PopupFreeMessageDlg("?????? ????????? ????? ????????? ???????. ??????? ??? ????�?, ?????????? ???? ?????? ??�? ????? ?????? ?? ??????? bug@darkeden.com???? ?????? ?????????.", -1, -1, 0);
 #endif
 
 #if defined(__NPROTECT__)&&!defined(__NPROTECT_OLD_VERSION__)
@@ -4376,7 +4381,7 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				else
 				{
 					char szTemp[256];
-					wsprintf(szTemp, "nProtect�� �� �� ���� ���� �����ڵ�[%d][%d]�Դϴ�. ��ũ������ �����մϴ�.", g_nProtectErrorMessage, g_nProtectErrorMessage2);
+					wsprintf(szTemp, "nProtect?? ?? ?? ???? ???? ???????[%d][%d]????. ????????? ????????.", g_nProtectErrorMessage, g_nProtectErrorMessage2);
 					g_pUIDialog->PopupFreeMessageDlg(szTemp);
 				}
 			}
@@ -4384,13 +4389,13 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			//			if(g_bForceExitBynProtect2)
 			//			{
-			//				g_pUIDialog->PopupFreeMessageDlg( "nProtect ���� ���� �ʱ�ȭ ������ �߻��߽��ϴ�. ������ �������� �α����Ͽ� ������ �����Ͻñ� �ٶ��ϴ�.", -1, -1, 0 );
+			//				g_pUIDialog->PopupFreeMessageDlg( "nProtect ???? ???? ???? ?????? ?????????. ?????? ???????? ???????? ?????? ??????�? ??????.", -1, -1, 0 );
 			//			}else
 			//			{
 			//				if(g_bForceExitBynProtect)
-			//					g_pUIDialog->PopupFreeMessageDlg( "���̷��� �� ��ŷ ���ܱ⿡ ���� ��ũ������ ����˴ϴ�. ���̷��� �˻縦 �غ��ð�, ���������� ���� ������ �ϴµ� �̷��� ������ �� �߻��ȴٸ�, bug@darkeden.com ���� ������ �����ּ���.", -1, -1, 0 );
+			//					g_pUIDialog->PopupFreeMessageDlg( "??????? ?? ??? ????? ???? ????????? ???????. ??????? ??? ????�?, ?????????? ???? ?????? ??�? ????? ?????? ?? ???????, bug@darkeden.com ???? ?????? ?????????.", -1, -1, 0 );
 			//				else
-			//					g_pUIDialog->PopupFreeMessageDlg( "��ũ�γ� ���̷����� �߰ߵǾ� ��ũ������ ����˴ϴ�. ���̷��� �˻縦 �غ��ð�, ���������� ���� ������ �ϴµ� �̷��� ������ �� �߻��ȴٸ� bug@darkeden.com���� ������ �����ּ���.", -1, -1, 0 );
+			//					g_pUIDialog->PopupFreeMessageDlg( "?????? ????????? ????? ????????? ???????. ??????? ??? ????�?, ?????????? ???? ?????? ??�? ????? ?????? ?? ??????? bug@darkeden.com???? ?????? ?????????.", -1, -1, 0 );
 			//			}
 			//			//MessageBox(NULL, "Timer Error!", PROGRAM_TITLE, MB_OK | MB_TOPMOST);
 

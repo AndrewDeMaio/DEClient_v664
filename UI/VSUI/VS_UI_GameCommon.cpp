@@ -6050,7 +6050,7 @@ void C_VS_UI_CHATTING::KeyboardControl(UINT message, UINT key, long extra)
 					{
 
 						if (!g_pUserInformation->attrOperator.GetValue() &&
-							strstr(sz_chat_str, "*command") == NULL &&
+							sz_chat_str[0] != '*' &&				// any master command, not just *command
 							temp_history.m_timer[0] + 20000 > GetTickCount() /*&& sz_chat_str[0] != '*'*/ &&
 							strstr(g_char_slot_ingame.sz_name.c_str(), (*g_pGameStringTable)[UI_STRING_MESSAGE_MASTER_NAME].GetString()) == NULL)
 						{
@@ -6163,7 +6163,7 @@ void C_VS_UI_CHATTING::KeyboardControl(UINT message, UINT key, long extra)
 
 
 				if (!g_pUserInformation->attrOperator.GetValue() &&
-					strstr(sz_chat_str, "*command") == NULL &&
+					sz_chat_str[0] != '*' &&				// any master command, not just *command
 					m_dw_rep_tickcount.size() == 5 &&
 					m_dw_rep_tickcount[0] + 2000 > GetTickCount() &&
 					strstr(g_char_slot_ingame.sz_name.c_str(), (*g_pGameStringTable)[UI_STRING_MESSAGE_MASTER_NAME].GetString()) == NULL)
@@ -8496,11 +8496,10 @@ bool	C_VS_UI_CHATTING::IsCannotSendChatInput()
 {
 	bool bTimerReturn = Timer();
 	bool bSurvivalZone = gC_vs_ui.GetZoneID() == 8001;
-#ifdef _LIB
+	// _LIB is never defined for the UI project (it builds with _WINDOWS), so
+	// this exemption was compiled out and every operator was treated as a
+	// normal player. Same trap as the pickup path further down this file.
 	bool bOperator = g_pPlayer != NULL && g_pPlayer->IsOperator();
-#else
-	bool bOperator = false;
-#endif
 
 	return !bOperator && (bTimerReturn || bSurvivalZone);
 }
@@ -28711,11 +28710,11 @@ C_VS_UI_MINIMAP::C_VS_UI_MINIMAP()
 
 	m_p_minimap_surface = new CSpriteSurface;
 
-	m_p_minimap_surface->InitOffsurface(200, 100, DDSCAPS_SYSTEMMEMORY);
+	m_p_minimap_surface->InitOffsurface16(200, 100, DDSCAPS_SYSTEMMEMORY);
 	m_p_minimap_surface->SetTransparency(0xffff);
 
 	m_surface_w = 200;
-	m_surface_w = 100;
+	m_surface_h = 100;
 	m_Block.clear();
 	m_Flag.clear();
 
@@ -29300,12 +29299,13 @@ void C_VS_UI_MINIMAP::Show()
 		RECT rt = { 0,0,m_p_minimap_surface->GetWidth(),m_p_minimap_surface->GetHeight() };
 		POINT map_point = { x + m_map_start_point.x, y + m_map_start_point.y };
 
-		//		if(gpC_base->m_p_DDSurface_back->Lock())
+		// BltHalf() is a software blend: it takes the destination pointer from the
+		// shared CDirectDraw::m_ddsd, so the destination has to be locked here.
+		// (The else branch below uses BltFast, which must NOT be locked.)
+		if (gpC_base->m_p_DDSurface_back->Lock())
 		{
-			//			WORD * p_dest = (WORD *)m_p_minimap_surface->GetSurfacePointer();
-			//			p_dest = p_dest+(y+m_map_start_point.y)*m_p_minimap_surface->GetSurfacePitch()/2+x+m_map_start_point.x;
 			gpC_base->m_p_DDSurface_back->BltHalf(&map_point, m_p_minimap_surface, &rt);
-			//			gpC_base->m_p_DDSurface_back->Unlock();
+			gpC_base->m_p_DDSurface_back->Unlock();
 		}
 		//		DrawMinimapAlpha(x+m_map_start_point.x, y+m_map_start_point.y, m_p_minimap_surface);
 	}
@@ -29783,7 +29783,7 @@ void C_VS_UI_MINIMAP::SetZone(int zone_id)
 		POINT point = { 0, 0 };
 		DeleteNew(m_p_minimap_surface);
 		m_p_minimap_surface = new CSpriteSurface;
-		m_p_minimap_surface->InitOffsurface(m_surface_w, m_surface_h, DDSCAPS_SYSTEMMEMORY);
+		m_p_minimap_surface->InitOffsurface16(m_surface_w, m_surface_h, DDSCAPS_SYSTEMMEMORY);
 		m_p_minimap_surface->SetTransparency(0xffff);
 		m_p_minimap_surface->FillSurface(0x0000);
 
@@ -29849,7 +29849,7 @@ void	C_VS_UI_MINIMAP::SetFlagArea(POINT pt)
 			for (int x = pt.x * m_surface_w / m_map_w;
 				x <= (pt.x + 9) * m_surface_w / m_map_w; x++)
 			{
-				mem[y * pitch / 2 + x] = mem[y * pitch / 2 + x] & CDirectDraw::Get_R_Bitmask();
+				mem[y * pitch / 2 + x] = mem[y * pitch / 2 + x] & CDirectDraw::RED;
 			}
 		}
 	}
@@ -29897,9 +29897,9 @@ void C_VS_UI_MINIMAP::SetSafetyZone(RECT rect, bool my_zone)
 				x <= min((remainx + rect.right) * m_surface_w / m_map_w, m_surface_w - 1); x++)
 			{
 				if (my_zone)
-					mem[y * pitch / 2 + x] = mem[y * pitch / 2 + x] & CDirectDraw::Get_G_Bitmask();
+					mem[y * pitch / 2 + x] = mem[y * pitch / 2 + x] & CDirectDraw::GREEN;
 				else
-					mem[y * pitch / 2 + x] = mem[y * pitch / 2 + x] & CDirectDraw::Get_R_Bitmask();
+					mem[y * pitch / 2 + x] = mem[y * pitch / 2 + x] & CDirectDraw::RED;
 			}
 		}
 	}

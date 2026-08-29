@@ -1,10 +1,10 @@
 //-----------------------------------------------------------------------------
 // AppendPatchInfo.h
 //-----------------------------------------------------------------------------
-// OriginalFile�� FirstSize�� �˰� ������ 
-// AppendFile�� AppendSize�� ����ؼ� ��ġ�� �� �� �ִ�.
+// If you know the original file and its original size, you can calculate the appended file 
+// and appended size and perform the patch.
 //
-// �� ������ ȭ�Ϸ� ���θ� ����ȭ�� �ٲ� �ʿ� ����.
+// If this information is saved to a file, there is no need to modify the executable itself.
 //-----------------------------------------------------------------------------
 
 #ifndef __APPENDPATCHINFO_H__
@@ -66,8 +66,8 @@ class AppendPatch {
 		// Execute / Check
 		//------------------------------------------------------------------
 		bool		ExecutePatch() const;
-		bool		CheckFinalInfo() const;			// final file�� �о����
-		bool		CalculateFinalInfo() const;		// �������
+		bool		CheckFinalInfo() const;
+		bool		CalculateFinalInfo() const;
 
 		//------------------------------------------------------------------
 		// File I / O
@@ -93,7 +93,7 @@ class  AppendPatchTable : public CTypeTable<AppendPatch> {
 		AppendPatchTable() {}
 		~AppendPatchTable() {}
 
-		int			GetAllSize() const;
+		int	GetAllSize() const;
 };
 
 #endif

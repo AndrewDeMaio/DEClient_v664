@@ -16,6 +16,7 @@
 //
 // ! 아직없는 것은 나중에 Sprite Pack 뒤에 추가된다. (중간에 있는것들도)
 //
+
 SKILLTREE_SKILL C_VS_UI_SKILL_TREE_ENCHANT::m_skill_icon_tab[ENCHANT_SKILL_COUNT] = {
 	MAGIC_CREATE_HOLY_WATER,
 	MAGIC_LIGHT,

@@ -637,6 +637,57 @@ bool C_FRR::Open(const char *sz_filename)
   `Sprite pack file�� �ƴҰ���� ����ó���� ����.
   `�̹� load�Ǿ� �ִٸ�, release�ϰ� sz_filename�� open�Ѵ�.
 -----------------------------------------------------------------------------*/
+extern bool DE_IsEnglish();		// Client.cpp
+
+//-----------------------------------------------------------------------------
+// DE_LocalizeSpritePath
+//
+// Sprite packs are loaded through CTypePack, not FileOpenBinary(), so they
+// never picked up the ".en" language variant the string tables already use
+// (String.inf -> String.en.inf, see FileOpenBinary in GameMain.cpp). This
+// applies the identical rule to sprites:
+//
+//     data\ui\spk\TitleMenuDefault.spk
+//         English -> data\ui\spk\TitleMenuDefault.en.spk   (if it exists)
+//         Korean  -> data\ui\spk\TitleMenuDefault.spk
+//
+// Fallback is per file, so only the packs actually translated are overridden -
+// everything else stays Korean and nothing has to be localised in one go.
+//
+// The index file needs no handling of its own: CTypePack::LoadFromFileRunning
+// derives it as filename + 'i', so redirecting the .spk redirects .spki too.
+//
+// IsFileExist() checks the real filesystem before darkeden.dpk, so a translated
+// pack works either loose on disk or packed into the archive.
+//-----------------------------------------------------------------------------
+static const char* DE_LocalizeSpritePath(const char* szPath, char* szBuf, size_t cbBuf)
+{
+	if (szPath == nullptr || !DE_IsEnglish())
+		return szPath;
+
+	const char* dot   = strrchr(szPath, '.');
+	const char* slash = strrchr(szPath, '\\');
+	const char* fwd   = strrchr(szPath, '/');
+	if (fwd > slash) slash = fwd;
+
+	// need an extension, and it must belong to the file rather than a directory
+	if (dot == nullptr || dot <= slash)
+		return szPath;
+
+	const size_t head = (size_t)(dot - szPath);
+	if (head + strlen(dot) + 4 >= cbBuf)
+		return szPath;
+
+	memcpy(szBuf, szPath, head);
+	memcpy(szBuf + head, ".en", 3);
+	strcpy(szBuf + head + 3, dot);
+
+	if (iovfs_base::get_vfs()->IsFileExist(szBuf))
+		return szBuf;
+
+	return szPath;
+}
+
 void C_SPRITE_PACK::Open(const char *sz_filename)
 {
 	//assert(m_pC_spk_list);	// by sigi
@@ -657,7 +708,8 @@ void C_SPRITE_PACK::Open(const char *sz_filename)
 //	}
 
 	//m_pC_spk_list->LoadFromFile(file);
-	m_SPK.LoadFromFileRunning( sz_filename );
+	char szLocalized[MAX_PATH];
+	m_SPK.LoadFromFileRunning( DE_LocalizeSpritePath(sz_filename, szLocalized, sizeof(szLocalized)) );
 }
 
 /*-----------------------------------------------------------------------------

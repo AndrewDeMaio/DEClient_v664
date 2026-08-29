@@ -11,7 +11,7 @@
 #include "UserOption.h"
 #include "ClientConfig.h"
 
-//#include "ExperienceTable.h"	//char_info���ﶧ �����
+//#include "ExperienceTable.h"	//char_info???? ?????
 #include "MGuildMarkManager.h"
 #include "KeyAccelerator.h"
 #include "UserInformation.h"
@@ -27,14 +27,14 @@
 #include <windows.h>
 
 #if __CONTENTS(__TITLE_UI_RENWEAL)
-	#include "VS_UI_NewTitle.h"
+#include "VS_UI_NewTitle.h"
 #else	//__TITLE_UI_RENWEAL
-	#include "VS_UI_Title.h"
+#include "VS_UI_Title.h"
 #endif //__TITLE_UI_RENWEAL
 
 #if __CONTENTS(__TITLE_UI_RENWEAL)
 
-#define LOGIN_ID_X 7 // ��밪
+#define LOGIN_ID_X 7 // ???
 #define LOGIN_ID_Y 33
 #define LOGIN_PASSWORD_X 7
 #define LOGIN_PASSWORD_Y 64
@@ -54,26 +54,26 @@ extern DWORD g_CurrentFrame;
 extern int		g_LeftPremiumDays;
 extern BYTE		g_PayType;
 
-extern MTopView*	g_pTopView;
+extern MTopView* g_pTopView;
 
-void ExecF_OptionResetButton(C_VS_UI_DIALOG * p_this_dialog, id_t id)
+void ExecF_OptionResetButton(C_VS_UI_DIALOG* p_this_dialog, id_t id)
 {
-	switch( id )
+	switch (id)
 	{
-	case DIALOG_EXECID_OK :
-		gpC_base->SendMessage( UI_RESET_BUTTON );
+	case DIALOG_EXECID_OK:
+		gpC_base->SendMessage(UI_RESET_BUTTON);
 		break;
 	case DIALOG_CANCEL:
 
 		break;
-		
+
 	}
 }
-void ExecF_EXITQuestion(C_VS_UI_DIALOG * p_this_dialog, id_t id)
+void ExecF_EXITQuestion(C_VS_UI_DIALOG* p_this_dialog, id_t id)
 {
-	switch( id )
+	switch (id)
 	{
-	case DIALOG_EXECID_OK :
+	case DIALOG_EXECID_OK:
 		gpC_base->SendMessage(UI_TERMINATION, 0, 0);
 		break;
 	case DIALOG_CANCEL:
@@ -87,7 +87,7 @@ void ExecF_EXITQuestion(C_VS_UI_DIALOG * p_this_dialog, id_t id)
 //----------------------------------------------------------------------------
 // static
 //----------------------------------------------------------------------------
-C_VS_UI_OPTION::GAMEMENU_SPK_INDEX			
+C_VS_UI_OPTION::GAMEMENU_SPK_INDEX
 C_VS_UI_OPTION::m_sprite_id[C_VS_UI_OPTION::MENU_COUNT][4] =
 // { normal, focused, checked, focused&checked }
 {
@@ -146,27 +146,27 @@ const int TITLE_X = 400, TITLE_Y = 21;
 #define HEART_WIDTH			152
 #define HEART_HEIGHT		246
 #define HEART_Y				166
-int g_heart_rect[] = {254, 441, 628};
+int g_heart_rect[] = { 254, 441, 628 };
 
-namespace					// 2003.9.29		by sonee ������ �Ⱦ��� ���� 
+namespace					// 2003.9.29		by sonee ?????? ????? ???? 
 {
-	int			g_vs_ui_title_only_premium_x = 517;			// �����̾� ���� ������ ��ġ
-	int			g_vs_ui_title_only_premium_y = 499;			// �����̾� ���� ������ ��ġ
-};	
+	int			g_vs_ui_title_only_premium_x = 517;			// ??????? ???? ?????? ???
+	int			g_vs_ui_title_only_premium_y = 499;			// ??????? ???? ?????? ???
+};
 
 int C_VS_UI_NEWCHAR::m_hair_color_array[COLOR_LIST_X][COLOR_LIST_Y] = {
-	
+
 	/*
 	{0, 15, 30},
 	{90, 165, 240},
 	{225, 105, 60},
 	{285, 210, 120},
-	{180, 195, 150}, 
+	{180, 195, 150},
 	{270, 75, 255},
-	{45, 135, 300}, 
+	{45, 135, 300},
 	{315, 330, 345},
 	*/
-	// ���� �ٲ����.. by sigi
+	// ???? ??????.. by sigi
 	{ 57, 70, 86 },
 	{ 101, 115, 130 },
 	{ 145, 159, 174 },
@@ -178,23 +178,23 @@ int C_VS_UI_NEWCHAR::m_hair_color_array[COLOR_LIST_X][COLOR_LIST_Y] = {
 };
 
 int C_VS_UI_NEWCHAR::m_skin_color_array[COLOR_LIST_X][COLOR_LIST_Y] = {
-/*	{405, 412, 419}, 
-	{420, 428, 434}, 
-	{435, 442, 449}, 
-	{450, 457, 464}, 
-	{465, 472, 479}, 
-	{480, 487, 494}, 
-	{389, 390, 374}, 
-	{359, 375, 403},
-	*/	
-	{ 494, 487, 480 },
-	{ 479, 471, 466 },
-	{ 464, 455, 451 },
-	{ 449, 440, 435 },
-	{ 434, 426, 420 },
-	{ 419, 412, 407 },
-	{ 371, 364, 381 },
-	{ 179, 170, 165 },
+	/*	{405, 412, 419},
+		{420, 428, 434},
+		{435, 442, 449},
+		{450, 457, 464},
+		{465, 472, 479},
+		{480, 487, 494},
+		{389, 390, 374},
+		{359, 375, 403},
+		*/
+		{ 494, 487, 480 },
+		{ 479, 471, 466 },
+		{ 464, 455, 451 },
+		{ 449, 440, 435 },
+		{ 434, 426, 420 },
+		{ 419, 412, 407 },
+		{ 371, 364, 381 },
+		{ 179, 170, 165 },
 };
 
 // Item blink color table
@@ -211,26 +211,26 @@ int ga_blink_color_table[INTERFACE_BLINK_VALUE_MAX] = {
 //-----------------------------------------------------------------------------
 void C_VS_UI_CHAR_DELETE::SendCharacterDeleteToClient()
 {
-	// static���� �ϰ� �ܺο��� string�� delete���ش�.
+	// static???? ??? ?????? string?? delete?????.
 
 	static DELETE_CHARACTER S_delete_char;
 
-	// �ݸ�����
-	if(!(g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin))
+	// ???????
+	if (!(g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin))
 	{
 		g_Convert_DBCS_Ascii2SingleByte(m_lev_ssn_part1.GetString(), m_lev_ssn_part1.Size(), S_delete_char.sz_part1);
 #if !__CONTENTS(__CHAR_DELETE)
 		g_Convert_DBCS_Ascii2SingleByte(m_lev_ssn_part2.GetString(), m_lev_ssn_part2.Size(), S_delete_char.sz_part2);
 #endif	//__CHAR_DELETE
 	}
-	else if(g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin)
+	else if (g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin)
 	{
 		g_Convert_DBCS_Ascii2SingleByte(m_lev_ssn_part1.GetString(), m_lev_ssn_part1.Size(), S_delete_char.sz_part1);
 	}
 	S_delete_char.slot = m_selected_slot;
 
 	gpC_base->SendMessage(UI_DELETE_CHARACTER, 0, 0, &S_delete_char);
-	
+
 }
 
 //-----------------------------------------------------------------------------
@@ -245,7 +245,7 @@ C_VS_UI_CHAR_DELETE::C_VS_UI_CHAR_DELETE()
 	AttrTopmost(true);
 	AttrKeyboardControl(true);
 
-	// �ݸ�����
+	// ???????
 	int w_h = 207;
 	//if((g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin))
 	//	w_h = 127;
@@ -255,41 +255,41 @@ C_VS_UI_CHAR_DELETE::C_VS_UI_CHAR_DELETE()
 	int ssn_part1_x, ssn_y, ssn_part2_x;
 
 	{
-//		m_pC_image_spk = new C_SPRITE_PACK(SPK_CHAR_DELETE);
-		ok_offset_x = 189-26;
-		ok_offset_y = w_h-60;
-		cancel_offset_x = 253-24;
-		cancel_offset_y = w_h-60;
+		//		m_pC_image_spk = new C_SPRITE_PACK(SPK_CHAR_DELETE);
+		ok_offset_x = 189 - 26;
+		ok_offset_y = w_h - 60;
+		cancel_offset_x = 253 - 24;
+		cancel_offset_y = w_h - 60;
 		ssn_part1_x = 55;
 		ssn_part2_x = 175;
 		ssn_y = 108;
 	}
 
 	//Set(RESOLUTION_X/2-324/2, RESOLUTION_Y/2-w_h/2, 324, w_h);
-	Set(g_pUserInformation->iResolution_x/2-324/2, g_pUserInformation->iResolution_y/2-w_h/2, 324, w_h);
+	Set(g_pUserInformation->iResolution_x / 2 - 324 / 2, g_pUserInformation->iResolution_y / 2 - w_h / 2, 324, w_h);
 
 	m_pC_button_group = new ButtonGroup(this);
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x+ok_offset_x, y+ok_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_OK), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_OK), DELETE_OK, this, C_GLOBAL_RESOURCE::BUTTON_OK_TITLE_RENEWAL));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x+cancel_offset_x, y+cancel_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_OK), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_OK), DELETE_CANCEL, this, C_GLOBAL_RESOURCE::BUTTON_CANCEL_TITLE_RENEWAL));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x + ok_offset_x, y + ok_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_OK), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_OK), DELETE_OK, this, C_GLOBAL_RESOURCE::BUTTON_OK_TITLE_RENEWAL));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x + cancel_offset_x, y + cancel_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_OK), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_OK), DELETE_CANCEL, this, C_GLOBAL_RESOURCE::BUTTON_CANCEL_TITLE_RENEWAL));
 
-	if( g_pUserInformation->IsNetmarble) // && g_pUserInformation->IsNetmarbleLogin)
+	if (g_pUserInformation->IsNetmarble) // && g_pUserInformation->IsNetmarbleLogin)
 	{
-		m_lev_ssn_part1.SetPosition(x+ssn_part1_x, y+ssn_y);
+		m_lev_ssn_part1.SetPosition(x + ssn_part1_x, y + ssn_y);
 		m_lev_ssn_part1.SetByteLimit(SSN_PART1_CHAR_COUNT + 1);
 		Attach(&m_lev_ssn_part1);
 	}
 	else
 	{
 
-		m_lev_ssn_part1.SetPosition(x+ssn_part1_x, y+ssn_y);
+		m_lev_ssn_part1.SetPosition(x + ssn_part1_x, y + ssn_y);
 		m_lev_ssn_part1.SetByteLimit(SSN_PART1_CHAR_COUNT
 #if __CONTENTS(__CHAR_DELETE)
-			+1
+			+ 1
 #endif //__CHAR_DELETE
-			);
+		);
 		Attach(&m_lev_ssn_part1);
 #if !__CONTENTS(__CHAR_DELETE)	
-		m_lev_ssn_part2.SetPosition(x+ssn_part2_x, y+ssn_y);
+		m_lev_ssn_part2.SetPosition(x + ssn_part2_x, y + ssn_y);
 		m_lev_ssn_part2.SetByteLimit(SSN_PART2_CHAR_COUNT);
 		m_lev_ssn_part2.PasswordMode(true);
 		Attach(&m_lev_ssn_part2);
@@ -306,10 +306,10 @@ C_VS_UI_CHAR_DELETE::~C_VS_UI_CHAR_DELETE()
 {
 	g_UnregisterWindow(this);
 
-//	if( gC_ci->IsChinese() )
-//		m_lev_ssn_part1.Unacquire();
-// 	else 
-	if(g_pUserInformation->IsNetmarble) // && g_pUserInformation->IsNetmarbleLogin)
+	//	if( gC_ci->IsChinese() )
+	//		m_lev_ssn_part1.Unacquire();
+	// 	else 
+	if (g_pUserInformation->IsNetmarble) // && g_pUserInformation->IsNetmarbleLogin)
 	{
 		m_lev_ssn_part1.Unacquire();
 	}
@@ -321,18 +321,18 @@ C_VS_UI_CHAR_DELETE::~C_VS_UI_CHAR_DELETE()
 #endif	//__CHAR_DELETE
 	}
 
-//	DeleteNew(m_pC_image_spk);
+	//	DeleteNew(m_pC_image_spk);
 	DeleteNew(m_pC_button_group);
 }
 
-void	C_VS_UI_CHAR_DELETE::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
+void	C_VS_UI_CHAR_DELETE::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	static char * m_help_string[2] = {
+	static char* m_help_string[2] = {
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_DELETE].GetString(),
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_CANCEL].GetString()
 	};
 
-	g_descriptor_manager.Set(DID_INFO, p_button->x, p_button->y, (void *)m_help_string[p_button->GetID()],0,0);
+	g_descriptor_manager.Set(DID_INFO, p_button->x, p_button->y, (void*)m_help_string[p_button->GetID()], 0, 0);
 }
 
 //-----------------------------------------------------------------------------
@@ -340,10 +340,10 @@ void	C_VS_UI_CHAR_DELETE::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
 //
 // 
 //-----------------------------------------------------------------------------
-void	C_VS_UI_CHAR_DELETE::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
-{	
+void	C_VS_UI_CHAR_DELETE::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
+{
 	if (p_button->GetFocusState() && p_button->GetPressState())
-		gpC_global_resource->m_pC_common_button_spk->BltLocked(p_button->x, p_button->y, p_button->m_image_index+2);
+		gpC_global_resource->m_pC_common_button_spk->BltLocked(p_button->x, p_button->y, p_button->m_image_index + 2);
 	else
 		gpC_global_resource->m_pC_common_button_spk->BltLocked(p_button->x, p_button->y, p_button->m_image_index);
 }
@@ -376,7 +376,7 @@ void C_VS_UI_CHAR_DELETE::Start()
 {
 	PI_Processor::Start();
 
-	if(g_pUserInformation->IsNetmarble) // && g_pUserInformation->IsNetmarbleLogin)
+	if (g_pUserInformation->IsNetmarble) // && g_pUserInformation->IsNetmarbleLogin)
 	{
 		m_lev_ssn_part1.EraseAll();
 		m_lev_ssn_part1.Acquire();
@@ -420,15 +420,15 @@ void C_VS_UI_CHAR_DELETE::Process()
 
 WORD	C_VS_UI_CHAR_DELETE::Get_RGB_16(BYTE btRGB_R, BYTE btRGB_G, BYTE btRGB_B)
 {
-	WORD	wRGB		= 0;
+	WORD	wRGB = 0;
 
-	wRGB	+= (BYTE)(((float)((float)btRGB_R / 255)) * 31);
+	wRGB += (BYTE)(((float)((float)btRGB_R / 255)) * 31);
 
-	wRGB	=  wRGB << 6;	
-	wRGB	+= (BYTE)(((float)((float)btRGB_G / 255)) * 63);
+	wRGB = wRGB << 6;
+	wRGB += (BYTE)(((float)((float)btRGB_G / 255)) * 63);
 
-	wRGB	=  wRGB << 5;	
-	wRGB	+= (BYTE)(((float)((float)btRGB_B / 255)) * 31);
+	wRGB = wRGB << 5;
+	wRGB += (BYTE)(((float)((float)btRGB_B / 255)) * 31);
 
 	return wRGB;
 }
@@ -436,12 +436,12 @@ WORD	C_VS_UI_CHAR_DELETE::Get_RGB_16(BYTE btRGB_R, BYTE btRGB_G, BYTE btRGB_B)
 
 WORD	C_VS_UI_CHAR_DELETE::Get_RGBAlpha_16(BYTE btRGB_Alpha)
 {
-	WORD	wRGBAlpha	= 0;
+	WORD	wRGBAlpha = 0;
 
-	if(btRGB_Alpha > 100)
+	if (btRGB_Alpha > 100)
 		btRGB_Alpha = 10;
 
-	wRGBAlpha	= (BYTE)(((float)((float)btRGB_Alpha / 100)) * 31);
+	wRGBAlpha = (BYTE)(((float)((float)btRGB_Alpha / 100)) * 31);
 
 	return wRGBAlpha;
 }
@@ -449,23 +449,23 @@ WORD	C_VS_UI_CHAR_DELETE::Get_RGBAlpha_16(BYTE btRGB_Alpha)
 
 void	C_VS_UI_CHAR_DELETE::Init_TitleUIInterface_InfInfo()
 {
-	char arrstrAppName[255]		= {NULL,};
-	char arrstrFileName[255]	= {NULL,};
+	char arrstrAppName[255] = { NULL, };
+	char arrstrFileName[255] = { NULL, };
 
-	GetCurrentDirectory(_MAX_PATH, arrstrFileName);	//���� ���� ���� ������ ��θ� ��´�.
+	GetCurrentDirectory(_MAX_PATH, arrstrFileName);	//???? ???? ???? ?????? ???? ????.
 
-	strcpy(arrstrAppName,"RGB_16");
+	strcpy(arrstrAppName, "RGB_16");
 
 	strcat(arrstrFileName, FILE_INFO_TITLE_UI);
 
-	m_btBox_RGB_R				= (BYTE)GetPrivateProfileInt(arrstrAppName, "BOX_RGB_R", 0, arrstrFileName);
-	m_btBox_RGB_G				= (BYTE)GetPrivateProfileInt(arrstrAppName, "BOX_RGB_G", 0, arrstrFileName);
-	m_btBox_RGB_B				= (BYTE)GetPrivateProfileInt(arrstrAppName, "BOX_RGB_B", 0, arrstrFileName);
-	m_btBox_RGB_Alpha			= (BYTE)GetPrivateProfileInt(arrstrAppName, "BOX_RGB_ALPHA", 0, arrstrFileName);
+	m_btBox_RGB_R = (BYTE)GetPrivateProfileInt(arrstrAppName, "BOX_RGB_R", 0, arrstrFileName);
+	m_btBox_RGB_G = (BYTE)GetPrivateProfileInt(arrstrAppName, "BOX_RGB_G", 0, arrstrFileName);
+	m_btBox_RGB_B = (BYTE)GetPrivateProfileInt(arrstrAppName, "BOX_RGB_B", 0, arrstrFileName);
+	m_btBox_RGB_Alpha = (BYTE)GetPrivateProfileInt(arrstrAppName, "BOX_RGB_ALPHA", 0, arrstrFileName);
 
-	m_btLine_RGB_R				= (BYTE)GetPrivateProfileInt(arrstrAppName, "LINE_RGB_R", 0, arrstrFileName);
-	m_btLine_RGB_G				= (BYTE)GetPrivateProfileInt(arrstrAppName, "LINE_RGB_G", 0, arrstrFileName);
-	m_btLine_RGB_B				= (BYTE)GetPrivateProfileInt(arrstrAppName, "LINE_RGB_B", 0, arrstrFileName);
+	m_btLine_RGB_R = (BYTE)GetPrivateProfileInt(arrstrAppName, "LINE_RGB_R", 0, arrstrFileName);
+	m_btLine_RGB_G = (BYTE)GetPrivateProfileInt(arrstrAppName, "LINE_RGB_G", 0, arrstrFileName);
+	m_btLine_RGB_B = (BYTE)GetPrivateProfileInt(arrstrAppName, "LINE_RGB_B", 0, arrstrFileName);
 }
 
 
@@ -479,77 +479,77 @@ void	C_VS_UI_CHAR_DELETE::Init_TitleUIInterface_InfInfo()
 //-----------------------------------------------------------------------------
 void C_VS_UI_CHAR_DELETE::Show()
 {
-//	m_pC_image_spk->Blt(x, y, DELETE_WINDOW);
-// 20070702 �Ѹ��� �׸� ���� �ʳ� �������� ���ư��� �Ʒ� �ּ� ����
-	//	gpC_global_resource->DrawDialog(x, y, w, h, GetAttributes()->alpha);
-	
+	//	m_pC_image_spk->Blt(x, y, DELETE_WINDOW);
+	// 20070702 ????? ??? ???? ??? ???????? ??????? ??? ??? ????
+		//	gpC_global_resource->DrawDialog(x, y, w, h, GetAttributes()->alpha);
+
 	RECT mssageBox;
-	
+
 	mssageBox.left = x;
 	mssageBox.top = y;
 	mssageBox.right = x + w;
 	mssageBox.bottom = y + h;
-	
+
 	Init_TitleUIInterface_InfInfo();
 
-	WORD	wBox_RGB		= Get_RGB_16(m_btBox_RGB_R, m_btBox_RGB_G, m_btBox_RGB_B);
-	WORD	wLine_RGB		= Get_RGB_16(m_btLine_RGB_R, m_btLine_RGB_G, m_btLine_RGB_B);
-	WORD	wBoxRGB_Alpha	= Get_RGBAlpha_16(m_btBox_RGB_Alpha);
+	WORD	wBox_RGB = Get_RGB_16(m_btBox_RGB_R, m_btBox_RGB_G, m_btBox_RGB_B);
+	WORD	wLine_RGB = Get_RGB_16(m_btLine_RGB_R, m_btLine_RGB_G, m_btLine_RGB_B);
+	WORD	wBoxRGB_Alpha = Get_RGBAlpha_16(m_btBox_RGB_Alpha);
 
 	gpC_base->m_p_DDSurface_back->DrawRect(&mssageBox, wLine_RGB);
 	gpC_base->m_p_DDSurface_back->BltColorAlpha(&mssageBox, wBox_RGB, wBoxRGB_Alpha);
-	
+
 	g_FL2_GetDC();
-	g_PrintColorStr(x+w/2-g_GetStringWidth((*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_DELETE_CONFIRM].GetString(), gpC_base->m_char_name_pi.hfont)/2, 
-		y+30, (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_DELETE_CONFIRM].GetString(), gpC_base->m_char_name_pi, RGB_WHITE);
-	// �ݸ�����
-	if(!(g_pUserInformation->IsNetmarble)) // && g_pUserInformation->IsNetmarbleLogin))
+	g_PrintColorStr(x + w / 2 - g_GetStringWidth((*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_DELETE_CONFIRM].GetString(), gpC_base->m_char_name_pi.hfont) / 2,
+		y + 30, (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_DELETE_CONFIRM].GetString(), gpC_base->m_char_name_pi, RGB_WHITE);
+	// ???????
+	if (!(g_pUserInformation->IsNetmarble)) // && g_pUserInformation->IsNetmarbleLogin))
 	{
-		
+
 #if	__CONTENTS(__CHAR_DELETE)
-		g_PrintColorStr(x+20+w/2-g_GetStringWidth((*g_pGameStringTable)[UI_STRING_MESSAGE_RE_INPUT_CORRECT_SSN].GetString(), gpC_base->m_char_name_pi.hfont)/2, 
-			y+50,(*g_pGameStringTable)[UI_STRING_MESSAGE_RE_INPUT_CORRECT_DELETE].GetString(), gpC_base->m_char_name_pi, RGB_WHITE);
+		g_PrintColorStr(x + 20 + w / 2 - g_GetStringWidth((*g_pGameStringTable)[UI_STRING_MESSAGE_RE_INPUT_CORRECT_SSN].GetString(), gpC_base->m_char_name_pi.hfont) / 2,
+			y + 50, (*g_pGameStringTable)[UI_STRING_MESSAGE_RE_INPUT_CORRECT_DELETE].GetString(), gpC_base->m_char_name_pi, RGB_WHITE);
 #else
-		g_PrintColorStr(x+w/2-g_GetStringWidth((*g_pGameStringTable)[UI_STRING_MESSAGE_RE_INPUT_CORRECT_SSN].GetString(), gpC_base->m_char_name_pi.hfont)/2, 
-			y+50,(*g_pGameStringTable)[UI_STRING_MESSAGE_RE_INPUT_CORRECT_SSN].GetString(), gpC_base->m_char_name_pi, RGB_WHITE);
+		g_PrintColorStr(x + w / 2 - g_GetStringWidth((*g_pGameStringTable)[UI_STRING_MESSAGE_RE_INPUT_CORRECT_SSN].GetString(), gpC_base->m_char_name_pi.hfont) / 2,
+			y + 50, (*g_pGameStringTable)[UI_STRING_MESSAGE_RE_INPUT_CORRECT_SSN].GetString(), gpC_base->m_char_name_pi, RGB_WHITE);
 #endif	//__CHAR_DELETE
 	}
-	else if((g_pUserInformation->IsNetmarble)) // && g_pUserInformation->IsNetmarbleLogin))
+	else if ((g_pUserInformation->IsNetmarble)) // && g_pUserInformation->IsNetmarbleLogin))
 	{
-		g_PrintColorStr(x+w/2-g_GetStringWidth((*g_pGameStringTable)[UI_STRING_MESSAGE_RE_INPUT_CORRECT_SSN].GetString(), gpC_base->m_char_name_pi.hfont)/2, 
-			y+50,(*g_pGameStringTable)[UI_STRING_MESSAGE_RE_INPUT_CORRECT_DELETE].GetString(), gpC_base->m_char_name_pi, RGB_WHITE);
+		g_PrintColorStr(x + w / 2 - g_GetStringWidth((*g_pGameStringTable)[UI_STRING_MESSAGE_RE_INPUT_CORRECT_SSN].GetString(), gpC_base->m_char_name_pi.hfont) / 2,
+			y + 50, (*g_pGameStringTable)[UI_STRING_MESSAGE_RE_INPUT_CORRECT_DELETE].GetString(), gpC_base->m_char_name_pi, RGB_WHITE);
 	}
 
 	m_pC_button_group->ShowDescription();
 	g_FL2_ReleaseDC();
 
- 	const int chineseSSNBoxSizeX = 165;
+	const int chineseSSNBoxSizeX = 165;
 
-	RECT chineseRect = {m_lev_ssn_part1.GetPosition().x-10, m_lev_ssn_part1.GetPosition().y-4,
-		m_lev_ssn_part1.GetPosition().x-10+chineseSSNBoxSizeX,m_lev_ssn_part1.GetPosition().y-4+25};	
+	RECT chineseRect = { m_lev_ssn_part1.GetPosition().x - 10, m_lev_ssn_part1.GetPosition().y - 4,
+		m_lev_ssn_part1.GetPosition().x - 10 + chineseSSNBoxSizeX,m_lev_ssn_part1.GetPosition().y - 4 + 25 };
 
-	if(g_pUserInformation->IsNetmarble) // && g_pUserInformation->IsNetmarbleLogin)
+	if (g_pUserInformation->IsNetmarble) // && g_pUserInformation->IsNetmarbleLogin)
 	{
-		gpC_base->m_p_DDSurface_back->FillRect(&chineseRect,0);
+		gpC_base->m_p_DDSurface_back->FillRect(&chineseRect, 0);
 	}
 
-	if(gpC_base->m_p_DDSurface_back->Lock())
+	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		// �ݸ�����
-		if(!(g_pUserInformation->IsNetmarble)) // && g_pUserInformation->IsNetmarbleLogin))
+		// ???????
+		if (!(g_pUserInformation->IsNetmarble)) // && g_pUserInformation->IsNetmarbleLogin))
 		{
 			{
 #if __CONTENTS(__CHAR_DELETE)
 				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(chineseRect.left, chineseRect.top, C_GLOBAL_RESOURCE::AB_NAME_BAR);
 #else
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(m_lev_ssn_part1.GetPosition().x-10, m_lev_ssn_part1.GetPosition().y-2, C_GLOBAL_RESOURCE::AB_NAME_BAR);
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(m_lev_ssn_part2.GetPosition().x-10, m_lev_ssn_part2.GetPosition().y-2, C_GLOBAL_RESOURCE::AB_NAME_BAR);
+				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(m_lev_ssn_part1.GetPosition().x - 10, m_lev_ssn_part1.GetPosition().y - 2, C_GLOBAL_RESOURCE::AB_NAME_BAR);
+				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(m_lev_ssn_part2.GetPosition().x - 10, m_lev_ssn_part2.GetPosition().y - 2, C_GLOBAL_RESOURCE::AB_NAME_BAR);
 #endif	//__CHAR_DELETE
 			}
 		}
 		else
 		{
-			Rect rect(chineseRect.left,chineseRect.top,chineseSSNBoxSizeX,25);
+			Rect rect(chineseRect.left, chineseRect.top, chineseSSNBoxSizeX, 25);
 			gpC_global_resource->DrawOutBoxLocked(rect);
 
 		}
@@ -558,9 +558,9 @@ void C_VS_UI_CHAR_DELETE::Show()
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 
-	// �ݸ�����
+	// ???????
 	//if(!( g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin) )
-		Window::ShowWidget();
+	Window::ShowWidget();
 
 	SHOW_WINDOW_ATTR;
 }
@@ -574,48 +574,48 @@ void C_VS_UI_CHAR_DELETE::Run(id_t id)
 {
 	switch (id)
 	{
-		case DELETE_OK:
-			// �ݸ�����
-			{
-				// ����� �Է��Ͽ��°�?
-				if (true
+	case DELETE_OK:
+		// ???????
+	{
+		// ????? ??????????
+		if (true
 #if __CONTENTS(__CHAR_DELETE)
-					// �������� ���� �ѵ���.
-					&&	(m_lev_ssn_part1.Size() == SSN_PART1_CHAR_COUNT)
-					&& ( strcmp( m_lev_ssn_part1.GetString(), "delete") == 0 )
+			// ???????? ???? ?????.
+			&& (m_lev_ssn_part1.Size() == SSN_PART1_CHAR_COUNT)
+			&& (strcmp(m_lev_ssn_part1.GetString(), "delete") == 0)
 #else
-					&& ( ( gC_ci->IsKorean()&& (	m_lev_ssn_part1.Size() == SSN_PART1_CHAR_COUNT &&
-					 m_lev_ssn_part2.Size() == SSN_PART2_CHAR_COUNT ) ) 
-					 || ( !gC_ci->IsKorean() && ( strcmp( m_lev_ssn_part1.GetString(), "yes") == 0 ) )
-					 )
+			&& ((gC_ci->IsKorean() && (m_lev_ssn_part1.Size() == SSN_PART1_CHAR_COUNT &&
+				m_lev_ssn_part2.Size() == SSN_PART2_CHAR_COUNT))
+				|| (!gC_ci->IsKorean() && (strcmp(m_lev_ssn_part1.GetString(), "yes") == 0))
+				)
 #endif	//__CHAR_DELETE
-					 )
-					 //|| (g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin))
-				{
-					SendCharacterDeleteToClient();
-				}
-				else if(
-						//((g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin) && (	m_lev_ssn_part1.Size() == SSN_PART1_CHAR_COUNT) && 
-						((g_pUserInformation->IsNetmarble) && (	m_lev_ssn_part1.Size() == SSN_PART1_CHAR_COUNT) 
-						&& ( strcmp( m_lev_ssn_part1.GetString(), "delete") == 0 )
-						)) 
-				{
-					SendCharacterDeleteToClient();
-				}
-				else 
-				{
-					// error message!
-					if(!(g_pUserInformation->IsNetmarble)) // && g_pUserInformation->IsNetmarbleLogin))
-						g_msg_wrong_ssn->Start();
-					else
-						g_msg_wrong_delete->Start() ;  
-				}
-			}
-			break;
+			)
+			//|| (g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin))
+		{
+			SendCharacterDeleteToClient();
+		}
+		else if (
+			//((g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin) && (	m_lev_ssn_part1.Size() == SSN_PART1_CHAR_COUNT) && 
+			((g_pUserInformation->IsNetmarble) && (m_lev_ssn_part1.Size() == SSN_PART1_CHAR_COUNT)
+				&& (strcmp(m_lev_ssn_part1.GetString(), "delete") == 0)
+				))
+		{
+			SendCharacterDeleteToClient();
+		}
+		else
+		{
+			// error message!
+			if (!(g_pUserInformation->IsNetmarble)) // && g_pUserInformation->IsNetmarbleLogin))
+				g_msg_wrong_ssn->Start();
+			else
+				g_msg_wrong_delete->Start();
+		}
+	}
+	break;
 
-		case DELETE_CANCEL:
-			Finish();
-			break;
+	case DELETE_CANCEL:
+		Finish();
+		break;
 	}
 }
 
@@ -642,17 +642,17 @@ void C_VS_UI_CHAR_DELETE::KeyboardControl(UINT message, UINT key, long extra)
 	if (message == WM_KEYDOWN)
 		switch (key)
 		{
-			case VK_ESCAPE:
-				Run(DELETE_CANCEL);
-				return;
+		case VK_ESCAPE:
+			Run(DELETE_CANCEL);
+			return;
 
-			case VK_RETURN:
-				Run(DELETE_OK);
-				return;
+		case VK_RETURN:
+			Run(DELETE_OK);
+			return;
 		}
-	
+
 	// digit only
-	if(!(g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin))
+	if (!(g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin))
 	{
 #if __CONTENTS(__CHAR_DELETE)
 		Window::KeyboardControl(message, key, extra);
@@ -661,7 +661,7 @@ void C_VS_UI_CHAR_DELETE::KeyboardControl(UINT message, UINT key, long extra)
 		{
 			Window::KeyboardControl(message, key, extra);
 
-			if( gC_ci->IsKorean() )
+			if (gC_ci->IsKorean())
 			{
 				if (m_bl_ssn_ip_part1)
 				{
@@ -675,15 +675,15 @@ void C_VS_UI_CHAR_DELETE::KeyboardControl(UINT message, UINT key, long extra)
 		}
 #endif
 	}
-	else if(message == WM_CHAR && (g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin))
+	else if (message == WM_CHAR && (g_pUserInformation->IsNetmarble && g_pUserInformation->IsNetmarbleLogin))
 	{
 		Window::KeyboardControl(message, key, extra);
-	}	
+	}
 
 	if (message == WM_KEYDOWN)
 		if (key == VK_BACK)
 		{
-			if( gC_ci->IsKorean() )
+			if (gC_ci->IsKorean())
 			{
 				if (!m_bl_ssn_ip_part1)
 				{
@@ -705,48 +705,48 @@ void C_VS_UI_CHAR_DELETE::KeyboardControl(UINT message, UINT key, long extra)
 //-----------------------------------------------------------------------------
 // RollDice
 //
-// �ֻ����� ������ point�� ���Ѵ�.
+// ??????? ?????? point?? ?????.
 //-----------------------------------------------------------------------------
 void C_VS_UI_NEWCHAR::RollDice(bool load)
 {
-	switch(m_p_slot->Race)
+	switch (m_p_slot->Race)
 	{
 	case RACE_SLAYER:
-		if(load == false)
+		if (load == false)
 		{
 			const int min = 5;
 			const int max = 30;
-			
+
 			//
 			// STR+DEX+INT = 30
 			//
-			m_p_slot->STR_PURE = min+(rand()%16); // 16 = 15(max:30 - min) + 1
-			
+			m_p_slot->STR_PURE = min + (rand() % 16); // 16 = 15(max:30 - min) + 1
+
 			int r = max - m_p_slot->STR_PURE - min;
-			m_p_slot->DEX_PURE = min+(rand()%(r-min+1));
-			
+			m_p_slot->DEX_PURE = min + (rand() % (r - min + 1));
+
 			assert(r >= m_p_slot->DEX_PURE);
-			
-			m_p_slot->INT_PURE = max - (m_p_slot->STR_PURE+m_p_slot->DEX_PURE);
-			
-			assert(m_p_slot->STR_PURE+m_p_slot->DEX_PURE+m_p_slot->INT_PURE == max);
-			
-			int s[3] = {m_p_slot->STR_PURE, m_p_slot->DEX_PURE, m_p_slot->INT_PURE};
-			
-			for(int i = 0; i < rand()%100; i++)
+
+			m_p_slot->INT_PURE = max - (m_p_slot->STR_PURE + m_p_slot->DEX_PURE);
+
+			assert(m_p_slot->STR_PURE + m_p_slot->DEX_PURE + m_p_slot->INT_PURE == max);
+
+			int s[3] = { m_p_slot->STR_PURE, m_p_slot->DEX_PURE, m_p_slot->INT_PURE };
+
+			for (int i = 0; i < rand() % 100; i++)
 			{
 				int a, b, c;
-				a = rand()%3;
-				b = rand()%3;
-				
-				c = s[a]; s[a] = s[b]; s[b] = c;//���ҽ���-_-;
+				a = rand() % 3;
+				b = rand() % 3;
+
+				c = s[a]; s[a] = s[b]; s[b] = c;//???????-_-;
 			}
-			
+
 			m_p_slot->STR_PURE = s[0];
 			m_p_slot->DEX_PURE = s[1];
 			m_p_slot->INT_PURE = s[2];
-			
-			if(m_iSave[0] == -1)
+
+			if (m_iSave[0] == -1)
 			{
 				m_iSave[0] = s[0];
 				m_iSave[1] = s[1];
@@ -762,34 +762,34 @@ void C_VS_UI_NEWCHAR::RollDice(bool load)
 		break;
 
 	case RACE_VAMPIRE:
-		{
-			m_p_slot->STR_PURE = 20;
-			m_p_slot->DEX_PURE = 20;
-			m_p_slot->INT_PURE = 20;
-		}
-		break;
-		
+	{
+		m_p_slot->STR_PURE = 20;
+		m_p_slot->DEX_PURE = 20;
+		m_p_slot->INT_PURE = 20;
+	}
+	break;
+
 	case RACE_OUSTERS:
-		{
-			m_p_slot->STR_PURE = 10;
-			m_p_slot->DEX_PURE = 10;
-			m_p_slot->INT_PURE = 10;
-			m_p_slot->bonus_point = 15;
-		}
-		break;
+	{
+		m_p_slot->STR_PURE = 10;
+		m_p_slot->DEX_PURE = 10;
+		m_p_slot->INT_PURE = 10;
+		m_p_slot->bonus_point = 15;
+	}
+	break;
 	}
 
-	m_p_slot->DAM			= 1;
-	m_p_slot->DAM2			= max(1, m_p_slot->STR_PURE/10);
-	m_p_slot->DEFENSE		= m_p_slot->DEX_PURE;
-	m_p_slot->PROTECTION	= m_p_slot->STR_PURE/15;
-	m_p_slot->TOHIT			= m_p_slot->DEX_PURE;
+	m_p_slot->DAM = 1;
+	m_p_slot->DAM2 = max(1, m_p_slot->STR_PURE / 10);
+	m_p_slot->DEFENSE = m_p_slot->DEX_PURE;
+	m_p_slot->PROTECTION = m_p_slot->STR_PURE / 15;
+	m_p_slot->TOHIT = m_p_slot->DEX_PURE;
 
-	m_p_slot->HP = m_p_slot->STR_PURE*2;
-	m_p_slot->MP = m_p_slot->INT_PURE*2;
+	m_p_slot->HP = m_p_slot->STR_PURE * 2;
+	m_p_slot->MP = m_p_slot->INT_PURE * 2;
 
-	m_p_slot->HP_MAX = 20*2; // �̰� ... const int�� �ϴϱ� SetEnergy()���� �� ���� ���ߴ�!
-	m_p_slot->MP_MAX = 20*2;
+	m_p_slot->HP_MAX = 20 * 2; // ??? ... const int?? ???? SetEnergy()???? ?? ???? ?????!
+	m_p_slot->MP_MAX = 20 * 2;
 }
 
 //-----------------------------------------------------------------------------
@@ -800,31 +800,31 @@ void C_VS_UI_NEWCHAR::RollDice(bool load)
 void C_VS_UI_NEWCHAR::SendNewCharacterToClient()
 {
 	//
-	// !�ܺο� sz_name�� delete�ϸ� �ȵȴ�.
+	// !???? sz_name?? delete??? ????.
 	//
-	static NEW_CHARACTER S_new_character; // �ݵ�� static����..
+	static NEW_CHARACTER S_new_character; // ???? static????..
 
-//	DeleteNew(m_p_slot->sz_name);
+	//	DeleteNew(m_p_slot->sz_name);
 
-	char *sz_temp;
+	char* sz_temp;
 	g_Convert_DBCS_Ascii2SingleByte(m_lev_name.GetString(), m_lev_name.Size(), sz_temp);
 
 	m_p_slot->sz_name = sz_temp;
 	DeleteNew(sz_temp);
 
-	S_new_character.sz_name		= (char *)m_p_slot->sz_name.c_str();
-	S_new_character.race		= m_p_slot->Race;
-	S_new_character.bl_female	= m_p_slot->bl_female;
-	S_new_character.STR			= m_p_slot->STR_PURE;
-	S_new_character.DEX			= m_p_slot->DEX_PURE;
-	S_new_character.INT			= m_p_slot->INT_PURE;
-	S_new_character.slot		= m_selected_slot;
+	S_new_character.sz_name = (char*)m_p_slot->sz_name.c_str();
+	S_new_character.race = m_p_slot->Race;
+	S_new_character.bl_female = m_p_slot->bl_female;
+	S_new_character.STR = m_p_slot->STR_PURE;
+	S_new_character.DEX = m_p_slot->DEX_PURE;
+	S_new_character.INT = m_p_slot->INT_PURE;
+	S_new_character.slot = m_selected_slot;
 	S_new_character.skin_color = m_p_slot->skin_color;
 	S_new_character.hair_color = m_p_slot->hair_color;
 	S_new_character.coat_color = m_p_slot->coat_color;;
 	S_new_character.trouser_color = m_p_slot->trouser_color;
-	S_new_character.face	= m_p_slot->man_info.hair-M_HAIR1;
-	S_new_character.race		= m_p_slot->Race;
+	S_new_character.face = m_p_slot->man_info.hair - M_HAIR1;
+	S_new_character.race = m_p_slot->Race;
 
 	gpC_base->SendMessage(UI_NEW_CHARACTER, 0, 0, &S_new_character);
 }
@@ -836,7 +836,7 @@ void C_VS_UI_NEWCHAR::SendNewCharacterToClient()
 //-----------------------------------------------------------------------------
 void _Timer_CharUpdate() // globals
 {
-		g_char_index++;
+	g_char_index++;
 }
 
 //-----------------------------------------------------------------------------
@@ -850,8 +850,8 @@ void C_VS_UI_NEWCHAR::Start()
 	g_pTopView->DeleteTitleEffect();
 
 	m_bl_pushed_table = false;
-	m_p_slot				= NULL;
-	m_selected_slot	= 0;
+	m_p_slot = NULL;
+	m_selected_slot = 0;
 
 	gpC_window_manager->AppearWindow(this);
 	m_pC_button_group->Init();
@@ -862,24 +862,24 @@ void C_VS_UI_NEWCHAR::Start()
 	m_lev_name.EraseAll();
 
 	POINT	ptEffect;
-	ptEffect.x	= 	m_wEffect_Fire_Left1_X;
-	ptEffect.y	=	m_wEffect_Fire_Left1_Y;
+	ptEffect.x = m_wEffect_Fire_Left1_X;
+	ptEffect.y = m_wEffect_Fire_Left1_Y;
 	g_pTopView->AddTitleEffect(&ptEffect, EFFECTSPRITETYPE_CHAR_MANAGER_LEFT_FIRE_1, 2, EFFECT_INDEX_FIRE_LEFT1);
 
-	ptEffect.x	= 	m_wEffect_Fire_Left2_X;
-	ptEffect.y	=	m_wEffect_Fire_Left2_Y;
+	ptEffect.x = m_wEffect_Fire_Left2_X;
+	ptEffect.y = m_wEffect_Fire_Left2_Y;
 	g_pTopView->AddTitleEffect(&ptEffect, EFFECTSPRITETYPE_CHAR_MANAGER_LEFT_FIRE_2, 2, EFFECT_INDEX_FIRE_LEFT2);
 
-	ptEffect.x	= 	m_wEffect_Fire_Right1_X;
-	ptEffect.y	=	m_wEffect_Fire_Right1_Y;
+	ptEffect.x = m_wEffect_Fire_Right1_X;
+	ptEffect.y = m_wEffect_Fire_Right1_Y;
 	g_pTopView->AddTitleEffect(&ptEffect, EFFECTSPRITETYPE_CHAR_MANAGER_RIGHT_FIRE_1, 2, EFFECT_INDEX_FIRE_RIGHT1);
 
-	ptEffect.x	= 	m_wEffect_Fire_Right2_X;
-	ptEffect.y	=	m_wEffect_Fire_Right2_Y;
+	ptEffect.x = m_wEffect_Fire_Right2_X;
+	ptEffect.y = m_wEffect_Fire_Right2_Y;
 	g_pTopView->AddTitleEffect(&ptEffect, EFFECTSPRITETYPE_CHAR_MANAGER_RIGHT_FIRE_2, 2, EFFECT_INDEX_FIRE_RIGHT2);
 
-	ptEffect.x	= 	m_wEffect_Fire_Center_X;
-	ptEffect.y	=	m_wEffect_Fire_Center_Y;
+	ptEffect.x = m_wEffect_Fire_Center_X;
+	ptEffect.y = m_wEffect_Fire_Center_Y;
 	g_pTopView->AddTitleEffect(&ptEffect, EFFECTSPRITETYPE_CHAR_MANAGER_CENTER_FIRE, 2, EFFECT_INDEX_FIRE_CENTER);
 }
 
@@ -891,7 +891,7 @@ void C_VS_UI_NEWCHAR::Finish()
 
 	gpC_window_manager->DisappearWindow(this);
 
-//	m_pC_ani_fin->Stop();
+	//	m_pC_ani_fin->Stop();
 }
 
 //-----------------------------------------------------------------------------
@@ -917,18 +917,18 @@ C_VS_UI_NEWCHAR::C_VS_UI_NEWCHAR()
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
 
-// 	if(bHighResolution)
-// 	{
-// 		m_common_spk.Open(SPK_COMMON);
-//		m_title_spk.Open(SPK_TITLE_1024);
-// 		m_image_spk.Open(SPK_CHAR_CREATE);
-// 	}
-// 	else
-// 	{
-// 		m_image_spk.Open(SPK_CHAR_CREATE800);
-// 		m_common_spk.Open(SPK_COMMON);
-// 	}
-//	m_face_spk.Open(SPK_FACE_MAKE);
+	// 	if(bHighResolution)
+	// 	{
+	// 		m_common_spk.Open(SPK_COMMON);
+	//		m_title_spk.Open(SPK_TITLE_1024);
+	// 		m_image_spk.Open(SPK_CHAR_CREATE);
+	// 	}
+	// 	else
+	// 	{
+	// 		m_image_spk.Open(SPK_CHAR_CREATE800);
+	// 		m_common_spk.Open(SPK_COMMON);
+	// 	}
+	//	m_face_spk.Open(SPK_FACE_MAKE);
 
 	m_image_spk.Open(SPK_CHAR_CREATE);
 	m_common_spk.Open(SPK_COMMON);
@@ -937,7 +937,7 @@ C_VS_UI_NEWCHAR::C_VS_UI_NEWCHAR()
 	m_pC_use_grade = new C_SPRITE_PACK(SPK_USE_GRADE);
 #endif	//__USER_GRADE
 
-//	Set(0, 0, g_pUserInformation->iResolution_x, g_pUserInformation->iResolution_y );
+	//	Set(0, 0, g_pUserInformation->iResolution_x, g_pUserInformation->iResolution_y );
 
 	m_pAnimationTimer = new CTickTimer;
 	m_pAnimationTimer->StartTimer(50, true);
@@ -947,66 +947,66 @@ C_VS_UI_NEWCHAR::C_VS_UI_NEWCHAR()
 	// set button
 	m_pC_button_group = new ButtonGroup(this);
 
-	const InterfaceInformation *pSkin = &g_pSkinManager->Get( SkinManager::NEW_CHAR );
-	
+	const InterfaceInformation* pSkin = &g_pSkinManager->Get(SkinManager::NEW_CHAR);
+
 	int convx = (g_pUserInformation->iResolution_x - 800) / 2;
 	int convy = (g_pUserInformation->iResolution_y - 600) / 2;
 
 	int skinnum = 0;
 
-	m_chDirection	= 2;
+	m_chDirection = 2;
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wPrevButton_X, m_wPrevButton_Y,	
-													m_image_spk.GetWidth(PREV_BUTTON), m_image_spk.GetHeight(PREV_BUTTON), 
-													BACK_ID, this, PREV_BUTTON));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wPrevButton_X, m_wPrevButton_Y,
+		m_image_spk.GetWidth(PREV_BUTTON), m_image_spk.GetHeight(PREV_BUTTON),
+		BACK_ID, this, PREV_BUTTON));
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wNextButton_X, m_wNextButton_Y,	
-													m_image_spk.GetWidth(NEXT_BUTTON), m_image_spk.GetHeight(NEXT_BUTTON), 
-													NEXT_ID, this, NEXT_BUTTON));
-
-
-	
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wCharLeftRotation_Button_X, m_wCharLeftRotation_Button_Y,	
-													m_image_spk.GetWidth(CHAR_LEFT_RATOATION_BUTTON), m_image_spk.GetHeight(CHAR_LEFT_RATOATION_BUTTON), 
-													CHAR_LEFT_LOTATION_ID, this, CHAR_LEFT_RATOATION_BUTTON));
-
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wCharRightRotation_Button_X, m_wCharRightRotation_Button_Y,	
-													m_image_spk.GetWidth(CHAR_RIGHT_RATOATION_BUTTON), m_image_spk.GetHeight(CHAR_RIGHT_RATOATION_BUTTON), 
-													CHAR_RIGHT_LOTATION_ID, this, CHAR_RIGHT_RATOATION_BUTTON));
-	
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wNextButton_X, m_wNextButton_Y,
+		m_image_spk.GetWidth(NEXT_BUTTON), m_image_spk.GetHeight(NEXT_BUTTON),
+		NEXT_ID, this, NEXT_BUTTON));
 
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wSelect_Race_Slayer_Button_X, m_wSelect_Race_Slayer_Button_Y,	
-													m_image_spk.GetWidth(SELECT_SLAYER_BUTTON), m_image_spk.GetHeight(SELECT_SLAYER_BUTTON), 
-													SLAYER_ID, this, SELECT_SLAYER_BUTTON));
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wSelect_Race_Vampire_Button_X, m_wSelect_Race_Vampire_Button_Y,	
-													m_image_spk.GetWidth(SELECT_VAMPIRE_BUTTON), m_image_spk.GetHeight(SELECT_VAMPIRE_BUTTON), 
-													VAMPIRE_ID, this, SELECT_VAMPIRE_BUTTON));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wCharLeftRotation_Button_X, m_wCharLeftRotation_Button_Y,
+		m_image_spk.GetWidth(CHAR_LEFT_RATOATION_BUTTON), m_image_spk.GetHeight(CHAR_LEFT_RATOATION_BUTTON),
+		CHAR_LEFT_LOTATION_ID, this, CHAR_LEFT_RATOATION_BUTTON));
+
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wCharRightRotation_Button_X, m_wCharRightRotation_Button_Y,
+		m_image_spk.GetWidth(CHAR_RIGHT_RATOATION_BUTTON), m_image_spk.GetHeight(CHAR_RIGHT_RATOATION_BUTTON),
+		CHAR_RIGHT_LOTATION_ID, this, CHAR_RIGHT_RATOATION_BUTTON));
+
+
+
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wSelect_Race_Slayer_Button_X, m_wSelect_Race_Slayer_Button_Y,
+		m_image_spk.GetWidth(SELECT_SLAYER_BUTTON), m_image_spk.GetHeight(SELECT_SLAYER_BUTTON),
+		SLAYER_ID, this, SELECT_SLAYER_BUTTON));
+
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wSelect_Race_Vampire_Button_X, m_wSelect_Race_Vampire_Button_Y,
+		m_image_spk.GetWidth(SELECT_VAMPIRE_BUTTON), m_image_spk.GetHeight(SELECT_VAMPIRE_BUTTON),
+		VAMPIRE_ID, this, SELECT_VAMPIRE_BUTTON));
 #if __CONTENTS(__RACE_OUSTERS)
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wSelect_Race_Ousters_Button_X, m_wSelect_Race_Ousters_Button_Y,	
-													m_image_spk.GetWidth(SELECT_OUSTERS_BUTTON), m_image_spk.GetHeight(SELECT_OUSTERS_BUTTON), 
-													OUSTERS_ID, this, SELECT_OUSTERS_BUTTON));	
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wSelect_Race_Ousters_Button_X, m_wSelect_Race_Ousters_Button_Y,
+		m_image_spk.GetWidth(SELECT_OUSTERS_BUTTON), m_image_spk.GetHeight(SELECT_OUSTERS_BUTTON),
+		OUSTERS_ID, this, SELECT_OUSTERS_BUTTON));
 #else
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wHide_Ousters_Selection_Button_X, m_wHide_Ousters_Selection_Button_Y,	
-													m_image_spk.GetWidth(HIDE_OUSTERS_SELECTION_BUTTON), m_image_spk.GetHeight(HIDE_OUSTERS_SELECTION_BUTTON), 
-													OUSTERS_ID, this, HIDE_OUSTERS_SELECTION_BUTTON));	// �ƿ콺���� ��ư�� ����.
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wHide_Ousters_Selection_Button_X, m_wHide_Ousters_Selection_Button_Y,
+		m_image_spk.GetWidth(HIDE_OUSTERS_SELECTION_BUTTON), m_image_spk.GetHeight(HIDE_OUSTERS_SELECTION_BUTTON),
+		OUSTERS_ID, this, HIDE_OUSTERS_SELECTION_BUTTON));	// ??????? ????? ????.
 #endif	
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wNameCheck_Button_X, m_wNameCheck_Button_Y,	
-													m_image_spk.GetWidth(CHAR_NAME_CHECK_BUTTON), m_image_spk.GetHeight(CHAR_NAME_CHECK_BUTTON), 
-													CHECK_ID, this, CHAR_NAME_CHECK_BUTTON));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wNameCheck_Button_X, m_wNameCheck_Button_Y,
+		m_image_spk.GetWidth(CHAR_NAME_CHECK_BUTTON), m_image_spk.GetHeight(CHAR_NAME_CHECK_BUTTON),
+		CHECK_ID, this, CHAR_NAME_CHECK_BUTTON));
 
-//#if __CONTENTS(__RACE_OUSTERS)
-////	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint( skinnum ).x+convx,convy+pSkin->GetPoint( skinnum ).y,m_image_spk.GetWidth(OUSTERS_BUTTON)+20, m_image_spk.GetHeight(OUSTERS_BUTTON), OUSTERS_ID, this, OUSTERS_BUTTON));skinnum++;
-//#else
-//	skinnum++;
-// #endif
+	//#if __CONTENTS(__RACE_OUSTERS)
+	////	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint( skinnum ).x+convx,convy+pSkin->GetPoint( skinnum ).y,m_image_spk.GetWidth(OUSTERS_BUTTON)+20, m_image_spk.GetHeight(OUSTERS_BUTTON), OUSTERS_ID, this, OUSTERS_BUTTON));skinnum++;
+	//#else
+	//	skinnum++;
+	// #endif
 
-	// LineEditorVisual setting...
+		// LineEditorVisual setting...
 	m_lev_name.SetPrintInfo(gpC_base->m_user_id_pi);
 	m_lev_name.SetInputStringColor(RGB_WHITE);
-	m_lev_name.SetPosition(x+NAME_BOARD_X+convx,convy+ y+NAME_BOARD_Y);
+	m_lev_name.SetPosition(x + NAME_BOARD_X + convx, convy + y + NAME_BOARD_Y);
 	m_lev_name.SetByteLimit(10);
 	Attach(&m_lev_name);
 
@@ -1017,64 +1017,64 @@ C_VS_UI_NEWCHAR::C_VS_UI_NEWCHAR()
 	m_ousters_ispk.LoadFromFileRunning(ISPK_OUSTERS);
 
 	//m_AdvancementSlayerIspk.LoadFromFileRunning( ISPK_ADVANCEMENT_SLAYER );
-	m_AdvancementVampireManIspk.LoadFromFileRunning( ISPK_ADVANCEMENT_VAMPIRE_MAN );
-	m_AdvancementVampireWomanIspk.LoadFromFileRunning( ISPK_ADVANCEMENT_VAMPIRE_WOMAN );
-	m_AdvancementOustersIspk.LoadFromFileRunning( ISPK_ADVANCEMENT_OUSTERS );
-	m_AdvancementSlayerManIspk.LoadFromFileRunning( ISPK_ADVANCEMENT_SLAYER_MAN );
-	m_AdvancementSlayerWomanIspk.LoadFromFileRunning( ISPK_ADVANCEMENT_SLAYER_WOMAN );
+	m_AdvancementVampireManIspk.LoadFromFileRunning(ISPK_ADVANCEMENT_VAMPIRE_MAN);
+	m_AdvancementVampireWomanIspk.LoadFromFileRunning(ISPK_ADVANCEMENT_VAMPIRE_WOMAN);
+	m_AdvancementOustersIspk.LoadFromFileRunning(ISPK_ADVANCEMENT_OUSTERS);
+	m_AdvancementSlayerManIspk.LoadFromFileRunning(ISPK_ADVANCEMENT_SLAYER_MAN);
+	m_AdvancementSlayerWomanIspk.LoadFromFileRunning(ISPK_ADVANCEMENT_SLAYER_WOMAN);
 
 	//if(access(CFPK_SLAYER, 0))	_Error(FILE_OPEN);
- 	ivfstream file_man(CFPK_SLAYER_MAN, std::ios::binary);
-	if(!file_man.is_open()) _Error(FILE_OPEN);
- 	m_slayer_man_cfpk.LoadFromFile(file_man);
- 	file_man.close();
+	ivfstream file_man(CFPK_SLAYER_MAN, std::ios::binary);
+	if (!file_man.is_open()) _Error(FILE_OPEN);
+	m_slayer_man_cfpk.LoadFromFile(file_man);
+	file_man.close();
 
 	//if(access(CFPK_SLAYER, 0))	_Error(FILE_OPEN);
- 	ivfstream file_woman(CFPK_SLAYER_WOMAN, std::ios::binary);
-	if(!file_woman.is_open()) _Error(FILE_OPEN);
- 	m_slayer_woman_cfpk.LoadFromFile(file_woman);
- 	file_woman.close();
+	ivfstream file_woman(CFPK_SLAYER_WOMAN, std::ios::binary);
+	if (!file_woman.is_open()) _Error(FILE_OPEN);
+	m_slayer_woman_cfpk.LoadFromFile(file_woman);
+	file_woman.close();
 
 	//if(access(CFPK_VAMPIRE, 0))	_Error(FILE_OPEN);
 	ivfstream file_vampire(CFPK_VAMPIRE, std::ios::binary);
-	if(!file_vampire.is_open()) _Error(FILE_OPEN);
+	if (!file_vampire.is_open()) _Error(FILE_OPEN);
 	m_vampire_cfpk.LoadFromFile(file_vampire);
 	file_vampire.close();
 
 	//if(access(CFPK_OUSTERS, 0))	_Error(FILE_OPEN);
 	ivfstream file_ousters(CFPK_OUSTERS, std::ios::binary);
-	if(!file_ousters.is_open()) _Error(FILE_OPEN);
+	if (!file_ousters.is_open()) _Error(FILE_OPEN);
 	m_ousters_cfpk.LoadFromFile(file_ousters);
 	file_ousters.close();
-	
+
 	//if(access(CFPK_ADVANCEMENT_OUSTERS, 0))	_Error(FILE_OPEN);
-	ivfstream file_ac_ousters( CFPK_ADVANCEMENT_OUSTERS, std::ios::binary);
-	if(!file_ac_ousters.is_open()) _Error(FILE_OPEN);
-	m_AdvancementOustersCfpk.LoadFromFile( file_ac_ousters );
+	ivfstream file_ac_ousters(CFPK_ADVANCEMENT_OUSTERS, std::ios::binary);
+	if (!file_ac_ousters.is_open()) _Error(FILE_OPEN);
+	m_AdvancementOustersCfpk.LoadFromFile(file_ac_ousters);
 	file_ac_ousters.close();
 
 	//if(access(CFPK_ADVANCEMENT_VAMPIRE_MAN, 0))	_Error(FILE_OPEN);
-	ivfstream file_ac_vampire( CFPK_ADVANCEMENT_VAMPIRE_MAN, std::ios::binary);
-	if(!file_ac_vampire.is_open()) _Error(FILE_OPEN);
-	m_AdvancementVampireManCfpk.LoadFromFile( file_ac_vampire );
+	ivfstream file_ac_vampire(CFPK_ADVANCEMENT_VAMPIRE_MAN, std::ios::binary);
+	if (!file_ac_vampire.is_open()) _Error(FILE_OPEN);
+	m_AdvancementVampireManCfpk.LoadFromFile(file_ac_vampire);
 	file_ac_vampire.close();
 
 	//if(access(CFPK_ADVANCEMENT_VAMPIRE_WOMAN, 0))	_Error(FILE_OPEN);
-	ivfstream file_ac_vampire2( CFPK_ADVANCEMENT_VAMPIRE_WOMAN, std::ios::binary);
-	if(!file_ac_vampire2.is_open()) _Error(FILE_OPEN);
-	m_AdvancementVampireWomanCfpk.LoadFromFile( file_ac_vampire2 );
+	ivfstream file_ac_vampire2(CFPK_ADVANCEMENT_VAMPIRE_WOMAN, std::ios::binary);
+	if (!file_ac_vampire2.is_open()) _Error(FILE_OPEN);
+	m_AdvancementVampireWomanCfpk.LoadFromFile(file_ac_vampire2);
 	file_ac_vampire2.close();
 
 	//if(access(CFPK_ADVANCEMENT_SLAYER_MAN, 0))	_Error(FILE_OPEN);
-	ivfstream file_ac_slayerman( CFPK_ADVANCEMENT_SLAYER_MAN, std::ios::binary);
-	if(!file_ac_slayerman.is_open()) _Error(FILE_OPEN);
-	m_AdvancementSlayerManCfpk.LoadFromFile( file_ac_slayerman );
+	ivfstream file_ac_slayerman(CFPK_ADVANCEMENT_SLAYER_MAN, std::ios::binary);
+	if (!file_ac_slayerman.is_open()) _Error(FILE_OPEN);
+	m_AdvancementSlayerManCfpk.LoadFromFile(file_ac_slayerman);
 	file_ac_slayerman.close();
 
 	//if(access(CFPK_ADVANCEMENT_SLAYER_WOMAN, 0))	;
-	ivfstream file_ac_slayerwoman( CFPK_ADVANCEMENT_SLAYER_WOMAN, std::ios::binary);
-	if(!file_ac_slayerwoman.is_open()) _Error(FILE_OPEN);
-	m_AdvancementSlayerWomanCfpk.LoadFromFile( file_ac_slayerwoman );
+	ivfstream file_ac_slayerwoman(CFPK_ADVANCEMENT_SLAYER_WOMAN, std::ios::binary);
+	if (!file_ac_slayerwoman.is_open()) _Error(FILE_OPEN);
+	m_AdvancementSlayerWomanCfpk.LoadFromFile(file_ac_slayerwoman);
 	file_ac_slayerwoman.close();
 
 	srand((unsigned)time(NULL));
@@ -1085,22 +1085,22 @@ C_VS_UI_NEWCHAR::C_VS_UI_NEWCHAR()
 	m_pack_file.SetRAR(RPK_TITLE, RPK_PASSWORD);
 
 	SetDesc(29, 160, RGB(160, 160, 160), gpC_base->m_chatting_pi);
-//#endif	
+	//#endif	
 	m_desc_y_distance = 16;
 
-	m_wMale_OR_Femail_Select_Radio_Alpha	= 0;
-	m_wFace_Alpha							= 0;
-	m_btSelect_Face							= 0;
-	m_btVirtureSelect_Face					= 0;
+	m_wMale_OR_Femail_Select_Radio_Alpha = 0;
+	m_wFace_Alpha = 0;
+	m_btSelect_Face = 0;
+	m_btVirtureSelect_Face = 0;
 
-	m_wSave_Button_Alpha					= 0;				//
-	m_wLoad_Button_Alpha					= 0;				//
-	m_wReset_Button_Alpha					= 0;				//
+	m_wSave_Button_Alpha = 0;				//
+	m_wLoad_Button_Alpha = 0;				//
+	m_wReset_Button_Alpha = 0;				//
 
-	for(int i = 0; i < STET_MAX; i++)
+	for (int i = 0; i < STET_MAX; i++)
 	{
-		m_wStet_Plus_Button_Alpha[i]	= 0;
-		m_wStet_Minus_Button_Alpha[i]	= 0;
+		m_wStet_Plus_Button_Alpha[i] = 0;
+		m_wStet_Minus_Button_Alpha[i] = 0;
 	}
 	Init_TitleUIInterface_InfInfo();
 }
@@ -1128,18 +1128,18 @@ void C_VS_UI_NEWCHAR::UnacquireMouseFocus()
 //-----------------------------------------------------------------------------
 // ChangeColor
 //
-// (x, y) ��ġ�� color table color�� color�� change�Ѵ�.
-// �ٲ����� true�� ��ȯ�Ѵ�.
+// (x, y) ????? color table color?? color?? change???.
+// ??????? true?? ??????.
 //-----------------------------------------------------------------------------
 bool C_VS_UI_NEWCHAR::ChangeColor(int _x, int _y)
 {
-	for (int j=0; j < COLOR_LIST_Y; j++)
+	for (int j = 0; j < COLOR_LIST_Y; j++)
 	{
-		for (int i=0; i < COLOR_LIST_X; i++)
+		for (int i = 0; i < COLOR_LIST_X; i++)
 		{
-			if(m_p_slot->Race != RACE_OUSTERS)
+			if (m_p_slot->Race != RACE_OUSTERS)
 			{
-				if (_x >= m_wSkinColor_Start_X && _x < m_wSkinColor_Start_X + (i * COLOR_UNIT_X) + COLOR_UNIT_X&&
+				if (_x >= m_wSkinColor_Start_X && _x < m_wSkinColor_Start_X + (i * COLOR_UNIT_X) + COLOR_UNIT_X &&
 					_y >= m_wSkinColor_Start_Y && _y < m_wSkinColor_Start_Y + (j * COLOR_UNIT_Y) + COLOR_UNIT_Y)
 				{
 					m_skin_point.Set(i, j);
@@ -1147,7 +1147,7 @@ bool C_VS_UI_NEWCHAR::ChangeColor(int _x, int _y)
 					return true;
 				}
 			}
-			if(m_p_slot->Race != RACE_VAMPIRE)
+			if (m_p_slot->Race != RACE_VAMPIRE)
 			{
 				if (_x >= m_wHairColor_Start_X && _x < m_wHairColor_Start_X + (i * COLOR_UNIT_X) + COLOR_UNIT_X &&
 					_y >= m_wHairColor_Start_Y && _y < m_wHairColor_Start_Y + (j * COLOR_UNIT_Y) + COLOR_UNIT_Y)
@@ -1166,274 +1166,274 @@ bool C_VS_UI_NEWCHAR::ChangeColor(int _x, int _y)
 
 void	C_VS_UI_NEWCHAR::Init_TitleUIInterface_InfInfo()
 {
-	char arrstrAppName[255]		= {NULL,};
-	char arrstrFileName[255]	= {NULL,};
+	char arrstrAppName[255] = { NULL, };
+	char arrstrFileName[255] = { NULL, };
 
-	GetCurrentDirectory(_MAX_PATH, arrstrFileName);	//���� ���� ���� ������ ��θ� ��´�.
+	GetCurrentDirectory(_MAX_PATH, arrstrFileName);	//???? ???? ???? ?????? ???? ????.
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
-	// �ػ� �ø� �� UI�� �߾ӿ� ������ �ϱ� ���� ��ǥ ������ ����.
+	// ??? ??? ?? UI?? ???? ?????? ??? ???? ??? ?????? ????.
 	int ConvX = 0;	int ConvY = 0;
 
-	if(bHighResolution)	// 1024*768, 1280*960, 1280*1024
+	if (bHighResolution)	// 1024*768, 1280*960, 1280*1024
 	{
-		if(g_pUserInformation->iResolution_x <=1024)
-			strcpy(arrstrAppName,"CREATE_CHAR_1024_768");
+		if (g_pUserInformation->iResolution_x <= 1024)
+			strcpy(arrstrAppName, "CREATE_CHAR_1024_768");
 		else
 		{
 			// 1280*720
-			if(g_pUserInformation->iResolution_y < 960)
-			{	
-				strcpy(arrstrAppName,"CREATE_CHAR_1280_720");
+			if (g_pUserInformation->iResolution_y < 960)
+			{
+				strcpy(arrstrAppName, "CREATE_CHAR_1280_720");
 
-// 				ConvX = (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1024_768)) / 2;	//128
-// 				ConvY = (g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1024_768)) / 2;	//-24
+				// 				ConvX = (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1024_768)) / 2;	//128
+				// 				ConvY = (g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1024_768)) / 2;	//-24
 			}
 			// 1280*960
-			else if(g_pUserInformation->iResolution_y < 1024)
-			{	
-				strcpy(arrstrAppName,"CREATE_CHAR_1280_960");
+			else if (g_pUserInformation->iResolution_y < 1024)
+			{
+				strcpy(arrstrAppName, "CREATE_CHAR_1280_960");
 
-// 				ConvX = (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1024_768)) / 2;	//128
-// 				ConvY = (g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1024_768)) / 2;	//96
+				// 				ConvX = (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1024_768)) / 2;	//128
+				// 				ConvY = (g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1024_768)) / 2;	//96
 			}
 			// 1280*1024
 			else
-			{	
-				strcpy(arrstrAppName,"CREATE_CHAR_1280_1024");
+			{
+				strcpy(arrstrAppName, "CREATE_CHAR_1280_1024");
 
-// 				ConvX = (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1024_768)) / 2;	//128
-// 				ConvY = (g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1024_768)) / 2;	//128
+				// 				ConvX = (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1024_768)) / 2;	//128
+				// 				ConvY = (g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1024_768)) / 2;	//128
 			}
 		}
 	}
 	else
-		strcpy(arrstrAppName,"CREATE_CHAR_800_600");
+		strcpy(arrstrAppName, "CREATE_CHAR_800_600");
 
-	if(g_pUserInformation->IsNetmarbleLogin)
+	if (g_pUserInformation->IsNetmarbleLogin)
 	{
-		if(bHighResolution)
-			strcpy(arrstrAppName,"NET_CREATE_CHAR_1024_768");
+		if (bHighResolution)
+			strcpy(arrstrAppName, "NET_CREATE_CHAR_1024_768");
 		else
-			strcpy(arrstrAppName,"NET_CREATE_CHAR_800_600");
+			strcpy(arrstrAppName, "NET_CREATE_CHAR_800_600");
 	}
 
 	strcat(arrstrFileName, FILE_INFO_TITLE_UI);
 
-	m_wNewCharBox_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "NEWCHAR_BOX_X", 0, arrstrFileName);
-	m_wNewCharBox_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "NEWCHAR_BOX_Y", 0, arrstrFileName);
+	m_wNewCharBox_X = (WORD)GetPrivateProfileInt(arrstrAppName, "NEWCHAR_BOX_X", 0, arrstrFileName);
+	m_wNewCharBox_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "NEWCHAR_BOX_Y", 0, arrstrFileName);
 
-	m_wNameCheck_Button_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_CHECK_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_wNameCheck_Button_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_CHECK_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_wNameCheck_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_CHECK_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wNameCheck_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_CHECK_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wCharNameFocus_X						= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_FOCUS_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_wCharNameFocus_Y						= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_FOCUS_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_wCharNameFocus_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_FOCUS_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wCharNameFocus_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_FOCUS_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wCharLeftRotation_Button_X			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_LEFT_ROTATION_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_wCharLeftRotation_Button_Y			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_LEFT_ROTATION_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_wCharLeftRotation_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_LEFT_ROTATION_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wCharLeftRotation_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_LEFT_ROTATION_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wCharRightRotation_Button_X			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_RIGHT_ROTATION_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_wCharRightRotation_Button_Y			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_RIGHT_ROTATION_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_wCharRightRotation_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_RIGHT_ROTATION_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wCharRightRotation_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_RIGHT_ROTATION_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wCharView_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_VEIW_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_wCharView_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_VEIW_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_wCharView_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_VEIW_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wCharView_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_VEIW_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_ptFace_Radio[SELECT_LEFT_FACE].x		= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_LEFT_FACE_RADIO_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_ptFace_Radio[SELECT_LEFT_FACE].y		= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_LEFT_FACE_RADIO_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_ptFace_Radio[SELECT_LEFT_FACE].x = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_LEFT_FACE_RADIO_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptFace_Radio[SELECT_LEFT_FACE].y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_LEFT_FACE_RADIO_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_ptFace_Radio[SELECT_CENTER_FACE].x	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CENTER_FACE_RADIO_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_ptFace_Radio[SELECT_CENTER_FACE].y	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CENTER_FACE_RADIO_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_ptFace_Radio[SELECT_CENTER_FACE].x = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CENTER_FACE_RADIO_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptFace_Radio[SELECT_CENTER_FACE].y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CENTER_FACE_RADIO_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_ptFace_Radio[SELECT_RIGHT_FACE].x		= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RIGHT_FACE_RADIO_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_ptFace_Radio[SELECT_RIGHT_FACE].y		= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RIGHT_FACE_RADIO_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_ptFace_Radio[SELECT_RIGHT_FACE].x = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RIGHT_FACE_RADIO_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptFace_Radio[SELECT_RIGHT_FACE].y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RIGHT_FACE_RADIO_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_ptFace[SELECT_LEFT_FACE].x			= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_LEFT_FACE_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_ptFace[SELECT_LEFT_FACE].y			= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_LEFT_FACE_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_ptFace[SELECT_LEFT_FACE].x = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_LEFT_FACE_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptFace[SELECT_LEFT_FACE].y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_LEFT_FACE_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_ptFace[SELECT_CENTER_FACE].x			= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CENTER_FACE_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_ptFace[SELECT_CENTER_FACE].y			= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CENTER_FACE_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_ptFace[SELECT_CENTER_FACE].x = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CENTER_FACE_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptFace[SELECT_CENTER_FACE].y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CENTER_FACE_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_ptFace[SELECT_RIGHT_FACE].x			= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RIGHT_FACE_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_ptFace[SELECT_RIGHT_FACE].y			= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RIGHT_FACE_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_ptFace[SELECT_RIGHT_FACE].x = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RIGHT_FACE_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptFace[SELECT_RIGHT_FACE].y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RIGHT_FACE_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_ptRaceSelect_Radio[RACE_SLAYER].x		= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_RRADIO_SLAYER_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_ptRaceSelect_Radio[RACE_SLAYER].y		= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_RRADIO_SLAYER_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_ptRaceSelect_Radio[RACE_SLAYER].x = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_RRADIO_SLAYER_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptRaceSelect_Radio[RACE_SLAYER].y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_RRADIO_SLAYER_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_ptRaceSelect_Radio[RACE_VAMPIRE].x	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_RRADIO_VAMPIRE_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_ptRaceSelect_Radio[RACE_VAMPIRE].y	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_RRADIO_VAMPIRE_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_ptRaceSelect_Radio[RACE_VAMPIRE].x = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_RRADIO_VAMPIRE_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptRaceSelect_Radio[RACE_VAMPIRE].y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_RRADIO_VAMPIRE_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_ptRaceSelect_Radio[RACE_OUSTERS].x	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_RRADIO_OUSTERS_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_ptRaceSelect_Radio[RACE_OUSTERS].y	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_RRADIO_OUSTERS_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_ptRaceSelect_Radio[RACE_OUSTERS].x = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_RRADIO_OUSTERS_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptRaceSelect_Radio[RACE_OUSTERS].y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_RRADIO_OUSTERS_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wHide_Ousters_Selection_Button_X		= (WORD)GetPrivateProfileInt(arrstrAppName, "HIDE_OUSTERS_SELECTION_BUTTON_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_wHide_Ousters_Selection_Button_Y		= (WORD)GetPrivateProfileInt(arrstrAppName, "HIDE_OUSTERS_SELECTION_BUTTON_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_wHide_Ousters_Selection_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "HIDE_OUSTERS_SELECTION_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wHide_Ousters_Selection_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "HIDE_OUSTERS_SELECTION_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wSelect_Race_Slayer_Button_X			= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_SLAYER_BUTTON_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_wSelect_Race_Slayer_Button_Y			= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_SLAYER_BUTTON_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_wSelect_Race_Slayer_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_SLAYER_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wSelect_Race_Slayer_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_SLAYER_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wSelect_Race_Vampire_Button_X			= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_VAMPIRE_BUTTON_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_wSelect_Race_Vampire_Button_Y			= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_VAMPIRE_BUTTON_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_wSelect_Race_Vampire_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_VAMPIRE_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wSelect_Race_Vampire_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_VAMPIRE_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wSelect_Race_Ousters_Button_X			= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_OUSTERS_BUTTON_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_wSelect_Race_Ousters_Button_Y			= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_OUSTERS_BUTTON_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_wSelect_Race_Ousters_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_OUSTERS_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wSelect_Race_Ousters_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_RACE_OUSTERS_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wMale_OR_Female_Select_Box_X			= (WORD)GetPrivateProfileInt(arrstrAppName, "MALE_OR_FEMALE_SELECT_BOX_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_wMale_OR_Female_Select_Box_Y			= (WORD)GetPrivateProfileInt(arrstrAppName, "MALE_OR_FEMALE_SELECT_BOX_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_wMale_OR_Female_Select_Box_X = (WORD)GetPrivateProfileInt(arrstrAppName, "MALE_OR_FEMALE_SELECT_BOX_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wMale_OR_Female_Select_Box_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "MALE_OR_FEMALE_SELECT_BOX_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wMale_Select_Radio_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "MALE_SELECT_RADIO_X", 0, arrstrFileName)	+ m_wMale_OR_Female_Select_Box_X;
-	m_wMale_Select_Radio_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "MALE_SELECT_RADIO_Y", 0, arrstrFileName)	+ m_wMale_OR_Female_Select_Box_Y;
+	m_wMale_Select_Radio_X = (WORD)GetPrivateProfileInt(arrstrAppName, "MALE_SELECT_RADIO_X", 0, arrstrFileName) + m_wMale_OR_Female_Select_Box_X;
+	m_wMale_Select_Radio_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "MALE_SELECT_RADIO_Y", 0, arrstrFileName) + m_wMale_OR_Female_Select_Box_Y;
 
-	m_wFemale_Select_Radio_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "FEMALE_SELECT_RADIO_X", 0, arrstrFileName)	+ m_wMale_OR_Female_Select_Box_X;
-	m_wFemale_Select_Radio_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "FEMALE_SELECT_RADIO_Y", 0, arrstrFileName)	+ m_wMale_OR_Female_Select_Box_Y;
+	m_wFemale_Select_Radio_X = (WORD)GetPrivateProfileInt(arrstrAppName, "FEMALE_SELECT_RADIO_X", 0, arrstrFileName) + m_wMale_OR_Female_Select_Box_X;
+	m_wFemale_Select_Radio_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "FEMALE_SELECT_RADIO_Y", 0, arrstrFileName) + m_wMale_OR_Female_Select_Box_Y;
 
-	m_wMale_Select_Button_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "MALE_SELECT_BUTTON_X", 0, arrstrFileName)	+ m_wMale_OR_Female_Select_Box_X;
-	m_wMale_Select_Button_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "MALE_SELECT_BUTTON_Y", 0, arrstrFileName)	+ m_wMale_OR_Female_Select_Box_Y;
+	m_wMale_Select_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "MALE_SELECT_BUTTON_X", 0, arrstrFileName) + m_wMale_OR_Female_Select_Box_X;
+	m_wMale_Select_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "MALE_SELECT_BUTTON_Y", 0, arrstrFileName) + m_wMale_OR_Female_Select_Box_Y;
 
-	m_wFemale_Select_Button_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "FEMALE_SELECT_BUTTON_X", 0, arrstrFileName) + m_wMale_OR_Female_Select_Box_X;
-	m_wFemale_Select_Button_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "FEMALE_SELECT_BUTTON_Y", 0, arrstrFileName) + m_wMale_OR_Female_Select_Box_Y;
+	m_wFemale_Select_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "FEMALE_SELECT_BUTTON_X", 0, arrstrFileName) + m_wMale_OR_Female_Select_Box_X;
+	m_wFemale_Select_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "FEMALE_SELECT_BUTTON_Y", 0, arrstrFileName) + m_wMale_OR_Female_Select_Box_Y;
 
-	m_wHairColor_BOX_X						= (WORD)GetPrivateProfileInt(arrstrAppName, "HAIR_COLOR_BOX_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_wHairColor_BOX_Y						= (WORD)GetPrivateProfileInt(arrstrAppName, "HAIR_COLOR_BOX_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_wHairColor_BOX_X = (WORD)GetPrivateProfileInt(arrstrAppName, "HAIR_COLOR_BOX_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wHairColor_BOX_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "HAIR_COLOR_BOX_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wHairColor_Start_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "HAIR_COLOR_START_X", 0, arrstrFileName)	+ m_wHairColor_BOX_X;
-	m_wHairColor_Start_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "HAIR_COLOR_START_Y", 0, arrstrFileName)	+ m_wHairColor_BOX_Y;
+	m_wHairColor_Start_X = (WORD)GetPrivateProfileInt(arrstrAppName, "HAIR_COLOR_START_X", 0, arrstrFileName) + m_wHairColor_BOX_X;
+	m_wHairColor_Start_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "HAIR_COLOR_START_Y", 0, arrstrFileName) + m_wHairColor_BOX_Y;
 
-	m_wSkinColor_BOX_X						= (WORD)GetPrivateProfileInt(arrstrAppName, "SKIN_COLOR_BOX_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_wSkinColor_BOX_Y						= (WORD)GetPrivateProfileInt(arrstrAppName, "SKIN_COLOR_BOX_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_wSkinColor_BOX_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SKIN_COLOR_BOX_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wSkinColor_BOX_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SKIN_COLOR_BOX_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wSkinColor_Start_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "SKIN_COLOR_START_X", 0, arrstrFileName)	+ m_wSkinColor_BOX_X;
-	m_wSkinColor_Start_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "SKIN_COLOR_START_Y", 0, arrstrFileName)	+ m_wSkinColor_BOX_Y;
+	m_wSkinColor_Start_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SKIN_COLOR_START_X", 0, arrstrFileName) + m_wSkinColor_BOX_X;
+	m_wSkinColor_Start_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SKIN_COLOR_START_Y", 0, arrstrFileName) + m_wSkinColor_BOX_Y;
 
-	m_wOpset_BOX_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "OPSET_BOX_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_wOpset_BOX_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "OPSET_BOX_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_wOpset_BOX_X = (WORD)GetPrivateProfileInt(arrstrAppName, "OPSET_BOX_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wOpset_BOX_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "OPSET_BOX_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wSave_Button_X						= (WORD)GetPrivateProfileInt(arrstrAppName, "SAVE_BUTTON_X", 0, arrstrFileName)	+ m_wOpset_BOX_X;
-	m_wSave_Button_Y						= (WORD)GetPrivateProfileInt(arrstrAppName, "SAVE_BUTTON_Y", 0, arrstrFileName)	+ m_wOpset_BOX_Y;
+	m_wSave_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SAVE_BUTTON_X", 0, arrstrFileName) + m_wOpset_BOX_X;
+	m_wSave_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SAVE_BUTTON_Y", 0, arrstrFileName) + m_wOpset_BOX_Y;
 
-	m_wLoad_Button_X						= (WORD)GetPrivateProfileInt(arrstrAppName, "LOAD_BUTTON_X", 0, arrstrFileName)	+ m_wOpset_BOX_X;
-	m_wLoad_Button_Y						= (WORD)GetPrivateProfileInt(arrstrAppName, "LOAD_BUTTON_Y", 0, arrstrFileName)	+ m_wOpset_BOX_Y;
+	m_wLoad_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "LOAD_BUTTON_X", 0, arrstrFileName) + m_wOpset_BOX_X;
+	m_wLoad_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "LOAD_BUTTON_Y", 0, arrstrFileName) + m_wOpset_BOX_Y;
 
-	m_wReset_Button_X						= (WORD)GetPrivateProfileInt(arrstrAppName, "RESET_BUTTON_X", 0, arrstrFileName)	+ m_wOpset_BOX_X;
-	m_wReset_Button_Y						= (WORD)GetPrivateProfileInt(arrstrAppName, "RESET_BUTTON_Y", 0, arrstrFileName)	+ m_wOpset_BOX_Y;
+	m_wReset_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "RESET_BUTTON_X", 0, arrstrFileName) + m_wOpset_BOX_X;
+	m_wReset_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "RESET_BUTTON_Y", 0, arrstrFileName) + m_wOpset_BOX_Y;
 
-	m_wStet_Box_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "STET_BOX_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_wStet_Box_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "STET_BOX_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_wStet_Box_X = (WORD)GetPrivateProfileInt(arrstrAppName, "STET_BOX_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wStet_Box_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "STET_BOX_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wBonus_Text_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "BONUS_TEXT_X", 0, arrstrFileName) + m_wStet_Box_X;
-	m_wBonus_Text_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "BONUS_TEXT_Y", 0, arrstrFileName) + m_wStet_Box_Y;
+	m_wBonus_Text_X = (WORD)GetPrivateProfileInt(arrstrAppName, "BONUS_TEXT_X", 0, arrstrFileName) + m_wStet_Box_X;
+	m_wBonus_Text_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "BONUS_TEXT_Y", 0, arrstrFileName) + m_wStet_Box_Y;
 
-	m_ptStet_Plus[STET_STR].x				= (WORD)GetPrivateProfileInt(arrstrAppName, "STET_STR_PLUS_BUTTON_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_ptStet_Plus[STET_STR].y				= (WORD)GetPrivateProfileInt(arrstrAppName, "STET_STR_PLUS_BUTTON_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_ptStet_Plus[STET_STR].x = (WORD)GetPrivateProfileInt(arrstrAppName, "STET_STR_PLUS_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptStet_Plus[STET_STR].y = (WORD)GetPrivateProfileInt(arrstrAppName, "STET_STR_PLUS_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_ptStet_Plus[STET_DEX].x				= (WORD)GetPrivateProfileInt(arrstrAppName, "STET_DEX_PLUS_BUTTON_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_ptStet_Plus[STET_DEX].y				= (WORD)GetPrivateProfileInt(arrstrAppName, "STET_DEX_PLUS_BUTTON_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_ptStet_Plus[STET_DEX].x = (WORD)GetPrivateProfileInt(arrstrAppName, "STET_DEX_PLUS_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptStet_Plus[STET_DEX].y = (WORD)GetPrivateProfileInt(arrstrAppName, "STET_DEX_PLUS_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_ptStet_Plus[STET_INT].x				= (WORD)GetPrivateProfileInt(arrstrAppName, "STET_INT_PLUS_BUTTON_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_ptStet_Plus[STET_INT].y				= (WORD)GetPrivateProfileInt(arrstrAppName, "STET_INT_PLUS_BUTTON_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_ptStet_Plus[STET_INT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "STET_INT_PLUS_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptStet_Plus[STET_INT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "STET_INT_PLUS_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_ptStet_Minus[STET_STR].x				= (WORD)GetPrivateProfileInt(arrstrAppName, "STET_STR_MINUS_BUTTON_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_ptStet_Minus[STET_STR].y				= (WORD)GetPrivateProfileInt(arrstrAppName, "STET_STR_MINUS_BUTTON_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_ptStet_Minus[STET_STR].x = (WORD)GetPrivateProfileInt(arrstrAppName, "STET_STR_MINUS_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptStet_Minus[STET_STR].y = (WORD)GetPrivateProfileInt(arrstrAppName, "STET_STR_MINUS_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_ptStet_Minus[STET_DEX].x				= (WORD)GetPrivateProfileInt(arrstrAppName, "STET_DEX_MINUS_BUTTON_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_ptStet_Minus[STET_DEX].y				= (WORD)GetPrivateProfileInt(arrstrAppName, "STET_DEX_MINUS_BUTTON_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_ptStet_Minus[STET_DEX].x = (WORD)GetPrivateProfileInt(arrstrAppName, "STET_DEX_MINUS_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptStet_Minus[STET_DEX].y = (WORD)GetPrivateProfileInt(arrstrAppName, "STET_DEX_MINUS_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_ptStet_Minus[STET_INT].x				= (WORD)GetPrivateProfileInt(arrstrAppName, "STET_INT_MINUS_BUTTON_X", 0, arrstrFileName)	+ m_wNewCharBox_X;
-	m_ptStet_Minus[STET_INT].y				= (WORD)GetPrivateProfileInt(arrstrAppName, "STET_INT_MINUS_BUTTON_Y", 0, arrstrFileName)	+ m_wNewCharBox_Y;
+	m_ptStet_Minus[STET_INT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "STET_INT_MINUS_BUTTON_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_ptStet_Minus[STET_INT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "STET_INT_MINUS_BUTTON_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wSTR_Text_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "STR_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_wSTR_Text_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "STR_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_wSTR_Text_X = (WORD)GetPrivateProfileInt(arrstrAppName, "STR_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wSTR_Text_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "STR_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wDEX_Text_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "DEX_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_wDEX_Text_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "DEX_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_wDEX_Text_X = (WORD)GetPrivateProfileInt(arrstrAppName, "DEX_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wDEX_Text_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "DEX_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wINT_Text_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "INT_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_wINT_Text_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "INT_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_wINT_Text_X = (WORD)GetPrivateProfileInt(arrstrAppName, "INT_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wINT_Text_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "INT_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wHP_Text_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "HP_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_wHP_Text_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "HP_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_wHP_Text_X = (WORD)GetPrivateProfileInt(arrstrAppName, "HP_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wHP_Text_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "HP_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wMP_Text_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "MP_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_wMP_Text_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "MP_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_wMP_Text_X = (WORD)GetPrivateProfileInt(arrstrAppName, "MP_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wMP_Text_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "MP_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wDEFENSE_Text_X						= (WORD)GetPrivateProfileInt(arrstrAppName, "DEFENSE_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_wDEFENSE_Text_Y						= (WORD)GetPrivateProfileInt(arrstrAppName, "DEFENSE_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_wDEFENSE_Text_X = (WORD)GetPrivateProfileInt(arrstrAppName, "DEFENSE_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wDEFENSE_Text_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "DEFENSE_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wPROTECTION_Text_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "PROTECTION_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_wPROTECTION_Text_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "PROTECTION_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_wPROTECTION_Text_X = (WORD)GetPrivateProfileInt(arrstrAppName, "PROTECTION_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wPROTECTION_Text_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "PROTECTION_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wTOHIT_Text_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "TOHIT_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_wTOHIT_Text_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "TOHIT_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_wTOHIT_Text_X = (WORD)GetPrivateProfileInt(arrstrAppName, "TOHIT_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wTOHIT_Text_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "TOHIT_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wDAM_Text_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "DAM_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
-	m_wDAM_Text_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "DAM_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
+	m_wDAM_Text_X = (WORD)GetPrivateProfileInt(arrstrAppName, "DAM_TEXT_X", 0, arrstrFileName) + m_wNewCharBox_X;
+	m_wDAM_Text_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "DAM_TEXT_Y", 0, arrstrFileName) + m_wNewCharBox_Y;
 
-	m_wPrevButton_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "PREV_BUTTON_X", 0, arrstrFileName);
-	m_wPrevButton_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "PREV_BUTTON_Y", 0, arrstrFileName);
+	m_wPrevButton_X = (WORD)GetPrivateProfileInt(arrstrAppName, "PREV_BUTTON_X", 0, arrstrFileName);
+	m_wPrevButton_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "PREV_BUTTON_Y", 0, arrstrFileName);
 
-	m_wNextButton_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "NEXT_BUTTON_X", 0, arrstrFileName);
-	m_wNextButton_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "NEXT_BUTTON_Y", 0, arrstrFileName);
+	m_wNextButton_X = (WORD)GetPrivateProfileInt(arrstrAppName, "NEXT_BUTTON_X", 0, arrstrFileName);
+	m_wNextButton_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "NEXT_BUTTON_Y", 0, arrstrFileName);
 
-	m_wEffect_Fire_Left1_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT1_X", 0, arrstrFileName);
-	m_wEffect_Fire_Left1_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT1_Y", 0, arrstrFileName);
+	m_wEffect_Fire_Left1_X = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT1_X", 0, arrstrFileName);
+	m_wEffect_Fire_Left1_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT1_Y", 0, arrstrFileName);
 
-	m_wEffect_Fire_Left2_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT2_X", 0, arrstrFileName);
-	m_wEffect_Fire_Left2_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT2_Y", 0, arrstrFileName);
+	m_wEffect_Fire_Left2_X = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT2_X", 0, arrstrFileName);
+	m_wEffect_Fire_Left2_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT2_Y", 0, arrstrFileName);
 
-	m_wEffect_Fire_Right1_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT1_X", 0, arrstrFileName);
-	m_wEffect_Fire_Right1_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT1_Y", 0, arrstrFileName);
+	m_wEffect_Fire_Right1_X = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT1_X", 0, arrstrFileName);
+	m_wEffect_Fire_Right1_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT1_Y", 0, arrstrFileName);
 
-	m_wEffect_Fire_Right2_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT2_X", 0, arrstrFileName);
-	m_wEffect_Fire_Right2_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT2_Y", 0, arrstrFileName);
+	m_wEffect_Fire_Right2_X = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT2_X", 0, arrstrFileName);
+	m_wEffect_Fire_Right2_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT2_Y", 0, arrstrFileName);
 
-	m_wEffect_Fire_Center_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_FIRE_CENTER_X", 0, arrstrFileName);
-	m_wEffect_Fire_Center_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_FIRE_CENTER_Y", 0, arrstrFileName);
-	
-	m_wChild_X								= (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_X", 0, arrstrFileName);
-	m_wChild_Y								= (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_Y", 0, arrstrFileName);
+	m_wEffect_Fire_Center_X = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_FIRE_CENTER_X", 0, arrstrFileName);
+	m_wEffect_Fire_Center_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_FIRE_CENTER_Y", 0, arrstrFileName);
 
-	m_wAdult_X								= (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_X", 0, arrstrFileName);
-	m_wAdult_Y								= (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_Y", 0, arrstrFileName);
+	m_wChild_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_X", 0, arrstrFileName);
+	m_wChild_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_Y", 0, arrstrFileName);
 
-	m_wViolence_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_X", 0, arrstrFileName);
-	m_wViolence_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_Y", 0, arrstrFileName);
+	m_wAdult_X = (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_X", 0, arrstrFileName);
+	m_wAdult_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_Y", 0, arrstrFileName);
 
-	m_wFear_X								= (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_X", 0, arrstrFileName);
-	m_wFear_Y								= (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_Y", 0, arrstrFileName);
+	m_wViolence_X = (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_X", 0, arrstrFileName);
+	m_wViolence_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_Y", 0, arrstrFileName);
 
-	m_wTex_Bar_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_BAR_X", 0, arrstrFileName);
-	m_wTex_Bar_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_BAR_Y", 0, arrstrFileName);
-	
-	m_wAni_Mark_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_X", 0, arrstrFileName);
-	m_wAni_Mark_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_Y", 0, arrstrFileName);
+	m_wFear_X = (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_X", 0, arrstrFileName);
+	m_wFear_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_Y", 0, arrstrFileName);
 
-	m_ptText_Line[LINE1].x					= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE1_X", 0, arrstrFileName)	+ m_wTex_Bar_X;
-	m_ptText_Line[LINE1].y					= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE1_Y", 0, arrstrFileName)	+ m_wTex_Bar_Y;
+	m_wTex_Bar_X = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_BAR_X", 0, arrstrFileName);
+	m_wTex_Bar_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_BAR_Y", 0, arrstrFileName);
 
-	m_ptText_Line[LINE2].x					= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE2_X", 0, arrstrFileName)	+ m_wTex_Bar_X;
-	m_ptText_Line[LINE2].y					= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE2_Y", 0, arrstrFileName)	+ m_wTex_Bar_Y;
+	m_wAni_Mark_X = (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_X", 0, arrstrFileName);
+	m_wAni_Mark_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_Y", 0, arrstrFileName);
 
-	m_ptText_Line[LINE3].x					= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE3_X", 0, arrstrFileName)	+ m_wTex_Bar_X;
-	m_ptText_Line[LINE3].y					= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE3_Y", 0, arrstrFileName)	+ m_wTex_Bar_Y;
+	m_ptText_Line[LINE1].x = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE1_X", 0, arrstrFileName) + m_wTex_Bar_X;
+	m_ptText_Line[LINE1].y = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE1_Y", 0, arrstrFileName) + m_wTex_Bar_Y;
 
-	m_ptText_Line[LINE4].x					= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE4_X", 0, arrstrFileName)	+ m_wTex_Bar_X;
-	m_ptText_Line[LINE4].y					= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE4_Y", 0, arrstrFileName)	+ m_wTex_Bar_Y;
+	m_ptText_Line[LINE2].x = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE2_X", 0, arrstrFileName) + m_wTex_Bar_X;
+	m_ptText_Line[LINE2].y = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE2_Y", 0, arrstrFileName) + m_wTex_Bar_Y;
 
-	m_wPrimeum_Use_Day_Txt_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "PRIMEUP_USE_DAY_TEXT_X", 0, arrstrFileName);
-	m_wPrimeum_Use_Day_Txt_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "PRIMEUP_USE_DAY_TEXT_Y", 0, arrstrFileName);
+	m_ptText_Line[LINE3].x = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE3_X", 0, arrstrFileName) + m_wTex_Bar_X;
+	m_ptText_Line[LINE3].y = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE3_Y", 0, arrstrFileName) + m_wTex_Bar_Y;
+
+	m_ptText_Line[LINE4].x = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE4_X", 0, arrstrFileName) + m_wTex_Bar_X;
+	m_ptText_Line[LINE4].y = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE4_Y", 0, arrstrFileName) + m_wTex_Bar_Y;
+
+	m_wPrimeum_Use_Day_Txt_X = (WORD)GetPrivateProfileInt(arrstrAppName, "PRIMEUP_USE_DAY_TEXT_X", 0, arrstrFileName);
+	m_wPrimeum_Use_Day_Txt_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "PRIMEUP_USE_DAY_TEXT_Y", 0, arrstrFileName);
 
 	GetPrivateProfileString(arrstrAppName, "TEXT_LINE1", "", m_arrTextLine[LINE1], sizeof(m_arrTextLine[LINE1]), arrstrFileName);
 	GetPrivateProfileString(arrstrAppName, "TEXT_LINE2", "", m_arrTextLine[LINE2], sizeof(m_arrTextLine[LINE2]), arrstrFileName);
 	GetPrivateProfileString(arrstrAppName, "TEXT_LINE3", "", m_arrTextLine[LINE3], sizeof(m_arrTextLine[LINE3]), arrstrFileName);
 	GetPrivateProfileString(arrstrAppName, "TEXT_LINE4", "", m_arrTextLine[LINE4], sizeof(m_arrTextLine[LINE4]), arrstrFileName);
 
-	m_lev_name.SetPosition(m_wCharNameFocus_X,	m_wCharNameFocus_Y);
+	m_lev_name.SetPosition(m_wCharNameFocus_X, m_wCharNameFocus_Y);
 }
 
 
 //-----------------------------------------------------------------------------
 // GetPoint
 //
-// color array���� colorset�� point�� ��ȯ�Ѵ�.
+// color array???? colorset?? point?? ??????.
 //-----------------------------------------------------------------------------
 Point C_VS_UI_NEWCHAR::GetPoint(int colorset, bool bl_skin_color)
 {
@@ -1442,8 +1442,8 @@ Point C_VS_UI_NEWCHAR::GetPoint(int colorset, bool bl_skin_color)
 
 	if (bl_skin_color)
 	{
-		for (j=0; j < COLOR_LIST_Y; j++)
-			for (i=0; i < COLOR_LIST_X; i++)
+		for (j = 0; j < COLOR_LIST_Y; j++)
+			for (i = 0; i < COLOR_LIST_X; i++)
 				if (colorset == m_skin_color_array[i][j])
 				{
 					point.Set(i, j);
@@ -1452,8 +1452,8 @@ Point C_VS_UI_NEWCHAR::GetPoint(int colorset, bool bl_skin_color)
 	}
 	else
 	{
-		for (j=0; j < COLOR_LIST_Y; j++)
-			for (i=0; i < COLOR_LIST_X; i++)
+		for (j = 0; j < COLOR_LIST_Y; j++)
+			for (i = 0; i < COLOR_LIST_X; i++)
 				if (colorset == m_hair_color_array[i][j])
 				{
 					point.Set(i, j);
@@ -1469,7 +1469,7 @@ Point C_VS_UI_NEWCHAR::GetPoint(int colorset, bool bl_skin_color)
 //-----------------------------------------------------------------------------
 // GetColor
 //
-// color array���� (x, y)�� color set���� color�� ���ؼ� ��ȯ�Ѵ�.
+// color array???? (x, y)?? color set???? color?? ????? ??????.
 //-----------------------------------------------------------------------------
 int C_VS_UI_NEWCHAR::GetColor(int _x, int _y, bool bl_skin_color)
 {
@@ -1485,7 +1485,7 @@ int C_VS_UI_NEWCHAR::GetColor(int _x, int _y, bool bl_skin_color)
 }
 
 
-void C_VS_UI_NEWCHAR::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
+void C_VS_UI_NEWCHAR::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 {
 
 }
@@ -1495,185 +1495,185 @@ void C_VS_UI_NEWCHAR::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
 //
 // 
 //-----------------------------------------------------------------------------
-void C_VS_UI_NEWCHAR::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
+void C_VS_UI_NEWCHAR::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	switch(p_button->GetID())
+	switch (p_button->GetID())
 	{
 	case BACK_ID:
-		p_button->x	= m_wPrevButton_X;
-		p_button->y	= m_wPrevButton_Y;
+		p_button->x = m_wPrevButton_X;
+		p_button->y = m_wPrevButton_Y;
 		break;
 
 	case NEXT_ID:
-		p_button->x	= m_wNextButton_X;
-		p_button->y	= m_wNextButton_Y;
+		p_button->x = m_wNextButton_X;
+		p_button->y = m_wNextButton_Y;
 		break;
 
 	case CHECK_ID:
-		p_button->x	= m_wNameCheck_Button_X;
-		p_button->y	= m_wNameCheck_Button_Y;
+		p_button->x = m_wNameCheck_Button_X;
+		p_button->y = m_wNameCheck_Button_Y;
 		break;
 
 	case CHAR_LEFT_LOTATION_ID:
-		p_button->x	= m_wCharLeftRotation_Button_X;
-		p_button->y	= m_wCharLeftRotation_Button_Y;
+		p_button->x = m_wCharLeftRotation_Button_X;
+		p_button->y = m_wCharLeftRotation_Button_Y;
 		break;
 
 	case CHAR_RIGHT_LOTATION_ID:
-		p_button->x	= m_wCharRightRotation_Button_X;
-		p_button->y	= m_wCharRightRotation_Button_Y;
+		p_button->x = m_wCharRightRotation_Button_X;
+		p_button->y = m_wCharRightRotation_Button_Y;
 		break;
 
 	case SLAYER_ID:
-		p_button->x	= m_wSelect_Race_Slayer_Button_X;
-		p_button->y	= m_wSelect_Race_Slayer_Button_Y;
+		p_button->x = m_wSelect_Race_Slayer_Button_X;
+		p_button->y = m_wSelect_Race_Slayer_Button_Y;
 
-		if(p_button->GetFocusState())
+		if (p_button->GetFocusState())
 		{
 			m_image_spk.BltLockedAlpha(m_ptRaceSelect_Radio[RACE_SLAYER].x, m_ptRaceSelect_Radio[RACE_SLAYER].y, RADIO_SELECT_BUTTON, p_button->m_alpha);
 
-			if(p_button->GetPressState())
-				m_btRace_Select	= RACE_SLAYER;
+			if (p_button->GetPressState())
+				m_btRace_Select = RACE_SLAYER;
 		}
 		break;
 
 	case VAMPIRE_ID:
-		p_button->x	= m_wSelect_Race_Vampire_Button_X;
-		p_button->y	= m_wSelect_Race_Vampire_Button_Y;
+		p_button->x = m_wSelect_Race_Vampire_Button_X;
+		p_button->y = m_wSelect_Race_Vampire_Button_Y;
 
-		if(p_button->GetFocusState())
+		if (p_button->GetFocusState())
 		{
 			m_image_spk.BltLockedAlpha(m_ptRaceSelect_Radio[RACE_VAMPIRE].x, m_ptRaceSelect_Radio[RACE_VAMPIRE].y, RADIO_SELECT_BUTTON, p_button->m_alpha);
 
-			if(p_button->GetPressState())
-				m_btRace_Select	= RACE_VAMPIRE;
+			if (p_button->GetPressState())
+				m_btRace_Select = RACE_VAMPIRE;
 		}
 		break;
-		
-	case OUSTERS_ID:
-		p_button->x	= m_wSelect_Race_Ousters_Button_X;
-		p_button->y	= m_wSelect_Race_Ousters_Button_Y;
 
-		if(p_button->GetFocusState())
+	case OUSTERS_ID:
+		p_button->x = m_wSelect_Race_Ousters_Button_X;
+		p_button->y = m_wSelect_Race_Ousters_Button_Y;
+
+		if (p_button->GetFocusState())
 		{
 			m_image_spk.BltLockedAlpha(m_ptRaceSelect_Radio[RACE_OUSTERS].x, m_ptRaceSelect_Radio[RACE_OUSTERS].y, RADIO_SELECT_BUTTON, p_button->m_alpha);
-			
-			if(p_button->GetPressState())
-				m_btRace_Select	= RACE_OUSTERS;
+
+			if (p_button->GetPressState())
+				m_btRace_Select = RACE_OUSTERS;
 		}
 		break;
 	}
 
-	if(!((p_button->GetID() == SLAYER_ID)	||	(p_button->GetID()	==	VAMPIRE_ID)	||	(p_button->GetID() == OUSTERS_ID)))
+	if (!((p_button->GetID() == SLAYER_ID) || (p_button->GetID() == VAMPIRE_ID) || (p_button->GetID() == OUSTERS_ID)))
 		m_image_spk.BltLocked(p_button->x, p_button->y, p_button->m_image_index);
 
-	if(p_button->GetFocusState())
+	if (p_button->GetFocusState())
 	{
-		if(!(p_button->GetID() == CHECK_ID))
+		if (!(p_button->GetID() == CHECK_ID))
 		{
-			if(p_button->m_alpha >= 31)
+			if (p_button->m_alpha >= 31)
 				p_button->m_alpha = 0;
 		}
 
-		if(!((p_button->GetID() == SLAYER_ID)	||	(p_button->GetID()	==	VAMPIRE_ID)	||	(p_button->GetID() == OUSTERS_ID)))
+		if (!((p_button->GetID() == SLAYER_ID) || (p_button->GetID() == VAMPIRE_ID) || (p_button->GetID() == OUSTERS_ID)))
 		{
-			m_image_spk.BltLockedAlpha(p_button->x, p_button->y, p_button->m_image_index-1, p_button->m_alpha);
+			m_image_spk.BltLockedAlpha(p_button->x, p_button->y, p_button->m_image_index - 1, p_button->m_alpha);
 		}
 	}
-/*	if(p_button->GetID() == MALE_ID || p_button->GetID() == FEMALE_ID 
-		|| p_button->GetID() == SLAYER_ID || p_button->GetID() == VAMPIRE_ID || p_button->GetID() == OUSTERS_ID )
-	{
-		if(p_button->GetFocusState())
+	/*	if(p_button->GetID() == MALE_ID || p_button->GetID() == FEMALE_ID
+			|| p_button->GetID() == SLAYER_ID || p_button->GetID() == VAMPIRE_ID || p_button->GetID() == OUSTERS_ID )
 		{
-			if(m_p_slot->Race != RACE_OUSTERS)
-				m_image_spk.BltLocked(x+p_button->x+20, y+p_button->y, p_button->m_image_index);
-		}
-	}
-	else
-	if(p_button->GetID() == BACK_ID || p_button->GetID() == NEXT_ID)
-	{
-		if(p_button->GetFocusState())
-		{
-			if (p_button->GetPressState()) // push state
-				m_common_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index+1);
-			else
+			if(p_button->GetFocusState())
 			{
-				m_common_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
-				m_common_spk.BltLockedAlpha(x+p_button->x, y+p_button->y, p_button->m_image_index+2, p_button->m_alpha);
+				if(m_p_slot->Race != RACE_OUSTERS)
+					m_image_spk.BltLocked(x+p_button->x+20, y+p_button->y, p_button->m_image_index);
 			}
-			if(p_button->GetID() == BACK_ID)
-				m_focused_help = HELP_BACK;
-			else
-				m_focused_help = HELP_NEXT;
 		}
 		else
-			m_common_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
-	}
-	
-	else
-	{
-		if( 
-			(p_button->GetID() >= STR_PLUS_ID && p_button->GetID() <= INT_MINUS_ID && m_p_slot->Race !=  RACE_OUSTERS ) ||
-			(p_button->GetID() == REROLL_ID && m_p_slot->Race != RACE_SLAYER )
-		  )
-			return;
-
-		if(p_button->GetFocusState())
+		if(p_button->GetID() == BACK_ID || p_button->GetID() == NEXT_ID)
 		{
-			if( m_p_slot->Race == RACE_SLAYER || !(p_button->GetID() == LOAD_ID || p_button->GetID() == SAVE_ID || p_button->GetID() == REROLL_ID || p_button->GetID() == FACE_BACK_ID || p_button->GetID() == FACE_NEXT_ID))
+			if(p_button->GetFocusState())
 			{
 				if (p_button->GetPressState()) // push state
-					m_image_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index+1);
+					m_common_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index+1);
 				else
 				{
-					m_image_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
-					m_image_spk.BltLockedAlpha(x+p_button->x, y+p_button->y, p_button->m_image_index+2, p_button->m_alpha);
+					m_common_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
+					m_common_spk.BltLockedAlpha(x+p_button->x, y+p_button->y, p_button->m_image_index+2, p_button->m_alpha);
 				}
-	
-				switch(p_button->GetID())
-				{
-				case CHECK_ID:
-					m_focused_help = HELP_CHECK;
-					break;
-					
-				case LOAD_ID:
-					m_focused_help = HELP_LOAD;
-					break;
-					
-				case SAVE_ID:
-					m_focused_help = HELP_SAVE;
-					break;
-					
-				case REROLL_ID:
-					m_focused_help = HELP_REROLL;
-					break;
-				}
-			}// else 
+				if(p_button->GetID() == BACK_ID)
+					m_focused_help = HELP_BACK;
+				else
+					m_focused_help = HELP_NEXT;
+			}
+			else
+				m_common_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
 		}
 
 		else
 		{
-			if( m_p_slot->Race == RACE_SLAYER && (p_button->GetID() == LOAD_ID || p_button->GetID() == SAVE_ID || p_button->GetID() == REROLL_ID) )
-			{
-				m_image_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
+			if(
+				(p_button->GetID() >= STR_PLUS_ID && p_button->GetID() <= INT_MINUS_ID && m_p_slot->Race !=  RACE_OUSTERS ) ||
+				(p_button->GetID() == REROLL_ID && m_p_slot->Race != RACE_SLAYER )
+			  )
 				return;
+
+			if(p_button->GetFocusState())
+			{
+				if( m_p_slot->Race == RACE_SLAYER || !(p_button->GetID() == LOAD_ID || p_button->GetID() == SAVE_ID || p_button->GetID() == REROLL_ID || p_button->GetID() == FACE_BACK_ID || p_button->GetID() == FACE_NEXT_ID))
+				{
+					if (p_button->GetPressState()) // push state
+						m_image_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index+1);
+					else
+					{
+						m_image_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
+						m_image_spk.BltLockedAlpha(x+p_button->x, y+p_button->y, p_button->m_image_index+2, p_button->m_alpha);
+					}
+
+					switch(p_button->GetID())
+					{
+					case CHECK_ID:
+						m_focused_help = HELP_CHECK;
+						break;
+
+					case LOAD_ID:
+						m_focused_help = HELP_LOAD;
+						break;
+
+					case SAVE_ID:
+						m_focused_help = HELP_SAVE;
+						break;
+
+					case REROLL_ID:
+						m_focused_help = HELP_REROLL;
+						break;
+					}
+				}// else
 			}
 
-			if( 
-				(
-				m_p_slot->Race == RACE_SLAYER || 
-				!(p_button->GetID() == LOAD_ID || 
-				p_button->GetID() == SAVE_ID || 
-				p_button->GetID() == REROLL_ID || 
-				p_button->GetID() == FACE_BACK_ID || 
-				p_button->GetID() == FACE_NEXT_ID)
-				)
+			else
+			{
+				if( m_p_slot->Race == RACE_SLAYER && (p_button->GetID() == LOAD_ID || p_button->GetID() == SAVE_ID || p_button->GetID() == REROLL_ID) )
+				{
+					m_image_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
+					return;
+				}
 
-				&& (m_p_slot->Race == RACE_OUSTERS && p_button->GetID() >= STR_PLUS_ID && p_button->GetID() <= INT_MINUS_ID))
-				m_image_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
+				if(
+					(
+					m_p_slot->Race == RACE_SLAYER ||
+					!(p_button->GetID() == LOAD_ID ||
+					p_button->GetID() == SAVE_ID ||
+					p_button->GetID() == REROLL_ID ||
+					p_button->GetID() == FACE_BACK_ID ||
+					p_button->GetID() == FACE_NEXT_ID)
+					)
+
+					&& (m_p_slot->Race == RACE_OUSTERS && p_button->GetID() >= STR_PLUS_ID && p_button->GetID() <= INT_MINUS_ID))
+					m_image_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
+			}
 		}
-	}
-*/
+	*/
 }
 
 //-----------------------------------------------------------------------------
@@ -1700,28 +1700,28 @@ bool C_VS_UI_NEWCHAR::IsPixel(int _x, int _y)
 //
 // 
 //-----------------------------------------------------------------------------
-void C_VS_UI_NEWCHAR::SetCharacterToThisSlot(int slot, S_SLOT * p_slot)
-{ 
+void C_VS_UI_NEWCHAR::SetCharacterToThisSlot(int slot, S_SLOT* p_slot)
+{
 	assert(p_slot->bl_set == false);
-	
-	m_p_slot = p_slot; 
+
+	m_p_slot = p_slot;
 	m_selected_slot = slot;
 
 	// default
 	m_p_slot->bl_female = false;
 
 #if __CONTENTS(__RACE_OUSTERS)
-	m_btRace_Select	= rand()%3;
+	m_btRace_Select = rand() % 3;
 #else
-	m_btRace_Select = rand()%2;
-#endif // �ڵ����� �������õǴ� �κ�.
+	m_btRace_Select = rand() % 2;
+#endif // ??????? ?????????? ???.
 
 	srand(GetTickCount());
 
 	m_p_slot->man_info.coat = M_COAT1;
-	switch(m_btRace_Select)
+	switch (m_btRace_Select)
 	{
-	case RACE_SLAYER :
+	case RACE_SLAYER:
 		m_p_slot->Race = RACE_SLAYER;
 		m_p_slot->man_info.face = M_FACE1;
 		m_p_slot->man_info.hair = M_HAIR1;
@@ -1731,13 +1731,13 @@ void C_VS_UI_NEWCHAR::SetCharacterToThisSlot(int slot, S_SLOT * p_slot)
 		m_p_slot->man_info.face = M_FACE2;
 		m_p_slot->man_info.hair = M_HAIR2;
 		break;
-	default :
+	default:
 		m_p_slot->Race = RACE_OUSTERS;
 		m_p_slot->man_info.face = M_FACE3;
 		m_p_slot->man_info.hair = M_HAIR3;
 		break;
 	}
-	
+
 	m_p_slot->man_info.helmet = M_NO_WEAR;
 	m_p_slot->man_info.trouser = M_TROUSER1;
 	m_p_slot->man_info.right = M_NO_WEAR;//M_BLADE;
@@ -1749,14 +1749,14 @@ void C_VS_UI_NEWCHAR::SetCharacterToThisSlot(int slot, S_SLOT * p_slot)
 	m_p_slot->trouser_color = 377;
 	m_p_slot->coat_color = 377;
 
-	if(m_p_slot->Race == RACE_OUSTERS)
+	if (m_p_slot->Race == RACE_OUSTERS)
 		m_p_slot->skin_color = 377;
 
-//#if __CONTENTS(__RACE_OUSTERS)		
+	//#if __CONTENTS(__RACE_OUSTERS)		
 	Run(SLAYER_ID + m_btRace_Select);
-//#else	
-//	Run(SLAYER_ID+rand()%2);
-//#endif
+	//#else	
+	//	Run(SLAYER_ID+rand()%2);
+	//#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1775,16 +1775,16 @@ void C_VS_UI_NEWCHAR::KeyboardControl(UINT message, UINT key, long extra)
 		if (isdigit(key) && m_lev_name.Size() == 0)
 			return;
 
-		char ignore_char[] = {'~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_',
+		char ignore_char[] = { '~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_',
 									'+', '=', '\\', '|', '[', ']', '{', '}', ';', ':', '\"', '\'', ',', '<', '.', '>',
-									'/', '?', ' '};
+									'/', '?', ' ' };
 
-		for (int i=0; i<sizeof(ignore_char); i++)
+		for (int i = 0; i < sizeof(ignore_char); i++)
 			if ((char)key == ignore_char[i])
 				return;
 	}
 
-	if(message == WM_KEYUP && key == VK_RETURN)
+	if (message == WM_KEYUP && key == VK_RETURN)
 		Run(NEXT_ID);
 
 	Window::KeyboardControl(message, key, extra);
@@ -1800,242 +1800,242 @@ void C_VS_UI_NEWCHAR::Run(id_t id)
 
 	int i = 0;
 
-	if( 
-			(id >= STR_PLUS_ID && id <= INT_MINUS_ID && m_p_slot->Race !=  RACE_OUSTERS ) ||
-			(id == REROLL_ID && m_p_slot->Race != RACE_SLAYER )
-		  )
-			return;
+	if (
+		(id >= STR_PLUS_ID && id <= INT_MINUS_ID && m_p_slot->Race != RACE_OUSTERS) ||
+		(id == REROLL_ID && m_p_slot->Race != RACE_SLAYER)
+		)
+		return;
 
 	switch (id)
 	{
-		case SLAYER_ID:
-			m_p_slot->Race = RACE_SLAYER;
-			m_p_slot->man_info.helmet = M_NO_WEAR;
-			m_p_slot->man_info.right = M_NO_WEAR;
-			m_p_slot->man_info.coat = M_COAT1;
-			m_p_slot->man_info.trouser = M_TROUSER1;
+	case SLAYER_ID:
+		m_p_slot->Race = RACE_SLAYER;
+		m_p_slot->man_info.helmet = M_NO_WEAR;
+		m_p_slot->man_info.right = M_NO_WEAR;
+		m_p_slot->man_info.coat = M_COAT1;
+		m_p_slot->man_info.trouser = M_TROUSER1;
 
-			Run(MALE_ID+rand()%2);
-			for(i = 0; i < rand()%5; i++)
-				Run(FACE_NEXT_ID);
-			m_skin_point.x = rand()%COLOR_LIST_X;
-			m_skin_point.y = rand()%COLOR_LIST_Y;
-			m_hair_point.x = rand()%COLOR_LIST_X;
-			m_hair_point.y = rand()%COLOR_LIST_Y;
-			m_p_slot->hair_color = m_hair_color_array[m_hair_point.x][m_hair_point.y];
-			m_p_slot->skin_color = m_skin_color_array[m_skin_point.x][m_skin_point.y];
+		Run(MALE_ID + rand() % 2);
+		for (i = 0; i < rand() % 5; i++)
+			Run(FACE_NEXT_ID);
+		m_skin_point.x = rand() % COLOR_LIST_X;
+		m_skin_point.y = rand() % COLOR_LIST_Y;
+		m_hair_point.x = rand() % COLOR_LIST_X;
+		m_hair_point.y = rand() % COLOR_LIST_Y;
+		m_p_slot->hair_color = m_hair_color_array[m_hair_point.x][m_hair_point.y];
+		m_p_slot->skin_color = m_skin_color_array[m_skin_point.x][m_skin_point.y];
+		RollDice();
+
+		m_wFace_Alpha = 0;
+		m_btSelect_Face = 0;
+		m_btVirtureSelect_Face = 0;
+		break;
+
+	case VAMPIRE_ID:
+		m_p_slot->Race = RACE_VAMPIRE;
+		m_p_slot->man_info.coat = (CHAR_MAN)1;
+		Run(MALE_ID + rand() % 2);
+		m_skin_point.x = rand() % COLOR_LIST_X;
+		m_skin_point.y = rand() % COLOR_LIST_Y;
+		m_p_slot->skin_color = m_skin_color_array[m_skin_point.x][m_skin_point.y];
+		RollDice();
+
+		m_wFace_Alpha = 0;
+		m_btSelect_Face = 0;
+		m_btVirtureSelect_Face = 0;
+		break;
+
+	case OUSTERS_ID:
+		m_p_slot->Race = RACE_OUSTERS;
+		m_p_slot->man_info.coat = (CHAR_MAN)1;
+		m_p_slot->man_info.right = (CHAR_MAN)0;
+		m_hair_point.x = rand() % COLOR_LIST_X;
+		m_hair_point.y = rand() % COLOR_LIST_Y;
+		m_p_slot->hair_color = m_hair_color_array[m_hair_point.x][m_hair_point.y];
+		RollDice();
+
+		m_wFace_Alpha = 0;
+		m_btSelect_Face = 0;
+		m_btVirtureSelect_Face = 0;
+		break;
+
+	case MALE_ID:
+		m_p_slot->bl_female = false;
+
+		m_wFace_Alpha = 0;
+		m_btSelect_Face = 0;
+		m_btVirtureSelect_Face = 0;
+		break;
+
+	case FEMALE_ID:
+		m_p_slot->bl_female = true;
+
+		m_wFace_Alpha = 0;
+		m_btSelect_Face = 0;
+		m_btVirtureSelect_Face = 0;
+		break;
+
+	case NEXT_ID:
+		if (m_lev_name.Size() == 0)
+		{
+			g_msg_empty_name->Start();
+		}
+		else if (m_p_slot->Race == RACE_OUSTERS && m_p_slot->bonus_point != 0)
+		{
+			g_msg_left_bonus_point->Start();
+		}
+		else
+		{
+			SendNewCharacterToClient();
+		}
+		break;
+
+	case BACK_ID:
+		Finish();
+		gC_vs_ui.StartCharacterManager(true);
+		break;
+
+	case FACE_BACK_ID:
+		if (m_p_slot->Race == RACE_SLAYER)
+		{
+			switch (m_p_slot->man_info.hair)
+			{
+			case M_HAIR1:
+				m_p_slot->man_info.hair = M_HAIR3;
+				m_p_slot->man_info.face = M_FACE3;
+				break;
+
+			case M_HAIR2:
+				m_p_slot->man_info.hair = M_HAIR1;
+				m_p_slot->man_info.face = M_FACE1;
+				break;
+
+			case M_HAIR3:
+				m_p_slot->man_info.hair = M_HAIR2;
+				m_p_slot->man_info.face = M_FACE2;
+				break;
+			}
+		}
+		break;
+
+	case FACE_NEXT_ID:
+		if (m_p_slot->Race == RACE_SLAYER)
+		{
+			switch (m_p_slot->man_info.hair)
+			{
+			case M_HAIR2:
+				m_p_slot->man_info.hair = M_HAIR3;
+				m_p_slot->man_info.face = M_FACE3;
+				break;
+
+			case M_HAIR3:
+				m_p_slot->man_info.hair = M_HAIR1;
+				m_p_slot->man_info.face = M_FACE1;
+				break;
+
+			case M_HAIR1:
+				m_p_slot->man_info.hair = M_HAIR2;
+				m_p_slot->man_info.face = M_FACE2;
+				break;
+			}
+		}
+		break;
+
+	case SAVE_ID:
+		if (m_p_slot->Race == RACE_SLAYER)
+		{
+			m_iSave[0] = m_p_slot->STR_PURE;
+			m_iSave[1] = m_p_slot->DEX_PURE;
+			m_iSave[2] = m_p_slot->INT_PURE;
+		}
+		break;
+
+	case LOAD_ID:
+		if (m_p_slot->Race == RACE_SLAYER)
+			RollDice(true);
+		break;
+
+	case REROLL_ID:
+		if (m_p_slot->Race == RACE_SLAYER)
 			RollDice();
+		break;
 
-			m_wFace_Alpha							= 0;
-			m_btSelect_Face							= 0;
-			m_btVirtureSelect_Face					= 0;
-			break;
+	case CHECK_ID:
+		if (m_lev_name.Size() == 0)
+		{
+			g_msg_empty_name->Start();
+		}
+		else
+		{
+			char* sz_temp;
+			g_Convert_DBCS_Ascii2SingleByte(m_lev_name.GetString(), m_lev_name.Size(), sz_temp);
+			m_p_slot->sz_name = sz_temp;
+			DeleteNew(sz_temp);
+			gpC_base->SendMessage(UI_NEWCHARACTER_CHECK, 0, 0, (void*)m_p_slot->sz_name.c_str());
+		}
+		break;
 
-		case VAMPIRE_ID:
-			m_p_slot->Race = RACE_VAMPIRE;
-			m_p_slot->man_info.coat = (CHAR_MAN)1;
-			Run(MALE_ID+rand()%2);
-			m_skin_point.x = rand()%COLOR_LIST_X;
-			m_skin_point.y = rand()%COLOR_LIST_Y;
-			m_p_slot->skin_color = m_skin_color_array[m_skin_point.x][m_skin_point.y];
-			RollDice();
+	case STR_PLUS_ID:
+		if (m_p_slot->bonus_point > 0)
+		{
+			m_p_slot->STR_PURE++;
+			m_p_slot->bonus_point--;
+		}
+		break;
 
-			m_wFace_Alpha							= 0;
-			m_btSelect_Face							= 0;
-			m_btVirtureSelect_Face					= 0;
-			break;
+	case STR_MINUS_ID:
+		if (m_p_slot->STR_PURE > 10)
+		{
+			m_p_slot->STR_PURE--;
+			m_p_slot->bonus_point++;
+		}
+		break;
 
-		case OUSTERS_ID:
-			m_p_slot->Race = RACE_OUSTERS;
-			m_p_slot->man_info.coat = (CHAR_MAN)1;
-			m_p_slot->man_info.right = (CHAR_MAN)0;
-			m_hair_point.x = rand()%COLOR_LIST_X;
-			m_hair_point.y = rand()%COLOR_LIST_Y;
-			m_p_slot->hair_color = m_hair_color_array[m_hair_point.x][m_hair_point.y];
-			RollDice();
+	case DEX_PLUS_ID:
+		if (m_p_slot->bonus_point > 0)
+		{
+			m_p_slot->DEX_PURE++;
+			m_p_slot->bonus_point--;
+		}
+		break;
 
-			m_wFace_Alpha							= 0;
-			m_btSelect_Face							= 0;
-			m_btVirtureSelect_Face					= 0;
-			break;
-			
-		case MALE_ID:
-			m_p_slot->bl_female = false;
+	case DEX_MINUS_ID:
+		if (m_p_slot->DEX_PURE > 10)
+		{
+			m_p_slot->DEX_PURE--;
+			m_p_slot->bonus_point++;
+		}
+		break;
 
-			m_wFace_Alpha							= 0;
-			m_btSelect_Face							= 0;
-			m_btVirtureSelect_Face					= 0;	
-			break;
+	case INT_PLUS_ID:
+		if (m_p_slot->bonus_point > 0)
+		{
+			m_p_slot->INT_PURE++;
+			m_p_slot->bonus_point--;
+		}
+		break;
 
-		case FEMALE_ID:
-			m_p_slot->bl_female = true;
+	case INT_MINUS_ID:
+		if (m_p_slot->INT_PURE > 10)
+		{
+			m_p_slot->INT_PURE--;
+			m_p_slot->bonus_point++;
+		}
+		break;
 
-			m_wFace_Alpha							= 0;
-			m_btSelect_Face							= 0;
-			m_btVirtureSelect_Face					= 0;
-			break;
+	case CHAR_LEFT_LOTATION_ID:
+		m_chDirection--;
+		if (m_chDirection < 0)
+			m_chDirection = 7;
 
-		case NEXT_ID:
-			if (m_lev_name.Size() == 0)
-			{
-				g_msg_empty_name->Start();
-			}
-			else if(m_p_slot->Race == RACE_OUSTERS && m_p_slot->bonus_point != 0)
-			{
-				g_msg_left_bonus_point->Start();
-			}
-			else
-			{
-				SendNewCharacterToClient();
-			}
-			break;
+		break;
 
-		case BACK_ID:
-			Finish();
-			gC_vs_ui.StartCharacterManager(true);
-			break;
+	case CHAR_RIGHT_LOTATION_ID:
+		m_chDirection++;
+		if (m_chDirection > 7)
+			m_chDirection = 0;
 
-		case FACE_BACK_ID:			
-			if( m_p_slot->Race == RACE_SLAYER )
-			{
-				switch(m_p_slot->man_info.hair)
-				{
-				case M_HAIR1:
-					m_p_slot->man_info.hair = M_HAIR3;
-					m_p_slot->man_info.face = M_FACE3;
-					break;
-					
-				case M_HAIR2:
-					m_p_slot->man_info.hair = M_HAIR1;
-					m_p_slot->man_info.face = M_FACE1;
-					break;
-					
-				case M_HAIR3:
-					m_p_slot->man_info.hair = M_HAIR2;
-					m_p_slot->man_info.face = M_FACE2;
-					break;
-				}
-			}
-			break;
-
-		case FACE_NEXT_ID:
-			if( m_p_slot->Race == RACE_SLAYER )
-			{
-				switch(m_p_slot->man_info.hair)
-				{
-				case M_HAIR2:
-					m_p_slot->man_info.hair = M_HAIR3;
-					m_p_slot->man_info.face = M_FACE3;
-					break;
-					
-				case M_HAIR3:
-					m_p_slot->man_info.hair = M_HAIR1;
-					m_p_slot->man_info.face = M_FACE1;
-					break;
-					
-				case M_HAIR1:
-					m_p_slot->man_info.hair = M_HAIR2;
-					m_p_slot->man_info.face = M_FACE2;
-					break;
-				}
-			}
-			break;
-
-		case SAVE_ID:
-			if( m_p_slot->Race == RACE_SLAYER )
-			{
-				m_iSave[0] = m_p_slot->STR_PURE;
-				m_iSave[1] = m_p_slot->DEX_PURE;
-				m_iSave[2] = m_p_slot->INT_PURE;
-			}
-			break;
-
-		case LOAD_ID:
-			if( m_p_slot->Race == RACE_SLAYER )
-				RollDice(true);
-			break;
-
-		case REROLL_ID:
-			if( m_p_slot->Race == RACE_SLAYER )
-				RollDice();
-			break;
-
-		case CHECK_ID:
-			if (m_lev_name.Size() == 0)
-			{
-				g_msg_empty_name->Start();
-			}
-			else
-			{
-				char *sz_temp;
-				g_Convert_DBCS_Ascii2SingleByte(m_lev_name.GetString(), m_lev_name.Size(), sz_temp);
-				m_p_slot->sz_name = sz_temp;
-				DeleteNew(sz_temp);
-				gpC_base->SendMessage(UI_NEWCHARACTER_CHECK, 0, 0, (void *)m_p_slot->sz_name.c_str());
-			}
-			break;
-
-		case STR_PLUS_ID:
-			if(m_p_slot->bonus_point > 0)
-			{
-				m_p_slot->STR_PURE++;
-				m_p_slot->bonus_point--;
-			}
-			break;
-
-		case STR_MINUS_ID:
-			if(m_p_slot->STR_PURE > 10)
-			{
-				m_p_slot->STR_PURE--;
-				m_p_slot->bonus_point++;
-			}
-			break;
-
-		case DEX_PLUS_ID:
-			if(m_p_slot->bonus_point > 0)
-			{
-				m_p_slot->DEX_PURE++;
-				m_p_slot->bonus_point--;
-			}
-			break;
-			
-		case DEX_MINUS_ID:
-			if(m_p_slot->DEX_PURE > 10)
-			{
-				m_p_slot->DEX_PURE--;
-				m_p_slot->bonus_point++;
-			}
-			break;
-			
-		case INT_PLUS_ID:
-			if(m_p_slot->bonus_point > 0)
-			{
-				m_p_slot->INT_PURE++;
-				m_p_slot->bonus_point--;
-			}
-			break;
-			
-		case INT_MINUS_ID:
-			if(m_p_slot->INT_PURE > 10)
-			{
-				m_p_slot->INT_PURE--;
-				m_p_slot->bonus_point++;
-			}
-			break;
-
-		case CHAR_LEFT_LOTATION_ID:
-			m_chDirection--;
-			if(m_chDirection < 0)
-				m_chDirection = 7;
-
-			break;
-
-		case CHAR_RIGHT_LOTATION_ID:
-			m_chDirection++;
-			if(m_chDirection > 7)
-				m_chDirection = 0;
-
-			break;
+		break;
 	}
 }
 
@@ -2043,56 +2043,56 @@ void C_VS_UI_NEWCHAR::Run(id_t id)
 
 
 
-void	C_VS_UI_NEWCHAR::MouseSelectMale_OR_Female_RollOver(int _x, int _y)				//���� ����
+void	C_VS_UI_NEWCHAR::MouseSelectMale_OR_Female_RollOver(int _x, int _y)				//???? ????
 {
-	if(m_p_slot->Race == RACE_SLAYER || m_p_slot->Race == RACE_VAMPIRE)		//���� ���� ����
+	if (m_p_slot->Race == RACE_SLAYER || m_p_slot->Race == RACE_VAMPIRE)		//???? ???? ????
 	{
-		if(((_x >= m_wMale_Select_Button_X) && (_x <= m_wMale_Select_Button_X + m_image_spk.GetWidth(MALE_BUTTON))) 
+		if (((_x >= m_wMale_Select_Button_X) && (_x <= m_wMale_Select_Button_X + m_image_spk.GetWidth(MALE_BUTTON)))
 			&&
 			((_y >= m_wMale_Select_Button_Y) && (_y <= m_wMale_Select_Button_Y + m_image_spk.GetHeight(MALE_BUTTON))))
 		{
-			m_btVirtureSelect_Male	= VIRTURE_SELECT_MALE;
+			m_btVirtureSelect_Male = VIRTURE_SELECT_MALE;
 		}
-		else if(((_x >= m_wFemale_Select_Button_X) && (_x <= m_wFemale_Select_Button_X + m_image_spk.GetWidth(FEMALE_BUTTON))) 
-				&&
-				((_y >= m_wFemale_Select_Button_Y) && (_y <= m_wFemale_Select_Button_Y + m_image_spk.GetHeight(FEMALE_BUTTON))))
+		else if (((_x >= m_wFemale_Select_Button_X) && (_x <= m_wFemale_Select_Button_X + m_image_spk.GetWidth(FEMALE_BUTTON)))
+			&&
+			((_y >= m_wFemale_Select_Button_Y) && (_y <= m_wFemale_Select_Button_Y + m_image_spk.GetHeight(FEMALE_BUTTON))))
 		{
-			m_btVirtureSelect_Male	= VIRTURE_SELECT_FEMALE;
+			m_btVirtureSelect_Male = VIRTURE_SELECT_FEMALE;
 		}
 		else
 		{
-			m_btVirtureSelect_Male	= VIRTURE_NO_SELECT;
+			m_btVirtureSelect_Male = VIRTURE_NO_SELECT;
 		}
 	}
 }
 
 
 
-void	C_VS_UI_NEWCHAR::MouseSelectFace_RollOver(int _x, int _y)							//�� ����
+void	C_VS_UI_NEWCHAR::MouseSelectFace_RollOver(int _x, int _y)							//?? ????
 {
-	if(m_p_slot->Race == RACE_SLAYER)		//�� ���� ����
+	if (m_p_slot->Race == RACE_SLAYER)		//?? ???? ????
 	{
-		if(m_p_slot->bl_female	== false)
+		if (m_p_slot->bl_female == false)
 		{
-			for(int i = 0; i < SELECT_FACE_MAX; i++)
+			for (int i = 0; i < SELECT_FACE_MAX; i++)
 			{
-				if(((_x >= m_ptFace_Radio[i].x) && (_x <= m_ptFace_Radio[i].x + m_image_spk.GetWidth(CHAR_FACE_SLAYER_MALE_SELECT_1 + i))) 
+				if (((_x >= m_ptFace_Radio[i].x) && (_x <= m_ptFace_Radio[i].x + m_image_spk.GetWidth(CHAR_FACE_SLAYER_MALE_SELECT_1 + i)))
 					&&
 					((_y >= m_ptFace_Radio[i].y) && (_y <= m_ptFace_Radio[i].y + m_image_spk.GetHeight(CHAR_FACE_SLAYER_MALE_SELECT_1 + i))))
-					{
-						m_btVirtureSelect_Face	= SELECT_LEFT_FACE + i;
-					}
+				{
+					m_btVirtureSelect_Face = SELECT_LEFT_FACE + i;
+				}
 			}
 		}
 		else
 		{
-			for(int i = 0; i < SELECT_FACE_MAX; i++)
+			for (int i = 0; i < SELECT_FACE_MAX; i++)
 			{
-				if(((_x >= m_ptFace_Radio[i].x) && (_x <= m_ptFace_Radio[i].x + m_image_spk.GetWidth(CHAR_FACE_SLAYER_FEMALE_SELECT_1 + i))) 
+				if (((_x >= m_ptFace_Radio[i].x) && (_x <= m_ptFace_Radio[i].x + m_image_spk.GetWidth(CHAR_FACE_SLAYER_FEMALE_SELECT_1 + i)))
 					&&
 					((_y >= m_ptFace_Radio[i].y) && (_y <= m_ptFace_Radio[i].y + m_image_spk.GetHeight(CHAR_FACE_SLAYER_FEMALE_SELECT_1 + i))))
 				{
-					m_btVirtureSelect_Face	= SELECT_LEFT_FACE + i;
+					m_btVirtureSelect_Face = SELECT_LEFT_FACE + i;
 				}
 			}
 		}
@@ -2102,43 +2102,43 @@ void	C_VS_UI_NEWCHAR::MouseSelectFace_RollOver(int _x, int _y)							//�� �
 
 
 
-void	C_VS_UI_NEWCHAR::MouseSelectStet_RollOver(int _x, int _y)		//�ɷ�ġ
+void	C_VS_UI_NEWCHAR::MouseSelectStet_RollOver(int _x, int _y)		//????
 {
-	if(m_p_slot->Race == RACE_SLAYER)		//�ɷ�ġ ����
+	if (m_p_slot->Race == RACE_SLAYER)		//???? ????
 	{
-		if(((_x >=m_wSave_Button_X) && (_x <= m_wSave_Button_X + m_image_spk.GetWidth(SAVE_BUTTON))) 
+		if (((_x >= m_wSave_Button_X) && (_x <= m_wSave_Button_X + m_image_spk.GetWidth(SAVE_BUTTON)))
 			&&
 			((_y >= m_wSave_Button_Y) && (_y <= m_wSave_Button_Y + m_image_spk.GetHeight(SAVE_BUTTON))))
 		{
 			m_wSave_Button_Alpha++;
-			if(m_wSave_Button_Alpha >= 31)
-				m_wSave_Button_Alpha	= 31;
+			if (m_wSave_Button_Alpha >= 31)
+				m_wSave_Button_Alpha = 31;
 		}
 		else
 		{
 			m_wSave_Button_Alpha = 0;
 		}
 
-		if(((_x >=m_wLoad_Button_X) && (_x <= m_wLoad_Button_X + m_image_spk.GetWidth(LOAD_BUTTON))) 
+		if (((_x >= m_wLoad_Button_X) && (_x <= m_wLoad_Button_X + m_image_spk.GetWidth(LOAD_BUTTON)))
 			&&
 			((_y >= m_wLoad_Button_Y) && (_y <= m_wLoad_Button_Y + m_image_spk.GetHeight(LOAD_BUTTON))))
 		{
 			m_wLoad_Button_Alpha++;
-			if(m_wLoad_Button_Alpha >= 31)
-				m_wLoad_Button_Alpha	= 31;
+			if (m_wLoad_Button_Alpha >= 31)
+				m_wLoad_Button_Alpha = 31;
 		}
 		else
 		{
 			m_wLoad_Button_Alpha = 0;
 		}
 
-		if(((_x >=m_wReset_Button_X) && (_x <= m_wReset_Button_X + m_image_spk.GetWidth(RESET_BUTTON))) 
+		if (((_x >= m_wReset_Button_X) && (_x <= m_wReset_Button_X + m_image_spk.GetWidth(RESET_BUTTON)))
 			&&
 			((_y >= m_wReset_Button_Y) && (_y <= m_wReset_Button_Y + m_image_spk.GetHeight(RESET_BUTTON))))
 		{
 			m_wReset_Button_Alpha++;
-			if(m_wReset_Button_Alpha >= 31)
-				m_wReset_Button_Alpha	= 31;
+			if (m_wReset_Button_Alpha >= 31)
+				m_wReset_Button_Alpha = 31;
 		}
 		else
 		{
@@ -2146,30 +2146,30 @@ void	C_VS_UI_NEWCHAR::MouseSelectStet_RollOver(int _x, int _y)		//�ɷ�ġ
 		}
 	}
 
-	if(m_p_slot->Race == RACE_OUSTERS)		//�ɷ�ġ ����
+	if (m_p_slot->Race == RACE_OUSTERS)		//???? ????
 	{
-		for(int i = 0; i < STET_MAX; i++)
+		for (int i = 0; i < STET_MAX; i++)
 		{
-			if(((_x >=m_ptStet_Plus[i].x) && (_x <= m_ptStet_Plus[i].x + m_image_spk.GetWidth(STET_PLUS_BUTTON))) 
+			if (((_x >= m_ptStet_Plus[i].x) && (_x <= m_ptStet_Plus[i].x + m_image_spk.GetWidth(STET_PLUS_BUTTON)))
 				&&
 				((_y >= m_ptStet_Plus[i].y) && (_y <= m_ptStet_Plus[i].y + m_image_spk.GetHeight(STET_PLUS_BUTTON))))
 			{
-				m_wStet_Plus_Button_Alpha[i]	+= 1;
-				if(m_wStet_Plus_Button_Alpha[i] >= 31)
-					m_wStet_Plus_Button_Alpha[i]	= 31;
+				m_wStet_Plus_Button_Alpha[i] += 1;
+				if (m_wStet_Plus_Button_Alpha[i] >= 31)
+					m_wStet_Plus_Button_Alpha[i] = 31;
 			}
 			else
 			{
 				m_wStet_Plus_Button_Alpha[i] = 0;
 			}
 
-			if(((_x >=m_ptStet_Minus[i].x) && (_x <= m_ptStet_Minus[i].x + m_image_spk.GetWidth(STET_MINUS_BUTTON))) 
+			if (((_x >= m_ptStet_Minus[i].x) && (_x <= m_ptStet_Minus[i].x + m_image_spk.GetWidth(STET_MINUS_BUTTON)))
 				&&
 				((_y >= m_ptStet_Minus[i].y) && (_y <= m_ptStet_Minus[i].y + m_image_spk.GetHeight(STET_MINUS_BUTTON))))
 			{
-				m_wStet_Minus_Button_Alpha[i]	+= 1;
-				if(m_wStet_Minus_Button_Alpha[i] >= 31)
-					m_wStet_Minus_Button_Alpha[i]	= 31;							
+				m_wStet_Minus_Button_Alpha[i] += 1;
+				if (m_wStet_Minus_Button_Alpha[i] >= 31)
+					m_wStet_Minus_Button_Alpha[i] = 31;
 			}
 			else
 			{
@@ -2183,17 +2183,17 @@ void	C_VS_UI_NEWCHAR::MouseSelectStet_RollOver(int _x, int _y)		//�ɷ�ġ
 
 void	C_VS_UI_NEWCHAR::MouseSelectMale_OR_Female_Click(int _x, int _y)
 {
-	if(m_p_slot != NULL)
+	if (m_p_slot != NULL)
 	{
-		if(m_p_slot->Race == RACE_SLAYER || m_p_slot->Race == RACE_VAMPIRE)		// ���� ���� ����
+		if (m_p_slot->Race == RACE_SLAYER || m_p_slot->Race == RACE_VAMPIRE)		// ???? ???? ????
 		{
-			if(((_x >= m_wMale_Select_Button_X) && (_x <= m_wMale_Select_Button_X + m_image_spk.GetWidth(MALE_BUTTON))) 
+			if (((_x >= m_wMale_Select_Button_X) && (_x <= m_wMale_Select_Button_X + m_image_spk.GetWidth(MALE_BUTTON)))
 				&&
 				((_y >= m_wMale_Select_Button_Y) && (_y <= m_wMale_Select_Button_Y + m_image_spk.GetHeight(MALE_BUTTON))))
 			{
 				m_p_slot->bl_female = false;
 			}
-			else if(((_x >= m_wFemale_Select_Button_X) && (_x <= m_wFemale_Select_Button_X + m_image_spk.GetWidth(FEMALE_BUTTON))) 
+			else if (((_x >= m_wFemale_Select_Button_X) && (_x <= m_wFemale_Select_Button_X + m_image_spk.GetWidth(FEMALE_BUTTON)))
 				&&
 				((_y >= m_wFemale_Select_Button_Y) && (_y <= m_wFemale_Select_Button_Y + m_image_spk.GetHeight(FEMALE_BUTTON))))
 			{
@@ -2205,19 +2205,19 @@ void	C_VS_UI_NEWCHAR::MouseSelectMale_OR_Female_Click(int _x, int _y)
 
 void	C_VS_UI_NEWCHAR::MouseSelectFace_Click(int _x, int _y)
 {
-	if(m_p_slot->Race == RACE_SLAYER)	//�� ���� ����
+	if (m_p_slot->Race == RACE_SLAYER)	//?? ???? ????
 	{
-		if(m_p_slot->bl_female	== false)
+		if (m_p_slot->bl_female == false)
 		{
-			for(int i = 0; i < SELECT_FACE_MAX; i++)
+			for (int i = 0; i < SELECT_FACE_MAX; i++)
 			{
-				if(((_x >= m_ptFace_Radio[i].x) && (_x <= m_ptFace_Radio[i].x + m_image_spk.GetWidth(CHAR_FACE_SLAYER_MALE_SELECT_1 + i))) 
+				if (((_x >= m_ptFace_Radio[i].x) && (_x <= m_ptFace_Radio[i].x + m_image_spk.GetWidth(CHAR_FACE_SLAYER_MALE_SELECT_1 + i)))
 					&&
 					((_y >= m_ptFace_Radio[i].y) && (_y <= m_ptFace_Radio[i].y + m_image_spk.GetHeight(CHAR_FACE_SLAYER_MALE_SELECT_1 + i))))
 				{
-					m_btSelect_Face	= SELECT_LEFT_FACE + i;
+					m_btSelect_Face = SELECT_LEFT_FACE + i;
 
-					switch(m_btSelect_Face)
+					switch (m_btSelect_Face)
 					{
 					case SELECT_LEFT_FACE:
 						m_p_slot->man_info.hair = M_HAIR3;
@@ -2228,7 +2228,7 @@ void	C_VS_UI_NEWCHAR::MouseSelectFace_Click(int _x, int _y)
 						m_p_slot->man_info.hair = M_HAIR1;
 						m_p_slot->man_info.face = M_HAIR1;
 						break;
-					
+
 					case SELECT_RIGHT_FACE:
 						m_p_slot->man_info.hair = M_HAIR2;
 						m_p_slot->man_info.face = M_HAIR2;
@@ -2239,31 +2239,31 @@ void	C_VS_UI_NEWCHAR::MouseSelectFace_Click(int _x, int _y)
 		}
 		else
 		{
-			for(int i = 0; i < SELECT_FACE_MAX; i++)
+			for (int i = 0; i < SELECT_FACE_MAX; i++)
 			{
-				if(((_x >= m_ptFace_Radio[i].x) && (_x <= m_ptFace_Radio[i].x + m_image_spk.GetWidth(CHAR_FACE_SLAYER_FEMALE_SELECT_1 + i))) 
+				if (((_x >= m_ptFace_Radio[i].x) && (_x <= m_ptFace_Radio[i].x + m_image_spk.GetWidth(CHAR_FACE_SLAYER_FEMALE_SELECT_1 + i)))
 					&&
 					((_y >= m_ptFace_Radio[i].y) && (_y <= m_ptFace_Radio[i].y + m_image_spk.GetHeight(CHAR_FACE_SLAYER_FEMALE_SELECT_1 + i))))
 				{
-					m_btSelect_Face	= SELECT_LEFT_FACE + i;
-					
-					switch(m_btSelect_Face)
+					m_btSelect_Face = SELECT_LEFT_FACE + i;
+
+					switch (m_btSelect_Face)
 					{
-						case SELECT_LEFT_FACE:
-							m_p_slot->man_info.hair = M_HAIR3;
-							m_p_slot->man_info.face = M_HAIR3;
-							break;
-	
-						case SELECT_CENTER_FACE:
-							m_p_slot->man_info.hair = M_HAIR1;
-							m_p_slot->man_info.face = M_HAIR1;
-							break;
-			
-						case SELECT_RIGHT_FACE:
-							m_p_slot->man_info.hair = M_HAIR2;
-							m_p_slot->man_info.face = M_HAIR2;
-							break;
-				
+					case SELECT_LEFT_FACE:
+						m_p_slot->man_info.hair = M_HAIR3;
+						m_p_slot->man_info.face = M_HAIR3;
+						break;
+
+					case SELECT_CENTER_FACE:
+						m_p_slot->man_info.hair = M_HAIR1;
+						m_p_slot->man_info.face = M_HAIR1;
+						break;
+
+					case SELECT_RIGHT_FACE:
+						m_p_slot->man_info.hair = M_HAIR2;
+						m_p_slot->man_info.face = M_HAIR2;
+						break;
+
 					}
 				}
 			}
@@ -2273,23 +2273,23 @@ void	C_VS_UI_NEWCHAR::MouseSelectFace_Click(int _x, int _y)
 
 void	C_VS_UI_NEWCHAR::MouseSelectStet_Click(int _x, int _y)
 {
-	if(m_p_slot->Race == RACE_SLAYER)		//�ɷ�ġ ����
+	if (m_p_slot->Race == RACE_SLAYER)		//???? ????
 	{
-		if(((_x >=m_wSave_Button_X) && (_x <= m_wSave_Button_X + m_image_spk.GetWidth(SAVE_BUTTON))) 
+		if (((_x >= m_wSave_Button_X) && (_x <= m_wSave_Button_X + m_image_spk.GetWidth(SAVE_BUTTON)))
 			&&
 			((_y >= m_wSave_Button_Y) && (_y <= m_wSave_Button_Y + m_image_spk.GetHeight(SAVE_BUTTON))))
 		{
 			Run(SAVE_ID);
 		}
 
-		if(((_x >=m_wLoad_Button_X) && (_x <= m_wLoad_Button_X + m_image_spk.GetWidth(LOAD_BUTTON))) 
+		if (((_x >= m_wLoad_Button_X) && (_x <= m_wLoad_Button_X + m_image_spk.GetWidth(LOAD_BUTTON)))
 			&&
 			((_y >= m_wLoad_Button_Y) && (_y <= m_wLoad_Button_Y + m_image_spk.GetHeight(LOAD_BUTTON))))
 		{
 			Run(LOAD_ID);
 		}
 
-		if(((_x >=m_wReset_Button_X) && (_x <= m_wReset_Button_X + m_image_spk.GetWidth(RESET_BUTTON))) 
+		if (((_x >= m_wReset_Button_X) && (_x <= m_wReset_Button_X + m_image_spk.GetWidth(RESET_BUTTON)))
 			&&
 			((_y >= m_wReset_Button_Y) && (_y <= m_wReset_Button_Y + m_image_spk.GetHeight(RESET_BUTTON))))
 		{
@@ -2297,20 +2297,20 @@ void	C_VS_UI_NEWCHAR::MouseSelectStet_Click(int _x, int _y)
 		}
 	}
 
-	if(m_p_slot->Race == RACE_OUSTERS)		//�ɷ�ġ ����
+	if (m_p_slot->Race == RACE_OUSTERS)		//???? ????
 	{
-		for(int i = 0; i < STET_MAX; i++)
+		for (int i = 0; i < STET_MAX; i++)
 		{
-			if(((_x >=m_ptStet_Plus[i].x) && (_x <= m_ptStet_Plus[i].x + m_image_spk.GetWidth(STET_PLUS_BUTTON))) 
+			if (((_x >= m_ptStet_Plus[i].x) && (_x <= m_ptStet_Plus[i].x + m_image_spk.GetWidth(STET_PLUS_BUTTON)))
 				&&
 				((_y >= m_ptStet_Plus[i].y) && (_y <= m_ptStet_Plus[i].y + m_image_spk.GetHeight(STET_PLUS_BUTTON))))
 			{
 				Run(STR_PLUS_ID + i);
 			}
 
-			if(((_x >=m_ptStet_Minus[i].x) && (_x <= m_ptStet_Minus[i].x + m_image_spk.GetWidth(STET_MINUS_BUTTON))) 
+			if (((_x >= m_ptStet_Minus[i].x) && (_x <= m_ptStet_Minus[i].x + m_image_spk.GetWidth(STET_MINUS_BUTTON)))
 				&&
-			((_y >= m_ptStet_Minus[i].y) && (_y <= m_ptStet_Minus[i].y + m_image_spk.GetHeight(STET_MINUS_BUTTON))))
+				((_y >= m_ptStet_Minus[i].y) && (_y <= m_ptStet_Minus[i].y + m_image_spk.GetHeight(STET_MINUS_BUTTON))))
 			{
 				Run(STR_MINUS_ID + i);
 			}
@@ -2361,61 +2361,61 @@ bool C_VS_UI_NEWCHAR::MouseControl(UINT message, int _x, int _y)
 	// control color table
 	switch (message)
 	{
-		case M_MOVING:
-			m_focused_help = HELP_DEFAULT;
+	case M_MOVING:
+		m_focused_help = HELP_DEFAULT;
+		{
+			for (int i = 0; i < HELP_MAX; i++)
 			{
-				for(int i = 0; i < HELP_MAX; i++)
+				int gap_x = (g_pUserInformation->iResolution_x - 800) / 2;
+				int gap_y = (g_pUserInformation->iResolution_y - 600) / 2;
+
+
+				if (_x > rect[i].left + gap_x && _x < rect[i].right + gap_x && _y > rect[i].top + gap_y && _y < rect[i].bottom + gap_y)
 				{
-					int gap_x = (g_pUserInformation->iResolution_x - 800) / 2;
-					int gap_y = (g_pUserInformation->iResolution_y - 600) / 2;
-					
-					
-					if(_x > rect[i].left+gap_x && _x < rect[i].right+gap_x && _y > rect[i].top+gap_y && _y < rect[i].bottom+gap_y)
-					{
-						m_focused_help = i;
-						break;
-					}
+					m_focused_help = i;
+					break;
 				}
 			}
-			if(m_focused_help == HELP_BONUS && m_p_slot->Race != RACE_OUSTERS)
-				m_focused_help = HELP_DEFAULT;
+		}
+		if (m_focused_help == HELP_BONUS && m_p_slot->Race != RACE_OUSTERS)
+			m_focused_help = HELP_DEFAULT;
 
-			if (m_bl_pushed_table)
-				ChangeColor(_x, _y);
+		if (m_bl_pushed_table)
+			ChangeColor(_x, _y);
 
-			if(m_p_slot != NULL)
-			{
-				MouseSelectMale_OR_Female_RollOver(_x, _y);
-				MouseSelectFace_RollOver(_x, _y);
-				MouseSelectStet_RollOver(_x, _y);
-			}
-		
-			break;
+		if (m_p_slot != NULL)
+		{
+			MouseSelectMale_OR_Female_RollOver(_x, _y);
+			MouseSelectFace_RollOver(_x, _y);
+			MouseSelectStet_RollOver(_x, _y);
+		}
 
-		case M_LEFTBUTTON_DOWN:
-//		case M_LB_DOUBLECLICK:
-/*#ifdef CONVERT_1024_768
-			if (ChangeColor(_x-112, _y-84) == true)
-#else*/
-			if (ChangeColor(_x, _y) == true)
-//#endif			
-			{
-				m_bl_pushed_table = true;
-				return true;
-			}
+		break;
 
-			if(m_p_slot != NULL)
-			{
-				MouseSelectMale_OR_Female_Click(_x, _y);
-				MouseSelectFace_Click(_x, _y);
-				MouseSelectStet_Click(_x, _y);
-			}
+	case M_LEFTBUTTON_DOWN:
+		//		case M_LB_DOUBLECLICK:
+		/*#ifdef CONVERT_1024_768
+					if (ChangeColor(_x-112, _y-84) == true)
+		#else*/
+		if (ChangeColor(_x, _y) == true)
+			//#endif			
+		{
+			m_bl_pushed_table = true;
+			return true;
+		}
 
-			break;
+		if (m_p_slot != NULL)
+		{
+			MouseSelectMale_OR_Female_Click(_x, _y);
+			MouseSelectFace_Click(_x, _y);
+			MouseSelectStet_Click(_x, _y);
+		}
 
-		case M_LEFTBUTTON_UP:
-			m_bl_pushed_table = false;
-			break;
+		break;
+
+	case M_LEFTBUTTON_UP:
+		m_bl_pushed_table = false;
+		break;
 	}
 
 	return true;
@@ -2424,41 +2424,41 @@ bool C_VS_UI_NEWCHAR::MouseControl(UINT message, int _x, int _y)
 //-----------------------------------------------------------------------------
 // ShowCharacter
 //
-// (x, y)�� ��/�� ĳ���� �ϳ��� ����Ѵ�. ���� ��� �ϳ��� null�� �Ǿ� �ϴ�.
+// (x, y)?? ??/?? ????? ????? ??????. ???? ??? ????? null?? ??? ???.
 //
-// ��κ� : i1
-// �ʺκ� : i2
+// ???? : i1
+// ???? : i2
 //-----------------------------------------------------------------------------
-void	C_VS_UI_NEWCHAR::ShowCharacter(int _x, int _y, S_SLOT * p_slot, int index, int enable, int dark)
+void	C_VS_UI_NEWCHAR::ShowCharacter(int _x, int _y, S_SLOT* p_slot, int index, int enable, int dark)
 {
 	//
-	// ��¼���
+	// ??????
 	//
-	// ���� -> ���� -> �Ӹ�ī�� -> ���� -> ���������� -> �޼�����
+	// ???? -> ???? -> ?????? -> ???? -> ?????????? -> ???????
 	//
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		switch(p_slot->Race)
+		switch (p_slot->Race)
 		{
 		case RACE_OUSTERS:
-			if( p_slot->m_AdvancementLevel > 0 )
-				_ShowCharacterACOusters( _x, _y, p_slot, index, enable, dark );
+			if (p_slot->m_AdvancementLevel > 0)
+				_ShowCharacterACOusters(_x, _y, p_slot, index, enable, dark);
 			else
-				_ShowCharacterOusters( _x, _y, p_slot, index, enable, dark );
+				_ShowCharacterOusters(_x, _y, p_slot, index, enable, dark);
 			break;
-			
+
 		case RACE_VAMPIRE:
-			if( p_slot->m_AdvancementLevel > 0 )
-				_ShowCharacterACVampire( _x, _y, p_slot, index, enable, dark );
+			if (p_slot->m_AdvancementLevel > 0)
+				_ShowCharacterACVampire(_x, _y, p_slot, index, enable, dark);
 			else
-				_ShowCharacterVampire( _x, _y, p_slot, index, enable, dark );
+				_ShowCharacterVampire(_x, _y, p_slot, index, enable, dark);
 			break;
-			
+
 		case RACE_SLAYER:
-			if( p_slot->m_AdvancementLevel > 0 )
-				_ShowCharacterACSlayer( _x, _y, p_slot, index, enable, dark );
+			if (p_slot->m_AdvancementLevel > 0)
+				_ShowCharacterACSlayer(_x, _y, p_slot, index, enable, dark);
 			else
-				_ShowCharacterSlayer( _x, _y, p_slot, index, enable, dark );
+				_ShowCharacterSlayer(_x, _y, p_slot, index, enable, dark);
 			break;
 		}
 		gpC_base->m_p_DDSurface_back->Unlock();
@@ -2478,69 +2478,69 @@ void C_VS_UI_NEWCHAR::DrawCover(int _x, int _y)
 
 void	C_VS_UI_NEWCHAR::DrawCharFaceSelect()
 {
-	switch( m_p_slot->Race )
+	switch (m_p_slot->Race)
 	{
-		case RACE_SLAYER:
-			if(m_p_slot->bl_female	== false)
-			{
-				m_image_spk.BltLocked(m_ptFace[SELECT_LEFT_FACE].x,		m_ptFace[SELECT_LEFT_FACE].y, CHAR_FACE_SLAYER_MALE_SELECT_1);
-				m_image_spk.BltLocked(m_ptFace[SELECT_CENTER_FACE].x,	m_ptFace[SELECT_CENTER_FACE].y, CHAR_FACE_SLAYER_MALE_SELECT_2);
-				m_image_spk.BltLocked(m_ptFace[SELECT_RIGHT_FACE].x,	m_ptFace[SELECT_RIGHT_FACE].y, CHAR_FACE_SLAYER_MALE_SELECT_3);
-			}
-			else
-			{
-				m_image_spk.BltLocked(m_ptFace[SELECT_LEFT_FACE].x,		m_ptFace[SELECT_LEFT_FACE].y, CHAR_FACE_SLAYER_FEMALE_SELECT_1);
-				m_image_spk.BltLocked(m_ptFace[SELECT_CENTER_FACE].x,	m_ptFace[SELECT_CENTER_FACE].y, CHAR_FACE_SLAYER_FEMALE_SELECT_2);
-				m_image_spk.BltLocked(m_ptFace[SELECT_RIGHT_FACE].x,	m_ptFace[SELECT_RIGHT_FACE].y, CHAR_FACE_SLAYER_FEMALE_SELECT_3);
-			}
+	case RACE_SLAYER:
+		if (m_p_slot->bl_female == false)
+		{
+			m_image_spk.BltLocked(m_ptFace[SELECT_LEFT_FACE].x, m_ptFace[SELECT_LEFT_FACE].y, CHAR_FACE_SLAYER_MALE_SELECT_1);
+			m_image_spk.BltLocked(m_ptFace[SELECT_CENTER_FACE].x, m_ptFace[SELECT_CENTER_FACE].y, CHAR_FACE_SLAYER_MALE_SELECT_2);
+			m_image_spk.BltLocked(m_ptFace[SELECT_RIGHT_FACE].x, m_ptFace[SELECT_RIGHT_FACE].y, CHAR_FACE_SLAYER_MALE_SELECT_3);
+		}
+		else
+		{
+			m_image_spk.BltLocked(m_ptFace[SELECT_LEFT_FACE].x, m_ptFace[SELECT_LEFT_FACE].y, CHAR_FACE_SLAYER_FEMALE_SELECT_1);
+			m_image_spk.BltLocked(m_ptFace[SELECT_CENTER_FACE].x, m_ptFace[SELECT_CENTER_FACE].y, CHAR_FACE_SLAYER_FEMALE_SELECT_2);
+			m_image_spk.BltLocked(m_ptFace[SELECT_RIGHT_FACE].x, m_ptFace[SELECT_RIGHT_FACE].y, CHAR_FACE_SLAYER_FEMALE_SELECT_3);
+		}
 
-			m_image_spk.BltLocked(m_ptFace_Radio[m_btSelect_Face].x,	m_ptFace_Radio[m_btSelect_Face].y, RADIO_SELECT_BUTTON);
-			m_image_spk.BltLockedAlpha(m_ptFace_Radio[m_btVirtureSelect_Face].x,	m_ptFace_Radio[m_btVirtureSelect_Face].y, 
-										RADIO_SELECT_BUTTON, m_wFace_Alpha);
+		m_image_spk.BltLocked(m_ptFace_Radio[m_btSelect_Face].x, m_ptFace_Radio[m_btSelect_Face].y, RADIO_SELECT_BUTTON);
+		m_image_spk.BltLockedAlpha(m_ptFace_Radio[m_btVirtureSelect_Face].x, m_ptFace_Radio[m_btVirtureSelect_Face].y,
+			RADIO_SELECT_BUTTON, m_wFace_Alpha);
 
-			switch(m_btVirtureSelect_Face)
-			{
-			case SELECT_LEFT_FACE:
-				m_wFace_Alpha++;
-					if(m_wFace_Alpha >= 31)
-						m_wFace_Alpha	= 0;
-				break;
-
-			case SELECT_CENTER_FACE:
-				m_wFace_Alpha++;
-					if(m_wFace_Alpha >= 31)
-						m_wFace_Alpha	= 0;
-				break;
-				
-			case SELECT_RIGHT_FACE:
-				m_wFace_Alpha++;
-					if(m_wFace_Alpha >= 31)
-						m_wFace_Alpha	= 0;
-				break;
-			default:
-				m_wFace_Alpha	= 0;
-				break;
-			}
-
+		switch (m_btVirtureSelect_Face)
+		{
+		case SELECT_LEFT_FACE:
+			m_wFace_Alpha++;
+			if (m_wFace_Alpha >= 31)
+				m_wFace_Alpha = 0;
 			break;
 
-		case RACE_VAMPIRE:
-			if(m_p_slot->bl_female	== false)
-			{
-				m_image_spk.BltLocked(m_ptFace[SELECT_LEFT_FACE].x,		m_ptFace[SELECT_LEFT_FACE].y, CHAR_FACE_VAMPIRE_MALE_SELECT);
-				m_image_spk.BltLocked(m_ptFace_Radio[SELECT_LEFT_FACE].x,	m_ptFace_Radio[SELECT_LEFT_FACE].y, RADIO_SELECT_BUTTON);
-			}
-			else
-			{
-				m_image_spk.BltLocked(m_ptFace[SELECT_LEFT_FACE].x,		m_ptFace[SELECT_LEFT_FACE].y, CHAR_FACE_VAMPIRE_FEMALE_SELECT);
-				m_image_spk.BltLocked(m_ptFace_Radio[SELECT_LEFT_FACE].x,	m_ptFace_Radio[SELECT_LEFT_FACE].y, RADIO_SELECT_BUTTON);
-			}
+		case SELECT_CENTER_FACE:
+			m_wFace_Alpha++;
+			if (m_wFace_Alpha >= 31)
+				m_wFace_Alpha = 0;
 			break;
 
-		case RACE_OUSTERS:	//�ƿ콺����� ������ ����.
-			m_image_spk.BltLocked(m_ptFace[SELECT_LEFT_FACE].x,		m_ptFace[SELECT_LEFT_FACE].y, CHAR_FACE_OUSTERS_SELECT);
-			m_image_spk.BltLocked(m_ptFace_Radio[SELECT_LEFT_FACE].x,	m_ptFace_Radio[SELECT_LEFT_FACE].y, RADIO_SELECT_BUTTON);
+		case SELECT_RIGHT_FACE:
+			m_wFace_Alpha++;
+			if (m_wFace_Alpha >= 31)
+				m_wFace_Alpha = 0;
 			break;
+		default:
+			m_wFace_Alpha = 0;
+			break;
+		}
+
+		break;
+
+	case RACE_VAMPIRE:
+		if (m_p_slot->bl_female == false)
+		{
+			m_image_spk.BltLocked(m_ptFace[SELECT_LEFT_FACE].x, m_ptFace[SELECT_LEFT_FACE].y, CHAR_FACE_VAMPIRE_MALE_SELECT);
+			m_image_spk.BltLocked(m_ptFace_Radio[SELECT_LEFT_FACE].x, m_ptFace_Radio[SELECT_LEFT_FACE].y, RADIO_SELECT_BUTTON);
+		}
+		else
+		{
+			m_image_spk.BltLocked(m_ptFace[SELECT_LEFT_FACE].x, m_ptFace[SELECT_LEFT_FACE].y, CHAR_FACE_VAMPIRE_FEMALE_SELECT);
+			m_image_spk.BltLocked(m_ptFace_Radio[SELECT_LEFT_FACE].x, m_ptFace_Radio[SELECT_LEFT_FACE].y, RADIO_SELECT_BUTTON);
+		}
+		break;
+
+	case RACE_OUSTERS:	//???????? ?????? ????.
+		m_image_spk.BltLocked(m_ptFace[SELECT_LEFT_FACE].x, m_ptFace[SELECT_LEFT_FACE].y, CHAR_FACE_OUSTERS_SELECT);
+		m_image_spk.BltLocked(m_ptFace_Radio[SELECT_LEFT_FACE].x, m_ptFace_Radio[SELECT_LEFT_FACE].y, RADIO_SELECT_BUTTON);
+		break;
 	}
 
 }
@@ -2551,24 +2551,24 @@ void	C_VS_UI_NEWCHAR::DrawCharFaceSelect()
 void	C_VS_UI_NEWCHAR::ChangeEffectPoint()
 {
 	POINT	ptEffect;
-	ptEffect.x	= 	m_wEffect_Fire_Left1_X;
-	ptEffect.y	=	m_wEffect_Fire_Left1_Y;
+	ptEffect.x = m_wEffect_Fire_Left1_X;
+	ptEffect.y = m_wEffect_Fire_Left1_Y;
 	g_pTopView->SetTitleEffectPos(&ptEffect, EFFECT_INDEX_FIRE_LEFT1);
 
-	ptEffect.x	= 	m_wEffect_Fire_Left2_X;
-	ptEffect.y	=	m_wEffect_Fire_Left2_Y;
+	ptEffect.x = m_wEffect_Fire_Left2_X;
+	ptEffect.y = m_wEffect_Fire_Left2_Y;
 	g_pTopView->SetTitleEffectPos(&ptEffect, EFFECT_INDEX_FIRE_LEFT2);
 
-	ptEffect.x	= 	m_wEffect_Fire_Right1_X;
-	ptEffect.y	=	m_wEffect_Fire_Right1_Y;
+	ptEffect.x = m_wEffect_Fire_Right1_X;
+	ptEffect.y = m_wEffect_Fire_Right1_Y;
 	g_pTopView->SetTitleEffectPos(&ptEffect, EFFECT_INDEX_FIRE_RIGHT1);
 
-	ptEffect.x	= 	m_wEffect_Fire_Right2_X;
-	ptEffect.y	=	m_wEffect_Fire_Right2_Y;
+	ptEffect.x = m_wEffect_Fire_Right2_X;
+	ptEffect.y = m_wEffect_Fire_Right2_Y;
 	g_pTopView->SetTitleEffectPos(&ptEffect, EFFECT_INDEX_FIRE_RIGHT2);
 
-	ptEffect.x	= 	m_wEffect_Fire_Center_X;
-	ptEffect.y	=	m_wEffect_Fire_Center_Y;
+	ptEffect.x = m_wEffect_Fire_Center_X;
+	ptEffect.y = m_wEffect_Fire_Center_Y;
 	g_pTopView->SetTitleEffectPos(&ptEffect, EFFECT_INDEX_FIRE_CENTER);
 }
 
@@ -2578,22 +2578,22 @@ void	C_VS_UI_NEWCHAR::ChangeEffectPoint()
 
 void	C_VS_UI_NEWCHAR::DrawSelect_Race()
 {
-	m_image_spk.BltLocked(m_ptRaceSelect_Radio[m_btRace_Select].x, m_ptRaceSelect_Radio[m_btRace_Select].y, RADIO_SELECT_BUTTON);	//���� ���� ��ư
+	m_image_spk.BltLocked(m_ptRaceSelect_Radio[m_btRace_Select].x, m_ptRaceSelect_Radio[m_btRace_Select].y, RADIO_SELECT_BUTTON);	//???? ???? ???
 
 #if !__CONTENTS(__RACE_OUSTERS)
 	m_image_spk.BltLocked(m_wHide_Ousters_Selection_Button_X, m_wHide_Ousters_Selection_Button_Y, HIDE_OUSTERS_SELECTION_BUTTON);
 #endif
 
-	switch(m_p_slot->Race)		// ���� ���� ��ư
+	switch (m_p_slot->Race)		// ???? ???? ???
 	{
 	case RACE_SLAYER:
-		m_image_spk.BltLocked(m_wSelect_Race_Slayer_Button_X, m_wSelect_Race_Slayer_Button_Y,	SELECT_SLAYER_BUTTON);
+		m_image_spk.BltLocked(m_wSelect_Race_Slayer_Button_X, m_wSelect_Race_Slayer_Button_Y, SELECT_SLAYER_BUTTON);
 		break;
 	case RACE_VAMPIRE:
-		m_image_spk.BltLocked(m_wSelect_Race_Vampire_Button_X, m_wSelect_Race_Vampire_Button_Y,	SELECT_VAMPIRE_BUTTON);
+		m_image_spk.BltLocked(m_wSelect_Race_Vampire_Button_X, m_wSelect_Race_Vampire_Button_Y, SELECT_VAMPIRE_BUTTON);
 		break;
 	case RACE_OUSTERS:
-		m_image_spk.BltLocked(m_wSelect_Race_Ousters_Button_X, m_wSelect_Race_Ousters_Button_Y,	SELECT_OUSTERS_BUTTON);
+		m_image_spk.BltLocked(m_wSelect_Race_Ousters_Button_X, m_wSelect_Race_Ousters_Button_Y, SELECT_OUSTERS_BUTTON);
 		break;
 	}
 }
@@ -2604,10 +2604,10 @@ void	C_VS_UI_NEWCHAR::DrawSelect_Race()
 
 void	C_VS_UI_NEWCHAR::DrawSelect_Male_OR_Female()
 {
-	m_image_spk.BltLocked(m_wMale_OR_Female_Select_Box_X, m_wMale_OR_Female_Select_Box_Y, MALE_OR_FEMALE_SELECT_BOX);	//���� ���� �ڽ�
-	if(m_p_slot->Race == RACE_SLAYER || m_p_slot->Race == RACE_VAMPIRE)	//�ƿ콺����� ������ ����.
+	m_image_spk.BltLocked(m_wMale_OR_Female_Select_Box_X, m_wMale_OR_Female_Select_Box_Y, MALE_OR_FEMALE_SELECT_BOX);	//???? ???? ???
+	if (m_p_slot->Race == RACE_SLAYER || m_p_slot->Race == RACE_VAMPIRE)	//???????? ?????? ????.
 	{
-		if(m_p_slot->bl_female	== false)	//���� ���� ��ư
+		if (m_p_slot->bl_female == false)	//???? ???? ???
 		{
 			m_image_spk.BltLocked(m_wMale_Select_Radio_X, m_wMale_Select_Radio_Y, RADIO_SELECT_BUTTON);
 			m_image_spk.BltLocked(m_wMale_Select_Button_X, m_wMale_Select_Button_Y, MALE_BUTTON);
@@ -2618,26 +2618,26 @@ void	C_VS_UI_NEWCHAR::DrawSelect_Male_OR_Female()
 			m_image_spk.BltLocked(m_wFemale_Select_Button_X, m_wFemale_Select_Button_Y, FEMALE_BUTTON);
 		}
 
-		switch(m_btVirtureSelect_Male)		//���� ���� ��ư(���콺 �ѿ��� ���¿� ���� �ٸ�)
+		switch (m_btVirtureSelect_Male)		//???? ???? ???(???? ????? ????? ???? ???)
 		{
 		case VIRTURE_SELECT_MALE:
 			m_image_spk.BltLockedAlpha(m_wMale_Select_Radio_X, m_wMale_Select_Radio_Y, RADIO_SELECT_BUTTON, m_wMale_OR_Femail_Select_Radio_Alpha);
 
 			m_wMale_OR_Femail_Select_Radio_Alpha++;
-			if(m_wMale_OR_Femail_Select_Radio_Alpha >= 31)
-				m_wMale_OR_Femail_Select_Radio_Alpha	= 0;
+			if (m_wMale_OR_Femail_Select_Radio_Alpha >= 31)
+				m_wMale_OR_Femail_Select_Radio_Alpha = 0;
 			break;
 
 		case VIRTURE_SELECT_FEMALE:
 			m_image_spk.BltLockedAlpha(m_wFemale_Select_Radio_X, m_wFemale_Select_Radio_Y, RADIO_SELECT_BUTTON, m_wMale_OR_Femail_Select_Radio_Alpha);
 
 			m_wMale_OR_Femail_Select_Radio_Alpha++;
-			if(m_wMale_OR_Femail_Select_Radio_Alpha >= 31)
-				m_wMale_OR_Femail_Select_Radio_Alpha	= 0;
+			if (m_wMale_OR_Femail_Select_Radio_Alpha >= 31)
+				m_wMale_OR_Femail_Select_Radio_Alpha = 0;
 			break;
-				
+
 		default:
-			m_wMale_OR_Femail_Select_Radio_Alpha	= 0;
+			m_wMale_OR_Femail_Select_Radio_Alpha = 0;
 			break;
 		}
 	}
@@ -2648,13 +2648,13 @@ void	C_VS_UI_NEWCHAR::DrawSelect_Male_OR_Female()
 
 void	C_VS_UI_NEWCHAR::DrawSelect_Stet()
 {
-	switch(m_p_slot->Race)		// �ƿ콺����, �����̾� �ɷ�ġ ���� �̹���
+	switch (m_p_slot->Race)		// ???????, ??????? ???? ???? ?????
 	{
 	case RACE_SLAYER:
 		m_image_spk.BltLocked(m_wOpset_BOX_X, m_wOpset_BOX_Y, OPSET_BOX);
 		m_image_spk.BltLocked(m_wSave_Button_X, m_wSave_Button_Y, SAVE_BUTTON);
 		m_image_spk.BltLocked(m_wLoad_Button_X, m_wLoad_Button_Y, LOAD_BUTTON);
-		m_image_spk.BltLocked(m_wReset_Button_X, m_wReset_Button_Y, RESET_BUTTON);			
+		m_image_spk.BltLocked(m_wReset_Button_X, m_wReset_Button_Y, RESET_BUTTON);
 
 		m_image_spk.BltLockedAlpha(m_wSave_Button_X, m_wSave_Button_Y, SAVE_BUTTON_PUSHED, m_wSave_Button_Alpha);
 		m_image_spk.BltLockedAlpha(m_wLoad_Button_X, m_wLoad_Button_Y, LOAD_BUTTON_PUSHED, m_wLoad_Button_Alpha);
@@ -2663,7 +2663,7 @@ void	C_VS_UI_NEWCHAR::DrawSelect_Stet()
 
 	case RACE_OUSTERS:
 		m_image_spk.BltLocked(m_wStet_Box_X, m_wStet_Box_Y, STET_BOX);
-		for(int i = 0; i < STET_MAX; i++)
+		for (int i = 0; i < STET_MAX; i++)
 		{
 			m_image_spk.BltLocked(m_ptStet_Plus[i].x, m_ptStet_Plus[i].y, STET_PLUS_BUTTON);
 			m_image_spk.BltLockedAlpha(m_ptStet_Plus[i].x, m_ptStet_Plus[i].y, STET_PLUS_BUTTON_PUSHED, m_wStet_Plus_Button_Alpha[i]);
@@ -2691,19 +2691,19 @@ void	C_VS_UI_NEWCHAR::DrawSelect_Hair_Skin_Color()
 
 	color_unit_rect.WH(COLOR_UNIT_X, COLOR_UNIT_Y);
 
-		// hair
-	if(m_p_slot->Race != RACE_VAMPIRE)
+	// hair
+	if (m_p_slot->Race != RACE_VAMPIRE)
 	{
-		for (j=0; j < COLOR_LIST_Y; j++)
+		for (j = 0; j < COLOR_LIST_Y; j++)
 		{
-			for (i=0; i < COLOR_LIST_X; i++)
+			for (i = 0; i < COLOR_LIST_X; i++)
 			{
-				color_unit_rect.XY(COLOR_UNIT_X*i+m_wHairColor_Start_X, m_wHairColor_Start_Y+COLOR_UNIT_Y*j);
+				color_unit_rect.XY(COLOR_UNIT_X * i + m_wHairColor_Start_X, m_wHairColor_Start_Y + COLOR_UNIT_Y * j);
 				FillRect(&surfaceinfo, &color_unit_rect, GetColor(i, j, false));
 			}
-		}	
-				// show select mark
-		color_unit_rect.XY(m_hair_point.x*COLOR_UNIT_X+m_wHairColor_Start_X, m_wHairColor_Start_Y+m_hair_point.y*COLOR_UNIT_Y);
+		}
+		// show select mark
+		color_unit_rect.XY(m_hair_point.x * COLOR_UNIT_X + m_wHairColor_Start_X, m_wHairColor_Start_Y + m_hair_point.y * COLOR_UNIT_Y);
 		rectangle(&surfaceinfo, &color_unit_rect, ga_blink_color_table[g_blink_value]);
 	}
 	else
@@ -2711,24 +2711,24 @@ void	C_VS_UI_NEWCHAR::DrawSelect_Hair_Skin_Color()
 		m_p_slot->hair_color = 377;
 	}
 
-	if(m_p_slot->Race != RACE_OUSTERS)
+	if (m_p_slot->Race != RACE_OUSTERS)
 	{
-			// body
-		for (j=0; j < COLOR_LIST_Y; j++)
-			for (i=0; i < COLOR_LIST_X; i++)
+		// body
+		for (j = 0; j < COLOR_LIST_Y; j++)
+			for (i = 0; i < COLOR_LIST_X; i++)
 			{
-				color_unit_rect.XY(COLOR_UNIT_X*i+m_wSkinColor_Start_X, m_wSkinColor_Start_Y+COLOR_UNIT_Y*j);
+				color_unit_rect.XY(COLOR_UNIT_X * i + m_wSkinColor_Start_X, m_wSkinColor_Start_Y + COLOR_UNIT_Y * j);
 				FillRect(&surfaceinfo, &color_unit_rect, GetColor(i, j, true));
 			}
 
-			// show select mark
-		color_unit_rect.XY(m_skin_point.x*COLOR_UNIT_X+m_wSkinColor_Start_X, m_wSkinColor_Start_Y+m_skin_point.y*COLOR_UNIT_Y);
+		// show select mark
+		color_unit_rect.XY(m_skin_point.x * COLOR_UNIT_X + m_wSkinColor_Start_X, m_wSkinColor_Start_Y + m_skin_point.y * COLOR_UNIT_Y);
 		rectangle(&surfaceinfo, &color_unit_rect, ga_blink_color_table[g_blink_value]);
 	}
 	else
 	{
 		m_p_slot->skin_color = 377;
-	}	
+	}
 }
 
 
@@ -2754,7 +2754,7 @@ void C_VS_UI_NEWCHAR::DrawStetText()
 	g_Print(m_wTOHIT_Text_X, m_wTOHIT_Text_Y, str, &gpC_base->m_value_pi);
 	sprintf(str, "%d~%d", m_p_slot->DAM, m_p_slot->DAM2);
 	g_Print(m_wDAM_Text_X, m_wDAM_Text_Y, str, &gpC_base->m_value_pi);
-	if(m_p_slot->Race == RACE_OUSTERS)
+	if (m_p_slot->Race == RACE_OUSTERS)
 	{
 		sprintf(str, "%d", m_p_slot->bonus_point);
 		g_Print(m_wBonus_Text_X, m_wBonus_Text_Y, str, &gpC_base->m_value_pi);
@@ -2770,7 +2770,7 @@ void C_VS_UI_NEWCHAR::DrawStetText()
 //-----------------------------------------------------------------------------
 void C_VS_UI_NEWCHAR::Show()
 {
-	if(m_p_slot	== NULL)
+	if (m_p_slot == NULL)
 		return;
 
 	Init_TitleUIInterface_InfInfo();
@@ -2783,53 +2783,53 @@ void C_VS_UI_NEWCHAR::Show()
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
 
-	if(gpC_base->m_p_DDSurface_back->Lock())
+	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		if(bHighResolution)
+		if (bHighResolution)
 		{
-			if( g_pUserInformation->iResolution_x <= 1024 )
-				m_image_spk.BltLocked( (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_1024_768)) / 2, 
-				(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(BACK_GROUND_1024_768)) / 2, BACK_GROUND_1024_768);
+			if (g_pUserInformation->iResolution_x <= 1024)
+				m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_1024_768)) / 2,
+					(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(BACK_GROUND_1024_768)) / 2, BACK_GROUND_1024_768);
 			else
 			{
-				if( g_pUserInformation->iResolution_y < 960 )
-					m_image_spk.BltLocked( (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_1280_720)) / 2, 
-					(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(BACK_GROUND_1280_720)) / 2, BACK_GROUND_1280_720);
-				else if( g_pUserInformation->iResolution_y < 1024 )
-					m_image_spk.BltLocked( (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_1280_960)) / 2, 
-					(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(BACK_GROUND_1280_960)) / 2, BACK_GROUND_1280_960);
+				if (g_pUserInformation->iResolution_y < 960)
+					m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_1280_720)) / 2,
+						(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(BACK_GROUND_1280_720)) / 2, BACK_GROUND_1280_720);
+				else if (g_pUserInformation->iResolution_y < 1024)
+					m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_1280_960)) / 2,
+						(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(BACK_GROUND_1280_960)) / 2, BACK_GROUND_1280_960);
 				else
-					m_image_spk.BltLocked( (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_1280_1024)) / 2, 
-					(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(BACK_GROUND_1280_1024)) / 2, BACK_GROUND_1280_1024);
+					m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_1280_1024)) / 2,
+						(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(BACK_GROUND_1280_1024)) / 2, BACK_GROUND_1280_1024);
 			}
 		}
 		else
-			m_image_spk.BltLocked( (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_800_600)) / 2, 
+			m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_800_600)) / 2,
 				(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(BACK_GROUND_800_600)) / 2, BACK_GROUND_800_600);
-		
+
 		m_image_spk.BltLocked(m_wNewCharBox_X, m_wNewCharBox_Y, NEW_CHAR_BOX);
 
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
-	
+
 	ShowCharacter(m_wCharView_X, m_wCharView_Y, m_p_slot, g_char_index, false);
 
-	if(gpC_base->m_p_DDSurface_back->Lock())
+	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
 		DrawCharFaceSelect();
 		DrawSelect_Race();
 		DrawSelect_Male_OR_Female();
-		
+
 		DrawSelect_Stet();
 
 #if __CONTENTS(__USER_GRADE)
 #if __CONTENTS(!__IMI_INTERFACE)
-		if(!g_pUserInformation->GoreLevel)
+		if (!g_pUserInformation->GoreLevel)
 			m_pC_use_grade->BltLocked(m_wChild_X, m_wChild_Y, CHILD);
 		else
 #endif
 			m_pC_use_grade->BltLocked(m_wAdult_X, m_wAdult_Y, ADULT);
-		
+
 		m_pC_use_grade->BltLocked(m_wViolence_X, m_wViolence_Y, VIOLENCE);
 		m_pC_use_grade->BltLocked(m_wFear_X, m_wFear_Y, FEAR);
 #endif // __USER_GRADE	
@@ -2852,63 +2852,63 @@ void C_VS_UI_NEWCHAR::Show()
 
 	g_FL2_GetDC();
 	DrawStetText();
-	
+
 	int iLine = 0;
-	for(int i = 0; i < LINE_MAX; i++)
+	for (int i = 0; i < LINE_MAX; i++)
 	{
-//		g_PrintColorStr(m_ptText_Line[i].x, 	m_ptText_Line[i].y,
-//						m_arrTextLine[i], gpC_base->m_title_menu_pi, RGB_WHITE);
+		//		g_PrintColorStr(m_ptText_Line[i].x, 	m_ptText_Line[i].y,
+		//						m_arrTextLine[i], gpC_base->m_title_menu_pi, RGB_WHITE);
 #if __CONTENTS(__RACE_OUSTERS)
-		if(i == 1)
+		if (i == 1)
 			continue;
-		g_PrintColorStr(m_ptText_Line[iLine].x,		m_ptText_Line[iLine].y,
-						(*g_pGameStringTable)[UI_TITLE_UI_RENEWAL_CREATECHAR_TEXT1 + i].GetString(), gpC_base->m_title_menu_pi, RGB_WHITE);
-		if(iLine < LINE_MAX - 1)
+		g_PrintColorStr(m_ptText_Line[iLine].x, m_ptText_Line[iLine].y,
+			(*g_pGameStringTable)[UI_TITLE_UI_RENEWAL_CREATECHAR_TEXT1 + i].GetString(), gpC_base->m_title_menu_pi, RGB_WHITE);
+		if (iLine < LINE_MAX - 1)
 			iLine++;
 #else
-		if(i == 0 || i == 4)
+		if (i == 0 || i == 4)
 			continue;
-		g_PrintColorStr(m_ptText_Line[iLine].x, 	m_ptText_Line[iLine].y,
-						(*g_pGameStringTable)[UI_TITLE_UI_RENEWAL_CREATECHAR_TEXT1 + i].GetString(), gpC_base->m_title_menu_pi, RGB_WHITE);
-		if(iLine < LINE_MAX - 2)
+		g_PrintColorStr(m_ptText_Line[iLine].x, m_ptText_Line[iLine].y,
+			(*g_pGameStringTable)[UI_TITLE_UI_RENEWAL_CREATECHAR_TEXT1 + i].GetString(), gpC_base->m_title_menu_pi, RGB_WHITE);
+		if (iLine < LINE_MAX - 2)
 			iLine++;
 #endif
 	}
 
-	char szBuffer[256]	= {NULL,};
+	char szBuffer[256] = { NULL, };
 
 	if (g_LeftPremiumDays == 0xFFFE)
 	{
-		sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_NOT_PREMIUM_USER].GetString() );
+		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_NOT_PREMIUM_USER].GetString());
 	}
-	else if (g_LeftPremiumDays == 0xFFFC && g_PayType == 4 )
+	else if (g_LeftPremiumDays == 0xFFFC && g_PayType == 4)
 	{
-		sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_DEFERRED_PAYMENT_NOTICE].GetString() );
+		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_DEFERRED_PAYMENT_NOTICE].GetString());
 	}
-	else if ( g_LeftPremiumDays > 0 && g_PayType == 1)
+	else if (g_LeftPremiumDays > 0 && g_PayType == 1)
 	{
-		if(g_bFamily)
-			sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_FAMILY_DAYS].GetString(), g_LeftPremiumDays );
+		if (g_bFamily)
+			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_FAMILY_DAYS].GetString(), g_LeftPremiumDays);
 		else
-			sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_DAYS].GetString(), g_LeftPremiumDays );
+			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_DAYS].GetString(), g_LeftPremiumDays);
 	}
 	else if (g_LeftPremiumDays == 0 && g_PayType == 1)
 	{
-		if(g_bFamily)
-			sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_EXPIRE_FAMILY_TODAY].GetString() );	
+		if (g_bFamily)
+			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_EXPIRE_FAMILY_TODAY].GetString());
 		else
-			sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_EXPIRE_PREMIUM_SERVICE_TODAY].GetString() );	
+			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_EXPIRE_PREMIUM_SERVICE_TODAY].GetString());
 	}
-	else if ( g_LeftPremiumDays > 0 && g_PayType == 3)
+	else if (g_LeftPremiumDays > 0 && g_PayType == 3)
 	{
-		sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_PAYZONE_DAYS].GetString(), g_LeftPremiumDays );
+		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_PAYZONE_DAYS].GetString(), g_LeftPremiumDays);
 	}
 	else if (g_LeftPremiumDays == 0 && g_PayType == 3)
 	{
-		sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_PAYZONE_DAYS].GetString() );	
+		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_PAYZONE_DAYS].GetString());
 	}
 
-	int szBufferLen = g_GetStringWidth(szBuffer, gpC_base->m_desc_menu_pi.hfont)/2;
+	int szBufferLen = g_GetStringWidth(szBuffer, gpC_base->m_desc_menu_pi.hfont) / 2;
 
 	Window::ShowWidget();
 	g_FL2_ReleaseDC();
@@ -2921,25 +2921,25 @@ void C_VS_UI_NEWCHAR::Show()
 //-----------------------------------------------------------------------------
 // NewCharacterCreateOk
 //
-// �̹� slot�� �����Ǿ� �����Ƿ�, ���������� bl_set = true�� ���ش�.
+// ??? slot?? ??????? ???????, ?????????? bl_set = true?? ?????.
 //-----------------------------------------------------------------------------
 void C_VS_UI_CHAR_MANAGER::NewCharacterCreateOk()
 {
 	assert(m_slot[m_stSelect_Slot].bl_set == false);
 
 	m_slot[m_stSelect_Slot].bl_set = true;
-//	m_slot[m_select_heart_temp].bl_vampire = false;
+	//	m_slot[m_select_heart_temp].bl_vampire = false;
 
-	// init etc value
-//	m_slot[m_select_heart_temp].CC = 0;
+		// init etc value
+	//	m_slot[m_select_heart_temp].CC = 0;
 	m_slot[m_stSelect_Slot].FAME = 1234567890;
-//	m_slot[m_select_heart_temp].NOTERITY = 0;
+	//	m_slot[m_select_heart_temp].NOTERITY = 0;
 	m_slot[m_stSelect_Slot].level = 1;
 
 	SelectSlot(m_stSelect_Slot);
 
 	Start(true);
-//	m_pC_newchar->Finish();
+	//	m_pC_newchar->Finish();
 
 }
 
@@ -2958,7 +2958,7 @@ void C_VS_UI_CHAR_MANAGER::NewCharacterCreateFailed(int error)
 //
 // 
 //-----------------------------------------------------------------------------
-void C_VS_UI_CHAR_MANAGER::SetCharacter(int slot, S_SLOT &S_slot)
+void C_VS_UI_CHAR_MANAGER::SetCharacter(int slot, S_SLOT& S_slot)
 {
 	if (slot >= 0 && slot < SLOT)
 	{
@@ -2967,20 +2967,20 @@ void C_VS_UI_CHAR_MANAGER::SetCharacter(int slot, S_SLOT &S_slot)
 
 		m_slot[slot] = S_slot;
 		m_slot[slot].bl_set = true;
-	
+
 		m_slot[slot].sz_name = S_slot.sz_name;
 
 		m_pC_button_group->Delete(m_pC_button_create_char[slot]);
-		
+
 
 		// by sigi
-		if (S_slot.sz_guild_name.c_str()!=NULL)
+		if (S_slot.sz_guild_name.c_str() != NULL)
 		{
 			m_slot[slot].sz_guild_name = S_slot.sz_guild_name;
 		}
 
-		if(m_stSelect_Slot == NOT_SELECTED)
-			for (int i=0; i < SLOT; i++)
+		if (m_stSelect_Slot == NOT_SELECTED)
+			for (int i = 0; i < SLOT; i++)
 				if (SelectSlot(i))
 					break;
 
@@ -2990,7 +2990,7 @@ void C_VS_UI_CHAR_MANAGER::SetCharacter(int slot, S_SLOT &S_slot)
 
 void	C_VS_UI_CHAR_MANAGER::PopupNetmarbleAgreementMessage()
 {
-	if( m_pC_NetmarbleAgreement != NULL)
+	if (m_pC_NetmarbleAgreement != NULL)
 	{
 		m_pC_NetmarbleAgreement->Start();
 	}
@@ -3021,22 +3021,22 @@ void C_VS_UI_CHAR_MANAGER::DeleteCharacter(int slot)
 	m_slot[slot].bl_set = false;
 	m_slot[slot].sz_name.clear();
 	m_slot[slot].sz_name.resize(0);
-//	DeleteNewArray(m_slot[slot].sz_name);
+	//	DeleteNewArray(m_slot[slot].sz_name);
 
 	DeleteNew(m_pC_char_delete);
 
-	//20070628ĳ���͸� ����� ����� ��ư�� �����.
+	//20070628?????? ????? ????? ????? ?????.
 	m_pC_button_group->Delete(m_pC_button_create_char[slot]);
 	DeleteNew(m_pC_button_create_char[slot]);
 
 	// search new character for selection
 	m_stSelect_Slot = NOT_SELECTED;
-	for (int i=0; i < SLOT; i++)
+	for (int i = 0; i < SLOT; i++)
 		if (SelectSlot(i))
 			break;
 
 	g_msg_char_delete_completed->Start();
-//	g_msg_char_delete_completed->AttrKeyboardControl(true);
+	//	g_msg_char_delete_completed->AttrKeyboardControl(true);
 }
 
 //-----------------------------------------------------------------------------
@@ -3062,19 +3062,19 @@ void C_VS_UI_CHAR_MANAGER::Start(bool back)
 	g_pTopView->DeleteTitleEffect();
 	DeleteCharInfoString();
 
-	if(!back)
+	if (!back)
 	{
-		m_slot[SLOT_LEFT].bl_set	= false;
+		m_slot[SLOT_LEFT].bl_set = false;
 		m_slot[SLOT_CENTER].bl_set = false;
-		m_slot[SLOT_RIGHT].bl_set	= false;
-		
-		m_stSelect_Slot	= NOT_SELECTED;
+		m_slot[SLOT_RIGHT].bl_set = false;
+
+		m_stSelect_Slot = NOT_SELECTED;
 	}
 	gpC_window_manager->AppearWindow(this);
 	m_pC_button_group->Init();
 
 	gbl_wood_skin = false;
-//	gbl_vampire_interface = false;
+	//	gbl_vampire_interface = false;
 
 	g_eRaceInterface = RACE_SLAYER;
 
@@ -3085,33 +3085,33 @@ void C_VS_UI_CHAR_MANAGER::Start(bool back)
 	LoadDesc("character.txt", 30, 14, false);
 
 	POINT	ptEffect;
-	ptEffect.x	= 	m_wEffect_Fire_Left1_X;
-	ptEffect.y	=	m_wEffect_Fire_Left1_Y;
+	ptEffect.x = m_wEffect_Fire_Left1_X;
+	ptEffect.y = m_wEffect_Fire_Left1_Y;
 	g_pTopView->AddTitleEffect(&ptEffect, EFFECTSPRITETYPE_CHAR_MANAGER_LEFT_FIRE_1, 2, EFFECT_INDEX_FIRE_LEFT1);
 
-	ptEffect.x	= 	m_wEffect_Fire_Left2_X;
-	ptEffect.y	=	m_wEffect_Fire_Left2_Y;
+	ptEffect.x = m_wEffect_Fire_Left2_X;
+	ptEffect.y = m_wEffect_Fire_Left2_Y;
 	g_pTopView->AddTitleEffect(&ptEffect, EFFECTSPRITETYPE_CHAR_MANAGER_LEFT_FIRE_2, 2, EFFECT_INDEX_FIRE_LEFT2);
 
-	ptEffect.x	= 	m_wEffect_Fire_Right1_X;
-	ptEffect.y	=	m_wEffect_Fire_Right1_Y;
+	ptEffect.x = m_wEffect_Fire_Right1_X;
+	ptEffect.y = m_wEffect_Fire_Right1_Y;
 	g_pTopView->AddTitleEffect(&ptEffect, EFFECTSPRITETYPE_CHAR_MANAGER_RIGHT_FIRE_1, 2, EFFECT_INDEX_FIRE_RIGHT1);
 
-	ptEffect.x	= 	m_wEffect_Fire_Right2_X;
-	ptEffect.y	=	m_wEffect_Fire_Right2_Y;
+	ptEffect.x = m_wEffect_Fire_Right2_X;
+	ptEffect.y = m_wEffect_Fire_Right2_Y;
 	g_pTopView->AddTitleEffect(&ptEffect, EFFECTSPRITETYPE_CHAR_MANAGER_RIGHT_FIRE_2, 2, EFFECT_INDEX_FIRE_RIGHT2);
 
-	ptEffect.x	= 	m_wEffect_Fire_Center_X;
-	ptEffect.y	=	m_wEffect_Fire_Center_Y;
+	ptEffect.x = m_wEffect_Fire_Center_X;
+	ptEffect.y = m_wEffect_Fire_Center_Y;
 	g_pTopView->AddTitleEffect(&ptEffect, EFFECTSPRITETYPE_CHAR_MANAGER_CENTER_FIRE, 2, EFFECT_INDEX_FIRE_CENTER);
 
-	for(int i = 0; i < SLOT; i++)
+	for (int i = 0; i < SLOT; i++)
 	{
-		g_pTopView->AddTitleEffect(&m_ptEffect_Char_Attach_UP[i], EFFECTSPRITETYPE_CHAR_MANAGER_CHAR_ATTACH_UP,			2, EFFECT_INDEX_CHAR_ATTACH_UP + (SLOT*i));
-		g_pTopView->AddTitleEffect(&m_ptEffect_Char_Attach_DOWN[i], EFFECTSPRITETYPE_CHAR_MANAGER_CHAR_ATTACH_DOWN ,	2, EFFECT_INDEX_CHAR_ATTACH_DOWN + (SLOT*i));
-		g_pTopView->AddTitleEffect(&m_ptEffect_Char_Select[i], EFFECTSPRITETYPE_CHAR_MANAGER_CHAR_SELECT,				2, EFFECT_INDEX_CHAR_SELECT + (SLOT*i));
+		g_pTopView->AddTitleEffect(&m_ptEffect_Char_Attach_UP[i], EFFECTSPRITETYPE_CHAR_MANAGER_CHAR_ATTACH_UP, 2, EFFECT_INDEX_CHAR_ATTACH_UP + (SLOT * i));
+		g_pTopView->AddTitleEffect(&m_ptEffect_Char_Attach_DOWN[i], EFFECTSPRITETYPE_CHAR_MANAGER_CHAR_ATTACH_DOWN, 2, EFFECT_INDEX_CHAR_ATTACH_DOWN + (SLOT * i));
+		g_pTopView->AddTitleEffect(&m_ptEffect_Char_Select[i], EFFECTSPRITETYPE_CHAR_MANAGER_CHAR_SELECT, 2, EFFECT_INDEX_CHAR_SELECT + (SLOT * i));
 	}
-	
+
 	EMPTY_MOVE;
 }
 
@@ -3140,10 +3140,10 @@ C_VS_UI_CHAR_MANAGER::C_VS_UI_CHAR_MANAGER()
 	Init_TitleUIInterface_InfInfo();
 
 	m_pC_newchar = new C_VS_UI_NEWCHAR;
-//	m_pC_char_info = NULL;
+	//	m_pC_char_info = NULL;
 	m_pC_char_delete = NULL;
 	m_pC_biling = NULL;
-	
+
 	m_pC_button_create_char[SLOT_LEFT] = NULL;
 	m_pC_button_create_char[SLOT_CENTER] = NULL;
 	m_pC_button_create_char[SLOT_RIGHT] = NULL;
@@ -3155,37 +3155,39 @@ C_VS_UI_CHAR_MANAGER::C_VS_UI_CHAR_MANAGER()
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
 
-// 	if(bHighResolution)
-// 	{
-// 		m_common_spk.Open(SPK_COMMON);
-// 		m_image_spk.Open(SPK_CHAR_MANAGER);
-// 	}
-// 	else
-// 	{
-// 		m_common_spk.Open(SPK_COMMON);
-// 		m_image_spk.Open(SPK_CHAR_MANAGER800);
-// 	}
+	// 	if(bHighResolution)
+	// 	{
+	// 		m_common_spk.Open(SPK_COMMON);
+	// 		m_image_spk.Open(SPK_CHAR_MANAGER);
+	// 	}
+	// 	else
+	// 	{
+	// 		m_common_spk.Open(SPK_COMMON);
+	// 		m_image_spk.Open(SPK_CHAR_MANAGER800);
+	// 	}
 
- 		m_image_spk.Open(SPK_CHAR_MANAGER);
+	m_image_spk.Open(SPK_CHAR_MANAGER);
 
 
-	// �ݸ����� �ƴѰ��
-	if(g_pUserInformation!=NULL)
+	// ??????? ?????
+	if (g_pUserInformation != NULL)
 	{
-		if(!g_pUserInformation->bChinese)
+		if (!g_pUserInformation->bChinese)
 		{
 #if __CONTENTS(__USER_GRADE)
-			 m_pC_use_grade = new C_SPRITE_PACK(SPK_USE_GRADE);
+			m_pC_use_grade = new C_SPRITE_PACK(SPK_USE_GRADE);
 #endif //__USER_GRADE
-		} else 
+		}
+		else
 			m_pC_use_grade = NULL;
 
-		if( true )//g_pUserInformation->IsNetmarble )
+		if (true)//g_pUserInformation->IsNetmarble )
 		{
 			m_pC_NetmarbleAgreement = new C_VS_UI_NETMARBLE_AGREEMENT;
 		}
 		else m_pC_NetmarbleAgreement = NULL;
-	} else
+	}
+	else
 	{
 		m_pC_NetmarbleAgreement = NULL;
 		m_pC_use_grade = NULL;
@@ -3194,39 +3196,39 @@ C_VS_UI_CHAR_MANAGER::C_VS_UI_CHAR_MANAGER()
 
 	m_pC_button_group = new ButtonGroup(this);
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wPrev_Button_X, m_wPrev_Button_Y, 
-													m_image_spk.GetWidth(PREV_SCREEN_BUTTON), m_image_spk.GetHeight(PREV_SCREEN_BUTTON), 
-													BACK_ID, this, PREV_SCREEN_BUTTON));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wPrev_Button_X, m_wPrev_Button_Y,
+		m_image_spk.GetWidth(PREV_SCREEN_BUTTON), m_image_spk.GetHeight(PREV_SCREEN_BUTTON),
+		BACK_ID, this, PREV_SCREEN_BUTTON));
 
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wGameStart_Button_X, m_wGameStart_Button_Y,
-													m_image_spk.GetWidth(GAME_START), m_image_spk.GetHeight(GAME_START), 
-													NEXT_ID, this, GAME_START));
+		m_image_spk.GetWidth(GAME_START), m_image_spk.GetHeight(GAME_START),
+		NEXT_ID, this, GAME_START));
 
 
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wCharCreate_Button_X, m_wCharCreate_Button_Y, 
-													m_image_spk.GetWidth(CREATE_BUTTON), m_image_spk.GetHeight(CREATE_BUTTON), 
-													CREATE_ID, this, CREATE_BUTTON));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wCharCreate_Button_X, m_wCharCreate_Button_Y,
+		m_image_spk.GetWidth(CREATE_BUTTON), m_image_spk.GetHeight(CREATE_BUTTON),
+		CREATE_ID, this, CREATE_BUTTON));
 
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wCharDelete_Button_X, m_wCharDelete_Button_Y,
-													m_image_spk.GetWidth(DELETE_BUTTON), m_image_spk.GetHeight(DELETE_BUTTON), 
-													DELETE_ID, this, DELETE_BUTTON));
+		m_image_spk.GetWidth(DELETE_BUTTON), m_image_spk.GetHeight(DELETE_BUTTON),
+		DELETE_ID, this, DELETE_BUTTON));
 
 
 
 
-	m_w_CharHeight	= 60;
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_ptArrCharSelect_Button[SLOT_LEFT].x, m_ptArrCharSelect_Button[SLOT_LEFT].y - m_w_CharHeight, 
-													m_image_spk.GetWidth(CHAR_SELECT_LEFT), m_image_spk.GetHeight(CHAR_SELECT_LEFT) + m_w_CharHeight, 
-													CHAR_SELECT_LEFT_ID, this, CHAR_SELECT_LEFT));
+	m_w_CharHeight = 60;
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_ptArrCharSelect_Button[SLOT_LEFT].x, m_ptArrCharSelect_Button[SLOT_LEFT].y - m_w_CharHeight,
+		m_image_spk.GetWidth(CHAR_SELECT_LEFT), m_image_spk.GetHeight(CHAR_SELECT_LEFT) + m_w_CharHeight,
+		CHAR_SELECT_LEFT_ID, this, CHAR_SELECT_LEFT));
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_ptArrCharSelect_Button[SLOT_CENTER].x, m_ptArrCharSelect_Button[SLOT_CENTER].y - m_w_CharHeight, 
-													m_image_spk.GetWidth(CHAR_SELECT_CENTER), m_image_spk.GetHeight(CHAR_SELECT_CENTER) + m_w_CharHeight, 
-													CHAR_SELECT_CENTER_ID, this, CHAR_SELECT_CENTER));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_ptArrCharSelect_Button[SLOT_CENTER].x, m_ptArrCharSelect_Button[SLOT_CENTER].y - m_w_CharHeight,
+		m_image_spk.GetWidth(CHAR_SELECT_CENTER), m_image_spk.GetHeight(CHAR_SELECT_CENTER) + m_w_CharHeight,
+		CHAR_SELECT_CENTER_ID, this, CHAR_SELECT_CENTER));
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_ptArrCharSelect_Button[SLOT_RIGHT].x, m_ptArrCharSelect_Button[SLOT_RIGHT].y - m_w_CharHeight, 
-													m_image_spk.GetWidth(CHAR_SELECT_RIGHT), m_image_spk.GetHeight(CHAR_SELECT_RIGHT) + m_w_CharHeight, 
-													CHAR_SELECT_RIGHT_ID, this, CHAR_SELECT_RIGHT));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_ptArrCharSelect_Button[SLOT_RIGHT].x, m_ptArrCharSelect_Button[SLOT_RIGHT].y - m_w_CharHeight,
+		m_image_spk.GetWidth(CHAR_SELECT_RIGHT), m_image_spk.GetHeight(CHAR_SELECT_RIGHT) + m_w_CharHeight,
+		CHAR_SELECT_RIGHT_ID, this, CHAR_SELECT_RIGHT));
 
 	g_char_update_tid = gC_timer2.Add(ANI_MILLISEC, _Timer_CharUpdate);
 	gC_timer2.Continue(g_char_update_tid);
@@ -3238,7 +3240,7 @@ C_VS_UI_CHAR_MANAGER::C_VS_UI_CHAR_MANAGER()
 
 	SetDesc(0, 0, RGB(255, 255, 255), gpC_base->m_chatting_pi);
 	m_desc_y_distance = 16;
-	m_wSlayerFindHighDomainLevel	= 0;
+	m_wSlayerFindHighDomainLevel = 0;
 
 	m_focused_help = HELP_DEFAULT;
 }
@@ -3246,185 +3248,185 @@ C_VS_UI_CHAR_MANAGER::C_VS_UI_CHAR_MANAGER()
 
 void	C_VS_UI_CHAR_MANAGER::Init_TitleUIInterface_InfInfo()
 {
-	char arrstrAppName[255]		= {NULL,};
-	char arrstrFileName[255]	= {NULL,};
+	char arrstrAppName[255] = { NULL, };
+	char arrstrFileName[255] = { NULL, };
 
-	GetCurrentDirectory(_MAX_PATH, arrstrFileName);	//���� ���� ���� ������ ��θ� ��´�.
+	GetCurrentDirectory(_MAX_PATH, arrstrFileName);	//???? ???? ???? ?????? ???? ????.
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
-	// �ػ� �ø� �� UI�� �߾ӿ� ������ �ϱ� ���� ��ǥ ������ ����.
+	// ??? ??? ?? UI?? ???? ?????? ??? ???? ??? ?????? ????.
 	int ConvX = 0;	int ConvY = 0;
 
-	if(bHighResolution)
+	if (bHighResolution)
 	{
-		if(g_pUserInformation->iResolution_x <= 1024)
-			strcpy(arrstrAppName,"CHAR_MANAGER_1024_768");
+		if (g_pUserInformation->iResolution_x <= 1024)
+			strcpy(arrstrAppName, "CHAR_MANAGER_1024_768");
 		else
-		{	
+		{
 			// 1280*720
-			if(g_pUserInformation->iResolution_y < 960)
-				strcpy(arrstrAppName,"CHAR_MANAGER_1280_720");
+			if (g_pUserInformation->iResolution_y < 960)
+				strcpy(arrstrAppName, "CHAR_MANAGER_1280_720");
 			// 1280*960
-			else if(g_pUserInformation->iResolution_y < 1024)
-				strcpy(arrstrAppName,"CHAR_MANAGER_1280_960");
+			else if (g_pUserInformation->iResolution_y < 1024)
+				strcpy(arrstrAppName, "CHAR_MANAGER_1280_960");
 			// 1280*1024
 			else
-				strcpy(arrstrAppName,"CHAR_MANAGER_1280_1024");
+				strcpy(arrstrAppName, "CHAR_MANAGER_1280_1024");
 		}
 	}
 	else
-		strcpy(arrstrAppName,"CHAR_MANAGER_800_600");
+		strcpy(arrstrAppName, "CHAR_MANAGER_800_600");
 
-	if(g_pUserInformation->IsNetmarbleLogin)
+	if (g_pUserInformation->IsNetmarbleLogin)
 	{
-		if(bHighResolution)
-			strcpy(arrstrAppName,"NET_CHAR_MANAGER_1024_768");
+		if (bHighResolution)
+			strcpy(arrstrAppName, "NET_CHAR_MANAGER_1024_768");
 		else
-			strcpy(arrstrAppName,"NET_CHAR_MANAGER_800_600");
+			strcpy(arrstrAppName, "NET_CHAR_MANAGER_800_600");
 	}
 
 	strcat(arrstrFileName, FILE_INFO_TITLE_UI);
 
-	m_wChar_Info_Angle_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_INFO_ANGLE_X", 0, arrstrFileName);
-	m_wChar_Info_Angle_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_INFO_ANGLE_Y", 0, arrstrFileName);
+	m_wChar_Info_Angle_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_INFO_ANGLE_X", 0, arrstrFileName);
+	m_wChar_Info_Angle_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_INFO_ANGLE_Y", 0, arrstrFileName);
 
-	m_wSlayerChar_Info_Angle_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "SLAYER_CHAR_INFO_ANGLE_X", 0, arrstrFileName);
-	m_wSlayerChar_Info_Angle_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "SLAYER_CHAR_INFO_ANGLE_Y", 0, arrstrFileName);
+	m_wSlayerChar_Info_Angle_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SLAYER_CHAR_INFO_ANGLE_X", 0, arrstrFileName);
+	m_wSlayerChar_Info_Angle_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SLAYER_CHAR_INFO_ANGLE_Y", 0, arrstrFileName);
 
-	m_wChar_Info_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_INFO_X", 0, arrstrFileName) + m_wChar_Info_Angle_X;
-	m_wChar_Info_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_INFO_Y", 0, arrstrFileName) + m_wChar_Info_Angle_Y;
+	m_wChar_Info_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_INFO_X", 0, arrstrFileName) + m_wChar_Info_Angle_X;
+	m_wChar_Info_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_INFO_Y", 0, arrstrFileName) + m_wChar_Info_Angle_Y;
 
-	m_wSlayerChar_Info_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "SLAYER_CHAR_INFO_X", 0, arrstrFileName) + m_wSlayerChar_Info_Angle_X;
-	m_wSlayerChar_Info_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "SLAYER_CHAR_INFO_Y", 0, arrstrFileName) + m_wSlayerChar_Info_Angle_Y;
+	m_wSlayerChar_Info_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SLAYER_CHAR_INFO_X", 0, arrstrFileName) + m_wSlayerChar_Info_Angle_X;
+	m_wSlayerChar_Info_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SLAYER_CHAR_INFO_Y", 0, arrstrFileName) + m_wSlayerChar_Info_Angle_Y;
 
-	m_ptArrChar_Pos[SLOT_LEFT].x			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_LEFT_X", 0, arrstrFileName);
-	m_ptArrChar_Pos[SLOT_LEFT].y			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_LEFT_Y", 0, arrstrFileName);
+	m_ptArrChar_Pos[SLOT_LEFT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_LEFT_X", 0, arrstrFileName);
+	m_ptArrChar_Pos[SLOT_LEFT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_LEFT_Y", 0, arrstrFileName);
 
-	m_ptArrChar_Pos[SLOT_CENTER].x			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_CENTER_X", 0, arrstrFileName);
-	m_ptArrChar_Pos[SLOT_CENTER].y			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_CENTER_Y", 0, arrstrFileName);
+	m_ptArrChar_Pos[SLOT_CENTER].x = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_CENTER_X", 0, arrstrFileName);
+	m_ptArrChar_Pos[SLOT_CENTER].y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_CENTER_Y", 0, arrstrFileName);
 
-	m_ptArrChar_Pos[SLOT_RIGHT].x			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_RIGHT_X", 0, arrstrFileName);
-	m_ptArrChar_Pos[SLOT_RIGHT].y			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_RIGHT_Y", 0, arrstrFileName);
+	m_ptArrChar_Pos[SLOT_RIGHT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_RIGHT_X", 0, arrstrFileName);
+	m_ptArrChar_Pos[SLOT_RIGHT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_RIGHT_Y", 0, arrstrFileName);
 
-	m_ptArrCharSelect_Button[SLOT_LEFT].x	= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_LEFT_BUTTON_X", 0, arrstrFileName);
-	m_ptArrCharSelect_Button[SLOT_LEFT].y	= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_LEFT_BUTTON_Y", 0, arrstrFileName);
+	m_ptArrCharSelect_Button[SLOT_LEFT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_LEFT_BUTTON_X", 0, arrstrFileName);
+	m_ptArrCharSelect_Button[SLOT_LEFT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_LEFT_BUTTON_Y", 0, arrstrFileName);
 
-	m_ptArrCharSelect_Button[SLOT_CENTER].x	= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_CENTER_BUTTON_X", 0, arrstrFileName);
-	m_ptArrCharSelect_Button[SLOT_CENTER].y	= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_CENTER_BUTTON_Y", 0, arrstrFileName);
+	m_ptArrCharSelect_Button[SLOT_CENTER].x = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_CENTER_BUTTON_X", 0, arrstrFileName);
+	m_ptArrCharSelect_Button[SLOT_CENTER].y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_CENTER_BUTTON_Y", 0, arrstrFileName);
 
-	m_ptArrCharSelect_Button[SLOT_RIGHT].x	= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_RIGHT_BUTTON_X", 0, arrstrFileName);
-	m_ptArrCharSelect_Button[SLOT_RIGHT].y	= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_RIGHT_BUTTON_Y", 0, arrstrFileName);
+	m_ptArrCharSelect_Button[SLOT_RIGHT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_RIGHT_BUTTON_X", 0, arrstrFileName);
+	m_ptArrCharSelect_Button[SLOT_RIGHT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_RIGHT_BUTTON_Y", 0, arrstrFileName);
 
-	m_wCharSelect_Button_Size_Width			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_BUTTON_WIDHT", 0, arrstrFileName);
-	m_wCharSelect_Button_Size_Height		= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_BUTTON_HEIGHT", 0, arrstrFileName);
+	m_wCharSelect_Button_Size_Width = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_BUTTON_WIDHT", 0, arrstrFileName);
+	m_wCharSelect_Button_Size_Height = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_SELECT_BUTTON_HEIGHT", 0, arrstrFileName);
 
-	m_ptChar_Name_Bar[SLOT_LEFT].x			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_BAR_LEFT_X", 0, arrstrFileName);
-	m_ptChar_Name_Bar[SLOT_LEFT].y			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_BAR_LEFT_Y", 0, arrstrFileName);
+	m_ptChar_Name_Bar[SLOT_LEFT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_BAR_LEFT_X", 0, arrstrFileName);
+	m_ptChar_Name_Bar[SLOT_LEFT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_BAR_LEFT_Y", 0, arrstrFileName);
 
-	m_ptChar_Name_Bar[SLOT_CENTER].x		= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_BAR_CENTER_X", 0, arrstrFileName);
-	m_ptChar_Name_Bar[SLOT_CENTER].y		= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_BAR_CENTER_Y", 0, arrstrFileName);
+	m_ptChar_Name_Bar[SLOT_CENTER].x = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_BAR_CENTER_X", 0, arrstrFileName);
+	m_ptChar_Name_Bar[SLOT_CENTER].y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_BAR_CENTER_Y", 0, arrstrFileName);
 
-	m_ptChar_Name_Bar[SLOT_RIGHT].x			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_BAR_RIGHT_X", 0, arrstrFileName);
-	m_ptChar_Name_Bar[SLOT_RIGHT].y			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_BAR_RIGHT_Y", 0, arrstrFileName);
+	m_ptChar_Name_Bar[SLOT_RIGHT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_BAR_RIGHT_X", 0, arrstrFileName);
+	m_ptChar_Name_Bar[SLOT_RIGHT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_BAR_RIGHT_Y", 0, arrstrFileName);
 
-	m_ptChar_Name[SLOT_LEFT].x				= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_LEFT_X", 0, arrstrFileName)	+ m_ptChar_Name_Bar[SLOT_LEFT].x;
-	m_ptChar_Name[SLOT_LEFT].y				= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_LEFT_Y", 0, arrstrFileName)	+ m_ptChar_Name_Bar[SLOT_LEFT].y;
-	
-	m_ptChar_Name[SLOT_CENTER].x			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_CENTER_X", 0, arrstrFileName)+ m_ptChar_Name_Bar[SLOT_CENTER].x;
-	m_ptChar_Name[SLOT_CENTER].y			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_CENTER_Y", 0, arrstrFileName)+ m_ptChar_Name_Bar[SLOT_CENTER].y;
+	m_ptChar_Name[SLOT_LEFT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_LEFT_X", 0, arrstrFileName) + m_ptChar_Name_Bar[SLOT_LEFT].x;
+	m_ptChar_Name[SLOT_LEFT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_LEFT_Y", 0, arrstrFileName) + m_ptChar_Name_Bar[SLOT_LEFT].y;
 
-	m_ptChar_Name[SLOT_RIGHT].x				= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_RIGHT_X", 0, arrstrFileName)	+ m_ptChar_Name_Bar[SLOT_RIGHT].x;
-	m_ptChar_Name[SLOT_RIGHT].y				= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_RIGHT_Y", 0, arrstrFileName)	+ m_ptChar_Name_Bar[SLOT_RIGHT].y;
+	m_ptChar_Name[SLOT_CENTER].x = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_CENTER_X", 0, arrstrFileName) + m_ptChar_Name_Bar[SLOT_CENTER].x;
+	m_ptChar_Name[SLOT_CENTER].y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_CENTER_Y", 0, arrstrFileName) + m_ptChar_Name_Bar[SLOT_CENTER].y;
 
-	m_wChar_Name_Bar_Width					= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_BAR_WIDHT", 0, arrstrFileName);
-	
-	m_wPrev_Button_X						= (WORD)GetPrivateProfileInt(arrstrAppName, "PREVE_BUTTON_X", 0, arrstrFileName);
-	m_wPrev_Button_Y						= (WORD)GetPrivateProfileInt(arrstrAppName, "PREVE_BUTTON_Y", 0, arrstrFileName);
+	m_ptChar_Name[SLOT_RIGHT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_RIGHT_X", 0, arrstrFileName) + m_ptChar_Name_Bar[SLOT_RIGHT].x;
+	m_ptChar_Name[SLOT_RIGHT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_RIGHT_Y", 0, arrstrFileName) + m_ptChar_Name_Bar[SLOT_RIGHT].y;
 
-	m_wGameStart_Button_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_START_BUTTON_X", 0, arrstrFileName);
-	m_wGameStart_Button_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_START_BUTTON_Y", 0, arrstrFileName);
+	m_wChar_Name_Bar_Width = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_NAME_BAR_WIDHT", 0, arrstrFileName);
 
-	m_wCharCreate_Button_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_CREATE_BUTTON_X", 0, arrstrFileName);
-	m_wCharCreate_Button_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_CREATE_BUTTON_Y", 0, arrstrFileName);
+	m_wPrev_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "PREVE_BUTTON_X", 0, arrstrFileName);
+	m_wPrev_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "PREVE_BUTTON_Y", 0, arrstrFileName);
 
-	m_wCharDelete_Button_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_DELETE_BUTTON_X", 0, arrstrFileName);
-	m_wCharDelete_Button_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_DELETE_BUTTON_Y", 0, arrstrFileName);
+	m_wGameStart_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_START_BUTTON_X", 0, arrstrFileName);
+	m_wGameStart_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_START_BUTTON_Y", 0, arrstrFileName);
+
+	m_wCharCreate_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_CREATE_BUTTON_X", 0, arrstrFileName);
+	m_wCharCreate_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_CREATE_BUTTON_Y", 0, arrstrFileName);
+
+	m_wCharDelete_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_DELETE_BUTTON_X", 0, arrstrFileName);
+	m_wCharDelete_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_DELETE_BUTTON_Y", 0, arrstrFileName);
 
 
-	m_wEffect_Fire_Left1_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT1_X", 0, arrstrFileName);
-	m_wEffect_Fire_Left1_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT1_Y", 0, arrstrFileName);
+	m_wEffect_Fire_Left1_X = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT1_X", 0, arrstrFileName);
+	m_wEffect_Fire_Left1_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT1_Y", 0, arrstrFileName);
 
-	m_wEffect_Fire_Left2_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT2_X", 0, arrstrFileName);
-	m_wEffect_Fire_Left2_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT2_Y", 0, arrstrFileName);
+	m_wEffect_Fire_Left2_X = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT2_X", 0, arrstrFileName);
+	m_wEffect_Fire_Left2_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_LEFT2_Y", 0, arrstrFileName);
 
-	m_wEffect_Fire_Right1_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT1_X", 0, arrstrFileName);
-	m_wEffect_Fire_Right1_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT1_Y", 0, arrstrFileName);
+	m_wEffect_Fire_Right1_X = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT1_X", 0, arrstrFileName);
+	m_wEffect_Fire_Right1_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT1_Y", 0, arrstrFileName);
 
-	m_wEffect_Fire_Right2_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT2_X", 0, arrstrFileName);
-	m_wEffect_Fire_Right2_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT2_Y", 0, arrstrFileName);
+	m_wEffect_Fire_Right2_X = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT2_X", 0, arrstrFileName);
+	m_wEffect_Fire_Right2_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_RIGHT2_Y", 0, arrstrFileName);
 
-	m_wEffect_Fire_Center_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_FIRE_CENTER_X", 0, arrstrFileName);
-	m_wEffect_Fire_Center_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_FIRE_CENTER_Y", 0, arrstrFileName);
+	m_wEffect_Fire_Center_X = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_FIRE_CENTER_X", 0, arrstrFileName);
+	m_wEffect_Fire_Center_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_FIRE_FIRE_CENTER_Y", 0, arrstrFileName);
 
-	m_ptEffect_Char_Attach_UP[SLOT_LEFT].x		= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_LEFT_UP_X", 0, arrstrFileName);
-	m_ptEffect_Char_Attach_UP[SLOT_LEFT].y		= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_LEFT_UP_Y", 0, arrstrFileName);
+	m_ptEffect_Char_Attach_UP[SLOT_LEFT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_LEFT_UP_X", 0, arrstrFileName);
+	m_ptEffect_Char_Attach_UP[SLOT_LEFT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_LEFT_UP_Y", 0, arrstrFileName);
 
-	m_ptEffect_Char_Attach_UP[SLOT_CENTER].x	= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_CENTER_UP_X", 0, arrstrFileName);
-	m_ptEffect_Char_Attach_UP[SLOT_CENTER].y	= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_CENTER_UP_Y", 0, arrstrFileName);
+	m_ptEffect_Char_Attach_UP[SLOT_CENTER].x = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_CENTER_UP_X", 0, arrstrFileName);
+	m_ptEffect_Char_Attach_UP[SLOT_CENTER].y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_CENTER_UP_Y", 0, arrstrFileName);
 
-	m_ptEffect_Char_Attach_UP[SLOT_RIGHT].x		= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_RIGHT_UP_X", 0, arrstrFileName);
-	m_ptEffect_Char_Attach_UP[SLOT_RIGHT].y		= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_RIGHT_UP_Y", 0, arrstrFileName);
+	m_ptEffect_Char_Attach_UP[SLOT_RIGHT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_RIGHT_UP_X", 0, arrstrFileName);
+	m_ptEffect_Char_Attach_UP[SLOT_RIGHT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_RIGHT_UP_Y", 0, arrstrFileName);
 
-	m_ptEffect_Char_Attach_DOWN[SLOT_LEFT].x	= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_LEFT_DOWN_X", 0, arrstrFileName);
-	m_ptEffect_Char_Attach_DOWN[SLOT_LEFT].y	= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_LEFT_DOWN_Y", 0, arrstrFileName);
+	m_ptEffect_Char_Attach_DOWN[SLOT_LEFT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_LEFT_DOWN_X", 0, arrstrFileName);
+	m_ptEffect_Char_Attach_DOWN[SLOT_LEFT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_LEFT_DOWN_Y", 0, arrstrFileName);
 
-	m_ptEffect_Char_Attach_DOWN[SLOT_CENTER].x	= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_CENTER_DOWN_X", 0, arrstrFileName);
-	m_ptEffect_Char_Attach_DOWN[SLOT_CENTER].y	= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_CENTER_DOWN_Y", 0, arrstrFileName);
+	m_ptEffect_Char_Attach_DOWN[SLOT_CENTER].x = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_CENTER_DOWN_X", 0, arrstrFileName);
+	m_ptEffect_Char_Attach_DOWN[SLOT_CENTER].y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_CENTER_DOWN_Y", 0, arrstrFileName);
 
-	m_ptEffect_Char_Attach_DOWN[SLOT_RIGHT].x	= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_RIGHT_DOWN_X", 0, arrstrFileName);
-	m_ptEffect_Char_Attach_DOWN[SLOT_RIGHT].y	= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_RIGHT_DOWN_Y", 0, arrstrFileName);
+	m_ptEffect_Char_Attach_DOWN[SLOT_RIGHT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_RIGHT_DOWN_X", 0, arrstrFileName);
+	m_ptEffect_Char_Attach_DOWN[SLOT_RIGHT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_ATTACH_RIGHT_DOWN_Y", 0, arrstrFileName);
 
-	m_ptEffect_Char_Select[SLOT_LEFT].x			= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_SELECT_LEFT_X", 0, arrstrFileName);
-	m_ptEffect_Char_Select[SLOT_LEFT].y			= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_SELECT_LEFT_Y", 0, arrstrFileName);
+	m_ptEffect_Char_Select[SLOT_LEFT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_SELECT_LEFT_X", 0, arrstrFileName);
+	m_ptEffect_Char_Select[SLOT_LEFT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_SELECT_LEFT_Y", 0, arrstrFileName);
 
-	m_ptEffect_Char_Select[SLOT_CENTER].x		= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_SELECT_CENTER_X", 0, arrstrFileName);
-	m_ptEffect_Char_Select[SLOT_CENTER].y		= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_SELECT_CENTER_Y", 0, arrstrFileName);
+	m_ptEffect_Char_Select[SLOT_CENTER].x = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_SELECT_CENTER_X", 0, arrstrFileName);
+	m_ptEffect_Char_Select[SLOT_CENTER].y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_SELECT_CENTER_Y", 0, arrstrFileName);
 
-	m_ptEffect_Char_Select[SLOT_RIGHT].x		= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_SELECT_RIGHT_X", 0, arrstrFileName);
-	m_ptEffect_Char_Select[SLOT_RIGHT].y		= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_SELECT_RIGHT_Y", 0, arrstrFileName);
+	m_ptEffect_Char_Select[SLOT_RIGHT].x = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_SELECT_RIGHT_X", 0, arrstrFileName);
+	m_ptEffect_Char_Select[SLOT_RIGHT].y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_CHAR_SELECT_RIGHT_Y", 0, arrstrFileName);
 
-	m_wChild_X									= (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_X", 0, arrstrFileName);
-	m_wChild_Y									= (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_Y", 0, arrstrFileName);
+	m_wChild_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_X", 0, arrstrFileName);
+	m_wChild_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_Y", 0, arrstrFileName);
 
-	m_wAdult_X									= (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_X", 0, arrstrFileName);
-	m_wAdult_Y									= (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_Y", 0, arrstrFileName);
+	m_wAdult_X = (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_X", 0, arrstrFileName);
+	m_wAdult_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_Y", 0, arrstrFileName);
 
-	m_wViolence_X								= (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_X", 0, arrstrFileName);
-	m_wViolence_Y								= (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_Y", 0, arrstrFileName);
+	m_wViolence_X = (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_X", 0, arrstrFileName);
+	m_wViolence_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_Y", 0, arrstrFileName);
 
-	m_wFear_X									= (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_X", 0, arrstrFileName);
-	m_wFear_Y									= (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_Y", 0, arrstrFileName);
+	m_wFear_X = (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_X", 0, arrstrFileName);
+	m_wFear_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_Y", 0, arrstrFileName);
 
-	m_wTex_Bar_X								= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_BAR_X", 0, arrstrFileName);
-	m_wTex_Bar_Y								= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_BAR_Y", 0, arrstrFileName);
-	
-	m_wAni_Mark_X								= (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_X", 0, arrstrFileName);
-	m_wAni_Mark_Y								= (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_Y", 0, arrstrFileName);
+	m_wTex_Bar_X = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_BAR_X", 0, arrstrFileName);
+	m_wTex_Bar_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_BAR_Y", 0, arrstrFileName);
 
-	m_ptText_Line[LINE1].x						= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE1_X", 0, arrstrFileName)	+ m_wTex_Bar_X;
-	m_ptText_Line[LINE1].y						= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE1_Y", 0, arrstrFileName)	+ m_wTex_Bar_Y;
+	m_wAni_Mark_X = (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_X", 0, arrstrFileName);
+	m_wAni_Mark_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_Y", 0, arrstrFileName);
 
-	m_ptText_Line[LINE2].x						= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE2_X", 0, arrstrFileName)	+ m_wTex_Bar_X;
-	m_ptText_Line[LINE2].y						= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE2_Y", 0, arrstrFileName)	+ m_wTex_Bar_Y;
+	m_ptText_Line[LINE1].x = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE1_X", 0, arrstrFileName) + m_wTex_Bar_X;
+	m_ptText_Line[LINE1].y = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE1_Y", 0, arrstrFileName) + m_wTex_Bar_Y;
 
-	m_ptText_Line[LINE3].x						= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE3_X", 0, arrstrFileName)	+ m_wTex_Bar_X;
-	m_ptText_Line[LINE3].y						= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE3_Y", 0, arrstrFileName)	+ m_wTex_Bar_Y;
+	m_ptText_Line[LINE2].x = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE2_X", 0, arrstrFileName) + m_wTex_Bar_X;
+	m_ptText_Line[LINE2].y = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE2_Y", 0, arrstrFileName) + m_wTex_Bar_Y;
 
-	m_wPrimeum_Use_Day_Txt_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "PRIMEUP_USE_DAY_TEXT_X", 0, arrstrFileName);
-	m_wPrimeum_Use_Day_Txt_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "PRIMEUP_USE_DAY_TEXT_Y", 0, arrstrFileName);
-	
-	m_wWorningString_X							= (WORD)GetPrivateProfileInt(arrstrAppName, "WORNIN_STRING_X", 0, arrstrFileName);
-	m_wWorningString_Y							= (WORD)GetPrivateProfileInt(arrstrAppName, "WORNIN_STRING_Y", 0, arrstrFileName);
+	m_ptText_Line[LINE3].x = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE3_X", 0, arrstrFileName) + m_wTex_Bar_X;
+	m_ptText_Line[LINE3].y = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE3_Y", 0, arrstrFileName) + m_wTex_Bar_Y;
+
+	m_wPrimeum_Use_Day_Txt_X = (WORD)GetPrivateProfileInt(arrstrAppName, "PRIMEUP_USE_DAY_TEXT_X", 0, arrstrFileName);
+	m_wPrimeum_Use_Day_Txt_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "PRIMEUP_USE_DAY_TEXT_Y", 0, arrstrFileName);
+
+	m_wWorningString_X = (WORD)GetPrivateProfileInt(arrstrAppName, "WORNIN_STRING_X", 0, arrstrFileName);
+	m_wWorningString_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "WORNIN_STRING_Y", 0, arrstrFileName);
 
 	GetPrivateProfileString(arrstrAppName, "TEXT_LINE1", "", m_arrTextLine[LINE1], sizeof(m_arrTextLine[LINE1]), arrstrFileName);
 	GetPrivateProfileString(arrstrAppName, "TEXT_LINE2", "", m_arrTextLine[LINE2], sizeof(m_arrTextLine[LINE2]), arrstrFileName);
@@ -3440,73 +3442,73 @@ void	C_VS_UI_CHAR_MANAGER::AddCharInfoString(int iSlotIndex)
 	st_Char_Info_String.Release();
 
 	char	str[255];
-	char*	grade[10];
+	char* grade[10];
 
-	st_Char_Info_String.strName		=	(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_NAME].GetString();
-	st_Char_Info_String.strName		+=	m_slot[iSlotIndex].sz_name.c_str();
+	st_Char_Info_String.strName = (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_NAME].GetString();
+	st_Char_Info_String.strName += m_slot[iSlotIndex].sz_name.c_str();
 
-//	int	iLevel[DOMAIN_LEVE_MAX];
-//	iLevel[SWORD]	= m_slot[iSlotIndex].DOMAIN_SWORD;
-//	iLevel[BLADE]	= m_slot[iSlotIndex].DOMAIN_BLADE;
-//	iLevel[GUN]		= m_slot[iSlotIndex].DOMAIN_GUN;
-//	iLevel[HEAL]	= m_slot[iSlotIndex].DOMAIN_HEAL;
-//	iLevel[ENCHENT]	= m_slot[iSlotIndex].DOMAIN_ENCHANT;
-//
-//	m_wSlayerFindHighDomainLevel	= 0;
-//	for(int i = 1; i < DOMAIN_LEVE_MAX; i++)
-//	{
-//		if(iLevel[i-1] < iLevel[i])
-//		{
-//			m_wSlayerFindHighDomainLevel++;
-//		}
-// 	}
+	//	int	iLevel[DOMAIN_LEVE_MAX];
+	//	iLevel[SWORD]	= m_slot[iSlotIndex].DOMAIN_SWORD;
+	//	iLevel[BLADE]	= m_slot[iSlotIndex].DOMAIN_BLADE;
+	//	iLevel[GUN]		= m_slot[iSlotIndex].DOMAIN_GUN;
+	//	iLevel[HEAL]	= m_slot[iSlotIndex].DOMAIN_HEAL;
+	//	iLevel[ENCHENT]	= m_slot[iSlotIndex].DOMAIN_ENCHANT;
+	//
+	//	m_wSlayerFindHighDomainLevel	= 0;
+	//	for(int i = 1; i < DOMAIN_LEVE_MAX; i++)
+	//	{
+	//		if(iLevel[i-1] < iLevel[i])
+	//		{
+	//			m_wSlayerFindHighDomainLevel++;
+	//		}
+	// 	}
 
-	if(m_wSlayerFindHighDomainLevel == 0)
+	if (m_wSlayerFindHighDomainLevel == 0)
 	{
-		m_wSlayerFindHighDomainLevel	= rand() % DOMAIN_LEVE_MAX;
+		m_wSlayerFindHighDomainLevel = rand() % DOMAIN_LEVE_MAX;
 	}
 
-	st_Char_Info_String.strLevel	=	(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_LEVEL].GetString();
+	st_Char_Info_String.strLevel = (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_LEVEL].GetString();
 	wsprintf(str, "%d", m_slot[iSlotIndex].level);
-	st_Char_Info_String.strLevel	+=	str;
+	st_Char_Info_String.strLevel += str;
 
-	st_Char_Info_String.strStrength	=	(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_STR_PURE].GetString();
+	st_Char_Info_String.strStrength = (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_STR_PURE].GetString();
 	wsprintf(str, "%d", m_slot[iSlotIndex].STR_PURE);
-	st_Char_Info_String.strStrength	+=	str;
+	st_Char_Info_String.strStrength += str;
 
-	st_Char_Info_String.strDex	=	(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_DEX_PURE].GetString();
+	st_Char_Info_String.strDex = (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_DEX_PURE].GetString();
 	wsprintf(str, "%d", m_slot[iSlotIndex].DEX_PURE);
-	st_Char_Info_String.strDex	+=	str;
+	st_Char_Info_String.strDex += str;
 
-	st_Char_Info_String.strInt	=	(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_INT_PURE].GetString();
+	st_Char_Info_String.strInt = (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_INT_PURE].GetString();
 	wsprintf(str, "%d", m_slot[iSlotIndex].INT_PURE);
-	st_Char_Info_String.strInt	+=	str;
+	st_Char_Info_String.strInt += str;
 
-	st_Char_Info_String.strSwordLevel	=	(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_SWORD_LEVEL].GetString();
+	st_Char_Info_String.strSwordLevel = (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_SWORD_LEVEL].GetString();
 	wsprintf(str, "%d", m_slot[iSlotIndex].DOMAIN_SWORD);
-	st_Char_Info_String.strSwordLevel	+=	str;
+	st_Char_Info_String.strSwordLevel += str;
 
-	st_Char_Info_String.strBladeLevel	=	(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_BLADE_LEVEL].GetString();
+	st_Char_Info_String.strBladeLevel = (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_BLADE_LEVEL].GetString();
 	wsprintf(str, "%d", m_slot[iSlotIndex].DOMAIN_BLADE);
-	st_Char_Info_String.strBladeLevel	+=	str;
+	st_Char_Info_String.strBladeLevel += str;
 
-	st_Char_Info_String.strGunLevel	=	(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_GUN_LEVEL].GetString();
+	st_Char_Info_String.strGunLevel = (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_GUN_LEVEL].GetString();
 	wsprintf(str, "%d", m_slot[iSlotIndex].DOMAIN_GUN);
-	st_Char_Info_String.strGunLevel	+=	str;
+	st_Char_Info_String.strGunLevel += str;
 
-	st_Char_Info_String.strHealLevel	=	(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_HEAL_LEVEL].GetString();
+	st_Char_Info_String.strHealLevel = (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_HEAL_LEVEL].GetString();
 	wsprintf(str, "%d", m_slot[iSlotIndex].DOMAIN_HEAL);
-	st_Char_Info_String.strHealLevel	+=	str;
+	st_Char_Info_String.strHealLevel += str;
 
-	st_Char_Info_String.strEnchantLevel	=	(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_ENCHANT_LEVEL].GetString();
+	st_Char_Info_String.strEnchantLevel = (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_ENCHANT_LEVEL].GetString();
 	wsprintf(str, "%d", m_slot[iSlotIndex].DOMAIN_ENCHANT);
-	st_Char_Info_String.strEnchantLevel	+=	str;
+	st_Char_Info_String.strEnchantLevel += str;
 
-	st_Char_Info_String.strFame	=	(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_FAME].GetString();
+	st_Char_Info_String.strFame = (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_FAME].GetString();
 	wsprintf(str, "%d", m_slot[iSlotIndex].FAME);
-	st_Char_Info_String.strFame	+=	str;
+	st_Char_Info_String.strFame += str;
 
-	const char* sgrade[10] = 
+	const char* sgrade[10] =
 	{
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_GRADE_PIVATE].GetString(),
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_GRADE_SERENT].GetString(),
@@ -3520,7 +3522,7 @@ void	C_VS_UI_CHAR_MANAGER::AddCharInfoString(int iSlotIndex)
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_GRADE_MARSHAL].GetString(),
 	};
 
-	const char* vgrade[10] = 
+	const char* vgrade[10] =
 	{
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_GRADE_RITTER].GetString(),
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_GRADE_REICHSRITTER].GetString(),
@@ -3534,39 +3536,39 @@ void	C_VS_UI_CHAR_MANAGER::AddCharInfoString(int iSlotIndex)
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_GRADE_LANDESHER].GetString(),
 	};
 
-	switch(m_slot[iSlotIndex].Race)
+	switch (m_slot[iSlotIndex].Race)
 	{
 	case RACE_SLAYER:
-		memcpy((char*)grade,	(const char*)sgrade, sizeof(sgrade));
-	break;
+		memcpy((char*)grade, (const char*)sgrade, sizeof(sgrade));
+		break;
 
 	case RACE_VAMPIRE:
-		memcpy((char*)grade,	(const char*)vgrade, sizeof(vgrade));
-	break;
+		memcpy((char*)grade, (const char*)vgrade, sizeof(vgrade));
+		break;
 	}
 
-	if(m_slot[iSlotIndex].GRADE>0&&m_slot[iSlotIndex].GRADE<=50)
+	if (m_slot[iSlotIndex].GRADE > 0 && m_slot[iSlotIndex].GRADE <= 50)
 	{
-		if(m_slot[iSlotIndex].Race != RACE_OUSTERS)
+		if (m_slot[iSlotIndex].Race != RACE_OUSTERS)
 		{
-			st_Char_Info_String.strGrade	=	(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_GRADE].GetString();
-			wsprintf(str, "%s [%d]",grade[(m_slot[iSlotIndex].GRADE-1)/5],m_slot[iSlotIndex].GRADE);
-			st_Char_Info_String.strGrade	+=	str;
+			st_Char_Info_String.strGrade = (*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_MANAGER_GRADE].GetString();
+			wsprintf(str, "%s [%d]", grade[(m_slot[iSlotIndex].GRADE - 1) / 5], m_slot[iSlotIndex].GRADE);
+			st_Char_Info_String.strGrade += str;
 		}
 	}
 
-	st_Char_Info_String.iSlotIndex	= iSlotIndex;
+	st_Char_Info_String.iSlotIndex = iSlotIndex;
 
-	std::vector<S_CHAR_INFO_STRING>::iterator it	= m_Char_Info_String.begin();
-	bool	blPush	= true;
+	std::vector<S_CHAR_INFO_STRING>::iterator it = m_Char_Info_String.begin();
+	bool	blPush = true;
 
-	for(int i = 0; i < m_Char_Info_String.size(); it++, i++)
+	for (int i = 0; i < m_Char_Info_String.size(); it++, i++)
 	{
-		if(it->iSlotIndex	== iSlotIndex)
-			blPush	= false;
+		if (it->iSlotIndex == iSlotIndex)
+			blPush = false;
 	}
 
-	if(blPush)
+	if (blPush)
 		m_Char_Info_String.push_back(st_Char_Info_String);
 }
 
@@ -3577,176 +3579,176 @@ void	C_VS_UI_CHAR_MANAGER::DeleteCharInfoString()
 {
 	std::vector<S_CHAR_INFO_STRING>::iterator it = m_Char_Info_String.begin();
 
-	for(int i = 0; i < m_Char_Info_String.size(); it++, i++)
+	for (int i = 0; i < m_Char_Info_String.size(); it++, i++)
 	{
 		it->Release();
 	}
 
 	m_Char_Info_String.clear();
-	m_Char_Info_String.resize(0);	
+	m_Char_Info_String.resize(0);
 }
 
 
 
 void	C_VS_UI_CHAR_MANAGER::DrawCharInfoString()
 {
-	COLORREF	colFontRgb	= RGB(255,255,255);
-	std::vector<S_CHAR_INFO_STRING>::iterator it	= m_Char_Info_String.begin();
+	COLORREF	colFontRgb = RGB(255, 255, 255);
+	std::vector<S_CHAR_INFO_STRING>::iterator it = m_Char_Info_String.begin();
 
-	int px	= m_wChar_Info_X;
-	int py	= m_wChar_Info_Y;
-	int iPureY	= 0;
-		PrintInfo	serverFont = gpC_base->m_chatting_pi;
+	int px = m_wChar_Info_X;
+	int py = m_wChar_Info_Y;
+	int iPureY = 0;
+	PrintInfo	serverFont = gpC_base->m_chatting_pi;
 #if __CONTENTS(__JAPAN_UI)
-		serverFont = gpC_base->m_small_pi;
+	serverFont = gpC_base->m_small_pi;
 #endif //__JAPAN_UI
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
 
-	for(int i = 0; i < m_Char_Info_String.size(); it++, i++)
+	for (int i = 0; i < m_Char_Info_String.size(); it++, i++)
 	{
-		if(it->iSlotIndex	== m_stSelect_Slot)
+		if (it->iSlotIndex == m_stSelect_Slot)
 		{
-			switch(m_slot[m_stSelect_Slot].Race)
+			switch (m_slot[m_stSelect_Slot].Race)
 			{
 			case RACE_SLAYER:
-				if(!bHighResolution)
+				if (!bHighResolution)
 				{
-					px	= m_wSlayerChar_Info_X;
-					py	= m_wSlayerChar_Info_Y;
+					px = m_wSlayerChar_Info_X;
+					py = m_wSlayerChar_Info_Y;
 				}
 
-				g_PrintColorStr(px, py, it->strName.c_str(),			serverFont, colFontRgb);
+				g_PrintColorStr(px, py, it->strName.c_str(), serverFont, colFontRgb);
 
 				py += 16;
-				g_PrintColorStr(px, py, it->strStrength.c_str(),		serverFont, colFontRgb);
+				g_PrintColorStr(px, py, it->strStrength.c_str(), serverFont, colFontRgb);
 
 				py += 16;
-				g_PrintColorStr(px, py, it->strDex.c_str(),				serverFont, colFontRgb);
-			
+				g_PrintColorStr(px, py, it->strDex.c_str(), serverFont, colFontRgb);
+
 				py += 16;
-				g_PrintColorStr(px, py, it->strInt.c_str(),				serverFont, colFontRgb);
+				g_PrintColorStr(px, py, it->strInt.c_str(), serverFont, colFontRgb);
 
 				iPureY = py;
 
-//				switch(m_wSlayerFindHighDomainLevel)
-//				{
-//				case SWORD:
-//					py += 16;
-//					g_PrintColorStr(px, py, it->strSwordLevel.c_str(),		gpC_base->m_chatting_pi, colFontRgb);
-//					break;
-//
-//				case BLADE:
-//					py += 16;
-//					g_PrintColorStr(px, py, it->strBladeLevel.c_str(),		gpC_base->m_chatting_pi, colFontRgb);
-//					break;
-//
-//				case GUN:
-//					py += 16;
-//					g_PrintColorStr(px, py, it->strGunLevel.c_str(),		gpC_base->m_chatting_pi, colFontRgb);
-//					break;
-//
-//				case HEAL:
-//					py += 16;
-//					g_PrintColorStr(px, py, it->strHealLevel.c_str(),		gpC_base->m_chatting_pi, colFontRgb);
-//					break;
-//
-//				case ENCHENT:
-//					py += 16;
-//					g_PrintColorStr(px, py, it->strEnchantLevel.c_str(),	gpC_base->m_chatting_pi, colFontRgb);
-//					break;
-// 				}
+				//				switch(m_wSlayerFindHighDomainLevel)
+				//				{
+				//				case SWORD:
+				//					py += 16;
+				//					g_PrintColorStr(px, py, it->strSwordLevel.c_str(),		gpC_base->m_chatting_pi, colFontRgb);
+				//					break;
+				//
+				//				case BLADE:
+				//					py += 16;
+				//					g_PrintColorStr(px, py, it->strBladeLevel.c_str(),		gpC_base->m_chatting_pi, colFontRgb);
+				//					break;
+				//
+				//				case GUN:
+				//					py += 16;
+				//					g_PrintColorStr(px, py, it->strGunLevel.c_str(),		gpC_base->m_chatting_pi, colFontRgb);
+				//					break;
+				//
+				//				case HEAL:
+				//					py += 16;
+				//					g_PrintColorStr(px, py, it->strHealLevel.c_str(),		gpC_base->m_chatting_pi, colFontRgb);
+				//					break;
+				//
+				//				case ENCHENT:
+				//					py += 16;
+				//					g_PrintColorStr(px, py, it->strEnchantLevel.c_str(),	gpC_base->m_chatting_pi, colFontRgb);
+				//					break;
+				// 				}
 
-				if(!bHighResolution)
+				if (!bHighResolution)
 				{
 					px += 130;
 					py = m_wSlayerChar_Info_Y;
-					g_PrintColorStr(px, py, it->strSwordLevel.c_str(),		serverFont, colFontRgb);
+					g_PrintColorStr(px, py, it->strSwordLevel.c_str(), serverFont, colFontRgb);
 
 					py += 16;
-					g_PrintColorStr(px, py, it->strBladeLevel.c_str(),		serverFont, colFontRgb);
+					g_PrintColorStr(px, py, it->strBladeLevel.c_str(), serverFont, colFontRgb);
 
 					py += 16;
-					g_PrintColorStr(px, py, it->strGunLevel.c_str(),		serverFont, colFontRgb);
+					g_PrintColorStr(px, py, it->strGunLevel.c_str(), serverFont, colFontRgb);
 
 					py += 16;
-					g_PrintColorStr(px, py, it->strHealLevel.c_str(),		serverFont, colFontRgb);
+					g_PrintColorStr(px, py, it->strHealLevel.c_str(), serverFont, colFontRgb);
 
 					py += 16;
-					g_PrintColorStr(px, py, it->strEnchantLevel.c_str(),	serverFont, colFontRgb);
+					g_PrintColorStr(px, py, it->strEnchantLevel.c_str(), serverFont, colFontRgb);
 
-					px	= m_wSlayerChar_Info_X;
+					px = m_wSlayerChar_Info_X;
 				}
 				else
 				{
 					py += 16;
-					g_PrintColorStr(px, py, it->strSwordLevel.c_str(),		serverFont, colFontRgb);
+					g_PrintColorStr(px, py, it->strSwordLevel.c_str(), serverFont, colFontRgb);
 
 					py += 16;
-					g_PrintColorStr(px, py, it->strBladeLevel.c_str(),		serverFont, colFontRgb);
+					g_PrintColorStr(px, py, it->strBladeLevel.c_str(), serverFont, colFontRgb);
 
 					py += 16;
-					g_PrintColorStr(px, py, it->strGunLevel.c_str(),		serverFont, colFontRgb);
+					g_PrintColorStr(px, py, it->strGunLevel.c_str(), serverFont, colFontRgb);
 
 					py += 16;
-					g_PrintColorStr(px, py, it->strHealLevel.c_str(),		serverFont, colFontRgb);
+					g_PrintColorStr(px, py, it->strHealLevel.c_str(), serverFont, colFontRgb);
 
 					py += 16;
-					g_PrintColorStr(px, py, it->strEnchantLevel.c_str(),	serverFont, colFontRgb);
+					g_PrintColorStr(px, py, it->strEnchantLevel.c_str(), serverFont, colFontRgb);
 
 					iPureY = py;
-					px	= m_wChar_Info_X;
+					px = m_wChar_Info_X;
 				}
-				py	= iPureY + 16;
-				g_PrintColorStr(px, py, it->strFame.c_str(),			serverFont, colFontRgb);
-				
+				py = iPureY + 16;
+				g_PrintColorStr(px, py, it->strFame.c_str(), serverFont, colFontRgb);
+
 				py += 16;
-				g_PrintColorStr(px, py, it->strGrade.c_str(),			serverFont, colFontRgb);
+				g_PrintColorStr(px, py, it->strGrade.c_str(), serverFont, colFontRgb);
 				break;
-				
+
 			case RACE_VAMPIRE:
-				g_PrintColorStr(px, py, it->strName.c_str(),			serverFont, colFontRgb);
+				g_PrintColorStr(px, py, it->strName.c_str(), serverFont, colFontRgb);
 
 				py += 16;
-				g_PrintColorStr(px, py, it->strLevel.c_str(),			serverFont, colFontRgb);
+				g_PrintColorStr(px, py, it->strLevel.c_str(), serverFont, colFontRgb);
 
 				py += 16;
-				g_PrintColorStr(px, py, it->strStrength.c_str(),		serverFont, colFontRgb);
+				g_PrintColorStr(px, py, it->strStrength.c_str(), serverFont, colFontRgb);
 
 				py += 16;
-				g_PrintColorStr(px, py, it->strDex.c_str(),				serverFont, colFontRgb);
-			
+				g_PrintColorStr(px, py, it->strDex.c_str(), serverFont, colFontRgb);
+
 				py += 16;
-				g_PrintColorStr(px, py, it->strInt.c_str(),				serverFont, colFontRgb);
-				
+				g_PrintColorStr(px, py, it->strInt.c_str(), serverFont, colFontRgb);
+
 				py += 16;
-				g_PrintColorStr(px, py, it->strFame.c_str(),			serverFont, colFontRgb);
-				
+				g_PrintColorStr(px, py, it->strFame.c_str(), serverFont, colFontRgb);
+
 				py += 16;
-				g_PrintColorStr(px, py, it->strGrade.c_str(),			serverFont, colFontRgb);
+				g_PrintColorStr(px, py, it->strGrade.c_str(), serverFont, colFontRgb);
 				break;
 
 			case RACE_OUSTERS:
-				g_PrintColorStr(px, py, it->strName.c_str(),			serverFont, colFontRgb);
+				g_PrintColorStr(px, py, it->strName.c_str(), serverFont, colFontRgb);
 
 				py += 16;
-				g_PrintColorStr(px, py, it->strLevel.c_str(),			serverFont, colFontRgb);
+				g_PrintColorStr(px, py, it->strLevel.c_str(), serverFont, colFontRgb);
 
 				py += 16;
-				g_PrintColorStr(px, py, it->strStrength.c_str(),		serverFont, colFontRgb);
+				g_PrintColorStr(px, py, it->strStrength.c_str(), serverFont, colFontRgb);
 
 				py += 16;
-				g_PrintColorStr(px, py, it->strDex.c_str(),				serverFont, colFontRgb);
-			
+				g_PrintColorStr(px, py, it->strDex.c_str(), serverFont, colFontRgb);
+
 				py += 16;
-				g_PrintColorStr(px, py, it->strInt.c_str(),				serverFont, colFontRgb);
-				
+				g_PrintColorStr(px, py, it->strInt.c_str(), serverFont, colFontRgb);
+
 				py += 16;
-				g_PrintColorStr(px, py, it->strFame.c_str(),			serverFont, colFontRgb);
+				g_PrintColorStr(px, py, it->strFame.c_str(), serverFont, colFontRgb);
 				break;
 			}
 		}
-	}	
+	}
 }
 
 
@@ -3758,22 +3760,22 @@ C_VS_UI_CHAR_MANAGER::~C_VS_UI_CHAR_MANAGER()
 {
 	g_UnregisterWindow(this);
 
-	// !Window�� ���� delete�ؾ� �Ѵ�.
+	// !Window?? ???? delete??? ???.
 	DeleteNew(m_pC_biling);
 	DeleteNew(m_pC_char_delete);
 	DeleteNew(m_pC_newchar);
 #if	__CONTENTS(__USER_GRADE)
 	DeleteNew(m_pC_use_grade);
 #endif	//__USER_GRADE
-	DeleteNew( m_pC_NetmarbleAgreement);
-//	DeleteNew(m_pC_char_info);
-	
+	DeleteNew(m_pC_NetmarbleAgreement);
+	//	DeleteNew(m_pC_char_info);
+
 	DeleteNew(m_pAnimationTimer);
-	
+
 	m_pC_button_group->Delete(m_pC_button_create_char[SLOT_LEFT]);
 	m_pC_button_group->Delete(m_pC_button_create_char[SLOT_CENTER]);
 	m_pC_button_group->Delete(m_pC_button_create_char[SLOT_RIGHT]);
-	
+
 	DeleteNew(m_pC_button_create_char[SLOT_LEFT]);
 	DeleteNew(m_pC_button_create_char[SLOT_CENTER]);
 	DeleteNew(m_pC_button_create_char[SLOT_RIGHT]);
@@ -3808,7 +3810,7 @@ C_VS_UI_CHAR_MANAGER::~C_VS_UI_CHAR_MANAGER()
 //-----------------------------------------------------------------------------
 // C_VS_UI_CHAR_MANAGER::SelectSlot
 //
-// select�Ǿ����� true�� ��ȯ�Ѵ�.
+// select??????? true?? ??????.
 //-----------------------------------------------------------------------------
 bool C_VS_UI_CHAR_MANAGER::SelectSlot(int n)
 {
@@ -3861,7 +3863,7 @@ void C_VS_UI_CHAR_MANAGER::WindowEventReceiver(id_t event)
 bool C_VS_UI_CHAR_MANAGER::IsPixel(int _x, int _y)
 {
 	return true;
-//	return m_pC_back.IsPixel(SCR2WIN_X(_x), SCR2WIN_Y(_y));
+	//	return m_pC_back.IsPixel(SCR2WIN_X(_x), SCR2WIN_Y(_y));
 }
 
 //-----------------------------------------------------------------------------
@@ -3871,126 +3873,126 @@ bool C_VS_UI_CHAR_MANAGER::IsPixel(int _x, int _y)
 //-----------------------------------------------------------------------------
 void C_VS_UI_CHAR_MANAGER::Run(id_t id)
 {
-	int i=-1;
+	int i = -1;
 
 	switch (id)
 	{
-		case CREATE_ID:
-			//
-			// ������ ĳ���� ĭ�� ��� ������ �� ĭ�� ĳ���͸� �����.
-			//
-			
+	case CREATE_ID:
+		//
+		// ?????? ????? ??? ??? ?????? ?? ??? ?????? ?????.
+		//
+
+	{
+		bool bSlotEmpty = false;
+
+		// search empty slot
+		// The slot the player clicked on wins, so a new character is
+		// created in the box that was actually picked instead of
+		// always landing in the first free one.
+		if (m_stSelect_Slot >= SLOT_LEFT && m_stSelect_Slot < SLOT &&
+			m_slot[m_stSelect_Slot].bl_set == false)
+		{
+			bSlotEmpty = true;
+		}
+		else
+		{
+			for (int i = SLOT_LEFT; i < SLOT; ++i)
 			{
-				bool bSlotEmpty = false;
-			
-				// search empty slot
-				// The slot the player clicked on wins, so a new character is
-				// created in the box that was actually picked instead of
-				// always landing in the first free one.
-				if (m_stSelect_Slot >= SLOT_LEFT && m_stSelect_Slot < SLOT &&
-					m_slot[m_stSelect_Slot].bl_set == false)
+				if (m_slot[i].bl_set == false)
 				{
+					m_stSelect_Slot = i;
 					bSlotEmpty = true;
+					break;
 				}
-				else
-				{
-					for (int i = SLOT_LEFT; i < SLOT; ++i)
-					{
-						if (m_slot[i].bl_set == false)
-						{
-							m_stSelect_Slot = i;
-							bSlotEmpty = true;
-							break;
-						}
-					}
-
-				}
-				
-				if (!bSlotEmpty)
-				{
-					g_msg_all_slot_created->Start();
-				}
-				else if (m_slot[m_stSelect_Slot].bl_set == false)
-				{
-					m_select_heart_temp = 0;
-					m_pC_newchar->Start();
-					m_pC_newchar->SetCharacterToThisSlot(m_stSelect_Slot, &m_slot[m_stSelect_Slot]);
-					m_pC_newchar->RollDice(); // Start()�� ������ �ȵȴ�. - SetCharacterToThisSlot()�� �� �ڿ� �ϱ� ����.
-					Finish();
-					return;
-				}
-
-				//g_msg_all_slot_created->Start();
-			}
-			break;
-
-		case NEXT_ID:
-			// ��� slot�� ��� �ִ°�?
-			if (m_slot[SLOT_LEFT].bl_set == false &&
-				 m_slot[SLOT_CENTER].bl_set == false &&
-				 m_slot[SLOT_RIGHT].bl_set == false)
-			{
-				g_msg_all_slot_not_char->Start();
-				break;
 			}
 
-			if (m_stSelect_Slot >= SLOT_LEFT && m_stSelect_Slot < SLOT &&
-				m_slot[m_stSelect_Slot].bl_set)
-				gpC_base->SendMessage(UI_CONNECT, m_stSelect_Slot, 0);
-			else
-				g_msg_not_select_char->Start();
-			break;
+		}
 
-		case BACK_ID:
-			//Finish();
-			gpC_base->SendMessage(UI_CHARACTER_MANAGER_FINISHED); // Finish()�� ���� ����.
-			break;
+		if (!bSlotEmpty)
+		{
+			g_msg_all_slot_created->Start();
+		}
+		else if (m_slot[m_stSelect_Slot].bl_set == false)
+		{
+			m_select_heart_temp = 0;
+			m_pC_newchar->Start();
+			m_pC_newchar->SetCharacterToThisSlot(m_stSelect_Slot, &m_slot[m_stSelect_Slot]);
+			m_pC_newchar->RollDice(); // Start()?? ?????? ????. - SetCharacterToThisSlot()?? ?? ??? ??? ????.
+			Finish();
+			return;
+		}
 
-		case DELETE_ID:
-			// m_stSelect_Slot is NOT_SELECTED (-1) until a character is picked,
-			// so the range has to be checked before indexing m_slot. Reading
-			// m_slot[-1] used to open the delete dialog on whatever garbage
-			// happened to sit in front of the array.
-			if (m_stSelect_Slot >= SLOT_LEFT && m_stSelect_Slot < SLOT &&
-				m_slot[m_stSelect_Slot].bl_set == true)
-			{
-				DeleteNew(m_pC_char_delete);
-				
-				m_pC_char_delete = new C_VS_UI_CHAR_DELETE();
-				m_pC_char_delete->Start();
-				m_pC_char_delete->Slot(m_stSelect_Slot);
-			}
-			break;
-		case CANNOT_PLAY_ID :
-			i=0;
-		case CANNOT_PLAY_BY_ATTR_ID :
-			if(i == -1)
-				i=1;
-			{
-				DeleteNew(m_pC_biling);
+		//g_msg_all_slot_created->Start();
+	}
+	break;
 
-				m_pC_biling = new C_VS_UI_GO_BILING_PAGE((C_VS_UI_GO_BILING_PAGE::BILING_MSG_LIST) i );
-				m_pC_biling->Start();
-			}
+	case NEXT_ID:
+		// ??? slot?? ??? ?????
+		if (m_slot[SLOT_LEFT].bl_set == false &&
+			m_slot[SLOT_CENTER].bl_set == false &&
+			m_slot[SLOT_RIGHT].bl_set == false)
+		{
+			g_msg_all_slot_not_char->Start();
 			break;
+		}
+
+		if (m_stSelect_Slot >= SLOT_LEFT && m_stSelect_Slot < SLOT &&
+			m_slot[m_stSelect_Slot].bl_set)
+			gpC_base->SendMessage(UI_CONNECT, m_stSelect_Slot, 0);
+		else
+			g_msg_not_select_char->Start();
+		break;
+
+	case BACK_ID:
+		//Finish();
+		gpC_base->SendMessage(UI_CHARACTER_MANAGER_FINISHED); // Finish()?? ???? ????.
+		break;
+
+	case DELETE_ID:
+		// m_stSelect_Slot is NOT_SELECTED (-1) until a character is picked,
+		// so the range has to be checked before indexing m_slot. Reading
+		// m_slot[-1] used to open the delete dialog on whatever garbage
+		// happened to sit in front of the array.
+		if (m_stSelect_Slot >= SLOT_LEFT && m_stSelect_Slot < SLOT &&
+			m_slot[m_stSelect_Slot].bl_set == true)
+		{
+			DeleteNew(m_pC_char_delete);
+
+			m_pC_char_delete = new C_VS_UI_CHAR_DELETE();
+			m_pC_char_delete->Start();
+			m_pC_char_delete->Slot(m_stSelect_Slot);
+		}
+		break;
+	case CANNOT_PLAY_ID:
+		i = 0;
+	case CANNOT_PLAY_BY_ATTR_ID:
+		if (i == -1)
+			i = 1;
+		{
+			DeleteNew(m_pC_biling);
+
+			m_pC_biling = new C_VS_UI_GO_BILING_PAGE((C_VS_UI_GO_BILING_PAGE::BILING_MSG_LIST)i);
+			m_pC_biling->Start();
+		}
+		break;
 		// Clicking a character box selects that box. The selection used to be
 		// written from ShowButtonWidget(), which only ran while the button was
 		// held down at the instant a frame was drawn - a normal click released
 		// before the next frame left the previous slot selected. Empty boxes
 		// are selectable too, so CREATE_ID knows where to put the character.
-		case CHAR_SELECT_LEFT_ID:
-		case CHAR_SELECT_CENTER_ID:
-		case CHAR_SELECT_RIGHT_ID:
-			{
-				int iSlot = (int)id - (int)CHAR_SELECT_LEFT_ID;
+	case CHAR_SELECT_LEFT_ID:
+	case CHAR_SELECT_CENTER_ID:
+	case CHAR_SELECT_RIGHT_ID:
+	{
+		int iSlot = (int)id - (int)CHAR_SELECT_LEFT_ID;
 
-				m_stSelect_Slot	= (short)iSlot;
-				g_char_index	= 0;
+		m_stSelect_Slot = (short)iSlot;
+		g_char_index = 0;
 
-				if(m_slot[iSlot].bl_set == TRUE)
-					AddCharInfoString(iSlot);
-			}
-			break;
+		if (m_slot[iSlot].bl_set == TRUE)
+			AddCharInfoString(iSlot);
+	}
+	break;
 
 	}
 }
@@ -4001,99 +4003,99 @@ void C_VS_UI_CHAR_MANAGER::Run(id_t id)
 -----------------------------------------------------------------------------*/
 bool C_VS_UI_CHAR_MANAGER::MouseControl(UINT message, int _x, int _y)
 {
-	_x-=x;_y-=y;
+	_x -= x; _y -= y;
 	Window::MouseControl(message, _x, _y);
 
 	bool re = m_pC_button_group->MouseControl(message, _x, _y);
 
-// 	int convx = (g_pUserInformation->iResolution_x - 800) / 2;
-// 	int convy = (g_pUserInformation->iResolution_y - 600) / 2;
+	// 	int convx = (g_pUserInformation->iResolution_x - 800) / 2;
+	// 	int convy = (g_pUserInformation->iResolution_y - 600) / 2;
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
-	// �ػ� �ø� �� UI�� �߾ӿ� ������ �ϱ� ���� ��ǥ ������ ����.
+	// ??? ??? ?? UI?? ???? ?????? ??? ???? ??? ?????? ????.
 	int ConvX = 0;	int ConvY = 0;
 
-// 	if(bHighResolution)
-// 	{
-// 		if(g_pUserInformation->iResolution_x > 1024)
-// 		{	
-// 			// 1280*720
-// 			if(g_pUserInformation->iResolution_y < 960)
-// 			{	ConvX = 128;	ConvY = -24;	}
-// 			// 1280*960
-// 			else if(g_pUserInformation->iResolution_y < 1024)
-// 			{	ConvX = 128;	ConvY = 96;		}
-// 			// 1280*1024
-// 			else
-// 			{	ConvX = 128;	ConvY = 128;	}
-// 		}
-// 	}
+	// 	if(bHighResolution)
+	// 	{
+	// 		if(g_pUserInformation->iResolution_x > 1024)
+	// 		{	
+	// 			// 1280*720
+	// 			if(g_pUserInformation->iResolution_y < 960)
+	// 			{	ConvX = 128;	ConvY = -24;	}
+	// 			// 1280*960
+	// 			else if(g_pUserInformation->iResolution_y < 1024)
+	// 			{	ConvX = 128;	ConvY = 96;		}
+	// 			// 1280*1024
+	// 			else
+	// 			{	ConvX = 128;	ConvY = 128;	}
+	// 		}
+	// 	}
 
 	switch (message)
 	{
-		case M_MOVING:
-			m_focused_help = HELP_DEFAULT;
+	case M_MOVING:
+		m_focused_help = HELP_DEFAULT;
+		{
+			for (int i = 0; i < 3; i++)
 			{
-				for(int i = 0; i < 3; i++)
+				if (_x > x + g_heart_rect[i] - ConvX && _x < x + g_heart_rect[i] - ConvX + m_image_spk.GetWidth() &&
+					_y > y + HEART_Y - ConvY && _y < y + HEART_Y - ConvY + m_image_spk.GetHeight())
 				{
-					if(_x > x+g_heart_rect[i]-ConvX && _x < x+g_heart_rect[i]-ConvX + m_image_spk.GetWidth() &&
-						_y > y+HEART_Y-ConvY && _y < y+HEART_Y-ConvY + m_image_spk.GetHeight())
-					{
-						m_focused_help = HELP_MAX+i;
-						break;
-					}
+					m_focused_help = HELP_MAX + i;
+					break;
 				}
 			}
-			break;
+		}
+		break;
 
-		case M_LB_DOUBLECLICK:
-//			if(re == true)
+	case M_LB_DOUBLECLICK:
+		//			if(re == true)
+	{
+		for (int i = 0; i < SLOT; i++)
+		{
+			// The sprite enum interleaves a _PUSHED entry before every
+			// box, so stepping one box over means adding 2. Using
+			// CHAR_SELECT_LEFT + i measured the _PUSHED sprite for the
+			// centre and right boxes.
+			int iSpriteID = CHAR_SELECT_LEFT + (i * 2);
+
+			if (((m_ptArrCharSelect_Button[i].x <= _x)
+				&& (m_ptArrCharSelect_Button[i].y - m_w_CharHeight <= _y))
+				&&
+				((m_ptArrCharSelect_Button[i].x + m_image_spk.GetWidth(iSpriteID) >= _x)
+					&& (m_ptArrCharSelect_Button[i].y + m_image_spk.GetHeight(iSpriteID) >= _y)))
 			{
-				for(int i = 0; i < SLOT; i++)
+				// Act on the box that was double clicked, not on
+				// whatever happened to be selected beforehand.
+				m_stSelect_Slot = (short)i;
+				g_char_index = 0;
+
+				if (m_slot[i].bl_set == true)
 				{
-					// The sprite enum interleaves a _PUSHED entry before every
-					// box, so stepping one box over means adding 2. Using
-					// CHAR_SELECT_LEFT + i measured the _PUSHED sprite for the
-					// centre and right boxes.
-					int iSpriteID = CHAR_SELECT_LEFT + (i * 2);
-
-					if (((m_ptArrCharSelect_Button[i].x <= _x)
-						&& (m_ptArrCharSelect_Button[i].y - m_w_CharHeight <= _y))
-						&&
-						((m_ptArrCharSelect_Button[i].x + m_image_spk.GetWidth(iSpriteID) >= _x)
-						&& (m_ptArrCharSelect_Button[i].y + m_image_spk.GetHeight(iSpriteID) >= _y)))
-					{
-						// Act on the box that was double clicked, not on
-						// whatever happened to be selected beforehand.
-						m_stSelect_Slot	= (short)i;
-						g_char_index	= 0;
-
-						if(m_slot[i].bl_set == true)
-						{
-							AddCharInfoString(i);
-							Run(NEXT_ID);
-						}
-						else
-							Run(CREATE_ID);
-
-						break;
-					}
+					AddCharInfoString(i);
+					Run(NEXT_ID);
 				}
-			break;
+				else
+					Run(CREATE_ID);
+
+				break;
 			}
+		}
+		break;
+	}
 
-		case M_LEFTBUTTON_UP:
-			break;
+	case M_LEFTBUTTON_UP:
+		break;
 
-		case M_RIGHTBUTTON_UP:
-//			Run(CHARINFO);
-			break;
+	case M_RIGHTBUTTON_UP:
+		//			Run(CHARINFO);
+		break;
 
-		case M_WHEEL_UP:
-			break;
+	case M_WHEEL_UP:
+		break;
 
-		case M_WHEEL_DOWN:
-			break;
+	case M_WHEEL_DOWN:
+		break;
 
 	}
 
@@ -4106,21 +4108,21 @@ bool C_VS_UI_CHAR_MANAGER::MouseControl(UINT message, int _x, int _y)
 -----------------------------------------------------------------------------*/
 void C_VS_UI_CHAR_MANAGER::KeyboardControl(UINT message, UINT key, long extra)
 {
-	switch(message)
+	switch (message)
 	{
 	case WM_KEYDOWN:
-		switch(key)
+		switch (key)
 		{
 		case VK_ESCAPE:
 			Run(BACK);
 			break;
 
 		case VK_RIGHT:
-			if(!SelectSlot(m_stSelect_Slot+1))SelectSlot(m_stSelect_Slot+2);
+			if (!SelectSlot(m_stSelect_Slot + 1))SelectSlot(m_stSelect_Slot + 2);
 			break;
 
 		case VK_LEFT:
-			if(!SelectSlot(m_stSelect_Slot-1))SelectSlot(m_stSelect_Slot-2);
+			if (!SelectSlot(m_stSelect_Slot - 1))SelectSlot(m_stSelect_Slot - 2);
 			break;
 
 		case VK_RETURN:
@@ -4139,20 +4141,20 @@ void C_VS_UI_CHAR_MANAGER::KeyboardControl(UINT message, UINT key, long extra)
 }
 
 
-void C_VS_UI_CHAR_MANAGER::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
+void C_VS_UI_CHAR_MANAGER::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	switch(p_button->GetID())
+	switch (p_button->GetID())
 	{
 	case BACK_ID:
 		m_focused_help = HELP_BACK;
 		break;
-	case NEXT_ID:	
+	case NEXT_ID:
 		m_focused_help = HELP_NEXT;
 		break;
 	case DELETE_ID:
 		m_focused_help = HELP_X;
 		break;
-		
+
 	case CREATE_ID:
 		m_focused_help = HELP_CREATE;
 		break;
@@ -4164,82 +4166,82 @@ void C_VS_UI_CHAR_MANAGER::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button
 //
 // 
 //-----------------------------------------------------------------------------
-void C_VS_UI_CHAR_MANAGER::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
+void C_VS_UI_CHAR_MANAGER::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
-//	int index = p_button->m_image_index;
+	//	int index = p_button->m_image_index;
 
-	switch(p_button->GetID())
+	switch (p_button->GetID())
 	{
 	case BACK_ID:
-		p_button->x	= m_wPrev_Button_X;
-		p_button->y	= m_wPrev_Button_Y;
+		p_button->x = m_wPrev_Button_X;
+		p_button->y = m_wPrev_Button_Y;
 		m_image_spk.BltLocked(p_button->x, p_button->y, p_button->m_image_index);
 		break;
 
 	case NEXT_ID:
-		p_button->x	= m_wGameStart_Button_X;
-		p_button->y	= m_wGameStart_Button_Y;
+		p_button->x = m_wGameStart_Button_X;
+		p_button->y = m_wGameStart_Button_Y;
 		m_image_spk.BltLocked(p_button->x, p_button->y, p_button->m_image_index);
 		break;
 
 	case DELETE_ID:
-		p_button->x	= m_wCharDelete_Button_X;
-		p_button->y	= m_wCharDelete_Button_Y;
+		p_button->x = m_wCharDelete_Button_X;
+		p_button->y = m_wCharDelete_Button_Y;
 		m_image_spk.BltLocked(p_button->x, p_button->y, p_button->m_image_index);
 		break;
 
 	case CREATE_ID:
-		p_button->x	= m_wCharCreate_Button_X;
-		p_button->y	= m_wCharCreate_Button_Y;
+		p_button->x = m_wCharCreate_Button_X;
+		p_button->y = m_wCharCreate_Button_Y;
 		m_image_spk.BltLocked(p_button->x, p_button->y, p_button->m_image_index);
 		break;
 
 
 
-	// The three character boxes. Selection itself is handled in Run(), this
-	// only draws them - and re-anchors the clickable rect on the position the
-	// box is actually drawn at. Show() re-reads interface.ini every frame, so
-	// the layout can move after the buttons were constructed; the other four
-	// buttons above already re-sync their x/y the same way, these did not and
-	// kept whatever rect they were built with.
+		// The three character boxes. Selection itself is handled in Run(), this
+		// only draws them - and re-anchors the clickable rect on the position the
+		// box is actually drawn at. Show() re-reads interface.ini every frame, so
+		// the layout can move after the buttons were constructed; the other four
+		// buttons above already re-sync their x/y the same way, these did not and
+		// kept whatever rect they were built with.
 	case CHAR_SELECT_LEFT_ID:
 	case CHAR_SELECT_CENTER_ID:
 	case CHAR_SELECT_RIGHT_ID:
+	{
+		int iSlot = (int)p_button->GetID() - (int)CHAR_SELECT_LEFT_ID;
+		// The sprite enum interleaves a _PUSHED entry before every box,
+		// so the stride from one box sprite to the next is 2.
+		int iSpriteID = CHAR_SELECT_LEFT + (iSlot * 2);
+
+		p_button->x = m_ptArrCharSelect_Button[iSlot].x;
+		p_button->y = m_ptArrCharSelect_Button[iSlot].y - m_w_CharHeight;
+		p_button->w = m_image_spk.GetWidth(iSpriteID);
+		p_button->h = m_image_spk.GetHeight(iSpriteID) + m_w_CharHeight;
+
+		m_image_spk.BltLocked(m_ptArrCharSelect_Button[iSlot].x, m_ptArrCharSelect_Button[iSlot].y, p_button->m_image_index);
+		if (m_stSelect_Slot == iSlot)
 		{
-			int iSlot		= (int)p_button->GetID() - (int)CHAR_SELECT_LEFT_ID;
-			// The sprite enum interleaves a _PUSHED entry before every box,
-			// so the stride from one box sprite to the next is 2.
-			int iSpriteID	= CHAR_SELECT_LEFT + (iSlot * 2);
-
-			p_button->x = m_ptArrCharSelect_Button[iSlot].x;
-			p_button->y = m_ptArrCharSelect_Button[iSlot].y - m_w_CharHeight;
-			p_button->w = m_image_spk.GetWidth(iSpriteID);
-			p_button->h = m_image_spk.GetHeight(iSpriteID) + m_w_CharHeight;
-
-			m_image_spk.BltLocked(m_ptArrCharSelect_Button[iSlot].x, m_ptArrCharSelect_Button[iSlot].y, p_button->m_image_index);
-			if(m_stSelect_Slot == iSlot)
-			{
-				m_image_spk.BltLocked(m_ptArrCharSelect_Button[iSlot].x, m_ptArrCharSelect_Button[iSlot].y, p_button->m_image_index-1);
-			}
+			m_image_spk.BltLocked(m_ptArrCharSelect_Button[iSlot].x, m_ptArrCharSelect_Button[iSlot].y, p_button->m_image_index - 1);
 		}
-		break;
+	}
+	break;
 	}
 
-	if(p_button->GetFocusState())
+	if (p_button->GetFocusState())
 	{
 		if (p_button->GetPressState()) // push state
 		{
-			if(!((p_button->GetID()	== CHAR_SELECT_LEFT_ID) || (p_button->GetID()	== CHAR_SELECT_CENTER_ID) || (p_button->GetID()	== CHAR_SELECT_RIGHT_ID)))
-				m_image_spk.BltLocked(p_button->x, p_button->y, p_button->m_image_index-1);
+			if (!((p_button->GetID() == CHAR_SELECT_LEFT_ID) || (p_button->GetID() == CHAR_SELECT_CENTER_ID) || (p_button->GetID() == CHAR_SELECT_RIGHT_ID)))
+				m_image_spk.BltLocked(p_button->x, p_button->y, p_button->m_image_index - 1);
 		}
 		else
 		{
-			//��ư�� ������ Ȱ��ȭ ��Ű�� ���ؼ� �⺻ �׸��� �Ѹ��� ���� �����϶� ��ư�� ������ ����
-			if(p_button->GetID()	== BACK_ID || p_button->GetID()	== NEXT_ID || p_button->GetID()	== DELETE_ID || p_button->GetID()	== CREATE_ID)
+			//????? ?????? ???? ????? ????? ?? ????? ????? ???? ??????? ????? ?????? ????
+			if (p_button->GetID() == BACK_ID || p_button->GetID() == NEXT_ID || p_button->GetID() == DELETE_ID || p_button->GetID() == CREATE_ID)
 			{
-				if(p_button->m_alpha >= 31)
-					p_button->m_alpha = 0;	
-				m_image_spk.BltLockedAlpha(p_button->x, p_button->y, p_button->m_image_index-1, p_button->m_alpha);
+				if (p_button->m_alpha >= 31)
+					p_button->m_alpha = 0;
+				m_image_spk.BltLockedAlpha(p_button->x, p_button->y, p_button->m_image_index - 1, p_button->m_alpha);
 			}
 		}
 	}
@@ -4251,31 +4253,31 @@ void C_VS_UI_CHAR_MANAGER::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 void	C_VS_UI_CHAR_MANAGER::ChangeEffectPoint()
 {
 	POINT	ptEffect;
-	ptEffect.x	= 	m_wEffect_Fire_Left1_X;
-	ptEffect.y	=	m_wEffect_Fire_Left1_Y;
+	ptEffect.x = m_wEffect_Fire_Left1_X;
+	ptEffect.y = m_wEffect_Fire_Left1_Y;
 	g_pTopView->SetTitleEffectPos(&ptEffect, EFFECT_INDEX_FIRE_LEFT1);
 
-	ptEffect.x	= 	m_wEffect_Fire_Left2_X;
-	ptEffect.y	=	m_wEffect_Fire_Left2_Y;
+	ptEffect.x = m_wEffect_Fire_Left2_X;
+	ptEffect.y = m_wEffect_Fire_Left2_Y;
 	g_pTopView->SetTitleEffectPos(&ptEffect, EFFECT_INDEX_FIRE_LEFT2);
 
-	ptEffect.x	= 	m_wEffect_Fire_Right1_X;
-	ptEffect.y	=	m_wEffect_Fire_Right1_Y;
+	ptEffect.x = m_wEffect_Fire_Right1_X;
+	ptEffect.y = m_wEffect_Fire_Right1_Y;
 	g_pTopView->SetTitleEffectPos(&ptEffect, EFFECT_INDEX_FIRE_RIGHT1);
 
-	ptEffect.x	= 	m_wEffect_Fire_Right2_X;
-	ptEffect.y	=	m_wEffect_Fire_Right2_Y;
+	ptEffect.x = m_wEffect_Fire_Right2_X;
+	ptEffect.y = m_wEffect_Fire_Right2_Y;
 	g_pTopView->SetTitleEffectPos(&ptEffect, EFFECT_INDEX_FIRE_RIGHT2);
 
-	ptEffect.x	= 	m_wEffect_Fire_Center_X;
-	ptEffect.y	=	m_wEffect_Fire_Center_Y;
+	ptEffect.x = m_wEffect_Fire_Center_X;
+	ptEffect.y = m_wEffect_Fire_Center_Y;
 	g_pTopView->SetTitleEffectPos(&ptEffect, EFFECT_INDEX_FIRE_CENTER);
 
-	for(int i = 0; i < SLOT; i++)
+	for (int i = 0; i < SLOT; i++)
 	{
-		g_pTopView->SetTitleEffectPos(&m_ptEffect_Char_Attach_UP[i], EFFECT_INDEX_CHAR_ATTACH_UP + (SLOT*i));
-		g_pTopView->SetTitleEffectPos(&m_ptEffect_Char_Attach_DOWN[i], EFFECT_INDEX_CHAR_ATTACH_DOWN + (SLOT*i));
-		g_pTopView->SetTitleEffectPos(&m_ptEffect_Char_Select[i], EFFECT_INDEX_CHAR_SELECT + (SLOT*i));
+		g_pTopView->SetTitleEffectPos(&m_ptEffect_Char_Attach_UP[i], EFFECT_INDEX_CHAR_ATTACH_UP + (SLOT * i));
+		g_pTopView->SetTitleEffectPos(&m_ptEffect_Char_Attach_DOWN[i], EFFECT_INDEX_CHAR_ATTACH_DOWN + (SLOT * i));
+		g_pTopView->SetTitleEffectPos(&m_ptEffect_Char_Select[i], EFFECT_INDEX_CHAR_SELECT + (SLOT * i));
 	}
 }
 
@@ -4288,10 +4290,10 @@ void	C_VS_UI_CHAR_MANAGER::Draw_Effect_Button_Char()
 	g_pTopView->DrawTitleEffect(EFFECT_INDEX_FIRE_RIGHT1);
 	g_pTopView->DrawTitleEffect(EFFECT_INDEX_FIRE_RIGHT2);
 	g_pTopView->DrawTitleEffect(EFFECT_INDEX_FIRE_CENTER);
-	
-	if(gpC_base->m_p_DDSurface_back->Lock())
+
+	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		m_pC_button_group->Show();	
+		m_pC_button_group->Show();
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 
@@ -4303,17 +4305,17 @@ void	C_VS_UI_CHAR_MANAGER::Draw_Effect_Button_Char()
 			index = g_char_index;
 			g_CurrentFrame = index;
 
-			if(i == m_stSelect_Slot)
+			if (i == m_stSelect_Slot)
 			{
-				g_pTopView->DrawTitleEffect(EFFECT_INDEX_CHAR_SELECT + (SLOT*i));
-				g_pTopView->DrawTitleEffect(EFFECT_INDEX_CHAR_ATTACH_UP + (SLOT*i));
-			}	
+				g_pTopView->DrawTitleEffect(EFFECT_INDEX_CHAR_SELECT + (SLOT * i));
+				g_pTopView->DrawTitleEffect(EFFECT_INDEX_CHAR_ATTACH_UP + (SLOT * i));
+			}
 
-			m_pC_newchar->ShowCharacter(m_ptArrChar_Pos[i].x, m_ptArrChar_Pos[i].y, &m_slot[i], index, (m_stSelect_Slot==i)?1:0, !(m_stSelect_Slot==i));
+			m_pC_newchar->ShowCharacter(m_ptArrChar_Pos[i].x, m_ptArrChar_Pos[i].y, &m_slot[i], index, (m_stSelect_Slot == i) ? 1 : 0, !(m_stSelect_Slot == i));
 
-			if(i == m_stSelect_Slot)
+			if (i == m_stSelect_Slot)
 			{
-				g_pTopView->DrawTitleEffect(EFFECT_INDEX_CHAR_ATTACH_DOWN + (SLOT*i));
+				g_pTopView->DrawTitleEffect(EFFECT_INDEX_CHAR_ATTACH_DOWN + (SLOT * i));
 			}
 		}
 	}
@@ -4333,57 +4335,57 @@ void C_VS_UI_CHAR_MANAGER::Show()
 	Init_TitleUIInterface_InfInfo();
 
 	gpC_base->m_p_DDSurface_back->FillSurface(0);
-	if(gpC_base->m_p_DDSurface_back->Lock())
+	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		if(bHighResolution)
+		if (bHighResolution)
 		{
-			if(g_pUserInformation->iResolution_x <= 1024)
+			if (g_pUserInformation->iResolution_x <= 1024)
 			{
-				m_image_spk.BltLocked( (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1024_768)) / 2, 
+				m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1024_768)) / 2,
 					(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1024_768)) / 2, WINDOW_1024_768);
-				
+
 				m_image_spk.BltLocked(m_wChar_Info_Angle_X, m_wChar_Info_Angle_Y, CAHR_INFO_ANGLE_1024_768);
 			}
-			
+
 			else
 			{
-				if(g_pUserInformation->iResolution_y < 960)
+				if (g_pUserInformation->iResolution_y < 960)
 				{
-					m_image_spk.BltLocked( (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1280_720)) / 2, 
+					m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1280_720)) / 2,
 						(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1280_720)) / 2, WINDOW_1280_720);
-					
+
 					m_image_spk.BltLocked(m_wChar_Info_Angle_X, m_wChar_Info_Angle_Y, CAHR_INFO_ANGLE_1024_768);
 				}
-				else if(g_pUserInformation->iResolution_y < 1024)
+				else if (g_pUserInformation->iResolution_y < 1024)
 				{
-					m_image_spk.BltLocked( (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1280_960)) / 2, 
+					m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1280_960)) / 2,
 						(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1280_960)) / 2, WINDOW_1280_960);
-					
+
 					m_image_spk.BltLocked(m_wChar_Info_Angle_X, m_wChar_Info_Angle_Y, CAHR_INFO_ANGLE_1024_768);
 				}
 				else
 				{
-					m_image_spk.BltLocked( (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1280_1024)) / 2, 
+					m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1280_1024)) / 2,
 						(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1280_1024)) / 2, WINDOW_1280_1024);
-					
+
 					m_image_spk.BltLocked(m_wChar_Info_Angle_X, m_wChar_Info_Angle_Y, CAHR_INFO_ANGLE_1024_768);
 				}
 			}
 		}
 		else
 		{
-			m_image_spk.BltLocked( (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_800_600)) / 2, 
+			m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_800_600)) / 2,
 				(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_800_600)) / 2, WINDOW_800_600);
 
-			if(m_stSelect_Slot >= 0 && m_stSelect_Slot < SLOT)
+			if (m_stSelect_Slot >= 0 && m_stSelect_Slot < SLOT)
 			{
-				if(m_slot[m_stSelect_Slot].Race	== RACE_SLAYER)
+				if (m_slot[m_stSelect_Slot].Race == RACE_SLAYER)
 				{
 					m_image_spk.BltLocked(m_wSlayerChar_Info_Angle_X, m_wSlayerChar_Info_Angle_Y, SLAYER_CHAR_INFO_ANGLE);
 				}
 				else
 				{
-					m_image_spk.BltLocked(m_wChar_Info_Angle_X, m_wChar_Info_Angle_Y, CAHR_INFO_ANGLE_800_600);			
+					m_image_spk.BltLocked(m_wChar_Info_Angle_X, m_wChar_Info_Angle_Y, CAHR_INFO_ANGLE_800_600);
 				}
 			}
 		}
@@ -4391,7 +4393,7 @@ void C_VS_UI_CHAR_MANAGER::Show()
 		ChangeEffectPoint();
 #if __CONTENTS(__USER_GRADE)
 #if __CONTENTS(!__IMI_INTERFACE)
-		if(!g_pUserInformation->GoreLevel)
+		if (!g_pUserInformation->GoreLevel)
 			m_pC_use_grade->BltLocked(m_wChild_X, m_wChild_Y, CHILD);
 		else
 #endif
@@ -4414,7 +4416,7 @@ void C_VS_UI_CHAR_MANAGER::Show()
 
 	Draw_Effect_Button_Char();
 
-	if(gpC_base->m_p_DDSurface_back->Lock())
+	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
 		for (i = 0; i < SLOT; i++)
 		{
@@ -4426,61 +4428,61 @@ void C_VS_UI_CHAR_MANAGER::Show()
 	g_FL2_GetDC();
 	for (i = 0; i < SLOT; i++)
 	{
-		if(m_slot[i].bl_set)
+		if (m_slot[i].bl_set)
 		{
-			int iFont_X	= m_ptChar_Name[i].x + (m_wChar_Name_Bar_Width / 2) - 
-						(g_GetStringWidth2(m_slot[i].sz_name.c_str(), m_slot[i].sz_name.size(), gpC_base->m_user_id_pi.hfont) / 2);
+			int iFont_X = m_ptChar_Name[i].x + (m_wChar_Name_Bar_Width / 2) -
+				(g_GetStringWidth2(m_slot[i].sz_name.c_str(), m_slot[i].sz_name.size(), gpC_base->m_user_id_pi.hfont) / 2);
 			g_PrintColorStr(iFont_X, m_ptChar_Name[i].y, m_slot[i].sz_name.c_str(), gpC_base->m_user_id_pi, RGB_WHITE);
 		}
 	}
 
 	DrawCharInfoString();
-	for(i = 0; i < LINE_MAX; i++)
+	for (i = 0; i < LINE_MAX; i++)
 	{
-//		g_PrintColorStr(m_ptText_Line[i].x, 	m_ptText_Line[i].y,
-//						m_arrTextLine[i], gpC_base->m_title_menu_pi, RGB_WHITE);
+		//		g_PrintColorStr(m_ptText_Line[i].x, 	m_ptText_Line[i].y,
+		//						m_arrTextLine[i], gpC_base->m_title_menu_pi, RGB_WHITE);
 
-		g_PrintColorStr(m_ptText_Line[i].x, 	m_ptText_Line[i].y,
-						(*g_pGameStringTable)[UI_TITLE_UI_RENEWAL_CHARMANAGER_TEXT1 + i].GetString(), gpC_base->m_title_menu_pi, RGB_WHITE);
+		g_PrintColorStr(m_ptText_Line[i].x, m_ptText_Line[i].y,
+			(*g_pGameStringTable)[UI_TITLE_UI_RENEWAL_CHARMANAGER_TEXT1 + i].GetString(), gpC_base->m_title_menu_pi, RGB_WHITE);
 	}
 
-	char szBuffer[256]	= {NULL,};
+	char szBuffer[256] = { NULL, };
 
 	if (g_LeftPremiumDays == 0xFFFE)
 	{
-		sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_NOT_PREMIUM_USER].GetString() );
+		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_NOT_PREMIUM_USER].GetString());
 	}
-	else if (g_LeftPremiumDays == 0xFFFC && g_PayType == 4 )
+	else if (g_LeftPremiumDays == 0xFFFC && g_PayType == 4)
 	{
-		sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_DEFERRED_PAYMENT_NOTICE].GetString() );
+		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_DEFERRED_PAYMENT_NOTICE].GetString());
 	}
-	else if ( g_LeftPremiumDays > 0 && g_PayType == 1)
+	else if (g_LeftPremiumDays > 0 && g_PayType == 1)
 	{
-		if(g_bFamily)
-			sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_FAMILY_DAYS].GetString(), g_LeftPremiumDays );
+		if (g_bFamily)
+			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_FAMILY_DAYS].GetString(), g_LeftPremiumDays);
 		else
-			sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_DAYS].GetString(), g_LeftPremiumDays );
+			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_DAYS].GetString(), g_LeftPremiumDays);
 	}
 	else if (g_LeftPremiumDays == 0 && g_PayType == 1)
 	{
-		if(g_bFamily)
-			sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_EXPIRE_FAMILY_TODAY].GetString() );	
+		if (g_bFamily)
+			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_EXPIRE_FAMILY_TODAY].GetString());
 		else
-			sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_EXPIRE_PREMIUM_SERVICE_TODAY].GetString() );	
+			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_EXPIRE_PREMIUM_SERVICE_TODAY].GetString());
 	}
-	else if ( g_LeftPremiumDays > 0 && g_PayType == 3)
+	else if (g_LeftPremiumDays > 0 && g_PayType == 3)
 	{
-		sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_PAYZONE_DAYS].GetString(), g_LeftPremiumDays );
+		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_PAYZONE_DAYS].GetString(), g_LeftPremiumDays);
 	}
 	else if (g_LeftPremiumDays == 0 && g_PayType == 3)
 	{
-		sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_PAYZONE_DAYS].GetString() );	
+		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_PAYZONE_DAYS].GetString());
 	}
 
-	int szBufferLen = g_GetStringWidth(szBuffer, gpC_base->m_desc_menu_pi.hfont)/2;
+	int szBufferLen = g_GetStringWidth(szBuffer, gpC_base->m_desc_menu_pi.hfont) / 2;
 
-	g_PrintColorStr(m_wWorningString_X, 	m_wWorningString_Y,
-						(*g_pGameStringTable)[UI_STRING_MESSAGE_CHILDGUARD_DENYED_NOTUSE], gpC_base->m_title_menu_pi, RGB_WHITE);
+	g_PrintColorStr(m_wWorningString_X, m_wWorningString_Y,
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_CHILDGUARD_DENYED_NOTUSE], gpC_base->m_title_menu_pi, RGB_WHITE);
 	g_FL2_ReleaseDC();
 
 	SHOW_WINDOW_ATTR;
@@ -4528,7 +4530,7 @@ void C_VS_UI_SERVER_SELECT::Start(bool bGroup)
 	m_focused_help = HELP_DEFAULT;
 	m_focus_server = -1;
 
-	if(m_bl_group)
+	if (m_bl_group)
 		LoadDesc("world.txt", 30, 14, false);
 	else
 		LoadDesc("server.txt", 30, 14, false);
@@ -4562,29 +4564,29 @@ C_VS_UI_SERVER_SELECT::C_VS_UI_SERVER_SELECT()
 	m_focus_server = -1;
 	m_server_select = -1;
 	m_scroll = 0;
-	m_server_size	= 0;
+	m_server_size = 0;
 
 	m_pAnimationTimer = new CTickTimer;
 	m_pAnimationTimer->StartTimer(50, true);
 	m_aniArpha = 31;
 	m_bAniArphaUp = false;
 
-	m_pserver_slayernum_barcount	= NULL;
-	m_pserver_vampirenum_barcount	= NULL;
-	m_pserver_ousters_barcount		= NULL;
+	m_pserver_slayernum_barcount = NULL;
+	m_pserver_vampirenum_barcount = NULL;
+	m_pserver_ousters_barcount = NULL;
 
-	m_server_select_world			= 0;
-	m_server_select_chenel			= 0;
-	m_wSelect_Chenel_Index			= 0;
-	m_blAccep_World_Chenenl			= true;
+	m_server_select_world = 0;
+	m_server_select_chenel = 0;
+	m_wSelect_Chenel_Index = 0;
+	m_blAccep_World_Chenenl = true;
 
-	m_server_select_world_prev		= -1;
-	m_server_select_chenel_prev		= -1;
+	m_server_select_world_prev = -1;
+	m_server_select_chenel_prev = -1;
 
-	m_iOldMousePoint_X				= 0;
-	m_iOldMousePoint_Y				= 0;
+	m_iOldMousePoint_X = 0;
+	m_iOldMousePoint_Y = 0;
 
-	m_blKeybord_OR_Mouse_Input		= true;
+	m_blKeybord_OR_Mouse_Input = true;
 
 	Init_TitleUIInterface_InfInfo();
 #if	__CONTENTS(__USER_GRADE)
@@ -4593,41 +4595,41 @@ C_VS_UI_SERVER_SELECT::C_VS_UI_SERVER_SELECT()
 
 	m_title_spk.Open(SPK_TITLE);
 
-	//���� ����Ʈ �����ġ
+	//???? ????? ??????
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
-	// �ػ� �ø� �� UI�� �߾ӿ� ������ �ϱ� ���� ��ǥ ������ ����.
+	// ??? ??? ?? UI?? ???? ?????? ??? ???? ??? ?????? ????.
 	int ConvX = 0;	int ConvY = 0;
 
-// 	if(bHighResolution)
-// 	{
-// 		if(g_pUserInformation->iResolution_x > 1024)
-// 		{	
-// 			// 1280*720
-// 			if(g_pUserInformation->iResolution_y < 960)
-// 			{	
-// 				ConvX = 128;	//(g_pUserInformation->iResolution_x - m_title_spk.GetWidth(2)) / 2
-// 				ConvY = -24;	//(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(2)) / 2
-// 			}
-// 			// 1280*960
-// 			else if(g_pUserInformation->iResolution_y < 1024)
-// 			{	
-// 				ConvX = 128;	//(g_pUserInformation->iResolution_x - m_title_spk.GetWidth(3)) / 2
-// 				ConvY = 96;		//(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(3)) / 2
-// 			}
-// 			// 1280*1024
-// 			else
-// 			{	
-// 				ConvX = 128;	//(g_pUserInformation->iResolution_x - m_title_spk.GetWidth(4)) / 2
-// 				ConvY = 128;	//(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(4)) / 2
-// 			}
-// 		}
-// 	}
+	// 	if(bHighResolution)
+	// 	{
+	// 		if(g_pUserInformation->iResolution_x > 1024)
+	// 		{	
+	// 			// 1280*720
+	// 			if(g_pUserInformation->iResolution_y < 960)
+	// 			{	
+	// 				ConvX = 128;	//(g_pUserInformation->iResolution_x - m_title_spk.GetWidth(2)) / 2
+	// 				ConvY = -24;	//(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(2)) / 2
+	// 			}
+	// 			// 1280*960
+	// 			else if(g_pUserInformation->iResolution_y < 1024)
+	// 			{	
+	// 				ConvX = 128;	//(g_pUserInformation->iResolution_x - m_title_spk.GetWidth(3)) / 2
+	// 				ConvY = 96;		//(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(3)) / 2
+	// 			}
+	// 			// 1280*1024
+	// 			else
+	// 			{	
+	// 				ConvX = 128;	//(g_pUserInformation->iResolution_x - m_title_spk.GetWidth(4)) / 2
+	// 				ConvY = 128;	//(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(4)) / 2
+	// 			}
+	// 		}
+	// 	}
 
-// 	int convx = (g_pUserInformation->iResolution_x - 800) / 2;
-// 	int convy = (g_pUserInformation->iResolution_y - 600) / 2;
-	
-	m_server_x = 350+ConvX;
-	m_server_y = 191+ConvY;
+	// 	int convx = (g_pUserInformation->iResolution_x - 800) / 2;
+	// 	int convy = (g_pUserInformation->iResolution_y - 600) / 2;
+
+	m_server_x = 350 + ConvX;
+	m_server_y = 191 + ConvY;
 
 
 	g_RegisterWindow(this);
@@ -4638,43 +4640,43 @@ C_VS_UI_SERVER_SELECT::C_VS_UI_SERVER_SELECT()
 
 	Set(0, 0, g_pUserInformation->iResolution_x, g_pUserInformation->iResolution_y);
 
- 	if(bHighResolution)
- 	{
- 		if(g_pUserInformation->iResolution_x <= 1024)
- 			Set( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(1)) / 2, 
- 			(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(1)) / 2, 
- 			m_title_spk.GetWidth(1), m_title_spk.GetHeight(1) );
- 		else // if(g_pUserInformation->iResolution_x > 1024)
- 		{
- 			if(g_pUserInformation->iResolution_y < 960)
- 				Set( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(2)) / 2, 
- 				(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(2)) / 2, 
- 				m_title_spk.GetWidth(2), m_title_spk.GetHeight(2) );
- 			else if(g_pUserInformation->iResolution_y < 1024)
- 				Set( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(3)) / 2, 
- 				(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(3)) / 2, 
- 				m_title_spk.GetWidth(3), m_title_spk.GetHeight(3) );
- 			else
- 				Set( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(4)) / 2, 
- 				(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(4)) / 2, 
- 				m_title_spk.GetWidth(4), m_title_spk.GetHeight(4) );
- 		}
- 	}
+	if (bHighResolution)
+	{
+		if (g_pUserInformation->iResolution_x <= 1024)
+			Set((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(1)) / 2,
+				(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(1)) / 2,
+				m_title_spk.GetWidth(1), m_title_spk.GetHeight(1));
+		else // if(g_pUserInformation->iResolution_x > 1024)
+		{
+			if (g_pUserInformation->iResolution_y < 960)
+				Set((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(2)) / 2,
+					(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(2)) / 2,
+					m_title_spk.GetWidth(2), m_title_spk.GetHeight(2));
+			else if (g_pUserInformation->iResolution_y < 1024)
+				Set((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(3)) / 2,
+					(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(3)) / 2,
+					m_title_spk.GetWidth(3), m_title_spk.GetHeight(3));
+			else
+				Set((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(4)) / 2,
+					(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(4)) / 2,
+					m_title_spk.GetWidth(4), m_title_spk.GetHeight(4));
+		}
+	}
 	else
-		Set( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(0)) / 2, 
- 			(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(0)) / 2, 
-			m_title_spk.GetWidth(0), m_title_spk.GetHeight(0) );
+		Set((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(0)) / 2,
+			(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(0)) / 2,
+			m_title_spk.GetWidth(0), m_title_spk.GetHeight(0));
 
 	m_pC_button_group = new ButtonGroup(this);
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wPreve_Button_X, m_wPreve_Button_Y, 
-							m_image_spk.GetWidth(PREV_SCREEN_BUTTON), m_image_spk.GetHeight(PREV_SCREEN_BUTTON), 
-							BACK_ID, this, PREV_SCREEN_BUTTON));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wNext_Button_X, m_wNext_Button_Y, 
-							m_image_spk.GetWidth(NEXT_SCREEN_BUTTON), m_image_spk.GetHeight(NEXT_SCREEN_BUTTON), 
-							NEXT_ID, this, NEXT_SCREEN_BUTTON));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wPreve_Button_X, m_wPreve_Button_Y,
+		m_image_spk.GetWidth(PREV_SCREEN_BUTTON), m_image_spk.GetHeight(PREV_SCREEN_BUTTON),
+		BACK_ID, this, PREV_SCREEN_BUTTON));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wNext_Button_X, m_wNext_Button_Y,
+		m_image_spk.GetWidth(NEXT_SCREEN_BUTTON), m_image_spk.GetHeight(NEXT_SCREEN_BUTTON),
+		NEXT_ID, this, NEXT_SCREEN_BUTTON));
 
-	m_blKeybord_OR_Mouse_Input	= false;
+	m_blKeybord_OR_Mouse_Input = false;
 
 	m_focused_help = HELP_DEFAULT;
 }
@@ -4684,134 +4686,134 @@ C_VS_UI_SERVER_SELECT::C_VS_UI_SERVER_SELECT()
 
 void	C_VS_UI_SERVER_SELECT::Init_TitleUIInterface_InfInfo()
 {
-	char arrstrAppName[255]		= {NULL,};
-	char arrstrFileName[255]	= {NULL,};
+	char arrstrAppName[255] = { NULL, };
+	char arrstrFileName[255] = { NULL, };
 
-	GetCurrentDirectory(_MAX_PATH, arrstrFileName);	//���� ���� ���� ������ ��θ� ��´�.
+	GetCurrentDirectory(_MAX_PATH, arrstrFileName);	//???? ???? ???? ?????? ???? ????.
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
-	// �ػ� �ø� �� UI�� �߾ӿ� ������ �ϱ� ���� ��ǥ ������ ����.
+	// ??? ??? ?? UI?? ???? ?????? ??? ???? ??? ?????? ????.
 	int ConvX = 0;	int ConvY = 0;
 
-	if(bHighResolution)
+	if (bHighResolution)
 	{
-		if(g_pUserInformation->iResolution_x <=1024)
-			strcpy(arrstrAppName,"SERVER_SELECT_1024_768");
+		if (g_pUserInformation->iResolution_x <= 1024)
+			strcpy(arrstrAppName, "SERVER_SELECT_1024_768");
 		else
 		{
 			// 1280*720
-			if(g_pUserInformation->iResolution_y < 960)
-			{	
-				strcpy(arrstrAppName,"SERVER_SELECT_1280_720");
+			if (g_pUserInformation->iResolution_y < 960)
+			{
+				strcpy(arrstrAppName, "SERVER_SELECT_1280_720");
 
-// 				ConvX = (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1024_768)) / 2;	//128
-// 				ConvY = (g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1024_768)) / 2;	//-24
+				// 				ConvX = (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1024_768)) / 2;	//128
+				// 				ConvY = (g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1024_768)) / 2;	//-24
 			}
 			// 1280*960
-			else if(g_pUserInformation->iResolution_y < 1024)
-			{	
-				strcpy(arrstrAppName,"SERVER_SELECT_1280_960");
+			else if (g_pUserInformation->iResolution_y < 1024)
+			{
+				strcpy(arrstrAppName, "SERVER_SELECT_1280_960");
 
-// 				ConvX = (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1024_768)) / 2;	//128
-// 				ConvY = (g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1024_768)) / 2;	//96
+				// 				ConvX = (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1024_768)) / 2;	//128
+				// 				ConvY = (g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1024_768)) / 2;	//96
 			}
 			// 1280*1024
 			else
-			{	
-				strcpy(arrstrAppName,"SERVER_SELECT_1280_1024");
+			{
+				strcpy(arrstrAppName, "SERVER_SELECT_1280_1024");
 
-// 				ConvX = (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1024_768)) / 2;	//128
-// 				ConvY = (g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1024_768)) / 2;	//128
+				// 				ConvX = (g_pUserInformation->iResolution_x - m_image_spk.GetWidth(WINDOW_1024_768)) / 2;	//128
+				// 				ConvY = (g_pUserInformation->iResolution_y - m_image_spk.GetHeight(WINDOW_1024_768)) / 2;	//128
 			}
-		}	
+		}
 	}
 	else
-		strcpy(arrstrAppName,"SERVER_SELECT_800_600");
+		strcpy(arrstrAppName, "SERVER_SELECT_800_600");
 
 	strcat(arrstrFileName, FILE_INFO_TITLE_UI);
 
-	m_wWorld_List_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "WORLD_LIST_X", 0, arrstrFileName);
-	m_wWorld_List_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "WORLD_LIST_Y", 0, arrstrFileName);
+	m_wWorld_List_X = (WORD)GetPrivateProfileInt(arrstrAppName, "WORLD_LIST_X", 0, arrstrFileName);
+	m_wWorld_List_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "WORLD_LIST_Y", 0, arrstrFileName);
 
-	m_wSelect_World_Bar_Interval_X	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_BAR_INTERVAL_X", 0, arrstrFileName);// + ConvX;
-	m_wSelect_World_Bar_Interval_Y	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_BAR_INTERVAL_Y", 0, arrstrFileName);// + ConvY;
+	m_wSelect_World_Bar_Interval_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_BAR_INTERVAL_X", 0, arrstrFileName);// + ConvX;
+	m_wSelect_World_Bar_Interval_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_BAR_INTERVAL_Y", 0, arrstrFileName);// + ConvY;
 
-	m_wSelect_World_Bar_X			= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_BAR_X", 0, arrstrFileName) + m_wWorld_List_X;
-	m_wSelect_World_Bar_Y			= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_BAR_Y", 0, arrstrFileName) + m_wWorld_List_Y;
+	m_wSelect_World_Bar_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_BAR_X", 0, arrstrFileName) + m_wWorld_List_X;
+	m_wSelect_World_Bar_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_BAR_Y", 0, arrstrFileName) + m_wWorld_List_Y;
 
-	m_wSelect_World_Name_Font_X		= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_NAME_FONT_X", 0, arrstrFileName) + m_wWorld_List_X;
-	m_wSelect_World_Name_Font_Y		= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_NAME_FONT_Y", 0, arrstrFileName) + m_wWorld_List_Y;
+	m_wSelect_World_Name_Font_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_NAME_FONT_X", 0, arrstrFileName) + m_wWorld_List_X;
+	m_wSelect_World_Name_Font_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_NAME_FONT_Y", 0, arrstrFileName) + m_wWorld_List_Y;
 
-	m_wSelect_World_Status_Font_X	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_STATUS_FONT_X", 0, arrstrFileName) + m_wWorld_List_X;
-	m_wSelect_World_Status_Font_Y	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_STATUS_FONT_Y", 0, arrstrFileName) + m_wWorld_List_Y;
+	m_wSelect_World_Status_Font_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_STATUS_FONT_X", 0, arrstrFileName) + m_wWorld_List_X;
+	m_wSelect_World_Status_Font_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_WORLD_STATUS_FONT_Y", 0, arrstrFileName) + m_wWorld_List_Y;
 
-	m_wWorld_List_Show_Max			= (WORD)GetPrivateProfileInt(arrstrAppName, "WORLD_LIST_SHOW_MAX", 0, arrstrFileName); // Ȯ�� �� ����.
+	m_wWorld_List_Show_Max = (WORD)GetPrivateProfileInt(arrstrAppName, "WORLD_LIST_SHOW_MAX", 0, arrstrFileName); // ??? ?? ????.
 
-	m_wChenel_List_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "CHENEL_LIST_X", 0, arrstrFileName);
-	m_wChenel_List_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "CHENEL_LIST_Y", 0, arrstrFileName);
+	m_wChenel_List_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHENEL_LIST_X", 0, arrstrFileName);
+	m_wChenel_List_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHENEL_LIST_Y", 0, arrstrFileName);
 
-	m_wSelect_Chenel_Bar_Interval_X	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_INTERVAL_X", 0, arrstrFileName); // + ConvX;
-	m_wSelect_Chenel_Bar_Interval_Y	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_INTERVAL_Y", 0, arrstrFileName); // + ConvY;
+	m_wSelect_Chenel_Bar_Interval_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_INTERVAL_X", 0, arrstrFileName); // + ConvX;
+	m_wSelect_Chenel_Bar_Interval_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_INTERVAL_Y", 0, arrstrFileName); // + ConvY;
 
-	m_wSelect_Chenel_Bar_Chenel_X	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_CHENEL_X", 0, arrstrFileName) + m_wChenel_List_X;
-	m_wSelect_Chenel_Bar_Chenel_Y	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_CHENEL_Y", 0, arrstrFileName) + m_wChenel_List_Y;
+	m_wSelect_Chenel_Bar_Chenel_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_CHENEL_X", 0, arrstrFileName) + m_wChenel_List_X;
+	m_wSelect_Chenel_Bar_Chenel_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_CHENEL_Y", 0, arrstrFileName) + m_wChenel_List_Y;
 
-	m_wSelect_Chenel_Bar_Status_X	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_STATUS_X", 0, arrstrFileName) + m_wChenel_List_X;
-	m_wSelect_Chenel_Bar_Status_Y	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_STATUS_Y", 0, arrstrFileName) + m_wChenel_List_Y;
+	m_wSelect_Chenel_Bar_Status_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_STATUS_X", 0, arrstrFileName) + m_wChenel_List_X;
+	m_wSelect_Chenel_Bar_Status_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_STATUS_Y", 0, arrstrFileName) + m_wChenel_List_Y;
 
-	m_wSelect_Chenel_Bar_RaceInfo_X	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_RACEINFO_X", 0, arrstrFileName) + m_wChenel_List_X;
-	m_wSelect_Chenel_Bar_RaceInfo_Y	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_RACEINFO_Y", 0, arrstrFileName) + m_wChenel_List_Y;
+	m_wSelect_Chenel_Bar_RaceInfo_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_RACEINFO_X", 0, arrstrFileName) + m_wChenel_List_X;
+	m_wSelect_Chenel_Bar_RaceInfo_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_BAR_RACEINFO_Y", 0, arrstrFileName) + m_wChenel_List_Y;
 
-	m_wSelect_Chenel_Name_Font_X	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_NAME_FONT_X", 0, arrstrFileName) + m_wChenel_List_X;
-	m_wSelect_Chenel_Name_Font_Y	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_NAME_FONT_Y", 0, arrstrFileName) + m_wChenel_List_Y;
+	m_wSelect_Chenel_Name_Font_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_NAME_FONT_X", 0, arrstrFileName) + m_wChenel_List_X;
+	m_wSelect_Chenel_Name_Font_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_NAME_FONT_Y", 0, arrstrFileName) + m_wChenel_List_Y;
 
-	m_wSelect_Chenel_Status_Font_X	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_STATUS_FONT_X", 0, arrstrFileName) + m_wChenel_List_X;
-	m_wSelect_Chenel_Status_Font_Y	= (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_STATUS_FONT_Y", 0, arrstrFileName) + m_wChenel_List_Y;
+	m_wSelect_Chenel_Status_Font_X = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_STATUS_FONT_X", 0, arrstrFileName) + m_wChenel_List_X;
+	m_wSelect_Chenel_Status_Font_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "SELECT_CHENEL_STATUS_FONT_Y", 0, arrstrFileName) + m_wChenel_List_Y;
 
-	m_wChenel_List_Show_Max			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHENEL_LIST_SHOW_MAX", 0, arrstrFileName);	// Ȯ�� �� ����.
+	m_wChenel_List_Show_Max = (WORD)GetPrivateProfileInt(arrstrAppName, "CHENEL_LIST_SHOW_MAX", 0, arrstrFileName);	// ??? ?? ????.
 
-	m_wChar_Bar_Start_View_X		= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_BAR_START_VIEW_X", 0, arrstrFileName) + m_wChenel_List_X;
-	m_wChar_Bar_Start_View_Y		= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_BAR_START_VIEW_Y", 0, arrstrFileName) + m_wChenel_List_Y;
+	m_wChar_Bar_Start_View_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_BAR_START_VIEW_X", 0, arrstrFileName) + m_wChenel_List_X;
+	m_wChar_Bar_Start_View_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_BAR_START_VIEW_Y", 0, arrstrFileName) + m_wChenel_List_Y;
 
-	m_wChar_Bar_Interval_X			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_BAR_INTERVAL_X", 0, arrstrFileName); // + ConvX;
-	m_wChar_Bar_Interval_Y			= (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_BAR_INTERVAL_Y", 0, arrstrFileName); // + ConvY;
+	m_wChar_Bar_Interval_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_BAR_INTERVAL_X", 0, arrstrFileName); // + ConvX;
+	m_wChar_Bar_Interval_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHAR_BAR_INTERVAL_Y", 0, arrstrFileName); // + ConvY;
 
-	m_wPreve_Button_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "PREVE_BUTTON_X", 0, arrstrFileName);
-	m_wPreve_Button_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "PREVE_BUTTON_Y", 0, arrstrFileName);
+	m_wPreve_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "PREVE_BUTTON_X", 0, arrstrFileName);
+	m_wPreve_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "PREVE_BUTTON_Y", 0, arrstrFileName);
 
-	m_wNext_Button_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "NEXT_BUTTON_X", 0, arrstrFileName);
-	m_wNext_Button_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "NEXT_BUTTON_Y", 0, arrstrFileName);
+	m_wNext_Button_X = (WORD)GetPrivateProfileInt(arrstrAppName, "NEXT_BUTTON_X", 0, arrstrFileName);
+	m_wNext_Button_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "NEXT_BUTTON_Y", 0, arrstrFileName);
 
-	m_wChild_X						= (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_X", 0, arrstrFileName);
-	m_wChild_Y						= (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_Y", 0, arrstrFileName);
+	m_wChild_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_X", 0, arrstrFileName);
+	m_wChild_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_Y", 0, arrstrFileName);
 
-	m_wAdult_X						= (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_X", 0, arrstrFileName);
-	m_wAdult_Y						= (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_Y", 0, arrstrFileName);
+	m_wAdult_X = (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_X", 0, arrstrFileName);
+	m_wAdult_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_Y", 0, arrstrFileName);
 
-	m_wViolence_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_X", 0, arrstrFileName);
-	m_wViolence_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_Y", 0, arrstrFileName);
+	m_wViolence_X = (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_X", 0, arrstrFileName);
+	m_wViolence_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_Y", 0, arrstrFileName);
 
-	m_wFear_X						= (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_X", 0, arrstrFileName);
-	m_wFear_Y						= (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_Y", 0, arrstrFileName);
+	m_wFear_X = (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_X", 0, arrstrFileName);
+	m_wFear_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_Y", 0, arrstrFileName);
 
-	m_wTex_Bar_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_BAR_X", 0, arrstrFileName);
-	m_wTex_Bar_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_BAR_Y", 0, arrstrFileName);
+	m_wTex_Bar_X = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_BAR_X", 0, arrstrFileName);
+	m_wTex_Bar_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_BAR_Y", 0, arrstrFileName);
 
-	m_wAni_Mark_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_X", 0, arrstrFileName);
-	m_wAni_Mark_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_Y", 0, arrstrFileName);
+	m_wAni_Mark_X = (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_X", 0, arrstrFileName);
+	m_wAni_Mark_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_Y", 0, arrstrFileName);
 
-	m_wView_Race_Info_Image_X		= (WORD)GetPrivateProfileInt(arrstrAppName, "VIEW_RACE_INFO_IMAGE_X", 0, arrstrFileName)	+ m_wChenel_List_X;
-	m_wView_Race_Info_Image_Y		= (WORD)GetPrivateProfileInt(arrstrAppName, "VIEW_RACE_INFO_IMAGE_Y", 0, arrstrFileName)	+ m_wChenel_List_Y;
+	m_wView_Race_Info_Image_X = (WORD)GetPrivateProfileInt(arrstrAppName, "VIEW_RACE_INFO_IMAGE_X", 0, arrstrFileName) + m_wChenel_List_X;
+	m_wView_Race_Info_Image_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "VIEW_RACE_INFO_IMAGE_Y", 0, arrstrFileName) + m_wChenel_List_Y;
 
-	m_ptText_Line[LINE1].x			= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE1_X", 0, arrstrFileName)	+ m_wTex_Bar_X;
-	m_ptText_Line[LINE1].y			= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE1_Y", 0, arrstrFileName)	+ m_wTex_Bar_Y;
+	m_ptText_Line[LINE1].x = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE1_X", 0, arrstrFileName) + m_wTex_Bar_X;
+	m_ptText_Line[LINE1].y = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE1_Y", 0, arrstrFileName) + m_wTex_Bar_Y;
 
-	m_ptText_Line[LINE2].x			= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE2_X", 0, arrstrFileName)	+ m_wTex_Bar_X;
-	m_ptText_Line[LINE2].y			= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE2_Y", 0, arrstrFileName)	+ m_wTex_Bar_Y;
+	m_ptText_Line[LINE2].x = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE2_X", 0, arrstrFileName) + m_wTex_Bar_X;
+	m_ptText_Line[LINE2].y = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_LINE2_Y", 0, arrstrFileName) + m_wTex_Bar_Y;
 
-	m_wPrimeum_Use_Day_Txt_X		= (WORD)GetPrivateProfileInt(arrstrAppName, "PRIMEUP_USE_DAY_TEXT_X", 0, arrstrFileName);
-	m_wPrimeum_Use_Day_Txt_Y		= (WORD)GetPrivateProfileInt(arrstrAppName, "PRIMEUP_USE_DAY_TEXT_Y", 0, arrstrFileName);
-	
+	m_wPrimeum_Use_Day_Txt_X = (WORD)GetPrivateProfileInt(arrstrAppName, "PRIMEUP_USE_DAY_TEXT_X", 0, arrstrFileName);
+	m_wPrimeum_Use_Day_Txt_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "PRIMEUP_USE_DAY_TEXT_Y", 0, arrstrFileName);
+
 	GetPrivateProfileString(arrstrAppName, "TEXT_LINE1", "", m_arrTextLine[LINE1], sizeof(m_arrTextLine[LINE1]), arrstrFileName);
 	GetPrivateProfileString(arrstrAppName, "TEXT_LINE2", "", m_arrTextLine[LINE2], sizeof(m_arrTextLine[LINE2]), arrstrFileName);
 }
@@ -4826,29 +4828,29 @@ C_VS_UI_SERVER_SELECT::~C_VS_UI_SERVER_SELECT()
 {
 	g_UnregisterWindow(this);
 
-	// !Window�� ���� delete�ؾ� �Ѵ�.
+	// !Window?? ???? delete??? ???.
 	DeleteNew(m_pAnimationTimer);
 	DeleteNew(m_pC_button_group);
 #if	__CONTENTS(__USER_GRADE)
 	DeleteNew(m_pC_use_grade);
 #endif	//__USER_GRADE
 
-	if(m_pserver_slayernum_barcount != NULL)
+	if (m_pserver_slayernum_barcount != NULL)
 	{
 		delete[] m_pserver_slayernum_barcount;
-		m_pserver_slayernum_barcount		= NULL;
+		m_pserver_slayernum_barcount = NULL;
 	}
 
-	if(m_pserver_vampirenum_barcount != NULL)
+	if (m_pserver_vampirenum_barcount != NULL)
 	{
 		delete[] m_pserver_vampirenum_barcount;
-		m_pserver_vampirenum_barcount		= NULL;
+		m_pserver_vampirenum_barcount = NULL;
 	}
 
-	if(m_pserver_ousters_barcount != NULL)
+	if (m_pserver_ousters_barcount != NULL)
 	{
 		delete[] m_pserver_ousters_barcount;
-		m_pserver_ousters_barcount		= NULL;
+		m_pserver_ousters_barcount = NULL;
 	}
 }
 
@@ -4862,50 +4864,50 @@ C_VS_UI_SERVER_SELECT::~C_VS_UI_SERVER_SELECT()
 void C_VS_UI_SERVER_SELECT::SelectBarPos()
 {
 #if __CONTENTS(__SERVER_SELECT_REVEWAL)
-// 	int convx = (g_pUserInformation->iResolution_x - 800) / 2;
-// 	int convy = (g_pUserInformation->iResolution_y - 600) / 2;
+	// 	int convx = (g_pUserInformation->iResolution_x - 800) / 2;
+	// 	int convy = (g_pUserInformation->iResolution_y - 600) / 2;
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
-	// �ػ� �ø� �� UI�� �߾ӿ� ������ �ϱ� ���� ��ǥ ������ ����.
+	// ??? ??? ?? UI?? ???? ?????? ??? ???? ??? ?????? ????.
 	int ConvX = 0;	int ConvY = 0;
 
-// 	if(bHighResolution)
-// 	{
-// 		if(g_pUserInformation->iResolution_x > 1024)
-// 		{	
-// 			// 1280*720
-// 			if(g_pUserInformation->iResolution_y < 960)
-// 			{	
-// 				ConvX = 128;	//(g_pUserInformation->iResolution_x - m_title_spk.GetWidth(2)) / 2
-// 				ConvY = -24;	//(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(2)) / 2
-// 			}
-// 			// 1280*960
-// 			else if(g_pUserInformation->iResolution_y < 1024)
-// 			{	
-// 				ConvX = 128;	//(g_pUserInformation->iResolution_x - m_title_spk.GetWidth(3)) / 2
-// 				ConvY = 96;		//(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(3)) / 2
-// 			}
-// 			// 1280*1024
-// 			else
-// 			{	
-// 				ConvX = 128;	//(g_pUserInformation->iResolution_x - m_title_spk.GetWidth(4)) / 2
-// 				ConvY = 128;	//(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(4)) / 2
-// 			}		
-// 		}
-// 	}
+	// 	if(bHighResolution)
+	// 	{
+	// 		if(g_pUserInformation->iResolution_x > 1024)
+	// 		{	
+	// 			// 1280*720
+	// 			if(g_pUserInformation->iResolution_y < 960)
+	// 			{	
+	// 				ConvX = 128;	//(g_pUserInformation->iResolution_x - m_title_spk.GetWidth(2)) / 2
+	// 				ConvY = -24;	//(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(2)) / 2
+	// 			}
+	// 			// 1280*960
+	// 			else if(g_pUserInformation->iResolution_y < 1024)
+	// 			{	
+	// 				ConvX = 128;	//(g_pUserInformation->iResolution_x - m_title_spk.GetWidth(3)) / 2
+	// 				ConvY = 96;		//(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(3)) / 2
+	// 			}
+	// 			// 1280*1024
+	// 			else
+	// 			{	
+	// 				ConvX = 128;	//(g_pUserInformation->iResolution_x - m_title_spk.GetWidth(4)) / 2
+	// 				ConvY = 128;	//(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(4)) / 2
+	// 			}		
+	// 		}
+	// 	}
 
-	
-	if(m_bl_group)
+
+	if (m_bl_group)
 	{
-		m_server_x = 350+ConvX;//+112;
-		m_server_y = 191+ConvY;//+84;
+		m_server_x = 350 + ConvX;//+112;
+		m_server_y = 191 + ConvY;//+84;
 	}
 	else
 	{
-		m_server_x = 350+ConvX-13;
-		m_server_y = 191+ConvY+7;
+		m_server_x = 350 + ConvX - 13;
+		m_server_y = 191 + ConvY + 7;
 	}
-	
+
 #endif //__SERVER_SELECT_REVEWAL
 }
 
@@ -4945,7 +4947,7 @@ void C_VS_UI_SERVER_SELECT::WindowEventReceiver(id_t event)
 //-----------------------------------------------------------------------------
 bool C_VS_UI_SERVER_SELECT::IsPixel(int _x, int _y)
 {
-//	return m_image_spk.IsPixel(SCR2WIN_X(_x), SCR2WIN_Y(_y));
+	//	return m_image_spk.IsPixel(SCR2WIN_X(_x), SCR2WIN_Y(_y));
 	return true;
 }
 
@@ -4961,67 +4963,67 @@ void C_VS_UI_SERVER_SELECT::Run(id_t id)
 	case BACK_ID:
 		gpC_base->SendMessage(UI_CLOSE_SERVER_SELECT, true);
 
-		if(m_pserver_slayernum_barcount != NULL)
+		if (m_pserver_slayernum_barcount != NULL)
 		{
 			delete[] m_pserver_slayernum_barcount;
-			m_pserver_slayernum_barcount		= NULL;
-		}	
+			m_pserver_slayernum_barcount = NULL;
+		}
 
-		if(m_pserver_vampirenum_barcount != NULL)
+		if (m_pserver_vampirenum_barcount != NULL)
 		{
 			delete[] m_pserver_vampirenum_barcount;
-			m_pserver_vampirenum_barcount		= NULL;
+			m_pserver_vampirenum_barcount = NULL;
 		}
 
-		if(m_pserver_ousters_barcount != NULL)
+		if (m_pserver_ousters_barcount != NULL)
 		{
 			delete[] m_pserver_ousters_barcount;
-			m_pserver_ousters_barcount		= NULL;
+			m_pserver_ousters_barcount = NULL;
 		}
-			break;
+		break;
 
 	case NEXT_ID:
 	{
-		bool validIndex		= false;
-		bool validWorld		= false;
-		bool validServer	= false;
+		bool validIndex = false;
+		bool validWorld = false;
+		bool validServer = false;
 
-		if(m_blAccep_World_Chenenl)
+		if (m_blAccep_World_Chenenl)
 		{
-			validIndex	= m_server_select_world > -1
-						&& m_server_select_world < (int)m_server_name_world.size()
-						&& m_server_select_world < (int)m_server_status_world.size();
+			validIndex = m_server_select_world > -1
+				&& m_server_select_world < (int)m_server_name_world.size()
+				&& m_server_select_world < (int)m_server_status_world.size();
 			// Short circuit: validIndex was computed and then ignored, so an
 			// empty world list indexed [0] and crashed on the first click.
-			validWorld	= validIndex && m_blAccep_World_Chenenl && m_server_status_world[m_server_select_world] != STATUS_CLOSED;
+			validWorld = validIndex && m_blAccep_World_Chenenl && m_server_status_world[m_server_select_world] != STATUS_CLOSED;
 		}
 		else
 		{
-			validIndex	= m_server_select_chenel > -1
-						&& m_server_select_chenel < (int)m_server_name_chenel.size()
-						&& m_server_select_chenel < (int)m_server_status_chenel.size();
+			validIndex = m_server_select_chenel > -1
+				&& m_server_select_chenel < (int)m_server_name_chenel.size()
+				&& m_server_select_chenel < (int)m_server_status_chenel.size();
 			validServer = validIndex && !m_blAccep_World_Chenenl && m_server_status_chenel[m_server_select_chenel] != STATUS_VERY_BAD;
 		}
 
-		if(m_blAccep_World_Chenenl)
+		if (m_blAccep_World_Chenenl)
 		{
-			m_wSelect_World_Click_Index	= m_server_select_world;
-			if( validIndex && (validServer || validWorld)) 
+			m_wSelect_World_Click_Index = m_server_select_world;
+			if (validIndex && (validServer || validWorld))
 			{
-				if( m_blAccep_World_Chenenl == 0
+				if (m_blAccep_World_Chenenl == 0
 #if __CONTENTS(__USER_GRADE)
 					&& g_pUserInformation->IsUnderFifthteen
 					&& m_server_select_chenel < (int)m_server_nonpk_chenel.size()
 					&& !m_server_nonpk_chenel.at(m_server_select_chenel)
 #endif //__USER_GRADE
 #if __CONTENTS(__CONECT_LIMITER)
-					&& m_server_id_world[m_server_select_world]	< STATUS_VERY_BAD
+					&& m_server_id_world[m_server_select_world] < STATUS_VERY_BAD
 #endif
 					)
 				{
 					gC_vs_ui.RunAskCheckToEnterServerDialog(
-							C_VS_UI_ASK_DIALOG::ASK_CHECK_TO_ENTER_SERVER,
-							MAKEWORD(m_blAccep_World_Chenenl,m_server_id_world[m_server_select_world]) );
+						C_VS_UI_ASK_DIALOG::ASK_CHECK_TO_ENTER_SERVER,
+						MAKEWORD(m_blAccep_World_Chenenl, m_server_id_world[m_server_select_world]));
 				}
 				else
 				{
@@ -5031,22 +5033,22 @@ void C_VS_UI_SERVER_SELECT::Run(id_t id)
 		}
 		else
 		{
-			if( validIndex && (validServer || validWorld)) 
+			if (validIndex && (validServer || validWorld))
 			{
-				if( m_blAccep_World_Chenenl == 0
+				if (m_blAccep_World_Chenenl == 0
 #if __CONTENTS(__USER_GRADE)
 					&& g_pUserInformation->IsUnderFifthteen
 					&& m_server_select_chenel < (int)m_server_nonpk_chenel.size()
 					&& !m_server_nonpk_chenel.at(m_server_select_chenel)
 #endif //__USER_GRADE
 #if __CONTENTS(__CONECT_LIMITER)
-					&& m_server_status_chenel[m_server_select_chenel]	== STATUS_VERY_BAD
+					&& m_server_status_chenel[m_server_select_chenel] == STATUS_VERY_BAD
 #endif
 					)
 				{
 					gC_vs_ui.RunAskCheckToEnterServerDialog(
-							C_VS_UI_ASK_DIALOG::ASK_CHECK_TO_ENTER_SERVER,
-							MAKEWORD(m_bl_group,m_server_id_chenel[m_server_select_chenel]) );
+						C_VS_UI_ASK_DIALOG::ASK_CHECK_TO_ENTER_SERVER,
+						MAKEWORD(m_bl_group, m_server_id_chenel[m_server_select_chenel]));
 				}
 				else
 				{
@@ -5058,13 +5060,13 @@ void C_VS_UI_SERVER_SELECT::Run(id_t id)
 	break;
 
 	case SCROLL_UP_ID:
-		if(m_scroll > 0)
+		if (m_scroll > 0)
 			m_scroll--;
 		EMPTY_MOVE;
 		break;
 
 	case SCROLL_DOWN_ID:
-		if(m_server_name_chenel.size() > 12 && m_scroll < m_server_name_chenel.size()-12)
+		if (m_server_name_chenel.size() > 12 && m_scroll < m_server_name_chenel.size() - 12)
 			m_scroll++;
 		EMPTY_MOVE;
 		break;
@@ -5077,149 +5079,149 @@ void C_VS_UI_SERVER_SELECT::Run(id_t id)
 -----------------------------------------------------------------------------*/
 bool C_VS_UI_SERVER_SELECT::MouseControl(UINT message, int _x, int _y)
 {
-//	_x-=x;_y-=y;
+	//	_x-=x;_y-=y;
 	Window::MouseControl(message, _x, _y);
 
 	m_pC_button_group->MouseControl(message, _x, _y);
 
-//	static char server_status_string[50];
-	
-	int	iWorldServerFocusHeight		= 0;
-	int	iWorldServerFocusWidth		= 0;
-	int	iWorldFocusIndex			= 0;
+	//	static char server_status_string[50];
 
-	int	iChenelServerFocusHeight	= 0;
-	int	iChenelServerFocusWidth		= 0;
-	int	iChenelFocusIndex			= 0;
+	int	iWorldServerFocusHeight = 0;
+	int	iWorldServerFocusWidth = 0;
+	int	iWorldFocusIndex = 0;
 
-	WORD	wWorld_Scop_Start_X	= 0;
-	WORD	wWorld_Scop_Start_Y	= 0;
-	WORD	wWorld_Scop_End_X	= 0;
-	WORD	wWorld_Scop_End_Y	= 0;
+	int	iChenelServerFocusHeight = 0;
+	int	iChenelServerFocusWidth = 0;
+	int	iChenelFocusIndex = 0;
 
-	WORD	wChenel_Scop_Start_X	= 0;
-	WORD	wChenel_Scop_Start_Y	= 0;
-	WORD	wChenel_Scop_End_X	= 0;
-	WORD	wChenel_Scop_End_Y	= 0;
+	WORD	wWorld_Scop_Start_X = 0;
+	WORD	wWorld_Scop_Start_Y = 0;
+	WORD	wWorld_Scop_End_X = 0;
+	WORD	wWorld_Scop_End_Y = 0;
 
-	iWorldServerFocusWidth		= m_wSelect_World_Bar_Interval_X;
-	iWorldServerFocusHeight		= m_wSelect_World_Bar_Interval_Y;
+	WORD	wChenel_Scop_Start_X = 0;
+	WORD	wChenel_Scop_Start_Y = 0;
+	WORD	wChenel_Scop_End_X = 0;
+	WORD	wChenel_Scop_End_Y = 0;
 
-	iChenelServerFocusWidth		= m_wSelect_Chenel_Bar_Interval_X;
-	iChenelServerFocusHeight	= m_wSelect_Chenel_Bar_Interval_Y;
+	iWorldServerFocusWidth = m_wSelect_World_Bar_Interval_X;
+	iWorldServerFocusHeight = m_wSelect_World_Bar_Interval_Y;
+
+	iChenelServerFocusWidth = m_wSelect_Chenel_Bar_Interval_X;
+	iChenelServerFocusHeight = m_wSelect_Chenel_Bar_Interval_Y;
 
 	switch (message)
 	{
-		case M_MOVING:
-			m_focused_help = HELP_DEFAULT;
-			m_focus_server = -1;
+	case M_MOVING:
+		m_focused_help = HELP_DEFAULT;
+		m_focus_server = -1;
 
-			if((_x != m_iOldMousePoint_X || _y != m_iOldMousePoint_Y))
+		if ((_x != m_iOldMousePoint_X || _y != m_iOldMousePoint_Y))
+		{
+			m_iOldMousePoint_X = _x;
+			m_iOldMousePoint_Y = _y;
+
+			if (m_blAccep_World_Chenenl == false)
+				m_blKeybord_OR_Mouse_Input = false;
+		}
+
+		for (iWorldFocusIndex = 0; iWorldFocusIndex < m_server_name_world.size(); iWorldFocusIndex++)
+		{
+			wWorld_Scop_Start_X = m_wSelect_World_Bar_X;
+			wWorld_Scop_Start_Y = m_wSelect_World_Bar_Y + (m_wSelect_World_Bar_Interval_Y * iWorldFocusIndex);
+
+			wWorld_Scop_End_X = m_wSelect_World_Bar_X + iWorldServerFocusWidth;
+			wWorld_Scop_End_Y = m_wSelect_World_Bar_Y + (m_wSelect_World_Bar_Interval_Y * iWorldFocusIndex) + iWorldServerFocusHeight;
+
+			if (wWorld_Scop_Start_X <= _x && wWorld_Scop_End_X >= _x &&
+				wWorld_Scop_Start_Y <= _y && wWorld_Scop_End_Y >= _y
+				&& m_blKeybord_OR_Mouse_Input == false)
 			{
-				m_iOldMousePoint_X	= _x;
-				m_iOldMousePoint_Y	= _y;
+				m_focus_server = iWorldFocusIndex;
+				m_server_select_world = iWorldFocusIndex;
 
-				if(m_blAccep_World_Chenenl == false)
-					m_blKeybord_OR_Mouse_Input = false;
+				//					m_bl_group				= true;
+				m_blAccep_World_Chenenl = TRUE;
 			}
+		}
 
-			for(iWorldFocusIndex = 0; iWorldFocusIndex < m_server_name_world.size(); iWorldFocusIndex++)
+		for (iChenelFocusIndex = 0; iChenelFocusIndex < m_server_name_chenel.size(); iChenelFocusIndex++)
+		{
+			wChenel_Scop_Start_X = m_wSelect_Chenel_Bar_Chenel_X;
+			wChenel_Scop_Start_Y = m_wSelect_Chenel_Bar_Chenel_Y + (m_wSelect_Chenel_Bar_Interval_Y * iChenelFocusIndex);
+
+			wChenel_Scop_End_X = m_wSelect_Chenel_Bar_Chenel_X + iChenelServerFocusWidth;
+			wChenel_Scop_End_Y = m_wSelect_Chenel_Bar_Chenel_Y + (m_wSelect_Chenel_Bar_Interval_Y * iChenelFocusIndex) + iChenelServerFocusHeight;
+
+			if (wChenel_Scop_Start_X <= _x && wChenel_Scop_End_X >= _x &&
+				wChenel_Scop_Start_Y <= _y && wChenel_Scop_End_Y >= _y
+				&& m_blKeybord_OR_Mouse_Input == false)
 			{
-				wWorld_Scop_Start_X	= m_wSelect_World_Bar_X;
-				wWorld_Scop_Start_Y	= m_wSelect_World_Bar_Y + (m_wSelect_World_Bar_Interval_Y * iWorldFocusIndex);
+				m_focus_server = iChenelFocusIndex;
+				m_server_select_chenel = iChenelFocusIndex;
 
-				wWorld_Scop_End_X	= m_wSelect_World_Bar_X + iWorldServerFocusWidth;
-				wWorld_Scop_End_Y	= m_wSelect_World_Bar_Y + (m_wSelect_World_Bar_Interval_Y * iWorldFocusIndex) + iWorldServerFocusHeight;
-
-				if(wWorld_Scop_Start_X	<= _x	&&	wWorld_Scop_End_X >= _x &&
-					wWorld_Scop_Start_Y <= _y	&&	wWorld_Scop_End_Y >= _y
-					&& m_blKeybord_OR_Mouse_Input == false)
-				{
-					m_focus_server			= iWorldFocusIndex;
-					m_server_select_world	= iWorldFocusIndex;
-					
-//					m_bl_group				= true;
-					m_blAccep_World_Chenenl	= TRUE;			
-				}
+				m_blAccep_World_Chenenl = FALSE;
 			}
+		}
 
-			for(iChenelFocusIndex = 0; iChenelFocusIndex < m_server_name_chenel.size(); iChenelFocusIndex++)
+		if (m_bl_scrolling)
+		{
+			if (m_server_name_chenel.size() > 12)
 			{
-				wChenel_Scop_Start_X	= m_wSelect_Chenel_Bar_Chenel_X;
-				wChenel_Scop_Start_Y	= m_wSelect_Chenel_Bar_Chenel_Y + (m_wSelect_Chenel_Bar_Interval_Y * iChenelFocusIndex);
-
-				wChenel_Scop_End_X		= m_wSelect_Chenel_Bar_Chenel_X + iChenelServerFocusWidth;
-				wChenel_Scop_End_Y		= m_wSelect_Chenel_Bar_Chenel_Y + (m_wSelect_Chenel_Bar_Interval_Y * iChenelFocusIndex) + iChenelServerFocusHeight;
-
-				if(wChenel_Scop_Start_X	<= _x	&&	wChenel_Scop_End_X >= _x &&
-					wChenel_Scop_Start_Y <= _y	&&	wChenel_Scop_End_Y >= _y
-					&& m_blKeybord_OR_Mouse_Input == false)
-				{
-					m_focus_server				= iChenelFocusIndex;
-					m_server_select_chenel		= iChenelFocusIndex;
-
-					m_blAccep_World_Chenenl				= FALSE;
-				}
+				m_bl_scrolling = true;
+				m_scroll = (m_server_name_chenel.size() - 12) * (min(SCROLL_HEIGHT, max(0, (_y - SCROLL_Y))) + SCROLL_HEIGHT / (m_server_name_chenel.size() - 12) / 2) / SCROLL_HEIGHT;
 			}
+		}
+		break;
 
-			if(m_bl_scrolling)
-			{
-				if(m_server_name_chenel.size() > 12)
-				{
-					m_bl_scrolling = true;
-					m_scroll = (m_server_name_chenel.size()-12)*(min(SCROLL_HEIGHT, max(0, (_y - SCROLL_Y))) + SCROLL_HEIGHT/(m_server_name_chenel.size()-12)/2)/SCROLL_HEIGHT;
-				}
-			}
-			break;
+	case M_LEFTBUTTON_DOWN:
+		m_blKeybord_OR_Mouse_Input = false;	//????? ?? ????????? ???????? ???? ?? ?? ??? ?????? ???.
 
-		case M_LEFTBUTTON_DOWN:
-			m_blKeybord_OR_Mouse_Input	= false;	//Ŭ���� �� ���¿����� ���콺���� ���� �� �� �ִ� ������ �ش�.
-
-			if(m_focus_server != -1 
+		if (m_focus_server != -1
 #if __CONTENTS(__CONECT_LIMITER)
-				&& IsSelectedServerConnectable()
+			&& IsSelectedServerConnectable()
 #endif
-				)
+			)
+		{
+			//				m_server_select = m_focus_server;
+			//				Run(NEXT_ID);
+
+			if (m_blAccep_World_Chenenl && m_blKeybord_OR_Mouse_Input == false)
 			{
-//				m_server_select = m_focus_server;
-//				Run(NEXT_ID);
+				if (m_server_select_world_prev != m_server_select_world)
+				{
+					m_server_select_world_prev = m_server_select_world;
 
-				if(m_blAccep_World_Chenenl && m_blKeybord_OR_Mouse_Input == false)
-				{
-					if(m_server_select_world_prev != m_server_select_world)
-					{
-						m_server_select_world_prev	=	m_server_select_world; 
-		
-//						if(m_server_status_world[m_server_select_world] == STATUS_OPENED)
-//							gpC_base->SendMessage(UI_CONNECT_SERVER, true, m_server_id_world[m_server_select_world]);
-					}
+					//						if(m_server_status_world[m_server_select_world] == STATUS_OPENED)
+					//							gpC_base->SendMessage(UI_CONNECT_SERVER, true, m_server_id_world[m_server_select_world]);
 				}
-				else
-				{
-//					if(m_server_status_chenel[m_server_select_chenel] == STATUS_OPENED)
-//						gpC_base->SendMessage(UI_CONNECT_SERVER, false, m_server_id_chenel[m_server_select_chenel]);
-				}
-				Run(NEXT_ID);
 			}
-			break;
+			else
+			{
+				//					if(m_server_status_chenel[m_server_select_chenel] == STATUS_OPENED)
+				//						gpC_base->SendMessage(UI_CONNECT_SERVER, false, m_server_id_chenel[m_server_select_chenel]);
+			}
+			Run(NEXT_ID);
+		}
+		break;
 
-		case M_LEFTBUTTON_UP:
-			m_bl_scrolling = false;
-			break;
+	case M_LEFTBUTTON_UP:
+		m_bl_scrolling = false;
+		break;
 
-		case M_RIGHTBUTTON_DOWN:
-			break;
+	case M_RIGHTBUTTON_DOWN:
+		break;
 
-		case M_RIGHTBUTTON_UP:
-			break;
+	case M_RIGHTBUTTON_UP:
+		break;
 
-		case M_WHEEL_UP:
-			Run(SCROLL_UP_ID);
-			break;
+	case M_WHEEL_UP:
+		Run(SCROLL_UP_ID);
+		break;
 
-		case M_WHEEL_DOWN:
-			Run(SCROLL_DOWN_ID);
-			break;
+	case M_WHEEL_DOWN:
+		Run(SCROLL_DOWN_ID);
+		break;
 	}
 
 	return true;
@@ -5237,15 +5239,15 @@ bool C_VS_UI_SERVER_SELECT::MouseControl(UINT message, int _x, int _y)
 //-----------------------------------------------------------------------------
 bool C_VS_UI_SERVER_SELECT::IsSelectedServerConnectable()
 {
-	if(m_blAccep_World_Chenenl)
+	if (m_blAccep_World_Chenenl)
 	{
-		if(m_server_select_world < 0 || m_server_select_world >= (int)m_server_status_world.size())
+		if (m_server_select_world < 0 || m_server_select_world >= (int)m_server_status_world.size())
 			return false;
 
 		return m_server_status_world[m_server_select_world] < STATUS_VERY_BAD;
 	}
 
-	if(m_server_select_chenel < 0 || m_server_select_chenel >= (int)m_server_status_chenel.size())
+	if (m_server_select_chenel < 0 || m_server_select_chenel >= (int)m_server_status_chenel.size())
 		return false;
 
 	return m_server_status_chenel[m_server_select_chenel] < STATUS_VERY_BAD;
@@ -5257,12 +5259,12 @@ bool C_VS_UI_SERVER_SELECT::IsSelectedServerConnectable()
 -----------------------------------------------------------------------------*/
 void C_VS_UI_SERVER_SELECT::KeyboardControl(UINT message, UINT key, long extra)
 {
-	switch(message)
+	switch (message)
 	{
 	case WM_KEYDOWN:
-		m_blKeybord_OR_Mouse_Input	= true;
+		m_blKeybord_OR_Mouse_Input = true;
 
-		switch(key)
+		switch (key)
 		{
 		case VK_ESCAPE:
 			Run(BACK_ID);
@@ -5278,38 +5280,38 @@ void C_VS_UI_SERVER_SELECT::KeyboardControl(UINT message, UINT key, long extra)
 			break;
 
 		case VK_UP:
-			if(m_blAccep_World_Chenenl)
+			if (m_blAccep_World_Chenenl)
 			{
-				if(m_server_select_world > 0)
+				if (m_server_select_world > 0)
 					m_server_select_world--;
 			}
 			else
 			{
-				if(m_server_select_chenel > 0)
+				if (m_server_select_chenel > 0)
 					m_server_select_chenel--;
 			}
 
 			break;
 
 		case VK_DOWN:
-			if(m_blAccep_World_Chenenl)
+			if (m_blAccep_World_Chenenl)
 			{
-				if(m_server_select_world < (int)m_server_name_world.size()-1)
+				if (m_server_select_world < (int)m_server_name_world.size() - 1)
 					m_server_select_world++;
 			}
 			else
 			{
-				if(m_server_select_chenel < (int)m_server_name_chenel.size()-1)
+				if (m_server_select_chenel < (int)m_server_name_chenel.size() - 1)
 					m_server_select_chenel++;
 			}
 			break;
 
 		case VK_LEFT:
-			m_blAccep_World_Chenenl	= TRUE;
+			m_blAccep_World_Chenenl = TRUE;
 			break;
 
 		case VK_RIGHT:
-			m_blAccep_World_Chenenl	= FALSE;
+			m_blAccep_World_Chenenl = FALSE;
 			break;
 		}
 		break;
@@ -5321,32 +5323,32 @@ void C_VS_UI_SERVER_SELECT::KeyboardControl(UINT message, UINT key, long extra)
 //
 // 
 //-----------------------------------------------------------------------------
-void C_VS_UI_SERVER_SELECT::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
+void C_VS_UI_SERVER_SELECT::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
-//	int index = p_button->m_image_index;
-	
-	switch(p_button->GetID())
+	//	int index = p_button->m_image_index;
+
+	switch (p_button->GetID())
 	{
 	case BACK_ID:
-		p_button->x	= m_wPreve_Button_X;
-		p_button->y	= m_wPreve_Button_Y;
+		p_button->x = m_wPreve_Button_X;
+		p_button->y = m_wPreve_Button_Y;
 		m_focused_help = HELP_BACK;
 		break;
 	case NEXT_ID:
-		p_button->x	= m_wNext_Button_X;
-		p_button->y	= m_wNext_Button_Y;
+		p_button->x = m_wNext_Button_X;
+		p_button->y = m_wNext_Button_Y;
 		m_focused_help = HELP_NEXT;
 		break;
 	}
 
 	m_image_spk.BltLocked(p_button->x, p_button->y, p_button->m_image_index);
 
-	if(p_button->GetFocusState())
+	if (p_button->GetFocusState())
 	{
-		if(p_button->m_alpha >= 31)
-			p_button->m_alpha = 0;	
-	
-		m_image_spk.BltLockedAlpha(p_button->x, p_button->y, p_button->m_image_index-1, p_button->m_alpha);
+		if (p_button->m_alpha >= 31)
+			p_button->m_alpha = 0;
+
+		m_image_spk.BltLockedAlpha(p_button->x, p_button->y, p_button->m_image_index - 1, p_button->m_alpha);
 	}
 }
 
@@ -5355,7 +5357,7 @@ void C_VS_UI_SERVER_SELECT::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 //
 ///////////////////////////////////////////////////////////////////////////////
 #if __CONTENTS(__SERVER_SELECT_REVEWAL)
-void C_VS_UI_SERVER_SELECT::SetServerList(LPSTR *name, int *id, int *status, int size, int default_id, bool *nonpk, WORD *pwSlayer, WORD *pwVampire, WORD *pwOusters)
+void C_VS_UI_SERVER_SELECT::SetServerList(LPSTR* name, int* id, int* status, int size, int default_id, bool* nonpk, WORD* pwSlayer, WORD* pwVampire, WORD* pwOusters)
 {
 	m_server_name_chenel.clear();
 	m_server_id_chenel.clear();
@@ -5365,117 +5367,117 @@ void C_VS_UI_SERVER_SELECT::SetServerList(LPSTR *name, int *id, int *status, int
 	m_server_vampirenum_chenel.clear();
 	m_server_oustersenum_chenel.clear();
 
-	if(m_bl_group	== true)
+	if (m_bl_group == true)
 	{
 		m_server_name_world.clear();
 		m_server_id_world.clear();
 		m_server_status_world.clear();
 		m_server_nonpk_world.clear();
 
-		m_server_size	= size;			//ä���� ����
+		m_server_size = size;			//????? ????
 
-		for(int i = 0; i < size; i++)
+		for (int i = 0; i < size; i++)
 		{
 			m_server_name_world.push_back(name[i]);
 			m_server_id_world.push_back(id[i]);
 			m_server_status_world.push_back(status[i]);
-			if(pwSlayer != NULL && pwSlayer != NULL && pwSlayer != NULL)	//�� ���� ���� ������?
+			if (pwSlayer != NULL && pwSlayer != NULL && pwSlayer != NULL)	//?? ???? ???? ???????
 			{
 				m_server_slayernum_chenel.push_back(pwSlayer[i]);
 				m_server_vampirenum_chenel.push_back(pwVampire[i]);
 				m_server_oustersenum_chenel.push_back(pwOusters[i]);
 			}
-			if(id[i] == default_id)
+			if (id[i] == default_id)
 			{
 				m_server_select_world = i;
-				m_wSelect_World_Click_Index	= i;
-				if(i >= 12)
+				m_wSelect_World_Click_Index = i;
+				if (i >= 12)
 					m_scroll = i - 12;
 			}
 
-			if(nonpk != NULL)
+			if (nonpk != NULL)
 				m_server_nonpk_chenel.push_back(nonpk[i]);
 		}
-			m_blAccep_World_Chenenl	= TRUE;
+		m_blAccep_World_Chenenl = TRUE;
 	}
 	else
 	{
 #if __CONTENTS(__15_PVP_INHIBITION)
-		m_server_size	= size;			//ä���� ����
+		m_server_size = size;			//????? ????
 		int GoreLevelChenelNum = 0;
-		for(int i = 0; i < size; i++)
+		for (int i = 0; i < size; i++)
 		{
-			if(nonpk == NULL)
+			if (nonpk == NULL)
 			{
-				for(int i = 0; i < 12; ++i)
+				for (int i = 0; i < 12; ++i)
 					nonpk[i] = false;
 			}
-			if((g_pUserInformation->IsUnderFifthteen && nonpk[i])
+			if ((g_pUserInformation->IsUnderFifthteen && nonpk[i])
 				|| !g_pUserInformation->IsUnderFifthteen)
 			{
 				m_server_name_chenel.push_back(name[i]);
 				m_server_id_chenel.push_back(id[i]);
 				m_server_status_chenel.push_back(status[i]);
-				if(pwSlayer != NULL && pwSlayer != NULL && pwSlayer != NULL)	//�� ���� ���� ������?
+				if (pwSlayer != NULL && pwSlayer != NULL && pwSlayer != NULL)	//?? ???? ???? ???????
 				{
 					m_server_slayernum_chenel.push_back(pwSlayer[i]);
 					m_server_vampirenum_chenel.push_back(pwVampire[i]);
 					m_server_oustersenum_chenel.push_back(pwOusters[i]);
 				}
-				if(id[i] == default_id)
+				if (id[i] == default_id)
 				{
 					m_server_select_chenel = i;
-					if(i >= 12)
+					if (i >= 12)
 						m_scroll = i - 12;
 				}
 				m_server_nonpk_chenel.push_back(nonpk[i]);
-				if(nonpk[i])
+				if (nonpk[i])
 				{
 					++GoreLevelChenelNum;
 				}
 			}
 		}
-		if((g_pUserInformation->IsUnderFifthteen && nonpk[i]))
+		if ((g_pUserInformation->IsUnderFifthteen && nonpk[i]))
 		{
 			m_server_size = GoreLevelChenelNum;
 		}
-		m_blAccep_World_Chenenl	= FALSE;
+		m_blAccep_World_Chenenl = FALSE;
 #else
-		m_server_size	= size;			//ä���� ����
-		for(int i = 0; i < size; i++)
+		m_server_size = size;			//????? ????
+		for (int i = 0; i < size; i++)
 		{
 			m_server_name_chenel.push_back(name[i]);
 			m_server_id_chenel.push_back(id[i]);
 			m_server_status_chenel.push_back(status[i]);
-			if(pwSlayer != NULL && pwSlayer != NULL && pwSlayer != NULL)	//�� ���� ���� ������?
+			if (pwSlayer != NULL && pwSlayer != NULL && pwSlayer != NULL)	//?? ???? ???? ???????
 			{
 				m_server_slayernum_chenel.push_back(pwSlayer[i]);
 				m_server_vampirenum_chenel.push_back(pwVampire[i]);
 				m_server_oustersenum_chenel.push_back(pwOusters[i]);
 			}
-			if(id[i] == default_id)
+			if (id[i] == default_id)
 			{
 				m_server_select_chenel = i;
-				if(i >= 12)
+				if (i >= 12)
 					m_scroll = i - 12;
 			}
 
-			if(nonpk != NULL)
+			if (nonpk != NULL)
 				m_server_nonpk_chenel.push_back(nonpk[i]);
 		}
-		m_blAccep_World_Chenenl	= FALSE;
+		m_blAccep_World_Chenenl = FALSE;
 #endif //__15_PVP_INHIBITION
 	}
 	CharBarCount();
 
-	if(m_bl_group	== true)	//true�� ���� ���� ����
+	if (m_bl_group == true)	//true?? ???? ???? ????
 	{
-		if(m_server_id_world.size())
+		if (m_server_id_world.size())
 		{
-			if(m_server_select_world < 0)
-				m_server_select_world	= 0;
+			if (m_server_select_world < 0)
+				m_server_select_world = 0;
 
-			gpC_base->SendMessage(UI_CONNECT_SERVER, true, m_server_id_world[m_server_select_world]); 
+			gpC_base->SendMessage(UI_CONNECT_SERVER, true, m_server_id_world[m_server_select_world]);
 		}
 	}
 }
@@ -5487,7 +5489,7 @@ void C_VS_UI_SERVER_SELECT::SetServerList(LPSTR *name, int *id, int *status, int
 // std::string form, so this is the definition that has to exist. Mirrors
 // C_VS_UI_SERVER_SELECT::SetServerList in VS_UI_Title.cpp.
 ///////////////////////////////////////////////////////////////////////////////
-void C_VS_UI_SERVER_SELECT::SetServerList(std::string *name, int *id, int *status, int size, int default_id, bool *nonpk)
+void C_VS_UI_SERVER_SELECT::SetServerList(std::string* name, int* id, int* status, int size, int default_id, bool* nonpk)
 {
 	m_server_name_chenel.clear();
 	m_server_id_chenel.clear();
@@ -5497,7 +5499,7 @@ void C_VS_UI_SERVER_SELECT::SetServerList(std::string *name, int *id, int *statu
 	// Same split as the nine argument version above: grouping fills the world
 	// list, otherwise the channel list. Filling only the channel list left
 	// m_server_status_world empty and the connect path indexed it anyway.
-	if(m_bl_group == true)
+	if (m_bl_group == true)
 	{
 		m_server_name_world.clear();
 		m_server_id_world.clear();
@@ -5506,21 +5508,21 @@ void C_VS_UI_SERVER_SELECT::SetServerList(std::string *name, int *id, int *statu
 
 		m_server_size = size;
 
-		for(int i = 0; i < size; i++)
+		for (int i = 0; i < size; i++)
 		{
 			m_server_name_world.push_back(name[i]);
 			m_server_id_world.push_back(id[i]);
 			m_server_status_world.push_back(status[i]);
 
-			if(id[i] == default_id)
+			if (id[i] == default_id)
 			{
-				m_server_select_world		= i;
-				m_wSelect_World_Click_Index	= i;
-				if(i >= 12)
+				m_server_select_world = i;
+				m_wSelect_World_Click_Index = i;
+				if (i >= 12)
 					m_scroll = i - 12;
 			}
 
-			if(nonpk != NULL)
+			if (nonpk != NULL)
 				m_server_nonpk_world.push_back(nonpk[i]);
 		}
 
@@ -5530,20 +5532,20 @@ void C_VS_UI_SERVER_SELECT::SetServerList(std::string *name, int *id, int *statu
 	{
 		m_server_size = size;
 
-		for(int i = 0; i < size; i++)
+		for (int i = 0; i < size; i++)
 		{
 			m_server_name_chenel.push_back(name[i]);
 			m_server_id_chenel.push_back(id[i]);
 			m_server_status_chenel.push_back(status[i]);
 
-			if(id[i] == default_id)
+			if (id[i] == default_id)
 			{
 				m_server_select_chenel = i;
-				if(i >= 12)
+				if (i >= 12)
 					m_scroll = i - 12;
 			}
 
-			if(nonpk != NULL)
+			if (nonpk != NULL)
 				m_server_nonpk_chenel.push_back(nonpk[i]);
 		}
 
@@ -5552,11 +5554,11 @@ void C_VS_UI_SERVER_SELECT::SetServerList(std::string *name, int *id, int *statu
 
 	CharBarCount();
 
-	if(m_bl_group == true)
+	if (m_bl_group == true)
 	{
-		if(m_server_id_world.size())
+		if (m_server_id_world.size())
 		{
-			if(m_server_select_world < 0)
+			if (m_server_select_world < 0)
 				m_server_select_world = 0;
 
 			gpC_base->SendMessage(UI_CONNECT_SERVER, true, m_server_id_world[m_server_select_world]);
@@ -5572,18 +5574,18 @@ void C_VS_UI_SERVER_SELECT::SetServerList(std::string *name, int *id, int *statu
 void C_VS_UI_SERVER_SELECT::Show()
 {
 	Init_TitleUIInterface_InfInfo();
-	
+
 	gpC_base->m_p_DDSurface_back->FillSurface(0);
 
-	if(gpC_base->m_p_DDSurface_back->Lock())
+	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
 		GroupView();
-		if(m_pAnimationTimer->IsTimeLimit())
+		if (m_pAnimationTimer->IsTimeLimit())
 		{
-			if(m_bAniArphaUp)
+			if (m_bAniArphaUp)
 			{
 				++m_aniArpha;
-				if(m_aniArpha == 31)
+				if (m_aniArpha == 31)
 				{
 					m_bAniArphaUp = false;
 				}
@@ -5591,18 +5593,18 @@ void C_VS_UI_SERVER_SELECT::Show()
 			else
 			{
 				--m_aniArpha;
-				if(m_aniArpha == 1)
+				if (m_aniArpha == 1)
 				{
 					m_bAniArphaUp = true;
 				}
 			}
-			
+
 		}
 		SelectBarPos();
 
 #if __CONTENTS(__USER_GRADE)
 #if __CONTENTS(!__IMI_INTERFACE)
-		if(!g_pUserInformation->GoreLevel)
+		if (!g_pUserInformation->GoreLevel)
 			m_pC_use_grade->BltLocked(m_wChild_X, m_wChild_Y, CHILD);
 		else
 #endif
@@ -5610,7 +5612,7 @@ void C_VS_UI_SERVER_SELECT::Show()
 		m_pC_use_grade->BltLocked(m_wViolence_X, m_wViolence_Y, VIOLENCE);
 		m_pC_use_grade->BltLocked(m_wFear_X, m_wFear_Y, FEAR);
 #endif // __USER_GRADE
-		
+
 		SelectBarView();
 		CharBoxView();
 
@@ -5623,66 +5625,66 @@ void C_VS_UI_SERVER_SELECT::Show()
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 
-	//��������Ʈ ǥ��
+	//????????? ???
 	g_FL2_GetDC();
 
 	ServerNameView();
 	ServerNameViewWorld();
 
-//	g_PrintColorStr(m_ptText_Line[LINE1].x, 	m_ptText_Line[LINE1].y,
-//					m_arrTextLine[LINE1], gpC_base->m_title_menu_pi, RGB_WHITE);
-//	g_PrintColorStr(m_ptText_Line[LINE2].x, 	m_ptText_Line[LINE2].y,
-//					m_arrTextLine[LINE2], gpC_base->m_title_menu_pi, RGB_WHITE);
+	//	g_PrintColorStr(m_ptText_Line[LINE1].x, 	m_ptText_Line[LINE1].y,
+	//					m_arrTextLine[LINE1], gpC_base->m_title_menu_pi, RGB_WHITE);
+	//	g_PrintColorStr(m_ptText_Line[LINE2].x, 	m_ptText_Line[LINE2].y,
+	//					m_arrTextLine[LINE2], gpC_base->m_title_menu_pi, RGB_WHITE);
 
-	g_PrintColorStr(m_ptText_Line[LINE1].x, 	m_ptText_Line[LINE1].y,
-					(*g_pGameStringTable)[UI_TITLE_UI_RENEWAL_SERVERSELECT_TEXT1], gpC_base->m_title_menu_pi, RGB_WHITE);
-	g_PrintColorStr(m_ptText_Line[LINE2].x, 	m_ptText_Line[LINE2].y,
-					(*g_pGameStringTable)[UI_TITLE_UI_RENEWAL_SERVERSELECT_TEXT2], gpC_base->m_title_menu_pi, RGB_WHITE);
-	
-	char szBuffer[256]	= {NULL,};
+	g_PrintColorStr(m_ptText_Line[LINE1].x, m_ptText_Line[LINE1].y,
+		(*g_pGameStringTable)[UI_TITLE_UI_RENEWAL_SERVERSELECT_TEXT1], gpC_base->m_title_menu_pi, RGB_WHITE);
+	g_PrintColorStr(m_ptText_Line[LINE2].x, m_ptText_Line[LINE2].y,
+		(*g_pGameStringTable)[UI_TITLE_UI_RENEWAL_SERVERSELECT_TEXT2], gpC_base->m_title_menu_pi, RGB_WHITE);
+
+	char szBuffer[256] = { NULL, };
 
 	if (g_LeftPremiumDays == 0xFFFE)
 	{
-		sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_NOT_PREMIUM_USER].GetString() );
+		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_NOT_PREMIUM_USER].GetString());
 	}
-	else if (g_LeftPremiumDays == 0xFFFC && g_PayType == 4 )
+	else if (g_LeftPremiumDays == 0xFFFC && g_PayType == 4)
 	{
-		sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_DEFERRED_PAYMENT_NOTICE].GetString() );
+		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_DEFERRED_PAYMENT_NOTICE].GetString());
 	}
-	else if ( g_LeftPremiumDays > 0 && g_PayType == 1)
+	else if (g_LeftPremiumDays > 0 && g_PayType == 1)
 	{
-		if(g_bFamily)
-			sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_FAMILY_DAYS].GetString(), g_LeftPremiumDays );
+		if (g_bFamily)
+			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_FAMILY_DAYS].GetString(), g_LeftPremiumDays);
 		else
-			sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_DAYS].GetString(), g_LeftPremiumDays );
+			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_DAYS].GetString(), g_LeftPremiumDays);
 	}
 	else if (g_LeftPremiumDays == 0 && g_PayType == 1)
 	{
-		if(g_bFamily)
-			sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_EXPIRE_FAMILY_TODAY].GetString() );	
+		if (g_bFamily)
+			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_EXPIRE_FAMILY_TODAY].GetString());
 		else
-			sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_EXPIRE_PREMIUM_SERVICE_TODAY].GetString() );	
+			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_EXPIRE_PREMIUM_SERVICE_TODAY].GetString());
 	}
-	else if ( g_LeftPremiumDays > 0 && g_PayType == 3)
+	else if (g_LeftPremiumDays > 0 && g_PayType == 3)
 	{
-		sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_PAYZONE_DAYS].GetString(), g_LeftPremiumDays );
+		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_PAYZONE_DAYS].GetString(), g_LeftPremiumDays);
 	}
 	else if (g_LeftPremiumDays == 0 && g_PayType == 3)
 	{
-		sprintf( szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_PAYZONE_DAYS].GetString() );	
+		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_PAYZONE_DAYS].GetString());
 	}
 
-	int szBufferLen = g_GetStringWidth(szBuffer, gpC_base->m_desc_menu_pi.hfont)/2;
+	int szBufferLen = g_GetStringWidth(szBuffer, gpC_base->m_desc_menu_pi.hfont) / 2;
 
 
 	g_FL2_ReleaseDC();
 
-//#ifdef CONVERT_1024_768
-//	ShowDesc(112,84);
-//#else
-//	ShowDesc();
-//#endif
-	
+	//#ifdef CONVERT_1024_768
+	//	ShowDesc(112,84);
+	//#else
+	//	ShowDesc();
+	//#endif
+
 	SHOW_WINDOW_ATTR;
 }
 
@@ -5695,27 +5697,27 @@ void C_VS_UI_SERVER_SELECT::Show()
 void C_VS_UI_SERVER_SELECT::GroupView()
 {
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
-	if(bHighResolution)
+	if (bHighResolution)
 	{
-		if(g_pUserInformation->iResolution_x <= 1024)
-			m_title_spk.BltLocked( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(1)) / 2, 
-			(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(1)) / 2,  1) ;
+		if (g_pUserInformation->iResolution_x <= 1024)
+			m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(1)) / 2,
+				(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(1)) / 2, 1);
 		else
 		{
-			if(g_pUserInformation->iResolution_y < 960)
-				m_title_spk.BltLocked( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(2)) / 2, 
-				(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(2)) / 2 , 2) ;
-			else if(g_pUserInformation->iResolution_y < 1024)
-				m_title_spk.BltLocked( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(3)) / 2, 
-				(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(3)) / 2 , 3) ;
+			if (g_pUserInformation->iResolution_y < 960)
+				m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(2)) / 2,
+					(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(2)) / 2, 2);
+			else if (g_pUserInformation->iResolution_y < 1024)
+				m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(3)) / 2,
+					(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(3)) / 2, 3);
 			else
-				m_title_spk.BltLocked( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(4)) / 2, 
-				(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(4)) / 2 , 4) ;
+				m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(4)) / 2,
+					(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(4)) / 2, 4);
 		}
 	}
 	else
-		m_title_spk.BltLocked( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(0)) / 2, 
-		(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(0)) / 2 , 0) ;
+		m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(0)) / 2,
+			(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(0)) / 2, 0);
 	m_image_spk.BltLocked(m_wWorld_List_X, m_wWorld_List_Y, TITLE_WORLD);
 	m_image_spk.BltLocked(m_wChenel_List_X, m_wChenel_List_Y, TITLE_SERVER);
 	m_pC_button_group->Show();
@@ -5730,31 +5732,31 @@ void C_VS_UI_SERVER_SELECT::ServerNameView()
 {
 
 	char server_status_string[30];
-	memset((char*) server_status_string, NULL, sizeof(server_status_string));
+	memset((char*)server_status_string, NULL, sizeof(server_status_string));
 	COLORREF statusColor = RGB_WHITE;
 
-	if(m_server_status_chenel.size())
+	if (m_server_status_chenel.size())
 	{
-		for(int i = 0; i < min(m_server_status_chenel.size(), 12); i++)
+		for (int i = 0; i < min(m_server_status_chenel.size(), 12); i++)
 		{
-			switch(m_server_status_chenel[i+m_scroll])
+			switch (m_server_status_chenel[i + m_scroll])
 			{
 			case STATUS_VERY_GOOD:
 				strcpy(server_status_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_SERVER_STATUS_VERY_GOOD].GetString());
 				break;
-			
+
 			case STATUS_GOOD:
-				strcpy(server_status_string,(*g_pGameStringTable)[UI_STRING_MESSAGE_SERVER_STATUS_GOOD].GetString());
+				strcpy(server_status_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_SERVER_STATUS_GOOD].GetString());
 				break;
-				
+
 			case STATUS_NORMAL:
 				strcpy(server_status_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_SERVER_STATUS_NORMAL].GetString());
 				break;
-				
+
 			case STATUS_BAD:
 				strcpy(server_status_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_SERVER_STATUS_BAD].GetString());
 				break;
-				
+
 			case STATUS_VERY_BAD:
 				strcpy(server_status_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_SERVER_STATUS_VERY_BAD].GetString());
 				break;
@@ -5765,21 +5767,21 @@ void C_VS_UI_SERVER_SELECT::ServerNameView()
 				break;
 			}
 
-			if(i+m_scroll == m_server_select_chenel && (m_blAccep_World_Chenenl == FALSE))
+			if (i + m_scroll == m_server_select_chenel && (m_blAccep_World_Chenenl == FALSE))
 			{
 				g_PrintColorStr(m_wSelect_Chenel_Name_Font_X, (m_wSelect_Chenel_Bar_Interval_Y * i) + m_wSelect_Chenel_Name_Font_Y,
-								m_server_name_chenel[i+m_scroll].c_str(), gpC_base->m_title_menu_pi, RGB(255,255,0));
-					
-				g_PrintColorStr(m_wSelect_Chenel_Status_Font_X,	(m_wSelect_Chenel_Bar_Interval_Y * i) + m_wSelect_Chenel_Status_Font_Y,
-								server_status_string, gpC_base->m_title_menu_pi, RGB(255,255,0));
+					m_server_name_chenel[i + m_scroll].c_str(), gpC_base->m_title_menu_pi, RGB(255, 255, 0));
+
+				g_PrintColorStr(m_wSelect_Chenel_Status_Font_X, (m_wSelect_Chenel_Bar_Interval_Y * i) + m_wSelect_Chenel_Status_Font_Y,
+					server_status_string, gpC_base->m_title_menu_pi, RGB(255, 255, 0));
 			}
 			else
 			{
 				g_PrintColorStr(m_wSelect_Chenel_Name_Font_X, (m_wSelect_Chenel_Bar_Interval_Y * i) + m_wSelect_Chenel_Name_Font_Y,
-								m_server_name_chenel[i+m_scroll].c_str(), gpC_base->m_title_menu_pi, RGB_WHITE);
-					
+					m_server_name_chenel[i + m_scroll].c_str(), gpC_base->m_title_menu_pi, RGB_WHITE);
+
 				g_PrintColorStr(m_wSelect_Chenel_Status_Font_X, (m_wSelect_Chenel_Bar_Interval_Y * i) + m_wSelect_Chenel_Status_Font_Y,
-								server_status_string, gpC_base->m_title_menu_pi, RGB_WHITE);
+					server_status_string, gpC_base->m_title_menu_pi, RGB_WHITE);
 			}
 		}
 	}
@@ -5789,19 +5791,19 @@ void C_VS_UI_SERVER_SELECT::ServerNameView()
 void C_VS_UI_SERVER_SELECT::ServerNameViewWorld()
 {
 	char server_status_string[30];
-	memset((char*) server_status_string, NULL, sizeof(server_status_string));
+	memset((char*)server_status_string, NULL, sizeof(server_status_string));
 	COLORREF statusColor = RGB_WHITE;
 
-	for(int i = 0; i < min(m_server_name_world.size(), 12); i++)
+	for (int i = 0; i < min(m_server_name_world.size(), 12); i++)
 	{
-//		if(m_bl_group)
+		//		if(m_bl_group)
 		{
-			switch(m_server_status_world[i+m_scroll])
+			switch (m_server_status_world[i + m_scroll])
 			{
 			case STATUS_OPENED:
-				strcpy(server_status_string,(*g_pGameStringTable)[UI_STRING_MESSAGE_SERVER_STATUS_OPEN].GetString());
+				strcpy(server_status_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_SERVER_STATUS_OPEN].GetString());
 				break;
-	
+
 			case STATUS_CLOSED:
 				statusColor = RGB_RED;
 				strcpy(server_status_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_SERVER_STATUS_CLOSE].GetString());
@@ -5812,25 +5814,25 @@ void C_VS_UI_SERVER_SELECT::ServerNameViewWorld()
 #if __CONTENTS(__JAPAN_UI)
 		serverFont = gpC_base->m_small_pi;
 #endif //__JAPAN_UI
-		g_PrintColorStr(m_wSelect_World_Name_Font_X,	m_wSelect_World_Name_Font_Y + (m_wSelect_World_Bar_Interval_Y * i), 
-						m_server_name_world[i+m_scroll].c_str(),	serverFont, RGB_WHITE);
-		g_PrintColorStr(m_wSelect_World_Status_Font_X,	m_wSelect_World_Status_Font_Y + (m_wSelect_World_Bar_Interval_Y * i), 
-						server_status_string, serverFont, RGB_WHITE);
+		g_PrintColorStr(m_wSelect_World_Name_Font_X, m_wSelect_World_Name_Font_Y + (m_wSelect_World_Bar_Interval_Y * i),
+			m_server_name_world[i + m_scroll].c_str(), serverFont, RGB_WHITE);
+		g_PrintColorStr(m_wSelect_World_Status_Font_X, m_wSelect_World_Status_Font_Y + (m_wSelect_World_Bar_Interval_Y * i),
+			server_status_string, serverFont, RGB_WHITE);
 
-		if(i+m_scroll == m_wSelect_World_Click_Index)
+		if (i + m_scroll == m_wSelect_World_Click_Index)
 		{
-			g_PrintColorStr(m_wSelect_World_Name_Font_X,	m_wSelect_World_Name_Font_Y + (m_wSelect_World_Bar_Interval_Y * i), 
-							m_server_name_world[i+m_scroll].c_str(),	serverFont, RGB(128,255,00));
-			g_PrintColorStr(m_wSelect_World_Status_Font_X,	m_wSelect_World_Status_Font_Y + (m_wSelect_World_Bar_Interval_Y * i), 
-							server_status_string, serverFont, RGB(128,255,00));
+			g_PrintColorStr(m_wSelect_World_Name_Font_X, m_wSelect_World_Name_Font_Y + (m_wSelect_World_Bar_Interval_Y * i),
+				m_server_name_world[i + m_scroll].c_str(), serverFont, RGB(128, 255, 00));
+			g_PrintColorStr(m_wSelect_World_Status_Font_X, m_wSelect_World_Status_Font_Y + (m_wSelect_World_Bar_Interval_Y * i),
+				server_status_string, serverFont, RGB(128, 255, 00));
 		}
-		
-		if(i+m_scroll == m_server_select_world && m_blAccep_World_Chenenl)
+
+		if (i + m_scroll == m_server_select_world && m_blAccep_World_Chenenl)
 		{
-			g_PrintColorStr(m_wSelect_World_Name_Font_X,	m_wSelect_World_Name_Font_Y + (m_wSelect_World_Bar_Interval_Y * i), 
-							m_server_name_world[i+m_scroll].c_str(),	serverFont, RGB(255,255,00));
-			g_PrintColorStr(m_wSelect_World_Status_Font_X,	m_wSelect_World_Status_Font_Y + (m_wSelect_World_Bar_Interval_Y * i), 
-							server_status_string, serverFont, RGB(255,255,00));
+			g_PrintColorStr(m_wSelect_World_Name_Font_X, m_wSelect_World_Name_Font_Y + (m_wSelect_World_Bar_Interval_Y * i),
+				m_server_name_world[i + m_scroll].c_str(), serverFont, RGB(255, 255, 00));
+			g_PrintColorStr(m_wSelect_World_Status_Font_X, m_wSelect_World_Status_Font_Y + (m_wSelect_World_Bar_Interval_Y * i),
+				server_status_string, serverFont, RGB(255, 255, 00));
 		}
 	}
 }
@@ -5842,30 +5844,30 @@ void C_VS_UI_SERVER_SELECT::ServerNameViewWorld()
 -----------------------------------------------------------------------------*/
 void C_VS_UI_SERVER_SELECT::SelectBarView()
 {
-	if(m_server_status_world.size())
+	if (m_server_status_world.size())
 	{
-		for(int i = 0; i < min(m_server_status_world.size(), 12); i++)
+		for (int i = 0; i < min(m_server_status_world.size(), 12); i++)
 		{
-			if(i+m_scroll == m_server_select_world && m_blAccep_World_Chenenl)
+			if (i + m_scroll == m_server_select_world && m_blAccep_World_Chenenl)
 			{
-				m_image_spk.BltLocked(m_wSelect_World_Bar_X, 
-										m_wSelect_World_Bar_Y + (m_wSelect_World_Bar_Interval_Y * i), WORLD_SELECT_BAR);
+				m_image_spk.BltLocked(m_wSelect_World_Bar_X,
+					m_wSelect_World_Bar_Y + (m_wSelect_World_Bar_Interval_Y * i), WORLD_SELECT_BAR);
 			}
 		}
 	}
-	
-	if(m_server_status_chenel.size())
+
+	if (m_server_status_chenel.size())
 	{
-		for(int i = 0; i < min(m_server_status_chenel.size(), 12); i++)
+		for (int i = 0; i < min(m_server_status_chenel.size(), 12); i++)
 		{
-			if(i+m_scroll == m_server_select_chenel && (m_blAccep_World_Chenenl == FALSE))
+			if (i + m_scroll == m_server_select_chenel && (m_blAccep_World_Chenenl == FALSE))
 			{
-				m_image_spk.BltLocked(m_wSelect_Chenel_Bar_Chenel_X, 
-										m_wSelect_Chenel_Bar_Chenel_Y + (m_wSelect_Chenel_Bar_Interval_Y * i), CHENEL_SELECT_BAR_CHENEL);
-				m_image_spk.BltLocked(m_wSelect_Chenel_Bar_Status_X, 
-										m_wSelect_Chenel_Bar_Status_Y + (m_wSelect_Chenel_Bar_Interval_Y * i), CHENEL_SELECT_BAR_STATUS);
-				m_image_spk.BltLocked(m_wSelect_Chenel_Bar_RaceInfo_X, 
-										m_wSelect_Chenel_Bar_RaceInfo_Y + (m_wSelect_Chenel_Bar_Interval_Y * i), CHENEL_SELECT_BAR_RACEINFO);
+				m_image_spk.BltLocked(m_wSelect_Chenel_Bar_Chenel_X,
+					m_wSelect_Chenel_Bar_Chenel_Y + (m_wSelect_Chenel_Bar_Interval_Y * i), CHENEL_SELECT_BAR_CHENEL);
+				m_image_spk.BltLocked(m_wSelect_Chenel_Bar_Status_X,
+					m_wSelect_Chenel_Bar_Status_Y + (m_wSelect_Chenel_Bar_Interval_Y * i), CHENEL_SELECT_BAR_STATUS);
+				m_image_spk.BltLocked(m_wSelect_Chenel_Bar_RaceInfo_X,
+					m_wSelect_Chenel_Bar_RaceInfo_Y + (m_wSelect_Chenel_Bar_Interval_Y * i), CHENEL_SELECT_BAR_RACEINFO);
 			}
 		}
 	}
@@ -5879,31 +5881,31 @@ void C_VS_UI_SERVER_SELECT::SelectBarView()
 void C_VS_UI_SERVER_SELECT::CharBoxView()
 {
 #if __CONTENTS(__SERVER_SELECT_REVEWAL)
-//	const int	iSlayerBoxPos_X		= 713;
-//	const int	iSlayerBoxPos_Y		= 167;
-//	const int	iVampiresBoxPos_X	= 713;
-//	const int	iVampiresBoxPos_Y	= 187;
-//	const int	iOustersBoxPos_X	= 713;
-//	const int	iOustersBoxPos_Y	= 207;
-//
-//	if(g_pUserInformation->IsResolution1024)
-//	{
-//		if(!m_bl_group)
-//		{
-//			m_image_spk.BltLocked(iSlayerBoxPos_X + MODE1024_X, iSlayerBoxPos_Y + MODE1024_Y, SLAYER_BOX);
-//			m_image_spk.BltLocked(iVampiresBoxPos_X + MODE1024_X, iVampiresBoxPos_Y + MODE1024_Y, VAMPIRES_BOX);
-//			m_image_spk.BltLocked(iOustersBoxPos_X + MODE1024_X, iOustersBoxPos_Y + MODE1024_Y, OUSTERS_BOX);
-//		}
-//	}
-//	else
-//	{
-//		if(!m_bl_group)
-//		{
-//			m_image_spk.BltLocked(iSlayerBoxPos_X, iSlayerBoxPos_Y, SLAYER_BOX);
-//			m_image_spk.BltLocked(iVampiresBoxPos_X, iVampiresBoxPos_Y, VAMPIRES_BOX);
-//			m_image_spk.BltLocked(iOustersBoxPos_X, iOustersBoxPos_Y, OUSTERS_BOX);
-//		}
-//	}
+	//	const int	iSlayerBoxPos_X		= 713;
+	//	const int	iSlayerBoxPos_Y		= 167;
+	//	const int	iVampiresBoxPos_X	= 713;
+	//	const int	iVampiresBoxPos_Y	= 187;
+	//	const int	iOustersBoxPos_X	= 713;
+	//	const int	iOustersBoxPos_Y	= 207;
+	//
+	//	if(g_pUserInformation->IsResolution1024)
+	//	{
+	//		if(!m_bl_group)
+	//		{
+	//			m_image_spk.BltLocked(iSlayerBoxPos_X + MODE1024_X, iSlayerBoxPos_Y + MODE1024_Y, SLAYER_BOX);
+	//			m_image_spk.BltLocked(iVampiresBoxPos_X + MODE1024_X, iVampiresBoxPos_Y + MODE1024_Y, VAMPIRES_BOX);
+	//			m_image_spk.BltLocked(iOustersBoxPos_X + MODE1024_X, iOustersBoxPos_Y + MODE1024_Y, OUSTERS_BOX);
+	//		}
+	//	}
+	//	else
+	//	{
+	//		if(!m_bl_group)
+	//		{
+	//			m_image_spk.BltLocked(iSlayerBoxPos_X, iSlayerBoxPos_Y, SLAYER_BOX);
+	//			m_image_spk.BltLocked(iVampiresBoxPos_X, iVampiresBoxPos_Y, VAMPIRES_BOX);
+	//			m_image_spk.BltLocked(iOustersBoxPos_X, iOustersBoxPos_Y, OUSTERS_BOX);
+	//		}
+	//	}
 #endif //__SERVER_SELECT_REVEWAL
 }
 
@@ -5914,31 +5916,31 @@ void C_VS_UI_SERVER_SELECT::CharBoxView()
 -----------------------------------------------------------------------------*/
 void C_VS_UI_SERVER_SELECT::CharBarView(int iBarCount, int iCharConnectBar, int iChannel, int iCharBarLine)
 {
-	const int	iBarWidth				= m_image_spk.GetWidth(iCharConnectBar);
-	const int	iBarHeight				= m_image_spk.GetHeight(iCharConnectBar);
+	const int	iBarWidth = m_image_spk.GetWidth(iCharConnectBar);
+	const int	iBarHeight = m_image_spk.GetHeight(iCharConnectBar);
 
-	const int	iCharBarSpace_X			= 2;
-	const int	iCharBarSpace_Y			= m_image_spk.GetHeight(iCharConnectBar);
+	const int	iCharBarSpace_X = 2;
+	const int	iCharBarSpace_Y = m_image_spk.GetHeight(iCharConnectBar);
 
-	int			iBarX					= 0;
-	int			iBarY					= 0;
-	int			iCharIndex				= iCharBarLine;
+	int			iBarX = 0;
+	int			iBarY = 0;
+	int			iCharIndex = iCharBarLine;
 
-	if(!m_bl_group)
+	if (!m_bl_group)
 	{
-		for(int i = 1; i <= iBarCount; i++)
+		for (int i = 1; i <= iBarCount; i++)
 		{
-			iBarX	= m_wChar_Bar_Start_View_X + (m_wChar_Bar_Interval_X * i) + (iBarWidth * i);
-			iBarY	= m_wChar_Bar_Start_View_Y + (m_wChar_Bar_Interval_Y * iCharBarLine) + (iBarHeight * iCharBarLine) + 
-						(m_wSelect_Chenel_Bar_Interval_Y * iChannel);
+			iBarX = m_wChar_Bar_Start_View_X + (m_wChar_Bar_Interval_X * i) + (iBarWidth * i);
+			iBarY = m_wChar_Bar_Start_View_Y + (m_wChar_Bar_Interval_Y * iCharBarLine) + (iBarHeight * iCharBarLine) +
+				(m_wSelect_Chenel_Bar_Interval_Y * iChannel);
 
 			m_image_spk.BltLocked(iBarX, iBarY, iCharConnectBar);
 		}
 	}
 
 	// 2009.11.25 by neclipse
-	// ��ڸ��� ������ ������ ���� ǥ���̴�.
-	// �� ��巹�������� üũ�Ѵ�.
+	// ??????? ?????? ?????? ???? ??????.
+	// ?? ??????????? ?????.
 	if (g_pUserInformation->attrOperator.GetAttr(OPERATORTYPE_MACADDRESS))
 	{
 		int __n_slayer_num = (int)m_server_slayernum_chenel[iChannel];
@@ -5946,11 +5948,11 @@ void C_VS_UI_SERVER_SELECT::CharBarView(int iBarCount, int iCharConnectBar, int 
 		int __n_ousters_num = (int)m_server_oustersenum_chenel[iChannel];
 		int __n_total_num = __n_slayer_num + __n_vampire_num + __n_ousters_num;
 
-		char __sz_user_count[16] = {0};
-		sprintf (__sz_user_count,"%d��",__n_total_num);
-		int __n_string_width = g_GetStringWidth(__sz_user_count,gpC_base->m_user_id_pi.hfont);
+		char __sz_user_count[16] = { 0 };
+		sprintf(__sz_user_count, "%d??", __n_total_num);
+		int __n_string_width = g_GetStringWidth(__sz_user_count, gpC_base->m_user_id_pi.hfont);
 		g_FL2_GetDC();
-		g_PrintColorStr(m_wChar_Bar_Start_View_X+(87/2)-(__n_string_width/2),m_wChar_Bar_Start_View_Y+(iChannel*34)+5,__sz_user_count,gpC_base->m_user_id_pi,RGB_WHITE);	
+		g_PrintColorStr(m_wChar_Bar_Start_View_X + (87 / 2) - (__n_string_width / 2), m_wChar_Bar_Start_View_Y + (iChannel * 34) + 5, __sz_user_count, gpC_base->m_user_id_pi, RGB_WHITE);
 		g_FL2_ReleaseDC();
 	}
 }
@@ -5960,63 +5962,63 @@ void C_VS_UI_SERVER_SELECT::CharBarView(int iBarCount, int iCharConnectBar, int 
 void	C_VS_UI_SERVER_SELECT::CharBarCount()
 {
 #if __CONTENTS(__SERVER_SELECT_REVEWAL)	
-	m_server_slayernumtotal		= 0;
-	m_server_vampirenumtotal	= 0;
-	m_server_oustersnumtotal	= 0;
+	m_server_slayernumtotal = 0;
+	m_server_vampirenumtotal = 0;
+	m_server_oustersnumtotal = 0;
 
-	if(m_server_slayernum_chenel.size() > 0)
+	if (m_server_slayernum_chenel.size() > 0)
 	{
-		if(m_pserver_slayernum_barcount==NULL)
-			m_pserver_slayernum_barcount	= new WORD[m_server_slayernum_chenel.size()];
+		if (m_pserver_slayernum_barcount == NULL)
+			m_pserver_slayernum_barcount = new WORD[m_server_slayernum_chenel.size()];
 	}
-	if(m_server_vampirenum_chenel.size() > 0)
+	if (m_server_vampirenum_chenel.size() > 0)
 	{
-		if(m_pserver_vampirenum_barcount==NULL)
-			m_pserver_vampirenum_barcount	= new WORD[m_server_vampirenum_chenel.size()];
+		if (m_pserver_vampirenum_barcount == NULL)
+			m_pserver_vampirenum_barcount = new WORD[m_server_vampirenum_chenel.size()];
 	}
-	if(m_server_oustersenum_chenel.size() > 0)
+	if (m_server_oustersenum_chenel.size() > 0)
 	{
-		if(m_pserver_ousters_barcount==NULL)
-			m_pserver_ousters_barcount		= new WORD[m_server_oustersenum_chenel.size()];
+		if (m_pserver_ousters_barcount == NULL)
+			m_pserver_ousters_barcount = new WORD[m_server_oustersenum_chenel.size()];
 	}
-	for(int i = 0; i < m_server_slayernum_chenel.size(); i++)
+	for (int i = 0; i < m_server_slayernum_chenel.size(); i++)
 	{
-		m_server_slayernumtotal				+= m_server_slayernum_chenel[i];
-		m_pserver_slayernum_barcount[i]		= m_server_slayernum_chenel[i];
+		m_server_slayernumtotal += m_server_slayernum_chenel[i];
+		m_pserver_slayernum_barcount[i] = m_server_slayernum_chenel[i];
 	}
-	for(i = 0; i < m_server_vampirenum_chenel.size(); i++)
+	for (i = 0; i < m_server_vampirenum_chenel.size(); i++)
 	{
-		m_server_vampirenumtotal			+= m_server_vampirenum_chenel[i];
-		m_pserver_vampirenum_barcount[i]	= m_server_vampirenum_chenel[i];
+		m_server_vampirenumtotal += m_server_vampirenum_chenel[i];
+		m_pserver_vampirenum_barcount[i] = m_server_vampirenum_chenel[i];
 	}
-	for(i = 0; i < m_server_oustersenum_chenel.size(); i++)
+	for (i = 0; i < m_server_oustersenum_chenel.size(); i++)
 	{
-		m_server_oustersnumtotal			+= m_server_oustersenum_chenel[i];
-		m_pserver_ousters_barcount[i]		= m_server_oustersenum_chenel[i];
+		m_server_oustersnumtotal += m_server_oustersenum_chenel[i];
+		m_pserver_ousters_barcount[i] = m_server_oustersenum_chenel[i];
 	}
 
-	for(i = 0; i < m_server_slayernum_chenel.size(); i++)
+	for (i = 0; i < m_server_slayernum_chenel.size(); i++)
 	{
-		m_pserver_slayernum_barcount[i] =	(WORD)(((float)m_server_slayernum_chenel[i] / (float)m_server_slayernumtotal)*10);
-		if(m_pserver_slayernum_barcount[i] < 10)
+		m_pserver_slayernum_barcount[i] = (WORD)(((float)m_server_slayernum_chenel[i] / (float)m_server_slayernumtotal) * 10);
+		if (m_pserver_slayernum_barcount[i] < 10)
 		{
 			m_pserver_slayernum_barcount[i] += 1;
 		}
 	}
 
-	for(i = 0; i < m_server_vampirenum_chenel.size(); i++)
+	for (i = 0; i < m_server_vampirenum_chenel.size(); i++)
 	{
-		m_pserver_vampirenum_barcount[i] =	(WORD)(((float)m_server_vampirenum_chenel[i] / (float)m_server_vampirenumtotal)*10);
-		if(m_pserver_vampirenum_barcount[i] < 10)
+		m_pserver_vampirenum_barcount[i] = (WORD)(((float)m_server_vampirenum_chenel[i] / (float)m_server_vampirenumtotal) * 10);
+		if (m_pserver_vampirenum_barcount[i] < 10)
 		{
 			m_pserver_vampirenum_barcount[i] += 1;
 		}
 	}
 
-	for(i = 0; i < m_server_oustersenum_chenel.size(); i++)
+	for (i = 0; i < m_server_oustersenum_chenel.size(); i++)
 	{
-		m_pserver_ousters_barcount[i] =		(WORD)(((float)m_server_oustersenum_chenel[i] / (float)m_server_oustersnumtotal)*10);
-		if(m_pserver_ousters_barcount[i] < 10)
+		m_pserver_ousters_barcount[i] = (WORD)(((float)m_server_oustersenum_chenel[i] / (float)m_server_oustersnumtotal) * 10);
+		if (m_pserver_ousters_barcount[i] < 10)
 		{
 			m_pserver_ousters_barcount[i] += 1;
 		}
@@ -6029,18 +6031,18 @@ void	C_VS_UI_SERVER_SELECT::CharBarCount()
 void	C_VS_UI_SERVER_SELECT::ChannelCharBarView()
 {
 #if __CONTENTS(__SERVER_SELECT_REVEWAL)
-	//if(m_pserver_slayernum_barcount != NULL && m_pserver_vampirenum_barcount != NULL && m_pserver_ousters_barcount != NULL)	//3����.
-	if(m_pserver_slayernum_barcount != NULL && m_pserver_vampirenum_barcount != NULL/* && m_pserver_ousters_barcount != NULL*/)		//2����.
+	//if(m_pserver_slayernum_barcount != NULL && m_pserver_vampirenum_barcount != NULL && m_pserver_ousters_barcount != NULL)	//3????.
+	if (m_pserver_slayernum_barcount != NULL && m_pserver_vampirenum_barcount != NULL/* && m_pserver_ousters_barcount != NULL*/)		//2????.
 	{
-		for(int i = 0; i < m_server_size; i++)
+		for (int i = 0; i < m_server_size; i++)
 		{
-			CharBarView(10, BLACK_BAR, i, 0);	//�����ٴ� ������ 10��		
-			CharBarView(10, BLACK_BAR, i, 1);	//�����ٴ� ������ 10��
-			CharBarView(m_pserver_slayernum_barcount[i], SLAYER_BAR, i, 0);	
-			CharBarView(m_pserver_vampirenum_barcount[i], VAMPIRES_BAR, i, 1);	
+			CharBarView(10, BLACK_BAR, i, 0);	//??????? ?????? 10??		
+			CharBarView(10, BLACK_BAR, i, 1);	//??????? ?????? 10??
+			CharBarView(m_pserver_slayernum_barcount[i], SLAYER_BAR, i, 0);
+			CharBarView(m_pserver_vampirenum_barcount[i], VAMPIRES_BAR, i, 1);
 #if __CONTENTS(__RACE_OUSTERS)
-			CharBarView(10, BLACK_BAR, i, 2);	//�����ٴ� ������ 10��		
-			CharBarView(m_pserver_ousters_barcount[i], OUSTERS_BAR, i, 2);	
+			CharBarView(10, BLACK_BAR, i, 2);	//??????? ?????? 10??		
+			CharBarView(m_pserver_ousters_barcount[i], OUSTERS_BAR, i, 2);
 #endif
 		}
 	}
@@ -6055,90 +6057,90 @@ void	C_VS_UI_SERVER_SELECT::ChannelCharBarView()
 -----------------------------------------------------------------------------*/
 void S_SLOT::Init()
 {
-	bl_set			= false; // slot�� �����Ǿ��°�?
-	bl_female		= false;
-	bl_drained		= false; //������ �����ΰ�?
+	bl_set = false; // slot?? ???????????
+	bl_female = false;
+	bl_drained = false; //?????? ????????
 
-	ZeroMemory(&man_info,	sizeof(MAN_INFO));
-	
-	helmet_color	= 0;
-	trouser_color	= 0;
-	coat_color		= 0;
-	skin_color		= 0;
-	hair_color		= 0;
-	left_color		= 0;
-	right_color		= 0;
+	ZeroMemory(&man_info, sizeof(MAN_INFO));
+
+	helmet_color = 0;
+	trouser_color = 0;
+	coat_color = 0;
+	skin_color = 0;
+	hair_color = 0;
+	left_color = 0;
+	right_color = 0;
 
 	sz_name.clear();
 	sz_guild_name.clear();
-	
-	alignment		= static_cast<ALIGNMENT>(0);
-	alignment_num	= 0;
-	level			= 0;
-	STR_PURE		= 0;
-	STR_CUR			= 0;
-	STR_MAX			= 0;
-	DEX_PURE		= 0;
-	DEX_CUR			= 0;
-	DEX_MAX			= 0;
-	INT_PURE		= 0;
-	INT_CUR			= 0;
-	INT_MAXX		= 0;
-	STR_EXP_REMAIN	= 0;
-	DEX_EXP_REMAIN	= 0;
-	INT_EXP_REMAIN	= 0;
-	EXP_REMAIN		= 0;
-	DAM				= 0;	// max
-	DAM2			= 0;	// min
-	SILVER_DAM		= 0;	// max
-	SILVER_DAM2		= 0;	// min
-	CHANGE_VAMPIRE	= 0;	// �����̾�� ���ϴ� ���� �ð� ��
-	DEFENSE			= 0;
-	PROTECTION		= 0;
-	TOHIT			= 0;
-	HP				= 0;
-	MP				= 0;
-	HP_MAX			= 0;
-	MP_MAX			= 0;
-	SILVER_HP		= 0;
-	
-	DOMAIN_SWORD	= 0;
-	DOMAIN_BLADE	= 0;
-	DOMAIN_GUN		= 0;
-	DOMAIN_HEAL		= 0;
-	DOMAIN_ENCHANT	= 0;
-	
-	FAME			= 0;
-	
-	bonus_point		= 0; // vampire only
-	skill_point		= 0; // ousters only
-	
-	AttackBloodBurstPoint	= 0;
-	DefenseBloodBurstPoint	= 0;
-	PartyBloodBurstPoint	= 0;
-	MagicRemainSec			= 0; 
-	MagicRemainTick			= 0; 
-	
+
+	alignment = static_cast<ALIGNMENT>(0);
+	alignment_num = 0;
+	level = 0;
+	STR_PURE = 0;
+	STR_CUR = 0;
+	STR_MAX = 0;
+	DEX_PURE = 0;
+	DEX_CUR = 0;
+	DEX_MAX = 0;
+	INT_PURE = 0;
+	INT_CUR = 0;
+	INT_MAXX = 0;
+	STR_EXP_REMAIN = 0;
+	DEX_EXP_REMAIN = 0;
+	INT_EXP_REMAIN = 0;
+	EXP_REMAIN = 0;
+	DAM = 0;	// max
+	DAM2 = 0;	// min
+	SILVER_DAM = 0;	// max
+	SILVER_DAM2 = 0;	// min
+	CHANGE_VAMPIRE = 0;	// ???????? ????? ???? ??? ??
+	DEFENSE = 0;
+	PROTECTION = 0;
+	TOHIT = 0;
+	HP = 0;
+	MP = 0;
+	HP_MAX = 0;
+	MP_MAX = 0;
+	SILVER_HP = 0;
+
+	DOMAIN_SWORD = 0;
+	DOMAIN_BLADE = 0;
+	DOMAIN_GUN = 0;
+	DOMAIN_HEAL = 0;
+	DOMAIN_ENCHANT = 0;
+
+	FAME = 0;
+
+	bonus_point = 0; // vampire only
+	skill_point = 0; // ousters only
+
+	AttackBloodBurstPoint = 0;
+	DefenseBloodBurstPoint = 0;
+	PartyBloodBurstPoint = 0;
+	MagicRemainSec = 0;
+	MagicRemainTick = 0;
+
 	STATUS.clear();
-	
-	GUILD_ID		= 0;
-	GUILD_GRADE		= 0;
-	
-	WS				= 0;
-	WeaponSpeed		= 0;
-	GRADE			= 0;
-	GRADE_EXP_REMAIN	= 0;
-	
-	Race			= RACE_SLAYER;
-	
-	ElementalFire	= 0;
-	ElementalWater	= 0;
-	ElementalEarth	= 0;
-	ElementalWind	= 0;
-	
-	m_SMS_Charge	= 0;
-	m_Powerjjang_Point	= 0;
-	m_AdvancementLevel	= 0;	// ���� ���� 
+
+	GUILD_ID = 0;
+	GUILD_GRADE = 0;
+
+	WS = 0;
+	WeaponSpeed = 0;
+	GRADE = 0;
+	GRADE_EXP_REMAIN = 0;
+
+	Race = RACE_SLAYER;
+
+	ElementalFire = 0;
+	ElementalWater = 0;
+	ElementalEarth = 0;
+	ElementalWind = 0;
+
+	m_SMS_Charge = 0;
+	m_Powerjjang_Point = 0;
+	m_AdvancementLevel = 0;	// ???? ???? 
 
 	SlayerAdvancedStr = 0;
 	SlayerAdvancedDex = 0;
@@ -6162,42 +6164,48 @@ C_VS_UI_LOGIN::C_VS_UI_LOGIN()
 	AttrKeyboardControl(true);
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
-	// �ػ� �ø� �� UI�� �߾ӿ� ������ �ϱ� ���� ��ǥ ������ ����.
+	// ??? ??? ?? UI?? ???? ?????? ??? ???? ??? ?????? ????.
 	int ConvX = 0;	int ConvY = 0;
 
-	if(bHighResolution)
+	if (bHighResolution)
 	{
 		m_pC_login_spk = new C_SPRITE_PACK(SPK_LOGIN_1024);
 
-		if(g_pUserInformation->iResolution_x > 1024)
-		{	
+		if (g_pUserInformation->iResolution_x > 1024)
+		{
 			// 1280*720
-			if(g_pUserInformation->iResolution_y < 960)
-			{	ConvX = 128;	ConvY = -24;	}
+			if (g_pUserInformation->iResolution_y < 960)
+			{
+				ConvX = 128;	ConvY = -24;
+			}
 			// 1280*960
-			else if(g_pUserInformation->iResolution_y < 1024)
-			{	ConvX = 128;	ConvY = 96;		}
+			else if (g_pUserInformation->iResolution_y < 1024)
+			{
+				ConvX = 128;	ConvY = 96;
+			}
 			// 1280*1024
 			else
-			{	ConvX = 128;	ConvY = 128;	}
+			{
+				ConvX = 128;	ConvY = 128;
+			}
 		}
 	}
-	else	
+	else
 		m_pC_login_spk = new C_SPRITE_PACK(SPK_LOGIN);
-	
 
-//	m_pC_login_menu_default.Open(SPK_LOGIN_MENU_DEFAULT);
+
+	//	m_pC_login_menu_default.Open(SPK_LOGIN_MENU_DEFAULT);
 	m_pC_login_menu.Open(SPK_LOGIN_MENU);
-	
-	Set(/*154, 180*/g_pUserInformation->iResolution_x/2 - m_pC_login_spk->GetWidth()/2, g_pUserInformation->iResolution_y/2 - m_pC_login_spk->GetHeight()/2, m_pC_login_spk->GetWidth(), m_pC_login_spk->GetHeight());
+
+	Set(/*154, 180*/g_pUserInformation->iResolution_x / 2 - m_pC_login_spk->GetWidth() / 2, g_pUserInformation->iResolution_y / 2 - m_pC_login_spk->GetHeight() / 2, m_pC_login_spk->GetWidth(), m_pC_login_spk->GetHeight());
 
 
-//#ifdef CONVERT_1024_768
-	//Set(/*154, 180*/RESOLUTION_X/2 - m_pC_login_spk->GetWidth()/2, RESOLUTION_Y/2 - m_pC_login_spk->GetHeight()/2, m_pC_login_spk->GetWidth(), m_pC_login_spk->GetHeight());
-//#else
-	//Set(/*154, 180*/400 - m_pC_login_spk->GetWidth()/2, 300 - m_pC_login_spk->GetHeight()/2-57, m_pC_login_spk->GetWidth(), m_pC_login_spk->GetHeight());
-//#endif
-	
+	//#ifdef CONVERT_1024_768
+		//Set(/*154, 180*/RESOLUTION_X/2 - m_pC_login_spk->GetWidth()/2, RESOLUTION_Y/2 - m_pC_login_spk->GetHeight()/2, m_pC_login_spk->GetWidth(), m_pC_login_spk->GetHeight());
+	//#else
+		//Set(/*154, 180*/400 - m_pC_login_spk->GetWidth()/2, 300 - m_pC_login_spk->GetHeight()/2-57, m_pC_login_spk->GetWidth(), m_pC_login_spk->GetHeight());
+	//#endif
+
 
 	m_pC_button_group = new ButtonGroup(this);
 
@@ -6207,19 +6215,19 @@ C_VS_UI_LOGIN::C_VS_UI_LOGIN()
 
 
 	// LineEditorVisual setting...
-	m_lev_id.SetPosition(x+LOGIN_ID_X + ConvX, y+LOGIN_ID_Y + ConvY);
-	
+	m_lev_id.SetPosition(x + LOGIN_ID_X + ConvX, y + LOGIN_ID_Y + ConvY);
+
 	//if(g_pUserInformation->IsNetmarble)
-	if(g_pUserInformation->IsNetmarbleLogin)
+	if (g_pUserInformation->IsNetmarbleLogin)
 		m_lev_id.SetByteLimit(12);
 	else
 		m_lev_id.SetByteLimit(10);
 
-	m_lev_password.SetPosition(x+LOGIN_PASSWORD_X + ConvX, y+LOGIN_PASSWORD_Y + ConvY);
+	m_lev_password.SetPosition(x + LOGIN_PASSWORD_X + ConvX, y + LOGIN_PASSWORD_Y + ConvY);
 	m_lev_password.PasswordMode(true);
 
 	//if(g_pUserInformation->IsNetmarble)
-	if(g_pUserInformation->IsNetmarbleLogin)
+	if (g_pUserInformation->IsNetmarbleLogin)
 		m_lev_password.SetByteLimit(12);
 	else
 		m_lev_password.SetByteLimit(10);
@@ -6227,19 +6235,19 @@ C_VS_UI_LOGIN::C_VS_UI_LOGIN()
 	Attach(&m_lev_id);
 	Attach(&m_lev_password);
 
-//	m_bFirst = true;
+	//	m_bFirst = true;
 }
 
 //-----------------------------------------------------------------------------
 // ReadySend
 //
-// ��������ʰ� �Է��� �� �Ǿ����� true�� ��ȯ�ϰ� �׷��� ������ false�� ��ȯ�Ѵ�.
+// ?????????? ????? ?? ??????? true?? ?????? ????? ?????? false?? ??????.
 //-----------------------------------------------------------------------------
 bool C_VS_UI_LOGIN::ReadySend()
 {
 	if (m_lev_id.Size() > 0 && m_lev_password.Size() > 0)
 		return true;
-	
+
 	return false;
 
 	/*if (gC_font.GetStringBuffer()->str.length() == 0)
@@ -6278,7 +6286,7 @@ C_VS_UI_LOGIN::~C_VS_UI_LOGIN()
 //-----------------------------------------------------------------------------
 void C_VS_UI_LOGIN::AcquireFirstSequence()
 {
-	
+
 }
 
 //-----------------------------------------------------------------------------
@@ -6290,15 +6298,15 @@ void C_VS_UI_LOGIN::ChangeFocus()
 {
 	if (m_lev_id.IsAcquire())
 	{
-		if(m_lev_id.Size() == 0)
+		if (m_lev_id.Size() == 0)
 			m_lev_id.AddString(m_lev_id_backup.c_str());
 		m_lev_password.Acquire();
 	}
 	else
 	{
-		char * p_temp = NULL;
+		char* p_temp = NULL;
 		g_Convert_DBCS_Ascii2SingleByte(m_lev_id.GetString(), m_lev_id.Size(), p_temp);
-		if(p_temp == NULL)
+		if (p_temp == NULL)
 		{
 			m_lev_id_backup = "";
 		}
@@ -6317,21 +6325,21 @@ void C_VS_UI_LOGIN::UnacquireMouseFocus()
 	m_pC_button_group->UnacquireMouseFocus();
 }
 
-void C_VS_UI_LOGIN::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
+void C_VS_UI_LOGIN::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 {
 }
 
-void C_VS_UI_LOGIN::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
+void C_VS_UI_LOGIN::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
 	if (p_button->GetFocusState() && p_button->GetPressState())
 	{
-		m_pC_login_menu.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
+		m_pC_login_menu.BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
 	}
 	else if (p_button->m_alpha)
-		m_pC_login_menu.BltLockedAlpha(x+p_button->x, y+p_button->y, p_button->GetID(), p_button->m_alpha);
+		m_pC_login_menu.BltLockedAlpha(x + p_button->x, y + p_button->y, p_button->GetID(), p_button->m_alpha);
 	else
 		// Default state: always draw so buttons are visible before hover
-		m_pC_login_menu.BltLocked(x+p_button->x, y+p_button->y, p_button->GetID());
+		m_pC_login_menu.BltLocked(x + p_button->x, y + p_button->y, p_button->GetID());
 }
 
 //-----------------------------------------------------------------------------
@@ -6383,7 +6391,7 @@ void C_VS_UI_LOGIN::Start()
 
 
 
-	if(strlen(g_pUserOption->BackupID) > 0)
+	if (strlen(g_pUserOption->BackupID) > 0)
 	{
 		m_lev_id.AddString(g_pUserOption->BackupID);
 		ChangeFocus();
@@ -6411,26 +6419,26 @@ void C_VS_UI_LOGIN::Run(id_t id)
 {
 	switch (id)
 	{
-		case OK:
-			if (ReadySend() == true)
-			{
-				SendLoginToClient();
-			}
-			else
-			{
-				g_msg_wrong_id_password->Start();
-			}
-			break;
+	case OK:
+		if (ReadySend() == true)
+		{
+			SendLoginToClient();
+		}
+		else
+		{
+			g_msg_wrong_id_password->Start();
+		}
+		break;
 
-		case CANCEL:
-			Finish();
-			break;
+	case CANCEL:
+		Finish();
+		break;
 
-		case NEW_ID:
-			//g_msg_not_available_menu->Start();
-			Finish();
-			gpC_base->SendMessage(UI_RUN_NEWUSER_REGISTRATION);
-			break;
+	case NEW_ID:
+		//g_msg_not_available_menu->Start();
+		Finish();
+		gpC_base->SendMessage(UI_RUN_NEWUSER_REGISTRATION);
+		break;
 	}
 }
 
@@ -6441,28 +6449,28 @@ void C_VS_UI_LOGIN::Run(id_t id)
 bool C_VS_UI_LOGIN::MouseControl(UINT message, int _x, int _y)
 {
 	Window::MouseControl(message, _x, _y);
-	_x-=x; _y-=y;
+	_x -= x; _y -= y;
 
 	m_pC_button_group->MouseControl(message, _x, _y);
 
 	switch (message)
 	{
-		case M_LEFTBUTTON_DOWN:
-		case M_LB_DOUBLECLICK:
-			{
-				Rect id_rt(LOGIN_ID_X, LOGIN_ID_Y, 130, 23);
-				Rect pass_rt(LOGIN_PASSWORD_X, LOGIN_PASSWORD_Y, 130, 23);
-				if (id_rt.IsInRect(_x, _y))
-				{
-					if (!m_lev_id.IsAcquire())
-						ChangeFocus();
-				}
-				else if (pass_rt.IsInRect(_x, _y))
-				{
-					if (!m_lev_password.IsAcquire())
-						ChangeFocus();
-				}
-			}
+	case M_LEFTBUTTON_DOWN:
+	case M_LB_DOUBLECLICK:
+	{
+		Rect id_rt(LOGIN_ID_X, LOGIN_ID_Y, 130, 23);
+		Rect pass_rt(LOGIN_PASSWORD_X, LOGIN_PASSWORD_Y, 130, 23);
+		if (id_rt.IsInRect(_x, _y))
+		{
+			if (!m_lev_id.IsAcquire())
+				ChangeFocus();
+		}
+		else if (pass_rt.IsInRect(_x, _y))
+		{
+			if (!m_lev_password.IsAcquire())
+				ChangeFocus();
+		}
+	}
 	}
 
 	return true;
@@ -6471,20 +6479,20 @@ bool C_VS_UI_LOGIN::MouseControl(UINT message, int _x, int _y)
 //-----------------------------------------------------------------------------
 // NextFocus
 //
-// ID or Password �� �� ��� �ϳ��� �Է��� ���� �����ٸ�, ������ �װ����� �̵��Ѵ�.
+// ID or Password ?? ?? ??? ????? ????? ???? ???????, ?????? ??????? ??????.
 //
-// `����ִ� ���� ������ true�� ��ȯ�Ѵ�.
+// `?????? ???? ?????? true?? ??????.
 //-----------------------------------------------------------------------------
 /*
 bool C_VS_UI_LOGIN::NextFocus()
 {
-	// gC_font ���ο��� tab�� �ƹ��͵� �ƴϴ�.
+	// gC_font ??????? tab?? ?????? ????.
 	gC_font.ForceShowCursor();
 
 	if (m_e_ip == ID)
 	{
 		m_e_ip = PASSWORD;
-		
+
 		m_string_line_ID.erase();
 		m_string_line_ID = gC_font.GetStringBuffer()->str;
 
@@ -6500,7 +6508,7 @@ bool C_VS_UI_LOGIN::NextFocus()
 		gC_font.SetInputLine(m_string_line_ID.c_str());
 	}
 
-	// no empty? - �������� �˻��Ѵ�.
+	// no empty? - ???????? ??????.
 	if (m_string_line_ID.length() > 0 && m_string_line_PASSWORD.length() > 0)
 		return true;
 
@@ -6510,7 +6518,7 @@ bool C_VS_UI_LOGIN::NextFocus()
 //-----------------------------------------------------------------------------
 // SendLoginToClient
 //
-// ID/Password�� Client�� ������.
+// ID/Password?? Client?? ??????.
 //-----------------------------------------------------------------------------
 void C_VS_UI_LOGIN::SendLoginToClient()
 {
@@ -6526,10 +6534,10 @@ void C_VS_UI_LOGIN::SendLoginToClient()
 		m_string_line_PASSWORD += gC_font.GetStringBuffer()->str;
 	}
 */
-	//
-	// �ݵ�� static���� �ϰ� member�� login check�� ������ delete ���ش�.
-	//
-	static LOGIN S_login; 
+//
+// ???? static???? ??? member?? login check?? ?????? delete ?????.
+//
+	static LOGIN S_login;
 	//S_login.sz_id = (char *)m_string_line_ID.c_str();
 	//S_login.sz_password = (char *)m_string_line_PASSWORD.c_str();
 	g_Convert_DBCS_Ascii2SingleByte(m_lev_id.GetString(), m_lev_id.Size(), S_login.sz_id);
@@ -6541,7 +6549,7 @@ void C_VS_UI_LOGIN::SendLoginToClient()
 
 /*-----------------------------------------------------------------------------
 - KeyboardControl
-- Log-In ID�� Password�� �Է¹޴´�.
+- Log-In ID?? Password?? ??????.
 -----------------------------------------------------------------------------*/
 void C_VS_UI_LOGIN::KeyboardControl(UINT message, UINT key, long extra)
 {
@@ -6566,32 +6574,32 @@ void C_VS_UI_LOGIN::KeyboardControl(UINT message, UINT key, long extra)
 
 	switch (message)
 	{
-		case WM_KEYDOWN:
-			// 
-			// input position ����.
-			//
-			if (key == VK_TAB)
-			{
+	case WM_KEYDOWN:
+		// 
+		// input position ????.
+		//
+		if (key == VK_TAB)
+		{
+			//NextFocus();
+			ChangeFocus();
+		}
+		else if (key == VK_ESCAPE) // cancel!
+		{
+			Finish();
+		}
+		else if (key == VK_RETURN) // ok
+		{
+			//if (focus_end) // ??? ??? ???? ?????? send!
+			//{
+
+			if (ReadySend() == true)
+				SendLoginToClient();
+			else
 				//NextFocus();
 				ChangeFocus();
-			}
-			else if (key == VK_ESCAPE) // cancel!
-			{
-				Finish();
-			}
-			else if (key == VK_RETURN) // ok
-			{
-				//if (focus_end) // ��� �ִ� ���� ������ send!
-				//{
-
-				if (ReadySend() == true)
-					SendLoginToClient();
-				else
-					//NextFocus();
-					ChangeFocus();
-				//}
-			}
-			break;
+			//}
+		}
+		break;
 	}
 }
 
@@ -6602,48 +6610,48 @@ extern HWND g_hWnd;
 -----------------------------------------------------------------------------*/
 void C_VS_UI_LOGIN::Show()
 {
-//	if(m_lev_password.IsAcquire())
-//	{
-//		DWORD conversion, sentence;
-//		ImmGetConversionStatus(ImmGetContext(g_hWnd), &conversion, &sentence);
-//		if(conversion)
-//		{
-//			conversion = 0;
-//			ImmSetConversionStatus(ImmGetContext(g_hWnd), conversion, sentence);
-//		}
-//	}
+	//	if(m_lev_password.IsAcquire())
+	//	{
+	//		DWORD conversion, sentence;
+	//		ImmGetConversionStatus(ImmGetContext(g_hWnd), &conversion, &sentence);
+	//		if(conversion)
+	//		{
+	//			conversion = 0;
+	//			ImmSetConversionStatus(ImmGetContext(g_hWnd), conversion, sentence);
+	//		}
+	//	}
 
-//	m_pC_login_spk->BltAlpha(x, y+20, SHADOW, 22);
-	if(gpC_base->m_p_DDSurface_back->Lock())
+	//	m_pC_login_spk->BltAlpha(x, y+20, SHADOW, 22);
+	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		m_pC_login_spk->BltLocked(x, y);		
+		m_pC_login_spk->BltLocked(x, y);
 		m_pC_button_group->Show();
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
-/*
-	// login ���ڿ� ���.
-	if (gpC_base->m_p_DDSurface_back->Lock())
-	{
-		S_SURFACEINFO	surfaceinfo;
-		SetSurfaceInfo(&surfaceinfo, gpC_base->m_p_DDSurface_back->GetDDSD());
+	/*
+		// login ????? ???.
+		if (gpC_base->m_p_DDSurface_back->Lock())
+		{
+			S_SURFACEINFO	surfaceinfo;
+			SetSurfaceInfo(&surfaceinfo, gpC_base->m_p_DDSurface_back->GetDDSD());
 
-		gpC_base->SelectFont(FONT_SLAYER);
+			gpC_base->SelectFont(FONT_SLAYER);
 
-		// cursor�� ���� �Է� line���� �ְ� �ؾ� �Ѵ�.
-		if (m_e_ip == ID)
-			gC_font.Update(&surfaceinfo, x+LOGIN_ID_X, y+LOGIN_ID_Y, WHITE);
-		else
-			gC_font.PrintStringNoConvert(&surfaceinfo, m_string_line_ID.c_str(), x+LOGIN_ID_X, y+LOGIN_ID_Y, WHITE);
+			// cursor?? ???? ??? line???? ??? ??? ???.
+			if (m_e_ip == ID)
+				gC_font.Update(&surfaceinfo, x+LOGIN_ID_X, y+LOGIN_ID_Y, WHITE);
+			else
+				gC_font.PrintStringNoConvert(&surfaceinfo, m_string_line_ID.c_str(), x+LOGIN_ID_X, y+LOGIN_ID_Y, WHITE);
 
-		gC_font.PasswordMode();
-		if (m_e_ip == PASSWORD)
-			gC_font.Update(&surfaceinfo, x+LOGIN_PASSWORD_X, y+LOGIN_PASSWORD_Y, WHITE);
-		else
-			gC_font.PrintStringNoConvert(&surfaceinfo, m_string_line_PASSWORD.c_str(), x+LOGIN_PASSWORD_X, y+LOGIN_PASSWORD_Y, WHITE);
-		gC_font.NoPasswordMode();
+			gC_font.PasswordMode();
+			if (m_e_ip == PASSWORD)
+				gC_font.Update(&surfaceinfo, x+LOGIN_PASSWORD_X, y+LOGIN_PASSWORD_Y, WHITE);
+			else
+				gC_font.PrintStringNoConvert(&surfaceinfo, m_string_line_PASSWORD.c_str(), x+LOGIN_PASSWORD_X, y+LOGIN_PASSWORD_Y, WHITE);
+			gC_font.NoPasswordMode();
 
-		gpC_base->m_p_DDSurface_back->Unlock();
-	}*/
+			gpC_base->m_p_DDSurface_back->Unlock();
+		}*/
 
 	Window::ShowWidget();
 
@@ -6665,33 +6673,33 @@ void	C_VS_UI_TITLE::PopupNetmarbleAgreementMessage()
 	m_pC_char_manager->PopupNetmarbleAgreementMessage();
 }
 
-void ExecF_Use_AskCheckToEnterServer(C_VS_UI_DIALOG * p_this_dialog, id_t id)
+void ExecF_Use_AskCheckToEnterServer(C_VS_UI_DIALOG* p_this_dialog, id_t id)
 {
-	C_VS_UI_ASK_DIALOG *p_ask_dlg = static_cast<C_VS_UI_ASK_DIALOG *>( p_this_dialog );
+	C_VS_UI_ASK_DIALOG* p_ask_dlg = static_cast<C_VS_UI_ASK_DIALOG*>(p_this_dialog);
 
 	switch (id)
 	{
 	case DIALOG_EXECID_OK:
-		{
-			DWORD value		= p_ask_dlg->GetdwTemporayValue() ;
-			BOOL group		= LOBYTE(value);
-			int	servernum	= HIBYTE(value);
-			gpC_base->SendMessage(UI_CONNECT_SERVER, group, servernum);
+	{
+		DWORD value = p_ask_dlg->GetdwTemporayValue();
+		BOOL group = LOBYTE(value);
+		int	servernum = HIBYTE(value);
+		gpC_base->SendMessage(UI_CONNECT_SERVER, group, servernum);
 
-		}
-		break;
+	}
+	break;
 	case DIALOG_EXECID_CANCEL:
 	case DIALOG_EXECID_EXIT:
-		{
-			gpC_base->SendMessage(UI_NONPK_SERVER_USE);
-		}
-		break;
+	{
+		gpC_base->SendMessage(UI_NONPK_SERVER_USE);
 	}
-	
-//	gC_vs_ui.AcquireChatting();
+	break;
+	}
+
+	//	gC_vs_ui.AcquireChatting();
 }
 
-void	C_VS_UI_TITLE::RunAskCheckToEnterServerDialog(int AskType ,  int value)
+void	C_VS_UI_TITLE::RunAskCheckToEnterServerDialog(int AskType, int value)
 {
 	if (m_pC_use_askCheckToEnterServer != NULL)
 	{
@@ -6699,14 +6707,14 @@ void	C_VS_UI_TITLE::RunAskCheckToEnterServerDialog(int AskType ,  int value)
 	}
 	//ExecF_Use_AskItem 
 	// center
-	if(AskType >= C_VS_UI_ASK_DIALOG::MAX_ASK_DIALOG_TYPE)
+	if (AskType >= C_VS_UI_ASK_DIALOG::MAX_ASK_DIALOG_TYPE)
 		return;
 	m_pC_use_askCheckToEnterServer = new C_VS_UI_ASK_DIALOG(
-		-1, -1, 3, 1, ExecF_Use_AskCheckToEnterServer, DIALOG_CANCEL | DIALOG_OK, 
-		(C_VS_UI_ASK_DIALOG::TYPE_ASK_DIALOG)AskType, value ) ; //0);	// by sigi
-	
+		-1, -1, 3, 1, ExecF_Use_AskCheckToEnterServer, DIALOG_CANCEL | DIALOG_OK,
+		(C_VS_UI_ASK_DIALOG::TYPE_ASK_DIALOG)AskType, value); //0);	// by sigi
+
 	assert(m_pC_use_askCheckToEnterServer != NULL);
-	
+
 	m_pC_use_askCheckToEnterServer->Start();
 }
 
@@ -6762,7 +6770,7 @@ void C_VS_UI_TITLE::ClearAllCharacter()
 	m_pC_char_manager->ClearAllCharacter();
 }
 
-void A(C_VS_UI_DIALOG * p, id_t id)
+void A(C_VS_UI_DIALOG* p, id_t id)
 {
 	int z = 0;
 }
@@ -6777,10 +6785,10 @@ void A(C_VS_UI_DIALOG * p, id_t id)
 C_VS_UI_TITLE::C_VS_UI_TITLE()
 {
 	g_RegisterWindow(this);
-	
+
 #ifndef _LIB
 #endif
-	
+
 	AttrKeyboardControl(true);
 
 	m_pC_char_manager = new C_VS_UI_CHAR_MANAGER;
@@ -6790,65 +6798,65 @@ C_VS_UI_TITLE::C_VS_UI_TITLE()
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
 
-// 	if(bHighResolution)
-// 		m_title_spk.Open(SPK_TITLE_1024);
-// 	else
-// 		m_title_spk.Open(SPK_TITLE);
+	// 	if(bHighResolution)
+	// 		m_title_spk.Open(SPK_TITLE_1024);
+	// 	else
+	// 		m_title_spk.Open(SPK_TITLE);
 
 	m_title_spk.Open(SPK_TITLE);
 
 	m_title_menu_default.Open(SPK_TITLE_MENU_DEFAULT);
 
-	if(bHighResolution)
+	if (bHighResolution)
 	{
-		if(g_pUserInformation->iResolution_x <= 1024)
-			Set( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(1)) / 2, 
-			(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(1)) / 2, 
-			m_title_spk.GetWidth(1), m_title_spk.GetHeight(1) );
+		if (g_pUserInformation->iResolution_x <= 1024)
+			Set((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(1)) / 2,
+				(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(1)) / 2,
+				m_title_spk.GetWidth(1), m_title_spk.GetHeight(1));
 		else // if(g_pUserInformation->iResolution_x > 1024)
 		{
-			if(g_pUserInformation->iResolution_y < 960)
-				Set( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(2)) / 2, 
-				(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(2)) / 2, 
-				m_title_spk.GetWidth(2), m_title_spk.GetHeight(2) );
-			else if(g_pUserInformation->iResolution_y < 1024)
-				Set( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(3)) / 2, 
-				(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(3)) / 2, 
-				m_title_spk.GetWidth(3), m_title_spk.GetHeight(3) );
+			if (g_pUserInformation->iResolution_y < 960)
+				Set((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(2)) / 2,
+					(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(2)) / 2,
+					m_title_spk.GetWidth(2), m_title_spk.GetHeight(2));
+			else if (g_pUserInformation->iResolution_y < 1024)
+				Set((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(3)) / 2,
+					(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(3)) / 2,
+					m_title_spk.GetWidth(3), m_title_spk.GetHeight(3));
 			else
-				Set( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(4)) / 2, 
-				(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(4)) / 2, 
-				m_title_spk.GetWidth(4), m_title_spk.GetHeight(4) );
+				Set((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(4)) / 2,
+					(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(4)) / 2,
+					m_title_spk.GetWidth(4), m_title_spk.GetHeight(4));
 		}
 	}
 	else
 	{
-		Set( (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(0)) / 2, 
-			(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(0)) / 2, 
-				m_title_spk.GetWidth(0), m_title_spk.GetHeight(0) );
+		Set((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(0)) / 2,
+			(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(0)) / 2,
+			m_title_spk.GetWidth(0), m_title_spk.GetHeight(0));
 	}
 
-// 
-// 	if(bHighResolution)
-// 	{
-// 		Set(g_pUserInformation->iResolution_x/2 - m_title_spk.GetWidth()/2, g_pUserInformation->iResolution_y/2 - m_title_spk.GetHeight()/2, m_title_spk.GetWidth(), m_title_spk.GetHeight());
-// 	}
-// 	else
-// 	{
-// 		Set(0, 0, m_title_spk.GetWidth(), m_title_spk.GetHeight());
-// 	}
+	// 
+	// 	if(bHighResolution)
+	// 	{
+	// 		Set(g_pUserInformation->iResolution_x/2 - m_title_spk.GetWidth()/2, g_pUserInformation->iResolution_y/2 - m_title_spk.GetHeight()/2, m_title_spk.GetWidth(), m_title_spk.GetHeight());
+	// 	}
+	// 	else
+	// 	{
+	// 		Set(0, 0, m_title_spk.GetWidth(), m_title_spk.GetHeight());
+	// 	}
 
 #if	__CONTENTS(__USER_GRADE)
 	m_pC_use_grade = new C_SPRITE_PACK(SPK_USE_GRADE);
 #endif	//__USER_GRADE
-//	const InterfaceInformation *pSkin = &g_pSkinManager->Get( SkinManager::TITLE );
+	//	const InterfaceInformation *pSkin = &g_pSkinManager->Get( SkinManager::TITLE );
 	m_pC_button_group = new ButtonGroup(this);
 
-	int iStartRangeX = 0, iStartRangeY  = g_pUserInformation->iResolution_y - m_title_spk.GetHeight(1);
+	int iStartRangeX = 0, iStartRangeY = g_pUserInformation->iResolution_y - m_title_spk.GetHeight(1);
 
 	int	offsetX = 0;
-	
-	if(bHighResolution)
+
+	if (bHighResolution)
 	{
 		offsetX = 86;
 	}
@@ -6857,47 +6865,47 @@ C_VS_UI_TITLE::C_VS_UI_TITLE()
 		offsetX = 70;
 	}
 
-	m_wAni_Mark_X		= 0;
-	m_wAni_Mark_Y		= 0;
+	m_wAni_Mark_X = 0;
+	m_wAni_Mark_Y = 0;
 
-	m_wButton_Layout_X	= 0;
-	m_wButton_Layout_Y	= 0;
+	m_wButton_Layout_X = 0;
+	m_wButton_Layout_Y = 0;
 
-	m_wID_Edit_X		= 0;
-	m_wID_Edit_Y		= 0;
+	m_wID_Edit_X = 0;
+	m_wID_Edit_Y = 0;
 
-	m_wPW_Edit_X		= 0;
-	m_wPW_Edit_Y		= 0;
+	m_wPW_Edit_X = 0;
+	m_wPW_Edit_Y = 0;
 
-	m_wGame_Run_X		= 0;
-	m_wGame_Run_Y		= 0;
+	m_wGame_Run_X = 0;
+	m_wGame_Run_Y = 0;
 
-	m_wID_Create_X		= 0;
-	m_wID_Create_Y		= 0;
+	m_wID_Create_X = 0;
+	m_wID_Create_Y = 0;
 
-	m_wOption_X			= 0;
-	m_wOption_Y			= 0;
+	m_wOption_X = 0;
+	m_wOption_Y = 0;
 
-	m_wGame_Creaters_X	= 0;
-	m_wGame_Creaters_Y	= 0;
+	m_wGame_Creaters_X = 0;
+	m_wGame_Creaters_Y = 0;
 
-	m_wGame_Exit_X		= 0;
-	m_wGame_Exit_Y		= 0;
+	m_wGame_Exit_X = 0;
+	m_wGame_Exit_Y = 0;
 
 	Init_TitleUIInterface_InfInfo();
-		
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wGame_Run_X,	m_wGame_Run_Y, 	m_title_menu_default.GetWidth(CONNECT_HILIGHT), 
-														m_title_menu_default.GetHeight(CONNECT_HILIGHT), CONNECT, this,CONNECT_HILIGHT));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wID_Create_X,	m_wID_Create_Y, m_title_menu_default.GetWidth(NEWID_HILIGHT), 
-														m_title_menu_default.GetHeight(NEWID_HILIGHT), NEWID, this,NEWID_HILIGHT));
+
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wGame_Run_X, m_wGame_Run_Y, m_title_menu_default.GetWidth(CONNECT_HILIGHT),
+		m_title_menu_default.GetHeight(CONNECT_HILIGHT), CONNECT, this, CONNECT_HILIGHT));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wID_Create_X, m_wID_Create_Y, m_title_menu_default.GetWidth(NEWID_HILIGHT),
+		m_title_menu_default.GetHeight(NEWID_HILIGHT), NEWID, this, NEWID_HILIGHT));
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wOption_X, m_wOption_Y, m_title_menu_default.GetWidth(OPTION_HILIGHT),
-														m_title_menu_default.GetHeight(OPTION_HILIGHT), OPTION, this,OPTION_HILIGHT));
+		m_title_menu_default.GetHeight(OPTION_HILIGHT), OPTION, this, OPTION_HILIGHT));
 #if __CONTENTS(!__IMI_INTERFACE)
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wGame_Creaters_X,	m_wGame_Creaters_Y, m_title_menu_default.GetWidth(CREDIT_HILIGHT), 
-														m_title_menu_default.GetHeight(CREDIT_HILIGHT), CREDIT, this,CREDIT_HILIGHT));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wGame_Creaters_X, m_wGame_Creaters_Y, m_title_menu_default.GetWidth(CREDIT_HILIGHT),
+		m_title_menu_default.GetHeight(CREDIT_HILIGHT), CREDIT, this, CREDIT_HILIGHT));
 #endif //__IMI_INTERFACE
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wGame_Exit_X, m_wGame_Exit_Y, m_title_menu_default.GetWidth(EXIT_HILIGHT), 
-														m_title_menu_default.GetHeight(EXIT_HILIGHT), EXIT, this,EXIT_HILIGHT));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wGame_Exit_X, m_wGame_Exit_Y, m_title_menu_default.GetWidth(EXIT_HILIGHT),
+		m_title_menu_default.GetHeight(EXIT_HILIGHT), EXIT, this, EXIT_HILIGHT));
 
 	m_pC_credit = NULL;
 	m_pC_dialog = NULL;
@@ -6905,25 +6913,25 @@ C_VS_UI_TITLE::C_VS_UI_TITLE()
 	m_dw_prev_tickcount = GetTickCount();
 	m_dw_millisec = 30;
 	m_credit_scroll = 0;
-	m_pC_use_askCheckToEnterServer = NULL ; 
+	m_pC_use_askCheckToEnterServer = NULL;
 
-	m_iWarmingTextIndex = rand()%2;
+	m_iWarmingTextIndex = rand() % 2;
 
 	// LineEditorVisual setting...
-	if(false == g_pUserInformation->IsAutoLogIn &&
-	   false == g_pUserInformation->IsNetmarbleLogin)
+	if (false == g_pUserInformation->IsAutoLogIn &&
+		false == g_pUserInformation->IsNetmarbleLogin)
 	{
-		m_lev_id.SetPosition(m_wID_Edit_X,	m_wID_Edit_Y);
-		
-		if(g_pUserInformation->IsNetmarbleLogin)
+		m_lev_id.SetPosition(m_wID_Edit_X, m_wID_Edit_Y);
+
+		if (g_pUserInformation->IsNetmarbleLogin)
 			m_lev_id.SetByteLimit(12);
 		else
 			m_lev_id.SetByteLimit(10);
-		
-		m_lev_password.SetPosition(m_wPW_Edit_X,	m_wPW_Edit_Y);
+
+		m_lev_password.SetPosition(m_wPW_Edit_X, m_wPW_Edit_Y);
 		m_lev_password.PasswordMode(true);
-		
-		if(g_pUserInformation->IsNetmarbleLogin)
+
+		if (g_pUserInformation->IsNetmarbleLogin)
 			m_lev_password.SetByteLimit(12);
 		else
 			m_lev_password.SetByteLimit(10);
@@ -6938,7 +6946,7 @@ C_VS_UI_TITLE::C_VS_UI_TITLE()
 		m_lev_password.SetAbsWidth(80);
 		m_lev_password.SetByteLimit(20);
 #endif	//__ID_PASSWORD
-		
+
 		Attach(&m_lev_id);
 		Attach(&m_lev_password);
 	}
@@ -6952,128 +6960,128 @@ C_VS_UI_TITLE::C_VS_UI_TITLE()
 
 void	C_VS_UI_TITLE::Init_TitleUIInterface_InfInfo()
 {
-	char arrstrAppName[255]		= {NULL,};
-	char arrstrFileName[255]	= {NULL,};
+	char arrstrAppName[255] = { NULL, };
+	char arrstrFileName[255] = { NULL, };
 
-	GetCurrentDirectory(_MAX_PATH, arrstrFileName);	//���� ���� ���� ������ ��θ� ��´�.
+	GetCurrentDirectory(_MAX_PATH, arrstrFileName);	//???? ???? ???? ?????? ???? ????.
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
-	// �ػ� �ø� �� UI�� �߾ӿ� ������ �ϱ� ���� ��ǥ ������ ����.
+	// ??? ??? ?? UI?? ???? ?????? ??? ???? ??? ?????? ????.
 	int ConvX = 0;	int ConvY = 0;
 
-// 	if(bHighResolution)
-// 	{
-// 		if(g_pUserInformation->iResolution_x > 1024)
-// 		{	
-// 			// 1280*720
-// 			if(g_pUserInformation->iResolution_y < 960)
-// 			{	
-// 				ConvX = (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_1024_768)) / 2;	//128
-// 				ConvY = (g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_1024_768)) / 2;	//-24
-// 			}
-// 			// 1280*960
-// 			else if(g_pUserInformation->iResolution_y < 1024)
-// 			{	
-// 				ConvX = (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_1024_768)) / 2;	//128
-// 				ConvY = (g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_1024_768)) / 2;	//96
-// 			}
-// 			// 1280*1024
-// 			else
-// 			{	
-// 				ConvX = (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_1024_768)) / 2;	//128
-// 				ConvY = (g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_1024_768)) / 2;	//128
-// 			}
-// 		}
-// 	}
+	// 	if(bHighResolution)
+	// 	{
+	// 		if(g_pUserInformation->iResolution_x > 1024)
+	// 		{	
+	// 			// 1280*720
+	// 			if(g_pUserInformation->iResolution_y < 960)
+	// 			{	
+	// 				ConvX = (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_1024_768)) / 2;	//128
+	// 				ConvY = (g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_1024_768)) / 2;	//-24
+	// 			}
+	// 			// 1280*960
+	// 			else if(g_pUserInformation->iResolution_y < 1024)
+	// 			{	
+	// 				ConvX = (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_1024_768)) / 2;	//128
+	// 				ConvY = (g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_1024_768)) / 2;	//96
+	// 			}
+	// 			// 1280*1024
+	// 			else
+	// 			{	
+	// 				ConvX = (g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_1024_768)) / 2;	//128
+	// 				ConvY = (g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_1024_768)) / 2;	//128
+	// 			}
+	// 		}
+	// 	}
 
-	if(bHighResolution)
+	if (bHighResolution)
 	{
-		if(g_pUserInformation->iResolution_x <=1024)
-			strcpy(arrstrAppName,"LOGIN_1024_768");
+		if (g_pUserInformation->iResolution_x <= 1024)
+			strcpy(arrstrAppName, "LOGIN_1024_768");
 		else
 		{
 			// 1280*720
-			if(g_pUserInformation->iResolution_y < 960)
-				strcpy(arrstrAppName,"LOGIN_1280_720");
+			if (g_pUserInformation->iResolution_y < 960)
+				strcpy(arrstrAppName, "LOGIN_1280_720");
 			// 1280*960
-			else if(g_pUserInformation->iResolution_y < 1024)
-				strcpy(arrstrAppName,"LOGIN_1280_960");
+			else if (g_pUserInformation->iResolution_y < 1024)
+				strcpy(arrstrAppName, "LOGIN_1280_960");
 			// 1280*1024
 			else
-				strcpy(arrstrAppName,"LOGIN_1280_1024");
-		}	
+				strcpy(arrstrAppName, "LOGIN_1280_1024");
+		}
 	}
 	else
-		strcpy(arrstrAppName,"LOGIN_800_600");
+		strcpy(arrstrAppName, "LOGIN_800_600");
 
-	if(g_pUserInformation->IsNetmarbleLogin)
+	if (g_pUserInformation->IsNetmarbleLogin)
 	{
-		if(bHighResolution)
-			strcpy(arrstrAppName,"NET_LOGIN_1024_768");
+		if (bHighResolution)
+			strcpy(arrstrAppName, "NET_LOGIN_1024_768");
 		else
-			strcpy(arrstrAppName,"NET_LOGIN_800_600");
+			strcpy(arrstrAppName, "NET_LOGIN_800_600");
 	}
 #ifdef __DESIGNED_ITEMMANIA
-	if(bHighResolution)
-		strcpy(arrstrAppName,"IMI_LOGIN_1024_768");
+	if (bHighResolution)
+		strcpy(arrstrAppName, "IMI_LOGIN_1024_768");
 	else
-		strcpy(arrstrAppName,"IMI_LOGIN_800_600");
+		strcpy(arrstrAppName, "IMI_LOGIN_800_600");
 #endif //__DESIGNED_ITEMMANIA
 	strcat(arrstrFileName, FILE_INFO_TITLE_UI);
 
-	m_wAni_Mark_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_X", 0, arrstrFileName);
-	m_wAni_Mark_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_Y", 0, arrstrFileName);
+	m_wAni_Mark_X = (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_X", 0, arrstrFileName);
+	m_wAni_Mark_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "ANI_MARK_Y", 0, arrstrFileName);
 
-	m_wButton_Layout_X			= (WORD)GetPrivateProfileInt(arrstrAppName, "BUTTON_LAYOUT_X", 0, arrstrFileName);
-	m_wButton_Layout_Y			= (WORD)GetPrivateProfileInt(arrstrAppName, "BUTTON_LAYOUT_Y", 0, arrstrFileName);
+	m_wButton_Layout_X = (WORD)GetPrivateProfileInt(arrstrAppName, "BUTTON_LAYOUT_X", 0, arrstrFileName);
+	m_wButton_Layout_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "BUTTON_LAYOUT_Y", 0, arrstrFileName);
 
-	m_wID_Edit_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "ID_EDIT_X", 0, arrstrFileName) + m_wButton_Layout_X;
-	m_wID_Edit_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "ID_EDIT_Y", 0, arrstrFileName) + m_wButton_Layout_Y;
+	m_wID_Edit_X = (WORD)GetPrivateProfileInt(arrstrAppName, "ID_EDIT_X", 0, arrstrFileName) + m_wButton_Layout_X;
+	m_wID_Edit_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "ID_EDIT_Y", 0, arrstrFileName) + m_wButton_Layout_Y;
 
-	m_wPW_Edit_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "PW_EDIT_X", 0, arrstrFileName) + m_wButton_Layout_X;
-	m_wPW_Edit_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "PW_EDIT_Y", 0, arrstrFileName) + m_wButton_Layout_Y;
+	m_wPW_Edit_X = (WORD)GetPrivateProfileInt(arrstrAppName, "PW_EDIT_X", 0, arrstrFileName) + m_wButton_Layout_X;
+	m_wPW_Edit_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "PW_EDIT_Y", 0, arrstrFileName) + m_wButton_Layout_Y;
 
-	m_wGame_Run_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_RUN_X", 0, arrstrFileName) + m_wButton_Layout_X;
-	m_wGame_Run_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_RUN_Y", 0, arrstrFileName) + m_wButton_Layout_Y;
+	m_wGame_Run_X = (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_RUN_X", 0, arrstrFileName) + m_wButton_Layout_X;
+	m_wGame_Run_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_RUN_Y", 0, arrstrFileName) + m_wButton_Layout_Y;
 
-	m_wID_Create_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "ID_CREATE_X", 0, arrstrFileName) + m_wButton_Layout_X;
-	m_wID_Create_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "ID_CREATE_Y", 0, arrstrFileName) + m_wButton_Layout_Y;
+	m_wID_Create_X = (WORD)GetPrivateProfileInt(arrstrAppName, "ID_CREATE_X", 0, arrstrFileName) + m_wButton_Layout_X;
+	m_wID_Create_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "ID_CREATE_Y", 0, arrstrFileName) + m_wButton_Layout_Y;
 
-	m_wOption_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "OPTION_X", 0, arrstrFileName) + m_wButton_Layout_X;
-	m_wOption_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "OPTION_Y", 0, arrstrFileName) + m_wButton_Layout_Y;
+	m_wOption_X = (WORD)GetPrivateProfileInt(arrstrAppName, "OPTION_X", 0, arrstrFileName) + m_wButton_Layout_X;
+	m_wOption_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "OPTION_Y", 0, arrstrFileName) + m_wButton_Layout_Y;
 
-	m_wGame_Creaters_X			= (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_CREATERS_X", 0, arrstrFileName) + m_wButton_Layout_X;
-	m_wGame_Creaters_Y			= (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_CREATERS_Y", 0, arrstrFileName) + m_wButton_Layout_Y;
+	m_wGame_Creaters_X = (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_CREATERS_X", 0, arrstrFileName) + m_wButton_Layout_X;
+	m_wGame_Creaters_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_CREATERS_Y", 0, arrstrFileName) + m_wButton_Layout_Y;
 
-	m_wGame_Exit_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_EXIT_X", 0, arrstrFileName) + m_wButton_Layout_X;
-	m_wGame_Exit_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_EXIT_Y", 0, arrstrFileName) + m_wButton_Layout_Y;
+	m_wGame_Exit_X = (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_EXIT_X", 0, arrstrFileName) + m_wButton_Layout_X;
+	m_wGame_Exit_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "GAME_EXIT_Y", 0, arrstrFileName) + m_wButton_Layout_Y;
 
-	m_wEffect_Warter_Light_X	= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_WARTER_LIGHT_X", 0, arrstrFileName);
-	m_wEffect_Warter_Light_Y	= (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_WARTER_LIGHT_Y", 0, arrstrFileName);
+	m_wEffect_Warter_Light_X = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_WARTER_LIGHT_X", 0, arrstrFileName);
+	m_wEffect_Warter_Light_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "EFFECT_WARTER_LIGHT_Y", 0, arrstrFileName);
 
-	m_wText_Image_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_IMAGE_X", 0, arrstrFileName);
-	m_wText_Image_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_IMAGE_Y", 0, arrstrFileName);
+	m_wText_Image_X = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_IMAGE_X", 0, arrstrFileName);
+	m_wText_Image_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "TEXT_IMAGE_Y", 0, arrstrFileName);
 
-	m_wChild_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_X", 0, arrstrFileName);
-	m_wChild_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_Y", 0, arrstrFileName);
+	m_wChild_X = (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_X", 0, arrstrFileName);
+	m_wChild_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "CHILD_Y", 0, arrstrFileName);
 
-	m_wAdult_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_X", 0, arrstrFileName);
-	m_wAdult_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_Y", 0, arrstrFileName);
+	m_wAdult_X = (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_X", 0, arrstrFileName);
+	m_wAdult_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "ADULT_Y", 0, arrstrFileName);
 
-	m_wViolence_X				= (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_X", 0, arrstrFileName);
-	m_wViolence_Y				= (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_Y", 0, arrstrFileName);
+	m_wViolence_X = (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_X", 0, arrstrFileName);
+	m_wViolence_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "VIOLENCE_Y", 0, arrstrFileName);
 
-	m_wFear_X					= (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_X", 0, arrstrFileName);
-	m_wFear_Y					= (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_Y", 0, arrstrFileName);
+	m_wFear_X = (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_X", 0, arrstrFileName);
+	m_wFear_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "FEAR_Y", 0, arrstrFileName);
 
-	m_wWorningString_X			= (WORD)GetPrivateProfileInt(arrstrAppName, "WORNIN_STRING_X", 0, arrstrFileName);
-	m_wWorningString_Y			= (WORD)GetPrivateProfileInt(arrstrAppName, "WORNIN_STRING_Y", 0, arrstrFileName);
+	m_wWorningString_X = (WORD)GetPrivateProfileInt(arrstrAppName, "WORNIN_STRING_X", 0, arrstrFileName);
+	m_wWorningString_Y = (WORD)GetPrivateProfileInt(arrstrAppName, "WORNIN_STRING_Y", 0, arrstrFileName);
 
 
-	if(false == g_pUserInformation->IsAutoLogIn &&
-	   false == g_pUserInformation->IsNetmarbleLogin)
+	if (false == g_pUserInformation->IsAutoLogIn &&
+		false == g_pUserInformation->IsNetmarbleLogin)
 	{
-		m_lev_id.SetPosition(m_wID_Edit_X,	m_wID_Edit_Y);
+		m_lev_id.SetPosition(m_wID_Edit_X, m_wID_Edit_Y);
 		m_lev_password.SetPosition(m_wPW_Edit_X, m_wPW_Edit_Y);
 	}
 }
@@ -7088,23 +7096,23 @@ void	C_VS_UI_TITLE::Init_TitleUIInterface_InfInfo()
 C_VS_UI_TITLE::~C_VS_UI_TITLE()
 {
 	g_UnregisterWindow(this);
-	
+
 #ifndef _LIB
-//	DeleteNew(m_pC_dialog);
+	//	DeleteNew(m_pC_dialog);
 #endif
 
 	//
-	// !���� child Window���� delete�ؾ� �Ѵ�.
+	// !???? child Window???? delete??? ???.
 	//
-	// �׷��� ���� ������ child Window�� ���ŵ� ���� �̹� C_VS_UI_TITLE::IsPIxel()��
-	// �� �� ���� ����(m_title_spk�� delete�� ����)�̱� �����̴�.
+	// ????? ???? ?????? child Window?? ????? ???? ??? C_VS_UI_TITLE::IsPIxel()??
+	// ?? ?? ???? ????(m_title_spk?? delete?? ????)??? ???????.
 	//
 	DeleteNew(m_pC_login);
 	DeleteNew(m_pC_char_manager);
 	DeleteNew(m_pC_server_select);
-	
-//	DeleteNew(m_pC_newuser);
-//	DeleteNew(m_pC_option);
+
+	//	DeleteNew(m_pC_newuser);
+	//	DeleteNew(m_pC_option);
 
 	DeleteNew(m_pC_button_group);
 
@@ -7113,7 +7121,7 @@ C_VS_UI_TITLE::~C_VS_UI_TITLE()
 #if	__CONTENTS(__USER_GRADE)
 	DeleteNew(m_pC_use_grade);
 #endif	//__USER_GRADE	
-	DeleteNew(m_pC_use_askCheckToEnterServer) ; 
+	DeleteNew(m_pC_use_askCheckToEnterServer);
 
 	DeleteNew(m_pAnimationTimer);
 }
@@ -7143,7 +7151,7 @@ C_VS_UI_TITLE::~C_VS_UI_TITLE()
 //-----------------------------------------------------------------------------
 // RunTitleOption
 //
-// ��ȯ�Ұųİ� ���´�.
+// ???????? ?????.
 //-----------------------------------------------------------------------------
 void C_VS_UI_TITLE::RunOption()
 {
@@ -7161,13 +7169,13 @@ void C_VS_UI_TITLE::RunOption()
 
 //	gbl_title_option_running = true;
 
-	m_pC_option->Start();	
+	m_pC_option->Start();
 }
 
 //-----------------------------------------------------------------------------
 // CloseTitleOption
 //
-// �̹� finish�� �����̸� �ƹ��͵� ���� �ʴ´�.
+// ??? finish?? ??????? ?????? ???? ????.
 //-----------------------------------------------------------------------------
 void C_VS_UI_TITLE::CloseOption()
 {
@@ -7175,9 +7183,9 @@ void C_VS_UI_TITLE::CloseOption()
 		return;
 
 	DeleteNew(m_pC_option);
-	
+
 	//assert(m_pC_tribe_interface != NULL);
-	//m_pC_tribe_interface->DoCommonActionAfterEventOccured();	
+	//m_pC_tribe_interface->DoCommonActionAfterEventOccured();
 
 	//gbl_title_option_running = false;
 	//gC_vs_ui.AcquireChatting();
@@ -7215,7 +7223,7 @@ void C_VS_UI_TITLE::NewCharacterCreateFailed(int error)
 		m_pC_char_manager->NewCharacterCreateFailed(error);
 }
 
-void C_VS_UI_TITLE::SetCharacter(int slot, S_SLOT &S_slot)
+void C_VS_UI_TITLE::SetCharacter(int slot, S_SLOT& S_slot)
 {
 	if (m_pC_char_manager)
 		m_pC_char_manager->SetCharacter(slot, S_slot);
@@ -7233,14 +7241,14 @@ void C_VS_UI_TITLE::AcquireMouseFocus()
 
 void C_VS_UI_TITLE::RunCannotPlayMessage()
 {
-	if(m_pC_char_manager)
-		m_pC_char_manager->Run(C_VS_UI_CHAR_MANAGER::CANNOT_PLAY_ID);	
+	if (m_pC_char_manager)
+		m_pC_char_manager->Run(C_VS_UI_CHAR_MANAGER::CANNOT_PLAY_ID);
 }
 
 void C_VS_UI_TITLE::RunCannotPlayByAttrMessage()
 {
-	if(m_pC_char_manager)
-		m_pC_char_manager->Run(C_VS_UI_CHAR_MANAGER::CANNOT_PLAY_BY_ATTR_ID);	
+	if (m_pC_char_manager)
+		m_pC_char_manager->Run(C_VS_UI_CHAR_MANAGER::CANNOT_PLAY_BY_ATTR_ID);
 }
 
 //-----------------------------------------------------------------------------
@@ -7275,15 +7283,15 @@ void C_VS_UI_TITLE::Process()
 //-----------------------------------------------------------------------------
 // Start
 //
-// Title�� ������Ѵ�. �׷��� Title �����޴��� ��� �����ؾ� �Ѵ�.
+// Title?? ????????. ????? Title ????????? ??? ??????? ???.
 //-----------------------------------------------------------------------------
 void C_VS_UI_TITLE::Start()
 {
 	m_bl_credit = false;
 	gbl_wood_skin = true;
-//	gbl_vampire_interface = false;
+	//	gbl_vampire_interface = false;
 
-	// change skin data
+		// change skin data
 	gpC_global_resource->FreeAssemble();
 	gpC_global_resource->LoadAssemble();
 
@@ -7294,20 +7302,20 @@ void C_VS_UI_TITLE::Start()
 	m_pC_char_manager->Finish();
 	m_pC_login->Finish();
 	m_pC_server_select->Finish();
-//	m_pC_newuser->Finish();
+	//	m_pC_newuser->Finish();
 
 	AttrKeyboardControl(true);
 	gpC_window_manager->AppearWindow(this);
 	m_pC_button_group->Init();
-	if(false == g_pUserInformation->IsAutoLogIn &&
-	   false == g_pUserInformation->IsNetmarbleLogin)
+	if (false == g_pUserInformation->IsAutoLogIn &&
+		false == g_pUserInformation->IsNetmarbleLogin)
 	{
 		m_lev_id.Acquire();
 		m_lev_id.EraseAll();
 		m_lev_password.EraseAll();
-	
-		
-		if(strlen(g_pUserOption->BackupID) > 0)
+
+
+		if (strlen(g_pUserOption->BackupID) > 0)
 		{
 			m_lev_id.AddString(g_pUserOption->BackupID);
 			ChangeFocus();
@@ -7319,13 +7327,13 @@ void C_VS_UI_TITLE::Start()
 	g_eRaceInterface = RACE_SLAYER;
 
 	POINT	ptEffect_Warter_Light;
-	
-	ptEffect_Warter_Light.x		= m_wEffect_Warter_Light_X;
-	ptEffect_Warter_Light.y		= m_wEffect_Warter_Light_Y;
+
+	ptEffect_Warter_Light.x = m_wEffect_Warter_Light_X;
+	ptEffect_Warter_Light.y = m_wEffect_Warter_Light_Y;
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
 
-	if(bHighResolution)
+	if (bHighResolution)
 		g_pTopView->AddTitleEffect(&ptEffect_Warter_Light, EFFECTSPRITETYPE_LOGIN_WARTER_LIGHT, 8, EFFECT_INDEX_WARTER_LIGHT);
 	else
 		g_pTopView->AddTitleEffect(&ptEffect_Warter_Light, EFFECTSPRITETYPE_LOGIN_WARTER_LIGHT_800_600, 4, EFFECT_INDEX_WARTER_LIGHT);
@@ -7338,8 +7346,8 @@ void C_VS_UI_TITLE::Start()
 //-----------------------------------------------------------------------------
 // Finish
 //
-// Title/Login/Characters ... ��� Window�� ������ ���̹Ƿ� ��� �ϳ��� Finish�Ǿ
-// �ٸ� �͵� Finish�Ǹ� �ȵȴ�.
+// Title/Login/Characters ... ??? Window?? ?????? ?????? ??? ????? Finish???
+// ??? ??? Finish??? ????.
 //-----------------------------------------------------------------------------
 void C_VS_UI_TITLE::Finish()
 {
@@ -7353,52 +7361,52 @@ void C_VS_UI_TITLE::Finish()
 //
 // 
 //-----------------------------------------------------------------------------
-void C_VS_UI_TITLE::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
+void C_VS_UI_TITLE::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	switch(p_button->GetID())
+	switch (p_button->GetID())
 	{
 	case CONNECT:
-		p_button->x	= m_wGame_Run_X;
-		p_button->y	= m_wGame_Run_Y;
-	break;
+		p_button->x = m_wGame_Run_X;
+		p_button->y = m_wGame_Run_Y;
+		break;
 
 	case NEWID:
-		p_button->x	= m_wID_Create_X;
-		p_button->y	= m_wID_Create_Y;
-	break;
+		p_button->x = m_wID_Create_X;
+		p_button->y = m_wID_Create_Y;
+		break;
 
 	case OPTION:
-		p_button->x	= m_wOption_X;
-		p_button->y	= m_wOption_Y;
-	break;
+		p_button->x = m_wOption_X;
+		p_button->y = m_wOption_Y;
+		break;
 
 	case CREDIT:
-		p_button->x	= m_wGame_Creaters_X;
-		p_button->y	= m_wGame_Creaters_Y;
-	break;
+		p_button->x = m_wGame_Creaters_X;
+		p_button->y = m_wGame_Creaters_Y;
+		break;
 
 	case EXIT:
-		p_button->x	= m_wGame_Exit_X;
-		p_button->y	= m_wGame_Exit_Y;
-	break;
+		p_button->x = m_wGame_Exit_X;
+		p_button->y = m_wGame_Exit_Y;
+		break;
 	}
 
-	m_title_menu_default.BltLocked(p_button->x, p_button->y, (p_button->m_image_index)+1);
+	m_title_menu_default.BltLocked(p_button->x, p_button->y, (p_button->m_image_index) + 1);
 
-	if(p_button->GetPressState())
+	if (p_button->GetPressState())
 		m_title_menu_default.BltLocked(p_button->x, p_button->y, (p_button->m_image_index));
 	else if (p_button->GetFocusState())
 	{
-		if(p_button->m_alpha >= 31)
+		if (p_button->m_alpha >= 31)
 			p_button->m_alpha = 0;
 
 		m_title_menu_default.BltLockedAlpha(p_button->x, p_button->y, (p_button->m_image_index), p_button->m_alpha);
-	}	
+	}
 }
 
-void C_VS_UI_TITLE::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
+void C_VS_UI_TITLE::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	const char* m_Title_button_string[5] = 
+	const char* m_Title_button_string[5] =
 	{
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_TITLE_HOTKEY_CONNECT].GetString(),		//Connnect
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_TITLE_HOTKEY_OPTION].GetString(),		// Option
@@ -7407,9 +7415,9 @@ void C_VS_UI_TITLE::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_TITLE_HOTKEY_NEWID].GetString(),		// NewID
 	};
 	int Title_buttonID = p_button->GetID();
-	if(p_button->GetFocusState())
+	if (p_button->GetFocusState())
 	{
-		g_descriptor_manager.Set(DID_INFO, p_button->x, p_button->y+p_button->h+35, (void *)m_Title_button_string[Title_buttonID]);
+		g_descriptor_manager.Set(DID_INFO, p_button->x, p_button->y + p_button->h + 35, (void*)m_Title_button_string[Title_buttonID]);
 	}
 }
 
@@ -7418,8 +7426,8 @@ void C_VS_UI_TITLE::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
 //-----------------------------------------------------------------------------
 // Show
 //
-// [����] ���� descriptor�� Title���� ����Ϸ���, �װ��� Show()�� ���⼭ �����Ѵ�.
-//			 �̰��� Game class���� �ִ�. C_VS_UI::Show()���� ������ �ȵȴ�.
+// [????] ???? descriptor?? Title???? ????????, ????? Show()?? ???? ???????.
+//			 ????? Game class???? ???. C_VS_UI::Show()???? ?????? ????.
 //-----------------------------------------------------------------------------
 void C_VS_UI_TITLE::Show()
 {
@@ -7429,34 +7437,34 @@ void C_VS_UI_TITLE::Show()
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
 
-	if(bHighResolution)
+	if (bHighResolution)
 	{
 		gpC_base->m_p_DDSurface_back->FillSurface(0);
 	}
 
-	if(gpC_base->m_p_DDSurface_back->Lock())
+	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		if(bHighResolution)
+		if (bHighResolution)
 		{
-			if(g_pUserInformation->iResolution_x <= 1024)
-				m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_1024_768)) / 2, 
-				(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_1024_768)) / 2, TITLE_BACK_GROUND_1024_768);
-			else 
+			if (g_pUserInformation->iResolution_x <= 1024)
+				m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_1024_768)) / 2,
+					(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_1024_768)) / 2, TITLE_BACK_GROUND_1024_768);
+			else
 			{
-				if(g_pUserInformation->iResolution_y < 960)
-					m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_1280_720)) / 2, 
-					(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_1280_720)) / 2, TITLE_BACK_GROUND_1280_720);
-				else if(g_pUserInformation->iResolution_y < 1024)
-					m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_1280_960)) / 2, 
-					(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_1280_960)) / 2, TITLE_BACK_GROUND_1280_960);
+				if (g_pUserInformation->iResolution_y < 960)
+					m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_1280_720)) / 2,
+						(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_1280_720)) / 2, TITLE_BACK_GROUND_1280_720);
+				else if (g_pUserInformation->iResolution_y < 1024)
+					m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_1280_960)) / 2,
+						(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_1280_960)) / 2, TITLE_BACK_GROUND_1280_960);
 				else
-					m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_1280_1024)) / 2, 
-					(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_1280_1024)) / 2, TITLE_BACK_GROUND_1280_1024);
+					m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_1280_1024)) / 2,
+						(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_1280_1024)) / 2, TITLE_BACK_GROUND_1280_1024);
 			}
 		}
 		else		// 800*600
 		{
-			m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_800_600)) / 2, 
+			m_title_spk.BltLocked((g_pUserInformation->iResolution_x - m_title_spk.GetWidth(TITLE_BACK_GROUND_800_600)) / 2,
 				(g_pUserInformation->iResolution_y - m_title_spk.GetHeight(TITLE_BACK_GROUND_800_600)) / 2, TITLE_BACK_GROUND_800_600);
 		}
 
@@ -7464,12 +7472,12 @@ void C_VS_UI_TITLE::Show()
 	}
 
 	POINT	ptEffect_Warter_Light;
-	ptEffect_Warter_Light.x		= m_wEffect_Warter_Light_X;
-	ptEffect_Warter_Light.y		= m_wEffect_Warter_Light_Y;
+	ptEffect_Warter_Light.x = m_wEffect_Warter_Light_X;
+	ptEffect_Warter_Light.y = m_wEffect_Warter_Light_Y;
 	g_pTopView->SetTitleEffectPos(&ptEffect_Warter_Light, EFFECT_INDEX_WARTER_LIGHT);
-	g_pTopView->DrawTitleEffect(EFFECT_INDEX_WARTER_LIGHT);	
+	g_pTopView->DrawTitleEffect(EFFECT_INDEX_WARTER_LIGHT);
 
-	if(gpC_base->m_p_DDSurface_back->Lock())
+	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
 		m_title_spk.BltLocked(m_wButton_Layout_X, m_wButton_Layout_Y, BUTTON_LAYOUT_BUTTON);
 		m_title_spk.BltLocked(m_wAni_Mark_X, m_wAni_Mark_Y, ANI_MARK_BUTTON);
@@ -7483,58 +7491,58 @@ void C_VS_UI_TITLE::Show()
 		m_pC_use_grade->BltLocked(m_wViolence_X, m_wViolence_Y, VIOLENCE);
 		m_pC_use_grade->BltLocked(m_wFear_X, m_wFear_Y, FEAR);
 #endif // __USER_GRADE
-		
-		m_pC_button_group->Show();	
+
+		m_pC_button_group->Show();
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
-			
-	if(false == g_pUserInformation->IsAutoLogIn &&   false == g_pUserInformation->IsNetmarbleLogin)
+
+	if (false == g_pUserInformation->IsAutoLogIn && false == g_pUserInformation->IsNetmarbleLogin)
 	{
 		Window::ShowWidget();
 	}
 
 	m_pC_button_group->ShowDescription();
-	
+
 	if (m_bl_credit)
 	{
-		if(gpC_base->m_p_DDSurface_back->Lock())
+		if (gpC_base->m_p_DDSurface_back->Lock())
 		{
 			assert(m_pC_credit != NULL);
-				
+
 			const int scroll_x = 0, scroll_y = 0;
-			
-			if(g_pUserInformation->iResolution_x > 800)
+
+			if (g_pUserInformation->iResolution_x > 800)
 			{
-				if(g_pUserInformation->iResolution_x <= 1024)
-					m_pC_credit->BltLocked(g_pUserInformation->iResolution_x/2-m_pC_credit->GetWidth(BACKGROUND_1024_768)/2, 
-					g_pUserInformation->iResolution_y/2-m_pC_credit->GetHeight(BACKGROUND_1024_768)/2, BACKGROUND_1024_768);
+				if (g_pUserInformation->iResolution_x <= 1024)
+					m_pC_credit->BltLocked(g_pUserInformation->iResolution_x / 2 - m_pC_credit->GetWidth(BACKGROUND_1024_768) / 2,
+						g_pUserInformation->iResolution_y / 2 - m_pC_credit->GetHeight(BACKGROUND_1024_768) / 2, BACKGROUND_1024_768);
 				else
 				{
-					if(g_pUserInformation->iResolution_y < 960)
-						m_pC_credit->BltLocked(g_pUserInformation->iResolution_x/2-m_pC_credit->GetWidth(BACKGROUND_1280_720)/2, 
-						g_pUserInformation->iResolution_y/2-m_pC_credit->GetHeight(BACKGROUND_1280_720)/2, BACKGROUND_1280_720);
-					else if(g_pUserInformation->iResolution_y < 1024)
-						m_pC_credit->BltLocked(g_pUserInformation->iResolution_x/2-m_pC_credit->GetWidth(BACKGROUND_1280_960)/2, 
-						g_pUserInformation->iResolution_y/2-m_pC_credit->GetHeight(BACKGROUND_1280_960)/2, BACKGROUND_1280_960);
+					if (g_pUserInformation->iResolution_y < 960)
+						m_pC_credit->BltLocked(g_pUserInformation->iResolution_x / 2 - m_pC_credit->GetWidth(BACKGROUND_1280_720) / 2,
+							g_pUserInformation->iResolution_y / 2 - m_pC_credit->GetHeight(BACKGROUND_1280_720) / 2, BACKGROUND_1280_720);
+					else if (g_pUserInformation->iResolution_y < 1024)
+						m_pC_credit->BltLocked(g_pUserInformation->iResolution_x / 2 - m_pC_credit->GetWidth(BACKGROUND_1280_960) / 2,
+							g_pUserInformation->iResolution_y / 2 - m_pC_credit->GetHeight(BACKGROUND_1280_960) / 2, BACKGROUND_1280_960);
 					else
-						m_pC_credit->BltLocked(g_pUserInformation->iResolution_x/2-m_pC_credit->GetWidth(BACKGROUND_1280_1024)/2, 
-						g_pUserInformation->iResolution_y/2-m_pC_credit->GetHeight(BACKGROUND_1280_1024)/2, BACKGROUND_1280_1024);
+						m_pC_credit->BltLocked(g_pUserInformation->iResolution_x / 2 - m_pC_credit->GetWidth(BACKGROUND_1280_1024) / 2,
+							g_pUserInformation->iResolution_y / 2 - m_pC_credit->GetHeight(BACKGROUND_1280_1024) / 2, BACKGROUND_1280_1024);
 				}
 			}
 			else
-				m_pC_credit->BltLocked(g_pUserInformation->iResolution_x/2-m_pC_credit->GetWidth(BACKGROUND_800_600)/2, 
-				g_pUserInformation->iResolution_y/2-m_pC_credit->GetHeight(BACKGROUND_800_600)/2, BACKGROUND_800_600);
+				m_pC_credit->BltLocked(g_pUserInformation->iResolution_x / 2 - m_pC_credit->GetWidth(BACKGROUND_800_600) / 2,
+					g_pUserInformation->iResolution_y / 2 - m_pC_credit->GetHeight(BACKGROUND_800_600) / 2, BACKGROUND_800_600);
 
-			int scroll = ( (m_credit_scroll < 0)? 0 : m_credit_scroll );
-			int scroll2 = ( (m_credit_scroll < 0)? m_credit_scroll : m_credit_scroll );
-			int scroll3 = ( (m_credit_scroll < 0)? g_pUserInformation->iResolution_y+m_credit_scroll : g_pUserInformation->iResolution_y );
-				
+			int scroll = ((m_credit_scroll < 0) ? 0 : m_credit_scroll);
+			int scroll2 = ((m_credit_scroll < 0) ? m_credit_scroll : m_credit_scroll);
+			int scroll3 = ((m_credit_scroll < 0) ? g_pUserInformation->iResolution_y + m_credit_scroll : g_pUserInformation->iResolution_y);
+
 			Rect rect(0, scroll, m_pC_credit->GetWidth(CREATORS_SCROLL), min(scroll3, m_pC_credit->GetHeight(CREATORS_SCROLL) - scroll));
-			m_pC_credit->BltLockedClip(scroll_x, scroll_y-scroll2, rect, CREATORS_SCROLL);
-				
-			Rect rect2(0, 0, m_pC_credit->GetWidth(COPYRIGHT), min(scroll3 - (m_pC_credit->GetHeight(CREATORS_SCROLL) - scroll) -50, m_pC_credit->GetHeight(COPYRIGHT)));
-			m_pC_credit->BltLockedClip(scroll_x +m_pC_credit->GetWidth(CREATORS_SCROLL)/2-m_pC_credit->GetWidth(COPYRIGHT)/2, 
-				scroll_y + max((g_pUserInformation->iResolution_y-70)/2, (m_pC_credit->GetHeight(CREATORS_SCROLL) - scroll + 50) ), rect2, COPYRIGHT);
+			m_pC_credit->BltLockedClip(scroll_x, scroll_y - scroll2, rect, CREATORS_SCROLL);
+
+			Rect rect2(0, 0, m_pC_credit->GetWidth(COPYRIGHT), min(scroll3 - (m_pC_credit->GetHeight(CREATORS_SCROLL) - scroll) - 50, m_pC_credit->GetHeight(COPYRIGHT)));
+			m_pC_credit->BltLockedClip(scroll_x + m_pC_credit->GetWidth(CREATORS_SCROLL) / 2 - m_pC_credit->GetWidth(COPYRIGHT) / 2,
+				scroll_y + max((g_pUserInformation->iResolution_y - 70) / 2, (m_pC_credit->GetHeight(CREATORS_SCROLL) - scroll + 50)), rect2, COPYRIGHT);
 
 			gpC_base->m_p_DDSurface_back->Unlock();
 		}
@@ -7542,9 +7550,9 @@ void C_VS_UI_TITLE::Show()
 	else
 	{
 		g_FL2_GetDC();
-		
+
 		g_PrintColorStr(m_wWorningString_X, m_wWorningString_Y, (*g_pGameStringTable)[STRING_MESSAGE_WARMING_LOGIN2].GetString(), gpC_base->m_user_id_pi, RGB_WHITE);
-		
+
 		g_FL2_ReleaseDC();
 	}
 
@@ -7560,7 +7568,7 @@ void C_VS_UI_TITLE::Show()
 //-----------------------------------------------------------------------------
 bool	C_VS_UI_TITLE::Timer()
 {
-	if(m_dw_prev_tickcount+m_dw_millisec <= GetTickCount())
+	if (m_dw_prev_tickcount + m_dw_millisec <= GetTickCount())
 	{
 		m_dw_prev_tickcount = GetTickCount();
 		m_credit_scroll++;
@@ -7593,12 +7601,12 @@ bool C_VS_UI_TITLE::MouseControl(UINT message, int _x, int _y)
 
 	m_pC_button_group->MouseControl(message, _x, _y);
 
-	int iStartRangeX = 0, iStartRangeY  = g_pUserInformation->iResolution_y - m_title_spk.GetHeight(1);
+	int iStartRangeX = 0, iStartRangeY = g_pUserInformation->iResolution_y - m_title_spk.GetHeight(1);
 	int offsetX = 0;
 
 	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
 
-	if(bHighResolution)
+	if (bHighResolution)
 	{
 		offsetX = 86;
 	}
@@ -7610,24 +7618,24 @@ bool C_VS_UI_TITLE::MouseControl(UINT message, int _x, int _y)
 	{
 	case M_LEFTBUTTON_DOWN:
 	case M_LB_DOUBLECLICK:
+	{
+		if (false == g_pUserInformation->IsAutoLogIn &&
+			false == g_pUserInformation->IsNetmarbleLogin)
 		{
-			if(false == g_pUserInformation->IsAutoLogIn &&
-		       false == g_pUserInformation->IsNetmarbleLogin)
+			Rect id_rt(m_wID_Edit_X, m_wID_Edit_Y, 130, 23);
+			Rect pass_rt(m_wPW_Edit_X, m_wPW_Edit_Y, 130, 23);
+			if (id_rt.IsInRect(_x, _y))
 			{
-				Rect id_rt(m_wID_Edit_X,	m_wID_Edit_Y, 130, 23);
-				Rect pass_rt(m_wPW_Edit_X,	m_wPW_Edit_Y, 130, 23);
-				if (id_rt.IsInRect(_x, _y))
-				{
-					if (!m_lev_id.IsAcquire())
-						ChangeFocus();
-				}
-				else if (pass_rt.IsInRect(_x, _y))
-				{
-					if (!m_lev_password.IsAcquire())
-						ChangeFocus();
-				}
+				if (!m_lev_id.IsAcquire())
+					ChangeFocus();
+			}
+			else if (pass_rt.IsInRect(_x, _y))
+			{
+				if (!m_lev_password.IsAcquire())
+					ChangeFocus();
 			}
 		}
+	}
 	}
 
 	return true; // no game, then 'true'
@@ -7641,7 +7649,7 @@ bool C_VS_UI_TITLE::MouseControl(UINT message, int _x, int _y)
 void C_VS_UI_TITLE::KeyboardControl(UINT message, UINT key, long extra)
 {
 	Window::KeyboardControl(message, key, extra);
-	
+
 	if (m_bl_credit)
 	{
 		if (message == WM_KEYDOWN)
@@ -7657,50 +7665,50 @@ void C_VS_UI_TITLE::KeyboardControl(UINT message, UINT key, long extra)
 
 	switch (message)
 	{
-		case WM_KEYDOWN:
-			// 
-			// input position ����.
-			//
-			if (key == VK_TAB)
-			{	
-				if(false == g_pUserInformation->IsAutoLogIn &&
-				   false == g_pUserInformation->IsNetmarbleLogin)
-				{
+	case WM_KEYDOWN:
+		// 
+		// input position ????.
+		//
+		if (key == VK_TAB)
+		{
+			if (false == g_pUserInformation->IsAutoLogIn &&
+				false == g_pUserInformation->IsNetmarbleLogin)
+			{
+				//NextFocus();
+				ChangeFocus();
+			}
+		}
+		else if (key == VK_ESCAPE) // cancel!
+		{
+			Run(EXIT);
+			//				Finish();
+		}
+		else if (key == VK_RETURN) // ok
+		{
+			//if (focus_end) // ??? ??? ???? ?????? send!
+			//{
+			if (false == g_pUserInformation->IsAutoLogIn &&
+				false == g_pUserInformation->IsNetmarbleLogin)
+			{
+				if (ReadySend() == true)
+					SendLoginToClient();
+				else
 					//NextFocus();
 					ChangeFocus();
-				}
+				//}
 			}
-			else if (key == VK_ESCAPE) // cancel!
+			else
 			{
-				Run(EXIT);
-//				Finish();
+				gpC_base->SendMessage(UI_RUN_CONNECT);
 			}
-			else if (key == VK_RETURN) // ok
-			{
-				//if (focus_end) // ��� �ִ� ���� ������ send!
-				//{
-				if(false == g_pUserInformation->IsAutoLogIn &&
-				   false == g_pUserInformation->IsNetmarbleLogin)
-				{
-					if (ReadySend() == true)
-						SendLoginToClient();
-					else
-						//NextFocus();
-						ChangeFocus();
-					//}
-				}
-				else
-				{
-					gpC_base->SendMessage(UI_RUN_CONNECT);
-				}
-			}
-			break;
+		}
+		break;
 	}
 
-	// ���� IME toggle�Ǿ� ���� ��츦 ����Ͽ� scan code�� �Ѵ�.
+	// ???? IME toggle??? ???? ??? ?????? scan code?? ???.
 
 /*	id_t id = INVALID_ID;
-	if (message == WM_KEYDOWN) 
+	if (message == WM_KEYDOWN)
 	{
 		switch (SCAN_CODE(extra))
 		{
@@ -7744,82 +7752,82 @@ void C_VS_UI_TITLE::Run(id_t id)
 {
 	switch (id)
 	{
-		case CONNECT:
+	case CONNECT:
+	{
+		// ???????
+//			m_pC_login->Start();
+		if (false == g_pUserInformation->IsAutoLogIn &&
+			false == g_pUserInformation->IsNetmarbleLogin)
+		{
+			if (ReadySend() == true)
 			{
-				// �ݸ�����
-	//			m_pC_login->Start();
-				if(false == g_pUserInformation->IsAutoLogIn &&
-				   false == g_pUserInformation->IsNetmarbleLogin)
-				{
-					if (ReadySend() == true)
-					{
-						SendLoginToClient();
-					}
-					else
-					{
-						g_msg_wrong_id_password->Start();
-					}
-				}
-				else
-				{
-					gpC_base->SendMessage(UI_RUN_CONNECT);
-				}
+				SendLoginToClient();
 			}
-			break;
-
-//		case TUTORIAL:
-//			g_msg_not_available_menu->Start();
-//			break;
-
-		case OPTION:
+			else
 			{
-				//g_msg_not_available_menu->Start();
-				gC_vs_ui.RunOption(true);
+				g_msg_wrong_id_password->Start();
 			}
-			break;
+		}
+		else
+		{
+			gpC_base->SendMessage(UI_RUN_CONNECT);
+		}
+	}
+	break;
 
-		case CREDIT:
-			{
-				//g_msg_not_available_menu->Start();
-				DeleteNew(m_pC_credit);
+	//		case TUTORIAL:
+	//			g_msg_not_available_menu->Start();
+	//			break;
 
-				bool bHighResolution = g_pUserInformation->iResolution_x > 800;
+	case OPTION:
+	{
+		//g_msg_not_available_menu->Start();
+		gC_vs_ui.RunOption(true);
+	}
+	break;
 
-// 				if(bHighResolution)
-// 					m_pC_credit = new C_SPRITE_PACK(SPK_CREDIT_1024);
-// 				else	m_pC_credit = new C_SPRITE_PACK(SPK_CREDIT);
+	case CREDIT:
+	{
+		//g_msg_not_available_menu->Start();
+		DeleteNew(m_pC_credit);
 
-				m_pC_credit = new C_SPRITE_PACK(SPK_CREDIT);
+		bool bHighResolution = g_pUserInformation->iResolution_x > 800;
 
-				m_bl_credit = true;
-	
-				//m_credit_scroll = -RESOLUTION_Y;
-				m_credit_scroll = -g_pUserInformation->iResolution_y;
-			}
-			break;
+		// 				if(bHighResolution)
+		// 					m_pC_credit = new C_SPRITE_PACK(SPK_CREDIT_1024);
+		// 				else	m_pC_credit = new C_SPRITE_PACK(SPK_CREDIT);
 
-		case EXIT:
-			{
-				DeleteNew(m_pC_dialog);
-				m_pC_dialog = new C_VS_UI_DIALOG(-1, -1, 2, 0, ExecF_EXITQuestion, DIALOG_TITLE_OK|DIALOG_TITLE_CANCEL);
-			
-				std::string pp_dmsg[1] = {(*g_pGameStringTable)[STRING_MESSAGE_EXIT_QUESTION].GetString(),};
-				m_pC_dialog->SetMessage( pp_dmsg, 1, SMO_NOFIT , true );
-				m_pC_dialog->Start();
-				break;
-			}
-		case NEWID:
-			{
-				Finish();
-				gpC_base->SendMessage(UI_RUN_NEWUSER_REGISTRATION);
-			}
-			break;
+		m_pC_credit = new C_SPRITE_PACK(SPK_CREDIT);
 
-		default:
-			break;
+		m_bl_credit = true;
+
+		//m_credit_scroll = -RESOLUTION_Y;
+		m_credit_scroll = -g_pUserInformation->iResolution_y;
+	}
+	break;
+
+	case EXIT:
+	{
+		DeleteNew(m_pC_dialog);
+		m_pC_dialog = new C_VS_UI_DIALOG(-1, -1, 2, 0, ExecF_EXITQuestion, DIALOG_TITLE_OK | DIALOG_TITLE_CANCEL);
+
+		std::string pp_dmsg[1] = { (*g_pGameStringTable)[STRING_MESSAGE_EXIT_QUESTION].GetString(), };
+		m_pC_dialog->SetMessage(pp_dmsg, 1, SMO_NOFIT, true);
+		m_pC_dialog->Start();
+		break;
+	}
+	case NEWID:
+	{
+		Finish();
+		gpC_base->SendMessage(UI_RUN_NEWUSER_REGISTRATION);
+	}
+	break;
+
+	default:
+		break;
 	}
 
-	if(id != INVALID_ID)
+	if (id != INVALID_ID)
 	{
 		g_descriptor_manager.Unset();
 		m_pC_button_group->UnacquireMouseFocus();
@@ -7830,7 +7838,7 @@ bool C_VS_UI_TITLE::ReadySend()
 {
 	if (m_lev_id.Size() > 0 && m_lev_password.Size() > 0)
 		return true;
-	
+
 	return false;
 
 }
@@ -7839,15 +7847,15 @@ void C_VS_UI_TITLE::ChangeFocus()
 {
 	if (m_lev_id.IsAcquire())
 	{
-		if(m_lev_id.Size() == 0)
+		if (m_lev_id.Size() == 0)
 			m_lev_id.AddString(m_lev_id_backup.c_str());
 		m_lev_password.Acquire();
 	}
 	else
 	{
-		char * p_temp = NULL;
+		char* p_temp = NULL;
 		g_Convert_DBCS_Ascii2SingleByte(m_lev_id.GetString(), m_lev_id.Size(), p_temp);
-		if(p_temp == NULL)
+		if (p_temp == NULL)
 		{
 			m_lev_id_backup = "";
 		}
@@ -7864,9 +7872,9 @@ void C_VS_UI_TITLE::ChangeFocus()
 void C_VS_UI_TITLE::SendLoginToClient()
 {
 	//
-	// �ݵ�� static���� �ϰ� member�� login check�� ������ delete ���ش�.
+	// ???? static???? ??? member?? login check?? ?????? delete ?????.
 	//
-	static LOGIN S_login; 
+	static LOGIN S_login;
 	//S_login.sz_id = (char *)m_string_line_ID.c_str();
 	//S_login.sz_password = (char *)m_string_line_PASSWORD.c_str();
 	g_Convert_DBCS_Ascii2SingleByte(m_lev_id.GetString(), m_lev_id.Size(), S_login.sz_id);
@@ -7887,7 +7895,7 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 	m_IsTitle = IsTitle;
 
 	// CONTROL TAB
-	if(g_pUserOption->UseEnterChat)
+	if (g_pUserOption->UseEnterChat)
 	{
 		m_check[CHECK_NORMAL_CHAT] = CHECK_NOT;
 		m_check[CHECK_ENTER_CHAT] = CHECK_CHECK;
@@ -7898,7 +7906,7 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 		m_check[CHECK_ENTER_CHAT] = CHECK_NOT;
 	}
 
-	// �ػ� ���� RADIO ��ư
+	// ??? ???? RADIO ???
 // 	if(IsTitle)
 // 	{
 // 		m_check[CHECK_RESOLUTION_1024x768]	= CHECK_TYPE(g_pUserOption->Resolution1024);
@@ -7917,41 +7925,41 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 	m_check[CHECK_IFEEL] = CHECK_DISABLE;
 
 	// GRAPHIC TAB
-	m_check[CHECK_ALPHA_HPBAR] = g_pUserOption->DrawTransHPBar?CHECK_CHECK:CHECK_NOT;
-	m_check[CHECK_BLOOD_DROP] = g_pUserOption->BloodDrop?CHECK_CHECK:CHECK_NOT;
+	m_check[CHECK_ALPHA_HPBAR] = g_pUserOption->DrawTransHPBar ? CHECK_CHECK : CHECK_NOT;
+	m_check[CHECK_BLOOD_DROP] = g_pUserOption->BloodDrop ? CHECK_CHECK : CHECK_NOT;
 
-	if(g_pUserInformation->IsUnderFifthteen)
-		m_check[CHECK_BLOOD_DROP] = CHECK_DISABLE; 
-	
+	if (g_pUserInformation->IsUnderFifthteen)
+		m_check[CHECK_BLOOD_DROP] = CHECK_DISABLE;
+
 	m_check[CHECK_ALPHA_DEPTH] = CHECK_DISABLE;
-	m_check[CHECK_DEFAULT_ALPHA] = g_pUserOption->DefaultAlpha?CHECK_CHECK:CHECK_NOT;
-	if(CDirectDraw::IsSupportGammaControl())
+	m_check[CHECK_DEFAULT_ALPHA] = g_pUserOption->DefaultAlpha ? CHECK_CHECK : CHECK_NOT;
+	if (CDirectDraw::IsSupportGammaControl())
 	{
-		m_check[CHECK_GAMMA] = g_pUserOption->UseGammaControl?CHECK_CHECK:CHECK_NOT;
+		m_check[CHECK_GAMMA] = g_pUserOption->UseGammaControl ? CHECK_CHECK : CHECK_NOT;
 		m_value_gamma = g_pUserOption->GammaValue;
 	}
 	else	m_check[CHECK_GAMMA] = CHECK_DISABLE;
 
-	m_check[CHECK_CHATBOX] = g_pUserOption->DrawChatBoxOutline?CHECK_CHECK:CHECK_NOT;
-	m_check[CHECK_FPS] = g_pUserOption->DrawFPS?CHECK_CHECK:CHECK_NOT;
-	m_check[CHECK_AUTOHIDE_SMOOTH] = g_pUserOption->AutoHideSmoothScroll?CHECK_CHECK:CHECK_NOT;
+	m_check[CHECK_CHATBOX] = g_pUserOption->DrawChatBoxOutline ? CHECK_CHECK : CHECK_NOT;
+	m_check[CHECK_FPS] = g_pUserOption->DrawFPS ? CHECK_CHECK : CHECK_NOT;
+	m_check[CHECK_AUTOHIDE_SMOOTH] = g_pUserOption->AutoHideSmoothScroll ? CHECK_CHECK : CHECK_NOT;
 
 	// SOUND TAB
 //	m_check[CHECK_YELL] = g_pUserOption->PlayYellSound?CHECK_CHECK:CHECK_NOT;
-	m_check[CHECK_SOUND] = g_pUserOption->PlaySound?CHECK_CHECK:CHECK_NOT;
-	m_check[CHECK_MUSIC] = g_pUserOption->PlayMusic?CHECK_CHECK:CHECK_NOT;
+	m_check[CHECK_SOUND] = g_pUserOption->PlaySound ? CHECK_CHECK : CHECK_NOT;
+	m_check[CHECK_MUSIC] = g_pUserOption->PlayMusic ? CHECK_CHECK : CHECK_NOT;
 	m_volume_sound = g_pUserOption->VolumeSound;
 	m_volume_music = g_pUserOption->VolumeMusic;
 
-//	if(g_pUserOption->PlaySound)
-//	{
-//		m_check[CHECK_YELL] = g_pUserOption->PlayYellSound?CHECK_CHECK:CHECK_NOT;
-//	}
-//	else m_check[CHECK_YELL] = CHECK_DISABLE;
+	//	if(g_pUserOption->PlaySound)
+	//	{
+	//		m_check[CHECK_YELL] = g_pUserOption->PlayYellSound?CHECK_CHECK:CHECK_NOT;
+	//	}
+	//	else m_check[CHECK_YELL] = CHECK_DISABLE;
 
-	if(g_pUserOption->PlayMusic)
+	if (g_pUserOption->PlayMusic)
 	{
-		if(g_pUserOption->PlayWaveMusic)
+		if (g_pUserOption->PlayWaveMusic)
 		{
 			m_check[CHECK_WAV] = CHECK_CHECK;
 			m_check[CHECK_MIDI] = CHECK_NOT;
@@ -7969,31 +7977,31 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 	}
 
 	// GAME TAB
-	m_check[CHECK_HELP] = g_pUserOption->ShowChoboHelp?CHECK_CHECK:CHECK_NOT;
-	m_check[CHECK_FILTERING] = g_pUserOption->FilteringCurse?CHECK_CHECK:CHECK_NOT;
-//	m_check[CHECK_CHANGE] = g_pUserOption->TribeChange?CHECK_CHECK:CHECK_NOT;
-//	m_check[CHECK_PARTY_INVITE] = g_pUserOption->DenyPartyInvite?CHECK_CHECK:CHECK_NOT;
-//	m_check[CHECK_PARTY_REQUEST] = g_pUserOption->DenyPartyRequest?CHECK_CHECK:CHECK_NOT;
-	m_check[CHECK_PRELOAD_MONSTER] = g_pUserOption->IsPreLoadMonster?CHECK_CHECK:CHECK_NOT;		
-	m_check[CHECK_CHAT_WHITE] = g_pUserOption->ChatWhite?CHECK_CHECK:CHECK_NOT;		
-	
-	m_check[CHECK_TEEN_VERSION] = g_pUserOption->UseTeenVersion?CHECK_CHECK:CHECK_NOT;
-	m_check[CHECK_POPUPCHAT_BY_WHISPER] = g_pUserOption->PopupChatByWhisper?CHECK_CHECK:CHECK_NOT;		
-//	m_check[CHECK_NOT_SEND_MY_INFO] = g_pUserOption->NotSendMyInfo ? CHECK_CHECK:CHECK_NOT;
-	m_check[CHECK_DO_NOT_SHOW_WAR_MSG] = g_pUserOption->DoNotShowWarMsg ? CHECK_CHECK:CHECK_NOT;
-	m_check[CHECK_DO_NOT_SHOW_LAIR_MSG] = g_pUserOption->DoNotShowLairMsg ? CHECK_CHECK:CHECK_NOT;
-	m_check[CHECK_DO_NOT_SHOW_HOLY_LAND_MSG] = g_pUserOption->DoNotShowHolyLandMsg ? CHECK_CHECK:CHECK_NOT;
+	m_check[CHECK_HELP] = g_pUserOption->ShowChoboHelp ? CHECK_CHECK : CHECK_NOT;
+	m_check[CHECK_FILTERING] = g_pUserOption->FilteringCurse ? CHECK_CHECK : CHECK_NOT;
+	//	m_check[CHECK_CHANGE] = g_pUserOption->TribeChange?CHECK_CHECK:CHECK_NOT;
+	//	m_check[CHECK_PARTY_INVITE] = g_pUserOption->DenyPartyInvite?CHECK_CHECK:CHECK_NOT;
+	//	m_check[CHECK_PARTY_REQUEST] = g_pUserOption->DenyPartyRequest?CHECK_CHECK:CHECK_NOT;
+	m_check[CHECK_PRELOAD_MONSTER] = g_pUserOption->IsPreLoadMonster ? CHECK_CHECK : CHECK_NOT;
+	m_check[CHECK_CHAT_WHITE] = g_pUserOption->ChatWhite ? CHECK_CHECK : CHECK_NOT;
+
+	m_check[CHECK_TEEN_VERSION] = g_pUserOption->UseTeenVersion ? CHECK_CHECK : CHECK_NOT;
+	m_check[CHECK_POPUPCHAT_BY_WHISPER] = g_pUserOption->PopupChatByWhisper ? CHECK_CHECK : CHECK_NOT;
+	//	m_check[CHECK_NOT_SEND_MY_INFO] = g_pUserOption->NotSendMyInfo ? CHECK_CHECK:CHECK_NOT;
+	m_check[CHECK_DO_NOT_SHOW_WAR_MSG] = g_pUserOption->DoNotShowWarMsg ? CHECK_CHECK : CHECK_NOT;
+	m_check[CHECK_DO_NOT_SHOW_LAIR_MSG] = g_pUserOption->DoNotShowLairMsg ? CHECK_CHECK : CHECK_NOT;
+	m_check[CHECK_DO_NOT_SHOW_HOLY_LAND_MSG] = g_pUserOption->DoNotShowHolyLandMsg ? CHECK_CHECK : CHECK_NOT;
 
 #if __CONTENTS(__GAMEOPTION_ITEMBAY_MESSAGEBOX)
-	m_check[CHECK_DO_NOT_SHOW_ITEMBAY_MESSAGEBOX] = g_pUserOption->DoNotShowItemBayMessageBox ? CHECK_CHECK:CHECK_NOT;
+	m_check[CHECK_DO_NOT_SHOW_ITEMBAY_MESSAGEBOX] = g_pUserOption->DoNotShowItemBayMessageBox ? CHECK_CHECK : CHECK_NOT;
 #endif
 
 #if __CONTENTS(__LANGUAGE_CHANGE)
-	m_check[CHECK_SHOW_GAMEMONEY_WITH_HANGUL] = g_pUserOption->ShowGameMoneyWithHANGUL ? CHECK_CHECK:CHECK_NOT;
+	m_check[CHECK_SHOW_GAMEMONEY_WITH_HANGUL] = g_pUserOption->ShowGameMoneyWithHANGUL ? CHECK_CHECK : CHECK_NOT;
 #endif	//__LANGUAGE_CHANGE
-	m_check[CHECK_DO_NOT_SHOW_PERSNALSHOP_MSG] = g_pUserOption->DoNotShowPersnalShopMsg? CHECK_CHECK:CHECK_NOT;
+	m_check[CHECK_DO_NOT_SHOW_PERSNALSHOP_MSG] = g_pUserOption->DoNotShowPersnalShopMsg ? CHECK_CHECK : CHECK_NOT;
 #if __CONTENTS(__JAPAN_UI)
-	m_check[CHECK_ONE_CLICK_ATTACK_OFF] = g_pUserOption->DoNotOneClickAttackOff? CHECK_CHECK:CHECK_NOT;
+	m_check[CHECK_ONE_CLICK_ATTACK_OFF] = g_pUserOption->DoNotOneClickAttackOff ? CHECK_CHECK : CHECK_NOT;
 #endif //__JAPAN_UI
 	m_pC_main_spk = NULL;
 	m_pC_etc_spk = NULL;
@@ -8003,12 +8011,12 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 
 	m_i_selected_tab = TAB_CONTROL;
 
-	if(false == m_IsTitle)
+	if (false == m_IsTitle)
 	{
 		m_pC_scroll_bar = new C_VS_UI_SCROLL_BAR(3, Rect(370, 92, -1, 100));
 		m_i_selected_tab = TAB_CONTROL;
 
-		switch(g_eRaceInterface)
+		switch (g_eRaceInterface)
 		{
 		case RACE_SLAYER:
 			m_vampire_plus_x = 0; m_vampire_plus_y = 0;
@@ -8025,46 +8033,46 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 			m_pC_main_spk = new C_SPRITE_PACK(SPK_OPTION_OUSTERS);
 			break;
 		}
-		
+
 		m_pC_etc_spk = new C_SPRITE_PACK(SPK_OPTION);
 		//Set(RESOLUTION_X /2 - m_pC_main_spk->GetWidth()/2, RESOLUTION_Y /2 - m_pC_main_spk->GetHeight()/2, m_pC_main_spk->GetWidth(), m_pC_main_spk->GetHeight());
-		Set(g_pUserInformation->iResolution_x /2 - m_pC_main_spk->GetWidth()/2, g_pUserInformation->iResolution_y /2 - m_pC_main_spk->GetHeight()/2, m_pC_main_spk->GetWidth(), m_pC_main_spk->GetHeight());
+		Set(g_pUserInformation->iResolution_x / 2 - m_pC_main_spk->GetWidth() / 2, g_pUserInformation->iResolution_y / 2 - m_pC_main_spk->GetHeight() / 2, m_pC_main_spk->GetWidth(), m_pC_main_spk->GetHeight());
 	}
 	else
-	{	
+	{
 		m_vampire_plus_x = 0; m_vampire_plus_y = 0;
 
 		bool bHighResolution = g_pUserInformation->iResolution_x > 800;
 
-		if(bHighResolution)	m_pC_main_spk = new C_SPRITE_PACK(SPK_TITLE_OPTION_1024);
+		if (bHighResolution)	m_pC_main_spk = new C_SPRITE_PACK(SPK_TITLE_OPTION_1024);
 		else	m_pC_main_spk = new C_SPRITE_PACK(SPK_TITLE_OPTION);
 		m_pC_scroll_bar = new C_VS_UI_SCROLL_BAR(0, Rect(378, 90, -1, 112), false, SPK_TITLE_OPTION_SCROLL, 2, 2, 2);
-		
+
 		//Set(RESOLUTION_X /2 - m_pC_main_spk->GetWidth()/2, RESOLUTION_Y /2 - m_pC_main_spk->GetHeight()/2 , m_pC_main_spk->GetWidth(), m_pC_main_spk->GetHeight());
-		//�̹��� �߾ӿ� �������� 1�ȼ��� ��ܾ� ����
-		
-		Set(g_pUserInformation->iResolution_x /2 - m_pC_main_spk->GetWidth()/2 - 1, 
-			g_pUserInformation->iResolution_y /2 - m_pC_main_spk->GetHeight()/2 - 1, 
+		//????? ???? ???????? 1????? ???? ????
+
+		Set(g_pUserInformation->iResolution_x / 2 - m_pC_main_spk->GetWidth() / 2 - 1,
+			g_pUserInformation->iResolution_y / 2 - m_pC_main_spk->GetHeight() / 2 - 1,
 			m_pC_main_spk->GetWidth(), m_pC_main_spk->GetHeight());
 	}
 	AttrTopmost(true);
 
 
 
-	const InterfaceInformation* pSkin = &g_pSkinManager->Get( SkinManager::OPTION );
+	const InterfaceInformation* pSkin = &g_pSkinManager->Get(SkinManager::OPTION);
 	m_pC_button_group = new ButtonGroup(this);
 
-	// �ϴ� ����Ʈ��� ��ư
+	// ??? ???????? ???
 //	int default_button_x = 174, default_button_y = 282, load_button_x = 246, save_button_x = 303;
 //	m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(default_button_x, default_button_y, m_pC_etc_spk->GetWidth(DEFAULT_BUTTON_HILIGHTED), m_pC_etc_spk->GetHeight(DEFAULT_BUTTON_HILIGHTED), DEFAULT_ID, this, DEFAULT_BUTTON_HILIGHTED) );
 //	m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(load_button_x, default_button_y, m_pC_etc_spk->GetWidth(LOAD_BUTTON_HILIGHTED), m_pC_etc_spk->GetHeight(LOAD_BUTTON_HILIGHTED), LOAD_ID, this, LOAD_BUTTON_HILIGHTED) );
 //	m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(save_button_x, default_button_y, m_pC_etc_spk->GetWidth(SAVE_BUTTON_HILIGHTED), m_pC_etc_spk->GetHeight(SAVE_BUTTON_HILIGHTED), SAVE_ID, this, SAVE_BUTTON_HILIGHTED) );
 
-	// close��ư
+	// close???
 	//int close_button_x = pSkin->GetPoint(0).x, close_button_y = pSkin->GetPoint(0).y;
 	int i = 0;
-	
-	if(false == m_IsTitle)
+
+	if (false == m_IsTitle)
 	{
 		Tab_X[0] = pSkin->GetRect(0).left;
 		Tab_X[1] = pSkin->GetRect(0).top;
@@ -8072,140 +8080,144 @@ C_VS_UI_OPTION::C_VS_UI_OPTION(bool IsTitle)
 		Tab_X[3] = pSkin->GetRect(0).bottom;
 		Tab_Y = 20;
 
-		m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(0).x,pSkin->GetPoint(0).y, m_pC_etc_spk->GetWidth(BUTTON_CLOSE), m_pC_etc_spk->GetHeight(BUTTON_CLOSE), CLOSE_ID, this, BUTTON_CLOSE) );
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(0).x, pSkin->GetPoint(0).y, m_pC_etc_spk->GetWidth(BUTTON_CLOSE), m_pC_etc_spk->GetHeight(BUTTON_CLOSE), CLOSE_ID, this, BUTTON_CLOSE));
 
-		// tab��ư
+		// tab???
 		//int tab_control_x = 116, tab_y = 20, tab_graphic_x = 170, tab_sound_x = 224, tab_game_x = 278;
-		m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(1).x, pSkin->GetPoint(1).y, m_pC_main_spk->GetWidth(TAB_CONTROL), m_pC_main_spk->GetHeight(TAB_CONTROL), CONTROL_ID, this, TAB_CONTROL) );
-		m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(2).x, pSkin->GetPoint(2).y, m_pC_main_spk->GetWidth(TAB_GRAPHIC), m_pC_main_spk->GetHeight(TAB_GRAPHIC), GRAPHIC_ID, this, TAB_GRAPHIC) );
-		m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(3).x, pSkin->GetPoint(3).y, m_pC_main_spk->GetWidth(TAB_SOUND), m_pC_main_spk->GetHeight(TAB_SOUND), SOUND_ID, this, TAB_SOUND) );
-		m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(4).x, pSkin->GetPoint(4).y, m_pC_main_spk->GetWidth(TAB_GAME), m_pC_main_spk->GetHeight(TAB_GAME), GAME_ID, this, TAB_GAME) );
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(1).x, pSkin->GetPoint(1).y, m_pC_main_spk->GetWidth(TAB_CONTROL), m_pC_main_spk->GetHeight(TAB_CONTROL), CONTROL_ID, this, TAB_CONTROL));
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(2).x, pSkin->GetPoint(2).y, m_pC_main_spk->GetWidth(TAB_GRAPHIC), m_pC_main_spk->GetHeight(TAB_GRAPHIC), GRAPHIC_ID, this, TAB_GRAPHIC));
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(3).x, pSkin->GetPoint(3).y, m_pC_main_spk->GetWidth(TAB_SOUND), m_pC_main_spk->GetHeight(TAB_SOUND), SOUND_ID, this, TAB_SOUND));
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pSkin->GetPoint(4).x, pSkin->GetPoint(4).y, m_pC_main_spk->GetWidth(TAB_GAME), m_pC_main_spk->GetHeight(TAB_GAME), GAME_ID, this, TAB_GAME));
 
 		m_check_x = pSkin->GetPoint(5).x, m_check_y = pSkin->GetPoint(5).y, m_check_gap = 20;
-		
-		// control_tab ��ư��
+
+		// control_tab ?????
 	//	int list_button_x = 341, list_button_y = 54;
 		m_pC_control_button_group = new ButtonGroup(this);
-		m_pC_control_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x+10, m_check_y, m_pC_etc_spk->GetWidth(RADIO_BACK_DISABLE), m_pC_etc_spk->GetHeight(RADIO_BACK_DISABLE), CHECK_NORMAL_CHAT, this, RADIO_BACK_DISABLE) );
-		m_pC_control_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x+120, m_check_y, m_pC_etc_spk->GetWidth(RADIO_BACK_DISABLE), m_pC_etc_spk->GetHeight(RADIO_BACK_DISABLE), CHECK_ENTER_CHAT, this, RADIO_BACK_DISABLE) );
+		m_pC_control_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x + 10, m_check_y, m_pC_etc_spk->GetWidth(RADIO_BACK_DISABLE), m_pC_etc_spk->GetHeight(RADIO_BACK_DISABLE), CHECK_NORMAL_CHAT, this, RADIO_BACK_DISABLE));
+		m_pC_control_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x + 120, m_check_y, m_pC_etc_spk->GetWidth(RADIO_BACK_DISABLE), m_pC_etc_spk->GetHeight(RADIO_BACK_DISABLE), CHECK_ENTER_CHAT, this, RADIO_BACK_DISABLE));
 
-		for(i = 0; i < CHECK_CONTROL_MAX; i++)
-			m_pC_control_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y+m_check_gap*(8+i), m_pC_etc_spk->GetWidth(CHECK_BACK_DISABLE), m_pC_etc_spk->GetHeight(CHECK_BACK_DISABLE), CHECK_CONTROL_TAB+i+2, this, CHECK_BACK_DISABLE) );
+		for (i = 0; i < CHECK_CONTROL_MAX; i++)
+			m_pC_control_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y + m_check_gap * (8 + i), m_pC_etc_spk->GetWidth(CHECK_BACK_DISABLE), m_pC_etc_spk->GetHeight(CHECK_BACK_DISABLE), CHECK_CONTROL_TAB + i + 2, this, CHECK_BACK_DISABLE));
 
-	#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		m_pC_control_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x,pSkin->GetPoint(6).y, m_pC_main_spk->GetWidth(RESET_OPTION), m_pC_main_spk->GetHeight(RESET_OPTION), RESET_ID, this, RESET_OPTION) );
-	#endif //__080405_FIREST_UI_UPDATE
+#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+		m_pC_control_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, pSkin->GetPoint(6).y, m_pC_main_spk->GetWidth(RESET_OPTION), m_pC_main_spk->GetHeight(RESET_OPTION), RESET_ID, this, RESET_OPTION));
+#endif //__080405_FIREST_UI_UPDATE
 
-		// graphic_tab ��ư��
+		// graphic_tab ?????
 		m_pC_graphic_button_group = new ButtonGroup(this);
 
-		//091112 fakaus�ػ� �޺� ��ư ��Ȱ��ȭ
+		//091112 fakaus??? ??? ??? ??????
 		//m_pC_graphic_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x+10, m_check_y, m_pC_etc_spk->GetWidth(RADIO_BACK_DISABLE), m_pC_etc_spk->GetHeight(RADIO_BACK_DISABLE), CHECK_RESOLUTION_800x600, this, RADIO_BACK_DISABLE) );
 		//m_pC_graphic_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x+120, m_check_y, m_pC_etc_spk->GetWidth(RADIO_BACK_DISABLE), m_pC_etc_spk->GetHeight(RADIO_BACK_DISABLE), CHECK_RESOLUTION_1024x768, this, RADIO_BACK_DISABLE) );
-		for(i = 0; i < CHECK_GRAPHIC_MAX; i++)
-			m_pC_graphic_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y+m_check_gap*(1+i), m_pC_etc_spk->GetWidth(CHECK_BACK_DISABLE), m_pC_etc_spk->GetHeight(CHECK_BACK_DISABLE), CHECK_GRAPHIC_TAB+i+2, this, CHECK_BACK_DISABLE) );
-		
-		// sound_tab ��ư��
+		for (i = 0; i < CHECK_GRAPHIC_MAX; i++)
+			// row 0 used to hold the resolution radios; they are gone, so the
+			// checkbox rows start at 0 like the sound and game tabs do.
+			m_pC_graphic_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y + m_check_gap * i, m_pC_etc_spk->GetWidth(CHECK_BACK_DISABLE), m_pC_etc_spk->GetHeight(CHECK_BACK_DISABLE), CHECK_GRAPHIC_TAB + i + 2, this, CHECK_BACK_DISABLE));
+
+		// sound_tab ?????
 		m_pC_sound_button_group = new ButtonGroup(this);
-		for(i = 0; i < CHECK_SOUND_MAX; i++)
-			m_pC_sound_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y+m_check_gap*i, m_pC_etc_spk->GetWidth(CHECK_BACK_DISABLE), m_pC_etc_spk->GetHeight(CHECK_BACK_DISABLE), CHECK_SOUND_TAB+i, this, CHECK_BACK_DISABLE) );
+		for (i = 0; i < CHECK_SOUND_MAX; i++)
+			m_pC_sound_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y + m_check_gap * i, m_pC_etc_spk->GetWidth(CHECK_BACK_DISABLE), m_pC_etc_spk->GetHeight(CHECK_BACK_DISABLE), CHECK_SOUND_TAB + i, this, CHECK_BACK_DISABLE));
 
-		// game_tab ��ư��
+		// game_tab ?????
 		m_pC_game_button_group = new ButtonGroup(this);
-		for(i = 0; i < CHECK_GAME_MAX; i++)
-			m_pC_game_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y+m_check_gap*i, m_pC_etc_spk->GetWidth(CHECK_BACK_DISABLE), m_pC_etc_spk->GetHeight(CHECK_BACK_DISABLE), CHECK_GAME_TAB+i, this, CHECK_BACK_DISABLE) );
+		for (i = 0; i < CHECK_GAME_MAX; i++)
+			m_pC_game_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y + m_check_gap * i, m_pC_etc_spk->GetWidth(CHECK_BACK_DISABLE), m_pC_etc_spk->GetHeight(CHECK_BACK_DISABLE), CHECK_GAME_TAB + i, this, CHECK_BACK_DISABLE));
 
-		m_rt_value[1].Set(m_check_x+120, m_check_y+m_check_gap*(CHECK_GAMMA-CHECK_GRAPHIC_TAB-1) , m_pC_etc_spk->GetWidth(VOLUME_BAR), 15);
-		m_rt_value[2].Set(m_check_x+120, m_check_y+m_check_gap*(CHECK_SOUND-CHECK_SOUND_TAB), m_pC_etc_spk->GetWidth(VOLUME_BAR), 15);
-		m_rt_value[3].Set(m_check_x+120, m_check_y+m_check_gap*(CHECK_MUSIC-CHECK_SOUND_TAB), m_pC_etc_spk->GetWidth(VOLUME_BAR), 15);
-		m_rt_value[4].Set(m_check_x+120, m_check_y+m_check_gap*(CHECK_ALPHA_DEPTH-CHECK_GRAPHIC_TAB-1), m_pC_etc_spk->GetWidth(VOLUME_BAR), 15);
+		m_rt_value[1].Set(m_check_x + 120, m_check_y + m_check_gap * (CHECK_GAMMA - CHECK_GRAPHIC_TAB - 2), m_pC_etc_spk->GetWidth(VOLUME_BAR), 15);
+		m_rt_value[2].Set(m_check_x + 120, m_check_y + m_check_gap * (CHECK_SOUND - CHECK_SOUND_TAB), m_pC_etc_spk->GetWidth(VOLUME_BAR), 15);
+		m_rt_value[3].Set(m_check_x + 120, m_check_y + m_check_gap * (CHECK_MUSIC - CHECK_SOUND_TAB), m_pC_etc_spk->GetWidth(VOLUME_BAR), 15);
+		m_rt_value[4].Set(m_check_x + 120, m_check_y + m_check_gap * (CHECK_ALPHA_DEPTH - CHECK_GRAPHIC_TAB - 2), m_pC_etc_spk->GetWidth(VOLUME_BAR), 15);
 
 	}
 	else
 	{
-		for(int i = 0; i<4; i++)
-			Tab_X[i] = 1 + (i*70);
+		for (int i = 0; i < 4; i++)
+			Tab_X[i] = 1 + (i * 70);
 		Tab_Y = 1;
 
-		m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_pC_main_spk->GetWidth() - 25, 
-			m_pC_main_spk->GetHeight() - 25, 
-			m_pC_main_spk->GetWidth(TITLE_BUTTON_EXIT_HILIGHT), 
-			m_pC_main_spk->GetHeight(TITLE_BUTTON_EXIT_HILIGHT), 
-			CLOSE_ID, this, TITLE_BUTTON_EXIT_HILIGHT) );
-		
-		m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(Tab_X[0], Tab_Y, m_pC_main_spk->GetWidth(TITLE_TAB_CONTROL_HILIGHT), m_pC_main_spk->GetHeight(TITLE_TAB_CONTROL_HILIGHT), CONTROL_ID, this, TITLE_TAB_CONTROL_HILIGHT) );
-		m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(Tab_X[1], Tab_Y, m_pC_main_spk->GetWidth(TITLE_TAB_GRAPHIC_HILIGHT), m_pC_main_spk->GetHeight(TITLE_TAB_GRAPHIC_HILIGHT), GRAPHIC_ID, this, TITLE_TAB_GRAPHIC_HILIGHT) );
-		m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(Tab_X[2], Tab_Y, m_pC_main_spk->GetWidth(TITLE_TAB_SOUND_HILIGHT), m_pC_main_spk->GetHeight(TITLE_TAB_SOUND_HILIGHT), SOUND_ID, this, TITLE_TAB_SOUND_HILIGHT) );
-		m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(Tab_X[3], Tab_Y, m_pC_main_spk->GetWidth(TITLE_TAB_GAME_HILIGHT), m_pC_main_spk->GetHeight(TITLE_TAB_GAME_HILIGHT), GAME_ID, this, TITLE_TAB_GAME_HILIGHT) );
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_pC_main_spk->GetWidth() - 25,
+			m_pC_main_spk->GetHeight() - 25,
+			m_pC_main_spk->GetWidth(TITLE_BUTTON_EXIT_HILIGHT),
+			m_pC_main_spk->GetHeight(TITLE_BUTTON_EXIT_HILIGHT),
+			CLOSE_ID, this, TITLE_BUTTON_EXIT_HILIGHT));
 
-		m_check_x = 20, m_check_y = 35 , m_check_gap = 20;
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(Tab_X[0], Tab_Y, m_pC_main_spk->GetWidth(TITLE_TAB_CONTROL_HILIGHT), m_pC_main_spk->GetHeight(TITLE_TAB_CONTROL_HILIGHT), CONTROL_ID, this, TITLE_TAB_CONTROL_HILIGHT));
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(Tab_X[1], Tab_Y, m_pC_main_spk->GetWidth(TITLE_TAB_GRAPHIC_HILIGHT), m_pC_main_spk->GetHeight(TITLE_TAB_GRAPHIC_HILIGHT), GRAPHIC_ID, this, TITLE_TAB_GRAPHIC_HILIGHT));
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(Tab_X[2], Tab_Y, m_pC_main_spk->GetWidth(TITLE_TAB_SOUND_HILIGHT), m_pC_main_spk->GetHeight(TITLE_TAB_SOUND_HILIGHT), SOUND_ID, this, TITLE_TAB_SOUND_HILIGHT));
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(Tab_X[3], Tab_Y, m_pC_main_spk->GetWidth(TITLE_TAB_GAME_HILIGHT), m_pC_main_spk->GetHeight(TITLE_TAB_GAME_HILIGHT), GAME_ID, this, TITLE_TAB_GAME_HILIGHT));
 
-		
-	// control_tab ��ư��
-	//	int list_button_x = 341, list_button_y = 54;
+		m_check_x = 20, m_check_y = 35, m_check_gap = 20;
+
+
+		// control_tab ?????
+		//	int list_button_x = 341, list_button_y = 54;
 		m_pC_control_button_group = new ButtonGroup(this);
-		m_pC_control_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x+10, m_check_y, m_pC_main_spk->GetWidth(TITLE_RADIO_BACK), m_pC_main_spk->GetHeight(TITLE_RADIO_BACK), CHECK_NORMAL_CHAT, this, TITLE_RADIO_BACK) );
-		m_pC_control_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x+120, m_check_y, m_pC_main_spk->GetWidth(TITLE_RADIO_BACK), m_pC_main_spk->GetHeight(TITLE_RADIO_BACK), CHECK_ENTER_CHAT, this, TITLE_RADIO_BACK) );
+		m_pC_control_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x + 10, m_check_y, m_pC_main_spk->GetWidth(TITLE_RADIO_BACK), m_pC_main_spk->GetHeight(TITLE_RADIO_BACK), CHECK_NORMAL_CHAT, this, TITLE_RADIO_BACK));
+		m_pC_control_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x + 120, m_check_y, m_pC_main_spk->GetWidth(TITLE_RADIO_BACK), m_pC_main_spk->GetHeight(TITLE_RADIO_BACK), CHECK_ENTER_CHAT, this, TITLE_RADIO_BACK));
 
-		for(i = 0; i < CHECK_CONTROL_MAX; i++)
-		{
-			m_pC_control_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x - 10, m_check_y+m_check_gap*(8+i), m_pC_main_spk->GetWidth(TITLE_CHECK_BACK), m_pC_main_spk->GetHeight(TITLE_CHECK_BACK), CHECK_CONTROL_TAB+i+2, this, TITLE_CHECK_BACK) );
-		}
-			
-		m_pC_control_button_group->Add( new C_VS_UI_EVENT_BUTTON( 
+		// (no checkbox rows on the control tab -- see CHECK_CONTROL_MAX)
+
+		m_pC_control_button_group->Add(new C_VS_UI_EVENT_BUTTON(
 			w - m_pC_main_spk->GetWidth(TITLE_BUTTON_RESET_HILIGHT) - 40,
 			h - m_pC_main_spk->GetHeight(TITLE_BUTTON_RESET_HILIGHT) - 20,
 			m_pC_main_spk->GetWidth(TITLE_BUTTON_RESET_HILIGHT),
 			m_pC_main_spk->GetHeight(TITLE_BUTTON_RESET_HILIGHT),
-			KEY_DEFAULT_INIT, this, TITLE_BUTTON_RESET_HILIGHT) );
+			KEY_DEFAULT_INIT, this, TITLE_BUTTON_RESET_HILIGHT));
 
-//#ifdef CONVERT_1024_768
-//		m_pC_control_button_group->Add( new C_VS_UI_EVENT_BUTTON( 
-//			w - m_pC_main_spk->GetWidth(TITLE_BUTTON_RESET_HILIGHT) - 60 ,
-//			h - m_pC_main_spk->GetHeight(TITLE_BUTTON_RESET_HILIGHT) - 50 ,
-//			m_pC_main_spk->GetWidth(TITLE_BUTTON_RESET_HILIGHT),
-//			m_pC_main_spk->GetHeight(TITLE_BUTTON_RESET_HILIGHT),
-//			KEY_DEFAULT_INIT, this, TITLE_BUTTON_RESET_HILIGHT) );
-//#else
-//		m_pC_control_button_group->Add( new C_VS_UI_EVENT_BUTTON(x+ 20 ,y + 133, m_pC_main_spk->GetWidth(TITLE_BUTTON_RESET_HILIGHT), m_pC_main_spk->GetHeight(TITLE_BUTTON_RESET_HILIGHT), KEY_DEFAULT_INIT, this, TITLE_BUTTON_RESET_HILIGHT) );
-//#endif
-		
+		//#ifdef CONVERT_1024_768
+		//		m_pC_control_button_group->Add( new C_VS_UI_EVENT_BUTTON( 
+		//			w - m_pC_main_spk->GetWidth(TITLE_BUTTON_RESET_HILIGHT) - 60 ,
+		//			h - m_pC_main_spk->GetHeight(TITLE_BUTTON_RESET_HILIGHT) - 50 ,
+		//			m_pC_main_spk->GetWidth(TITLE_BUTTON_RESET_HILIGHT),
+		//			m_pC_main_spk->GetHeight(TITLE_BUTTON_RESET_HILIGHT),
+		//			KEY_DEFAULT_INIT, this, TITLE_BUTTON_RESET_HILIGHT) );
+		//#else
+		//		m_pC_control_button_group->Add( new C_VS_UI_EVENT_BUTTON(x+ 20 ,y + 133, m_pC_main_spk->GetWidth(TITLE_BUTTON_RESET_HILIGHT), m_pC_main_spk->GetHeight(TITLE_BUTTON_RESET_HILIGHT), KEY_DEFAULT_INIT, this, TITLE_BUTTON_RESET_HILIGHT) );
+		//#endif
 
 
-		// graphic_tab ��ư��
+
+				// graphic_tab ?????
 		m_pC_graphic_button_group = new ButtonGroup(this);
-		m_pC_graphic_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x+10, m_check_y, m_pC_main_spk->GetWidth(TITLE_RADIO_BACK), m_pC_main_spk->GetHeight(TITLE_RADIO_BACK), CHECK_RESOLUTION_800x600, this, TITLE_RADIO_BACK) );
-		m_pC_graphic_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x+120, m_check_y, m_pC_main_spk->GetWidth(TITLE_RADIO_BACK), m_pC_main_spk->GetHeight(TITLE_RADIO_BACK), CHECK_RESOLUTION_1024x768, this, TITLE_RADIO_BACK) );
 
-		for(i = 0; i < CHECK_GRAPHIC_MAX; i++)
-			m_pC_graphic_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y+m_check_gap*(1+i), m_pC_main_spk->GetWidth(TITLE_CHECK_BACK), m_pC_main_spk->GetHeight(TITLE_CHECK_BACK), CHECK_GRAPHIC_TAB+i+2, this, TITLE_CHECK_BACK) );
-		// sound_tab ��ư��
+		// The 800x600 / 1024x768 radio pair used to sit here. Their state init
+		// (CHECK_RESOLUTION_*) and their Run() handler are both commented out
+		// above, so the buttons drew as two blank circles that did nothing.
+		// Resolution now comes from Data\Info\Resolution.inf, so they are gone.
+
+		for (i = 0; i < CHECK_GRAPHIC_MAX; i++)
+			// row 0 used to hold the resolution radios; they are gone, so the
+			// checkbox rows start at 0 like the sound and game tabs do.
+			m_pC_graphic_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y + m_check_gap * i, m_pC_main_spk->GetWidth(TITLE_CHECK_BACK), m_pC_main_spk->GetHeight(TITLE_CHECK_BACK), CHECK_GRAPHIC_TAB + i + 2, this, TITLE_CHECK_BACK));
+		// sound_tab ?????
 		m_pC_sound_button_group = new ButtonGroup(this);
-		for(i = 0; i < CHECK_SOUND_MAX; i++)
-			m_pC_sound_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y+m_check_gap*i, m_pC_main_spk->GetWidth(TITLE_CHECK_BACK), m_pC_main_spk->GetHeight(TITLE_CHECK_BACK), CHECK_SOUND_TAB+i, this, TITLE_CHECK_BACK) );
-		// game_tab ��ư��
+		for (i = 0; i < CHECK_SOUND_MAX; i++)
+			m_pC_sound_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y + m_check_gap * i, m_pC_main_spk->GetWidth(TITLE_CHECK_BACK), m_pC_main_spk->GetHeight(TITLE_CHECK_BACK), CHECK_SOUND_TAB + i, this, TITLE_CHECK_BACK));
+		// game_tab ?????
 		m_pC_game_button_group = new ButtonGroup(this);
-		for(i = 0; i < CHECK_GAME_MAX; i++)
-			m_pC_game_button_group->Add( new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y+m_check_gap*i, m_pC_main_spk->GetWidth(TITLE_CHECK_BACK), m_pC_main_spk->GetHeight(TITLE_CHECK_BACK), CHECK_GAME_TAB+i, this, TITLE_CHECK_BACK) );
+		for (i = 0; i < CHECK_GAME_MAX; i++)
+			m_pC_game_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_check_x, m_check_y + m_check_gap * i, m_pC_main_spk->GetWidth(TITLE_CHECK_BACK), m_pC_main_spk->GetHeight(TITLE_CHECK_BACK), CHECK_GAME_TAB + i, this, TITLE_CHECK_BACK));
 
-		m_rt_value[1].Set(m_check_x+120, m_check_y+m_check_gap*(CHECK_GAMMA-CHECK_GRAPHIC_TAB-1) , m_pC_main_spk->GetWidth(TITLE_VOLUME_BAR), 15);
-		m_rt_value[2].Set(m_check_x+120, m_check_y+m_check_gap*(CHECK_SOUND-CHECK_SOUND_TAB), m_pC_main_spk->GetWidth(TITLE_VOLUME_BAR), 15);
-		m_rt_value[3].Set(m_check_x+120, m_check_y+m_check_gap*(CHECK_MUSIC-CHECK_SOUND_TAB), m_pC_main_spk->GetWidth(TITLE_VOLUME_BAR), 15);
-		m_rt_value[4].Set(m_check_x+120, m_check_y+m_check_gap*(CHECK_ALPHA_DEPTH-CHECK_GRAPHIC_TAB-1), m_pC_main_spk->GetWidth(TITLE_VOLUME_BAR), 15);
+		m_rt_value[1].Set(m_check_x + 120, m_check_y + m_check_gap * (CHECK_GAMMA - CHECK_GRAPHIC_TAB - 2), m_pC_main_spk->GetWidth(TITLE_VOLUME_BAR), 15);
+		m_rt_value[2].Set(m_check_x + 120, m_check_y + m_check_gap * (CHECK_SOUND - CHECK_SOUND_TAB), m_pC_main_spk->GetWidth(TITLE_VOLUME_BAR), 15);
+		m_rt_value[3].Set(m_check_x + 120, m_check_y + m_check_gap * (CHECK_MUSIC - CHECK_SOUND_TAB), m_pC_main_spk->GetWidth(TITLE_VOLUME_BAR), 15);
+		m_rt_value[4].Set(m_check_x + 120, m_check_y + m_check_gap * (CHECK_ALPHA_DEPTH - CHECK_GRAPHIC_TAB - 2), m_pC_main_spk->GetWidth(TITLE_VOLUME_BAR), 15);
 
 	}
 
-//	m_rt_value[0].Set(m_check_x+120, m_check_y+m_check_gap*(6+CHECK_MOUSE_SPEED-CHECK_CONTROL_TAB), m_pC_etc_spk->GetWidth(VOLUME_BAR), 15);
+	//	m_rt_value[0].Set(m_check_x+120, m_check_y+m_check_gap*(6+CHECK_MOUSE_SPEED-CHECK_CONTROL_TAB), m_pC_etc_spk->GetWidth(VOLUME_BAR), 15);
 
 	g_RegisterWindow(this);
 
-//	if(false == m_IsTitle)
-//	{
-//		DeleteNew(m_pC_main_spk);
-//		m_pC_main_spk = NULL;
-//		DeleteNew(m_pC_etc_spk);
-//		m_pC_etc_spk = NULL;
-//	}
+	//	if(false == m_IsTitle)
+	//	{
+	//		DeleteNew(m_pC_main_spk);
+	//		m_pC_main_spk = NULL;
+	//		DeleteNew(m_pC_etc_spk);
+	//		m_pC_etc_spk = NULL;
+	//	}
 }
 
 /*-----------------------------------------------------------------------------
@@ -8216,7 +8228,7 @@ C_VS_UI_OPTION::~C_VS_UI_OPTION()
 {
 	gpC_base->SendMessage(UI_CLOSE_OPTION);
 	gC_vs_ui.UnSetAccelMode();
-	
+
 	g_UnregisterWindow(this);
 
 	DeleteNew(m_pC_dialog);
@@ -8226,7 +8238,7 @@ C_VS_UI_OPTION::~C_VS_UI_OPTION()
 	DeleteNew(m_pC_graphic_button_group);
 	DeleteNew(m_pC_sound_button_group);
 	DeleteNew(m_pC_game_button_group);
-	if(m_pC_main_spk)
+	if (m_pC_main_spk)
 	{
 		DeleteNew(m_pC_main_spk);
 		m_pC_main_spk = NULL;
@@ -8241,225 +8253,225 @@ C_VS_UI_OPTION::~C_VS_UI_OPTION()
 //
 // 
 //-----------------------------------------------------------------------------
-void	C_VS_UI_OPTION::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
+void	C_VS_UI_OPTION::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	
-	//üũ&���� ��ư��
-	if(false == m_IsTitle)
+
+	//??&???? ?????
+	if (false == m_IsTitle)
 	{
-		if(p_button->m_image_index == CHECK_BACK_DISABLE || p_button->m_image_index == RADIO_BACK_DISABLE)
+		if (p_button->m_image_index == CHECK_BACK_DISABLE || p_button->m_image_index == RADIO_BACK_DISABLE)
 		{
-			if(m_check[p_button->GetID()] == CHECK_DISABLE || m_check[p_button->GetID()] == CHECK_CHECK_DISABLE)
+			if (m_check[p_button->GetID()] == CHECK_DISABLE || m_check[p_button->GetID()] == CHECK_CHECK_DISABLE)
 			{
-				m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index);
-				if(m_check[p_button->GetID()] == CHECK_CHECK_DISABLE)
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+p_button->x+2, y+m_vampire_plus_y+p_button->y+2, p_button->m_image_index+2);
+				m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index);
+				if (m_check[p_button->GetID()] == CHECK_CHECK_DISABLE)
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + p_button->x + 2, y + m_vampire_plus_y + p_button->y + 2, p_button->m_image_index + 2);
 			}
 			else
 			{
-				m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index+1);
+				m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index + 1);
 
 				int radio_plus_x = 0, radio_plus_y = 0;
-				if(p_button->m_image_index == RADIO_BACK_DISABLE)
+				if (p_button->m_image_index == RADIO_BACK_DISABLE)
 				{
 					radio_plus_x = 1; radio_plus_y = 1;
 				}
 
-				if(p_button->GetPressState())
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+radio_plus_x+p_button->x+2, y+m_vampire_plus_y+radio_plus_y+p_button->y+3, p_button->m_image_index+2);
-				else if(m_check[p_button->GetID()] == CHECK_CHECK)
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+radio_plus_x+p_button->x+2, y+m_vampire_plus_y+radio_plus_y+p_button->y+2, p_button->m_image_index+2);
+				if (p_button->GetPressState())
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + radio_plus_x + p_button->x + 2, y + m_vampire_plus_y + radio_plus_y + p_button->y + 3, p_button->m_image_index + 2);
+				else if (m_check[p_button->GetID()] == CHECK_CHECK)
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + radio_plus_x + p_button->x + 2, y + m_vampire_plus_y + radio_plus_y + p_button->y + 2, p_button->m_image_index + 2);
 			}
 		}
-		//tab��ư��
-		else if(p_button->GetID() == CONTROL_ID || p_button->GetID() == GRAPHIC_ID || p_button->GetID() == SOUND_ID || p_button->GetID() == GAME_ID)
+		//tab?????
+		else if (p_button->GetID() == CONTROL_ID || p_button->GetID() == GRAPHIC_ID || p_button->GetID() == SOUND_ID || p_button->GetID() == GAME_ID)
 		{
-			if(p_button->GetFocusState())
+			if (p_button->GetFocusState())
 			{
-				if(p_button->GetPressState())
+				if (p_button->GetPressState())
 				{
-					m_pC_main_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index);
+					m_pC_main_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index);
 				}
 				else
 				{
-					Rect rect(0, 0, p_button->w, p_button->h-1);
-					m_pC_main_spk->BltLockedClip(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, rect, p_button->m_image_index);
+					Rect rect(0, 0, p_button->w, p_button->h - 1);
+					m_pC_main_spk->BltLockedClip(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, rect, p_button->m_image_index);
 				}
 			}
 		}
-		//Close��ư
-		else if(p_button->GetID() == CLOSE_ID)
+		//Close???
+		else if (p_button->GetID() == CLOSE_ID)
 		{
-			if(p_button->GetFocusState())
+			if (p_button->GetFocusState())
 			{
-				if(p_button->GetPressState())
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index+3);
+				if (p_button->GetPressState())
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index + 3);
 				else
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index+2);
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index + 2);
 			}
 			else
 			{
-				if(p_button->GetPressState())
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index+1);
+				if (p_button->GetPressState())
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index + 1);
 				else
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index);
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index);
 			}
 
 		}
-	
-	#if __CONTENTS(__080405_FIREST_UI_UPDATE)		
-		else if(p_button->GetID() == RESET_ID)
+
+#if __CONTENTS(__080405_FIREST_UI_UPDATE)		
+		else if (p_button->GetID() == RESET_ID)
 		{
-			if(p_button->GetFocusState())
+			if (p_button->GetFocusState())
 			{
-				if(p_button->GetPressState())
-					m_pC_main_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, RESET_OPTION_PUSHED);
+				if (p_button->GetPressState())
+					m_pC_main_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, RESET_OPTION_PUSHED);
 				else
-					m_pC_main_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, RESET_OPTION_HILIGHTED);
+					m_pC_main_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, RESET_OPTION_HILIGHTED);
 			}
 			else
-				m_pC_main_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, RESET_OPTION);
+				m_pC_main_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, RESET_OPTION);
 
 		}
-	#endif //__080405_FIREST_UI_UPDATE
-	
-		//Hotkey List��ư
-		else if(p_button->GetID() == LIST_ID)
+#endif //__080405_FIREST_UI_UPDATE
+
+		//Hotkey List???
+		else if (p_button->GetID() == LIST_ID)
 		{
-			if(p_button->GetFocusState())
+			if (p_button->GetFocusState())
 			{
-				if(p_button->GetPressState())
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index+3);
+				if (p_button->GetPressState())
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index + 3);
 				else
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index+2);
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index + 2);
 			}
 			else
 			{
-				if(p_button->GetPressState())
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index+1);
+				if (p_button->GetPressState())
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index + 1);
 				else
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index);
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index);
 			}
 
 		}
 		else
-		if(p_button->GetFocusState())
-		{
-			if(p_button->GetPressState())
+			if (p_button->GetFocusState())
 			{
-				m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index+1);
+				if (p_button->GetPressState())
+				{
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index + 1);
+				}
+				else
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index);
 			}
-			else
-				m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index);
-		}
 	}
 	else
 	{
-		if(p_button->m_image_index == TITLE_CHECK_BACK || p_button->m_image_index == TITLE_RADIO_BACK)
+		if (p_button->m_image_index == TITLE_CHECK_BACK || p_button->m_image_index == TITLE_RADIO_BACK)
 		{
-			if(m_check[p_button->GetID()] == CHECK_DISABLE || m_check[p_button->GetID()] == CHECK_CHECK_DISABLE)
+			if (m_check[p_button->GetID()] == CHECK_DISABLE || m_check[p_button->GetID()] == CHECK_CHECK_DISABLE)
 			{
 				m_pC_main_spk->BltLockedDarkness(x + p_button->x, y + p_button->y, p_button->m_image_index, 1);
 			}
 			else
 			{
 				int radio_plus_x = 0, radio_plus_y = 0;
-				if(p_button->m_image_index == TITLE_RADIO_BACK)
+				if (p_button->m_image_index == TITLE_RADIO_BACK)
 				{
 					radio_plus_x = 3; radio_plus_y = 3;
 					m_pC_main_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
-					if(m_check[p_button->GetID()] == CHECK_CHECK)
-					m_pC_main_spk->BltLocked(x + p_button->x + radio_plus_x, y + p_button->y + radio_plus_y, p_button->m_image_index+1);
+					if (m_check[p_button->GetID()] == CHECK_CHECK)
+						m_pC_main_spk->BltLocked(x + p_button->x + radio_plus_x, y + p_button->y + radio_plus_y, p_button->m_image_index + 1);
 				}
 				else
 				{
-					if(m_check[p_button->GetID()] == CHECK_CHECK)
-						m_pC_main_spk->BltLocked(x + p_button->x + radio_plus_x, y + p_button->y + radio_plus_y, p_button->m_image_index+1);
+					if (m_check[p_button->GetID()] == CHECK_CHECK)
+						m_pC_main_spk->BltLocked(x + p_button->x + radio_plus_x, y + p_button->y + radio_plus_y, p_button->m_image_index + 1);
 					else
 						m_pC_main_spk->BltLocked(x + p_button->x + radio_plus_x, y + p_button->y + radio_plus_y, p_button->m_image_index);
 				}
-//				int radio_plus_x = 0, radio_plus_y = 0;
-//				if(p_button->m_image_index == RADIO_BACK_DISABLE)
-//				{
-//					if(m_check[p_button->GetID()] == CHECK_CHECK)
-//					radio_plus_x = 1; radio_plus_y = 1;
-//				}
-//
-//				if(p_button->GetPressState())
-//					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+radio_plus_x+p_button->x+2, y+m_vampire_plus_y+radio_plus_y+p_button->y+3, p_button->m_image_index+2);
-//				else if(m_check[p_button->GetID()] == CHECK_CHECK)
-//					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+radio_plus_x+p_button->x+2, y+m_vampire_plus_y+radio_plus_y+p_button->y+2, p_button->m_image_index+2);
+				//				int radio_plus_x = 0, radio_plus_y = 0;
+				//				if(p_button->m_image_index == RADIO_BACK_DISABLE)
+				//				{
+				//					if(m_check[p_button->GetID()] == CHECK_CHECK)
+				//					radio_plus_x = 1; radio_plus_y = 1;
+				//				}
+				//
+				//				if(p_button->GetPressState())
+				//					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+radio_plus_x+p_button->x+2, y+m_vampire_plus_y+radio_plus_y+p_button->y+3, p_button->m_image_index+2);
+				//				else if(m_check[p_button->GetID()] == CHECK_CHECK)
+				//					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+radio_plus_x+p_button->x+2, y+m_vampire_plus_y+radio_plus_y+p_button->y+2, p_button->m_image_index+2);
 			}
 		}
-		//tab��ư��
-		else if(p_button->GetID() == CONTROL_ID || p_button->GetID() == GRAPHIC_ID || p_button->GetID() == SOUND_ID || p_button->GetID() == GAME_ID)
+		//tab?????
+		else if (p_button->GetID() == CONTROL_ID || p_button->GetID() == GRAPHIC_ID || p_button->GetID() == SOUND_ID || p_button->GetID() == GAME_ID)
 		{
-			if(p_button->GetFocusState())
+			if (p_button->GetFocusState())
 			{
-				if(p_button->GetPressState())
+				if (p_button->GetPressState())
 				{
-					m_pC_main_spk->BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index+4);
+					m_pC_main_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 4);
 				}
 				else
 				{
-					m_pC_main_spk->BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
+					m_pC_main_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
 				}
 			}
 		}
-		//Close��ư
-		else if(p_button->GetID() == CLOSE_ID)
+		//Close???
+		else if (p_button->GetID() == CLOSE_ID)
 		{
-			if(p_button->GetFocusState())
+			if (p_button->GetFocusState())
 			{
-				if(p_button->GetPressState())
-					m_pC_main_spk->BltLocked(x+p_button->x, y+p_button->y, TITLE_BUTTON_EXIT_PUSH);
+				if (p_button->GetPressState())
+					m_pC_main_spk->BltLocked(x + p_button->x, y + p_button->y, TITLE_BUTTON_EXIT_PUSH);
 				else
-					m_pC_main_spk->BltLocked(x+p_button->x, y+p_button->y, TITLE_BUTTON_EXIT_HILIGHT);
+					m_pC_main_spk->BltLocked(x + p_button->x, y + p_button->y, TITLE_BUTTON_EXIT_HILIGHT);
 			}
 		}
 
-		else if(p_button->GetID() == KEY_DEFAULT_INIT)
+		else if (p_button->GetID() == KEY_DEFAULT_INIT)
 		{
-			if(p_button->GetFocusState())
+			if (p_button->GetFocusState())
 			{
-				if(p_button->GetPressState())
-					m_pC_main_spk->BltLocked(x+p_button->x, y+p_button->y, TITLE_BUTTON_RESET_PUSH);
+				if (p_button->GetPressState())
+					m_pC_main_spk->BltLocked(x + p_button->x, y + p_button->y, TITLE_BUTTON_RESET_PUSH);
 				else
-					m_pC_main_spk->BltLocked(x+p_button->x, y+p_button->y, TITLE_BUTTON_RESET_HILIGHT);
+					m_pC_main_spk->BltLocked(x + p_button->x, y + p_button->y, TITLE_BUTTON_RESET_HILIGHT);
 			}
 			else
-				m_pC_main_spk->BltLocked(x+p_button->x, y+p_button->y, TITLE_BUTTON_RESET);
+				m_pC_main_spk->BltLocked(x + p_button->x, y + p_button->y, TITLE_BUTTON_RESET);
 
-		}	
-		//Hotkey List��ư
-		else if(p_button->GetID() == LIST_ID)
+		}
+		//Hotkey List???
+		else if (p_button->GetID() == LIST_ID)
 		{
-			if(p_button->GetFocusState())
+			if (p_button->GetFocusState())
 			{
-				if(p_button->GetPressState())
-					m_pC_main_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index+3);
+				if (p_button->GetPressState())
+					m_pC_main_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index + 3);
 				else
-					m_pC_main_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index+2);
+					m_pC_main_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index + 2);
 			}
 			else
 			{
-				if(p_button->GetPressState())
-					m_pC_main_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index+1);
+				if (p_button->GetPressState())
+					m_pC_main_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index + 1);
 				else
-					m_pC_main_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index);
+					m_pC_main_spk->BltLocked(x + m_vampire_plus_x + p_button->x, y + m_vampire_plus_y + p_button->y, p_button->m_image_index);
 			}
 
 		}
-//		else
-//		if(p_button->GetFocusState())
-//		{
-//			if(p_button->GetPressState())
-//			{
-//				m_pC_main_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index+1);
-//			}
-//			else
-//				m_pC_main_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index);
-//		}
+		//		else
+		//		if(p_button->GetFocusState())
+		//		{
+		//			if(p_button->GetPressState())
+		//			{
+		//				m_pC_main_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index+1);
+		//			}
+		//			else
+		//				m_pC_main_spk->BltLocked(x+m_vampire_plus_x+p_button->x, y+m_vampire_plus_y+p_button->y, p_button->m_image_index);
+		//		}
 	}
 }
 
@@ -8471,7 +8483,7 @@ void	C_VS_UI_OPTION::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 void C_VS_UI_OPTION::Process()
 {
 	m_pC_button_group->Process();
-	switch(m_i_selected_tab)
+	switch (m_i_selected_tab)
 	{
 	case TAB_CONTROL:
 		m_pC_control_button_group->Process();
@@ -8508,66 +8520,68 @@ void C_VS_UI_OPTION::Start()
 	m_pC_sound_button_group->Init();
 	m_pC_game_button_group->Init();
 
-//	if(false == m_IsTitle)
-//	{
-//		if(m_pC_main_spk == NULL)
-//		{
-//			switch(g_eRaceInterface)
-//			{
-//			case RACE_SLAYER:
-//				m_pC_main_spk = new C_SPRITE_PACK(SPK_OPTION_SLAYER);
-//				break;
-//
-//			case RACE_VAMPIRE:
-//				m_pC_main_spk = new C_SPRITE_PACK(SPK_OPTION_VAMPIRE);
-//				break;
-//
-//			case RACE_OUSTERS:
-//				m_pC_main_spk = new C_SPRITE_PACK(SPK_OPTION_OUSTERS);
-//				break;
-//			}
-//			
-//			m_pC_etc_spk = new C_SPRITE_PACK(SPK_OPTION);
-//		}
-//	}
-	// �ݸ����ϰ�쿡�� g_pUserInformation �� bNetmarbleGoreLevel �� �������.
-	// false �� ��찡 teenversion.
-	
-	if(!gC_vs_ui.IsGameMode())
-	{
-		// �޴����� �ݸ��� ƾ�����̸� ���� ������ Disable �׷��� ������ �ɼǿ� ������.
-		if(!g_pUserInformation->bNetmarbleGoreLevel&&g_pUserInformation->IsNetmarble)
-			m_check[CHECK_TEEN_VERSION] = CHECK_CHECK_DISABLE;			
-		else
-			m_check[CHECK_TEEN_VERSION] = g_pUserOption->UseTeenVersion?CHECK_CHECK:CHECK_NOT;
-	} else		
-	{
-		// �ݸ��� ƾ�����̸� ���� ����. �׷��� ������ �ɼǿ� ������.
-		if(!g_pUserInformation->bNetmarbleGoreLevel&&g_pUserInformation->IsNetmarble)
-		{
-			// �����̸�
-			m_check[CHECK_TEEN_VERSION] = g_pUserInformation->bNetmarbleGoreLevel ? CHECK_DISABLE : CHECK_CHECK_DISABLE ;
+	//	if(false == m_IsTitle)
+	//	{
+	//		if(m_pC_main_spk == NULL)
+	//		{
+	//			switch(g_eRaceInterface)
+	//			{
+	//			case RACE_SLAYER:
+	//				m_pC_main_spk = new C_SPRITE_PACK(SPK_OPTION_SLAYER);
+	//				break;
+	//
+	//			case RACE_VAMPIRE:
+	//				m_pC_main_spk = new C_SPRITE_PACK(SPK_OPTION_VAMPIRE);
+	//				break;
+	//
+	//			case RACE_OUSTERS:
+	//				m_pC_main_spk = new C_SPRITE_PACK(SPK_OPTION_OUSTERS);
+	//				break;
+	//			}
+	//			
+	//			m_pC_etc_spk = new C_SPRITE_PACK(SPK_OPTION);
+	//		}
+	//	}
+		// ??????????? g_pUserInformation ?? bNetmarbleGoreLevel ?? ???????.
+		// false ?? ??? teenversion.
 
-		} else
+	if (!gC_vs_ui.IsGameMode())
+	{
+		// ??????? ????? ???????? ???? ?????? Disable ????? ?????? ???? ??????.
+		if (!g_pUserInformation->bNetmarbleGoreLevel && g_pUserInformation->IsNetmarble)
+			m_check[CHECK_TEEN_VERSION] = CHECK_CHECK_DISABLE;
+		else
+			m_check[CHECK_TEEN_VERSION] = g_pUserOption->UseTeenVersion ? CHECK_CHECK : CHECK_NOT;
+	}
+	else
+	{
+		// ????? ???????? ???? ????. ????? ?????? ???? ??????.
+		if (!g_pUserInformation->bNetmarbleGoreLevel && g_pUserInformation->IsNetmarble)
 		{
-			if(g_pUserInformation->GoreLevel)
-				m_check[CHECK_TEEN_VERSION] = g_pUserOption->UseTeenVersion?CHECK_CHECK_DISABLE:CHECK_DISABLE;
+			// ???????
+			m_check[CHECK_TEEN_VERSION] = g_pUserInformation->bNetmarbleGoreLevel ? CHECK_DISABLE : CHECK_CHECK_DISABLE;
+
+		}
+		else
+		{
+			if (g_pUserInformation->GoreLevel)
+				m_check[CHECK_TEEN_VERSION] = g_pUserOption->UseTeenVersion ? CHECK_CHECK_DISABLE : CHECK_DISABLE;
 			else
-				m_check[CHECK_TEEN_VERSION] = CHECK_CHECK_DISABLE;		
+				m_check[CHECK_TEEN_VERSION] = CHECK_CHECK_DISABLE;
 		}
 	}
 
 
 
-	if(g_bEnable3DHAL && !gC_vs_ui.IsGameMode())
+	if (g_bEnable3DHAL && !gC_vs_ui.IsGameMode())
 	{
-		m_check[CHECK_3D] = g_pUserOption->Use3DHAL?CHECK_CHECK:CHECK_NOT;
+		m_check[CHECK_3D] = g_pUserOption->Use3DHAL ? CHECK_CHECK : CHECK_NOT;
 	}
 	else
-		m_check[CHECK_3D] = g_pUserOption->Use3DHAL?CHECK_CHECK_DISABLE:CHECK_DISABLE;
+		m_check[CHECK_3D] = g_pUserOption->Use3DHAL ? CHECK_CHECK_DISABLE : CHECK_DISABLE;
 
 
-	m_pC_scroll_bar->SetPosMax(MAX_ACCELERATOR-14-7+1);
+	m_pC_scroll_bar->SetPosMax(MAX_ACCELERATOR - 14 - 7 + 1);
 	m_focus_hotkey = -1;
 
 	gpC_window_manager->AppearWindow(this);
@@ -8575,7 +8589,7 @@ void C_VS_UI_OPTION::Start()
 
 void C_VS_UI_OPTION::Finish()
 {
-	if(m_pC_main_spk)
+	if (m_pC_main_spk)
 	{
 		DeleteNew(m_pC_main_spk);
 		m_pC_main_spk = NULL;
@@ -8596,40 +8610,40 @@ void C_VS_UI_OPTION::Run(id_t id)
 {
 	switch (id)
 	{
-	case KEY_DEFAULT_INIT:	// Ÿ��Ʋ ��ư �ʱ�ȭ
-		{
-		#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-			// ùȭ�� �ɼ�â���� �����ʱ�ȭ ���̾�α� �������� �ɼ�â �ƹ����̳� Ŭ������ �����ʱ�ȭâ ����
-			// Ȯ�� ��� ��ư�� Ȱ���ȵǴ� ���׼���
-			ClearInputState();
-		#endif //__080405_FIREST_UI_UPDATE
+	case KEY_DEFAULT_INIT:	// ???? ??? ????
+	{
+#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+		// ???? ???????? ???????? ??????? ???????? ???? ???????? ??????? ????????? ????
+		// ??? ??? ????? ??????? ???????
+		ClearInputState();
+#endif //__080405_FIREST_UI_UPDATE
 
-			DeleteNew(m_pC_dialog);
-			m_pC_dialog = new C_VS_UI_DIALOG(-1, -1, 3, 0, ExecF_OptionResetButton, DIALOG_TITLE_OK|DIALOG_TITLE_CANCEL);
-			
-			std::string pp_dmsg[1] = {
-					(*g_pGameStringTable)[UI_STRING_MESSAGE_KEYSETTING_INIT].GetString(),
-			};
-			m_pC_dialog->SetMessage( pp_dmsg, 1, SMO_NOFIT , true );
-			m_pC_dialog->Start();
-		}
-		break;
+		DeleteNew(m_pC_dialog);
+		m_pC_dialog = new C_VS_UI_DIALOG(-1, -1, 3, 0, ExecF_OptionResetButton, DIALOG_TITLE_OK | DIALOG_TITLE_CANCEL);
+
+		std::string pp_dmsg[1] = {
+				(*g_pGameStringTable)[UI_STRING_MESSAGE_KEYSETTING_INIT].GetString(),
+		};
+		m_pC_dialog->SetMessage(pp_dmsg, 1, SMO_NOFIT, true);
+		m_pC_dialog->Start();
+	}
+	break;
 
 #if __CONTENTS(__080405_FIREST_UI_UPDATE)
-	case RESET_ID:	// ���ӳ� ��ư �ʱ�ȭ
-		{
-			ClearInputState();
+	case RESET_ID:	// ????? ??? ????
+	{
+		ClearInputState();
 
-			DeleteNew(m_pC_dialog);
-			m_pC_dialog = new C_VS_UI_DIALOG(-1, -1, 3, 0, ExecF_OptionResetButton, DIALOG_TITLE_OK|DIALOG_TITLE_CANCEL);
-			
-			std::string pp_dmsg[1] = {
-					(*g_pGameStringTable)[UI_STRING_MESSAGE_KEYSETTING_INIT].GetString(),
-			};
-			m_pC_dialog->SetMessage( pp_dmsg, 1, SMO_NOFIT , true );
-			m_pC_dialog->Start();
-		}
-		break;
+		DeleteNew(m_pC_dialog);
+		m_pC_dialog = new C_VS_UI_DIALOG(-1, -1, 3, 0, ExecF_OptionResetButton, DIALOG_TITLE_OK | DIALOG_TITLE_CANCEL);
+
+		std::string pp_dmsg[1] = {
+				(*g_pGameStringTable)[UI_STRING_MESSAGE_KEYSETTING_INIT].GetString(),
+		};
+		m_pC_dialog->SetMessage(pp_dmsg, 1, SMO_NOFIT, true);
+		m_pC_dialog->Start();
+	}
+	break;
 #endif //__080405_FIREST_UI_UPDATE
 
 	//	case DEFAULT_ID:
@@ -8688,264 +8702,264 @@ void C_VS_UI_OPTION::Run(id_t id)
 		m_i_selected_tab = TAB_GAME;
 		break;
 
-	// CONTROL TAB
+		// CONTROL TAB
 	case CHECK_NORMAL_CHAT:
 	case CHECK_ENTER_CHAT:
-		{
-			g_pUserOption->UseEnterChat = (id == CHECK_ENTER_CHAT);
-			m_check[CHECK_NORMAL_CHAT] = g_pUserOption->UseEnterChat?CHECK_NOT:CHECK_CHECK;
-			m_check[CHECK_ENTER_CHAT] = g_pUserOption->UseEnterChat?CHECK_CHECK:CHECK_NOT;
-		}
-		break;
+	{
+		g_pUserOption->UseEnterChat = (id == CHECK_ENTER_CHAT);
+		m_check[CHECK_NORMAL_CHAT] = g_pUserOption->UseEnterChat ? CHECK_NOT : CHECK_CHECK;
+		m_check[CHECK_ENTER_CHAT] = g_pUserOption->UseEnterChat ? CHECK_CHECK : CHECK_NOT;
+	}
+	break;
 
 	case CHECK_RESOLUTION_800x600:
 	case CHECK_RESOLUTION_1024x768:
-		{
-// 			if(m_IsTitle)
-// 			{
-// 				g_pUserOption->Resolution1024 = (id == CHECK_RESOLUTION_1024x768);
-// 				m_check[CHECK_RESOLUTION_800x600]	= CHECK_TYPE(!g_pUserOption->Resolution1024);
-// 				m_check[CHECK_RESOLUTION_1024x768]	= CHECK_TYPE(g_pUserOption->Resolution1024);
-// 			}
-		}
-		break;
+	{
+		// 			if(m_IsTitle)
+		// 			{
+		// 				g_pUserOption->Resolution1024 = (id == CHECK_RESOLUTION_1024x768);
+		// 				m_check[CHECK_RESOLUTION_800x600]	= CHECK_TYPE(!g_pUserOption->Resolution1024);
+		// 				m_check[CHECK_RESOLUTION_1024x768]	= CHECK_TYPE(g_pUserOption->Resolution1024);
+		// 			}
+	}
+	break;
 
 	case CHECK_IFEEL:
-		if(m_check[CHECK_IFEEL] != CHECK_DISABLE)
+		if (m_check[CHECK_IFEEL] != CHECK_DISABLE)
 		{
-			m_check[CHECK_IFEEL] = (m_check[CHECK_IFEEL] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_IFEEL] = (m_check[CHECK_IFEEL] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->UseForceFeel = m_check[CHECK_IFEEL] == CHECK_CHECK;
 		}
 		break;
 
-//	case CHECK_MOUSE_SPEED:
-//		if(m_check[CHECK_MOUSE_SPEED] != CHECK_DISABLE)
-//		{
-//			m_check[CHECK_MOUSE_SPEED] = (m_check[CHECK_MOUSE_SPEED] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
-//			g_pUserOption->UseMouseSpeed = m_check[CHECK_MOUSE_SPEED] == CHECK_CHECK;
-//		}
+		//	case CHECK_MOUSE_SPEED:
+		//		if(m_check[CHECK_MOUSE_SPEED] != CHECK_DISABLE)
+		//		{
+		//			m_check[CHECK_MOUSE_SPEED] = (m_check[CHECK_MOUSE_SPEED] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+		//			g_pUserOption->UseMouseSpeed = m_check[CHECK_MOUSE_SPEED] == CHECK_CHECK;
+		//		}
 		break;
 
-	// GRAPHIC TAB
+		// GRAPHIC TAB
 	case CHECK_3D:
-		if(m_check[CHECK_3D] != CHECK_DISABLE && m_check[CHECK_3D] != CHECK_CHECK_DISABLE)
+		if (m_check[CHECK_3D] != CHECK_DISABLE && m_check[CHECK_3D] != CHECK_CHECK_DISABLE)
 		{
-			m_check[CHECK_3D] = (m_check[CHECK_3D] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_3D] = (m_check[CHECK_3D] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->Use3DHAL = m_check[CHECK_3D] == CHECK_CHECK;
 		}
 		break;
 
 	case CHECK_ALPHA_HPBAR:
-		if(m_check[CHECK_ALPHA_HPBAR] != CHECK_DISABLE)
+		if (m_check[CHECK_ALPHA_HPBAR] != CHECK_DISABLE)
 		{
-			m_check[CHECK_ALPHA_HPBAR] = (m_check[CHECK_ALPHA_HPBAR] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_ALPHA_HPBAR] = (m_check[CHECK_ALPHA_HPBAR] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->DrawTransHPBar = m_check[CHECK_ALPHA_HPBAR] == CHECK_CHECK;
 		}
 		break;
 
 	case CHECK_BLOOD_DROP:
-		if(m_check[CHECK_BLOOD_DROP] != CHECK_DISABLE)
+		if (m_check[CHECK_BLOOD_DROP] != CHECK_DISABLE)
 		{
-			m_check[CHECK_BLOOD_DROP] = (m_check[CHECK_BLOOD_DROP] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_BLOOD_DROP] = (m_check[CHECK_BLOOD_DROP] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->BloodDrop = m_check[CHECK_BLOOD_DROP] == CHECK_CHECK;
 		}
 		break;
 
 	case CHECK_AUTOHIDE_SMOOTH:
-		if(m_check[CHECK_AUTOHIDE_SMOOTH] != CHECK_DISABLE)
+		if (m_check[CHECK_AUTOHIDE_SMOOTH] != CHECK_DISABLE)
 		{
-			m_check[CHECK_AUTOHIDE_SMOOTH] = (m_check[CHECK_AUTOHIDE_SMOOTH] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_AUTOHIDE_SMOOTH] = (m_check[CHECK_AUTOHIDE_SMOOTH] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->AutoHideSmoothScroll = m_check[CHECK_AUTOHIDE_SMOOTH] == CHECK_CHECK;
 		}
 		break;
 
 	case CHECK_GAMMA:
-		if(m_check[CHECK_GAMMA] != CHECK_DISABLE)
+		if (m_check[CHECK_GAMMA] != CHECK_DISABLE)
 		{
-			m_check[CHECK_GAMMA] = (m_check[CHECK_GAMMA] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_GAMMA] = (m_check[CHECK_GAMMA] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->UseGammaControl = m_check[CHECK_GAMMA] == CHECK_CHECK;
-			if(g_pUserOption->UseGammaControl)CDirectDraw::SetGammaRamp(m_value_gamma);
-			else if(CDirectDraw::IsSupportGammaControl())
+			if (g_pUserOption->UseGammaControl)CDirectDraw::SetGammaRamp(m_value_gamma);
+			else if (CDirectDraw::IsSupportGammaControl())
 				CDirectDraw::RestoreGammaRamp();
 		}
 		break;
 
 	case CHECK_CHATBOX:
-		if(m_check[CHECK_CHATBOX] != CHECK_DISABLE)
+		if (m_check[CHECK_CHATBOX] != CHECK_DISABLE)
 		{
-			m_check[CHECK_CHATBOX] = (m_check[CHECK_CHATBOX] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_CHATBOX] = (m_check[CHECK_CHATBOX] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->DrawChatBoxOutline = m_check[CHECK_CHATBOX] == CHECK_CHECK;
 		}
 		break;
 
 	case CHECK_FPS:
-		if(m_check[CHECK_FPS] != CHECK_DISABLE)
+		if (m_check[CHECK_FPS] != CHECK_DISABLE)
 		{
-			m_check[CHECK_FPS] = (m_check[CHECK_FPS] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_FPS] = (m_check[CHECK_FPS] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->DrawFPS = m_check[CHECK_FPS] == CHECK_CHECK;
 		}
 		break;
 
 	case CHECK_DEFAULT_ALPHA:
-		if(m_check[CHECK_DEFAULT_ALPHA] != CHECK_DISABLE)
+		if (m_check[CHECK_DEFAULT_ALPHA] != CHECK_DISABLE)
 		{
-			m_check[CHECK_DEFAULT_ALPHA] = (m_check[CHECK_DEFAULT_ALPHA] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_DEFAULT_ALPHA] = (m_check[CHECK_DEFAULT_ALPHA] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->DefaultAlpha = m_check[CHECK_DEFAULT_ALPHA] == CHECK_CHECK;
 		}
 		break;
 
-	// SOUND TAB
-//	case CHECK_YELL:
-//		if(m_check[CHECK_YELL] != CHECK_DISABLE)
-//		{
-//			m_check[CHECK_YELL] = (m_check[CHECK_YELL] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
-//			g_pUserOption->PlayYellSound = m_check[CHECK_YELL] == CHECK_CHECK;
-//		}
-//		break;
+		// SOUND TAB
+	//	case CHECK_YELL:
+	//		if(m_check[CHECK_YELL] != CHECK_DISABLE)
+	//		{
+	//			m_check[CHECK_YELL] = (m_check[CHECK_YELL] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+	//			g_pUserOption->PlayYellSound = m_check[CHECK_YELL] == CHECK_CHECK;
+	//		}
+	//		break;
 
-	case CHECK_SOUND://ȿ����
+	case CHECK_SOUND://?????
 		Effect_Music_ONOFF(CHECK_SOUND);
-	/*	if(m_check[CHECK_SOUND] != CHECK_DISABLE)
-		{
-			m_check[CHECK_SOUND] = (m_check[CHECK_SOUND] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
-			g_pUserOption->PlaySound = m_check[CHECK_SOUND] == CHECK_CHECK;
+		/*	if(m_check[CHECK_SOUND] != CHECK_DISABLE)
+			{
+				m_check[CHECK_SOUND] = (m_check[CHECK_SOUND] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+				g_pUserOption->PlaySound = m_check[CHECK_SOUND] == CHECK_CHECK;
 
-//			if(g_pUserOption->PlaySound)m_check[CHECK_YELL] = g_pUserOption->PlayYellSound?CHECK_CHECK:CHECK_NOT;
-//			else m_check[CHECK_YELL] = CHECK_DISABLE;
+	//			if(g_pUserOption->PlaySound)m_check[CHECK_YELL] = g_pUserOption->PlayYellSound?CHECK_CHECK:CHECK_NOT;
+	//			else m_check[CHECK_YELL] = CHECK_DISABLE;
 
-			gpC_base->SendMessage( UI_CHANGE_OPTION, CHECK_SOUND, m_check[CHECK_SOUND] == CHECK_CHECK );
-		}*/
+				gpC_base->SendMessage( UI_CHANGE_OPTION, CHECK_SOUND, m_check[CHECK_SOUND] == CHECK_CHECK );
+			}*/
 		break;
 
-	case CHECK_MUSIC://�����
+	case CHECK_MUSIC://?????
 		Background_Music_ONOFF(CHECK_MUSIC);
-	/*	if(m_check[CHECK_MUSIC] != CHECK_DISABLE)
-		{
-			m_check[CHECK_MUSIC] = (m_check[CHECK_MUSIC] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
-			g_pUserOption->PlayMusic = m_check[CHECK_MUSIC] == CHECK_CHECK;
-			gpC_base->SendMessage( UI_CHANGE_OPTION, CHECK_MUSIC, m_check[CHECK_MUSIC] == CHECK_CHECK );
+		/*	if(m_check[CHECK_MUSIC] != CHECK_DISABLE)
+			{
+				m_check[CHECK_MUSIC] = (m_check[CHECK_MUSIC] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+				g_pUserOption->PlayMusic = m_check[CHECK_MUSIC] == CHECK_CHECK;
+				gpC_base->SendMessage( UI_CHANGE_OPTION, CHECK_MUSIC, m_check[CHECK_MUSIC] == CHECK_CHECK );
 
-			if(g_pUserOption->PlayMusic)
-			{
-				m_check[CHECK_WAV] = g_pUserOption->PlayWaveMusic?CHECK_CHECK:CHECK_NOT;
-				m_check[CHECK_MIDI] = g_pUserOption->PlayWaveMusic?CHECK_NOT:CHECK_CHECK;
-			}
-			else
-			{
-				m_check[CHECK_WAV] = CHECK_DISABLE;
-				m_check[CHECK_MIDI] = CHECK_DISABLE;
-			}
-		}*/
+				if(g_pUserOption->PlayMusic)
+				{
+					m_check[CHECK_WAV] = g_pUserOption->PlayWaveMusic?CHECK_CHECK:CHECK_NOT;
+					m_check[CHECK_MIDI] = g_pUserOption->PlayWaveMusic?CHECK_NOT:CHECK_CHECK;
+				}
+				else
+				{
+					m_check[CHECK_WAV] = CHECK_DISABLE;
+					m_check[CHECK_MIDI] = CHECK_DISABLE;
+				}
+			}*/
 		break;
 
 	case CHECK_WAV:
 	case CHECK_MIDI:
-		if(m_check[CHECK_WAV] != CHECK_DISABLE)
+		if (m_check[CHECK_WAV] != CHECK_DISABLE)
 		{
 			g_pUserOption->PlayWaveMusic = id == CHECK_WAV;
-			m_check[CHECK_WAV] = g_pUserOption->PlayWaveMusic?CHECK_CHECK:CHECK_NOT;
-			m_check[CHECK_MIDI] = g_pUserOption->PlayWaveMusic?CHECK_NOT:CHECK_CHECK;
-			gpC_base->SendMessage( UI_CHANGE_OPTION, CHECK_WAV, m_check[CHECK_WAV] == CHECK_CHECK );
+			m_check[CHECK_WAV] = g_pUserOption->PlayWaveMusic ? CHECK_CHECK : CHECK_NOT;
+			m_check[CHECK_MIDI] = g_pUserOption->PlayWaveMusic ? CHECK_NOT : CHECK_CHECK;
+			gpC_base->SendMessage(UI_CHANGE_OPTION, CHECK_WAV, m_check[CHECK_WAV] == CHECK_CHECK);
 		}
 		break;
 
-	// GAME TAB
+		// GAME TAB
 	case CHECK_HELP:
-		if(m_check[CHECK_HELP] != CHECK_DISABLE)
+		if (m_check[CHECK_HELP] != CHECK_DISABLE)
 		{
-			m_check[CHECK_HELP] = (m_check[CHECK_HELP] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_HELP] = (m_check[CHECK_HELP] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->ShowChoboHelp = m_check[CHECK_HELP] == CHECK_CHECK;
 		}
 		break;
 
 	case CHECK_FILTERING:
-		if(m_check[CHECK_FILTERING] != CHECK_DISABLE)
+		if (m_check[CHECK_FILTERING] != CHECK_DISABLE)
 		{
-			m_check[CHECK_FILTERING] = (m_check[CHECK_FILTERING] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_FILTERING] = (m_check[CHECK_FILTERING] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->FilteringCurse = m_check[CHECK_FILTERING] == CHECK_CHECK;
 		}
 		break;
 
-//	case CHECK_CHANGE:
-//		if(m_check[CHECK_CHANGE] != CHECK_DISABLE)
-//		{
-//			m_check[CHECK_CHANGE] = (m_check[CHECK_CHANGE] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
-//			g_pUserOption->TribeChange = m_check[CHECK_CHANGE] == CHECK_CHECK;
-//		}
-//		break;
-//
-//	case CHECK_PARTY_INVITE:
-//		if(m_check[CHECK_PARTY_INVITE] != CHECK_DISABLE)
-//		{
-//			m_check[CHECK_PARTY_INVITE] = (m_check[CHECK_PARTY_INVITE] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
-//			g_pUserOption->DenyPartyInvite = m_check[CHECK_PARTY_INVITE] == CHECK_CHECK;
-//		}
-//		break;
-//
-//	case CHECK_PARTY_REQUEST:
-//		if(m_check[CHECK_PARTY_REQUEST] != CHECK_DISABLE)
-//		{
-//			m_check[CHECK_PARTY_REQUEST] = (m_check[CHECK_PARTY_REQUEST] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
-//			g_pUserOption->DenyPartyRequest = m_check[CHECK_PARTY_REQUEST] == CHECK_CHECK;
-//		}
-//		break;
+		//	case CHECK_CHANGE:
+		//		if(m_check[CHECK_CHANGE] != CHECK_DISABLE)
+		//		{
+		//			m_check[CHECK_CHANGE] = (m_check[CHECK_CHANGE] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+		//			g_pUserOption->TribeChange = m_check[CHECK_CHANGE] == CHECK_CHECK;
+		//		}
+		//		break;
+		//
+		//	case CHECK_PARTY_INVITE:
+		//		if(m_check[CHECK_PARTY_INVITE] != CHECK_DISABLE)
+		//		{
+		//			m_check[CHECK_PARTY_INVITE] = (m_check[CHECK_PARTY_INVITE] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+		//			g_pUserOption->DenyPartyInvite = m_check[CHECK_PARTY_INVITE] == CHECK_CHECK;
+		//		}
+		//		break;
+		//
+		//	case CHECK_PARTY_REQUEST:
+		//		if(m_check[CHECK_PARTY_REQUEST] != CHECK_DISABLE)
+		//		{
+		//			m_check[CHECK_PARTY_REQUEST] = (m_check[CHECK_PARTY_REQUEST] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+		//			g_pUserOption->DenyPartyRequest = m_check[CHECK_PARTY_REQUEST] == CHECK_CHECK;
+		//		}
+		//		break;
 
 	case CHECK_PRELOAD_MONSTER:
-		if(m_check[CHECK_PRELOAD_MONSTER] != CHECK_DISABLE)
+		if (m_check[CHECK_PRELOAD_MONSTER] != CHECK_DISABLE)
 		{
-			m_check[CHECK_PRELOAD_MONSTER] = (m_check[CHECK_PRELOAD_MONSTER] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_PRELOAD_MONSTER] = (m_check[CHECK_PRELOAD_MONSTER] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->IsPreLoadMonster = m_check[CHECK_PRELOAD_MONSTER] == CHECK_CHECK;
 		}
 		break;
 
 	case CHECK_CHAT_WHITE:
-		if(m_check[CHECK_CHAT_WHITE] != CHECK_DISABLE)
+		if (m_check[CHECK_CHAT_WHITE] != CHECK_DISABLE)
 		{
-			m_check[CHECK_CHAT_WHITE] = (m_check[CHECK_CHAT_WHITE] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_CHAT_WHITE] = (m_check[CHECK_CHAT_WHITE] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->ChatWhite = m_check[CHECK_CHAT_WHITE] == CHECK_CHECK;
 		}
 		break;
-	case CHECK_TEEN_VERSION :
-		if(m_check[CHECK_TEEN_VERSION] != CHECK_DISABLE&& m_check[CHECK_TEEN_VERSION] != CHECK_CHECK_DISABLE)
+	case CHECK_TEEN_VERSION:
+		if (m_check[CHECK_TEEN_VERSION] != CHECK_DISABLE && m_check[CHECK_TEEN_VERSION] != CHECK_CHECK_DISABLE)
 		{
-			m_check[CHECK_TEEN_VERSION] = (m_check[CHECK_TEEN_VERSION] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_TEEN_VERSION] = (m_check[CHECK_TEEN_VERSION] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->UseTeenVersion = m_check[CHECK_TEEN_VERSION] == CHECK_CHECK;
 		}
 		break;
-	case CHECK_POPUPCHAT_BY_WHISPER :
-		if(m_check[CHECK_POPUPCHAT_BY_WHISPER] != CHECK_DISABLE)
+	case CHECK_POPUPCHAT_BY_WHISPER:
+		if (m_check[CHECK_POPUPCHAT_BY_WHISPER] != CHECK_DISABLE)
 		{
-			m_check[CHECK_POPUPCHAT_BY_WHISPER] = (m_check[CHECK_POPUPCHAT_BY_WHISPER] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_POPUPCHAT_BY_WHISPER] = (m_check[CHECK_POPUPCHAT_BY_WHISPER] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->PopupChatByWhisper = m_check[CHECK_POPUPCHAT_BY_WHISPER] == CHECK_CHECK;
 		}
 		break;
-	case CHECK_DO_NOT_SHOW_WAR_MSG :
-		if(m_check[CHECK_DO_NOT_SHOW_WAR_MSG] != CHECK_DISABLE )
+	case CHECK_DO_NOT_SHOW_WAR_MSG:
+		if (m_check[CHECK_DO_NOT_SHOW_WAR_MSG] != CHECK_DISABLE)
 		{
-			m_check[CHECK_DO_NOT_SHOW_WAR_MSG] = (m_check[CHECK_DO_NOT_SHOW_WAR_MSG] == CHECK_CHECK) ? CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_DO_NOT_SHOW_WAR_MSG] = (m_check[CHECK_DO_NOT_SHOW_WAR_MSG] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->DoNotShowWarMsg = m_check[CHECK_DO_NOT_SHOW_WAR_MSG] == CHECK_CHECK;
 		}
 		break;
-	case CHECK_DO_NOT_SHOW_LAIR_MSG :
-		if(m_check[CHECK_DO_NOT_SHOW_LAIR_MSG] != CHECK_DISABLE )
+	case CHECK_DO_NOT_SHOW_LAIR_MSG:
+		if (m_check[CHECK_DO_NOT_SHOW_LAIR_MSG] != CHECK_DISABLE)
 		{
-			m_check[CHECK_DO_NOT_SHOW_LAIR_MSG] = (m_check[CHECK_DO_NOT_SHOW_LAIR_MSG] == CHECK_CHECK) ? CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_DO_NOT_SHOW_LAIR_MSG] = (m_check[CHECK_DO_NOT_SHOW_LAIR_MSG] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->DoNotShowLairMsg = m_check[CHECK_DO_NOT_SHOW_LAIR_MSG] == CHECK_CHECK;
 		}
 		break;
-	case CHECK_DO_NOT_SHOW_HOLY_LAND_MSG :
-		if(m_check[CHECK_DO_NOT_SHOW_HOLY_LAND_MSG] != CHECK_DISABLE )
+	case CHECK_DO_NOT_SHOW_HOLY_LAND_MSG:
+		if (m_check[CHECK_DO_NOT_SHOW_HOLY_LAND_MSG] != CHECK_DISABLE)
 		{
-			m_check[CHECK_DO_NOT_SHOW_HOLY_LAND_MSG] = (m_check[CHECK_DO_NOT_SHOW_HOLY_LAND_MSG] == CHECK_CHECK) ? CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_DO_NOT_SHOW_HOLY_LAND_MSG] = (m_check[CHECK_DO_NOT_SHOW_HOLY_LAND_MSG] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->DoNotShowHolyLandMsg = m_check[CHECK_DO_NOT_SHOW_HOLY_LAND_MSG] == CHECK_CHECK;
 		}
 		break;
 
 #if __CONTENTS(__GAMEOPTION_ITEMBAY_MESSAGEBOX)
-	case CHECK_DO_NOT_SHOW_ITEMBAY_MESSAGEBOX :
-		if(m_check[CHECK_DO_NOT_SHOW_ITEMBAY_MESSAGEBOX] != CHECK_DISABLE )
+	case CHECK_DO_NOT_SHOW_ITEMBAY_MESSAGEBOX:
+		if (m_check[CHECK_DO_NOT_SHOW_ITEMBAY_MESSAGEBOX] != CHECK_DISABLE)
 		{
-			m_check[CHECK_DO_NOT_SHOW_ITEMBAY_MESSAGEBOX] = (m_check[CHECK_DO_NOT_SHOW_ITEMBAY_MESSAGEBOX] == CHECK_CHECK) ? CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_DO_NOT_SHOW_ITEMBAY_MESSAGEBOX] = (m_check[CHECK_DO_NOT_SHOW_ITEMBAY_MESSAGEBOX] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->DoNotShowItemBayMessageBox = m_check[CHECK_DO_NOT_SHOW_ITEMBAY_MESSAGEBOX] == CHECK_CHECK;
 		}
 		break;
@@ -8953,36 +8967,36 @@ void C_VS_UI_OPTION::Run(id_t id)
 
 #if __CONTENTS(__LANGUAGE_CHANGE)
 	case CHECK_SHOW_GAMEMONEY_WITH_HANGUL:
-		if(m_check[CHECK_SHOW_GAMEMONEY_WITH_HANGUL] != CHECK_DISABLE )
+		if (m_check[CHECK_SHOW_GAMEMONEY_WITH_HANGUL] != CHECK_DISABLE)
 		{
-			m_check[CHECK_SHOW_GAMEMONEY_WITH_HANGUL] = (m_check[CHECK_SHOW_GAMEMONEY_WITH_HANGUL] == CHECK_CHECK) ? CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_SHOW_GAMEMONEY_WITH_HANGUL] = (m_check[CHECK_SHOW_GAMEMONEY_WITH_HANGUL] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->ShowGameMoneyWithHANGUL = m_check[CHECK_SHOW_GAMEMONEY_WITH_HANGUL] == CHECK_CHECK;
 		}
 		break;
 #endif	//__LANGUAGE_CHANGE
 	case CHECK_DO_NOT_SHOW_PERSNALSHOP_MSG:
-		if(m_check[CHECK_DO_NOT_SHOW_PERSNALSHOP_MSG] != CHECK_DISABLE )
+		if (m_check[CHECK_DO_NOT_SHOW_PERSNALSHOP_MSG] != CHECK_DISABLE)
 		{
-			m_check[CHECK_DO_NOT_SHOW_PERSNALSHOP_MSG] = (m_check[CHECK_DO_NOT_SHOW_PERSNALSHOP_MSG] == CHECK_CHECK) ? CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_DO_NOT_SHOW_PERSNALSHOP_MSG] = (m_check[CHECK_DO_NOT_SHOW_PERSNALSHOP_MSG] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->DoNotShowPersnalShopMsg = m_check[CHECK_DO_NOT_SHOW_PERSNALSHOP_MSG] == CHECK_CHECK;
 		}
 		break;
 #if __CONTENTS(__JAPAN_UI)
 	case CHECK_ONE_CLICK_ATTACK_OFF:
-		if(m_check[CHECK_ONE_CLICK_ATTACK_OFF] != CHECK_DISABLE )
+		if (m_check[CHECK_ONE_CLICK_ATTACK_OFF] != CHECK_DISABLE)
 		{
-			m_check[CHECK_ONE_CLICK_ATTACK_OFF] = (m_check[CHECK_ONE_CLICK_ATTACK_OFF] == CHECK_CHECK) ? CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_ONE_CLICK_ATTACK_OFF] = (m_check[CHECK_ONE_CLICK_ATTACK_OFF] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 			g_pUserOption->DoNotOneClickAttackOff = m_check[CHECK_ONE_CLICK_ATTACK_OFF] == CHECK_CHECK;
 		}
 		break;
 #endif //__JAPAN_UI
-//	case CHECK_NOT_SEND_MY_INFO :
-//		if(m_check[CHECK_NOT_SEND_MY_INFO] != CHECK_DISABLE)
-//		{
-//			m_check[CHECK_NOT_SEND_MY_INFO] = (m_check[CHECK_NOT_SEND_MY_INFO] == CHECK_CHECK)? CHECK_NOT : CHECK_CHECK ;
-//			g_pUserOption->NotSendMyInfo = m_check[CHECK_NOT_SEND_MY_INFO] == CHECK_CHECK;
-//		}
-//		break;
+		//	case CHECK_NOT_SEND_MY_INFO :
+		//		if(m_check[CHECK_NOT_SEND_MY_INFO] != CHECK_DISABLE)
+		//		{
+		//			m_check[CHECK_NOT_SEND_MY_INFO] = (m_check[CHECK_NOT_SEND_MY_INFO] == CHECK_CHECK)? CHECK_NOT : CHECK_CHECK ;
+		//			g_pUserOption->NotSendMyInfo = m_check[CHECK_NOT_SEND_MY_INFO] == CHECK_CHECK;
+		//		}
+		//		break;
 	}
 
 }
@@ -8990,31 +9004,31 @@ void C_VS_UI_OPTION::Run(id_t id)
 
 void	C_VS_UI_OPTION::SetValue(int _x, enum VALUE_RECT rect_value)
 {
-	if(rect_value >= RECT_MAX)return;
+	if (rect_value >= RECT_MAX)return;
 
-	_x = min(m_rt_value[rect_value].x+m_rt_value[rect_value].w, max(m_rt_value[rect_value].x, _x));
+	_x = min(m_rt_value[rect_value].x + m_rt_value[rect_value].w, max(m_rt_value[rect_value].x, _x));
 	_x -= m_rt_value[rect_value].x;
 
-	switch(rect_value)
+	switch (rect_value)
 	{
 	case RECT_MOUSE_SPEED:
-		m_value_mouse_speed = _x*MAX_MOUSE_SPEED/m_rt_value[rect_value].w;
+		m_value_mouse_speed = _x * MAX_MOUSE_SPEED / m_rt_value[rect_value].w;
 		break;
 
 	case RECT_GAMMA:
-		m_value_gamma = MIN_GAMMA_VALUE+_x*MAX_GAMMA_VALUE/m_rt_value[rect_value].w;
+		m_value_gamma = MIN_GAMMA_VALUE + _x * MAX_GAMMA_VALUE / m_rt_value[rect_value].w;
 		break;
 
 	case RECT_SOUND:
-		m_volume_sound = _x*MAX_SOUND_VOLUME/m_rt_value[rect_value].w;
+		m_volume_sound = _x * MAX_SOUND_VOLUME / m_rt_value[rect_value].w;
 		break;
 
 	case RECT_MUSIC:
-		m_volume_music = _x*MAX_MUSIC_VOLUME/m_rt_value[rect_value].w;
+		m_volume_music = _x * MAX_MUSIC_VOLUME / m_rt_value[rect_value].w;
 		break;
 
 	case RECT_ALPHA:
-		g_pUserOption->ALPHA_DEPTH = _x*MAX_ALPHA_DEPTH/m_rt_value[rect_value].w;
+		g_pUserOption->ALPHA_DEPTH = _x * MAX_ALPHA_DEPTH / m_rt_value[rect_value].w;
 		break;
 	}
 }
@@ -9027,15 +9041,15 @@ bool C_VS_UI_OPTION::MouseControl(UINT message, int _x, int _y)
 {
 	static VALUE_RECT value = RECT_MOUSE_SPEED;
 
-	if(false == m_IsTitle)
-		_x -=m_vampire_plus_x; _y-=m_vampire_plus_y;
-	
+	if (false == m_IsTitle)
+		_x -= m_vampire_plus_x; _y -= m_vampire_plus_y;
+
 	//Window::MouseControl(message, _x, _y);
-	_x -=x; _y-=y;
-	
+	_x -= x; _y -= y;
+
 	bool re = m_pC_button_group->MouseControl(message, _x, _y);
 
-	switch(m_i_selected_tab)
+	switch (m_i_selected_tab)
 	{
 	case TAB_CONTROL:
 		re &= m_pC_control_button_group->MouseControl(message, _x, _y);
@@ -9057,66 +9071,66 @@ bool C_VS_UI_OPTION::MouseControl(UINT message, int _x, int _y)
 
 	switch (message)
 	{
-		case M_MOVING :
+	case M_MOVING:
+	{
+		m_focus_hotkey = -1;
+		const int accel_gap = 15;
+		int TitleOffset_x = 0;
+		int TitleOffset_y = 0;
+		if (true == m_IsTitle)
+		{
+			TitleOffset_x = -115;
+			TitleOffset_y = -20;
+		}
+		if (m_i_selected_tab == TAB_CONTROL && _x > 125 + TitleOffset_x && _x < 368 + TitleOffset_x && _y > 100 + TitleOffset_y && _y < 102 + accel_gap * 7 + TitleOffset_y)
+		{
+			m_focus_hotkey = (_y - 100 - TitleOffset_y) / accel_gap;
+			if (m_focus_hotkey > 6)
 			{
 				m_focus_hotkey = -1;
-				const int accel_gap = 15;
-				int TitleOffset_x = 0;
-				int TitleOffset_y = 0;
-				if(true == m_IsTitle)
-				{
-					TitleOffset_x = -115;
-					TitleOffset_y = -20;
-				}
-				if(m_i_selected_tab == TAB_CONTROL && _x > 125 +TitleOffset_x && _x < 368+TitleOffset_x && _y > 100 + TitleOffset_y && _y < 102+accel_gap*7+TitleOffset_y)
-				{
-					m_focus_hotkey = (_y - 100 - TitleOffset_y)/accel_gap;
-					if(m_focus_hotkey > 6)
-					{
-						m_focus_hotkey = -1;
-						break;
-					}
-					m_focus_hotkey += m_pC_scroll_bar->GetScrollPos();
-				}
+				break;
 			}
-			if(m_bLBPush)
-			{
-				SetValue(_x, value);
-			}
-		break;
+			m_focus_hotkey += m_pC_scroll_bar->GetScrollPos();
+		}
+	}
+	if (m_bLBPush)
+	{
+		SetValue(_x, value);
+	}
+	break;
 
-		case M_LEFTBUTTON_DOWN:
-		case M_LB_DOUBLECLICK:
-//			if(m_i_selected_tab == TAB_CONTROL && m_check[CHECK_MOUSE_SPEED] && m_rt_value[RECT_MOUSE_SPEED].IsInRect(_x, _y))
-//			{
-//				m_bLBPush = true;
-//				value = RECT_MOUSE_SPEED;
-//				SetValue(_x, value);
-//			}
-//			else 
-			if(m_i_selected_tab == TAB_CONTROL && m_focus_hotkey != -1)
-			{
-				gC_vs_ui.SetAccelMode(ACCEL_NULL+14+m_focus_hotkey);
-			}
-			if(m_i_selected_tab == TAB_GRAPHIC && (m_check[CHECK_GAMMA] && m_rt_value[RECT_GAMMA].IsInRect(_x, _y) || m_check[CHECK_ALPHA_DEPTH] && m_rt_value[RECT_ALPHA].IsInRect(_x, _y)))
-			{
-				m_bLBPush = true;
-				if(m_rt_value[RECT_GAMMA].IsInRect(_x, _y))
-					value = RECT_GAMMA;
-				else
-					value = RECT_ALPHA;
-				SetValue(_x, value);
-			}
-			else if(m_i_selected_tab == TAB_SOUND && (m_rt_value[RECT_SOUND].IsInRect(_x, _y) && m_check[CHECK_SOUND] || m_rt_value[RECT_MUSIC].IsInRect(_x, _y) && m_check[CHECK_MUSIC]))
-			{
-				m_bLBPush = true;
-				if(m_rt_value[RECT_SOUND].IsInRect(_x, _y))
-					value = RECT_SOUND;
-				else
-					value = RECT_MUSIC;
-				SetValue(_x, value);
-			}
+	case M_LEFTBUTTON_DOWN:
+	case M_LB_DOUBLECLICK:
+		//			if(m_i_selected_tab == TAB_CONTROL && m_check[CHECK_MOUSE_SPEED] && m_rt_value[RECT_MOUSE_SPEED].IsInRect(_x, _y))
+		//			{
+		//				m_bLBPush = true;
+		//				value = RECT_MOUSE_SPEED;
+		//				SetValue(_x, value);
+		//			}
+		//			else 
+		if (m_i_selected_tab == TAB_CONTROL && m_focus_hotkey != -1)
+		{
+			gC_vs_ui.SetAccelMode(ACCEL_NULL + 14 + m_focus_hotkey);
+		}
+		if (m_i_selected_tab == TAB_GRAPHIC && (m_check[CHECK_GAMMA] && m_rt_value[RECT_GAMMA].IsInRect(_x, _y) || m_check[CHECK_ALPHA_DEPTH] && m_rt_value[RECT_ALPHA].IsInRect(_x, _y)))
+		{
+			m_bLBPush = true;
+			if (m_rt_value[RECT_GAMMA].IsInRect(_x, _y))
+				value = RECT_GAMMA;
 			else
+				value = RECT_ALPHA;
+			SetValue(_x, value);
+		}
+		else if (m_i_selected_tab == TAB_SOUND && (m_rt_value[RECT_SOUND].IsInRect(_x, _y) && m_check[CHECK_SOUND] || m_rt_value[RECT_MUSIC].IsInRect(_x, _y) && m_check[CHECK_MUSIC]))
+		{
+			m_bLBPush = true;
+			if (m_rt_value[RECT_SOUND].IsInRect(_x, _y))
+				value = RECT_SOUND;
+			else
+				value = RECT_MUSIC;
+			SetValue(_x, value);
+		}
+		else
 
 			if (gpC_mouse_pointer->GetPickUpItem() == NULL && re)
 			{
@@ -9124,47 +9138,47 @@ bool C_VS_UI_OPTION::MouseControl(UINT message, int _x, int _y)
 				SetOrigin(_x, _y);
 				break;
 			}
-			break;
-
-		case M_LEFTBUTTON_UP:
-			if(m_bLBPush)
-			{
-				m_bLBPush = false;
-				switch(value)
-				{
-				case RECT_MOUSE_SPEED:
-					gpC_base->SendMessage( UI_CHANGE_OPTION, CHECK_VALUE_MOUSE_SPEED, m_value_mouse_speed );
-					break;
-
-				case RECT_GAMMA:
-					if(CDirectDraw::IsSupportGammaControl() && m_check[CHECK_GAMMA])
-						CDirectDraw::SetGammaRamp(m_value_gamma);
-					g_pUserOption->GammaValue = m_value_gamma;
-					break;
-
-				case RECT_SOUND:
-					gpC_base->SendMessage( UI_CHANGE_OPTION, CHECK_VALUE_SOUND_VOLUME, m_volume_sound );
-					break;
-
-				case RECT_MUSIC:
-					gpC_base->SendMessage( UI_CHANGE_OPTION, CHECK_VALUE_MUSIC_VOLUME, m_volume_music );
-					break;
-
-				case RECT_ALPHA:
-					break;
-				}
-			}
 		break;
-		
-		case M_WHEEL_UP:
-			m_pC_scroll_bar->ScrollUp();
-			EMPTY_MOVE;
-			break;
 
-		case M_WHEEL_DOWN:
-			m_pC_scroll_bar->ScrollDown();
-			EMPTY_MOVE;
-			break;
+	case M_LEFTBUTTON_UP:
+		if (m_bLBPush)
+		{
+			m_bLBPush = false;
+			switch (value)
+			{
+			case RECT_MOUSE_SPEED:
+				gpC_base->SendMessage(UI_CHANGE_OPTION, CHECK_VALUE_MOUSE_SPEED, m_value_mouse_speed);
+				break;
+
+			case RECT_GAMMA:
+				if (CDirectDraw::IsSupportGammaControl() && m_check[CHECK_GAMMA])
+					CDirectDraw::SetGammaRamp(m_value_gamma);
+				g_pUserOption->GammaValue = m_value_gamma;
+				break;
+
+			case RECT_SOUND:
+				gpC_base->SendMessage(UI_CHANGE_OPTION, CHECK_VALUE_SOUND_VOLUME, m_volume_sound);
+				break;
+
+			case RECT_MUSIC:
+				gpC_base->SendMessage(UI_CHANGE_OPTION, CHECK_VALUE_MUSIC_VOLUME, m_volume_music);
+				break;
+
+			case RECT_ALPHA:
+				break;
+			}
+		}
+		break;
+
+	case M_WHEEL_UP:
+		m_pC_scroll_bar->ScrollUp();
+		EMPTY_MOVE;
+		break;
+
+	case M_WHEEL_DOWN:
+		m_pC_scroll_bar->ScrollDown();
+		EMPTY_MOVE;
+		break;
 	}
 
 
@@ -9177,16 +9191,16 @@ bool C_VS_UI_OPTION::MouseControl(UINT message, int _x, int _y)
 -----------------------------------------------------------------------------*/
 void C_VS_UI_OPTION::KeyboardControl(UINT message, UINT key, long extra)
 {
-	// ���� IME toggle�Ǿ� ���� ��츦 ����Ͽ� scan code�� �Ѵ�.
+	// ???? IME toggle??? ???? ??? ?????? scan code?? ???.
 
 	if (message == WM_KEYDOWN)
-	{	
-//		if(gC_vs_ui.IsAccelMode() && key==VK_ESCAPE)
-//			gC_vs_ui.UnSetAccelMode();
-//		else
-		if (!gC_vs_ui.IsAccelMode() && !gC_vs_ui.IsInputHotkey() && key==VK_ESCAPE)
+	{
+		//		if(gC_vs_ui.IsAccelMode() && key==VK_ESCAPE)
+		//			gC_vs_ui.UnSetAccelMode();
+		//		else
+		if (!gC_vs_ui.IsAccelMode() && !gC_vs_ui.IsInputHotkey() && key == VK_ESCAPE)
 		{
-			gpC_base->SendMessage( UI_CLOSE_OPTION );
+			gpC_base->SendMessage(UI_CLOSE_OPTION);
 		}
 	}
 }
@@ -9197,7 +9211,7 @@ void C_VS_UI_OPTION::KeyboardControl(UINT message, UINT key, long extra)
 -----------------------------------------------------------------------------*/
 void C_VS_UI_OPTION::Show()
 {
-	static const char scancode_name[256][20] = 
+	static const char scancode_name[256][20] =
 	{
 		"",						// 0x00
 		"ESCAPE",				// 0x01
@@ -9382,7 +9396,7 @@ void C_VS_UI_OPTION::Show()
 		"",						// 0xB4
 		"DIVIDE",				// 0xB5
 		"",						// 0xB6
-		"SYSRQ",				// 0xB7
+		"PRTSC",				// 0xB7
 		"RMENU",				// 0xB8
 		"",						// 0xB9
 		"",						// 0xBA
@@ -9400,7 +9414,7 @@ void C_VS_UI_OPTION::Show()
 		"",						// 0xC6
 		"HOME",					// 0xC7
 		"UP",					// 0xC8
-		"PRIOR",				// 0xC9
+		"PG UP",				// 0xC9
 		"",						// 0xCA
 		"LEFT",					// 0xCB
 		"",						// 0xCC
@@ -9408,7 +9422,7 @@ void C_VS_UI_OPTION::Show()
 		"",						// 0xCE
 		"END",					// 0xCF
 		"DOWN",					// 0xD0
-		"NEXT",					// 0xD1
+		"PG DN",				// 0xD1
 		"INSERT",				// 0xD2
 		"DELETE",				// 0xD3
 		"",						// 0xD4
@@ -9457,293 +9471,283 @@ void C_VS_UI_OPTION::Show()
 		"",						// 0xFF
 	};
 
-	const InterfaceInformation* pSkin = &g_pSkinManager->Get( SkinManager::OPTION );
+	const InterfaceInformation* pSkin = &g_pSkinManager->Get(SkinManager::OPTION);
 
 	int i = 0;
-//	int tab_x[4] = {pSkin->GetRect(0).left, pSkin->GetRect(0).top, pSkin->GetRect(0).right, pSkin->GetRect(0).bottom}, tab_y = 20;
-	
-	if(gpC_base->m_p_DDSurface_back->Lock())
+	//int tab_x[4] = {pSkin->GetRect(0).left, pSkin->GetRect(0).top, pSkin->GetRect(0).right, pSkin->GetRect(0).bottom}, tab_y = 20;
+
+	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
 		m_pC_main_spk->BltLocked(x, y);
-//		if(false == m_IsTitle)
-//			m_pC_main_spk->BltLocked(x+tab_x[m_i_selected_tab-TAB_CONTROL]+m_vampire_plus_x, y+tab_y+m_vampire_plus_y, m_i_selected_tab);
-//		else
-			//m_pC_main_spk->BltLocked(x+Tab_X[m_i_selected_tab-TAB_CONTROL]+m_vampire_plus_x, y+Tab_Y+m_vampire_plus_y, m_i_selected_tab);
-			m_pC_main_spk->BltLocked(x,y,0);
-			if(m_IsTitle)
-			{
-				m_pC_main_spk->BltLocked(x + m_pC_main_spk->GetWidth() - 25, y + m_pC_main_spk->GetHeight() - 25, 
-					TITLE_BUTTON_EXIT);
-			}
+
+		/* if (false == m_IsTitle)
+			m_pC_main_spk->BltLocked(x+tab_x[m_i_selected_tab-TAB_CONTROL]+m_vampire_plus_x, y+tab_y+m_vampire_plus_y, m_i_selected_tab);
+		else
+			m_pC_main_spk->BltLocked(x+Tab_X[m_i_selected_tab-TAB_CONTROL]+m_vampire_plus_x, y+Tab_Y+m_vampire_plus_y, m_i_selected_tab); */
+
+		m_pC_main_spk->BltLocked(x, y, 0);
+		if (m_IsTitle)
+		{
+			m_pC_main_spk->BltLocked(x + m_pC_main_spk->GetWidth() - 25, y + m_pC_main_spk->GetHeight() - 25,
+				TITLE_BUTTON_EXIT);
+		}
+
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
+
 	COLORREF strColor = RGB(0, 0, 0);
-	if(m_IsTitle)
+	if (m_IsTitle)
 	{
 		strColor = RGB(150, 150, 150);
 	}
-	
-	switch(m_i_selected_tab)
+
+	switch (m_i_selected_tab)
 	{
 	case TAB_CONTROL:
+	{
+		int TitleOffset_x = 0;
+		int TitleOffset_y = 0;
+		if (m_IsTitle)
 		{
-			int TitleOffset_x = 0;
-			int TitleOffset_y = 0;
-			if(m_IsTitle)
-			{
-				TitleOffset_x = -115;
-				TitleOffset_y = -20;
-			}
-			const std::string check_string[CHECK_CONTROL_MAX] =
-			{
-//				"Mouse Speed",
-				"Logitech IFeel Mouse Force Feedback",
-			};
-
-			if(gpC_base->m_p_DDSurface_back->Lock())
-			{
-				m_pC_main_spk->BltLocked(x+m_vampire_plus_x+125+TitleOffset_x, y+m_vampire_plus_y+80+TitleOffset_y, HOTKEY_WINDOW);
-				m_pC_control_button_group->Show();
-				gpC_base->m_p_DDSurface_back->Unlock();
-			}
-			
-			g_FL2_GetDC();
-//			g_PrintColorStr(x+m_vampire_plus_x+130, y+m_vampire_plus_y+56, "Input Style : ", gpC_base->m_user_id_pi, strColor);
-			g_PrintColorStr(x+m_vampire_plus_x+m_check_x+30, y+m_vampire_plus_y+m_check_y, 
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_NORMAL_CHATTING].GetString(), gpC_base->m_user_id_pi, strColor);
-			
-			g_PrintColorStr(x+m_vampire_plus_x+m_check_x+140, y+m_vampire_plus_y+m_check_y, 
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_ENTER_CHATTING].GetString(), gpC_base->m_user_id_pi, strColor);
-
-//			m_pC_etc_spk->Blt(x+m_vampire_plus_x+230, y+m_vampire_plus_y+53, HOTKEY_BACK);
-//			m_pC_etc_spk->Blt(x+m_vampire_plus_x+230+m_pC_etc_spk->GetWidth(HOTKEY_BACK), y+m_vampire_plus_y+53, HOTKEY_BACK_RIGHT);
-			
-			for(i = 0; i < CHECK_CONTROL_MAX; i++)
-			{
-				if(m_IsTitle)
-				{
-					g_PrintColorStr(x+m_vampire_plus_x+m_check_x+5, y+m_vampire_plus_y+m_check_y+m_check_gap*(8+i), check_string[i].c_str(), gpC_base->m_user_id_pi, strColor);
-				}
-				else
-				{
-					g_PrintColorStr(x+m_vampire_plus_x+m_check_x+15, y+m_vampire_plus_y+m_check_y+m_check_gap*(8+i), check_string[i].c_str(), gpC_base->m_user_id_pi, strColor);
-				}
-			
-			}
-//			m_pC_etc_spk->Blt(x+m_vampire_plus_x+m_rt_value[RECT_MOUSE_SPEED].x, y+m_vampire_plus_y+m_rt_value[RECT_MOUSE_SPEED].y+5, VOLUME_BAR);
-//			if(m_check[CHECK_MOUSE_SPEED])
-//				m_pC_etc_spk->Blt(x+m_vampire_plus_x+m_rt_value[RECT_MOUSE_SPEED].x-m_pC_etc_spk->GetWidth(VOLUME_TAG)/2+m_value_mouse_speed*m_rt_value[RECT_MOUSE_SPEED].w/MAX_MOUSE_SPEED, y+m_vampire_plus_y+m_rt_value[RECT_MOUSE_SPEED].y, VOLUME_TAG);
-			
-			// Accelator
-			const int accel_count = MAX_ACCELERATOR;
-			const int accel_gap = 15;
-			for(i = 0; i < min(accel_count, 7); i++)
-			{
-				const BYTE accel = ACCEL_NULL+i+14+m_pC_scroll_bar->GetScrollPos();
-				const char *pAccelName = g_pKeyAccelerator->GetName(accel);
-				g_PrintColorStr(x+m_vampire_plus_x+127+TitleOffset_x, y+m_vampire_plus_y+80+22+accel_gap*i+TitleOffset_y, pAccelName, gpC_base->m_chatting_pi, RGB_WHITE);
-				WORD key = g_pKeyAccelerator->GetKey(accel);
-				int px = 0;
-				if(ACCEL_HAS_CONTROL(key))
-					px = g_PrintColorStr(x+m_vampire_plus_x+127+100+px+TitleOffset_x, y+m_vampire_plus_y+80+22+accel_gap*i+TitleOffset_y, "Ctrl", gpC_base->m_chatting_pi, RGB_WHITE);
-				if(ACCEL_HAS_ALT(key))
-				{
-					if(px != 0)
-					{
-						px = g_PrintColorStr(px, y+m_vampire_plus_y+80+22+accel_gap*i+TitleOffset_y, "+", gpC_base->m_chatting_pi, RGB_WHITE);
-						px = g_PrintColorStr(px, y+m_vampire_plus_y+80+22+accel_gap*i+TitleOffset_y, "Alt", gpC_base->m_chatting_pi, RGB_WHITE);
-					}
-					else
-						px = g_PrintColorStr(x+m_vampire_plus_x+127+100+TitleOffset_x, y+m_vampire_plus_y+80+22+accel_gap*i+TitleOffset_y, "Alt", gpC_base->m_chatting_pi, RGB_WHITE);
-				}
-				if(ACCEL_HAS_SHIFT(key))
-				{
-					if(px != 0)
-					{
-						px = g_PrintColorStr(px, y+m_vampire_plus_y+80+22+accel_gap*i+TitleOffset_y, "+", gpC_base->m_chatting_pi, RGB_WHITE);
-						px = g_PrintColorStr(px, y+m_vampire_plus_y+80+22+accel_gap*i+TitleOffset_y, "Shift", gpC_base->m_chatting_pi, RGB_WHITE);
-					}
-					else
-						px = g_PrintColorStr(x+m_vampire_plus_x+127+100+TitleOffset_x, y+m_vampire_plus_y+80+22+accel_gap*i+TitleOffset_y, "Shift", gpC_base->m_chatting_pi, RGB_WHITE);
-				}
-				if(px != 0)
-				{
-					px = g_PrintColorStr(px, y+m_vampire_plus_y+80+22+accel_gap*i+TitleOffset_y, "+", gpC_base->m_chatting_pi, RGB_WHITE);
-					px = g_PrintColorStr(px, y+m_vampire_plus_y+80+22+accel_gap*i+TitleOffset_y, scancode_name[ACCEL_GET_KEY(key)], gpC_base->m_chatting_pi, RGB_WHITE);
-				}
-				else
-					px = g_PrintColorStr(x+m_vampire_plus_x+127+100+TitleOffset_x, y+m_vampire_plus_y+80+22+accel_gap*i+TitleOffset_y, scancode_name[ACCEL_GET_KEY(key)], gpC_base->m_chatting_pi, RGB_WHITE);
-							
-				//				char sz_temp[20];
-				//				wsprintf(sz_temp, "%d", m_focus_hotkey);
-				//				g_PrintColorStr(x+m_vampire_plus_x+127+100, y+m_vampire_plus_y+80, sz_temp, gpC_base->m_chatting_pi, RGB_WHITE);
-				
-			}	
-			g_FL2_ReleaseDC();
-			if(false == m_IsTitle)
-				m_pC_scroll_bar->Show(x+m_vampire_plus_x+TitleOffset_x, y+m_vampire_plus_y+TitleOffset_y);
-			else
-				m_pC_scroll_bar->Show3(x+m_vampire_plus_x+TitleOffset_x, y+m_vampire_plus_y+TitleOffset_y);
+			TitleOffset_x = -115;
+			TitleOffset_y = -20;
 		}
-		break;
+
+		// (the control tab has no checkbox rows any more -- see CHECK_CONTROL_MAX)
+
+		if (gpC_base->m_p_DDSurface_back->Lock())
+		{
+			m_pC_main_spk->BltLocked(x + m_vampire_plus_x + 125 + TitleOffset_x, y + m_vampire_plus_y + 80 + TitleOffset_y, HOTKEY_WINDOW);
+			m_pC_control_button_group->Show();
+			gpC_base->m_p_DDSurface_back->Unlock();
+		}
+
+		g_FL2_GetDC();
+		//g_PrintColorStr(x+m_vampire_plus_x+130, y+m_vampire_plus_y+56, "Input Style : ", gpC_base->m_user_id_pi, strColor);
+		g_PrintColorStr(x + m_vampire_plus_x + m_check_x + 30, y + m_vampire_plus_y + m_check_y,
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_NORMAL_CHATTING].GetString(), gpC_base->m_user_id_pi, strColor);
+
+		g_PrintColorStr(x + m_vampire_plus_x + m_check_x + 140, y + m_vampire_plus_y + m_check_y,
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_ENTER_CHATTING].GetString(), gpC_base->m_user_id_pi, strColor);
+
+		//m_pC_etc_spk->Blt(x+m_vampire_plus_x+230, y+m_vampire_plus_y+53, HOTKEY_BACK);
+		//m_pC_etc_spk->Blt(x+m_vampire_plus_x+230+m_pC_etc_spk->GetWidth(HOTKEY_BACK), y+m_vampire_plus_y+53, HOTKEY_BACK_RIGHT);
+
+		// checkbox label loop removed with CHECK_CONTROL_MAX -> 0
+		//m_pC_etc_spk->Blt(x+m_vampire_plus_x+m_rt_value[RECT_MOUSE_SPEED].x, y+m_vampire_plus_y+m_rt_value[RECT_MOUSE_SPEED].y+5, VOLUME_BAR);
+		//if(m_check[CHECK_MOUSE_SPEED])
+			//m_pC_etc_spk->Blt(x+m_vampire_plus_x+m_rt_value[RECT_MOUSE_SPEED].x-m_pC_etc_spk->GetWidth(VOLUME_TAG)/2+m_value_mouse_speed*m_rt_value[RECT_MOUSE_SPEED].w/MAX_MOUSE_SPEED, y+m_vampire_plus_y+m_rt_value[RECT_MOUSE_SPEED].y, VOLUME_TAG);
+
+		// Accelator
+		const int accel_count = MAX_ACCELERATOR;
+		const int accel_gap = 15;
+		for (i = 0; i < min(accel_count, 7); i++)
+		{
+			const BYTE accel = ACCEL_NULL + i + 14 + m_pC_scroll_bar->GetScrollPos();
+			const char* pAccelName = g_pKeyAccelerator->GetName(accel);
+			g_PrintColorStr(x + m_vampire_plus_x + 127 + TitleOffset_x, y + m_vampire_plus_y + 80 + 22 + accel_gap * i + TitleOffset_y, pAccelName, gpC_base->m_chatting_pi, RGB_WHITE);
+			WORD key = g_pKeyAccelerator->GetKey(accel);
+			int px = 0;
+			if (ACCEL_HAS_CONTROL(key))
+				px = g_PrintColorStr(x + m_vampire_plus_x + 127 + 100 + px + TitleOffset_x, y + m_vampire_plus_y + 80 + 22 + accel_gap * i + TitleOffset_y, "Ctrl", gpC_base->m_chatting_pi, RGB_WHITE);
+			if (ACCEL_HAS_ALT(key))
+			{
+				if (px != 0)
+				{
+					px = g_PrintColorStr(px, y + m_vampire_plus_y + 80 + 22 + accel_gap * i + TitleOffset_y, "+", gpC_base->m_chatting_pi, RGB_WHITE);
+					px = g_PrintColorStr(px, y + m_vampire_plus_y + 80 + 22 + accel_gap * i + TitleOffset_y, "Alt", gpC_base->m_chatting_pi, RGB_WHITE);
+				}
+				else
+					px = g_PrintColorStr(x + m_vampire_plus_x + 127 + 100 + TitleOffset_x, y + m_vampire_plus_y + 80 + 22 + accel_gap * i + TitleOffset_y, "Alt", gpC_base->m_chatting_pi, RGB_WHITE);
+			}
+			if (ACCEL_HAS_SHIFT(key))
+			{
+				if (px != 0)
+				{
+					px = g_PrintColorStr(px, y + m_vampire_plus_y + 80 + 22 + accel_gap * i + TitleOffset_y, "+", gpC_base->m_chatting_pi, RGB_WHITE);
+					px = g_PrintColorStr(px, y + m_vampire_plus_y + 80 + 22 + accel_gap * i + TitleOffset_y, "Shift", gpC_base->m_chatting_pi, RGB_WHITE);
+				}
+				else
+					px = g_PrintColorStr(x + m_vampire_plus_x + 127 + 100 + TitleOffset_x, y + m_vampire_plus_y + 80 + 22 + accel_gap * i + TitleOffset_y, "Shift", gpC_base->m_chatting_pi, RGB_WHITE);
+			}
+			if (px != 0)
+			{
+				px = g_PrintColorStr(px, y + m_vampire_plus_y + 80 + 22 + accel_gap * i + TitleOffset_y, "+", gpC_base->m_chatting_pi, RGB_WHITE);
+				px = g_PrintColorStr(px, y + m_vampire_plus_y + 80 + 22 + accel_gap * i + TitleOffset_y, scancode_name[ACCEL_GET_KEY(key)], gpC_base->m_chatting_pi, RGB_WHITE);
+			}
+			else
+				px = g_PrintColorStr(x + m_vampire_plus_x + 127 + 100 + TitleOffset_x, y + m_vampire_plus_y + 80 + 22 + accel_gap * i + TitleOffset_y, scancode_name[ACCEL_GET_KEY(key)], gpC_base->m_chatting_pi, RGB_WHITE);
+
+			//char sz_temp[20];
+			//wsprintf(sz_temp, "%d", m_focus_hotkey);
+			//g_PrintColorStr(x+m_vampire_plus_x+127+100, y+m_vampire_plus_y+80, sz_temp, gpC_base->m_chatting_pi, RGB_WHITE);
+
+		}
+		g_FL2_ReleaseDC();
+		if (false == m_IsTitle)
+			m_pC_scroll_bar->Show(x + m_vampire_plus_x + TitleOffset_x, y + m_vampire_plus_y + TitleOffset_y);
+		else
+			m_pC_scroll_bar->Show3(x + m_vampire_plus_x + TitleOffset_x, y + m_vampire_plus_y + TitleOffset_y);
+	}
+	break;
 
 	case TAB_GRAPHIC:
+	{
+		const char* check_string[CHECK_GRAPHIC_MAX] =
 		{
-			const char* check_string[CHECK_GRAPHIC_MAX] =
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_3D_ACCEL].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_ALPHA_HPBAR].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_SHED_BLOOD].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_HIDE_SOFT].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_GAME_BRIGHT].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_CHATTING_TALK].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_PUT_FPS].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_WINDOW_ALPHA].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_DENSITY_ALPHA].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_DO_NOT_SHOW_PERSNALSHOP_MSG].GetString(),
+
+		};
+
+		g_FL2_GetDC();
+
+		// ???
+		//091112 fakaus ??? ???? ??????
+		//g_PrintColorStr(x+m_vampire_plus_x+m_check_x+30, y+m_vampire_plus_y+m_check_y, 
+		//	(*g_pGameStringTable)[UI_STRING_MESSAGE_800x600].GetString(), gpC_base->m_user_id_pi, strColor);
+
+		//g_PrintColorStr(x+m_vampire_plus_x+m_check_x+140, y+m_vampire_plus_y+m_check_y, 
+		//	(*g_pGameStringTable)[UI_STRING_MESSAGE_1024x768].GetString(), gpC_base->m_user_id_pi, strColor);
+
+		for (i = 0; i < CHECK_GRAPHIC_MAX; i++)
+			g_PrintColorStr(x + m_vampire_plus_x + m_check_x + 15, y + m_vampire_plus_y + m_check_y + m_check_gap * i, check_string[i], gpC_base->m_user_id_pi, strColor);
+		g_FL2_ReleaseDC();
+
+		if (gpC_base->m_p_DDSurface_back->Lock())
+		{
+			if (false == m_IsTitle)
 			{
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_3D_ACCEL].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_ALPHA_HPBAR].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_SHED_BLOOD].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_HIDE_SOFT].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_GAME_BRIGHT].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_CHATTING_TALK].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_PUT_FPS].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_WINDOW_ALPHA].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_DENSITY_ALPHA].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_DO_NOT_SHOW_PERSNALSHOP_MSG].GetString(),				
-				
-			};
-			
-			g_FL2_GetDC();
+				m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_GAMMA].x, y + m_vampire_plus_y + m_rt_value[RECT_GAMMA].y + 5, VOLUME_BAR);
+				if (m_check[CHECK_GAMMA])
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_GAMMA].x - m_pC_etc_spk->GetWidth(VOLUME_TAG) / 2 + (m_value_gamma - MIN_GAMMA_VALUE) * m_rt_value[RECT_GAMMA].w / MAX_GAMMA_VALUE, y + m_vampire_plus_y + m_rt_value[RECT_GAMMA].y, VOLUME_TAG);
 
-			// �ػ�
-			//091112 fakaus �ػ� �ؽ�Ʈ ��Ȱ��ȭ
-			//g_PrintColorStr(x+m_vampire_plus_x+m_check_x+30, y+m_vampire_plus_y+m_check_y, 
-			//	(*g_pGameStringTable)[UI_STRING_MESSAGE_800x600].GetString(), gpC_base->m_user_id_pi, strColor);
-			
-			//g_PrintColorStr(x+m_vampire_plus_x+m_check_x+140, y+m_vampire_plus_y+m_check_y, 
-			//	(*g_pGameStringTable)[UI_STRING_MESSAGE_1024x768].GetString(), gpC_base->m_user_id_pi, strColor);
-
-			for(i = 0; i < CHECK_GRAPHIC_MAX; i++)
-				g_PrintColorStr(x+m_vampire_plus_x+m_check_x+15, y+m_vampire_plus_y+m_check_y+m_check_gap*(1+i), check_string[i], gpC_base->m_user_id_pi, strColor);
-			g_FL2_ReleaseDC();
-
-			if(gpC_base->m_p_DDSurface_back->Lock())
-			{
-				if(false == m_IsTitle)
-				{
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_GAMMA].x, y+m_vampire_plus_y+m_rt_value[RECT_GAMMA].y+5, VOLUME_BAR);
-					if(m_check[CHECK_GAMMA])
-						m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_GAMMA].x-m_pC_etc_spk->GetWidth(VOLUME_TAG)/2+(m_value_gamma-MIN_GAMMA_VALUE)*m_rt_value[RECT_GAMMA].w/MAX_GAMMA_VALUE, y+m_vampire_plus_y+m_rt_value[RECT_GAMMA].y, VOLUME_TAG);
-					
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_ALPHA].x, y+m_vampire_plus_y+m_rt_value[RECT_ALPHA].y+5, VOLUME_BAR);
-					if(m_check[CHECK_ALPHA_DEPTH])
-						m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_ALPHA].x-m_pC_etc_spk->GetWidth(VOLUME_TAG)/2+(g_pUserOption->ALPHA_DEPTH)*m_rt_value[RECT_ALPHA].w/MAX_ALPHA_DEPTH, y+m_vampire_plus_y+m_rt_value[RECT_ALPHA].y, VOLUME_TAG);
-				}
-				else
-				{
-					m_pC_main_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_GAMMA].x, y+m_vampire_plus_y+m_rt_value[RECT_GAMMA].y+5, TITLE_VOLUME_BAR);
-					if(m_check[CHECK_GAMMA])
-						m_pC_main_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_GAMMA].x-m_pC_main_spk->GetWidth(TITLE_VOLUME_TAG)/2+(m_value_gamma-MIN_GAMMA_VALUE)*m_rt_value[RECT_GAMMA].w/MAX_GAMMA_VALUE, y+m_vampire_plus_y+m_rt_value[RECT_GAMMA].y, TITLE_VOLUME_TAG);
-					
-					m_pC_main_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_ALPHA].x, y+m_vampire_plus_y+m_rt_value[RECT_ALPHA].y+5, TITLE_VOLUME_BAR);
-					if(m_check[CHECK_ALPHA_DEPTH])
-						m_pC_main_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_ALPHA].x-m_pC_main_spk->GetWidth(TITLE_VOLUME_TAG)/2+(g_pUserOption->ALPHA_DEPTH)*m_rt_value[RECT_ALPHA].w/MAX_ALPHA_DEPTH, y+m_vampire_plus_y+m_rt_value[RECT_ALPHA].y, TITLE_VOLUME_TAG);
-				}
-				m_pC_graphic_button_group->Show();
-				gpC_base->m_p_DDSurface_back->Unlock();
+				m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_ALPHA].x, y + m_vampire_plus_y + m_rt_value[RECT_ALPHA].y + 5, VOLUME_BAR);
+				if (m_check[CHECK_ALPHA_DEPTH])
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_ALPHA].x - m_pC_etc_spk->GetWidth(VOLUME_TAG) / 2 + (g_pUserOption->ALPHA_DEPTH) * m_rt_value[RECT_ALPHA].w / MAX_ALPHA_DEPTH, y + m_vampire_plus_y + m_rt_value[RECT_ALPHA].y, VOLUME_TAG);
 			}
+			else
+			{
+				m_pC_main_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_GAMMA].x, y + m_vampire_plus_y + m_rt_value[RECT_GAMMA].y + 5, TITLE_VOLUME_BAR);
+				if (m_check[CHECK_GAMMA])
+					m_pC_main_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_GAMMA].x - m_pC_main_spk->GetWidth(TITLE_VOLUME_TAG) / 2 + (m_value_gamma - MIN_GAMMA_VALUE) * m_rt_value[RECT_GAMMA].w / MAX_GAMMA_VALUE, y + m_vampire_plus_y + m_rt_value[RECT_GAMMA].y, TITLE_VOLUME_TAG);
+
+				m_pC_main_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_ALPHA].x, y + m_vampire_plus_y + m_rt_value[RECT_ALPHA].y + 5, TITLE_VOLUME_BAR);
+				if (m_check[CHECK_ALPHA_DEPTH])
+					m_pC_main_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_ALPHA].x - m_pC_main_spk->GetWidth(TITLE_VOLUME_TAG) / 2 + (g_pUserOption->ALPHA_DEPTH) * m_rt_value[RECT_ALPHA].w / MAX_ALPHA_DEPTH, y + m_vampire_plus_y + m_rt_value[RECT_ALPHA].y, TITLE_VOLUME_TAG);
+			}
+			m_pC_graphic_button_group->Show();
+			gpC_base->m_p_DDSurface_back->Unlock();
 		}
-		break;
+	}
+	break;
 
 	case TAB_SOUND:
+	{
+		const char* check_string[CHECK_SOUND_MAX] =
 		{
-			const char* check_string[CHECK_SOUND_MAX] =
-			{
-//				"���� �Ҹ� ���",
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_SOUND_VOLUME].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_MUSIC_VOLUME].GetString(),
-			};
+			//"???? ??? ???",
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_SOUND_VOLUME].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_MUSIC_VOLUME].GetString(),
+		};
 
-			g_FL2_GetDC();
-			for(i = 0; i < CHECK_SOUND_MAX; i++)
-				g_PrintColorStr(x+m_vampire_plus_x+m_check_x+15, y+m_vampire_plus_y+m_check_y+m_check_gap*i, check_string[i], gpC_base->m_user_id_pi, strColor);
-//			g_PrintColorStr(x+m_vampire_plus_x+m_check_x+80, y+m_vampire_plus_y+m_check_y+m_check_gap*i, "WAV", gpC_base->m_user_id_pi, strColor);
-//			g_PrintColorStr(x+m_vampire_plus_x+m_check_x+140, y+m_vampire_plus_y+m_check_y+m_check_gap*i, "MIDI", gpC_base->m_user_id_pi, strColor);
-			g_FL2_ReleaseDC();
+		g_FL2_GetDC();
+		for (i = 0; i < CHECK_SOUND_MAX; i++)
+			g_PrintColorStr(x + m_vampire_plus_x + m_check_x + 15, y + m_vampire_plus_y + m_check_y + m_check_gap * i, check_string[i], gpC_base->m_user_id_pi, strColor);
+		//			g_PrintColorStr(x+m_vampire_plus_x+m_check_x+80, y+m_vampire_plus_y+m_check_y+m_check_gap*i, "WAV", gpC_base->m_user_id_pi, strColor);
+		//			g_PrintColorStr(x+m_vampire_plus_x+m_check_x+140, y+m_vampire_plus_y+m_check_y+m_check_gap*i, "MIDI", gpC_base->m_user_id_pi, strColor);
+		g_FL2_ReleaseDC();
 
-			if(gpC_base->m_p_DDSurface_back->Lock())
+		if (gpC_base->m_p_DDSurface_back->Lock())
+		{
+			if (false == m_IsTitle)
 			{
-				if(false == m_IsTitle)
-				{
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_SOUND].x, y+m_vampire_plus_y+m_rt_value[RECT_SOUND].y+5, VOLUME_BAR);
-					m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_MUSIC].x, y+m_vampire_plus_y+m_rt_value[RECT_MUSIC].y+5, VOLUME_BAR);
-					if(m_check[CHECK_SOUND])
-						m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_SOUND].x-m_pC_etc_spk->GetWidth(VOLUME_TAG)/2+m_volume_sound*m_rt_value[RECT_SOUND].w/MAX_SOUND_VOLUME, y+m_vampire_plus_y+m_rt_value[RECT_SOUND].y, VOLUME_TAG);
-					if(m_check[CHECK_MUSIC])
-						m_pC_etc_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_MUSIC].x-m_pC_etc_spk->GetWidth(VOLUME_TAG)/2+m_volume_music*m_rt_value[RECT_MUSIC].w/MAX_MUSIC_VOLUME, y+m_vampire_plus_y+m_rt_value[RECT_MUSIC].y, VOLUME_TAG);
-				}
-				else
-				{
-					m_pC_main_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_SOUND].x, y+m_vampire_plus_y+m_rt_value[RECT_SOUND].y+5, TITLE_VOLUME_BAR);
-					m_pC_main_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_MUSIC].x, y+m_vampire_plus_y+m_rt_value[RECT_MUSIC].y+5, TITLE_VOLUME_BAR);
-					if(m_check[CHECK_SOUND])
-						m_pC_main_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_SOUND].x-m_pC_main_spk->GetWidth(TITLE_VOLUME_TAG)/2+m_volume_sound*m_rt_value[RECT_SOUND].w/MAX_SOUND_VOLUME, y+m_vampire_plus_y+m_rt_value[RECT_SOUND].y, TITLE_VOLUME_TAG);
-					if(m_check[CHECK_MUSIC])
-						m_pC_main_spk->BltLocked(x+m_vampire_plus_x+m_rt_value[RECT_MUSIC].x-m_pC_main_spk->GetWidth(TITLE_VOLUME_TAG)/2+m_volume_music*m_rt_value[RECT_MUSIC].w/MAX_MUSIC_VOLUME, y+m_vampire_plus_y+m_rt_value[RECT_MUSIC].y, TITLE_VOLUME_TAG);
-				}
-				m_pC_sound_button_group->Show();
-				gpC_base->m_p_DDSurface_back->Unlock();			
-			}			
+				m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_SOUND].x, y + m_vampire_plus_y + m_rt_value[RECT_SOUND].y + 5, VOLUME_BAR);
+				m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_MUSIC].x, y + m_vampire_plus_y + m_rt_value[RECT_MUSIC].y + 5, VOLUME_BAR);
+				if (m_check[CHECK_SOUND])
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_SOUND].x - m_pC_etc_spk->GetWidth(VOLUME_TAG) / 2 + m_volume_sound * m_rt_value[RECT_SOUND].w / MAX_SOUND_VOLUME, y + m_vampire_plus_y + m_rt_value[RECT_SOUND].y, VOLUME_TAG);
+				if (m_check[CHECK_MUSIC])
+					m_pC_etc_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_MUSIC].x - m_pC_etc_spk->GetWidth(VOLUME_TAG) / 2 + m_volume_music * m_rt_value[RECT_MUSIC].w / MAX_MUSIC_VOLUME, y + m_vampire_plus_y + m_rt_value[RECT_MUSIC].y, VOLUME_TAG);
+			}
+			else
+			{
+				m_pC_main_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_SOUND].x, y + m_vampire_plus_y + m_rt_value[RECT_SOUND].y + 5, TITLE_VOLUME_BAR);
+				m_pC_main_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_MUSIC].x, y + m_vampire_plus_y + m_rt_value[RECT_MUSIC].y + 5, TITLE_VOLUME_BAR);
+				if (m_check[CHECK_SOUND])
+					m_pC_main_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_SOUND].x - m_pC_main_spk->GetWidth(TITLE_VOLUME_TAG) / 2 + m_volume_sound * m_rt_value[RECT_SOUND].w / MAX_SOUND_VOLUME, y + m_vampire_plus_y + m_rt_value[RECT_SOUND].y, TITLE_VOLUME_TAG);
+				if (m_check[CHECK_MUSIC])
+					m_pC_main_spk->BltLocked(x + m_vampire_plus_x + m_rt_value[RECT_MUSIC].x - m_pC_main_spk->GetWidth(TITLE_VOLUME_TAG) / 2 + m_volume_music * m_rt_value[RECT_MUSIC].w / MAX_MUSIC_VOLUME, y + m_vampire_plus_y + m_rt_value[RECT_MUSIC].y, TITLE_VOLUME_TAG);
+			}
+			m_pC_sound_button_group->Show();
+			gpC_base->m_p_DDSurface_back->Unlock();
 		}
-		break;
+	}
+	break;
 
 	case TAB_GAME:
+	{
+		const char* check_string[CHECK_GAME_MAX] =
 		{
-			const char* check_string[CHECK_GAME_MAX] =
-			{
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_SHOW_BASIC_HELP].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_NO_LISTEN_BAD_TALK].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_LOAD_ALL_IMAGE].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_CHATTING_COLOR_WHITE].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_RUN_TEEN_VERSION].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_OPEN_WINDOW_WHEN_WHISPER].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_DO_NOT_WAR_MSG].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_DO_NOT_LAIR_MSG].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_DO_NOT_HOLY_LAND_MSG].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_SHOW_BASIC_HELP].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_NO_LISTEN_BAD_TALK].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_LOAD_ALL_IMAGE].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_CHATTING_COLOR_WHITE].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_RUN_TEEN_VERSION].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_OPEN_WINDOW_WHEN_WHISPER].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_DO_NOT_WAR_MSG].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_DO_NOT_LAIR_MSG].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_DO_NOT_HOLY_LAND_MSG].GetString(),
 #if __CONTENTS(__JAPAN_UI)
 				(*g_pGameStringTable)[UI_STRING_MESSAGE_ONE_CLICK_ATTACK_OFF].GetString(),
 #endif //__JAPAN_UI
 #if __CONTENTS(__LANGUAGE_CHANGE)
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_GAMEMONEY_WITH_HANGUL].GetString(),	
+				(*g_pGameStringTable)[UI_STRING_MESSAGE_GAMEMONEY_WITH_HANGUL].GetString(),
 #endif	//__LANGUAGE
 #if __CONTENTS(__GAMEOPTION_ITEMBAY_MESSAGEBOX)
 				(*g_pGameStringTable)[UI_GAME_OPTION_ITEM_BAY_MESSAGE_BOX].GetString(),
 #endif
 
-//				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_NOT_SEND_MY_INFO].GetString(),
-/*				"�ʺ��ڿ� ���� ����",
-				"���۸� ���� �ʱ�",
-//				"���� ���ϰ� �ϱ�",
-//				"��Ƽ �ʴ� �ź�",
-//				"��Ƽ ���� ��û �ź�",
-				"���̵��� �� ���� �̹��� �ҷ�����",
-				"ä�� ��� ������� ����",
-				"ƾ�������� ����",
-				"�ӼӸ� ������ ä��â ����",*/
-			};
-			
-			g_FL2_GetDC();
-			for(i = 0; i < CHECK_GAME_MAX; i++)
-				g_PrintColorStr(x+m_vampire_plus_x+m_check_x+15, y+m_vampire_plus_y+m_check_y+m_check_gap*i, check_string[i], gpC_base->m_user_id_pi, strColor);
-			g_FL2_ReleaseDC();		
-		}
-		break;
+				//				(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_NOT_SEND_MY_INFO].GetString(),
+				/*				"?????? ???? ????",
+								"????? ???? ???",
+				//				"???? ????? ???",
+				//				"??? ??? ???",
+				//				"??? ???? ??? ???",
+								"??????? ?? ???? ????? ???????",
+								"??? ??? ??????? ????",
+								"????????? ????",
+								"???? ?????? ???? ????",*/
+		};
+
+		g_FL2_GetDC();
+		for (i = 0; i < CHECK_GAME_MAX; i++)
+			g_PrintColorStr(x + m_vampire_plus_x + m_check_x + 15, y + m_vampire_plus_y + m_check_y + m_check_gap * i, check_string[i], gpC_base->m_user_id_pi, strColor);
+		g_FL2_ReleaseDC();
 	}
-	
-	if(gpC_base->m_p_DDSurface_back->Lock())
+	break;
+	}
+
+	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
 		m_pC_button_group->Show();
-		if(m_i_selected_tab==TAB_GAME)
+		if (m_i_selected_tab == TAB_GAME)
 			m_pC_game_button_group->Show();
 
-//		if(true == m_IsTitle)
-//			DrawTitleEffect();
+		//		if(true == m_IsTitle)
+		//			DrawTitleEffect();
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
-	
 
-	if(gC_vs_ui.IsAccelMode())
+
+	if (gC_vs_ui.IsAccelMode())
 	{
 		Rect rect;
 		rect.w = 330;
@@ -9751,18 +9755,18 @@ void C_VS_UI_OPTION::Show()
 		//rect.x = RESOLUTION_X/2-rect.w/2;
 		//rect.y = RESOLUTION_Y/2-rect.h/2;
 
-		rect.x = g_pUserInformation->iResolution_x/2-rect.w/2;
-		rect.y = g_pUserInformation->iResolution_y/2-rect.h/2;
-		
-		if(m_IsTitle)
+		rect.x = g_pUserInformation->iResolution_x / 2 - rect.w / 2;
+		rect.y = g_pUserInformation->iResolution_y / 2 - rect.h / 2;
+
+		if (m_IsTitle)
 		{
 			RECT mssageBox;
-			
+
 			mssageBox.left = rect.x;
 			mssageBox.top = rect.y;
 			mssageBox.right = rect.x + rect.w;
 			mssageBox.bottom = rect.x + rect.h;
-			
+
 			gpC_base->m_p_DDSurface_back->DrawRect(&mssageBox, 0x3BCA);
 			gpC_base->m_p_DDSurface_back->BltColorAlpha(&mssageBox, 0x2245, 5);
 		}
@@ -9770,24 +9774,24 @@ void C_VS_UI_OPTION::Show()
 		{
 			gpC_global_resource->DrawDialog(rect, g_pUserOption->DefaultAlpha != FALSE);
 		}
-		
+
 		const BYTE accel = gC_vs_ui.GetAccelKey();
-		const char *pAccelName = g_pKeyAccelerator->GetName(accel);
-		int px = rect.x+30;
-		int py = rect.y+30;
-		
+		const char* pAccelName = g_pKeyAccelerator->GetName(accel);
+		int px = rect.x + 30;
+		int py = rect.y + 30;
+
 		g_FL2_GetDC();
 		//px = g_PrintColorStr(px, py, (*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_ACCEL_NAME].GetString(), gpC_base->m_chatting_pi, RGB_WHITE);
 		g_PrintColorStr(px, py, pAccelName, gpC_base->m_chatting_pi, RGB_WHITE);
 		WORD key = g_pKeyAccelerator->GetKey(accel);
-		px = rect.x+30+150;
+		px = rect.x + 30 + 150;
 		//px = g_PrintColorStr(px, py, (*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_ACCEL_KEY].GetString(), gpC_base->m_chatting_pi, RGB_WHITE);
 		int old_px = px;
-		if(ACCEL_HAS_CONTROL(key))
+		if (ACCEL_HAS_CONTROL(key))
 			px = g_PrintColorStr(px, py, "Ctrl", gpC_base->m_chatting_pi, RGB_WHITE);
-		if(ACCEL_HAS_ALT(key))
+		if (ACCEL_HAS_ALT(key))
 		{
-			if(px != old_px)
+			if (px != old_px)
 			{
 				px = g_PrintColorStr(px, py, "+", gpC_base->m_chatting_pi, RGB_WHITE);
 				px = g_PrintColorStr(px, py, "Alt", gpC_base->m_chatting_pi, RGB_WHITE);
@@ -9795,9 +9799,9 @@ void C_VS_UI_OPTION::Show()
 			else
 				px = g_PrintColorStr(px, py, "Alt", gpC_base->m_chatting_pi, RGB_WHITE);
 		}
-		if(ACCEL_HAS_SHIFT(key))
+		if (ACCEL_HAS_SHIFT(key))
 		{
-			if(px != old_px)
+			if (px != old_px)
 			{
 				px = g_PrintColorStr(px, py, "+", gpC_base->m_chatting_pi, RGB_WHITE);
 				px = g_PrintColorStr(px, py, "Shift", gpC_base->m_chatting_pi, RGB_WHITE);
@@ -9805,16 +9809,16 @@ void C_VS_UI_OPTION::Show()
 			else
 				px = g_PrintColorStr(px, py, "Shift", gpC_base->m_chatting_pi, RGB_WHITE);
 		}
-		if(px != old_px)
+		if (px != old_px)
 		{
 			px = g_PrintColorStr(px, py, "+", gpC_base->m_chatting_pi, RGB_WHITE);
 			px = g_PrintColorStr(px, py, scancode_name[ACCEL_GET_KEY(key)], gpC_base->m_chatting_pi, RGB_WHITE);
 		}
 		else
 			px = g_PrintColorStr(px, py, scancode_name[ACCEL_GET_KEY(key)], gpC_base->m_chatting_pi, RGB_WHITE);
-	
-		g_PrintColorStr(rect.x+30, rect.y+50, (*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_MSG1].GetString(), gpC_base->m_chatting_pi, RGB_WHITE);
-		g_PrintColorStr(rect.x+30, rect.y+70,(*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_MSG2].GetString(), gpC_base->m_chatting_pi, RGB_WHITE);
+
+		g_PrintColorStr(rect.x + 30, rect.y + 50, (*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_MSG1].GetString(), gpC_base->m_chatting_pi, RGB_WHITE);
+		g_PrintColorStr(rect.x + 30, rect.y + 70, (*g_pGameStringTable)[UI_STRING_MESSAGE_OPTION_MENU_MSG2].GetString(), gpC_base->m_chatting_pi, RGB_WHITE);
 		g_FL2_ReleaseDC();
 	}
 	SHOW_WINDOW_ATTR;
@@ -9859,26 +9863,26 @@ void C_VS_UI_OPTION::WindowEventReceiver(id_t event)
 //-----------------------------------------------------------------------------
 bool C_VS_UI_OPTION::IsPixel(int _x, int _y)
 {
-//	return m_image_spk.IsPixel(SCR2WIN_X(_x), SCR2WIN_Y(_y));
-	if(m_pC_main_spk)
+	//	return m_image_spk.IsPixel(SCR2WIN_X(_x), SCR2WIN_Y(_y));
+	if (m_pC_main_spk)
 	{
-		return m_pC_main_spk->IsPixel(_x-x, _y-y);
+		return m_pC_main_spk->IsPixel(_x - x, _y - y);
 	}
 	return false;
 }
 
-void C_VS_UI_OPTION::Background_Music_ONOFF( EXEC_CHECK_ID check_id )
+void C_VS_UI_OPTION::Background_Music_ONOFF(EXEC_CHECK_ID check_id)
 {
-	if(m_check[check_id] != CHECK_DISABLE)
+	if (m_check[check_id] != CHECK_DISABLE)
 	{
-		m_check[check_id] = (m_check[check_id] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+		m_check[check_id] = (m_check[check_id] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 		g_pUserOption->PlayMusic = m_check[check_id] == CHECK_CHECK;
-		gpC_base->SendMessage( UI_CHANGE_OPTION, check_id, m_check[check_id] == CHECK_CHECK );
-		
-		if(g_pUserOption->PlayMusic)
+		gpC_base->SendMessage(UI_CHANGE_OPTION, check_id, m_check[check_id] == CHECK_CHECK);
+
+		if (g_pUserOption->PlayMusic)
 		{
-			m_check[CHECK_WAV] = g_pUserOption->PlayWaveMusic?CHECK_CHECK:CHECK_NOT;
-			m_check[CHECK_MIDI] = g_pUserOption->PlayWaveMusic?CHECK_NOT:CHECK_CHECK;
+			m_check[CHECK_WAV] = g_pUserOption->PlayWaveMusic ? CHECK_CHECK : CHECK_NOT;
+			m_check[CHECK_MIDI] = g_pUserOption->PlayWaveMusic ? CHECK_NOT : CHECK_CHECK;
 		}
 		else
 		{
@@ -9888,17 +9892,17 @@ void C_VS_UI_OPTION::Background_Music_ONOFF( EXEC_CHECK_ID check_id )
 	}
 }
 
-void C_VS_UI_OPTION::Effect_Music_ONOFF( EXEC_CHECK_ID check_id )
+void C_VS_UI_OPTION::Effect_Music_ONOFF(EXEC_CHECK_ID check_id)
 {
-	if(m_check[check_id] != CHECK_DISABLE)
+	if (m_check[check_id] != CHECK_DISABLE)
 	{
-		m_check[check_id] = (m_check[check_id] == CHECK_CHECK)?CHECK_NOT:CHECK_CHECK;
+		m_check[check_id] = (m_check[check_id] == CHECK_CHECK) ? CHECK_NOT : CHECK_CHECK;
 		g_pUserOption->PlaySound = m_check[check_id] == CHECK_CHECK;
-		
+
 		//			if(g_pUserOption->PlaySound)m_check[CHECK_YELL] = g_pUserOption->PlayYellSound?CHECK_CHECK:CHECK_NOT;
 		//			else m_check[CHECK_YELL] = CHECK_DISABLE;
-		
-		gpC_base->SendMessage( UI_CHANGE_OPTION, CHECK_SOUND, m_check[check_id] == CHECK_CHECK );
+
+		gpC_base->SendMessage(UI_CHANGE_OPTION, CHECK_SOUND, m_check[check_id] == CHECK_CHECK);
 	}
 }
 
@@ -9916,7 +9920,7 @@ C_VS_UI_GO_BILING_PAGE::C_VS_UI_GO_BILING_PAGE(BILING_MSG_LIST msg)
 	AttrKeyboardControl(true);
 	m_biling_mode = msg;
 
-	// �ݸ�����
+	// ???????
 	int w_w = 350;
 	int w_h = 200;
 
@@ -9924,17 +9928,17 @@ C_VS_UI_GO_BILING_PAGE::C_VS_UI_GO_BILING_PAGE(BILING_MSG_LIST msg)
 	int ok_offset_x, ok_offset_y;
 
 	ok_offset_x = w_w - 150;
-	ok_offset_y = w_h-60;
+	ok_offset_y = w_h - 60;
 	cancel_offset_x = w_w - 75;
-	cancel_offset_y = w_h-60;
+	cancel_offset_y = w_h - 60;
 
-	
+
 	//Set(RESOLUTION_X/2-w_w/2, RESOLUTION_Y/2-w_h/2, w_w, w_h);
-	Set(g_pUserInformation->iResolution_x/2-w_w/2, g_pUserInformation->iResolution_y/2-w_h/2, w_w, w_h);
+	Set(g_pUserInformation->iResolution_x / 2 - w_w / 2, g_pUserInformation->iResolution_y / 2 - w_h / 2, w_w, w_h);
 
 	m_pC_button_group = new ButtonGroup(this);
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x+ok_offset_x, y+ok_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_OK), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_OK), BILING_OK, this, C_GLOBAL_RESOURCE::AB_BUTTON_OK));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x+cancel_offset_x, y+cancel_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_OK), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_OK), BILING_CANCEL, this, C_GLOBAL_RESOURCE::AB_BUTTON_CANCEL));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x + ok_offset_x, y + ok_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_OK), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_OK), BILING_OK, this, C_GLOBAL_RESOURCE::AB_BUTTON_OK));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x + cancel_offset_x, y + cancel_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_OK), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_OK), BILING_CANCEL, this, C_GLOBAL_RESOURCE::AB_BUTTON_CANCEL));
 
 }
 
@@ -9950,14 +9954,14 @@ C_VS_UI_GO_BILING_PAGE::~C_VS_UI_GO_BILING_PAGE()
 	DeleteNew(m_pC_button_group);
 }
 
-void	C_VS_UI_GO_BILING_PAGE::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
+void	C_VS_UI_GO_BILING_PAGE::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	static char * m_help_string[2] = {
+	static char* m_help_string[2] = {
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_GO_BILING_PAGE].GetString(),
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_CHAR_CANCEL].GetString()
 	};
 
-	g_descriptor_manager.Set(DID_INFO, p_button->x, p_button->y, (void *)m_help_string[p_button->GetID()],0,0);
+	g_descriptor_manager.Set(DID_INFO, p_button->x, p_button->y, (void*)m_help_string[p_button->GetID()], 0, 0);
 }
 
 //-----------------------------------------------------------------------------
@@ -9965,15 +9969,16 @@ void	C_VS_UI_GO_BILING_PAGE::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_butt
 //
 // 
 //-----------------------------------------------------------------------------
-void	C_VS_UI_GO_BILING_PAGE::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
-{	
-	if (p_button->GetFocusState())	
+void	C_VS_UI_GO_BILING_PAGE::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
+{
+	if (p_button->GetFocusState())
 	{
-		if(p_button->GetPressState())
-			gpC_global_resource->m_pC_assemble_box_button_spk->Blt(p_button->x, p_button->y, p_button->m_image_index+C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET);
+		if (p_button->GetPressState())
+			gpC_global_resource->m_pC_assemble_box_button_spk->Blt(p_button->x, p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET);
 		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->Blt(p_button->x, p_button->y, p_button->m_image_index+C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET);
-	} else
+			gpC_global_resource->m_pC_assemble_box_button_spk->Blt(p_button->x, p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET);
+	}
+	else
 		gpC_global_resource->m_pC_assemble_box_button_spk->Blt(p_button->x, p_button->y, p_button->m_image_index);
 
 }
@@ -10035,68 +10040,68 @@ void C_VS_UI_GO_BILING_PAGE::Process()
 void C_VS_UI_GO_BILING_PAGE::Show()
 {
 	gpC_global_resource->DrawDialog(x, y, w, h, GetAttributes()->alpha);
-	
+
 	g_FL2_GetDC();
 	std::string str;
 
-	switch(m_biling_mode)
+	switch (m_biling_mode)
 	{
-	case CANNOT_PLAY_MSG :
+	case CANNOT_PLAY_MSG:
 		str = (*g_pGameStringTable)[STRING_MESSAGE_SELECT_PC_CANNOT_PLAY].GetString();
 		str += "\n";
 		str += (*g_pGameStringTable)[UI_STRING_MESSAGE_WILL_YOU_GO_BILING_PAGE].GetString();
 		break;
-	case CANNOT_PLAY_BY_ATTR_MSG :
+	case CANNOT_PLAY_BY_ATTR_MSG:
 		str = (*g_pGameStringTable)[STRING_MESSAGE_SELECT_PC_CANNOT_PLAY_BY_ATTR].GetString();
 		str += "\n";
 		str += (*g_pGameStringTable)[UI_STRING_MESSAGE_WILL_YOU_GO_BILING_PAGE].GetString();
 		break;
-	default :
+	default:
 		str = "";
 	}
-	
-	int next=0;
+
+	int next = 0;
 	char sz_string[512];
-	
-	int print_x=30+x,vx;
-	int py = 40+y;
+
+	int print_x = 30 + x, vx;
+	int py = 40 + y;
 	const int print_gap = 20;
 	const int char_width = g_GetStringWidth("a", gpC_base->m_chatting_pi.hfont);
-	
+
 	vx = print_x;
-	
-	while(str.size() > next)
+
+	while (str.size() > next)
 	{
-		strcpy(sz_string, str.c_str()+next);
-		
-		char *sz_string2 = sz_string;
-		
-		while(*sz_string2 == ' ')		// ���� ��������
+		strcpy(sz_string, str.c_str() + next);
+
+		char* sz_string2 = sz_string;
+
+		while (*sz_string2 == ' ')		// ???? ????????
 		{
 			sz_string2++;
 			next++;
 		}
-		
-		int cut_pos = (x+w-30 -vx)/char_width;
-		
-		if(!g_PossibleStringCut(sz_string2, cut_pos))
+
+		int cut_pos = (x + w - 30 - vx) / char_width;
+
+		if (!g_PossibleStringCut(sz_string2, cut_pos))
 			cut_pos--;
 		sz_string2[cut_pos] = NULL;
-		
-		char *return_char = NULL;
-		if((return_char = strchr(sz_string2, '\n')) != NULL)	// return ó��
+
+		char* return_char = NULL;
+		if ((return_char = strchr(sz_string2, '\n')) != NULL)	// return ???
 		{
-			cut_pos = return_char - sz_string2+1;
-			sz_string2[cut_pos-1] = NULL;
+			cut_pos = return_char - sz_string2 + 1;
+			sz_string2[cut_pos - 1] = NULL;
 		}
-		
+
 		g_PrintColorStr(vx, py, sz_string2, gpC_base->m_chatting_pi, RGB_WHITE);
 		next += cut_pos;
 		vx = print_x;
 		py += print_gap;
 	}
 	m_pC_button_group->ShowDescription();
-	
+
 	g_FL2_ReleaseDC();
 
 	m_pC_button_group->Show();
@@ -10113,14 +10118,14 @@ void C_VS_UI_GO_BILING_PAGE::Run(id_t id)
 {
 	switch (id)
 	{
-		case BILING_OK:			
-			gpC_base->SendMessage(UI_GO_BILING_PAGE, TRUE);
-			Finish();
-			break;
+	case BILING_OK:
+		gpC_base->SendMessage(UI_GO_BILING_PAGE, TRUE);
+		Finish();
+		break;
 
-		case BILING_CANCEL:
-			Finish();
-			break;
+	case BILING_CANCEL:
+		Finish();
+		break;
 	}
 }
 
@@ -10148,13 +10153,13 @@ void C_VS_UI_GO_BILING_PAGE::KeyboardControl(UINT message, UINT key, long extra)
 	{
 		switch (key)
 		{
-			case VK_ESCAPE:
-				Run(BILING_CANCEL);
-				return;
+		case VK_ESCAPE:
+			Run(BILING_CANCEL);
+			return;
 
-			case VK_RETURN:
-				Run(BILING_OK);
-				return;
+		case VK_RETURN:
+			Run(BILING_OK);
+			return;
 		}
 	}
 }
@@ -10171,7 +10176,7 @@ C_VS_UI_NETMARBLE_AGREEMENT::C_VS_UI_NETMARBLE_AGREEMENT()
 	AttrTopmost(true);
 	AttrKeyboardControl(true);
 
-	// �ݸ�����
+	// ???????
 	int w_w = 400;
 	int w_h = 300;
 
@@ -10179,23 +10184,23 @@ C_VS_UI_NETMARBLE_AGREEMENT::C_VS_UI_NETMARBLE_AGREEMENT()
 	int ok_offset_x, ok_offset_y;
 
 	ok_offset_x = w_w - 150;
-	ok_offset_y = w_h-60;
+	ok_offset_y = w_h - 60;
 	cancel_offset_x = w_w - 75;
-	cancel_offset_y = w_h-60;
+	cancel_offset_y = w_h - 60;
 
 	m_pC_etc_spk = new C_SPRITE_PACK(SPK_OPTION);
-	
+
 	//Set(RESOLUTION_X/2-w_w/2, RESOLUTION_Y/2-w_h/2, w_w, w_h);
-	Set(g_pUserInformation->iResolution_x/2-w_w/2, g_pUserInformation->iResolution_y/2-w_h/2, w_w, w_h);
+	Set(g_pUserInformation->iResolution_x / 2 - w_w / 2, g_pUserInformation->iResolution_y / 2 - w_h / 2, w_w, w_h);
 
 	m_bCheck = false;
 
-	int checkx = x + 135 ; // 326;
-	int checky = y + 204 ; //356;
+	int checkx = x + 135; // 326;
+	int checky = y + 204; //356;
 
 	m_pC_button_group = new ButtonGroup(this);
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x+ok_offset_x, y+ok_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_OK), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_OK), BUTTON_OK, this, C_GLOBAL_RESOURCE::AB_BUTTON_OK));
-	m_pC_button_group->Add( new C_VS_UI_EVENT_BUTTON(checkx, checky, m_pC_etc_spk->GetWidth(CHECK_BACK_DISABLE), m_pC_etc_spk->GetHeight(CHECK_BACK_DISABLE), CHECK, this, CHECK_BACK_DISABLE));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x + ok_offset_x, y + ok_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_OK), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_OK), BUTTON_OK, this, C_GLOBAL_RESOURCE::AB_BUTTON_OK));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(checkx, checky, m_pC_etc_spk->GetWidth(CHECK_BACK_DISABLE), m_pC_etc_spk->GetHeight(CHECK_BACK_DISABLE), CHECK, this, CHECK_BACK_DISABLE));
 }
 
 //-----------------------------------------------------------------------------
@@ -10211,14 +10216,14 @@ C_VS_UI_NETMARBLE_AGREEMENT::~C_VS_UI_NETMARBLE_AGREEMENT()
 	DeleteNew(m_pC_etc_spk);
 }
 
-void	C_VS_UI_NETMARBLE_AGREEMENT::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
+void	C_VS_UI_NETMARBLE_AGREEMENT::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	static char * m_help_string = {
+	static char* m_help_string = {
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_I_AGREE].GetString()
 	};
 
-	if( p_button->GetID() == CHECK )
-		g_descriptor_manager.Set(DID_INFO, p_button->x, p_button->y, (void *)m_help_string,0,0);
+	if (p_button->GetID() == CHECK)
+		g_descriptor_manager.Set(DID_INFO, p_button->x, p_button->y, (void*)m_help_string, 0, 0);
 }
 
 //-----------------------------------------------------------------------------
@@ -10226,23 +10231,24 @@ void	C_VS_UI_NETMARBLE_AGREEMENT::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p
 //
 // 
 //-----------------------------------------------------------------------------
-void	C_VS_UI_NETMARBLE_AGREEMENT::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
-{	
-	if( p_button->GetID() == CHECK )
+void	C_VS_UI_NETMARBLE_AGREEMENT::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
+{
+	if (p_button->GetID() == CHECK)
 	{
-		m_pC_etc_spk->Blt(p_button->x,p_button->y, p_button->m_image_index);
-		if( m_bCheck )
-			m_pC_etc_spk->Blt(p_button->x+2, p_button->y+2, CHECK_FOCUS);
+		m_pC_etc_spk->Blt(p_button->x, p_button->y, p_button->m_image_index);
+		if (m_bCheck)
+			m_pC_etc_spk->Blt(p_button->x + 2, p_button->y + 2, CHECK_FOCUS);
 	}
 	else
 	{
-		if (p_button->GetFocusState())	
+		if (p_button->GetFocusState())
 		{
-			if(p_button->GetPressState())
-				gpC_global_resource->m_pC_assemble_box_button_spk->Blt(p_button->x, p_button->y, p_button->m_image_index+C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET);
+			if (p_button->GetPressState())
+				gpC_global_resource->m_pC_assemble_box_button_spk->Blt(p_button->x, p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET);
 			else
-				gpC_global_resource->m_pC_assemble_box_button_spk->Blt(p_button->x, p_button->y, p_button->m_image_index+C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET);
-		} else
+				gpC_global_resource->m_pC_assemble_box_button_spk->Blt(p_button->x, p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET);
+		}
+		else
 			gpC_global_resource->m_pC_assemble_box_button_spk->Blt(p_button->x, p_button->y, p_button->m_image_index);
 	}
 }
@@ -10304,57 +10310,57 @@ void C_VS_UI_NETMARBLE_AGREEMENT::Process()
 void C_VS_UI_NETMARBLE_AGREEMENT::Show()
 {
 	gpC_global_resource->DrawDialog(x, y, w, h, GetAttributes()->alpha);
-	
+
 	g_FL2_GetDC();
 	std::string str = (*g_pGameStringTable)[UI_STRING_MESSAGE_NETMARBLE_AGREEMENT].GetString();
 
-	int next=0;
+	int next = 0;
 	char sz_string[512];
-	
-	int print_x=30+x,vx;
-	int py = 40+y;
+
+	int print_x = 30 + x, vx;
+	int py = 40 + y;
 	const int print_gap = 20;
 	const int char_width = g_GetStringWidth("a", gpC_base->m_chatting_pi.hfont);
-	
+
 	vx = print_x;
-	
-	while(str.size() > next)
+
+	while (str.size() > next)
 	{
-		strcpy(sz_string, str.c_str()+next);
-		
-		char *sz_string2 = sz_string;
-		
-		while(*sz_string2 == ' ')		// ���� ��������
+		strcpy(sz_string, str.c_str() + next);
+
+		char* sz_string2 = sz_string;
+
+		while (*sz_string2 == ' ')		// ???? ????????
 		{
 			sz_string2++;
 			next++;
 		}
-		
-		int cut_pos = (x+w-30 -vx)/char_width;
-		
-		if(!g_PossibleStringCut(sz_string2, cut_pos))
+
+		int cut_pos = (x + w - 30 - vx) / char_width;
+
+		if (!g_PossibleStringCut(sz_string2, cut_pos))
 			cut_pos--;
 		sz_string2[cut_pos] = NULL;
-		
-		char *return_char = NULL;
-		if((return_char = strchr(sz_string2, '\n')) != NULL)	// return ó��
+
+		char* return_char = NULL;
+		if ((return_char = strchr(sz_string2, '\n')) != NULL)	// return ???
 		{
-			cut_pos = return_char - sz_string2+1;
-			sz_string2[cut_pos-1] = NULL;
+			cut_pos = return_char - sz_string2 + 1;
+			sz_string2[cut_pos - 1] = NULL;
 		}
-		
+
 		g_PrintColorStr(vx, py, sz_string2, gpC_base->m_chatting_pi, RGB_WHITE);
 		next += cut_pos;
 		vx = print_x;
 		py += print_gap;
 	}
-	
+
 	//int checkx = x + 135 ; // 326;
 	//int checky = y + 204 ; //356;
 
-	g_PrintColorStr( x + 135 + 18, y + 205, (*g_pGameStringTable)[UI_STRING_MESSAGE_I_AGREE].GetString(),gpC_base->m_chatting_pi, RGB_WHITE);
+	g_PrintColorStr(x + 135 + 18, y + 205, (*g_pGameStringTable)[UI_STRING_MESSAGE_I_AGREE].GetString(), gpC_base->m_chatting_pi, RGB_WHITE);
 	m_pC_button_group->ShowDescription();
-	
+
 	g_FL2_ReleaseDC();
 
 	m_pC_button_group->Show();
@@ -10369,14 +10375,14 @@ void C_VS_UI_NETMARBLE_AGREEMENT::Show()
 //-----------------------------------------------------------------------------
 void C_VS_UI_NETMARBLE_AGREEMENT::Run(id_t id)
 {
-	switch( id )
+	switch (id)
 	{
-	case BUTTON_OK :		
-		gpC_base->SendMessage(UI_NETMARBLE_AGREEMENT, m_bCheck );
+	case BUTTON_OK:
+		gpC_base->SendMessage(UI_NETMARBLE_AGREEMENT, m_bCheck);
 		Finish();
 		break;
 
-	case CHECK :
+	case CHECK:
 		m_bCheck = !m_bCheck;
 		break;
 	}
@@ -10402,19 +10408,19 @@ bool C_VS_UI_NETMARBLE_AGREEMENT::MouseControl(UINT message, int _x, int _y)
 //-----------------------------------------------------------------------------
 void C_VS_UI_NETMARBLE_AGREEMENT::KeyboardControl(UINT message, UINT key, long extra)
 {
-//	if (message == WM_KEYDOWN)
-//	{
-//		switch (key)
-//		{
-//			case VK_ESCAPE:
-//				Run(BILING_CANCEL);
-//				return;
-//
-//			case VK_RETURN:
-//				Run(BILING_OK);
-//				return;
-//		}
-//	}
+	//	if (message == WM_KEYDOWN)
+	//	{
+	//		switch (key)
+	//		{
+	//			case VK_ESCAPE:
+	//				Run(BILING_CANCEL);
+	//				return;
+	//
+	//			case VK_RETURN:
+	//				Run(BILING_OK);
+	//				return;
+	//		}
+	//	}
 }
 
 #endif //__TITLE_UI_RENWEAL

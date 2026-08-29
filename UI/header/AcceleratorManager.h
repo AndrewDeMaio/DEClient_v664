@@ -47,21 +47,21 @@ class AcceleratorManager : public MFunctionManager {
 		static void		Function_ACCEL_PARTYCHAT(void* pVoid);
 		static void		Function_ACCEL_GUILD(void* pVoid);
 		static void		Function_ACCEL_UNION(void* pVoid);
-//		static void		Function_ACCEL_GRADE2INFO(void* pVoid);
-//		static void		Function_ACCEL_GRADE3INFO(void* pVoid);
+		//static void		Function_ACCEL_GRADE2INFO(void* pVoid);
+		//static void		Function_ACCEL_GRADE3INFO(void* pVoid);
 		static void		Function_ACCEL_QUEST(void* pVoid);
 		static void		Function_ACCEL_MAILBOX(void* pVoid);
 		static void		Function_ACCEL_PETINFO(void* pVoid);
 		static void		Function_ACCEL_SUMMON_PET(void* pVoid);
 		static void		Function_ACCEL_TRIBE_PRIOR(void* pVoid);
 		static void		Function_ACCEL_TRIBE_NEXT(void* pVoid);
-//		static void		Function_ACCEL_GUILD_INFO(void* pVoid);
-//		static void		Function_ACCEL_GUILD_MEMBER_LIST(void* pVoid);
+		//static void		Function_ACCEL_GUILD_INFO(void* pVoid);
+		//static void		Function_ACCEL_GUILD_MEMBER_LIST(void* pVoid);
 		static void		Function_ACCEL_COER_ATTACK(void* pVoid);
 		static void		Function_ACCEL_SYSRQ(void* pVoid);
 		static void		Function_ACCEL_MINIMAP(void* pVoid);
-//		static void		Function_ACCEL_SLASH(void* pVoid);
-#if __CONTENTS(__GEAR_SWAP_CHANGE)	// AcceleratorManager 장착창 교체키 호출 함수 선언
+		//static void		Function_ACCEL_SLASH(void* pVoid);
+#if __CONTENTS(__GEAR_SWAP_CHANGE)	// AcceleratorManager function that handles gear swap
 		static void		Function_ACCEL_GEAR_CHANGE(void *pVoid);
 		static void		Function_ACCEL_GEAR_CHANGE_SHOW(void *pVoid);
 #endif // __GEAR_SWAP_CHANGE

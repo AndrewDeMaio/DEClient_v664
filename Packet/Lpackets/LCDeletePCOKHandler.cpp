@@ -45,7 +45,13 @@ void LCDeletePCOKHandler::execute ( LCDeletePCOK * pPacket , Player * pPlayer )
 
 		pClientPlayer->setPlayerStatus( CPS_AFTER_SENDING_CL_GET_PC_LIST );
 
-	#elif __WINDOWS__
+	// __WINDOWS__ is never defined anywhere in this tree, and #if treats an
+	// unknown identifier as 0 -- so with __LINUX__ also undefined, BOTH branches
+	// compiled out and this handler was an empty function. The client therefore
+	// never sent CLGetPCList after a delete, sat in MODE_WAIT_PCLIST until
+	// CWaitPacketUpdate::Update hit its timeout, and dropped to the main menu.
+	// _WIN32 is defined by MSVC for both 32- and 64-bit targets.
+	#elif defined(_WIN32)
 
 		ClientPlayer * pClientPlayer = dynamic_cast<ClientPlayer*>(pPlayer);
 

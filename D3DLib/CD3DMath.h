@@ -14,15 +14,15 @@
 //-----------------------------------------------------------------------------
 // Useful Math constants
 //-----------------------------------------------------------------------------
-const float g_PI       =  3.14159265358979323846f; // Pi
-const float g_2_PI     =  6.28318530717958623200f; // 2 * Pi
-const float g_PI_DIV_2 =  1.57079632679489655800f; // Pi / 2
-const float g_PI_DIV_4 =  0.78539816339744827900f; // Pi / 4
-const float g_INV_PI   =  0.31830988618379069122f; // 1 / Pi
-const float g_DEGTORAD =  0.01745329251994329547f; // Degrees to Radians
-const float g_RADTODEG = 57.29577951308232286465f; // Radians to Degrees
-const float g_HUGE     =  1.0e+38f;                // Huge number for float
-const float g_EPSILON  =  1.0e-5f;                 // Tolerance for floats
+const float g_PI       =  3.14159265358979323846f;	// Pi
+const float g_2_PI     =  6.28318530717958623200f;	// 2 * Pi
+const float g_PI_DIV_2 =  1.57079632679489655800f;	// Pi / 2
+const float g_PI_DIV_4 =  0.78539816339744827900f;	// Pi / 4
+const float g_INV_PI   =  0.31830988618379069122f;	// 1 / Pi
+const float g_DEGTORAD =  0.01745329251994329547f;	// Degrees to Radians
+const float g_RADTODEG =  57.29577951308232286465f;	// Radians to Degrees
+const float g_HUGE     =  1.0e+38f;					// Huge number for float
+const float g_EPSILON  =  1.0e-5f;					// Tolerance for floats
 
 //-----------------------------------------------------------------------------
 // Fuzzy compares (within tolerance)

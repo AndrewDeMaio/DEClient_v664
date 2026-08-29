@@ -11,7 +11,7 @@ C_VS_UI_TIME_COUNT::C_VS_UI_TIME_COUNT(DWORD time, LPCTSTR desc)
 {
 	g_RegisterWindow(this);
 
-	//당장은 안쓰더라도 왠지 쓸것 같아서 버튼은 추가 시켜 놓는다.
+	// Even though it probably won't be used normally, I feel like it might be used for some reason, so I'll add the button anyway.
 	m_pC_button_group	= new ButtonGroup(this);
 	m_pC_button_group->Init();
 

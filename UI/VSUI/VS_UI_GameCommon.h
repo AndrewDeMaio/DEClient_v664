@@ -47,9 +47,9 @@ extern bool gbl_mine_progress;
 #endif //__PREMIUM_GIVE_ITEM_UI
 
 #if __CONTENTS(__TITLE_UI_RENWEAL)
-	#include "VS_UI_NewTitle.h"
+#include "VS_UI_NewTitle.h"
 #else	//__TITLE_UI_RENWEAL
-	#include "VS_UI_Title.h"
+#include "VS_UI_Title.h"
 #endif //__TITLE_UI_RENWEAL
 
 #define SLAYER_FONT_COLOR				RGB(186, 189, 191)//RGB(20, 70, 0)	// by larosel
@@ -62,7 +62,8 @@ struct WindowStatus
 {
 	WindowStatus()
 		: autoHide(Window::ATTRIBUTES_HIDE_NOT)
-		, alpha(false) {}
+		, alpha(false) {
+	}
 
 	Rect windowRect;
 	Window::ATTRIBUTES_HIDE autoHide;
@@ -72,7 +73,7 @@ struct WindowStatus
 //-----------------------------------------------------------------------------
 // class C_VS_UI_LEVELUP
 //
-// vampire/slayer level up�� ��Ÿ���� button.
+// vampire/slayer level up?? ??�???? button.
 //-----------------------------------------------------------------------------
 class C_VS_UI_LEVELUP : public Window
 {
@@ -113,39 +114,39 @@ public:
 //-----------------------------------------------------------------------------
 // class C_VS_UI_REQUEST_PREMIUM_GIVE_ITEM
 //
-// ���޹��� ���� �����̾� �������� ������ ��� ��Ÿ���� button.
+// ??????? ???? ??????? ???????? ?????? ??? ??�???? button.
 //-----------------------------------------------------------------------------
 class C_VS_UI_REQUEST_PREMIUM_GIVE_ITEM : public Window
 {
 private:
-	C_VS_UI_PREMIUM_GIVE_ITEM	*m_pC_Premium_Give_Item;
+	C_VS_UI_PREMIUM_GIVE_ITEM* m_pC_Premium_Give_Item;
 
 	enum IMAGE_SPK_INDEX
 	{
-		REQUEST_GUARD_SLAYER,		// - 00 �����̾� ����
-		REQUEST_GUARD_VAMPIRE,		// - 01 �����̾� ����
-		REQUEST_GUARD_OUSTERS,		// - 02 �ƿ콺���� ����
-		PARTY_REQUEST,				// - 03	��Ƽ���Խ�û
-		PARTY_INVITE,				// - 04	��Ƽ�ʴ�
-		RESURRECT_SLAYER,			// - 05	�����̾� ��Ȱ		- �׾�����.
-		RESURRECT_VAMPIRE,			// - 06	�����̾� ��Ȱ		- �׾�����.
-		RESURRECT_OUSTERS,			// - 07	�ƿ콺���� ��Ȱ		- �׾�����.
-		LVU_BUTTON,					// - 08	�����̾� ������
-		LVU_BUTTON_OUSTERS,			// - 09	�ƿ콺���� ������
-		RESURRECT_SCROLL,			// - 10	��Ȱ��ũ��			- �׾�����.
-		ELIXIR_SCROLL,				// - 11	������				- �׾�����.
-		ETERNITY,					// - 12	�̽���Ƽ			- �׾�����. (�����̾���ΰ�?)
-		SKILL_FROM_OTHER_SLAYER,	// - 13 �����̾� �츮�� ��ų
-		SKILL_FROM_OTHER_OUSTERS,	// - 14 �ƿ콺���� �츮�� ��ų
-		SKILL_FROM_OTHER_VAMPIRE,	// - 15 �����̾� �츮�� ��ų
-		GIVE_ITEM01,				// - 16 �����̾� ���޾����� ������ 01 (���� UI�� �� �̹���)
-		GIVE_ITEM02,				// - 17 �����̾� ���޾����� ������ 02 (���� UI�� �� �̹���)
-		GIVE_ITEM_CASE01,			// - 18 �����̾� ���޾����� ������ ������ 01
-		GIVE_ITEM_CASE02,			// - 19 �����̾� ���޾����� ������ ������ 02
+		REQUEST_GUARD_SLAYER,		// - 00 ??????? ????
+		REQUEST_GUARD_VAMPIRE,		// - 01 ??????? ????
+		REQUEST_GUARD_OUSTERS,		// - 02 ??????? ????
+		PARTY_REQUEST,				// - 03	????????�
+		PARTY_INVITE,				// - 04	??????
+		RESURRECT_SLAYER,			// - 05	??????? ???		- ???????.
+		RESURRECT_VAMPIRE,			// - 06	??????? ???		- ???????.
+		RESURRECT_OUSTERS,			// - 07	??????? ???		- ???????.
+		LVU_BUTTON,					// - 08	??????? ??????
+		LVU_BUTTON_OUSTERS,			// - 09	??????? ??????
+		RESURRECT_SCROLL,			// - 10	????????			- ???????.
+		ELIXIR_SCROLL,				// - 11	??????				- ???????.
+		ETERNITY,					// - 12	??????			- ???????. (????????????)
+		SKILL_FROM_OTHER_SLAYER,	// - 13 ??????? ???? ???
+		SKILL_FROM_OTHER_OUSTERS,	// - 14 ??????? ???? ???
+		SKILL_FROM_OTHER_VAMPIRE,	// - 15 ??????? ???? ???
+		GIVE_ITEM01,				// - 16 ??????? ????????? ?????? 01 (???? UI?? ?? ?????)
+		GIVE_ITEM02,				// - 17 ??????? ????????? ?????? 02 (???? UI?? ?? ?????)
+		GIVE_ITEM_CASE01,			// - 18 ??????? ????????? ?????? ?????? 01
+		GIVE_ITEM_CASE02,			// - 19 ??????? ????????? ?????? ?????? 02
 	};
-	
+
 	C_SPRITE_PACK				m_image_spk;
-	
+
 	bool						m_bl_pushed;
 	bool						m_bl_focused;
 
@@ -161,7 +162,7 @@ public:
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	RunPremiumGiveItemDialog();
 	bool	ClosePremiumGiveItemDialog();
-	void	Set_DynamicDesc_Process(int id) { if(m_pC_Premium_Give_Item!=NULL) m_pC_Premium_Give_Item->Set_DynamicDesc_Process(id); }
+	void	Set_DynamicDesc_Process(int id) { if (m_pC_Premium_Give_Item != NULL) m_pC_Premium_Give_Item->Set_DynamicDesc_Process(id); }
 	void	Update_Item_List();
 
 	void	CancelPushState() { m_bl_pushed = false; }
@@ -198,7 +199,7 @@ private:
 	bool							m_bl_focused;
 	std::string					m_name;
 
-// TIMER
+	// TIMER
 	DWORD						m_dw_prev_tickcount;
 	DWORD						m_dw_timer_tickcount;
 
@@ -215,7 +216,7 @@ private:
 	REQUEST_PARTY				m_type;
 
 public:
-	C_VS_UI_REQUEST_PARTY(const char *name, DWORD timer);
+	C_VS_UI_REQUEST_PARTY(const char* name, DWORD timer);
 	~C_VS_UI_REQUEST_PARTY();
 
 	void	Show();
@@ -254,14 +255,14 @@ private:
 
 	bool						m_bl_pushed;
 	bool						m_bl_focused;
-	
+
 	bool						m_bl_enforce_resurrect;
 
-// TIMER
+	// TIMER
 	DWORD						m_dw_prev_tickcount;
 	DWORD						m_dw_timer_tickcount;
 
-// levelwar timer
+	// levelwar timer
 	DWORD						m_levelwar_prev_tickcount;
 	DWORD						m_levelwar_timer_tickcount;
 
@@ -291,16 +292,16 @@ class C_VS_UI_PARTY_MANAGER : public Window, public Exec, public ButtonVisual
 private:
 	enum
 	{
-		window_default_height = 18, 
-		window_gap = 41, 
+		window_default_height = 18,
+		window_gap = 41,
 		window_bottom_gap = 7,
-	#if __CONTENTS(__080405_FIREST_UI_UPDATE)
+#if __CONTENTS(__080405_FIREST_UI_UPDATE)
 		away_x = 82,
 		away_y = 4,
-	#else
+#else
 		away_x = 95,
 		away_y = 8,
-	#endif //__080405_FIREST_UI_UPDATE
+#endif //__080405_FIREST_UI_UPDATE
 	};
 
 	enum IMAGE_SPK_INDEX
@@ -343,16 +344,16 @@ private:
 		AWAY_4,
 	};
 
-	C_SPRITE_PACK				* m_p_face_spk;
-	C_SPRITE_PACK				* m_p_large_face_spk;
-	C_SPRITE_PACK				* m_p_image_spk;
-	ButtonGroup *				m_pC_bottom_button_group;
+	C_SPRITE_PACK* m_p_face_spk;
+	C_SPRITE_PACK* m_p_large_face_spk;
+	C_SPRITE_PACK* m_p_image_spk;
+	ButtonGroup* m_pC_bottom_button_group;
 
 #if __CONTENTS(!__080405_FIREST_UI_UPDATE)
-	ButtonGroup *				m_pC_button_group;	
+	ButtonGroup* m_pC_button_group;
 #endif //__080405_FIREST_UI_UPDATE
 
-	std::vector<C_SPRITE_PACK *>		m_vp_face;
+	std::vector<C_SPRITE_PACK*>		m_vp_face;
 	std::vector<std::string>					m_v_face_name;
 
 	bool	m_away_button_focused;
@@ -368,16 +369,16 @@ public:
 
 	void	RefreshFaceImage();
 
-	int		GetPartyManagerFocused()	{ return m_away_focused; }
+	int		GetPartyManagerFocused() { return m_away_focused; }
 #if __CONTENTS(__080405_FIREST_UI_UPDATE)
-	void	UnacquireMouseFocus() { m_pC_bottom_button_group->UnacquireMouseFocus(); m_old_away_focused = -1; m_away_focused= -1;}
+	void	UnacquireMouseFocus() { m_pC_bottom_button_group->UnacquireMouseFocus(); m_old_away_focused = -1; m_away_focused = -1; }
 	void	CancelPushState() { m_pC_bottom_button_group->CancelPushState(); }
 #else
-	void	UnacquireMouseFocus() { m_pC_bottom_button_group->UnacquireMouseFocus(); m_pC_button_group->UnacquireMouseFocus(); m_old_away_focused = -1; m_away_focused= -1;}
+	void	UnacquireMouseFocus() { m_pC_bottom_button_group->UnacquireMouseFocus(); m_pC_button_group->UnacquireMouseFocus(); m_old_away_focused = -1; m_away_focused = -1; }
 	void	CancelPushState() { m_pC_button_group->CancelPushState(); m_pC_bottom_button_group->CancelPushState(); }
 #endif //__080405_FIREST_UI_UPDATE
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	Run(id_t id);
@@ -404,42 +405,42 @@ public:
 	virtual void HotKey_PetInfo() = 0;		// ctrl+CapsLock
 	virtual void HotKey_MailBox() = 0;		// ctrl+b
 	virtual void HotKey_Party() = 0;		// ctrl+p
-	virtual void HotKey_Mark() = 0;			// '����'Ű
-//	virtual void HotKey_WindowToggle()=0;	// ctrl + space
-	virtual void HotKey_Inventory(bool IsCheckSubInventory = false)=0;		// tab
-	virtual void HotKey_Gear()=0;			// ctrl + tab
-#if __CONTENTS(__GEAR_SWAP_CHANGE)		//	C_VS_UI_GAME	����â ��üŰ�� ��� �� ���� �Լ� ����
-	virtual void HotKey_GearChange()=0;		// Alt + A
-	virtual void HotKey_GearChangeShow()=0;	// Alt + S
+	virtual void HotKey_Mark() = 0;			// '????'?
+	//	virtual void HotKey_WindowToggle()=0;	// ctrl + space
+	virtual void HotKey_Inventory(bool IsCheckSubInventory = false) = 0;		// tab
+	virtual void HotKey_Gear() = 0;			// ctrl + tab
+#if __CONTENTS(__GEAR_SWAP_CHANGE)		//	C_VS_UI_GAME	????� ??�??? ??? ?? ???? ??? ????
+	virtual void HotKey_GearChange() = 0;		// Alt + A
+	virtual void HotKey_GearChangeShow() = 0;	// Alt + S
 #endif	// __GEAR_SWAP_CHANGE
 	virtual void HotKey_QuickItemSlot() {}	// ctrl + ~
-	virtual void HotKey_Skill()=0;			// ctrl + s
-	virtual void HotKey_CharInfo()=0;		// ctrl + i
-	virtual void HotKey_SkillInfo()=0;		// ctrl + k
-	virtual void HotKey_Grade3Info()=0;		// ctrl + a
-	virtual void HotKey_Grade2Info()=0;		// ctrl + r
-	virtual void HotKey_Grade1Info()=0;		// ctrl + c
-	virtual void HotKey_Help()=0;			// ctrl + h
-	virtual void HotKey_WorldMap()=0;		// ctrl + m
-	virtual void HotKey_Minimap()=0;		// ����
-	virtual void HotKey_Chat_Up()=0;		// ctrl + PgUp
-	virtual void HotKey_Chat_Dn()=0;		// ctrl + PgDn
-	virtual void HotKey_Tribe_Prior()=0;	// alt	+ PgUp
-	virtual void HotKey_Tribe_Next()=0;		// alt	+ PgDn
-	virtual void HotKey_Guild_Info()=0;		// ctrl	+ v
-	virtual void HotKey_Guild_Member_List()=0;// ctrl	+ l
-	virtual void HotKey_Coer_Attack()=0;	// ctrl	+ o
-	virtual void HotKey_ZoneChat()=0;		// ctrl + z
-	virtual void HotKey_GuildChat()=0;		// ctrl + g
-	virtual void HotKey_UnionChat()=0;		// ctrl + d
-	virtual void HotKey_Whisper()=0;		// ctrl + w
-	virtual void HotKey_ExtendChat()=0;		// ctrl + e
-	virtual void HotKey_Sysrq()=0;			// printscreen sysrq
-	virtual void HotKey_Slash()=0;			// ctrl + /
-	virtual void HotKey_Background_Music()=0;	// ä�ø��ɾ� /�����
-	virtual void HotKey_Effect_Music()=0;		// ä�ø��ɾ� /ȿ����
-	virtual void HotKey_Chat_Help()=0;			// ä�ø��ɾ� /ä�õ���
-	virtual void HotKey_Where()=0;				// ä�ø��ɾ� /���
+	virtual void HotKey_Skill() = 0;			// ctrl + s
+	virtual void HotKey_CharInfo() = 0;		// ctrl + i
+	virtual void HotKey_SkillInfo() = 0;		// ctrl + k
+	virtual void HotKey_Grade3Info() = 0;		// ctrl + a
+	virtual void HotKey_Grade2Info() = 0;		// ctrl + r
+	virtual void HotKey_Grade1Info() = 0;		// ctrl + c
+	virtual void HotKey_Help() = 0;			// ctrl + h
+	virtual void HotKey_WorldMap() = 0;		// ctrl + m
+	virtual void HotKey_Minimap() = 0;		// ????
+	virtual void HotKey_Chat_Up() = 0;		// ctrl + PgUp
+	virtual void HotKey_Chat_Dn() = 0;		// ctrl + PgDn
+	virtual void HotKey_Tribe_Prior() = 0;	// alt	+ PgUp
+	virtual void HotKey_Tribe_Next() = 0;		// alt	+ PgDn
+	virtual void HotKey_Guild_Info() = 0;		// ctrl	+ v
+	virtual void HotKey_Guild_Member_List() = 0;// ctrl	+ l
+	virtual void HotKey_Coer_Attack() = 0;	// ctrl	+ o
+	virtual void HotKey_ZoneChat() = 0;		// ctrl + z
+	virtual void HotKey_GuildChat() = 0;		// ctrl + g
+	virtual void HotKey_UnionChat() = 0;		// ctrl + d
+	virtual void HotKey_Whisper() = 0;		// ctrl + w
+	virtual void HotKey_ExtendChat() = 0;		// ctrl + e
+	virtual void HotKey_Sysrq() = 0;			// printscreen sysrq
+	virtual void HotKey_Slash() = 0;			// ctrl + /
+	virtual void HotKey_Background_Music() = 0;	// �?�???? /?????
+	virtual void HotKey_Effect_Music() = 0;		// �?�???? /?????
+	virtual void HotKey_Chat_Help() = 0;			// �?�???? /�?�???
+	virtual void HotKey_Where() = 0;				// �?�???? /???
 
 	virtual void HotKey_ESC() {}			// esc
 
@@ -452,24 +453,24 @@ public:
 	virtual void HotKey_F7() {}				// f7
 	virtual void HotKey_F8() {}				// f8
 	virtual void HotKey_F9() {}				// f9
-	virtual void HotKey_F10(){}				// f10
-	virtual void HotKey_F11(){}				// f11
-	virtual void HotKey_F12(){}				// f12
-	virtual void Hotkey_Function(int FKey)	{} // HotKey ó�� �Լ� 
+	virtual void HotKey_F10() {}				// f10
+	virtual void HotKey_F11() {}				// f11
+	virtual void HotKey_F12() {}				// f12
+	virtual void Hotkey_Function(int FKey) {} // HotKey �?? ??? 
 
-//	virtual void HotKey_F9()=0;				// f9
-//	virtual void HotKey_F10()=0;			// f10
-//	virtual void HotKey_F11()=0;			// f11
-//	virtual void HotKey_F12()=0;			// f12
+	//	virtual void HotKey_F9()=0;				// f9
+	//	virtual void HotKey_F10()=0;			// f10
+	//	virtual void HotKey_F11()=0;			// f11
+	//	virtual void HotKey_F12()=0;			// f12
 	virtual void HotKey_NormalChat() = 0;
 	virtual void HotKey_PartyChat() = 0;	// ctrl + a
 	virtual void HotKey_Quest() = 0;		// ctrl + q
 
 	// 2004, 5, 17 sobeit add start
-	virtual void HotKey_SummonPet()=0;	// ctrl + space
+	virtual void HotKey_SummonPet() = 0;	// ctrl + space
 	// 2004, 5, 17 sobeit add end
 #if __CONTENTS(__ITEM_SHOW)
-	virtual void CloseInventory()=0;
+	virtual void CloseInventory() = 0;
 #endif //__ITEM_SHOW
 };
 
@@ -481,9 +482,9 @@ enum CHAT_LINE_CONDITION
 	CLD_PARTY,				//3
 	CLD_GUILD,				//4
 	CLD_UNION,				//5
-	CLD_INFO,				//6 ���� �޽���.
-	CLD_GRADEDISPLAY,		//7 ����� ��� �޼���
-	CLD_MASTER,				//8 ��� �޽���
+	CLD_INFO,				//6 ???? ?????.
+	CLD_GRADEDISPLAY,		//7 ????? ??? ?????
+	CLD_MASTER,				//8 ???? ?????
 
 	CLD_TOTAL = CLD_MASTER,	//8
 };
@@ -546,7 +547,7 @@ private:
 	StringCell					m_msg_cell;
 	CHAT_LINE_CONDITION			m_condition;
 	DWORD						m_Color;
-		
+
 public:
 	C_VS_UI_CHAT_LINE()
 	{
@@ -556,7 +557,7 @@ public:
 
 	virtual ~C_VS_UI_CHAT_LINE() {}
 
-	void	Set(const char * sz_id, const char * sz_msg, CHAT_LINE_CONDITION condition, DWORD color)
+	void	Set(const char* sz_id, const char* sz_msg, CHAT_LINE_CONDITION condition, DWORD color)
 	{
 		m_id_cell.SetString(sz_id);
 		m_msg_cell.SetString(sz_msg);
@@ -564,8 +565,8 @@ public:
 		m_Color = color;
 	}
 
-	const char * GetIdString() const { return m_id_cell.GetString(); }
-	const char * GetMsgString() const { return m_msg_cell.GetString(); }
+	const char* GetIdString() const { return m_id_cell.GetString(); }
+	const char* GetMsgString() const { return m_msg_cell.GetString(); }
 	CHAT_LINE_CONDITION	GetCondition() const { return m_condition; }
 	DWORD	GetColor() const { return m_Color; }
 };
@@ -578,21 +579,21 @@ public:
 class C_VS_CHAT_LIST
 {
 private:
-	SimpleDataList<C_VS_UI_CHAT_LINE *>		m_list;
+	SimpleDataList<C_VS_UI_CHAT_LINE*>		m_list;
 
 public:
 	C_VS_CHAT_LIST() {}
 	~C_VS_CHAT_LIST()
 	{
-		C_VS_UI_CHAT_LINE * data;
-		for (int i=0; i < m_list.Size(); i++)
+		C_VS_UI_CHAT_LINE* data;
+		for (int i = 0; i < m_list.Size(); i++)
 			if (m_list.Data(i, data))
 				delete data;
 	}
 
-	void	Add(const char * sz_id, const char * sz_msg, CHAT_LINE_CONDITION condition, DWORD color)
+	void	Add(const char* sz_id, const char* sz_msg, CHAT_LINE_CONDITION condition, DWORD color)
 	{
-		C_VS_UI_CHAT_LINE * p_line = new C_VS_UI_CHAT_LINE;
+		C_VS_UI_CHAT_LINE* p_line = new C_VS_UI_CHAT_LINE;
 		p_line->Set(sz_id, sz_msg, condition, color);
 
 		m_list.Add(p_line);
@@ -600,11 +601,11 @@ public:
 
 	int	Size() const { return m_list.Size(); }
 
-	C_VS_UI_CHAT_LINE *	PopBack()
+	C_VS_UI_CHAT_LINE* PopBack()
 	{
-		// !data�� delete������ �ʴ´�.
+		// !data?? delete?????? ??�?.
 
-		C_VS_UI_CHAT_LINE * data;
+		C_VS_UI_CHAT_LINE* data;
 
 		if (m_list.Data(0, data))
 		{
@@ -615,16 +616,16 @@ public:
 		return NULL;
 	}
 
-	C_VS_UI_CHAT_LINE *	GetLine(int n) const
+	C_VS_UI_CHAT_LINE* GetLine(int n) const
 	{
-		// n�� 0�� �������� �ֱٿ� �Էµ� line�̴�.
+		// n?? 0?? ???????? ???? ??�? line???.
 
 		if (n < 0)
 			return NULL;
 
-		int index = m_list.Size()-n-1;
+		int index = m_list.Size() - n - 1;
 
-		C_VS_UI_CHAT_LINE * data;
+		C_VS_UI_CHAT_LINE* data;
 
 		if (m_list.Data(index, data))
 			return data;
@@ -635,7 +636,7 @@ public:
 
 class PAPERING_HISTORY
 {
-	public:
+public:
 	std::string			m_string;
 	std::vector<DWORD>	m_timer;
 };
@@ -643,7 +644,7 @@ class PAPERING_HISTORY
 //-----------------------------------------------------------------------------
 // C_VS_UI_CHATTING
 //
-// �Ϲ����� chatting�� �ӼӸ�(slayer = PCS)�� �����Ѵ�.
+// ??????? chatting?? ????(slayer = PCS)?? ???????.
 //-----------------------------------------------------------------------------
 class C_VS_UI_CHATTING : public Window, public Exec, public ButtonVisual
 {
@@ -675,7 +676,7 @@ public:
 
 	};
 
-	
+
 private:
 	enum MAIN_SPK_INDEX
 	{
@@ -788,23 +789,23 @@ private:
 	RESIZE_STATE			m_resize;
 	POINT					m_backup_window_point;
 
-	C_VS_UI_SCROLL_BAR		*m_pC_scroll_bar, *m_pC_sub_scroll_bar;
-	C_SPRITE_PACK			* m_pC_chatting_spk;
-	
-	ButtonGroup *			m_pC_button_group;
-	ButtonGroup *			m_pC_input_button_group;
-	ButtonGroup *			m_pC_input_right_button_group;
+	C_VS_UI_SCROLL_BAR* m_pC_scroll_bar, * m_pC_sub_scroll_bar;
+	C_SPRITE_PACK* m_pC_chatting_spk;
+
+	ButtonGroup* m_pC_button_group;
+	ButtonGroup* m_pC_input_button_group;
+	ButtonGroup* m_pC_input_right_button_group;
 
 	int							m_history_line;
 	std::vector<PAPERING_HISTORY>	m_history;
-	
-//	int							m_string_output_x; // �ּ�ó�� by larosel
-	
+
+	//	int							m_string_output_x; // ???�?? by larosel
+
 	void	ScrollHistory();
-	
+
 	std::vector<std::string>	m_v_help_string;
 	std::vector<bool>			m_v_help_check;
-	
+
 	//
 	// Chat history buffer.
 	//
@@ -817,7 +818,7 @@ private:
 
 	LineEditorVisual				m_lev_chatting;
 
-	COLORREF						m_color_tab[CLD_TOTAL+1];
+	COLORREF						m_color_tab[CLD_TOTAL + 1];
 
 	bool							m_bl_spreadID;
 
@@ -828,12 +829,12 @@ private:
 	int								m_whisper_index;	// by larosel
 
 	//
-	// Vampire/Slayer �� �� ��Ÿ�� �� �ִ� Window�� ���� 2��(Inventory, Gear)�̴�.
-	// ȭ�� �� ���� ��Ÿ���� ��� click focus�� �ֱ� ������ �װ��� ��������� �Ѵ�.
+	// Vampire/Slayer ?? ?? ??�?? ?? ??? Window?? ???? 2??(Inventory, Gear)???.
+	// ??? ?? ???? ??�???? ??? click focus?? ??? ?????? ????? ????????? ???.
 	//
 
-//	int								m_slayer_chat_mode;	// �ּ�ó�� by larosel
-//	void	AddChatToHistoryTemp(char * str, char * sz_id, CHAT_LINE_CONDITION condition);	// �ּ�ó�� by laorsel
+//	int								m_slayer_chat_mode;	// ???�?? by larosel
+//	void	AddChatToHistoryTemp(char * str, char * sz_id, CHAT_LINE_CONDITION condition);	// ???�?? by laorsel
 
 	enum
 	{
@@ -844,7 +845,7 @@ private:
 		TIMER_HIDE,
 	};
 
-// TIMER
+	// TIMER
 	std::vector<DWORD>			m_dw_rep_tickcount;
 	std::vector<DWORD>			m_dw_papering_tickcount;
 	DWORD						m_dw_prev_tickcount;
@@ -864,28 +865,28 @@ private:
 public:
 	void	Extend();
 
-	void	SetSubWindow(int type)		{ m_sub_window = type; }
+	void	SetSubWindow(int type) { m_sub_window = type; }
 	//-------------------------
 	// WHISPER	// by larosel
 	//-------------------------
 	std::string	GetWhisperID(int num = -1);										// by larosel
-	int		GetWhisperSize()				{ return m_sz_whisper_id.size();}	// by larosel
-	bool	AddWhisperID(const char *sz_ID);	// by larosel
+	int		GetWhisperSize() { return m_sz_whisper_id.size(); }	// by larosel
+	bool	AddWhisperID(const char* sz_ID);	// by larosel
 	void	ChangeWhisperFocus();												// by larosel
-	bool	GetWhisperFocus()				{ return m_bl_focus_whisper; }		// by larosel
+	bool	GetWhisperFocus() { return m_bl_focus_whisper; }		// by larosel
 	bool	SlayerWhisperMode(bool mode);										// by larosel
 	void	TribeChanged();
-	bool	IsSpreadID()					{ return m_bl_spreadID; }
+	bool	IsSpreadID() { return m_bl_spreadID; }
 	bool	IsPixel(int _x, int _y);
-	void	SetWhisperID(char *id);
-	bool	IsInputMode()					{ return m_bl_input_mode; }
-	int		GetChatMode()					{ return m_chat_mode;}				// 2007 01 16 by diesirace
+	void	SetWhisperID(char* id);
+	bool	IsInputMode() { return m_bl_input_mode; }
+	int		GetChatMode() { return m_chat_mode; }				// 2007 01 16 by diesirace
 	int		SetChatMode(int chat_mode);											// 2007 01 17 by diesirace
-	LineEditorVisual	GetChatLev()		{ return m_lev_chatting; }			// 2007 01 23 by diesirace
+	LineEditorVisual	GetChatLev() { return m_lev_chatting; }			// 2007 01 23 by diesirace
 	//---------------------------
 	// GUILDCHAT // by larosel
 	//---------------------------
-	void	SetGuildChat( bool guild );
+	void	SetGuildChat(bool guild);
 
 	void	ResetScroll();	// by larosel
 
@@ -893,55 +894,55 @@ public:
 	~C_VS_UI_CHATTING();
 
 	void	Acquire() { m_lev_chatting.Acquire(); }
-	bool	IsEmpty()	{ return (m_lev_chatting.Size() <= 0); }
+	bool	IsEmpty() { return (m_lev_chatting.Size() <= 0); }
 	void	Start();
 	void	Finish();
 
 	void	RestoreHistoryTemp();
 	void	Show();
 	bool	MouseControl(UINT message, int _x, int _y);
-//	bool	MouseControlExtra(UINT message, int x, int y);	// by sigi
+	//	bool	MouseControlExtra(UINT message, int x, int y);	// by sigi
 	void	KeyboardControl(UINT message, UINT key, long extra);
-	void	AddChatToHistory(const char * str, const char * sz_id, CHAT_LINE_CONDITION condition, DWORD color);
-	void	AddToChatHistory(const char * sz_str, const char * sz_id, CHAT_LINE_CONDITION condition, DWORD color);
+	void	AddChatToHistory(const char* str, const char* sz_id, CHAT_LINE_CONDITION condition, DWORD color);
+	void	AddToChatHistory(const char* sz_str, const char* sz_id, CHAT_LINE_CONDITION condition, DWORD color);
 	void	SetInputString(const char* pString);	// by sigi
 	void	AddInputString(const char* pString);	// by sigi
-	void	SetInputStringColor(COLORREF rgb)	{ m_lev_chatting.SetInputStringColor(rgb); } // by sigi
-	const char* GetInputString() const			{ return (const char*)m_lev_chatting.GetString(); }
+	void	SetInputStringColor(COLORREF rgb) { m_lev_chatting.SetInputStringColor(rgb); } // by sigi
+	const char* GetInputString() const { return (const char*)m_lev_chatting.GetString(); }
 #if __CONTENTS(__ITEM_SHOW)
-	const char* GetNewInputString()	{ char * p_temp = NULL; g_Convert_DBCS_Ascii2SingleByte(m_lev_chatting.GetString(), m_lev_chatting.Size(), p_temp); return p_temp; }
+	const char* GetNewInputString() { char* p_temp = NULL; g_Convert_DBCS_Ascii2SingleByte(m_lev_chatting.GetString(), m_lev_chatting.Size(), p_temp); return p_temp; }
 #endif //__ITEM_SHOW
-	void	InsertMark(char_t ch)				{ m_lev_chatting.InsertMark(ch); }
+	void	InsertMark(char_t ch) { m_lev_chatting.InsertMark(ch); }
 
-	bool	IsNormalChatStacked()						{ return m_chat_stacked[CLD_NORMAL]; }
-	bool	IsWhisperStacked()							{ return m_chat_stacked[CLD_WHISPER]; }
-	bool	IsZoneChatStacked()							{ return m_chat_stacked[CLD_ZONECHAT]; }
-	bool	IsGuildChatStacked()						{ return m_chat_stacked[CLD_GUILD]; }
-	bool	IsPartyChatStacked()						{ return m_chat_stacked[CLD_PARTY]; }
-	bool	IsInfoStacked()								{ return m_chat_stacked[CLD_INFO]; }
+	bool	IsNormalChatStacked() { return m_chat_stacked[CLD_NORMAL]; }
+	bool	IsWhisperStacked() { return m_chat_stacked[CLD_WHISPER]; }
+	bool	IsZoneChatStacked() { return m_chat_stacked[CLD_ZONECHAT]; }
+	bool	IsGuildChatStacked() { return m_chat_stacked[CLD_GUILD]; }
+	bool	IsPartyChatStacked() { return m_chat_stacked[CLD_PARTY]; }
+	bool	IsInfoStacked() { return m_chat_stacked[CLD_INFO]; }
 
 	// common
-	void	UnacquireMouseFocus() 
+	void	UnacquireMouseFocus()
 	{
 		m_pC_button_group->UnacquireMouseFocus();
 		m_pC_input_button_group->UnacquireMouseFocus();
 		m_pC_input_right_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
 		m_pC_button_group->CancelPushState();
 		m_pC_input_button_group->CancelPushState();
 		m_pC_input_right_button_group->CancelPushState();
 	}
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	Run(id_t id);
 
 	void	Process();
-	
-	bool	IsCannotSendChatInput();		// Chat Message ������ �Ұ����� �����ΰ�?
+
+	bool	IsCannotSendChatInput();		// Chat Message ?????? ??????? ????????
 };
 
 //-----------------------------------------------------------------------------
@@ -949,10 +950,10 @@ public:
 //
 // slayer/vampire inventory base class.
 //
-// - slayer/vampire inventory ������ interface�� �����Ѵ�. 
-// - slayer���� vampire�� �ٲ�ų� �Ǵ� �� �ݴ��� ��, ��ü�� ������Ͽ�
-//   inventory�� �ʱ�ȭ������, inventory�� item�� �״�� �����ȴ�. interface�󿡼���
-//   inventory�� item�� �����ϰ� ���� �ʴ�. �׷��� �� class�� base�� �ϴ� ���̴�.
+// - slayer/vampire inventory ?????? interface?? ???????. 
+// - slayer???? vampire?? ????? ??? ?? ????? ??, ??�?? ????????
+//   inventory?? ??????????, inventory?? item?? ???? ???????. interface??????
+//   inventory?? item?? ??????? ???? ???. ????? ?? class?? base?? ??? ?????.
 //-----------------------------------------------------------------------------
 class C_VS_UI_INVENTORY : public Window, public Exec, public ButtonVisual
 {
@@ -960,9 +961,9 @@ class C_VS_UI_INVENTORY : public Window, public Exec, public ButtonVisual
 	// Data
 	//-----------
 public:
-	enum 
-	{ 
-		GRID_X = 10, 
+	enum
+	{
+		GRID_X = 10,
 		GRID_Y = 6,
 		GRID_UNIT_PIXEL_X = 30,
 		GRID_UNIT_PIXEL_Y = 30,
@@ -990,34 +991,34 @@ protected:
 	{
 		MONEY_ID,
 		DESC_ID,
-//		BIKE_ID,
-//		EXCHANGE_ID,
-		
+		//		BIKE_ID,
+		//		EXCHANGE_ID,
+
 		HELP_ID,
 		CLOSE_ID,
 		ALPHA_ID,
 	};
 
-	ButtonGroup *				m_pC_button_group;
+	ButtonGroup* m_pC_button_group;
 
 	bool						m_bl_shift, m_bl_set_load;;
 
-	C_SPRITE_PACK *				m_pC_inventory_spk;
-	Rect						m_grid_rect; // ��ü Grid rect.
+	C_SPRITE_PACK* m_pC_inventory_spk;
+	Rect						m_grid_rect; // ??� Grid rect.
 
 	int							m_focus_grid_x, m_focus_grid_y;
 
-	// ��ӹ޴� class���� �ݵ�� set����� �Ѵ�.
+	// ????? class???? ???? set????? ???.
 	int							m_grid_start_offset_x, m_grid_start_offset_y;
 	int							m_money_button_offset_x, m_money_button_offset_y;
 
 private:
-	BOOL						m_bLimited_Item_Change;			
+	BOOL						m_bLimited_Item_Change;
 	int							m_focus_grid_x_Prev, m_focus_grid_y_Prev;
 
 	//2008.09.24 shootkj
-	//����� ���� ���� �������� �ð��� �����۰� ��ü �Ҷ� �������� cannotadd�� �� �� �ִµ� �̶����� 
-	//��ü�� ���� �ʵ��� �ٽ� ����ġ ���� ��� �Ѵ�.
+	//????? ???? ???? ???????? ?�??? ??????? ??� ??? ???????? cannotadd?? ?? ?? ??�? ??????? 
+	//??�?? ???? ????? ??? ????? ???? ??? ???.
 
 	//------------
 	// Method
@@ -1031,7 +1032,7 @@ private:
 	void	UnacquireMouseFocus();
 	void	AcquireDisappear();
 	void	AcquireMouseFocus();
-//	void	CancelPushState();
+	//	void	CancelPushState();
 	bool	AllMatchWindowPixel(int _x, int _y) const;
 	bool	AnyMatchWindowPixel(int _x, int _y) const;
 
@@ -1041,11 +1042,11 @@ protected:
 
 
 public:
-// TIMER
+	// TIMER
 	static bool		Timer(bool reset = false);
 	static DWORD						m_dw_millisec;
 
-	static C_SPRITE_PACK *			m_pC_mine_progress_spk;
+	static C_SPRITE_PACK* m_pC_mine_progress_spk;
 	enum MINE_PROGRESS_SPK_INDEX
 	{
 		INVENTORY_BAR_BACK,
@@ -1059,18 +1060,18 @@ public:
 	C_VS_UI_INVENTORY();
 	virtual ~C_VS_UI_INVENTORY();
 
-	//���ڼ�ġ
+	//??????
 	bool	StartInstallMineProgress(int focus_grid_x, int focus_grid_y);
-	bool	IsInstallMineProgress()		{ return gbl_mine_progress; }
-	void	EndInstallMineProgress()	{ gbl_mine_progress = false; }
-	//���ڸ����
+	bool	IsInstallMineProgress() { return gbl_mine_progress; }
+	void	EndInstallMineProgress() { gbl_mine_progress = false; }
+	//????????
 	bool	StartCreateMineProgress(int focus_grid_x, int focus_grid_y);
-	bool	IsCreateMineProgress()		{ return gbl_mine_progress; }
-	void	EndCreateMineProgress()	{ gbl_mine_progress = false; }
-	//��ź �����
+	bool	IsCreateMineProgress() { return gbl_mine_progress; }
+	void	EndCreateMineProgress() { gbl_mine_progress = false; }
+	//??? ?????
 	bool	StartCreateBombProgress(int focus_grid_x, int focus_grid_y);
-	bool	IsCreateBombProgress()		{ return gbl_mine_progress; }
-	void	EndCreateBombProgress()	{ gbl_mine_progress = false; }
+	bool	IsCreateBombProgress() { return gbl_mine_progress; }
+	void	EndCreateBombProgress() { gbl_mine_progress = false; }
 
 	void	Start(bool bl_set_load = true);
 	void	Finish();
@@ -1079,31 +1080,31 @@ public:
 	void	KeyboardControl(UINT message, UINT key, long extra);
 
 	void	CancelPushState() { m_pC_button_group->CancelPushState(); }
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	Run(id_t id);
 
 	void	ResetRect();
 	bool	TestGridRect(int _x, int _y) const;
-	int	GetFocusedItemGridX(const MItem * p_item);
-	int	GetFocusedItemGridY(const MItem * p_item);
-	int	GetFocusedItemGridH(const MItem * p_item);
+	int	GetFocusedItemGridX(const MItem* p_item);
+	int	GetFocusedItemGridY(const MItem* p_item);
+	int	GetFocusedItemGridH(const MItem* p_item);
 	Rect	GetGridRect() const { return m_grid_rect; }
-	
-	int		GetFocusGridX() {return  m_focus_grid_x;}
-	int		GetFocusGridY() {return  m_focus_grid_y;}
 
-	static void	AutoMove( int grid_x, int grid_y );
-	
+	int		GetFocusGridX() { return  m_focus_grid_x; }
+	int		GetFocusGridY() { return  m_focus_grid_y; }
+
+	static void	AutoMove(int grid_x, int grid_y);
+
 
 	void	Prev_Item_Position_Remove();
 	//2008.09.24 shootkj
-	//����� ���� ���� �������� �ð��� �����۰� ��ü �Ҷ� �������� cannotadd�� �� �� �ִµ� �̶����� 
-	//��ü�� ���� �ʵ��� �ٽ� ����ġ ���� ��� �Ѵ�.
+	//????? ???? ???? ???????? ?�??? ??????? ??� ??? ???????? cannotadd?? ?? ?? ??�? ??????? 
+	//??�?? ???? ????? ??? ????? ???? ??? ???.
 
 	DWORD	m_dwWidth;
 	DWORD	m_dwHight;
-	
+
 	int		m_nGearItemQuickViewScroll;
 };
 
@@ -1128,7 +1129,7 @@ protected:
 		GEAR_CHANGE_ID1_UNCHECK,
 		GEAR_CHANGE_ID2_UNCHECK,
 
-		// ���⼭���� �����̾� ���� (���� ���� ����� ������� �ʴ� ������ ���� - Gamecommon.cpp�� ã�ƺ��� �ȳ���.)
+		// ???????? ??????? ???? (???? ???? ????? ??????? ??? ?????? ???? - Gamecommon.cpp?? �????? ?????.)
 		BUTTON_FIRST,
 		BUTTON_FIRST_HILIGHTED,
 		BUTTON_FIRST_HILIGHTED_PUSHED,
@@ -1142,54 +1143,54 @@ protected:
 		HELP_ID,
 		CLOSE_ID,
 
-		// ���⼭���� �����̾� ����
+		// ???????? ??????? ????
 		FIRST_ID,
 		SECOND_ID,
 
 		ALPHA_ID,
 
-		// ����â ��ü ��ư
+		// ????� ??� ???
 		GEAR_ID1,
 		GEAR_ID2,
 	};
 
-	ButtonGroup *				m_pC_button_group;
+	ButtonGroup* m_pC_button_group;
 
-	C_SPRITE_PACK *			m_pC_gear_spk; // gear Window image
-	C_SPRITE_PACK *			m_pC_gear_slot_spk; // gear slot image
+	C_SPRITE_PACK* m_pC_gear_spk; // gear Window image
+	C_SPRITE_PACK* m_pC_gear_slot_spk; // gear slot image
 	//by csm 2004.12.30  
-	C_SPRITE_PACK *			m_pC_advance_gear_spk; // Advencegear Window image
-	
+	C_SPRITE_PACK* m_pC_advance_gear_spk; // Advencegear Window image
+
 
 	int							m_focus_slot;
 	bool						m_bl_set_load;
 
-	// ��ӹ޴� class���� �ݵ�� set����� �Ѵ�.
+	// ????? class???? ???? set????? ???.
 	int								m_slot_size;
-	Rect *							m_p_slot_rect;
-	int *							m_p_slot_image;
+	Rect* m_p_slot_rect;
+	int* m_p_slot_image;
 	BOOL 							m_bl_Abvencement;
 
-#if __CONTENTS(__GEAR_SWAP_CHANGE)	// C_VS_UI_GEAR ���� â ��ư �� ID�� ���� ���� ����
-	DWORD							m_dwSendGearID;							//������ ���� GearID
-	DWORD							m_dwAccepGearID;						//�������� ���� GearID
-	DWORD							m_dwGearChange_ID1_Button_Pos_X;		//����â�� ��ü�� ��ư�� ��ġ
+#if __CONTENTS(__GEAR_SWAP_CHANGE)	// C_VS_UI_GEAR ???? � ??? ?? ID?? ???? ???? ????
+	DWORD							m_dwSendGearID;							//?????? ???? GearID
+	DWORD							m_dwAccepGearID;						//???????? ???? GearID
+	DWORD							m_dwGearChange_ID1_Button_Pos_X;		//????�?? ??�?? ????? ???
 	DWORD							m_dwGearChange_ID1_Button_Pos_Y;
-	DWORD							m_dwGearChange_ID1_Button_Width;		//����â�� ��ü�� ��ư�� ũ��
+	DWORD							m_dwGearChange_ID1_Button_Width;		//????�?? ??�?? ????? ???
 	DWORD							m_dwGearChange_ID1_Button_Height;
-	DWORD							m_dwGearChange_ID2_Button_Pos_X;		//����â�� ��ü�� ��ư�� ��ġ
+	DWORD							m_dwGearChange_ID2_Button_Pos_X;		//????�?? ??�?? ????? ???
 	DWORD							m_dwGearChange_ID2_Button_Pos_Y;
-	DWORD							m_dwGearChange_ID2_Button_Width;		//����â�� ��ü�� ��ư�� ũ��
+	DWORD							m_dwGearChange_ID2_Button_Width;		//????�?? ??�?? ????? ???
 	DWORD							m_dwGearChange_ID2_Button_Height;
 #endif	// __GEAR_SWAP_CHANGE
-// 
+	// 
 
-//	bool							m_bl_close_button_pushed;
-//	bool							m_bl_help_button_pushed;
-//	bool							m_bl_close_button_focused;
-//	bool							m_bl_help_button_focused;
-//	int							m_close_button_offset_x, m_close_button_offset_y;
-//	int							m_help_button_offset_x, m_help_button_offset_y;
+	//	bool							m_bl_close_button_pushed;
+	//	bool							m_bl_help_button_pushed;
+	//	bool							m_bl_close_button_focused;
+	//	bool							m_bl_help_button_focused;
+	//	int							m_close_button_offset_x, m_close_button_offset_y;
+	//	int							m_help_button_offset_x, m_help_button_offset_y;
 
 
 	void	Use();
@@ -1197,7 +1198,7 @@ protected:
 	// Method
 	//------------
 private:
-//	void	CancelPushState();
+	//	void	CancelPushState();
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear();
 	void	AcquireMouseFocus();
@@ -1213,17 +1214,17 @@ public:
 
 	void	Start(bool bl_set_load = true);
 	void	Finish();
-	
-	bool	Click(int window_x, int window_y, Rect * slot_rect);
-	bool	MouseControl(UINT message, int _x, int _y);
-	void	Show() ;
-	void	CancelPushState() { m_pC_button_group->CancelPushState(); }
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	Run(id_t id);
-	void	SetFocusSlot(BYTE Slot) { m_focus_slot = Slot;}
 
-#if __CONTENTS(__GEAR_SWAP_CHANGE)			// C_VS_UI_GEAR ����â ��ü �Լ� �� ��ư ���̱� �Լ� ����
+	bool	Click(int window_x, int window_y, Rect* slot_rect);
+	bool	MouseControl(UINT message, int _x, int _y);
+	void	Show();
+	void	CancelPushState() { m_pC_button_group->CancelPushState(); }
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	Run(id_t id);
+	void	SetFocusSlot(BYTE Slot) { m_focus_slot = Slot; }
+
+#if __CONTENTS(__GEAR_SWAP_CHANGE)			// C_VS_UI_GEAR ????� ??� ??? ?? ??? ????? ??? ????
 	void	GearChange();
 	void	GearChange(DWORD	dwGearID);
 	void	GearChangeButtonShow();
@@ -1241,7 +1242,7 @@ class C_VS_UI_SKILL : public Window
 public:
 	static CSpritePack				m_C_spk; // Skill icon Sprite list
 	static CSpritePack				m_C_spk_mini; // Skill icon Sprite list
-	static CSpritePack				m_C_spk_comboCnt;	
+	static CSpritePack				m_C_spk_comboCnt;
 
 	enum HOTKEY
 	{
@@ -1250,12 +1251,12 @@ public:
 		HOTKEY3,
 		HOTKEY4,
 
-		//���Ŀ� ��Ű
+		//????? ???
 		HOTKEY5,
 		HOTKEY6,
 		HOTKEY7,
 		HOTKEY8,
-//
+		//
 		HOTKEY9,
 		HOTKEY10,
 		HOTKEY11,
@@ -1277,16 +1278,16 @@ public:
 protected:
 	int							m_skill_hotkey_buf[HOTKEY_MAX][GRADE_MAX];
 	int							m_current_skill_set, m_current_skill_grade;
-	enum 
-	{ 
-		// �� ĳ���Ͱ� ��� �� �ִ� skill ���� 100�� ���϶��...
-		SPREAD_X_MAX = 10, // �������� ���� ������ �ִ� ����(ù line�� Spread button�� �����Ѵ�).
+	enum
+	{
+		// ?? ?????? ??? ?? ??? skill ???? 100?? ??????...
+		SPREAD_X_MAX = 10, // ???????? ???? ?????? ??? ????(� line?? Spread button?? ???????).
 		SPREAD_Y_MAX = 10,
 	};
 
 	C_SPRITE_PACK				m_etc_spk;
 
-	// ��ӹ޴� ��ü���� set���� ��.
+	// ????? ??�???? set???? ??.
 	int							m_skill_guard_x, m_skill_guard_y;
 	int							m_skill_start_x, m_skill_start_y;
 	int							m_skill_guard_extra_offset;
@@ -1294,28 +1295,28 @@ protected:
 
 	enum ETC_SPK_INDEX
 	{
-		SKILL_GUARD, // skill icon �׵θ�
+		SKILL_GUARD, // skill icon ????
 		SKILL_EMPTY_BUTTON,
 		SKILL_PUSHED_BUTTON,
 	};
-	
-	int							m_comboCnt ;
-	int							m_selected_skillid; // NOT_SELECTED�̸� ���õ��� ���� ���̴�. ACTIONINFO�� �ϳ��̴�.
-	bool						m_selected_comboAttackskill ; 
-	int							m_focused_slot; // Spread button�� 0���� �ϰ� �¿��� ��� �����Ѵ�.
+
+	int							m_comboCnt;
+	int							m_selected_skillid; // NOT_SELECTED??? ???�??? ???? ?????. ACTIONINFO?? ??????.
+	bool						m_selected_comboAttackskill;
+	int							m_focused_slot; // Spread button?? 0???? ??? ?�??? ??? ???????.
 	bool						m_bl_pushed;
 	bool						m_bl_open;
 
-	// Progress Bar ����
+	// Progress Bar ????
 	bool						m_bl_show_progress;
 	int							m_progress_skill_id;
 	CPoint						m_progress_inventory_grid;
-	MItem*						m_pC_progress_item;
+	MItem* m_pC_progress_item;
 	CTickTimer					m_progress_timer;
 
 	void	ResetSize();
 	int		GetFocusSlot(int _x, int _y) const;
-	
+
 	bool	AbleToUse(int id) const;
 	bool	IsEnableSkill(int id) const;
 	int		GetDelay(int id) const;
@@ -1323,7 +1324,7 @@ protected:
 	bool	NoPassive(int n);
 	bool	findSkillAvailable(ACTIONINFO id);
 
-// TIMER
+	// TIMER
 	DWORD						m_dw_prev_tickcount;
 	DWORD						m_dw_millisec;
 
@@ -1337,7 +1338,7 @@ public:
 	C_VS_UI_SKILL();
 	virtual ~C_VS_UI_SKILL();
 
-	void	SetStartPoint(int x, int y)	{ m_skill_start_x = x; m_skill_start_y = y; ResetSize(); }
+	void	SetStartPoint(int x, int y) { m_skill_start_x = x; m_skill_start_y = y; ResetSize(); }
 	int		GetSelectedSkillID();
 	void	SelectSkill(int id);
 	int		GetHotkey(HOTKEY hotkey, HOTKEY_GRADE grade) const { return m_skill_hotkey_buf[hotkey][grade]; }
@@ -1353,9 +1354,9 @@ public:
 
 	void	AcquireDisappear() {}
 	void	CancelPushState();
-	void	UnacquireMouseFocus();	
+	void	UnacquireMouseFocus();
 	void	WindowEventReceiver(id_t event);
-	bool	IsPixel(int _x, int _y)	{ return false; }
+	bool	IsPixel(int _x, int _y) { return false; }
 	bool	IsPixel2(int _x, int _y);
 
 	bool	MouseControl(UINT message, int _x, int _y);
@@ -1365,14 +1366,14 @@ public:
 	void	Start();
 	void	Process();
 	void	ResetSkillSet();
-	void	SetComboCnt(int ComboCnt) ; 
-	void	SetSelectedAttackComboSkill(bool	bAttackSkill) ; 
+	void	SetComboCnt(int ComboCnt);
+	void	SetSelectedAttackComboSkill(bool	bAttackSkill);
 	void	ResetHotkey();
-	void	InitHotKey(HOTKEY hotkey) ;
+	void	InitHotKey(HOTKEY hotkey);
 
 	void	StartSkillCastingProgress(int skillID, DWORD time, CPoint inventoryGrid = CPoint(-1, -1));
 	void	EndSkillCastingProgress();
-	bool	IsSkillCastingProgress()	{ return m_bl_show_progress;	}
+	bool	IsSkillCastingProgress() { return m_bl_show_progress; }
 };
 
 //-----------------------------------------------------------------------------
@@ -1384,12 +1385,12 @@ class C_VS_UI_HPBAR : public Window, public Exec, public ButtonVisual
 {
 private:
 	bool					m_width_mode, m_small_mode;
-	C_SPRITE_PACK			* m_pC_hpbar_spk;
+	C_SPRITE_PACK* m_pC_hpbar_spk;
 
-	ButtonGroup *			m_pC_width_button_group;
-	ButtonGroup *			m_pC_height_button_group;
-	ButtonGroup *			m_pC_small_width_button_group;
-	ButtonGroup *			m_pC_small_height_button_group;
+	ButtonGroup* m_pC_width_button_group;
+	ButtonGroup* m_pC_height_button_group;
+	ButtonGroup* m_pC_small_width_button_group;
+	ButtonGroup* m_pC_small_height_button_group;
 
 	enum HPBAR_SPK_INDEX
 	{
@@ -1409,7 +1410,7 @@ private:
 		CHANGE_BUTTON_HEIGHT_HILIGHTED,
 
 		SLAYER_MAX,
-		
+
 		// vampire
 		EXPBAR_WIDTH = MPBAR_WIDTH,
 		EXPBAR_HEIGHT,
@@ -1467,22 +1468,22 @@ public:
 	C_VS_UI_HPBAR();
 	~C_VS_UI_HPBAR();
 
-	void	UnacquireMouseFocus() 
+	void	UnacquireMouseFocus()
 	{
 		m_pC_width_button_group->UnacquireMouseFocus();
 		m_pC_height_button_group->UnacquireMouseFocus();
 		m_pC_small_width_button_group->UnacquireMouseFocus();
 		m_pC_small_height_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
 		m_pC_width_button_group->CancelPushState();
 		m_pC_height_button_group->CancelPushState();
 		m_pC_small_width_button_group->CancelPushState();
 		m_pC_small_height_button_group->CancelPushState();
 	}
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	bool	IsPixel(int _x, int _y);
 	void	AcquireDisappear() {}
@@ -1506,11 +1507,11 @@ public:
 class C_VS_UI_BLOOD_BURST : public Window, public Exec, public ButtonVisual
 {
 private:
-	
+
 	enum EXEC_ID
 	{
 		BLOODBURST_CHANGE_ID,
-		ATTACK_ID, 
+		ATTACK_ID,
 		DEFENSE_ID,
 		PARTY_ID,
 	};
@@ -1518,48 +1519,48 @@ private:
 
 	enum BLOOD_BURS_SPK_INDEX
 	{
-		MAIN_WIDTH	,
-		MAIN_HEIGHT , 
-		
-		PARTY_MAIN_WIDTH , 
-		PARTY_MAIN_HEIGHT , 
-		
-		CHANGE_BUTTON_WIDTH , 
-		CHANGE_BUTTON_WIDTH_HILIGHTED , 
-		CHANGE_BUTTON_WIDTH_PUSHED ,
+		MAIN_WIDTH,
+		MAIN_HEIGHT,
 
-		CHANGE_BUTTON_HEIGHT , 
-		CHANGE_BUTTON_HEIGHT_HILIGHTED , 
-		CHANGE_BUTTON_HEIGHT_PUSHED ,
+		PARTY_MAIN_WIDTH,
+		PARTY_MAIN_HEIGHT,
 
-		MAIN_GAGE_BASE_ATTACK_WIDTH ,
-		MAIN_GAGE_BASE_ATTACK_HEIGHT ,
+		CHANGE_BUTTON_WIDTH,
+		CHANGE_BUTTON_WIDTH_HILIGHTED,
+		CHANGE_BUTTON_WIDTH_PUSHED,
 
-		MAIN_GAGE_BASE_DEFENSE_WIDTH ,
-		MAIN_GAGE_BASE_DEFENSE_HEIGHT ,
-		
-		ATTACK_GAGE_WIDTH ,
+		CHANGE_BUTTON_HEIGHT,
+		CHANGE_BUTTON_HEIGHT_HILIGHTED,
+		CHANGE_BUTTON_HEIGHT_PUSHED,
+
+		MAIN_GAGE_BASE_ATTACK_WIDTH,
+		MAIN_GAGE_BASE_ATTACK_HEIGHT,
+
+		MAIN_GAGE_BASE_DEFENSE_WIDTH,
+		MAIN_GAGE_BASE_DEFENSE_HEIGHT,
+
+		ATTACK_GAGE_WIDTH,
 		ATTACK_GAGE_HEIGHT,
-			
-		DEFENSE_GAGE_WIDTH ,
+
+		DEFENSE_GAGE_WIDTH,
 		DEFENSE_GAGE_HEIGHT,
-			
-		PARTY_GAGE_WIDTH ,
+
+		PARTY_GAGE_WIDTH,
 		PARTY_GAGE_HEIGHT,
-		
-		ATTACK_GAGE_FULL_WIDTH ,
+
+		ATTACK_GAGE_FULL_WIDTH,
 		ATTACK_GAGE_FULL_HEIGHT,
 
-		DEFENSE_GAGE_FULL_WIDTH ,
+		DEFENSE_GAGE_FULL_WIDTH,
 		DEFENSE_GAGE_FULL_HEIGHT,
 
-		PARTY_GAGE_FULL_WIDTH ,
+		PARTY_GAGE_FULL_WIDTH,
 		PARTY_GAGE_FULL_HEIGHT,
-		
+
 		ATTACK_BUTTON_HEIGHT,
 		ATTACK_BUTTON_HILIGHTED_HEIGHT,
 		ATTACK_BUTTON_PUSHED_HEIGHT,
-		
+
 		DEFENSE_BUTTON_HEIGHT,
 		DEFENSE_BUTTON_HILIGHTED_HEIGHT,
 		DEFENSE_BUTTON_PUSHED_HEIGHT,
@@ -1567,11 +1568,11 @@ private:
 		PARTY_BUTTON_HEIGHT,
 		PARTY_BUTTON_HILIGHTED_HEIGHT,
 		PARTY_BUTTON_PUSHED_HEIGHT,
-		
+
 		ATTACK_BUTTON_WIDTH,
 		ATTACK_BUTTON_HILIGHTED_WIDTH,
 		ATTACK_BUTTON_PUSHED_WIDTH,
-		
+
 		DEFENSE_BUTTON_WIDTH,
 		DEFENSE_BUTTON_HILIGHTED_WIDTH,
 		DEFENSE_BUTTON_PUSHED_WIDTH,
@@ -1581,59 +1582,59 @@ private:
 		PARTY_BUTTON_PUSHED_WIDTH,
 	};
 
-	enum	BLOOD_BURST_MAX 
+	enum	BLOOD_BURST_MAX
 	{
-		ATTACK_MAX_POINT	= 3000	, 
- 		DEFENSE_MAX_POINT	= 2000	, 
-		PARTY_MAX_POINT		= 20000 , 
+		ATTACK_MAX_POINT = 3000,
+		DEFENSE_MAX_POINT = 2000,
+		PARTY_MAX_POINT = 20000,
 	};
 
 
-	bool						m_width_mode	;
+	bool						m_width_mode;
 
 	bool						m_bGageAttackFull;
 	bool						m_bGageDefenseFull;
 	bool						m_bGagePartyFull;
 
-	int							m_iAttackGage	;
-	int							m_iDefenseGage	;
-	int							m_iPartyGage	;
-	
-	float						m_fAttackGageStartPosition ; 
-	float						m_fDefenseGageStartPosition ; 
-	float						m_fPartyGageStartPosition ; 
+	int							m_iAttackGage;
+	int							m_iDefenseGage;
+	int							m_iPartyGage;
 
-	DWORD						m_dw_prev_Attacktickcount	;
-	DWORD						m_dw_prev_Defensetickcount	;
-	DWORD						m_dw_prev_Partyickcount		;
+	float						m_fAttackGageStartPosition;
+	float						m_fDefenseGageStartPosition;
+	float						m_fPartyGageStartPosition;
+
+	DWORD						m_dw_prev_Attacktickcount;
+	DWORD						m_dw_prev_Defensetickcount;
+	DWORD						m_dw_prev_Partyickcount;
 
 	bool						m_bAttackTimerCheck;
 	bool						m_bDefenseTimerCheck;
 	bool						m_bPartyTimerCheck;
 
 
-	C_SPRITE_PACK	*			m_pC_BloodBurst_spk;
+	C_SPRITE_PACK* m_pC_BloodBurst_spk;
 
-	ButtonGroup *				m_pC_width_button_group;
-	ButtonGroup *				m_pC_height_button_group;
+	ButtonGroup* m_pC_width_button_group;
+	ButtonGroup* m_pC_height_button_group;
 
 
 public:
 	C_VS_UI_BLOOD_BURST();
 	~C_VS_UI_BLOOD_BURST();
 
-	void	UnacquireMouseFocus() 
+	void	UnacquireMouseFocus()
 	{
 		m_pC_width_button_group->UnacquireMouseFocus();
 		m_pC_height_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
 		m_pC_width_button_group->CancelPushState();
 		m_pC_height_button_group->CancelPushState();
 	}
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	bool	IsPixel(int _x, int _y);
 	void	AcquireDisappear() {}
@@ -1646,14 +1647,14 @@ public:
 	void	Start();
 	void	Finish();
 
-	void	SetGage() ; 
-	void	SetAttackGage() ; //int	AttackGage)	;
+	void	SetGage();
+	void	SetAttackGage(); //int	AttackGage)	;
 	void	SetDefenseGage(); //nt	DefenseGage);
-	void	SetPartyGage() ; //int	PartyGage)	;
+	void	SetPartyGage(); //int	PartyGage)	;
 
-	bool	GetAttackGageFull()		{	return	m_bGageAttackFull;	}
-	bool	GetDefenseGageFull()	{	return	m_bGageDefenseFull;	}
-	bool	GetPartyGageFull()		{	return	m_bGagePartyFull;	}
+	bool	GetAttackGageFull() { return	m_bGageAttackFull; }
+	bool	GetDefenseGageFull() { return	m_bGageDefenseFull; }
+	bool	GetPartyGageFull() { return	m_bGagePartyFull; }
 
 };
 
@@ -1668,11 +1669,11 @@ public:
 /*class C_VS_UI_MARKET_ACCOUNT  : public Window, public Exec, public ButtonVisual
 {
 private:
-	
-	
+
+
 	enum EXEC_ID
 	{
-		MARKETM_ID, 
+		MARKETM_ID,
 		MARKETB_ID,
 		MARKETH_ID,
 	};
@@ -1680,34 +1681,34 @@ private:
 
 	enum MARKET_ACCOUNT_SPK_INDEX
 	{
-		MARKETM_BUTTON , 
-		MARKETM_BUTTON_HILIGHTED , 
+		MARKETM_BUTTON ,
+		MARKETM_BUTTON_HILIGHTED ,
 		MARKETM_BUTTON_PUSHED ,
 
-		MARKETB_BUTTON , 
-		MARKETB_BUTTON_HILIGHTED , 
+		MARKETB_BUTTON ,
+		MARKETB_BUTTON_HILIGHTED ,
 		MARKETB_BUTTON_PUSHED ,
 
-		MARKETH_BUTTON , 
-		MARKETH_BUTTON_HILIGHTED , 
+		MARKETH_BUTTON ,
+		MARKETH_BUTTON_HILIGHTED ,
 		MARKETH_BUTTON_PUSHED ,
 	};
 
-	
+
 	C_SPRITE_PACK	*			m_pC_Market_spk;
 
 	ButtonGroup *				m_pC_Market_button_group;
-	
+
 
 public:
 	C_VS_UI_MARKET_ACCOUNT();
 	~C_VS_UI_MARKET_ACCOUNT();
 
-	void	UnacquireMouseFocus() 
+	void	UnacquireMouseFocus()
 	{
 		m_pC_Market_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
 		m_pC_Market_button_group->CancelPushState();
 	}
@@ -1737,13 +1738,13 @@ public:
 class C_VS_UI_EFFECT_STATUS : public Window, public Exec, public ButtonVisual
 {
 private:
-	int						m_scroll;
-	bool					m_width_mode;
-	bool					m_bl_effect_size_null;
-	C_SPRITE_PACK			* m_pC_effect_status_spk;
+	int	m_scroll;
+	bool m_width_mode;
+	bool m_bl_effect_size_null;
+	C_SPRITE_PACK* m_pC_effect_status_spk;
 
-	ButtonGroup *			m_pC_width_button_group;
-	ButtonGroup *			m_pC_height_button_group;
+	ButtonGroup* m_pC_width_button_group;
+	ButtonGroup* m_pC_height_button_group;
 
 	enum EFFECT_STATUS_SPK_INDEX
 	{
@@ -1782,18 +1783,18 @@ public:
 	~C_VS_UI_EFFECT_STATUS();
 
 	void	ResetSize();
-	void	UnacquireMouseFocus() 
+	void	UnacquireMouseFocus()
 	{
 		m_pC_width_button_group->UnacquireMouseFocus();
 		m_pC_height_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
 		m_pC_width_button_group->CancelPushState();
 		m_pC_height_button_group->CancelPushState();
 	}
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	bool	IsPixel(int _x, int _y);
 	void	AcquireDisappear() {}
@@ -1839,10 +1840,10 @@ struct MINIMAP_PORTAL
 class C_VS_UI_MINIMAP : public Window, public Exec, public ButtonVisual
 {
 private:
-	C_SPRITE_PACK			* m_pC_minimap_spk;
-	
-	CSpriteSurface			* m_p_minimap_surface;
-	ButtonGroup *			m_pC_button_group;
+	C_SPRITE_PACK* m_pC_minimap_spk;
+
+	CSpriteSurface* m_p_minimap_surface;
+	ButtonGroup* m_pC_button_group;
 
 	bool								m_bl_refresh;
 	POINT								m_map_start_point;
@@ -1862,7 +1863,7 @@ private:
 	DWORD						m_dw_minimap_prev_tickcount;
 	DWORD						m_dw_minimap_millisec;
 
-	bool						m_bMiniMapDisableZone;	// �̴ϸ��� ������� �ʴ� ���̴�.
+	bool						m_bMiniMapDisableZone;	// ?????? ??????? ??? ?????.
 
 #if __CONTENTS(__GPS_ADD)
 	int							m_GPSBoard_X;
@@ -1903,14 +1904,14 @@ private:
 	bool	m_bWindowEvent;
 
 public:
-	void SetBlock(int x,int y);
+	void SetBlock(int x, int y);
 	C_VS_UI_MINIMAP();
 	~C_VS_UI_MINIMAP();
 
-// 	static	int GetZoneNumber(int zone_id);
-// 	static	char * GetZoneName(int zone_id);
+	// 	static	int GetZoneNumber(int zone_id);
+	// 	static	char * GetZoneName(int zone_id);
 
-	int		GetZoneID()							{ return m_zone_id; }
+	int		GetZoneID() { return m_zone_id; }
 	void	SetZone(int zone_id);
 	void	SetSize(SIZE size) { m_map_w = size.cx; m_map_h = size.cy; }
 	void	SetPortal(RECT rect, int id);
@@ -1918,22 +1919,22 @@ public:
 	void	ClearNPC() { m_npc.clear(); }
 	void	SetSafetyZone(RECT rect, bool my_zone);
 	void	SetFlagArea(POINT pt);
-	void	SetXY(int x, int y)	{ m_map_x = x; m_map_y = y; }
-	int		GetX()	{ return m_map_x; }
-	int		GetY()	{ return m_map_y; }
+	void	SetXY(int x, int y) { m_map_x = x; m_map_y = y; }
+	int		GetX() { return m_map_x; }
+	int		GetY() { return m_map_y; }
 
 	void	TogglePushPin() { Run(PUSHPIN_ID); }
 
-	void	UnacquireMouseFocus() 
+	void	UnacquireMouseFocus()
 	{
 		m_pC_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
 		m_pC_button_group->CancelPushState();
 	}
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	bool	IsPixel(int _x, int _y);
 	void	AcquireDisappear() {}
@@ -1949,12 +1950,12 @@ public:
 	void	Process();
 	void	Start();
 	void	Finish();
-	
+
 	void	ResetBoardPosition();
 
 private:
 #if __CONTENTS(__GPS_ADD)
-	void	GPSRun();	
+	void	GPSRun();
 #endif //__GPS_ADD
 };
 
@@ -1976,30 +1977,30 @@ extern const char g_mark[MARK_MAX][9][7];
 //-----------------------------------------------------------------------------
 class C_VS_UI_QUEST_STATUS : public Window, public Exec, public ButtonVisual
 {
-public :
+public:
 
 	struct QUEST_STATUS
 	{
-		char*			Title;
+		char* Title;
 		DWORD			QuestID;
 		DWORD			current_point;
 		DWORD			quest_time;
 	};
-	
-	QUEST_STATUS		m_quest_status;					// ���� �������� ����Ʈ ����
+
+	QUEST_STATUS		m_quest_status;					// ???? ???????? ????? ????
 	bool				m_bl_active;
 	bool				m_bl_timeover;
 	bool				m_bl_focus;
-	
+
 	DWORD				m_timer;
 	DWORD				m_timer2;
-	CSpriteSurface *	m_p_back_surface;
-	std::vector<std::string>					m_hard_cording;		// �� ������!!!
+	CSpriteSurface* m_p_back_surface;
+	std::vector<std::string>					m_hard_cording;		// ?? ??????!!!
 
 
-private :
+private:
 
-	ButtonGroup			*m_pC_button_group;
+	ButtonGroup* m_pC_button_group;
 
 	enum EXEC_ID
 	{
@@ -2007,20 +2008,20 @@ private :
 		ALPHA_ID,
 		CLOSE_ID,
 		HELP_ID,
-		
+
 		DETAIL_ID,
 	};
 
-public :
+public:
 	void IncreaseQuestPoint();
 
 	C_VS_UI_QUEST_STATUS();
 	~C_VS_UI_QUEST_STATUS();
-	
-	
-	DWORD	GetQuestStatusID() { return m_quest_status.QuestID;}
+
+
+	DWORD	GetQuestStatusID() { return m_quest_status.QuestID; }
 	void	SetQuestStatusInit();
-	void	SetQuestStatus(QUEST_STATUS &status);
+	void	SetQuestStatus(QUEST_STATUS& status);
 	void	ToggleWindow();
 	void	ShowQuestDescription(int _x, int _y);
 
@@ -2029,19 +2030,19 @@ public :
 	void	Finish();
 	void	Process();
 	void	Run(id_t id);
-	
+
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 	std::string		GetDetailInfo();
 
-	bool	IsPixel(int _x,int _y);
+	bool	IsPixel(int _x, int _y);
 	int		Timer(int time = -1);
 	int		Timer2(int time = -1);
 
-	void	ShowDesc(int strX,int strY,const char *str);
+	void	ShowDesc(int strX, int strY, const char* str);
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	UnacquireMouseFocus()
@@ -2051,7 +2052,7 @@ public :
 	void	CancelPushState()
 	{
 		m_pC_button_group->CancelPushState();
-	}	
+	}
 };
 
 
@@ -2061,10 +2062,10 @@ class C_VS_UI_TRIBE : public Window, public HotKey, public Exec, public ButtonVi
 public:
 	enum	HOTKEYTYPE
 	{
-			QUICKITEM_TYPE ,
-			SKILL_TYPE ,
-			NOT_SELECT_TYPE ,
-	} ; 
+		QUICKITEM_TYPE,
+		SKILL_TYPE,
+		NOT_SELECT_TYPE,
+	};
 
 protected:
 
@@ -2120,120 +2121,120 @@ protected:
 		TAB_SYSTEM_DISABLE,
 
 
-// 		// menu tab
-// 		BUTTON_INVENTORY,
-// 		BUTTON_INVENTORY_HILIGHTED,
-// 		BUTTON_INVENTORY_HILIGHTED_PUSHED,
-// 		BUTTON_GEAR,
-// 		BUTTON_GEAR_HILIGHTED,
-// 		BUTTON_GEAR_HILIGHTED_PUSHED,
-// 		BUTTON_INFO,
-// 		BUTTON_INFO_HILIGHTED,
-// 		BUTTON_INFO_HILIGHTED_PUSHED,
-// 		BUTTON_PARTY,
-// 		BUTTON_PARTY_HILIGHTED,
-// 		BUTTON_PARTY_HILIGHTED_PUSHED,
-// 		BUTTON_QUEST,
-// 		BUTTON_QUEST_HILIGHTED,
-// 		BUTTON_QUEST_HILIGHTED_PUSHED,
-// 		
-// 		// help tab
-// 		BUTTON_HELP,
-// 		BUTTON_HELP_HILIGHTED,
-// 		BUTTON_HELP_HILIGHTED_PUSHED,
-// 		BUTTON_CHAT_HELP,
-// 		BUTTON_CHAT_HELP_HILIGHTED,
-// 		BUTTON_CHAT_HELP_HILIGHTED_PUSHED,
-// 		BUTTON_BATTLE_HELP,
-// 		BUTTON_BATTLE_HELP_HILIGHTED,
-// 		BUTTON_BATTLE_HELP_HILIGHTED_PUSHED,
-// 		BUTTON_SKILL_HELP,
-// 		BUTTON_SKILL_HELP_HILIGHTED,
-// 		BUTTON_SKILL_HELP_HILIGHTED_PUSHED,
-// 
-// 		// guild tab
-// 		BUTTON_TEAM_INFO,
-// 		BUTTON_TEAM_INFO_HILIGHTED,
-// 		BUTTON_TEAM_INFO_HILIGHTED_PUSHED,
-// 		BUTTON_TEAM_MEMBER_LIST,
-// 		BUTTON_TEAM_MEMBER_LIST_HILIGHTED,
-// 		BUTTON_TEAM_MEMBER_LIST_HILIGHTED_PUSHED,
-// 
-// 		// etc-_- ���¹̿� by ����
-// 		BUTTON_MAIL,					// �޴��ǿ� ����
-// 		BUTTON_MAIL_HILIGHTED,
-// 		BUTTON_MAIL_HILIGHTED_PUSHED,
-// 
-// 		BUTTON_SMS,
-// 		BUTTON_SMS_HILIGHTED,
-// 		BUTTON_SMS_HILIGHTED_PUSHED,
-// 
-// 		BUTTON_NAMING,
-// 		BUTTON_NAMING_HILIGHTED,
-// 		BUTTON_NAMING_HILIGHTED_PUSHED,
-// 
-// 		BUTTON_GUILD_LIST,
-// 		BUTTON_GUILD_LIST_HILIGHTED,
-// 		BUTTON_GUILD_LIST_HILIGHTED_PUSHED,
-// 
-// 		BUTTON_WAIT_GUILD_LIST,
-// 		BUTTON_WAIT_GUILD_LIST_HILIGHTED,
-// 		BUTTON_WAIT_GUILD_LIST_HILIGHTED_PUSHED,
-// 
-// 		BUTTON_UNION,
-// 		BUTTON_UNION_HILIGHTED,
-// 		BUTTON_UNION_HILIGHTED_PUSHED,
-// 		
-// 		TAB_UTIL,
-// 		TAB_UTIL_NEW,
-// 		TAB_UTIL_HILIGHTED,
-// 
-// 		BUTTON_STORE,
-// 		BUTTON_STORE_HILIGHTED,
-// 		BUTTON_STORE_HILIGHTED_PUSHED,
-// 
-// 		BUTTON_POWER_JJANG,
-// 		BUTTON_POWER_JJANG_HILIGHTED,
-// 		BUTTON_POWER_JJANG_HILIGHTED_PUSHED,
-// 		
-// 		// ���� ��ư
-// 		BUTTON_MARKETM,
-// 		BUTTON_MARKETM_HILIGHTED, 
-// 		BUTTON_MARKETM_PUSHED,
-// 
-// 		BUTTON_MARKETB, 
-// 		BUTTON_MARKETB_HILIGHTED,
-// 		BUTTON_MARKETB_PUSHED,
-// 
-// 		// ���� �� ��ư
-// 		BUTTON_WORLD_MAP,
-// 		BUTTON_WORLD_MAP_HILIGHTED,
-// 		BUTTON_WORLD_MAP_PUSHED,
-// 
-// #if __CONTENTS(__FRIEND_ADDITION)
-// 		BUTTON_FRIEND_SYSTEM,
-// 		BUTTON_FRIEND_SYSTEM_HILIGHTED,
-// 		BUTTON_FRIEND_SYSTEM_PUSHED,
-// 
-// 		BUTTON_FRIEND_WAIT,
-// 		BUTTON_FRIEND_WAIT_HILIGHTED,
-// 		BUTTON_FRIEND_WAIT_PUSHED,
-// #endif //__FRIEND_ADDITION
-// 
-// //		BUTTON_TEAM_COMMAND,
-// //		BUTTON_TEAM_COMMAND_HILIGHTED,
-// //		BUTTON_TEAM_COMMAND_HILIGHTED_PUSHED,
-// //		BUTTON_TEAM_LIST,
-// //		BUTTON_TEAM_LIST_HILIGHTED,
-// //		BUTTON_TEAM_LIST_HILIGHTED_PUSHED,
-// //		BUTTON_TEAM_WAIT_LIST,
-// //		BUTTON_TEAM_WAIT_LIST_HILIGHTED,
-// //		BUTTON_TEAM_WAIT_LIST_HILIGHTED_PUSHED,
-// //		BUTTON_TEAM_UNION,
-// //		BUTTON_TEAM_UNION_HILIGHTED,
-// //		BUTTON_TEAM_UNION_HILIGHTED_PUSHED,
-// //	
-		
+		// 		// menu tab
+		// 		BUTTON_INVENTORY,
+		// 		BUTTON_INVENTORY_HILIGHTED,
+		// 		BUTTON_INVENTORY_HILIGHTED_PUSHED,
+		// 		BUTTON_GEAR,
+		// 		BUTTON_GEAR_HILIGHTED,
+		// 		BUTTON_GEAR_HILIGHTED_PUSHED,
+		// 		BUTTON_INFO,
+		// 		BUTTON_INFO_HILIGHTED,
+		// 		BUTTON_INFO_HILIGHTED_PUSHED,
+		// 		BUTTON_PARTY,
+		// 		BUTTON_PARTY_HILIGHTED,
+		// 		BUTTON_PARTY_HILIGHTED_PUSHED,
+		// 		BUTTON_QUEST,
+		// 		BUTTON_QUEST_HILIGHTED,
+		// 		BUTTON_QUEST_HILIGHTED_PUSHED,
+		// 		
+		// 		// help tab
+		// 		BUTTON_HELP,
+		// 		BUTTON_HELP_HILIGHTED,
+		// 		BUTTON_HELP_HILIGHTED_PUSHED,
+		// 		BUTTON_CHAT_HELP,
+		// 		BUTTON_CHAT_HELP_HILIGHTED,
+		// 		BUTTON_CHAT_HELP_HILIGHTED_PUSHED,
+		// 		BUTTON_BATTLE_HELP,
+		// 		BUTTON_BATTLE_HELP_HILIGHTED,
+		// 		BUTTON_BATTLE_HELP_HILIGHTED_PUSHED,
+		// 		BUTTON_SKILL_HELP,
+		// 		BUTTON_SKILL_HELP_HILIGHTED,
+		// 		BUTTON_SKILL_HELP_HILIGHTED_PUSHED,
+		// 
+		// 		// guild tab
+		// 		BUTTON_TEAM_INFO,
+		// 		BUTTON_TEAM_INFO_HILIGHTED,
+		// 		BUTTON_TEAM_INFO_HILIGHTED_PUSHED,
+		// 		BUTTON_TEAM_MEMBER_LIST,
+		// 		BUTTON_TEAM_MEMBER_LIST_HILIGHTED,
+		// 		BUTTON_TEAM_MEMBER_LIST_HILIGHTED_PUSHED,
+		// 
+		// 		// etc-_- ???�?? by ????
+		// 		BUTTON_MAIL,					// ?????? ????
+		// 		BUTTON_MAIL_HILIGHTED,
+		// 		BUTTON_MAIL_HILIGHTED_PUSHED,
+		// 
+		// 		BUTTON_SMS,
+		// 		BUTTON_SMS_HILIGHTED,
+		// 		BUTTON_SMS_HILIGHTED_PUSHED,
+		// 
+		// 		BUTTON_NAMING,
+		// 		BUTTON_NAMING_HILIGHTED,
+		// 		BUTTON_NAMING_HILIGHTED_PUSHED,
+		// 
+		// 		BUTTON_GUILD_LIST,
+		// 		BUTTON_GUILD_LIST_HILIGHTED,
+		// 		BUTTON_GUILD_LIST_HILIGHTED_PUSHED,
+		// 
+		// 		BUTTON_WAIT_GUILD_LIST,
+		// 		BUTTON_WAIT_GUILD_LIST_HILIGHTED,
+		// 		BUTTON_WAIT_GUILD_LIST_HILIGHTED_PUSHED,
+		// 
+		// 		BUTTON_UNION,
+		// 		BUTTON_UNION_HILIGHTED,
+		// 		BUTTON_UNION_HILIGHTED_PUSHED,
+		// 		
+		// 		TAB_UTIL,
+		// 		TAB_UTIL_NEW,
+		// 		TAB_UTIL_HILIGHTED,
+		// 
+		// 		BUTTON_STORE,
+		// 		BUTTON_STORE_HILIGHTED,
+		// 		BUTTON_STORE_HILIGHTED_PUSHED,
+		// 
+		// 		BUTTON_POWER_JJANG,
+		// 		BUTTON_POWER_JJANG_HILIGHTED,
+		// 		BUTTON_POWER_JJANG_HILIGHTED_PUSHED,
+		// 		
+		// 		// ???? ???
+		// 		BUTTON_MARKETM,
+		// 		BUTTON_MARKETM_HILIGHTED, 
+		// 		BUTTON_MARKETM_PUSHED,
+		// 
+		// 		BUTTON_MARKETB, 
+		// 		BUTTON_MARKETB_HILIGHTED,
+		// 		BUTTON_MARKETB_PUSHED,
+		// 
+		// 		// ???? ?? ???
+		// 		BUTTON_WORLD_MAP,
+		// 		BUTTON_WORLD_MAP_HILIGHTED,
+		// 		BUTTON_WORLD_MAP_PUSHED,
+		// 
+		// #if __CONTENTS(__FRIEND_ADDITION)
+		// 		BUTTON_FRIEND_SYSTEM,
+		// 		BUTTON_FRIEND_SYSTEM_HILIGHTED,
+		// 		BUTTON_FRIEND_SYSTEM_PUSHED,
+		// 
+		// 		BUTTON_FRIEND_WAIT,
+		// 		BUTTON_FRIEND_WAIT_HILIGHTED,
+		// 		BUTTON_FRIEND_WAIT_PUSHED,
+		// #endif //__FRIEND_ADDITION
+		// 
+		// //		BUTTON_TEAM_COMMAND,
+		// //		BUTTON_TEAM_COMMAND_HILIGHTED,
+		// //		BUTTON_TEAM_COMMAND_HILIGHTED_PUSHED,
+		// //		BUTTON_TEAM_LIST,
+		// //		BUTTON_TEAM_LIST_HILIGHTED,
+		// //		BUTTON_TEAM_LIST_HILIGHTED_PUSHED,
+		// //		BUTTON_TEAM_WAIT_LIST,
+		// //		BUTTON_TEAM_WAIT_LIST_HILIGHTED,
+		// //		BUTTON_TEAM_WAIT_LIST_HILIGHTED_PUSHED,
+		// //		BUTTON_TEAM_UNION,
+		// //		BUTTON_TEAM_UNION_HILIGHTED,
+		// //		BUTTON_TEAM_UNION_HILIGHTED_PUSHED,
+		// //	
+
 	};
 
 	enum EXEC_INDEX	// by larosel
@@ -2260,22 +2261,22 @@ protected:
 		SMS_ID,
 #endif
 		NAMING_ID,
-		
+
 		// TEAM TAB
-		TEAM_INFO_ID, // ��ä ���̵�
-		TEAM_MEMBER_LIST_ID, // ��ä �ɹ� ���
-//		TEAM_COMMAND_ID, // ��� ����
-		TEAM_LIST_ID, // ��� ����Ʈ
-		TEAM_WAIT_LIST_ID, // ��� ��� ����Ʈ
-		TEAM_UNION_ID,		// ���� ����
+		TEAM_INFO_ID, // ??� ?????
+		TEAM_MEMBER_LIST_ID, // ??� ??? ???
+		//		TEAM_COMMAND_ID, // ??? ????
+		TEAM_LIST_ID, // ??? ?????
+		TEAM_WAIT_LIST_ID, // ??? ??? ?????
+		TEAM_UNION_ID,		// ???? ????
 
 		// UTIL TAB
-		UTIL_STORE_ID, // ��ä �ٺ� ����
-//#if __CONTENTS(__POWER_JJANG_ID)
-//		UTIL_POWER_JJANG_ID,
-//#endif
+		UTIL_STORE_ID, // ??� ??? ????
+		//#if __CONTENTS(__POWER_JJANG_ID)
+		//		UTIL_POWER_JJANG_ID,
+		//#endif
 #if __CONTENTS(__DARKEDEN_MARKET)
-		UTIL_MARKETM_ID, 
+		UTIL_MARKETM_ID,
 #endif //__DARKEDEN_MARKET
 		UTIL_MARKETB_ID,
 
@@ -2284,7 +2285,7 @@ protected:
 		UTIL_FRIEND_WAIT,
 #endif //__FRIEND_ADDITION	
 
-		
+
 		// HELP TAB
 		HELP_ID,
 		CHAT_HELP_ID,
@@ -2306,38 +2307,38 @@ protected:
 
 
 
-	C_VS_UI_SKILL	*			m_pC_skill;
+	C_VS_UI_SKILL* m_pC_skill;
 
-	C_VS_UI_LEVELUP *			m_pC_level_up;
+	C_VS_UI_LEVELUP* m_pC_level_up;
 	Point						m_backup_inventory_xy, m_backup_gear_xy;
-	ButtonGroup *				m_pC_common_button_group;
+	ButtonGroup* m_pC_common_button_group;
 
 	enum { MENU_BUTTON_GROUP_COUNT = MENU_HELP_ID - MENU_INFO_ID + 1 };
-	ButtonGroup *				m_pC_menu_button_groups[MENU_BUTTON_GROUP_COUNT];
+	ButtonGroup* m_pC_menu_button_groups[MENU_BUTTON_GROUP_COUNT];
 
-// 	ButtonGroup *				m_pC_menu_button_group;
-// 	ButtonGroup *				m_pC_guild_button_group;
-// 	ButtonGroup *				m_pC_msg_button_group;
-// 	ButtonGroup *				m_pC_util_button_group;
-// 	ButtonGroup *				m_pC_help_button_group;
+	// 	ButtonGroup *				m_pC_menu_button_group;
+	// 	ButtonGroup *				m_pC_guild_button_group;
+	// 	ButtonGroup *				m_pC_msg_button_group;
+	// 	ButtonGroup *				m_pC_util_button_group;
+	// 	ButtonGroup *				m_pC_help_button_group;
 
-	C_VS_UI_HPBAR *				m_pC_hpbar;
-	C_VS_UI_BLOOD_BURST*		m_pC_BloodBurst;
+	C_VS_UI_HPBAR* m_pC_hpbar;
+	C_VS_UI_BLOOD_BURST* m_pC_BloodBurst;
 	//C_VS_UI_MARKET_ACCOUNT*		m_pC_Market;
 
-	C_VS_UI_EFFECT_STATUS *		m_pC_effect_status;
-	C_VS_UI_MINIMAP *			m_pC_minimap;
-	C_VS_UI_CHATTING *			m_pC_chatting;
-	C_VS_UI_SLAYER_QUICKITEM *	m_pC_quickitem;
-	
-	C_VS_UI_OUSTERS_QUICKITEM * m_pC_armsband;
-	C_VS_UI_QUEST_STATUS *		m_pC_quest_status;
+	C_VS_UI_EFFECT_STATUS* m_pC_effect_status;
+	C_VS_UI_MINIMAP* m_pC_minimap;
+	C_VS_UI_CHATTING* m_pC_chatting;
+	C_VS_UI_SLAYER_QUICKITEM* m_pC_quickitem;
 
-	C_VS_UI_INVENTORY *			m_pC_inventory;
+	C_VS_UI_OUSTERS_QUICKITEM* m_pC_armsband;
+	C_VS_UI_QUEST_STATUS* m_pC_quest_status;
+
+	C_VS_UI_INVENTORY* m_pC_inventory;
 	//C_VS_UI_QUEST_STATUS *		m_pC_quest;
 
-	C_SPRITE_PACK *				m_pC_main_spk;
-	C_SPRITE_PACK * 			m_pC_sys_button_spk;
+	C_SPRITE_PACK* m_pC_main_spk;
+	C_SPRITE_PACK* m_pC_sys_button_spk;
 
 
 	std::string m_time;
@@ -2345,52 +2346,64 @@ protected:
 
 	int							m_selected_menu;
 
-//	bool						m_bl_help, m_bl_party;
+	//	bool						m_bl_help, m_bl_party;
 
-	//timer
+		//timer
 	DWORD						m_dw_prev_tickcount;
 	DWORD						m_dw_millisec;
 
 
 	id_t						m_OpenedHelpIdx;
-	int							m_HotKey_Type[12] ; 
+	int							m_HotKey_Type[12];
 
 	bool	Timer();
 
 public:
-	void	MouseControlExtra(UINT message, int _x, int _y) 
+	void	MouseControlExtra(UINT message, int _x, int _y)
 	{
-		if(m_pC_minimap != NULL)
+		if (m_pC_minimap != NULL)
 		{
 			m_pC_minimap->IsInRect(_x, _y);
-			m_pC_minimap->MouseControlExtra(message, _x, _y); 
+			m_pC_minimap->MouseControlExtra(message, _x, _y);
 		}
 	}
-	void	ResetOpenedHelpIdx()		{ m_OpenedHelpIdx = EXEC_MAX;	}
+	void	ResetOpenedHelpIdx() { m_OpenedHelpIdx = EXEC_MAX; }
 
-	//���ڼ�ġ
+	//??????
 	void	StartInstallMineProgress(int focus_grid_x, int focus_grid_y)
-	{ if(m_pC_inventory)m_pC_inventory->StartInstallMineProgress(focus_grid_x, focus_grid_y); }
-	bool	IsInstallMineProgress()		{ return gbl_mine_progress; }
-	void	EndInstallMineProgress()	{ gbl_mine_progress = false; }
-	//���ڸ����
+	{
+		if (m_pC_inventory)m_pC_inventory->StartInstallMineProgress(focus_grid_x, focus_grid_y);
+	}
+	bool	IsInstallMineProgress() { return gbl_mine_progress; }
+	void	EndInstallMineProgress() { gbl_mine_progress = false; }
+	//????????
 	void	StartCreateMineProgress(int focus_grid_x, int focus_grid_y)
-	{ if(m_pC_inventory)m_pC_inventory->StartCreateMineProgress(focus_grid_x, focus_grid_y); }
-	bool	IsCreateMineProgress()		{ return gbl_mine_progress; }
-	void	EndCreateMineProgress()	{ gbl_mine_progress = false; }
-	//��ź �����
+	{
+		if (m_pC_inventory)m_pC_inventory->StartCreateMineProgress(focus_grid_x, focus_grid_y);
+	}
+	bool	IsCreateMineProgress() { return gbl_mine_progress; }
+	void	EndCreateMineProgress() { gbl_mine_progress = false; }
+	//??? ?????
 	void	StartCreateBombProgress(int focus_grid_x, int focus_grid_y)
-	{ if(m_pC_inventory)m_pC_inventory->StartCreateBombProgress(focus_grid_x, focus_grid_y); }
-	bool	IsCreateBombProgress()		{ return gbl_mine_progress; }
-	void	EndCreateBombProgress()	{ gbl_mine_progress = false; }
+	{
+		if (m_pC_inventory)m_pC_inventory->StartCreateBombProgress(focus_grid_x, focus_grid_y);
+	}
+	bool	IsCreateBombProgress() { return gbl_mine_progress; }
+	void	EndCreateBombProgress() { gbl_mine_progress = false; }
 
-	//���� Progress Bar
+	//???? Progress Bar
 	void	StartSkillCastingProgress(int skillID, DWORD time, CPoint inventoryGrid = CPoint(-1, -1))
-	{ if(m_pC_skill) m_pC_skill->StartSkillCastingProgress(skillID, time, inventoryGrid); }
+	{
+		if (m_pC_skill) m_pC_skill->StartSkillCastingProgress(skillID, time, inventoryGrid);
+	}
 	bool	IsSkillCastingProgress()
-	{ return m_pC_skill && m_pC_skill->IsSkillCastingProgress();	}
+	{
+		return m_pC_skill && m_pC_skill->IsSkillCastingProgress();
+	}
 	void	EndSkillCastingProgress()
-	{ if(m_pC_skill) m_pC_skill->EndSkillCastingProgress();			}
+	{
+		if (m_pC_skill) m_pC_skill->EndSkillCastingProgress();
+	}
 
 
 	int		GetSelectedMenu() { return m_selected_menu; }
@@ -2403,73 +2416,73 @@ public:
 
 	void	ResetSkillSet()
 	{
-		if(m_pC_skill!=NULL)
+		if (m_pC_skill != NULL)
 			m_pC_skill->ResetSkillSet();
 	}
-	
+
 	int		GetSelectedSkillID()
 	{
-		if(m_pC_skill!=NULL)
+		if (m_pC_skill != NULL)
 			return m_pC_skill->GetSelectedSkillID();
-		else return -1 ;
+		else return -1;
 	}
-	
+
 	void	SetComboCnt(int ComboCnt)
 	{
-		if(m_pC_skill!=NULL)
+		if (m_pC_skill != NULL)
 			m_pC_skill->SetComboCnt(ComboCnt);
 	}
-		
+
 	void	SetSelectedAttackComboSkill(bool	bAttackSkill)
 	{
-		if(m_pC_skill!=NULL)
+		if (m_pC_skill != NULL)
 			m_pC_skill->SetSelectedAttackComboSkill(bAttackSkill);
 	}
-	
+
 	//void	SetGage()
 	//{
 	//	if(m_pC_BloodBurst!=NULL)
 	//		m_pC_BloodBurst->SetGage()	;
 	//}
-	
+
 	void	SetBloodBurstAttackGage()
 	{
-		if(m_pC_BloodBurst!=NULL)
+		if (m_pC_BloodBurst != NULL)
 			m_pC_BloodBurst->SetAttackGage();
 	}
 
 	void	SetBloodBurstDefenseGage()
 	{
-		if(m_pC_BloodBurst!=NULL)
+		if (m_pC_BloodBurst != NULL)
 			m_pC_BloodBurst->SetDefenseGage();
 	}
 
 	void	SetBloodBurstPartyGage()
 	{
-		if(m_pC_BloodBurst!=NULL)
+		if (m_pC_BloodBurst != NULL)
 			m_pC_BloodBurst->SetPartyGage();
 	}
 
 
 	bool	GetBloodBurstAttackGageFull()
 	{
-		if(m_pC_BloodBurst!=NULL)
+		if (m_pC_BloodBurst != NULL)
 			return	m_pC_BloodBurst->GetAttackGageFull();
-		return false ;
+		return false;
 	}
 
 	bool	GetBloodBurstDefenseGageFull()
 	{
-		if(m_pC_BloodBurst!=NULL)
+		if (m_pC_BloodBurst != NULL)
 			return	m_pC_BloodBurst->GetDefenseGageFull();
-		return false ;
+		return false;
 	}
 
 	bool	GetBloodBurstPartyGageFull()
 	{
-		if(m_pC_BloodBurst!=NULL)
+		if (m_pC_BloodBurst != NULL)
 			return	m_pC_BloodBurst->GetPartyGageFull();
-		return false ;
+		return false;
 	}
 
 
@@ -2479,35 +2492,35 @@ public:
 		return GetSkillWindow()->GetHotkey(hotkey, grade);
 	}
 
-	void	SetTime(const char *str)			{ m_time = str; }
-	void	SetDate(const char *str)			{ m_date = str; }
-	void	ToggleMinimap()						{ m_pC_minimap->TogglePushPin(); }
+	void	SetTime(const char* str) { m_time = str; }
+	void	SetDate(const char* str) { m_date = str; }
+	void	ToggleMinimap() { m_pC_minimap->TogglePushPin(); }
 
 	virtual void	RunQuickItemSlot() = 0;
 	virtual void	CloseQuickItemSlot() = 0;
 	virtual bool	IsRunningQuickItemSlot() = 0;
-	void	RunMinimap() {  }
-	void	CloseMinimap() {  }
+	void	RunMinimap() {}
+	void	CloseMinimap() {}
 	bool	IsRunningMinimap() { return false; }
-	void	RunMark()		{  }
-	void	CloseMark()		{  }
-	bool	IsRunningMark()	{ return false; }
-	void	SetWhisperID(char *id)	{ if(m_pC_chatting)m_pC_chatting->SetWhisperID(id); }
+	void	RunMark() {}
+	void	CloseMark() {}
+	bool	IsRunningMark() { return false; }
+	void	SetWhisperID(char* id) { if (m_pC_chatting)m_pC_chatting->SetWhisperID(id); }
 
-	bool	IsRunningQuestStatusWindow() { if(m_pC_quest_status) return m_pC_quest_status->Running(); return false;}
-	void	OpenQuestStatusWindow() { if(!m_pC_quest_status->Running()) m_pC_quest_status->Start(); }
-	void	CloseQuestStatusWindow() { if(m_pC_quest_status->Running()) m_pC_quest_status->Finish(); }
-	void	SetQuestStatusWindow(C_VS_UI_QUEST_STATUS::QUEST_STATUS& status)	{ if(m_pC_quest_status) m_pC_quest_status->SetQuestStatus( status ); }
-	DWORD	GetQuestStatusID()	{ 
-		if(m_pC_quest_status) return m_pC_quest_status->GetQuestStatusID( ); 
+	bool	IsRunningQuestStatusWindow() { if (m_pC_quest_status) return m_pC_quest_status->Running(); return false; }
+	void	OpenQuestStatusWindow() { if (!m_pC_quest_status->Running()) m_pC_quest_status->Start(); }
+	void	CloseQuestStatusWindow() { if (m_pC_quest_status->Running()) m_pC_quest_status->Finish(); }
+	void	SetQuestStatusWindow(C_VS_UI_QUEST_STATUS::QUEST_STATUS& status) { if (m_pC_quest_status) m_pC_quest_status->SetQuestStatus(status); }
+	DWORD	GetQuestStatusID() {
+		if (m_pC_quest_status) return m_pC_quest_status->GetQuestStatusID();
 		else return 0xffffffff;
 	}
-	void	UnSetQuestStatusWindow() { if(m_pC_quest_status) m_pC_quest_status->SetQuestStatusInit(); }
+	void	UnSetQuestStatusWindow() { if (m_pC_quest_status) m_pC_quest_status->SetQuestStatusInit(); }
 
 	void	LevelUp()
 	{
-		// �̹� �� ������ �ƹ��͵� ���Ѵ�.
-		// �ݴ� ���� closing interface��...
+		// ??? ?? ?????? ?????? ?????.
+		// ??? ???? closing interface??...
 
 		if (!m_pC_level_up)
 		{
@@ -2536,13 +2549,13 @@ public:
 		return m_pC_chatting->IsEmpty();
 	}
 
-	virtual void	DoCommonActionBeforeEventOccured(); // �߻��ϱ� ��
-	virtual void	DoCommonActionAfterEventOccured()  // �߻��� ��
+	virtual void	DoCommonActionBeforeEventOccured(); // ?????? ??
+	virtual void	DoCommonActionAfterEventOccured()  // ????? ??
 	{
 		CloseInventory();
 		CloseGear();
 
-//		InitWindowToggleFlag();
+		//		InitWindowToggleFlag();
 		GetInventoryWindow()->AttrWindowMove(true);
 		GetGearWindow()->AttrWindowMove(true);
 
@@ -2573,27 +2586,27 @@ public:
 		GetGearWindow()->XY(_x, _y);
 	}
 
-	void	ShopRunningAnnounced(); // Shop�� ���� �ʿ��� Window�� ����.
-	
+	void	ShopRunningAnnounced(); // Shop?? ???? ????? Window?? ????.
+
 	void	StorageRunningAnnounced();
-	
+
 	void	GetItemBoxRunningAnnounced();
-	
+
 	void	ExchangeRunningAnnounced();
-	
-	void	SetChattingInterface(C_VS_UI_CHATTING * p_chatting);
+
+	void	SetChattingInterface(C_VS_UI_CHATTING* p_chatting);
 
 	virtual void	ResetSlayerQuickItemSize() {}
 	virtual void	ResetOustersQuickItemSize() {}
-	virtual void	OpenGear(bool bl_set_load = true)=0;
-#if __CONTENTS(__GEAR_SWAP_CHANGE)			//������ ��ü ���� ���� �Լ� ����
-	virtual	void	RunGearChange()=0;
+	virtual void	OpenGear(bool bl_set_load = true) = 0;
+#if __CONTENTS(__GEAR_SWAP_CHANGE)			//?????? ??� ???? ???? ??? ????
+	virtual	void	RunGearChange() = 0;
 #endif //__GEAR_SWAP_CHANGE
-	virtual void	CloseGear()=0;
-	virtual C_VS_UI_GEAR	* GetGearWindow() const=0;
+	virtual void	CloseGear() = 0;
+	virtual C_VS_UI_GEAR* GetGearWindow() const = 0;
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 
 	C_VS_UI_TRIBE();
 	virtual ~C_VS_UI_TRIBE();
@@ -2609,7 +2622,7 @@ public:
 	void Finish()
 	{
 		PI_Processor::Finish();
-	
+
 		gpC_window_manager->DisappearWindow(this);
 	}
 
@@ -2621,7 +2634,7 @@ public:
 	{
 		m_pC_common_button_group->CancelPushState();
 
-		for(int i = 0 ; i < MENU_BUTTON_GROUP_COUNT; ++i)
+		for (int i = 0; i < MENU_BUTTON_GROUP_COUNT; ++i)
 			m_pC_menu_button_groups[i]->CancelPushState();
 	}
 
@@ -2629,7 +2642,7 @@ public:
 	{
 		m_pC_common_button_group->UnacquireMouseFocus();
 
-		for(int i = 0 ; i < MENU_BUTTON_GROUP_COUNT; ++i)
+		for (int i = 0; i < MENU_BUTTON_GROUP_COUNT; ++i)
 			m_pC_menu_button_groups[i]->UnacquireMouseFocus();
 	}
 
@@ -2647,8 +2660,8 @@ public:
 
 	Point	GetInventoryGridPosition(int grid_x, int grid_y) const
 	{
-		Point point(GetInventoryWindow()->x + GetInventoryWindow()->GetGridRect().x+C_VS_UI_INVENTORY::GRID_UNIT_PIXEL_X*grid_x, 
-						GetInventoryWindow()->y + GetInventoryWindow()->GetGridRect().y+C_VS_UI_INVENTORY::GRID_UNIT_PIXEL_Y*grid_y); 
+		Point point(GetInventoryWindow()->x + GetInventoryWindow()->GetGridRect().x + C_VS_UI_INVENTORY::GRID_UNIT_PIXEL_X * grid_x,
+			GetInventoryWindow()->y + GetInventoryWindow()->GetGridRect().y + C_VS_UI_INVENTORY::GRID_UNIT_PIXEL_Y * grid_y);
 
 		return point;
 	}
@@ -2656,43 +2669,43 @@ public:
 	Point	GetInventoryGetWidthAndHeight()
 	{
 		Point pt;
-		pt.x	= GetInventoryWindow()->m_dwWidth;
-		pt.y	= GetInventoryWindow()->m_dwHight;
+		pt.x = GetInventoryWindow()->m_dwWidth;
+		pt.y = GetInventoryWindow()->m_dwHight;
 		return pt;
 	}
 
 	void	Run(id_t id);
 	bool	IsPixel(int _x, int _y);
-	C_VS_UI_SKILL * GetSkillWindow() const { return m_pC_skill; }
-	C_VS_UI_INVENTORY * GetInventoryWindow() const { return m_pC_inventory; }
+	C_VS_UI_SKILL* GetSkillWindow() const { return m_pC_skill; }
+	C_VS_UI_INVENTORY* GetInventoryWindow() const { return m_pC_inventory; }
 	void	CloseInventory() { m_pC_inventory->Finish(); }
-	void	OpenInventory(bool bl_set_load = true) { if( m_pC_inventory != NULL ) m_pC_inventory->Start(bl_set_load); }
+	void	OpenInventory(bool bl_set_load = true) { if (m_pC_inventory != NULL) m_pC_inventory->Start(bl_set_load); }
 
 	void	WindowEventReceiver(id_t event);
 	bool	MouseControl(UINT message, int _x, int _y);
 
-	void	SetZone(int zone_id)				{ m_pC_minimap->SetZone(zone_id); }
-	int		GetZoneID()							{ return m_pC_minimap->GetZoneID(); }
-	void	SetBlock(int x,int y)				{ m_pC_minimap->SetBlock(x,y);}
-	void	SetSize(SIZE size)					{ m_pC_minimap->SetSize(size); }
-	void	SetXY(int x, int y)					{ m_pC_minimap->SetXY(x, y); }
-	int		GetX()								{ return m_pC_minimap->GetX(); }
-	int		GetY()								{ return m_pC_minimap->GetY(); }
-	void	SetSafetyZone(RECT rect, bool my_zone)	{ m_pC_minimap->SetSafetyZone(rect, my_zone); }
-	void	SetNPC(MINIMAP_NPC npc)					{ m_pC_minimap->SetNPC(npc); }
-	void	ClearNPC()								{ m_pC_minimap->ClearNPC(); }
-	void	SetPortal(RECT rect, int id)			{ m_pC_minimap->SetPortal(rect, id); }
+	void	SetZone(int zone_id) { m_pC_minimap->SetZone(zone_id); }
+	int		GetZoneID() { return m_pC_minimap->GetZoneID(); }
+	void	SetBlock(int x, int y) { m_pC_minimap->SetBlock(x, y); }
+	void	SetSize(SIZE size) { m_pC_minimap->SetSize(size); }
+	void	SetXY(int x, int y) { m_pC_minimap->SetXY(x, y); }
+	int		GetX() { return m_pC_minimap->GetX(); }
+	int		GetY() { return m_pC_minimap->GetY(); }
+	void	SetSafetyZone(RECT rect, bool my_zone) { m_pC_minimap->SetSafetyZone(rect, my_zone); }
+	void	SetNPC(MINIMAP_NPC npc) { m_pC_minimap->SetNPC(npc); }
+	void	ClearNPC() { m_pC_minimap->ClearNPC(); }
+	void	SetPortal(RECT rect, int id) { m_pC_minimap->SetPortal(rect, id); }
 
 
 	bool	CloseInventoryGearWindow();
 	bool	GetGearOpenState() const;
-	bool	GetInventoryOpenState() const;	
+	bool	GetInventoryOpenState() const;
 
 	void	UnselectSkill() { GetSkillWindow()->UnselectSkill(); }
 	void	ChangeSkillWheel(bool direct) { GetSkillWindow()->ChangeSkillWheel(direct); }
-	void	SelectSkill(int id)	{ GetSkillWindow()->SelectSkill(id); }
-	
-	void	OnClick_HelpTap( id_t execidx );
+	void	SelectSkill(int id) { GetSkillWindow()->SelectSkill(id); }
+
+	void	OnClick_HelpTap(id_t execidx);
 
 	void	HotKey_Party();
 	void	HotKey_Mark();
@@ -2704,8 +2717,8 @@ public:
 	void	HotKey_Minimap();
 	void	HotKey_WorldMap();
 	void	HotKey_CharInfo();
-//	void	HotKey_WindowToggle();
-	void	HotKey_Inventory(bool IsCheckSubInventory = false);	
+	//void	HotKey_WindowToggle();
+	void	HotKey_Inventory(bool IsCheckSubInventory = false);
 	void	HotKey_Gear();
 #if	__CONTENTS(__GEAR_SWAP_CHANGE)	//C_VS_UI_TRIBE		//HotKey_GearChange();
 	void	HotKey_GearChange();
@@ -2717,25 +2730,25 @@ public:
 	void	HotKey_Chat_Dn();			// ctrl + PgDn
 	void	HotKey_Tribe_Prior();		// alt	+ PgUp
 	void	HotKey_Tribe_Next();		// alt	+ PgDn
-	void	HotKey_Guild_Info();			// ctrl	+ v
+	void	HotKey_Guild_Info();		// ctrl	+ v
 	void	HotKey_Guild_Member_List();	// ctrl	+ l
 	void	HotKey_Coer_Attack();		// ctrl	+ o
 	void	HotKey_Sysrq();				// printscreen sysrq
 	void	HotKey_Slash();				// ctrl + /
-	void	HotKey_Background_Music();	// ä�ø��ɾ� /�����
-	void	HotKey_Effect_Music();		// ä�ø��ɾ� /ȿ����
-	void	HotKey_Chat_Help();			// ä�ø��ɾ� /ä�õ���
-	void	HotKey_ZoneChat();			// ä�ø��ɾ� /z
-	void	HotKey_GuildChat();			// ä�ø��ɾ� /g
-	void	HotKey_UnionChat();			// ä�ø��ɾ� /u
-	void	HotKey_Whisper();			// ä�ø��ɾ� /w
-	void	HotKey_Where();				// ä�ø��ɾ� /���
-//	void	HotKey_F9();	
-//	void	HotKey_F10();
-//	void	HotKey_F11();
-//	void	HotKey_F12();
-	void	HotKey_PartyChat();			// ä�ø��ɾ� /p
-	void	HotKey_NormalChat();		// ä�ø��ɾ� /c
+	void	HotKey_Background_Music();	// �?�???? /?????
+	void	HotKey_Effect_Music();		// �?�???? /?????
+	void	HotKey_Chat_Help();			// �?�???? /�?�???
+	void	HotKey_ZoneChat();			// �?�???? /z
+	void	HotKey_GuildChat();			// �?�???? /g
+	void	HotKey_UnionChat();			// �?�???? /u
+	void	HotKey_Whisper();			// �?�???? /w
+	void	HotKey_Where();				// �?�???? /???
+	//	void	HotKey_F9();	
+	//	void	HotKey_F10();
+	//	void	HotKey_F11();
+	//	void	HotKey_F12();
+	void	HotKey_PartyChat();			// �?�???? /p
+	void	HotKey_NormalChat();		// �?�???? /c
 	void	HotKey_Quest();				// ctrl + q
 	void	HotKey_MailBox();			// ctrl + b
 	void	HotKey_PetInfo();			// ctrl + CapsLock
@@ -2750,9 +2763,9 @@ public:
 
 	void	Inventory_Item_Position_Remove();
 	//2008.09.24 shootkj
-	//�ð��� �����۰� ��ġ�� ��ü �Ϸ� �Ұ�� �������� cannotadd�� ������ �����ش�.
-	//�ٽ� ���� ��ü �� �� ����. �ٵ� Ŭ�󿡼��� ��ü �õ��� �Ѵ�.
-	//��ü�� ���� �ʵ��� ��ġ�� �ٽ� ���� ��� �ٲ� ��� �Ѵ�.
+	//?�??? ??????? ????? ??� ??? ???? ???????? cannotadd?? ?????? ???????.
+	//??? ???? ??� ?? ?? ????. ??? ??????? ??� ?�??? ???.
+	//??�?? ???? ????? ????? ??? ???? ??? ??? ??? ???.
 };
 
 //-----------------------------------------------------------------------------
@@ -2762,8 +2775,8 @@ public:
 //-----------------------------------------------------------------------------
 class C_VS_UI_INFO : public Window, public Exec, public ButtonVisual
 {
-public :
-	
+public:
+
 	enum INFO_MODE
 	{
 		CHARACTER_INFO_MODE = 0,
@@ -2783,10 +2796,10 @@ public :
 	static int				m_selected_ACSkillID;
 
 private:
-	struct PETINFO			*m_pPetInfo;
+	struct PETINFO* m_pPetInfo;
 	C_SPRITE_PACK			m_petButtonSpk;
 
-	C_VS_UI_DIALOG			*m_pC_learn_grade_skill_confirm;
+	C_VS_UI_DIALOG* m_pC_learn_grade_skill_confirm;
 	Rect					m_rt_tab;
 
 	int						m_focused_skill_id;
@@ -2797,30 +2810,30 @@ private:
 	int						m_draw_grade_skill_mark;
 
 	int						m_modify_wide;
-	
+
 	std::vector<int>		m_grade_skill_id;
-	
+
 	SKILLDOMAIN				m_skill_domain;
 
-	MSkillDomain::SKILL_STEP_LIST	m_advance_skill_id_vec;		// ȭ�鿡 ǥ�õǴ� ���� ��ų ���̵� �����Ѵ�.
-	MSkillDomain::SKILL_STEP_LIST	m_rare_skill_id_vec;		// ȭ�鿡 ǥ�õǴ� ���� ��ų ���̵� �����Ѵ�.
+	MSkillDomain::SKILL_STEP_LIST	m_advance_skill_id_vec;		// ??? ??�?? ???? ??? ????? ???????.
+	MSkillDomain::SKILL_STEP_LIST	m_rare_skill_id_vec;		// ??? ??�?? ???? ??? ????? ???????.
 
-	int						m_rare_skill_max;					// ������ ��� �� �ִ� ���ų�� �ִ밪
+	int						m_rare_skill_max;					// ?????? ??? ?? ??? ??????? ???
 
-	
-	ButtonGroup *			m_pC_common_button_group;
-	ButtonGroup *			m_pC_char_button_group;
-	ButtonGroup *			m_pC_skill_button_group;
-	ButtonGroup *			m_pC_grade1_button_group;	
-	ButtonGroup *			m_pC_grade2_button_group;	
-	ButtonGroup *			m_pC_grade3_button_group;	
-	C_VS_UI_SCROLL_BAR *	m_pC_char_scroll_bar;
-	C_VS_UI_SCROLL_BAR *	m_pC_skill_scroll_bar;
-	C_VS_UI_SCROLL_BAR *	m_pC_skill_scroll_bar_width;
-	C_VS_UI_SCROLL_BAR *	m_pC_grade1_scroll_bar;
-	C_VS_UI_SCROLL_BAR *	m_pC_grade3_scroll_bar;
-	C_VS_UI_SCROLL_BAR *	m_pC_rare_skill_scroll_bar;
-	CSprite					*m_p_guild_mark;
+
+	ButtonGroup* m_pC_common_button_group;
+	ButtonGroup* m_pC_char_button_group;
+	ButtonGroup* m_pC_skill_button_group;
+	ButtonGroup* m_pC_grade1_button_group;
+	ButtonGroup* m_pC_grade2_button_group;
+	ButtonGroup* m_pC_grade3_button_group;
+	C_VS_UI_SCROLL_BAR* m_pC_char_scroll_bar;
+	C_VS_UI_SCROLL_BAR* m_pC_skill_scroll_bar;
+	C_VS_UI_SCROLL_BAR* m_pC_skill_scroll_bar_width;
+	C_VS_UI_SCROLL_BAR* m_pC_grade1_scroll_bar;
+	C_VS_UI_SCROLL_BAR* m_pC_grade3_scroll_bar;
+	C_VS_UI_SCROLL_BAR* m_pC_rare_skill_scroll_bar;
+	CSprite* m_p_guild_mark;
 
 	RECT					m_rcSkillDesciption;
 
@@ -2857,7 +2870,7 @@ private:
 		STR_PLUS_ID,
 		DEX_PLUS_ID,
 		INT_PLUS_ID,
-		
+
 		PIVATE_ID,
 		SERENT_ID,
 		FEACEL_ID,
@@ -2865,7 +2878,7 @@ private:
 		KAINEL_ID,
 		GENEAL_ID,
 		FORE_GENEAL_ID,
-		MAJORIS_GENEAL_ID,								
+		MAJORIS_GENEAL_ID,
 		CLOEL_GENEAL_ID,
 		MARSHAL_ID,
 
@@ -2876,18 +2889,18 @@ private:
 		GRAF_ID,
 		MARKGRAF_ID,
 		PFALZGRAF_ID,
-		FURST_ID,								
+		FURST_ID,
 		HERZOG_ID,
 		LANDESHER_ID,
 
-		MALCHUT_ID,					// ������Ʈ
-		YESOD_ID,						// ���ҵ�
-		HOD_ID,						// ȣ��
-		NETRETH_ID,					// ����ũ
-		TIPHRETH_ID,					// Ƽ�ķ�Ʈ
+		MALCHUT_ID,					// ???????
+		YESOD_ID,						// ?????
+		HOD_ID,						// ???
+		NETRETH_ID,					// ?????
+		TIPHRETH_ID,					// ?????
 		GEBURAH_ID,
 		CHESED_ID,
-		BINSH_ID,								
+		BINSH_ID,
 		CHOKMA_ID,
 		KEATHER_ID,
 		ADVENCEMENT_ID,
@@ -2914,25 +2927,25 @@ private:
 		GRADE3_BUTTON4_ID,
 		GRADE3_BUTTON5_ID,
 		GRADE3_BUTTON6_ID,
-//		GRADE3_BUTTON_TAB_ID1,
-//		GRADE3_BUTTON_TAB_ID2,
-//		GRADE3_BUTTON_TAB_ID3,
-//		GRADE3_BUTTON_TAB_ID4,
-//		GRADE3_BUTTON_TAB_ID5,
-//		GRADE3_BUTTON_TAB_ID6,
-//		GRADE3_BUTTON_TAB_ID7,
-//		GRADE3_BUTTON_TAB_ID8,
-//		GRADE3_BUTTON_TAB_ID9,
-//		GRADE3_BUTTON_TAB_ID10,
-		CHANGE_IMAGE_ID,		// �̹��� ���� ��ư
+		//		GRADE3_BUTTON_TAB_ID1,
+		//		GRADE3_BUTTON_TAB_ID2,
+		//		GRADE3_BUTTON_TAB_ID3,
+		//		GRADE3_BUTTON_TAB_ID4,
+		//		GRADE3_BUTTON_TAB_ID5,
+		//		GRADE3_BUTTON_TAB_ID6,
+		//		GRADE3_BUTTON_TAB_ID7,
+		//		GRADE3_BUTTON_TAB_ID8,
+		//		GRADE3_BUTTON_TAB_ID9,
+		//		GRADE3_BUTTON_TAB_ID10,
+		CHANGE_IMAGE_ID,		// ????? ???? ???
 		PET_INFO_ID,
-		
+
 		// grade 2
-			
-		
-		
-	
-		
+
+
+
+
+
 	};
 
 	enum GRADESKILL_STATUS
@@ -2943,12 +2956,12 @@ private:
 	};
 
 
-	Rect					m_rt_char_box;
-	CSpritePack *			m_p_face;
+	Rect m_rt_char_box;
+	CSpritePack* m_p_face;
 
 public:
-	
-	
+
+
 
 	C_VS_UI_INFO();
 	~C_VS_UI_INFO();
@@ -2957,72 +2970,72 @@ public:
 
 	void	UnacquireMouseFocus()
 	{
-//		m_pC_button_group->UnacquireMouseFocus();
+		//		m_pC_button_group->UnacquireMouseFocus();
 		m_pC_common_button_group->UnacquireMouseFocus();
 		m_pC_char_button_group->UnacquireMouseFocus();
 		m_pC_skill_button_group->UnacquireMouseFocus();
 		m_pC_grade1_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
-//		m_pC_button_group->CancelPushState();
+		//		m_pC_button_group->CancelPushState();
 		m_pC_common_button_group->CancelPushState();
 		m_pC_char_button_group->CancelPushState();
 		m_pC_skill_button_group->CancelPushState();
 		m_pC_grade1_button_group->CancelPushState();
 	}
 
-	void	SetPetInfo(struct PETINFO *pPetInfo);
+	void	SetPetInfo(struct PETINFO* pPetInfo);
 	struct PETINFO* GetPetInfo();
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	bool	IsPixel(int _x, int _y);
 	void	AcquireDisappear() {}
 	void	Run(id_t id);
-	bool	MouseControl(UINT message, int _x, int _y);	
+	bool	MouseControl(UINT message, int _x, int _y);
 	bool	CharacterInfoMouseControl(UINT message, int _x, int _y);
 	bool	SkillInfoMouseControl(UINT message, int _x, int _y);
 	bool	RareSkillInfoMouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 	void	CheckGradeSkillIDList();
-	
+
 	void	Show();
 	void	_Show1();	// Skill Info
 	void	_Show2();	// Character Info
 	void	_Show3();	// Grade1
 	void	_Show4();	// Grade2
-	//by csm 2004.12.30 ���� ���� �������̽� �߰� 
-	
+	//by csm 2004.12.30 ???? ???? ????????? ??? 
+
 	void	_Show5();	// Grade2
-	void	_Show5_ACSkillList();		// ���� ��ų ����Ʈ ���
-	
+	void	_Show5_ACSkillList();		// ???? ??? ????? ???
+
 	void	_Show6();	// Rare Skill	by chyaya
-	void	_Show6_RareSkillList();		// ���� ��ų ����Ʈ ���
+	void	_Show6_RareSkillList();		// ???? ??? ????? ???
 
 	void	Process();
-//	void	Start(bool skill_mode);
+	//	void	Start(bool skill_mode);
 	void	Start(INFO_MODE	Info_Mode);
 	void	Finish();
 
-	bool	IsCharacterMode()	{ return m_info_mode == CHARACTER_INFO_MODE; }
-	bool	IsSkillMode()	{ return m_info_mode == SKILL_INFO_MODE; }
-	bool	IsGrade1Mode()	{ return m_info_mode == GRADE1_INFO_MODE; }
-	bool	IsGrade2Mode()	{ return m_info_mode == GRADE2_INFO_MODE; }
-	bool	IsGrade3Mode()	{ return m_info_mode == GRADE3_INFO_MODE; }
+	bool	IsCharacterMode() { return m_info_mode == CHARACTER_INFO_MODE; }
+	bool	IsSkillMode() { return m_info_mode == SKILL_INFO_MODE; }
+	bool	IsGrade1Mode() { return m_info_mode == GRADE1_INFO_MODE; }
+	bool	IsGrade2Mode() { return m_info_mode == GRADE2_INFO_MODE; }
+	bool	IsGrade3Mode() { return m_info_mode == GRADE3_INFO_MODE; }
 	bool	IsRareSkillMode() { return m_info_mode == RARE_SKILL_INFO_MODE; }
 
 	void	SetOustersDownSkill() { m_bOustersDownSkill = true; }
 	void	SetCorrectGrade();
-	const char * GetChinhoLevel(const int level);
+	const char* GetChinhoLevel(const int level);
 
-	// ������ ���� ó��
+	// ?????? ???? �??
 	void	Process5_ACSkillList();
 	void	Process5_ACSkillList_Slayer();
 	void	Process5_ACSkillList_Vampire();
 	void	Process5_ACSkillList_Ousters();
 
-	// ���ų�� ���� ó��
+	// ??????? ???? �??
 	void	Process6_RareSkillList();
 };
 
@@ -3048,16 +3061,16 @@ public:
 		TRACE_WINDOW,
 		BLOOD_BIBLE_WINDOW,
 		QUEST_STATUS_WINDOW,
-				
+
 		CTF_STATUS,
 		PET_INFO,
 
 		NAMING_WINDOW,
 
-		QUEST_MANAGER_LIST, // ���� â
-		QUEST_MANAGER_DETAIL, // ���λ���
-		QUEST_MANAGER_MISSION, // �ӹ�
-		QUEST_MANAGER_ITEM, // �κ��丮
+		QUEST_MANAGER_LIST, // ???? �
+		QUEST_MANAGER_DETAIL, // ???????
+		QUEST_MANAGER_MISSION, // ???
+		QUEST_MANAGER_ITEM, // ?????
 		INVENTORY_SUB,
 		BLOOD_BURST_WINDOW,
 		WINDOW_TOTAL,
@@ -3098,22 +3111,22 @@ public:
 	void SetMainMenu(int index) { m_i_main_menu = index; }
 	int	 GetMainMenu() { return m_i_main_menu; }
 
-	void SaveToFile(std::ofstream &file);
-	void LoadFromFile(ivfstream &file);
+	void SaveToFile(std::ofstream& file);
+	void LoadFromFile(ivfstream& file);
 
 	void SetDefault();
-	void SetHotKey(int **hotkey = NULL);
-	void SetQuickSlotHotkey(int *hotkey = NULL);
-	void SetHotkeyType(int *hotkey = NULL);
+	void SetHotKey(int** hotkey = NULL);
+	void SetQuickSlotHotkey(int* hotkey = NULL);
+	void SetHotkeyType(int* hotkey = NULL);
 
-	int** GetHotKey()	{ return (int **)m_skill_hotkey_buf; }
-	int * GetHotKeyQuickSlot()	{	return	(int *)m_QuickSlot_hotkey_buf; }
-	int * GetHotKeyType()	{	return	(int *)m_HotKey_Type;	 }
+	int** GetHotKey() { return (int**)m_skill_hotkey_buf; }
+	int* GetHotKeyQuickSlot() { return	(int*)m_QuickSlot_hotkey_buf; }
+	int* GetHotKeyType() { return	(int*)m_HotKey_Type; }
 
 	void  SetSMSMynum(char* str);
-	char* GetSMSMyNum() {return &m_SMS_MyNum[0];}
-	  
-	void  InitDefaultQuickSlot() ; 	
+	char* GetSMSMyNum() { return &m_SMS_MyNum[0]; }
+
+	void  InitDefaultQuickSlot();
 
 	void SetWindowStatus(const char* key, const WindowStatus* winStatus);
 	const WindowStatus* GetWindowStatus(const char* key);
@@ -3131,7 +3144,7 @@ private:
 	int	 m_skill_hotkey_buf[C_VS_UI_SKILL::HOTKEY_MAX][C_VS_UI_SKILL::GRADE_MAX];
 
 	int	 m_QuickSlot_hotkey_buf[C_VS_UI_SKILL::HOTKEY_MAX];
-	int	 m_HotKey_Type[C_VS_UI_SKILL::HOTKEY_MAX] ; 
+	int	 m_HotKey_Type[C_VS_UI_SKILL::HOTKEY_MAX];
 
 	bool m_bl_hpbar_small, m_bl_hpbar_height, m_bl_quickitemslot_height, m_bl_effectstatus_height, m_bl_bloodburst_height;
 
@@ -3144,7 +3157,7 @@ private:
 class C_VS_UI_TEAM_LIST : public Window, public Exec, public ButtonVisual
 {
 private:
-	ButtonGroup *				m_pC_button_group;
+	ButtonGroup* m_pC_button_group;
 	C_SPRITE_PACK				m_guild_spk;
 	enum GUILD_SPK
 	{
@@ -3194,9 +3207,9 @@ private:
 		ACCEPT_BUTTON,
 		ACCEPT_BUTTON_HILIGHTED,
 		DENY_BUTTON,
-		DENY_BUTTON_HILIGHTED,		
+		DENY_BUTTON_HILIGHTED,
 		MODIFY_BUTTON,
-		MODIFY_BUTTON_HILIGHTED,		
+		MODIFY_BUTTON_HILIGHTED,
 
 		INDEX_TEAM,
 		INDEX_TEAM_HILIGHTED,
@@ -3216,13 +3229,13 @@ private:
 		INDEX_WAR_DATE,
 		INDEX_WAR_DATE_HILIGHTED,
 
-		INDEX_UNITED_JOIN,				// ���հ���
-		INDEX_UNITED_JOIN_HILIGHTED,	
-		INDEX_UNITED_WITHDRAWAL,		// ����Ż��
+		INDEX_UNITED_JOIN,				// ???????
+		INDEX_UNITED_JOIN_HILIGHTED,
+		INDEX_UNITED_WITHDRAWAL,		// ???????
 		INDEX_UNITED_WITHDRAWAL_HILIGHTED,
-		INDEX_UNITED_EXPEL,				// �����߹�
+		INDEX_UNITED_EXPEL,				// ???????
 		INDEX_UNITED_EXPEL_HILIGHTED,
-		INDEX_GUILD_APPOINT,			// �Ӹ�
+		INDEX_GUILD_APPOINT,			// ???
 		INDEX_GUILD_APPOINT_HILIGHTED,
 
 
@@ -3260,12 +3273,12 @@ public:
 		int MEMBERS;
 	};
 
-	struct REGIST_TEAM_LIST:public TEAM_LIST_BASE
+	struct REGIST_TEAM_LIST :public TEAM_LIST_BASE
 	{
 		int RANKING;
 	};
-	
-	struct READY_TEAM_LIST:public TEAM_LIST_BASE
+
+	struct READY_TEAM_LIST :public TEAM_LIST_BASE
 	{
 		std::string EXPIRE_DATE;
 		int MEMBERS_MAX;
@@ -3296,20 +3309,20 @@ public:
 	C_VS_UI_TEAM_LIST(bool ready, bool IsUnion = false);
 	~C_VS_UI_TEAM_LIST();
 
-	void	AddReadyTeamList(const READY_TEAM_LIST &team_info);
-	void	AddRegistTeamList(const REGIST_TEAM_LIST &team_info);
+	void	AddReadyTeamList(const READY_TEAM_LIST& team_info);
+	void	AddRegistTeamList(const REGIST_TEAM_LIST& team_info);
 
 	void	Process();
 	void	UnacquireMouseFocus();
 	bool	IsPixel(int _x, int _y);
 	void	Run(id_t id);
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 
 	bool	AllMatchWindowPixel(int _x, int _y) const;
-	bool	IsUnionInfo() {return m_bIsUnion;}
+	bool	IsUnionInfo() { return m_bIsUnion; }
 
 	void	Start();
 	void	Finish();
@@ -3321,10 +3334,10 @@ public:
 class C_VS_UI_TEAM_MEMBER_LIST : public Window, public Exec, public ButtonVisual
 {
 private:
-	ButtonGroup *				m_pC_button_group;
+	ButtonGroup* m_pC_button_group;
 	C_SPRITE_PACK				m_guild_member_list_spk;
-	C_VS_UI_SCROLL_BAR			*m_pC_scroll_bar;
-	
+	C_VS_UI_SCROLL_BAR* m_pC_scroll_bar;
+
 	bool						m_SortFlag_Id;
 	bool						m_SortFlag_Server;
 	bool						m_SortFlag_Grade;
@@ -3351,7 +3364,7 @@ public:
 		std::string MEMBER_NAME;
 		std::string SERVER_NAME;
 		int member_grade;
-//		int server_type;
+		//		int server_type;
 		bool bLogOn;
 	};
 
@@ -3359,20 +3372,20 @@ private:
 	int		m_print_x[2], m_print_y, m_print_gap;
 	int		m_focus;
 	std::vector<TEAM_MEMBER_LIST>	m_v_member_list;
-	BYTE	m_bAvailableRecall; // Ÿ�Կ� ���� ��� ȣ���ϱ� 
+	BYTE	m_bAvailableRecall; // �??? ???? ??? ?????? 
 	char	m_SelectedID[16];
 	char	m_AskingMessage[128];
 public:
 	C_VS_UI_TEAM_MEMBER_LIST();
 	~C_VS_UI_TEAM_MEMBER_LIST();
 
-	void	AddMemberList(const TEAM_MEMBER_LIST &member_list, BYTE bType);
+	void	AddMemberList(const TEAM_MEMBER_LIST& member_list, BYTE bType);
 
 	void	Process();
 	void	UnacquireMouseFocus();
 	bool	IsPixel(int _x, int _y);
 	void	Run(id_t id);
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 
@@ -3381,16 +3394,16 @@ public:
 
 	void	Show();
 	void	_Sort(int nSort);
-	BYTE	GetAvailableRecall() {return m_bAvailableRecall;}
-	void	SetAvailableRecall(BYTE bFlag) {m_bAvailableRecall = bFlag;}
-	char*	GetSelectedID() {return m_SelectedID;}
+	BYTE	GetAvailableRecall() { return m_bAvailableRecall; }
+	void	SetAvailableRecall(BYTE bFlag) { m_bAvailableRecall = bFlag; }
+	char* GetSelectedID() { return m_SelectedID; }
 };
 
 class C_VS_UI_NPC_DIALOG;
 class C_VS_UI_TEAM_INFO : public Window, public Exec, public ButtonVisual
 {
 private:
-	ButtonGroup *				m_pC_button_group;
+	ButtonGroup* m_pC_button_group;
 	C_SPRITE_PACK				m_guild_spk;
 	enum GUILD_SPK
 	{
@@ -3440,9 +3453,9 @@ private:
 		ACCEPT_BUTTON,
 		ACCEPT_BUTTON_HILIGHTED,
 		DENY_BUTTON,
-		DENY_BUTTON_HILIGHTED,		
+		DENY_BUTTON_HILIGHTED,
 		MODIFY_BUTTON,
-		MODIFY_BUTTON_HILIGHTED,		
+		MODIFY_BUTTON_HILIGHTED,
 
 		INDEX_TEAM,
 		INDEX_TEAM_HILIGHTED,
@@ -3462,13 +3475,13 @@ private:
 		INDEX_WAR_DATE,
 		INDEX_WAR_DATE_HILIGHTED,
 
-		INDEX_UNITED_JOIN,				// ���հ���
-		INDEX_UNITED_JOIN_HILIGHTED,	
-		INDEX_UNITED_WITHDRAWAL,		// ����Ż��
+		INDEX_UNITED_JOIN,				// ???????
+		INDEX_UNITED_JOIN_HILIGHTED,
+		INDEX_UNITED_WITHDRAWAL,		// ???????
 		INDEX_UNITED_WITHDRAWAL_HILIGHTED,
-		INDEX_UNITED_EXPEL,				// �����߹�
+		INDEX_UNITED_EXPEL,				// ???????
 		INDEX_UNITED_EXPEL_HILIGHTED,
-		INDEX_GUILD_APPOINT,			// �Ӹ�
+		INDEX_GUILD_APPOINT,			// ???
 		INDEX_GUILD_APPOINT_HILIGHTED,
 
 
@@ -3487,7 +3500,7 @@ private:
 		UNITED_JOIN_ID,
 		UNITED_WITHDRAWAL_ID,
 		UNUTED_EXPEL_ID,
-		
+
 		EXEC_MAX,
 	};
 public:
@@ -3497,13 +3510,13 @@ public:
 		int guild_id, MEMBERS, REG_FEE;
 	};
 
-	struct REGIST_TEAM_INFO:public TEAM_INFO_BASE
+	struct REGIST_TEAM_INFO :public TEAM_INFO_BASE
 	{
 		std::string REGISTERED_DATE;
 		int RANKING;
 	};
-	
-	struct READY_TEAM_INFO:public TEAM_INFO_BASE
+
+	struct READY_TEAM_INFO :public TEAM_INFO_BASE
 	{
 		std::string EXPIRE_DATE;
 		std::vector<std::string> MEMBERS_NAME;
@@ -3519,21 +3532,21 @@ private:
 
 	static REGIST_TEAM_INFO			m_regist_info;
 	READY_TEAM_INFO				m_ready_info;
-	C_VS_UI_NPC_DIALOG		*m_pC_dialog ;
+	C_VS_UI_NPC_DIALOG* m_pC_dialog;
 	LineEditorVisual			m_lev_intro;
 
 	bool	m_IsUnion;
 
 public:
-	C_VS_UI_TEAM_INFO(bool ready, void *info, bool IsUnion = false);
+	C_VS_UI_TEAM_INFO(bool ready, void* info, bool IsUnion = false);
 	~C_VS_UI_TEAM_INFO();
 
 	void	Process();
 	void	UnacquireMouseFocus();
 	bool	IsPixel(int _x, int _y);
 	void	Run(id_t id);
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 	static int		GetGuildId() { return m_regist_info.guild_id; }
@@ -3548,7 +3561,7 @@ public:
 class C_VS_UI_TEAM_MEMBER_INFO : public Window, public Exec, public ButtonVisual
 {
 private:
-	ButtonGroup *				m_pC_button_group;
+	ButtonGroup* m_pC_button_group;
 	C_SPRITE_PACK				m_guild_member_spk;
 	enum GUILD_SPK
 	{
@@ -3598,9 +3611,9 @@ private:
 		ACCEPT_BUTTON,
 		ACCEPT_BUTTON_HILIGHTED,
 		DENY_BUTTON,
-		DENY_BUTTON_HILIGHTED,		
+		DENY_BUTTON_HILIGHTED,
 		MODIFY_BUTTON,
-		MODIFY_BUTTON_HILIGHTED,		
+		MODIFY_BUTTON_HILIGHTED,
 
 		INDEX_TEAM,
 		INDEX_TEAM_HILIGHTED,
@@ -3620,16 +3633,16 @@ private:
 		INDEX_WAR_DATE,
 		INDEX_WAR_DATE_HILIGHTED,
 
-		INDEX_UNITED_JOIN,							// ���հ���
-		INDEX_UNITED_JOIN_HILIGHTED,	
-		INDEX_UNITED_WITHDRAWAL,					// ����Ż��
+		INDEX_UNITED_JOIN,							// ???????
+		INDEX_UNITED_JOIN_HILIGHTED,
+		INDEX_UNITED_WITHDRAWAL,					// ???????
 		INDEX_UNITED_WITHDRAWAL_HILIGHTED,
-		INDEX_UNITED_EXPEL,							// �����߹�
+		INDEX_UNITED_EXPEL,							// ???????
 		INDEX_UNITED_EXPEL_HILIGHTED,
-		INDEX_GUILD_APPOINT,						// �Ӹ�
+		INDEX_GUILD_APPOINT,						// ???
 		INDEX_GUILD_APPOINT_HILIGHTED,
-		
-		INDEX_GUILD_DELEGATION_OF_POWER,			// ���� ����
+
+		INDEX_GUILD_DELEGATION_OF_POWER,			// ???? ????
 		INDEX_GUILD_DELEGATION_OF_POWER_HILIGHTED,
 
 	};
@@ -3675,15 +3688,15 @@ private:
 	LineEditorVisual			m_lev_intro;
 
 public:
-	C_VS_UI_TEAM_MEMBER_INFO(MEMBER_INFO *info);
+	C_VS_UI_TEAM_MEMBER_INFO(MEMBER_INFO* info);
 	~C_VS_UI_TEAM_MEMBER_INFO();
 
 	void	Process();
 	void	UnacquireMouseFocus();
 	bool	IsPixel(int _x, int _y);
 	void	Run(id_t id);
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 
@@ -3697,7 +3710,7 @@ public:
 class C_VS_UI_TEAM_REGIST : public Window, public Exec, public ButtonVisual
 {
 private:
-	ButtonGroup *				m_pC_button_group;
+	ButtonGroup* m_pC_button_group;
 	C_SPRITE_PACK				m_guild_spk;
 	enum GUILD_SPK
 	{
@@ -3747,9 +3760,9 @@ private:
 		ACCEPT_BUTTON,
 		ACCEPT_BUTTON_HILIGHTED,
 		DENY_BUTTON,
-		DENY_BUTTON_HILIGHTED,		
+		DENY_BUTTON_HILIGHTED,
 		MODIFY_BUTTON,
-		MODIFY_BUTTON_HILIGHTED,		
+		MODIFY_BUTTON_HILIGHTED,
 
 		INDEX_TEAM,
 		INDEX_TEAM_HILIGHTED,
@@ -3769,13 +3782,13 @@ private:
 		INDEX_WAR_DATE,
 		INDEX_WAR_DATE_HILIGHTED,
 
-		INDEX_UNITED_JOIN,				// ���հ���
-		INDEX_UNITED_JOIN_HILIGHTED,	
-		INDEX_UNITED_WITHDRAWAL,		// ����Ż��
+		INDEX_UNITED_JOIN,				// ???????
+		INDEX_UNITED_JOIN_HILIGHTED,
+		INDEX_UNITED_WITHDRAWAL,		// ???????
 		INDEX_UNITED_WITHDRAWAL_HILIGHTED,
-		INDEX_UNITED_EXPEL,				// �����߹�
+		INDEX_UNITED_EXPEL,				// ???????
 		INDEX_UNITED_EXPEL_HILIGHTED,
-		INDEX_GUILD_APPOINT,			// �Ӹ�
+		INDEX_GUILD_APPOINT,			// ???
 		INDEX_GUILD_APPOINT_HILIGHTED,
 
 
@@ -3804,22 +3817,22 @@ private:
 	int		m_guild_id;
 	int		m_reg_fee, m_rank;
 	std::string m_team_name, m_introduction, m_date;
-	CDirectDrawSurface				*m_guild_mark;
+	CDirectDrawSurface* m_guild_mark;
 
 public:
-	C_VS_UI_TEAM_REGIST(bool member, int reg_fee, int rank, const char *team_name = NULL, const char *date = NULL, int guild_id = -1); // team_name�� member�� ��쿡��
+	C_VS_UI_TEAM_REGIST(bool member, int reg_fee, int rank, const char* team_name = NULL, const char* date = NULL, int guild_id = -1); // team_name?? member?? ?????
 	~C_VS_UI_TEAM_REGIST();
 
 	void	Process();
 	void	UnacquireMouseFocus();
 	bool	IsPixel(int _x, int _y);
 	void	Run(id_t id);
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 
-	bool	ReturnTeamRegistMember(){return m_bl_member;}
+	bool	ReturnTeamRegistMember() { return m_bl_member; }
 
 	void	Start();
 	void	Finish();
@@ -3836,11 +3849,11 @@ public:
 class C_VS_UI_OTHER_INFO : public Window, public Exec, public ButtonVisual
 {
 private:
-//	C_SPRITE_PACK			*m_pC_info_spk;
-	ButtonGroup				*m_pC_button_group;
-	CSprite					*m_p_guild_mark;
+	//	C_SPRITE_PACK			*m_pC_info_spk;
+	ButtonGroup* m_pC_button_group;
+	CSprite* m_p_guild_mark;
 	//CSprite					*m_p_guild_mark;
-	struct PETINFO			*m_pPetInfo;
+	struct PETINFO* m_pPetInfo;
 	C_SPRITE_PACK			m_petButtonSpk;
 
 #if __CONTENTS(__080405_FIREST_UI_UPDATE)
@@ -3875,46 +3888,46 @@ public:
 		int STR_PURE, DEX_PURE, INT_PURE;
 		int guild_id;
 		int face_type;
-		bool bl_female;	
-		
-		int	 Origin_ServerIdx ;
+		bool bl_female;
+
+		int	 Origin_ServerIdx;
 		std::string PLAYER_OLDNAME;
 		DWORD contributePoint;
 	};
-private :
+private:
 
-	CSpritePack *				m_p_face;
-//	C_SPRITE_PACK				*m_p_face_spk;
+	CSpritePack* m_p_face;
+	//	C_SPRITE_PACK				*m_p_face_spk;
 	PLAYER_INFO					m_player_info;
 
 	int TopDomain;
-	
-public :
+
+public:
 
 	C_VS_UI_OTHER_INFO();
 	~C_VS_UI_OTHER_INFO();
 
-	void	SetPetInfo(struct PETINFO *pPetInfo);
+	void	SetPetInfo(struct PETINFO* pPetInfo);
 	void	RefreshImage();
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	UnacquireMouseFocus()
 	{
-		m_pC_button_group->UnacquireMouseFocus();		
+		m_pC_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
-		m_pC_button_group->CancelPushState();		
+		m_pC_button_group->CancelPushState();
 	}
 
 	void	Run(id_t id);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
-	void	SetOtherInfo(PLAYER_INFO &info);
-	const char*		GetCurrentOtherInfoName();
+	void	SetOtherInfo(PLAYER_INFO& info);
+	const char* GetCurrentOtherInfoName();
 
 	void	Show();
 	void	Process();
@@ -3933,8 +3946,8 @@ class C_VS_UI_TRACE : public Window, public Exec, public ButtonVisual
 {
 private:
 	bool status;
-	C_SPRITE_PACK			*m_pC_trace_spk;
-	ButtonGroup				*m_pC_button_group;
+	C_SPRITE_PACK* m_pC_trace_spk;
+	ButtonGroup* m_pC_button_group;
 
 	enum EXEC_ID
 	{
@@ -3954,36 +3967,36 @@ private:
 		TRACE_CANCEL_PUSHED,
 	};
 
-	LineEditorVisual		m_lev_name;	
+	LineEditorVisual		m_lev_name;
 	std::string					m_status_msg;
 	std::string					name;
-public :
+public:
 
 	C_VS_UI_TRACE();
 	~C_VS_UI_TRACE();
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	UnacquireMouseFocus()
 	{
-		m_pC_button_group->UnacquireMouseFocus();		
+		m_pC_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
-		m_pC_button_group->CancelPushState();		
+		m_pC_button_group->CancelPushState();
 	}
 
 	void	Run(id_t id);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
-	
+
 	void	Show();
 	void	Process();
 	void	Start();
 	void	Finish();
-	bool	IsPixel(int _x, int _y);	
+	bool	IsPixel(int _x, int _y);
 	bool	IsStartTrace();
 	void	SetCannotTrace();
 };
@@ -3996,8 +4009,8 @@ public :
 class C_VS_UI_XMAS_CARD : public Window, public Exec, public ButtonVisual
 {
 private:
-	C_SPRITE_PACK			*m_pC_card_spk;
-	ButtonGroup				*m_pC_button_group;
+	C_SPRITE_PACK* m_pC_card_spk;
+	ButtonGroup* m_pC_button_group;
 	bool					status;
 
 	enum EXEC_ID
@@ -4017,57 +4030,57 @@ private:
 		BUTTON_CANCEL_PUSHED,
 	};
 
-//	LineEditorVisual		m_lev_from;	
-	LineEditorVisual		m_lev_to;	
-	LineEditorVisual		m_lev_message;	
+	//	LineEditorVisual		m_lev_from;	
+	LineEditorVisual		m_lev_to;
+	LineEditorVisual		m_lev_message;
 
-	MItem					*m_pItem;
+	MItem* m_pItem;
 	std::string				m_szTreeMessage;
 
 
-public :
+public:
 
-	C_VS_UI_XMAS_CARD(const MItem *pItem);
+	C_VS_UI_XMAS_CARD(const MItem* pItem);
 	~C_VS_UI_XMAS_CARD();
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	UnacquireMouseFocus()
 	{
-		m_pC_button_group->UnacquireMouseFocus();		
+		m_pC_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
-		m_pC_button_group->CancelPushState();		
+		m_pC_button_group->CancelPushState();
 	}
 
 	void	Run(id_t id);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
-	
+
 	void	Show();
 	void	Process();
 	void	Start();
 	void	Finish();
-	bool	IsPixel(int _x, int _y);	
+	bool	IsPixel(int _x, int _y);
 };
 
 //-----------------------------------------------------------------------------
 // class C_VS_UI_BRING_FEE
 //
-// ���� ��������
+// ???? ????????
 //
 //-----------------------------------------------------------------------------
 class C_VS_UI_BRING_FEE : public Window, public Exec, public ButtonVisual
 {
-private :
+private:
 	UINT	m_TotalFee;
 	UINT	m_BringFee;
-	int		m_money_x,m_money_y;
+	int		m_money_x, m_money_y;
 
-	ButtonGroup	*m_pC_button_group;
+	ButtonGroup* m_pC_button_group;
 
 	enum EXEC_ID
 	{
@@ -4076,9 +4089,9 @@ private :
 		MONEY_ID,
 	};
 
-public :
-//	static	C_VS_UI_MONEY_DIALOG		*m_pC_bring_fee_dialog;
-	C_VS_UI_BRING_FEE(UINT totalfee = 0,UINT bringfee = 0);
+public:
+	//	static	C_VS_UI_MONEY_DIALOG		*m_pC_bring_fee_dialog;
+	C_VS_UI_BRING_FEE(UINT totalfee = 0, UINT bringfee = 0);
 	~C_VS_UI_BRING_FEE();
 
 	void	Show();
@@ -4087,33 +4100,33 @@ public :
 	void	Process();
 	void	Run(id_t id);
 
-	void	SetTotalFee(UINT fee) {m_TotalFee = fee; }
-	void	SetBringFee(UINT fee) {m_BringFee = fee; }
-	UINT		GetTotalFee() {return m_TotalFee;}
-	UINT		GetBringFee() {return m_BringFee;}
+	void	SetTotalFee(UINT fee) { m_TotalFee = fee; }
+	void	SetBringFee(UINT fee) { m_BringFee = fee; }
+	UINT		GetTotalFee() { return m_TotalFee; }
+	UINT		GetBringFee() { return m_BringFee; }
 
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 
-	bool	IsPixel(int _x,int _y);
+	bool	IsPixel(int _x, int _y);
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	UnacquireMouseFocus()
 	{
-		m_pC_button_group->UnacquireMouseFocus();		
+		m_pC_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
-		m_pC_button_group->CancelPushState();		
+		m_pC_button_group->CancelPushState();
 	}
 };
 
 class C_VS_UI_WAR_LIST : public Window, public Exec, public ButtonVisual
 {
-	ButtonGroup *				m_pC_button_group;
+	ButtonGroup* m_pC_button_group;
 	C_SPRITE_PACK				m_guild_spk;
 	enum GUILD_SPK
 	{
@@ -4163,9 +4176,9 @@ class C_VS_UI_WAR_LIST : public Window, public Exec, public ButtonVisual
 		ACCEPT_BUTTON,
 		ACCEPT_BUTTON_HILIGHTED,
 		DENY_BUTTON,
-		DENY_BUTTON_HILIGHTED,		
+		DENY_BUTTON_HILIGHTED,
 		MODIFY_BUTTON,
-		MODIFY_BUTTON_HILIGHTED,		
+		MODIFY_BUTTON_HILIGHTED,
 
 		INDEX_TEAM,
 		INDEX_TEAM_HILIGHTED,
@@ -4185,13 +4198,13 @@ class C_VS_UI_WAR_LIST : public Window, public Exec, public ButtonVisual
 		INDEX_WAR_DATE,
 		INDEX_WAR_DATE_HILIGHTED,
 
-		INDEX_UNITED_JOIN,				// ���հ���
-		INDEX_UNITED_JOIN_HILIGHTED,	
-		INDEX_UNITED_WITHDRAWAL,		// ����Ż��
+		INDEX_UNITED_JOIN,				// ???????
+		INDEX_UNITED_JOIN_HILIGHTED,
+		INDEX_UNITED_WITHDRAWAL,		// ???????
 		INDEX_UNITED_WITHDRAWAL_HILIGHTED,
-		INDEX_UNITED_EXPEL,				// �����߹�
+		INDEX_UNITED_EXPEL,				// ???????
 		INDEX_UNITED_EXPEL_HILIGHTED,
-		INDEX_GUILD_APPOINT,			// �Ӹ�
+		INDEX_GUILD_APPOINT,			// ???
 		INDEX_GUILD_APPOINT_HILIGHTED,
 
 
@@ -4201,28 +4214,28 @@ class C_VS_UI_WAR_LIST : public Window, public Exec, public ButtonVisual
 		HELP_ID,
 		X_ID,
 		CLOSE_ID,
-		
+
 		SCROLL_UP_ID,
 		SCROLL_DOWN_ID,
 
 		WAR_LIST_ID,
 		INDEX_CHALLENGER_ID,
 		INDEX_DATE_ID,
-		
+
 		EXEC_MAX,
 	};
 public:
 	class WarInfo
 	{
-		public:
+	public:
 		WarInfo()
 		{
-			for(int i = 0; i< 5; i++)
+			for (int i = 0; i < 5; i++)
 				challengerGuildID[i] = 0;
 			reinforceGuildID = 0;
 		};
-	
-		BYTE warType;		// 0 : ������ 1 : ������
+
+		BYTE warType;		// 0 : ?????? 1 : ??????
 		WORD year;
 		BYTE month;
 		BYTE day;
@@ -4232,10 +4245,10 @@ public:
 		WORD		reinforceGuildID;
 		std::string	reinforceGuildName;
 	};
-	
+
 	struct _WarList
 	{
-		BYTE warType;		// 0 : ������ 1 : ������
+		BYTE warType;		// 0 : ?????? 1 : ??????
 		WORD year;
 		BYTE month;
 		BYTE day;
@@ -4248,21 +4261,21 @@ private:
 	POINT							m_vampire_point;
 	bool							m_bl_scrolling;
 	int								m_scroll;
-	
+
 public:
 	C_VS_UI_WAR_LIST();
 	~C_VS_UI_WAR_LIST();
 
 
-	void	AddWarList(const WarInfo	&war_info);
+	void	AddWarList(const WarInfo& war_info);
 	void	ClearWarList();
-	
+
 	void	Process();
 	void	UnacquireMouseFocus();
 	bool	IsPixel(int _x, int _y);
 	void	Run(id_t id);
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 
@@ -4282,8 +4295,8 @@ public:
 class C_VS_UI_BLOOD_BIBLE_STATUS : public Window, public Exec, public ButtonVisual
 {
 private:
-	ButtonGroup				*m_pC_button_group;
-	
+	ButtonGroup* m_pC_button_group;
+
 	enum EXEC_ID
 	{
 		PUSHPIN_ID,
@@ -4291,8 +4304,8 @@ private:
 		CLOSE_ID,
 		HELP_ID,
 	};
-	
-public :
+
+public:
 
 	enum BLOOD_BIBLE_STATUS_INFO
 	{
@@ -4312,7 +4325,7 @@ public :
 		int y;
 		BYTE shrine_race;
 		BLOOD_BIBLE_STATUS_INFO status;
-		//BYTE bonus;										-_- �Ⱦ���. 
+		//BYTE bonus;										-_- ?????. 
 		std::string name;
 	};
 
@@ -4321,31 +4334,31 @@ public :
 	DWORD					m_tickCount;
 	DWORD					m_sec;
 
-public :
+public:
 
 	C_VS_UI_BLOOD_BIBLE_STATUS();
 	~C_VS_UI_BLOOD_BIBLE_STATUS();
 
 	void	SetTimer(DWORD sec) { m_sec = sec; m_tickCount = timeGetTime(); }
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	UnacquireMouseFocus()
 	{
-		m_pC_button_group->UnacquireMouseFocus();		
+		m_pC_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
-		m_pC_button_group->CancelPushState();		
+		m_pC_button_group->CancelPushState();
 	}
 
 	void	Run(id_t id);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 
-	void	SetBloodBible(int blood_bible_id, BLOOD_BIBLE_STATUS &blood_bible_status);
+	void	SetBloodBible(int blood_bible_id, BLOOD_BIBLE_STATUS& blood_bible_status);
 	void	UnSetBloodBible(int blood_bible_id);
 
 	void	Show();
@@ -4358,16 +4371,16 @@ public :
 //-----------------------------------------------------------------------------
 // class C_VS_UI_BRING_FEE
 //
-// �̸� �Է��ϱ�
-// -_- �ٿ뵵�� ���ô�.
+// ??? ??????
+// -_- ????? ???�?.
 //-----------------------------------------------------------------------------
 class C_VS_UI_INPUT_NAME : public Window, public Exec, public ButtonVisual
 {
-public :
+public:
 	enum INPUT_NAME_MODE_LIST
 	{
-		INPUT_NAME_HOPE_COUPLE = 0,					// Ŀ�� �����
-		INPUT_NAME_BREAK_UP,					// Ŀ�� �Ằ��		
+		INPUT_NAME_HOPE_COUPLE = 0,					// ??? ?????
+		INPUT_NAME_BREAK_UP,					// ??? ????		
 		INPUT_NAME_FORCE_BREAK_UP,
 
 		INPUT_NAME_MAX,
@@ -4380,24 +4393,24 @@ public :
 		INPUT_STATUS_MAX,
 		INPUT_STATUS_NULL,
 	};
-private :
-	LineEditorVisual		m_lev_name;	
-	int		m_name_x,m_name_y;
+private:
+	LineEditorVisual		m_lev_name;
+	int		m_name_x, m_name_y;
 	INPUT_NAME_MODE_LIST	m_Mode;
 	INPUT_STATUS_LIST		m_Status;
 
-	ButtonGroup			*m_pC_button_group;
+	ButtonGroup* m_pC_button_group;
 
-	std::string			m_name,m_status;
+	std::string			m_name, m_status;
 
 	enum EXEC_ID
 	{
 		OK_ID,
-		CANCEL_ID,		
+		CANCEL_ID,
 	};
 
-public :	
-//	static	C_VS_UI_MONEY_DIALOG		*m_pC_bring_fee_dialog;
+public:
+	//	static	C_VS_UI_MONEY_DIALOG		*m_pC_bring_fee_dialog;
 	C_VS_UI_INPUT_NAME(INPUT_NAME_MODE_LIST mode = INPUT_NAME_HOPE_COUPLE);
 	~C_VS_UI_INPUT_NAME();
 
@@ -4410,23 +4423,23 @@ public :
 	const char* GetCurrentName();
 	void	SetName(const char* name);
 
-	
+
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 
-	bool	IsPixel(int _x,int _y);
+	bool	IsPixel(int _x, int _y);
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	UnacquireMouseFocus()
 	{
-		m_pC_button_group->UnacquireMouseFocus();		
+		m_pC_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
-		m_pC_button_group->CancelPushState();		
+		m_pC_button_group->CancelPushState();
 	}
 
 	void	SetEnable() { m_Status = INPUT_STATUS_NORMAL; }
@@ -4436,21 +4449,21 @@ public :
 //-----------------------------------------------------------------------------
 // class C_VS_UI_BRING_FEE
 //
-// �̸� �Է��ϱ�
-// -_- �ٿ뵵�� ���ô�.
+// ??? ??????
+// -_- ????? ???�?.
 //-----------------------------------------------------------------------------
 class C_VS_UI_POPUP_MESSAGE : public Window, public Exec, public ButtonVisual
 {
-public :
+public:
 	enum POPUP_TYPE
-	{		
+	{
 		POPUP_NORMAL,
 		POPUP_LARGE,
 		POPUP_WELCOME,
 		POPUP_EVENT_QUEST,
 		POPUP_MINI_WINDOW,
-		POPUP_ASK_BEGINNER_ZONE,			// �ʺ��� ������ ����?
-		
+		POPUP_ASK_BEGINNER_ZONE,			// ????? ?????? ?????
+
 		POPUP_MAX,
 		POPUP_NULL,
 	};
@@ -4468,10 +4481,10 @@ public :
 		STYLE_JOIN_BUTTON = 4,
 		STYLE_ABSENCE_BUTTON = 8,
 	};
-	
+
 	struct PopupWindowStyle
 	{
-		short			WindowX,WindowY;
+		short			WindowX, WindowY;
 		POPUP_TYPE		Type;
 		DWORD			Style;
 		DWORD			SendID;
@@ -4479,22 +4492,22 @@ public :
 
 		DWORD			Value1;
 		DWORD			Value2;
-		
-		void*			pValue;
+
+		void* pValue;
 	};
 
-private :
+private:
 	std::string				m_Str;
 	POPUP_TYPE				m_Type;
 	CSpritePack				m_p_NPCFace;
 	DWORD					m_SendID;
 
-	ButtonGroup			*m_pC_button_group;
+	ButtonGroup* m_pC_button_group;
 
-public :	
-//	static	C_VS_UI_MONEY_DIALOG		*m_pC_bring_fee_dialog;
-	C_VS_UI_POPUP_MESSAGE(const char *str, POPUP_TYPE type = POPUP_NORMAL);
-	C_VS_UI_POPUP_MESSAGE(PopupWindowStyle &style);
+public:
+	//	static	C_VS_UI_MONEY_DIALOG		*m_pC_bring_fee_dialog;
+	C_VS_UI_POPUP_MESSAGE(const char* str, POPUP_TYPE type = POPUP_NORMAL);
+	C_VS_UI_POPUP_MESSAGE(PopupWindowStyle& style);
 	~C_VS_UI_POPUP_MESSAGE();
 
 	void	Show();
@@ -4502,23 +4515,23 @@ public :
 	void	Finish();
 	void	Process();
 	void	Run(id_t id);
-	
+
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 
-	bool	IsPixel(int _x,int _y);
+	bool	IsPixel(int _x, int _y);
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	UnacquireMouseFocus()
 	{
-		m_pC_button_group->UnacquireMouseFocus();		
+		m_pC_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
-		m_pC_button_group->CancelPushState();		
+		m_pC_button_group->CancelPushState();
 	}
 };
 
@@ -4529,22 +4542,22 @@ public :
 //-----------------------------------------------------------------------------
 class C_VS_UI_LOTTERY_CARD : public Window, public Exec, public ButtonVisual
 {
-public :
+public:
 
 	enum LOTTERY_STATUS
 	{
 		LOTTERY_TYPE_READY,
 		LOTTERY_TYPE_WAIT_CLIENT,
 		LOTTERY_TYPE_SCRATCH,
-		LOTTERY_TYPE_CLEARING,		
+		LOTTERY_TYPE_CLEARING,
 		LOTTERY_TYPE_CLOSE,
-		LOTTERY_TYPE_MAX,		
+		LOTTERY_TYPE_MAX,
 	};
 
 	int						m_step;
-	C_SPRITE_PACK *			m_pC_lottery_spk;
-	CSpriteSurface *		m_p_cover_surface;
-	LOTTERY_STATUS			m_Type;	
+	C_SPRITE_PACK* m_pC_lottery_spk;
+	CSpriteSurface* m_p_cover_surface;
+	LOTTERY_STATUS			m_Type;
 	int						m_radio_select;
 	int						m_line_select;
 	bool					m_bl_scratch_enable;
@@ -4555,8 +4568,8 @@ public :
 	int						m_old_point_y;
 
 
-private :
-	
+private:
+
 	struct GiftInfo
 	{
 		DWORD	id;
@@ -4566,8 +4579,8 @@ private :
 	};
 
 	std::vector<GiftInfo*>	m_GiftList;
-	ButtonGroup			*m_pC_button_group;
-	ButtonGroup			*m_pC_radio_group;
+	ButtonGroup* m_pC_button_group;
+	ButtonGroup* m_pC_radio_group;
 
 	enum EXEC_ID
 	{
@@ -4586,24 +4599,24 @@ private :
 		COVER,
 		LOTTERY_READY,
 		LOTTERY_READY_HILIGHTED,
-		LOTTERY_READY_PUSHED,		
+		LOTTERY_READY_PUSHED,
 		LOTTERY_CLOSE,
 		LOTTERY_CLOSE_HILIGHTED,
 		LOTTERY_CLOSE_PUSHED,
 		RADIO_BACK,
 		RADIO_CHECK,
-		
+
 		GIFT_TICKET_1,
 		DARKEDEN_TSHIRTS,
 		DARKEDEN_PENDANT,
 		DARKEDEN_TICKET_1,
 		INLINE_SKATE,
-//		VOICE_MAN,
-//		MP3_PLAYER,
+		//		VOICE_MAN,
+		//		MP3_PLAYER,
 		SPEAKER,
 		GIFT_TICKET_2,
 		WATCH,
-//		DVD_COMBO,
+		//		DVD_COMBO,
 		CAMCORDER,
 		CAMERA,
 		GIFT_TICKET_3,
@@ -4613,13 +4626,13 @@ private :
 		COMPUTER,
 		DIGITAL_TV,
 		DARKEDEN_TICKET_2,
-		REFRIGERATOR,		
+		REFRIGERATOR,
 		DVD_PLAYER,
 		HEELYS,
 		IRIVER_395,
 	};
 
-public :	
+public:
 
 	C_VS_UI_LOTTERY_CARD(int step = -1);
 	~C_VS_UI_LOTTERY_CARD();
@@ -4631,14 +4644,14 @@ public :
 	void	Run(id_t id);
 
 	void	ClearGiftList();
-	
+
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 
-	bool	IsPixel(int _x,int _y);
+	bool	IsPixel(int _x, int _y);
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	SetResult(bool	bSuccess);
@@ -4646,7 +4659,7 @@ public :
 	{
 		m_pC_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
 		m_pC_button_group->CancelPushState();
 	}
@@ -4654,21 +4667,21 @@ public :
 	void	ScratchCover(int _x, int _y);
 	void	ClearingCover();
 	void	ClearAllCover();
-	int		PeelRate();	
+	int		PeelRate();
 	void	SetScratchEnable();
-	void	LoadInfo(int &step);
-	void	ShowDesc(int strX,int strY,const char *str);
+	void	LoadInfo(int& step);
+	void	ShowDesc(int strX, int strY, const char* str);
 };
 
 //-----------------------------------------------------------------------------
 // class C_VS_UI_ITEM_LIST
 //
-// �̸� �Է��ϱ�
-// -_- �ٿ뵵�� ���ô�.
+// ??? ??????
+// -_- ????? ???�?.
 //-----------------------------------------------------------------------------
 class C_VS_UI_ITEM_LIST : public Window, public Exec, public ButtonVisual
 {
-public :
+public:
 	enum EXEC_ID
 	{
 		NEXT_ID,
@@ -4678,69 +4691,69 @@ public :
 		OK_ID,
 		CANCEL_ID,
 	};
-	
-	struct ItemList 
+
+	struct ItemList
 	{
-		MItem*	pItem;
+		MItem* pItem;
 		DWORD	TimeLimit;
 	};
 
-	static MItem*				m_pItem;
+	static MItem* m_pItem;
 
-private :
+private:
 	std::string					m_Str;
 	std::vector<ItemList>		m_ItemList;
 	int							m_CurrentItem;
 	int							m_MouseFocus;
 
-	ButtonGroup					*m_pC_button_group;
-	C_VS_UI_SCROLL_BAR			*m_pC_scroll_bar;
+	ButtonGroup* m_pC_button_group;
+	C_VS_UI_SCROLL_BAR* m_pC_scroll_bar;
 
-public :	
+public:
 	C_VS_UI_ITEM_LIST();
 	~C_VS_UI_ITEM_LIST();
 
 	void	Show();
-	void	ShowDesc( ItemList pItem );
-	std::string		GetItemName( int Focus );
+	void	ShowDesc(ItemList pItem);
+	std::string		GetItemName(int Focus);
 
 	void	Start();
 	void	Finish();
 	void	Process();
 	void	Run(id_t id);
-	
+
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
-	bool	IsPixel(int _x,int _y);
+	bool	IsPixel(int _x, int _y);
 
-	bool	AddItem( ItemList pItem );
-	bool	DeleteItem( DWORD ID );
+	bool	AddItem(ItemList pItem);
+	bool	DeleteItem(DWORD ID);
 	void	ClearItem();
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	UnacquireMouseFocus()
 	{
-		m_pC_button_group->UnacquireMouseFocus();		
+		m_pC_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
-		m_pC_button_group->CancelPushState();		
+		m_pC_button_group->CancelPushState();
 	}
-	
+
 };
 
 //-----------------------------------------------------------------------------
 // class C_VS_UI_IMAGE_NOTICE
 //
-// �̸� �Է��ϱ�
-// -_- �ٿ뵵�� ���ô�.
+// ??? ??????
+// -_- ????? ???�?.
 //-----------------------------------------------------------------------------
 class C_VS_UI_IMAGE_NOTICE : public Window, public Exec, public ButtonVisual
 {
-public :	
+public:
 	struct SNotice
 	{
 		DWORD				m_Time;
@@ -4749,21 +4762,21 @@ public :
 		char				m_Alpha;
 	};
 
-private :
+private:
 	int		m_CloseTime;
-		
-	C_SPRITE_PACK *			m_pC_image_spk;
-		
+
+	C_SPRITE_PACK* m_pC_image_spk;
+
 	std::vector<SNotice*>			m_NoticeList;
 
-public :		
+public:
 
 	C_VS_UI_IMAGE_NOTICE();
 	~C_VS_UI_IMAGE_NOTICE();
 
 	void	Show();
 	std::string	LoadInfo(DWORD ID);
-	void	AddNotice( const char* name, DWORD id );
+	void	AddNotice(const char* name, DWORD id);
 	void	ClearNotice();
 	void	DeleteNotice(int n);
 
@@ -4771,19 +4784,19 @@ public :
 	void	Finish();
 	void	Process();
 	void	Run(id_t id);
-	
+
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
-	bool	IsPixel(int _x,int _y);
+	bool	IsPixel(int _x, int _y);
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	UnacquireMouseFocus()
 	{
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
 	}
 };
@@ -4796,8 +4809,8 @@ public :
 class C_VS_UI_BULLETIN_BOARD : public Window, public Exec, public ButtonVisual
 {
 private:
-	C_SPRITE_PACK			*m_pC_back_spk;
-	ButtonGroup				*m_pC_button_group;
+	C_SPRITE_PACK* m_pC_back_spk;
+	ButtonGroup* m_pC_button_group;
 	bool					status;
 
 	enum EXEC_ID
@@ -4817,10 +4830,10 @@ private:
 		BUTTON_CANCEL_PUSHED,
 	};
 
-	LineEditorVisual		m_lev_from;	
-	LineEditorVisual		m_lev_message;	
+	LineEditorVisual		m_lev_from;
+	LineEditorVisual		m_lev_message;
 
-	MItem					*m_pItem;
+	MItem* m_pItem;
 	std::string				m_szTreeMessage;
 
 	int						m_pos_from_x;
@@ -4828,33 +4841,33 @@ private:
 	int						m_pos_msg_x;
 	int						m_pos_msg_y;
 
-public :
+public:
 
-	C_VS_UI_BULLETIN_BOARD(const MItem *pItem);
+	C_VS_UI_BULLETIN_BOARD(const MItem* pItem);
 	~C_VS_UI_BULLETIN_BOARD();
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	UnacquireMouseFocus()
 	{
-		m_pC_button_group->UnacquireMouseFocus();		
+		m_pC_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
-		m_pC_button_group->CancelPushState();		
+		m_pC_button_group->CancelPushState();
 	}
 
 	void	Run(id_t id);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
-	
+
 	void	Show();
 	void	Process();
 	void	Start();
 	void	Finish();
-	bool	IsPixel(int _x, int _y);	
+	bool	IsPixel(int _x, int _y);
 };
 
 //-----------------------------------------------------------------------------
@@ -4863,7 +4876,7 @@ public :
 //-----------------------------------------------------------------------------
 class C_VS_UI_REQUEST_RESURRECT : public Window
 {
-public :
+public:
 	enum IMAGE_SPK_INDEX
 	{
 		RESURRECT_GUARD_SLAYER,
@@ -4892,15 +4905,15 @@ public :
 		// 2004, 11, 16, sobeit add start
 		RESURRECT_MODE_SIEGE_ATTACKER,
 		// 2004, 11, 16, sobeit add end
-		RESURRECT_MODE_SKILL_FROM_OTHER,	// �ٸ� ����� ��Ȱ���� �ַ��Ѵ�.
+		RESURRECT_MODE_SKILL_FROM_OTHER,	// ??? ????? ??????? ??????.
 		RESURRECT_MODE_MAX
 	};
 
 	class CResurrect
 	{
-	public :
-		CResurrect() : m_Delay(0), m_Time(0) { memset(&m_ButtonRect, 0, sizeof(RECT) ); m_Enable = false; m_Image = -1; }
-		void		SetRect( int x,int y,int w,int h ) { m_ButtonRect.left = x; m_ButtonRect.right = x+w; m_ButtonRect.top = y; m_ButtonRect.bottom = y+h;}
+	public:
+		CResurrect() : m_Delay(0), m_Time(0) { memset(&m_ButtonRect, 0, sizeof(RECT)); m_Enable = false; m_Image = -1; }
+		void		SetRect(int x, int y, int w, int h) { m_ButtonRect.left = x; m_ButtonRect.right = x + w; m_ButtonRect.top = y; m_ButtonRect.bottom = y + h; }
 
 		RECT		m_ButtonRect;
 		bool		m_Enable;
@@ -4911,7 +4924,7 @@ public :
 
 	C_SPRITE_PACK				m_image_spk;
 
-	CResurrect					m_ResurrectButton[ RESURRECT_MODE_MAX ];
+	CResurrect					m_ResurrectButton[RESURRECT_MODE_MAX];
 
 	int							m_focus;
 	int							m_pushed;
@@ -4927,7 +4940,7 @@ public:
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	CancelPushState() { m_pushed = -1; }
 	void	UnacquireMouseFocus() { m_pushed = -1; }
-	void	SetDelay( RESURRECT_MODE mode, int delay );
+	void	SetDelay(RESURRECT_MODE mode, int delay);
 	void	Process();
 	void	RequestResurrectSetButton(int resurrectMode, bool enable);
 };
@@ -4939,17 +4952,17 @@ public:
 class C_VS_UI_MIXING_FORGE : public Window, public Exec, public ButtonVisual
 {
 private:
-	C_SPRITE_PACK			*m_pC_back_spk;
-	C_SPRITE_PACK			*m_pC_inventory_spk;
-	ButtonGroup				*m_pC_button_group;
-	
+	C_SPRITE_PACK* m_pC_back_spk;
+	C_SPRITE_PACK* m_pC_inventory_spk;
+	ButtonGroup* m_pC_button_group;
+
 	Rect					m_my_grid_rect, m_your_grid_rect;
 	int						m_focus_grid_x, m_focus_grid_y;
-		
-	MItem					*m_p_select_item[2];
-	
+
+	MItem* m_p_select_item[2];
+
 	std::vector<bool>		m_v_check;
-	
+
 
 	enum EXEC_ID
 	{
@@ -4975,9 +4988,9 @@ private:
 		INVENTORY_ITEMBACK,
 		INVENTORY_ITEMBACK_ALPHA,
 		INVENTORY_WINDOW_BOTTOM,
-	};	
-	
-public :
+	};
+
+public:
 
 	enum FORGE_CLASS
 	{
@@ -4998,39 +5011,39 @@ public :
 	FORGE_CLASS				m_forge_class;
 	FORGE_TYPE				m_forge_type;
 
-	C_VS_UI_MIXING_FORGE( FORGE_CLASS forge_class, FORGE_TYPE forge_type );
+	C_VS_UI_MIXING_FORGE(FORGE_CLASS forge_class, FORGE_TYPE forge_type);
 	~C_VS_UI_MIXING_FORGE();
 
 	bool	IsCorrectClass(ITEM_CLASS item_class);
 	bool	IsCorrectType(TYPE_ITEMTYPE item_type, ITEM_CLASS item_class);
-	bool	IsCorrectOption(MItem *p_item1, MItem *p_item2);
+	bool	IsCorrectOption(MItem* p_item1, MItem* p_item2);
 
-	int		GetFocusedItemGridX(const MItem * p_item);
-	int		GetFocusedItemGridY(const MItem * p_item);	
+	int		GetFocusedItemGridX(const MItem* p_item);
+	int		GetFocusedItemGridY(const MItem* p_item);
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	AcquireDisappear() {}
 	void	UnacquireMouseFocus()
 	{
-		m_pC_button_group->UnacquireMouseFocus();		
+		m_pC_button_group->UnacquireMouseFocus();
 	}
-	void	CancelPushState() 
+	void	CancelPushState()
 	{
-		m_pC_button_group->CancelPushState();		
+		m_pC_button_group->CancelPushState();
 	}
 
 	void	Run(id_t id);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
-	
+
 	void	Show();
 	void	Process();
 	void	Start();
 	void	Finish();
-	bool	IsPixel(int _x, int _y);	
-	bool	Check(int grid_start_x, int grid_start_y);	
+	bool	IsPixel(int _x, int _y);
+	bool	Check(int grid_start_x, int grid_start_y);
 };
 
 //-----------------------------------------------------------------------------
@@ -5057,14 +5070,14 @@ public:
 	STATUS				m_status;
 	std::string			m_str_option[2];
 	bool				m_b_press;
-	const MItem		*m_pMouseItem,*m_pCurItem;
-	
+	const MItem* m_pMouseItem, * m_pCurItem;
+
 private:
 
-	ButtonGroup			*m_pC_button_group;
+	ButtonGroup* m_pC_button_group;
 	bool				m_IsBokjory;
 
-	
+
 	enum EXEC_ID
 	{
 		OK_ID,
@@ -5072,7 +5085,7 @@ private:
 	};
 
 public:
-	C_VS_UI_REMOVE_OPTION(const MItem *pItem, const MItem *pCurItem);
+	C_VS_UI_REMOVE_OPTION(const MItem* pItem, const MItem* pCurItem);
 	~C_VS_UI_REMOVE_OPTION();
 
 	static	bool	IsCanRemoveOption_Puritas(const MItem* pItem, const MItem* pTItem);
@@ -5083,15 +5096,15 @@ public:
 	void	Process();
 	void	Run(id_t id);
 
-	bool	IsPixel(int _x, int _y);	
+	bool	IsPixel(int _x, int _y);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	void	CheckOption();
-	
+
 };
 
 //-----------------------------------------------------------------------------
@@ -5102,12 +5115,12 @@ class C_VS_UI_OUSTERS_SKILL_INFO : public C_VS_UI_DESC, public Window, public Ex
 {
 public:
 private:
-	
-	ButtonGroup			*m_pC_button_group;
-	C_VS_UI_SCROLL_BAR			*m_pC_scroll_bar;
-	bool				m_bDownSkill;	
+
+	ButtonGroup* m_pC_button_group;
+	C_VS_UI_SCROLL_BAR* m_pC_scroll_bar;
+	bool				m_bDownSkill;
 	C_SPRITE_PACK		m_SPK;
-	
+
 	enum EXEC_ID
 	{
 		CLOSE_ID,
@@ -5118,24 +5131,24 @@ private:
 	int		m_skillID;
 
 public:
-	C_VS_UI_OUSTERS_SKILL_INFO(int skillID, int window_x, int window_y,bool DownSkill = false);
+	C_VS_UI_OUSTERS_SKILL_INFO(int skillID, int window_x, int window_y, bool DownSkill = false);
 	~C_VS_UI_OUSTERS_SKILL_INFO();
-	
+
 	void	SetSkillID(int skillID);
 	void	Show();
 	void	Start();
 	void	Finish();
 	void	Process();
 	void	Run(id_t id);
-	
-	bool	IsPixel(int _x, int _y);	
+
+	bool	IsPixel(int _x, int _y);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
-	
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
-	
+
 };
 
 
@@ -5147,11 +5160,11 @@ class C_VS_UI_HORN : public Window, public Exec, public ButtonVisual
 {
 public:
 private:
-	
-	ButtonGroup			*m_pC_button_group;
-	
+
+	ButtonGroup* m_pC_button_group;
+
 	C_SPRITE_PACK		m_SPK, m_MapSPK;
-	
+
 	enum EXEC_ID
 	{
 		CLOSE_ID,
@@ -5175,27 +5188,27 @@ private:
 	int		m_focus;
 	int		m_Cost;
 
-//	UI_PORTAL_VECTOR		m_portal;
-	
+	//	UI_PORTAL_VECTOR		m_portal;
+
 public:
 	C_VS_UI_HORN(int currentZoneID);
 	~C_VS_UI_HORN();
-	
+
 	void	Show();
 	void	Start();
 	void	Finish();
 	void	Process();
 	void	Run(id_t id);
-	
-	bool	IsPixel(int _x, int _y);	
+
+	bool	IsPixel(int _x, int _y);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
-	
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 
-	int		GetNext(int map, bool bUp);	
+	int		GetNext(int map, bool bUp);
 };
 
 //-----------------------------------------------------------------------------
@@ -5206,9 +5219,9 @@ class C_VS_UI_FINDING_MINE : public Window, public Exec, public ButtonVisual
 {
 public:
 private:
-	
-	ButtonGroup			*m_pC_button_group;
-	
+
+	ButtonGroup* m_pC_button_group;
+
 	enum EXEC_ID
 	{
 		CLOSE_ID,
@@ -5217,17 +5230,17 @@ private:
 		LEVEL1_ID,
 		LEVEL2_ID,
 	};
-	
-//	enum SPRITE_ID
-//	{
-//		MAIN_WINDOW,
-//			UD_BUTTON,
-//			UD_BUTTON_HILIGHTED,
-//			UD_BUTTON_PUSHED,
-//			CLOSE_BUTTON,
-//			CLOSE_BUTTON_HILIGHTED,
-//			CLOSE_BUTTON_PUSHED,
-//	};
+
+	//	enum SPRITE_ID
+	//	{
+	//		MAIN_WINDOW,
+	//			UD_BUTTON,
+	//			UD_BUTTON_HILIGHTED,
+	//			UD_BUTTON_PUSHED,
+	//			CLOSE_BUTTON,
+	//			CLOSE_BUTTON_HILIGHTED,
+	//			CLOSE_BUTTON_PUSHED,
+	//	};
 
 
 	enum GAME_SIZES
@@ -5249,10 +5262,10 @@ private:
 
 	enum GAME_STATUS
 	{
-		GAMESTATUS_GAME,	// ������
-		GAMESTATUS_DIE,		// ���� ���� ������-��-
-		GAMESTATUS_CLEAR,	// ���� ���� �� ã�Ƽ�
-		GAMESTATUS_READY,	// �� ����
+		GAMESTATUS_GAME,	// ??????
+		GAMESTATUS_DIE,		// ???? ???? ??????-??-
+		GAMESTATUS_CLEAR,	// ???? ???? ?? �???
+		GAMESTATUS_READY,	// ?? ????
 	};
 
 	enum LEFTMINE
@@ -5282,7 +5295,7 @@ private:
 
 	struct BLOCK_STRUCT
 	{
-		BLOCK_STRUCT()	{ num = 0; status = (BLOCK_STATUS)0; bl_focused = false; }
+		BLOCK_STRUCT() { num = 0; status = (BLOCK_STATUS)0; bl_focused = false; }
 
 		int num;
 		BLOCK_STATUS status;
@@ -5294,15 +5307,15 @@ private:
 	SIZE	m_boardSize;
 	GAME_STATUS	m_status;
 
-	BLOCK_STRUCT	*m_Blocks;
+	BLOCK_STRUCT* m_Blocks;
 
 	Rect	m_BlockRect;
 
 	GAMELEVEL m_level;
 	bool bLButton, bRButton;
 
-	void	DrawBlock(int x, int y, BLOCK_STRUCT &block);
-	void	DrawRect(RECT &rect, int depth, WORD color, WORD color2, WORD color3);
+	void	DrawBlock(int x, int y, BLOCK_STRUCT& block);
+	void	DrawRect(RECT& rect, int depth, WORD color, WORD color2, WORD color3);
 	void	ClearBlockFocus(int x = -1, int y = -1, int w = -1, int h = -1);
 	void	OpenBlock(int x, int y, bool bCenter = false);
 	bool	CheckClear();
@@ -5312,22 +5325,22 @@ private:
 public:
 	C_VS_UI_FINDING_MINE();
 	~C_VS_UI_FINDING_MINE();
-	
+
 	void	NewGame(GAMELEVEL level);
 	void	Show();
 	void	Start();
 	void	Finish();
 	void	Process();
 	void	Run(id_t id);
-	
-	bool	IsPixel(int _x, int _y);	
+
+	bool	IsPixel(int _x, int _y);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
-	
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON *p_button);
+
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
-	
+
 };
 
 extern C_VS_UI_WINDOW_MANAGER* gpC_vs_ui_window_manager;
@@ -5337,7 +5350,7 @@ extern C_VS_UI_WINDOW_MANAGER* gpC_vs_ui_window_manager;
 extern S_SLOT	g_char_slot_ingame;
 extern Point g_item_ref_point[];
 
-extern int g_HISTORY_LINE;	// ä��â ����
+extern int g_HISTORY_LINE;	// �??� ????
 
 void g_SetItemRefPoint(int item_rect_w, int item_rect_h);
 

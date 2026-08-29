@@ -1,12 +1,10 @@
 //--------------------------------------------------------------------------
 //
-// -_- 우헤헤헤
-// date 2003-09-19
-// by sonee
-// 급해서 일단 대충 맨들어 놓는다..
-//
-// 다국어 버전에서 각 좌표별로 관리를 해야 하는데..
-// 소스에 다 넣기 힘들어서 일단 이렇게 빼놓는다.
+// In the multi-lingual version this needs to be managed 
+// separately for each coordinate.
+// 
+// It's hard to put everything into the source code, so I'll put it like this
+// for now.
 //
 //--------------------------------------------------------------------------
 

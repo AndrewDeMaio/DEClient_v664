@@ -3,16 +3,14 @@
 	created:	5:12:2003   13:40
 	filename: 	MemoryPool.cpp
 	file ext:	cpp
-	author:		sonee	// 손히승 바보
-	
-	purpose:	memory pool
-				고정된 크기를 빈번하게 new/delete 하는 경우 메모리 풀을 사용하면
-				메모리 단편화를 줄일 수 있다.
+	author:		sonee
 
-				메모리 leak 현상을 막을 수 있다.
+	purpose:	Memory Pool
+				When new/delete are frequently used with a fixed size
+				using a memory pool can reduce fragmentation.
 
-				Debug 모드인 경우에는 메모리가 MEMORY_POOL_GARBAGE 값으로
-				채워진다.
+				This can also prevent memory leak problems.
+				In debug mode, the memory is filled with MEMORY_POOL_GARBAGE.
 *********************************************************************/
 #include "Client_PCH.h"
 #include <windows.h>
@@ -23,37 +21,37 @@
 #include "MFakeCreature.h"
 
 
-MemoryPool g_CreatureMemoryPool( sizeof( MCreature ), 30 );
-MemoryPool g_CreatureWearMemoryPool( sizeof( MCreatureWear ), 30 );
-MemoryPool g_NPCCreatureMemoryPool( sizeof( MNPC ), 5 );
-MemoryPool g_FakeCreatureMemoryPool( sizeof( MFakeCreature ), 30 );
+MemoryPool g_CreatureMemoryPool(sizeof(MCreature), 30);
+MemoryPool g_CreatureWearMemoryPool(sizeof(MCreatureWear), 30);
+MemoryPool g_NPCCreatureMemoryPool(sizeof(MNPC), 5);
+MemoryPool g_FakeCreatureMemoryPool(sizeof(MFakeCreature), 30);
 
-MemoryPool::MemoryPool( int BlockSize, int BlockCount )
-: m_pCurrentBlock ( NULL ), m_pFreeBlockList( NULL ), m_BlockSize( BlockSize ), m_BlockCount( BlockCount )
+MemoryPool::MemoryPool(int BlockSize, int BlockCount)
+	: m_pCurrentBlock(NULL), m_pFreeBlockList(NULL), m_BlockSize(BlockSize), m_BlockCount(BlockCount)
 {
-	if( BlockSize < sizeof( void* ) )
+	if (BlockSize < sizeof(void*))
 	{
 		// -_- 포인터 크기보다 작으면 문제가 생길 것같은데-_-;
-		m_BlockSize = sizeof( void* );
+		m_BlockSize = sizeof(void*);
 	}
 }
 
 MemoryPool::~MemoryPool()
 {
-	while( m_pCurrentBlock != NULL )
+	while (m_pCurrentBlock != NULL)
 	{
-		CBlock *pPrev = m_pCurrentBlock->m_pPrev;
-		free( m_pCurrentBlock );
+		CBlock* pPrev = m_pCurrentBlock->m_pPrev;
+		free(m_pCurrentBlock);
 
 		m_pCurrentBlock = pPrev;
 	}
 }
 
-void*		MemoryPool::Alloc()
+void* MemoryPool::Alloc()
 {
-	void *pMem;
+	void* pMem;
 
-	if( m_pFreeBlockList != NULL )					// FreeList 에 남아있는것이 있다면, 그 메모리 주소를 리턴.
+	if (m_pFreeBlockList != NULL)					// FreeList 에 남아있는것이 있다면, 그 메모리 주소를 리턴.
 	{
 		pMem = m_pFreeBlockList;
 
@@ -61,54 +59,54 @@ void*		MemoryPool::Alloc()
 		return pMem;
 	}
 
-	if( m_pCurrentBlock == NULL || m_pCurrentBlock->m_leftBlocks <= 0 )
+	if (m_pCurrentBlock == NULL || m_pCurrentBlock->m_leftBlocks <= 0)
 	{
 		// 메모리 Pool 이 할당되어 있지 않거나, 할당한 메모리를 다 사용하였을 경우에,
 		// 새로 할당하고, 기존의 포인터를 연결해 놓는다.
-	//	CBlock *pPool = (CBlock*)( ::operator new( sizeof(CBlock) + ( m_BlockSize * m_BlockCount )) );
-		CBlock *pPool = (CBlock*)malloc( sizeof(CBlock) + (m_BlockSize*m_BlockCount) );
+		//CBlock *pPool = (CBlock*)( ::operator new( sizeof(CBlock) + ( m_BlockSize * m_BlockCount )) );
+		CBlock* pPool = (CBlock*)malloc(sizeof(CBlock) + (m_BlockSize * m_BlockCount));
 
-		if( pPool == NULL )
+		if (pPool == NULL)
 		{
 			return NULL;
 		}
 
 #ifdef _DEBUG
-//		memset( (unsigned char*)(pPool) + sizeof( CBlock ), MEMORY_POOL_GARBAGE, m_BlockSize * m_BlockCount );
+		//		memset( (unsigned char*)(pPool) + sizeof( CBlock ), MEMORY_POOL_GARBAGE, m_BlockSize * m_BlockCount );
 #endif
 		pPool->m_pPrev = m_pCurrentBlock;
 		pPool->m_leftBlocks = m_BlockCount;
-		pPool->m_pNextBlock = reinterpret_cast<unsigned char*>( (pPool + 1) );
+		pPool->m_pNextBlock = reinterpret_cast<unsigned char*>((pPool + 1));
 
 		m_pCurrentBlock = pPool;
-	}	
+	}
 
 	pMem = m_pCurrentBlock->m_pNextBlock;
 	m_pCurrentBlock->m_pNextBlock += m_BlockSize;
-	m_pCurrentBlock->m_leftBlocks --;
+	m_pCurrentBlock->m_leftBlocks--;
 
 	return pMem;
 }
 
-void		MemoryPool::Free( void *pMem )
+void MemoryPool::Free(void* pMem)
 {
 #ifdef _DEBUG
-//	memset( pMem, MEMORY_POOL_GARBAGE, m_BlockSize );
+	// memset( pMem, MEMORY_POOL_GARBAGE, m_BlockSize );
 #endif
-	CFreeBlock *pBlock = reinterpret_cast<CFreeBlock*>(pMem);
+	CFreeBlock* pBlock = reinterpret_cast<CFreeBlock*>(pMem);
 
 	pBlock->m_pPrev = m_pFreeBlockList;
 	m_pFreeBlockList = pBlock;
 }
 
-bool		MemoryPool::IsPtrInPool( void *pMem )
+bool		MemoryPool::IsPtrInPool(void* pMem)
 {
-	CBlock *pCurBlock = m_pCurrentBlock;
-	
-	while( pCurBlock != NULL )
+	CBlock* pCurBlock = m_pCurrentBlock;
+
+	while (pCurBlock != NULL)
 	{
-        if( ( (unsigned char*)(pCurBlock) + sizeof( CBlock ) ) <= pMem && 
-			( (unsigned char*)(pCurBlock) + sizeof( CBlock ) + m_BlockSize * m_BlockCount ) > pMem )
+		if (((unsigned char*)(pCurBlock)+sizeof(CBlock)) <= pMem &&
+			((unsigned char*)(pCurBlock)+sizeof(CBlock) + m_BlockSize * m_BlockCount) > pMem)
 			return true;
 
 		pCurBlock = pCurBlock->m_pPrev;
@@ -118,19 +116,19 @@ bool		MemoryPool::IsPtrInPool( void *pMem )
 
 //----------------------------------------------------------------------------------
 //
-// 할당된 메모리안에 있으면서, FreeList 에 없으면 -_- 유효한 메모리이다.
+// As long as it's within the memory pool and isn't in the FreeList, it's considered valid memory
 //
 //----------------------------------------------------------------------------------
-bool		MemoryPool::IsAvailablePtr( void *pMem )
+bool MemoryPool::IsAvailablePtr(void* pMem)
 {
-	CBlock *pCurBlock = m_pCurrentBlock;
+	CBlock* pCurBlock = m_pCurrentBlock;
 
 	bool bIsInPool = false;
-	
-	while( pCurBlock != NULL )
+
+	while (pCurBlock != NULL)
 	{
-		if( ( (unsigned char*)(pCurBlock) + sizeof( CBlock ) <= pMem ) &&
-			( (unsigned char*)(pCurBlock) + sizeof( CBlock ) + m_BlockSize * m_BlockCount > pMem ) )
+		if (((unsigned char*)(pCurBlock)+sizeof(CBlock) <= pMem) &&
+			((unsigned char*)(pCurBlock)+sizeof(CBlock) + m_BlockSize * m_BlockCount > pMem))
 		{
 			bIsInPool = true;
 			break;
@@ -138,13 +136,14 @@ bool		MemoryPool::IsAvailablePtr( void *pMem )
 
 		pCurBlock = pCurBlock->m_pPrev;
 	}
-	if( !bIsInPool ) return false;
-	
-	CFreeBlock *pFreeBlock = m_pFreeBlockList;
-	
-	while( pFreeBlock != NULL )
+
+	if (!bIsInPool) return false;
+
+	CFreeBlock* pFreeBlock = m_pFreeBlockList;
+
+	while (pFreeBlock != NULL)
 	{
-		if( pFreeBlock <= pMem && (pFreeBlock + m_BlockSize * m_BlockCount) > pMem )
+		if (pFreeBlock <= pMem && (pFreeBlock + m_BlockSize * m_BlockCount) > pMem)
 			return false;
 
 		pFreeBlock = pFreeBlock->m_pPrev;

@@ -34,8 +34,8 @@ class Scrollbar
 private:
 
 protected:
-	DWORD				m_dw_amount_for_scroll; // '대상'
-	DWORD				m_dw_amount_to_scroll;	// scroll한 amount (x <= m_dw_amount_for_scroll)
+	DWORD	m_dw_amount_for_scroll; // '대상'
+	DWORD	m_dw_amount_to_scroll;	// scroll한 amount (x <= m_dw_amount_for_scroll)
 
 public:
 	Scrollbar();
@@ -46,19 +46,19 @@ public:
 	//---------------------------------------
 	// Set
 	//---------------------------------------
-	void		SetAmountForScroll(DWORD amount_for_scroll);
-	void		SetAmountToScroll(DWORD amount_to_scroll);
-	void		SetAmountToScrollByPercent(double percent);
-	void		IncreaseAmountToScroll();
-	void		DecreaseAmountToScroll();
+	void	SetAmountForScroll(DWORD amount_for_scroll);
+	void	SetAmountToScroll(DWORD amount_to_scroll);
+	void	SetAmountToScrollByPercent(double percent);
+	void	IncreaseAmountToScroll();
+	void	DecreaseAmountToScroll();
 
 	//---------------------------------------
 	// Get
 	//---------------------------------------
-	bool		NoScroll();
+	bool	NoScroll();
 	int		GetPercentToScroll() const;
-	DWORD		GetAmountToScroll() const;
-	DWORD		GetAmountForScroll() const;
+	DWORD	GetAmountToScroll() const;
+	DWORD	GetAmountForScroll() const;
 };
 
 #endif

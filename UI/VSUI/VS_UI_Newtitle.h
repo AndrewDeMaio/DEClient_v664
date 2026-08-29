@@ -32,7 +32,7 @@
 class CTickTimer;
 class C_VS_UI_ASK_DIALOG;
 
-enum MAIN_SPK_INDEX // C_VS_UI_NEWCHAR ¿¡¼­µµ »ç¿ëÇÏ¹Ç·Î...
+enum MAIN_SPK_INDEX // C_VS_UI_NEWCHAR ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï¹Ç·ï¿½...
 {
 	MAIN,
 	HEART_LEFT,
@@ -55,12 +55,12 @@ enum
 	ANI_MILLISEC = 100,
 };
 
-// 3Â÷ÀÇ»ó±îÁöÀÇ ½ºÇÁ¶óÀÌÆ® ÆÑ Å©±â
+// 3ï¿½ï¿½ï¿½Ç»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ Å©ï¿½ï¿½
 #define ORIGIN3RD_COAT_SPRITEPACK_SIZE	50
 
 //
-// character »ý¼º½Ã character part...
-// CFPK ¼ø¼­
+// character ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ character part...
+// CFPK ï¿½ï¿½ï¿½ï¿½
 //
 enum CHAR_MAN
 {
@@ -114,8 +114,8 @@ struct MAN_INFO
 	CHAR_MAN		helmet;
 	CHAR_MAN		coat;
 	CHAR_MAN		trouser;
-	CHAR_MAN		right; // ¹«±â
-	CHAR_MAN		left;  // ¹æ¾î±¸
+	CHAR_MAN		right; // ï¿½ï¿½ï¿½ï¿½
+	CHAR_MAN		left;  // ï¿½ï¿½î±¸
 };
 
 enum ALIGNMENT
@@ -133,10 +133,10 @@ struct S_SLOT
 	S_SLOT() { m_AdvancementLevel = 0; }
 	void Init();
 
-	bool								bl_set; // slotÀÌ ¼³Á¤µÇ¾ú´Â°¡?
+	bool								bl_set; // slotï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½Â°ï¿½?
 	//	bool								bl_vampire;
 	bool								bl_female;
-	bool								bl_drained; //ÈíÇ÷µÈ »óÅÂÀÎ°¡?
+	bool								bl_drained; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Î°ï¿½?
 	MAN_INFO							man_info;
 
 	int									helmet_color;
@@ -160,7 +160,7 @@ struct S_SLOT
 	int									DEX_MAX;	// by larosel
 	int									INT_PURE;	// by larosel
 	int									INT_CUR;	// by larosel
-	int									INT_MAXX;	// by larosel	//INT_MAX ´Â ¸ø¾¸
+	int									INT_MAXX;	// by larosel	//INT_MAX ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	int									STR_EXP_REMAIN;
 	int									DEX_EXP_REMAIN;
 	int									INT_EXP_REMAIN;
@@ -169,7 +169,7 @@ struct S_SLOT
 	int									DAM2;			// min
 	int									SILVER_DAM;		//max
 	int									SILVER_DAM2;	//min
-	int									CHANGE_VAMPIRE;	// ¹ìÆÄÀÌ¾î·Î º¯ÇÏ´Â ³²Àº ½Ã°£ ºÐ
+	int									CHANGE_VAMPIRE;	// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ ï¿½ï¿½
 	//	int									AC;
 	int									DEFENSE;	// by larosel
 	int									PROTECTION;	// by larosel
@@ -221,7 +221,7 @@ struct S_SLOT
 	typedef std::vector<UI_EFFECTSTATUS_STRUCT>			UI_EFFECTSTATUS_TYPE;
 	UI_EFFECTSTATUS_TYPE				STATUS;
 
-	// VampireÀÏ °æ¿ì mp´Â ¹«½ÃÇÑ´Ù.
+	// Vampireï¿½ï¿½ ï¿½ï¿½ï¿½ mpï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //	WORD									hp_cur_line;
 //	WORD									mp_cur_line;	// slayer only
 //	WORD									hp_percent;
@@ -244,7 +244,7 @@ struct S_SLOT
 
 	int									m_SMS_Charge;
 	int									m_Powerjjang_Point;
-	int									m_AdvancementLevel;	// ÀüÁ÷ ·¹º§ 
+	int									m_AdvancementLevel;	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
 	//	BYTE								m_NickNameType;
 	//	std::string							m_NickName;
 };
@@ -267,7 +267,7 @@ private:
 		PUSHED_CANCEL,
 	};
 
-	//enum INPUT_POSITION // ÀÔ·Â À§Ä¡
+	//enum INPUT_POSITION // ï¿½Ô·ï¿½ ï¿½ï¿½Ä¡
 	//{
 	//	ID,
 	//	PASSWORD,
@@ -352,7 +352,7 @@ private:
 		ISS_STATE,
 		ISS_SSN,
 		ISS_ADDRESS,
-		ISS_WOO, // ¿ìÆí¹øÈ£
+		ISS_WOO, // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È£
 		ISS_PHONE,
 		ISS_HOMEPAGE,
 		ISS_EMAIL,
@@ -438,7 +438,7 @@ private:
 	//	C_SPRITE_PACK *			m_pC_image_spk;
 	ButtonGroup* m_pC_button_group;
 
-	// ÁÖ¹Îµî·Ï¹øÈ£(SSN) string buffer.
+	// ï¿½Ö¹Îµï¿½Ï¹ï¿½È£(SSN) string buffer.
 	LineEditorVisual			m_lev_ssn_part1;
 	LineEditorVisual			m_lev_ssn_part2;
 	bool							m_bl_ssn_ip_part1; // input position
@@ -484,7 +484,7 @@ public:
 //-----------------------------------------------------------------------------
 // C_VS_UI_CHAR_APPEARANCE
 //
-// Chacter ¿Ü¸ð º¯°æ class.
+// Chacter ï¿½Ü¸ï¿½ ï¿½ï¿½ï¿½ï¿½ class.
 //-----------------------------------------------------------------------------
 /*
 class C_VS_UI_CHAR_APPEARANCE : public Window, public Exec
@@ -532,14 +532,14 @@ private:
 	};
 
 	//
-	// Color Window °ü·Ã
+	// Color Window ï¿½ï¿½ï¿½ï¿½
 	//
-	BYTE							m_b_hair_colorset; // ¼±ÅÃµÈ color set
-	BYTE							m_b_skin_colorset; // ¼±ÅÃµÈ color set
-	int							m_focused_x; // color ¼±ÅÃ focus
+	BYTE							m_b_hair_colorset; // ï¿½ï¿½ï¿½Ãµï¿½ color set
+	BYTE							m_b_skin_colorset; // ï¿½ï¿½ï¿½Ãµï¿½ color set
+	int							m_focused_x; // color ï¿½ï¿½ï¿½ï¿½ focus
 	int							m_focused_y;
 	BYTE							m_b_colorset_array[COLORSET_Y][COLORSET_X];
-	bool							m_bl_colorset1; // Appearance Window¿¡¼­ colorset1ÀÌ ¼±ÅÃµÇ¾ú´Â°¡?
+	bool							m_bl_colorset1; // Appearance Windowï¿½ï¿½ï¿½ï¿½ colorset1ï¿½ï¿½ ï¿½ï¿½ï¿½ÃµÇ¾ï¿½ï¿½Â°ï¿½?
 	bool							m_bl_push_colorset;
 
 	C_VS_UI_BUTTON *			m_pC_button[MENU_COUNT];
@@ -825,7 +825,7 @@ private:
 		SELECT_FACE_MAX
 	};
 
-	enum E_SELECT_MALE_OR_FEMALE	//¼ºº° ¼±ÅÃ¿¡¼­ ¸¶¿ì½º°¡ ·Ñ ¿À¹öµÈ »óÅÂÀÏ¶§ Ã¼Å©
+	enum E_SELECT_MALE_OR_FEMALE	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ Ã¼Å©
 	{
 		VIRTURE_SELECT_MALE,
 		VIRTURE_SELECT_FEMALE,
@@ -852,97 +852,97 @@ private:
 
 	enum USEGRADE
 	{
-		CHILD,			//12¼¼
+		CHILD,			//12ï¿½ï¿½
 		//TEENAGER,
-		ADULT,			//18¼¼
-		VIOLENCE,		//Æø·Â¼º
-		FEAR,			//°øÆ÷
+		ADULT,			//18ï¿½ï¿½
+		VIOLENCE,		//ï¿½ï¿½ï¿½Â¼ï¿½
+		FEAR,			//ï¿½ï¿½ï¿½ï¿½
 	};
 
-	WORD						m_wNewCharBox_X;				//Ä³¸¯ÅÍ »ý¼ºÃ¢ ¹Ú½º À§Ä¡
+	WORD						m_wNewCharBox_X;				//Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¢ ï¿½Ú½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wNewCharBox_Y;
 
-	WORD						m_wNameCheck_Button_X;			//Ä³¸¯ÅÍ ÀÌ¸§ Áßº¹ ¹öÆ°ÀÇ À§Ä¡
+	WORD						m_wNameCheck_Button_X;			//Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ßºï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wNameCheck_Button_Y;
 
-	WORD						m_wCharNameFocus_X;				//ÀÌ¸§ ÀÔ·Â Æ÷Ä¿½º	À§Ä¡
+	WORD						m_wCharNameFocus_X;				//ï¿½Ì¸ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½Ä¿ï¿½ï¿½	ï¿½ï¿½Ä¡
 	WORD						m_wCharNameFocus_Y;
 
-	WORD						m_wCharLeftRotation_Button_X;	//Ä³¸¯ÅÍ µ¹·Áº¸±â ¹öÆ° À§Ä¡
+	WORD						m_wCharLeftRotation_Button_X;	//Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½Ä¡
 	WORD						m_wCharLeftRotation_Button_Y;
 
-	WORD						m_wCharRightRotation_Button_X;	//Ä³¸¯ÅÍ µ¹·Áº¸±â ¹öÆ° À§Ä¡
+	WORD						m_wCharRightRotation_Button_X;	//Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½Ä¡
 	WORD						m_wCharRightRotation_Button_Y;
 
-	POINT						m_ptFace_Radio[SELECT_FACE_MAX];	//¾ó±¼ ¼±ÅÃ ¶óµð¿À ¹öÆ° À§Ä¡
-	POINT						m_ptFace[SELECT_FACE_MAX];			//¾ó±¼ ¹öÆ° À§Ä¡
+	POINT						m_ptFace_Radio[SELECT_FACE_MAX];	//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½Ä¡
+	POINT						m_ptFace[SELECT_FACE_MAX];			//ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½Ä¡
 
-	WORD						m_wCharView_X;					//Ä³¸¯ÅÍ º¸¿©ÁÙ À§Ä¡
+	WORD						m_wCharView_X;					//Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wCharView_Y;
 
-	POINT						m_ptRaceSelect_Radio[RACE_MAX];	//Ä³¸¯ÅÍ ¼±ÅÃ ¶óµð¿À ¹öÆ° À§Ä¡
+	POINT						m_ptRaceSelect_Radio[RACE_MAX];	//Ä³ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½Ä¡
 
-	WORD						m_wSelect_Race_Slayer_Button_X;	//½½·¹ÀÌ¾î ¼±ÅÃ ¹öÆ° À§Ä¡
+	WORD						m_wSelect_Race_Slayer_Button_X;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½Ä¡
 	WORD						m_wSelect_Race_Slayer_Button_Y;
 
-	WORD						m_wSelect_Race_Vampire_Button_X;	//¹ìÆÄÀÌ¾î ¼±ÅÃ ¹öÆ° À§Ä¡
+	WORD						m_wSelect_Race_Vampire_Button_X;	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½Ä¡
 	WORD						m_wSelect_Race_Vampire_Button_Y;
 
-	WORD						m_wSelect_Race_Ousters_Button_X;	//¾Æ¿ì½ºÅÍÁî ¼±ÅÃ ¹öÆ° À§Ä¡
+	WORD						m_wSelect_Race_Ousters_Button_X;	//ï¿½Æ¿ì½ºï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½Ä¡
 	WORD						m_wSelect_Race_Ousters_Button_Y;
 
-	WORD						m_wHide_Ousters_Selection_Button_X;		//¾Æ¿ì½ºÅÍÁî ¼±ÅÃ ¹öÆ° °¡¸®´Â À§Ä¡
+	WORD						m_wHide_Ousters_Selection_Button_X;		//ï¿½Æ¿ì½ºï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wHide_Ousters_Selection_Button_Y;
 
-	WORD						m_wMale_OR_Female_Select_Box_X;		//¼ºº° ¹Ú½º À§Ä¡
+	WORD						m_wMale_OR_Female_Select_Box_X;		//ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wMale_OR_Female_Select_Box_Y;
 
-	WORD						m_wMale_Select_Button_X;			//¼ºº°(³²ÀÚ) ¹öÆ° À§Ä¡
+	WORD						m_wMale_Select_Button_X;			//ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½Æ° ï¿½ï¿½Ä¡
 	WORD						m_wMale_Select_Button_Y;
 
-	WORD						m_wFemale_Select_Button_X;			//¼º¹ú(¿©ÀÚ) ¹öÆ° À§Ä¡
+	WORD						m_wFemale_Select_Button_X;			//ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½Æ° ï¿½ï¿½Ä¡
 	WORD						m_wFemale_Select_Button_Y;
 
-	WORD						m_wMale_Select_Radio_X;				//¼ºº°(³²ÀÚ) ¼±ÅÃ ¶óµð¿À ¹öÆ° À§Ä¡
+	WORD						m_wMale_Select_Radio_X;				//ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½Ä¡
 	WORD						m_wMale_Select_Radio_Y;
 
-	WORD						m_wFemale_Select_Radio_X;			//¼ºº°(¿©ÀÚ) ¼±ÅÃ ¶óµð¿À ¹öÆ° À§Ä¡
+	WORD						m_wFemale_Select_Radio_X;			//ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½Ä¡
 	WORD						m_wFemale_Select_Radio_Y;
 
-	WORD						m_wHairColor_BOX_X;					//¸Ó¸® »ö»ó ¹Ú½º À§Ä¡
+	WORD						m_wHairColor_BOX_X;					//ï¿½Ó¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wHairColor_BOX_Y;
 
-	WORD						m_wHairColor_Start_X;				//¸Ó¸® »ö»ó ½ÃÀÛ À§Ä¡
+	WORD						m_wHairColor_Start_X;				//ï¿½Ó¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wHairColor_Start_Y;
 
-	WORD						m_wSkinColor_BOX_X;					//ÇÇºÎ »ö»ó ¹Ú½º À§Ä¡
+	WORD						m_wSkinColor_BOX_X;					//ï¿½Çºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wSkinColor_BOX_Y;
 
-	WORD						m_wSkinColor_Start_X;				//ÇÇºÎ »ö»ó ½ÃÀÛ À§Ä¡
+	WORD						m_wSkinColor_Start_X;				//ï¿½Çºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wSkinColor_Start_Y;
 
-	WORD						m_wOpset_BOX_X;						//½½·¹ÀÌ¾î ¼³Á¤µéÀÇ ¹Ú½º À§Ä¡(ÀúÀå, ºÒ·¯¿À±â, ´Ù½Ã ¼³Á¤)
+	WORD						m_wOpset_BOX_X;						//ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ ï¿½ï¿½Ä¡(ï¿½ï¿½ï¿½ï¿½, ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½)
 	WORD						m_wOpset_BOX_Y;
 
-	WORD						m_wSave_Button_X;					//ÀúÀå ¹öÆ°ÀÇ À§Ä¡
+	WORD						m_wSave_Button_X;					//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wSave_Button_Y;
 
-	WORD						m_wLoad_Button_X;					//ºÒ·¯¿À±â ¹öÆ°ÀÇ À§Ä¡
+	WORD						m_wLoad_Button_X;					//ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wLoad_Button_Y;
 
-	WORD						m_wReset_Button_X;					//´Ù½Ã ¼³Á¤ ¹öÆ°ÀÇ À§Ä¡
+	WORD						m_wReset_Button_X;					//ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wReset_Button_Y;
 
-	WORD						m_wStet_Box_X;						//½ºÅÝ ¹Ú½º À§Ä¡
+	WORD						m_wStet_Box_X;						//ï¿½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wStet_Box_Y;
 
-	POINT						m_ptStet_Plus[STET_MAX];			//½ºÅÝ ÇÃ·¯½º ¹öÆ° À§Ä¡
-	POINT						m_ptStet_Minus[STET_MAX];			//½ºÅÝ ÇÃ·¯½º ¹öÆ° À§Ä¡
+	POINT						m_ptStet_Plus[STET_MAX];			//ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½Ä¡
+	POINT						m_ptStet_Minus[STET_MAX];			//ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½ï¿½ ï¿½ï¿½Æ° ï¿½ï¿½Ä¡
 
-	WORD						m_wNextButton_X;					//È®ÀÎ(´ÙÀ½) ¹öÆ°ÀÇ À§Ä¡
+	WORD						m_wNextButton_X;					//È®ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wNextButton_Y;
 
-	WORD						m_wPrevButton_X;					//ÀÌÀü(Back) ¹öÆ°ÀÇ À§Ä¡
+	WORD						m_wPrevButton_X;					//ï¿½ï¿½ï¿½ï¿½(Back) ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wPrevButton_Y;
 
 	WORD						m_wSTR_Text_X;
@@ -960,29 +960,29 @@ private:
 	WORD						m_wMP_Text_X;
 	WORD						m_wMP_Text_Y;
 
-	WORD						m_wDEFENSE_Text_X;	//È¸ÇÇÀ² ÅØ½ºÆ® À§Ä¡
+	WORD						m_wDEFENSE_Text_X;	//È¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® ï¿½ï¿½Ä¡
 	WORD						m_wDEFENSE_Text_Y;
 
-	WORD						m_wPROTECTION_Text_X;	//¹æ¾îÀ² ÅØ½ºÆ® À§Ä¡
+	WORD						m_wPROTECTION_Text_X;	//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® ï¿½ï¿½Ä¡
 	WORD						m_wPROTECTION_Text_Y;
 
-	WORD						m_wTOHIT_Text_X;	//¸íÁßÀ² ÅØ½ºÆ® À§Ä¡
+	WORD						m_wTOHIT_Text_X;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® ï¿½ï¿½Ä¡
 	WORD						m_wTOHIT_Text_Y;
 
-	WORD						m_wDAM_Text_X;	//µ¥¹ÌÁö ÅØ½ºÆ® À§Ä¡
+	WORD						m_wDAM_Text_X;	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® ï¿½ï¿½Ä¡
 	WORD						m_wDAM_Text_Y;
 
-	WORD						m_wBonus_Text_X;	//º¸³Ê½º Æ÷ÀÎÆ® ÅØ½ºÆ® À§Ä¡
+	WORD						m_wBonus_Text_X;	//ï¿½ï¿½ï¿½Ê½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ø½ï¿½Æ® ï¿½ï¿½Ä¡
 	WORD						m_wBonus_Text_Y;
 
-	char						m_chDirection;						//¹æÇâ ¼³Á¤
-	BYTE						m_btRace_Select;					//Á¾Á· ¼±ÅÃ
+	char						m_chDirection;						//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	BYTE						m_btRace_Select;					//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	BYTE						m_btVirtureSelect_Face;				//¾ó±¼À» ¼±ÅÃ ÇÑ´Ù. ¸¶¿ì½º°¡ ¹öÆ°À» °¡¸®Å°°í ÀÖÀ»¶§
-	BYTE						m_btSelect_Face;					//¾ó±¼À» ¼±ÅÃ ÇÑ´Ù.
-	BYTE						m_btVirtureSelect_Male;				//¿©ÀÚ, ³²ÀÚ ¼±ÅÃ (true = ³²ÀÚ) ¸¶¿ì½º°¡ ¹öÆ°À» °¡¸®Å°°í ÀÖÀ»¶§
-	WORD						m_wMale_OR_Femail_Select_Radio_Alpha;		//¼ºº° ¼±ÅÃ ¶óµð¿À ¹öÆ°ÀÇ ¾ËÆÄ °ª
-	WORD						m_wFace_Alpha;						//¾ó±¼ ¼±ÅÃ ¶óµð¿À ¹öÆ°ÀÇ ¾ËÆÄ °ª
+	BYTE						m_btVirtureSelect_Face;				//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½. ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	BYTE						m_btSelect_Face;					//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
+	BYTE						m_btVirtureSelect_Male;				//ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (true = ï¿½ï¿½ï¿½ï¿½) ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	WORD						m_wMale_OR_Femail_Select_Radio_Alpha;		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
+	WORD						m_wFace_Alpha;						//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 
 	WORD						m_wSave_Button_Alpha;				//
 	WORD						m_wLoad_Button_Alpha;				//
@@ -992,7 +992,7 @@ private:
 	WORD						m_wStet_Minus_Button_Alpha[STET_MAX];
 
 
-	WORD						m_wEffect_Fire_Left1_X;				// ºÒ ÀÌÆåÆ® À§Ä¡
+	WORD						m_wEffect_Fire_Left1_X;				// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Ä¡
 	WORD						m_wEffect_Fire_Left1_Y;
 
 	WORD						m_wEffect_Fire_Left2_X;
@@ -1025,7 +1025,7 @@ private:
 	WORD						m_wAni_Mark_X;
 	WORD						m_wAni_Mark_Y;
 
-	POINT						m_ptText_Line[LINE_MAX];						//¾Æ·¡ ÇÏ´Ü¿¡ º¸¿©Áú ÅØ½ºÆ® ÁÂÇ¥ÀÇ À§Ä¡
+	POINT						m_ptText_Line[LINE_MAX];						//ï¿½Æ·ï¿½ ï¿½Ï´Ü¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½Ä¡
 	char						m_arrTextLine[LINE_MAX][256];
 
 	WORD						m_wPrimeum_Use_Day_Txt_X;
@@ -1061,8 +1061,8 @@ private:
 	int							m_focused_help;
 
 	//	bool							m_bl_skin_color_control;
-	S_SLOT* m_p_slot; // character managerÀÇ slotÁß ÇÏ³ª¸¦ °¡¸®Å²´Ù.
-	int							m_selected_slot; // ¼±ÅÃµÈ slot: char manager¿¡ ÀÖÁö¸¸, ÇÊ¿äÇÔ.
+	S_SLOT* m_p_slot; // character managerï¿½ï¿½ slotï¿½ï¿½ ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
+	int							m_selected_slot; // ï¿½ï¿½ï¿½Ãµï¿½ slot: char managerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ê¿ï¿½ï¿½ï¿½.
 
 	ButtonGroup* m_pC_button_group;
 	//	ButtonGroup *				m_pC_button_group_face;
@@ -1085,8 +1085,8 @@ private:
 	bool						m_bAniArphaUp;
 
 	//
-	// face ¼±ÅÃ list.
-	// ÇöÀç ¼±ÅÃµÈ face°¡ ¸Ç ¸ÕÀú ³ª¿À°Ô µÈ´Ù. ´Ù¸¥ °ÍÀ» ¼±ÅÃÇÏ¸é ´Ù¸¥ °ÍÀÌ ¸ÕÀú ³ª¿À°í...
+	// face ï¿½ï¿½ï¿½ï¿½ list.
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ faceï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È´ï¿½. ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
 	//
 	bool							m_face_change_temp;
 
@@ -1143,17 +1143,17 @@ public:
 
 	void	DrawSelect_Race();
 	void	DrawSelect_Male_OR_Female();
-	void	DrawSelect_Stet();				//´É·ÂÄ¡
-	void	DrawSelect_Hair_Skin_Color();	//»ö ¼±ÅÃ
-	void	DrawStetText();					//±ÛÀÚ
+	void	DrawSelect_Stet();				//ï¿½É·ï¿½Ä¡
+	void	DrawSelect_Hair_Skin_Color();	//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	void	DrawStetText();					//ï¿½ï¿½ï¿½ï¿½
 
-	void	MouseSelectMale_OR_Female_RollOver(int _x, int _y);				//¼ºº° ¼±ÅÃ
-	void	MouseSelectFace_RollOver(int _x, int _y);						//¾ó±¼ ¼±ÅÃ
-	void	MouseSelectStet_RollOver(int _x, int _y);						//¾ó±¼ ¼±ÅÃ
+	void	MouseSelectMale_OR_Female_RollOver(int _x, int _y);				//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	void	MouseSelectFace_RollOver(int _x, int _y);						//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	void	MouseSelectStet_RollOver(int _x, int _y);						//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
-	void	MouseSelectMale_OR_Female_Click(int _x, int _y);				//¼ºº° ¼±ÅÃ
-	void	MouseSelectFace_Click(int _x, int _y);						//¾ó±¼ ¼±ÅÃ
-	void	MouseSelectStet_Click(int _x, int _y);						//¾ó±¼ ¼±ÅÃ
+	void	MouseSelectMale_OR_Female_Click(int _x, int _y);				//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	void	MouseSelectFace_Click(int _x, int _y);						//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	void	MouseSelectStet_Click(int _x, int _y);						//ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 };
 
 
@@ -1383,11 +1383,11 @@ private:
 	WORD						m_wAni_Mark_X;
 	WORD						m_wAni_Mark_Y;
 
-	POINT						m_ptText_Line[LINE_MAX];						//¾Æ·¡ ÇÏ´Ü¿¡ º¸¿©Áú ÅØ½ºÆ® ÁÂÇ¥ÀÇ À§Ä¡
+	POINT						m_ptText_Line[LINE_MAX];						//ï¿½Æ·ï¿½ ï¿½Ï´Ü¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½Ä¡
 	char						m_arrTextLine[LINE_MAX][256];
 
-	WORD						m_wSlayerFindHighDomainLevel;					//½½·¹ÀÌ¾îÀÇ µµ¸ÞÀÎ ·¹º§Áß °¡Àå ³ôÀº°ÍÀ» Ã£À» º¯¼ö
-	WORD						m_w_CharHeight;									//Ä³¸¯ÅÍµµ Å¬¸¯ÀÌ µÉ ¼ö ÀÖµµ·Ï º¯¼ö Ãß°¡
+	WORD						m_wSlayerFindHighDomainLevel;					//ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	WORD						m_w_CharHeight;									//Ä³ï¿½ï¿½ï¿½Íµï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 
 	WORD						m_wPrimeum_Use_Day_Txt_X;
 	WORD						m_wPrimeum_Use_Day_Txt_Y;
@@ -1498,8 +1498,8 @@ public:
 	void	DeleteCharInfoString();
 	void	DrawCharInfoString();
 
-	void	ChangeEffectPoint();					//ÀÌÆÑÆ® ÁÂÇ¥¹Ù²Û´Ù.
-	void	Draw_Effect_Button_Char();					//ÀÌÆÑÆ® ÁÂÇ¥¹Ù²Û´Ù.
+	void	ChangeEffectPoint();					//ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Ç¥ï¿½Ù²Û´ï¿½.
+	void	Draw_Effect_Button_Char();					//ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Ç¥ï¿½Ù²Û´ï¿½.
 };
 
 
@@ -1686,7 +1686,7 @@ private:
 	WORD						m_wChar_Bar_Interval_X;
 	WORD						m_wChar_Bar_Interval_Y;
 
-	BOOL						m_blAccep_World_Chenenl;				//¿ùµå·Î ¹ÞÀ»°ÇÁö Ã¼³Î·Î ¹ÞÀ»°ÇÁö È®ÀÎ ÇÑ´Ù. true¸é ¿ùµå false¸é Ã¤³Î
+	BOOL						m_blAccep_World_Chenenl;				//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½Î·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ ï¿½Ñ´ï¿½. trueï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ falseï¿½ï¿½ Ã¤ï¿½ï¿½
 
 	int							m_server_select_world_prev;
 	int							m_server_select_chenel_prev;
@@ -1723,10 +1723,10 @@ private:
 	WORD						m_wAni_Mark_X;
 	WORD						m_wAni_Mark_Y;
 
-	WORD						m_wView_Race_Info_Image_X;						//Á¾Á· Á¤º¸ ÀÌ¹ÌÁö À§Ä¡
+	WORD						m_wView_Race_Info_Image_X;						//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡
 	WORD						m_wView_Race_Info_Image_Y;
 
-	POINT						m_ptText_Line[LINE_MAX];						//¾Æ·¡ ÇÏ´Ü¿¡ º¸¿©Áú ÅØ½ºÆ® ÁÂÇ¥ÀÇ À§Ä¡
+	POINT						m_ptText_Line[LINE_MAX];						//ï¿½Æ·ï¿½ ï¿½Ï´Ü¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ø½ï¿½Æ® ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½Ä¡
 
 	int							m_focus_server;
 	int							m_server_select;
@@ -1740,7 +1740,7 @@ private:
 	int							m_aniArpha;
 	bool						m_bAniArphaUp;
 
-	bool						m_blKeybord_OR_Mouse_Input;			//Å°º¸µå ÀÔ·Â »óÅÂÀÎÁö ¸¶¿ì½º ÀÔ·Â »óÅÂÀÎÁö È®ÀÎ (trueÀÌ¸é Å°º¸µå ÀÔ·Â »óÅÂ)
+	bool						m_blKeybord_OR_Mouse_Input;			//Å°ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ (trueï¿½Ì¸ï¿½ Å°ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½ï¿½ï¿½ï¿½)
 
 	char						m_arrTextLine[LINE_MAX][256];
 
@@ -1834,64 +1834,64 @@ public:
 	{
 		//CONTROL
 		CHECK_CONTROL_TAB,
-		CHECK_NORMAL_CHAT = CHECK_CONTROL_TAB,	//¿É¼Ç¸¸
-		CHECK_ENTER_CHAT,						//¿É¼Ç¸¸
-		//		CHECK_MOUSE_SPEED,						//¸Þ¼¼Áö??
-		CHECK_IFEEL,							//UIÃ³¸®
+		CHECK_NORMAL_CHAT = CHECK_CONTROL_TAB,	//ï¿½É¼Ç¸ï¿½
+		CHECK_ENTER_CHAT,						//ï¿½É¼Ç¸ï¿½
+		//		CHECK_MOUSE_SPEED,						//ï¿½Þ¼ï¿½ï¿½ï¿½??
+		CHECK_IFEEL,							//UIÃ³ï¿½ï¿½
 		KEY_DEFAULT_INIT,
 
 		//GRAPHIC
 		CHECK_GRAPHIC_TAB,
-		//		CHECK_3D = CHECK_GRAPHIC_TAB,			//¿É¼Ç¸¸
-		CHECK_RESOLUTION_800x600 = CHECK_GRAPHIC_TAB,	//ÇØ»óµµ 800x600
-		CHECK_RESOLUTION_1024x768,						//ÇØ»óµµ 1024x768
-		CHECK_3D,								//¿É¼Ç¸¸
-		CHECK_ALPHA_HPBAR,						//¿É¼Ç¸¸
-		CHECK_BLOOD_DROP,						//¿É¼Ç¸¸
-		CHECK_AUTOHIDE_SMOOTH,					//¿É¼Ç¸¸
-		CHECK_GAMMA,							//UIÃ³¸®
-		CHECK_CHATBOX,							//¿É¼Ç¸¸
-		CHECK_FPS,								//¿É¼Ç¸¸
-		CHECK_DEFAULT_ALPHA,					//¿É¼Ç¸¸ ? È¤½Ã ´Ù¸¥ Ã³¸®µµ-.-
-		CHECK_ALPHA_DEPTH,						//¿É¼Ç¸¸
-		CHECK_DO_NOT_SHOW_PERSNALSHOP_MSG,		// °³ÀÎ»óÁ¡ ½ºÆ®¸µ ¾Èº¸±â
+		//		CHECK_3D = CHECK_GRAPHIC_TAB,			//ï¿½É¼Ç¸ï¿½
+		CHECK_RESOLUTION_800x600 = CHECK_GRAPHIC_TAB,	//ï¿½Ø»ï¿½ 800x600
+		CHECK_RESOLUTION_1024x768,						//ï¿½Ø»ï¿½ 1024x768
+		CHECK_3D,								//ï¿½É¼Ç¸ï¿½
+		CHECK_ALPHA_HPBAR,						//ï¿½É¼Ç¸ï¿½
+		CHECK_BLOOD_DROP,						//ï¿½É¼Ç¸ï¿½
+		CHECK_AUTOHIDE_SMOOTH,					//ï¿½É¼Ç¸ï¿½
+		CHECK_GAMMA,							//UIÃ³ï¿½ï¿½
+		CHECK_CHATBOX,							//ï¿½É¼Ç¸ï¿½
+		CHECK_FPS,								//ï¿½É¼Ç¸ï¿½
+		CHECK_DEFAULT_ALPHA,					//ï¿½É¼Ç¸ï¿½ ? È¤ï¿½ï¿½ ï¿½Ù¸ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½-.-
+		CHECK_ALPHA_DEPTH,						//ï¿½É¼Ç¸ï¿½
+		CHECK_DO_NOT_SHOW_PERSNALSHOP_MSG,		// ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Èºï¿½ï¿½ï¿½
 
 		//SOUND
 		CHECK_SOUND_TAB,
-		//		CHECK_YELL = CHECK_SOUND_TAB,			//¿É¼Ç¸¸
-		CHECK_SOUND = CHECK_SOUND_TAB,							//¸Þ¼¼Áö
-		CHECK_MUSIC,							//¸Þ¼¼Áö
-		CHECK_WAV,								//¸Þ¼¼Áö
-		CHECK_MIDI,								//¸Þ¼¼Áö
+		//		CHECK_YELL = CHECK_SOUND_TAB,			//ï¿½É¼Ç¸ï¿½
+		CHECK_SOUND = CHECK_SOUND_TAB,							//ï¿½Þ¼ï¿½ï¿½ï¿½
+		CHECK_MUSIC,							//ï¿½Þ¼ï¿½ï¿½ï¿½
+		CHECK_WAV,								//ï¿½Þ¼ï¿½ï¿½ï¿½
+		CHECK_MIDI,								//ï¿½Þ¼ï¿½ï¿½ï¿½
 
 		//GAME
 		CHECK_GAME_TAB,
-		CHECK_HELP = CHECK_GAME_TAB,			//¿É¼Ç¸¸
-		CHECK_FILTERING,						//¿É¼Ç¸¸
+		CHECK_HELP = CHECK_GAME_TAB,			//ï¿½É¼Ç¸ï¿½
+		CHECK_FILTERING,						//ï¿½É¼Ç¸ï¿½
 		CHECK_PRELOAD_MONSTER,
-		CHECK_CHAT_WHITE,						//¿É¼Ç¸¸
+		CHECK_CHAT_WHITE,						//ï¿½É¼Ç¸ï¿½
 		CHECK_TEEN_VERSION,
 		CHECK_POPUPCHAT_BY_WHISPER,
-		CHECK_DO_NOT_SHOW_WAR_MSG,				// ÀüÀï ¸Þ½ÃÁö º¸Áö ¾Ê±â
-		CHECK_DO_NOT_SHOW_LAIR_MSG,				// ·¹¾î¸¶½ºÅÍ ¸Þ½ÃÁö º¸Áö ¾Ê±â
-		CHECK_DO_NOT_SHOW_HOLY_LAND_MSG,		// ¾Æ´ãÀÇ ¼ºÁö ¸Þ½ÃÁö º¸Áö ¾Ê±â
+		CHECK_DO_NOT_SHOW_WAR_MSG,				// ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½
+		CHECK_DO_NOT_SHOW_LAIR_MSG,				// ï¿½ï¿½ï¿½î¸¶ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½
+		CHECK_DO_NOT_SHOW_HOLY_LAND_MSG,		// ï¿½Æ´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½
 
 #if __CONTENTS(__JAPAN_UI)
-		CHECK_ONE_CLICK_ATTACK_OFF,				//¿øÅ¬¸¯ ÀÏº» ¿ª°³¹ß
+		CHECK_ONE_CLICK_ATTACK_OFF,				//ï¿½ï¿½Å¬ï¿½ï¿½ ï¿½Ïºï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #endif //__JAPAN_UI
 #if __CONTENTS(__LANGUAGE_CHANGE)
-		CHECK_SHOW_GAMEMONEY_WITH_HANGUL,		// °ÔÀÓ¸Ó´Ï ÇÑ±Û º´Çà Ç¥½Ã
+		CHECK_SHOW_GAMEMONEY_WITH_HANGUL,		// ï¿½ï¿½ï¿½Ó¸Ó´ï¿½ ï¿½Ñ±ï¿½ ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
 #endif	//__LAVGUAGE_CHANGE
-		//CHECK_SHOW_RESOLUTION1024,				// °ÔÀÓ ÇØ»óµµ // 0 : 800*600  1 : 1024*768
+		//CHECK_SHOW_RESOLUTION1024,				// ï¿½ï¿½ï¿½ï¿½ ï¿½Ø»ï¿½ // 0 : 800*600  1 : 1024*768
 
 #if __CONTENTS(__GAMEOPTION_ITEMBAY_MESSAGEBOX)
 		CHECK_DO_NOT_SHOW_ITEMBAY_MESSAGEBOX,
 #endif
 
-		//		CHECK_NOT_SEND_MY_INFO,			// ¾ÆÁ÷.
-		//		CHECK_CHANGE,							//¿É¼Ç¸¸
-		//		CHECK_PARTY_INVITE,						//¿É¼Ç¸¸
-		//		CHECK_PARTY_REQUEST,					//¿É¼Ç¸¸
+		//		CHECK_NOT_SEND_MY_INFO,			// ï¿½ï¿½ï¿½ï¿½.
+		//		CHECK_CHANGE,							//ï¿½É¼Ç¸ï¿½
+		//		CHECK_PARTY_INVITE,						//ï¿½É¼Ç¸ï¿½
+		//		CHECK_PARTY_REQUEST,					//ï¿½É¼Ç¸ï¿½
 
 
 				//VALUE
@@ -1902,7 +1902,11 @@ public:
 
 		CHECK_MAX,
 
-		CHECK_CONTROL_MAX = 1,
+		// Was 1, for the Logitech iFeel force-feedback mouse toggle. That option
+		// is hard-disabled (m_check[CHECK_IFEEL] = CHECK_DISABLE) and its label
+		// string was commented out, so it rendered as an unlabelled checkbox
+		// that did nothing. 0 removes it from every layout and draw loop.
+		CHECK_CONTROL_MAX = 0,
 		CHECK_GRAPHIC_MAX = 10,
 		CHECK_SOUND_MAX = 2,
 
@@ -2205,7 +2209,7 @@ public:
 	C_VS_UI_TITLE();
 	~C_VS_UI_TITLE();
 
-	// ³Ý¸¶ºí¿ë
+	// ï¿½Ý¸ï¿½ï¿½ï¿½ï¿½ï¿½
 	void	RunConnect() { if (m_pC_login) m_pC_login->Start(); }
 
 	void	RunCannotPlayMessage();
@@ -2258,7 +2262,7 @@ public:
 	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 
 	void	Init_TitleUIInterface_InfInfo();
-	//.inf¿¡¼­ Å¸ÀÌÆ² UIÀÇ Á¤º¸¸¦ ¼³Á¤ ÇÑ´Ù. (UI ¼³Á¤À» ¹Ù·Î È®ÀÎ ÇÒ ¼ö ÀÖµµ·Ï.)
+	//.infï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½Æ² UIï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½. (UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù·ï¿½ È®ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Öµï¿½ï¿½ï¿½.)
 
 private:
 
