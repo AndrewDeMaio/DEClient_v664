@@ -144,6 +144,84 @@ bool				g_bGoodFPS = true;
 
 const int			g_FrameGood = 15;
 
+//---------------------------------------------------------------------------
+// Frame limiter
+//---------------------------------------------------------------------------
+// The client had no frame pacing of any kind. The main loop spins,
+// CGameUpdate::UpdateDraw() runs on every iteration (the literal "|| 1" in
+// its redraw test), and CDirectDraw::Flip() presents with a plain Blt to the
+// primary surface - DDBLT_WAIT waits for the blitter, not for the vertical
+// blank. Frames therefore landed at arbitrary phases against the desktop
+// refresh, which reads as judder however high the average frame rate is.
+//
+// Pace to a fixed rate with QueryPerformanceCounter. timeGetTime cannot
+// express 16.666ms, so a millisecond clock drifts roughly a frame every two
+// seconds. Sleep covers the bulk of the wait and a short spin covers the
+// tail, because Sleep still overshoots by about a millisecond even at 1ms
+// timer resolution.
+//---------------------------------------------------------------------------
+const int			g_FrameLimitFPS = 60;		// target frame rate; 0 disables pacing
+const double		g_FrameLimitSpinMs = 2.0;	// spin, rather than Sleep, for the last 2ms
+
+static LARGE_INTEGER	s_FrameLimitFreq = { 0 };
+static LONGLONG			s_FrameLimitNext = 0;
+
+static void FrameLimiterInit()
+{
+	if (!QueryPerformanceFrequency(&s_FrameLimitFreq))
+	{
+		s_FrameLimitFreq.QuadPart = 0;	// no usable timer: pacing turns itself off
+		return;
+	}
+
+	LARGE_INTEGER now;
+	QueryPerformanceCounter(&now);
+	s_FrameLimitNext = now.QuadPart;
+}
+
+static void FrameLimiterWait()
+{
+	if (g_FrameLimitFPS <= 0 || s_FrameLimitFreq.QuadPart == 0)
+		return;
+
+	const LONGLONG period = s_FrameLimitFreq.QuadPart / g_FrameLimitFPS;
+	const LONGLONG spin   = (LONGLONG)(s_FrameLimitFreq.QuadPart * g_FrameLimitSpinMs / 1000.0);
+
+	s_FrameLimitNext += period;
+
+	LARGE_INTEGER now;
+	QueryPerformanceCounter(&now);
+
+	// More than a frame behind - a zone load, an alt-tab, a long stall. Drop
+	// the backlog instead of running a burst of uncapped frames to catch up.
+	if (now.QuadPart > s_FrameLimitNext + period)
+	{
+		s_FrameLimitNext = now.QuadPart;
+		return;
+	}
+
+	for (;;)
+	{
+		QueryPerformanceCounter(&now);
+
+		const LONGLONG remain = s_FrameLimitNext - now.QuadPart;
+		if (remain <= 0)
+			break;
+
+		if (remain > spin)
+		{
+			const DWORD ms = (DWORD)((remain - spin) * 1000 / s_FrameLimitFreq.QuadPart);
+			if (ms > 0)
+			{
+				Sleep(ms);
+				continue;
+			}
+		}
+
+		YieldProcessor();
+	}
+}
+
 LONG				g_lGameRunBreakTime = 0;	//???? ?????? ???? ?? ??(????? ?? ??? Pause Break)
 //2009.01.05 shootkj
 
@@ -4123,6 +4201,11 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		CreateThread(NULL, 0, XTrap_Check_Alive, NULL, 0, &dwthread);
 #endif //__XTRAP
 
+		// Sleep() has ~15.6ms granularity at the default timer resolution,
+		// which is coarser than one frame. Ask for 1ms while we are running.
+		timeBeginPeriod(1);
+		FrameLimiterInit();
+
 		while (TRUE)
 		{
 
@@ -4142,6 +4225,10 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 				)
 			{
+				// Hold the frame here, not around the message pump above:
+				// throttling message dispatch would add input lag.
+				FrameLimiterWait();
+
 #ifdef OUTPUT_DEBUG
 				//	DEBUG_ADD("u-");
 #endif
@@ -4343,6 +4430,8 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				WaitMessage();
 			}
 		}
+
+		timeEndPeriod(1);
 #ifndef __OUTPUT_DEBUG__
 		SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, FALSE, NULL, NULL);
 #endif

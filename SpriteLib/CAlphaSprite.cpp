@@ -17,7 +17,7 @@ int		CAlphaSprite::s_Value2 = 0;
 
 //----------------------------------------------------------------------
 //
-// constructor/destructore
+// constructor/destructor
 //
 //----------------------------------------------------------------------
 
@@ -41,7 +41,7 @@ CAlphaSprite::~CAlphaSprite()
 //----------------------------------------------------------------------
 
 //----------------------------------------------------------------------
-// m_Pixels의 memory를 해제한다.
+// Free memory for m_Pixels
 //----------------------------------------------------------------------
 void
 CAlphaSprite::Release()
@@ -70,15 +70,11 @@ CAlphaSprite::Release()
 void
 CAlphaSprite::operator = (const CAlphaSprite& Sprite)
 {
-	// 메모리 해제
 	Release();
 
-
-	// NULL이면 저장하지 않는다.
 	if (Sprite.m_Pixels == NULL || Sprite.m_Width == 0 || Sprite.m_Height == 0)
 		return;
 
-	// 크기 설정
 	m_Width = Sprite.m_Width;
 	m_Height = Sprite.m_Height;
 
@@ -117,25 +113,31 @@ CAlphaSprite::operator = (const CAlphaSprite& Sprite)
 }
 
 //----------------------------------------------------------------------
-// CDirectDrawSurface의 (x,y)+(width, height)영역을 읽어서 m_Pixels에 저장한다.
+// Read the (x,y)+(width, height) region of the CDirectDrawSurface
+// and store it in m_Pixels.
 //----------------------------------------------------------------------
-// m_Pixels를 0번 압축 Format으로 바꾼다.
 //
-// 각 line마다 다음과 같은 구조를 가진다.
+// Convert m_Pixels to Format 0 compressed format.
 //
-// [반복수] (투명수,색깔수,(alpha,색깔)(alpha,색깔)....)(투명수,색깔수,(alpha,색깔)(alpha,색깔)....)........
+// Each line has the following structure:
 //
-// 반복수는 2 bytes이고
-// 투명수와 색깔수는 각각 2 byte이고
-// 색깔들은 각각 2 bytes씩이다.
+// [repeat count] (transparent color, color value, (alpha,color)(alpha,color))
+//                (transparent color, color value, (alpha,color)(alpha,color))
 //
-// alpha값은 2byte인데
-// 상위 1byte는 원래 alpha값
-// 하위 1byte는 32-alpha값
-// (이렇게 하는 이유는... 2byte씩 맞추는데 1byte가 남다보니.. *_*)
+// The repeat count is 2 bytes,
+// the transparent color and color value are each 2 bytes,
+// and each color is 2 bytes.
+//
+// The alpha value is 2 bytes:
+// The upper 1 byte is the original alpha value,
+// The lower 1 byte is the 32-alpha value.
+//
+// (The reason for doing this is... when aligning to 2-byte boundaries,
+//  there ends up being 1 byte left over... *_*)
 //----------------------------------------------------------------------
-// Source에서 투명색 압축을 하고
-// Filter를 Alpha값으로 해서 함께 저장한다. 
+//
+// Compress the transparent colors in the Source,
+// and use the Filter as the alpha value and store them together.
 //----------------------------------------------------------------------
 void
 CAlphaSprite::SetPixel(WORD* pSource, WORD sourcePitch,
@@ -157,7 +159,7 @@ CAlphaSprite::SetPixel(WORD* pSource, WORD sourcePitch,
 	int	trans,				// 투명색 개수
 		color;				// 투명이 아닌색 개수
 
-	BOOL	bCheckTrans;		// 최근에 검사한게 투명색인가?
+	BOOL bCheckTrans;		// 최근에 검사한게 투명색인가?
 
 	WORD* pSourceTemp, * pFilterTemp;
 
@@ -559,9 +561,9 @@ CAlphaSprite::BltClip(WORD* pDest, WORD pitch, RECT* pRect)
 		bPut = (pRect->left == 0) ? TRUE : FALSE;
 		index = 0;
 
-		// 각 줄마다 Clipping을 해줘야 하는데...
-		// xxxxxOOOOOOOOOOOOOO 이거나  (x:출력안함, O:출력함)
-		// OOOOOOOOOOOOOOxxxxx 이거.. 두 가지 경우다.			
+		// Each line needs to have clipping applied. There are two cases:
+		// xxxxxOOOOOOOOOOOOOO (x: don't output, O: output)
+		// or OOOOOOOOOOOOOOxxxxx
 		if (count > 0)
 		{
 			j = count;
@@ -2918,8 +2920,8 @@ CAlphaSprite::Blt4444SmallNotTrans(WORD* pDest, WORD pitch, BYTE shift)
 void
 CAlphaSprite::memcpyAlpha4444Small(WORD* pDest, WORD* pSource, WORD pixels)
 {
-	WORD		sTemp;
-	int		sr, sg, sb;
+	WORD sTemp;
+	int	sr, sg, sb;
 	//static WORD		temp, temp2;
 
 	int i = pixels >> s_Value1;

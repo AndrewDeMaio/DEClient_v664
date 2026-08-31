@@ -352,10 +352,21 @@ void CDirectInput::OnKeyboardInput()
 		DIDEVICEOBJECTDATA didod[BUFFER_SIZE];  // Receives buffered data 
 		DWORD dwElements;
 		HRESULT hr;
+		// DI_BUFFEROVERFLOW is a SUCCESS code: the read worked, but events were
+		// dropped because the buffer filled. The original loop treated it as a
+		// failure, re-Acquired (which flushes the buffer) and read again, so the
+		// whole batch was thrown away - key-ups included. That is exactly the
+		// stuck-key case the comment below warns about. Keep the events we got
+		// and reconcile against the real device state afterwards.
+		BOOL bOverflow = FALSE;
+		int  retries   = 0;
+
 		hr = DIERR_INPUTLOST;
 
-		while (DI_OK != hr)
+		while (DI_OK != hr && DI_BUFFEROVERFLOW != hr)
 		{
+			if (++retries > 4)
+				return;				// device will not co-operate this frame
 
 			dwElements = BUFFER_SIZE;
 			hr = m_pKeyboard->GetDeviceData(sizeof(DIDEVICEOBJECTDATA),
@@ -363,7 +374,7 @@ void CDirectInput::OnKeyboardInput()
 				&dwElements,
 				0);
 
-			if (hr != DI_OK)
+			if (FAILED(hr))
 			{
 				// We got an error or we got DI_BUFFEROVERFLOW.
 				//
@@ -389,14 +400,15 @@ void CDirectInput::OnKeyboardInput()
 				// against the state we think the device is in,
 				// and process all the states that are currently
 				// different from our private state.
-				hr = m_pKeyboard->Acquire();
-				if (FAILED(hr))
+				if (FAILED(m_pKeyboard->Acquire()))
 					return;
+
+				hr = DIERR_INPUTLOST;	// re-acquired: read again
 			}
 		}
 
-		if (FAILED(hr))
-			return;
+		if (DI_BUFFEROVERFLOW == hr)
+			bOverflow = TRUE;
 
 		for (DWORD i = 0; i < dwElements; i++)
 		{
@@ -417,6 +429,33 @@ void CDirectInput::OnKeyboardInput()
 				if (m_fp_keyboard_event_receiver)
 				{
 					m_fp_keyboard_event_receiver(CDirectInput::KEYUP, key);
+				}
+			}
+		}
+
+		// Events were dropped, so a key-up may have been lost and m_key[] would
+		// keep reporting that key as held - which is why a toggle could stop
+		// responding. Reconcile against what the keyboard actually reads now.
+		if (bOverflow)
+		{
+			BYTE state[256];
+
+			if (SUCCEEDED(m_pKeyboard->GetDeviceState(sizeof(state), state)))
+			{
+				for (int key = 0; key < 256; ++key)
+				{
+					const BOOL bDown = (state[key] & MSB) ? TRUE : FALSE;
+
+					if (m_key[key] == bDown)
+						continue;
+
+					m_key[key] = bDown;
+
+					if (m_fp_keyboard_event_receiver)
+					{
+						m_fp_keyboard_event_receiver(
+							bDown ? CDirectInput::KEYDOWN : CDirectInput::KEYUP, key);
+					}
 				}
 			}
 		}
@@ -458,8 +497,11 @@ void CDirectInput::OnMouseInput()
 			&dwElements,
 			0);
 
-		//if (hr==DIERR_INPUTLOST	|| hr==DIERR_NOTACQUIRED) 
-		if (hr != DI_OK)
+		// Only a real failure - lost or unacquired device - is worth
+		// re-acquiring for. DI_BUFFEROVERFLOW is a success code, and bailing out
+		// on it abandoned the rest of the frame's events, so clicks disappeared
+		// whenever the buffer filled.
+		if (FAILED(hr))
 		{
 			m_pMouse->Acquire();
 			break;
@@ -668,7 +710,6 @@ void CDirectInput::OnMouseInput()
 				}
 			}
 
-			bDone = TRUE;
 			break;
 
 		case DIMOFS_BUTTON2:
@@ -686,7 +727,6 @@ void CDirectInput::OnMouseInput()
 					m_fp_mouse_event_receiver(CDirectInput::CENTERUP, m_mouse_x, m_mouse_y, m_mouse_z);
 			}
 
-			bDone = TRUE;
 			break;
 		}
 	}

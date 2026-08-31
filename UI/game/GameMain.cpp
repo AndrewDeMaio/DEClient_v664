@@ -267,6 +267,21 @@ UpdateSocketInput()
 		DEBUG_ADD( t.toString().c_str() );
 		DEBUG_ADD_ERR("[Error] UpdateSocketInput");			
 		DEBUG_ADD(t.toString().c_str());
+
+		// DIAGNOSTIC (silent force-DC at Limbo zone 1003): OUTPUT_DEBUG is
+		// deliberately unset in DEClient.Common.props, so the DEBUG_ADD calls
+		// above compile to nothing and the reason for the disconnect is thrown
+		// away. This is the exact path a packet-stream desync takes to become
+		// MODE_MAINMENU with no crash and no message, so record it here.
+		{
+			FILE* dcfp = fopen("DisconnectReason.log", "a");
+			if (dcfp != NULL)
+			{
+				fputs(t.toString().c_str(), dcfp);
+				fputc(10, dcfp);
+				fclose(dcfp);
+			}
+		}
 		
 		//InitFail("Server???? ?????? ???????????.");
 		SetMode( MODE_MAINMENU );

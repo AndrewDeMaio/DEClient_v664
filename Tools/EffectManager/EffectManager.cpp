@@ -1,272 +1,889 @@
-// EffectManager.cpp : Defines the entry point for the application.
-//
+﻿#include "EffectManager.h"
+#include "PalettePack.h"
+#include "SpriteTreeBuilder.h"
+#include "EffectUtils.h"
+#include "ScreenSpriteDecoder.h"
+#include "CCreatureFramePack.h"
+#include <QFileDialog>
+#include <QVBoxLayout>
+#include <QSplitter>
+#include <QMessageBox>
+#include <QSettings>
+#include <QColorDialog>
+#include <QGroupBox>
+#include <QSizePolicy>
+#include <QResizeEvent>
+#include <QCoreApplication>
+#include <QProgressBar>
+#include <QDebug>
 
-#include "framework.h"
-#include "Resource.h"
-#include "EffectManager.h"
-#include "EffectPackage.h"
-
-#include <commdlg.h>
-#include <string>
-
-#define MAX_LOADSTRING 100
-
-// Global Variables:
-HINSTANCE hInst;                                // current instance
-WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
-WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
-
-HWND g_hViewport = nullptr;     // Asset Viewport
-HWND g_hLog = nullptr;          // Log Window
-HFONT g_hFont = nullptr;        // Font
-
-EffectPackage g_effectPackage;
-
-// Global Function
-static void Log(const wchar_t* message) 
+EffectManager::EffectManager(QWidget* parent)
+    : QMainWindow(parent)
 {
-    if (!g_hLog) return;
+    ui.setupUi(this);
 
-	int length = GetWindowTextLengthW(g_hLog);
+    this->setStyleSheet("QMenu::item:disabled { color: #808080; }");
 
-    SendMessageW(g_hLog, EM_SETSEL, length, length);
-    SendMessageW(g_hLog, EM_REPLACESEL, FALSE, reinterpret_cast<LPARAM>(message));
-    SendMessageW(g_hLog, EM_REPLACESEL, FALSE, reinterpret_cast<LPARAM>(L"\r\n"));
+    setWindowTitle("Effect Manager");
+    resize(1024, 768);
+
+    removeToolBar(ui.mainToolBar);
+    setupMenuBar();
+
+    m_mainSplitter = new QSplitter(Qt::Horizontal, this);
+
+    m_fileTree = new QTreeWidget(m_mainSplitter);
+    m_fileTree->setHeaderLabels({ "Effect Files" });
+
+    m_spriteTree = new QTreeWidget(m_mainSplitter);
+    m_spriteTree->setHeaderLabels({ "Effects, Directions & Frames" });
+
+    QWidget* rightPanel = new QWidget(m_mainSplitter);
+    QVBoxLayout* rightLayout = new QVBoxLayout(rightPanel);
+    rightLayout->setContentsMargins(0, 0, 0, 0);
+
+    // --- Painel de Informações e Botão Play ---
+    QGroupBox* infoGroup = new QGroupBox("Frame Info", rightPanel);
+    infoGroup->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    QVBoxLayout* infoLayout = new QVBoxLayout(infoGroup);
+    
+    m_infoLabel = new QLabel("Select a frame to see its properties.", infoGroup);
+    m_infoLabel->setWordWrap(true);
+    
+    m_playAnimationButton = new QPushButton("Play Animation", infoGroup);
+    m_playAnimationButton->setVisible(false);
+
+    infoLayout->addWidget(m_infoLabel);
+    infoLayout->addWidget(m_playAnimationButton);
+    infoGroup->setLayout(infoLayout);
+    // --- Fim do Painel ---
+    
+    m_previewLabel = new QLabel("Select a frame to preview", rightPanel);
+    m_previewLabel->setAlignment(Qt::AlignCenter);
+    m_previewLabel->setMinimumSize(200, 200);
+    m_previewBackgroundColor = QColor("#aaaa7f");
+    updatePreviewBackground();
+
+    rightLayout->addWidget(infoGroup);
+    rightLayout->addWidget(m_previewLabel);
+    rightPanel->setLayout(rightLayout);
+
+    m_mainSplitter->addWidget(m_fileTree);
+    m_mainSplitter->addWidget(m_spriteTree);
+    m_mainSplitter->addWidget(rightPanel);
+
+    m_mainSplitter->setSizes({ 250, 250, 524 });
+
+    setCentralWidget(m_mainSplitter);
+
+    // --- Configuração da Animação ---
+    m_animationTimer = new QTimer(this);
+    m_animationTimer->setInterval(50);
+    // --- Fim da Configuração ---
+
+    // --- Configuração da Barra de Progresso ---
+    m_loadingOverlay = new QWidget(this);
+    m_loadingOverlay->setStyleSheet("background-color: rgba(0, 0, 0, 150); border-radius: 10px;");
+    
+    QVBoxLayout* loadingLayout = new QVBoxLayout(m_loadingOverlay);
+    m_loadingLabel = new QLabel("Loading...", m_loadingOverlay);
+    m_loadingLabel->setAlignment(Qt::AlignCenter);
+    m_loadingLabel->setStyleSheet("color: white; background-color: transparent;");
+
+    m_progressBar = new QProgressBar(m_loadingOverlay);
+    m_progressBar->setRange(0, 100);
+    m_progressBar->setValue(0);
+    m_progressBar->setTextVisible(true);
+    m_progressBar->setAlignment(Qt::AlignCenter);
+
+    loadingLayout->addStretch();
+    loadingLayout->addWidget(m_loadingLabel);
+    loadingLayout->addWidget(m_progressBar);
+    loadingLayout->addStretch();
+    
+    m_loadingOverlay->hide();
+
+    m_paletteControlDialog = new PaletteControlDialog(this);
+    m_paletteControlDialog->hide(); 
+
+    setupUiConnections();
 }
 
-static bool OpenEffectFile(HWND hWnd, std::wstring& filename) 
+EffectManager::~EffectManager() {}
+
+void EffectManager::setupMenuBar()
 {
-    wchar_t buffer[MAX_PATH] = {};
-    OPENFILENAMEW dialog = {};
+    m_fileMenu = menuBar()->addMenu(tr("&File"));
+    m_openAction = new QAction(tr("&Open Directory..."), this);
+    m_openAction->setShortcuts(QKeySequence::Open);
+    m_fileMenu->addAction(m_openAction);
 
-    dialog.lStructSize = sizeof(OPENFILENAMEW);
-    dialog.hwndOwner = hWnd;
-    dialog.lpstrFile = buffer;
-    dialog.nMaxFile = MAX_PATH;
-    dialog.lpstrFilter = L"Effect Package Files (*.efpk)\0*.efpk\0"
-		                 L"All Files (*.*)\0*.*\0";
+    m_savePaletteAction = new QAction(tr("&Save Palette"), this);
+    m_savePaletteAction->setShortcuts(QKeySequence::Save);
+    m_savePaletteAction->setEnabled(false);
+    m_fileMenu->addAction(m_savePaletteAction);
 
-    dialog.nFilterIndex = 1;
-    dialog.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
+    // Export action
+    m_exportAction = new QAction(tr("E&xport Frame..."), this);
+    m_exportAction->setEnabled(false);
+    m_fileMenu->addAction(m_exportAction);
 
-    if (GetOpenFileNameW(&dialog)) {
-        filename = buffer;
-        return true;
-    }
+    m_fileMenu->addSeparator();
+    m_exitAction = new QAction(tr("E&xit"), this);
+    m_exitAction->setShortcuts(QKeySequence::Quit);
+    m_fileMenu->addAction(m_exitAction);
 
-    return false;
+    m_viewMenu = menuBar()->addMenu(tr("&View"));
+    m_changeBgColorAction = new QAction(tr("Change Background Color..."), this);
+    m_viewMenu->addAction(m_changeBgColorAction);
+
+    m_adjustPaletteAction = new QAction(tr("Adjust Palette..."), this);
+    m_adjustPaletteAction->setEnabled(false);
+    m_viewMenu->addAction(m_adjustPaletteAction);
+
+    m_helpMenu = menuBar()->addMenu(tr("&Help"));
+    m_aboutAction = new QAction(tr("&About"), this);
+    m_helpMenu->addAction(m_aboutAction);
 }
 
-// Forward declarations of functions included in this code module:
-ATOM                MyRegisterClass(HINSTANCE hInstance);
-BOOL                InitInstance(HINSTANCE, int);
-LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-
-int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-                     _In_opt_ HINSTANCE hPrevInstance,
-                     _In_ LPWSTR    lpCmdLine,
-                     _In_ int       nCmdShow)
+void EffectManager::setupUiConnections()
 {
-    UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
+    connect(m_openAction, &QAction::triggered, this, &EffectManager::onSearchDirectory);
+    connect(m_savePaletteAction, &QAction::triggered, this, &EffectManager::onSavePalette);
+    connect(m_exportAction, &QAction::triggered, this, &EffectManager::onExportFrame); // ADICIONADO
+    connect(m_exitAction, &QAction::triggered, this, &QWidget::close);
+    connect(m_aboutAction, &QAction::triggered, this, &EffectManager::onAbout);
+    connect(m_changeBgColorAction, &QAction::triggered, this, &EffectManager::onChangeBackgroundColor);
+    connect(m_adjustPaletteAction, &QAction::triggered, this, &EffectManager::onAdjustPalette); 
+    connect(m_playAnimationButton, &QPushButton::clicked, this, &EffectManager::onPlayAnimation);
+    connect(m_animationTimer, &QTimer::timeout, this, &EffectManager::onAnimationStep);
+    connect(m_fileTree, &QTreeWidget::currentItemChanged, this, &EffectManager::onFileSelectionChanged);
+    connect(m_spriteTree, &QTreeWidget::currentItemChanged, this, &EffectManager::onSpriteSelectionChanged);
 
-    // TODO: Place code here.
+    connect(m_paletteControlDialog, &PaletteControlDialog::paletteAdjusted, this, &EffectManager::onPaletteAdjusted);
+    connect(m_paletteControlDialog, &PaletteControlDialog::paletteReset, this, &EffectManager::onPaletteReset);
+}
 
-    // Initialize global strings
-    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_EFFECTMANAGER, szWindowClass, MAX_LOADSTRING);
-    MyRegisterClass(hInstance);
+void EffectManager::updatePreviewBackground()
+{
+    QPalette palette = m_previewLabel->palette();
+    palette.setColor(QPalette::Window, m_previewBackgroundColor);
+    m_previewLabel->setAutoFillBackground(true);
+    m_previewLabel->setPalette(palette);
+}
 
-    // Perform application initialization:
-    if (!InitInstance (hInstance, nCmdShow))
-    {
-        return FALSE;
+void EffectManager::onChangeBackgroundColor()
+{
+    const QColor newColor = QColorDialog::getColor(m_previewBackgroundColor, this, "Select Background Color");
+    if (newColor.isValid()) {
+        m_previewBackgroundColor = newColor;
+        updatePreviewBackground();
+    }
+}
+
+void EffectManager::onAbout()
+{
+    QMessageBox::about(this, tr("About Effect Manager"),
+        tr("A sprite effect management tool.\n\n"
+           "This application uses the Qt Toolkit version %1, "
+           "under the LGPL license. For more information, visit https://www.qt.io/")
+           .arg(QT_VERSION_STR));
+}
+
+void EffectManager::onFileSelectionChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous)
+{
+    stopAnimation();
+
+    m_progressBar->setValue(0);
+    m_loadingLabel->setText("Loading...");
+    m_loadingOverlay->show();
+    m_loadingOverlay->raise();
+    QCoreApplication::processEvents();
+
+    // limpa estado
+    m_spriteTree->clear();
+    m_previewLabel->clear();
+    m_infoLabel->setText("Select a frame to see its properties.");
+    m_spriteTree->setHeaderLabels({ "Effects, Directions & Frames" });
+    m_currentPack = EffectSpritePack();
+    m_currentFramePack = EffectFramePack();
+    m_currentCreaturePack = CCreatureFramePack();
+    m_currentPalettePack = PalettePack();
+    m_adjustPaletteAction->setEnabled(false);
+    m_savePaletteAction->setEnabled(false);
+    if (m_exportAction) m_exportAction->setEnabled(false); // ADICIONAR
+    m_paletteControlDialog->hide();
+    m_adjustedPalettes.clear();
+
+    m_lastSelectedSpriteId = -1;
+    m_lastSelectedEffectIndex = -1;
+    m_lastSelectedDirectionIndex = -1;
+    m_lastSelectedCreatureIndex = -1;
+    m_lastSelectedActionIndex = -1;
+
+    if (!current || !current->data(0, FilePathRole).isValid()) {
+        m_loadingOverlay->hide();
+        return;
     }
 
-    HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_EFFECTMANAGER));
+    QString path = current->data(0, FilePathRole).toString();
+    if (!m_currentPack.load(path)) {
+        m_previewLabel->setText("Failed to load sprite pack.");
+        m_loadingOverlay->hide();
+        return;
+    }
 
-    MSG msg;
+    QFileInfo packInfo(path);
+    QDir parentDir = packInfo.dir(); 
+    QString baseName = packInfo.isDir() ? packInfo.fileName() : packInfo.completeBaseName();
+    
+    bool HaveEFPK = false;
+    bool HavePPK = false;
+    bool HaveCFPK = false;
+    QString hAve = packInfo.fileName();
 
-    // Main message loop:
-    while (GetMessage(&msg, nullptr, 0, 0))
+    if (hAve.endsWith(".aspk", Qt::CaseInsensitive)
+        || hAve.endsWith(".sspk", Qt::CaseInsensitive)
+        || hAve.contains("effectscreen.spk", Qt::CaseInsensitive)
+        || hAve.contains("effect.spk", Qt::CaseInsensitive)
+        || hAve.contains("effect.sspk", Qt::CaseInsensitive))
     {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-        {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+        HaveEFPK = true;
+    }
+
+    if (hAve.endsWith(".aspk", Qt::CaseInsensitive)
+        || hAve.contains("effectscreen.spk", Qt::CaseInsensitive))
+    {
+        HavePPK = true;
+    }
+
+    if (hAve.endsWith(".ispk", Qt::CaseInsensitive)
+        || hAve.endsWith(".sspk", Qt::CaseInsensitive))
+    {
+        HaveCFPK = true;
+    }
+
+    if (baseName.endsWith(".aspk", Qt::CaseInsensitive)
+     || baseName.endsWith(".sspk", Qt::CaseInsensitive)
+     || baseName.endsWith(".ispk", Qt::CaseInsensitive))
+    {
+        baseName.chop(5);
+    }
+    else if (baseName.endsWith(".spk", Qt::CaseInsensitive)) {
+        baseName.chop(4);
+    }
+
+    if (HaveEFPK == true) {
+        if (hAve.contains("effect.spk", Qt::CaseInsensitive))
+            baseName = "normaleffect";
+        else if(hAve.contains("effect.sspk", Qt::CaseInsensitive))
+            baseName = "shadoweffect";
+
+        QString efpkPath = parentDir.filePath(baseName + ".efpk");
+        if (QFile::exists(efpkPath)) {
+            m_currentFramePack.load(efpkPath);
+        }
+    }
+    if (HavePPK == true) {
+        QString ppkPath = parentDir.filePath(baseName + ".ppk");
+        if (QFile::exists(ppkPath) && m_currentPalettePack.load(ppkPath)) {
+            m_adjustPaletteAction->setEnabled(true);
         }
     }
 
-    return (int) msg.wParam;
-}
-
-
-
-//
-//  FUNCTION: MyRegisterClass()
-//
-//  PURPOSE: Registers the window class.
-//
-ATOM MyRegisterClass(HINSTANCE hInstance)
-{
-    WNDCLASSEXW wcex;
-
-    wcex.cbSize = sizeof(WNDCLASSEX);
-
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc    = WndProc;
-    wcex.cbClsExtra     = 0;
-    wcex.cbWndExtra     = 0;
-    wcex.hInstance      = hInstance;
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_EFFECTMANAGER));
-    wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
-    wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_EFFECTMANAGER);
-    wcex.lpszClassName  = szWindowClass;
-    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
-
-    return RegisterClassExW(&wcex);
-}
-
-//
-//   FUNCTION: InitInstance(HINSTANCE, int)
-//
-//   PURPOSE: Saves instance handle and creates main window
-//
-//   COMMENTS:
-//
-//        In this function, we save the instance handle in a global variable and
-//        create and display the main program window.
-//
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
-{
-   hInst = hInstance; // Store instance handle in our global variable
-
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
-
-   g_hViewport = CreateWindowExW(0, L"STATIC", L"", WS_CHILD | WS_VISIBLE | WS_BORDER, 0, 0, 100, 100, hWnd, nullptr, hInstance, nullptr);
-   g_hLog = CreateWindowExW(0, L"EDIT", L"", WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_MULTILINE | ES_READONLY | ES_AUTOVSCROLL, 0, 0, 100, 100, hWnd, nullptr, hInstance, nullptr);
-   g_hFont = CreateFontW(16, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, L"Console");
-
-   SendMessageW(g_hLog, WM_SETFONT, reinterpret_cast<WPARAM>(g_hFont), TRUE);
-
-   Log(L"EffectManager initialized.");
-   Log(L"Viewport created.");
-   Log(L"Log initialized.");
-
-   if (!hWnd)
-   {
-      return FALSE;
-   }
-
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
-
-   return TRUE;
-}
-
-//
-//  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
-//
-//  PURPOSE: Processes messages for the main window.
-//
-//  WM_COMMAND  - process the application menu
-//  WM_PAINT    - Paint the main window
-//  WM_DESTROY  - post a quit message and return
-//
-//
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    switch (message)
-    {
-    case WM_SIZE: 
-    {
-        int width = LOWORD(lParam);
-        int height = HIWORD(lParam);
-        int logWidth = width / 3;
-
-        MoveWindow(g_hViewport, 0, 0, width - logWidth, height, TRUE);
-        MoveWindow(g_hLog, width - logWidth, 0, logWidth, height, TRUE);
-
-        return 0;
+    if (HaveCFPK) {
+        QString cfpkPath = parentDir.filePath(baseName + ".cfpk");
+        if (QFile::exists(cfpkPath)) {
+            QFile cfFile(cfpkPath);
+            if (cfFile.open(QIODevice::ReadOnly)) {
+                if (m_currentCreaturePack.loadFromDevice(&cfFile)) {
+                    qDebug() << "Loaded CCreatureFramePack from" << cfpkPath;
+                } else {
+                    qWarning() << "Failed to load CCreatureFramePack from" << cfpkPath;
+                }
+                cfFile.close();
+            }
+        }
     }
-    case WM_COMMAND:
-        {
-            int wmId = LOWORD(wParam);
-            // Parse the menu selections:
-            switch (wmId)
-            {
-            case IDM_FILE_OPEN:
-            {
-                std::wstring filename;
-                if (OpenEffectFile(hWnd, filename)) {
-                    Log(L"Opened file package:");
-                    Log(filename.c_str());
 
-                    if (g_effectPackage.Open(filename)) {
-                        wchar_t message[128] = {};
+    m_progressBar->setValue(5);
+    QCoreApplication::processEvents();
 
-                        swprintf_s(message, L"File size: %zu bytes", g_effectPackage.GetSize());
-                        Log(message);
+    SpriteTreeBuilder builder(m_spriteTree, m_progressBar, this);
+    if (m_currentFramePack.isValid()) {
+        builder.populate(m_currentFramePack, m_currentPack);
+    } else if (m_currentCreaturePack.creatureCount() > 0) {
+        builder.populate(m_currentCreaturePack, m_currentPack);
+    } else {
+        builder.populate(m_currentFramePack, m_currentPack);
+    }
+    
+    m_progressBar->setValue(100);
+    m_loadingOverlay->hide();
+}
 
-                        Log(L"Header bytes:");
-                        std::wstring dump = g_effectPackage.DumpBytes(256);
-                        Log(dump.c_str());
-                        dump = g_effectPackage.miniDump(128);
-                        Log(dump.c_str());
+void EffectManager::onSpriteSelectionChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous)
+{
+    stopAnimation();
+    m_playAnimationButton->setVisible(false);
+
+    if (!current) {
+        m_previewLabel->clear();
+        m_infoLabel->setText("Select a frame to see its properties.");
+        m_lastSelectedSpriteId = -1; 
+        m_lastSelectedEffectIndex = -1;
+        return;
+    }
+
+    QString infoText;
+    int spriteIdToLoad = -1;
+    int effectIndexForPalette = -1;
+    const Palette* palette = nullptr;
+
+    if (m_currentFramePack.isValid()) {
+        const EffectFrame* frameInfo = nullptr;
+        bool isDirectionNode = current->data(0, DirectionIndexRole).isValid() && !current->data(0, FrameIndexRole).isValid();
+        bool isFrameNode = current->data(0, FrameIndexRole).isValid();
+
+        if (isDirectionNode) {
+            m_playAnimationButton->setVisible(true);
+            int effectIndex = current->data(0, EffectIndexRole).toInt();
+            int directionIndex = current->data(0, DirectionIndexRole).toInt();
+            
+            effectIndexForPalette = effectIndex;
+            m_lastSelectedDirectionIndex = directionIndex;
+
+            frameInfo = m_currentFramePack.getFrame(effectIndex, directionIndex, 0);
+            if (frameInfo) {
+                infoText = QString("Direction: %1\n%2\nFrames: %3")
+                               .arg(directionIndex)
+                               .arg(getDirectionName(directionIndex))
+                               .arg(current->childCount());
+            } else {
+                infoText = "Direction has no frames.";
+            }
+        } else if (isFrameNode) {
+            int effectIndex = current->data(0, EffectIndexRole).toInt();
+            int directionIndex = current->data(0, DirectionIndexRole).toInt();
+            int frameIndex = current->data(0, FrameIndexRole).toInt();
+            
+            effectIndexForPalette = effectIndex;
+            frameInfo = m_currentFramePack.getFrame(effectIndex, directionIndex, frameIndex);
+
+            if (frameInfo) {
+                infoText = QString("Sprite ID: %1\nCoord: (X: %2, Y: %3)\nLight: %4\nIs Background: %5")
+                               .arg(frameInfo->spriteId).arg(frameInfo->x).arg(frameInfo->y)
+                               .arg(frameInfo->light).arg(frameInfo->isBackground ? "Yes" : "No");
+            }
+        } else if (!current->parent()) {
+            int effectIndex = current->data(0, EffectIndexRole).toInt();
+            effectIndexForPalette = effectIndex;
+            frameInfo = m_currentFramePack.getFrame(effectIndex, 0, 0);
+            if (frameInfo) {
+                 infoText = QString("Effect: %1\nPreviewing Sprite ID: %2").arg(effectIndex).arg(frameInfo->spriteId);
+            } else {
+                infoText = QString("Effect %1 has no frames.").arg(effectIndex);
+            }
+        }
+
+        if (frameInfo) {
+            spriteIdToLoad = frameInfo->spriteId;
+        }
+
+    } else if (m_currentCreaturePack.creatureCount() > 0) {
+        int creatureIndex = current->data(0, EffectIndexRole).isValid() ? current->data(0, EffectIndexRole).toInt() : -1;
+        int actionIndex = current->data(0, ActionIndexRole).isValid() ? current->data(0, ActionIndexRole).toInt() : -1;
+        int directionIndex = current->data(0, DirectionIndexRole).isValid() ? current->data(0, DirectionIndexRole).toInt() : -1;
+        int frameIndex = current->data(0, FrameIndexRole).isValid() ? current->data(0, FrameIndexRole).toInt() : -1;
+
+        bool isDirectionNode = (directionIndex != -1) && (frameIndex == -1);
+        bool isFrameNode = (frameIndex != -1);
+
+        if (isDirectionNode) {
+            // habilita a reprodução para cfpk
+            m_playAnimationButton->setVisible(true);
+
+            effectIndexForPalette = creatureIndex;
+            m_lastSelectedCreatureIndex = creatureIndex;
+            m_lastSelectedActionIndex = actionIndex;
+            m_lastSelectedDirectionIndex = directionIndex;
+
+            const auto& creatures = m_currentCreaturePack.creatures();
+            if (creatureIndex >= 0 && creatureIndex < creatures.size()
+                && actionIndex >= 0 && actionIndex < creatures.at(creatureIndex).Actions.size()
+                && directionIndex >= 0 && directionIndex < creatures.at(creatureIndex).Actions.at(actionIndex).Directions.size()) {
+
+                const auto& frames = creatures.at(creatureIndex).Actions.at(actionIndex).Directions.at(directionIndex).Frames;
+                if (!frames.isEmpty()) {
+                    const auto& f0 = frames.at(0);
+                    infoText = QString("Direction: %1\n%2\nFrames: %3")
+                                   .arg(directionIndex)
+                                   .arg(getDirectionName(directionIndex))
+                                   .arg(current->childCount());
+                    spriteIdToLoad = f0.SpriteID;
+                } else {
+                    infoText = "Direction has no frames.";
+                }
+            } else {
+                infoText = "Invalid creature/direction selection.";
+            }
+        } else if (isFrameNode) {
+            effectIndexForPalette = creatureIndex;
+            m_lastSelectedCreatureIndex = creatureIndex;
+            m_lastSelectedActionIndex = actionIndex;
+            m_lastSelectedDirectionIndex = directionIndex;
+
+            const auto& creatures = m_currentCreaturePack.creatures();
+            if (creatureIndex >= 0 && creatureIndex < creatures.size()
+                && actionIndex >= 0 && actionIndex < creatures.at(creatureIndex).Actions.size()
+                && directionIndex >= 0 && directionIndex < creatures.at(creatureIndex).Actions.at(actionIndex).Directions.size()
+                && frameIndex >= 0 && frameIndex < creatures.at(creatureIndex).Actions.at(actionIndex).Directions.at(directionIndex).Frames.size()) {
+
+                const auto& frame = creatures.at(creatureIndex).Actions.at(actionIndex).Directions.at(directionIndex).Frames.at(frameIndex);
+                infoText = QString("Sprite ID: %1\nCoord: (X: %2, Y: %3)")
+                               .arg(frame.SpriteID).arg(frame.X).arg(frame.Y);
+                spriteIdToLoad = frame.SpriteID;
+            } else {
+                infoText = "Invalid frame selection.";
+            }
+        } else if (!current->parent()) {
+            effectIndexForPalette = creatureIndex;
+            m_lastSelectedCreatureIndex = creatureIndex;
+            const auto& creatures = m_currentCreaturePack.creatures();
+            if (creatureIndex >= 0 && creatureIndex < creatures.size()) {
+                bool found = false;
+                const auto& actions = creatures.at(creatureIndex).Actions;
+                for (int a = 0; a < actions.size() && !found; ++a) {
+                    const auto& dirs = actions.at(a).Directions;
+                    for (int d = 0; d < dirs.size() && !found; ++d) {
+                        const auto& frames = dirs.at(d).Frames;
+                        if (!frames.isEmpty()) {
+                            spriteIdToLoad = frames.at(0).SpriteID;
+                            infoText = QString("Creature: %1\nPreviewing Sprite ID: %2").arg(creatureIndex).arg(spriteIdToLoad);
+                            found = true;
+                        }
                     }
                 }
-                break;
-            }
-            case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-                break;
-            case IDM_EXIT:
-                DestroyWindow(hWnd);
-                break;
-            default:
-                return DefWindowProc(hWnd, message, wParam, lParam);
+                if (!found) infoText = QString("Creature %1 has no frames.").arg(creatureIndex);
             }
         }
-        break;
-    case WM_PAINT:
-        {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
-            
-            RECT rect;
-            GetClientRect(hWnd, &rect);
 
-            EndPaint(hWnd, &ps);
+    } else {
+        if (current->data(0, FrameIndexRole).isValid()) {
+            spriteIdToLoad = current->data(0, FrameIndexRole).toInt();
+            infoText = QString("Sprite: %1\n.efpk/.cfpk data not available.").arg(spriteIdToLoad);
+            if (m_currentPalettePack.isValid()) {
+                effectIndexForPalette = 0;
+            }
         }
-        break;
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
     }
-    return 0;
+
+    if (spriteIdToLoad == -1) {
+        m_previewLabel->setText("Invalid frame data.");
+        return;
+    }
+
+    m_infoLabel->setText(infoText);
+    m_lastSelectedSpriteId = spriteIdToLoad;
+    m_lastSelectedEffectIndex = effectIndexForPalette;
+
+    if (effectIndexForPalette != -1) {
+        if (m_adjustedPalettes.contains(effectIndexForPalette)) {
+            palette = &m_adjustedPalettes[effectIndexForPalette];
+        } else if (m_currentPalettePack.isValid()) {
+            palette = m_currentPalettePack.getPalette(effectIndexForPalette);
+        }
+    }
+
+    updateFramePreview(spriteIdToLoad, palette);
+
+    if (m_exportAction) m_exportAction->setEnabled(spriteIdToLoad != -1);
 }
 
-// Message handler for about box.
-INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+void EffectManager::onPlayAnimation()
 {
-    UNREFERENCED_PARAMETER(lParam);
-    switch (message)
-    {
-    case WM_INITDIALOG:
-        return (INT_PTR)TRUE;
-
-    case WM_COMMAND:
-        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-        {
-            EndDialog(hDlg, LOWORD(wParam));
-            return (INT_PTR)TRUE;
-        }
-        break;
+    if (m_animationTimer->isActive()) {
+        stopAnimation();
+        return;
     }
-    return (INT_PTR)FALSE;
+
+    // Prioriza .efpk (existente)
+    if (m_currentFramePack.isValid()) {
+        if (m_lastSelectedEffectIndex == -1 || m_lastSelectedDirectionIndex == -1) return;
+
+        const auto& effects = m_currentFramePack.getEffects();
+        if (m_lastSelectedEffectIndex >= effects.size()) return;
+
+        const auto& effect = effects.at(m_lastSelectedEffectIndex);
+        if (m_lastSelectedDirectionIndex >= effect.directions.size()) return;
+
+        const auto& direction = effect.directions.at(m_lastSelectedDirectionIndex);
+        if (direction.frames.isEmpty()) return;
+
+        m_animationFrames.clear();
+        for (const auto& frame : direction.frames) {
+            m_animationFrames.append(&frame);
+        }
+
+        m_animationCreatureFrames.clear();
+        m_animationFrameIndex = 0;
+        m_playAnimationButton->setText("Stop");
+        m_spriteTree->setEnabled(false);
+        m_animationTimer->start();
+        onAnimationStep();
+        return;
+    }
+
+    // Suporte para .cfpk
+    if (m_currentCreaturePack.creatureCount() > 0) {
+        if (m_lastSelectedCreatureIndex == -1 || m_lastSelectedActionIndex == -1 || m_lastSelectedDirectionIndex == -1) return;
+
+        const auto& creatures = m_currentCreaturePack.creatures();
+        if (m_lastSelectedCreatureIndex < 0 || m_lastSelectedCreatureIndex >= creatures.size()) return;
+        const auto& creature = creatures.at(m_lastSelectedCreatureIndex);
+
+        if (m_lastSelectedActionIndex < 0 || m_lastSelectedActionIndex >= creature.Actions.size()) return;
+        const auto& action = creature.Actions.at(m_lastSelectedActionIndex);
+
+        if (m_lastSelectedDirectionIndex < 0 || m_lastSelectedDirectionIndex >= action.Directions.size()) return;
+        const auto& direction = action.Directions.at(m_lastSelectedDirectionIndex);
+
+        if (direction.Frames.isEmpty()) return;
+
+        m_animationCreatureFrames.clear();
+        for (const auto& frame : direction.Frames) {
+            m_animationCreatureFrames.append(&frame);
+        }
+
+        m_animationFrames.clear();
+        m_animationFrameIndex = 0;
+        m_playAnimationButton->setText("Stop");
+        m_spriteTree->setEnabled(false);
+        m_animationTimer->start();
+        onAnimationStep();
+        return;
+    }
+}
+
+void EffectManager::onAnimationStep()
+{
+    // Se estiver tocando .efpk frames
+    if (!m_animationFrames.isEmpty()) {
+        if (m_animationFrameIndex >= m_animationFrames.size()) {
+            stopAnimation();
+            return;
+        }
+
+        const EffectFrame* frameInfo = m_animationFrames.at(m_animationFrameIndex);
+        if (!frameInfo) {
+            stopAnimation();
+            return;
+        }
+
+        QString infoText = QString("Animating...\nFrame: %1 / %2\nSprite ID: %3")
+                           .arg(m_animationFrameIndex + 1)
+                           .arg(m_animationFrames.size())
+                           .arg(frameInfo->spriteId, 5, 10, QChar('0'));
+        m_infoLabel->setText(infoText);
+
+        const Palette* palette = nullptr;
+        if (m_adjustedPalettes.contains(m_lastSelectedEffectIndex)) {
+            palette = &m_adjustedPalettes[m_lastSelectedEffectIndex];
+        } else {
+            palette = m_currentPalettePack.getPalette(m_lastSelectedEffectIndex);
+        }
+
+        updateFramePreview(frameInfo->spriteId, palette);
+        ++m_animationFrameIndex;
+        return;
+    }
+
+    // Se estiver tocando .cfpk frames
+    if (!m_animationCreatureFrames.isEmpty()) {
+        if (m_animationFrameIndex >= m_animationCreatureFrames.size()) {
+            stopAnimation();
+            return;
+        }
+
+        const CCreatureFrame* cframe = m_animationCreatureFrames.at(m_animationFrameIndex);
+        if (!cframe) {
+            stopAnimation();
+            return;
+        }
+
+        QString infoText = QString("Animating...\nFrame: %1 / %2\nSprite ID: %3\nCoord: (X: %4, Y: %5)")
+                           .arg(m_animationFrameIndex + 1)
+                           .arg(m_animationCreatureFrames.size())
+                           .arg(cframe->SpriteID, 5, 10, QChar('0'))
+                           .arg(cframe->X)
+                           .arg(cframe->Y);
+        m_infoLabel->setText(infoText);
+
+        const Palette* palette = nullptr;
+        if (m_adjustedPalettes.contains(m_lastSelectedEffectIndex)) {
+            palette = &m_adjustedPalettes[m_lastSelectedEffectIndex];
+        } else {
+            palette = m_currentPalettePack.getPalette(m_lastSelectedEffectIndex);
+        }
+
+        updateFramePreview(cframe->SpriteID, palette);
+        ++m_animationFrameIndex;
+        return;
+    }
+}
+
+void EffectManager::stopAnimation()
+{
+    m_animationTimer->stop();
+    m_playAnimationButton->setText("Play Animation");
+    m_spriteTree->setEnabled(true);
+    m_animationFrames.clear();
+    m_animationCreatureFrames.clear();
+    m_animationFrameIndex = 0;
+}
+
+void EffectManager::onSavePalette()
+{
+    if (m_adjustedPalettes.isEmpty()) {
+        QMessageBox::warning(this, "Save Palette", "No changes to save.");
+        return;
+    }
+
+    QTreeWidgetItem* currentFileItem = m_fileTree->currentItem();
+    if (!currentFileItem) return;
+
+    QFileInfo packInfo(currentFileItem->data(0, FilePathRole).toString());
+    QDir parentDir = packInfo.dir();
+    QString baseName = packInfo.isDir() ? packInfo.fileName() : packInfo.completeBaseName();
+
+    // Se veio de .aspk, remove extensão
+    if (baseName.endsWith(".aspk", Qt::CaseInsensitive)) {
+        baseName.chop(5);
+    }
+
+    QString originalPpkPath = parentDir.filePath(baseName + ".ppk");
+
+    if (!QFile::exists(originalPpkPath)) {
+        QMessageBox::warning(this, "Error", "Original .ppk file not found. Cannot save.");
+        return;
+    }
+
+    PalettePack packToSave;
+    if (!packToSave.load(originalPpkPath)) {
+        QMessageBox::warning(this, "Error", "Could not load original .ppk data. Aborting save.");
+        return;
+    }
+
+    for (auto it = m_adjustedPalettes.constBegin(); it != m_adjustedPalettes.constEnd(); ++it) {
+        packToSave.setPalette(it.key(), it.value());
+    }
+
+    QString savePath = QFileDialog::getSaveFileName(this, "Save Palette Pack", originalPpkPath, "Palette Pack Files (*.ppk)");
+
+    if (savePath.isEmpty()) {
+        return;
+    }
+
+    if (packToSave.save(savePath)) {
+        QMessageBox::information(this, "Success", "Palette saved successfully.");
+        
+        if (QFileInfo(savePath).absoluteFilePath() == QFileInfo(originalPpkPath).absoluteFilePath()) {
+            m_currentPalettePack = packToSave;
+            m_adjustedPalettes.clear();
+            m_savePaletteAction->setEnabled(false);
+            onSpriteSelectionChanged(m_spriteTree->currentItem(), nullptr);
+        }
+    } else {
+        QMessageBox::warning(this, "Error", "Could not save the palette file.");
+    }
+}
+
+void EffectManager::resizeEvent(QResizeEvent* event)
+{
+    QMainWindow::resizeEvent(event);
+    if (m_loadingOverlay) {
+        m_loadingOverlay->setGeometry(
+            this->width() / 2 - 150,
+            this->height() / 2 - 50,
+            300,
+            100
+        );
+    }
+}
+
+void EffectManager::updateFramePreview(int spriteId, const Palette* palette)
+{
+    if (spriteId == -1) {
+        m_previewLabel->setText("Invalid frame data.");
+        return;
+    }
+
+    QImage image = m_currentPack.loadSpriteAtIndex(spriteId, palette);
+
+    if (!image.isNull()) {
+        m_previewLabel->setPixmap(QPixmap::fromImage(image));
+    } else {
+        m_previewLabel->setText(QString("Empty or invalid sprite (ID: %1)").arg(spriteId, 5, 10, QChar('0')));
+    }
+}
+
+void EffectManager::onPaletteAdjusted(const Palette& newPalette)
+{
+    if (m_lastSelectedSpriteId == -1 || m_lastSelectedEffectIndex == -1) return;
+
+    m_adjustedPalettes[m_lastSelectedEffectIndex] = newPalette;
+    m_savePaletteAction->setEnabled(true);
+
+    updateFramePreview(m_lastSelectedSpriteId, &m_adjustedPalettes[m_lastSelectedEffectIndex]);
+}
+
+void EffectManager::onPaletteReset()
+{
+    if (m_lastSelectedEffectIndex == -1) return;
+
+    m_adjustedPalettes.remove(m_lastSelectedEffectIndex);
+
+    if (m_adjustedPalettes.isEmpty()) {
+        m_savePaletteAction->setEnabled(false);
+    }
+
+    const Palette* originalPalette = nullptr;
+    if (m_currentPalettePack.isValid()) {
+        originalPalette = m_currentPalettePack.getPalette(m_lastSelectedEffectIndex);
+    }
+
+    updateFramePreview(m_lastSelectedSpriteId, originalPalette);
+}
+void EffectManager::onAdjustPalette()
+{
+    if (!m_currentPalettePack.isValid() || m_lastSelectedEffectIndex == -1) {
+        QMessageBox::warning(this, "Warning", "No valid palette selected for adjustment.");
+        return;
+    }
+
+    const Palette* originalPalette = m_currentPalettePack.getPalette(m_lastSelectedEffectIndex);
+    // Se não existia ajuste prévio, cria um entry vazio para editar
+    if (!m_adjustedPalettes.contains(m_lastSelectedEffectIndex)) {
+        if (originalPalette) m_adjustedPalettes[m_lastSelectedEffectIndex] = *originalPalette;
+        else m_adjustedPalettes[m_lastSelectedEffectIndex] = Palette();
+    }
+
+    Palette& adjustedPalette = m_adjustedPalettes[m_lastSelectedEffectIndex];
+
+    m_paletteControlDialog->reconfigure(*originalPalette, adjustedPalette);
+    m_paletteControlDialog->show();
+    m_paletteControlDialog->raise();
+    m_paletteControlDialog->activateWindow();
+}
+
+void EffectManager::onSearchDirectory()
+{
+    QSettings settings("MyCompany", "EffectManager");
+    QString lastDir = settings.value("lastDir", QDir::homePath()).toString();
+
+    QString dirPath = QFileDialog::getExistingDirectory(this, "Select Effect Directory", lastDir, QFileDialog::ShowDirsOnly);
+
+    if (!dirPath.isEmpty())
+    {
+        settings.setValue("lastDir", dirPath);
+
+        m_fileTree->clear();
+        m_spriteTree->clear();
+        m_previewLabel->clear();
+        processDirectory(dirPath);
+    }
+}
+void EffectManager::processDirectory(const QString& path)
+{
+    m_fileTree->clear();
+
+    QDir rootDir(path);
+    if (!rootDir.exists()) {
+        new QTreeWidgetItem(m_fileTree, { "Directory not found." });
+        return;
+    }
+
+    QFileInfoList entries = rootDir.entryInfoList(QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot, QDir::Name);
+    bool foundPacks = false;
+
+    for (const QFileInfo& entryInfo : entries)
+    {
+        QString lowerCaseFileName = entryInfo.fileName().toLower();
+
+        // Diretório que pode ser um "split pack" (contém header.inf)
+        if (entryInfo.isDir()) {
+            QDir subDir(entryInfo.absoluteFilePath());
+            if (subDir.exists("header.inf")) {
+                QTreeWidgetItem* dirItem = new QTreeWidgetItem(m_fileTree);
+                dirItem->setText(0, entryInfo.fileName() + " (Split Pack)");
+                dirItem->setData(0, FilePathRole, entryInfo.absoluteFilePath());
+                foundPacks = true;
+                continue;
+            }
+
+            // também procura por arquivos de pack dentro do subdiretório (caso comum em estruturas aninhadas)
+            QFileInfoList subFiles = subDir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name);
+            for (const QFileInfo& sf : subFiles) {
+                QString sfn = sf.fileName().toLower();
+                if (sfn.endsWith(".aspk") || sfn.endsWith(".spk") || sfn.endsWith(".sspk") || sfn.endsWith(".ispk")) {
+                    QTreeWidgetItem* nestedItem = new QTreeWidgetItem(m_fileTree);
+                    nestedItem->setText(0, entryInfo.fileName() + "/" + sf.fileName());
+                    nestedItem->setData(0, FilePathRole, sf.absoluteFilePath());
+                    foundPacks = true;
+                }
+            }
+        }
+        else if (entryInfo.isFile()) {
+            // Arquivos de pack conhecidos
+            if (lowerCaseFileName.endsWith(".aspk")
+                || lowerCaseFileName.endsWith(".spk")
+                || lowerCaseFileName.endsWith(".sspk")
+                || lowerCaseFileName.endsWith(".ispk"))
+            {
+                QTreeWidgetItem* fileItem = new QTreeWidgetItem(m_fileTree);
+                fileItem->setText(0, entryInfo.fileName());
+                fileItem->setData(0, FilePathRole, entryInfo.absoluteFilePath());
+                foundPacks = true;
+            }
+        }
+    }
+
+    if (!foundPacks) {
+        new QTreeWidgetItem(m_fileTree, { "No packs found." });
+    }
+}
+// Novo slot: onExportFrame implementation
+void EffectManager::onExportFrame()
+{
+    if (m_lastSelectedSpriteId == -1) {
+        QMessageBox::warning(this, "Export", "No frame selected to export.");
+        return;
+    }
+
+    // escolhe paleta atual (mesma lógica de preview)
+    const Palette* palette = nullptr;
+    if (m_lastSelectedEffectIndex != -1) {
+        if (m_adjustedPalettes.contains(m_lastSelectedEffectIndex)) {
+            palette = &m_adjustedPalettes[m_lastSelectedEffectIndex];
+        } else if (m_currentPalettePack.isValid()) {
+            palette = m_currentPalettePack.getPalette(m_lastSelectedEffectIndex);
+        }
+    }
+
+    QString defaultName = QString("%1.png").arg(m_lastSelectedSpriteId, 5, 10, QChar('0'));
+    QString savePath = QFileDialog::getSaveFileName(this, "Export Frame as PNG", defaultName, "PNG Image (*.png)");
+    if (savePath.isEmpty()) return;
+
+    QImage image = m_currentPack.loadSpriteAtIndex(m_lastSelectedSpriteId, palette);
+    if (image.isNull()) {
+        QMessageBox::warning(this, "Export", "Failed to render sprite for export.");
+        return;
+    }
+
+    if (!image.save(savePath, "PNG")) {
+        QMessageBox::warning(this, "Export", "Failed to save PNG file.");
+        return;
+    }
+
+    QMessageBox::information(this, "Export", QString("Frame exported to %1").arg(savePath));
 }

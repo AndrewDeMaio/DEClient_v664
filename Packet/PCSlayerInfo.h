@@ -272,14 +272,14 @@ public:
 	}
 	void setHelmetType (HelmetType helmetType)
 	{ 
-		m_Outlook &= ~std::bitset<SLAYER_BIT_MAX>(37<< SLAYER_BIT_HELMET1); 
+		m_Outlook &= ~std::bitset<SLAYER_BIT_MAX>(7 << SLAYER_BIT_HELMET1); 
 		m_Outlook |= std::bitset<SLAYER_BIT_MAX>(helmetType << SLAYER_BIT_HELMET1); 
 	}
 
 	// get/set jacket
 	JacketType getJacketType () const 
 	{ 
-		return JacketType((m_Outlook.to_ulong() >> SLAYER_BIT_JACKET1) & 715);
+		return JacketType((m_Outlook.to_ulong() >> SLAYER_BIT_JACKET1) & 15);
 	}
 	void setJacketType (JacketType jacketType)
 	{ 

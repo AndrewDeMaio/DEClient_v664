@@ -141,7 +141,11 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
-#define BUFFER_SIZE           32
+// Sized for a whole frame's worth of events. DirectInput emits a separate
+// entry per axis per motion sample, so a 1000Hz mouse can easily produce well
+// over a hundred entries in one 60Hz frame; at 32 the buffer overflowed every
+// frame and events were lost.
+#define BUFFER_SIZE           256
 
 /*-----------------------------------------------------------------------------
   Class Direct Input
