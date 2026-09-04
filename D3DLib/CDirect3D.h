@@ -46,7 +46,7 @@ class CDirect3D : public CDirectDraw {
 		static void				Restore();
 
 		//--------------------------------------------------
-		// Is Support HAL?
+		// Is HAL supported?
 		//--------------------------------------------------
 		static bool				CheckHAL();
 
@@ -114,14 +114,14 @@ class CDirect3D : public CDirectDraw {
 	    static DWORD					m_dwNumPixelFormats;
 
 		//------------------------------------------------------------------
-		// Texture 생성 관련 정보
+		// Texture creation information
 		//------------------------------------------------------------------
-		// 하드웨어가 지원하는 Texture의 최대 크기
+		// Max Texture Size supported by hardware
 		static int						m_TextureWidthMax;
 		static int						m_TextureHeightMax;
 
-		static bool						m_bTexturePow2;			// 2^n만 되는가?		
-		static bool						m_bTextureSquareOnly;	// 정사각형만 되는가?
+		static bool						m_bTexturePow2;			// Must be a power of 2
+		static bool						m_bTextureSquareOnly;	// Must be square
 
 	public :
 		// PixelFormat

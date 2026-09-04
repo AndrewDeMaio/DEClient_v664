@@ -464,6 +464,9 @@ void CDirectDraw::ReleaseSurface()
 			m_pDDSPrimary = NULL;
 		}
 	}
+
+	// The smooth-scale target came from this DirectDraw object too.
+	ReleaseSmoothScaleSurface();
 }
 
 //----------------------------------------------------------------------

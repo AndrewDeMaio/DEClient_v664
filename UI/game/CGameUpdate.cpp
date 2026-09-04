@@ -43,6 +43,87 @@
 #include "MWorkThreadGlobal.h"
 #include "OperatorOption.h"
 
+//---------------------------------------------------------------------------
+// Frame probe (temporary diagnostic)
+//---------------------------------------------------------------------------
+// Where does the frame actually go? The built-in Profiler is gated behind
+// OUTPUT_DEBUG, which drags in a lot of rotted 2006 code, so this is a
+// standalone QueryPerformanceCounter probe instead: a few counter reads per
+// frame, averaged and appended to fps_probe.log every five seconds. Costs
+// about a microsecond a frame. Set g_bFrameProbe to false to silence it.
+//---------------------------------------------------------------------------
+bool g_bFrameProbe = true;
+
+static LARGE_INTEGER	s_probeFreq    = { 0 };
+static LONGLONG			s_probeReport  = 0;
+static double			s_probeTopView = 0.0;	// world render
+static double			s_probeUI      = 0.0;	// interface
+static double			s_probeCopy    = 0.0;	// g_pLast -> g_pBack
+static double			s_probeFlip    = 0.0;	// present to the primary surface
+static int				s_probeFrames  = 0;
+
+static LONGLONG ProbeNow()
+{
+	if (s_probeFreq.QuadPart == 0)
+		QueryPerformanceFrequency(&s_probeFreq);
+
+	LARGE_INTEGER now;
+	QueryPerformanceCounter(&now);
+	return now.QuadPart;
+}
+
+static double ProbeMs(LONGLONG ticks)
+{
+	return (s_probeFreq.QuadPart == 0)
+		? 0.0
+		: (double)ticks * 1000.0 / (double)s_probeFreq.QuadPart;
+}
+
+// Called once per presented frame. Writes a line every five seconds.
+static void ProbeReport()
+{
+	++s_probeFrames;
+
+	const LONGLONG now = ProbeNow();
+
+	if (s_probeReport == 0)
+	{
+		s_probeReport = now;
+		return;
+	}
+
+	const double elapsed = ProbeMs(now - s_probeReport);
+	if (elapsed < 5000.0)
+		return;
+
+	FILE* f = fopen("fps_probe.log", "a");
+	if (f != NULL)
+	{
+		const double n = (s_probeFrames > 0) ? (double)s_probeFrames : 1.0;
+
+		// Per-frame averages over the reporting window, in milliseconds.
+		fprintf(f,
+			"fps=%5.1f frames=%5d world=%6.2f ui=%6.2f copy=%6.2f flip=%6.2f accounted=%6.2f frame=%6.2f\n",
+			s_probeFrames * 1000.0 / elapsed,
+			s_probeFrames,
+			s_probeTopView / n,
+			s_probeUI      / n,
+			s_probeCopy    / n,
+			s_probeFlip    / n,
+			(s_probeTopView + s_probeUI + s_probeCopy + s_probeFlip) / n,
+			elapsed / n);
+
+		fclose(f);
+	}
+
+	s_probeTopView = 0.0;
+	s_probeUI      = 0.0;
+	s_probeCopy    = 0.0;
+	s_probeFlip    = 0.0;
+	s_probeFrames  = 0;
+	s_probeReport  = now;
+}
+
 #ifdef OUTPUT_DEBUG    
 	#include "Gpackets\GCSkillFailed2.h"
 	#include "Gpackets\GCSkillToObjectOK5.h"
@@ -6126,7 +6207,11 @@ CGameUpdate::UpdateDraw()
 			}
 			else
 //		#endif
-			g_pTopView->Draw(0,0);			
+			{
+				const LONGLONG _t0 = ProbeNow();
+				g_pTopView->Draw(0,0);
+				s_probeTopView += ProbeMs(ProbeNow() - _t0);
+			}
 
 		__END_PROFILE("GameDraw2D")
 
@@ -6141,7 +6226,11 @@ CGameUpdate::UpdateDraw()
 		//-----------------------------------------------------------------		
 		__BEGIN_PROFILE("UIDraw2D")
 
-		gC_vs_ui.Show();
+		{
+			const LONGLONG _t0 = ProbeNow();
+			gC_vs_ui.Show();
+			s_probeUI += ProbeMs(ProbeNow() - _t0);
+		}
 
 		__END_PROFILE("UIDraw2D")
 
@@ -6196,7 +6285,11 @@ CGameUpdate::UpdateDraw()
 			rect.top = 0;
 			rect.right = SURFACE_WIDTH;
 			rect.bottom = SURFACE_HEIGHT;
-			g_pBack->BltNoColorkey( &point, g_pLast, &rect );		
+			{
+				const LONGLONG _t0 = ProbeNow();
+				g_pBack->BltNoColorkey( &point, g_pLast, &rect );
+				s_probeCopy += ProbeMs(ProbeNow() - _t0);
+			}
 //		}
 
 		__END_PROFILE("LastToBack")
@@ -6886,7 +6979,12 @@ CGameUpdate::UpdateDraw()
 	//-----------------------------------------------------------------
 	// flip
 	//-----------------------------------------------------------------
-	CDirectDraw::Flip();
+	{
+		const LONGLONG _t0 = ProbeNow();
+		CDirectDraw::Flip();
+		s_probeFlip += ProbeMs(ProbeNow() - _t0);
+		if (g_bFrameProbe) ProbeReport();
+	}
 }
 
 //-----------------------------------------------------------------------------

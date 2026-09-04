@@ -2,103 +2,139 @@
 // MActionInfo.h
 //----------------------------------------------------------------------
 //
-//  = 연결되는 Effect들로 하나의 현상(필살기..)을 표현하기 위해 필요한 정보
+//  = Information required to represent a single action using connected Effects
 //
 //  = ActionInfoNode
 //    - EffectGeneratorTableID
 //    - BltType
 //    - FrameID
-//    - 지속시간
+//    - Duration
 //
-//  = ActionInfoNode의 array
+//  = Array of ActionInfoNode
 //
 //----------------------------------------------------------------------
 /*
 
-  [ 나(Player)의 경우 ]
+[ Player Scenario ]
 
-	Action이 실행되는 시점에서 
-		Server로 사용 기술 Packet을 보내고
-		g_ActionInfoTable을 참조해서 기술 사용 때의 효과를 표현해준다.
+    When an Action is executed, send the skill-use packet to the Server, 
+	then reference g_ActionInfoTable to represent the effects that occur when the skill is used.
 
-	기술 사용 도중에 Server에서 결과Packet이 도착하면,
-		(Player의 진행중인 기술ID가 같은 경우)
-		그 결과들을 ActionResult로 만들어서 
-		Player에 있는 EffectTarget의 ActionResult*에 설정한다.
+	If a result Packet arrives from the Server while the skill is being used,
+    (when the skill ID currently being executed by the Player is the same)
+    create an ActionResult from those results
+    and set it to the ActionResult* of the EffectTarget
+    belonging to the Player.
 
+	Otherwise,
+		create an ActionResult from those results
+		and apply the result immediately.
+		Create the EffectTarget directly and use the EffectGenerator...
+		create the Effect, etc.
 
-	아닌 경우, 
-		그 결과들을 ActionResult로 만들어서 바로 결과를 적용시킨다.
-		EffectTarget을 바로 생성하고 EffectGenerator를 통해서..
-		Effect생성..... 등등..
+[ Other Player Scenario ]
 
+	The Start Action, Result Action, and results
+	are received together as a single Packet.
 
-  [ 다른 사람의 경우 ]
+	Create an ActionResult from the Result Actions,
+	and when executing the Start Action,
+	set the ActionResult* on the EffectTarget.
 
-	시작Action과 결과Action과 결과들...이 하나의 Packet으로 넘어온다.
-	결과Action들을 ActionResult로 만들어서 
-	시작Action을 실행할때, EffectTarget에 ActionResult*에 설정한다.
+	(*) ActionResult in EffectGenerator
 
+[ Reference ]
 
-  (*) EffectGenerator에서 ActionResult가 
+	If a skill is divided into detailed stages (ACTION_INFO_NODE),
+	the following is a representative example.
 
+	==> Casting Motion + Casting Effect
+	--> Skill Start Effect
+	--> Skill Progress Effect
+	--> Skill End Effect
 
-  [ 참고 ]
+	==> [Variation]
+	Casting Motion
+	--> Skill Progress Effect
+	--> Skill Progress Effect
+	--> ... etc.
 
-  - 어떤 기술을 세부적인 단계(ACTION_INFO_NODE)로 나눠보면..
-	다음이 대표적인 경우이다.
+Here, Casting Motion + Casting Effect is represented by MActionInfo,
+while the subsequent action stages can be represented
+as individual ACTION_INFO_NODEs.
+The casting Effect is represented by an AttachEffect.
+It is attached to the character and displayed.
+Casting ActionInfo can represent more complicated casting sequences.
+A single skill (MActionInfo) consists of
+information unique to that skill
+and an array of ACTION_INFO_NODEs.
 
-  ==> 캐스팅동작+캐스팅Effect --> 기술시작Effect --> 기술진행Effect --> 기술끝Effect
-     
-  ==> [변형]  캐스팅동작 --> 기술진행Effect --> 기술진행Effect --> .... 등도 물론 있다.
+Among the ACTION_INFO_NODEs for a skill,
+there may be actions that can be considered
+"basic actions" or "progress actions."
+(They may not exist for skills that are triggered instantaneously.)
 
-  - 여기서 캐스팅동작+캐스팅Effect는 MActionInfo로,
-    그 뒤의 동작단계들은 하나의 ACTION_INFO_NODE들로 나타낼 수 있다.
+This type of stage is called a MainNode.
 
-  - casting Effect는 AttachEffect로.. 캐릭터에 붙어서 표현되는 것이다.
-  - Casting ActionInfo는 더 복잡한 Casting을 표현할 수 있다.
+MainNode represents the actual beginning of the skill (-_-;).
 
-  - 하나의 기술(MActionInfo)은 그 기술 고유의 정보와
-    ACTION_INFO_NODE의 array로서 표현이 된다.
+For example, something like a "Light skill"
+may have a different usage time depending on its level.
 
-  - 한 기술에 대한 ACTION_INFO_NODE 중에서는 '기본 동작' 혹은 '진행 동작' 등의 
-    의미로 불릴만한 동작이 있을 수 있다.
-	(순간적으로 발동되는 기술이라면 없을 수도 있다.)
-	이런 단계를 MainNode라 부른다.
-	
-  - MainNode는 기술의 본격적인(-_-;) 시작을 의미한다.
-    예를 들면, 'Light기술'같은 것이 레벨에 따라서
-	사용 시간이 달라질 수 있다.
-	이 때, 사용 시간을 표현하는 단계를 MainNode로 설정할 수 있다.
-	기술이 바로 적용되어야하는 경우 MainNode부터 기술이 시작하게 된다.
+In this case, the stage representing the usage time
+can be designated as the MainNode.
 
-  - node에서 bDelayNode는
-    delay를 적용받는 node를 의미한다.
-	MainNode와 비슷하다고 할 수 있으나
-	실제적인 delay를 적용받는 node이므로 의미가 좀 다르다.
-	MainNode는 하나밖에 없지만, bDelayNode는 여러개가 될 수 있다.
-	
+If the skill needs to be applied immediately,
+the skill begins from the MainNode.
 
-  -	이미 MainNode가 진행중인 상태를 바로 표현해줘야 하는 경우도 있다.
-	(다른 화면에 있다가 시야에 보이는 경우 Server에서 정보를 보내주겠지)
-	이런 경우.. 캐스팅동작이나 기술시작Effect를 보여주지 않고 바로 
-	MainNode를 표현해줘야 한다.
+bDelayNode in a node
+indicates a node that receives a delay.
 
-  - ResultTime은 결과를 처리해주는 시점이다.
-    여러가지 ACTION_INFO_NODE중에서 Server에서 받은 결과(!)를 
-	적용시켜주는 시점..
-	설정이 안된 경우.. 끝~~에서 처리해주면 되겠지..
+It can be considered similar to MainNode,
+but because it is the node that actually receives the delay,
+its meaning is slightly different.
 
-  - StartWithCasting?
-    기술의 시작은 
-	(1)캐릭터가 Casting동작을 시작하면서
-	(2)캐릭터의 Casting동작이 끝나면서(StartAfterCasting)
-	...의 두 가지 경우가 있다.
+There can only be one MainNode,
+but there can be multiple bDelayNodes.
 
-  - Casting?
-     EffectSpriteTypeID로.. AttachEffect 하나만 표현되는 경우가 대부분이다.
-	 하지만, CastingActionInfo로.. 특정한 ActionInfo로 표현해야 되는 경우가 있다.
-	 bCastingActionInfo가 설정되어 있다면 ResultActionInfo는 없다고 가정한다. 
+There are also cases where the state of a MainNode
+that is already in progress needs to be represented immediately.
+
+(For example, the character may have been on another screen
+and then suddenly become visible; in that case,
+the Server would send the relevant information.)
+
+In such cases, instead of showing the casting motion
+or skill-start Effect,
+the MainNode should be represented immediately.
+
+ResultTime is the point at which the result is processed.
+
+Among the various ACTION_INFO_NODEs,
+this is the point at which the result(!) received from the Server
+is applied.
+
+If it is not explicitly set,
+it could simply be processed at the end...
+
+StartWithCasting
+
+	There are two possible cases for when a skill begins:
+
+	(1) When the character begins the casting motion,
+	(2) When the character finishes the casting motion (StartAfterCasting),
+	etc.
+
+Casting?
+
+	Most cases are represented by a single AttachEffect
+	using EffectSpriteTypeID.
+
+	However, there are cases where a specific Casting ActionInfo
+	must be used to represent the casting.
+
+	If bCastingActionInfo is set,
+	assume that there is no ResultActionInfo.
 
 */
 //----------------------------------------------------------------------

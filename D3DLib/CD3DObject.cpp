@@ -28,7 +28,6 @@ CD3DObject::CD3DObject()
 	// Object Hierarchy
 	m_pParent	= NULL;	
 
-	// 메모리가 잡혀있는 상태인가?
 	m_bNew = false;
 }
 
@@ -39,7 +38,6 @@ CD3DObject::~CD3DObject()
 		delete m_pMaterial;
 	}
 
-	// array를 메모리에서 제거한다.
 	Release();
 }
 
@@ -55,18 +53,17 @@ CD3DObject::~CD3DObject()
 void
 CD3DObject::Init(DWORD nVertices, DWORD nIndices)
 {
-	// 개수가 없을 경우 
+	// Do nothing if verticies or indicies are 0 
 	if (nVertices==0 || nIndices==0) 
 		return;
 
-	// 일단 해제
 	Release();
 
-	// 메모리 잡기
+	// Allocate verticies
 	m_nVertices = nVertices;
 	m_pVertices = new D3DVERTEX [m_nVertices];
 
-	// 메모리 잡기
+	// Allocated indicies
 	m_nIndices = nIndices;
 	m_pIndices = new WORD [m_nIndices];
 
@@ -87,7 +84,6 @@ CD3DObject::Release()
 		//-------------------------------------
 		if (m_pVertices != NULL)
 		{
-			// 모든 CVertices를 지운다.
 			delete [] m_pVertices;
 
 			m_pVertices = NULL;		
@@ -99,7 +95,6 @@ CD3DObject::Release()
 		//-------------------------------------
 		if (m_pIndices != NULL)
 		{
-			// 모든 CIndices를 지운다.
 			delete [] m_pIndices;
 
 			m_pIndices = NULL;		
@@ -116,10 +111,8 @@ CD3DObject::Release()
 void				
 CD3DObject::AddChild(CD3DObject* pObject)
 {
-	// list에 추가
 	m_listChild.push_back( pObject );
 
-	// 추가된 자식의 parent로 설정
 	m_pParent = this;
 }
 

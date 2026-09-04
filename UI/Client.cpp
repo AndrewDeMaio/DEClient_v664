@@ -3199,6 +3199,27 @@ void InitResolutionConfig()
 		g_bFullScreen = false;
 	}
 	//end by kim
+
+	// DE_SMOOTH_SCALE: the filtered upscale in CDirectDrawSmooth.cpp runs on
+	// the CPU and locks the primary surface every frame, which is expensive in
+	// a borderless window on a composited desktop. Default stays on so nothing
+	// changes silently; set "SmoothScale: 0" to hand scaling back to the driver.
+	// Read separately: a missing key must not throw into the block above and
+	// take the resolution down with it.
+	int nSmoothScale = 1;
+	try
+	{
+		Properties SmoothConfig;
+		std::string strSmooth = g_pFileDef->getProperty("FILE_INFO_RESOLUTION");
+		SmoothConfig.load(strSmooth.c_str());
+		nSmoothScale = SmoothConfig.getPropertyInt("SmoothScale");
+	}
+	catch (...)
+	{
+		nSmoothScale = 1;	// key absent - keep the existing behaviour
+	}
+
+	CDirectDraw::SetSmoothScale(nSmoothScale != 0);
 }
 
 void SaveResolutionConfig()
@@ -3212,6 +3233,7 @@ void SaveResolutionConfig()
 			file << "ResolutionX: " << g_pUserInformation->iResolution_x << std::endl;
 			file << "ResolutionY: " << g_pUserInformation->iResolution_y << std::endl;
 			file << "FullScreen: " << (g_bFullScreen ? "1" : "0") << '\n';	//add by kim
+			file << "SmoothScale: " << (CDirectDraw::GetSmoothScale() ? "1" : "0") << std::endl;
 		}
 	}
 }

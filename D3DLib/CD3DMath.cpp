@@ -12,8 +12,6 @@
 //------------------------------------------------------------------------------------
 // Get Identity Matrix
 //------------------------------------------------------------------------------------
-// I Matrix를 구한다. 
-//------------------------------------------------------------------------------------
 void
 CD3DMath::GetIdentityMatrix(D3DMATRIX& mat)
 {
@@ -28,7 +26,7 @@ CD3DMath::GetIdentityMatrix(D3DMATRIX& mat)
 //------------------------------------------------------------------------------------
 // Get Translate Matrix
 //------------------------------------------------------------------------------------
-// Vector(x,y,z)만큼 이동하는 Matrix를 생성한다.
+// Create Translation Matrix from Vector
 //------------------------------------------------------------------------------------
 void
 CD3DMath::GetTranslateMatrix(D3DMATRIX& mat, const D3DVECTOR& Vect)
@@ -48,7 +46,7 @@ CD3DMath::GetTranslateMatrix(D3DMATRIX& mat, const D3DVECTOR& Vect)
 //------------------------------------------------------------------------------------
 // Get Translate Matrix
 //------------------------------------------------------------------------------------
-// Vector(x,y,z)만큼 이동하는 Matrix를 생성한다.
+// Create Translation Matrix from points x y z
 //------------------------------------------------------------------------------------
 void
 CD3DMath::GetTranslateMatrix(D3DMATRIX& mat, float sx, float sy, float sz)
@@ -68,7 +66,7 @@ CD3DMath::GetTranslateMatrix(D3DMATRIX& mat, float sx, float sy, float sz)
 //------------------------------------------------------------------------------------
 // Get Scale Matrix
 //------------------------------------------------------------------------------------
-// 크기를 바꾸는 Matrix를 생성한다.
+// Creates a scaling matrix from points x y z
 //------------------------------------------------------------------------------------
 void
 CD3DMath::GetScaleMatrix(D3DMATRIX& mat, float sx, float sy, float sz)
@@ -89,7 +87,7 @@ CD3DMath::GetScaleMatrix(D3DMATRIX& mat, float sx, float sy, float sz)
 //------------------------------------------------------------------------------------
 // Get Scale Matrix
 //------------------------------------------------------------------------------------
-// 크기를 바꾸는 Matrix를 생성한다.
+// Creates a scaling matrix from Vector
 //------------------------------------------------------------------------------------
 void
 CD3DMath::GetScaleMatrix(D3DMATRIX& mat, const D3DVECTOR& v)
@@ -108,9 +106,9 @@ CD3DMath::GetScaleMatrix(D3DMATRIX& mat, const D3DVECTOR& v)
 }
 
 //------------------------------------------------------------------------------------
-// Get Rotate Matrix
+// Get RotateX Matrix
 //------------------------------------------------------------------------------------
-// X축 중심으로 회전하는 Matrix를 생성한다.
+// Creates a Rotaion X Matrix from radians
 //------------------------------------------------------------------------------------
 void
 CD3DMath::GetRotateXMatrix(D3DMATRIX& mat, float fRads)
@@ -133,9 +131,9 @@ CD3DMath::GetRotateXMatrix(D3DMATRIX& mat, float fRads)
 }
 
 //------------------------------------------------------------------------------------
-// Get RotateX Matrix
+// Get RotateY Matrix
 //------------------------------------------------------------------------------------
-// Y축 중심으로 회전하는 Matrix를 생성한다.
+// Creates a Rotation Y Matrix from radians
 //------------------------------------------------------------------------------------
 void
 CD3DMath::GetRotateYMatrix(D3DMATRIX& mat, float fRads)
@@ -158,9 +156,9 @@ CD3DMath::GetRotateYMatrix(D3DMATRIX& mat, float fRads)
 }
 
 //------------------------------------------------------------------------------------
-// Get RotateY Matrix
+// Get RotateZ Matrix
 //------------------------------------------------------------------------------------
-// Z축 중심으로 회전하는 Matrix를 생성한다.
+// Creates a Rotation Z Matrix from radians
 //------------------------------------------------------------------------------------
 void
 CD3DMath::GetRotateZMatrix(D3DMATRIX& mat, float fRads)
@@ -185,7 +183,7 @@ CD3DMath::GetRotateZMatrix(D3DMATRIX& mat, float fRads)
 //------------------------------------------------------------------------------------
 // Get RotateZ Matrix
 //------------------------------------------------------------------------------------
-// vDir Vector를 중심으로 fRad만큼 회전하는 Matrix를 생성한다.
+// Creates a Rotation Matrix around the Vector by radians
 //------------------------------------------------------------------------------------
 void
 CD3DMath::GetRotateMatrix(D3DMATRIX& mat, const D3DVECTOR& vDir, float fRads)
@@ -330,7 +328,7 @@ CD3DMath::InvertMatrix(D3DMATRIX& q, const D3DMATRIX& a)
 //-----------------------------------------------------------------------------
 // Matrix *  Translate Matrix
 //-----------------------------------------------------------------------------
-// mat에 Vect만큼 이동하는 Matrix를 곱한다.
+// Multiplies matrix by a Translation Matrix created from a vector
 //-----------------------------------------------------------------------------
 void
 CD3DMath::MultiplyTranslateMatrix(D3DMATRIX& mat, const D3DVECTOR& Vect)
@@ -343,7 +341,7 @@ CD3DMath::MultiplyTranslateMatrix(D3DMATRIX& mat, const D3DVECTOR& Vect)
 //-----------------------------------------------------------------------------
 // Matrix * Translate Matrix
 //-----------------------------------------------------------------------------
-// mat에 (sx,sy,sz)만큼 이동하는 Matrix를 곱한다.
+// Multiplies matrix by a Translation Matrix created from points x y z
 //-----------------------------------------------------------------------------
 void
 CD3DMath::MultiplyTranslateMatrix(D3DMATRIX& mat, float sx, float sy, float sz)
@@ -356,7 +354,7 @@ CD3DMath::MultiplyTranslateMatrix(D3DMATRIX& mat, float sx, float sy, float sz)
 //-----------------------------------------------------------------------------
 // Matrix *  Scale Matrix
 //-----------------------------------------------------------------------------
-// mat에 각 방향으로 (sx,sy,sz)만큼 크기를 바꾸는 Matrix를 곱한다.
+// Multiplies matrix by a Scale Matrix created from points x y z
 //-----------------------------------------------------------------------------
 void
 CD3DMath::MultiplyScaleMatrix(D3DMATRIX& mat, float sx, float sy, float sz)
@@ -369,7 +367,7 @@ CD3DMath::MultiplyScaleMatrix(D3DMATRIX& mat, float sx, float sy, float sz)
 //-----------------------------------------------------------------------------
 // Matrix *  Scale Matrix
 //-----------------------------------------------------------------------------
-// mat에 각 방향으로 v vector만큼 크기를 바꾸는 Matrix를 곱한다.
+// Multiplies matrix by a Scale Matrix created from a vector
 //-----------------------------------------------------------------------------
 void
 CD3DMath::MultiplyScaleMatrix(D3DMATRIX& mat, const D3DVECTOR& v)
@@ -382,7 +380,7 @@ CD3DMath::MultiplyScaleMatrix(D3DMATRIX& mat, const D3DVECTOR& v)
 //-----------------------------------------------------------------------------
 // Matrix *  RotateX Matrix
 //-----------------------------------------------------------------------------
-// mat에 Matrix에 X축으로 fRads만큼 회전하는 matrix를 곱한다.
+// Multiplies matrix by a RotateX Matrix created from radians
 //-----------------------------------------------------------------------------
 void
 CD3DMath::MultiplyRotateXMatrix(D3DMATRIX& mat, float fRads)
@@ -395,7 +393,7 @@ CD3DMath::MultiplyRotateXMatrix(D3DMATRIX& mat, float fRads)
 //-----------------------------------------------------------------------------
 // Matrix *  RotateY Matrix
 //-----------------------------------------------------------------------------
-// mat에 Matrix에 Y축으로 fRads만큼 회전하는 matrix를 곱한다.
+// Multiplies matrix by a RotateY Matrix created from radians
 //-----------------------------------------------------------------------------
 void
 CD3DMath::MultiplyRotateYMatrix(D3DMATRIX& mat, float fRads)
@@ -408,7 +406,7 @@ CD3DMath::MultiplyRotateYMatrix(D3DMATRIX& mat, float fRads)
 //-----------------------------------------------------------------------------
 // Matrix *  RotateZ Matrix
 //-----------------------------------------------------------------------------
-// mat에 Matrix에 Z축으로 fRads만큼 회전하는 matrix를 곱한다.
+// Multiplies matrix by a RotateZ Matrix created from radians
 //-----------------------------------------------------------------------------
 void
 CD3DMath::MultiplyRotateZMatrix(D3DMATRIX& mat, float fRads)
@@ -419,9 +417,9 @@ CD3DMath::MultiplyRotateZMatrix(D3DMATRIX& mat, float fRads)
 }
 
 //-----------------------------------------------------------------------------
-// Matrix *  RotateZ Matrix
+// Matrix *  Rotate Matrix
 //-----------------------------------------------------------------------------
-// mat에 Matrix에 Vector를 중심으로 fRads만큼 회전하는 matrix를 곱한다.
+// Multiplies matrix by a Rotate Matrix created from a vector and radians
 //-----------------------------------------------------------------------------
 void
 CD3DMath::MultiplyRotateVectorMatrix(D3DMATRIX& mat, const D3DVECTOR& vDir, float fRads)
@@ -435,8 +433,8 @@ CD3DMath::MultiplyRotateVectorMatrix(D3DMATRIX& mat, const D3DVECTOR& vDir, floa
 //------------------------------------------------------------------------------------
 // Matrix * Vertex
 //------------------------------------------------------------------------------------
-// Vertex에 Matrix를 곱한다. 
-// 4행은 이동에 관한것이므로 더한다.
+// Multiplies matrix by a vertex.
+// The 4th row contains the translation, so it is added.
 //------------------------------------------------------------------------------------
 bool
 CD3DMath::MultiplyMatrixToVertex(const D3DMATRIX& mat, D3DTLVERTEX& Vert)
@@ -462,7 +460,7 @@ CD3DMath::MultiplyMatrixToVertex(const D3DMATRIX& mat, D3DTLVERTEX& Vert)
 //------------------------------------------------------------------------------------
 // MoveVertex
 //------------------------------------------------------------------------------------
-// Vertex를 (x,y,z)만큼 이동시킨다.
+// Move the vertex by x y z
 //------------------------------------------------------------------------------------
 void
 CD3DMath::MoveVertex(D3DVERTEX& Vertex, float move_x, float move_y, float move_z)
@@ -650,7 +648,7 @@ CD3DMath::ScaleVertex(D3DVERTEX& Vertex, float scale_x, float scale_y, float sca
 //------------------------------------------------------------------------------------
 // MoveVertex
 //------------------------------------------------------------------------------------
-// Vertex를 (x,y,z)만큼 이동시킨다.
+// Moves the vertex by x y z
 //------------------------------------------------------------------------------------
 void
 CD3DMath::MoveVertex(D3DTLVERTEX& Vertex, float move_x, float move_y, float move_z)
@@ -800,8 +798,8 @@ CD3DMath::ScaleVertex(D3DTLVERTEX& Vertex, float scale_x, float scale_y, float s
 //------------------------------------------------------------------------------------
 // Matrix x Vertex
 //------------------------------------------------------------------------------------
-// Vertex에 Matrix를 곱한다. 
-// 4행은 이동에 관한것이므로 더한다.
+// Multiplies matrix by a vertex.
+// The 4th row contains the translation, so it is added.
 //------------------------------------------------------------------------------------
 bool
 CD3DMath::MultiplyMatrixToVertex(const D3DMATRIX& mat, D3DVERTEX& Vert)
@@ -957,8 +955,8 @@ CD3DMath::ScaleVector(D3DVECTOR& Vector, float scale_x, float scale_y, float sca
 //------------------------------------------------------------------------------------
 // Matrix x Vector
 //------------------------------------------------------------------------------------
-// Vector에 Matrix를 곱한다. 
-// 4행은 이동에 관한것이므로 더한다.
+// Multiplies matrix by a vector.
+// The 4th row contains the translation, so it is added.
 //------------------------------------------------------------------------------------
 bool
 CD3DMath::MultiplyMatrixToVector(const D3DMATRIX& mat, D3DVECTOR& Vector)
@@ -982,7 +980,7 @@ CD3DMath::MultiplyMatrixToVector(const D3DMATRIX& mat, D3DVECTOR& Vector)
 //------------------------------------------------------------------------------------
 // Normalize Vector
 //------------------------------------------------------------------------------------
-// 크기가 1인 Vector를 만든다.
+// Creates a vector of magnitude 1.
 //------------------------------------------------------------------------------------
 void
 CD3DMath::NormalizeVector(D3DVECTOR& Vector)
@@ -1000,7 +998,7 @@ CD3DMath::NormalizeVector(D3DVECTOR& Vector)
 //------------------------------------------------------------------------------------
 // MoveVector
 //------------------------------------------------------------------------------------
-// Vector를 (x,y,z)만큼 이동시킨다.
+// Move vector by poitns x y z
 //------------------------------------------------------------------------------------
 void
 CD3DMath::MoveVector(D3DVECTOR& Vector, float move_x, float move_y, float move_z)
@@ -1198,10 +1196,11 @@ void CD3DMath::QuaternionSlerp(float& Qx, float& Qy, float& Qz, float& Qw,
 //-----------------------------------------------------------------------------
 // CreatePlane()
 //-----------------------------------------------------------------------------
-// 세 점 a,b,c 로 이루어지는 평면의 방정식(coefficient)을 얻는다.
+// Gets the coefficients of the equation of the plane defined by
+// the three points a, b, and c.
 //
-// plane은 4개의 float(A,B,C,D)인데,
-// Ax + By + Cz + D = 0 이다.
+// Plane consists of four floats (A, B, C, D),
+// where Ax + By + Cz + D = 0.
 //-----------------------------------------------------------------------------
 float*
 CD3DMath::GetPlane(float* plane, D3DVECTOR& a, D3DVECTOR& b, D3DVECTOR& c)

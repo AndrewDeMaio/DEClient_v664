@@ -44,8 +44,8 @@ class CTexturePack {
 		CSpriteSurface&		operator [] (int n) { return m_pTextures[n]; }
 
 	protected :
-		int					m_nTextures;		// Texture의 개수
-		CSpriteSurface*		m_pTextures;		// Texture들을 저장해둔다.		
+		int					m_nTextures;		// Number of Textures
+		CSpriteSurface*		m_pTextures;		// Array of Textures
 };
 
 #endif
