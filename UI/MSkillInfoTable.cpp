@@ -2203,7 +2203,7 @@ MSkillInfoTable::MSkillInfoTable()
 
 	// 아우스터즈
 	skillID = SKILL_MIST_OF_SOUL1;
-	m_pTypeInfo[skillID].Set(sid++, "Mist Of Soul 2", 0, 0, 529, "미스트 오브 소울 1");
+	m_pTypeInfo[skillID].Set(sid++, "Mist Of Soul 1", 0, 0, 529, "미스트 오브 소울 1");
 	m_pTypeInfo[skillID].SetDescription("");
 	m_pTypeInfo[skillID].SetOustersSkill();
 	m_pTypeInfo[skillID].SetSkillStep( SKILL_STEP_OUSTERS_RARE );

@@ -773,10 +773,6 @@ MSkillSet::SetAvailableSkills()
 				{
 					flag = 0;
 				}
-				else if (iSilver == 0 && id == SKILL_SHINE_SWORD)
-				{
-					flag = 0;
-				}
 				else
 				{
 					flag = fDomain[SKILLDOMAIN_SWORD];
@@ -851,11 +847,6 @@ MSkillSet::SetAvailableSkills()
 
 
 				if ((*g_pSkillInfoTable)[id].GetMP() > playerMP)
-				{
-					flag = 0;
-				}
-				//20090306 인챈트 스킬중에서도 은도금에 영향 받는 스킬은 체크를 하자
-				else if (iSilver == 0 && id == SKILL_HEAVEN_GROUND)
 				{
 					flag = 0;
 				}
@@ -1138,24 +1129,6 @@ MSkillSet::SetAvailableSkills()
 			}
 
 			insert(SKILLID_MAP::value_type(MAGIC_RESTORE, SKILLID_NODE(MAGIC_RESTORE, flag)));
-		}
-
-
-		//-----------------------------------------------------
-		// 은도금이 필요한 스킬들
-		//-----------------------------------------------------
-		if (pItem != NULL && !pItem->IsGunItem())
-		{
-			if (pItem->GetSilver() < 50)
-			{
-				for (int i = 0; i < 5; ++i) {
-					ACTIONINFO localActionInfo = static_cast<ACTIONINFO>(SKILL_SHINE_SWORD + i);
-
-					iterator iSkill = find(localActionInfo);
-					if (iSkill != end())
-						iSkill->second.Flag = false;
-				}
-			}
 		}
 	}
 	break;
