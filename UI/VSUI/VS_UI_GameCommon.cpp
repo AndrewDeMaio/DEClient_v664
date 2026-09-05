@@ -5220,6 +5220,12 @@ void C_VS_UI_CHATTING::ResetScroll()
 
 	int i = 0, line = 0;
 	C_VS_UI_CHAT_LINE* p_line;
+
+	// Loop-invariant: the advance width of "F" in the chat font cannot change
+	// inside this loop, but it was being measured once per history entry - up
+	// to 200 GDI text-extent calls for every single incoming message.
+	const int _F_WIDTH = g_GetStringWidth("F", gpC_base->m_chatting_pi.hfont);
+
 	while (p_line = m_pC_history_list.GetLine(i))
 	{
 		i++;
@@ -5233,7 +5239,7 @@ void C_VS_UI_CHATTING::ResetScroll()
 		char* p_temp = NULL;
 		if (p_temp = (char*)p_line->GetMsgString())
 		{
-			int	cut_length = CHAT_WINDOW_WIDTH / g_GetStringWidth("F", gpC_base->m_chatting_pi.hfont)
+			int	cut_length = CHAT_WINDOW_WIDTH / _F_WIDTH
 				- (p_line->GetIdString() == NULL ? 0 : (strlen(p_line->GetIdString()) + 2));
 
 			int str_length = strlen(p_temp);
@@ -13589,6 +13595,9 @@ void C_VS_UI_SKILL::Show2()
 					gpC_base->m_p_DDSurface_back->Unlock();
 				}
 
+				// Keep this bracket. g_FL2_GetDC resolves to a real DirectDraw
+				// GetDC here, which locks the surface, so one pair around the loop
+				// is far cheaper than letting each g_PrintColorStr take its own.
 				g_FL2_GetDC();
 				for (int hk = 0; hk < HOTKEY_MAX; hk++)
 				{

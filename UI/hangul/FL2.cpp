@@ -38,9 +38,231 @@ static bool    s_fl2_fb_dirty   = false; // true once text has actually been dra
 static HDC     s_fl2_bare_dc    = NULL;  // last-resort measure-only DC
 static bool    s_fl2_bare_active = false;// true when bare DC is in use
 
+// ---------------------------------------------------------------------------
+// Dirty-rectangle tracking
+//
+// The DIBSection used to be wiped in full on every acquire and scanned in
+// full on every release - 921,600 pixels each way at 1280x720, no matter how
+// few characters were involved. Since almost nothing in the UI brackets its
+// text calls, most windows paid that twice per string, and the measurement
+// helpers (g_GetStringWidth and friends, which draw nothing at all) paid the
+// clear as well. That is what made every text-drawing window get slower as
+// more text appeared on screen.
+//
+// Now: nothing is cleared on acquire. The first actual draw clears whatever
+// the previous acquire left behind, and release copies back only the regions
+// touched. A measure-only cycle does no pixel work whatsoever.
+//
+// Several small rects rather than one bounding box: UI text sits in opposite
+// corners of the screen, so a single union would cover nearly everything and
+// give most of the saving straight back.
+// ---------------------------------------------------------------------------
+#define FL2_MAX_DIRTY 12
+
+struct FL2_DIRTYRECT { int x0, y0, x1, y1; };
+
+static FL2_DIRTYRECT s_fl2_cur[FL2_MAX_DIRTY];	// drawn since this acquire
+static int           s_fl2_curN  = 0;
+static FL2_DIRTYRECT s_fl2_prev[FL2_MAX_DIRTY];	// still holding glyphs, needs clearing
+static int           s_fl2_prevN = 0;
+
+// Temporary instrumentation - which part of this path actually costs?
+static int      s_stAcquire  = 0;	// cold acquires (fallback path)
+static int      s_stDdGetDC  = 0;	// acquires that got a real DirectDraw DC instead
+static int      s_stDraws    = 0;	// TextOut / DrawText calls
+static int      s_stDirtyAll = 0;	// times we gave up and marked the whole surface
+static double   s_stClearPx  = 0.0;	// pixels cleared
+static double   s_stBlitPx   = 0.0;	// pixels scanned for copy-back
+static LONGLONG s_stNext     = 0;
+
+// false = persistent DIBSection DC (fast). true = per-acquire DirectDraw DC.
+bool g_bFL2UseSurfaceDC = false;
+
+// Where inside the text path does the time actually go?
+static double   s_msAcquire  = 0.0;	// IDirectDrawSurface7::GetDC + ReleaseDC
+static double   s_msDraw     = 0.0;	// TextOut / DrawText themselves
+static double   s_msMeasure  = 0.0;	// GetTextExtentPoint32
+static double   s_msSelect   = 0.0;	// SelectObject (font realisation)
+// Split by content: a string containing any byte >= 0x80 needs CJK glyphs.
+// If those are missing from the selected face, GDI walks the font-link
+// chain on every call - which would hit TextOut and GetTextExtentPoint32
+// equally, persist once triggered, and cost far more per character.
+static int      s_nAscii     = 0;
+static double   s_chAscii    = 0.0;
+static double   s_msAscii    = 0.0;
+static int      s_nDbcs      = 0;
+static double   s_chDbcs     = 0.0;
+static double   s_msDbcs     = 0.0;
+
+static LONGLONG s_tick()
+{
+	LARGE_INTEGER n; QueryPerformanceCounter(&n); return n.QuadPart;
+}
+
+static double s_ms(LONGLONG d)
+{
+	LARGE_INTEGER f; QueryPerformanceFrequency(&f);
+	return (double)d * 1000.0 / (double)f.QuadPart;
+}
+
+static void s_FL2_Stats()
+{
+	LARGE_INTEGER f, n;
+	QueryPerformanceFrequency(&f);
+	QueryPerformanceCounter(&n);
+
+	if (s_stNext == 0) { s_stNext = n.QuadPart; return; }
+
+	const double ms = (double)(n.QuadPart - s_stNext) * 1000.0 / (double)f.QuadPart;
+	if (ms < 5000.0) return;
+
+	FILE* fp = fopen("fl2_probe.log", "a");
+	if (fp)
+	{
+		fprintf(fp, "ascii n=%6d ch=%8.0f ms=%8.1f (%6.2fus/ch) | dbcs n=%6d ch=%8.0f ms=%8.1f (%7.2fus/ch) | meas=%7.1f acq=%6.1f\n",
+			s_nAscii, s_chAscii, s_msAscii,
+			(s_chAscii > 0.0) ? (s_msAscii * 1000.0 / s_chAscii) : 0.0,
+			s_nDbcs, s_chDbcs, s_msDbcs,
+			(s_chDbcs > 0.0) ? (s_msDbcs * 1000.0 / s_chDbcs) : 0.0,
+			s_msMeasure, s_msAcquire);
+		fclose(fp);
+	}
+
+	s_stAcquire = s_stDdGetDC = s_stDraws = s_stDirtyAll = 0;
+	s_stClearPx = s_stBlitPx = 0.0;
+	s_msAcquire = s_msDraw = s_msMeasure = s_msSelect = 0.0;
+	s_nAscii = s_nDbcs = 0;
+	s_chAscii = s_chDbcs = s_msAscii = s_msDbcs = 0.0;
+	s_stNext = n.QuadPart;
+}
 // Colorkey: pixels equal to this value in the DIBSection are skipped (transparent)
 // during copy-back.  Deliberately unusual to avoid colliding with real colours.
 static const DWORD FL2_FB_COLORKEY = 0x00FE01FEu;
+
+// Add a rect to a set, merging into an existing one when they touch. When the
+// set is full everything collapses into slot 0 - correctness over precision.
+static void s_FL2_AddRect(FL2_DIRTYRECT* pSet, int& n, int l, int t, int r, int bm)
+{
+	if (r <= l || bm <= t)
+		return;
+
+	for (int i = 0; i < n; i++)
+	{
+		FL2_DIRTYRECT& e = pSet[i];
+
+		// Overlapping or adjacent - absorb rather than add another entry.
+		if (l <= e.x1 && e.x0 <= r && t <= e.y1 && e.y0 <= bm)
+		{
+			if (l  < e.x0) e.x0 = l;
+			if (t  < e.y0) e.y0 = t;
+			if (r  > e.x1) e.x1 = r;
+			if (bm > e.y1) e.y1 = bm;
+			return;
+		}
+	}
+
+	if (n < FL2_MAX_DIRTY)
+	{
+		pSet[n].x0 = l;  pSet[n].y0 = t;
+		pSet[n].x1 = r;  pSet[n].y1 = bm;
+		n++;
+		return;
+	}
+
+	// Full: fold everything into one rect so nothing is ever missed.
+	for (int i = 1; i < n; i++)
+	{
+		if (pSet[i].x0 < pSet[0].x0) pSet[0].x0 = pSet[i].x0;
+		if (pSet[i].y0 < pSet[0].y0) pSet[0].y0 = pSet[i].y0;
+		if (pSet[i].x1 > pSet[0].x1) pSet[0].x1 = pSet[i].x1;
+		if (pSet[i].y1 > pSet[0].y1) pSet[0].y1 = pSet[i].y1;
+	}
+
+	if (l  < pSet[0].x0) pSet[0].x0 = l;
+	if (t  < pSet[0].y0) pSet[0].y0 = t;
+	if (r  > pSet[0].x1) pSet[0].x1 = r;
+	if (bm > pSet[0].y1) pSet[0].y1 = bm;
+	n = 1;
+}
+
+// Record a drawn region, padded and clamped.
+static void s_FL2_Dirty(int l, int t, int r, int bm)
+{
+	// Glyphs can overhang their reported extent (italics, antialiasing).
+	l -= 2; t -= 2; r += 3; bm += 3;
+
+	if (l < 0) l = 0;
+	if (t < 0) t = 0;
+	if (r  > s_fl2_fb_w) r  = s_fl2_fb_w;
+	if (bm > s_fl2_fb_h) bm = s_fl2_fb_h;
+
+	s_FL2_AddRect(s_fl2_cur, s_fl2_curN, l, t, r, bm);
+}
+
+// For callers that draw straight into the DC and cannot tell us where.
+static void s_FL2_DirtyAll()
+{
+	s_stDirtyAll++;
+	s_fl2_curN = 0;
+	s_FL2_AddRect(s_fl2_cur, s_fl2_curN, 0, 0, s_fl2_fb_w, s_fl2_fb_h);
+}
+
+// Bounds of a TextOut, honouring the DC's current alignment.
+static void s_FL2_DirtyTextOut(HDC hdc, int x, int y, const char* psz, int len)
+{
+	SIZE sz = { 0, 0 };
+
+	if (psz == NULL || len <= 0 || !GetTextExtentPoint32(hdc, psz, len, &sz))
+	{
+		s_FL2_DirtyAll();	// cannot bound it - stay correct
+		return;
+	}
+
+	const UINT align = GetTextAlign(hdc);
+	const UINT h     = align & (TA_LEFT | TA_RIGHT | TA_CENTER);
+	const UINT v     = align & (TA_TOP | TA_BOTTOM | TA_BASELINE);
+
+	int l;
+	if      (h == TA_CENTER) l = x - sz.cx / 2;
+	else if (h == TA_RIGHT)  l = x - sz.cx;
+	else                     l = x;
+
+	if (v == TA_BASELINE)
+	{
+		// y is the baseline: ascent above, descent below.
+		s_FL2_Dirty(l, y - sz.cy, l + sz.cx, y + sz.cy / 2);
+		return;
+	}
+
+	const int t = (v == TA_BOTTOM) ? (y - sz.cy) : y;
+
+	s_FL2_Dirty(l, t, l + sz.cx, t + sz.cy);
+}
+
+// Clear what the previous acquire drew. Called immediately before the first
+// draw of an acquisition, so a measure-only cycle never reaches it.
+static void s_FL2_EnsureCleared()
+{
+	if (s_fl2_prevN == 0 || s_fl2_fb_bits == NULL)
+		return;
+
+	for (int i = 0; i < s_fl2_prevN; i++)
+	{
+		const FL2_DIRTYRECT& e = s_fl2_prev[i];
+
+		for (int y = e.y0; y < e.y1; y++)
+		{
+			DWORD* pRow = s_fl2_fb_bits + (size_t)y * s_fl2_fb_w;
+
+			for (int x = e.x0; x < e.x1; x++)
+				pRow[x] = FL2_FB_COLORKEY;
+
+			s_stClearPx += (double)(e.x1 - e.x0);
+		}
+	}
+
+	s_fl2_prevN = 0;
+}
 
 //-----------------------------------------------------------------------------
 // g_SetFL2Surface
@@ -228,7 +450,9 @@ int g_GetStringWidth(const char* sz_str, HFONT hfont)
 		SelectObject(hdc, hfont);
 
 	SIZE size;
+	const LONGLONG _m0 = s_tick();
 	GetTextExtentPoint32(hdc, sz_str, strlen(sz_str), &size);
+	s_msMeasure += s_ms(s_tick() - _m0);
 
 	if (bGetDC)
 		g_FL2_ReleaseDC();
@@ -264,7 +488,9 @@ int g_GetStringHeight(const char* sz_str, HFONT hfont)
 		SelectObject(hdc, hfont);
 
 	SIZE size;
+	const LONGLONG _m0 = s_tick();
 	GetTextExtentPoint32(hdc, sz_str, strlen(sz_str), &size);
+	s_msMeasure += s_ms(s_tick() - _m0);
 
 	if (bGetDC)
 		g_FL2_ReleaseDC();
@@ -302,11 +528,35 @@ void g_PrintLen(int x, int y, const char* sz_str, int str_length, PrintInfo* p_p
 			SetBkMode(hdc, p_print_info->bk_mode);
 			SetBkColor(hdc, p_print_info->back_color);
 			SetTextColor(hdc, p_print_info->text_color);
+			const LONGLONG _s0 = s_tick();
 			SelectObject(hdc, p_print_info->hfont);
+			s_msSelect += s_ms(s_tick() - _s0);
 		}
 
+		s_stDraws++;
+		if (s_fl2_fb_active) s_FL2_EnsureCleared();
+
+		// Any high byte means the string needs glyphs outside plain Latin.
+		bool _bDbcs = false;
+		for (int _i = 0; _i < str_length; _i++)
+		{
+			if ((unsigned char)sz_str[_i] >= 0x80) { _bDbcs = true; break; }
+		}
+
+		const LONGLONG _d0 = s_tick();
 		TextOut(hdc, x, y, sz_str, str_length);
-		if (s_fl2_fb_active) s_fl2_fb_dirty = true;
+		const double _dms = s_ms(s_tick() - _d0);
+
+		s_msDraw += _dms;
+
+		if (_bDbcs) { s_nDbcs++;  s_chDbcs  += (double)str_length; s_msDbcs  += _dms; }
+		else        { s_nAscii++; s_chAscii += (double)str_length; s_msAscii += _dms; }
+
+		if (s_fl2_fb_active)
+		{
+			s_fl2_fb_dirty = true;
+			s_FL2_DirtyTextOut(hdc, x, y, sz_str, str_length);
+		}
 
 		if (bGetDC)
 			g_FL2_ReleaseDC();
@@ -385,6 +635,8 @@ void g_DrawText(RECT* pRt, const char* sz_str, PrintInfo* p_print_info)
 
 		hdc = gh_FL2_DC;
 
+		if (s_fl2_fb_active) s_FL2_EnsureCleared();
+
 		if (p_print_info != NULL)
 		{
 			SetTextAlign(hdc, p_print_info->text_align);
@@ -402,7 +654,18 @@ void g_DrawText(RECT* pRt, const char* sz_str, PrintInfo* p_print_info)
 		}
 		else
 			DrawText(hdc, srcStr.c_str(), srcStr.length(), pRt, DT_LEFT);
-		if (s_fl2_fb_active) s_fl2_fb_dirty = true;
+
+		if (s_fl2_fb_active)
+		{
+			s_fl2_fb_dirty = true;
+
+			// DrawText was handed its rectangle, so the bounds are known. The
+			// shadow pass above is offset by one, hence the +1 on each edge.
+			if (pRt != NULL)
+				s_FL2_Dirty(pRt->left, pRt->top, pRt->right + 1, pRt->bottom + 1);
+			else
+				s_FL2_DirtyAll();
+		}
 
 		if (bGetDC)
 			g_FL2_ReleaseDC();
@@ -557,9 +820,6 @@ int g_ConvertAscii2DBCS(const char* p_ascii, int ascii_len, char_t*& p_new_buf)
 // ---------------------------------------------------------------------------
 static bool s_FL2_EnsureFallbackDC()
 {
-	if (s_fl2_fb_dc != NULL)
-		return true;   // already initialised
-
 	if (gpC_fl2_surface == NULL)
 		return false;
 
@@ -568,6 +828,27 @@ static bool s_FL2_EnsureFallbackDC()
 	ddsd.dwSize = sizeof(ddsd);
 	if (FAILED(gpC_fl2_surface->GetSurfaceDesc(&ddsd)))
 		return false;
+
+	if (s_fl2_fb_dc != NULL)
+	{
+		// Already built, and still the right size - reuse it.
+		if ((int)ddsd.dwWidth == s_fl2_fb_w && (int)ddsd.dwHeight == s_fl2_fb_h)
+			return true;
+
+		// g_SetFL2Surface only swaps the pointer, and InitSurface can recreate
+		// g_pLast at a different resolution, so the cached DIBSection can end up
+		// the wrong size. Tear it down and rebuild rather than draw off the end.
+		SelectObject(s_fl2_fb_dc, s_fl2_fb_bmp_old);
+		DeleteDC(s_fl2_fb_dc);
+		DeleteObject(s_fl2_fb_bmp);
+
+		s_fl2_fb_dc      = NULL;
+		s_fl2_fb_bmp     = NULL;
+		s_fl2_fb_bmp_old = NULL;
+		s_fl2_fb_bits    = NULL;
+		s_fl2_curN       = 0;
+		s_fl2_prevN      = 0;
+	}
 
 	s_fl2_fb_w = (int)ddsd.dwWidth;
 	s_fl2_fb_h = (int)ddsd.dwHeight;
@@ -600,6 +881,18 @@ static bool s_FL2_EnsureFallbackDC()
 	}
 
 	s_fl2_fb_bmp_old = (HBITMAP)SelectObject(s_fl2_fb_dc, s_fl2_fb_bmp);
+
+	// CreateDIBSection zero-fills, and zero is not the colorkey, so the buffer
+	// has to be primed once. From here on only drawn regions are ever cleared.
+	{
+		const int nPx = s_fl2_fb_w * s_fl2_fb_h;
+		for (int i = 0; i < nPx; i++)
+			s_fl2_fb_bits[i] = FL2_FB_COLORKEY;
+	}
+
+	s_fl2_curN  = 0;
+	s_fl2_prevN = 0;
+
 	return true;
 }
 
@@ -624,12 +917,18 @@ static void s_FL2_BlitFallbackToSurface()
 	int          dst_stride = (int)(ddsd.lPitch / sizeof(WORD));
 	const DWORD* src_base   = s_fl2_fb_bits;
 
-	for (int y = 0; y < s_fl2_fb_h; y++)
+	for (int r = 0; r < s_fl2_curN; r++)
+	{
+	const FL2_DIRTYRECT& _e = s_fl2_cur[r];
+
+	s_stBlitPx += (double)(_e.x1 - _e.x0) * (double)(_e.y1 - _e.y0);
+
+	for (int y = _e.y0; y < _e.y1; y++)
 	{
 		WORD*        dst = dst_base + y * dst_stride;
 		const DWORD* src = src_base + y * s_fl2_fb_w;
 
-		for (int x = 0; x < s_fl2_fb_w; x++)
+		for (int x = _e.x0; x < _e.x1; x++)
 		{
 			DWORD p = src[x];
 			if (p == FL2_FB_COLORKEY)
@@ -649,6 +948,7 @@ static void s_FL2_BlitFallbackToSurface()
 			dst[x] = w;
 		}
 	}
+	}
 
 	gpC_fl2_surface->Unlock(NULL);
 }
@@ -661,20 +961,41 @@ bool	g_FL2_GetDC()
 
 	if (gh_FL2_DC == NULL)
 	{
-		// Try DirectDraw GetDC first (works on 32-bit surfaces).
-		HRESULT hr = gpC_fl2_surface->GetDC(&gh_FL2_DC);
-		if (SUCCEEDED(hr))
-			return true;
+		// Deliberately NOT using gpC_fl2_surface->GetDC() any more.
+		//
+		// It succeeds here, but it hands back a brand new HDC on every acquire -
+		// around 500 a second. Selecting a font into a fresh DC makes GDI build a
+		// new font realisation each time, and that cost shows up inside TextOut
+		// and GetTextExtentPoint32 rather than in SelectObject. Measured effect:
+		// ASCII text went from 0.72us/char at login to 66us/char after a session,
+		// identically for Korean, while acquire time itself stayed flat.
+		//
+		// The DIBSection path below keeps ONE persistent CreateCompatibleDC for
+		// the life of the surface, so the font is realised once instead of
+		// continuously. Set g_bFL2UseSurfaceDC to restore the old behaviour.
+		if (g_bFL2UseSurfaceDC)
+		{
+			const LONGLONG _a0 = s_tick();
+			HRESULT hr = gpC_fl2_surface->GetDC(&gh_FL2_DC);
+			s_msAcquire += s_ms(s_tick() - _a0);
+
+			if (SUCCEEDED(hr))
+			{
+				s_stDdGetDC++;
+				return true;
+			}
+		}
 
 		// GetDC failed – this surface is likely 16-bit (modern Windows limitation).
 		// Use the GDI DIBSection fallback instead.
 		gh_FL2_DC = NULL;
 		if (s_FL2_EnsureFallbackDC())
 		{
-			// Clear the DIBSection so stale pixels from a previous call don't bleed through.
-			int nPx = s_fl2_fb_w * s_fl2_fb_h;
-			for (int i = 0; i < nPx; i++)
-				s_fl2_fb_bits[i] = FL2_FB_COLORKEY;
+			// Nothing is cleared here. The first actual draw calls
+			// s_FL2_EnsureCleared(), so an acquire that only measures text costs
+			// nothing at all - which is the common case by a wide margin.
+			s_fl2_curN = 0;
+			s_stAcquire++;
 
 			gh_FL2_DC       = s_fl2_fb_dc;
 			s_fl2_fb_active = true;
@@ -703,7 +1024,13 @@ bool	g_FL2_GetDC()
 void g_FL2_MarkDirty()
 {
 	if (s_fl2_fb_active)
+	{
+		// The caller drew straight into the DC, so we have no bounds and cannot
+		// know what it disturbed. Clear first, then mark the lot.
+		s_FL2_EnsureCleared();
 		s_fl2_fb_dirty = true;
+		s_FL2_DirtyAll();
+	}
 }
 
 // DC�� Release �Ѵ�.
@@ -719,6 +1046,15 @@ bool	g_FL2_ReleaseDC()
 		{
 			// Copy rendered text from the DIBSection onto the DirectDraw surface.
 			s_FL2_BlitFallbackToSurface();
+
+			// What was just drawn is what the next draw has to clear.
+			for (int i = 0; i < s_fl2_curN; i++)
+				s_FL2_AddRect(s_fl2_prev, s_fl2_prevN,
+					s_fl2_cur[i].x0, s_fl2_cur[i].y0,
+					s_fl2_cur[i].x1, s_fl2_cur[i].y1);
+
+			s_fl2_curN = 0;
+
 			s_fl2_fb_active = false;
 			s_fl2_fb_dirty  = false;
 		}
@@ -730,8 +1066,12 @@ bool	g_FL2_ReleaseDC()
 		else
 		{
 			// Real DirectDraw DC – release normally.
+			const LONGLONG _r0 = s_tick();
 			gpC_fl2_surface->ReleaseDC(gh_FL2_DC);
+			s_msAcquire += s_ms(s_tick() - _r0);
 		}
+
+		s_FL2_Stats();
 		gh_FL2_DC = NULL;
 		return true;
 	}
