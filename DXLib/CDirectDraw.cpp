@@ -4,6 +4,7 @@
 
 #include <intrin.h>
 #include "CDirectDraw.h"
+#include "CD3D9Present.h"
 
 /*-----------------------------------------------------------------------------
   GLOBALS
@@ -448,6 +449,10 @@ bool CDirectDraw::InitWindowMode(WORD wWidth, WORD wHeight)
 //----------------------------------------------------------------------
 void CDirectDraw::ReleaseSurface()
 {
+	// The presenter holds a device bound to the current window/surface
+	// geometry; drop it so the next Flip() rebuilds against the new one.
+	CD3D9Present::Release();
+
 	if (m_pDD != NULL)
 	{
 		m_pDD->SetCooperativeLevel(m_hWnd, DDSCL_NORMAL);
@@ -465,8 +470,6 @@ void CDirectDraw::ReleaseSurface()
 		}
 	}
 
-	// The smooth-scale target came from this DirectDraw object too.
-	ReleaseSmoothScaleSurface();
 }
 
 //----------------------------------------------------------------------
@@ -570,9 +573,45 @@ void CDirectDraw::WindowToViewport(POINT &pt)
 //----------------------------------------------------------------------
 // Flip Surface : Back --> Primary
 //----------------------------------------------------------------------
+static CDirectDraw::PFN_FLIP_OVERLAY s_pfnFlipOverlay = NULL;
+
+void CDirectDraw::SetFlipOverlayCallback(PFN_FLIP_OVERLAY pfn)
+{
+	s_pfnFlipOverlay = pfn;
+}
+
 void CDirectDraw::Flip()
 {
 	HRESULT hRet;
+
+	// Give the text overlay a chance to verify occlusion and hand its
+	// regions to the presenter before the frame goes out.
+	if (s_pfnFlipOverlay != NULL)
+		s_pfnFlipOverlay();
+
+	// Preferred path: GPU present - sharp-bilinear scale plus vsync pacing.
+	// The destination is m_rcScreen translated into client coordinates, so
+	// WindowToViewport's mouse mapping stays the exact inverse of what ends
+	// up on screen. Whenever the presenter declines (no usable GPU, device
+	// lost, early-startup geometry mismatch) the original DirectDraw Blt
+	// below takes the frame instead.
+	if (m_bFullscreen)
+	{
+		RECT rcDst = m_rcScreen;
+		::ScreenToClient(m_hWnd, (POINT*)&rcDst.left);
+		::ScreenToClient(m_hWnd, (POINT*)&rcDst.right);
+
+		if (CD3D9Present::Present(m_hWnd, m_pDDSBack, NULL, rcDst))
+			return;
+	}
+	else
+	{
+		RECT rcDst;
+		::GetClientRect(m_hWnd, &rcDst);
+
+		if (CD3D9Present::Present(m_hWnd, m_pDDSBack, &m_rcViewport, rcDst))
+			return;
+	}
 
 	while (1)
 	{
@@ -595,14 +634,9 @@ void CDirectDraw::Flip()
 					                   DDBLT_COLORFILL | DDBLT_WAIT, &ddbltfx);
 			}
 
-			// DE_SMOOTH_SCALE: filtered upscale when enabled. The original point
-			// sampled Blt stays as the fallback and runs whenever the filtered
-			// path declines - unknown pixel format, lock failure, or no
-			// magnification to do.
-			if (m_bSmoothScale && BltSmoothStretch(NULL))
-				hRet = DD_OK;
-			else
-				hRet = m_pDDSPrimary->Blt(&m_rcScreen, m_pDDSBack, NULL, DDBLT_WAIT, NULL);
+			// Straight point-sampled stretch to the screen rect - the fallback
+			// for when the D3D9 presenter above declines the frame.
+			hRet = m_pDDSPrimary->Blt(&m_rcScreen, m_pDDSBack, NULL, DDBLT_WAIT, NULL);
 		}
 
 		//-------------------------------------------------------
@@ -610,11 +644,8 @@ void CDirectDraw::Flip()
 		//-------------------------------------------------------
 		else
 		{
-			// DE_SMOOTH_SCALE: window mode presents m_rcViewport as the source.
-			if (m_bSmoothScale && BltSmoothStretch(&m_rcViewport))
-				hRet = DD_OK;
-			else
-				hRet = m_pDDSPrimary->Blt(&m_rcScreen, m_pDDSBack, &m_rcViewport, DDBLT_WAIT, NULL);
+			// Window mode presents m_rcViewport as the source.
+			hRet = m_pDDSPrimary->Blt(&m_rcScreen, m_pDDSBack, &m_rcViewport, DDBLT_WAIT, NULL);
 		}
 
 		if (hRet == DD_OK)

@@ -1420,7 +1420,7 @@ void C_VS_UI_LISTVIEW::SetPrintInfo(const char* font, PrintInfo& crtprintinfo)
 	// 폰트 설정을 해준다.
 	m_listview_print_info = new PrintInfo;
 	m_listview_print_info->hfont = CreateFont(13,0,0,0,FW_BOLD,FALSE,FALSE,
-									0,ANSI_CHARSET,OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,DEFAULT_QUALITY,DEFAULT_PITCH|FF_ROMAN,
+									0,ANSI_CHARSET,OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS,ANTIALIASED_QUALITY,DEFAULT_PITCH|FF_ROMAN,
 									font);
 	m_listview_print_info->text_color = gpC_base->m_dialog_msg_pi.text_color;
 	m_listview_print_info->text_align = gpC_base->m_dialog_msg_pi.text_align;

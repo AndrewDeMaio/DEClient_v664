@@ -6165,10 +6165,12 @@ CGameUpdate::UpdateDraw()
 				//-----------------------------------------------------------------
 				// FPS ���	
 				//-----------------------------------------------------------------				
-				sprintf(str, "%d FPS", g_FrameRate);	
-				
-				g_pLast->GDI_Text(11,11, str, RGB(20,20,20));
-				g_pLast->GDI_Text(10,10, str, 0xFFFFFF);
+				sprintf(str, "%d FPS", g_FrameRate);
+
+				// FL2 instead of a raw surface GetDC: proper font, dirty
+				// tracking, and the native-res overlay pick it up.
+				g_PrintColorStr(11, 11, str, gpC_base->m_chatting_pi, RGB(20,20,20));
+				g_PrintColorStr(10, 10, str, gpC_base->m_chatting_pi, RGB(255,255,255));
 			}
 		__END_PROFILE("DrawFPS")
 

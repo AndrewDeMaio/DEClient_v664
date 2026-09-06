@@ -18,6 +18,9 @@
     <ClCompile Include="BIT_RES.CPP">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CD3D9Present.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="CDirectDraw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -78,12 +81,12 @@
     <ClCompile Include="DebugInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CDirectDrawSmooth.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BIT_RES.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CD3D9Present.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CDirectDraw.h">

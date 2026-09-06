@@ -56,6 +56,16 @@ bool	g_FL2_GetDC();
 bool	g_FL2_ReleaseDC();
 void	g_FL2_MarkDirty();  // mark fallback DC dirty after direct GDI drawing
 
+// Native-resolution text overlay (see FL2.cpp). Flush is registered as the
+// CDirectDraw::Flip callback; TextOutMirrored replaces raw TextOut calls in
+// widgets that draw straight into gh_FL2_DC.
+void	g_FL2_OverlayFlush();
+void	g_FL2_SetOverlayEnabled(bool bEnable);
+void	g_FL2_OverlaySkipFrames(int nFrames);
+void	g_FL2_OverlaySetFadeAlpha(int nAlpha255);
+void	g_FL2_TextOutMirrored(HDC hdc, int x, int y, const char* psz, int len);
+bool	g_FL2_CaretMirrored(HDC hdc, int xBase, int yBase, const char* psz, int len, COLORREF color);
+
 void	ReduceString(char* str, int len);
 void	ReduceString2(char* str, int len);
 void	ReduceString3(char* str, int len);

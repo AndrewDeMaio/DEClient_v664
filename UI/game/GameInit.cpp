@@ -287,6 +287,12 @@ DrawTitleLoading()
 {
 	if (g_bTitleLoading)
 	{
+		// The CI/title image is composited over the frame every tick, on top
+		// of any UI text drawn earlier. Fade the native-res text overlay
+		// in sync with it: same crisp font before, during and after the
+		// splash, just dimmed while the image covers it (32 = opaque).
+		g_FL2_OverlaySetFadeAlpha((32 - g_TitleSpriteAlpha) * 255 / 32);
+
 		//--------------------------------------------------------
 		// 2001.8.20
 		//--------------------------------------------------------

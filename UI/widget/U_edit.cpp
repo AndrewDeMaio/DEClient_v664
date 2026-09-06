@@ -997,6 +997,37 @@ void LineEditorVisual::SetPosition(int x, int y)
 }
 
 //-----------------------------------------------------------------------------
+// s_GetEditFallbackFont
+//
+// Deterministic font for edits that never got a PrintInfo font assigned
+// (the login Account/Password boxes among them). Sized to match the game's
+// dialog text; grayscale AA (never ClearType) so glyph edges blend cleanly
+// toward the near-black FL2 colorkey without colored fringes.
+//-----------------------------------------------------------------------------
+static HFONT s_GetEditFallbackFont()
+{
+	static HFONT s_hFont = NULL;
+
+	if (s_hFont == NULL)
+	{
+		LOGFONT lf;
+		memset(&lf, 0, sizeof(lf));
+		GetObject(GetStockObject(DEFAULT_GUI_FONT), sizeof(lf), &lf);
+		lf.lfHeight  = 16;
+		lf.lfWidth   = 0;
+		lf.lfWeight  = FW_NORMAL;   // bold made adjacent asterisks touch
+		lf.lfQuality = NONANTIALIASED_QUALITY;   // AA bridges 1px glyph gaps
+		strcpy_s(lf.lfFaceName, "Segoe UI");   // same family as the overlay face
+
+		s_hFont = CreateFontIndirect(&lf);
+		if (s_hFont == NULL)
+			s_hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+	}
+
+	return s_hFont;
+}
+
+//-----------------------------------------------------------------------------
 // Show
 //
 // string, cursor�� ����Ѵ�.
@@ -1022,8 +1053,21 @@ void LineEditorVisual::Show() const
 	HDC hdc = gh_FL2_DC;
 	if (hdc == NULL)
 		return;
+
+	// Never inherit whatever font the previous draw left selected in the
+	// shared persistent DC: an edit without an assigned PrintInfo font used
+	// to change size depending on unrelated UI (e.g. a button tooltip having
+	// drawn first). Pin a deterministic fallback instead.
 	if( m_print_info.hfont != NULL )
 		SelectObject(hdc, m_print_info.hfont);
+	else
+		SelectObject(hdc, s_GetEditFallbackFont());
+
+	// This widget draws with raw GDI calls the dirty tracking cannot see, so
+	// mark the surface dirty up front. Marking AFTER drawing is wrong: the
+	// mark clears the previous frame's regions, which would wipe the pixels
+	// just drawn - that is exactly how the password asterisks vanished.
+	g_FL2_MarkDirty();
 
 	//
 	// set format
@@ -1066,7 +1110,7 @@ void LineEditorVisual::Show() const
 	{
 		if(m_gap == 0)
 		{
-			TextOut(hdc, m_xy.x, print_y, str_buf, min(len, m_reach_limit+1));
+			g_FL2_TextOutMirrored(hdc, m_xy.x, print_y, str_buf, min(len, m_reach_limit+1));
 		}
 		else
 		{
@@ -1079,13 +1123,13 @@ void LineEditorVisual::Show() const
 				char *enter_pos = strchr(str_buf+next, '\n');
 				if(enter_pos != NULL && enter_pos - (str_buf+next) < min(len-next, m_reach_limit+1))
 				{
-					TextOut(hdc, m_xy.x, print_y, str_buf+next, enter_pos - (str_buf+next));
+					g_FL2_TextOutMirrored(hdc, m_xy.x, print_y, str_buf+next, enter_pos - (str_buf+next));
 					v_cut.push_back(m_reach_limit - (enter_pos - (str_buf+next)));
 					next += enter_pos - (str_buf+next)+1;
 				}
 				else
 				{
-					TextOut(hdc, m_xy.x, print_y, str_buf+next, min(len-next, m_reach_limit+1));
+					g_FL2_TextOutMirrored(hdc, m_xy.x, print_y, str_buf+next, min(len-next, m_reach_limit+1));
 					if(min(len-next, m_reach_limit+1) < strlen(str_buf))
 						if(!g_PossibleStringCut(str_buf+next, min(len-next, m_reach_limit+1)))
 						{
@@ -1205,9 +1249,17 @@ void LineEditorVisual::Show() const
 
 				HPEN hpen = CreatePen(PS_SOLID, 2, m_cursor_color);
 				HPEN holdpen = (HPEN)SelectObject(hdc, hpen);
-				
+
 				px = m_xy.x+size.cx+1;
 				py = m_xy.y;
+
+				// The visible text is the native-res overlay's; its measured
+				// widths differ from the lo-res font, so the caret must be
+				// placed (and drawn) with the overlay metrics or it drifts
+				// as the string grows.
+				bool bCaretMirrored = false;
+				if (m_gap == 0)
+					bCaretMirrored = g_FL2_CaretMirrored(hdc, m_xy.x, m_xy.y, str_buf, len, m_cursor_color);
 				
 				//editor mode�϶�
 				if(m_gap != 0)
@@ -1224,7 +1276,7 @@ void LineEditorVisual::Show() const
 				
 //				DEBUG_ADD("[LineEditorVisual] Show 4-9");
 
-				if(!(m_editor_height != 0 && (py - (m_xy.y-1))/m_gap >= m_editor_height))
+				if(!bCaretMirrored && !(m_editor_height != 0 && (py - (m_xy.y-1))/m_gap >= m_editor_height))
 				{
 				MoveToEx(hdc, px, py, NULL);
 				LineTo(hdc, px, py+tm.tmHeight-1);
@@ -1248,8 +1300,6 @@ void LineEditorVisual::Show() const
 	if(str_buf != NULL)
 		DeleteNewArray(str_buf);
 	
-	// Signal that we drew something so the fallback DIBSection gets blitted back.
-	g_FL2_MarkDirty();
 	g_FL2_ReleaseDC();
 
 //	DEBUG_ADD("[LineEditorVisual] Show OK");

@@ -88,14 +88,13 @@ public:
 	static bool		RestoreAllSurfaces();
 
 	static void		Flip();
-	// DE_SMOOTH_SCALE - see DXLib/CDirectDrawSmooth.cpp
-	static bool		m_bSmoothScale;
-	static bool		BltSmoothStretch(const RECT* pSrcRect);
-	static void		ReleaseSmoothScaleSurface();
-	static void		SetSmoothScale(bool b)	{ m_bSmoothScale = b; }
-	static bool		GetSmoothScale()		{ return m_bSmoothScale; }
-	static void		ToggleSmoothScale()	{ m_bSmoothScale = !m_bSmoothScale; }
 	static void		FlipToGDISurface();
+
+	// Invoked at the top of every Flip(), before the frame is presented.
+	// The UI layer registers the FL2 text-overlay flush here; DXLib itself
+	// must not depend on UI code, hence the function pointer.
+	typedef void (*PFN_FLIP_OVERLAY)();
+	static void		SetFlipOverlayCallback(PFN_FLIP_OVERLAY pfn);
 
 	static void		SetGammaRamp(WORD step = -1);
 	static void		RestoreGammaRamp();

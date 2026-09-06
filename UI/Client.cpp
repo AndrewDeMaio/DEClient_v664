@@ -27,6 +27,7 @@
 //#endif
 
 #include "DebugInfo.h"
+#include "CD3D9Present.h"
 // #ifndef _DEBUG
 // #include "CrashReport.h"
 // #endif
@@ -143,84 +144,6 @@ int					g_FrameRate = 0;
 bool				g_bGoodFPS = true;
 
 const int			g_FrameGood = 15;
-
-//---------------------------------------------------------------------------
-// Frame limiter
-//---------------------------------------------------------------------------
-// The client had no frame pacing of any kind. The main loop spins,
-// CGameUpdate::UpdateDraw() runs on every iteration (the literal "|| 1" in
-// its redraw test), and CDirectDraw::Flip() presents with a plain Blt to the
-// primary surface - DDBLT_WAIT waits for the blitter, not for the vertical
-// blank. Frames therefore landed at arbitrary phases against the desktop
-// refresh, which reads as judder however high the average frame rate is.
-//
-// Pace to a fixed rate with QueryPerformanceCounter. timeGetTime cannot
-// express 16.666ms, so a millisecond clock drifts roughly a frame every two
-// seconds. Sleep covers the bulk of the wait and a short spin covers the
-// tail, because Sleep still overshoots by about a millisecond even at 1ms
-// timer resolution.
-//---------------------------------------------------------------------------
-const int			g_FrameLimitFPS = 60;		// target frame rate; 0 disables pacing
-const double		g_FrameLimitSpinMs = 2.0;	// spin, rather than Sleep, for the last 2ms
-
-static LARGE_INTEGER	s_FrameLimitFreq = { 0 };
-static LONGLONG			s_FrameLimitNext = 0;
-
-static void FrameLimiterInit()
-{
-	if (!QueryPerformanceFrequency(&s_FrameLimitFreq))
-	{
-		s_FrameLimitFreq.QuadPart = 0;	// no usable timer: pacing turns itself off
-		return;
-	}
-
-	LARGE_INTEGER now;
-	QueryPerformanceCounter(&now);
-	s_FrameLimitNext = now.QuadPart;
-}
-
-static void FrameLimiterWait()
-{
-	if (g_FrameLimitFPS <= 0 || s_FrameLimitFreq.QuadPart == 0)
-		return;
-
-	const LONGLONG period = s_FrameLimitFreq.QuadPart / g_FrameLimitFPS;
-	const LONGLONG spin   = (LONGLONG)(s_FrameLimitFreq.QuadPart * g_FrameLimitSpinMs / 1000.0);
-
-	s_FrameLimitNext += period;
-
-	LARGE_INTEGER now;
-	QueryPerformanceCounter(&now);
-
-	// More than a frame behind - a zone load, an alt-tab, a long stall. Drop
-	// the backlog instead of running a burst of uncapped frames to catch up.
-	if (now.QuadPart > s_FrameLimitNext + period)
-	{
-		s_FrameLimitNext = now.QuadPart;
-		return;
-	}
-
-	for (;;)
-	{
-		QueryPerformanceCounter(&now);
-
-		const LONGLONG remain = s_FrameLimitNext - now.QuadPart;
-		if (remain <= 0)
-			break;
-
-		if (remain > spin)
-		{
-			const DWORD ms = (DWORD)((remain - spin) * 1000 / s_FrameLimitFreq.QuadPart);
-			if (ms > 0)
-			{
-				Sleep(ms);
-				continue;
-			}
-		}
-
-		YieldProcessor();
-	}
-}
 
 LONG				g_lGameRunBreakTime = 0;	//???? ?????? ???? ?? ??(????? ?? ??? Pause Break)
 //2009.01.05 shootkj
@@ -3186,6 +3109,59 @@ void InitResolutionConfig()
 		nFullScreen = 1;	//add by kim
 	}
 
+	// Fairness lock: every player renders the same 1280x720 viewport (same
+	// FOV on every monitor); the present layer scales it to the desktop.
+	// 16:9 fills widescreen displays edge-to-edge (1.5x at 1080p). The
+	// .inf file is still read for FullScreen / D3DPresent / SmoothScale.
+	nResolutionX = 1280;
+	nResolutionY = 720;
+
+	// Optional kill switch for the GPU present layer: "D3DPresent: 0" in
+	// the same .inf forces the plain DirectDraw blit (RDP / VM triage).
+	try
+	{
+		Properties PresentConfig;
+		std::string strPresent = g_pFileDef->getProperty("FILE_INFO_RESOLUTION");
+		PresentConfig.load(strPresent.c_str());
+		CD3D9Present::SetEnabled(PresentConfig.getPropertyInt("D3DPresent") != 0);
+	}
+	catch (...)
+	{
+		// Key absent: presenter stays enabled.
+	}
+
+	// "SmoothScale: 1" = plain bilinear (softer, no visible pixel grid);
+	// absent or 0 = sharp-bilinear (crisper, keeps pixel-art definition).
+	try
+	{
+		Properties FilterConfig;
+		std::string strFilter = g_pFileDef->getProperty("FILE_INFO_RESOLUTION");
+		FilterConfig.load(strFilter.c_str());
+		CD3D9Present::SetSmoothScale(FilterConfig.getPropertyInt("SmoothScale") != 0);
+	}
+	catch (...)
+	{
+		// Key absent: sharp-bilinear.
+	}
+
+	// Native-resolution text overlay: crisp 1:1 text composited after the
+	// GPU upscale. "TextOverlay: 0" turns it off (falls back to the text
+	// already drawn into the game surface).
+	try
+	{
+		Properties OverlayConfig;
+		std::string strOverlay = g_pFileDef->getProperty("FILE_INFO_RESOLUTION");
+		OverlayConfig.load(strOverlay.c_str());
+		g_FL2_SetOverlayEnabled(OverlayConfig.getPropertyInt("TextOverlay") != 0);
+	}
+	catch (...)
+	{
+		// Key absent: overlay enabled.
+	}
+
+	// Route the overlay's frame flush through every CDirectDraw::Flip.
+	CDirectDraw::SetFlipOverlayCallback(g_FL2_OverlayFlush);
+
 	// VS_UI?? Client ???????? ???? ?????? ????
 //	g_pUserInformation->IsResolution1024	= ( nResolutionX == 1024 );
 	g_pUserInformation->iResolution_x = nResolutionX;
@@ -3303,6 +3279,18 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 #endif //__BUGTRAP
 #endif
+
+	//----------------------------------------------------------
+	// Load the bundled UI fonts (SIL OFL, see Data\Font\OFL-Galmuri.txt) as
+	// process-private so the font table's "Galmuri11 Regular" face resolves
+	// without installing anything system-wide. Galmuri recreates the classic
+	// Korean game bitmap look and carries Latin + Hangul in one face. NOTE:
+	// the GDI face names are "Galmuri11 Regular" / "Galmuri11 Bold" - plain
+	// "Galmuri11" does NOT resolve. If the files are missing GDI falls back
+	// to a stock face - ugly but functional.
+	//----------------------------------------------------------
+	AddFontResourceExA("Data\\Font\\Galmuri11.ttf", FR_PRIVATE, 0);
+	AddFontResourceExA("Data\\Font\\Galmuri11-Bold.ttf", FR_PRIVATE, 0);
 
 	//----------------------------------------------------------
 	// Initialize Resolution Configuration
@@ -4201,10 +4189,6 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		CreateThread(NULL, 0, XTrap_Check_Alive, NULL, 0, &dwthread);
 #endif //__XTRAP
 
-		// Sleep() has ~15.6ms granularity at the default timer resolution,
-		// which is coarser than one frame. Ask for 1ms while we are running.
-		timeBeginPeriod(1);
-		FrameLimiterInit();
 
 		while (TRUE)
 		{
@@ -4225,9 +4209,6 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 				)
 			{
-				// Hold the frame here, not around the message pump above:
-				// throttling message dispatch would add input lag.
-				FrameLimiterWait();
 
 #ifdef OUTPUT_DEBUG
 				//	DEBUG_ADD("u-");
@@ -4431,7 +4412,6 @@ int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			}
 		}
 
-		timeEndPeriod(1);
 #ifndef __OUTPUT_DEBUG__
 		SystemParametersInfo(SPI_SETSCREENSAVERRUNNING, FALSE, NULL, NULL);
 #endif

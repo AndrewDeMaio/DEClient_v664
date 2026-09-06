@@ -80,6 +80,11 @@ Base::~Base()
 //-----------------------------------------------------------------------------
 void Base::SetFont(PrintInfo &pi, LOGFONT &lf, COLORREF textcolor, COLORREF backcolor, int bk_mode, int align)
 {
+	// Crisp aliased glyphs, no smoothing of any kind. ClearType fringes
+	// magenta through the colorkey copy-back, and grayscale AA bleeds into
+	// the 1px gaps between letters at these sizes, fusing them together.
+	// Character separation comes from SetTextCharacterExtra in FL2 instead.
+	lf.lfQuality = NONANTIALIASED_QUALITY;
 	HFONT hfont = CreateFontIndirect(&lf);
 
 
@@ -117,7 +122,7 @@ void Base::SetDefaultLogfont(LOGFONT &lf) const
 	else if(gC_ci->IsJapanese())
 		lf.lfCharSet = SHIFTJIS_CHARSET ;
 	else
-		lf.lfCharSet = HANGUL_CHARSET;//*/JOHAB_CHARSET;
+		lf.lfCharSet = ANSI_CHARSET; // Hangul goes through FL2's companion font (Georgia has no Hangul and the mapper would substitute it away)
 	if(gC_ci->IsJapanese())
 	{
 		lf.lfOutPrecision = OUT_DEFAULT_PRECIS;
@@ -132,7 +137,7 @@ void Base::SetDefaultLogfont(LOGFONT &lf) const
 		lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf.lfQuality = DEFAULT_QUALITY;
 		lf.lfPitchAndFamily = DEFAULT_PITCH|FF_DONTCARE;
-		strcpy(lf.lfFaceName, "????ü");//"Times New Roman");
+		strcpy(lf.lfFaceName, "Segoe UI");//"Times New Roman");
 	}
 }
 
@@ -214,11 +219,11 @@ void Base::InitFont()
 	//
 	const char szFontName[5][3][20] = {
 		// Hangul Font      Chinese Font
-		{ "±¼¸²Ã¼",			"ËÎÌå",			"‚l‚r ƒSƒVƒb"},
-		{ "MS Sans Serif",	"MS Sans Serif","‚l‚r ƒSƒVƒb"},
-		{ "µ¸¿òÃ¼",			"ĞÂËÎÌå",		"‚l‚r ƒSƒVƒb"},
-		{ "±¼¸²",			"ËÎÌå",			"‚l‚r –¾’©"},
-		{ "¸¼Àº°íµñ",		"ËÎÌå",			"‚l‚r –¾’©"}
+		{ "Segoe UI",			"ËÎÌå",			"‚l‚r ƒSƒVƒb"},
+		{ "Segoe UI",	"MS Sans Serif","‚l‚r ƒSƒVƒb"},
+		{ "Segoe UI",			"ĞÂËÎÌå",		"‚l‚r ƒSƒVƒb"},
+		{ "Segoe UI",			"ËÎÌå",			"‚l‚r –¾’©"},
+		{ "Segoe UI",		"ËÎÌå",			"‚l‚r –¾’©"}
 	};
 
 

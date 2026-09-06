@@ -6833,23 +6833,12 @@ void C_VS_UI_CHATTING::Show()
 				int len = m_sz_whisper_backup.size();
 				int len2 = m_lev_chatting.ReachSizeOfBox() + 1;
 
-				HDC hdc;
-				gpC_fl2_surface->GetDC(&hdc);
-				DeleteObject(SelectObject(hdc, gpC_base->m_chatting_pi.hfont));
-
-
-				//
-				// set format
-				//
-				SetBkMode(hdc, gpC_base->m_chatting_pi.bk_mode);
-				SetTextColor(hdc, m_color_tab[CLD_NORMAL]);
-				SetBkColor(hdc, gpC_base->m_chatting_pi.back_color);
-
-				TextOut(hdc, CHAT_LINE_START_X + 115, CHAT_LINE_START_Y, m_sz_whisper_backup.c_str(), min(len, len2));
-
-				gpC_fl2_surface->ReleaseDC(hdc);
-
-				//				g_PrintColorStr(CHAT_LINE_START_X +100, CHAT_LINE_START_Y, m_sz_whisper_backup.c_str(), gpC_base->m_chatting_pi, m_color_tab[CLD_NORMAL]);
+				// Used to draw with a raw surface GetDC (which bypasses the
+				// FL2 dirty tracking and the native-res overlay, and can hand
+				// back an invalid DC on 16-bit surfaces). Route through FL2.
+				g_PrintColorStrLen(CHAT_LINE_START_X + 115, CHAT_LINE_START_Y,
+					m_sz_whisper_backup.c_str(), min(len, len2),
+					gpC_base->m_chatting_pi, m_color_tab[CLD_NORMAL]);
 			}
 		}
 		else
