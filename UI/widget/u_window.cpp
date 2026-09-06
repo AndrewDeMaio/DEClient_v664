@@ -908,107 +908,6 @@ void WindowManager::FirstPriority(Window * p_this_window)
 //
 // m_show_list/m_show_list_pinned_window�� �ִ� Window�� Window::Show()�� �����Ѵ�.
 //-----------------------------------------------------------------------------
-
-//---------------------------------------------------------------------------
-// Per-window timing (temporary diagnostic)
-//---------------------------------------------------------------------------
-// The frame probe showed gC_vs_ui.Show() climbing from 1.5ms to 26ms over a
-// few minutes while everything else stayed flat. This names the window that
-// is responsible: each Show() is timed and totals are dumped to ui_probe.log
-// every five seconds, worst first, keyed by the real class name via RTTI.
-//---------------------------------------------------------------------------
-#include <map>
-#include <string>
-#include <typeinfo>
-
-static LARGE_INTEGER				s_uiFreq   = { 0 };
-static LONGLONG					s_uiReport = 0;
-static std::map<std::string, double>	s_uiMs;
-static std::map<std::string, int>	s_uiHits;
-
-static LONGLONG UiNow()
-{
-	if (s_uiFreq.QuadPart == 0)
-		QueryPerformanceFrequency(&s_uiFreq);
-
-	LARGE_INTEGER now;
-	QueryPerformanceCounter(&now);
-	return now.QuadPart;
-}
-
-// Time one window and file the result under its class name.
-static void UiShowTimed(Window* pWindow)
-{
-	const LONGLONG t0 = UiNow();
-
-	pWindow->Show();
-
-	const double ms = (s_uiFreq.QuadPart == 0)
-		? 0.0
-		: (double)(UiNow() - t0) * 1000.0 / (double)s_uiFreq.QuadPart;
-
-	const char* pName = typeid(*pWindow).name();
-
-	s_uiMs[pName]   += ms;
-	s_uiHits[pName] += 1;
-}
-
-// Called once per WindowManager::Show(). Dumps every five seconds.
-static void UiProbeReport()
-{
-	const LONGLONG now = UiNow();
-
-	if (s_uiReport == 0)
-	{
-		s_uiReport = now;
-		return;
-	}
-
-	const double elapsed = (s_uiFreq.QuadPart == 0)
-		? 0.0
-		: (double)(now - s_uiReport) * 1000.0 / (double)s_uiFreq.QuadPart;
-
-	if (elapsed < 5000.0)
-		return;
-
-	FILE* f = fopen("ui_probe.log", "a");
-	if (f != NULL)
-	{
-		fprintf(f, "--- window totals over %.0f ms ---\n", elapsed);
-
-		// Print worst first. The list is short, so a selection pass is fine.
-		std::map<std::string, double> left = s_uiMs;
-
-		for (int rank = 0; rank < 8 && !left.empty(); ++rank)
-		{
-			std::map<std::string, double>::iterator best = left.begin();
-
-			for (std::map<std::string, double>::iterator it = left.begin();
-				it != left.end(); ++it)
-			{
-				if (it->second > best->second)
-					best = it;
-			}
-
-			const int hits = s_uiHits[best->first];
-
-			fprintf(f, "  %-44s total=%8.2fms  calls=%6d  per=%6.3fms\n",
-				best->first.c_str(),
-				best->second,
-				hits,
-				(hits > 0) ? (best->second / hits) : 0.0);
-
-			left.erase(best);
-		}
-
-		fclose(f);
-	}
-
-	s_uiMs.clear();
-	s_uiHits.clear();
-	s_uiReport = now;
-}
-
 void WindowManager::Show()
 {
 	List::reverse_iterator itr;
@@ -1017,7 +916,7 @@ void WindowManager::Show()
 	while (itr != m_show_list.rend())
 	{
 		if ((*itr)->GetAttributes()->topmost == false)
-			UiShowTimed(*itr);
+			(*itr)->Show();
 
 		itr++;
 	}
@@ -1028,7 +927,7 @@ void WindowManager::Show()
 	{
 		Window *pWindow = *itr;
 //		(*itr)->Show();
-		UiShowTimed(pWindow);
+		pWindow->Show();
 
 		itr++;
 	}
@@ -1038,12 +937,10 @@ void WindowManager::Show()
 	while (itr != m_show_list.rend())
 	{
 		if ((*itr)->GetAttributes()->topmost == true)
-			UiShowTimed(*itr);
+			(*itr)->Show();
 
 		itr++;
 	}
-
-	UiProbeReport();
 }
 
 //-----------------------------------------------------------------------------
