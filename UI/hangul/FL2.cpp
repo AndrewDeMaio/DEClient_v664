@@ -309,6 +309,7 @@ struct FL2_OVREGION
 	DWORD    sub[FL2_OV_MAX_SUB];
 	int      nSub;
 	BYTE     failMask;
+	BYTE     killMask;     // columns declared occluded by a reported fill
 	BYTE     kind;
 	int      textOfs;      // -1 = not redrawable
 	int      textLen;
@@ -403,7 +404,7 @@ static void s_FL2_DiagDump()
 		return;
 	s_diagLastDump = now;
 
-	FILE* f = fopen("fl2_ov.log", "a");
+	FILE* f = fopen("Log\\fl2_ov.log", "a");
 	if (f == NULL)
 		return;
 	fprintf(f,
@@ -428,6 +429,26 @@ static void s_FL2_DiagDump()
 	s_diagLastDump = now;
 }
 #define FL2_OV_DIAG_INC(field) (s_diag.field++)
+
+// Rate-limited note naming a suppressed region's text (reason: "nobase" or
+// "sum"). Empty for carets / unpooled strings.
+static void s_FL2_DiagSuppressed(const char* pszReason, const char* psz, int len, BYTE failMask)
+{
+	static DWORD s_last = 0;
+	const DWORD now = GetTickCount();
+	if (s_last != 0 && now - s_last < 1000)
+		return;
+	s_last = now;
+
+	FILE* f = fopen("Log\\fl2_ov.log", "a");
+	if (f == NULL)
+		return;
+	fprintf(f, "SUPPRESSED %s mask=%02X text=\"%.*s\"\n",
+		pszReason, failMask,
+		(psz != NULL) ? (len > 64 ? 64 : len) : 0,
+		(psz != NULL) ? psz : "");
+	fclose(f);
+}
 #else
 #define FL2_OV_DIAG_INC(field) ((void)0)
 #endif
@@ -461,12 +482,20 @@ static DWORD s_FL2_SumRegion(const WORD* pBase, int nStride, const FL2_DIRTYRECT
 	return h;
 }
 
+// Column layout depends only on the lo rect, so the occlusion reporter can
+// compute it before (and independently of) baseline capture.
+static int s_FL2_OvColCount(const FL2_OVREGION& e)
+{
+	int n = (e.lo.x1 - e.lo.x0) / 24;
+	if (n < 1) n = 1;
+	if (n > FL2_OV_MAX_SUB) n = FL2_OV_MAX_SUB;
+	return n;
+}
+
 static void s_FL2_SumRegionCols(const WORD* pBase, int nStride, FL2_OVREGION& e)
 {
 	const int w = e.lo.x1 - e.lo.x0;
-	int n = w / 24;
-	if (n < 1) n = 1;
-	if (n > FL2_OV_MAX_SUB) n = FL2_OV_MAX_SUB;
+	const int n = s_FL2_OvColCount(e);
 	e.nSub = n;
 
 	for (int i = 0; i < n; i++)
@@ -484,6 +513,38 @@ static void s_FL2_OvColHiRect(const FL2_OVREGION& e, int j, FL2_DIRTYRECT* p)
 	*p = e.hi;
 	p->x0 = e.hi.x0 + hiW * j / e.nSub;
 	p->x1 = e.hi.x0 + hiW * (j + 1) / e.nSub;
+}
+
+// An alpha/solid fill can write pixels IDENTICAL to a region's checksum
+// baseline - the tooltip's black DrawAlphaBox landing on a hotkey label's
+// already-black backing box - so pixel sums alone cannot prove occlusion.
+// DrawAlphaBox reports every fill here instead: regions recorded BEFORE the
+// fill lose the columns it covers (in-frame draw order is z-order, so a
+// later fill genuinely occludes earlier text; text recorded after the fill
+// is on top of it and keeps drawing). Killed columns are cleared at flush
+// unconditionally - no checksum comparison, and no cursor-box excuse.
+void g_FL2_OverlayOccludeRect(const RECT* pRect)
+{
+	if (pRect == NULL || !s_fl2_ov_on || s_fl2_ov_overflow)
+		return;
+
+	for (int i = 0; i < s_fl2_ov_frameN; i++)
+	{
+		FL2_OVREGION& e = s_fl2_ov_frame[i];
+		if (pRect->left >= e.lo.x1 || e.lo.x0 >= pRect->right ||
+		    pRect->top  >= e.lo.y1 || e.lo.y0 >= pRect->bottom)
+			continue;
+
+		const int n = s_FL2_OvColCount(e);
+		const int w = e.lo.x1 - e.lo.x0;
+		for (int j = 0; j < n; j++)
+		{
+			const int cx0 = e.lo.x0 + w * j / n;
+			const int cx1 = e.lo.x0 + w * (j + 1) / n;
+			if (pRect->left < cx1 && cx0 < pRect->right)
+				e.killMask |= (BYTE)(1u << j);
+		}
+	}
 }
 
 static void s_FL2_OverlayRelease()
@@ -766,7 +827,7 @@ static bool s_FL2_OverlayMirrorTextOut(HDC hdcLo, int x, int y, const char* psz,
 			if (s_lastBndDump == 0 || now - s_lastBndDump > 2000)
 			{
 				s_lastBndDump = now;
-				FILE* f = fopen("fl2_ov.log", "a");
+				FILE* f = fopen("Log\\fl2_ov.log", "a");
 				if (f != NULL)
 				{
 					fprintf(f, "BOUNDS-FAIL len=%d text=\"%.*s\"\n",
@@ -787,9 +848,14 @@ static bool s_FL2_OverlayMirrorTextOut(HDC hdcLo, int x, int y, const char* psz,
 
 	FL2_OVREGION& e = s_fl2_ov_frame[s_fl2_ov_frameN++];
 
-	// Same overhang padding as s_FL2_Dirty on the lo side; a little more on
-	// the hi side (scaled glyphs overhang further).
-	e.lo.x0 = ll - 2;  e.lo.y0 = lt - 2;  e.lo.x1 = lr + 3;  e.lo.y1 = lb + 3;
+	// Keep the checksum footprint TIGHT (just the rounding guard above, no
+	// extra overhang padding). The padding rows caught pixels the glyphs
+	// never touch, so text sitting right under a UI element repainted later
+	// in the frame - the logout countdown under the quickslot bar - failed
+	// every column and vanished. A cover that only grazes the outer 2px of
+	// a scaled glyph goes undetected now, which just means the crisp edge
+	// draws over the occluder - invisible in practice.
+	e.lo.x0 = ll;  e.lo.y0 = lt;  e.lo.x1 = lr;  e.lo.y1 = lb;
 	if (e.lo.x0 < 0) e.lo.x0 = 0;
 	if (e.lo.y0 < 0) e.lo.y0 = 0;
 	if (e.lo.x1 > s_fl2_fb_w) e.lo.x1 = s_fl2_fb_w;
@@ -803,6 +869,7 @@ static bool s_FL2_OverlayMirrorTextOut(HDC hdcLo, int x, int y, const char* psz,
 
 	e.nSub     = 0;   // baselines captured at the next surface lock
 	e.failMask = 0;
+	e.killMask = 0;
 	e.kind     = 0;
 	e.textLen  = len;
 	e.fontLo   = hLo;
@@ -2103,6 +2170,7 @@ bool g_FL2_CaretMirrored(HDC hdcLo, int xBase, int yBase, const char* psz, int l
 	e.hi.x0 = hx - 2;   e.hi.y0 = hy - 2;
 	e.hi.x1 = hx + 4;   e.hi.y1 = hy + hh + 3;
 	e.failMask = 0;
+	e.killMask = 0;
 	e.kind     = 1;
 	e.textOfs  = -1;
 	e.textLen  = 0;
@@ -2252,6 +2320,11 @@ void g_FL2_OverlayFlush()
 			if (!bLocked || i >= s_fl2_ov_checkedN || e.nSub <= 0)
 			{
 				FL2_OV_DIAG_INC(supNoBaseline);
+#if FL2_OV_DIAG
+				s_FL2_DiagSuppressed("nobase",
+					(e.kind == 0 && e.textOfs >= 0) ? s_fl2_ov_poolBuf + e.textOfs : NULL,
+					e.textLen, 0xFF);
+#endif
 				e.failMask = 0xFF;   // no baseline: fully suppressed
 				s_FL2_OvClearRect(e.hi);
 				if (nClr < FL2_OV_MAX_CLEARED) s_clr[nClr++] = e.hi; else bClrOver = true;
@@ -2265,20 +2338,32 @@ void g_FL2_OverlayFlush()
 			e.failMask = 0;
 			for (int j = 0; j < e.nSub; j++)
 			{
-				FL2_DIRTYRECT c = e.lo;
-				c.x0 = e.lo.x0 + loW * j / e.nSub;
-				c.x1 = e.lo.x0 + loW * (j + 1) / e.nSub;
+				// A killed column was covered by a reported fill: occluded no
+				// matter what the pixels say (the fill may have written exactly
+				// the baselined bytes), and the cursor excuse does not apply.
+				const bool bKilled = (e.killMask & (BYTE)(1u << j)) != 0;
+				if (!bKilled)
+				{
+					FL2_DIRTYRECT c = e.lo;
+					c.x0 = e.lo.x0 + loW * j / e.nSub;
+					c.x1 = e.lo.x0 + loW * (j + 1) / e.nSub;
 
-				if (s_FL2_SumRegion(base, stride, c) == e.sub[j])
-					continue;
+					if (s_FL2_SumRegion(base, stride, c) == e.sub[j])
+						continue;
 
-				if (bExcl &&
-				    c.x0 < excl.x1 && excl.x0 < c.x1 &&
-				    c.y0 < excl.y1 && excl.y0 < c.y1)
-					continue;   // the cursor, not a window
+					if (bExcl &&
+					    c.x0 < excl.x1 && excl.x0 < c.x1 &&
+					    c.y0 < excl.y1 && excl.y0 < c.y1)
+						continue;   // the cursor, not a window
+				}
 
 				e.failMask |= (BYTE)(1u << j);
 				FL2_OV_DIAG_INC(supChecksum);
+#if FL2_OV_DIAG
+				s_FL2_DiagSuppressed(bKilled ? "killed" : "sum",
+					(e.kind == 0 && e.textOfs >= 0) ? s_fl2_ov_poolBuf + e.textOfs : NULL,
+					e.textLen, e.failMask);
+#endif
 
 				FL2_DIRTYRECT h;
 				s_FL2_OvColHiRect(e, j, &h);
@@ -2289,6 +2374,91 @@ void g_FL2_OverlayFlush()
 
 		if (bLocked)
 			s_fl2_ov_boundSurface->Unlock(NULL);
+	}
+
+	// ---- Redraw pass ------------------------------------------------------
+	// Clearing a suppressed region's columns above also wiped any overlapping
+	// pixels of OTHER regions that are still valid - a tooltip drawn over a
+	// hotkey label lost its own glyphs wherever the label's cleared rect
+	// crossed it. Repaint every still-valid region that touches a cleared
+	// rect, clipped to its own non-suppressed columns (a region's failed
+	// columns must stay cleared; overlapping regions agree about occlusion
+	// because their column checksums hash the same lo-res pixels). Regions
+	// are stored in draw order, so repainting in index order reproduces the
+	// original stacking.
+	if (nClr > 0 || bClrOver)
+	{
+		for (int i = 0; i < s_fl2_ov_frameN; i++)
+		{
+			FL2_OVREGION& e = s_fl2_ov_frame[i];
+
+			if (e.failMask == 0xFF)
+				continue;   // fully suppressed: stays cleared
+
+			bool bHit = bClrOver;   // list overflowed: assume it overlaps
+			for (int c = 0; c < nClr && !bHit; c++)
+				bHit = e.hi.x0 < s_clr[c].x1 && s_clr[c].x0 < e.hi.x1 &&
+				       e.hi.y0 < s_clr[c].y1 && s_clr[c].y0 < e.hi.y1;
+			if (!bHit)
+				continue;
+
+			if (e.kind == 1)
+			{
+				// Caret fill (a single checksum column: failMask 0 = intact).
+				if (e.failMask != 0)
+					continue;
+				for (int y = e.hy; y < e.hy + e.ch; y++)
+				{
+					if (y < 0 || y >= s_fl2_ov_h)
+						continue;
+					DWORD* pRow = s_fl2_ov_bits + (size_t)y * s_fl2_ov_w;
+					for (int x = e.hx; x < e.hx + e.cw; x++)
+						if (x >= 0 && x < s_fl2_ov_w)
+							pRow[x] = e.fill;
+				}
+				continue;
+			}
+
+			if (e.textOfs < 0)
+				continue;   // string pool overflowed at record time
+
+			HFONT hHi = s_FL2_OverlayFont(e.fontLo);
+			if (hHi == NULL)
+				continue;
+
+			// Clip to the region's still-valid columns.
+			HRGN hClip;
+			if (e.failMask != 0 && e.nSub > 0)
+			{
+				hClip = CreateRectRgn(0, 0, 0, 0);
+				for (int j = 0; j < e.nSub; j++)
+				{
+					if (e.failMask & (BYTE)(1u << j))
+						continue;
+					FL2_DIRTYRECT h;
+					s_FL2_OvColHiRect(e, j, &h);
+					HRGN hCol = CreateRectRgn(h.x0, h.y0, h.x1, h.y1);
+					CombineRgn(hClip, hClip, hCol, RGN_OR);
+					DeleteObject(hCol);
+				}
+			}
+			else
+				hClip = CreateRectRgn(e.hi.x0, e.hi.y0, e.hi.x1, e.hi.y1);
+
+			SelectClipRgn(s_fl2_ov_dc, hClip);
+			DeleteObject(hClip);
+
+			SelectObject(s_fl2_ov_dc, hHi);
+			SetTextAlign(s_fl2_ov_dc, e.align);
+			SetBkMode(s_fl2_ov_dc, e.bkMode);
+			SetBkColor(s_fl2_ov_dc, e.bkColor);
+			SetTextColor(s_fl2_ov_dc, e.textColor);
+			TextOut(s_fl2_ov_dc, e.hx, e.hy,
+			        s_fl2_ov_poolBuf + e.textOfs, e.textLen);
+		}
+
+		SelectClipRgn(s_fl2_ov_dc, NULL);
+		GdiFlush();   // the upload below reads the DIB bits directly
 	}
 
 	// ---- Upload: this frame's regions (cleared ones included, so the

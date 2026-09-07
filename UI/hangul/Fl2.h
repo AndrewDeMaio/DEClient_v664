@@ -60,6 +60,10 @@ void	g_FL2_MarkDirty();  // mark fallback DC dirty after direct GDI drawing
 // CDirectDraw::Flip callback; TextOutMirrored replaces raw TextOut calls in
 // widgets that draw straight into gh_FL2_DC.
 void	g_FL2_OverlayFlush();
+// DrawAlphaBox reports each fill's backbuffer rect here: a black fill over an
+// already-black pixel is invisible to the occlusion checksums, so mirrored
+// text recorded before the fill must be told it was covered explicitly.
+void	g_FL2_OverlayOccludeRect(const RECT* pRect);
 void	g_FL2_SetOverlayEnabled(bool bEnable);
 void	g_FL2_OverlaySkipFrames(int nFrames);
 void	g_FL2_OverlaySetFadeAlpha(int nAlpha255);
