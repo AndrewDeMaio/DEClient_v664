@@ -14179,6 +14179,35 @@ MTopView::UpdateImageObject(const POINT& newFirstSector)
 }
 
 //----------------------------------------------------------------------
+// Is this corpse lying flat on the ground?
+//----------------------------------------------------------------------
+// A corpse sprite is a floor decal once its death animation has run out:
+// the pooled blood is painted into the sprite itself, so it has to be
+// drawn with the ground layer, before any actor. Otherwise a corpse one
+// row in front paints its blood over the feet of whoever stands behind it.
+//
+// While the death animation is still playing the creature is upright and
+// has real height, so it keeps its normal place in the row-sorted pass.
+//----------------------------------------------------------------------
+static bool
+IsSettledCorpse(const MItem* pItem)
+{
+	if (pItem == NULL || pItem->GetItemClass() != ITEM_CLASS_CORPSE)
+	{
+		return false;
+	}
+
+	const MCreature* pCreature = ((const MCorpse*)pItem)->GetCreature();
+
+	if (pCreature == NULL)
+	{
+		return false;
+	}
+
+	return pCreature->GetActionCount() >= pCreature->GetActionCountMax();
+}
+
+//----------------------------------------------------------------------
 // Draw Zone
 //----------------------------------------------------------------------
 // Pixel ��ǥ�� (Xp, Yp)�� 
@@ -16191,6 +16220,51 @@ MTopView::DrawZone(int firstPointX, int firstPointY)
 
 	//------------------------------------------------------
 	//
+	//        Settled corpses (ground layer)
+	//
+	//------------------------------------------------------
+	// A corpse that has finished its death animation is a floor decal -
+	// the blood pool is part of the sprite. Draw them all here, ahead of
+	// every actor, so a character standing behind one is never painted
+	// over by its blood. Corpses still mid-animation stay in the
+	// row-sorted pass below.
+	//------------------------------------------------------
+	if (m_bTileSearchForCreature || !bPlayerInCasket)
+	{
+		tilePointTemp.y = tilePoint.y;
+
+		for (y = sY1; y <= sY2; y++)
+		{
+			tilePointTemp.x = tilePoint.x;
+
+			for (x = sX1; x <= sX2; x++)
+			{
+				const MSector& sector = m_pZone->GetSector(x, y);
+
+				if (sector.IsExistObject())
+				{
+					pItem = sector.GetItem();
+
+					if (IsSettledCorpse(pItem)
+						&& g_pPlayer->ShowInDarkness(x, y))
+					{
+						point.x = tilePointTemp.x;
+						point.y = tilePointTemp.y;
+
+						DrawItem(&point, pItem);
+					}
+				}
+
+				tilePointTemp.x += TILE_X;
+			}
+
+			tilePointTemp.y += TILE_Y;
+		}
+	}
+
+
+	//------------------------------------------------------
+	//
 	//				���� sprite ���
 	//
 	//------------------------------------------------------
@@ -16449,7 +16523,11 @@ MTopView::DrawZone(int firstPointX, int firstPointY)
 							//DarkBits = (sector.GetLight()==0)?m_DarkBits:0;
 
 							// ���߿� Frame�������� cx,cy�� �����ؾ� �Ѵ�.									
-							DrawItem(&point, pItem);//, DarkBits);
+							// settled corpses were already drawn with the ground layer
+							if (!IsSettledCorpse(pItem))
+							{
+								DrawItem(&point, pItem);//, DarkBits);
+							}
 						}
 					}
 				}
@@ -16857,7 +16935,11 @@ MTopView::DrawZone(int firstPointX, int firstPointY)
 								//DarkBits = (sector.GetLight()==0)?m_DarkBits:0;
 
 								// ���߿� Frame�������� cx,cy�� �����ؾ� �Ѵ�.									
-								DrawItem(&point, pItem);//, DarkBits);
+								// settled corpses were already drawn with the ground layer
+								if (!IsSettledCorpse(pItem))
+								{
+									DrawItem(&point, pItem);//, DarkBits);
+								}
 							}
 						}
 					}

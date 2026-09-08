@@ -317,7 +317,9 @@ void	_Item_Description_Show(Rect rect, void* void_ptr, long left, long right)
 		p_item->GetItemClass() != ITEM_CLASS_CUE_OF_ADAM)
 	{
 		static char* szGrade = (*g_pGameStringTable)[UI_STRING_MESSAGE_ITEM_GRADE].GetString();
+		strcat(sz_name, " "); // add 'space' before grade
 		strncat(sz_name, szGrade + p_item->GetGrade() * 2, 2);
+		strcat(sz_ename, " "); // add 'space' before grade
 		strncat(sz_ename, szGrade + p_item->GetGrade() * 2, 2);
 	}
 
