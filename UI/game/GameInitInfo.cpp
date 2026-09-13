@@ -668,7 +668,12 @@ InitInfomation()
 
 	DEBUG_ADD("[ InitGame ]  Information - ItemOptionTable");
 
-	ivfstream itemOptionTable2(g_pFileDef->getProperty("FILE_INFO_ITEMOPTION").c_str(), std::ios::binary);
+	// This load runs after the one in C_VS_UI_ITEM's constructor and wins,
+	// so it has to go through FileOpenBinary as well - opening the file
+	// directly put the Korean option names straight back.
+	ivfstream itemOptionTable2;
+	if (!FileOpenBinary(g_pFileDef->getProperty("FILE_INFO_ITEMOPTION").c_str(), itemOptionTable2))
+		return FALSE;
 	(*g_pItemOptionTable).LoadFromFile( itemOptionTable2 );
 	itemOptionTable2.close();
 

@@ -53,6 +53,7 @@
 #define FILE_INFO_ZONE_TABLE					"Data\\Info\\Zone.inf"
 #define	FILE_INFO_GPS							"Data\\Info\\Gps.inf"
 #define FILE_INFO_FILEDEF						"Data\\Info\\FileDef.inf"
+#define FILE_INFO_HELP_TEXT						"Data\\Info\\Help.inf"
 
 #define SPK_GAME_BACK							"data\\gameback.spk"
 #define SPK_GUILD_MARK							"Data\\Image\\GuildMark.spk"
@@ -329,8 +330,8 @@
 #define SPK_VAMPIRE_TEAM_MEMBER			_ROOT"spk\\TeamMemberVampire.spk"
 
 // HPBar
-#define SPK_HPBAR_SLAYER				_ROOT"spk\\HPBarSlayer.spk"
-#define SPK_HPBAR_VAMPIRE				_ROOT"spk\\HPBarVampire.spk"
+#define SPK_HPBAR_SLAYER				_ROOT"spk\\RenewalHPBarSlayer.spk"
+#define SPK_HPBAR_VAMPIRE				_ROOT"spk\\RenewalHPBarVampire.spk"
 
 // MINIMAP
 #define SPK_MINIMAP_SLAYER				_ROOT"spk\\MinimapSlayer.spk"
@@ -387,7 +388,7 @@
 #define SPK_OUSTERS_PARTY				_ROOT"spk\\PartyOusters.spk"
 #define SPK_OUSTERS_TEAM				_ROOT"spk\\TeamOusters.spk"
 #define SPK_OUSTERS_TEAM_MEMBER			_ROOT"spk\\TeamMemberOusters.spk"
-#define SPK_HPBAR_OUSTERS				_ROOT"spk\\HPBarOusters.spk"
+#define SPK_HPBAR_OUSTERS				_ROOT"spk\\RenewalHPBarOusters.spk"
 #define SPK_MINIMAP_OUSTERS				_ROOT"spk\\MinimapOusters.spk"
 #define SPK_CHATTING_OUSTERS			_ROOT"spk\\ChattingOusters.spk"
 #define SPK_EFFECT_STATUS_OUSTERS		_ROOT"spk\\EffectStatusOusters.spk"

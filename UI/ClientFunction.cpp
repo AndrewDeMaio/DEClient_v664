@@ -426,10 +426,10 @@ DrawAlphaBox(RECT* pRect, BYTE r, BYTE g, BYTE b, BYTE alpha)
 	
 	if(pRect->left >= pRect->right || pRect->top >= pRect->bottom)return;
 
-	// The fill is invisible to the text overlay's occlusion checksums when it
-	// writes pixels identical to what is already there (black over black), so
-	// report it explicitly: mirrored text recorded before this call yields.
-	g_FL2_OverlayOccludeRect(pRect);
+	// Tell the crisp-text overlay this area is covered: text mirrored before
+	// this fill is clipped away inside the rect, text drawn after it (this
+	// box's own label, a tooltip's contents) stays on top.
+	g_FL2_OverlayOccludeRect(pRect, "DrawAlphaBox");
 
 	#ifdef __GAME_CLIENT__
 		int reverseAlpha = 31-alpha;

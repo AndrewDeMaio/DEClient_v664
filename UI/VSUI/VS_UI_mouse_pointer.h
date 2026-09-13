@@ -141,6 +141,7 @@ public:
 	bool	IsCursorDescription() const					{ return m_bl_description; }
 	bool	IsCursorCoin() const						{ return m_bl_coin; }
 
+	void	BltPointer(int x, int y, SPRITE_ID sprite_id);
 	void	Set(UINT message, int x, int y);
 	void	Show();
 	void	PickUpItem(MItem * p_item, int item_x=INT_MIN, int item_y=INT_MIN);

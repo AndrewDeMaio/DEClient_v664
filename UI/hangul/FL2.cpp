@@ -283,35 +283,26 @@ static void s_FL2_EnsureCleared()
 // font strokes into randomly-1-or-2px lumps. Every TextOut that lands in the
 // lo-res DIB is therefore mirrored - at MulDiv-scaled coordinates, with a
 // scaled twin of the current font - into a second, destination-sized DIB.
-// g_FL2_OverlayFlush() (called from CDirectDraw::Flip via callback) verifies
-// each mirrored region is still on the surface (a mismatching checksum means
-// later UI painted over the text - overlay falls back to the lo-res pixels
-// there), then hands the dirty regions to CD3D9Present::UpdateOverlay, which
-// composites them 1:1 AFTER the upscale. The lo-res path is untouched; the
-// overlay is purely additive and expires every frame.
+// A mirrored draw does not paint anything yet: it MEASURES the string,
+// records it, and the caller skips the lo-res twin. g_FL2_OverlayFlush()
+// (called from CDirectDraw::Flip via callback) then paints every recorded
+// region in record order, each clipped against the occluders reported after
+// it (see "Z-order occlusion" below), and hands the dirty regions to
+// CD3D9Present::UpdateOverlay, which composites them 1:1 AFTER the upscale.
+// The lo-res path is untouched; the overlay expires every frame.
 // ---------------------------------------------------------------------------
 #define FL2_OV_MAX_REGION 256
 #define FL2_OV_MAX_UPLOAD 64
 #define FL2_OV_MAX_SCALED_FONT 32
 #define FL2_OV_MAX_TEXTLEN 512
 
-#define FL2_OV_MAX_SUB 8
-
-// Per-region occlusion baselines are kept per COLUMN slice (~24 lo px),
-// so text only loses its crisp copy where something actually painted
-// over it - a tooltip overlapped at one edge keeps the rest readable,
-// clipped like the lo-res original would have been.
-// kind 0 = text (redrawable from the pooled string + stored attributes),
-// kind 1 = caret fill. failMask marks columns suppressed at flush.
+// One recorded, not-yet-painted draw. kind 0 = text (painted at flush from
+// the pooled string plus the stored DC attributes), kind 1 = caret fill.
 struct FL2_OVREGION
 {
-	FL2_DIRTYRECT lo, hi;
-	DWORD    sub[FL2_OV_MAX_SUB];
-	int      nSub;
-	BYTE     failMask;
-	BYTE     killMask;     // columns declared occluded by a reported fill
+	FL2_DIRTYRECT hi;      // padded glyph bounds, overlay coords
 	BYTE     kind;
-	int      textOfs;      // -1 = not redrawable
+	int      textOfs;      // offset into the frame's string pool
 	int      textLen;
 	HFONT    fontLo;
 	COLORREF textColor;
@@ -323,8 +314,59 @@ struct FL2_OVREGION
 	DWORD    fill;         // caret fill pixel
 };
 
+// ---------------------------------------------------------------------------
+// Z-order occlusion
+//
+// The overlay composites AFTER the upscale, so it sits on top of the entire
+// frame - including any window that painted over the text. Whoever covers an
+// area says so here: WindowManager::Show reports every UI window's footprint
+// just before that window paints, and DrawAlphaBox reports every fill. Each
+// report remembers how many text regions had been recorded at the time,
+// which is exactly that paint's place in the frame's draw order.
+//
+// At flush a region is clipped against the occluders reported AFTER it and
+// only those: a window painted later covers the text under it, text printed
+// by that window (recorded later still) stays on top. That is the same
+// painter's-algorithm stacking the lo-res frame already has, resolved
+// geometrically rather than guessed from pixels - which is what the previous
+// per-column checksum scheme did, and it guessed wrong in both directions
+// (a window whose pixels happened to match let text show through it, and a
+// progress bar animating under a label made the label flicker away).
+// ---------------------------------------------------------------------------
+#define FL2_OV_MAX_OCCL 256
+
+struct FL2_OVOCCL
+{
+	FL2_DIRTYRECT hi;   // covered area, overlay coords
+	int           seq;  // regions recorded before it; it covers [0, seq)
+};
+
+// ---------------------------------------------------------------------------
+// Shape occlusion (the mouse pointer)
+//
+// The pointer sprite is blitted last in the frame - after every window and
+// after every mirrored string - so it is above all of them. It still lands in
+// the lo-res surface, though, which the overlay composites on top of, and a
+// rect occluder cannot express it: the sprite is mostly transparent, so
+// clearing its bounding box would punch a hole through the sentence it is
+// pointing at.
+//
+// It reports its SHAPE instead. FL2 asks the caller which lo-res pixels the
+// sprite actually paints and clears exactly those from the overlay, at the
+// sprite's place in the draw order - what shows through is the upscaled
+// pointer the GPU already drew there.
+// ---------------------------------------------------------------------------
+#define FL2_OV_SHAPE_MAX 192   // lo-res px per side; a larger report is clipped
+
+static BYTE s_fl2_ov_shape[FL2_OV_SHAPE_MAX * FL2_OV_SHAPE_MAX];
+static int  s_fl2_ov_shapeX   = 0;      // lo-res origin of the mask
+static int  s_fl2_ov_shapeY   = 0;
+static int  s_fl2_ov_shapeW   = 0;
+static int  s_fl2_ov_shapeH   = 0;
+static int  s_fl2_ov_shapeSeq = 0;      // regions recorded before it
+static bool s_fl2_ov_shapeOn  = false;
+
 #define FL2_OV_POOL 32768
-#define FL2_OV_MAX_CLEARED 128
 struct FL2_SCALEDFONT { HFONT base; HFONT scaled; };
 
 static bool    s_fl2_ov_userEnabled = true;    // Resolution.inf "TextOverlay"
@@ -343,7 +385,8 @@ static LPDIRECTDRAWSURFACE7 s_fl2_ov_boundSurface = NULL;
 
 static FL2_OVREGION  s_fl2_ov_frame[FL2_OV_MAX_REGION];   // this frame's text regions
 static int           s_fl2_ov_frameN   = 0;
-static int           s_fl2_ov_checkedN = 0;               // [0,checkedN) have valid sums
+static FL2_OVOCCL    s_fl2_ov_occl[FL2_OV_MAX_OCCL];      // this frame's covering paints
+static int           s_fl2_ov_occlN    = 0;
 static FL2_DIRTYRECT s_fl2_ov_prevHi[FL2_OV_MAX_REGION];  // last frame's glyphs, to erase
 static int           s_fl2_ov_prevHiN  = 0;
 static bool          s_fl2_ov_overflow = false;           // whole frame falls back lo-res
@@ -382,16 +425,17 @@ static int  s_fl2_ov_fadeFrames = 0;
 struct FL2_OVDIAG
 {
 	// mirror outcomes
-	int mirOK, mirBeginFail, mirOverflow, mirSurfSwap, mirUpdateCP, mirFontFail, mirBoundsFail;
+	int mirOK, mirBeginFail, mirOverflow, mirSurfSwap, mirUpdateCP, mirFontFail, mirBoundsFail, mirPoolFull;
 	// begin fail reasons (last one wins per frame)
 	int begUser, begNoFb, begNoSurf, begSkip, begGeomInactive, begGeomMismatch, begNoUpscale, begDibFail;
 	int begOK;
-	// checksum bookkeeping
-	int pendLockFail, blitLockFail;
+	int blitLockFail;
 	// flush outcomes
 	int flushInactive, flushOverflow, flushFrames;
-	int supNoBaseline, supChecksum, regionsTotal;
-	int lastFrameN, lastCheckedN;
+	// occlusion: how many covering paints were reported, and how many regions
+	// they clipped (supClipped) or hid outright (supHidden)
+	int occlTotal, occlOverflow, supClipped, supHidden, regionsTotal;
+	int lastFrameN, lastOcclN;
 	int fbW, fbH, ovW, ovH;
 };
 static FL2_OVDIAG s_diag = {};
@@ -408,19 +452,20 @@ static void s_FL2_DiagDump()
 	if (f == NULL)
 		return;
 	fprintf(f,
-		"mir ok=%d beg=%d ovf=%d swap=%d cp=%d font=%d bnd=%d | "
+		"mir ok=%d beg=%d ovf=%d swap=%d cp=%d font=%d bnd=%d pool=%d | "
 		"begin ok=%d user=%d nofb=%d nosurf=%d skip=%d inact=%d geom=%d noup=%d dib=%d | "
-		"lockfail pend=%d blit=%d | "
-		"flush inact=%d ovf=%d n=%d | sup nobase=%d sum=%d of=%d | "
-		"last frameN=%d checkedN=%d | fb=%dx%d ov=%dx%d\n",
+		"blitlockfail=%d | "
+		"flush inact=%d ovf=%d n=%d | occl n=%d ovf=%d clipped=%d hidden=%d of=%d | "
+		"last frameN=%d occlN=%d | fb=%dx%d ov=%dx%d\n",
 		s_diag.mirOK, s_diag.mirBeginFail, s_diag.mirOverflow, s_diag.mirSurfSwap,
-		s_diag.mirUpdateCP, s_diag.mirFontFail, s_diag.mirBoundsFail,
+		s_diag.mirUpdateCP, s_diag.mirFontFail, s_diag.mirBoundsFail, s_diag.mirPoolFull,
 		s_diag.begOK, s_diag.begUser, s_diag.begNoFb, s_diag.begNoSurf, s_diag.begSkip,
 		s_diag.begGeomInactive, s_diag.begGeomMismatch, s_diag.begNoUpscale, s_diag.begDibFail,
-		s_diag.pendLockFail, s_diag.blitLockFail,
+		s_diag.blitLockFail,
 		s_diag.flushInactive, s_diag.flushOverflow, s_diag.flushFrames,
-		s_diag.supNoBaseline, s_diag.supChecksum, s_diag.regionsTotal,
-		s_diag.lastFrameN, s_diag.lastCheckedN,
+		s_diag.occlTotal, s_diag.occlOverflow, s_diag.supClipped, s_diag.supHidden,
+		s_diag.regionsTotal,
+		s_diag.lastFrameN, s_diag.lastOcclN,
 		s_diag.fbW, s_diag.fbH, s_diag.ovW, s_diag.ovH);
 	fclose(f);
 
@@ -430,9 +475,19 @@ static void s_FL2_DiagDump()
 }
 #define FL2_OV_DIAG_INC(field) (s_diag.field++)
 
-// Rate-limited note naming a suppressed region's text (reason: "nobase" or
-// "sum"). Empty for carets / unpooled strings.
-static void s_FL2_DiagSuppressed(const char* pszReason, const char* psz, int len, BYTE failMask)
+// Names of this frame's occluders, parallel to s_fl2_ov_occl. Diagnostics
+// only, and COPIED rather than pointed at: callers hand over temporaries
+// (Window::GetWindowName returns its std::string by value) and the log is
+// written a frame later, at flush.
+#define FL2_OV_WHO_LEN 32
+static char s_fl2_ov_occlWho[FL2_OV_MAX_OCCL][FL2_OV_WHO_LEN];
+
+// Rate-limited note naming a region the occluders covered, and what covered
+// it. reason is "hidden" (nothing left to draw) or "clipped" (partly covered).
+// Most windows never call SetWindowName, so the rect is logged too - it is
+// what actually identifies the culprit.
+static void s_FL2_DiagOccluded(const char* pszReason, const char* psz, int len,
+                               const char* pszWho, const FL2_DIRTYRECT* pWhere)
 {
 	static DWORD s_last = 0;
 	const DWORD now = GetTickCount();
@@ -443,8 +498,11 @@ static void s_FL2_DiagSuppressed(const char* pszReason, const char* psz, int len
 	FILE* f = fopen("Log\\fl2_ov.log", "a");
 	if (f == NULL)
 		return;
-	fprintf(f, "SUPPRESSED %s mask=%02X text=\"%.*s\"\n",
-		pszReason, failMask,
+	fprintf(f, "OCCLUDED %s by=\"%s\" at=(%d,%d)-(%d,%d) text=\"%.*s\"\n",
+		pszReason,
+		(pszWho != NULL) ? pszWho : "",
+		(pWhere != NULL) ? pWhere->x0 : 0, (pWhere != NULL) ? pWhere->y0 : 0,
+		(pWhere != NULL) ? pWhere->x1 : 0, (pWhere != NULL) ? pWhere->y1 : 0,
 		(psz != NULL) ? (len > 64 ? 64 : len) : 0,
 		(psz != NULL) ? psz : "");
 	fclose(f);
@@ -467,84 +525,181 @@ static void s_FL2_OvClearRect(const FL2_DIRTYRECT& e)
 	}
 }
 
-// Order-dependent checksum of the 16-bit surface pixels under a lo-res rect.
-static DWORD s_FL2_SumRegion(const WORD* pBase, int nStride, const FL2_DIRTYRECT& e)
-{
-	DWORD h = 2166136261u;
-
-	for (int y = e.y0; y < e.y1; y++)
-	{
-		const WORD* pRow = pBase + (size_t)y * nStride;
-		for (int x = e.x0; x < e.x1; x++)
-			h = h * 131u + pRow[x];
-	}
-
-	return h;
-}
-
-// Column layout depends only on the lo rect, so the occlusion reporter can
-// compute it before (and independently of) baseline capture.
-static int s_FL2_OvColCount(const FL2_OVREGION& e)
-{
-	int n = (e.lo.x1 - e.lo.x0) / 24;
-	if (n < 1) n = 1;
-	if (n > FL2_OV_MAX_SUB) n = FL2_OV_MAX_SUB;
-	return n;
-}
-
-static void s_FL2_SumRegionCols(const WORD* pBase, int nStride, FL2_OVREGION& e)
-{
-	const int w = e.lo.x1 - e.lo.x0;
-	const int n = s_FL2_OvColCount(e);
-	e.nSub = n;
-
-	for (int i = 0; i < n; i++)
-	{
-		FL2_DIRTYRECT c = e.lo;
-		c.x0 = e.lo.x0 + w * i / n;
-		c.x1 = e.lo.x0 + w * (i + 1) / n;
-		e.sub[i] = s_FL2_SumRegion(pBase, nStride, c);
-	}
-}
-
-static void s_FL2_OvColHiRect(const FL2_OVREGION& e, int j, FL2_DIRTYRECT* p)
-{
-	const int hiW = e.hi.x1 - e.hi.x0;
-	*p = e.hi;
-	p->x0 = e.hi.x0 + hiW * j / e.nSub;
-	p->x1 = e.hi.x0 + hiW * (j + 1) / e.nSub;
-}
-
-// An alpha/solid fill can write pixels IDENTICAL to a region's checksum
-// baseline - the tooltip's black DrawAlphaBox landing on a hotkey label's
-// already-black backing box - so pixel sums alone cannot prove occlusion.
-// DrawAlphaBox reports every fill here instead: regions recorded BEFORE the
-// fill lose the columns it covers (in-frame draw order is z-order, so a
-// later fill genuinely occludes earlier text; text recorded after the fill
-// is on top of it and keeps drawing). Killed columns are cleared at flush
-// unconditionally - no checksum comparison, and no cursor-box excuse.
-void g_FL2_OverlayOccludeRect(const RECT* pRect)
+//---------------------------------------------------------------------------
+// g_FL2_OverlayOccludeRect
+//
+// "Everything mirrored so far is covered inside this rect." Called by
+// WindowManager::Show just before each UI window paints, and by DrawAlphaBox
+// for every fill. pRect is in lo-res surface coordinates; pszWho names the
+// caller for the diagnostic log and may be NULL.
+//
+// Nothing is clipped here - the report is only filed, together with the
+// number of regions that preceded it. Flush does the clipping, which is what
+// keeps the rule a single sentence: a region yields to the reports filed
+// after it, and to no others.
+//---------------------------------------------------------------------------
+void g_FL2_OverlayOccludeRect(const RECT* pRect, const char* pszWho)
 {
 	if (pRect == NULL || !s_fl2_ov_on || s_fl2_ov_overflow)
 		return;
 
-	for (int i = 0; i < s_fl2_ov_frameN; i++)
-	{
-		FL2_OVREGION& e = s_fl2_ov_frame[i];
-		if (pRect->left >= e.lo.x1 || e.lo.x0 >= pRect->right ||
-		    pRect->top  >= e.lo.y1 || e.lo.y0 >= pRect->bottom)
-			continue;
+	// Nothing mirrored yet: this paint is underneath every glyph there is.
+	if (s_fl2_ov_frameN == 0)
+		return;
 
-		const int n = s_FL2_OvColCount(e);
-		const int w = e.lo.x1 - e.lo.x0;
-		for (int j = 0; j < n; j++)
+	int l = pRect->left, t = pRect->top, r = pRect->right, b = pRect->bottom;
+
+	if (l < 0) l = 0;
+	if (t < 0) t = 0;
+	if (r > s_fl2_fb_w) r = s_fl2_fb_w;
+	if (b > s_fl2_fb_h) b = s_fl2_fb_h;
+	if (l >= r || t >= b)
+		return;
+
+	FL2_OV_DIAG_INC(occlTotal);
+
+	if (s_fl2_ov_occlN >= FL2_OV_MAX_OCCL)
+	{
+		FL2_OV_DIAG_INC(occlOverflow);
+		return;   // worst case is the old behaviour: text over a window
+	}
+
+	FL2_OVOCCL& o = s_fl2_ov_occl[s_fl2_ov_occlN];
+
+	// The same lo -> screen mapping the presenter's upscale uses, so crisp
+	// glyphs are cut exactly where the lo-res pixels cut them.
+	o.hi.x0 = MulDiv(l, s_fl2_ov_w, s_fl2_ov_srcW);
+	o.hi.y0 = MulDiv(t, s_fl2_ov_h, s_fl2_ov_srcH);
+	o.hi.x1 = MulDiv(r, s_fl2_ov_w, s_fl2_ov_srcW);
+	o.hi.y1 = MulDiv(b, s_fl2_ov_h, s_fl2_ov_srcH);
+	o.seq   = s_fl2_ov_frameN;
+
+#if FL2_OV_DIAG
+	{
+		char* pDst = s_fl2_ov_occlWho[s_fl2_ov_occlN];
+		if (pszWho == NULL)
+			pDst[0] = '\0';
+		else
 		{
-			const int cx0 = e.lo.x0 + w * j / n;
-			const int cx1 = e.lo.x0 + w * (j + 1) / n;
-			if (pRect->left < cx1 && cx0 < pRect->right)
-				e.killMask |= (BYTE)(1u << j);
+			strncpy(pDst, pszWho, FL2_OV_WHO_LEN - 1);
+			pDst[FL2_OV_WHO_LEN - 1] = '\0';
 		}
 	}
+#else
+	(void)pszWho;
+#endif
+
+	s_fl2_ov_occlN++;
+}
+
+//---------------------------------------------------------------------------
+// s_FL2_OvPunchShape
+//
+// Clear the reported shape out of the overlay DIB, each lo-res pixel mapped
+// to the overlay grid exactly the way the presenter's upscale maps it.
+//---------------------------------------------------------------------------
+static void s_FL2_OvPunchShape()
+{
+	if (s_fl2_ov_bits == NULL)
+		return;
+
+	GdiFlush();   // the regions painted so far are still queued in GDI
+
+	for (int y = 0; y < s_fl2_ov_shapeH; y++)
+	{
+		const BYTE* pMask = s_fl2_ov_shape + (size_t)y * FL2_OV_SHAPE_MAX;
+
+		int hy0 = MulDiv(s_fl2_ov_shapeY + y,     s_fl2_ov_h, s_fl2_ov_srcH);
+		int hy1 = MulDiv(s_fl2_ov_shapeY + y + 1, s_fl2_ov_h, s_fl2_ov_srcH);
+
+		if (hy0 < 0) hy0 = 0;
+		if (hy1 > s_fl2_ov_h) hy1 = s_fl2_ov_h;
+
+		for (int x = 0; x < s_fl2_ov_shapeW; x++)
+		{
+			if (pMask[x] == 0)
+				continue;
+
+			int hx0 = MulDiv(s_fl2_ov_shapeX + x,     s_fl2_ov_w, s_fl2_ov_srcW);
+			int hx1 = MulDiv(s_fl2_ov_shapeX + x + 1, s_fl2_ov_w, s_fl2_ov_srcW);
+
+			if (hx0 < 0) hx0 = 0;
+			if (hx1 > s_fl2_ov_w) hx1 = s_fl2_ov_w;
+
+			for (int hy = hy0; hy < hy1; hy++)
+			{
+				DWORD* pRow = s_fl2_ov_bits + (size_t)hy * s_fl2_ov_w;
+
+				for (int hx = hx0; hx < hx1; hx++)
+					pRow[hx] = FL2_FB_COLORKEY;
+			}
+		}
+	}
+}
+
+//---------------------------------------------------------------------------
+// g_FL2_OverlayOccludeShape
+//
+// "This sprite covers everything mirrored so far, and here is exactly which
+// pixels it covers." Reported by the mouse pointer, which is blitted after
+// every window and every string in the frame. pRect bounds the sprite in
+// lo-res surface coordinates; pfnOpaque answers, for each pixel in it,
+// whether the sprite paints there.
+//
+// Like the rect occluders this only files the report, together with the
+// number of regions that preceded it - the sprite's place in the frame's
+// draw order. Flush clears the shape once those regions are painted, and
+// before the ones filed after it (the pointer's own tooltip) go on top.
+//
+// One shape per frame: the pointer is drawn once, and a second report simply
+// replaces the first.
+//---------------------------------------------------------------------------
+void g_FL2_OverlayOccludeShape(const RECT* pRect, FL2_PFN_OPAQUE pfnOpaque, void* pCtx)
+{
+	s_fl2_ov_shapeOn = false;
+
+	if (pRect == NULL || pfnOpaque == NULL || !s_fl2_ov_on || s_fl2_ov_overflow)
+		return;
+
+	// Nothing mirrored yet: the sprite is underneath every glyph there is.
+	if (s_fl2_ov_frameN == 0)
+		return;
+
+	int l = pRect->left, t = pRect->top, r = pRect->right, b = pRect->bottom;
+
+	if (l < 0) l = 0;
+	if (t < 0) t = 0;
+	if (r > s_fl2_fb_w) r = s_fl2_fb_w;
+	if (b > s_fl2_fb_h) b = s_fl2_fb_h;
+	if (r > l + FL2_OV_SHAPE_MAX) r = l + FL2_OV_SHAPE_MAX;
+	if (b > t + FL2_OV_SHAPE_MAX) b = t + FL2_OV_SHAPE_MAX;
+	if (l >= r || t >= b)
+		return;
+
+	bool bAny = false;
+
+	for (int y = t; y < b; y++)
+	{
+		BYTE* pMask = s_fl2_ov_shape + (size_t)(y - t) * FL2_OV_SHAPE_MAX;
+
+		for (int x = l; x < r; x++)
+		{
+			const bool bOpaque = pfnOpaque(pCtx, x, y);
+
+			pMask[x - l] = bOpaque ? 1 : 0;
+			bAny = bAny || bOpaque;
+		}
+	}
+
+	if (!bAny)
+		return;   // wholly transparent where it landed: nothing to clear
+
+	s_fl2_ov_shapeX   = l;
+	s_fl2_ov_shapeY   = t;
+	s_fl2_ov_shapeW   = r - l;
+	s_fl2_ov_shapeH   = b - t;
+	s_fl2_ov_shapeSeq = s_fl2_ov_frameN;
+	s_fl2_ov_shapeOn  = true;
 }
 
 static void s_FL2_OverlayRelease()
@@ -569,7 +724,8 @@ static void s_FL2_OverlayRelease()
 	s_fl2_ov_bits    = NULL;
 	s_fl2_ov_w = s_fl2_ov_h = 0;
 	s_fl2_ov_srcW = s_fl2_ov_srcH = 0;
-	s_fl2_ov_frameN = s_fl2_ov_checkedN = s_fl2_ov_prevHiN = 0;
+	s_fl2_ov_frameN = s_fl2_ov_occlN = s_fl2_ov_prevHiN = 0;
+	s_fl2_ov_shapeOn = false;
 	s_fl2_ov_poolN = 0;
 	s_fl2_ov_overflow = false;
 	s_fl2_ov_on = false;
@@ -726,11 +882,11 @@ static HFONT s_FL2_OverlayFont(HFONT hBase)
 	return hNew;
 }
 
-// Mirror one TextOut into the overlay. Returns true when the crisp copy
-// was drawn AND tracked - the caller then skips the lo-res twin entirely
+// Record one TextOut for the overlay. Returns true when the string was
+// measured AND filed - the caller then skips the lo-res twin entirely
 // (drawing both leaves the upscaled lo-res glyphs peeking out around the
-// crisp ones as a double image). Any decline returns false and the
-// caller renders lo-res exactly as before.
+// crisp ones as a double image), and g_FL2_OverlayFlush paints it. Any
+// decline returns false and the caller renders lo-res exactly as before.
 static bool s_FL2_OverlayMirrorTextOut(HDC hdcLo, int x, int y, const char* psz, int len)
 {
 	// Nothing to draw: decline WITHOUT tripping the whole-frame overflow.
@@ -756,6 +912,15 @@ static bool s_FL2_OverlayMirrorTextOut(HDC hdcLo, int x, int y, const char* psz,
 	{
 		s_fl2_ov_overflow = true;
 		FL2_OV_DIAG_INC(mirOverflow);
+		return false;
+	}
+
+	// The glyphs are painted at flush, from the pooled copy of the string, so
+	// a string the pool cannot hold could never be painted at all. Decline it
+	// here, before anything is recorded, and let the lo-res path draw it.
+	if (len > FL2_OV_MAX_TEXTLEN || s_fl2_ov_poolN + len > FL2_OV_POOL)
+	{
+		FL2_OV_DIAG_INC(mirPoolFull);
 		return false;
 	}
 
@@ -810,18 +975,19 @@ static bool s_FL2_OverlayMirrorTextOut(HDC hdcLo, int x, int y, const char* psz,
 		s_fl2_ov_last.valid = true;
 	}
 
-	TextOut(s_fl2_ov_dc, hx, hy, psz, len);
-
+	// Nothing is painted here. The frame's z-order is not known until every
+	// window has had its turn, so all that happens now is measuring the
+	// string and filing it; g_FL2_OverlayFlush paints it, clipped.
 	int hl, ht, hr, hb;
 	if (!s_FL2_TextOutBounds(s_fl2_ov_dc, hx, hy, psz, len, &hl, &ht, &hr, &hb))
 	{
-		// Hi-res pixels are down but can't be tracked: degrade the frame.
-		s_fl2_ov_overflow = true;
+		// Unmeasurable, but nothing has been drawn: the caller can still
+		// render it lo-res, so this costs the frame nothing.
 		FL2_OV_DIAG_INC(mirBoundsFail);
 #if FL2_OV_DIAG
 		{
 			// A len>0 draw the bounds helper cannot measure is unexpected -
-			// name it, rate-limited, so the log shows what poisoned the frame.
+			// name it, rate-limited, so the log shows what fell back.
 			static DWORD s_lastBndDump = 0;
 			const DWORD now = GetTickCount();
 			if (s_lastBndDump == 0 || now - s_lastBndDump > 2000)
@@ -840,36 +1006,17 @@ static bool s_FL2_OverlayMirrorTextOut(HDC hdcLo, int x, int y, const char* psz,
 		return false;
 	}
 
-	// Checksum region: the crisp text's footprint mapped down to lo coords.
-	const int ll = MulDiv(hl, s_fl2_ov_srcW, s_fl2_ov_w) - 1;
-	const int lt = MulDiv(ht, s_fl2_ov_srcH, s_fl2_ov_h) - 1;
-	const int lr = MulDiv(hr, s_fl2_ov_srcW, s_fl2_ov_w) + 2;
-	const int lb = MulDiv(hb, s_fl2_ov_srcH, s_fl2_ov_h) + 2;
-
 	FL2_OVREGION& e = s_fl2_ov_frame[s_fl2_ov_frameN++];
 
-	// Keep the checksum footprint TIGHT (just the rounding guard above, no
-	// extra overhang padding). The padding rows caught pixels the glyphs
-	// never touch, so text sitting right under a UI element repainted later
-	// in the frame - the logout countdown under the quickslot bar - failed
-	// every column and vanished. A cover that only grazes the outer 2px of
-	// a scaled glyph goes undetected now, which just means the crisp edge
-	// draws over the occluder - invisible in practice.
-	e.lo.x0 = ll;  e.lo.y0 = lt;  e.lo.x1 = lr;  e.lo.y1 = lb;
-	if (e.lo.x0 < 0) e.lo.x0 = 0;
-	if (e.lo.y0 < 0) e.lo.y0 = 0;
-	if (e.lo.x1 > s_fl2_fb_w) e.lo.x1 = s_fl2_fb_w;
-	if (e.lo.y1 > s_fl2_fb_h) e.lo.y1 = s_fl2_fb_h;
-
+	// Padded: antialiased glyphs overhang their reported extent, and this
+	// rect is both the clip the flush paints through and the area uploaded
+	// to (and erased from) the overlay texture.
 	e.hi.x0 = hl - 3;  e.hi.y0 = ht - 3;  e.hi.x1 = hr + 4;  e.hi.y1 = hb + 4;
 	if (e.hi.x0 < 0) e.hi.x0 = 0;
 	if (e.hi.y0 < 0) e.hi.y0 = 0;
 	if (e.hi.x1 > s_fl2_ov_w) e.hi.x1 = s_fl2_ov_w;
 	if (e.hi.y1 > s_fl2_ov_h) e.hi.y1 = s_fl2_ov_h;
 
-	e.nSub     = 0;   // baselines captured at the next surface lock
-	e.failMask = 0;
-	e.killMask = 0;
 	e.kind     = 0;
 	e.textLen  = len;
 	e.fontLo   = hLo;
@@ -878,45 +1025,13 @@ static bool s_FL2_OverlayMirrorTextOut(HDC hdcLo, int x, int y, const char* psz,
 	e.bkMode    = GetBkMode(s_fl2_ov_dc);
 	e.align     = align;
 	e.hx = hx;  e.hy = hy;
-	if (s_fl2_ov_poolN + len <= FL2_OV_POOL)
-	{
-		memcpy(s_fl2_ov_poolBuf + s_fl2_ov_poolN, psz, len);
-		e.textOfs = s_fl2_ov_poolN;
-		s_fl2_ov_poolN += len;
-	}
-	else
-		e.textOfs = -1;
+
+	memcpy(s_fl2_ov_poolBuf + s_fl2_ov_poolN, psz, len);
+	e.textOfs = s_fl2_ov_poolN;
+	s_fl2_ov_poolN += len;
+
 	FL2_OV_DIAG_INC(mirOK);
 	return true;
-}
-
-// Capture checksum baselines for regions recorded during an acquire that
-// never blitted (mirrored draws leave the lo-res DIB untouched, so the
-// blit early-outs). Runs from g_FL2_ReleaseDC.
-static void s_FL2_OverlayChecksumPending()
-{
-	if (!s_fl2_ov_on || s_fl2_ov_overflow || s_fl2_ov_checkedN >= s_fl2_ov_frameN)
-		return;
-	if (gpC_fl2_surface == NULL || gpC_fl2_surface != s_fl2_ov_boundSurface)
-		return;
-
-	DDSURFACEDESC2 ddsd = {};
-	ddsd.dwSize = sizeof(ddsd);
-	if (FAILED(gpC_fl2_surface->Lock(NULL, &ddsd,
-	           DDLOCK_READONLY | DDLOCK_WAIT | DDLOCK_NOSYSLOCK, NULL)))
-	{
-		FL2_OV_DIAG_INC(pendLockFail);
-		return;
-	}
-
-	const WORD* base   = (const WORD*)ddsd.lpSurface;
-	const int   stride = (int)(ddsd.lPitch / sizeof(WORD));
-
-	for (int i = s_fl2_ov_checkedN; i < s_fl2_ov_frameN; i++)
-		s_FL2_SumRegionCols(base, stride, s_fl2_ov_frame[i]);
-	s_fl2_ov_checkedN = s_fl2_ov_frameN;
-
-	gpC_fl2_surface->Unlock(NULL);
 }
 
 // Width of a string as the OVERLAY font will draw it, converted back to
@@ -1225,8 +1340,8 @@ void g_PrintLen(int x, int y, const char* sz_str, int str_length, PrintInfo* p_p
 		}
 
 		// Prefer the native-res overlay; when the mirror succeeds the lo-res
-		// twin is not drawn at all. The surface keeps only the background,
-		// and the occlusion checksum detects anything painted over it.
+		// twin is not drawn at all - the string is painted once, at flush,
+		// into the overlay, clipped to whatever has not covered it by then.
 		bool bMirrored = false;
 		if (s_fl2_fb_active)
 			bMirrored = s_FL2_OverlayMirrorTextOut(hdc, x, y, sz_str, str_length);
@@ -1640,33 +1755,6 @@ static void s_FL2_BlitFallbackToSurface()
 	}
 	}
 
-	// Native-res overlay bookkeeping: checksum the 565 pixels under each new
-	// text region while the surface is already locked, and refresh sums whose
-	// regions this release legitimately rewrote (text over text is not
-	// occlusion). A mismatch later, at flush, means non-text UI painted over
-	// the region and its crisp copy must yield to the lo-res pixels.
-	if (s_fl2_ov_on && !s_fl2_ov_overflow && gpC_fl2_surface == s_fl2_ov_boundSurface)
-	{
-		for (int i = 0; i < s_fl2_ov_checkedN; i++)
-		{
-			for (int r2 = 0; r2 < s_fl2_curN; r2++)
-			{
-				const FL2_DIRTYRECT& c  = s_fl2_cur[r2];
-				const FL2_DIRTYRECT& lo = s_fl2_ov_frame[i].lo;
-				if (lo.x0 < c.x1 && c.x0 < lo.x1 && lo.y0 < c.y1 && c.y0 < lo.y1)
-				{
-					s_FL2_SumRegionCols(dst_base, dst_stride, s_fl2_ov_frame[i]);
-					break;
-				}
-			}
-		}
-
-		for (int i = s_fl2_ov_checkedN; i < s_fl2_ov_frameN; i++)
-			s_FL2_SumRegionCols(dst_base, dst_stride, s_fl2_ov_frame[i]);
-
-		s_fl2_ov_checkedN = s_fl2_ov_frameN;
-	}
-
 	gpC_fl2_surface->Unlock(NULL);
 }
 
@@ -1759,9 +1847,6 @@ bool	g_FL2_ReleaseDC()
 		{
 			// Copy rendered text from the DIBSection onto the DirectDraw surface.
 			s_FL2_BlitFallbackToSurface();
-
-			// Baselines for overlay regions from acquires that never blitted.
-			s_FL2_OverlayChecksumPending();
 
 			// What was just drawn is what the next draw has to clear.
 			for (int i = 0; i < s_fl2_curN; i++)
@@ -2139,61 +2224,39 @@ bool g_FL2_CaretMirrored(HDC hdcLo, int xBase, int yBase, const char* psz, int l
 	if (dwPx == FL2_FB_COLORKEY)
 		dwPx = FL2_FB_COLORKEY + 0x010101u;
 
-	for (int y = hy; y < hy + hh; y++)
-	{
-		if (y < 0 || y >= s_fl2_ov_h)
-			continue;
-		DWORD* pRow = s_fl2_ov_bits + (size_t)y * s_fl2_ov_w;
-		for (int x = hx; x < hx + 2; x++)
-			if (x >= 0 && x < s_fl2_ov_w)
-				pRow[x] = dwPx;
-	}
-
-	// Track it like a text region so it uploads now and erases next frame.
-	SIZE szLo = { 0, 0 };
-	if (psz != NULL && len > 0)
-		GetTextExtentPoint32(hdcLo, psz, len, &szLo);
-
-	TEXTMETRIC tmLo;
-	tmLo.tmHeight = 16;
-	GetTextMetrics(hdcLo, &tmLo);
-
+	// Recorded, not painted - same as text, so the caret sits in the frame's
+	// z-order and a window opened over the edit box hides it too.
 	FL2_OVREGION& e = s_fl2_ov_frame[s_fl2_ov_frameN++];
-
-	e.lo.x0 = xBase + szLo.cx - 2;   e.lo.y0 = yBase - 2;
-	e.lo.x1 = xBase + szLo.cx + 5;   e.lo.y1 = yBase + tmLo.tmHeight + 3;
-	if (e.lo.x0 < 0) e.lo.x0 = 0;
-	if (e.lo.y0 < 0) e.lo.y0 = 0;
-	if (e.lo.x1 > s_fl2_fb_w) e.lo.x1 = s_fl2_fb_w;
-	if (e.lo.y1 > s_fl2_fb_h) e.lo.y1 = s_fl2_fb_h;
 
 	e.hi.x0 = hx - 2;   e.hi.y0 = hy - 2;
 	e.hi.x1 = hx + 4;   e.hi.y1 = hy + hh + 3;
-	e.failMask = 0;
-	e.killMask = 0;
+	if (e.hi.x0 < 0) e.hi.x0 = 0;
+	if (e.hi.y0 < 0) e.hi.y0 = 0;
+	if (e.hi.x1 > s_fl2_ov_w) e.hi.x1 = s_fl2_ov_w;
+	if (e.hi.y1 > s_fl2_ov_h) e.hi.y1 = s_fl2_ov_h;
+
 	e.kind     = 1;
 	e.textOfs  = -1;
 	e.textLen  = 0;
 	e.hx = hx;  e.hy = hy;
 	e.cw = 2;   e.ch = hh;
 	e.fill = dwPx;
-	if (e.hi.x0 < 0) e.hi.x0 = 0;
-	if (e.hi.y0 < 0) e.hi.y0 = 0;
-	if (e.hi.x1 > s_fl2_ov_w) e.hi.x1 = s_fl2_ov_w;
-	if (e.hi.y1 > s_fl2_ov_h) e.hi.y1 = s_fl2_ov_h;
-
-	e.nSub = 0;   // baselines captured at the next surface lock
 	return true;
 }
 
 // Frame flush, invoked from CDirectDraw::Flip just before the present:
-// verify no later UI painted over the mirrored text (checksum per region,
-// fall back to lo-res where it did), upload the dirty regions, rotate the
-// erase list for next frame.
+// paint every region recorded this frame, in record order and each clipped
+// against the occluders reported after it, upload the dirty regions, and
+// rotate the erase list for next frame.
 void g_FL2_OverlayFlush()
 {
 	const bool bBegan = s_fl2_ov_began;
 	s_fl2_ov_began = false;   // next frame re-evaluates geometry
+
+	// The frame's one shape occluder (the mouse pointer), consumed here the
+	// way bBegan is - a frame that draws no pointer punches nothing.
+	const bool bShape = s_fl2_ov_shapeOn;
+	s_fl2_ov_shapeOn = false;
 
 	if (s_fl2_ov_skipFrames > 0)
 		s_fl2_ov_skipFrames--;
@@ -2205,8 +2268,8 @@ void g_FL2_OverlayFlush()
 
 #if FL2_OV_DIAG
 	s_diag.flushFrames++;
-	s_diag.lastFrameN   = s_fl2_ov_frameN;
-	s_diag.lastCheckedN = s_fl2_ov_checkedN;
+	s_diag.lastFrameN = s_fl2_ov_frameN;
+	s_diag.lastOcclN  = s_fl2_ov_occlN;
 	s_diag.regionsTotal += s_fl2_ov_frameN;
 	s_FL2_DiagDump();
 #endif
@@ -2217,7 +2280,7 @@ void g_FL2_OverlayFlush()
 		// uploaded, and the presenter's per-frame expiry keeps any stale
 		// texture invisible.
 		FL2_OV_DIAG_INC(flushInactive);
-		s_fl2_ov_frameN = s_fl2_ov_checkedN = 0;
+		s_fl2_ov_frameN = s_fl2_ov_occlN = 0;
 		s_fl2_ov_poolN = 0;
 		s_fl2_ov_overflow = false;
 		return;
@@ -2239,7 +2302,7 @@ void g_FL2_OverlayFlush()
 		                            &rc, 1, FL2_FB_COLORKEY);
 
 		s_fl2_ov_prevHiN = 0;
-		s_fl2_ov_frameN = s_fl2_ov_checkedN = 0;
+		s_fl2_ov_frameN = s_fl2_ov_occlN = 0;
 		s_fl2_ov_poolN = 0;
 		s_fl2_ov_overflow = false;
 		return;
@@ -2273,196 +2336,156 @@ void g_FL2_OverlayFlush()
 		// fall through to the normal upload below with an empty frame list.
 		if (bBegan == false)
 		{
-			s_fl2_ov_checkedN = 0;
+			s_fl2_ov_occlN = 0;
 			return;
 		}
 	}
 
-	// ---- Occlusion verify (per column) ------------------------------------
+	// ---- Draw pass --------------------------------------------------------
+	// Nothing has been painted yet this frame: mirrored draws only measured
+	// their string and filed it. Paint them now, in the order they were
+	// filed, each clipped to what survives of it under the occluders filed
+	// AFTER it - so a window covers the text that was already on screen, and
+	// the text that same window printed (filed later still) stays on top.
+	//
+	// While the splash fades, occlusion is skipped: the fade legitimately
+	// paints over every region and the overlay alpha does the hiding.
+	bool bShapeDone = !bShape;
 
-	// The mouse cursor sprite is composited into the surface after UI text
-	// every frame; without an exclusion it would knock out every region it
-	// touches. A cursor-sized box around the pointer is excused (crisp text
-	// simply draws over the cursor there).
-	FL2_DIRTYRECT excl = { 0, 0, 0, 0 };
-	bool bExcl = false;
+	for (int i = 0; i < s_fl2_ov_frameN; i++)
 	{
-		extern HWND g_hWnd;
-		POINT pt;
-		if (g_hWnd != NULL && GetCursorPos(&pt) && ScreenToClient(g_hWnd, &pt))
+		// The pointer sprite covers everything filed before it. Clear its
+		// shape now, while exactly those regions are on the DIB and before
+		// the ones it filed itself (its tooltip) are painted over the top.
+		if (!bShapeDone && i >= s_fl2_ov_shapeSeq)
 		{
-			CDirectDraw::WindowToViewport(pt);
-			excl.x0 = pt.x - 12;  excl.y0 = pt.y - 12;
-			excl.x1 = pt.x + 52;  excl.y1 = pt.y + 52;
-			bExcl = true;
-		}
-	}
-
-	static FL2_DIRTYRECT s_clr[FL2_OV_MAX_CLEARED];
-	int  nClr = 0;
-	bool bClrOver = false;
-
-	if (!bFade)
-	{
-		bool bLocked = false;
-		DDSURFACEDESC2 ddsd = {};
-		ddsd.dwSize = sizeof(ddsd);
-
-		if (s_fl2_ov_boundSurface != NULL &&
-		    SUCCEEDED(s_fl2_ov_boundSurface->Lock(NULL, &ddsd,
-		              DDLOCK_READONLY | DDLOCK_WAIT | DDLOCK_NOSYSLOCK, NULL)))
-			bLocked = true;
-
-		for (int i = 0; i < s_fl2_ov_frameN; i++)
-		{
-			FL2_OVREGION& e = s_fl2_ov_frame[i];
-
-			if (!bLocked || i >= s_fl2_ov_checkedN || e.nSub <= 0)
-			{
-				FL2_OV_DIAG_INC(supNoBaseline);
-#if FL2_OV_DIAG
-				s_FL2_DiagSuppressed("nobase",
-					(e.kind == 0 && e.textOfs >= 0) ? s_fl2_ov_poolBuf + e.textOfs : NULL,
-					e.textLen, 0xFF);
-#endif
-				e.failMask = 0xFF;   // no baseline: fully suppressed
-				s_FL2_OvClearRect(e.hi);
-				if (nClr < FL2_OV_MAX_CLEARED) s_clr[nClr++] = e.hi; else bClrOver = true;
-				continue;
-			}
-
-			const WORD* base   = (const WORD*)ddsd.lpSurface;
-			const int   stride = (int)(ddsd.lPitch / sizeof(WORD));
-			const int   loW    = e.lo.x1 - e.lo.x0;
-
-			e.failMask = 0;
-			for (int j = 0; j < e.nSub; j++)
-			{
-				// A killed column was covered by a reported fill: occluded no
-				// matter what the pixels say (the fill may have written exactly
-				// the baselined bytes), and the cursor excuse does not apply.
-				const bool bKilled = (e.killMask & (BYTE)(1u << j)) != 0;
-				if (!bKilled)
-				{
-					FL2_DIRTYRECT c = e.lo;
-					c.x0 = e.lo.x0 + loW * j / e.nSub;
-					c.x1 = e.lo.x0 + loW * (j + 1) / e.nSub;
-
-					if (s_FL2_SumRegion(base, stride, c) == e.sub[j])
-						continue;
-
-					if (bExcl &&
-					    c.x0 < excl.x1 && excl.x0 < c.x1 &&
-					    c.y0 < excl.y1 && excl.y0 < c.y1)
-						continue;   // the cursor, not a window
-				}
-
-				e.failMask |= (BYTE)(1u << j);
-				FL2_OV_DIAG_INC(supChecksum);
-#if FL2_OV_DIAG
-				s_FL2_DiagSuppressed(bKilled ? "killed" : "sum",
-					(e.kind == 0 && e.textOfs >= 0) ? s_fl2_ov_poolBuf + e.textOfs : NULL,
-					e.textLen, e.failMask);
-#endif
-
-				FL2_DIRTYRECT h;
-				s_FL2_OvColHiRect(e, j, &h);
-				s_FL2_OvClearRect(h);
-				if (nClr < FL2_OV_MAX_CLEARED) s_clr[nClr++] = h; else bClrOver = true;
-			}
+			s_FL2_OvPunchShape();
+			bShapeDone = true;
 		}
 
-		if (bLocked)
-			s_fl2_ov_boundSurface->Unlock(NULL);
-	}
+		const FL2_OVREGION& e = s_fl2_ov_frame[i];
 
-	// ---- Redraw pass ------------------------------------------------------
-	// Clearing a suppressed region's columns above also wiped any overlapping
-	// pixels of OTHER regions that are still valid - a tooltip drawn over a
-	// hotkey label lost its own glyphs wherever the label's cleared rect
-	// crossed it. Repaint every still-valid region that touches a cleared
-	// rect, clipped to its own non-suppressed columns (a region's failed
-	// columns must stay cleared; overlapping regions agree about occlusion
-	// because their column checksums hash the same lo-res pixels). Regions
-	// are stored in draw order, so repainting in index order reproduces the
-	// original stacking.
-	if (nClr > 0 || bClrOver)
-	{
-		for (int i = 0; i < s_fl2_ov_frameN; i++)
+		FL2_DIRTYRECT cover[FL2_OV_MAX_OCCL];
+		int           nCover = 0;
+#if FL2_OV_DIAG
+		int           iWho   = -1;   // first occluder over this region
+#endif
+
+		if (!bFade)
 		{
-			FL2_OVREGION& e = s_fl2_ov_frame[i];
-
-			if (e.failMask == 0xFF)
-				continue;   // fully suppressed: stays cleared
-
-			bool bHit = bClrOver;   // list overflowed: assume it overlaps
-			for (int c = 0; c < nClr && !bHit; c++)
-				bHit = e.hi.x0 < s_clr[c].x1 && s_clr[c].x0 < e.hi.x1 &&
-				       e.hi.y0 < s_clr[c].y1 && s_clr[c].y0 < e.hi.y1;
-			if (!bHit)
-				continue;
-
-			if (e.kind == 1)
+			for (int o = 0; o < s_fl2_ov_occlN; o++)
 			{
-				// Caret fill (a single checksum column: failMask 0 = intact).
-				if (e.failMask != 0)
+				const FL2_OVOCCL& oc = s_fl2_ov_occl[o];
+
+				if (oc.seq <= i)
+					continue;   // filed before this text: it is underneath
+
+				if (oc.hi.x0 >= e.hi.x1 || e.hi.x0 >= oc.hi.x1 ||
+				    oc.hi.y0 >= e.hi.y1 || e.hi.y0 >= oc.hi.y1)
 					continue;
-				for (int y = e.hy; y < e.hy + e.ch; y++)
-				{
-					if (y < 0 || y >= s_fl2_ov_h)
-						continue;
-					DWORD* pRow = s_fl2_ov_bits + (size_t)y * s_fl2_ov_w;
-					for (int x = e.hx; x < e.hx + e.cw; x++)
-						if (x >= 0 && x < s_fl2_ov_w)
-							pRow[x] = e.fill;
-				}
-				continue;
+
+#if FL2_OV_DIAG
+				if (iWho < 0)
+					iWho = o;
+#endif
+				cover[nCover++] = oc.hi;
 			}
+		}
 
-			if (e.textOfs < 0)
-				continue;   // string pool overflowed at record time
+		// Clip = the region minus everything that covered it. NULLREGION
+		// means completely hidden, and the glyphs are simply never drawn.
+		HRGN hClip   = CreateRectRgn(e.hi.x0, e.hi.y0, e.hi.x1, e.hi.y1);
+		bool bHidden = false;
 
-			HFONT hHi = s_FL2_OverlayFont(e.fontLo);
-			if (hHi == NULL)
-				continue;
+		if (nCover > 0)
+		{
+			HRGN hCover = CreateRectRgn(0, 0, 0, 0);
 
-			// Clip to the region's still-valid columns.
-			HRGN hClip;
-			if (e.failMask != 0 && e.nSub > 0)
+			for (int c = 0; c < nCover; c++)
 			{
-				hClip = CreateRectRgn(0, 0, 0, 0);
-				for (int j = 0; j < e.nSub; j++)
-				{
-					if (e.failMask & (BYTE)(1u << j))
-						continue;
-					FL2_DIRTYRECT h;
-					s_FL2_OvColHiRect(e, j, &h);
-					HRGN hCol = CreateRectRgn(h.x0, h.y0, h.x1, h.y1);
-					CombineRgn(hClip, hClip, hCol, RGN_OR);
-					DeleteObject(hCol);
-				}
+				HRGN hOne = CreateRectRgn(cover[c].x0, cover[c].y0,
+				                          cover[c].x1, cover[c].y1);
+				CombineRgn(hCover, hCover, hOne, RGN_OR);
+				DeleteObject(hOne);
 			}
-			else
-				hClip = CreateRectRgn(e.hi.x0, e.hi.y0, e.hi.x1, e.hi.y1);
 
-			SelectClipRgn(s_fl2_ov_dc, hClip);
+			bHidden = (CombineRgn(hClip, hClip, hCover, RGN_DIFF) == NULLREGION);
+			DeleteObject(hCover);
+
+#if FL2_OV_DIAG
+			if (bHidden) s_diag.supHidden++; else s_diag.supClipped++;
+			s_FL2_DiagOccluded(bHidden ? "hidden" : "clipped",
+				(e.kind == 0 && e.textOfs >= 0) ? s_fl2_ov_poolBuf + e.textOfs : NULL,
+				e.textLen,
+				(iWho >= 0) ? s_fl2_ov_occlWho[iWho] : NULL,
+				(iWho >= 0) ? &s_fl2_ov_occl[iWho].hi : NULL);
+#endif
+		}
+
+		if (bHidden)
+		{
+			DeleteObject(hClip);
+			continue;
+		}
+
+		if (e.kind == 1)
+		{
+			// Caret: raw pixels rather than GDI, so the cover rects are
+			// applied by hand here. It is two pixels wide.
 			DeleteObject(hClip);
 
-			SelectObject(s_fl2_ov_dc, hHi);
-			SetTextAlign(s_fl2_ov_dc, e.align);
-			SetBkMode(s_fl2_ov_dc, e.bkMode);
-			SetBkColor(s_fl2_ov_dc, e.bkColor);
-			SetTextColor(s_fl2_ov_dc, e.textColor);
-			TextOut(s_fl2_ov_dc, e.hx, e.hy,
-			        s_fl2_ov_poolBuf + e.textOfs, e.textLen);
+			for (int y = e.hy; y < e.hy + e.ch; y++)
+			{
+				if (y < 0 || y >= s_fl2_ov_h)
+					continue;
+
+				DWORD* pRow = s_fl2_ov_bits + (size_t)y * s_fl2_ov_w;
+
+				for (int x = e.hx; x < e.hx + e.cw; x++)
+				{
+					if (x < 0 || x >= s_fl2_ov_w)
+						continue;
+
+					bool bCovered = false;
+					for (int c = 0; c < nCover && !bCovered; c++)
+						bCovered = (x >= cover[c].x0 && x < cover[c].x1 &&
+						            y >= cover[c].y0 && y < cover[c].y1);
+
+					if (!bCovered)
+						pRow[x] = e.fill;
+				}
+			}
+			continue;
 		}
 
-		SelectClipRgn(s_fl2_ov_dc, NULL);
-		GdiFlush();   // the upload below reads the DIB bits directly
+		HFONT hHi = s_FL2_OverlayFont(e.fontLo);
+		if (hHi == NULL || e.textOfs < 0)
+		{
+			DeleteObject(hClip);
+			continue;
+		}
+
+		SelectClipRgn(s_fl2_ov_dc, hClip);
+		DeleteObject(hClip);
+
+		SelectObject(s_fl2_ov_dc, hHi);
+		SetTextAlign(s_fl2_ov_dc, e.align);
+		SetBkMode(s_fl2_ov_dc, e.bkMode);
+		SetBkColor(s_fl2_ov_dc, e.bkColor);
+		SetTextColor(s_fl2_ov_dc, e.textColor);
+		TextOut(s_fl2_ov_dc, e.hx, e.hy, s_fl2_ov_poolBuf + e.textOfs, e.textLen);
 	}
 
-	// ---- Upload: this frame's regions (cleared ones included, so the
-	// texture shows the fallback) plus last frame's, which erase old glyphs.
+	SelectClipRgn(s_fl2_ov_dc, NULL);
+	GdiFlush();   // the upload below reads the DIB bits directly
+
+	// Pointer over the last string of the frame, or over no string at all.
+	if (!bShapeDone)
+		s_FL2_OvPunchShape();
+
+	// ---- Upload: this frame's regions (hidden ones included - their rect is
+	// colorkey, which is what erases them) plus last frame's, which erase the
+	// glyphs the frame before left behind.
 	{
 		RECT upl[FL2_OV_MAX_UPLOAD];
 		int  uplN = 0;
@@ -2515,12 +2538,12 @@ void g_FL2_OverlayFlush()
 		                            upl, uplN, FL2_FB_COLORKEY);
 	}
 
-	// ---- Rotate: everything mirrored this frame is what next frame must
-	// erase (cleared parts are already colorkey; re-clearing is a no-op).
+	// ---- Rotate: everything recorded this frame is what next frame must
+	// erase (hidden parts are already colorkey; re-clearing is a no-op).
 	s_fl2_ov_prevHiN = 0;
 	for (int i = 0; i < s_fl2_ov_frameN; i++)
 		s_fl2_ov_prevHi[s_fl2_ov_prevHiN++] = s_fl2_ov_frame[i].hi;
 
-	s_fl2_ov_frameN = s_fl2_ov_checkedN = 0;
+	s_fl2_ov_frameN = s_fl2_ov_occlN = 0;
 	s_fl2_ov_poolN = 0;
 }

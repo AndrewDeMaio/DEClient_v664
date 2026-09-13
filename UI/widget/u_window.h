@@ -226,6 +226,26 @@ public:
 	virtual void KeyboardControl(UINT message, UINT key, long extra);
 	virtual bool IsPixel(int _x, int _y) = 0;
 
+	//
+	// GetOccludeRect
+	//
+	// The area this Window paints over, in surface coordinates. WindowManager
+	// reports it to the native-resolution text overlay (see FL2.cpp) just
+	// before the Window paints, so text already on screen underneath it -
+	// name tags in the world, Windows lower in the z-order - is clipped away
+	// where this one covers it, instead of the crisp copy floating on top.
+	//
+	// The Window rect is the answer for every Window that paints a panel.
+	// A Window that only covers part of its bounds should override this and
+	// return the part it actually paints, or false to occlude nothing.
+	//
+	virtual bool GetOccludeRect(int* px0, int* py0, int* px1, int* py1) const
+	{
+		*px0 = x;      *py0 = y;
+		*px1 = x + w;  *py1 = y + h;
+		return w > 0 && h > 0;
+	}
+
 	virtual void AcquireMouseFocus() {}		// mouse focus가 설정될 때.
 	virtual void UnacquireMouseFocus() {}	// mouse focus가 해제될 때.
 

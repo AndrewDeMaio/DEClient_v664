@@ -20,6 +20,28 @@
 // its supporting code, without enabling the rest of that UI update.
 #define __GAMEMENU_QUITEXIT	__ON
 
+// Blood Bible tokens come in a plain tier (type 0-11) and six clan tiers
+// (type 12-83: Grun / Khan / Gabri / Phantom / Red / Ose, twelve bibles each).
+// The clan tier display is gated behind __CONTRIBUTE_SYSTEM, which is __OFF for
+// several designs because it also adds the contribution point field to
+// PCSlayerInfo2 / PCOustersInfo2 / PCOustersInfo3 / ModifyInfo on the wire, and
+// the server never writes that field (its __CONTRIBUTION_POINT_ON_WIRE__ is
+// left undefined for exactly that reason, so the wire stays in agreement).
+// String.inf still ships every clan tier string, and the server picks a tier
+// from the player's contribution rank, so it can hand out any type above 11 -
+// which this client could not render, printing uninitialized stack memory for
+// those rows. This turns on just the clan tier text, which is display only and
+// touches no packet, without enabling the contribution point wire change.
+#define __BLOOD_BIBLE_TIERS	__ON
+
+// Twelve bibles per tier, one plain tier plus six clan tiers, so the valid
+// token types are 0-83. String.inf carries exactly 72 clan tier bonus strings
+// (UI_STRING_MESSAGE_BLOOD_BIBLE_BONUS_GRUN_ARMEGA onwards) to match. The
+// string table indexes unchecked, so callers must range check before use.
+#define BLOOD_BIBLE_PER_TIER	12
+#define BLOOD_BIBLE_TIER_COUNT	6
+#define BLOOD_BIBLE_TYPE_MAX	(BLOOD_BIBLE_PER_TIER * (BLOOD_BIBLE_TIER_COUNT + 1))
+
 //////////////////////////////////////////////////////////////////////////
 // Korea
 

@@ -1464,9 +1464,22 @@ private:
 
 	int	m_small_offset;
 
+	// Opaque bounds of each main sprite, window-relative, indexed
+	// (vertical ? 1 : 0) + (small ? 2 : 0). See GetOccludeRect().
+	RECT	m_rcOpaque[4];
+
+	int				MainSpriteIndex() const;
+	ButtonGroup*	CurrentButtonGroup() const;
+	void			ComputeOpaqueBounds();
+
 public:
 	C_VS_UI_HPBAR();
 	~C_VS_UI_HPBAR();
+
+	// Draws the HP / level / MP readouts over the horizontal bar. The vertical
+	// bar has 11px-wide channels, so there is no room for them there.
+	void	ShowBarText(int hp_cx, int mid_cx, int right_cx, int bar_y,
+						const char* szHP, const char* szMid, const char* szRight);
 
 	void	UnacquireMouseFocus()
 	{
@@ -1486,6 +1499,7 @@ public:
 	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	bool	IsPixel(int _x, int _y);
+	bool	GetOccludeRect(int* px0, int* py0, int* px1, int* py1) const;
 	void	AcquireDisappear() {}
 	void	Run(id_t id);
 	bool	MouseControl(UINT message, int _x, int _y);

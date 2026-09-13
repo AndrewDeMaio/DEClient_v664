@@ -2144,15 +2144,15 @@ void	_Item_Description_Show(Rect rect, void* void_ptr, long left, long right)
 			int bibleType = p_item->GetItemType();
 			if (bibleType < 12)
 				g_PrintColorStr(px, py, (*g_pGameStringTable)[STRING_MESSAGE_BLOOD_BIBLE_BONUS_ARMEGA + bibleType].GetString(), gpC_base->m_item_desc_pi, required_rgb);
-			else if (bibleType > 11 && bibleType < 85)
+			else if (bibleType > 11 && bibleType < BLOOD_BIBLE_TYPE_MAX)
 			{
-#if __CONTENTS(__CONTRIBUTE_SYSTEM)
-				char biblebuffer[128];
+#if __CONTENTS(__CONTRIBUTE_SYSTEM) || __CONTENTS(__BLOOD_BIBLE_TIERS)
+				char biblebuffer[256];
 				sprintf(biblebuffer, "%s %s", (*g_pGameStringTable)[STRING_MESSAGE_BLOOD_BIBLE_BONUS_ARMEGA + bibleType % 12].GetString(),
 					(*g_pGameStringTable)[UI_STRING_MESSAGE_BLOOD_BIBLE_BONUS_GRUN_ARMEGA + (bibleType - 12)].GetString());
 
 				g_PrintColorStr(px, py, biblebuffer, gpC_base->m_item_desc_pi, required_rgb);
-#endif //__CONTRIBUTE_SYSTEM
+#endif //__CONTRIBUTE_SYSTEM || __BLOOD_BIBLE_TIERS
 			}
 		}
 		else
@@ -4259,14 +4259,14 @@ void _Item_Description_Calculator(void (*fp_show)(Rect, void*, long, long), int 
 			if (bibleType < 12)
 				MaxWidth = g_GetStringWidth((*g_pGameStringTable)[STRING_MESSAGE_BLOOD_BIBLE_BONUS_ARMEGA + bibleType].GetString(),
 					gpC_base->m_item_desc_pi.hfont);
-			else if (bibleType > 11 && bibleType < 85)
+			else if (bibleType > 11 && bibleType < BLOOD_BIBLE_TYPE_MAX)
 			{
-#if __CONTENTS(__CONTRIBUTE_SYSTEM)
-				char biblebuffer[128];
+#if __CONTENTS(__CONTRIBUTE_SYSTEM) || __CONTENTS(__BLOOD_BIBLE_TIERS)
+				char biblebuffer[256];
 				sprintf(biblebuffer, "%s %s", (*g_pGameStringTable)[STRING_MESSAGE_BLOOD_BIBLE_BONUS_ARMEGA + bibleType % 12].GetString(),
 					(*g_pGameStringTable)[UI_STRING_MESSAGE_BLOOD_BIBLE_BONUS_GRUN_ARMEGA + (bibleType - 12)].GetString());
 				MaxWidth = g_GetStringWidth(biblebuffer, gpC_base->m_item_desc_pi.hfont);
-#endif //__CONTRIBUTE_SYSTEM
+#endif //__CONTRIBUTE_SYSTEM || __BLOOD_BIBLE_TIERS
 			}
 		}
 

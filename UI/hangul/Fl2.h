@@ -60,10 +60,19 @@ void	g_FL2_MarkDirty();  // mark fallback DC dirty after direct GDI drawing
 // CDirectDraw::Flip callback; TextOutMirrored replaces raw TextOut calls in
 // widgets that draw straight into gh_FL2_DC.
 void	g_FL2_OverlayFlush();
-// DrawAlphaBox reports each fill's backbuffer rect here: a black fill over an
-// already-black pixel is invisible to the occlusion checksums, so mirrored
-// text recorded before the fill must be told it was covered explicitly.
-void	g_FL2_OverlayOccludeRect(const RECT* pRect);
+// Whoever covers part of the screen reports it here, in lo-res surface
+// coordinates: WindowManager::Show for every UI window just before it paints,
+// DrawAlphaBox for every fill. Text mirrored BEFORE the report is clipped
+// away inside the rect at flush; text mirrored after it is on top and keeps
+// drawing. pszWho names the caller in the overlay diagnostic log.
+void	g_FL2_OverlayOccludeRect(const RECT* pRect, const char* pszWho = NULL);
+// A sprite that covers text without being a rectangle - the mouse pointer,
+// blitted after everything else in the frame - reports its SHAPE here.
+// pfnOpaque is asked, for every pixel of pRect (lo-res surface coordinates),
+// whether the sprite paints there; those pixels are cleared from the overlay
+// once the text mirrored before the report has been painted.
+typedef bool (*FL2_PFN_OPAQUE)(void* pCtx, int x, int y);
+void	g_FL2_OverlayOccludeShape(const RECT* pRect, FL2_PFN_OPAQUE pfnOpaque, void* pCtx);
 void	g_FL2_SetOverlayEnabled(bool bEnable);
 void	g_FL2_OverlaySkipFrames(int nFrames);
 void	g_FL2_OverlaySetFadeAlpha(int nAlpha255);

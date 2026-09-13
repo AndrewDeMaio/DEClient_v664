@@ -51,23 +51,45 @@ void GCBloodBibleListHandler::execute ( GCBloodBibleList * pPacket , Player * pP
 	for(int i = 0; i< BloodBibleList.size(); i++)
 	{
 		bibletype = BloodBibleList[i];
+
+		//--------------------------------------------------------------
+		// The menu id is parsed back out of the first three characters
+		// by UIDialog, and the string table is indexed unchecked, so a
+		// type outside the known range has to be dropped rather than
+		// formatted. Plain bibles are 0-11, the six clan tiers are
+		// 12-83 (twelve bibles each).
+		//--------------------------------------------------------------
+		if (bibletype < 0 || bibletype >= BLOOD_BIBLE_TYPE_MAX)
+		{
+			continue;
+		}
+
+		str2[0] = '\0';
+
 		if(bibletype < 12)
 		{
-			sprintf(str2, (*g_pGameStringTable)[UI_STRING_MESSAGE_RENT_BLOOD_BIBLE2].GetString(), 
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_BLOOD_BIBLE_ARMEGA+bibletype].GetString(), 
+			sprintf(str2, (*g_pGameStringTable)[UI_STRING_MESSAGE_RENT_BLOOD_BIBLE2].GetString(),
+				(*g_pGameStringTable)[UI_STRING_MESSAGE_BLOOD_BIBLE_ARMEGA+bibletype].GetString(),
 				(*g_pGameStringTable)[STRING_MESSAGE_BLOOD_BIBLE_BONUS_ARMEGA+bibletype].GetString());
 		}
-#if __CONTENTS(__CONTRIBUTE_SYSTEM)
+#if __CONTENTS(__CONTRIBUTE_SYSTEM) || __CONTENTS(__BLOOD_BIBLE_TIERS)
 		else
 		{
 			sprintf(str2, (*g_pGameStringTable)[UI_STRING_MESSAGE_RENT_BLOOD_BIBLE3].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_GRUN+(bibletype/12 - 1)].GetString(), 
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_BLOOD_BIBLE_ARMEGA+bibletype%12].GetString(), 
+				(*g_pGameStringTable)[UI_STRING_MESSAGE_GRUN+(bibletype/12 - 1)].GetString(),
+				(*g_pGameStringTable)[UI_STRING_MESSAGE_BLOOD_BIBLE_ARMEGA+bibletype%12].GetString(),
 				(*g_pGameStringTable)[STRING_MESSAGE_BLOOD_BIBLE_BONUS_ARMEGA+bibletype%12].GetString(),
 				(*g_pGameStringTable)[UI_STRING_MESSAGE_BLOOD_BIBLE_BONUS_GRUN_ARMEGA+(bibletype-12)].GetString()
 				);
 		}
-#endif //__CONTRIBUTE_SYSTEM
+#else
+		else
+		{
+			// No clan tier strings in this build - skip rather than
+			// printing an unformatted row.
+			continue;
+		}
+#endif //__CONTRIBUTE_SYSTEM || __BLOOD_BIBLE_TIERS
 		sprintf(str, "%3d %s", bibletype, str2);
 		g_pPCTalkBox->AddString( str );
 	}

@@ -1518,7 +1518,6 @@ C_VS_UI_DESC_DIALOG::C_VS_UI_DESC_DIALOG(id_t type, void* void_ptr, void* void_p
 	//Set(RESOLUTION_X/2-w/2, RESOLUTION_Y/2-h/2, w, h);
 	Set(g_pUserInformation->iResolution_x / 2 - w / 2, g_pUserInformation->iResolution_y / 2 - h / 2, w, h);
 
-	m_pC_scroll_bar = new C_VS_UI_SCROLL_BAR(0, Rect(510, 55, -1, 265));
 	std::string filename;
 
 	bool bl_title = false;
@@ -2429,9 +2428,15 @@ C_VS_UI_DESC_DIALOG::C_VS_UI_DESC_DIALOG(id_t type, void* void_ptr, void* void_p
 
 		std::string title;
 		title = (*g_pSkillInfoTable)[id].GetHName();
-		title += " (";
-		title += (*g_pSkillInfoTable)[id].GetName();
-		title += ")";
+
+		// The English tables carry the same name in both fields, so only
+		// add the parenthetical when it actually says something different.
+		if (strcmp((*g_pSkillInfoTable)[id].GetHName(), (*g_pSkillInfoTable)[id].GetName()) != 0)
+		{
+			title += " (";
+			title += (*g_pSkillInfoTable)[id].GetName();
+			title += ")";
+		}
 
 		SetDescTitle(title.c_str());
 	}
@@ -2469,6 +2474,55 @@ C_VS_UI_DESC_DIALOG::C_VS_UI_DESC_DIALOG(id_t type, void* void_ptr, void* void_p
 		SetDesc(50, 35, color, pi);
 		SetDescTitle(53, 8, title_color, title_pi);
 		break;
+	}
+
+	// Fit the frame to the text instead of always drawing a 540x405 box. The
+	// 60x17 grid this dialog was written against assumed a 6px monospaced
+	// cell, so a four-line English skill description still opened a box with
+	// three quarters of it empty.
+	{
+		const int MAX_W = 540, MAX_H = 405;
+		const int MIN_W = 300, MIN_H = 150;
+
+		int rows = GetDescSize();
+		if (rows > GetDescCol())	rows = GetDescCol();
+		if (rows < 1)				rows = 1;
+
+		int body = GetDescContentWidth();
+
+		const int spr = GetDescSpriteWidth();
+		if (spr > body)	body = spr;
+
+		if (!m_desc_title.empty())
+		{
+			const int title = g_GetStringWidth(m_desc_title.c_str(), title_pi.hfont)
+							+ (m_desc_title_x - m_desc_x);
+			if (title > body)	body = title;
+		}
+
+		// 50 keeps the scroll gutter, 60 keeps the close-button strip
+		int nw = m_desc_x + body + 50;
+		int nh = m_desc_y + rows * m_desc_y_distance + 60;
+
+		if (nw > MAX_W)	nw = MAX_W;
+		if (nh > MAX_H)	nh = MAX_H;
+		if (nw < MIN_W)	nw = MIN_W;
+		if (nh < MIN_H)	nh = MIN_H;
+
+		SetDescCol(rows);
+
+		close_x_offset -= (w - nw);
+		close_y_offset -= (h - nh);
+
+		w = nw;	h = nh;
+		Set(g_pUserInformation->iResolution_x / 2 - w / 2,
+			g_pUserInformation->iResolution_y / 2 - h / 2, w, h);
+	}
+
+	{
+		int bar_h = GetDescCol() * m_desc_y_distance - 8;
+		if (bar_h < 24)	bar_h = 24;
+		m_pC_scroll_bar = new C_VS_UI_SCROLL_BAR(0, Rect(w - 30, m_desc_y + 4, -1, bar_h));
 	}
 
 	m_pC_scroll_bar->SetPosMax(GetDescSize() - GetDescCol() + 1);
@@ -2519,7 +2573,10 @@ bool C_VS_UI_DESC_DIALOG::MouseControl(UINT message, int _x, int _y)
 {
 	Window::MouseControl(message, _x, _y);
 	_x -= x; _y -= y;//?????? ????? ????
-	bool re = m_pC_scroll_bar->MouseControl(message, _x, _y);
+	// A bar that is not drawn must not take the click either.
+	bool re = (GetDescSize() > GetDescCol())
+			? m_pC_scroll_bar->MouseControl(message, _x, _y)
+			: true;
 	re &= m_pC_button_group->MouseControl(message, _x, _y);
 
 	g_descriptor_manager.Unset();
@@ -2595,10 +2652,16 @@ void	C_VS_UI_DESC_DIALOG::Show()
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 
-	SetDescScrollPos(m_pC_scroll_bar->GetScrollPos());
+	// The bar is only drawn for text that actually overflows the frame -
+	// a three-line skill description had a full-height bar with nothing
+	// to scroll beside it.
+	const bool bScrollable = (GetDescSize() > GetDescCol());
+
+	SetDescScrollPos(bScrollable ? m_pC_scroll_bar->GetScrollPos() : 0);
 	ShowDesc(x, y);
 
-	m_pC_scroll_bar->Show(x, y);
+	if (bScrollable)
+		m_pC_scroll_bar->Show(x, y);
 
 	m_pC_button_group->ShowDescription();
 }

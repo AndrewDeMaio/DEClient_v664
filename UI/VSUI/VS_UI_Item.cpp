@@ -164,6 +164,14 @@ void C_VS_UI_ITEM::BltOutlineOnly(int x, int y, int color, SPRITE_ID id)
 // GetWidth
 //
 //-----------------------------------------------------------------------------
+bool C_VS_UI_ITEM::IsPixel(int x, int y, SPRITE_ID id)
+{
+	if (id >= m_item_ispk.GetSize() || id < 0)
+		return false;
+
+	return m_item_ispk[id].IsColorPixel((short)x, (short)y);
+}
+
 int C_VS_UI_ITEM::GetWidth(SPRITE_ID id)
 {
 //#ifndef _LIB
@@ -221,9 +229,15 @@ C_VS_UI_ITEM::C_VS_UI_ITEM()
 #ifndef _LIB
 	
 	// Item option table load.
-	ivfstream file("data\\info\\itemoption.inf", std::ios::binary);
-	g_pItemOptionTable->LoadFromFile( file );
-	file.close();
+	// FileOpenBinary swaps in itemoption.en.inf when the client is running
+	// in English (see Client.cpp - DE_LANG_VARIANT).
+	extern bool FileOpenBinary(const char* filename, ivfstream& file);
+	ivfstream file;
+	if (FileOpenBinary("data\\info\\itemoption.inf", file))
+	{
+		g_pItemOptionTable->LoadFromFile( file );
+		file.close();
+	}
 
 	// 으아악 나중에 서버에 earring들가면 밑에 있는 -1 뺄것
 	int i = 0;// MAX_ITEM_CLASS;

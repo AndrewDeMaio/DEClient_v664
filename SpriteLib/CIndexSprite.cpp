@@ -3450,6 +3450,7 @@ void
 CIndexSprite::BltAlpha(WORD* pDest, WORD pitch, BYTE alpha)
 {
 	CSpriteSurface::s_Value1 = alpha;
+	CSpriteSurface::s_Value2 = 32 - alpha;
 
 	int	transPair,
 		indexCount,
@@ -3523,6 +3524,7 @@ void
 CIndexSprite::BltAlphaClipLeft(WORD* pDest, WORD pitch, RECT* pRect, BYTE alpha)
 {
 	CSpriteSurface::s_Value1 = alpha;
+	CSpriteSurface::s_Value2 = 32 - alpha;
 
 	WORD* pPixels,
 		* pDestTemp;
@@ -3733,6 +3735,7 @@ void
 CIndexSprite::BltAlphaClipRight(WORD* pDest, WORD pitch, RECT* pRect, BYTE alpha)
 {
 	CSpriteSurface::s_Value1 = alpha;
+	CSpriteSurface::s_Value2 = 32 - alpha;
 
 	WORD* pPixels,
 		* pDestTemp;
@@ -3880,6 +3883,7 @@ void
 CIndexSprite::BltAlphaClipWidth(WORD* pDest, WORD pitch, RECT* pRect, BYTE alpha)
 {
 	CSpriteSurface::s_Value1 = alpha;
+	CSpriteSurface::s_Value2 = 32 - alpha;
 
 	WORD* pPixels,
 		* pDestTemp;
@@ -4164,6 +4168,7 @@ void
 CIndexSprite::BltAlphaClipHeight(WORD* pDest, WORD pitch, RECT* pRect, BYTE alpha)
 {
 	CSpriteSurface::s_Value1 = alpha;
+	CSpriteSurface::s_Value2 = 32 - alpha;
 
 	int	count,
 		indexCount,

@@ -60,6 +60,9 @@ public:
 
 	int	GetWidth(SPRITE_ID id);
 	int	GetHeight(SPRITE_ID id);
+
+	// Per-pixel opacity, for the text overlay's shape occlusion (FL2.cpp).
+	bool	IsPixel(int x, int y, SPRITE_ID id);
 	//CSprite * GetSprite(SPRITE_ID id) const;
 	//int	GetRX(SPRITE_ID id) const;
 	//int	GetRY(SPRITE_ID id) const;

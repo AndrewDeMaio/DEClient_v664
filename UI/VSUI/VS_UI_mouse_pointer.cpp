@@ -197,6 +197,59 @@ void	C_VS_UI_MOUSE_POINTER::DrawTargetArrow(int TargetX, int TargetY)
 	m_pC_mouse_pointer_spk->BltLocked(TargetX, TargetY, CURSOR_PORTAL);
 	//m_pC_mouse_pointer_spk->BltLockedAlpha(TargetX, TargetY, CURSOR_PORTAL, 16);
 }
+//-----------------------------------------------------------------------------
+// Pointer shape, for the native-resolution text overlay
+//
+// The pointer is blitted after every window and every string in the frame,
+// but the crisp text overlay composites after the whole frame - so without
+// this the sentence under the pointer draws straight over it. FL2 clears the
+// pointer's own pixels out of the overlay instead, and these two tell it
+// which ones those are. See g_FL2_OverlayOccludeShape in FL2.cpp.
+//-----------------------------------------------------------------------------
+struct FL2_POINTERSHAPE
+{
+	C_SPRITE_PACK *	p_spk;		// the pointer pack, or
+	C_VS_UI_ITEM *	p_item;		// the item pack when one is being dragged
+	SPRITE_ID		sprite_id;
+	int				x, y;		// where it was blitted
+};
+
+static bool s_PointerOpaque(void* p_ctx, int x, int y)
+{
+	const FL2_POINTERSHAPE* p = (const FL2_POINTERSHAPE*)p_ctx;
+
+	if (p->p_spk != NULL)
+		return p->p_spk->IsPixel(x - p->x, y - p->y, p->sprite_id);
+
+	return p->p_item->IsPixel(x - p->x, y - p->y, p->sprite_id);
+}
+
+//-----------------------------------------------------------------------------
+// BltPointer
+//
+// Every pointer blit goes through here, so the overlay always learns the
+// shape that is about to cover its text.
+//-----------------------------------------------------------------------------
+void C_VS_UI_MOUSE_POINTER::BltPointer(int x, int y, SPRITE_ID sprite_id)
+{
+	m_pC_mouse_pointer_spk->Blt(x, y, sprite_id);
+
+	FL2_POINTERSHAPE shape;
+	RECT             rect;
+
+	shape.p_spk     = m_pC_mouse_pointer_spk;
+	shape.p_item    = NULL;
+	shape.sprite_id = sprite_id;
+	shape.x         = x;
+	shape.y         = y;
+
+	SetRect(&rect, x, y,
+		x + m_pC_mouse_pointer_spk->GetWidth(sprite_id),
+		y + m_pC_mouse_pointer_spk->GetHeight(sprite_id));
+
+	g_FL2_OverlayOccludeShape(&rect, s_PointerOpaque, &shape);
+}
+
 void C_VS_UI_MOUSE_POINTER::Show()
 {
 	static int frame = 0;
@@ -308,6 +361,25 @@ void C_VS_UI_MOUSE_POINTER::Show()
 
 			gpC_base->m_p_DDSurface_back->Unlock();
 		}
+
+		// Same story as the pointer sprite: the icon rides on top of whatever
+		// text it is dragged over, so hand the overlay its shape too.
+		{
+			FL2_POINTERSHAPE shape;
+			RECT             rect;
+
+			shape.p_spk     = NULL;
+			shape.p_item    = gpC_item;
+			shape.sprite_id = frame_id;
+			shape.x         = m_mouse_x - m_half_x;
+			shape.y         = m_mouse_y - m_half_y;
+
+			SetRect(&rect, shape.x, shape.y,
+				shape.x + gpC_item->GetWidth(frame_id),
+				shape.y + gpC_item->GetHeight(frame_id));
+
+			g_FL2_OverlayOccludeShape(&rect, s_PointerOpaque, &shape);
+		}
 	}
 	else
 	{
@@ -341,16 +413,16 @@ void C_VS_UI_MOUSE_POINTER::Show()
 				break;
 			}
 			if(MousePushed())
-				m_pC_mouse_pointer_spk->Blt(m_mouse_x + g_mouse_point_fix[temp_cursor+1].x, m_mouse_y + g_mouse_point_fix[temp_cursor+1].y, temp_cursor + frame +1);
+				BltPointer(m_mouse_x + g_mouse_point_fix[temp_cursor+1].x, m_mouse_y + g_mouse_point_fix[temp_cursor+1].y, temp_cursor + frame +1);
 			else
-				m_pC_mouse_pointer_spk->Blt(m_mouse_x + g_mouse_point_fix[temp_cursor].x, m_mouse_y + g_mouse_point_fix[temp_cursor].y, temp_cursor + frame);
+				BltPointer(m_mouse_x + g_mouse_point_fix[temp_cursor].x, m_mouse_y + g_mouse_point_fix[temp_cursor].y, temp_cursor + frame);
 		}
 		//UI위에 있거나 미니맵 위에 있으면 커서 default로
 		else if(gpC_window_manager->GetMouseFocusedWindow())
 		{
 			extern Window* g_desc_dialog_window_id;
 			if(m_bl_description && gpC_window_manager->GetMouseFocusedWindow() != g_desc_dialog_window_id)
-				m_pC_mouse_pointer_spk->Blt(m_mouse_x + g_mouse_point_fix[CURSOR_DESCRIPTION].x, m_mouse_y + g_mouse_point_fix[CURSOR_DESCRIPTION].y, CURSOR_DESCRIPTION);
+				BltPointer(m_mouse_x + g_mouse_point_fix[CURSOR_DESCRIPTION].x, m_mouse_y + g_mouse_point_fix[CURSOR_DESCRIPTION].y, CURSOR_DESCRIPTION);
 			else
 			{
 				int temp_cursor;
@@ -368,15 +440,15 @@ void C_VS_UI_MOUSE_POINTER::Show()
 					temp_cursor = CURSOR_OUSTERS_NORMAL;
 					break;
 				}
-				m_pC_mouse_pointer_spk->Blt(m_mouse_x, m_mouse_y, temp_cursor);
+				BltPointer(m_mouse_x, m_mouse_y, temp_cursor);
 			}
 		}
 		else
 		{
 			if((m_cursor == CURSOR_SLAYER_PICKUP || m_cursor == CURSOR_VAMPIRE_PICKUP || m_cursor == CURSOR_OUSTERS_PICKUP) && MousePushed())
-				m_pC_mouse_pointer_spk->Blt(m_mouse_x + g_mouse_point_fix[m_cursor+1].x, m_mouse_y + g_mouse_point_fix[m_cursor+1].y, m_cursor + frame +1);
+				BltPointer(m_mouse_x + g_mouse_point_fix[m_cursor+1].x, m_mouse_y + g_mouse_point_fix[m_cursor+1].y, m_cursor + frame +1);
 			else
-				m_pC_mouse_pointer_spk->Blt(m_mouse_x + g_mouse_point_fix[m_cursor].x, m_mouse_y + g_mouse_point_fix[m_cursor].y, m_cursor + frame);
+				BltPointer(m_mouse_x + g_mouse_point_fix[m_cursor].x, m_mouse_y + g_mouse_point_fix[m_cursor].y, m_cursor + frame);
 
 			if((m_cursor == CURSOR_SLAYER_PICKUP || m_cursor == CURSOR_PORTAL || m_cursor == CURSOR_OUSTERS_PICKUP ||
 				m_cursor == CURSOR_VAMPIRE_PICKUP) &&

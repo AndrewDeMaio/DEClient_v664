@@ -20,6 +20,7 @@ C_VS_UI_DESC::C_VS_UI_DESC()
 	m_desc_scroll = 0;
 	m_desc_y_distance = 18;
 	fontx = 6;
+	m_content_w = 0;
 	m_color = BLACK;
 	m_pi = gpC_base->m_dialog_msg_pi;
 	m_desc_size = 0;
@@ -229,6 +230,189 @@ void C_VS_UI_DESC::ShowDesc(int x, int y)
 }
 
 ////////////////////////////////////////////////////////////////////////
+// C_VS_UI_DESC::DescSpaceWidth / DescCellWidth
+//
+// This class laid text out on a fixed grid of `fontx` (6) pixel cells. The
+// UI now draws with a proportional face, so a byte count no longer predicts
+// the rendered width and it has to be asked for. A "cell" is half a Hangul
+// glyph, which is the unit the `row` budget counts in: row is a byte budget
+// and Hangul is two bytes per glyph.
+////////////////////////////////////////////////////////////////////////
+int	C_VS_UI_DESC::DescSpaceWidth()
+{
+	int w = g_GetStringWidth(" ", m_pi.hfont);
+	return (w > 0) ? w : fontx;
+}
+
+int	C_VS_UI_DESC::DescCellWidth()
+{
+	int w = g_GetStringWidth("\xB0\xA1", m_pi.hfont);	// CP949 for U+AC00
+	return (w > 1) ? (w + 1) / 2 : fontx;
+}
+
+////////////////////////////////////////////////////////////////////////
+// C_VS_UI_DESC::DescFitWidth
+//
+// Longest prefix of sz that renders inside max_px. A break before a space is
+// preferred; a Hangul glyph is also a legal break, which is how the old
+// byte-cut behaved. A single word wider than the line falls back to a hard
+// cut that still never splits a CP949 pair.
+////////////////////////////////////////////////////////////////////////
+int	C_VS_UI_DESC::DescFitWidth(const char* sz, int max_px)
+{
+	const int len = (sz == NULL) ? 0 : (int)strlen(sz);
+	if (len == 0)
+		return 0;
+	if (g_GetStringWidth(sz, m_pi.hfont) <= max_px)
+		return len;
+
+	std::string head;
+	int best = 0;
+
+	// Only the legal break points are measured, so this costs about one
+	// GetTextExtentPoint32 per word rather than one per byte.
+	for (int i = 1; i <= len; i++)
+	{
+		if (!g_PossibleStringCut(sz, i))
+			continue;					// inside a CP949 pair
+
+		const bool at_space  = (i < len && sz[i] == ' ');
+		const bool at_hangul = (i >= 2 && !g_PossibleStringCut(sz, i - 1));
+		if (!at_space && !at_hangul)
+			continue;
+
+		head.assign(sz, i);
+		if (g_GetStringWidth(head.c_str(), m_pi.hfont) > max_px)
+			break;
+
+		best = i;
+	}
+
+	if (best > 0)
+		return best;
+
+	// A single word wider than the line: cut it wherever it still fits.
+	int hard = 0;
+	for (int i = 1; i <= len; i++)
+	{
+		if (!g_PossibleStringCut(sz, i))
+			continue;
+
+		head.assign(sz, i);
+		if (g_GetStringWidth(head.c_str(), m_pi.hfont) > max_px)
+			break;
+
+		hard = i;
+	}
+
+	if (hard > 0)	return hard;
+	return (len >= 2 && !g_PossibleStringCut(sz, 1)) ? 2 : 1;
+}
+
+////////////////////////////////////////////////////////////////////////
+// C_VS_UI_DESC::PushDescLine
+////////////////////////////////////////////////////////////////////////
+void	C_VS_UI_DESC::PushDescLine(const std::string& line)
+{
+	m_desc.push_back(line);
+
+	const char* sz = m_desc.back().c_str();
+	int w = (sz[0] == '\t') ? g_GetStringWidth(sz + 1, m_pi.hfont)
+						   : g_GetStringWidth(sz, m_pi.hfont);
+	if (w > m_content_w)
+		m_content_w = w;
+}
+
+////////////////////////////////////////////////////////////////////////
+// C_VS_UI_DESC::WrapDescLine
+//
+// Lay one source line into m_desc, breaking on word boundaries and measuring
+// in pixels.
+//
+// indent_cols  spaces prefixed while the line still sits beside an icon
+// icon_rows    lines still beside the icon; whatever is left is returned
+// row_cols     the caller's byte budget, reinterpreted through DescCellWidth
+////////////////////////////////////////////////////////////////////////
+int	C_VS_UI_DESC::WrapDescLine(const char* szLine, int indent_cols, int icon_rows, int row_cols)
+{
+	if (szLine == NULL || szLine[0] == '\0')
+	{
+		PushDescLine("");
+		return (icon_rows > 0) ? icon_rows - 1 : 0;
+	}
+
+	// Hold the DC across the whole line: g_GetStringWidth acquires and
+	// releases per call otherwise, and this measures once per word.
+	const bool bGetDC = g_FL2_GetDC();
+
+	const int cell  = DescCellWidth();
+	const int space = DescSpaceWidth();
+	const int avail = row_cols * cell;
+
+	// A "label : value" line hangs its continuations under the value.
+	int hang_cols = 0;
+	const char* colon = strchr(szLine, ':');
+	if (colon != NULL)
+	{
+		const int n = (int)(colon - szLine) + 2;
+		if (n > 0 && n < (int)strlen(szLine) && n <= row_cols / 2)
+			hang_cols = n;
+	}
+
+	std::string head;
+	const char* p = szLine;
+	bool first = true;
+
+	while (*p != '\0')
+	{
+		const int pad_cols = indent_cols + (first ? 0 : hang_cols);
+
+		int budget = avail - pad_cols * space;
+		if (budget < cell)
+			budget = cell;
+
+		const int take = DescFitWidth(p, budget);
+
+		head.assign(pad_cols, ' ');
+		head.append(p, take);
+		PushDescLine(head);
+
+		p += take;
+		while (*p == ' ')				// the break space is not carried over
+			p++;
+
+		first = false;
+		if (icon_rows > 0 && --icon_rows == 0)
+			indent_cols = 0;
+	}
+
+	if (bGetDC)
+		g_FL2_ReleaseDC();
+
+	return icon_rows;
+}
+
+////////////////////////////////////////////////////////////////////////
+// C_VS_UI_DESC::GetDescSpriteWidth
+//
+// Widest image in the description, so a caller sizing its frame to the text
+// does not clip the pictures the text is wrapped around.
+////////////////////////////////////////////////////////////////////////
+int	C_VS_UI_DESC::GetDescSpriteWidth()
+{
+	int wide = 0;
+	for (size_t i = 0; i < m_Sprite.size(); i++)
+	{
+		if (m_Sprite[i].pack_num >= (int)m_pC_inpicture.size())
+			continue;
+		const int w = (*m_pC_inpicture[m_Sprite[i].pack_num])[m_Sprite[i].sprite_num].GetWidth();
+		if (w > wide)
+			wide = w;
+	}
+	return wide;
+}
+
+////////////////////////////////////////////////////////////////////////
 // C_VS_UI_DESC::LoadDesc
 // txt로 된 description파일을 불러온다.
 ////////////////////////////////////////////////////////////////////////
@@ -238,6 +422,7 @@ bool	C_VS_UI_DESC::LoadDesc(const char* szFilename, int row, int col, bool bl_ti
 
 	m_desc_scroll = 0;
 	m_desc.clear();
+	m_content_w = 0;
 	assert(szFilename);
 
 	m_desc_row = row; m_desc_col = col;
@@ -258,7 +443,7 @@ bool	C_VS_UI_DESC::LoadDesc(const char* szFilename, int row, int col, bool bl_ti
 			if (m_rep_string[i][0] == '%')
 			{
 				SetSprite(0, atoi(m_rep_string[i].c_str() + 1), 0);
-				w2 = ((*m_pC_inpicture[m_Sprite[0].pack_num])[m_Sprite[0].sprite_num].GetWidth() + PICTURE_INDENT - 1) / fontx - 1;
+				w2 = ((*m_pC_inpicture[m_Sprite[0].pack_num])[m_Sprite[0].sprite_num].GetWidth() + PICTURE_INDENT + DescSpaceWidth() - 1) / DescSpaceWidth();
 				h = ((*m_pC_inpicture[m_Sprite[0].pack_num])[m_Sprite[0].sprite_num].GetHeight() - 1) / m_desc_y_distance + 1;
 				m_rep_string.erase(m_rep_string.begin() + i);
 			}
@@ -404,7 +589,7 @@ bool	C_VS_UI_DESC::LoadDesc(const char* szFilename, int row, int col, bool bl_ti
 					SetSprite(pack, spr_id, pos);
 					if (pack < m_pC_inpicture.size())
 					{
-						w2 = ((*m_pC_inpicture[pack])[spr_id].GetWidth() + PICTURE_INDENT - 1) / fontx - 1;
+						w2 = ((*m_pC_inpicture[pack])[spr_id].GetWidth() + PICTURE_INDENT + DescSpaceWidth() - 1) / DescSpaceWidth();
 						h = ((*m_pC_inpicture[pack])[spr_id].GetHeight() - 1) / m_desc_y_distance + 1;
 					}
 				}
@@ -416,7 +601,7 @@ bool	C_VS_UI_DESC::LoadDesc(const char* szFilename, int row, int col, bool bl_ti
 		if (szLine[0] == '\t')
 		{
 			w2 = 0;
-			m_desc.push_back(szLine);
+			PushDescLine(szLine);
 			indent = true;
 		}
 		else
@@ -435,44 +620,11 @@ bool	C_VS_UI_DESC::LoadDesc(const char* szFilename, int row, int col, bool bl_ti
 				indent = false;
 			}
 
-			int w3 = strchr(szLine, ':') - szLine + 2;
-			if (w3 < 0)w3 = 0;
-			if (w3 > row / 2)w3 = 0;
-			//			else w3 = 8;
-			bool loop = false;
-
-			while (1)
-			{
-
-				if (!g_PossibleStringCut(szLine, row - w2 - (loop ? w3 : 0)))check = 1; else check = 0;
-
-				strcpy(temp, szLine);
-
-				if (h > 0 || w3 && loop)
-				{
-					memset(szLine, (int)' ', dSTRING_LEN);
-					strcpy(szLine + w2 + (loop ? w3 : 0), temp);
-					szLine[row - check] = '\0';
-				}
-				else
-					szLine[row - w2 - (loop ? w3 : 0) - check] = '\0';
-
-				m_desc.push_back(szLine);
-
-				if (strlen(temp) <= row - check - w2 - (loop ? w3 : 0))
-				{
-					if (h > 0)
-						if (--h == 0)w2 = 0;
-					break;
-				}
-				if (temp[row - check - w2 - (loop ? w3 : 0)] == ' ')strcpy(szLine, temp + row - check - w2 - (loop ? w3 : 0) + 1);
-				else strcpy(szLine, temp + row - check - w2 - (loop ? w3 : 0));
-
-				loop = true;
-
-				if (h > 0)
-					if (--h == 0)w2 = 0;
-			}
+			// Pixel-measured, word-aware wrap. The old code cut at a fixed
+			// byte column, so English split mid-word ('A creature s|truck').
+			h = WrapDescLine(szLine, w2, h, row);
+			if (h == 0)
+				w2 = 0;
 		}
 
 		ZeroMemory(szLine, dSTRING_LEN);
@@ -529,6 +681,7 @@ bool	C_VS_UI_DESC::LoadDescFromString(const char* szString, int row, int col, bo
 		return false;
 	m_desc_scroll = 0;
 	m_desc.clear();
+	m_content_w = 0;
 
 	m_desc_row = row; m_desc_col = col;
 	m_Sprite.clear();
@@ -545,7 +698,7 @@ bool	C_VS_UI_DESC::LoadDescFromString(const char* szString, int row, int col, bo
 			if (m_rep_string[i][0] == '%')
 			{
 				SetSprite(0, atoi(m_rep_string[i].c_str() + 1), 0);
-				w2 = ((*m_pC_inpicture[m_Sprite[0].pack_num])[m_Sprite[0].sprite_num].GetWidth() + PICTURE_INDENT - 1) / fontx - 1;
+				w2 = ((*m_pC_inpicture[m_Sprite[0].pack_num])[m_Sprite[0].sprite_num].GetWidth() + PICTURE_INDENT + DescSpaceWidth() - 1) / DescSpaceWidth();
 				h = ((*m_pC_inpicture[m_Sprite[0].pack_num])[m_Sprite[0].sprite_num].GetHeight() - 1) / m_desc_y_distance + 1;
 				m_rep_string.erase(m_rep_string.begin() + i);
 			}
@@ -678,7 +831,7 @@ bool	C_VS_UI_DESC::LoadDescFromString(const char* szString, int row, int col, bo
 		if (szLine[0] == '\t')
 		{
 			w2 = 0;
-			m_desc.push_back(szLine);
+			PushDescLine(szLine);
 			indent = true;
 		}
 		else
@@ -697,44 +850,11 @@ bool	C_VS_UI_DESC::LoadDescFromString(const char* szString, int row, int col, bo
 				indent = false;
 			}
 
-			int w3 = strchr(szLine, ':') - szLine + 2;
-			if (w3 < 0)w3 = 0;
-			if (w3 > row / 2)w3 = 0;
-			//			else w3 = 8;
-			bool loop = false;
-
-			while (1)
-			{
-
-				if (!g_PossibleStringCut(szLine, row - w2 - (loop ? w3 : 0)))check = 1; else check = 0;
-
-				strcpy(temp, szLine);
-
-				if (h > 0 || w3 && loop)
-				{
-					memset(szLine, (int)' ', dSTRING_LEN);
-					strcpy(szLine + w2 + (loop ? w3 : 0), temp);
-					szLine[row - check] = '\0';
-				}
-				else
-					szLine[row - w2 - (loop ? w3 : 0) - check] = '\0';
-
-				m_desc.push_back(szLine);
-
-				if (strlen(temp) <= row - check - w2 - (loop ? w3 : 0))
-				{
-					if (h > 0)
-						if (--h == 0)w2 = 0;
-					break;
-				}
-				if (temp[row - check - w2 - (loop ? w3 : 0)] == ' ')strcpy(szLine, temp + row - check - w2 - (loop ? w3 : 0) + 1);
-				else strcpy(szLine, temp + row - check - w2 - (loop ? w3 : 0));
-
-				loop = true;
-
-				if (h > 0)
-					if (--h == 0)w2 = 0;
-			}
+			// Pixel-measured, word-aware wrap. The old code cut at a fixed
+			// byte column, so English split mid-word ('A creature s|truck').
+			h = WrapDescLine(szLine, w2, h, row);
+			if (h == 0)
+				w2 = 0;
 		}
 
 		ZeroMemory(szLine, dSTRING_LEN);

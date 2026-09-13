@@ -799,16 +799,29 @@ UIDialog::PopupPCTalkDlg(int x, int y)
 			MString* pString = *iString;
 			DEBUG_ADD(pString->GetString());
 
-			char strID[128] = { 0, };
-			char strName[128] = { 0, };
+			// The producer formats these as "%3d%s", so the id is the
+			// first three characters and the name is the rest. Both
+			// buffers match the 512 byte scratch the packet handlers
+			// build these rows in - a clan tier Blood Bible row runs to
+			// about a hundred characters on its own.
+			char strID[512] = { 0, };
+			char strName[512] = { 0, };
 
+			const char* pRow = pString->GetString();
+			size_t rowLen = strlen(pRow);
 
+			if (rowLen < 3)
+			{
+				// Malformed row - no id to parse, skip it.
+				iString++;
+				continue;
+			}
 
-			strncpy(strID, pString->GetString(), 3);
+			strncpy(strID, pRow, 3);
 			strID[3] = NULL;
 
-
-			strcpy(strName, pString->GetString() + 3);
+			strncpy(strName, pRow + 3, sizeof(strName) - 1);
+			strName[sizeof(strName) - 1] = NULL;
 
 			// �̸� �ٽ� ����
 			*pString = strName;
@@ -859,7 +872,9 @@ UIDialog::PopupPCTalkDlg(int x, int y)
 	// �޴� ���
 	//---------------------------------------------------------
 	DEBUG_ADD("setMENU");
-	m_pPCTalkDlg->SetMenu(pMenu, msgSize, false);// + 1, false);		// ������ ����
+	// i, not msgSize - a malformed row is skipped above and would otherwise
+	// leave an uninitialized entry at the tail of the menu.
+	m_pPCTalkDlg->SetMenu(pMenu, i, false);// + 1, false);		// ������ ����
 
 	DEBUG_ADD("spMenu");
 	//---------------------------------------------------------

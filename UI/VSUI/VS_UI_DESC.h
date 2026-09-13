@@ -45,6 +45,7 @@ protected:
 	CRarFile					m_pack_file;
 
 	int							fontx;
+	int							m_content_w;	// widest laid-out line, in pixels
 	int							m_desc_y_distance;
 
 	std::vector<std::string>			m_ori_string;
@@ -90,6 +91,18 @@ protected:
 	PrintInfo	SetDescPi()					{ return m_pi; }
 	//
 	void	SetSprite(int pack, int num, int line);
+
+	// Text layout. The grid this class was written against assumed a 6px
+	// monospaced cell (fontx); the UI now draws with a proportional face,
+	// so line breaks and indents have to be measured instead of counted.
+	int		DescSpaceWidth();
+	int		DescCellWidth();
+	int		DescFitWidth(const char* sz, int max_px);
+	void	PushDescLine(const std::string& line);
+	int		WrapDescLine(const char* szLine, int indent_cols, int icon_rows, int row_cols);
+	int		GetDescContentWidth()			{ return m_content_w; }
+	int		GetDescSpriteWidth();
+	void	SetDescCol(int col)				{ m_desc_col = col; }
 
 	// scroll
 	void	ScrollDescUp()					{ if(m_desc_scroll > 0)m_desc_scroll--; }

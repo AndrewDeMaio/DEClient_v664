@@ -22,6 +22,7 @@
 #include "UserInformation.h"
 #include "MItemOptionTable.h"
 #include "MGameStringTable.H"
+#include "MStringArray.h"
 //#include "ex\DebugInfo.h"
 #include "RankBonusDef.H"
 #include "RankBonusTable.H"
@@ -102,6 +103,7 @@ int C_VS_UI_INFO::m_selected_ACSkillID = -1;
 
 extern int		g_LeftPremiumDays;
 extern	CMessageArray* g_pSystemMessage;
+extern	bool	FileOpenBinary(const char* filename, ivfstream& file);	// GameMain.cpp - picks up the .en.inf variant
 //C_SPRITE_PACK	* C_VS_UI_INFO::m_pC_info_spk=NULL;
 
 
@@ -1129,6 +1131,44 @@ void C_VS_UI_TRIBE::SetupMenuItems(const char* mainSpkFileName, const char* sysB
 
 }
 
+//-----------------------------------------------------------------------------
+// OccludeButtonGroup
+//
+// Declare a button group's footprint to the crisp-text overlay, at the frame
+// position it is about to paint at.
+//
+// WindowManager::Show declares whole windows, which settles z-order BETWEEN
+// windows. It cannot see inside one: text a window prints early and buttons
+// it paints later are all the same window from out there. So a window that
+// paints over its own text says so here, and the rule stays the one rule -
+// text yields to what is declared after it, and to nothing else. The labels
+// these buttons print next are mirrored later still, so they stay on top.
+//-----------------------------------------------------------------------------
+static void OccludeButtonGroup(ButtonGroup * p_group, int win_x, int win_y, const char * psz_who)
+{
+	if (p_group == NULL)
+		return;
+
+	C_VS_UI_EVENT_BUTTON * p_button;
+
+	for (int i = 0; i < p_group->Size(); i++)
+	{
+		if (!p_group->Data(i, p_button) || p_button == NULL)
+			continue;
+
+		if (p_button->w <= 0 || p_button->h <= 0)
+			continue;
+
+		RECT rect;
+		rect.left   = win_x + p_button->x;
+		rect.top    = win_y + p_button->y;
+		rect.right  = rect.left + p_button->w;
+		rect.bottom = rect.top  + p_button->h;
+
+		g_FL2_OverlayOccludeRect(&rect, psz_who);
+	}
+}
+
 void	C_VS_UI_TRIBE::Show()
 {
 	if (gpC_base->m_p_DDSurface_back->Lock())
@@ -1200,6 +1240,27 @@ void	C_VS_UI_TRIBE::Show()
 	//
 	//////////////////////////////////////////////////////////////////////////
 
+	// The skill bar is registered with the WindowManager, but its Window::Show
+	// is a stub and its IsPixel always returns false - it paints here, from
+	// Show2, and it is this window that decides when. So the footprint has to
+	// be declared here as well, or the spread-open skill grid never covers the
+	// name tags the world drew underneath it.
+	//
+	// This is the whole rect, so the empty cells in the ragged top row count
+	// as covered too. Override C_VS_UI_SKILL::GetOccludeRect if that ever
+	// shows.
+	{
+		int x0, y0, x1, y1;
+
+		if (m_pC_skill->GetOccludeRect(&x0, &y0, &x1, &y1))
+		{
+			RECT rect;
+			rect.left = x0;  rect.top = y0;  rect.right = x1;  rect.bottom = y1;
+
+			g_FL2_OverlayOccludeRect(&rect, "skill bar");
+		}
+	}
+
 	m_pC_skill->Show2();
 
 	static const char* slayer_menu_string[] =
@@ -1241,6 +1302,10 @@ void	C_VS_UI_TRIBE::Show()
 
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
+		// The exp bar, the stat rows and the date and time are already in the
+		// overlay by now; everything from here paints over them.
+		OccludeButtonGroup(m_pC_common_button_group, x, y, "tribe tabs");
+
 		m_pC_common_button_group->Show();
 
 		if (m_selected_menu >= MENU_INFO_ID && m_selected_menu <= MENU_HELP_ID)
@@ -1249,6 +1314,17 @@ void	C_VS_UI_TRIBE::Show()
 
 			const int sub_menu_bottom_x = 21 + menuIdx * 24;
 			const int sub_menu_bottom_y = 141;
+
+			// This menu expands upwards across the stat rows - the STR/DEX/INT
+			// readouts printed above are underneath it, not on top of it.
+			RECT stem;
+			stem.left   = x + sub_menu_bottom_x;
+			stem.top    = y + sub_menu_bottom_y;
+			stem.right  = stem.left + m_pC_sys_button_spk->GetWidth(SUB_MENU_BOTTOM);
+			stem.bottom = stem.top  + m_pC_sys_button_spk->GetHeight(SUB_MENU_BOTTOM);
+			g_FL2_OverlayOccludeRect(&stem, "tribe menu stem");
+
+			OccludeButtonGroup(m_pC_menu_button_groups[menuIdx], x, y, "tribe menu");
 
 			m_pC_sys_button_spk->BltLocked(x + sub_menu_bottom_x, y + sub_menu_bottom_y, SUB_MENU_BOTTOM);
 			m_pC_menu_button_groups[menuIdx]->Show();
@@ -2512,7 +2588,36 @@ void	C_VS_UI_TRIBE::HotKey_Grade2Info()
 
 void	C_VS_UI_TRIBE::HotKey_Help()
 {
-	OnClick_HelpTap(HELP_ID);
+	// The description dialog reads its pages from Data\ui\txt\Help.rpk, which this
+	// build does not ship, so it opens empty. Print the keyboard/chat reference into
+	// the chat window instead. FileOpenBinary picks Help.en.inf when running English.
+	static MStringArray	s_helpText;
+	static bool			s_bHelpLoaded = false;
+
+	if (!s_bHelpLoaded)
+	{
+		s_bHelpLoaded = true;		// only attempt the load once, even if it fails
+
+		ivfstream helpFile;
+		if (FileOpenBinary(FILE_INFO_HELP_TEXT, helpFile))
+		{
+			s_helpText.LoadFromFile(helpFile);
+			helpFile.close();
+		}
+	}
+
+	const int helpLines = s_helpText.GetSize();
+
+	if (helpLines <= 0)
+	{
+		OnClick_HelpTap(HELP_ID);	// no help table - fall back to the old dialog
+		return;
+	}
+
+	for (int i = 0; i < helpLines; ++i)
+	{
+		g_pSystemMessage->Add(s_helpText[i].GetString());
+	}
 }
 
 
@@ -25831,6 +25936,7 @@ C_VS_UI_HPBAR::C_VS_UI_HPBAR()
 		break;
 	}
 	Set(0, 0, m_pC_hpbar_spk->GetWidth(), m_pC_hpbar_spk->GetHeight());
+	ComputeOpaqueBounds();
 
 	//skillinfo ÔøΩÔøΩ∆∞
 	m_pC_width_button_group = new ButtonGroup(this);
@@ -25838,41 +25944,26 @@ C_VS_UI_HPBAR::C_VS_UI_HPBAR()
 	m_pC_small_width_button_group = new ButtonGroup(this);
 	m_pC_small_height_button_group = new ButtonGroup(this);
 
+	// Only the resize gem: the renewal art is laid out for the horizontal bar,
+	// so the orientation toggle and the vertical layout were dropped.
 	switch (g_eRaceInterface)
 	{
 	case RACE_SLAYER:
-		m_pC_small_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(133, 4, m_pC_hpbar_spk->GetWidth(CHANGE_BUTTON_WIDTH + SLAYER_MAX), m_pC_hpbar_spk->GetHeight(CHANGE_BUTTON_WIDTH + SLAYER_MAX), CHANGE_ID, this, CHANGE_BUTTON_WIDTH + SLAYER_MAX));
-		m_pC_small_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(2, 4, m_pC_hpbar_spk->GetWidth(CHANGE_BUTTON_WIDTH + SLAYER_MAX), m_pC_hpbar_spk->GetHeight(CHANGE_BUTTON_WIDTH + SLAYER_MAX), RESIZE_ID, this, CHANGE_BUTTON_WIDTH + SLAYER_MAX));
-		m_pC_small_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(4, 4, m_pC_hpbar_spk->GetWidth(CHANGE_BUTTON_HEIGHT + SLAYER_MAX), m_pC_hpbar_spk->GetHeight(CHANGE_BUTTON_HEIGHT + SLAYER_MAX), CHANGE_ID, this, CHANGE_BUTTON_HEIGHT + SLAYER_MAX));
-		m_pC_small_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(4, 135, m_pC_hpbar_spk->GetWidth(CHANGE_BUTTON_HEIGHT + SLAYER_MAX), m_pC_hpbar_spk->GetHeight(CHANGE_BUTTON_HEIGHT + SLAYER_MAX), RESIZE_ID, this, CHANGE_BUTTON_HEIGHT + SLAYER_MAX));
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(199, 5, m_pC_hpbar_spk->GetWidth(CHANGE_BUTTON_WIDTH), m_pC_hpbar_spk->GetHeight(CHANGE_BUTTON_WIDTH), CHANGE_ID, this, CHANGE_BUTTON_WIDTH));
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(2, 5, m_pC_hpbar_spk->GetWidth(CHANGE_BUTTON_WIDTH), m_pC_hpbar_spk->GetHeight(CHANGE_BUTTON_WIDTH), RESIZE_ID, this, CHANGE_BUTTON_WIDTH));
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(5, 6, m_pC_hpbar_spk->GetWidth(CHANGE_BUTTON_HEIGHT), m_pC_hpbar_spk->GetHeight(CHANGE_BUTTON_HEIGHT), CHANGE_ID, this, CHANGE_BUTTON_HEIGHT));
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(5, 203, m_pC_hpbar_spk->GetWidth(CHANGE_BUTTON_HEIGHT), m_pC_hpbar_spk->GetHeight(CHANGE_BUTTON_HEIGHT), RESIZE_ID, this, CHANGE_BUTTON_HEIGHT));
+		m_pC_small_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(5, 27, m_pC_hpbar_spk->GetWidth(CHANGE_BUTTON_HEIGHT + SLAYER_MAX), m_pC_hpbar_spk->GetHeight(CHANGE_BUTTON_HEIGHT + SLAYER_MAX), RESIZE_ID, this, CHANGE_BUTTON_HEIGHT + SLAYER_MAX));
+		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(5, 27, m_pC_hpbar_spk->GetWidth(CHANGE_BUTTON_HEIGHT), m_pC_hpbar_spk->GetHeight(CHANGE_BUTTON_HEIGHT), RESIZE_ID, this, CHANGE_BUTTON_HEIGHT));
 		break;
 
 	case RACE_VAMPIRE:
-		m_pC_small_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(133, 3, m_pC_hpbar_spk->GetWidth(CHANGE_BUTTON + VAMPIRE_MAX), m_pC_hpbar_spk->GetHeight(CHANGE_BUTTON + VAMPIRE_MAX), CHANGE_ID, this, CHANGE_BUTTON + VAMPIRE_MAX));
-		m_pC_small_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(4, 14, m_pC_hpbar_spk->GetWidth(SMALL_BUTTON + VAMPIRE_MAX), m_pC_hpbar_spk->GetHeight(SMALL_BUTTON + VAMPIRE_MAX), RESIZE_ID, this, SMALL_BUTTON + VAMPIRE_MAX));
-		m_pC_small_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(2, 4, m_pC_hpbar_spk->GetWidth(CHANGE_BUTTON + VAMPIRE_MAX), m_pC_hpbar_spk->GetHeight(CHANGE_BUTTON + VAMPIRE_MAX), CHANGE_ID, this, CHANGE_BUTTON + VAMPIRE_MAX));
-		m_pC_small_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(14, 136, m_pC_hpbar_spk->GetWidth(SMALL_BUTTON + VAMPIRE_MAX), m_pC_hpbar_spk->GetHeight(SMALL_BUTTON + VAMPIRE_MAX), RESIZE_ID, this, SMALL_BUTTON + VAMPIRE_MAX));
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(200, 3, m_pC_hpbar_spk->GetWidth(CHANGE_BUTTON), m_pC_hpbar_spk->GetHeight(CHANGE_BUTTON), CHANGE_ID, this, CHANGE_BUTTON));
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(7, 21, m_pC_hpbar_spk->GetWidth(SMALL_BUTTON), m_pC_hpbar_spk->GetHeight(SMALL_BUTTON), RESIZE_ID, this, SMALL_BUTTON));
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(3, 6, m_pC_hpbar_spk->GetWidth(CHANGE_BUTTON), m_pC_hpbar_spk->GetHeight(CHANGE_BUTTON), CHANGE_ID, this, CHANGE_BUTTON));
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(21, 204, m_pC_hpbar_spk->GetWidth(SMALL_BUTTON), m_pC_hpbar_spk->GetHeight(SMALL_BUTTON), RESIZE_ID, this, SMALL_BUTTON));
+		m_pC_small_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(5, 27, m_pC_hpbar_spk->GetWidth(SMALL_BUTTON + VAMPIRE_MAX), m_pC_hpbar_spk->GetHeight(SMALL_BUTTON + VAMPIRE_MAX), RESIZE_ID, this, SMALL_BUTTON + VAMPIRE_MAX));
+		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(5, 27, m_pC_hpbar_spk->GetWidth(SMALL_BUTTON), m_pC_hpbar_spk->GetHeight(SMALL_BUTTON), RESIZE_ID, this, SMALL_BUTTON));
 		break;
 
 	case RACE_OUSTERS:
-		m_pC_small_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(121, 3, m_pC_hpbar_spk->GetWidth(OUSTERS_CHANGE_BUTTON_WIDTH + OUSTERS_MAX), m_pC_hpbar_spk->GetHeight(OUSTERS_CHANGE_BUTTON_WIDTH + OUSTERS_MAX), CHANGE_ID, this, OUSTERS_CHANGE_BUTTON_WIDTH + OUSTERS_MAX));
-		m_pC_small_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(2, 2, m_pC_hpbar_spk->GetWidth(OUSTERS_SMALL_BUTTON_WIDTH + OUSTERS_MAX), m_pC_hpbar_spk->GetHeight(OUSTERS_SMALL_BUTTON_WIDTH + OUSTERS_MAX), RESIZE_ID, this, OUSTERS_SMALL_BUTTON_WIDTH + OUSTERS_MAX));
-		m_pC_small_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(3, 6, m_pC_hpbar_spk->GetWidth(OUSTERS_CHANGE_BUTTON_HEIGHT + OUSTERS_MAX), m_pC_hpbar_spk->GetHeight(OUSTERS_CHANGE_BUTTON_HEIGHT + OUSTERS_MAX), CHANGE_ID, this, OUSTERS_CHANGE_BUTTON_HEIGHT + OUSTERS_MAX));
-		m_pC_small_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(2, 132, m_pC_hpbar_spk->GetWidth(OUSTERS_SMALL_BUTTON_HEIGHT + OUSTERS_MAX), m_pC_hpbar_spk->GetHeight(OUSTERS_SMALL_BUTTON_HEIGHT + OUSTERS_MAX), RESIZE_ID, this, OUSTERS_SMALL_BUTTON_HEIGHT + OUSTERS_MAX));
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(179, 6, m_pC_hpbar_spk->GetWidth(OUSTERS_CHANGE_BUTTON_WIDTH), m_pC_hpbar_spk->GetHeight(OUSTERS_CHANGE_BUTTON_WIDTH), CHANGE_ID, this, OUSTERS_CHANGE_BUTTON_WIDTH));
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(2, 3, m_pC_hpbar_spk->GetWidth(OUSTERS_SMALL_BUTTON_WIDTH), m_pC_hpbar_spk->GetHeight(OUSTERS_SMALL_BUTTON_WIDTH), RESIZE_ID, this, OUSTERS_SMALL_BUTTON_WIDTH));
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(6, 10, m_pC_hpbar_spk->GetWidth(OUSTERS_CHANGE_BUTTON_HEIGHT), m_pC_hpbar_spk->GetHeight(OUSTERS_CHANGE_BUTTON_HEIGHT), CHANGE_ID, this, OUSTERS_CHANGE_BUTTON_HEIGHT));
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(3, 196, m_pC_hpbar_spk->GetWidth(OUSTERS_SMALL_BUTTON_HEIGHT), m_pC_hpbar_spk->GetHeight(OUSTERS_SMALL_BUTTON_HEIGHT), RESIZE_ID, this, OUSTERS_SMALL_BUTTON_HEIGHT));
+		m_pC_small_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(5, 27, m_pC_hpbar_spk->GetWidth(OUSTERS_CHANGE_BUTTON_HEIGHT + OUSTERS_MAX), m_pC_hpbar_spk->GetHeight(OUSTERS_CHANGE_BUTTON_HEIGHT + OUSTERS_MAX), RESIZE_ID, this, OUSTERS_CHANGE_BUTTON_HEIGHT + OUSTERS_MAX));
+		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(5, 27, m_pC_hpbar_spk->GetWidth(OUSTERS_CHANGE_BUTTON_HEIGHT), m_pC_hpbar_spk->GetHeight(OUSTERS_CHANGE_BUTTON_HEIGHT), RESIZE_ID, this, OUSTERS_CHANGE_BUTTON_HEIGHT));
 		break;
 	}
+
 }
 
 //-----------------------------------------------------------------------------
@@ -25986,21 +26077,122 @@ void C_VS_UI_HPBAR::WindowEventReceiver(id_t event)
 }
 
 //-----------------------------------------------------------------------------
-// IsPixel
+// C_VS_UI_HPBAR::ComputeOpaqueBounds
 //
-// 
+// The renewal bar sprites are mostly transparent - the 510x37 horizontal art
+// paints a band about 24px tall with a clear strip above it - so the Window
+// rect is a poor stand-in for what the bar covers. Scan each of the four main
+// sprites once for the box around its painted pixels.
+//-----------------------------------------------------------------------------
+void C_VS_UI_HPBAR::ComputeOpaqueBounds()
+{
+	int small_offset = 0;
+	switch (g_eRaceInterface)
+	{
+	case RACE_SLAYER:	small_offset = SLAYER_MAX;		break;
+	case RACE_VAMPIRE:	small_offset = VAMPIRE_MAX;	break;
+	case RACE_OUSTERS:	small_offset = OUSTERS_MAX;	break;
+	}
+
+	const int sprite[4] =
+	{
+		MAIN_WIDTH,
+		MAIN_HEIGHT,
+		MAIN_WIDTH + small_offset,
+		MAIN_HEIGHT + small_offset,
+	};
+
+	for (int i = 0; i < 4; ++i)
+	{
+		const int sw = m_pC_hpbar_spk->GetWidth(sprite[i]);
+		const int sh = m_pC_hpbar_spk->GetHeight(sprite[i]);
+
+		RECT& rc = m_rcOpaque[i];
+		rc.left = sw;  rc.top = sh;  rc.right = 0;  rc.bottom = 0;
+
+		for (int py = 0; py < sh; ++py)
+			for (int px = 0; px < sw; ++px)
+				if (m_pC_hpbar_spk->IsPixel(px, py, sprite[i]))
+				{
+					if (px < rc.left)			rc.left   = px;
+					if (py < rc.top)			rc.top    = py;
+					if (px + 1 > rc.right)		rc.right  = px + 1;
+					if (py + 1 > rc.bottom)		rc.bottom = py + 1;
+				}
+
+		// nothing painted at all: fall back to the whole sprite rather than nothing
+		if (rc.right <= rc.left || rc.bottom <= rc.top)
+			SetRect(&rc, 0, 0, sw, sh);
+	}
+}
+
+int C_VS_UI_HPBAR::MainSpriteIndex() const
+{
+	return (m_width_mode ? MAIN_WIDTH : MAIN_HEIGHT) + m_small_offset;
+}
+
+ButtonGroup* C_VS_UI_HPBAR::CurrentButtonGroup() const
+{
+	if (m_width_mode)
+		return m_small_mode ? m_pC_small_width_button_group : m_pC_width_button_group;
+
+	return m_small_mode ? m_pC_small_height_button_group : m_pC_height_button_group;
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_HPBAR::GetOccludeRect
+//
+// Report only what the bar paints - the opaque box of the current main sprite,
+// grown to take in the change/resize gems, which sit just outside the frame
+// art - instead of the whole Window rect. Text beside the bar, like the chat
+// line just above it, then stays visible.
+//-----------------------------------------------------------------------------
+bool C_VS_UI_HPBAR::GetOccludeRect(int* px0, int* py0, int* px1, int* py1) const
+{
+	RECT rc = m_rcOpaque[(m_width_mode ? 0 : 1) + (m_small_mode ? 2 : 0)];
+
+	const ButtonGroup* p_group = CurrentButtonGroup();
+	if (p_group != NULL)
+	{
+		C_VS_UI_EVENT_BUTTON* p_button;
+
+		for (int i = 0; i < p_group->Size(); ++i)
+		{
+			if (!p_group->Data(i, p_button) || p_button->m_image_index < 0)
+				continue;
+
+			const int bx1 = p_button->x + m_pC_hpbar_spk->GetWidth(p_button->m_image_index);
+			const int by1 = p_button->y + m_pC_hpbar_spk->GetHeight(p_button->m_image_index);
+
+			if (p_button->x < rc.left)		rc.left   = p_button->x;
+			if (p_button->y < rc.top)		rc.top    = p_button->y;
+			if (bx1 > rc.right)				rc.right  = bx1;
+			if (by1 > rc.bottom)			rc.bottom = by1;
+		}
+	}
+
+	*px0 = x + rc.left;   *py0 = y + rc.top;
+	*px1 = x + rc.right;  *py1 = y + rc.bottom;
+	return rc.right > rc.left && rc.bottom > rc.top;
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_HPBAR::IsPixel
+//
+// Only the painted art and the gems take the mouse, so clicks on the clear
+// parts of the bar reach whatever is behind it.
 //-----------------------------------------------------------------------------
 bool C_VS_UI_HPBAR::IsPixel(int _x, int _y)
 {
 	if (Moving()) return true;
-	return IsInRect(_x, _y);
-	//	if(m_width_mode)
-	//		return m_pC_hpbar_spk->IsPixel(_x-x, _y-y, MAIN_WIDTH);
-	//	else
-	//		return m_pC_hpbar_spk->IsPixel(_x-x, _y-y, MAIN_HEIGHT);
 
-	//	return false;
-	//	return m_pC_charinfo->IsPixel(SCR2WIN_X(_x), SCR2WIN_Y(_y), CHARINFO_WINDOW);
+	const int lx = _x - x, ly = _y - y;
+
+	if (m_pC_hpbar_spk->IsPixel(lx, ly, MainSpriteIndex()))
+		return true;
+
+	ButtonGroup* p_group = CurrentButtonGroup();
+	return p_group != NULL && p_group->IsInRect(lx, ly) != NULL;
 }
 
 //-----------------------------------------------------------------------------
@@ -26013,11 +26205,23 @@ void C_VS_UI_HPBAR::Run(id_t id)
 	switch (id)
 	{
 	case CHANGE_ID:
+	{
 		m_width_mode = !m_width_mode;
-		w ^= h; h ^= w; w ^= h; //swap
-		x -= w - h;
+
+		// The old art was a straight transpose (214x37 <-> 37x214), so this used to
+		// swap w/h. The renewal art is not (510x37 horizontal, 75x246 vertical), so
+		// take the new size from the sprite and keep the right edge anchored, which
+		// is what the swap-and-shift did for square-ish art.
+		const int old_w = w;
+		const int index = (m_width_mode ? MAIN_WIDTH : MAIN_HEIGHT) + m_small_offset;
+
+		w = m_pC_hpbar_spk->GetWidth(index);
+		h = m_pC_hpbar_spk->GetHeight(index);
+		x += old_w - w;
+
 		EMPTY_MOVE;
-		break;
+	}
+	break;
 
 	case RESIZE_ID:
 		m_small_mode = !m_small_mode;
@@ -26064,284 +26268,9 @@ bool C_VS_UI_HPBAR::MouseControl(UINT message, int _x, int _y)
 	Window::MouseControl(message, _x, _y);
 	_x -= x; _y -= y;
 
-	bool re;
-	int descType = 0;
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		if (m_small_mode)
-		{
-			if (m_width_mode)
-			{
-				re = m_pC_small_width_button_group->MouseControl(message, _x, _y);
-				if (_x > 14 && _x < 120 && _y > 3 && _y < 15)
-					descType = 1; // hp desc
-				if (_x > 14 && _x < 120 && _y > 15 && _y < 22)
-					descType = 2; // mp desc
-			}
-			else
-			{
-				re = m_pC_small_height_button_group->MouseControl(message, _x, _y);
-				if (_y < h - 14 && _y > h - 120 && _x > 3 && _x < 15)
-					descType = 1; // hp desc
-				if (_y < h - 14 && _y > h - 120 && _x > 15 && _x < 22)
-					descType = 2; // mp desc
-			}
-		}
-		else
-		{
-			if (m_width_mode)
-			{
-				re = m_pC_width_button_group->MouseControl(message, _x, _y);
-				if (_x > 20 && _x < 182 && _y > 3 && _y < 23)
-					descType = 1; // hp desc
-				if (_x > 20 && _x < 182 && _y > 23 && _y < 34)
-					descType = 2; // mp desc
-			}
-			else
-			{
-				re = m_pC_height_button_group->MouseControl(message, _x, _y);
-				if (_y < h - 20 && _y > h - 182 && _x > 3 && _x < 23)
-					descType = 1; // hp desc
-				if (_y < h - 20 && _y > h - 182 && _x > 23 && _x < 34)
-					descType = 2; // mp desc
-			}
-		}
-		break;
-
-	case RACE_VAMPIRE:
-		if (m_small_mode)
-		{
-			if (m_width_mode)
-			{
-				re = m_pC_small_width_button_group->MouseControl(message, _x, _y);
-				if (_x > 14 && _x < 115 && _y > 3 && _y < 15)
-					descType = 1; // hp desc
-				if (_x > 14 && _x < 115 && _y > 15 && _y < 22)
-					descType = 2; // mp desc
-			}
-			else
-			{
-				re = m_pC_small_height_button_group->MouseControl(message, _x, _y);
-				if (_y < h - 14 && _y > h - 115 && _x > 3 && _x < 15)
-					descType = 1; // hp desc
-				if (_y < h - 14 && _y > h - 115 && _x > 15 && _x < 22)
-					descType = 2; // mp desc
-			}
-		}
-		else
-		{
-			if (m_width_mode)
-			{
-				re = m_pC_width_button_group->MouseControl(message, _x, _y);
-				if (_x > 25 && _x < 172 && _y > 3 && _y < 23)
-					descType = 1; // hp desc
-				if (_x > 25 && _x < 172 && _y > 23 && _y < 34)
-					descType = 2; // mp desc
-			}
-			else
-			{
-				re = m_pC_height_button_group->MouseControl(message, _x, _y);
-				if (_y < h - 25 && _y > h - 172 && _x > 3 && _x < 23)
-					descType = 1; // hp desc
-				if (_y < h - 25 && _y > h - 172 && _x > 23 && _x < 34)
-					descType = 2; // mp desc
-			}
-		}
-		break;
-
-	case RACE_OUSTERS:
-		if (m_small_mode)
-		{
-			if (m_width_mode)
-			{
-				re = m_pC_small_width_button_group->MouseControl(message, _x, _y);
-				if (_x > 6 && _x < 115 && _y > 3 && _y < 14)
-					descType = 1; // hp desc
-				else if (_x > 6 && _x < 110 && _y > 14 && _y < 21)
-					descType = 2; // mp desc
-				else if (_x > 6 && _x < 110 && _y > 21 && _y < 28)
-					descType = 3; // exp desc
-			}
-			else
-			{
-				re = m_pC_small_height_button_group->MouseControl(message, _x, _y);
-				if (_y < h - 6 && _y > h - 115 && _x > 3 && _x < 14)
-					descType = 1; // hp desc
-				else if (_y < h - 6 && _y > h - 110 && _x > 14 && _x < 21)
-					descType = 2; // mp desc
-				else if (_y < h - 6 && _y > h - 110 && _x > 21 && _x < 28)
-					descType = 3; // mp desc
-			}
-		}
-		else
-		{
-			if (m_width_mode)
-			{
-				re = m_pC_width_button_group->MouseControl(message, _x, _y);
-				if (_x > 8 && _x < 166 && _y > 3 && _y < 21)
-					descType = 1; // hp desc
-				else if (_x > 8 && _x < 162 && _y > 21 && _y < 31)
-					descType = 2; // mp desc
-				else if (_x > 8 && _x < 162 && _y > 31 && _y < 44)
-					descType = 3; // mp desc
-			}
-			else
-			{
-				re = m_pC_height_button_group->MouseControl(message, _x, _y);
-				if (_y < h - 8 && _y > h - 166 && _x > 3 && _x < 21)
-					descType = 1; // hp desc
-				else if (_y < h - 8 && _y > h - 162 && _x > 21 && _x < 31)
-					descType = 2; // mp desc
-				else if (_y < h - 8 && _y > h - 162 && _x > 31 && _x < 44)
-					descType = 3; // mp desc
-			}
-		}
-		break;
-	}
-
-	if (descType != 0)
-	{
-		static std::string hpbar_string[2];
-		const static char* help_string[3] = { NULL, NULL, NULL };
-		char temp_string[512];
-
-		help_string[1] = NULL;
-		help_string[2] = NULL;
-
-
-
-		int print_x = gpC_mouse_pointer->GetPointerX();
-		int print_y = gpC_mouse_pointer->GetPointerY();
-		int color = 0;
-
-		if (descType == 2 || descType == 3)	// MP
-		{
-			switch (g_eRaceInterface)
-			{
-			case RACE_SLAYER:
-			{
-				wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_MP_DESCRIPTION].GetString(), g_char_slot_ingame.MP, g_char_slot_ingame.MP_MAX);
-				hpbar_string[0] = temp_string;
-			}
-			break;
-
-			case RACE_VAMPIRE:
-			{
-				int exp_remain = g_char_slot_ingame.EXP_REMAIN;
-				wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_LEVEL_DESCRIPTION].GetString(), g_char_slot_ingame.level);
-				hpbar_string[0] = temp_string;
-
-				int fame = g_pFameInfoTable->GetFameForLevel(SKILLDOMAIN_VAMPIRE, g_char_slot_ingame.level);
-
-				if (exp_remain < 0)
-				{
-					hpbar_string[1] = (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_UP_LEVEL].GetString();
-				}
-				else
-					if (g_char_slot_ingame.FAME < fame)
-					{
-						wsprintf(temp_string, "%s(%s:%d)", (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_UP_LEVEL_BY_FAME].GetString(),
-							(*g_pGameStringTable)[UI_STRING_MESSAGE_NEED_FAME].GetString(),
-							fame - g_char_slot_ingame.FAME);
-						hpbar_string[1] = temp_string;
-					}
-					else
-					{
-						const ExpInfo* expinf = &g_pExperienceTable->GetVampireInfo(g_char_slot_ingame.level);
-						__int64 goal_exp = expinf->GoalExp;
-
-						wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_EXP_DESCRIPTION_NEW].GetString(), g_GetNumberString(exp_remain).c_str(), g_GetNumberString((goal_exp - exp_remain) * 100 / max(1, (goal_exp))).c_str());
-
-						//						g_char_slot_ingame.EXP_CUR, 
-						//						g_pExperienceTable->GetVampireInfo(g_char_slot_ingame.level).AccumExp, 	LeftExp);
-						hpbar_string[1] = temp_string;
-					}
-				help_string[2] = hpbar_string[1].c_str();
-			}
-			break;
-
-			case RACE_OUSTERS:
-				if (descType == 2)
-				{
-					wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_EP_DESCRIPTION].GetString(), g_char_slot_ingame.MP, g_char_slot_ingame.MP_MAX);
-					hpbar_string[0] = temp_string;
-				}
-				else
-				{
-					int exp_remain = g_char_slot_ingame.EXP_REMAIN;
-					wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_LEVEL_DESCRIPTION].GetString(), g_char_slot_ingame.level);
-					hpbar_string[0] = temp_string;
-
-					int fame = g_pFameInfoTable->GetFameForLevel(SKILLDOMAIN_OUSTERS, g_char_slot_ingame.level);
-
-					if (exp_remain < 0)
-					{
-						hpbar_string[1] = (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_UP_LEVEL].GetString();
-					}
-					else if (g_char_slot_ingame.FAME < fame)
-					{
-						wsprintf(temp_string, "%s(%s:%d)", (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_UP_LEVEL_BY_FAME].GetString(),
-							(*g_pGameStringTable)[UI_STRING_MESSAGE_NEED_FAME].GetString(),
-							fame - g_char_slot_ingame.FAME);
-						hpbar_string[1] = temp_string;
-					}
-					else
-					{
-						__int64 goal_exp = g_pExperienceTable->GetOustersInfo(g_char_slot_ingame.level).GoalExp;
-
-						wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_EXP_DESCRIPTION_NEW].GetString(), g_GetNumberString(exp_remain).c_str(), g_GetNumberString((goal_exp - exp_remain) * 100 / max(1, (goal_exp))).c_str());
-						//						g_char_slot_ingame.EXP_CUR, 
-						//						g_pExperienceTable->GetVampireInfo(g_char_slot_ingame.level).AccumExp, 	LeftExp);
-						hpbar_string[1] = temp_string;
-					}
-					help_string[2] = hpbar_string[1].c_str();
-				}
-				break;
-			}
-		}
-		else	// HP
-		{
-#ifndef _LIB
-			g_char_slot_ingame.SILVER_HP = 10;
-#endif
-			if (g_eRaceInterface != RACE_SLAYER && g_char_slot_ingame.SILVER_HP > 0)
-				wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_HP_DESCRIPTION_WITH_SILVERING].GetString(), g_char_slot_ingame.HP, g_char_slot_ingame.HP_MAX, g_char_slot_ingame.SILVER_HP);
-			else
-				wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_HP_DESCRIPTION].GetString(), g_char_slot_ingame.HP, g_char_slot_ingame.HP_MAX);
-
-			hpbar_string[0] = temp_string;
-			if (g_eRaceInterface == RACE_SLAYER && g_char_slot_ingame.bl_drained)
-			{
-				if (g_char_slot_ingame.CHANGE_VAMPIRE > 60)
-				{
-					if (g_char_slot_ingame.CHANGE_VAMPIRE > 60 * 24)
-						wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_CHANGE_VAMPIRE_DAY].GetString(), g_char_slot_ingame.CHANGE_VAMPIRE / 60 / 24, (g_char_slot_ingame.CHANGE_VAMPIRE / 60) % 24, g_char_slot_ingame.CHANGE_VAMPIRE % 60);
-					else
-					{
-						wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_CHANGE_VAMPIRE_HOUR].GetString(), g_char_slot_ingame.CHANGE_VAMPIRE / 60, g_char_slot_ingame.CHANGE_VAMPIRE % 60);
-						color = RGB_YELLOW;
-					}
-					hpbar_string[1] = temp_string;
-				}
-				else
-				{
-					if (g_char_slot_ingame.CHANGE_VAMPIRE == 0)
-						hpbar_string[1] = (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_CHANGE_VAMPIRE_SOON].GetString();
-					else
-					{
-						wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_CHANGE_VAMPIRE_MINUTE].GetString(),
-							g_char_slot_ingame.CHANGE_VAMPIRE);
-						hpbar_string[1] = temp_string;
-					}
-					color = RGB_RED;
-				}
-				help_string[2] = hpbar_string[1].c_str();
-			}
-		}
-		help_string[0] = hpbar_string[0].c_str();
-		g_descriptor_manager.Set(DID_HELP, print_x + 30, print_y, (void*)help_string, 0, color);
-	}
+	// No HP/MP hover tooltip: the bar prints its own values now, and the old
+	// hover regions were laid out for the pre-renewal stacked art.
+	bool re = CurrentButtonGroup()->MouseControl(message, _x, _y);
 
 	switch (message)
 	{
@@ -26378,6 +26307,95 @@ void C_VS_UI_HPBAR::KeyboardControl(UINT message, UINT key, long extra)
 }
 
 //-----------------------------------------------------------------------------
+// MakeHPBarLevelString
+//
+// The centre crest shows the plain level, or the advancement title and grade
+// once the character has one ("Ptah 10"). The advancement level packs both:
+// tier = (level-1)/10, grade = (level-1)%10+1, the same split the item
+// requirement text uses. Only the tier strings carry the title names, and they
+// read "<name> grade %d or higher", so the name is their first token - which
+// holds in Korean too ("«¡≈∏ %dµÓ±ﬁ ¿ÃªÛ").
+//-----------------------------------------------------------------------------
+static void MakeHPBarLevelString(char* szBuf, int nBuf)
+{
+	const int adv = g_char_slot_ingame.m_AdvancementLevel;
+
+	if (adv <= 0)
+	{
+		sprintf_s(szBuf, nBuf, "%d", g_char_slot_ingame.level);
+		return;
+	}
+
+	const int nTiers = UI_STRING_MESSAGE_REQUIRE_ADVANCEMENT_LEVEL_10
+					 - UI_STRING_MESSAGE_REQUIRE_ADVANCEMENT_LEVEL_0 + 1;
+	int tier  = (adv - 1) / 10;
+	int grade = (adv - 1) % 10 + 1;
+
+	if (tier < 0)			tier = 0;
+	if (tier >= nTiers)		tier = nTiers - 1;
+
+	const char* szTier =
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_REQUIRE_ADVANCEMENT_LEVEL_0 + tier].GetString();
+
+	char szName[64] = { 0, };
+	int  i = 0;
+	while (szTier != NULL && szTier[i] != 0 && szTier[i] != ' ' && szTier[i] != '%'
+			&& i < (int)sizeof(szName) - 1)
+	{
+		szName[i] = szTier[i];
+		++i;
+	}
+	szName[i] = 0;
+
+	if (szName[0] == 0)		sprintf_s(szBuf, nBuf, "%d", grade);
+	else					sprintf_s(szBuf, nBuf, "%s %d", szName, grade);
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_HPBAR::ShowBarText
+//
+// Centres the three readouts over the renewal bar: HP in the left channel, the
+// level (or advancement title) on the centre crest, MP/EP in the right one.
+// Callers pass centre-x positions in window space; each string is centred on
+// its own position and vertically centred in the channel.
+//
+// Text has to go through a GDI DC, so the back surface is unlocked around the
+// draw and re-locked afterwards, the same way ShowButtonWidget() does it.
+//-----------------------------------------------------------------------------
+void C_VS_UI_HPBAR::ShowBarText(int hp_cx, int mid_cx, int right_cx, int bar_y,
+								const char* szHP, const char* szMid, const char* szRight)
+{
+	gpC_base->m_p_DDSurface_back->Unlock();
+
+	PrintInfo* pi = &gpC_base->m_small_pi;
+
+	// the fill sprite is the channel, so its height is the row to centre in
+	const int bar_h = m_pC_hpbar_spk->GetHeight(HPBAR_WIDTH + m_small_offset);
+
+	g_FL2_GetDC();
+
+	const char* szText[3] = { szHP, szMid, szRight };
+	const int   cx[3]     = { hp_cx, mid_cx, right_cx };
+
+	for (int i = 0; i < 3; ++i)
+	{
+		if (szText[i] == NULL || szText[i][0] == 0)
+			continue;
+
+		int strW = g_GetStringWidth(szText[i], pi->hfont);
+		int strH = g_GetStringHeight(szText[i], pi->hfont);
+
+		g_PrintColorStrShadow(x + cx[i] - strW / 2,
+								y + bar_y + (bar_h - strH) / 2,
+								szText[i], *pi, RGB_WHITE, RGB_BLACK);
+	}
+
+	g_FL2_ReleaseDC();
+
+	gpC_base->m_p_DDSurface_back->Lock();
+}
+
+//-----------------------------------------------------------------------------
 // Show
 //
 // 
@@ -26402,10 +26420,13 @@ void C_VS_UI_HPBAR::Show()
 				else
 					m_pC_width_button_group->Show();
 
-				int hpbar_x = 19, hpbar_y = 3, mpbar_x = 19, mpbar_y = 16;
+				// Renewal art: one 190x11 channel each side of the centre crest.
+				//   horizontal: HP (26,19); right-hand bar x = 294 large / 209 small
+				//   vertical  : HP (19,26); right-hand bar (44,26)
+				int hpbar_x = 26, hpbar_y = 19, mpbar_x = 209, mpbar_y = 19;
 				if (!m_small_mode)
 				{
-					hpbar_x = 28; hpbar_y = 4; mpbar_x = 28; mpbar_y = 22;
+					mpbar_x = 294;
 				}
 
 
@@ -26420,6 +26441,15 @@ void C_VS_UI_HPBAR::Show()
 				//mpbar
 				rect.Set(0, 0, m_pC_hpbar_spk->GetWidth(MPBAR_WIDTH + m_small_offset) * mp / g_char_slot_ingame.MP_MAX, m_pC_hpbar_spk->GetHeight(MPBAR_WIDTH + m_small_offset));
 				m_pC_hpbar_spk->BltLockedClip(x + mpbar_x, y + mpbar_y, rect, MPBAR_WIDTH + m_small_offset);
+				// readouts: HP left, level/title on the crest, MP right
+				char szHP[64], szMid[64], szRight[64];
+				sprintf_s(szHP, sizeof(szHP), "%d/%d", hp, g_char_slot_ingame.HP_MAX);
+				sprintf_s(szRight, sizeof(szRight), "%d/%d", mp, g_char_slot_ingame.MP_MAX);
+				MakeHPBarLevelString(szMid, sizeof(szMid));
+				ShowBarText(hpbar_x + m_pC_hpbar_spk->GetWidth(HPBAR_WIDTH + m_small_offset) / 2,
+							m_pC_hpbar_spk->GetWidth(MAIN_WIDTH + m_small_offset) / 2,
+							mpbar_x + m_pC_hpbar_spk->GetWidth(MPBAR_WIDTH + m_small_offset) / 2,
+							hpbar_y, szHP, szMid, szRight);
 			}
 			else
 			{
@@ -26429,10 +26459,13 @@ void C_VS_UI_HPBAR::Show()
 				else
 					m_pC_height_button_group->Show();
 
-				int hpbar_x = 3, hpbar_y = 28, mpbar_x = 16, mpbar_y = 28;
+				// Renewal art: one 190x11 channel each side of the centre crest.
+				//   horizontal: HP (26,19); right-hand bar x = 294 large / 209 small
+				//   vertical  : HP (19,26); right-hand bar (44,26)
+				int hpbar_x = 19, hpbar_y = 26, mpbar_x = 44, mpbar_y = 26;
 				if (!m_small_mode)
 				{
-					hpbar_x = 4; hpbar_y = 43; mpbar_x = 23; mpbar_y = 43;
+					// (renewal art uses the same offsets in both sizes)
 				}
 
 				Rect rect;
@@ -26480,10 +26513,14 @@ void C_VS_UI_HPBAR::Show()
 				else
 					m_pC_width_button_group->Show();
 
-				int hpbar_x = 19, hpbar_y = 4, expbar_x = 19, expbar_y = 17;
+				// Renewal art: one 190x11 channel each side of the centre crest.
+				//   horizontal: HP (26,19); right-hand bar x = 294 large / 209 small
+				//   vertical  : HP (19,26); right-hand bar (44,26)
+				// Vampires have no mana, so HP is mirrored into the right channel.
+				int hpbar_x = 26, hpbar_y = 19, hpbar2_x = 209;
 				if (!m_small_mode)
 				{
-					hpbar_x = 28; hpbar_y = 6; expbar_x = 28; expbar_y = 25;
+					hpbar2_x = 294;
 				}
 
 				Rect rect;
@@ -26491,22 +26528,23 @@ void C_VS_UI_HPBAR::Show()
 				// hpbar
 				rect.Set(0, 0, m_pC_hpbar_spk->GetWidth(HPBAR_WIDTH + m_small_offset) * hp / g_char_slot_ingame.HP_MAX, m_pC_hpbar_spk->GetHeight(HPBAR_WIDTH + m_small_offset));
 				m_pC_hpbar_spk->BltLockedClip(x + hpbar_x, y + hpbar_y, rect, HPBAR_WIDTH + m_small_offset);
+				m_pC_hpbar_spk->BltLockedClip(x + hpbar2_x, y + hpbar_y, rect, HPBAR_WIDTH + m_small_offset);
 
 				// slivered hpbar
 				rect.Set(m_pC_hpbar_spk->GetWidth(HPBAR_SILVER_WIDTH + m_small_offset) - m_pC_hpbar_spk->GetWidth(HPBAR_SILVER_WIDTH + m_small_offset) * g_char_slot_ingame.SILVER_HP / g_char_slot_ingame.HP_MAX, 0, m_pC_hpbar_spk->GetWidth(HPBAR_SILVER_WIDTH + m_small_offset) * g_char_slot_ingame.SILVER_HP / g_char_slot_ingame.HP_MAX, m_pC_hpbar_spk->GetHeight(HPBAR_SILVER_WIDTH + m_small_offset));
 				m_pC_hpbar_spk->BltLockedClip(x + hpbar_x, y + hpbar_y, rect, HPBAR_SILVER_WIDTH + m_small_offset);
+				m_pC_hpbar_spk->BltLockedClip(x + hpbar2_x, y + hpbar_y, rect, HPBAR_SILVER_WIDTH + m_small_offset);
+				// readouts: HP left, level/title on the crest, HP right
+				char szHP[64], szMid[64], szRight[64];
+				sprintf_s(szHP, sizeof(szHP), "%d/%d", hp, g_char_slot_ingame.HP_MAX);
+				sprintf_s(szRight, sizeof(szRight), "%d/%d", hp, g_char_slot_ingame.HP_MAX);
+				MakeHPBarLevelString(szMid, sizeof(szMid));
+				ShowBarText(hpbar_x + m_pC_hpbar_spk->GetWidth(HPBAR_WIDTH + m_small_offset) / 2,
+							m_pC_hpbar_spk->GetWidth(MAIN_WIDTH + m_small_offset) / 2,
+							hpbar2_x + m_pC_hpbar_spk->GetWidth(HPBAR_WIDTH + m_small_offset) / 2,
+							hpbar_y, szHP, szMid, szRight);
 
-				//exp bar
-				int exp_remain = g_char_slot_ingame.EXP_REMAIN;
-				__int64 goal_exp = g_pExperienceTable->GetVampireInfo(g_char_slot_ingame.level).GoalExp;
-				int exp_width = m_pC_hpbar_spk->GetWidth(EXPBAR_WIDTH + m_small_offset);
-				int exp_height = m_pC_hpbar_spk->GetHeight(EXPBAR_WIDTH + m_small_offset);
-				int exp_bar = exp_width * (goal_exp - exp_remain) / goal_exp;
-
-				//exp bar
-				rect.Set(0, 0, exp_bar, exp_height);
-				//				rect.Set(0, 0, m_pC_hpbar_spk->GetWidth(EXPBAR_WIDTH+m_small_offset)*(g_char_slot_ingame.EXP_CUR-cur_level)/(g_pExperienceTable->GetVampireInfo(g_char_slot_ingame.level).GoalExp), m_pC_hpbar_spk->GetHeight(EXPBAR_WIDTH+m_small_offset));
-				m_pC_hpbar_spk->BltLockedClip(x + expbar_x, y + expbar_y, rect, EXPBAR_WIDTH + m_small_offset);
+				// No exp bar: the renewal art has only two channels and HP now uses both.
 			}
 			else
 			{
@@ -26516,10 +26554,14 @@ void C_VS_UI_HPBAR::Show()
 				else
 					m_pC_height_button_group->Show();
 
-				int hpbar_x = 4, hpbar_y = 31, expbar_x = 17, expbar_y = 31;
+				// Renewal art: one 190x11 channel each side of the centre crest.
+				//   horizontal: HP (26,19); right-hand bar x = 294 large / 209 small
+				//   vertical  : HP (19,26); right-hand bar (44,26)
+				// Vampires have no mana, so HP is mirrored into the right channel.
+				int hpbar_x = 19, hpbar_y = 26, hpbar2_x = 44;
 				if (!m_small_mode)
 				{
-					hpbar_x = 6; hpbar_y = 47; expbar_x = 25; expbar_y = 47;
+					// (renewal art uses the same offsets in both sizes)
 				}
 
 				Rect rect;
@@ -26527,23 +26569,14 @@ void C_VS_UI_HPBAR::Show()
 				// hpbar
 				rect.Set(0, m_pC_hpbar_spk->GetHeight(HPBAR_HEIGHT + m_small_offset) - m_pC_hpbar_spk->GetHeight(HPBAR_HEIGHT + m_small_offset) * hp / g_char_slot_ingame.HP_MAX, m_pC_hpbar_spk->GetWidth(HPBAR_HEIGHT + m_small_offset), m_pC_hpbar_spk->GetHeight(HPBAR_HEIGHT + m_small_offset) * hp / g_char_slot_ingame.HP_MAX);
 				m_pC_hpbar_spk->BltLockedClip(x + hpbar_x, y + hpbar_y, rect, HPBAR_HEIGHT + m_small_offset);
+				m_pC_hpbar_spk->BltLockedClip(x + hpbar2_x, y + hpbar_y, rect, HPBAR_HEIGHT + m_small_offset);
 
 				// silver hpbar
 				rect.Set(0, 0, m_pC_hpbar_spk->GetWidth(HPBAR_SILVER_HEIGHT + m_small_offset), m_pC_hpbar_spk->GetHeight(HPBAR_SILVER_HEIGHT + m_small_offset) * g_char_slot_ingame.SILVER_HP / g_char_slot_ingame.HP_MAX);
 				m_pC_hpbar_spk->BltLockedClip(x + hpbar_x, y + hpbar_y, rect, HPBAR_SILVER_HEIGHT + m_small_offset);
+				m_pC_hpbar_spk->BltLockedClip(x + hpbar2_x, y + hpbar_y, rect, HPBAR_SILVER_HEIGHT + m_small_offset);
 
-				int exp_remain = g_char_slot_ingame.EXP_REMAIN;
-				__int64 goal_exp = g_pExperienceTable->GetVampireInfo(g_char_slot_ingame.level).GoalExp;
-				int exp_width = m_pC_hpbar_spk->GetWidth(EXPBAR_HEIGHT + m_small_offset);
-				int exp_height = m_pC_hpbar_spk->GetHeight(EXPBAR_HEIGHT + m_small_offset);
-				int exp_bar = exp_height * (goal_exp - exp_remain) / goal_exp;
-
-				//exp bar
-				rect.Set(0, exp_height - exp_bar, exp_width, exp_bar);
-
-				//exp bar
-		//		rect.Set(0, m_pC_hpbar_spk->GetHeight(EXPBAR_HEIGHT+m_small_offset)-m_pC_hpbar_spk->GetHeight(EXPBAR_HEIGHT+m_small_offset)*exp/goal_exp, m_pC_hpbar_spk->GetWidth(EXPBAR_HEIGHT+m_small_offset), m_pC_hpbar_spk->GetHeight(EXPBAR_HEIGHT+m_small_offset)*exp/goal_exp);
-				m_pC_hpbar_spk->BltLockedClip(x + expbar_x, y + expbar_y, rect, EXPBAR_HEIGHT + m_small_offset);
+				// No exp bar: the renewal art has only two channels and HP now uses both.
 			}
 			gpC_base->m_p_DDSurface_back->Unlock();
 		}
@@ -26583,10 +26616,13 @@ void C_VS_UI_HPBAR::Show()
 					m_pC_width_button_group->Show();
 
 				//hpbar
-				int hpbar_x = 8, hpbar_y = 3, mpbar_x = 8, mpbar_y = 15, expbar_x = 8, expbar_y = 22;
+				// Renewal art: one 190x11 channel each side of the centre crest.
+				//   horizontal: HP (26,19); right-hand bar x = 294 large / 209 small
+				//   vertical  : HP (19,26); right-hand bar (44,26)
+				int hpbar_x = 26, hpbar_y = 19, mpbar_x = 209, mpbar_y = 19;
 				if (!m_small_mode)
 				{
-					hpbar_x = 9; hpbar_y = 4; mpbar_x = 9; mpbar_y = 22; expbar_x = 9; expbar_y = 32;
+					mpbar_x = 294;
 				}
 
 				Rect rect;
@@ -26628,20 +26664,16 @@ void C_VS_UI_HPBAR::Show()
 					m_pC_hpbar_spk->BltLockedClip(x + mpbar_x, y + mpbar_y, rect, sprIndex2);
 				}
 
-				int exp_remain = g_char_slot_ingame.EXP_REMAIN;
-				__int64 goal_exp = g_pExperienceTable->GetOustersInfo(g_char_slot_ingame.level).GoalExp;
-				int exp_width = m_pC_hpbar_spk->GetWidth(OUSTERS_EXPBAR_WIDTH + m_small_offset);
-				int exp_height = m_pC_hpbar_spk->GetHeight(OUSTERS_EXPBAR_WIDTH + m_small_offset);
-				int exp_bar = exp_width * (goal_exp - exp_remain) / goal_exp;
-				/*int((float)exp_width * ((float)exp_remain / (float)goal_exp));*/
-
-
-				//exp bar
-				rect.Set(0, 0, exp_bar, exp_height);
-
-				//exp bar
-				//		rect.Set(0, m_pC_hpbar_spk->GetHeight(EXPBAR_HEIGHT+m_small_offset)-m_pC_hpbar_spk->GetHeight(EXPBAR_HEIGHT+m_small_offset)*exp/goal_exp, m_pC_hpbar_spk->GetWidth(EXPBAR_HEIGHT+m_small_offset), m_pC_hpbar_spk->GetHeight(EXPBAR_HEIGHT+m_small_offset)*exp/goal_exp);
-				m_pC_hpbar_spk->BltLockedClip(x + expbar_x, y + expbar_y, rect, OUSTERS_EXPBAR_WIDTH + m_small_offset);
+				// No exp bar: the renewal art has only two channels (HP and EP).
+				// readouts: HP left, level/title on the crest, EP right
+				char szHP[64], szMid[64], szRight[64];
+				sprintf_s(szHP, sizeof(szHP), "%d/%d", hp, g_char_slot_ingame.HP_MAX);
+				sprintf_s(szRight, sizeof(szRight), "%d/%d", g_char_slot_ingame.MP, g_char_slot_ingame.MP_MAX);
+				MakeHPBarLevelString(szMid, sizeof(szMid));
+				ShowBarText(hpbar_x + m_pC_hpbar_spk->GetWidth(HPBAR_WIDTH + m_small_offset) / 2,
+							m_pC_hpbar_spk->GetWidth(MAIN_WIDTH + m_small_offset) / 2,
+							mpbar_x + m_pC_hpbar_spk->GetWidth(MPBAR_WIDTH + m_small_offset) / 2,
+							hpbar_y, szHP, szMid, szRight);
 			}
 			else
 			{
@@ -26652,11 +26684,11 @@ void C_VS_UI_HPBAR::Show()
 					m_pC_height_button_group->Show();
 
 				//hpbar
-				int hpbar_x = 3, hpbar_y = 25, mpbar_x = 15, mpbar_y = 29, expbar_x = 22, expbar_y = 29;
-				if (!m_small_mode)
-				{
-					hpbar_x = 4; hpbar_y = 38; mpbar_x = 22; mpbar_y = 43; expbar_x = 32; expbar_y = 43;
-				}
+				// Renewal art: one 190x11 channel each side of the centre crest.
+				//   horizontal: HP (26,19); right-hand bar x = 294 large / 209 small
+				//   vertical  : HP (19,26); right-hand bar (44,26)
+				int hpbar_x = 19, hpbar_y = 26, mpbar_x = 44, mpbar_y = 26;
+				// (renewal art uses the same offsets in both sizes)
 
 				Rect rect;
 
@@ -26707,18 +26739,7 @@ void C_VS_UI_HPBAR::Show()
 						m_pC_hpbar_spk->GetWidth(sprIndex2), m_pC_hpbar_spk->GetHeight(sprIndex2) * mp_rate);
 					m_pC_hpbar_spk->BltLockedClip(x + mpbar_x, y + mpbar_y, rect, sprIndex2);
 				}
-				int exp_remain = g_char_slot_ingame.EXP_REMAIN;
-				__int64 goal_exp = g_pExperienceTable->GetOustersInfo(g_char_slot_ingame.level).GoalExp;
-				int exp_width = m_pC_hpbar_spk->GetWidth(OUSTERS_EXPBAR_HEIGHT + m_small_offset);
-				int exp_height = m_pC_hpbar_spk->GetHeight(OUSTERS_EXPBAR_HEIGHT + m_small_offset);
-				int exp_bar = exp_height * (goal_exp - exp_remain) / goal_exp;
-
-				//exp bar
-				rect.Set(0, exp_height - exp_bar, exp_width, exp_bar);
-
-				//exp bar
-//					rect.Set(0, exp_height-m_pC_hpbar_spk->GetHeight(OUSTERS_EXPBAR_HEIGHT+m_small_offset)*exp/goal_exp, m_pC_hpbar_spk->GetWidth(OUSTERS_EXPBAR_HEIGHT+m_small_offset), m_pC_hpbar_spk->GetHeight(OUSTERS_EXPBAR_HEIGHT+m_small_offset)*exp/goal_exp);
-				m_pC_hpbar_spk->BltLockedClip(x + expbar_x, y + expbar_y, rect, OUSTERS_EXPBAR_HEIGHT + m_small_offset);
+				// No exp bar: the renewal art has only two channels (HP and EP).
 			}
 			gpC_base->m_p_DDSurface_back->Unlock();
 		}
@@ -26760,7 +26781,7 @@ void C_VS_UI_HPBAR::Start()
 	gpC_window_manager->AppearWindow(this);
 
 	AttrAutoHide(gpC_vs_ui_window_manager->GetAutoHide(C_VS_UI_WINDOW_MANAGER::HPBAR));
-	if (m_width_mode == gpC_vs_ui_window_manager->IsHPBarHeight())Run(CHANGE_ID);
+	// A layout saved as vertical opens horizontal - vertical mode is gone.
 	if (gpC_vs_ui_window_manager->IsHPBarSmall() != m_small_mode)Run(RESIZE_ID);
 
 	Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::HPBAR);
@@ -28716,7 +28737,13 @@ C_VS_UI_MINIMAP::C_VS_UI_MINIMAP()
 	m_Block.clear();
 	m_Flag.clear();
 
-#if __CONTENTS(__GPS_ADD)
+	// The X/Y board hangs off whichever side of the minimap faces the middle
+	// of the screen. This placement used to live inside the __GPS_ADD block
+	// below, which is OFF for every build except Korea - so everywhere else
+	// m_board_x/m_board_y were never initialised at all, and the board (with
+	// the coordinates printed on it) was blitted at whatever the uninitialised
+	// members happened to hold, i.e. off-screen. Dragging the minimap fixed it
+	// by accident, because EVENT_WINDOW_MOVE recomputes both.
 	if (x + w / 2 < g_pUserInformation->iResolution_x / 2)
 		m_board_x = w - 4;
 	else
@@ -28727,6 +28754,7 @@ C_VS_UI_MINIMAP::C_VS_UI_MINIMAP()
 	else
 		m_board_y = h - m_pC_minimap_spk->GetHeight(MINIMAP_BOARD);
 
+#if __CONTENTS(__GPS_ADD)
 	//	if(x+w/2 < g_pUserInformation->iResolution_x/2)
 	//		m_GPSBoard_X = w-4;
 	//	else

@@ -8,6 +8,7 @@
 #include "vs_ui.h"
 #include "UserOption.h"
 #include "UserInformation.h"
+#include "FL2.h"
 
 #define STATCH_VALUE 10
 #define HIDE_GAP	4
@@ -904,6 +905,57 @@ void WindowManager::FirstPriority(Window * p_this_window)
 }
 
 //-----------------------------------------------------------------------------
+// ShowOne
+//
+// Paint one Window, having first told the native-resolution text overlay that
+// whatever it has already mirrored under this Window is about to be covered.
+//
+// This loop is where the frame's window z-order actually lives: Show below
+// paints back to front, so a report filed here separates the text this Window
+// is about to print (which belongs on top of it) from everything drawn before
+// it (which belongs underneath). That one rule is what stops name tags and
+// stat readouts from floating over the windows that cover them, and there is
+// nothing per-window to maintain for it.
+//-----------------------------------------------------------------------------
+static void ShowOne(Window * p_window)
+{
+	if (p_window == NULL)
+		return;
+
+	int x0, y0, x1, y1;
+
+	if (p_window->GetOccludeRect(&x0, &y0, &x1, &y1))
+	{
+		// Being in the show list is not the same as being on screen: several
+		// Windows appear once in their constructor and stay listed for the
+		// whole session, painting nothing until they are Start()ed. Reporting
+		// those would blank out text inside an empty rectangle - the very bug
+		// this is here to fix, in reverse.
+		//
+		// IsPixel is the game's own answer to "is this Window solid here?" -
+		// it is what the mouse is hit-tested against, and the Windows that
+		// paint conditionally already gate it the same way they gate Show.
+		// Probing the middle and the quarter points is enough to tell a
+		// painted panel from one that is not there at all.
+		const int mx = (x0 + x1) / 2,  my = (y0 + y1) / 2;
+		const int qx = (x0 + mx)  / 2,  qy = (y0 + my)  / 2;
+		const int rx = (mx + x1)  / 2,  ry = (my + y1)  / 2;
+
+		if (p_window->IsPixel(mx, my) ||
+		    p_window->IsPixel(qx, qy) || p_window->IsPixel(rx, qy) ||
+		    p_window->IsPixel(qx, ry) || p_window->IsPixel(rx, ry))
+		{
+			RECT rect;
+			rect.left = x0;  rect.top = y0;  rect.right = x1;  rect.bottom = y1;
+
+			g_FL2_OverlayOccludeRect(&rect, p_window->GetWindowName().c_str());
+		}
+	}
+
+	p_window->Show();
+}
+
+//-----------------------------------------------------------------------------
 // Show
 //
 // m_show_list/m_show_list_pinned_window�� �ִ� Window�� Window::Show()�� �����Ѵ�.
@@ -916,7 +968,7 @@ void WindowManager::Show()
 	while (itr != m_show_list.rend())
 	{
 		if ((*itr)->GetAttributes()->topmost == false)
-			(*itr)->Show();
+			ShowOne(*itr);
 
 		itr++;
 	}
@@ -925,9 +977,7 @@ void WindowManager::Show()
 	itr = m_show_list_pinned_window.rbegin();
 	while (itr != m_show_list_pinned_window.rend())
 	{
-		Window *pWindow = *itr;
-//		(*itr)->Show();
-		pWindow->Show();
+		ShowOne(*itr);
 
 		itr++;
 	}
@@ -937,7 +987,7 @@ void WindowManager::Show()
 	while (itr != m_show_list.rend())
 	{
 		if ((*itr)->GetAttributes()->topmost == true)
-			(*itr)->Show();
+			ShowOne(*itr);
 
 		itr++;
 	}

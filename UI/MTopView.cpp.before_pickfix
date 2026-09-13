@@ -9126,38 +9126,7 @@ MTopView::GetSelectedObject(int x, int y, BYTE_ATTRIBUTE actionTarget)
 								rcScreenRect.right = nCenterY + (nWidth >> 1);
 
 								// ??ü????.
-								// A creature whose body sprite never draws -- the Hell Garden crystals
-								// are rendered entirely by the effect system -- leaves m_ScreenRect in
-								// its reset, inverted state (left/top = screen size, right/bottom = 0).
-								// Overriding left/right above cannot help because top/bottom are still
-								// inverted, so PtInRect always fails and the click falls through to the
-								// ground. Fall back to a tile hit test for that case.
-								if (rcScreenRect.bottom <= rcScreenRect.top)
-								{
-									// The sprite contributed no bounds, so build a hit box from the
-									// creature tile position plus the Width/Height in the creature table.
-									// This inverts the conversion GetSelectedSector() performs.
-									POINT ptOrigin = MapToPixel(m_FirstSector.x, m_FirstSector.y);
-									POINT ptBase   = MapToPixel(pCreature->GetX(), pCreature->GetY());
-								
-									int sx = ptBase.x - ptOrigin.x - m_PlusPoint.x;
-									int sy = ptBase.y - ptOrigin.y - m_PlusPoint.y;
-									int nHeight = pCreature->GetHeight();
-								
-									rcScreenRect.left   = sx - (nWidth >> 1);
-									rcScreenRect.right  = sx + (nWidth >> 1);
-									rcScreenRect.bottom = sy + 24;
-									rcScreenRect.top    = sy - nHeight;
-								
-									// accept the sprite area, and still accept the ground tile itself
-									POINT ptTile = GetSelectedSector(x, y);
-									bMouseInCreature = PtInRect(&rcScreenRect, ptMouse)
-										|| (ptTile.x == pCreature->GetX() && ptTile.y == pCreature->GetY());
-								}
-								else
-								{
-									bMouseInCreature = PtInRect(&rcScreenRect, ptMouse);
-								}
+								bMouseInCreature = PtInRect(&rcScreenRect, ptMouse);
 							}
 							else
 							{
@@ -9293,38 +9262,7 @@ MTopView::GetSelectedObject(int x, int y, BYTE_ATTRIBUTE actionTarget)
 								rcScreenRect.right = nCenterY + (nWidth >> 1);
 
 								// ??ü????.
-								// A creature whose body sprite never draws -- the Hell Garden crystals
-								// are rendered entirely by the effect system -- leaves m_ScreenRect in
-								// its reset, inverted state (left/top = screen size, right/bottom = 0).
-								// Overriding left/right above cannot help because top/bottom are still
-								// inverted, so PtInRect always fails and the click falls through to the
-								// ground. Fall back to a tile hit test for that case.
-								if (rcScreenRect.bottom <= rcScreenRect.top)
-								{
-									// The sprite contributed no bounds, so build a hit box from the
-									// creature tile position plus the Width/Height in the creature table.
-									// This inverts the conversion GetSelectedSector() performs.
-									POINT ptOrigin = MapToPixel(m_FirstSector.x, m_FirstSector.y);
-									POINT ptBase   = MapToPixel(pCreature->GetX(), pCreature->GetY());
-								
-									int sx = ptBase.x - ptOrigin.x - m_PlusPoint.x;
-									int sy = ptBase.y - ptOrigin.y - m_PlusPoint.y;
-									int nHeight = pCreature->GetHeight();
-								
-									rcScreenRect.left   = sx - (nWidth >> 1);
-									rcScreenRect.right  = sx + (nWidth >> 1);
-									rcScreenRect.bottom = sy + 24;
-									rcScreenRect.top    = sy - nHeight;
-								
-									// accept the sprite area, and still accept the ground tile itself
-									POINT ptTile = GetSelectedSector(x, y);
-									bMouseInCreature = PtInRect(&rcScreenRect, ptMouse)
-										|| (ptTile.x == pCreature->GetX() && ptTile.y == pCreature->GetY());
-								}
-								else
-								{
-									bMouseInCreature = PtInRect(&rcScreenRect, ptMouse);
-								}
+								bMouseInCreature = PtInRect(&rcScreenRect, ptMouse);
 							}
 							else
 							{
@@ -9434,38 +9372,7 @@ MTopView::GetSelectedObject(int x, int y, BYTE_ATTRIBUTE actionTarget)
 								rcScreenRect.right = nCenterY + (nWidth >> 1);
 
 								// ??ü????.
-								// A creature whose body sprite never draws -- the Hell Garden crystals
-								// are rendered entirely by the effect system -- leaves m_ScreenRect in
-								// its reset, inverted state (left/top = screen size, right/bottom = 0).
-								// Overriding left/right above cannot help because top/bottom are still
-								// inverted, so PtInRect always fails and the click falls through to the
-								// ground. Fall back to a tile hit test for that case.
-								if (rcScreenRect.bottom <= rcScreenRect.top)
-								{
-									// The sprite contributed no bounds, so build a hit box from the
-									// creature tile position plus the Width/Height in the creature table.
-									// This inverts the conversion GetSelectedSector() performs.
-									POINT ptOrigin = MapToPixel(m_FirstSector.x, m_FirstSector.y);
-									POINT ptBase   = MapToPixel(pCreature->GetX(), pCreature->GetY());
-								
-									int sx = ptBase.x - ptOrigin.x - m_PlusPoint.x;
-									int sy = ptBase.y - ptOrigin.y - m_PlusPoint.y;
-									int nHeight = pCreature->GetHeight();
-								
-									rcScreenRect.left   = sx - (nWidth >> 1);
-									rcScreenRect.right  = sx + (nWidth >> 1);
-									rcScreenRect.bottom = sy + 24;
-									rcScreenRect.top    = sy - nHeight;
-								
-									// accept the sprite area, and still accept the ground tile itself
-									POINT ptTile = GetSelectedSector(x, y);
-									bMouseInCreature = PtInRect(&rcScreenRect, ptMouse)
-										|| (ptTile.x == pCreature->GetX() && ptTile.y == pCreature->GetY());
-								}
-								else
-								{
-									bMouseInCreature = PtInRect(&rcScreenRect, ptMouse);
-								}
+								bMouseInCreature = PtInRect(&rcScreenRect, ptMouse);
 							}
 							else
 							{

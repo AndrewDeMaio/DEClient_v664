@@ -3874,7 +3874,9 @@ MakeScreenShot()
 //			g_pBack->SaveToBMP(str);
 			SaveSurfaceToImage(str, *g_pBack);
 			
-			_close(fd);
+			// fd is -1 on this branch - that is why this slot was free. Closing it
+			// trips the CRT invalid-parameter handler, which kills the process; that
+			// was the Print Screen crash. There is no handle to close here.
 			g_ScreenShotNumber++;
 			g_lGameRunBreakTime	= timeGetTime() - g_CurrentTime;
 			return;	
