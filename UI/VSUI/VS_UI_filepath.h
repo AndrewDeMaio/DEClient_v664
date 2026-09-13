@@ -347,6 +347,7 @@
 // CHATTING
 #define SPK_CHATTING_SLAYER				_ROOT"spk\\ChattingSlayer.spk"
 #define SPK_CHATTING_VAMPIRE			_ROOT"spk\\ChattingVampire.spk"
+#define SPK_CHATTING_RENEWAL			_ROOT"spk\\ChattingRenewal.spk"
 
 // EFFECT_STATUS
 #define SPK_EFFECT_STATUS_SLAYER		_ROOT"spk\\EffectStatusSlayer.spk"
@@ -509,6 +510,7 @@
 #define SPK_BLOOD_BRUST_SLAYER				_ROOT"spk\\BloodBurstSlayer.spk"
 #define SPK_BLOOD_BRUST_VAMPIRE				_ROOT"spk\\BloodBurstVampire.spk"
 #define SPK_BLOOD_BRUST_OUSTERS				_ROOT"spk\\BloodBurstOusters.spk"
+#define SPK_BLOOD_BURST_RENEWAL				_ROOT"spk\\BloodBurstRenewal.spk"
 
 #define SPK_WEBBROWSER						_ROOT"spk\\WebBrowser.spk"
 

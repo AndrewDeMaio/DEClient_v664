@@ -12,6 +12,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "GPacket_PCH.h"
+#include "ServerSkillDisplay.h"
 #include "GCSkillToObjectOK3.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -46,7 +47,7 @@ void GCSkillToObjectOK3::read ( SocketInputStream & iStream )
 
 	// ����ȭ �۾��� ���� ũ�⸦ �����ϵ��� �Ѵ�.
 	iStream.read( m_ObjectID );
-	iStream.read( m_SkillType );
+	iStream.read( m_SkillType ); m_SkillType = static_cast<decltype(m_SkillType)>(TranslateServerSkillType(m_SkillType));
 	iStream.read( m_TargetX);
 	iStream.read( m_TargetY);
 	iStream.read( m_Grade);

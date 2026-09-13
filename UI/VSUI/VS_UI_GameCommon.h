@@ -673,11 +673,67 @@ public:
 		FILTER_PARTY_ID,
 		FILTER_GUILD_ID,
 		FILTER_UNION_ID,
+		// renewal column and menu row (DK Umbra's ids 18-23)
+		MENU_ID,
+		SCROLL_UP_ID,
+		SCROLL_DOWN_ID,
+		SCROLL_END_ID,
+		HIDE_ID,
+		SETTING_ID,
 
 	};
 
 
 private:
+	// chattingrenewal.spk - one pack for every race. Buttons are normal/hover
+	// pairs (the colour button adds pressed), tabs are normal/lit pairs.
+	enum RENEWAL_SPK_INDEX
+	{
+		RENEWAL_INPUT_LEFT      = 18,
+		RENEWAL_INPUT_MIDDLE    = 19,
+		RENEWAL_INPUT_RIGHT     = 20,
+		RENEWAL_DIALOG          = 21,
+		RENEWAL_ARROW_UP        = 24,
+		RENEWAL_ARROW_DOWN      = 26,
+		RENEWAL_ARROW_END       = 28,
+		RENEWAL_MENU            = 30,   // megaphone: hide/show the chat menu
+		RENEWAL_HIDE            = 32,
+		RENEWAL_SETTING         = 34,   // gear: which channels the history shows
+		RENEWAL_FILTER_OFF      = 36,
+		RENEWAL_FILTER_ON       = 37,
+		RENEWAL_GEM             = 38,   // whisper-list button
+		RENEWAL_TAB_NORMAL      = 40,   // then zone, whisper, party, guild, union
+		RENEWAL_BUTTON_COLOR    = 57,
+		// the column icons and gear again, shrunk for 1280x720 and appended to the
+		// loose pack in the same order (each still followed by its hover frame)
+		RENEWAL_SMALL_ARROW_UP  = 66,
+		RENEWAL_SMALL_SETTING   = 76,
+	};
+
+	// renewal layout, window-relative
+	enum RENEWAL_LAYOUT
+	{
+		CHAT_COLUMN_W           = 28,   // button column on the left
+		CHAT_MENU_H             = 24,   // gear + channel tab row along the top
+		CHAT_INPUT_BAR_H        = 28,   // input band: the middle 28 of the art's 38 rows
+		CHAT_INPUT_ART_TOP      = 5,    // first art row drawn into that band
+		CHAT_INPUT_FIELD_X      = 98,   // where the text field starts
+		CHAT_INPUT_TEXT_X       = 104,  // where input text starts
+		CHAT_MODE_TAB_X         = 60,   // lit tab of the current channel, in the input bar
+		CHAT_MIN_W              = 360,
+		CHAT_MIN_H              = 140,
+		CHAT_DEFAULT_W          = 460,
+		CHAT_DEFAULT_H          = 140,
+		CHAT_DEFAULT_LIFT       = 176,  // default bottom edge: just above the quickslot bar
+		CHAT_CORNER_R           = 5,    // rounded right-hand corners: rows with an inset
+		CHAT_DIALOG_W           = 160,  // colour picker and channel settings
+		CHAT_DIALOG_H           = 100,
+		SETTING_CELL_X          = 30,   // channel settings: 2 columns x 3 rows
+		SETTING_CELL_Y          = 27,
+		SETTING_CELL_W          = 60,
+		SETTING_CELL_H          = 17,
+	};
+
 	enum MAIN_SPK_INDEX
 	{
 		MAIN,
@@ -774,6 +830,9 @@ private:
 	int						CHAT_LINE_START_X, CHAT_LINE_START_Y;
 	int						CHAT_HISTORY_START_Y;
 	int						CHAT_WINDOW_WIDTH, CHAT_INPUT_WIDTH;
+	int						CHAT_INPUT_START_X;	// where input text begins, inside the input field
+	bool					m_bl_menu_open;		// megaphone: gear + channel tab row shown
+	int						m_column_top;		// height of the column's button stack, from the bottom edge
 
 	bool					m_bl_input_mode;
 	bool					m_chat_filter[CLD_TOTAL];
@@ -794,7 +853,7 @@ private:
 
 	ButtonGroup* m_pC_button_group;
 	ButtonGroup* m_pC_input_button_group;
-	ButtonGroup* m_pC_input_right_button_group;
+	ButtonGroup* m_pC_menu_button_group;
 
 	int							m_history_line;
 	std::vector<PAPERING_HISTORY>	m_history;
@@ -926,17 +985,19 @@ public:
 	{
 		m_pC_button_group->UnacquireMouseFocus();
 		m_pC_input_button_group->UnacquireMouseFocus();
-		m_pC_input_right_button_group->UnacquireMouseFocus();
+		m_pC_menu_button_group->UnacquireMouseFocus();
 	}
 	void	CancelPushState()
 	{
 		m_pC_button_group->CancelPushState();
 		m_pC_input_button_group->CancelPushState();
-		m_pC_input_right_button_group->CancelPushState();
+		m_pC_menu_button_group->CancelPushState();
 	}
 	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
 	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
+	bool	GetOccludeRect(int* px0, int* py0, int* px1, int* py1) const;
+	bool	IsPanelOpen() const;	// the chat line is open: panel, input bar and menu show
 	void	AcquireDisappear() {}
 	void	Run(id_t id);
 
@@ -1524,76 +1585,30 @@ private:
 
 	enum EXEC_ID
 	{
-		BLOODBURST_CHANGE_ID,
+		BLOODBURST_CHANGE_ID,	// unused since the circles: they have no vertical layout
 		ATTACK_ID,
 		DEFENSE_ID,
 		PARTY_ID,
 	};
 
-
-	enum BLOOD_BURS_SPK_INDEX
+	// BloodBurstRenewal.spk (DK Umbra's renewal art): 33x33 cells, one pack for
+	// every race
+	enum RENEWAL_SPK_INDEX
 	{
-		MAIN_WIDTH,
-		MAIN_HEIGHT,
-
-		PARTY_MAIN_WIDTH,
-		PARTY_MAIN_HEIGHT,
-
-		CHANGE_BUTTON_WIDTH,
-		CHANGE_BUTTON_WIDTH_HILIGHTED,
-		CHANGE_BUTTON_WIDTH_PUSHED,
-
-		CHANGE_BUTTON_HEIGHT,
-		CHANGE_BUTTON_HEIGHT_HILIGHTED,
-		CHANGE_BUTTON_HEIGHT_PUSHED,
-
-		MAIN_GAGE_BASE_ATTACK_WIDTH,
-		MAIN_GAGE_BASE_ATTACK_HEIGHT,
-
-		MAIN_GAGE_BASE_DEFENSE_WIDTH,
-		MAIN_GAGE_BASE_DEFENSE_HEIGHT,
-
-		ATTACK_GAGE_WIDTH,
-		ATTACK_GAGE_HEIGHT,
-
-		DEFENSE_GAGE_WIDTH,
-		DEFENSE_GAGE_HEIGHT,
-
-		PARTY_GAGE_WIDTH,
-		PARTY_GAGE_HEIGHT,
-
-		ATTACK_GAGE_FULL_WIDTH,
-		ATTACK_GAGE_FULL_HEIGHT,
-
-		DEFENSE_GAGE_FULL_WIDTH,
-		DEFENSE_GAGE_FULL_HEIGHT,
-
-		PARTY_GAGE_FULL_WIDTH,
-		PARTY_GAGE_FULL_HEIGHT,
-
-		ATTACK_BUTTON_HEIGHT,
-		ATTACK_BUTTON_HILIGHTED_HEIGHT,
-		ATTACK_BUTTON_PUSHED_HEIGHT,
-
-		DEFENSE_BUTTON_HEIGHT,
-		DEFENSE_BUTTON_HILIGHTED_HEIGHT,
-		DEFENSE_BUTTON_PUSHED_HEIGHT,
-
-		PARTY_BUTTON_HEIGHT,
-		PARTY_BUTTON_HILIGHTED_HEIGHT,
-		PARTY_BUTTON_PUSHED_HEIGHT,
-
-		ATTACK_BUTTON_WIDTH,
-		ATTACK_BUTTON_HILIGHTED_WIDTH,
-		ATTACK_BUTTON_PUSHED_WIDTH,
-
-		DEFENSE_BUTTON_WIDTH,
-		DEFENSE_BUTTON_HILIGHTED_WIDTH,
-		DEFENSE_BUTTON_PUSHED_WIDTH,
-
-		PARTY_BUTTON_WIDTH,
-		PARTY_BUTTON_HILIGHTED_WIDTH,
-		PARTY_BUTTON_PUSHED_WIDTH,
+		RENEWAL_FRAME,
+		RENEWAL_ATTACK,		// red circle
+		RENEWAL_DEFENSE,	// blue circle
+		RENEWAL_PARTY,		// green circle
+		RENEWAL_LETTER_A,	// letters show once a gauge is full - click one to burst
+		RENEWAL_LETTER_D,
+		RENEWAL_LETTER_P,
+		// appended to the loose pack by Tools/Sprites: the same seven shrunk (sharper
+		// at the 1.5x present), then the pieces of the full-gauge glow
+		RENEWAL_SMALL_FRAME = 7,		// then attack, defense, party, A, D, P
+		RENEWAL_LIT_ATTACK = 14,		// brightened circles, blended in while full
+		RENEWAL_HALO_OUTER_ATTACK = 17,	// circle + 2 * GLOW_MARGIN discs in each gauge's glow colour
+		RENEWAL_HALO_MID_ATTACK = 20,	// circle + GLOW_MARGIN, drawn 2px in
+		RENEWAL_GLOW_FRAME_COUNT = 23,
 	};
 
 	enum	BLOOD_BURST_MAX
@@ -1603,8 +1618,7 @@ private:
 		PARTY_MAX_POINT = 20000,
 	};
 
-
-	bool						m_width_mode;
+	enum { GAUGE_COUNT = 3, GLOW_MARGIN = 4 };	// attack, defense, party; glow room around each circle
 
 	bool						m_bGageAttackFull;
 	bool						m_bGageDefenseFull;
@@ -1614,43 +1628,26 @@ private:
 	int							m_iDefenseGage;
 	int							m_iPartyGage;
 
-	float						m_fAttackGageStartPosition;
-	float						m_fDefenseGageStartPosition;
-	float						m_fPartyGageStartPosition;
-
-	DWORD						m_dw_prev_Attacktickcount;
-	DWORD						m_dw_prev_Defensetickcount;
-	DWORD						m_dw_prev_Partyickcount;
-
-	bool						m_bAttackTimerCheck;
-	bool						m_bDefenseTimerCheck;
-	bool						m_bPartyTimerCheck;
-
-
 	C_SPRITE_PACK* m_pC_BloodBurst_spk;
+	ButtonGroup* m_pC_button_group;
+	bool						m_glow;			// the shrunk set and its glow frames are in the pack
+	int							m_image_base;	// RENEWAL_SMALL_FRAME, or RENEWAL_FRAME without them
+	int							m_margin;		// GLOW_MARGIN, or 0 without them
 
-	ButtonGroup* m_pC_width_button_group;
-	ButtonGroup* m_pC_height_button_group;
-
+	int		GaugeCount() const;			// attack and defense, plus party while in a party
+	bool	IsGaugeFull(int gauge) const;
 
 public:
 	C_VS_UI_BLOOD_BURST();
 	~C_VS_UI_BLOOD_BURST();
 
-	void	UnacquireMouseFocus()
-	{
-		m_pC_width_button_group->UnacquireMouseFocus();
-		m_pC_height_button_group->UnacquireMouseFocus();
-	}
-	void	CancelPushState()
-	{
-		m_pC_width_button_group->CancelPushState();
-		m_pC_height_button_group->CancelPushState();
-	}
+	void	UnacquireMouseFocus() { m_pC_button_group->UnacquireMouseFocus(); }
+	void	CancelPushState() { m_pC_button_group->CancelPushState(); }
 	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
 	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	bool	IsPixel(int _x, int _y);
+	bool	GetOccludeRect(int* px0, int* py0, int* px1, int* py1) const;
 	void	AcquireDisappear() {}
 	void	Run(id_t id);
 	bool	MouseControl(UINT message, int _x, int _y);
@@ -1662,14 +1659,13 @@ public:
 	void	Finish();
 
 	void	SetGage();
-	void	SetAttackGage(); //int	AttackGage)	;
-	void	SetDefenseGage(); //nt	DefenseGage);
-	void	SetPartyGage(); //int	PartyGage)	;
+	void	SetAttackGage();
+	void	SetDefenseGage();
+	void	SetPartyGage();
 
 	bool	GetAttackGageFull() { return	m_bGageAttackFull; }
 	bool	GetDefenseGageFull() { return	m_bGageDefenseFull; }
 	bool	GetPartyGageFull() { return	m_bGagePartyFull; }
-
 };
 
 

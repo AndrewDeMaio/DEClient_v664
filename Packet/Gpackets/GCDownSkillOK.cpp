@@ -8,6 +8,7 @@
 
 // include files
 #include "GPacket_PCH.h"
+#include "ServerSkillDisplay.h"
 #include "GCDownSkillOK.h"
 
 
@@ -38,7 +39,7 @@ GCDownSkillOK::~GCDownSkillOK ()
 void GCDownSkillOK::read ( SocketInputStream & iStream ) 
 {
 	__BEGIN_TRY
-	iStream.read( m_SkillType );
+	iStream.read( m_SkillType ); m_SkillType = static_cast<decltype(m_SkillType)>(TranslateServerSkillType(m_SkillType));
 	__END_CATCH
 }
 

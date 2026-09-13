@@ -12,6 +12,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "GPacket_PCH.h"
+#include "ServerSkillDisplay.h"
 #include "GCSkillToSelfOK3.h"
 
 
@@ -46,7 +47,7 @@ void GCSkillToSelfOK3::read ( SocketInputStream & iStream )
 	// ����ȭ �۾��� ���� ũ�⸦ �����ϵ��� �Ѵ�.
 	iStream.read( m_X );
 	iStream.read( m_Y );
-	iStream.read( m_SkillType );
+	iStream.read( m_SkillType ); m_SkillType = static_cast<decltype(m_SkillType)>(TranslateServerSkillType(m_SkillType));
 	iStream.read( m_Duration );
 	iStream.read( m_Grade );
 

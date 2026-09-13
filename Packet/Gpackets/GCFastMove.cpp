@@ -8,6 +8,7 @@
 
 // include files
 #include "GPacket_PCH.h"
+#include "ServerSkillDisplay.h"
 #include "GCFastMove.h"
 
 
@@ -23,7 +24,7 @@ void GCFastMove::read ( SocketInputStream & iStream )
 	iStream.read( m_FromY );
 	iStream.read( m_ToX );
 	iStream.read( m_ToY );
-	iStream.read( m_SkillType );
+	iStream.read( m_SkillType ); m_SkillType = static_cast<decltype(m_SkillType)>(TranslateServerSkillType(m_SkillType));
 
 	__END_CATCH
 }

@@ -11,6 +11,7 @@
 // include files
 //////////////////////////////////////////////////////////////////////
 #include "GPacket_PCH.h"
+#include "ServerSkillDisplay.h"
 #include "GCKnocksTargetBackOK5.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"
@@ -50,7 +51,7 @@ void GCKnocksTargetBackOK5::read ( SocketInputStream & iStream )
 //	iStream.read( m_Y );
 	iStream.read( m_bSuccess);
 
-	iStream.read( m_SkillType);
+	iStream.read( m_SkillType); m_SkillType = static_cast<decltype(m_SkillType)>(TranslateServerSkillType(m_SkillType));
 	iStream.read( m_dir);
 	iStream.read( m_X);
 	iStream.read( m_Y);

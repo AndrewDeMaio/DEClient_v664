@@ -5604,7 +5604,7 @@ bool C_VS_UI_CHATTING::MouseControl(UINT message, int _x, int _y)
 	{
 		gpC_mouse_pointer->SetCursorDefault();
 		// sub window �ȿ� ������ sub scroll
-		if (m_sub_window != 2)
+		if (m_sub_window == 1)
 			re &= m_pC_sub_scroll_bar->MouseControl(message, _x - m_sub_rect.x, _y - m_sub_rect.y);
 		switch (message)
 		{
@@ -5652,6 +5652,18 @@ bool C_VS_UI_CHATTING::MouseControl(UINT message, int _x, int _y)
 					m_sub_window = 0;
 			}
 
+			else if (m_sub_window == 3)	// channel settings
+			{
+				// a click anywhere in a cell - checkbox or label - flips that channel
+				const int cx = _x - m_sub_rect.x - SETTING_CELL_X;
+				const int cy = _y - m_sub_rect.y - SETTING_CELL_Y;
+				if (cx >= 0 && cy >= 0 && cx / SETTING_CELL_W < 2 && cy / SETTING_CELL_H < 3)
+				{
+					const int channel = (cy / SETTING_CELL_H) * 2 + cx / SETTING_CELL_W;
+					m_chat_filter[channel] = !m_chat_filter[channel];
+					ResetScroll();
+				}
+			}
 			//if(message == M_LB_DOUBLECLICK)
 			//	m_sub_window = 0;
 		}
@@ -5669,13 +5681,16 @@ bool C_VS_UI_CHATTING::MouseControl(UINT message, int _x, int _y)
 	}
 
 	_x -= x; _y -= y;
-	re &= m_pC_button_group->MouseControl(message, _x, h - _y);
-	re &= m_pC_scroll_bar->MouseControl(message, _x, _y);
 
-	if (!g_pUserOption->UseEnterChat || m_bl_input_mode == true)
+	// The column is bottom-anchored and always live; the menu row is top-anchored
+	// and, like the input bar, only there while the chat line is open. No scroll
+	// bar - the column's arrows and the wheel scroll the history.
+	re &= m_pC_button_group->MouseControl(message, _x, h - _y);
+	if (IsPanelOpen())
 	{
+		if (m_bl_menu_open)
+			re &= m_pC_menu_button_group->MouseControl(message, _x, _y);
 		re &= m_pC_input_button_group->MouseControl(message, _x, h - _y);
-		re &= m_pC_input_right_button_group->MouseControl(message, w - _x, h - _y);
 	}
 
 
@@ -5719,7 +5734,7 @@ bool C_VS_UI_CHATTING::MouseControl(UINT message, int _x, int _y)
 		{
 			if (IsSpreadID())
 			{
-				RECT rect = { CHAT_LINE_START_X + 15 - x, CHAT_LINE_START_Y - y - GetWhisperSize() * FONT_GAP - 3, CHAT_LINE_START_X + 85 - x, CHAT_LINE_START_Y - 3 - y };
+				RECT rect = { CHAT_INPUT_START_X - x, CHAT_LINE_START_Y - y - GetWhisperSize() * FONT_GAP - 3, CHAT_INPUT_START_X + 70 - x, CHAT_LINE_START_Y - 3 - y };
 				if (_x > rect.left && _x < rect.right && _y > rect.top && _y < rect.bottom)
 				{
 					int select = (_y - rect.top) / FONT_GAP;
@@ -5738,11 +5753,12 @@ bool C_VS_UI_CHATTING::MouseControl(UINT message, int _x, int _y)
 			}
 
 
-			if (_y > 100 && _y < 120)
+			// whisper id field, then the message, both inside the input bar
+			if (_y > h - CHAT_INPUT_BAR_H && _y < h)
 			{
-				if (_x > 51 && _x < 129 && !m_bl_focus_whisper)
+				if (_x > CHAT_INPUT_START_X - x - 4 && _x < CHAT_INPUT_START_X - x + 72 && !m_bl_focus_whisper)
 					ChangeWhisperFocus();
-				else if (_x > 129 && _x < w - 50 && m_bl_focus_whisper)
+				else if (_x > CHAT_INPUT_START_X - x + 96 && _x < w - 40 && m_bl_focus_whisper)
 					ChangeWhisperFocus();
 				break;
 			}
@@ -5881,7 +5897,7 @@ bool C_VS_UI_CHATTING::MouseControl(UINT message, int _x, int _y)
 						  }
 						  else
 						  {
-						  SetRect(&rect, CHAT_LINE_START_X, CHAT_LINE_START_Y - GetWhisperSize()*FONT_GAP -3, CHAT_LINE_START_X+70, CHAT_LINE_START_Y -3);
+						  SetRect(&rect, CHAT_INPUT_START_X, CHAT_LINE_START_Y - GetWhisperSize()*FONT_GAP -3, CHAT_INPUT_START_X + 70, CHAT_LINE_START_Y -3);
 
 							if (x > rect.left && x < rect.right
 							&& y > rect.top && y < rect.bottom)
@@ -6013,7 +6029,7 @@ int pixelY = (g_HISTORY_LINE - HISTORY_LINE) * FONT_GAP;
 						}
 						else
 						{
-						SetRect(&rect, CHAT_LINE_START_X, CHAT_LINE_START_Y - GetWhisperSize()*FONT_GAP -3, CHAT_LINE_START_X+70, CHAT_LINE_START_Y -3);
+						SetRect(&rect, CHAT_INPUT_START_X, CHAT_LINE_START_Y - GetWhisperSize()*FONT_GAP -3, CHAT_INPUT_START_X + 70, CHAT_LINE_START_Y -3);
 
 						  if (x > rect.left && x < rect.right
 						  && y > rect.top && y < rect.bottom)
@@ -6575,101 +6591,116 @@ C_VS_UI_CHATTING::AddInputString(const char* pString)
 void C_VS_UI_CHATTING::Show()
 {
 	int gap = 0;
+	const bool panel_open = IsPanelOpen();
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		if (!g_pUserOption->UseEnterChat || m_bl_input_mode == true) gap = m_pC_chatting_spk->GetHeight(INPUT_RIGHT);
-		Rect rect(0, 0, w - 10, h - gap);
-		if (GetAttributes()->alpha)
+		if (!panel_open)
 		{
-			switch (g_eRaceInterface)
-			{
-			case RACE_SLAYER:
-			{
-				RECT alpha_rect = { x + 35, y + 5, x + w - 20, y + h - 5 };
-				DrawAlphaBox(&alpha_rect, 0, 2, 2, g_pUserOption->ALPHA_DEPTH);
-			}
-			break;
-
-			case RACE_VAMPIRE:
-			{
-				RECT alpha_rect = { x + 30, y + 10, x + w - 20, y + h - 5 };
-				DrawAlphaBox(&alpha_rect, 2, 0, 0, g_pUserOption->ALPHA_DEPTH);
-			}
-			break;
-
-			case RACE_OUSTERS:
-			{
-				RECT alpha_rect = { x + 30, y + 4, x + w - 20, y + h - 4 };
-				DrawAlphaBox(&alpha_rect, 0, 4, 0, g_pUserOption->ALPHA_DEPTH);
-			}
-			break;
-			}
-			m_pC_chatting_spk->BltLockedClip(x, y, rect, MAIN_ALPHA);
+			// Enter-chat mode with the line closed: only the button column shows
+			m_bl_menu_open = false;
+			m_bl_spreadID = false;
+			m_sub_window = 0;
 		}
 		else
-			m_pC_chatting_spk->BltLockedClip(x, y, rect, MAIN);
-		rect.w = m_pC_chatting_spk->GetWidth(MAIN_RIGHT);
-		m_pC_chatting_spk->BltLockedClip(x + w - rect.w, y, rect, MAIN_RIGHT);
-
-		if (gap)
 		{
-			if (g_eRaceInterface == RACE_SLAYER)
+			gap = CHAT_INPUT_BAR_H;
+
+			// DK Umbra draws the open chat as a plain half-dark panel. Ours rounds its two
+			// right-hand corners (the left edge sits on the screen edge). DrawAlphaBox
+			// rects are right/bottom exclusive, so the pieces never overlap.
+			static const int corner_inset[CHAT_CORNER_R] = { 5, 3, 2, 1, 1 };
+
+			RECT body = { x, y, x + w - CHAT_CORNER_R, y + h };
+			DrawAlphaBox(&body, 0, 0, 0, 15);
+			RECT strip = { x + w - CHAT_CORNER_R, y + CHAT_CORNER_R, x + w, y + h - CHAT_CORNER_R };
+			DrawAlphaBox(&strip, 0, 0, 0, 15);
+			for (int r = 0; r < CHAT_CORNER_R; ++r)
 			{
-				rect.w = w;
-				rect.h = m_pC_chatting_spk->GetHeight(MAIN_BOTTOM) - 5;
-				m_pC_chatting_spk->BltLockedClip(x, y + h - gap - rect.h, rect, MAIN_BOTTOM);
+				if (corner_inset[r] >= CHAT_CORNER_R)
+					continue;
+				RECT top = { x + w - CHAT_CORNER_R, y + r, x + w - corner_inset[r], y + r + 1 };
+				RECT bottom = { x + w - CHAT_CORNER_R, y + h - 1 - r, x + w - corner_inset[r], y + h - r };
+				DrawAlphaBox(&top, 0, 0, 0, 15);
+				DrawAlphaBox(&bottom, 0, 0, 0, 15);
 			}
-			rect.w = w - 10;
-			rect.h = gap;
-			if (GetAttributes()->alpha)
-				m_pC_chatting_spk->BltLockedClip(x, y + h - gap, rect, INPUT_ALPHA);
-			else
-				m_pC_chatting_spk->BltLockedClip(x, y + h - gap, rect, INPUT);
-			m_pC_chatting_spk->BltLocked(x + w - m_pC_chatting_spk->GetWidth(INPUT_RIGHT), y + h - gap, INPUT_RIGHT);
+
+			// Input bar, 28 middle rows of the 38px art: the left cap's button panel,
+			// the cap's field edge, the field, and the right cap's first 15 columns.
+			const int band_y = y + h - gap - CHAT_INPUT_ART_TOP;
+			const int left_w = m_pC_chatting_spk->GetWidth(RENEWAL_INPUT_LEFT);
+			const int field_x = x + CHAT_INPUT_FIELD_X;
+			const int right_x = x + w - 15;
+
+			Rect band(0, CHAT_INPUT_ART_TOP, CHAT_INPUT_FIELD_X - 4 - CHAT_COLUMN_W, gap);
+			m_pC_chatting_spk->BltLockedClip(x + CHAT_COLUMN_W, band_y, band, RENEWAL_INPUT_LEFT);
+
+			band.x = left_w - 4;
+			band.w = 4;
+			m_pC_chatting_spk->BltLockedClip(field_x - left_w, band_y, band, RENEWAL_INPUT_LEFT);
+
+			band.x = 0;
+			band.w = min(m_pC_chatting_spk->GetWidth(RENEWAL_INPUT_MIDDLE), right_x - field_x);
+			if (band.w > 0)
+				m_pC_chatting_spk->BltLockedClip(field_x, band_y, band, RENEWAL_INPUT_MIDDLE);
+
+			// the right cap's first 15 columns, its bottom rows trimmed to the rounded corner
+			band.w = 15;
+			band.h = gap - CHAT_CORNER_R;
+			m_pC_chatting_spk->BltLockedClip(right_x, band_y, band, RENEWAL_INPUT_RIGHT);
+			for (int r = 0; r < CHAT_CORNER_R; ++r)
+			{
+				Rect slice(0, CHAT_INPUT_ART_TOP + gap - 1 - r, 15 - corner_inset[r], 1);
+				m_pC_chatting_spk->BltLockedClip(right_x, band_y, slice, RENEWAL_INPUT_RIGHT);
+			}
 
 			m_pC_input_button_group->Show();
-			m_pC_input_right_button_group->Show();
-		}
-		else
-		{
-			rect.w = w;
-			rect.h = m_pC_chatting_spk->GetHeight(MAIN_BOTTOM);
-			m_pC_chatting_spk->BltLockedClip(x, y + h - gap - rect.h, rect, MAIN_BOTTOM);
+
+			// the channel being typed into, as its lit tab
+			const int mode = m_bl_whisper_mode ? (int)CLD_WHISPER : (int)m_chat_mode;
+			if (mode >= CLD_NORMAL && mode <= CLD_UNION)
+			{
+				const int tab = RENEWAL_TAB_NORMAL + mode * 2 + 1;
+				m_pC_chatting_spk->BltLocked(x + CHAT_MODE_TAB_X, y + h - gap + (gap - m_pC_chatting_spk->GetHeight(tab)) / 2, tab);
+			}
+
+			if (m_bl_menu_open)
+				m_pC_menu_button_group->Show();
 		}
 		m_pC_button_group->Show();
 
 
 		if (m_sub_window != 0)
 		{
-			int ousters_plus = 18;
-			if (g_eRaceInterface != RACE_OUSTERS)
-				ousters_plus = 0;
-
-			m_sub_rect.x = x + w - m_sub_rect.w;
-			if (y > m_sub_rect.h)
-				m_sub_rect.y = y - m_sub_rect.h;
+			// channel settings open over the left end, the pickers over the right;
+			// above the chat when there is room, else below it
+			m_sub_rect.x = (m_sub_window == 3) ? x : x + w - m_sub_rect.w;
+			if (y > m_sub_rect.h + 5)
+				m_sub_rect.y = y - m_sub_rect.h - 5;
 			else
 				m_sub_rect.y = y + h;
-			gpC_global_resource->DrawDialogLocked(m_sub_rect, GetAttributes()->alpha);
+
+			RECT dialog = { m_sub_rect.x + 4, m_sub_rect.y + 5,
+				m_sub_rect.x + 4 + m_pC_chatting_spk->GetWidth(RENEWAL_DIALOG),
+				m_sub_rect.y + 5 + m_pC_chatting_spk->GetHeight(RENEWAL_DIALOG) };
+			g_FL2_OverlayOccludeRect(&dialog, "ChatDialog");
+			m_pC_chatting_spk->BltLockedAlpha(dialog.left, dialog.top, RENEWAL_DIALOG, 20);
 
 			if (m_sub_window == 1)	// mark
 			{
 				if (m_sub_selected.x != -1)
 				{
-					//					RECT rect = {m_sub_rect.x+MARK_X+m_sub_selected.x*14-1, m_sub_rect.y+MARK_Y-2+(m_sub_selected.y+m_pC_sub_scroll_bar->GetScrollPos())*14, 0, 0};			// hyungony
-					RECT rect = { m_sub_rect.x + MARK_X + ousters_plus + m_sub_selected.x * 14 - 1, m_sub_rect.y + MARK_Y + ousters_plus - 2 + (m_sub_selected.y - m_pC_sub_scroll_bar->GetScrollPos()) * 14, 0, 0 };
+					RECT rect = { m_sub_rect.x + MARK_X + m_sub_selected.x * 14 - 1, m_sub_rect.y + MARK_Y - 2 + (m_sub_selected.y - m_pC_sub_scroll_bar->GetScrollPos()) * 14, 0, 0 };
 					rect.right = rect.left + 15;
 					rect.bottom = rect.top + 16;
 
 					if (m_sub_selected.y >= m_pC_sub_scroll_bar->GetScrollPos() && m_sub_selected.y < m_pC_sub_scroll_bar->GetScrollPos() + 5)
 						DrawAlphaBox(&rect, 0, 0, 255, g_pUserOption->ALPHA_DEPTH);
 				}
-				//				
 				gpC_base->m_p_DDSurface_back->Unlock();
 				int localLine = 1;
-#if __CONTENTS(__JAPAN_UI)
+	#if __CONTENTS(__JAPAN_UI)
 				localLine = 0;
-#endif //__JAPAN_UI
+	#endif //__JAPAN_UI
 
 				g_FL2_GetDC();
 				for (int i = 0; i < MARK_MAX - localLine; i++)
@@ -6679,14 +6710,11 @@ void C_VS_UI_CHATTING::Show()
 						int scrollPos = m_pC_sub_scroll_bar->GetScrollPos();
 						if (scrollPos < 0)
 							scrollPos = 0;
-						g_PrintColorStr(m_sub_rect.x + j * 14 + MARK_X + ousters_plus, m_sub_rect.y + i * 14 + MARK_Y + ousters_plus, g_mark[i + scrollPos][j], gpC_base->m_chatting_pi, RGB_WHITE);
+						g_PrintColorStr(m_sub_rect.x + j * 14 + MARK_X, m_sub_rect.y + i * 14 + MARK_Y, g_mark[i + scrollPos][j], gpC_base->m_chatting_pi, RGB_WHITE);
 					}
 				}
 				g_FL2_ReleaseDC();
 				m_pC_sub_scroll_bar->Show(m_sub_rect.x, m_sub_rect.y);
-
-				//				if(MARK_MAX > 5)
-				//					gpC_global_resource->m_pC_assemble_box_button_spk->Blt(SLAYER_SCROLLTAG_X, 439+18*m_mark_scroll/(MARK_MAX-5), C_GLOBAL_RESOURCE::AB_SLAYER_SCROLL_TAG);
 			}
 			else if (m_sub_window == 2)	// color
 			{
@@ -6713,11 +6741,34 @@ void C_VS_UI_CHATTING::Show()
 					gpC_global_resource->m_pC_scroll_bar_spk->Blt(m_sub_rect.x + COLOR_X + m_sub_selected.x * 30, m_sub_rect.y + COLOR_Y + m_sub_selected.y * 17, C_GLOBAL_RESOURCE::SB_BUTTON);
 				}
 			}
+			else if (m_sub_window == 3)	// channel settings
+			{
+				// Umbra's "chat invisible settings": which channels the history
+				// shows, in m_chat_filter order (normal, zone / whisper, party /
+				// guild, union)
+				for (int i = 0; i < 6; ++i)
+					m_pC_chatting_spk->BltLocked(m_sub_rect.x + SETTING_CELL_X + (i % 2) * SETTING_CELL_W,
+						m_sub_rect.y + SETTING_CELL_Y + (i / 2) * SETTING_CELL_H,
+						m_chat_filter[i] ? RENEWAL_FILTER_ON : RENEWAL_FILTER_OFF);
+				gpC_base->m_p_DDSurface_back->Unlock();
+
+				const char* guild = (g_eRaceInterface == RACE_SLAYER) ? "Team" : (g_eRaceInterface == RACE_VAMPIRE) ? "Clan" : "Guild";
+				const char* label[6] = { "Normal", "Zone", "Whisper", "Party", guild, "Union" };
+
+				g_FL2_GetDC();
+				g_PrintColorStr(m_sub_rect.x + 12, m_sub_rect.y + 8, "Visible Channels", gpC_base->m_chatting_pi, RGB(130, 230, 230));
+				for (int i = 0; i < 6; ++i)
+					g_PrintColorStr(m_sub_rect.x + SETTING_CELL_X + (i % 2) * SETTING_CELL_W + 15,
+						m_sub_rect.y + SETTING_CELL_Y + (i / 2) * SETTING_CELL_H - 3,
+						label[i], gpC_base->m_chatting_pi, m_chat_filter[i] ? RGB_WHITE : RGB(128, 128, 128));
+				g_FL2_ReleaseDC();
+			}
+			else
+				gpC_base->m_p_DDSurface_back->Unlock();
 		}
 		else
 			gpC_base->m_p_DDSurface_back->Unlock();
 	}
-	m_pC_scroll_bar->Show(x, y);
 
 	// �̰��� ���� ���� �ҷ����� �ߴ� �κ�. process �� �ű� by  sonee
 
@@ -6745,17 +6796,17 @@ void C_VS_UI_CHATTING::Show()
 		if (bFoundMute && !g_pUserInformation->attrOperator.GetValue())
 		{
 			if (m_bl_whisper_mode)
-				g_PrintColorStr(CHAT_LINE_START_X + 115, CHAT_LINE_START_Y, (*g_pGameStringTable)[UI_STRING_MESSAGE_MUTE].GetString(), gpC_base->m_chatting_pi, RGB_RED);
+				g_PrintColorStr(CHAT_INPUT_START_X + 100, CHAT_LINE_START_Y, (*g_pGameStringTable)[UI_STRING_MESSAGE_MUTE].GetString(), gpC_base->m_chatting_pi, RGB_RED);
 			else
-				g_PrintColorStr(CHAT_LINE_START_X + 15, CHAT_LINE_START_Y, (*g_pGameStringTable)[UI_STRING_MESSAGE_MUTE].GetString(), gpC_base->m_chatting_pi, RGB_RED);
+				g_PrintColorStr(CHAT_INPUT_START_X, CHAT_LINE_START_Y, (*g_pGameStringTable)[UI_STRING_MESSAGE_MUTE].GetString(), gpC_base->m_chatting_pi, RGB_RED);
 		}
 		else
 			if (m_timer == TIMER_REP || m_timer == TIMER_PAPERING)
 			{
 				if (m_bl_whisper_mode)
-					g_PrintColorStr(CHAT_LINE_START_X + 115, CHAT_LINE_START_Y, (*g_pGameStringTable)[UI_STRING_MESSAGE_LIMIT_STRING_COUNT].GetString(), gpC_base->m_chatting_pi, RGB_RED);
+					g_PrintColorStr(CHAT_INPUT_START_X + 100, CHAT_LINE_START_Y, (*g_pGameStringTable)[UI_STRING_MESSAGE_LIMIT_STRING_COUNT].GetString(), gpC_base->m_chatting_pi, RGB_RED);
 				else
-					g_PrintColorStr(CHAT_LINE_START_X + 15, CHAT_LINE_START_Y, (*g_pGameStringTable)[UI_STRING_MESSAGE_LIMIT_STRING_COUNT].GetString(), gpC_base->m_chatting_pi, RGB_RED);
+					g_PrintColorStr(CHAT_INPUT_START_X, CHAT_LINE_START_Y, (*g_pGameStringTable)[UI_STRING_MESSAGE_LIMIT_STRING_COUNT].GetString(), gpC_base->m_chatting_pi, RGB_RED);
 			}
 			else
 			{
@@ -6891,13 +6942,32 @@ void C_VS_UI_CHATTING::Show()
 						else
 							tabvalue = p_line->GetCondition();
 
-						vx = g_PrintColorStr(CHAT_LINE_START_X, CHAT_HISTORY_START_Y - (FONT_GAP * line), p_line->GetIdString(), gpC_base->m_user_id_pi, m_color_tab[tabvalue]);
-						vx = g_PrintColorStr(vx, CHAT_HISTORY_START_Y - (FONT_GAP * line), g_sz_chat_id_divisor[p_line->GetCondition()], gpC_base->m_chatting_pi, m_color_tab[tabvalue]);
+						const int ly = CHAT_HISTORY_START_Y - (FONT_GAP * line);
+						if (panel_open)
+						{
+							vx = g_PrintColorStr(CHAT_LINE_START_X, ly, p_line->GetIdString(), gpC_base->m_user_id_pi, m_color_tab[tabvalue]);
+							vx = g_PrintColorStr(vx, ly, g_sz_chat_id_divisor[p_line->GetCondition()], gpC_base->m_chatting_pi, m_color_tab[tabvalue]);
+						}
+						else
+						{
+							// no panel behind the text: shadowed, as Umbra draws it
+							vx = g_PrintColorStrShadow(CHAT_LINE_START_X, ly, p_line->GetIdString(), gpC_base->m_user_id_pi, m_color_tab[tabvalue]);
+							vx = g_PrintColorStrShadow(vx, ly, g_sz_chat_id_divisor[p_line->GetCondition()], gpC_base->m_chatting_pi, m_color_tab[tabvalue]);
+						}
 						vx += _ID_GAP;
 					}
 
-					g_PrintColorStrLen(vx, CHAT_HISTORY_START_Y - (FONT_GAP * line),
-						pDrawStr, curr_length, *pi, p_line->GetColor());
+					if (panel_open)
+						g_PrintColorStrLen(vx, CHAT_HISTORY_START_Y - (FONT_GAP * line),
+							pDrawStr, curr_length, *pi, p_line->GetColor());
+					else
+					{
+						char shadowed[512];
+						const int n = min(curr_length, (int)sizeof(shadowed) - 1);
+						memcpy(shadowed, pDrawStr, n);
+						shadowed[n] = '\0';
+						g_PrintColorStrShadow(vx, CHAT_HISTORY_START_Y - (FONT_GAP * line), shadowed, *pi, p_line->GetColor());
+					}
 				}
 			}
 		}
@@ -6906,7 +6976,8 @@ void C_VS_UI_CHATTING::Show()
 	if (gap)
 	{
 		m_pC_input_button_group->ShowDescription();
-		m_pC_input_right_button_group->ShowDescription();
+		if (m_bl_menu_open)
+			m_pC_menu_button_group->ShowDescription();
 	}
 	m_pC_button_group->ShowDescription();
 
@@ -6917,12 +6988,12 @@ void C_VS_UI_CHATTING::Show()
 		if (m_bl_spreadID)
 		{
 
-			RECT rect = { CHAT_LINE_START_X + 15, CHAT_LINE_START_Y - GetWhisperSize() * FONT_GAP - 3, CHAT_LINE_START_X + 85, CHAT_LINE_START_Y - 3 };
+			RECT rect = { CHAT_INPUT_START_X, CHAT_LINE_START_Y - GetWhisperSize() * FONT_GAP - 3, CHAT_INPUT_START_X + 70, CHAT_LINE_START_Y - 3 };
 			DrawAlphaBox(&rect, 50 >> 3, 50 >> 3, 150 >> 3, 25);
 			g_FL2_GetDC();
 			for (int i = 0; i < GetWhisperSize(); i++)
 			{
-				g_PrintColorStr(CHAT_LINE_START_X + 15, CHAT_LINE_START_Y - GetWhisperSize() * FONT_GAP + i * FONT_GAP, GetWhisperID(i).c_str(), gpC_base->m_user_id_pi, gpC_base->m_user_id_pi.text_color);
+				g_PrintColorStr(CHAT_INPUT_START_X, CHAT_LINE_START_Y - GetWhisperSize() * FONT_GAP + i * FONT_GAP, GetWhisperID(i).c_str(), gpC_base->m_user_id_pi, gpC_base->m_user_id_pi.text_color);
 			}
 			g_FL2_ReleaseDC();
 
@@ -6941,7 +7012,7 @@ void C_VS_UI_CHATTING::Show()
 				// Used to draw with a raw surface GetDC (which bypasses the
 				// FL2 dirty tracking and the native-res overlay, and can hand
 				// back an invalid DC on 16-bit surfaces). Route through FL2.
-				g_PrintColorStrLen(CHAT_LINE_START_X + 115, CHAT_LINE_START_Y,
+				g_PrintColorStrLen(CHAT_INPUT_START_X + 100, CHAT_LINE_START_Y,
 					m_sz_whisper_backup.c_str(), min(len, len2),
 					gpC_base->m_chatting_pi, m_color_tab[CLD_NORMAL]);
 			}
@@ -6950,7 +7021,7 @@ void C_VS_UI_CHATTING::Show()
 		{
 			//if(m_sz_whisper_backup.size() > 0) ###@@@
 			if (!m_sz_whisper_backup.empty())
-				g_PrintColorStr(CHAT_LINE_START_X + 15, CHAT_LINE_START_Y, m_sz_whisper_backup.c_str(), gpC_base->m_user_id_pi, gpC_base->m_user_id_pi.text_color);
+				g_PrintColorStr(CHAT_INPUT_START_X, CHAT_LINE_START_Y, m_sz_whisper_backup.c_str(), gpC_base->m_user_id_pi, gpC_base->m_user_id_pi.text_color);
 		}
 	}
 
@@ -7362,6 +7433,28 @@ void	C_VS_UI_CHATTING::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 
 	static char string[50];
 
+	// renewal column, gear and tabs
+	const char* renewal_tip = NULL;
+	switch (p_button->GetID())
+	{
+	case MENU_ID:			renewal_tip = "Hide/Show Chat Menu"; break;
+	case SCROLL_UP_ID:		renewal_tip = "Scroll Up"; break;
+	case SCROLL_DOWN_ID:	renewal_tip = "Scroll Down"; break;
+	case SCROLL_END_ID:		renewal_tip = "Scroll to Latest"; break;
+	case HIDE_ID:			renewal_tip = IsPanelOpen() ? "Hide Chat" : "Show Chat"; break;
+	case SETTING_ID:		renewal_tip = "Chat Invisible Settings"; break;
+	}
+
+	// the gear and the channel tabs sit in the top row, the rest along the bottom
+	const bool top_row = p_button->GetID() == SETTING_ID
+		|| (p_button->GetID() >= CHAT_NORMAL_ID && p_button->GetID() <= CHAT_UNION_ID);
+	const int tip_y = top_row ? y + p_button->y : y + h - p_button->y - p_button->h;
+
+	if (renewal_tip != NULL)
+	{
+		g_descriptor_manager.Set(DID_INFO, x + p_button->x, tip_y, (void*)renewal_tip, 0, 0);
+		return;
+	}
 	// �ӼӸ� ���̵� ��� ��ư.
 	if (p_button->GetID() == 5)
 	{
@@ -7371,31 +7464,31 @@ void	C_VS_UI_CHATTING::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 	if (p_button->GetID() == ALPHA_ID)
 	{
 		if (GetAttributes()->alpha)
-			g_descriptor_manager.Set(DID_INFO, x + w - p_button->x - p_button->w, y + h - p_button->y - p_button->h, (void*)m_chatting_button_string[18], 0, 0);
+			g_descriptor_manager.Set(DID_INFO, x + w - p_button->x - p_button->w, y + p_button->y, (void*)m_chatting_button_string[18], 0, 0);
 		else
-			g_descriptor_manager.Set(DID_INFO, x + w - p_button->x - p_button->w, y + h - p_button->y - p_button->h, (void*)m_chatting_button_string[p_button->GetID()], 0, 0);
+			g_descriptor_manager.Set(DID_INFO, x + w - p_button->x - p_button->w, y + p_button->y, (void*)m_chatting_button_string[p_button->GetID()], 0, 0);
 	}
 	else if (p_button->GetID() == PUSHPIN_ID)
 	{
 		if (GetAttributes()->autohide)
-			g_descriptor_manager.Set(DID_INFO, x + w - p_button->x - p_button->w, y + h - p_button->y - p_button->h, (void*)m_chatting_button_string[19], 0, 0);
+			g_descriptor_manager.Set(DID_INFO, x + w - p_button->x - p_button->w, y + p_button->y, (void*)m_chatting_button_string[19], 0, 0);
 		else
-			g_descriptor_manager.Set(DID_INFO, x + w - p_button->x - p_button->w, y + h - p_button->y - p_button->h, (void*)m_chatting_button_string[p_button->GetID()], 0, 0);
+			g_descriptor_manager.Set(DID_INFO, x + w - p_button->x - p_button->w, y + p_button->y, (void*)m_chatting_button_string[p_button->GetID()], 0, 0);
 	}
 	else if (p_button->GetID() >= FILTER_NORMAL_ID && p_button->GetID() <= FILTER_UNION_ID && m_chat_filter[p_button->GetID() - FILTER_NORMAL_ID] == true)
 	{
 		switch (g_eRaceInterface)
 		{
 		case RACE_SLAYER:
-			g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)m_chatting_button_string[p_button->GetID() + 8], 0, 0);
+			g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)m_chatting_button_string[p_button->GetID() + 8], 0, 0);
 			break;
 
 		case RACE_VAMPIRE:
-			g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)m_vampire_chatting_button_string[p_button->GetID() + 8], 0, 0);
+			g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)m_vampire_chatting_button_string[p_button->GetID() + 8], 0, 0);
 			break;
 
 		case RACE_OUSTERS:
-			g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)m_ousters_chatting_button_string[p_button->GetID() + 8], 0, 0);
+			g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)m_ousters_chatting_button_string[p_button->GetID() + 8], 0, 0);
 			break;
 		}
 	}
@@ -7409,23 +7502,23 @@ void	C_VS_UI_CHATTING::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 			{
 			case CHAT_NORMAL_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_NORMALCHAT))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			case CHAT_GUILD_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_GUILD))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			case CHAT_ZONE_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_ZONECHAT))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			case CHAT_WHISPER_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_WHISPER))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			case CHAT_PARTY_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_PARTYCHAT))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 				/*		case MARK_ID:
 							wsprintf(string,"%s(Ctrl+%s)",(void *)m_chatting_button_string[p_button->GetID()],scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_MARK))]);
@@ -7433,10 +7526,10 @@ void	C_VS_UI_CHATTING::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 							break;*/
 			case CHAT_UNION_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_UNION))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			default:
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)m_chatting_button_string[p_button->GetID()], 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)m_chatting_button_string[p_button->GetID()], 0, 0);
 				break;
 			}
 			break;
@@ -7446,23 +7539,23 @@ void	C_VS_UI_CHATTING::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 			{
 			case CHAT_NORMAL_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_vampire_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_NORMALCHAT))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			case CHAT_GUILD_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_vampire_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_GUILD))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			case CHAT_ZONE_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_vampire_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_ZONECHAT))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			case CHAT_WHISPER_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_vampire_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_WHISPER))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			case CHAT_PARTY_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_vampire_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_PARTYCHAT))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 				/*case MARK_ID:
 					wsprintf(string,"%s(Ctrl+%s)",(void *)m_vampire_chatting_button_string[p_button->GetID()],scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_MARK))]);
@@ -7470,10 +7563,10 @@ void	C_VS_UI_CHATTING::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 					break;*/
 			case CHAT_UNION_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_vampire_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_UNION))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			default:
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)m_vampire_chatting_button_string[p_button->GetID()], 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)m_vampire_chatting_button_string[p_button->GetID()], 0, 0);
 				break;
 			}
 			break;
@@ -7483,23 +7576,23 @@ void	C_VS_UI_CHATTING::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 			{
 			case CHAT_NORMAL_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_ousters_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_NORMALCHAT))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			case CHAT_GUILD_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_ousters_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_GUILD))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			case CHAT_ZONE_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_ousters_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_ZONECHAT))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			case CHAT_WHISPER_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_ousters_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_WHISPER))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			case CHAT_PARTY_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_ousters_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_PARTYCHAT))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 				//			case MARK_ID:
 				//				wsprintf(string,"%s(Ctrl+%s)",(void *)m_ousters_chatting_button_string[p_button->GetID()],scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_MARK))]);
@@ -7507,10 +7600,10 @@ void	C_VS_UI_CHATTING::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 				//				break;
 			case CHAT_UNION_ID:
 				wsprintf(string, "%s(Ctrl+%s)", (void*)m_ousters_chatting_button_string[p_button->GetID()], scancode_name[ACCEL_GET_KEY(g_pKeyAccelerator->GetKey(ACCEL_UNION))]);
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)string, 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)string, 0, 0);
 				break;
 			default:
-				g_descriptor_manager.Set(DID_INFO, p_button->x + x, y + h - p_button->y - p_button->h, (void*)m_ousters_chatting_button_string[p_button->GetID()], 0, 0);
+				g_descriptor_manager.Set(DID_INFO, p_button->x + x, tip_y, (void*)m_ousters_chatting_button_string[p_button->GetID()], 0, 0);
 				break;
 			}
 			break;
@@ -7526,105 +7619,49 @@ void	C_VS_UI_CHATTING::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 //-----------------------------------------------------------------------------
 void	C_VS_UI_CHATTING::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	if (p_button->GetID() == ALPHA_ID)
-	{
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		if (GetAttributes()->alpha)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + w - p_button->x - p_button->w, y + h - p_button->y - p_button->h, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + w - p_button->x - p_button->w, y + h - p_button->y - p_button->h, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED_OLD);
-#else
-		if (GetAttributes()->alpha)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + w - p_button->x - p_button->w, y + h - p_button->y - p_button->h, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + w - p_button->x - p_button->w, y + h - p_button->y - p_button->h, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED);
-#endif //__080405_FIREST_UI_UPDATE
-	}
-	else if (p_button->GetID() == PUSHPIN_ID)
-	{
-		if (GetAttributes()->autohide)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + w - p_button->x - p_button->w, y + h - p_button->y - p_button->h, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + w - p_button->x - p_button->w, y + h - p_button->y - p_button->h, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN_PUSHED);
-	}
-	else if (p_button->GetID() == LANGUAGE_ID)
-	{
-		int image = BUTTON_ENG;
-		if (gC_ci->IsEngInput())
-			image = BUTTON_ENG;
-		else
-		{
-#if __CONTENTS(__LANGUAGE_CHANGE)
-			image = BUTTON_HAN;
-#endif //end __LANGUAGE_CHANGE
-		}
-#if __CONTENTS(__LANGUAGE_CHANGE)
-		if (p_button->GetFocusState())
-		{
+	// Renewal art, laid out as DK Umbra's client does it. The gear and channel
+	// tabs are anchored to the top edge; the column and input bar to the bottom.
+	const bool top_row = p_button->GetID() == SETTING_ID
+		|| (p_button->GetID() >= CHAT_NORMAL_ID && p_button->GetID() <= CHAT_UNION_ID);
+	const int bx = x + p_button->x;
+	const int by = top_row ? y + p_button->y : y + h - p_button->y - p_button->h;
+	const int push = p_button->GetPressState() ? 1 : 0;
+	const bool focus = p_button->GetFocusState();
 
-			if (p_button->GetPressState())
-				m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, image + 2);
-			else
-				m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, image + 1);
-		}
-		else
-#endif //end __LANGUAGE_CHANGE
-			m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, image);
-	}
-	else if (p_button->GetID() == MARK_ID || p_button->GetID() == COLOR_ID || p_button->GetID() == SPREAD_ID)
+	switch (p_button->GetID())
 	{
-		if (p_button->GetID() == SPREAD_ID && !m_bl_whisper_mode)
-			return;
+	case COLOR_ID:
+		m_pC_chatting_spk->BltLocked(bx, by, p_button->m_image_index + (focus ? (push ? 2 : 1) : 0));
+		break;
 
-		if (p_button->GetFocusState())
-		{
-			if (p_button->GetPressState())
-				m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, p_button->m_image_index + 2);
-			else
-				m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, p_button->m_image_index + 1);
-		}
-		else
-			m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, p_button->m_image_index);
-	}
-	else if (p_button->GetID() >= CHAT_NORMAL_ID && p_button->GetID() <= CHAT_UNION_ID)
+	case SPREAD_ID:
+		if (m_bl_whisper_mode)
+			m_pC_chatting_spk->BltLocked(bx, by + push, p_button->m_image_index + ((focus || m_bl_spreadID) ? 1 : 0));
+		break;
+
+	case MENU_ID:
+	case SCROLL_UP_ID:
+	case SCROLL_DOWN_ID:
+	case SCROLL_END_ID:
+	case HIDE_ID:
+	case SETTING_ID:
 	{
-		if (p_button->GetID() - CHAT_NORMAL_ID == m_chat_mode || p_button->GetID() == CHAT_WHISPER_ID && m_bl_whisper_mode)
-		{
-			if (p_button->GetPressState())
-				m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, p_button->m_image_index + 3);
-			else
-				m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, p_button->m_image_index + 3);
-		}
-		else
-			if (p_button->GetFocusState())
-			{
-				if (p_button->GetPressState())
-					m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, p_button->m_image_index + 2);
-				else
-					m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, p_button->m_image_index + 1);
-			}
-			else
-				m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, p_button->m_image_index);
+		// lit while hovered, or while what it opens is open
+		const bool lit = focus
+			|| (p_button->GetID() == MENU_ID && m_bl_menu_open)
+			|| (p_button->GetID() == SETTING_ID && m_sub_window == 3);
+		m_pC_chatting_spk->BltLocked(bx, by + push, p_button->m_image_index + (lit ? 1 : 0));
 	}
-	else if (p_button->GetID() >= FILTER_NORMAL_ID && p_button->GetID() <= FILTER_UNION_ID)
-	{
-		if (m_chat_filter[p_button->GetID() - FILTER_NORMAL_ID])
+	break;
+
+	default:
+		if (p_button->GetID() >= CHAT_NORMAL_ID && p_button->GetID() <= CHAT_UNION_ID)
 		{
-			if (p_button->GetPressState())
-				m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h + 1, p_button->m_image_index + 2);
-			else
-				m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, p_button->m_image_index + 2);
+			const int mode = m_bl_whisper_mode ? (int)CLD_WHISPER : (int)m_chat_mode;
+			const bool lit = focus || p_button->GetID() - CHAT_NORMAL_ID == mode;
+			m_pC_chatting_spk->BltLocked(bx, by + push, p_button->m_image_index + (lit ? 1 : 0));
 		}
-		else
-			if (p_button->GetFocusState())
-			{
-				if (p_button->GetPressState())
-					m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h + 1, p_button->m_image_index + 1);
-				else
-					m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, p_button->m_image_index + 1);
-			}
-			else
-				m_pC_chatting_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, p_button->m_image_index);
+		break;
 	}
 }
 
@@ -7632,6 +7669,14 @@ void C_VS_UI_CHATTING::Extend()
 {
 	Rect temp_rect(x, y, w, h);
 	Set(m_backup_rect.x, m_backup_rect.y, m_backup_rect.w, m_backup_rect.h);
+	// a size saved by the old layout is below the renewal minimum
+	if (w < CHAT_MIN_W)
+		w = CHAT_MIN_W;
+	if (h < CHAT_MIN_H)
+	{
+		y -= CHAT_MIN_H - h;
+		h = CHAT_MIN_H;
+	}
 	m_backup_rect = temp_rect;
 	WindowEventReceiver(EVENT_WINDOW_MOVE);
 
@@ -7659,24 +7704,9 @@ void C_VS_UI_CHATTING::Extend()
 void C_VS_UI_CHATTING::WindowEventReceiver(id_t event)
 {
 	int old_w = w, old_h = h;
-	int w_max, h_max;
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		w_max = 576;
-		h_max = 119;
-		break;
-
-	case RACE_VAMPIRE:
-		w_max = 576;
-		h_max = 125;
-		break;
-
-	case RACE_OUSTERS:
-		w_max = 576;
-		h_max = 125;
-		break;
-	}
+	// the smallest the renewal layout fits in (these are minimums, despite the names)
+	const int w_max = CHAT_MIN_W;
+	const int h_max = CHAT_MIN_H;
 
 	switch (event)
 	{
@@ -7795,43 +7825,34 @@ void C_VS_UI_CHATTING::WindowEventReceiver(id_t event)
 			}
 		}
 
-		CHAT_LINE_START_X = x + 40;
-		CHAT_LINE_START_Y = y + h - FONT_GAP - 3;
-		CHAT_WINDOW_WIDTH = w - 70;
-		CHAT_INPUT_WIDTH = w - 110;
-		CHAT_HISTORY_START_Y = y + h - FONT_GAP - 4 - 20;
+		// Renewal layout: history right of the button column, input text in the
+		// bar's field, and the last history line just above the input bar.
+		CHAT_LINE_START_X = x + CHAT_COLUMN_W + 6;
+		CHAT_INPUT_START_X = x + CHAT_INPUT_TEXT_X;
+		CHAT_LINE_START_Y = y + h - FONT_GAP - 3;	// centred in the input bar's field
+		CHAT_WINDOW_WIDTH = w - CHAT_COLUMN_W - 12;
+		CHAT_INPUT_WIDTH = w - CHAT_INPUT_TEXT_X - 20;
+		CHAT_HISTORY_START_Y = y + h - CHAT_INPUT_BAR_H - FONT_GAP - 1;
 
-		switch (g_eRaceInterface) // chatting history line
-		{
-		case RACE_SLAYER:
-			g_HISTORY_LINE = (h - 14 - 20) / FONT_GAP;
-			break;
-
-		case RACE_VAMPIRE:
-			g_HISTORY_LINE = (h - 20 - 20) / FONT_GAP;
-			break;
-
-		case RACE_OUSTERS:
-			g_HISTORY_LINE = (h - 20 - 20) / FONT_GAP;
-			break;
-		}
+		// as many whole lines as fit above the input bar, with a 4px top margin
+		g_HISTORY_LINE = (h - CHAT_INPUT_BAR_H - 1 - 4) / FONT_GAP;
 
 		if (m_bl_whisper_mode)
 		{
 			if (m_bl_focus_whisper)
 			{
-				m_lev_chatting.SetPosition(CHAT_LINE_START_X + 15, CHAT_LINE_START_Y);
+				m_lev_chatting.SetPosition(CHAT_INPUT_START_X, CHAT_LINE_START_Y);
 				m_lev_chatting.SetByteLimit(10);
 			}
 			else
 			{
-				m_lev_chatting.SetPosition(CHAT_LINE_START_X + 115, CHAT_LINE_START_Y);
+				m_lev_chatting.SetPosition(CHAT_INPUT_START_X + 100, CHAT_LINE_START_Y);
 				m_lev_chatting.SetAbsWidth(CHAT_INPUT_WIDTH - 100);
 			}
 		}
 		else
 		{
-			m_lev_chatting.SetPosition(CHAT_LINE_START_X + 15, CHAT_LINE_START_Y);
+			m_lev_chatting.SetPosition(CHAT_INPUT_START_X, CHAT_LINE_START_Y);
 			m_lev_chatting.SetAbsWidth(CHAT_INPUT_WIDTH);
 		}
 		ResetScroll();
@@ -7864,7 +7885,8 @@ void C_VS_UI_CHATTING::Run(id_t id)
 		break;
 
 	case SPREAD_ID:
-		m_bl_spreadID = !m_bl_spreadID;
+		if (m_bl_whisper_mode)	// hidden, and inside the text field, otherwise
+			m_bl_spreadID = !m_bl_spreadID;
 		break;
 
 	case CHAT_WHISPER_ID:
@@ -7910,6 +7932,31 @@ void C_VS_UI_CHATTING::Run(id_t id)
 			m_sub_window = 0;
 		break;
 
+	case MENU_ID:
+		m_bl_menu_open = !m_bl_menu_open;
+		break;
+
+	case SETTING_ID:
+		m_sub_window = (m_sub_window == 3) ? 0 : 3;
+		break;
+
+	case SCROLL_UP_ID:
+		m_pC_scroll_bar->ScrollUp();
+		break;
+
+	case SCROLL_DOWN_ID:
+		m_pC_scroll_bar->ScrollDown();
+		break;
+
+	case SCROLL_END_ID:
+		// MouseControl restores the held-back lines once the position reaches 0
+		m_pC_scroll_bar->SetScrollPos(0);
+		break;
+
+	case HIDE_ID:
+		// Umbra toggles the chat line: in Enter-chat mode that hides or shows the chat
+		m_bl_input_mode = !m_bl_input_mode;
+		break;
 	case LANGUAGE_ID:
 #if __CONTENTS(__LANGUAGE_CHANGE)
 		gC_ci->SetEngInput(gC_ci->IsEngInput());
@@ -7988,7 +8035,7 @@ void C_VS_UI_CHATTING::Process()
 
 	m_pC_button_group->Process();
 	m_pC_input_button_group->Process();
-	m_pC_input_right_button_group->Process();
+	m_pC_menu_button_group->Process();
 
 	m_backup_window_point.x = x;
 	m_backup_window_point.y = y;
@@ -8070,82 +8117,60 @@ C_VS_UI_CHATTING::C_VS_UI_CHATTING()
 
 	TribeChanged();
 
-	m_pC_button_group = new ButtonGroup(this);
-	m_pC_input_button_group = new ButtonGroup(this);
-	m_pC_input_right_button_group = new ButtonGroup(this);
+	m_pC_button_group = new ButtonGroup(this);			// column, bottom-anchored
+	m_pC_input_button_group = new ButtonGroup(this);	// input bar, bottom-anchored
+	m_pC_menu_button_group = new ButtonGroup(this);		// gear + tabs, top-anchored
 
 	m_sub_window = 0;
-	m_sub_rect.Set(0, 0, 160, 100);
+	m_sub_rect.Set(0, 0, CHAT_DIALOG_W, CHAT_DIALOG_H);
 	m_sub_selected.x = -1;
+	m_bl_menu_open = false;
 
-	// alpha & pushpin button
-	int alpha_button_offset_x, alpha_button_offset_y;
-	int pushpin_button_offset_x, pushpin_button_offset_y;
+	// Renewal chat buttons, positioned as in DK Umbra's client (read from its
+	// DarkEden.exe) but tightened for a 28px input bar.
+	//
+	// Column, bottom-up: hide chat, scroll to latest, scroll down, scroll up,
+	// and the megaphone that shows the menu row.
+	// shrunk icons when the loose pack carries them, Umbra's originals otherwise
+	const int icon = (m_pC_chatting_spk->GetSize() > RENEWAL_SMALL_SETTING + 1) ? RENEWAL_SMALL_ARROW_UP - RENEWAL_ARROW_UP : 0;
 
-	switch (g_eRaceInterface)
+	static const int column_id[5] = { HIDE_ID, SCROLL_END_ID, SCROLL_DOWN_ID, SCROLL_UP_ID, MENU_ID };
+	static const int column_image[5] = { RENEWAL_HIDE, RENEWAL_ARROW_END, RENEWAL_ARROW_DOWN, RENEWAL_ARROW_UP, RENEWAL_MENU };
+	static const int column_gap[5] = { 4, 10, 2, 4, 2 };	// space above each; the scroll arrows pair up as in Umbra
+
+	int column_y = (CHAT_INPUT_BAR_H - m_pC_chatting_spk->GetHeight(RENEWAL_HIDE + icon)) / 2;
+	for (int i = 0; i < 5; ++i)
 	{
-	case RACE_SLAYER:
-		alpha_button_offset_x = 8; alpha_button_offset_y = 7;
-		pushpin_button_offset_x = 26; pushpin_button_offset_y = 7;
-		break;
-
-	case RACE_VAMPIRE:
-		alpha_button_offset_x = 8; alpha_button_offset_y = 6;
-		pushpin_button_offset_x = 24; pushpin_button_offset_y = 6;
-		break;
-
-	case RACE_OUSTERS:
-		alpha_button_offset_x = 8; alpha_button_offset_y = 6;
-		pushpin_button_offset_x = 24; pushpin_button_offset_y = 6;
-		break;
+		const int image = column_image[i] + icon;
+		const int bw = m_pC_chatting_spk->GetWidth(image);
+		const int bh = m_pC_chatting_spk->GetHeight(image);
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON((CHAT_COLUMN_W - bw) / 2, column_y, bw, bh, column_id[i], this, image));
+		column_y += bh + column_gap[i];
 	}
+	m_column_top = column_y;
 
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-	m_pC_input_right_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_button_offset_x, alpha_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD), ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD));
-#else
-	m_pC_input_right_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_button_offset_x, alpha_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA), ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA));
-#endif //__080405_FIREST_UI_UPDATE
+	// Menu row along the top: the gear, then the six channel tabs centred on it.
+	const int gear = RENEWAL_SETTING + icon;
+	const int gear_w = m_pC_chatting_spk->GetWidth(gear);
+	const int gear_h = m_pC_chatting_spk->GetHeight(gear);
+	m_pC_menu_button_group->Add(new C_VS_UI_EVENT_BUTTON((CHAT_COLUMN_W - gear_w) / 2, 1, gear_w, gear_h, SETTING_ID, this, gear));
 
-	m_pC_input_right_button_group->Add(new C_VS_UI_EVENT_BUTTON(pushpin_button_offset_x, pushpin_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN), PUSHPIN_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN));
+	static const int tab_id[6] = { CHAT_NORMAL_ID, CHAT_ZONE_ID, CHAT_WHISPER_ID, CHAT_PARTY_ID, CHAT_GUILD_ID, CHAT_UNION_ID };
+	const int tab_w = m_pC_chatting_spk->GetWidth(RENEWAL_TAB_NORMAL);
+	const int tab_h = m_pC_chatting_spk->GetHeight(RENEWAL_TAB_NORMAL);
+	const int tab_y = max(1, 1 + (gear_h - tab_h) / 2);
+	for (int i = 0; i < 6; ++i)
+		m_pC_menu_button_group->Add(new C_VS_UI_EVENT_BUTTON(CHAT_COLUMN_W + 2 + 34 * i, tab_y, tab_w, tab_h, tab_id[i], this, RENEWAL_TAB_NORMAL + 2 * i));
 
-	// chat buttons
-	int chat_button_offset_x = 7, chat_button_offset_y = 30, chat_button_gap = 12;
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(chat_button_offset_x, chat_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_UNION), m_pC_chatting_spk->GetHeight(BUTTON_UNION), CHAT_UNION_ID, this, BUTTON_UNION));
-	chat_button_offset_y += chat_button_gap;
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(chat_button_offset_x, chat_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_GUILD), m_pC_chatting_spk->GetHeight(BUTTON_GUILD), CHAT_GUILD_ID, this, BUTTON_GUILD));
-	chat_button_offset_y += chat_button_gap;
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(chat_button_offset_x, chat_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_PARTY), m_pC_chatting_spk->GetHeight(BUTTON_PARTY), CHAT_PARTY_ID, this, BUTTON_PARTY));
-	chat_button_offset_y += chat_button_gap;
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(chat_button_offset_x, chat_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_WHISPER), m_pC_chatting_spk->GetHeight(BUTTON_WHISPER), CHAT_WHISPER_ID, this, BUTTON_WHISPER));
-	chat_button_offset_y += chat_button_gap;
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(chat_button_offset_x, chat_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_ZONE), m_pC_chatting_spk->GetHeight(BUTTON_ZONE), CHAT_ZONE_ID, this, BUTTON_ZONE));
-	chat_button_offset_y += chat_button_gap;
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(chat_button_offset_x, chat_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_NORMAL), m_pC_chatting_spk->GetHeight(BUTTON_NORMAL), CHAT_NORMAL_ID, this, BUTTON_NORMAL));
+	// Input bar: the colour button on the left cap (the current channel's lit
+	// tab is drawn beside it), and the whisper-list gem just right of the
+	// 70px whisper id in the field.
+	const int color_w = m_pC_chatting_spk->GetWidth(RENEWAL_BUTTON_COLOR);
+	const int color_h = m_pC_chatting_spk->GetHeight(RENEWAL_BUTTON_COLOR);
+	m_pC_input_button_group->Add(new C_VS_UI_EVENT_BUTTON(CHAT_COLUMN_W + 4, (CHAT_INPUT_BAR_H - color_h) / 2, color_w, color_h, COLOR_ID, this, RENEWAL_BUTTON_COLOR));
 
-	// filter buttons
-	chat_button_offset_x += 13; chat_button_offset_y = 31;
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(chat_button_offset_x, chat_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_FILTER), m_pC_chatting_spk->GetHeight(BUTTON_FILTER), FILTER_UNION_ID, this, BUTTON_FILTER));
-	chat_button_offset_y += chat_button_gap;
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(chat_button_offset_x, chat_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_FILTER), m_pC_chatting_spk->GetHeight(BUTTON_FILTER), FILTER_GUILD_ID, this, BUTTON_FILTER));
-	chat_button_offset_y += chat_button_gap;
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(chat_button_offset_x, chat_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_FILTER), m_pC_chatting_spk->GetHeight(BUTTON_FILTER), FILTER_PARTY_ID, this, BUTTON_FILTER));
-	chat_button_offset_y += chat_button_gap;
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(chat_button_offset_x, chat_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_FILTER), m_pC_chatting_spk->GetHeight(BUTTON_FILTER), FILTER_WHISPER_ID, this, BUTTON_FILTER));
-	chat_button_offset_y += chat_button_gap;
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(chat_button_offset_x, chat_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_FILTER), m_pC_chatting_spk->GetHeight(BUTTON_FILTER), FILTER_ZONE_ID, this, BUTTON_FILTER));
-	chat_button_offset_y += chat_button_gap;
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(chat_button_offset_x, chat_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_FILTER), m_pC_chatting_spk->GetHeight(BUTTON_FILTER), FILTER_NORMAL_ID, this, BUTTON_FILTER));
-
-	// input buttons
-	int input_button_offset_x = 4, input_button_offset_y = 7, input_button_gap = 15;
-	m_pC_input_button_group->Add(new C_VS_UI_EVENT_BUTTON(input_button_offset_x, input_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_MARK), m_pC_chatting_spk->GetHeight(BUTTON_MARK), MARK_ID, this, BUTTON_MARK));
-	input_button_offset_x += input_button_gap;
-	m_pC_input_button_group->Add(new C_VS_UI_EVENT_BUTTON(input_button_offset_x, input_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_COLOR), m_pC_chatting_spk->GetHeight(BUTTON_COLOR), COLOR_ID, this, BUTTON_COLOR));
-	input_button_offset_x += input_button_gap;
-	m_pC_input_button_group->Add(new C_VS_UI_EVENT_BUTTON(input_button_offset_x, input_button_offset_y, m_pC_chatting_spk->GetWidth(BUTTON_ENG), m_pC_chatting_spk->GetHeight(BUTTON_ENG), LANGUAGE_ID, this, BUTTON_HAN));
-
-	// Spread button
-	m_pC_input_button_group->Add(new C_VS_UI_EVENT_BUTTON(x + 131, 4, m_pC_chatting_spk->GetWidth(BUTTON_SPREAD), m_pC_chatting_spk->GetHeight(BUTTON_SPREAD), SPREAD_ID, this, BUTTON_SPREAD));
+	const int gem = m_pC_chatting_spk->GetWidth(RENEWAL_GEM);
+	m_pC_input_button_group->Add(new C_VS_UI_EVENT_BUTTON(CHAT_INPUT_TEXT_X + 74, (CHAT_INPUT_BAR_H - gem) / 2, gem, gem, SPREAD_ID, this, RENEWAL_GEM));
 
 	CancelPushState();
 	UnacquireMouseFocus();
@@ -8214,7 +8239,7 @@ C_VS_UI_CHATTING::~C_VS_UI_CHATTING()
 	DeleteNew(m_pC_chatting_spk);
 	DeleteNew(m_pC_button_group);
 	DeleteNew(m_pC_input_button_group);
-	DeleteNew(m_pC_input_right_button_group);
+	DeleteNew(m_pC_menu_button_group);
 }
 
 //-----------------------------------------------------------------------------
@@ -8226,45 +8251,58 @@ bool C_VS_UI_CHATTING::IsPixel(int _x, int _y)
 {
 	if (Moving()) return true;
 
-	bool re = false;
 	if (IsSpreadID())
 	{
-		if (_x > CHAT_LINE_START_X && _y > CHAT_LINE_START_Y - GetWhisperSize() * FONT_GAP - 3 && _x < CHAT_LINE_START_X + 70 && _y < CHAT_LINE_START_Y - 3)
-			re = true;
+		if (_x > CHAT_INPUT_START_X && _y > CHAT_LINE_START_Y - GetWhisperSize() * FONT_GAP - 3 && _x < CHAT_INPUT_START_X + 70 && _y < CHAT_LINE_START_Y - 3)
+			return true;
 	}
-	if (re == false && GetAttributes()->alpha)
+	if (m_sub_window != 0 && m_sub_rect.IsInRect(_x, _y))
+		return true;
+
+	// As in DK Umbra's client, clicks on the history text go through to the
+	// game. With the chat line closed only the column's buttons are solid; with
+	// it open the menu row, the input bar and the resize edges are too.
+	if (IsPanelOpen())
 	{
-		RECT alpha_rect;
-		int gap = 0;
-		if (!g_pUserOption->UseEnterChat || m_bl_input_mode == true)
-			gap = m_pC_chatting_spk->GetHeight(INPUT_RIGHT);
-
-		switch (g_eRaceInterface)
-		{
-		case RACE_SLAYER:
-			SetRect(&alpha_rect, x + 35, y + 5, x + w - 26, y + h - 5 - gap);
-			break;
-
-		case RACE_VAMPIRE:
-			SetRect(&alpha_rect, x + 30, y + 10, x + w - 33, y + h - 5 - gap);
-			break;
-
-		case RACE_OUSTERS:
-			SetRect(&alpha_rect, x + 30, y + 10, x + w - 33, y + h - 5 - gap);
-			break;
-		}
-
-		if (_x >= alpha_rect.left && _x <= alpha_rect.right &&
-			_y >= alpha_rect.top && _y <= alpha_rect.bottom)
+		RECT pass;
+		SetRect(&pass, x + CHAT_COLUMN_W + 2, y + (m_bl_menu_open ? CHAT_MENU_H : 6), x + w - 6, y + h - CHAT_INPUT_BAR_H - 1);
+		if (_x >= pass.left && _x < pass.right && _y >= pass.top && _y < pass.bottom)
 			return false;
 	}
+	else if (_x >= x + CHAT_COLUMN_W + 2 || _y < y + h - m_column_top)
+		return false;
 
-	if (re == false)
-		re = IsInRect(_x, _y);
-	if (re == false && m_sub_window != 0)
-		re = m_sub_rect.IsInRect(_x, _y);
+	return IsInRect(_x, _y);
+}
 
-	return re;
+//-----------------------------------------------------------------------------
+// IsPanelOpen
+//
+// In Enter-chat mode the chat shows only while its line is open; otherwise it
+// is always open.
+//-----------------------------------------------------------------------------
+bool C_VS_UI_CHATTING::IsPanelOpen() const
+{
+	return !g_pUserOption->UseEnterChat || m_bl_input_mode;
+}
+
+//-----------------------------------------------------------------------------
+// GetOccludeRect
+//
+// Closed, the chat paints only its button column; open, the whole panel.
+//-----------------------------------------------------------------------------
+bool C_VS_UI_CHATTING::GetOccludeRect(int* px0, int* py0, int* px1, int* py1) const
+{
+	*px0 = x;
+	*py0 = y;
+	*px1 = x + w;
+	*py1 = y + h;
+	if (!IsPanelOpen())
+	{
+		*px1 = x + CHAT_COLUMN_W;
+		*py0 = y + h - m_column_top;
+	}
+	return w > 0 && h > 0;
 }
 
 
@@ -8287,11 +8325,11 @@ void	C_VS_UI_CHATTING::TribeChanged()
 	switch (g_eRaceInterface)
 	{
 	case RACE_SLAYER:
-		m_pC_chatting_spk = new C_SPRITE_PACK(SPK_CHATTING_SLAYER);
+		m_pC_chatting_spk = new C_SPRITE_PACK(SPK_CHATTING_RENEWAL);
 		//Set(0, RESOLUTION_Y - 119, 623, 119);
-		Set(0, g_pUserInformation->iResolution_y - 119, 623, 119);
+		Set(0, g_pUserInformation->iResolution_y - CHAT_DEFAULT_H - CHAT_DEFAULT_LIFT, CHAT_DEFAULT_W, CHAT_DEFAULT_H);
 		//m_backup_rect.Set(0, RESOLUTION_Y - 119-100, 623, 119+100);				
-		m_backup_rect.Set(0, g_pUserInformation->iResolution_y - 119 - 100, 623, 119 + 100);
+		m_backup_rect.Set(0, g_pUserInformation->iResolution_y - CHAT_DEFAULT_H - CHAT_DEFAULT_LIFT - 100, CHAT_DEFAULT_W, CHAT_DEFAULT_H + 100);
 		gpC_base->m_user_id_pi.text_color = SLAYER_FONT_COLOR;
 		gpC_base->m_chatting_pi.text_color = SLAYER_FONT_COLOR;
 		m_color_tab[CLD_NORMAL] = SLAYER_FONT_COLOR;
@@ -8304,18 +8342,18 @@ void	C_VS_UI_CHATTING::TribeChanged()
 		m_color_tab[CLD_GRADEDISPLAY] = RGB(255, 255, 0);
 		m_color_tab[CLD_MASTER] = RGB(255, 180, 180);
 		m_sub_window = 0;
-		m_sub_rect.Set(0, 0, 160, 100);
+		m_sub_rect.Set(0, 0, CHAT_DIALOG_W, CHAT_DIALOG_H);
 		m_sub_selected.x = -1;
 		m_pC_sub_scroll_bar->x = 135;
 		m_pC_sub_scroll_bar->y = 35;
 		break;
 
 	case RACE_VAMPIRE:
-		m_pC_chatting_spk = new C_SPRITE_PACK(SPK_CHATTING_VAMPIRE);
+		m_pC_chatting_spk = new C_SPRITE_PACK(SPK_CHATTING_RENEWAL);
 		//Set(0, RESOLUTION_Y - 125, 624, 125);
-		Set(0, g_pUserInformation->iResolution_y - 125, 624, 125);
+		Set(0, g_pUserInformation->iResolution_y - CHAT_DEFAULT_H - CHAT_DEFAULT_LIFT, CHAT_DEFAULT_W, CHAT_DEFAULT_H);
 		//m_backup_rect.Set(0, RESOLUTION_Y - 125-100, 624, 125+100);
-		m_backup_rect.Set(0, g_pUserInformation->iResolution_y - 125 - 100, 624, 125 + 100);
+		m_backup_rect.Set(0, g_pUserInformation->iResolution_y - CHAT_DEFAULT_H - CHAT_DEFAULT_LIFT - 100, CHAT_DEFAULT_W, CHAT_DEFAULT_H + 100);
 		gpC_base->m_user_id_pi.text_color = VAMPIRE_FONT_COLOR;
 		gpC_base->m_chatting_pi.text_color = VAMPIRE_FONT_COLOR;
 		m_color_tab[CLD_NORMAL] = VAMPIRE_FONT_COLOR;
@@ -8328,19 +8366,19 @@ void	C_VS_UI_CHATTING::TribeChanged()
 		m_color_tab[CLD_GRADEDISPLAY] = RGB(255, 255, 0);
 		m_color_tab[CLD_MASTER] = RGB(255, 180, 180);
 		m_sub_window = 0;
-		m_sub_rect.Set(0, 0, 160, 100);
+		m_sub_rect.Set(0, 0, CHAT_DIALOG_W, CHAT_DIALOG_H);
 		m_sub_selected.x = -1;
 		m_pC_sub_scroll_bar->x = 135;
 		m_pC_sub_scroll_bar->y = 35;
 		break;
 
 	case RACE_OUSTERS:
-		m_pC_chatting_spk = new C_SPRITE_PACK(SPK_CHATTING_OUSTERS);
+		m_pC_chatting_spk = new C_SPRITE_PACK(SPK_CHATTING_RENEWAL);
 
 		//Set(0, RESOLUTION_Y - 125, 624, 125);
 		//m_backup_rect.Set(0, RESOLUTION_Y - 125-100, 624, 125+100);
-		Set(0, g_pUserInformation->iResolution_y - 125, 624, 125);
-		m_backup_rect.Set(0, g_pUserInformation->iResolution_y - 125 - 100, 624, 125 + 100);
+		Set(0, g_pUserInformation->iResolution_y - CHAT_DEFAULT_H - CHAT_DEFAULT_LIFT, CHAT_DEFAULT_W, CHAT_DEFAULT_H);
+		m_backup_rect.Set(0, g_pUserInformation->iResolution_y - CHAT_DEFAULT_H - CHAT_DEFAULT_LIFT - 100, CHAT_DEFAULT_W, CHAT_DEFAULT_H + 100);
 
 		gpC_base->m_user_id_pi.text_color = VAMPIRE_FONT_COLOR;
 		gpC_base->m_chatting_pi.text_color = VAMPIRE_FONT_COLOR;
@@ -8354,10 +8392,10 @@ void	C_VS_UI_CHATTING::TribeChanged()
 		m_color_tab[CLD_GRADEDISPLAY] = RGB(255, 255, 0);
 		m_color_tab[CLD_MASTER] = RGB(255, 180, 180);
 		m_sub_window = 0;
-		m_sub_rect.Set(0, 0, 200, 140);
+		m_sub_rect.Set(0, 0, CHAT_DIALOG_W, CHAT_DIALOG_H);
 		m_sub_selected.x = -1;
-		m_pC_sub_scroll_bar->x = 155;
-		m_pC_sub_scroll_bar->y = 55;
+		m_pC_sub_scroll_bar->x = 135;
+		m_pC_sub_scroll_bar->y = 35;
 		break;
 	}
 
@@ -8378,7 +8416,7 @@ bool	C_VS_UI_CHATTING::SlayerWhisperMode(bool mode)
 
 	if (mode)
 	{
-		m_lev_chatting.SetPosition(CHAT_LINE_START_X + 115, CHAT_LINE_START_Y);
+		m_lev_chatting.SetPosition(CHAT_INPUT_START_X + 100, CHAT_LINE_START_Y);
 		m_lev_chatting.EraseAll();
 		m_lev_chatting.SetByteLimit(100);
 		m_lev_chatting.SetAbsWidth(CHAT_INPUT_WIDTH - 100);
@@ -8394,7 +8432,7 @@ bool	C_VS_UI_CHATTING::SlayerWhisperMode(bool mode)
 	}
 	else
 	{
-		m_lev_chatting.SetPosition(CHAT_LINE_START_X + 15, CHAT_LINE_START_Y);
+		m_lev_chatting.SetPosition(CHAT_INPUT_START_X, CHAT_LINE_START_Y);
 		m_lev_chatting.EraseAll();
 		m_lev_chatting.SetByteLimit(100);
 		m_lev_chatting.SetAbsWidth(CHAT_INPUT_WIDTH);
@@ -8421,22 +8459,34 @@ void C_VS_UI_CHATTING::Start()
 
 	m_pC_button_group->Init();
 	m_pC_input_button_group->Init();
-	m_pC_input_right_button_group->Init();
+	m_pC_menu_button_group->Init();
 
 	SlayerWhisperMode(false);
 
 	m_bl_spreadID = false;
 	m_dw_hide_prev_tickcount = GetTickCount() - m_dw_hide_timer;
 
-	AttrAlpha(gpC_vs_ui_window_manager->IsAlpha(C_VS_UI_WINDOW_MANAGER::CHATTING));
-	AttrAutoHide(gpC_vs_ui_window_manager->GetAutoHide(C_VS_UI_WINDOW_MANAGER::CHATTING));
+	// the renewal chat has no alpha or auto-hide buttons; a saved auto-hide would
+	// slide it off screen with no way back
+	AttrAlpha(false);
+	AttrAutoHide(ATTRIBUTES_HIDE_NOT);
+	m_bl_menu_open = false;
 	Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::CHATTING);
 
 	if (rect.w != -1)
-		Set(rect.x, rect.y, rect.w, rect.h);
+	{
+		// Keep where the player left it. A height below the renewal minimum was
+		// saved by the old layout, so that one opens at the renewal default, where
+		// TribeChanged already put the window. 460x152 was the first renewal
+		// default: never resized, so it takes the current default size in place.
+		if (rect.w == 460 && rect.h == 152)
+			Set(rect.x, rect.y + rect.h - CHAT_DEFAULT_H, CHAT_DEFAULT_W, CHAT_DEFAULT_H);
+		else if (rect.h >= CHAT_MIN_H)
+			Set(rect.x, rect.y, max((int)rect.w, (int)CHAT_MIN_W), rect.h);
+	}
 
 	Rect& rect2 = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::CHATTING_OLD);
-	if (rect2.w != -1)
+	if (rect2.w != -1 && rect2.h >= CHAT_MIN_H)
 		m_backup_rect.Set(rect2.x, rect2.y, rect2.w, rect2.h);
 
 	m_lev_chatting.Acquire();
@@ -8509,14 +8559,14 @@ void C_VS_UI_CHATTING::ChangeWhisperFocus()
 
 	if (m_bl_focus_whisper)
 	{
-		m_lev_chatting.SetPosition(CHAT_LINE_START_X + 15, CHAT_LINE_START_Y);
+		m_lev_chatting.SetPosition(CHAT_INPUT_START_X, CHAT_LINE_START_Y);
 		m_lev_chatting.SetByteLimit(10);
 		m_lev_chatting.EraseAll();
 	}
 	else
 	{
 		//		if(m_sz_whisper_backup == "")m_sz_whisper_backup = GetWhisperID();
-		m_lev_chatting.SetPosition(CHAT_LINE_START_X + 115, CHAT_LINE_START_Y);
+		m_lev_chatting.SetPosition(CHAT_INPUT_START_X + 100, CHAT_LINE_START_Y);
 		m_lev_chatting.SetByteLimit(100);
 		m_lev_chatting.HomeCursor();
 		m_lev_chatting.EndCursor();
@@ -26836,121 +26886,45 @@ void C_VS_UI_HPBAR::Process()
 //-----------------------------------------------------------------------------
 C_VS_UI_BLOOD_BURST::C_VS_UI_BLOOD_BURST()
 {
-	m_pC_BloodBurst_spk = NULL;
-
 	AttrTopmost(false);
 	AttrPin(true);
 
 	g_RegisterWindow(this);
 
-	m_width_mode = true;
 	m_bGageAttackFull = false;
 	m_bGageDefenseFull = false;
 	m_bGagePartyFull = false;
-
 
 	m_iAttackGage = 0;
 	m_iDefenseGage = 0;
 	m_iPartyGage = 0;
 
+	// DK Umbra's renewal gauges: circles in a row, one pack for every race
+	m_pC_BloodBurst_spk = new C_SPRITE_PACK(SPK_BLOOD_BURST_RENEWAL);
 
-	m_dw_prev_Attacktickcount = 0;
-	m_dw_prev_Defensetickcount = 0;
-	m_dw_prev_Partyickcount = 0;
+	// the shrunk set with its glow frames when the loose pack carries them
+	m_glow = m_pC_BloodBurst_spk->GetSize() >= RENEWAL_GLOW_FRAME_COUNT;
+	m_image_base = m_glow ? RENEWAL_SMALL_FRAME : RENEWAL_FRAME;
+	m_margin = m_glow ? GLOW_MARGIN : 0;
 
-	m_bAttackTimerCheck = false;
-	m_bDefenseTimerCheck = false;
-	m_bPartyTimerCheck = false;
-
-	m_fAttackGageStartPosition = 0.0f;
-	m_fDefenseGageStartPosition = 0.0f;
-	m_fPartyGageStartPosition = 0.0f;
-
-
+	const int size = m_pC_BloodBurst_spk->GetWidth(m_image_base);
+	const int cell = size + m_margin * 2;
 	int iTypeYValue[3] = { 40 , 38 , 45 };
+	Set(0, iTypeYValue[g_eRaceInterface], cell * GAUGE_COUNT, cell);
 
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		m_pC_BloodBurst_spk = new C_SPRITE_PACK(SPK_BLOOD_BRUST_SLAYER);
-		break;
-
-	case RACE_VAMPIRE:
-		m_pC_BloodBurst_spk = new C_SPRITE_PACK(SPK_BLOOD_BRUST_VAMPIRE);
-		break;
-
-	case RACE_OUSTERS:
-		m_pC_BloodBurst_spk = new C_SPRITE_PACK(SPK_BLOOD_BRUST_OUSTERS);
-		break;
-	}
-
-	//Set(0, iTypeYValue[g_eRaceInterface], m_pC_BloodBurst_spk->GetWidth(), m_pC_BloodBurst_spk->GetHeight() + m_pC_BloodBurst_spk->GetHeight(2));
-
-	//Set(0, iTypeYValue[g_eRaceInterface], m_pC_BloodBurst_spk->GetWidth(1) + m_pC_BloodBurst_spk->GetWidth(3), m_pC_BloodBurst_spk->GetHeight(1));
-	Set(0, iTypeYValue[g_eRaceInterface], m_pC_BloodBurst_spk->GetWidth(), m_pC_BloodBurst_spk->GetHeight() + m_pC_BloodBurst_spk->GetHeight(PARTY_MAIN_WIDTH));
-
-	//Set(0, iTypeYValue[g_eRaceInterface], m_pC_BloodBurst_spk->GetWidth(), m_pC_BloodBurst_spk->GetHeight());
-
-	m_pC_width_button_group = new ButtonGroup(this);
-	m_pC_height_button_group = new ButtonGroup(this);
-
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(175, 12, m_pC_BloodBurst_spk->GetWidth(CHANGE_BUTTON_WIDTH), m_pC_BloodBurst_spk->GetHeight(CHANGE_BUTTON_WIDTH), BLOODBURST_CHANGE_ID, this, CHANGE_BUTTON_WIDTH));
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(8, 2, m_pC_BloodBurst_spk->GetWidth(ATTACK_BUTTON_WIDTH), m_pC_BloodBurst_spk->GetHeight(ATTACK_BUTTON_WIDTH), ATTACK_ID, this, ATTACK_BUTTON_WIDTH));
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(8, 16, m_pC_BloodBurst_spk->GetWidth(DEFENSE_BUTTON_WIDTH), m_pC_BloodBurst_spk->GetHeight(DEFENSE_BUTTON_WIDTH), DEFENSE_ID, this, DEFENSE_BUTTON_WIDTH));
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(8, 30, m_pC_BloodBurst_spk->GetWidth(PARTY_BUTTON_WIDTH), m_pC_BloodBurst_spk->GetHeight(PARTY_BUTTON_WIDTH), PARTY_ID, this, PARTY_BUTTON_WIDTH));
-
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(25, 175, m_pC_BloodBurst_spk->GetWidth(CHANGE_BUTTON_HEIGHT), m_pC_BloodBurst_spk->GetHeight(CHANGE_BUTTON_HEIGHT), BLOODBURST_CHANGE_ID, this, CHANGE_BUTTON_HEIGHT));
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(16, 8, m_pC_BloodBurst_spk->GetWidth(ATTACK_BUTTON_HEIGHT), m_pC_BloodBurst_spk->GetHeight(ATTACK_BUTTON_HEIGHT), ATTACK_ID, this, ATTACK_BUTTON_HEIGHT));
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(30, 8, m_pC_BloodBurst_spk->GetWidth(DEFENSE_BUTTON_HEIGHT), m_pC_BloodBurst_spk->GetHeight(DEFENSE_BUTTON_HEIGHT), DEFENSE_ID, this, DEFENSE_BUTTON_HEIGHT));
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(1, 8, m_pC_BloodBurst_spk->GetWidth(PARTY_BUTTON_HEIGHT), m_pC_BloodBurst_spk->GetHeight(PARTY_BUTTON_HEIGHT), PARTY_ID, this, PARTY_BUTTON_HEIGHT));
-
-
-		break;
-
-	case RACE_VAMPIRE:
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(191, 18, m_pC_BloodBurst_spk->GetWidth(CHANGE_BUTTON_WIDTH), m_pC_BloodBurst_spk->GetHeight(CHANGE_BUTTON_WIDTH), BLOODBURST_CHANGE_ID, this, CHANGE_BUTTON_WIDTH));
-
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(16, 9, m_pC_BloodBurst_spk->GetWidth(ATTACK_BUTTON_WIDTH), m_pC_BloodBurst_spk->GetHeight(ATTACK_BUTTON_WIDTH), ATTACK_ID, this, ATTACK_BUTTON_WIDTH));
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(16, 23, m_pC_BloodBurst_spk->GetWidth(DEFENSE_BUTTON_WIDTH), m_pC_BloodBurst_spk->GetHeight(DEFENSE_BUTTON_WIDTH), DEFENSE_ID, this, DEFENSE_BUTTON_WIDTH));
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(16, 37, m_pC_BloodBurst_spk->GetWidth(PARTY_BUTTON_WIDTH), m_pC_BloodBurst_spk->GetHeight(PARTY_BUTTON_WIDTH), PARTY_ID, this, PARTY_BUTTON_WIDTH));
-
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(25, 192, m_pC_BloodBurst_spk->GetWidth(CHANGE_BUTTON_HEIGHT), m_pC_BloodBurst_spk->GetHeight(CHANGE_BUTTON_HEIGHT), BLOODBURST_CHANGE_ID, this, CHANGE_BUTTON_HEIGHT));
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(16, 15, m_pC_BloodBurst_spk->GetWidth(ATTACK_BUTTON_HEIGHT), m_pC_BloodBurst_spk->GetHeight(ATTACK_BUTTON_HEIGHT), ATTACK_ID, this, ATTACK_BUTTON_HEIGHT));
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(30, 15, m_pC_BloodBurst_spk->GetWidth(DEFENSE_BUTTON_HEIGHT), m_pC_BloodBurst_spk->GetHeight(DEFENSE_BUTTON_HEIGHT), DEFENSE_ID, this, DEFENSE_BUTTON_HEIGHT));
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(1, 15, m_pC_BloodBurst_spk->GetWidth(PARTY_BUTTON_HEIGHT), m_pC_BloodBurst_spk->GetHeight(PARTY_BUTTON_HEIGHT), PARTY_ID, this, PARTY_BUTTON_HEIGHT));
-
-		break;
-
-	case RACE_OUSTERS:
-
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(195, 21, m_pC_BloodBurst_spk->GetWidth(CHANGE_BUTTON_WIDTH), m_pC_BloodBurst_spk->GetHeight(CHANGE_BUTTON_WIDTH), BLOODBURST_CHANGE_ID, this, CHANGE_BUTTON_WIDTH));
-
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(18, 12, m_pC_BloodBurst_spk->GetWidth(ATTACK_BUTTON_WIDTH), m_pC_BloodBurst_spk->GetHeight(ATTACK_BUTTON_WIDTH), ATTACK_ID, this, ATTACK_BUTTON_WIDTH));
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(18, 26, m_pC_BloodBurst_spk->GetWidth(DEFENSE_BUTTON_WIDTH), m_pC_BloodBurst_spk->GetHeight(DEFENSE_BUTTON_WIDTH), DEFENSE_ID, this, DEFENSE_BUTTON_WIDTH));
-		m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(18, 40, m_pC_BloodBurst_spk->GetWidth(PARTY_BUTTON_WIDTH), m_pC_BloodBurst_spk->GetHeight(PARTY_BUTTON_WIDTH), PARTY_ID, this, PARTY_BUTTON_WIDTH));
-
-
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(26, 196, m_pC_BloodBurst_spk->GetWidth(CHANGE_BUTTON_HEIGHT), m_pC_BloodBurst_spk->GetHeight(CHANGE_BUTTON_HEIGHT), BLOODBURST_CHANGE_ID, this, CHANGE_BUTTON_HEIGHT));
-
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(16, 18, m_pC_BloodBurst_spk->GetWidth(ATTACK_BUTTON_HEIGHT), m_pC_BloodBurst_spk->GetHeight(ATTACK_BUTTON_HEIGHT), ATTACK_ID, this, ATTACK_BUTTON_HEIGHT));
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(30, 18, m_pC_BloodBurst_spk->GetWidth(DEFENSE_BUTTON_HEIGHT), m_pC_BloodBurst_spk->GetHeight(DEFENSE_BUTTON_HEIGHT), DEFENSE_ID, this, DEFENSE_BUTTON_HEIGHT));
-		m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(1, 18, m_pC_BloodBurst_spk->GetWidth(PARTY_BUTTON_HEIGHT), m_pC_BloodBurst_spk->GetHeight(PARTY_BUTTON_HEIGHT), PARTY_ID, this, PARTY_BUTTON_HEIGHT));
-		break;
-	}
-
-	//SetGage()	;
+	// one button per circle; its letter is drawn, and a click bursts, only when full
+	m_pC_button_group = new ButtonGroup(this);
+	static const int gauge_id[GAUGE_COUNT] = { ATTACK_ID, DEFENSE_ID, PARTY_ID };
+	for (int i = 0; i < GAUGE_COUNT; ++i)
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(cell * i + m_margin, m_margin, size, size, gauge_id[i], this, m_image_base + RENEWAL_LETTER_A + i));
 }
 
 C_VS_UI_BLOOD_BURST::~C_VS_UI_BLOOD_BURST()
 {
 	gpC_vs_ui_window_manager->SetRect(C_VS_UI_WINDOW_MANAGER::BLOOD_BURST_WINDOW, Rect(x, y, w, h));
-	gpC_vs_ui_window_manager->SetBloodBurstHeight(!m_width_mode);
+	gpC_vs_ui_window_manager->SetBloodBurstHeight(false);
 	g_UnregisterWindow(this);
-	DeleteNew(m_pC_width_button_group);
-	DeleteNew(m_pC_height_button_group);
+	DeleteNew(m_pC_button_group);
 	if (m_pC_BloodBurst_spk)
 	{
 		DeleteNew(m_pC_BloodBurst_spk);
@@ -26958,60 +26932,31 @@ C_VS_UI_BLOOD_BURST::~C_VS_UI_BLOOD_BURST()
 	}
 }
 
+int		C_VS_UI_BLOOD_BURST::GaugeCount() const
+{
+	return (g_pParty != NULL && g_pParty->GetSize() > 0) ? GAUGE_COUNT : GAUGE_COUNT - 1;
+}
+
+bool	C_VS_UI_BLOOD_BURST::IsGaugeFull(int gauge) const
+{
+	switch (gauge)
+	{
+	case 0: return m_bGageAttackFull;
+	case 1: return m_bGageDefenseFull;
+	case 2: return m_bGagePartyFull;
+	}
+	return false;
+}
+
 void	C_VS_UI_BLOOD_BURST::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 {
+	// a gauge's letter shows once it is full, as in Umbra
+	const int gauge = p_button->GetID() - ATTACK_ID;
+	if (gauge < 0 || gauge >= GaugeCount() || !IsGaugeFull(gauge))
+		return;
 
-	if (p_button->m_image_index == CHANGE_BUTTON_WIDTH || p_button->m_image_index == CHANGE_BUTTON_HEIGHT)
-	{
-		if (p_button->GetFocusState())
-		{
-			if (p_button->GetPressState())
-				m_pC_BloodBurst_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 1);
-			else
-				m_pC_BloodBurst_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 2);
-		}
-		else
-		{
-			if (p_button->GetPressState())
-				m_pC_BloodBurst_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 1);
-			else
-				m_pC_BloodBurst_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
-		}
-	}
-	else if (((p_button->m_image_index == ATTACK_BUTTON_WIDTH || p_button->m_image_index == ATTACK_BUTTON_HEIGHT) && !m_bGageAttackFull) ||
-		((p_button->m_image_index == DEFENSE_BUTTON_WIDTH || p_button->m_image_index == DEFENSE_BUTTON_HEIGHT) && !m_bGageDefenseFull) ||
-		(((p_button->m_image_index == PARTY_BUTTON_WIDTH || p_button->m_image_index == PARTY_BUTTON_HEIGHT) && !m_bGagePartyFull)) && (g_pParty->GetSize() > 0))
-	{
-		m_pC_BloodBurst_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
-	}
-	else if (((p_button->m_image_index == ATTACK_BUTTON_WIDTH || p_button->m_image_index == ATTACK_BUTTON_HEIGHT) && m_bGageAttackFull) ||
-		((p_button->m_image_index == DEFENSE_BUTTON_WIDTH || p_button->m_image_index == DEFENSE_BUTTON_HEIGHT) && m_bGageDefenseFull) ||
-		(((p_button->m_image_index == PARTY_BUTTON_WIDTH || p_button->m_image_index == PARTY_BUTTON_HEIGHT) && m_bGagePartyFull)) && (g_pParty->GetSize() > 0))
-	{
-		DWORD	dwTimeRange = 300;
-		DWORD	dwCurrentTick = GetTickCount();
-		static  int	iButton = 1;
-		if ((m_dw_prev_Attacktickcount + dwTimeRange) <= dwCurrentTick)
-		{
-			m_dw_prev_Attacktickcount = dwCurrentTick;
-			if (iButton) iButton = 0;
-			else iButton = 1;
-		}
-
-		if (p_button->GetFocusState())
-		{
-			if (p_button->GetPressState())
-				m_pC_BloodBurst_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 1);
-			else
-				m_pC_BloodBurst_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 2);
-		}
-		else
-		{
-
-			m_pC_BloodBurst_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + iButton);
-		}
-
-	}
+	const int push = p_button->GetPressState() ? 1 : 0;
+	m_pC_BloodBurst_spk->BltLocked(x + p_button->x, y + p_button->y + push, p_button->m_image_index);
 }
 
 void	C_VS_UI_BLOOD_BURST::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
@@ -27025,21 +26970,25 @@ void	C_VS_UI_BLOOD_BURST::WindowEventReceiver(id_t event)
 bool	C_VS_UI_BLOOD_BURST::IsPixel(int _x, int _y)
 {
 	if (Moving()) return true;
-	return IsInRect(_x, _y);
+
+	// only the circles on show (the party one only while in a party)
+	const int cell = w / GAUGE_COUNT;
+	return _x >= x && _x < x + cell * GaugeCount() && _y >= y && _y < y + h;
 }
 
+bool	C_VS_UI_BLOOD_BURST::GetOccludeRect(int* px0, int* py0, int* px1, int* py1) const
+{
+	*px0 = x;
+	*py0 = y;
+	*px1 = x + (w / GAUGE_COUNT) * GaugeCount();
+	*py1 = y + h;
+	return w > 0 && h > 0;
+}
 
 void	C_VS_UI_BLOOD_BURST::Run(id_t id)
 {
 	switch (id)
 	{
-	case BLOODBURST_CHANGE_ID:
-		m_width_mode = !m_width_mode;
-		w ^= h; h ^= w; w ^= h; //swap
-		x -= w - h;
-		EMPTY_MOVE;
-		break;
-
 	case ATTACK_ID:
 		if (m_bGageAttackFull)
 			gpC_base->SendMessage(UI_BLOOD_BURST, ATTACK_ID);
@@ -27061,12 +27010,29 @@ bool	C_VS_UI_BLOOD_BURST::MouseControl(UINT message, int _x, int _y)
 {
 	Window::MouseControl(message, _x, _y);
 	_x -= x; _y -= y;
-	bool re;
 
-	if (m_width_mode)
-		re = m_pC_width_button_group->MouseControl(message, _x, _y);
+	// Only the round middle of a full gauge is a button. Its corners, the glow
+	// margin and the gauges that are not full all drag the window.
+	const int cell = w / GAUGE_COUNT;
+	const int gauge = (cell > 0 && _x >= 0) ? _x / cell : -1;
+	bool on_button = false;
+	if (gauge >= 0 && gauge < GaugeCount() && IsGaugeFull(gauge))
+	{
+		const int dx = _x - (gauge * cell + cell / 2);
+		const int dy = _y - h / 2;
+		const int r = (cell - m_margin * 2) * 3 / 8;	// the circle inside its frame
+		on_button = dx * dx + dy * dy <= r * r;
+	}
+
+	bool re = true;
+	if (on_button)
+		re = m_pC_button_group->MouseControl(message, _x, _y);
 	else
-		re = m_pC_height_button_group->MouseControl(message, _x, _y);
+	{
+		if (message == M_LEFTBUTTON_UP)
+			m_pC_button_group->CancelPushState();
+		m_pC_button_group->UnacquireMouseFocus();
+	}
 
 	switch (message)
 	{
@@ -27082,18 +27048,12 @@ bool	C_VS_UI_BLOOD_BURST::MouseControl(UINT message, int _x, int _y)
 			break;
 		}
 		break;
-
 	}
 	return true;
-
 }
 
 void	C_VS_UI_BLOOD_BURST::KeyboardControl(UINT message, UINT key, long extra)
 {
-	if (message == WM_KEYDOWN && key == VK_ESCAPE)
-	{
-		//		Run(CLOSE);
-	}
 }
 
 void	C_VS_UI_BLOOD_BURST::SetGage()
@@ -27101,326 +27061,120 @@ void	C_VS_UI_BLOOD_BURST::SetGage()
 	SetAttackGage();
 	SetDefenseGage();
 	SetPartyGage();
-	int iTypeYValue[3] = { 40 , 38 , 45 };
-	//if(g_pParty->GetSize() > 0)
-	//{
-		//Set(0, iTypeYValue[g_eRaceInterface], m_pC_BloodBurst_spk->GetWidth(), m_pC_BloodBurst_spk->GetHeight() + m_pC_BloodBurst_spk->GetHeight(PARTY_MAIN_WIDTH));
-	//}
-	//else
-	//{
-		//Set(0, iTypeYValue[g_eRaceInterface], m_pC_BloodBurst_spk->GetWidth(), m_pC_BloodBurst_spk->GetHeight());
-	//}
 }
 
 void	C_VS_UI_BLOOD_BURST::SetAttackGage()
 {
-	m_bGageAttackFull = false;
-	m_iAttackGage = g_char_slot_ingame.AttackBloodBurstPoint;
-	if (m_iAttackGage >= ATTACK_MAX_POINT)	m_iAttackGage = ATTACK_MAX_POINT;
-	m_fAttackGageStartPosition = (float)m_iAttackGage / (float)ATTACK_MAX_POINT;
+	m_iAttackGage = min((int)g_char_slot_ingame.AttackBloodBurstPoint, (int)ATTACK_MAX_POINT);
+	m_bGageAttackFull = m_iAttackGage >= ATTACK_MAX_POINT;
 }
 
 void	C_VS_UI_BLOOD_BURST::SetDefenseGage()
 {
-	m_bGageDefenseFull = false;
-	m_iDefenseGage = g_char_slot_ingame.DefenseBloodBurstPoint;
-
-	if (m_iDefenseGage >= DEFENSE_MAX_POINT)	m_iDefenseGage = DEFENSE_MAX_POINT;
-	m_fDefenseGageStartPosition = (float)m_iDefenseGage / (float)DEFENSE_MAX_POINT;
+	m_iDefenseGage = min((int)g_char_slot_ingame.DefenseBloodBurstPoint, (int)DEFENSE_MAX_POINT);
+	m_bGageDefenseFull = m_iDefenseGage >= DEFENSE_MAX_POINT;
 }
+
 void	C_VS_UI_BLOOD_BURST::SetPartyGage()
 {
-	m_bGagePartyFull = false;
-	int iTypeYValue[3] = { 40 , 38 , 45 };
-	m_iPartyGage = g_char_slot_ingame.PartyBloodBurstPoint;
-	if (m_iPartyGage >= PARTY_MAX_POINT)	m_iPartyGage = PARTY_MAX_POINT;
-	m_fPartyGageStartPosition = (float)m_iPartyGage / (float)PARTY_MAX_POINT;
-	//if(g_pParty->GetSize() > 0)
-	//{
-	//	Set(0, iTypeYValue[g_eRaceInterface], m_pC_BloodBurst_spk->GetWidth(), m_pC_BloodBurst_spk->GetHeight() + m_pC_BloodBurst_spk->GetHeight(PARTY_MAIN_WIDTH));
-	//}
-	//else
-	//{
-	//	Set(0, iTypeYValue[g_eRaceInterface], m_pC_BloodBurst_spk->GetWidth(), m_pC_BloodBurst_spk->GetHeight());
-	//}
-
-	//Rect &rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::BLOOD_BURST_WINDOW);
-	//if(rect.w != -1)
-	//{
-	//	x = rect.x;
-	//	y = rect.y;
-	//}	
+	m_iPartyGage = min((int)g_char_slot_ingame.PartyBloodBurstPoint, (int)PARTY_MAX_POINT);
+	m_bGagePartyFull = m_iPartyGage >= PARTY_MAX_POINT;
 }
-
 
 void	C_VS_UI_BLOOD_BURST::Show()
 {
-	Rect RectAttack;
-	Rect RectDefense;
-	Rect RectParty;
+	static const int gauge_max[GAUGE_COUNT] = { ATTACK_MAX_POINT, DEFENSE_MAX_POINT, PARTY_MAX_POINT };
+	const int gauge[GAUGE_COUNT] = { m_iAttackGage, m_iDefenseGage, m_iPartyGage };
+	const int count = GaugeCount();
+	const int cell = w / GAUGE_COUNT;
+
+	// a full gauge breathes: a 1.2 second triangle wave drives its glow (alpha of 32)
+	const DWORD phase = GetTickCount() % 1200;
+	const int glow = 10 + (int)(phase < 600 ? phase : 1200 - phase) * 16 / 600;
 
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		if (m_width_mode)
+		for (int i = 0; i < count; ++i)
 		{
-			int iWidthXRange[3][2] = { 25 ,  0 ,  34 ,  4  , 37 , 3 };
-			int iWidthYRange[3][4] = { 4 , 18 , 29 , 32 ,  11 , 25 , 36  , 39 , 14 , 28 , 39  , 42 };
-			// ���� �̹��� �׸���
-			m_pC_BloodBurst_spk->BltLocked(x, y, MAIN_WIDTH);
-			if (g_pParty->GetSize() > 0)
-				m_pC_BloodBurst_spk->BltLocked(x + iWidthXRange[g_eRaceInterface][1], y + iWidthYRange[g_eRaceInterface][2], PARTY_MAIN_WIDTH);
+			const int ox = x + cell * i;		// the cell, glow margin included
+			const int cx = ox + m_margin;		// the frame and circle
+			const int cy = y + m_margin;
+			const int circle = m_image_base + RENEWAL_ATTACK + i;
+			const int cw = m_pC_BloodBurst_spk->GetWidth(circle);
+			const int ch = m_pC_BloodBurst_spk->GetHeight(circle);
+			const bool lit = m_glow && IsGaugeFull(i);
 
-			m_pC_BloodBurst_spk->BltLocked(x + iWidthXRange[g_eRaceInterface][0], y + iWidthYRange[g_eRaceInterface][0], MAIN_GAGE_BASE_ATTACK_WIDTH);
-			m_pC_BloodBurst_spk->BltLocked(x + iWidthXRange[g_eRaceInterface][0], y + iWidthYRange[g_eRaceInterface][1], MAIN_GAGE_BASE_DEFENSE_WIDTH);
-			// ������ �׸���
-
-			Rect rect;
-			//=======================================================================================================================================================
-			// ���� ������ ���
-			//=======================================================================================================================================================
-			//Rect rect;
-			int iMaxGage = m_pC_BloodBurst_spk->GetWidth(ATTACK_GAGE_WIDTH);
-			int	iCurrentGage = (1.0 - m_fAttackGageStartPosition) * iMaxGage;
-
-			int	iAttackRange = 0, iDefenseRange = 0, iPartyRange = 0;
-			if (!m_bGageAttackFull && m_fAttackGageStartPosition == 1.0f)
+			// halo behind a full circle: a wide faint disc, then a tighter brighter one
+			if (lit)
 			{
-				m_bGageAttackFull = !m_bGageAttackFull;
-			}
-			else if (m_bGageAttackFull && m_fAttackGageStartPosition == 1.0f)
-			{
-				iAttackRange = 6;
-			}
-			rect.Set(iCurrentGage, 0, m_pC_BloodBurst_spk->GetWidth(ATTACK_GAGE_WIDTH), m_pC_BloodBurst_spk->GetHeight(ATTACK_GAGE_WIDTH));
-			m_pC_BloodBurst_spk->BltLockedClip(x + iWidthXRange[g_eRaceInterface][0], y + iWidthYRange[g_eRaceInterface][0], rect, ATTACK_GAGE_WIDTH + iAttackRange);
-
-			RectAttack.Set(x + iWidthXRange[g_eRaceInterface][0], y + iWidthYRange[g_eRaceInterface][0],
-				m_pC_BloodBurst_spk->GetWidth(ATTACK_GAGE_WIDTH),
-				m_pC_BloodBurst_spk->GetHeight(ATTACK_GAGE_WIDTH));
-			//=======================================================================================================================================================
-
-			//=======================================================================================================================================================
-			// ��� ������ ���
-			//=======================================================================================================================================================
-			iMaxGage = m_pC_BloodBurst_spk->GetWidth(DEFENSE_GAGE_WIDTH);
-			iCurrentGage = (1.0 - m_fDefenseGageStartPosition) * iMaxGage;
-
-
-			if (!m_bGageDefenseFull && m_fDefenseGageStartPosition == 1.0f)
-			{
-				m_bGageDefenseFull = !m_bGageDefenseFull;
-			}
-			else if (m_bGageDefenseFull && m_fDefenseGageStartPosition == 1.0f)
-			{
-				iDefenseRange = 6;
+				m_pC_BloodBurst_spk->BltLockedAlpha(ox, y, RENEWAL_HALO_OUTER_ATTACK + i, glow / 2);
+				m_pC_BloodBurst_spk->BltLockedAlpha(ox + 2, y + 2, RENEWAL_HALO_MID_ATTACK + i, glow);
 			}
 
-			rect.Set(iCurrentGage, 0, m_pC_BloodBurst_spk->GetWidth(DEFENSE_GAGE_WIDTH), m_pC_BloodBurst_spk->GetHeight(DEFENSE_GAGE_WIDTH));
-			m_pC_BloodBurst_spk->BltLockedClip(x + iWidthXRange[g_eRaceInterface][0], y + iWidthYRange[g_eRaceInterface][1], rect, DEFENSE_GAGE_WIDTH + iDefenseRange);
-
-			RectDefense.Set(x + iWidthXRange[g_eRaceInterface][0], y + iWidthYRange[g_eRaceInterface][1],
-				m_pC_BloodBurst_spk->GetWidth(DEFENSE_GAGE_WIDTH),
-				m_pC_BloodBurst_spk->GetHeight(DEFENSE_GAGE_WIDTH));
-			//=======================================================================================================================================================
-
-			if (g_pParty->GetSize() > 0)
+			// the empty circle dimmed, then the filled part rising from the bottom
+			m_pC_BloodBurst_spk->BltLockedDarkness(cx, cy, circle, 2);
+			const int fill = min(ch, ch * gauge[i] / gauge_max[i]);
+			if (fill > 0)
 			{
-				//=======================================================================================================================================================
-				// ��Ƽ ������ ���
-				//=======================================================================================================================================================
-				iMaxGage = m_pC_BloodBurst_spk->GetWidth(PARTY_GAGE_WIDTH);
-				iCurrentGage = (1.0 - m_fPartyGageStartPosition) * iMaxGage;
-
-
-				if (!m_bGagePartyFull && m_fPartyGageStartPosition == 1.0f)
-				{
-					m_bGagePartyFull = !m_bGagePartyFull;
-				}
-				else if (m_bGagePartyFull && m_fPartyGageStartPosition == 1.0f)
-				{
-					iPartyRange = 6;
-				}
-				rect.Set(iCurrentGage, 0, m_pC_BloodBurst_spk->GetWidth(PARTY_GAGE_WIDTH), m_pC_BloodBurst_spk->GetHeight(PARTY_GAGE_WIDTH));
-				m_pC_BloodBurst_spk->BltLockedClip(x + iWidthXRange[g_eRaceInterface][0], y + iWidthYRange[g_eRaceInterface][3], rect, PARTY_GAGE_WIDTH + iPartyRange);
-				RectParty.Set(x + iWidthXRange[g_eRaceInterface][0], y + iWidthYRange[g_eRaceInterface][3],
-					m_pC_BloodBurst_spk->GetWidth(PARTY_GAGE_WIDTH),
-					m_pC_BloodBurst_spk->GetHeight(PARTY_GAGE_WIDTH));
-
-				//=======================================================================================================================================================
+				Rect rect(0, ch - fill, cw, fill);
+				m_pC_BloodBurst_spk->BltLockedClip(cx, cy, rect, circle);
 			}
+
+			// and the full circle itself brightens with the same breath
+			if (lit)
+				m_pC_BloodBurst_spk->BltLockedAlpha(cx, cy, RENEWAL_LIT_ATTACK + i, glow);
+
+			m_pC_BloodBurst_spk->BltLocked(cx, cy, m_image_base + RENEWAL_FRAME);
 		}
-		else
-		{
-			int iHeightXRange[3][4] = { 14 ,  18 ,  32 , 3 ,   7 ,  18  , 32 , 3 ,   4  , 18 , 32 , 3 };
 
-			int iHeightYRange[3][2] = { 25 , 0 , 34 , 4 , 37 , 3 };
-
-			// ���� �̹��� �׸���
-			m_pC_BloodBurst_spk->BltLocked(x + iHeightXRange[g_eRaceInterface][0], y, MAIN_HEIGHT);
-			if (g_pParty->GetSize() > 0)
-				m_pC_BloodBurst_spk->BltLocked(x, y + iHeightYRange[g_eRaceInterface][1], PARTY_MAIN_HEIGHT);
-
-			m_pC_BloodBurst_spk->BltLocked(x + iHeightXRange[g_eRaceInterface][1], y + iHeightYRange[g_eRaceInterface][0], MAIN_GAGE_BASE_ATTACK_HEIGHT);
-			m_pC_BloodBurst_spk->BltLocked(x + iHeightXRange[g_eRaceInterface][2], y + iHeightYRange[g_eRaceInterface][0], MAIN_GAGE_BASE_DEFENSE_HEIGHT);
-			// ������ �׸���
-			Rect rect;
-			//=======================================================================================================================================================
-			// ���� ������ ���
-			//=======================================================================================================================================================
-			int iMaxGage = m_pC_BloodBurst_spk->GetHeight(ATTACK_GAGE_HEIGHT);
-			int	iCurrentGage = (1.0 - m_fAttackGageStartPosition) * iMaxGage;
-
-			int	iAttackRange = 0, iDefenseRange = 0, iPartyRange = 0;
-			if (!m_bGageAttackFull && m_fAttackGageStartPosition == 1.0f)
-			{
-				m_bGageAttackFull = !m_bGageAttackFull;
-			}
-			else if (m_bGageAttackFull && m_fAttackGageStartPosition == 1.0f)
-			{
-				iAttackRange = 6;
-			}
-			rect.Set(0, iCurrentGage, m_pC_BloodBurst_spk->GetWidth(ATTACK_GAGE_HEIGHT), m_pC_BloodBurst_spk->GetHeight(ATTACK_GAGE_HEIGHT) - iCurrentGage);
-			m_pC_BloodBurst_spk->BltLockedClip(x + iHeightXRange[g_eRaceInterface][1], y + iHeightYRange[g_eRaceInterface][0], rect, ATTACK_GAGE_HEIGHT + iAttackRange);
-			RectAttack.Set(x + iHeightXRange[g_eRaceInterface][1], y + iHeightYRange[g_eRaceInterface][0],
-				m_pC_BloodBurst_spk->GetWidth(ATTACK_GAGE_HEIGHT),
-				m_pC_BloodBurst_spk->GetHeight(ATTACK_GAGE_HEIGHT));
-			//=======================================================================================================================================================
-
-			//=======================================================================================================================================================
-			// ��� ������ ���
-			//=======================================================================================================================================================
-			iMaxGage = m_pC_BloodBurst_spk->GetHeight(DEFENSE_GAGE_HEIGHT);
-			iCurrentGage = (1.0 - m_fDefenseGageStartPosition) * iMaxGage;
-
-
-			if (!m_bGageDefenseFull && m_fDefenseGageStartPosition == 1.0f)
-			{
-				m_bGageDefenseFull = !m_bGageDefenseFull;
-			}
-			else if (m_bGageDefenseFull && m_fDefenseGageStartPosition == 1.0f)
-			{
-				iDefenseRange = 6;
-			}
-
-			rect.Set(0, iCurrentGage, m_pC_BloodBurst_spk->GetWidth(DEFENSE_GAGE_HEIGHT), m_pC_BloodBurst_spk->GetHeight(DEFENSE_GAGE_HEIGHT) - iCurrentGage);
-			m_pC_BloodBurst_spk->BltLockedClip(x + iHeightXRange[g_eRaceInterface][2], y + iHeightYRange[g_eRaceInterface][0], rect, DEFENSE_GAGE_HEIGHT + iDefenseRange);
-
-			RectDefense.Set(x + iHeightXRange[g_eRaceInterface][2], y + iHeightYRange[g_eRaceInterface][0],
-				m_pC_BloodBurst_spk->GetWidth(DEFENSE_GAGE_HEIGHT),
-				m_pC_BloodBurst_spk->GetHeight(DEFENSE_GAGE_HEIGHT));
-			//=======================================================================================================================================================
-
-			if (g_pParty->GetSize() > 0)
-			{
-				//=======================================================================================================================================================
-				// ��Ƽ ������ ���
-				//=======================================================================================================================================================
-				iMaxGage = m_pC_BloodBurst_spk->GetHeight(PARTY_GAGE_HEIGHT);
-				iCurrentGage = (1.0 - m_fPartyGageStartPosition) * iMaxGage;
-
-
-				if (!m_bGagePartyFull && m_fPartyGageStartPosition == 1.0f)
-				{
-					m_bGagePartyFull = !m_bGagePartyFull;
-				}
-				else if (m_bGagePartyFull && m_fPartyGageStartPosition == 1.0f)
-				{
-					iPartyRange = 6;
-				}
-				rect.Set(0, iCurrentGage, m_pC_BloodBurst_spk->GetWidth(PARTY_GAGE_HEIGHT), m_pC_BloodBurst_spk->GetHeight(PARTY_GAGE_HEIGHT) - iCurrentGage);
-				m_pC_BloodBurst_spk->BltLockedClip(x + iHeightXRange[g_eRaceInterface][3], y + iHeightYRange[g_eRaceInterface][0], rect, PARTY_GAGE_HEIGHT + iPartyRange);
-
-				RectParty.Set(x + iHeightXRange[g_eRaceInterface][3], y + iHeightYRange[g_eRaceInterface][0],
-					m_pC_BloodBurst_spk->GetWidth(PARTY_GAGE_HEIGHT),
-					m_pC_BloodBurst_spk->GetHeight(PARTY_GAGE_HEIGHT));
-				//=======================================================================================================================================================
-			}
-		}
+		m_pC_button_group->Show();
+		gpC_base->m_p_DDSurface_back->Unlock();
 	}
-
-
-	if (m_width_mode)
+	// "rampage n / max" while the pointer is over a circle
+	const int print_x = gpC_mouse_pointer->GetPointerX();
+	const int print_y = gpC_mouse_pointer->GetPointerY();
+	if (cell > 0 && print_y >= y && print_y < y + h && print_x >= x && print_x < x + cell * count)
 	{
-		m_pC_width_button_group->Show();
-	}
-	else
-	{
-		m_pC_height_button_group->Show();
-	}
-	gpC_base->m_p_DDSurface_back->Unlock();
+		static const int tip[GAUGE_COUNT] = { UI_STRING_MESSAGE_BLOOD_BURST_ATTACK, UI_STRING_MESSAGE_BLOOD_BURST_DEFENSE, UI_STRING_MESSAGE_BLOOD_BURST_PARTY };
+		static std::string bloodburst_string;
+		const static char* help_string[1] = { NULL };
 
-
-	int print_x = gpC_mouse_pointer->GetPointerX();
-	int print_y = gpC_mouse_pointer->GetPointerY();
-	int color = 0;
-
-	static std::string bloodburst_string[1];
-	const static char* help_string[1] = { NULL };
-
-	if (RectAttack.IsInRect(gpC_mouse_pointer->GetPointerX(), gpC_mouse_pointer->GetPointerY())) // && m_iAttackGage)
-	{
+		const int i = (print_x - x) / cell;
 		char temp_string[512];
-		wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_BLOOD_BURST_ATTACK].GetString(), m_iAttackGage, ATTACK_MAX_POINT);
-		bloodburst_string[0] = temp_string;
+		wsprintf(temp_string, (*g_pGameStringTable)[tip[i]].GetString(), gauge[i], gauge_max[i]);
+		bloodburst_string = temp_string;
 
-		help_string[0] = bloodburst_string[0].c_str();
-		g_descriptor_manager.Set(DID_HELP, print_x + 30, print_y, (void*)help_string, 0, color);
-
-	}
-	else if (RectDefense.IsInRect(gpC_mouse_pointer->GetPointerX(), gpC_mouse_pointer->GetPointerY())) //  && m_iDefenseGage)
-	{
-		char temp_string[512];
-		wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_BLOOD_BURST_DEFENSE].GetString(), m_iDefenseGage, DEFENSE_MAX_POINT);
-		bloodburst_string[0] = temp_string;
-
-		help_string[0] = bloodburst_string[0].c_str();
-		g_descriptor_manager.Set(DID_HELP, print_x + 30, print_y, (void*)help_string, 0, color);
-	}
-	else if (RectParty.IsInRect(gpC_mouse_pointer->GetPointerX(), gpC_mouse_pointer->GetPointerY()))// && m_iPartyGage )
-	{
-		char temp_string[512];
-		wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_BLOOD_BURST_PARTY].GetString(), m_iPartyGage, PARTY_MAX_POINT);
-		bloodburst_string[0] = temp_string;
-
-		help_string[0] = bloodburst_string[0].c_str();
-		g_descriptor_manager.Set(DID_HELP, print_x + 30, print_y, (void*)help_string, 0, color);
+		help_string[0] = bloodburst_string.c_str();
+		g_descriptor_manager.Set(DID_HELP, print_x + 30, print_y, (void*)help_string, 0, 0);
 	}
 }
 
 void	C_VS_UI_BLOOD_BURST::Process()
 {
 	ProcessHide();
-
-	if (m_width_mode)
-		m_pC_width_button_group->Process();
-	else
-		m_pC_height_button_group->Process();
-
+	m_pC_button_group->Process();
 }
+
 void	C_VS_UI_BLOOD_BURST::Start()
 {
-
+	// a position saved in the old vertical layout can sit off the left or top edge
 	Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::BLOOD_BURST_WINDOW);
-	if (m_width_mode == gpC_vs_ui_window_manager->IsBloodBurstHeight())	Run(BLOODBURST_CHANGE_ID);
 	if (rect.w != -1)
 	{
-		x = rect.x;
-		y = rect.y;
+		x = max(0, (int)rect.x);
+		y = max(0, (int)rect.y);
 	}
 
 	PI_Processor::Start();
 	SetGage();
-	m_pC_width_button_group->Init();
-	m_pC_height_button_group->Init();
+	m_pC_button_group->Init();
 	gpC_window_manager->AppearWindow(this);
-
-
 }
 
 void	C_VS_UI_BLOOD_BURST::Finish()
 {
 	gpC_vs_ui_window_manager->SetRect(C_VS_UI_WINDOW_MANAGER::BLOOD_BURST_WINDOW, Rect(x, y, w, h));
-	gpC_vs_ui_window_manager->SetBloodBurstHeight(!m_width_mode);
+	gpC_vs_ui_window_manager->SetBloodBurstHeight(false);
 	PI_Processor::Finish();
 
 	gpC_window_manager->DisappearWindow(this);

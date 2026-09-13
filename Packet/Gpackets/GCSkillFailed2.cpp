@@ -8,6 +8,7 @@
 
 // include files
 #include "GPacket_PCH.h"
+#include "ServerSkillDisplay.h"
 #include "GCSkillFailed2.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"
@@ -40,7 +41,7 @@ void GCSkillFailed2::read ( SocketInputStream & iStream )
 	__BEGIN_TRY
 	iStream.read( m_ObjectID );
 	iStream.read( m_TargetObjectID );
-	iStream.read( m_SkillType );
+	iStream.read( m_SkillType ); m_SkillType = static_cast<decltype(m_SkillType)>(TranslateServerSkillType(m_SkillType));
 	iStream.read( m_Grade );
 	__END_CATCH
 }

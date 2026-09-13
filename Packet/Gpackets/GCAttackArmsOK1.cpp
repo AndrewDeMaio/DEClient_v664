@@ -11,6 +11,7 @@
 // include files
 //////////////////////////////////////////////////////////////////////
 #include "GPacket_PCH.h"
+#include "ServerSkillDisplay.h"
 #include "GCAttackArmsOK1.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"
@@ -51,7 +52,7 @@ void GCAttackArmsOK1::read ( SocketInputStream & iStream )
 	__BEGIN_DEBUG
 		
 	// ����ȭ �۾��� ���� ũ�⸦ �����ϵ��� �Ѵ�.	
-	iStream.read( m_SkillType );
+	iStream.read( m_SkillType ); m_SkillType = static_cast<decltype(m_SkillType)>(TranslateServerSkillType(m_SkillType));
 	iStream.read( m_ObjectID );
 	iStream.read( m_BulletNum );
 	iStream.read( m_bSuccess);

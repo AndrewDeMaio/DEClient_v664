@@ -11,6 +11,7 @@
 // include files
 //////////////////////////////////////////////////////////////////////
 #include "GPacket_PCH.h"
+#include "ServerSkillDisplay.h"
 #include "GCCrossCounterOK3.h"
 #include "SocketInputStream.h"
 #include "SocketOutputStream.h"
@@ -46,7 +47,7 @@ void GCCrossCounterOK3::read ( SocketInputStream & iStream )
 	// ����ȭ �۾��� ���� ũ�⸦ �����ϵ��� �Ѵ�.
 	iStream.read( m_ObjectID );
 	iStream.read( m_TargetObjectID );
-	iStream.read( m_SkillType );
+	iStream.read( m_SkillType ); m_SkillType = static_cast<decltype(m_SkillType)>(TranslateServerSkillType(m_SkillType));
 
 	__END_CATCH
 }
