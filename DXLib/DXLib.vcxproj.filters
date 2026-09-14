@@ -21,6 +21,9 @@
     <ClCompile Include="CD3D9Present.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CD3D9Scaler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="CDirectDraw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -87,6 +90,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CD3D9Present.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CD3D9Scaler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CDirectDraw.h">

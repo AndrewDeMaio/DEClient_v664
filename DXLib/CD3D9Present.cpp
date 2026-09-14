@@ -3,6 +3,7 @@
 // See CD3D9Present.h for what this is and why it exists.
 
 #include "CD3D9Present.h"
+#include "CD3D9Scaler.h"   // optional pixel-shader scaling (Resolution.inf "Scaler")
 
 #include <d3d9.h>
 
@@ -81,6 +82,7 @@ struct PRESENTVERTEX
 // DEFAULT-pool resources - everything that dies with a device reset.
 static void s_ReleaseVolatile()
 {
+	CD3D9Scaler::ReleaseVolatile();
 	if (s_pScaleRT) { s_pScaleRT->Release(); s_pScaleRT = NULL; }
 	s_nRTW = s_nRTH = 0;
 
@@ -102,6 +104,7 @@ static void s_ReleaseVolatile()
 static void s_ReleaseAll()
 {
 	s_ReleaseVolatile();
+	CD3D9Scaler::ReleaseAll();
 	if (s_pDevice) { s_pDevice->Release(); s_pDevice = NULL; }
 	if (s_pD3D)    { s_pD3D->Release();    s_pD3D    = NULL; }
 	s_hWnd = NULL;
@@ -542,6 +545,11 @@ void CD3D9Present::SetSmoothScale(bool bSmooth)
 	s_bSmoothScale = bSmooth;
 }
 
+void CD3D9Present::SetScaler(int nMode, int nSharpen)
+{
+	CD3D9Scaler::SetMode(nMode, nSharpen);
+}
+
 void CD3D9Present::SetOverlayAlpha(int nAlpha255)
 {
 	if (nAlpha255 < 0)   nAlpha255 = 0;
@@ -682,7 +690,18 @@ bool CD3D9Present::Present(HWND hWnd, LPDIRECTDRAWSURFACE7 pSrc,
 	IDirect3DSurface9* pBackBuffer = NULL;
 	s_pDevice->GetRenderTarget(0, &pBackBuffer);
 
-	if (bTwoPass)
+	// Optional pixel-shader scaler ("Scaler: 1/2"). Returns false (having
+	// drawn nothing) when off or unsupported, and the legacy path runs.
+	RECT rcDstScaler = rcDstClient;
+	const bool bScalerDone = CD3D9Scaler::Draw(s_pDevice, s_pSrcTex, s_nTexW, s_nTexH,
+	                                           nSrcX, nSrcY, nSrcW, nSrcH, rcDstScaler,
+	                                           pBackBuffer, s_bPow2Only, s_dwMaxTexW, s_dwMaxTexH);
+
+	if (bScalerDone)
+	{
+		// Frame already on the backbuffer; nothing else to scale.
+	}
+	else if (bTwoPass)
 	{
 		// Pass 1: nearest-neighbour integer upscale into the intermediate RT.
 		IDirect3DSurface9* pRTSurf = NULL;

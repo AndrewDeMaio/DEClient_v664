@@ -126,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="BIT_RES.CPP" />
     <ClCompile Include="CD3D9Present.cpp" />
+    <ClCompile Include="CD3D9Scaler.cpp" />
     <ClCompile Include="CDirectDraw.cpp" />
     <ClCompile Include="CDirectDrawSurface.cpp" />
     <ClCompile Include="CDirectInput.cpp" />
@@ -149,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="BIT_RES.H" />
     <ClInclude Include="CD3D9Present.h" />
+    <ClInclude Include="CD3D9Scaler.h" />
     <ClInclude Include="CDirectDraw.h" />
     <ClInclude Include="CDirectDrawSurface.h" />
     <ClInclude Include="CDirectInput.h" />

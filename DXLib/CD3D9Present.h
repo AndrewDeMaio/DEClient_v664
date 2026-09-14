@@ -55,6 +55,11 @@ public:
 	// (crisper, keeps pixel-art definition). Takes effect on the next frame.
 	static void SetSmoothScale(bool bSmooth);
 
+	// Pixel-shader scaler (Resolution.inf "Scaler: N", "Sharpen: 0..100").
+	// 0 = off (the fixed-function path above, unchanged), 1 = sharp pixel
+	// shader, 2 = sharp + contrast-adaptive sharpen. See CD3D9Scaler.h.
+	static void SetScaler(int nMode, int nSharpen);
+
 	// Geometry of the last successful Present. Returns false (and bActive
 	// false) when the presenter has not presented / fell back to DirectDraw.
 	static bool GetPresentGeometry(D3D9PresentGeometry* pOut);
