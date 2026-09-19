@@ -29,6 +29,8 @@ C_GLOBAL_RESOURCE::C_GLOBAL_RESOURCE()
 //	LoadCommonButton();
 	m_pC_assemble_box_spk = NULL;
 	m_pC_assemble_box_button_spk = NULL;
+	m_pC_assemble_box_renewal_spk = NULL;
+	m_pC_assemble_box_button_renewal_spk = NULL;
 //	m_pC_assemble_box_etc_spk = NULL;
 	m_pC_scroll_bar_spk = NULL;
 	m_pC_box_spk = NULL;
@@ -64,6 +66,8 @@ void C_GLOBAL_RESOURCE::LoadAssemble()
 	m_pC_scroll_bar_spk		= new C_SPRITE_PACK(SPK_SCROLL_BAR);
 	m_pC_box_spk			= new C_SPRITE_PACK(SPK_BOX);
 	m_pC_common_button_spk	= new C_SPRITE_PACK(SPK_COMMON_BUTTON);
+	m_pC_assemble_box_renewal_spk = new C_SPRITE_PACK(SPK_ASSEMBLE_BOX_RENEWAL);
+	m_pC_assemble_box_button_renewal_spk = new C_SPRITE_PACK(SPK_ASSEMBLE_BOX_BUTTON_RENEWAL);
 
 	switch(g_eRaceInterface)
 	{
@@ -98,6 +102,8 @@ void C_GLOBAL_RESOURCE::FreeAssemble()
 	DeleteNew(m_pC_scroll_bar_spk);
 	DeleteNew(m_pC_assemble_box_spk);
 	DeleteNew(m_pC_assemble_box_button_spk);
+	DeleteNew(m_pC_assemble_box_renewal_spk);
+	DeleteNew(m_pC_assemble_box_button_renewal_spk);
 	DeleteNew(m_pC_info_spk);
 	DeleteNew(m_pC_common_button_spk);
 	
@@ -469,6 +475,71 @@ void C_GLOBAL_RESOURCE::DrawDialogLocked2(int x, int y, int w, int h, bool alpha
 
 		m_pC_assemble_box_spk->BltLocked(x+w-m_pC_assemble_box_spk->GetWidth(AB_RIGHTDOWN2), y+h-m_pC_assemble_box_spk->GetHeight(AB_RIGHTDOWN2), AB_RIGHTDOWN2);
 	}
+}
+
+//-----------------------------------------------------------------------------
+// DrawDialogRenewalLocked
+//
+// DK Umbra's dialog frame: the pieces DrawDialogLocked2 draws, from its
+// assemblemessagebox art (the same for every race), opaque as Umbra draws it.
+// The art's title bar is 14 rows; a taller bar repeats its plain rows so a
+// title fits inside.
+//-----------------------------------------------------------------------------
+void C_GLOBAL_RESOURCE::DrawDialogRenewalLocked(int x, int y, int w, int h, int bar_h)
+{
+	C_SPRITE_PACK* p_spk = m_pC_assemble_box_renewal_spk;
+	if (p_spk == NULL)
+		return;
+
+	const int art_bar = 14;		// rows 0-13; row 14 is the line under the bar
+	const int plain_top = 4;	// rows 4-13 are the same all the way down
+	const int plain_h = art_bar - plain_top;
+	const int grow = bar_h > art_bar ? bar_h - art_bar : 0;
+	const int right_w = p_spk->GetWidth(AB_RIGHT2);
+
+	// the back, then the right edge over it; the bar stops short of the edge's
+	// round corner, the body doesn't (the edge is see-through beside it)
+	for (int i = 0; i < 2; i++)
+	{
+		const int frame = i == 0 ? AB_BACK2 : AB_RIGHT2;
+		const int left = i == 0 ? x : x + w - right_w;
+		const int bar_w = i == 0 ? w - right_w : right_w;
+		const int body_w = i == 0 ? w : right_w;
+
+		Rect rect(0, 0, bar_w, art_bar);
+		p_spk->BltLockedClip(left, y, rect, frame);
+		for (int r = 0; r < grow; r += plain_h)
+		{
+			rect.Set(0, plain_top, bar_w, grow - r < plain_h ? grow - r : plain_h);
+			p_spk->BltLockedClip(left, y + art_bar + r - plain_top, rect, frame);
+		}
+		rect.Set(0, art_bar, body_w, h - grow - art_bar);
+		p_spk->BltLockedClip(left, y + grow, rect, frame);
+	}
+
+	const int corner_w = p_spk->GetWidth(AB_RIGHTDOWN2);
+	const int corner_h = p_spk->GetHeight(AB_RIGHTDOWN2);
+	const int down_h = p_spk->GetHeight(AB_DOWN2);
+	Rect rect(0, 0, w - corner_w, down_h);
+	p_spk->BltLockedClip(x, y + h - down_h, rect, AB_DOWN2);
+	p_spk->BltLocked(x + w - corner_w, y + h - corner_h, AB_RIGHTDOWN2);
+}
+
+//-----------------------------------------------------------------------------
+// DrawRenewalButtonLabel
+//
+// The label over one of the blank buttons we added to the renewal button
+// pack. Draw it after the button, outside a surface lock.
+//-----------------------------------------------------------------------------
+void C_GLOBAL_RESOURCE::DrawRenewalButtonLabel(int x, int y, int w, int h, const char* sz_label, bool pushed, COLORREF color)
+{
+	PrintInfo& pi = gpC_base->m_small_pi;
+	const int label_h = 13;
+	const bool bGetDC = g_FL2_GetDC();
+	g_PrintColorStr(x + (w - g_GetStringWidth(sz_label, pi.hfont)) / 2, y + (h - label_h) / 2 + (pushed ? 1 : 0),
+	sz_label, pi, color);
+	if (bGetDC)
+		g_FL2_ReleaseDC();
 }
 
 //

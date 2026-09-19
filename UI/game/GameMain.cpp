@@ -274,7 +274,7 @@ UpdateSocketInput()
 		// away. This is the exact path a packet-stream desync takes to become
 		// MODE_MAINMENU with no crash and no message, so record it here.
 		{
-			FILE* dcfp = fopen("DisconnectReason.log", "a");
+			FILE* dcfp = fopen("Log\\DisconnectReason.log", "a");
 			if (dcfp != NULL)
 			{
 				fputs(t.toString().c_str(), dcfp);

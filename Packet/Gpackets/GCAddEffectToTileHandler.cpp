@@ -85,7 +85,7 @@ void GCAddEffectToTileHandler::execute ( GCAddEffectToTile * pPacket , Player * 
 	// 2004, 9, 3, sobeit add end
 
 	// 2005, 1, 6, sobeit add start - �巹�� ����̵� ���� ó���� �� ��Ŷ�� ����´�..-_-
-	if(EffectStatusType == EFFECTSTATUS_DRAGON_TORNADO || EffectStatusType == EFFECTSTATUS_DRAGON_TORNADO_CHILD)
+	if(EffectStatusType == EFFECTSTATUS_DRAGON_TORNADO || EffectStatusType == EFFECTSTATUS_DRAGON_TORNADO_CHILD || EffectStatusType == EFFECTSTATUS_DRAGON_HURRICANE || EffectStatusType == EFFECTSTATUS_DRAGON_HURRICANE_CHILD || EffectStatusType == EFFECTSTATUS_DRAGON_HURRICANE_2 || EffectStatusType == EFFECTSTATUS_DRAGON_HURRICANE_2_SMALL)
 	{
 		SetDragonTorando(EffectStatusType, pPacket->getObjectID(), pPacket->getX(), pPacket->getY());
 		return;

@@ -39,46 +39,46 @@
 //----------------------------------------------------------------------------
 // Globals
 //
-// C_VS_UI_GAME Object°¡ ½ÇÇàÁß¿¡ ÀÖÀ» ¶§ À¯È¿ÇÏ´Ù.
+// C_VS_UI_GAME Objectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß¿ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¿ï¿½Ï´ï¿½.
 //----------------------------------------------------------------------------
 bool gbl_item_lock; // no static member, 'static GLOBAL!'
-						  // ÃÊ±âÈ­´Â C_VS_UI_GAME::Start()¿¡¼­ ÇØÁØ´Ù.
+						  // ï¿½Ê±ï¿½È­ï¿½ï¿½ C_VS_UI_GAME::Start()ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø´ï¿½.
 bool gbl_gear_lock;
 
 bool gbl_item_trade_lock;
 
-// shop¿¡¼­ ¹°°ÇÀ» »ì¶§´Â »ì¹°°Ç¿¡ ´ëÇÑ price¸¦ Ãâ·ÂÇØÁà¾ßÇÏ°í,
-// ÆÈ ¶§µµ ¶ÇÇÑ ±×·¡¾ßÇÑ´Ù.
-bool gbl_sell_running; // »ç´Â Áß..
-bool gbl_buy_running; // ÆÄ´Â Áß..
-bool gbl_repair_running; // °íÄ¡´Â Áß...
-bool gbl_silvering_running; // Àºµµ±Ý ÇÏ´ÂÁß
-bool gbl_buy_storage_running; // °íÄ¡´Â Áß...
-bool gbl_exchange_ask_running; // ±³È¯ÇÒ·¡? ¶° ÀÖ´Â Áß.. --;		// by sigi
-bool gbl_exchange_cancel_running; // ±³È¯Ãë¼ÒÇÒ·¡? ¶° ÀÖ´Â Áß.. --;	// by sigi
-bool gbl_party_ask_running; // ÆÄÆ¼ÇÒ·¡? ¶° ÀÖ´Â Áß.. --;
-bool gbl_party_cancel_running; // ÆÄÆ¼Ãë¼ÒÇÒ·¡? ¶° ÀÖ´Â Áß.. --;
-bool gbl_enchant_running; // EnchantÇÒ·¡? ¶° ÀÖ´Â Áß.. --;
-bool gbl_use_pet_food_running; // Æê ¸ÔÀÌ ¸ÔÀÏ·¡? ¶° ÀÖ´ÂÁß
-bool gbl_keep_petitem_running; // Æê ¸Â±æ·¡? ¶° ÀÖ´ÂÁß
-bool gbl_get_keep_petitem_running; // Æê Ã£À»? ¶° ÀÖ´ÂÁß
-bool gbl_use_askitem_running; // ¹«½¼¹«½¼ item »ç¿ëÇÒ·¡? ¶° ÀÖ´ÂÁß
-bool gbl_persnalshop_running; // °³ÀÎ»óÁ¡ UI ¶°ÀÖ´Â Áß..
-bool gbl_Delegation_Of_Power_running; // ¹«½¼¹«½¼ item »ç¿ëÇÒ·¡? ¶° ÀÖ´ÂÁß
+// shopï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ì¶§ï¿½ï¿½ ï¿½ì¹°ï¿½Ç¿ï¿½ ï¿½ï¿½ï¿½ï¿½ priceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½,
+// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½×·ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+bool gbl_sell_running; // ï¿½ï¿½ï¿½ ï¿½ï¿½..
+bool gbl_buy_running; // ï¿½Ä´ï¿½ ï¿½ï¿½..
+bool gbl_repair_running; // ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½...
+bool gbl_silvering_running; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ï¿½ï¿½
+bool gbl_buy_storage_running; // ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½...
+bool gbl_exchange_ask_running; // ï¿½ï¿½È¯ï¿½Ò·ï¿½? ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½.. --;		// by sigi
+bool gbl_exchange_cancel_running; // ï¿½ï¿½È¯ï¿½ï¿½ï¿½ï¿½Ò·ï¿½? ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½.. --;	// by sigi
+bool gbl_party_ask_running; // ï¿½ï¿½Æ¼ï¿½Ò·ï¿½? ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½.. --;
+bool gbl_party_cancel_running; // ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½Ò·ï¿½? ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½.. --;
+bool gbl_enchant_running; // Enchantï¿½Ò·ï¿½? ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½.. --;
+bool gbl_use_pet_food_running; // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï·ï¿½? ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½
+bool gbl_keep_petitem_running; // ï¿½ï¿½ ï¿½Â±æ·¡? ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½
+bool gbl_get_keep_petitem_running; // ï¿½ï¿½ Ã£ï¿½ï¿½? ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½
+bool gbl_use_askitem_running; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ item ï¿½ï¿½ï¿½ï¿½Ò·ï¿½? ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½
+bool gbl_persnalshop_running; // ï¿½ï¿½ï¿½Î»ï¿½ï¿½ï¿½ UI ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½..
+bool gbl_Delegation_Of_Power_running; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ item ï¿½ï¿½ï¿½ï¿½Ò·ï¿½? ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½
 
 
 //bool gbl_option_running; // by sigi
-bool gbl_tutorial_exit_ask_running; // ¹«±â¼±ÅÃÇÑ°Å ¾È¹Ù²Ù±¸ ³ª°¥·¡? ¶°ÀÖ´ÂÁß..		//by larosel
-bool gbl_no_search_result_running; // °Ë»ö°á°ú ¾øÀ½ ¶° ÀÖ´Â Áß
-bool gbl_deposit_limit_running; // °Ë»ö°á°ú ¾øÀ½ ¶° ÀÖ´Â Áß
-bool gbl_withdraw_limit_running; // °Ë»ö°á°ú ¾øÀ½ ¶° ÀÖ´Â Áß
-bool gbl_exchange_limit_running; // °Ë»ö°á°ú ¾øÀ½ ¶° ÀÖ´Â Áß
-bool gbl_bring_fee_limit_running; // °Ë»ö°á°ú ¾øÀ½ ¶° ÀÖ´Â Áß
-bool gbl_getitem_from_itemlist_running;	// ¾ÆÀÌÅÛ ¸®½ºÆ®¿¡¼­ ¾ÆÀÌÅÛ °¡Á®¿Ã¶§
+bool gbl_tutorial_exit_ask_running; // ï¿½ï¿½ï¿½â¼±ï¿½ï¿½ï¿½Ñ°ï¿½ ï¿½È¹Ù²Ù±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½? ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½..		//by larosel
+bool gbl_no_search_result_running; // ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½
+bool gbl_deposit_limit_running; // ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½
+bool gbl_withdraw_limit_running; // ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½
+bool gbl_exchange_limit_running; // ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½
+bool gbl_bring_fee_limit_running; // ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½
+bool gbl_getitem_from_itemlist_running;	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½
 bool gbl_trans_item_running;
 bool	gbl_skip_escape = false;
 
-bool gbl_swap_advancement_item_running; // ½ÂÁ÷ ¾ÆÀÌÅÛ°ú ±³È¯Áß
+bool gbl_swap_advancement_item_running; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Û°ï¿½ ï¿½ï¿½È¯ï¿½ï¿½
 Race	g_eRaceInterface;
 
 extern int					g_Dimension ;
@@ -521,7 +521,7 @@ void ExecF_Use_AskItem(C_VS_UI_DIALOG * p_this_dialog, id_t id)
 				//	return ; 
 				//}
 
-//				2009.08.18 ÀÌ ºÎºÐ ÁÖ¼® Ã³¸®
+//				2009.08.18 ï¿½ï¿½ ï¿½Îºï¿½ ï¿½Ö¼ï¿½ Ã³ï¿½ï¿½
 //				gbl_use_askitem_running = false;
 			}
 		}
@@ -584,9 +584,9 @@ void ExecF_TutorialExitAsk(C_VS_UI_DIALOG * p_this_dialog, id_t id)
 	switch (id)
 	{
 		case DIALOG_EXECID_OK:
-			// ÁÖ¼® by sigi
+			// ï¿½Ö¼ï¿½ by sigi
 			//gpC_base->SendMessage( UI_TUTORIAL_EXIT_ACCEPT, TRUE );
-			gC_vs_ui.RunTutorialExitAccept();	// ¹Ù·Î ½ÇÇà by sigi
+			gC_vs_ui.RunTutorialExitAccept();	// ï¿½Ù·ï¿½ ï¿½ï¿½ï¿½ï¿½ by sigi
 			gbl_tutorial_exit_ask_running = false;
 		break;
 
@@ -607,7 +607,7 @@ void ExecF_TutorialExitAsk(C_VS_UI_DIALOG * p_this_dialog, id_t id)
 //-----------------------------------------------------------------------------
 // Lock/Unlock Item
 //
-// LockµÇ¸é Item Áý±â/³õ±â/¹Ù²Ù±â°¡ ºÒ°¡´ÉÇØÁø´Ù. UnlockÀº ±×°ÍÀ» ÇØÁ¦ÇÑ´Ù.
+// Lockï¿½Ç¸ï¿½ Item ï¿½ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½/ï¿½Ù²Ù±â°¡ ï¿½Ò°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. Unlockï¿½ï¿½ ï¿½×°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::LockItem()
 {
@@ -663,9 +663,9 @@ void C_VS_UI_GAME::ChangeToSlayerInterface()
 	g_descriptor_manager.Unset();
 
 //	gbl_vampire_interface = false;
-	g_eRaceInterface = RACE_SLAYER; // ousters interface Ãß°¡
-	//g_eRaceInterface = RACE_OUSTERS; // ousters interface Ãß°¡
-	//g_eRaceInterface = RACE_VAMPIRE; // ousters interface Ãß°¡
+	g_eRaceInterface = RACE_SLAYER; // ousters interface ï¿½ß°ï¿½
+	//g_eRaceInterface = RACE_OUSTERS; // ousters interface ï¿½ß°ï¿½
+	//g_eRaceInterface = RACE_VAMPIRE; // ousters interface ï¿½ß°ï¿½
 
 	DeleteNew(m_pC_tribe_interface);
 
@@ -739,7 +739,7 @@ void C_VS_UI_GAME::ChangeToVampireInterface()
 	g_descriptor_manager.Unset();
 
 //	gbl_vampire_interface = true;
-	g_eRaceInterface = RACE_VAMPIRE; // ouster interface Ãß°¡
+	g_eRaceInterface = RACE_VAMPIRE; // ouster interface ï¿½ß°ï¿½
 
 	DeleteNew(m_pC_tribe_interface);
 
@@ -934,7 +934,7 @@ C_VS_UI_GAME::C_VS_UI_GAME()
 	m_pC_usergrade = NULL;
 #endif //__USER_GRADE
 
-#if __CONTENTS(__TIPOJYU_CASTLE)	//ÀÎ´ø ´ÙÀÌ¾ó·Î±× Å¬·¡½º ÃÊ±âÈ­
+#if __CONTENTS(__TIPOJYU_CASTLE)	//ï¿½Î´ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½Î±ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
 	m_pC_Indoung_Dialog	= NULL;
 #endif // __TIPOJYU_CASTLE
 }
@@ -1083,7 +1083,7 @@ C_VS_UI_GAME::~C_VS_UI_GAME()
 	DeleteNew(m_pC_usergrade);
 #endif //__USER_GRADE
 
-#if __CONTENTS(__TIPOJYU_CASTLE)	//ÀÎ´ø ´ÙÀÌ¾ó·Î±× ¸Þ¸ð¸® »èÁ¦
+#if __CONTENTS(__TIPOJYU_CASTLE)	//ï¿½Î´ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½Î±ï¿½ ï¿½Þ¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 	DeleteNew(m_pC_Indoung_Dialog);
 #endif // __TIPOJYU_CASTLE
 
@@ -1496,7 +1496,7 @@ void	C_VS_UI_GAME::RunGameMenu()
 	}
 	else
 	{
-		m_pC_gamemenu = new C_VS_UI_GAMEMENU;
+		m_pC_gamemenu = new C_VS_UI_GAMEMENU(m_pC_hotkey);
 		m_pC_gamemenu->Start();
 		gpC_base->SendMessage(UI_RUNNING_GAMEMENU);
 	}
@@ -1505,14 +1505,14 @@ void	C_VS_UI_GAME::RunGameMenu()
 //-----------------------------------------------------------------------------
 // C_VS_UI_GAME::ClosePopupWindow
 //
-// ÇÏ³ª¶óµµ ´ÝÈ÷¸é true¸¦ ¹ÝÈ¯ÇÑ´Ù.
+// ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ trueï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 bool	C_VS_UI_GAME::ClosePopupWindow()
 {
 	//
-	// Inventory/Gear´Â ÇÑ½ÖÀÇ Popup Window·Î º»´Ù. ÀÌ µÑÀÌ °°ÀÌ ¶° ÀÖ´Ù¸é °°ÀÌ ´ÝÈ÷´Â °ÍÀÌ´Ù.
-	// ±×µéÀº pinned WindowÀÌ¹Ç·Î °íÁ¤µÇ¾î ÀÖ´Â »óÁ¡ Interface°°Àº no pinned WindowÀÇ À§¿¡
-	// Ãâ·ÂµÈ´Ù. µû¶ó¼­ Inventory/Gear -> Other Window ¼øÀ¸·Î closeÇÑ´Ù.
+	// Inventory/Gearï¿½ï¿½ ï¿½Ñ½ï¿½ï¿½ï¿½ Popup Windowï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
+	// ï¿½×µï¿½ï¿½ï¿½ pinned Windowï¿½Ì¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ Interfaceï¿½ï¿½ï¿½ï¿½ no pinned Windowï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ÂµÈ´ï¿½. ï¿½ï¿½ï¿½ï¿½ Inventory/Gear -> Other Window ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ closeï¿½Ñ´ï¿½.
 	//
 	bool charinfo_closed = false;
 
@@ -1780,11 +1780,14 @@ bool	C_VS_UI_GAME::ClosePopupWindow()
 	if(IsRunningTeamList())
 	{
 		CloseTeamList();
-		// ÀÌ ¸Þ½ÃÁö°¡ UnSetLockInputPCTalk¸¦ È£ÃâÇÏ´Â ¹Ù¶÷¿¡
-		// ÀáÁ¤ÀûÀÎ ¹®Á¦°¡ »ý±æ °ÍÀ¸·Î ÆÇ´Ü, ÀÏ´Ü ÁÖ¼® Ã³¸® ÇßÀ½
+		// ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ UnSetLockInputPCTalkï¿½ï¿½ È£ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ù¶ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç´ï¿½, ï¿½Ï´ï¿½ ï¿½Ö¼ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		//gpC_base->SendMessage(UI_CLOSE_TEAM_LIST);
 		return true;
 	}
+
+	if (m_pC_tribe_interface->CloseSkillBook())
+		return true;
 
 	if (m_pC_tribe_interface->CloseInventoryGearWindow())
 		return true;
@@ -1798,14 +1801,14 @@ bool	C_VS_UI_GAME::ClosePopupWindow()
 	}
 #endif	// 	__QUEST_RENEWAL
 	// by sigi
-	// Ã¥ ÀÐ°í ÀÖÀ¸¸é Ã¥ ´Ý±â
+	// Ã¥ ï¿½Ð°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¥ ï¿½Ý±ï¿½
 	if (IsRunningBookcase() && m_pC_bookcase->IsReadingBook())
 	{
 		m_pC_bookcase->CloseBook();
 
 		return true;
 	}
-	// ¾Æ´Ï¸é.. bookcase ´Ý±â
+	// ï¿½Æ´Ï¸ï¿½.. bookcase ï¿½Ý±ï¿½
 	else if (IsRunningBookcase())
 	{
 //		gpC_base->SendMessage(UI_CLOSE_BOOKCASE);		
@@ -2049,7 +2052,7 @@ void	C_VS_UI_GAME::AddChatToHistory(char * str, const char * sz_id, CHAT_LINE_CO
 //	}
 //	else
 	{
-		// ÀÏ¹ÝÃ¤ÆÃÃ¢À¸·Î...
+		// ï¿½Ï¹ï¿½Ã¤ï¿½ï¿½Ã¢ï¿½ï¿½ï¿½ï¿½...
 		m_pC_chatting->AddChatToHistory(str, sz_id, condition, color);
 	}
 }
@@ -2572,7 +2575,7 @@ void	C_VS_UI_GAME::CloseSkillTree()
 //-----------------------------------------------------------------------------
 // FinishItemSelling
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::FinishItemSelling()
 {
@@ -2603,7 +2606,7 @@ void C_VS_UI_GAME::OpenInventoryToSell()
 //-----------------------------------------------------------------------------
 // FinishItemRepairing
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::FinishItemRepairing()
 {
@@ -2623,7 +2626,7 @@ void C_VS_UI_GAME::FinishItemRepairing()
 //-----------------------------------------------------------------------------
 // FinishItemSilvering
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::FinishItemSilvering()
 {
@@ -2699,7 +2702,7 @@ void C_VS_UI_GAME::SetPetStorage(MStorage* pStorage)
 //-----------------------------------------------------------------------------
 // CloseShop
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseShop()
 {
@@ -2719,7 +2722,7 @@ void C_VS_UI_GAME::CloseShop()
 //-----------------------------------------------------------------------------
 // CloseStorage
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseStorage()
 {
@@ -2733,7 +2736,7 @@ void C_VS_UI_GAME::CloseStorage()
 //-----------------------------------------------------------------------------
 // ClosePetStorage
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::ClosePetStorage()
 {
@@ -2747,7 +2750,7 @@ void C_VS_UI_GAME::ClosePetStorage()
 //-----------------------------------------------------------------------------
 // CloseExchange
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseExchange()
 {
@@ -2763,7 +2766,7 @@ void C_VS_UI_GAME::CloseExchange()
 //-----------------------------------------------------------------------------
 // CloseExchangeAsk
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseExchangeAsk()
 {
@@ -2782,7 +2785,7 @@ void C_VS_UI_GAME::CloseExchangeAsk()
 //-----------------------------------------------------------------------------
 // CloseExchangeCancel
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseExchangeCancel()
 {
@@ -2801,7 +2804,7 @@ void C_VS_UI_GAME::CloseExchangeCancel()
 //-----------------------------------------------------------------------------
 // CloseGameMenuOption
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 /*
 void C_VS_UI_GAME::CloseOption()
@@ -2822,7 +2825,7 @@ void C_VS_UI_GAME::CloseOption()
 //-----------------------------------------------------------------------------
 // RunShop
 //
-// ShopÀ» ½ÇÇàÇÑ´Ù.
+// Shopï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunShop()
 {
@@ -2834,7 +2837,7 @@ void C_VS_UI_GAME::RunShop()
 
 		m_pC_tribe_interface->DoCommonActionBeforeEventOccured();
 
-		// Shop Window¿Í ÇÔ²² ¶ç¿ï °ÍµéÀ» ½ÇÇàÇÑ´Ù.
+		// Shop Windowï¿½ï¿½ ï¿½Ô²ï¿½ ï¿½ï¿½ï¿½ ï¿½Íµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 		m_pC_tribe_interface->ShopRunningAnnounced();
 		m_pC_shop->Start();
 		gbl_buy_running = true;
@@ -2852,7 +2855,7 @@ void	C_VS_UI_GAME::Inventory_Item_Position_Remove()
 //-----------------------------------------------------------------------------
 // RunStorage
 //
-// StorageÀ» ½ÇÇàÇÑ´Ù.
+// Storageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunStorage()
 {
@@ -2871,7 +2874,7 @@ void C_VS_UI_GAME::RunStorage()
 //-----------------------------------------------------------------------------
 // RunPetStorage
 //
-// StorageÀ» ½ÇÇàÇÑ´Ù.
+// Storageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunPetStorage()
 {
@@ -2890,7 +2893,7 @@ void C_VS_UI_GAME::RunPetStorage()
 //-----------------------------------------------------------------------------
 // RunStorageBuy
 //
-// StorageÀ» ½ÇÇàÇÑ´Ù.
+// Storageï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunStorageBuy(int price)
 {
@@ -2913,7 +2916,7 @@ void C_VS_UI_GAME::RunStorageBuy(int price)
 //-----------------------------------------------------------------------------
 // RunOption
 //
-// ¿É¼ÇÃ¢ ¶ç¿ì±â
+// ï¿½É¼ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunOption()
 {
@@ -2937,7 +2940,7 @@ void C_VS_UI_GAME::RunOption()
 //-----------------------------------------------------------------------------
 // RunSkillView //by larosel
 //
-// ½ºÅ³ÀÎÆ÷¸¦ ½ÇÇàÇÑ´Ù.
+// ï¿½ï¿½Å³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 //void C_VS_UI_GAME::RunSkillView()
 //{
@@ -2957,7 +2960,7 @@ void C_VS_UI_GAME::RunOption()
 //-----------------------------------------------------------------------------
 // CloseSkillView
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 //void C_VS_UI_GAME::CloseSkillView()
 //{
@@ -2976,7 +2979,7 @@ void C_VS_UI_GAME::RunOption()
 //-----------------------------------------------------------------------------
 // RunDescDialog //by larosel
 //
-// ¼³¸íÃ¢À» ½ÇÇàÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunDescDialog(int type, void *ptr, void *ptr2)
 {
@@ -2996,7 +2999,7 @@ void C_VS_UI_GAME::RunDescDialog(int type, void *ptr, void *ptr2)
 //-----------------------------------------------------------------------------
 // CloseDescDialog
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseDescDialog()
 {
@@ -3014,7 +3017,7 @@ void C_VS_UI_GAME::CloseDescDialog()
 //-----------------------------------------------------------------------------
 // RunFileDialog //by larosel
 //
-// ÆÄÀÏÃ¢À» ½ÇÇàÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunFileDialog(C_VS_UI_FILE_DIALOG::MODE Mode, const char *type)
 {
@@ -3034,7 +3037,7 @@ void C_VS_UI_GAME::RunFileDialog(C_VS_UI_FILE_DIALOG::MODE Mode, const char *typ
 //-----------------------------------------------------------------------------
 // CloseFileDialog
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseFileDialog()
 {
@@ -3053,7 +3056,7 @@ void C_VS_UI_GAME::CloseFileDialog()
 //-----------------------------------------------------------------------------
 // RunElevator //by larosel
 //
-// ¿¤¸®º£ÀÌÅÍ ÀÎÅÍÆäÀÌ½º¸¦ ½ÇÇàÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunElevator()
 {
@@ -3073,7 +3076,7 @@ void C_VS_UI_GAME::RunElevator()
 //-----------------------------------------------------------------------------
 // CloseElevator
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseElevator()
 {
@@ -3106,7 +3109,7 @@ void C_VS_UI_GAME::RunRepairItemAll(DWORD objectID, DWORD price)
 //-----------------------------------------------------------------------------
 // RunBookcase //by larosel
 //
-// Ã¥ÀåÀ» ½ÇÇàÇÑ´Ù.
+// Ã¥ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunBookcase()
 {
@@ -3126,7 +3129,7 @@ void C_VS_UI_GAME::RunBookcase()
 //-----------------------------------------------------------------------------
 // CloseBookcase
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseBookcase()
 {
@@ -3142,7 +3145,7 @@ void C_VS_UI_GAME::CloseBookcase()
 //-----------------------------------------------------------------------------
 // RunBriefing //by larosel
 //
-// ºê¸®ÇÎÀ» ½ÇÇàÇÑ´Ù.
+// ï¿½ê¸®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunBriefing()
 {
@@ -3163,7 +3166,7 @@ void C_VS_UI_GAME::RunBriefing()
 //-----------------------------------------------------------------------------
 // CloseBriefing //by larosel
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseBriefing()
 {
@@ -3179,7 +3182,7 @@ void C_VS_UI_GAME::CloseBriefing()
 //-----------------------------------------------------------------------------
 // RunComputer //by larosel
 //
-// ÄÄÇ»ÅÍ¸¦ ½ÇÇàÇÑ´Ù.
+// ï¿½ï¿½Ç»ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunComputer()
 {
@@ -3213,7 +3216,7 @@ void C_VS_UI_GAME::RunComputer()
 //-----------------------------------------------------------------------------
 // CloseComputer //by larosel
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseComputer()
 {
@@ -3231,7 +3234,7 @@ void C_VS_UI_GAME::CloseComputer()
 //-----------------------------------------------------------------------------
 // RunTutorialExit //by larosel
 //
-// Æ©Åä¸®¾ó ³ª°¡±â¸¦ ½ÇÇàÇÑ´Ù.
+// Æ©ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½â¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunTutorialExit()
 {
@@ -3252,14 +3255,14 @@ void C_VS_UI_GAME::RunTutorialExit()
 //-----------------------------------------------------------------------------
 // CloseTutorialExit //by larosel
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseTutorialExit()
 {
 	if (!m_pC_tutorial_exit)
 		return;
 
-	// askµµ ±¦È÷ ÇÑ ¹ø ´Ý¾ÆÁØ´Ù -_-; by sigi
+	// askï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ý¾ï¿½ï¿½Ø´ï¿½ -_-; by sigi
 	CloseTutorialExitAsk();
 
 	DeleteNew(m_pC_tutorial_exit);
@@ -3271,7 +3274,7 @@ void C_VS_UI_GAME::CloseTutorialExit()
 //-----------------------------------------------------------------------------
 // RunTutorialExitAsk	// by larosel
 //
-// Æ©Åä¸®¾ó ³ª°¡±âÈ®ÀÎÀ» ½ÇÇàÇÑ´Ù.
+// Æ©ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunTutorialExitAsk(const int select, const char* pName)
 {
@@ -3300,7 +3303,7 @@ void C_VS_UI_GAME::RunTutorialExitAccept()
 //-----------------------------------------------------------------------------
 // CloseTutorialExitAsk
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseTutorialExitAsk()
 {
@@ -3320,7 +3323,7 @@ void C_VS_UI_GAME::CloseTutorialExitAsk()
 //-----------------------------------------------------------------------------
 // RunHorn //by larosel
 //
-// ½½·¹ÀÌ¾î Æ÷Å»À» ½ÇÇàÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunHorn(int currentZoneID)
 {
@@ -3341,7 +3344,7 @@ void C_VS_UI_GAME::RunHorn(int currentZoneID)
 //-----------------------------------------------------------------------------
 // CloseHorn //by larosel
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseHorn()
 {
@@ -3367,7 +3370,7 @@ bool	C_VS_UI_GAME::IsRunningHorn() const
 //-----------------------------------------------------------------------------
 // RunMailBox //by larosel
 //
-// ¸ÞÀÏÇÔ
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunMailBox()
 {
@@ -3378,7 +3381,7 @@ void C_VS_UI_GAME::RunMailBox()
 //-----------------------------------------------------------------------------
 // CloseMailBox //by larosel
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseMailBox()
 {
@@ -3445,7 +3448,7 @@ void	C_VS_UI_GAME::AddHelpMail(DWORD id,  bool open)
 //-----------------------------------------------------------------------------
 // RunFindingMine //by larosel
 //
-// ½½·¹ÀÌ¾î Æ÷Å»À» ½ÇÇàÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunFindingMine()
 {
@@ -3466,7 +3469,7 @@ void C_VS_UI_GAME::RunFindingMine()
 //-----------------------------------------------------------------------------
 // CloseFindingMine //by larosel
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseFindingMine()
 {
@@ -3492,7 +3495,7 @@ bool	C_VS_UI_GAME::IsRunningFindingMine() const
 //-----------------------------------------------------------------------------
 // RunSlayerPortal //by larosel
 //
-// ½½·¹ÀÌ¾î Æ÷Å»À» ½ÇÇàÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunSlayerPortal( int nExtendLevel )
 {
@@ -3513,7 +3516,7 @@ void C_VS_UI_GAME::RunSlayerPortal( int nExtendLevel )
 //-----------------------------------------------------------------------------
 // CloseSlayerPortal //by larosel
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseSlayerPortal()
 {
@@ -3539,7 +3542,7 @@ bool	C_VS_UI_GAME::IsRunningSlayerPortal() const
 //-----------------------------------------------------------------------------
 // RunTeamList //by larosel
 //
-// ½½·¹ÀÌ¾î Æ÷Å»À» ½ÇÇàÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunTeamList(bool ready, bool IsUnion)
 {
@@ -3560,7 +3563,7 @@ void C_VS_UI_GAME::RunTeamList(bool ready, bool IsUnion)
 //-----------------------------------------------------------------------------
 // CloseTeamList //by larosel
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseTeamList()
 {
@@ -3597,7 +3600,7 @@ bool	C_VS_UI_GAME::IsRunningTeamList(bool IsUnion) const
 //-----------------------------------------------------------------------------
 // RunTeamMemberList //by larosel
 //
-// ½½·¹ÀÌ¾î Æ÷Å»À» ½ÇÇàÇÑ´Ù.
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½Å»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunTeamMemberList()
 {
@@ -3618,7 +3621,7 @@ void C_VS_UI_GAME::RunTeamMemberList()
 //-----------------------------------------------------------------------------
 // CloseTeamMemberList //by larosel
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseTeamMemberList()
 {
@@ -3664,7 +3667,7 @@ void C_VS_UI_GAME::RunTeamInfo(bool ready, void *info, bool IsUnion)
 //-----------------------------------------------------------------------------
 // CloseTeamInfo //by larosel
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseTeamInfo()
 {
@@ -3717,7 +3720,7 @@ void C_VS_UI_GAME::RunTeamMemberInfo(C_VS_UI_TEAM_MEMBER_INFO::MEMBER_INFO *info
 //-----------------------------------------------------------------------------
 // CloseTeamMemberInfo //by larosel
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseTeamMemberInfo()
 {
@@ -3763,7 +3766,7 @@ void C_VS_UI_GAME::RunTeamRegist(bool member, int reg_fee, int rank, const char 
 //-----------------------------------------------------------------------------
 // CloseTeamRegist //by larosel
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseTeamRegist()
 {
@@ -3787,9 +3790,9 @@ bool	C_VS_UI_GAME::IsRunningTeamRegist() const
 }
 
 //-----------------------------------------------------------------------------
-// RunExchangeAsk ( ±³È¯ÇÒ·Á´Â »ç¶÷ ÀÌ¸§ )
+// RunExchangeAsk ( ï¿½ï¿½È¯ï¿½Ò·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ )
 //
-// ±³È¯ÇÒ°Å³Ä°í ¹¯´Â´Ù.
+// ï¿½ï¿½È¯ï¿½Ò°Å³Ä°ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunExchangeAsk(const char* pName)
 {
@@ -3812,7 +3815,7 @@ void C_VS_UI_GAME::RunExchangeAsk(const char* pName)
 //-----------------------------------------------------------------------------
 // RunExchangeCancel
 //
-// ±³È¯ÇÒ°Å³Ä°í ¹¯´Â´Ù.
+// ï¿½ï¿½È¯ï¿½Ò°Å³Ä°ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunExchangeCancel(const char* pName)
 {
@@ -3835,7 +3838,7 @@ void C_VS_UI_GAME::RunExchangeCancel(const char* pName)
 //-----------------------------------------------------------------------------
 // RunExchange
 //
-// ±³È¯Ã¢À» ½ÇÇàÇÑ´Ù.
+// ï¿½ï¿½È¯Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunExchange()
 {
@@ -4371,7 +4374,7 @@ void C_VS_UI_GAME::HotKey_Slash()		// ctrl + /
 
 }
 
-void C_VS_UI_GAME::HotKey_Where()			// Ã¤ÆÃ¸í·É¾î /¾îµð
+void C_VS_UI_GAME::HotKey_Where()			// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /ï¿½ï¿½ï¿½
 {
 	assert(m_pC_hotkey);
 	
@@ -4379,7 +4382,7 @@ void C_VS_UI_GAME::HotKey_Where()			// Ã¤ÆÃ¸í·É¾î /¾îµð
 		m_pC_hotkey->HotKey_Where();
 }
 
-void C_VS_UI_GAME::HotKey_Background_Music()		// Ã¤ÆÃ¸í·É¾î /¹è°æÀ½
+void C_VS_UI_GAME::HotKey_Background_Music()		// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /ï¿½ï¿½ï¿½ï¿½ï¿½
 {
 	assert(m_pC_hotkey);
 	
@@ -4388,7 +4391,7 @@ void C_VS_UI_GAME::HotKey_Background_Music()		// Ã¤ÆÃ¸í·É¾î /¹è°æÀ½
 
 }
 
-void C_VS_UI_GAME::HotKey_Effect_Music()		// Ã¤ÆÃ¸í·É¾î /È¿°úÀ½
+void C_VS_UI_GAME::HotKey_Effect_Music()		// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /È¿ï¿½ï¿½ï¿½ï¿½
 {
 	assert(m_pC_hotkey);
 	
@@ -4397,7 +4400,7 @@ void C_VS_UI_GAME::HotKey_Effect_Music()		// Ã¤ÆÃ¸í·É¾î /È¿°úÀ½
 
 }
 
-void C_VS_UI_GAME::HotKey_Chat_Help()		// Ã¤ÆÃ¸í·É¾î /Ã¤ÆÃµµ¿ò
+void C_VS_UI_GAME::HotKey_Chat_Help()		// Ã¤ï¿½Ã¸ï¿½ï¿½É¾ï¿½ /Ã¤ï¿½Ãµï¿½ï¿½ï¿½
 {
 	assert(m_pC_hotkey);
 	
@@ -4636,14 +4639,14 @@ void C_VS_UI_GAME::HotKey_ESC()
 	
 
 	//
-	// ESCÅ°ÀÇ ÀÛ¿ë
+	// ESCÅ°ï¿½ï¿½ ï¿½Û¿ï¿½
 	//
-	// (1) Window°¡ ÀÌµ¿ÁßÀÎ°¡? -> Window¸¦ Á¤Áö½ÃÅ²´Ù.
-	// (2) ¹öÆ°À» ´©¸£°í ÀÖ´Â°¡? -> ´­¸²À» ÇØÁ¦ÇÑ´Ù.
-	// (3) Popup Window°¡ ¶° ÀÖ´Â°¡? -> Window¸¦ ´Ý´Â´Ù.
-	// (3-2) event lockÀ» ÇØÁ¦ÇÑ´Ù.
-	// (4) ItemÀ» µé°í ÀÖ´Â°¡? -> GameMenu¸¦ È£ÃâÇÑ´Ù. ÀÌ¶§´Â Àá½Ã Mouse pointer´Â ItemÀÌ ¾Æ´Ñ
-	//										¿ø·¡ÀÇ °ÍÀ¸·Î º¯ÇÑ´Ù.
+	// (1) Windowï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½Î°ï¿½? -> Windowï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½.
+	// (2) ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Â°ï¿½? -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	// (3) Popup Windowï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´Â°ï¿½? -> Windowï¿½ï¿½ ï¿½Ý´Â´ï¿½.
+	// (3-2) event lockï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
+	// (4) Itemï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö´Â°ï¿½? -> GameMenuï¿½ï¿½ È£ï¿½ï¿½ï¿½Ñ´ï¿½. ï¿½Ì¶ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ Mouse pointerï¿½ï¿½ Itemï¿½ï¿½ ï¿½Æ´ï¿½
+	//										ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½.
 	//
 
 	if( gbl_skip_escape )
@@ -4656,15 +4659,15 @@ void C_VS_UI_GAME::HotKey_ESC()
 	if (p_window != NULL) // (1)
 	{
 		p_window->ClearInputState();
-		gpC_window_manager->CancelPushStateOfCurrentPushedWindow(); // !Áß¿ä
+		gpC_window_manager->CancelPushStateOfCurrentPushedWindow(); // !ï¿½ß¿ï¿½
 	}
 	else if (gpC_window_manager->CancelPushStateOfCurrentPushedWindow() == false) // (2)
 	{
 		//
-		// Popup Window¸¦ ´ÝÀ» ¶§´Â ¿ì¼± MessageBox¸¦ °í·ÁÇÑ´Ù. ±×µéÀ» topmost Window¶ó¼­
-		// °¡Àå¸ÕÀú Ã³¸®µÇ±æ ¿øÇÑ´Ù. ÀÌ°ÍÀº hot-key Á¤Ã¥(VS_UI.cpp ÂüÁ¶)¿¡ µû¸¥ °ÍÀÌ´Ù.
-		// ±×·¯´Ï±î escape¸¸Àº °¢ Window¿¡ ¸Â´Â Ã³¸®¸¦ ÇÏ°ÔÇÏ±â À§ÇØ¼­ Window¿¡ message¸¦
-		// º¸³½´Ù(topmost Window¸¸).
+		// Popup Windowï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ì¼± MessageBoxï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. ï¿½×µï¿½ï¿½ï¿½ topmost Windowï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ï¿½Ç±ï¿½ ï¿½ï¿½ï¿½Ñ´ï¿½. ï¿½Ì°ï¿½ï¿½ï¿½ hot-key ï¿½ï¿½Ã¥(VS_UI.cpp ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
+		// ï¿½×·ï¿½ï¿½Ï±ï¿½ escapeï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Windowï¿½ï¿½ ï¿½Â´ï¿½ Ã³ï¿½ï¿½ï¿½ï¿½ ï¿½Ï°ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ Windowï¿½ï¿½ messageï¿½ï¿½
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(topmost Windowï¿½ï¿½).
 		//
 		Window * p_first_window = gpC_window_manager->GetFirstPriorityWindow();
 		if (p_first_window != NULL)
@@ -4678,9 +4681,9 @@ void C_VS_UI_GAME::HotKey_ESC()
 			}
 /*
 		//
-		// Inventory/Gear´Â ÇÑ½ÖÀÇ Popup Window·Î º»´Ù. ÀÌ µÑÀÌ °°ÀÌ ¶° ÀÖ´Ù¸é °°ÀÌ ´ÝÈ÷´Â °ÍÀÌ´Ù.
-		// ±×µéÀº pinned WindowÀÌ¹Ç·Î °íÁ¤µÇ¾î ÀÖ´Â »óÁ¡ Interface°°Àº no pinned WindowÀÇ À§¿¡
-		// Ãâ·ÂµÈ´Ù. µû¶ó¼­ Inventory/Gear -> Other Window ¼øÀ¸·Î closeÇÑ´Ù.
+		// Inventory/Gearï¿½ï¿½ ï¿½Ñ½ï¿½ï¿½ï¿½ Popup Windowï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì´ï¿½.
+		// ï¿½×µï¿½ï¿½ï¿½ pinned Windowï¿½Ì¹Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ Interfaceï¿½ï¿½ï¿½ï¿½ no pinned Windowï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		// ï¿½ï¿½ÂµÈ´ï¿½. ï¿½ï¿½ï¿½ï¿½ Inventory/Gear -> Other Window ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ closeï¿½Ñ´ï¿½.
 		//
 		if (m_pC_tribe_interface->CloseInventoryGearWindow() == false)
 		{
@@ -4958,7 +4961,7 @@ void C_VS_UI_GAME::Start()
 		ChangeToOustersInterface();		
 	}	
 
-	// Client °ø¿ë Inventory data structure.
+	// Client ï¿½ï¿½ï¿½ï¿½ Inventory data structure.
 	g_pInventory->Init(C_VS_UI_INVENTORY::GRID_X, C_VS_UI_INVENTORY::GRID_Y);
 	g_pSlayerGear->Init();
 	g_pVampireGear->Init();
@@ -5000,7 +5003,7 @@ void C_VS_UI_GAME::SelectSkill(int id)
 //-----------------------------------------------------------------------------
 // RequestDie
 //
-// ´ÙÀÌ-_-½ÅÃ»? ¾ÆÀÌÄÜ ¶ç¿ò
+// ï¿½ï¿½ï¿½ï¿½-_-ï¿½ï¿½Ã»? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RequestDie(DWORD timer, bool enforce)
 {
@@ -5018,7 +5021,7 @@ void C_VS_UI_GAME::RequestDie(DWORD timer, bool enforce)
 //-----------------------------------------------------------------------------
 // FinishRequestDie
 //
-// ÆÄÆ¼½ÅÃ» ¾ÆÀÌÄÜ ´ÝÀ½
+// ï¿½ï¿½Æ¼ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::FinishRequestDie()
 {
@@ -5044,7 +5047,7 @@ bool	C_VS_UI_GAME::IsRunningRequestDie() const
 //-----------------------------------------------------------------------------
 // RequestPremiumGiveItem
 //
-// ÇÁ¸®¹Ì¾ö Áö±Þ ¾ÆÀÌÄÜ ¶ç¿ò
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::Request_PremiumGiveItem()
 {
@@ -5067,7 +5070,7 @@ void C_VS_UI_GAME::Request_PremiumGiveItem()
 //-----------------------------------------------------------------------------
 // FinishRequestPremiumGiveItem
 //
-// ÇÁ¸®¹Ì¾ö Áö±Þ ¾ÆÀÌÄÜ ´ÝÀ½
+// ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::FinishRequest_PremiumGiveItem()
 {
@@ -5094,7 +5097,7 @@ bool	C_VS_UI_GAME::IsRunningRequest_PremiumGiveItem() const
 //-----------------------------------------------------------------------------
 // RequestParty
 //
-// ÆÄÆ¼½ÅÃ» ¾ÆÀÌÄÜ ¶ç¿ò
+// ï¿½ï¿½Æ¼ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RequestParty(const char *name, DWORD timer)
 {
@@ -5112,7 +5115,7 @@ void C_VS_UI_GAME::RequestParty(const char *name, DWORD timer)
 //-----------------------------------------------------------------------------
 // FinishRequestParty
 //
-// ÆÄÆ¼½ÅÃ» ¾ÆÀÌÄÜ ´ÝÀ½
+// ï¿½ï¿½Æ¼ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::FinishRequestParty()
 {
@@ -5143,9 +5146,9 @@ bool	C_VS_UI_GAME::IsRunningPartyAsk() const
 }
 
 //-----------------------------------------------------------------------------
-// RunPartyAsk ( ½ÅÃ»ÇÑ »ç¶÷ ÀÌ¸§ )
+// RunPartyAsk ( ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ )
 //
-// ÆÄÆ¼¿¡ °¡ÀÔÇÒ°Å³Ä°í ¹¯´Â´Ù.
+// ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ò°Å³Ä°ï¿½ ï¿½ï¿½ï¿½Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunPartyAsk(const char* pName, C_VS_UI_REQUEST_PARTY::REQUEST_PARTY type)
 {
@@ -5176,7 +5179,7 @@ void C_VS_UI_GAME::RunPartyAsk(const char* pName, C_VS_UI_REQUEST_PARTY::REQUEST
 //-----------------------------------------------------------------------------
 // RunPartyCancel
 //
-// ÆÄÆ¼¿¡ Âü°¡ÇÏ´Â°Å ±âµÑ¸®´ÂÁß..
+// ï¿½ï¿½Æ¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Â°ï¿½ ï¿½ï¿½Ñ¸ï¿½ï¿½ï¿½ï¿½ï¿½..
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunPartyCancel(const char* pName)
 {
@@ -5199,7 +5202,7 @@ void C_VS_UI_GAME::RunPartyCancel(const char* pName)
 //-----------------------------------------------------------------------------
 // RunEnchant
 //
-// EnchantÇÒ·¡ ÇÏ°í ¹¯´ÂÁß...
+// Enchantï¿½Ò·ï¿½ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunEnchant(int value)
 {
@@ -5222,7 +5225,7 @@ void C_VS_UI_GAME::RunEnchant(int value)
 //-----------------------------------------------------------------------------
 // CloseEnchant
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseEnchant()
 {
@@ -5240,7 +5243,7 @@ void C_VS_UI_GAME::CloseEnchant()
 }
 
 #if __CONTENTS(__TUNING_ITEM)
-void C_VS_UI_GAME::RunTuningConfirm1(int value, char *name1, char *name2)	// Æ©´× °¡´É
+void C_VS_UI_GAME::RunTuningConfirm1(int value, char *name1, char *name2)	// Æ©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 {
 	if (m_pC_enchant_dialog != NULL)
 	{
@@ -5259,7 +5262,7 @@ void C_VS_UI_GAME::RunTuningConfirm1(int value, char *name1, char *name2)	// Æ©´
 	m_pC_enchant_dialog->Start();	
 }
 
-void C_VS_UI_GAME::RunTuningConfirm2(int value, char *name1, char *name2)	// Æ©´× ºÒ°¡´É
+void C_VS_UI_GAME::RunTuningConfirm2(int value, char *name1, char *name2)	// Æ©ï¿½ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½
 {
 	if (m_pC_enchant_dialog != NULL)
 	{
@@ -5278,7 +5281,7 @@ void C_VS_UI_GAME::RunTuningConfirm2(int value, char *name1, char *name2)	// Æ©´
 	m_pC_enchant_dialog->Start();
 }
 
-void C_VS_UI_GAME::RunConfirmError(char *message) // ºÒ°¡´É ¸Þ¼¼Áö
+void C_VS_UI_GAME::RunConfirmError(char *message) // ï¿½Ò°ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
 {
 	if (m_pC_enchant_dialog != NULL)
 	{
@@ -5333,7 +5336,7 @@ void C_VS_UI_GAME::CloseThirdEnchant()
 //-----------------------------------------------------------------------------
 // RunUsePetFood
 //
-// Æê ¸ÔÀÌ ¸ÔÀÏ·¡ ÇÏ°í ¹¯´ÂÁß...
+// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunUsePetFood(DWORD UsingObjectID, MItem* SubInventory)
 {
@@ -5356,7 +5359,7 @@ void C_VS_UI_GAME::RunUsePetFood(DWORD UsingObjectID, MItem* SubInventory)
 //-----------------------------------------------------------------------------
 // CloseUsePetFood
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseUsePetFood()
 {
@@ -5375,7 +5378,7 @@ void C_VS_UI_GAME::CloseUsePetFood()
 //-----------------------------------------------------------------------------
 // RunKeepPetItemFood
 //
-// ÆêÀ» º¸°ü ÇÒ·¡? ÇÏ°í ¹¯´ÂÁß...
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½? ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunKeepPetItemDialog()
 {
@@ -5398,7 +5401,7 @@ void C_VS_UI_GAME::RunKeepPetItemDialog()
 //-----------------------------------------------------------------------------
 // CloseKeepPetItemDialog
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseKeepPetItemDialog()
 {
@@ -5417,7 +5420,7 @@ void C_VS_UI_GAME::CloseKeepPetItemDialog()
 //-----------------------------------------------------------------------------
 // RunGetKeepPetItemDialog
 //
-// ÆêÀ» º¸°ü ÇÒ·¡? ÇÏ°í ¹¯´ÂÁß...
+// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½? ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunGetKeepPetItemDialog()
 {
@@ -5440,7 +5443,7 @@ void C_VS_UI_GAME::RunGetKeepPetItemDialog()
 //-----------------------------------------------------------------------------
 // CloseKeepPetItemDialog
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseGetKeepPetItemDialog()
 {
@@ -5458,7 +5461,7 @@ void C_VS_UI_GAME::CloseGetKeepPetItemDialog()
 //-----------------------------------------------------------------------------
 // RunNoSearchResult
 //
-// °Ë»ö°á°ú ¾øÀ½
+// ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunNoSearchResult()
 {
@@ -5481,7 +5484,7 @@ void C_VS_UI_GAME::RunNoSearchResult()
 //-----------------------------------------------------------------------------
 // RunDepositLimit
 //
-// °Ë»ö°á°ú ¾øÀ½
+// ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunDepositLimit()
 {
@@ -5519,7 +5522,7 @@ void	C_VS_UI_GAME::RunBringFeeLimit()
 //-----------------------------------------------------------------------------
 // RunWithdrawLimit
 //
-// °Ë»ö°á°ú ¾øÀ½
+// ï¿½Ë»ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunWithdrawLimit()
 {
@@ -5543,7 +5546,7 @@ void C_VS_UI_GAME::RunWithdrawLimit()
 //-----------------------------------------------------------------------------
 // ClosePartyAsk
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::ClosePartyAsk()
 {
@@ -5564,7 +5567,7 @@ void C_VS_UI_GAME::ClosePartyAsk()
 //-----------------------------------------------------------------------------
 // ClosePartyCancel
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::ClosePartyCancel()
 {
@@ -5584,7 +5587,7 @@ void C_VS_UI_GAME::ClosePartyCancel()
 //-----------------------------------------------------------------------------
 // CloseNoSearchResult
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseNoSearchResult()
 {
@@ -5604,7 +5607,7 @@ void C_VS_UI_GAME::CloseNoSearchResult()
 //-----------------------------------------------------------------------------
 // CloseDepositLimit
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseDepositLimit()
 {
@@ -5624,7 +5627,7 @@ void C_VS_UI_GAME::CloseDepositLimit()
 //-----------------------------------------------------------------------------
 // CloseWithdrawLimit
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseWithdrawLimit()
 {
@@ -5664,7 +5667,7 @@ void C_VS_UI_GAME::RunPartyManager()
 //-----------------------------------------------------------------------------
 // ClosePartyManager
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::ClosePartyManager()
 {
@@ -5995,7 +5998,7 @@ void	C_VS_UI_GAME::CloseTransItem()
 //-----------------------------------------------------------------------------
 // RequestResurrect
 //
-// ´ÙÀÌ-_-½ÅÃ»? ¾ÆÀÌÄÜ ¶ç¿ò
+// ï¿½ï¿½ï¿½ï¿½-_-ï¿½ï¿½Ã»? ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RequestResurrect(bool f1, bool f2, bool eternity, bool IsSiegeAttacker, bool IsSkillFromOther)
 {
@@ -6039,7 +6042,7 @@ void C_VS_UI_GAME::SetDelayRequestResurrect( C_VS_UI_REQUEST_RESURRECT::RESURREC
 //-----------------------------------------------------------------------------
 // FinishRequestResurrect
 //
-// ÆÄÆ¼½ÅÃ» ¾ÆÀÌÄÜ ´ÝÀ½
+// ï¿½ï¿½Æ¼ï¿½ï¿½Ã» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::FinishRequestResurrect()
 {
@@ -6081,7 +6084,7 @@ void C_VS_UI_GAME::ChangeToOustersInterface()
 	g_descriptor_manager.Unset();
 
 //	gbl_vampire_interface = true;
-	g_eRaceInterface = RACE_OUSTERS; // ousters interface Ãß°¡
+	g_eRaceInterface = RACE_OUSTERS; // ousters interface ï¿½ß°ï¿½
 
 	DeleteNew(m_pC_tribe_interface);
 
@@ -6139,7 +6142,7 @@ void C_VS_UI_GAME::ChangeToOustersInterface()
 //-----------------------------------------------------------------------------
 // RunMixingForge
 //
-// MixingForgeÀ» ½ÇÇàÇÑ´Ù.
+// MixingForgeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunMixingForge(C_VS_UI_MIXING_FORGE::FORGE_CLASS forge_class, C_VS_UI_MIXING_FORGE::FORGE_TYPE forge_type)
 {
@@ -6160,7 +6163,7 @@ void C_VS_UI_GAME::RunMixingForge(C_VS_UI_MIXING_FORGE::FORGE_CLASS forge_class,
 //-----------------------------------------------------------------------------
 // CloseMixingForge
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseMixingForge()
 {
@@ -6219,10 +6222,18 @@ void	C_VS_UI_GAME::RunOustersSkillInfo(int skillID, int window_x, int window_y, 
 {
 	if( m_pC_ousters_skill_info )
 	{
-		m_pC_ousters_skill_info->SetSkillID(skillID);
-		return;
+		// a card left open by the other mode (learn or lower) is replaced
+		if( m_pC_ousters_skill_info->IsDownSkill() == flag )
+		{
+			m_pC_ousters_skill_info->SetSkillID(skillID);
+			return;
+		}
+
+		window_x = m_pC_ousters_skill_info->x;
+		window_y = m_pC_ousters_skill_info->y;
+		CloseOustersSkillInfo();
 	}
-	
+
 	m_pC_ousters_skill_info = new C_VS_UI_OUSTERS_SKILL_INFO(skillID, window_x, window_y, flag);
 	
 	m_pC_ousters_skill_info->Start();
@@ -6249,6 +6260,10 @@ void	C_VS_UI_GAME::SetOustersDownSkill()
 {
 	if( m_pC_info != NULL )
 		m_pC_info->SetOustersDownSkill();
+
+	// the skills window took over the old skill info's trees
+	if( m_pC_tribe_interface != NULL )
+		m_pC_tribe_interface->SetOustersDownSkill();
 }
 
 void	C_VS_UI_GAME::RunArrowTile()
@@ -6475,10 +6490,10 @@ void C_VS_UI_GAME::RunIndounNpcDlg(S_INDOUN_DLG_INFO Indoun_Npc_Dlg_Info, ENUMTY
 	if(g_pPlayer == NULL)
 		return;
 	BYTE btActionType	= g_pPlayer->GetAction();
-	BYTE btWingType		= g_pPlayer->GetWingType();	//¹ìÆÄÀÌ¾î ÀÌµ¿¼ö´Ü	1 or 2ÀÌ¸é Å¸°í ÀÖ´Ù°í ÇÔ. 1Àº ¹ÚÁã 2´Â ½Å±Ô ÀÌµ¿¼ö´Ü
+	BYTE btWingType		= g_pPlayer->GetWingType();	//ï¿½ï¿½ï¿½ï¿½ï¿½Ì¾ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½	1 or 2ï¿½Ì¸ï¿½ Å¸ï¿½ï¿½ ï¿½Ö´Ù°ï¿½ ï¿½ï¿½. 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 2ï¿½ï¿½ ï¿½Å±ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½
 
 	BOOL	blIndounRun	= FALSE;
-	switch(g_pPlayer->GetRace())	//ÀÌµ¿ ¼ö´ÜÀ» »ç¿ëÇÏ°í ÀÖ´Â Áß¿¡´Â Æ¼Æ÷ÁÖ NPC Ã¢À» ¿­ ¼ö ¾ø´Ù.
+	switch(g_pPlayer->GetRace())	//ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´ï¿½ ï¿½ß¿ï¿½ï¿½ï¿½ Æ¼ï¿½ï¿½ï¿½ï¿½ NPC Ã¢ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 	{
 		case RACE_SLAYER:
 			if(	btActionType	!= ACTION_SLAYER_MOTOR_STAND		&&	btActionType	!= ACTION_SLAYER_MOTOR_MOVE )
@@ -6591,101 +6606,68 @@ bool	C_VS_UI_GAME::IsRunningRequestShrineMinimap() const
 - C_VS_UI_GAMEMENU
 -
 -----------------------------------------------------------------------------*/
-C_VS_UI_GAMEMENU::C_VS_UI_GAMEMENU()
+const C_VS_UI_GAMEMENU::BUTTON_INFO C_VS_UI_GAMEMENU::s_button[] =
+{
+	// id                    tile        icon  at          label
+	{ DETAILS_ID,            75,  60,    4,    84,  66,    "Details"   },
+	{ SKILLS_ID,             143, 60,    5,    153, 69,    "Skills"    },
+	{ QUESTS_ID,             211, 60,    6,    221, 68,    "Quests"    },
+	{ PET_ID,                279, 60,    7,    289, 70,    "Pet"       },
+
+	{ CLAN_INFO_ID,          75,  123,   8,    85,  132,   "Info"      },
+	{ CLAN_LIST_ID,          143, 123,   9,    153, 132,   "List"      },
+	{ CLAN_WAIT_LIST_ID,     211, 123,   10,   221, 132,   "Wait List" },
+	{ CLAN_MEMBERS_ID,       279, 123,   11,   289, 132,   "Members"   },
+
+	{ FRIENDS_ID,            75,  186,   12,   85,  191,   "Friends"   },
+	{ PARTY_ID,              143, 186,   13,   148, 194,   "Party"     },
+
+	{ MARKET_ID,             75,  249,   15,   85,  256,   "Market"    },
+	{ SHOP_ID,               143, 249,   16,   155, 257,   "Shop"      },
+	{ CART_ID,               211, 249,   17,   225, 260,   "Cart"      },
+
+	{ OPTION,                211, 365,   20,   219, 374,   "Settings"  },
+	{ LOGOUT,                279, 365,   21,   294, 373,   "Logout"    },
+#if __CONTENTS(__GAMEMENU_QUITEXIT)
+	{ QUITEXIT,              347, 365,   22,   361, 376,   "Exit"      },
+#endif //__GAMEMENU_QUITEXIT
+	{ CONTINUE,              415, 365,   23,   430, 377,   "Close"     },
+};
+
+const int C_VS_UI_GAMEMENU::s_button_count = sizeof(s_button) / sizeof(s_button[0]);
+
+const C_VS_UI_GAMEMENU::ROW_INFO C_VS_UI_GAMEMENU::s_row[] =
+{
+	{ "Info",    80  },
+	{ "Clan",    143 },
+	{ "Friends", 206 },
+	{ "Shop",    269 },
+};
+
+const int C_VS_UI_GAMEMENU::s_row_count = sizeof(s_row) / sizeof(s_row[0]);
+
+C_VS_UI_GAMEMENU::C_VS_UI_GAMEMENU(HotKey * p_hotkey)
 {
 	g_RegisterWindow(this);
 
 	AttrTopmost(true);
 	AttrKeyboardControl(true);
 
-//	m_bHangul = false;
-//	if(!gC_ci.IsEngInput())
-//	{
-//		m_bHangul = true;
-//		gC_ci.SetEngInput();
-//	}
+	m_p_hotkey = p_hotkey;
+	m_pC_gamemenu_spk = new C_SPRITE_PACK(SPK_GAMEMENU_RENEWAL);
 
-#if __CONTENTS(__GAMEMENU_QUITEXIT)
-	POINT pt[MENU_COUNT];
-	int i;
-#else
-	int x_offset, /*y1_offset,*/ y2_offset, y3_offset, y4_offset,px=0,py=0;
-#endif //__GAMEMENU_QUITEXIT
+	const int menu_w = m_pC_gamemenu_spk->GetWidth(GAMEMENU_WINDOW);
+	const int menu_h = m_pC_gamemenu_spk->GetHeight(GAMEMENU_WINDOW);
 
-
-	const InterfaceInformation *pSkin = &g_pSkinManager->Get( SkinManager::GAME_MENU );
-	 
-	switch(g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		m_pC_gamemenu_spk = new C_SPRITE_PACK(SPK_SLAYER_GAMEMENU);
-	#if __CONTENTS(__GAMEMENU_QUITEXIT)
-		for(i=0;i<MENU_COUNT;i++)
-		{
-			pt[i].x = pSkin->GetPoint(i).x;
-			pt[i].y = pSkin->GetPoint(i).y;
-		}
-	#else
-		x_offset = pSkin->GetPoint(0).x;
-//		y1_offset = 42;
-		y2_offset = pSkin->GetPoint(0).y;
-		y3_offset = pSkin->GetPoint(1).x;
-		y4_offset = pSkin->GetPoint(1).y;
-	#endif //__GAMEMENU_QUITEXIT
-		break;
-
-	case RACE_VAMPIRE:
-		m_pC_gamemenu_spk = new C_SPRITE_PACK(SPK_VAMPIRE_GAMEMENU);
-	#if __CONTENTS(__GAMEMENU_QUITEXIT)
-		for(i=MENU_COUNT;i<MENU_COUNT+MENU_COUNT;i++)
-		{
-			pt[i-MENU_COUNT].x = pSkin->GetPoint(i).x;
-			pt[i-MENU_COUNT].y = pSkin->GetPoint(i).y;
-		}
-	#else
-		x_offset = pSkin->GetPoint(2).x;
-//		y1_offset = 41;
-		y2_offset = pSkin->GetPoint(2).y;
-		y3_offset = pSkin->GetPoint(3).x;
-		y4_offset = pSkin->GetPoint(3).y;
-	#endif //__GAMEMENU_QUITEXIT
-		break;
-
-	case RACE_OUSTERS:
-		m_pC_gamemenu_spk = new C_SPRITE_PACK(SPK_OUSTERS_GAMEMENU);
-	#if __CONTENTS(__GAMEMENU_QUITEXIT)
-		for(i=MENU_COUNT+MENU_COUNT;i<MENU_COUNT+MENU_COUNT+MENU_COUNT;i++)
-		{
-			pt[i-MENU_COUNT-MENU_COUNT].x = pSkin->GetPoint(i).x;
-			pt[i-MENU_COUNT-MENU_COUNT].y = pSkin->GetPoint(i).y;
-		}
-	#else
-			px=-2;
-		x_offset = pSkin->GetPoint(4).x;
-		y2_offset = pSkin->GetPoint(4).y;
-		y3_offset = pSkin->GetPoint(5).x;
-		y4_offset = pSkin->GetPoint(5).y;
-	#endif //__GAMEMENU_QUITEXIT
-		break;
-	}	
-
-	//Set(RESOLUTION_X/2-m_pC_gamemenu_spk->GetWidth()/2, RESOLUTION_Y/2-m_pC_gamemenu_spk->GetHeight()/2, m_pC_gamemenu_spk->GetWidth(), m_pC_gamemenu_spk->GetHeight());
-	Set(g_pUserInformation->iResolution_x/2-m_pC_gamemenu_spk->GetWidth()/2, g_pUserInformation->iResolution_y/2-m_pC_gamemenu_spk->GetHeight()/2, m_pC_gamemenu_spk->GetWidth(), m_pC_gamemenu_spk->GetHeight());
+	Set((g_pUserInformation->iResolution_x - menu_w) / 2, (g_pUserInformation->iResolution_y - menu_h) / 2, menu_w, menu_h);
 
 	m_pC_button_group = new ButtonGroup(this);
 
-//	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x+x_offset, y+y1_offset, m_pC_gamemenu_spk->GetWidth(CANCEL_IMAGE), m_pC_gamemenu_spk->GetHeight(CANCEL_IMAGE), TO_BOARD, this, TO_BOARD_IMAGE));
-#if __CONTENTS(__GAMEMENU_QUITEXIT)
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pt[OPTION].x, pt[OPTION].y, m_pC_gamemenu_spk->GetWidth(OPTION_IMAGE), m_pC_gamemenu_spk->GetHeight(OPTION_IMAGE), OPTION, this, OPTION_IMAGE));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pt[LOGOUT].x, pt[LOGOUT].y, m_pC_gamemenu_spk->GetWidth(LOGOUT_IMAGE), m_pC_gamemenu_spk->GetHeight(LOGOUT_IMAGE), LOGOUT, this, LOGOUT_IMAGE));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pt[QUITEXIT].x, pt[QUITEXIT].y, m_pC_gamemenu_spk->GetWidth(QUITEXIT_IMAGE), m_pC_gamemenu_spk->GetHeight(QUITEXIT_IMAGE), QUITEXIT, this, QUITEXIT_IMAGE));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pt[CONTINUE].x, pt[CONTINUE].y, m_pC_gamemenu_spk->GetWidth(CANCEL_IMAGE), m_pC_gamemenu_spk->GetHeight(CANCEL_IMAGE), CONTINUE, this, CANCEL_IMAGE));
-#else
-	//»ó¼ö°ª 3Àº CANCEL_IMAGEÀÇ °ªÀÌ 4·Î ¿À´Â ÄÁÅÙÃ÷ÇÊÅÍ ¿À·ù·Î º¸ÀÌ´Â Çö»óÀÌ ¹ú¾îÁü¿¡ µû¶ó Æ¨À» ¸·±â À§ÇØ¼­ »ó¼ö°ªÀ¸·Î ¶§·Á ¹Û´Â´Ù
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x_offset+px, y2_offset, m_pC_gamemenu_spk->GetWidth(OPTION_IMAGE), m_pC_gamemenu_spk->GetHeight(OPTION_IMAGE), OPTION, this, OPTION_IMAGE));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x_offset, y3_offset, m_pC_gamemenu_spk->GetWidth(LOGOUT_IMAGE), m_pC_gamemenu_spk->GetHeight(LOGOUT_IMAGE), LOGOUT, this, LOGOUT_IMAGE));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x_offset, y4_offset, m_pC_gamemenu_spk->GetWidth(3), m_pC_gamemenu_spk->GetHeight(3), CONTINUE, this, 3));
-#endif //__GAMEMENU_QUITEXIT
+	m_tile_w = m_pC_gamemenu_spk->GetWidth(GAMEMENU_TILE);
+	const int tile_h = m_pC_gamemenu_spk->GetHeight(GAMEMENU_TILE);
+
+	for (int i = 0; i < s_button_count; i++)
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(Scaled(s_button[i].x), Scaled(s_button[i].y), m_tile_w, tile_h, s_button[i].id, this, GAMEMENU_TILE));
 }
 
 /*-----------------------------------------------------------------------------
@@ -6694,14 +6676,27 @@ C_VS_UI_GAMEMENU::C_VS_UI_GAMEMENU()
 -----------------------------------------------------------------------------*/
 C_VS_UI_GAMEMENU::~C_VS_UI_GAMEMENU()
 {
-//	if(m_bHangul)
-//	{
-//		gC_ci.SetEngInput(true);
-//	}
 	g_UnregisterWindow(this);
 
 	DeleteNew(m_pC_button_group);
 	DeleteNew(m_pC_gamemenu_spk);
+}
+
+// Umbra's layout, fitted to the tile size on disk (rounded).
+int C_VS_UI_GAMEMENU::Scaled(int umbra) const
+{
+	return (umbra * m_tile_w + UMBRA_TILE_SIZE / 2) / UMBRA_TILE_SIZE;
+}
+
+const C_VS_UI_GAMEMENU::BUTTON_INFO * C_VS_UI_GAMEMENU::FindButton(id_t id) const
+{
+	for (int i = 0; i < s_button_count; i++)
+	{
+		if (s_button[i].id == (int)id)
+			return &s_button[i];
+	}
+
+	return NULL;
 }
 
 void	C_VS_UI_GAMEMENU::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
@@ -6711,18 +6706,27 @@ void	C_VS_UI_GAMEMENU::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
 //-----------------------------------------------------------------------------
 // C_VS_UI_GAMEMENU::ShowButtonWidget
 //
-// 
+// The tile, lit under the mouse and darker while pressed, then its icon.
 //-----------------------------------------------------------------------------
 void	C_VS_UI_GAMEMENU::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 {
-	if (p_button->GetFocusState())// && p_button->GetPressState())
-		m_pC_gamemenu_spk->BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
+	int tile = GAMEMENU_TILE;
+
+	if (p_button->GetFocusState())
+		tile += p_button->GetPressState() ? 2 : 1;
+
+	m_pC_gamemenu_spk->BltLocked(x + p_button->x, y + p_button->y, tile);
+
+	const BUTTON_INFO * p_info = FindButton(p_button->GetID());
+
+	if (p_info != NULL)
+		m_pC_gamemenu_spk->BltLocked(x + Scaled(p_info->icon_x), y + Scaled(p_info->icon_y), p_info->icon);
 }
 
 //-----------------------------------------------------------------------------
 // AcquireDisappear
 //
-// 
+//
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAMEMENU::AcquireDisappear()
 {
@@ -6731,17 +6735,17 @@ void C_VS_UI_GAMEMENU::AcquireDisappear()
 //-----------------------------------------------------------------------------
 // IsPixel
 //
-// 
+//
 //-----------------------------------------------------------------------------
 bool C_VS_UI_GAMEMENU::IsPixel(int _x, int _y)
 {
-	return m_pC_gamemenu_spk->IsPixel(SCR2WIN_X(_x), SCR2WIN_Y(_y));
+	return m_pC_gamemenu_spk->IsPixel(SCR2WIN_X(_x), SCR2WIN_Y(_y), GAMEMENU_WINDOW);
 }
 
 //-----------------------------------------------------------------------------
 // WindowEventReceiver
 //
-// 
+//
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAMEMENU::WindowEventReceiver(id_t event)
 {
@@ -6751,7 +6755,7 @@ void C_VS_UI_GAMEMENU::WindowEventReceiver(id_t event)
 //-----------------------------------------------------------------------------
 // Process
 //
-// 
+//
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAMEMENU::Process()
 {
@@ -6761,7 +6765,7 @@ void C_VS_UI_GAMEMENU::Process()
 //-----------------------------------------------------------------------------
 // Start
 //
-// 
+//
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAMEMENU::Start()
 {
@@ -6781,39 +6785,106 @@ void C_VS_UI_GAMEMENU::Finish()
 //-----------------------------------------------------------------------------
 // Run
 //
-// 
+// The window buttons open their window and close the menu. The close is a
+// queued message, so it happens after this returns.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAMEMENU::Run(id_t id)
 {
 	switch (id)
 	{
-//		case TO_BOARD:
-//#ifndef _LIB
-//					OpenBBS();
-//#else
-//			g_msg_not_available_menu->Start();
-//#endif
-//			break;
+	case INVALID_ID:
+		break;
 
-		case OPTION:
-			//g_msg_not_available_menu->Start();
-			gC_vs_ui.RunOption();
-			break;
+	case MARKET_ID:
+	case FRIENDS_ID:
+		// neither is in this build yet
+		g_msg_not_available_menu->Start();
+		break;
 
-		case LOGOUT:
-			gpC_base->SendMessage(UI_LOGOUT, 0, 0);
-			break;
-			
+	case OPTION:
+		gC_vs_ui.RunOption();
+		break;
+
+	case LOGOUT:
+		gpC_base->SendMessage(UI_LOGOUT, 0, 0);
+		break;
+
 #if __CONTENTS(__GAMEMENU_QUITEXIT)
-		case QUITEXIT:
-			gpC_base->SendMessage(UI_QUITEXIT, 0, 0);
-			break;
+	case QUITEXIT:
+		gpC_base->SendMessage(UI_QUITEXIT, 0, 0);
+		break;
 #endif //__GAMEMENU_QUITEXIT
 
-		case CONTINUE:
-			//gC_vs_ui.HotKey_ESC(); // ¹öÆ° ´­¸®´Â °Í°ú u_window¿¡¼­ push window ÇØÁ¦ ¿ì¼±¼øÀ§ ¹®Á¦°¡ ÀÖ¾î¼­ ¾ÈµÊ.
-			gpC_base->SendMessage(UI_GAMEMENU_CONTINUE);
+	case CONTINUE:
+		gpC_base->SendMessage(UI_GAMEMENU_CONTINUE);
+		break;
+
+	default:
+		OpenWindow(id);
+		gpC_base->SendMessage(UI_GAMEMENU_CONTINUE);
+		break;
+	}
+}
+
+//-----------------------------------------------------------------------------
+// OpenWindow
+//
+// C_VS_UI_GAME ignores its hotkeys while this menu is up, so the window
+// hotkeys go straight to the tribe interface. The clan, shop and cart buttons
+// send what the old tribe panel's tabs did.
+//-----------------------------------------------------------------------------
+void C_VS_UI_GAMEMENU::OpenWindow(id_t id)
+{
+	switch (id)
+	{
+	case DETAILS_ID:
+	case SKILLS_ID:
+	case QUESTS_ID:
+	case PET_ID:
+	case PARTY_ID:
+		if (m_p_hotkey == NULL)
 			break;
+
+		if (id == DETAILS_ID)
+			m_p_hotkey->HotKey_CharInfo();
+		else if (id == SKILLS_ID)
+			m_p_hotkey->HotKey_SkillInfo();
+		else if (id == QUESTS_ID)
+			m_p_hotkey->HotKey_Quest();
+		else if (id == PET_ID)
+			m_p_hotkey->HotKey_PetInfo();
+		else
+			m_p_hotkey->HotKey_Party();
+		break;
+
+	case CLAN_INFO_ID:
+		if (g_pUserInformation->GuildGrade != 4)
+			gpC_base->SendMessage(UI_REQUEST_GUILD_INFO, 0, 0, NULL);
+		break;
+
+	case CLAN_LIST_ID:
+		gpC_base->SendMessage(UI_REQUEST_UNION_REQUEST_GUILD_LIST, 1, 0, NULL);
+		break;
+
+	case CLAN_WAIT_LIST_ID:
+		gpC_base->SendMessage(UI_REQUEST_UNION_REQUEST_GUILD_LIST, 0, 0, NULL);
+		break;
+
+	case CLAN_MEMBERS_ID:
+		if (g_pUserInformation->GuildGrade != 4)
+		{
+			gC_vs_ui.RunTeamMemberList();
+			gpC_base->SendMessage(UI_REQUEST_GUILD_MEMBER_LIST);
+		}
+		break;
+
+	case SHOP_ID:
+		gpC_base->SendMessage(UI_REQUEST_STORE_INFO, 0, 1, NULL);
+		break;
+
+	case CART_ID:
+		gpC_base->SendMessage(UI_MARKET_ACCOUNT, 1, 0);
+		break;
 	}
 }
 
@@ -6836,41 +6907,30 @@ bool C_VS_UI_GAMEMENU::MouseControl(UINT message, int _x, int _y)
 -----------------------------------------------------------------------------*/
 void C_VS_UI_GAMEMENU::KeyboardControl(UINT message, UINT key, long extra)
 {
-	// ¸¸¾à IME toggleµÇ¾î ÀÖÀ» °æ¿ì¸¦ ´ëºñÇÏ¿© scan code·Î ÇÑ´Ù.
-
+	// scan codes, in case the IME is toggled
 	id_t id = INVALID_ID;
+
 	if (message == WM_KEYDOWN)
 	{
 		switch (SCAN_CODE(extra))
 		{
-//			case SCANCODE_B: // To 'B'oard
-//				id = TO_BOARD;
-//				break;
+		case SCANCODE_L: // 'L'ogout
+			id = LOGOUT;
+			break;
 
-			case SCANCODE_L: // 'L'ogout
-				id = LOGOUT;
-				break;
+		case SCANCODE_O: // 'O'ption
+			id = OPTION;
+			break;
 
-			case SCANCODE_O: // 'O'ption
-				id = OPTION;
-				break;
+#if __CONTENTS(__GAMEMENU_QUITEXIT)
+		case SCANCODE_X:
+			id = QUITEXIT;
+			break;
+#endif //__GAMEMENU_QUITEXIT
 
-	#if __CONTENTS(__GAMEMENU_QUITEXIT)
-			case SCANCODE_X:
-				id = QUITEXIT;
-				break;
-	#endif //__GAMEMENU_QUITEXIT
-
-//			case SCANCODE_ESC:
-			case SCANCODE_C: // 'C'ancel
-				id = CONTINUE;
-				break;
-
-				//gC_vs_ui.ToggleESC4UI();
-//				break;
-
-			default:
-				id = INVALID_ID;
+		case SCANCODE_C: // 'C'ancel
+			id = CONTINUE;
+			break;
 		}
 	}
 
@@ -6891,40 +6951,41 @@ bool C_VS_UI_GAME::IsRunningOtherInfo()
 -----------------------------------------------------------------------------*/
 void C_VS_UI_GAMEMENU::Show()
 {
-	if(gpC_base->m_p_DDSurface_back->Lock())
+	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
 		m_pC_gamemenu_spk->BltLocked(x, y, GAMEMENU_WINDOW);
-		
 		m_pC_button_group->Show();
+
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 
-/*
-	// TEST -- 
-	if (m_selected_menu != NOT_SELECTED)
+	g_FL2_GetDC();
+
+	// A size down on the text as well, for the shrunk art: a bold 14 title,
+	// bold 12 rows and 10 under the buttons.
+	PrintInfo& title_pi = gpC_base->m_desc_menu_pi;
+	PrintInfo& row_pi = gpC_base->m_user_id_pi;
+	PrintInfo& label_pi = gpC_base->m_small_pi;
+
+	g_PrintColorStr(x + Scaled(GAMEMENU_TITLE_X), y + Scaled(GAMEMENU_TITLE_Y), "Game Menu (ESC)", title_pi, RGB_WHITE);
+
+	for (int i = 0; i < s_row_count; i++)
 	{
-		if (gpC_base->m_p_DDSurface_back->Lock())
-		{
-			S_SURFACEINFO surface_info;
-			SetSurfaceInfo(&surface_info, gpC_base->m_p_DDSurface_back->GetDDSD());
-
-			if (m_pushed_menu == m_selected_menu)
-				rectangle(&surface_info, m_menu_rect[m_selected_menu].x+x,
-												 m_menu_rect[m_selected_menu].y+y,
-												 m_menu_rect[m_selected_menu].x+x+m_menu_rect[m_selected_menu].w,
-												 m_menu_rect[m_selected_menu].y+y+m_menu_rect[m_selected_menu].h,
-												 0x00FF);
-			else
-				rectangle(&surface_info, m_menu_rect[m_selected_menu].x+x,
-												 m_menu_rect[m_selected_menu].y+y,
-												 m_menu_rect[m_selected_menu].x+x+m_menu_rect[m_selected_menu].w,
-												 m_menu_rect[m_selected_menu].y+y+m_menu_rect[m_selected_menu].h,
-												 0xFFFF);
-
-			gpC_base->m_p_DDSurface_back->Unlock();
-		}
+		g_PrintColorStr(x + Scaled(GAMEMENU_ROW_LABEL_RIGHT) - g_GetStringWidth(s_row[i].label, row_pi.hfont), y + Scaled(s_row[i].y),
+			s_row[i].label, row_pi, RGB_WHITE);
 	}
-*/
+
+	// each button's label, centred along the bottom of its tile
+	for (int i = 0; i < s_button_count; i++)
+	{
+		const BUTTON_INFO& button = s_button[i];
+
+		g_PrintColorStr(x + Scaled(button.x) + (m_tile_w - g_GetStringWidth(button.label, label_pi.hfont)) / 2,
+			y + Scaled(button.y + GAMEMENU_LABEL_BOTTOM) - g_GetStringHeight(button.label, label_pi.hfont),
+			button.label, label_pi, RGB_WHITE);
+	}
+
+	g_FL2_ReleaseDC();
 
 	SHOW_WINDOW_ATTR;
 }
@@ -7137,7 +7198,7 @@ void	C_VS_UI_GAME::SetUseAskIitemRunning(bool bRunning)
 //-----------------------------------------------------------------------------
 // RunUseSMSItemDialog
 //
-// sms ¾ÆÀÌÅÛÀ» »ç¿ë ÇÒ·¡?? ÇÏ°í ¹¯´ÂÁß...
+// sms ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½?? ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunAskUseItemDialog(int AskType ,  int value, void* pValue)
 {
@@ -7162,7 +7223,7 @@ void C_VS_UI_GAME::RunAskUseItemDialog(int AskType ,  int value, void* pValue)
 //-----------------------------------------------------------------------------
 // CloseKeepPetItemDialog
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::CloseAskUseItemDialog()
 {
@@ -7183,6 +7244,12 @@ bool	C_VS_UI_GAME::IsRunningGearWindow() const
 	if(m_pC_tribe_interface&&gpC_window_manager)
 		return gpC_window_manager->GetShowState(m_pC_tribe_interface->GetGearWindow());
 	return false;
+}
+void	C_VS_UI_GAME::OpenGearWindow()
+{
+	// the equipment/information window on its own (HotKey_Gear also opens the inventory)
+	if (m_pC_tribe_interface && !m_pC_tribe_interface->GetGearOpenState())
+		m_pC_tribe_interface->OpenGear();
 }
 void C_VS_UI_GAME::Change_Custom_Naming(int nID, char* szName)
 {
@@ -7235,13 +7302,13 @@ void C_VS_UI_GAME::SetNickNameList(void* pData)
 		BYTE TempType = 0;
 		std::vector<C_VS_UI_NicknameInfo*>::iterator itr = TempList->begin();
 
-		// ¸®½ºÆ®ÀÇ Á© Ã·¿£ ´Ð³×ÀÓ ¾ø¾Ö´Â °É Ãß°¡ÇÑ´Ù. - start
+		// ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ Ã·ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½. - start
 		C_VS_UI_NicknameInfo * FirstInfo = new C_VS_UI_NicknameInfo;
 		FirstInfo->setNicknameID(0xffff);
 		FirstInfo->setNicknameType(C_VS_UI_NicknameInfo::NICK_CUSTOM);
 		FirstInfo->setNickname((*g_pNickNameStringTable)[0].GetString());
 		m_NickNameList.push_back(FirstInfo);
-		// ¸®½ºÆ®ÀÇ Á© Ã·¿£ ´Ð³×ÀÓ ¾ø¾Ö´Â °É Ãß°¡ÇÑ´Ù. -end
+		// ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ Ã·ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ ï¿½ß°ï¿½ï¿½Ñ´ï¿½. -end
 
 		while(itr != TempList->end())
 		{
@@ -7256,7 +7323,7 @@ void C_VS_UI_GAME::SetNickNameList(void* pData)
 			TempInfo->setNicknameIndex(TempIndex);
 			TempInfo->setNicknameType(TempType);
 			
-			// Ä¿½ºÅÒ ´Ð³×ÀÓ ÀÏ¶§
+			// Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Ï¶ï¿½
 			if(TempType == C_VS_UI_NicknameInfo::NICK_CUSTOM_FORCED)
 			{
 				TempInfo->setNickname(TempInfo2->getNickname());
@@ -7268,7 +7335,7 @@ void C_VS_UI_GAME::SetNickNameList(void* pData)
 //				else
 					TempInfo->setNickname(TempInfo2->getNickname());
 			}
-			else // ´Ð³×ÀÓ ÀÎµ¦½º°¡ ÀÖÀ» ¶§
+			else // ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 			{
 				if(TempIndex >= g_pNickNameStringTable->GetSize())
 					TempIndex = 0;
@@ -7296,13 +7363,13 @@ void C_VS_UI_GAME::AddNickNameList(void* pData)
 	TempInfo->setNicknameIndex(TempIndex);
 	TempInfo->setNicknameType(TempType);
 	
-	// Ä¿½ºÅÒ ´Ð³×ÀÓ ÀÏ¶§
+	// Ä¿ï¿½ï¿½ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Ï¶ï¿½
 	if(TempType == C_VS_UI_NicknameInfo::NICK_CUSTOM_FORCED ||
 		TempType == C_VS_UI_NicknameInfo::NICK_CUSTOM)
 	{
 		TempInfo->setNickname(TempInfo2->getNickname());
 	}
-	else // ´Ð³×ÀÓ ÀÎµ¦½º°¡ ÀÖÀ» ¶§
+	else // ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	{
 		if(TempIndex >= g_pNickNameStringTable->GetSize())
 			TempIndex = 0;
@@ -7549,7 +7616,7 @@ void	C_VS_UI_GAME::DeleteQuestItem(int nSlot)
 	m_pC_quest_manager->DeleteQuestItem(nSlot);
 }
 
-// 2004, 10, 25, sobeit add start - ¼¼À² º¯°æ
+// 2004, 10, 25, sobeit add start - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 void	C_VS_UI_GAME::RunModifyTax()
 {
 	if(m_pC_dialog_Modify_Tax)
@@ -7715,7 +7782,7 @@ bool	C_VS_UI_GAME::IsRunningSwapAdvancementItem() const
 // 2005, 1, 3, sobeit add end
 
 
-// 2005, 1, 11, sobeit add start - ºÒ¿ìÀÌ¿ôµ½±â Ã¢
+// 2005, 1, 11, sobeit add start - ï¿½Ò¿ï¿½ï¿½Ì¿ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¢
 void	C_VS_UI_GAME::Run_Campaign_Help_Unfortunate_Neighbors(int value)
 {
 	if(m_pC_dialog_Campaign_Help)
@@ -7730,7 +7797,7 @@ void	C_VS_UI_GAME::Run_Campaign_Help_Unfortunate_Neighbors(int value)
 // 2005, 1, 11, sobeit add end
 
 
-// 2005, 1, 17, sobeit add start - Äù½ºÆ® °ü·Ã
+// 2005, 1, 17, sobeit add start - ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 void	C_VS_UI_GAME::SetQuestNpcDialog(void* pVoid)
 {
 	if(NULL == pVoid) 
@@ -7742,10 +7809,10 @@ void	C_VS_UI_GAME::SetQuestNpcDialog(void* pVoid)
 	m_pC_Quest_Npc_Dialog->SetQuestNpcDialog((C_VS_UI_NPC_DIALOG*)pVoid);
 	
 }
-// 2005, 1, 17, sobeit add end - Äù½ºÆ® °ü·Ã
+// 2005, 1, 17, sobeit add end - ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½
 	
 
-// 2005, 1, 24, sobeit add start - ¾ÆÀÌÅÛ ¹Þ±â ÀÌº¥Æ®
+// 2005, 1, 24, sobeit add start - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ±ï¿½ ï¿½Ìºï¿½Æ®
 void	C_VS_UI_GAME::Run_Confirm_GetItemEvent(int value)
 {
 	if (m_pC_get_event_item != NULL)
@@ -7959,7 +8026,7 @@ void	C_VS_UI_GAME::AutoMoveInventoryItemToQuickSlot(BYTE inven_grid_x, BYTE inve
 }
 
 
-//2005, 4, 21, sjheon add start - °áÈ¥ÃàÀÇ±Ý  Ã¢
+//2005, 4, 21, sjheon add start - ï¿½ï¿½È¥ï¿½ï¿½ï¿½Ç±ï¿½  Ã¢
 void	C_VS_UI_GAME::Run_Wedding_Contribution_Unfortunate_Neighbors(int value)
 {
 	if(m_pC_dialog_Wedding_Contribution)
@@ -7971,7 +8038,7 @@ void	C_VS_UI_GAME::Run_Wedding_Contribution_Unfortunate_Neighbors(int value)
 	m_pC_dialog_Wedding_Contribution->SetTempValue(value);
 
 }
-//2005, 4, 21, sjheon add end - °áÈ¥ÃàÀÇ±Ý Ã¢
+//2005, 4, 21, sjheon add end - ï¿½ï¿½È¥ï¿½ï¿½ï¿½Ç±ï¿½ Ã¢
 
 
 //2005, 7, 14, sjheon add  - ComboSkill Add
@@ -8211,7 +8278,7 @@ bool C_VS_UI_GAME::IsRuningUserGrade()
 //-----------------------------------------------------------------------------
 // RunMixingForge
 //
-// MixingForgeÀ» ½ÇÇàÇÑ´Ù.
+// MixingForgeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::RunPetMixingForge()
 {
@@ -8232,7 +8299,7 @@ void C_VS_UI_GAME::RunPetMixingForge()
 //-----------------------------------------------------------------------------
 // CloseMixingForge
 //
-// ÀÌ¹Ì finishµÈ »óÅÂÀÌ¸é ¾Æ¹«°Íµµ ÇÏÁö ¾Ê´Â´Ù.
+// ï¿½Ì¹ï¿½ finishï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´Â´ï¿½.
 //-----------------------------------------------------------------------------
 void C_VS_UI_GAME::ClosePetMixingForge()
 {
@@ -8258,16 +8325,16 @@ bool	C_VS_UI_GAME::IsRunningPetMixingForge() const
 
 #if __CONTENTS(__FRIEND_ADDITION)
 /*
-	Ä£±¸ UI °ü·Ã Ã¢ ´Ý±â
+	Ä£ï¿½ï¿½ UI ï¿½ï¿½ï¿½ï¿½ Ã¢ ï¿½Ý±ï¿½
 */
 bool C_VS_UI_GAME::CloseFriendMessagePopup()
 {
-	// À©µµ¿ì ³×ÀÓÀ» µû·Î ¼±¾ðÇØ µÎ¸é ÆíÇÏ°ÚÁö¸¸, ÀÏ´Ü Áö±ÝÀº ¸¶¶¥È÷ ¼±¾ðÇØ µÑ °÷ÀÌ ¾øÀ¸´Ï
-	// ÀÏÀÏÈ÷ Á¦°Å¸¦ ÇÏµµ·Ï ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å¸ï¿½ ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 
 	bool close_result = false;
 	
-	// ¸Þ´º ÆË¾÷Ã¢
+	// ï¿½Þ´ï¿½ ï¿½Ë¾ï¿½Ã¢
 	Window* pWindow = gpC_window_manager->GetWindowbyName("PlayerPopupMenu");
 	if (pWindow)
 	{
@@ -8276,10 +8343,10 @@ bool C_VS_UI_GAME::CloseFriendMessagePopup()
 		close_result = true;
 	}
 
-	// Ä£±¸ ½Ã½ºÅÛ °ü·Ã À©µµ¿ì
+	// Ä£ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	pWindow = gpC_window_manager->GetWindowbyName("FriendSystem");
 	if (pWindow)
-	{// ÀÌ°Ç ¿ÏÀüÈ÷ Áö¿ì¸é ¾ÈµÇ°í, Á¤Áö¸¸..³»ºÎ¿¡ ÀúÀåµÈ µ¥ÀÌÅÍ°¡ ÀÖ±â ¶§¹®¿¡...
+	{// ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÇ°ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
 		if (pWindow->Running())
 		{
 			pWindow->Finish();
@@ -8295,7 +8362,7 @@ bool C_VS_UI_GAME::CloseFriendMessagePopup()
 	}
 	pWindow = gpC_window_manager->GetWindowbyName("FriendWaitList");
 	if (pWindow)
-	{// ÀÌ°Ç ¿ÏÀüÈ÷ Áö¿ì¸é ¾ÈµÇ°í, Á¤Áö¸¸..³»ºÎ¿¡ ÀúÀåµÈ µ¥ÀÌÅÍ°¡ ÀÖ±â ¶§¹®¿¡...
+	{// ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÇ°ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½..ï¿½ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í°ï¿½ ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½...
 		if (pWindow->Running())
 		{
 			pWindow->Finish();
@@ -8303,7 +8370,7 @@ bool C_VS_UI_GAME::CloseFriendMessagePopup()
 		}
 	}	
 
-	// ¸Þ½ÃÁö ÆË¾÷Ã¢ Á¦°Å
+	// ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½Ë¾ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½
 	pWindow = gpC_window_manager->GetWindowbyName("FriendAddIsPlayer");
 	if (pWindow)
 	{
@@ -8347,7 +8414,7 @@ bool C_VS_UI_GAME::CloseFriendMessagePopup()
 		close_result = true;
 	}
 
-	// °ÔÀÓÀÌ Á¾·áµÇ¸é ¶° ÀÖ´Â ¸Þ½ÃÁö ¹Ú½º ¸ðµÎ Á¾·á
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	pWindow = gpC_window_manager->GetWindowbyName("FriendAddOkPopupMessage");
 	if (pWindow)
 	{
@@ -8370,7 +8437,7 @@ bool C_VS_UI_GAME::CloseFriendMessagePopup()
 		close_result = true;
 	}
 
-	// Ä£±¸ Ãß°¡ È®ÀÎÃ¢Àº ¿©·¯¸íÀÌ º¸³¾¼ö ÀÖÀ¸¹Ç·Î º¸³½¼ö ¸¸Å­ Á¦°Å ÇÑ´Ù.
+	// Ä£ï¿½ï¿½ ï¿½ß°ï¿½ È®ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	char window_name[128] = {0};
 	for (int i = 0; i < message_box_count; ++i)
 	{
@@ -8388,14 +8455,14 @@ bool C_VS_UI_GAME::CloseFriendMessagePopup()
 }
 
 /*
-	¸Þ½ÃÁö ¹Ú½º ÆË¾÷ UI Á¦°Å ÇÔ¼ö
+	ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ ï¿½Ë¾ï¿½ UI ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
 */
 void C_VS_UI_GAME::ReleaseFriendMessagePopup()
 {
-	// À©µµ¿ì ³×ÀÓÀ» µû·Î ¼±¾ðÇØ µÎ¸é ÆíÇÏ°ÚÁö¸¸, ÀÏ´Ü Áö±ÝÀº ¸¶¶¥È÷ ¼±¾ðÇØ µÑ °÷ÀÌ ¾øÀ¸´Ï
-	// ÀÏÀÏÈ÷ Á¦°Å¸¦ ÇÏµµ·Ï ÇÑ´Ù.
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î¸ï¿½ ï¿½ï¿½ï¿½Ï°ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å¸ï¿½ ï¿½Ïµï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	
-	// ¸Þ´º ÆË¾÷Ã¢
+	// ï¿½Þ´ï¿½ ï¿½Ë¾ï¿½Ã¢
 	Window* pWindow = gpC_window_manager->GetWindowbyName("PlayerPopupMenu");
 	if (pWindow)
 	{
@@ -8403,7 +8470,7 @@ void C_VS_UI_GAME::ReleaseFriendMessagePopup()
 		DeleteNew(pWindow);
 	}
 
-	// Ä£±¸ ½Ã½ºÅÛ °ü·Ã À©µµ¿ì
+	// Ä£ï¿½ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	pWindow = gpC_window_manager->GetWindowbyName("FriendSystem");
 	if (pWindow)
 	{
@@ -8423,7 +8490,7 @@ void C_VS_UI_GAME::ReleaseFriendMessagePopup()
 		DeleteNew(pWindow);
 	}
 
-	// ¸Þ½ÃÁö ÆË¾÷Ã¢ Á¦°Å
+	// ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½Ë¾ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½
 	pWindow = gpC_window_manager->GetWindowbyName("FriendAddIsPlayer");
 	if (pWindow)
 	{
@@ -8461,7 +8528,7 @@ void C_VS_UI_GAME::ReleaseFriendMessagePopup()
 		DeleteNew(pWindow);
 	}
 
-	// °ÔÀÓÀÌ Á¾·áµÇ¸é ¶° ÀÖ´Â ¸Þ½ÃÁö ¹Ú½º ¸ðµÎ Á¾·á
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¸ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	pWindow = gpC_window_manager->GetWindowbyName("FriendAddOkPopupMessage");
 	if (pWindow)
 	{
@@ -8481,7 +8548,7 @@ void C_VS_UI_GAME::ReleaseFriendMessagePopup()
 		DeleteNew(pWindow);
 	}
 
-	// Ä£±¸ Ãß°¡ È®ÀÎÃ¢Àº ¿©·¯¸íÀÌ º¸³¾¼ö ÀÖÀ¸¹Ç·Î º¸³½¼ö ¸¸Å­ Á¦°Å ÇÑ´Ù.
+	// Ä£ï¿½ï¿½ ï¿½ß°ï¿½ È®ï¿½ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½ ï¿½Ñ´ï¿½.
 	char window_name[128] = {0};
 	for (int i = 0; i < message_box_count; ++i)
 	{

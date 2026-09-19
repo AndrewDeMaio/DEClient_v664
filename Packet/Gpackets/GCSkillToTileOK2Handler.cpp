@@ -16,6 +16,7 @@
 
 extern void Add_FakeCreature_Storm(MCreature* UserCreature, int CreatureType,
 								   int TargetX, int TargetY, int RangeW, int RangeH, float density);
+extern void		SkillBatBreakerShadows(MCreature* pUserCreature, int tx, int ty);
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -93,6 +94,10 @@ void GCSkillToTileOK2Handler::execute ( GCSkillToTileOK2 * pPacket , Player * pP
 			{
 				Add_FakeCreature_Storm(pCreature, CREATURETYPE_BAT_STORM_2,
 					pPacket->getX(), pPacket->getY(), 5, 5, 0.7f);
+			}
+			else if(skillID == SKILL_BAT_BREAKER)
+			{
+				SkillBatBreakerShadows(pCreature, pPacket->getX(), pPacket->getY());	// four shadow clones claw once
 			}
 
 			DEBUG_ADD_FORMAT("GRADE : %d %d",skillID, pPacket->getGrade());

@@ -45,7 +45,7 @@ void GCAttackArmsOK2Handler::execute ( GCAttackArmsOK2 * pPacket , Player * pPla
 		DEBUG_ADD_FORMAT("There's no such creature : ID=%d, Skill=%d", pPacket->getObjectID(), SKILL_ATTACK_MELEE);				
 		
 		if( pPacket->getSkillType() == SKILL_JABBING_VEIN || pPacket->getSkillType() == SKILL_MOLE_SHOT ||
-					pPacket->getSkillType() == SKILL_TRIDENT || pPacket->getSkillType() == SKILL_QUICK_FIRE ||
+					pPacket->getSkillType() == SKILL_TRIDENT || pPacket->getSkillType() == SKILL_GAE_BULGA || pPacket->getSkillType() == SKILL_QUICK_FIRE ||
 					pPacket->getSkillType() == SKILL_ULTIMATE_BLOW || pPacket->getSkillType() == SKILL_HARPOON_BOMB)
 		{
 			TYPE_ACTIONINFO resultActionInfo = pPacket->getSkillType() + g_pActionInfoTable->GetMinResultActionInfo();
@@ -80,7 +80,7 @@ void GCAttackArmsOK2Handler::execute ( GCAttackArmsOK2 * pPacket , Player * pPla
 		//------------------------------------------------------
 		//g_pPlayer->PacketSpecialActionResult( SKILL_ATTACK_MELEE + g_ActionInfoTable.GetMinResultActionInfo() );
 
-		if( actionInfo == SKILL_JABBING_VEIN || actionInfo == SKILL_TRIDENT || actionInfo == SKILL_MOLE_SHOT ||
+		if( actionInfo == SKILL_JABBING_VEIN || actionInfo == SKILL_TRIDENT || actionInfo == SKILL_GAE_BULGA || actionInfo == SKILL_MOLE_SHOT ||
 			actionInfo == SKILL_QUICK_FIRE || actionInfo == SKILL_ULTIMATE_BLOW || pPacket->getSkillType() == SKILL_HARPOON_BOMB)
 		{
 			MActionResult* pResult = new MActionResult;

@@ -378,6 +378,8 @@
 // �ƿ콺���� �������̽� ����
 #define SPK_ASSEMBLE_BOX_OUSTERS		_ROOT"spk\\AssembleMessageBoxOusters.spk"
 #define SPK_ASSEMBLE_BOX_BUTTON_OUSTERS	_ROOT"spk\\AssembleMessageBoxButtonOusters.spk"
+#define SPK_ASSEMBLE_BOX_RENEWAL		_ROOT"spk\\AssembleMessageBoxRenewal.spk"
+#define SPK_ASSEMBLE_BOX_BUTTON_RENEWAL	_ROOT"spk\\AssembleMessageBoxButtonRenewal.spk"
 #define SPK_OUSTERS_GAMEMENU			_ROOT"spk\\GameMenuOusters.spk"
 #define SPK_OPTION_OUSTERS				_ROOT"spk\\OptionOusters.spk"
 #define SPK_OUSTERS_MAIN				_ROOT"spk\\MainOusters.spk"
@@ -511,6 +513,16 @@
 #define SPK_BLOOD_BRUST_VAMPIRE				_ROOT"spk\\BloodBurstVampire.spk"
 #define SPK_BLOOD_BRUST_OUSTERS				_ROOT"spk\\BloodBurstOusters.spk"
 #define SPK_BLOOD_BURST_RENEWAL				_ROOT"spk\\BloodBurstRenewal.spk"
+#define SPK_SIMPLE_INFORMATION				_ROOT"spk\\SimpleInformation.spk"
+#define SPK_MINIMAP_RENEWAL					_ROOT"spk\\MinimapRenewal.spk"
+#define SPK_GAMEMENU_RENEWAL				_ROOT"spk\\GameMenuRenewal.spk"
+#define SPK_SHORTCUT_SLOT					_ROOT"spk\\ShortcutSlot.spk"
+#define SPK_SLAYER_INVENTORY_RENEWAL		_ROOT"spk\\InventoryRenewalSlayer.spk"
+#define SPK_VAMPIRE_INVENTORY_RENEWAL		_ROOT"spk\\InventoryRenewalVampire.spk"
+#define SPK_OUSTERS_INVENTORY_RENEWAL		_ROOT"spk\\InventoryRenewalOusters.spk"
+#define SPK_MY_INFORMATION				_ROOT"spk\\MyInformation.spk"
+#define SPK_SKILL_BOOK					_ROOT"spk\\SkillWindow.spk"
+#define SPK_RUNE_TAB					_ROOT"spk\\RuneTab.spk"
 
 #define SPK_WEBBROWSER						_ROOT"spk\\WebBrowser.spk"
 

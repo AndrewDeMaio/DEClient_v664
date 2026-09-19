@@ -1124,7 +1124,7 @@ MTopView::DrawCreature(POINT* pPoint, MCreature* pCreature)
 			   creature_type >= 560 && creature_type <= 563
 			 ) &&
 			pCreature->IsInDarkness() && !pCreature->IsNPC() && !g_pPlayer->IsVampire() && g_pPlayer!=pCreature
-			&& !g_pPlayer->HasEffectStatus( EFFECTSTATUS_LIGHTNESS )
+			&& !(g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pPlayer->HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT))
 			&& g_pZone->GetID() != 3001
 			&& !g_pPlayer->HasEffectStatus( EFFECTSTATUS_GHOST )
 	#ifdef __METROTECH_TEST__
@@ -1185,7 +1185,7 @@ MTopView::DrawCreature(POINT* pPoint, MCreature* pCreature)
 		// Creature가 존재하는 높이만큼 빼준다.
 		pPoint->y -= pCreature->GetZ();
 
-		if(!pCreature->IsNPC() &&  pCreature->HasEffectStatus(EFFECTSTATUS_DIVINE_GUIDANCE))
+		if(!pCreature->IsNPC() &&  (pCreature->HasEffectStatus(EFFECTSTATUS_DIVINE_GUIDANCE) || pCreature->HasEffectStatus(EFFECTSTATUS_VICIOUS_GUIDANCE)))
 		{	
 			if(isSlayerCharacter)
 			{

@@ -75,7 +75,7 @@ void GCSkillToObjectOK4Handler::execute ( GCSkillToObjectOK4 * pPacket , Player 
 				pTargetCreature->AddEffectStatus( es, delayFrame );
 			}
 
-			if(skillID == SKILL_DRAGON_TORNADO)
+			if(skillID == SKILL_DRAGON_TORNADO || skillID == SKILL_DRAGON_HURRICANE || skillID == SKILL_DRAGON_HURRICANE_2)
 			{
 				pTargetCreature->SetTurning( 16 );
 			}

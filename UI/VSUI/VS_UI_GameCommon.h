@@ -73,7 +73,7 @@ struct WindowStatus
 //-----------------------------------------------------------------------------
 // class C_VS_UI_LEVELUP
 //
-// vampire/slayer level up?? ??Ÿ???? button.
+// vampire/slayer level up?? ??ï¿½???? button.
 //-----------------------------------------------------------------------------
 class C_VS_UI_LEVELUP : public Window
 {
@@ -114,7 +114,7 @@ public:
 //-----------------------------------------------------------------------------
 // class C_VS_UI_REQUEST_PREMIUM_GIVE_ITEM
 //
-// ??????? ???? ??????? ???????? ?????? ??? ??Ÿ???? button.
+// ??????? ???? ??????? ???????? ?????? ??? ??ï¿½???? button.
 //-----------------------------------------------------------------------------
 class C_VS_UI_REQUEST_PREMIUM_GIVE_ITEM : public Window
 {
@@ -126,7 +126,7 @@ private:
 		REQUEST_GUARD_SLAYER,		// - 00 ??????? ????
 		REQUEST_GUARD_VAMPIRE,		// - 01 ??????? ????
 		REQUEST_GUARD_OUSTERS,		// - 02 ??????? ????
-		PARTY_REQUEST,				// - 03	????????û
+		PARTY_REQUEST,				// - 03	????????ï¿½
 		PARTY_INVITE,				// - 04	??????
 		RESURRECT_SLAYER,			// - 05	??????? ???		- ???????.
 		RESURRECT_VAMPIRE,			// - 06	??????? ???		- ???????.
@@ -409,7 +409,7 @@ public:
 	//	virtual void HotKey_WindowToggle()=0;	// ctrl + space
 	virtual void HotKey_Inventory(bool IsCheckSubInventory = false) = 0;		// tab
 	virtual void HotKey_Gear() = 0;			// ctrl + tab
-#if __CONTENTS(__GEAR_SWAP_CHANGE)		//	C_VS_UI_GAME	????â ??ü??? ??? ?? ???? ??? ????
+#if __CONTENTS(__GEAR_SWAP_CHANGE)		//	C_VS_UI_GAME	????ï¿½ ??ï¿½??? ??? ?? ???? ??? ????
 	virtual void HotKey_GearChange() = 0;		// Alt + A
 	virtual void HotKey_GearChangeShow() = 0;	// Alt + S
 #endif	// __GEAR_SWAP_CHANGE
@@ -437,10 +437,10 @@ public:
 	virtual void HotKey_ExtendChat() = 0;		// ctrl + e
 	virtual void HotKey_Sysrq() = 0;			// printscreen sysrq
 	virtual void HotKey_Slash() = 0;			// ctrl + /
-	virtual void HotKey_Background_Music() = 0;	// ä?ø???? /?????
-	virtual void HotKey_Effect_Music() = 0;		// ä?ø???? /?????
-	virtual void HotKey_Chat_Help() = 0;			// ä?ø???? /ä?õ???
-	virtual void HotKey_Where() = 0;				// ä?ø???? /???
+	virtual void HotKey_Background_Music() = 0;	// ï¿½?ï¿½???? /?????
+	virtual void HotKey_Effect_Music() = 0;		// ï¿½?ï¿½???? /?????
+	virtual void HotKey_Chat_Help() = 0;			// ï¿½?ï¿½???? /ï¿½?ï¿½???
+	virtual void HotKey_Where() = 0;				// ï¿½?ï¿½???? /???
 
 	virtual void HotKey_ESC() {}			// esc
 
@@ -456,7 +456,7 @@ public:
 	virtual void HotKey_F10() {}				// f10
 	virtual void HotKey_F11() {}				// f11
 	virtual void HotKey_F12() {}				// f12
-	virtual void Hotkey_Function(int FKey) {} // HotKey ó?? ??? 
+	virtual void Hotkey_Function(int FKey) {} // HotKey ï¿½?? ??? 
 
 	//	virtual void HotKey_F9()=0;				// f9
 	//	virtual void HotKey_F10()=0;			// f10
@@ -603,7 +603,7 @@ public:
 
 	C_VS_UI_CHAT_LINE* PopBack()
 	{
-		// !data?? delete?????? ??´?.
+		// !data?? delete?????? ??ï¿½?.
 
 		C_VS_UI_CHAT_LINE* data;
 
@@ -618,7 +618,7 @@ public:
 
 	C_VS_UI_CHAT_LINE* GetLine(int n) const
 	{
-		// n?? 0?? ???????? ???? ??µ? line???.
+		// n?? 0?? ???????? ???? ??ï¿½? line???.
 
 		if (n < 0)
 			return NULL;
@@ -858,7 +858,7 @@ private:
 	int							m_history_line;
 	std::vector<PAPERING_HISTORY>	m_history;
 
-	//	int							m_string_output_x; // ???ó?? by larosel
+	//	int							m_string_output_x; // ???ï¿½?? by larosel
 
 	void	ScrollHistory();
 
@@ -888,12 +888,12 @@ private:
 	int								m_whisper_index;	// by larosel
 
 	//
-	// Vampire/Slayer ?? ?? ??Ÿ?? ?? ??? Window?? ???? 2??(Inventory, Gear)???.
-	// ??? ?? ???? ??Ÿ???? ??? click focus?? ??? ?????? ????? ????????? ???.
+	// Vampire/Slayer ?? ?? ??ï¿½?? ?? ??? Window?? ???? 2??(Inventory, Gear)???.
+	// ??? ?? ???? ??ï¿½???? ??? click focus?? ??? ?????? ????? ????????? ???.
 	//
 
-//	int								m_slayer_chat_mode;	// ???ó?? by larosel
-//	void	AddChatToHistoryTemp(char * str, char * sz_id, CHAT_LINE_CONDITION condition);	// ???ó?? by laorsel
+//	int								m_slayer_chat_mode;	// ???ï¿½?? by larosel
+//	void	AddChatToHistoryTemp(char * str, char * sz_id, CHAT_LINE_CONDITION condition);	// ???ï¿½?? by laorsel
 
 	enum
 	{
@@ -1012,7 +1012,7 @@ public:
 // slayer/vampire inventory base class.
 //
 // - slayer/vampire inventory ?????? interface?? ???????. 
-// - slayer???? vampire?? ????? ??? ?? ????? ??, ??ü?? ????????
+// - slayer???? vampire?? ????? ??? ?? ????? ??, ??ï¿½?? ????????
 //   inventory?? ??????????, inventory?? item?? ???? ???????. interface??????
 //   inventory?? item?? ??????? ???? ???. ????? ?? class?? base?? ??? ?????.
 //-----------------------------------------------------------------------------
@@ -1065,7 +1065,7 @@ protected:
 	bool						m_bl_shift, m_bl_set_load;;
 
 	C_SPRITE_PACK* m_pC_inventory_spk;
-	Rect						m_grid_rect; // ??ü Grid rect.
+	Rect						m_grid_rect; // ??ï¿½ Grid rect.
 
 	int							m_focus_grid_x, m_focus_grid_y;
 
@@ -1078,8 +1078,8 @@ private:
 	int							m_focus_grid_x_Prev, m_focus_grid_y_Prev;
 
 	//2008.09.24 shootkj
-	//????? ???? ???? ???????? ?ð??? ??????? ??ü ??? ???????? cannotadd?? ?? ?? ??µ? ??????? 
-	//??ü?? ???? ????? ??? ????? ???? ??? ???.
+	//????? ???? ???? ???????? ?ï¿½??? ??????? ??ï¿½ ??? ???????? cannotadd?? ?? ?? ??ï¿½? ??????? 
+	//??ï¿½?? ???? ????? ??? ????? ???? ??? ???.
 
 	//------------
 	// Method
@@ -1160,8 +1160,8 @@ public:
 
 	void	Prev_Item_Position_Remove();
 	//2008.09.24 shootkj
-	//????? ???? ???? ???????? ?ð??? ??????? ??ü ??? ???????? cannotadd?? ?? ?? ??µ? ??????? 
-	//??ü?? ???? ????? ??? ????? ???? ??? ???.
+	//????? ???? ???? ???????? ?ï¿½??? ??????? ??ï¿½ ??? ???????? cannotadd?? ?? ?? ??ï¿½? ??????? 
+	//??ï¿½?? ???? ????? ??? ????? ???? ??? ???.
 
 	DWORD	m_dwWidth;
 	DWORD	m_dwHight;
@@ -1180,23 +1180,33 @@ class C_VS_UI_GEAR : public Window, public Exec, public ButtonVisual
 	// Data
 	//-----------
 protected:
+	// MyInformation.spk: DK Umbra's equipment and character information window
 	enum GEAR_SPK_INDEX
 	{
-		GEAR_WINDOW,
-		GEAR_WINDOW_ALPHA,
-		GEAR_BLOOD_BIBLE_BLOCK,
-		GEAR_CHANGE_ID1_CHECK,
-		GEAR_CHANGE_ID2_CHECK,
-		GEAR_CHANGE_ID1_UNCHECK,
-		GEAR_CHANGE_ID2_UNCHECK,
-
-		// ???????? ??????? ???? (???? ???? ????? ??????? ??? ?????? ???? - Gamecommon.cpp?? ã????? ?????.)
-		BUTTON_FIRST,
-		BUTTON_FIRST_HILIGHTED,
-		BUTTON_FIRST_HILIGHTED_PUSHED,
-		BUTTON_SECOND,
-		BUTTON_SECOND_HILIGHTED,
-		BUTTON_SECOND_HILIGHTED_PUSHED,
+		GEAR_WINDOW = 0,
+		GEAR_BACKDROP_SLAYER = 1,		// behind the paperdoll
+		GEAR_BACKDROP_VAMPIRE = 2,
+		GEAR_BACKDROP_OUSTERS = 3,
+		GEAR_LINE_V = 4,				// 1x569
+		GEAR_LINE_H = 5,				// 584x1
+		GEAR_CHANGE_ID1_UNCHECK = 6,	// the I and II gear set tabs
+		GEAR_CHANGE_ID1_CHECK = 7,
+		GEAR_CHANGE_ID2_UNCHECK = 9,
+		GEAR_CHANGE_ID2_CHECK = 10,
+		GEAR_CLOSE = 12,				// +1 focused, +2 pushed
+		GEAR_NICK_DROP = 15,			// +1 focused, +2 pushed
+		GEAR_LABEL_BOX = 24,
+		GEAR_VALUE_BOX = 25,
+		GEAR_EXP_BACK = 27,
+		GEAR_EXP_BAR = 28,
+		GEAR_SECTION = 29,
+		GEAR_LEVEL_MARK = 31,
+		GEAR_PLUS = 38,
+		GEAR_SLOT_SQUARE = 39,			// 66x66
+		GEAR_SLOT_SMALL = 40,			// 36x36
+		GEAR_SLOT_TALL = 41,			// 66x96
+		GEAR_BLOOD_BIBLE_BLOCK = 56,
+		GEAR_WINDOW_ALPHA = GEAR_WINDOW,	// there is no see-through version
 	};
 
 	enum EXEC_ID
@@ -1210,9 +1220,13 @@ protected:
 
 		ALPHA_ID,
 
-		// ????â ??ü ???
+		// ????ï¿½ ??ï¿½ ???
 		GEAR_ID1,
 		GEAR_ID2,
+		NICK_ID,					// the nickname drop-down
+		STR_PLUS_ID,				// spend a bonus point
+		DEX_PLUS_ID,
+		INT_PLUS_ID,
 	};
 
 	ButtonGroup* m_pC_button_group;
@@ -1232,16 +1246,16 @@ protected:
 	int* m_p_slot_image;
 	BOOL 							m_bl_Abvencement;
 
-#if __CONTENTS(__GEAR_SWAP_CHANGE)	// C_VS_UI_GEAR ???? â ??? ?? ID?? ???? ???? ????
+#if __CONTENTS(__GEAR_SWAP_CHANGE)	// C_VS_UI_GEAR ???? ï¿½ ??? ?? ID?? ???? ???? ????
 	DWORD							m_dwSendGearID;							//?????? ???? GearID
 	DWORD							m_dwAccepGearID;						//???????? ???? GearID
-	DWORD							m_dwGearChange_ID1_Button_Pos_X;		//????â?? ??ü?? ????? ???
+	DWORD							m_dwGearChange_ID1_Button_Pos_X;		//????ï¿½?? ??ï¿½?? ????? ???
 	DWORD							m_dwGearChange_ID1_Button_Pos_Y;
-	DWORD							m_dwGearChange_ID1_Button_Width;		//????â?? ??ü?? ????? ???
+	DWORD							m_dwGearChange_ID1_Button_Width;		//????ï¿½?? ??ï¿½?? ????? ???
 	DWORD							m_dwGearChange_ID1_Button_Height;
-	DWORD							m_dwGearChange_ID2_Button_Pos_X;		//????â?? ??ü?? ????? ???
+	DWORD							m_dwGearChange_ID2_Button_Pos_X;		//????ï¿½?? ??ï¿½?? ????? ???
 	DWORD							m_dwGearChange_ID2_Button_Pos_Y;
-	DWORD							m_dwGearChange_ID2_Button_Width;		//????â?? ??ü?? ????? ???
+	DWORD							m_dwGearChange_ID2_Button_Width;		//????ï¿½?? ??ï¿½?? ????? ???
 	DWORD							m_dwGearChange_ID2_Button_Height;
 #endif	// __GEAR_SWAP_CHANGE
 	// 
@@ -1255,6 +1269,8 @@ protected:
 
 
 	void	Use();
+	void	ShowInformationFrame();		// DK Umbra's window around the items
+	void	ShowInformationText();
 	//------------
 	// Method
 	//------------
@@ -1285,7 +1301,7 @@ public:
 	void	Run(id_t id);
 	void	SetFocusSlot(BYTE Slot) { m_focus_slot = Slot; }
 
-#if __CONTENTS(__GEAR_SWAP_CHANGE)			// C_VS_UI_GEAR ????â ??ü ??? ?? ??? ????? ??? ????
+#if __CONTENTS(__GEAR_SWAP_CHANGE)			// C_VS_UI_GEAR ????ï¿½ ??ï¿½ ??? ?? ??? ????? ??? ????
 	void	GearChange();
 	void	GearChange(DWORD	dwGearID);
 	void	GearChangeButtonShow();
@@ -1300,6 +1316,7 @@ public:
 //-----------------------------------------------------------------------------
 class C_VS_UI_SKILL : public Window
 {
+	friend class C_VS_UI_HOTKEY_BAR;	// draws skill icons the way this box does
 public:
 	static CSpritePack				m_C_spk; // Skill icon Sprite list
 	static CSpritePack				m_C_spk_mini; // Skill icon Sprite list
@@ -1342,13 +1359,13 @@ protected:
 	enum
 	{
 		// ?? ?????? ??? ?? ??? skill ???? 100?? ??????...
-		SPREAD_X_MAX = 10, // ???????? ???? ?????? ??? ????(ù line?? Spread button?? ???????).
+		SPREAD_X_MAX = 10, // ???????? ???? ?????? ??? ????(ï¿½ line?? Spread button?? ???????).
 		SPREAD_Y_MAX = 10,
 	};
 
 	C_SPRITE_PACK				m_etc_spk;
 
-	// ????? ??ü???? set???? ??.
+	// ????? ??ï¿½???? set???? ??.
 	int							m_skill_guard_x, m_skill_guard_y;
 	int							m_skill_start_x, m_skill_start_y;
 	int							m_skill_guard_extra_offset;
@@ -1362,9 +1379,9 @@ protected:
 	};
 
 	int							m_comboCnt;
-	int							m_selected_skillid; // NOT_SELECTED??? ???õ??? ???? ?????. ACTIONINFO?? ??????.
+	int							m_selected_skillid; // NOT_SELECTED??? ???ï¿½??? ???? ?????. ACTIONINFO?? ??????.
 	bool						m_selected_comboAttackskill;
-	int							m_focused_slot; // Spread button?? 0???? ??? ?¿??? ??? ???????.
+	int							m_focused_slot; // Spread button?? 0???? ??? ?ï¿½??? ??? ???????.
 	bool						m_bl_pushed;
 	bool						m_bl_open;
 
@@ -1745,70 +1762,29 @@ public:
 //
 // vampire/slayer EFFECT_STATUS class
 //-----------------------------------------------------------------------------
-class C_VS_UI_EFFECT_STATUS : public Window, public Exec, public ButtonVisual
+class C_VS_UI_EFFECT_STATUS : public Window
 {
 private:
-	int	m_scroll;
-	bool m_width_mode;
-	bool m_bl_effect_size_null;
-	C_SPRITE_PACK* m_pC_effect_status_spk;
-
-	ButtonGroup* m_pC_width_button_group;
-	ButtonGroup* m_pC_height_button_group;
-
-	enum EFFECT_STATUS_SPK_INDEX
+	// DK Umbra's layout: no frame, only the icons, half transparent, flush in
+	// the top-left corner and wrapping every ICONS_PER_ROW.
+	enum
 	{
-		MAIN_WIDTH,
-		MAIN_WIDTH_RIGHT,
-		MAIN_HEIGHT,
-		MAIN_HEIGHT_BOTTOM,
-
-		BUTTON_LEFT,
-		BUTTON_LEFT_HILIGHTED,
-		BUTTON_LEFT_HILIGHTED_PUSHED,
-		BUTTON_RIGHT,
-		BUTTON_RIGHT_HILIGHTED,
-		BUTTON_RIGHT_HILIGHTED_PUSHED,
-		BUTTON_UP,
-		BUTTON_UP_HILIGHTED,
-		BUTTON_UP_HILIGHTED_PUSHED,
-		BUTTON_DOWN,
-		BUTTON_DOWN_HILIGHTED,
-		BUTTON_DOWN_HILIGHTED_PUSHED,
-		BUTTON_CHANGE,
-		BUTTON_CHANGE_HILIGHTED,
-		BUTTON_CHANGE_HILIGHTED_PUSHED,
+		ICON_SIZE = 36,			// a full skill icon (C_VS_UI_SKILL::m_C_spk)
+		ICONS_PER_ROW = 16,
+		MAX_ICONS = 30,
 	};
 
-	enum EXEC_ID
-	{
-		PUSHPIN_ID,
-		CHANGE_ID,
-		UP_ID,
-		DOWN_ID,
-	};
+	int		IconCount() const;
+	int		HitIcon(int _x, int _y) const;
+	void	ShowIcon(int index, int sprite_id);
 
 public:
 	C_VS_UI_EFFECT_STATUS();
 	~C_VS_UI_EFFECT_STATUS();
 
-	void	ResetSize();
-	void	UnacquireMouseFocus()
-	{
-		m_pC_width_button_group->UnacquireMouseFocus();
-		m_pC_height_button_group->UnacquireMouseFocus();
-	}
-	void	CancelPushState()
-	{
-		m_pC_width_button_group->CancelPushState();
-		m_pC_height_button_group->CancelPushState();
-	}
-	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
-	void	ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button);
 	void	WindowEventReceiver(id_t event);
 	bool	IsPixel(int _x, int _y);
 	void	AcquireDisappear() {}
-	void	Run(id_t id);
 	bool	MouseControl(UINT message, int _x, int _y);
 	void	KeyboardControl(UINT message, UINT key, long extra);
 
@@ -1866,8 +1842,8 @@ private:
 
 	std::string m_zone_name;
 	int									m_surface_w, m_surface_h;
+	int									m_map_cut;	// map window columns left out for a narrow map
 	int									m_map_x, m_map_y, m_map_w, m_map_h, m_zone_id;
-	int									m_board_x, m_board_y;
 
 	//timer
 	DWORD						m_dw_minimap_prev_tickcount;
@@ -1887,18 +1863,35 @@ private:
 
 	bool	TimerMinimap();
 
-	enum MINIMAP_SPK_INDEX
+	enum MINIMAP_SPK_INDEX	// MinimapRenewal.spk, DK Umbra's minimap, for every race
 	{
-		MINIMAP_MAIN,
-		MINIMAP_MAIN_ALPHA,
-		MINIMAP_RIGHT,
-		MINIMAP_BOARD,
-		MINIMAP_ICON_SELF,
-		MINIMAP_ICON_PARTY,
+		MINIMAP_PANEL = 0,
+		MINIMAP_WORLDMAP_BUTTON = 1,	// +1 highlighted, +2 pushed
+		MINIMAP_PIN = 9,				// a plain circle, as on the simple information panel
+		MINIMAP_PIN_LIT = 10,
+		MINIMAP_ICON_SELF = 11,
+		MINIMAP_ICON_PARTY = 12,
+		MINIMAP_ICON_PARTY_DEAD = 18,
+	};
 
-#if __CONTENTS(__GPS_ADD)
-		MINIMAP_GPSBTN_BOARD,
-#endif	//__GPS_ADD
+	// Positions from DK Umbra's DarkEden.exe, relative to the panel.
+	enum MINIMAP_LAYOUT
+	{
+		MINIMAP_MARGIN = 2,				// from the right and bottom of the screen
+		MINIMAP_MAP_X = 7,				// the window the map shows through
+		MINIMAP_MAP_Y = 28,
+		MINIMAP_MAP_RIGHT = 200,
+		MINIMAP_MAP_BOTTOM = 128,
+		MINIMAP_TITLE_Y = 5,
+		MINIMAP_PIN_X = 226,
+		MINIMAP_PIN_Y = 6,
+		MINIMAP_WORLDMAP_X = 209,
+		MINIMAP_WORLDMAP_Y = 105,
+		MINIMAP_COORD_X = 214,			// X and Y print centred across this column
+		MINIMAP_COORD_W = 21,
+		MINIMAP_COORD_X_Y = 53,
+		MINIMAP_COORD_Y_Y = 89,
+		MINIMAP_SEAM_X = 72,			// where a narrow map's panel is cut, see Show
 	};
 
 	enum EXEC_ID
@@ -1909,6 +1902,7 @@ private:
 #if __CONTENTS(__GPS_ADD)
 		GPSVIEW_ID,
 #endif //__GPS_ADD
+		WORLDMAP_ID,
 	};
 
 	bool	m_bWindowEvent;
@@ -1932,6 +1926,11 @@ public:
 	void	SetXY(int x, int y) { m_map_x = x; m_map_y = y; }
 	int		GetX() { return m_map_x; }
 	int		GetY() { return m_map_y; }
+
+	// Where the minimap rests: the bottom-right corner, MINIMAP_MARGIN in.
+	// Auto-hide slides it away from here, and a drag moves it.
+	void	GetRestingRect(RECT* rect) const;
+	void	ResetWidth();					// fits the panel to a narrow map
 
 	void	TogglePushPin() { Run(PUSHPIN_ID); }
 
@@ -2067,8 +2066,228 @@ public:
 
 
 
+//-----------------------------------------------------------------------------
+// class C_VS_UI_HOTKEY_BAR
+//
+// DK Umbra's shortcut bar: a movable strip of twelve slots showing what F1-F12
+// are bound to, a skill at its selected grade or a quick item. Binding still
+// happens the old way, by pressing the key over the skill box or a quick slot.
+//-----------------------------------------------------------------------------
+class C_VS_UI_TRIBE;
+class MItem;
+
+class C_VS_UI_HOTKEY_BAR : public Window, public Exec, public ButtonVisual
+{
+private:
+	enum SHORTCUT_SPK_INDEX	// ShortcutSlot.spk, DK Umbra's shortcutslot.spk
+	{
+		SHORTCUT_SLOT = 12,			// the dark slot behind each key
+		SHORTCUT_LABEL = 13,		// the small bar under it that the key name prints on
+		SHORTCUT_PIN = 14,
+		SHORTCUT_PIN_FOCUSED = 15,
+		SHORTCUT_SELECTED = 16,		// frames the slot of the skill in use
+		SHORTCUT_SELECTED_LABEL = 17,	// and its label
+	};
+
+	// From DK Umbra's DarkEden.exe (ctor 0x5f7280, Show 0x5e5a80, skill slot
+	// 0x5e57c0, labels 0x5d5cc0); offsets are from a slot's top-left.
+	enum BAR_LAYOUT
+	{
+		BAR_SLOT_COUNT = 12,
+		BAR_SLOT_PITCH = 43,
+		BAR_ICON_X = 2,
+		BAR_ICON_Y = 3,
+		BAR_SELECTED_X = -6,
+		BAR_SELECTED_Y = -6,
+		BAR_SELECTED_LABEL_X = 4,
+		BAR_SELECTED_LABEL_Y = 34,
+		BAR_LABEL_X = 6,
+		BAR_LABEL_Y = 35,
+		BAR_LABEL_W = 30,
+		BAR_LABEL_TEXT_Y = 37,
+		BAR_COUNT_RIGHT = 39,			// a stack's item count, right-aligned
+		BAR_COUNT_Y = 23,
+		BAR_STACK_PITCH = 37,			// hovering a skill key stacks its other grades
+		BAR_STACK_GAP = 5,
+		BAR_STACK_LABEL_H = 14,
+	};
+
+	enum EXEC_ID
+	{
+		BAR_PIN_ID,
+	};
+
+	C_VS_UI_TRIBE* m_p_tribe;
+	C_SPRITE_PACK* m_pC_spk;
+	ButtonGroup* m_pC_button_group;
+	bool m_bl_folded;					// down to just the pin
+
+	int		SlotX(int slot) const { return x + slot * BAR_SLOT_PITCH; }
+	int		GetHotkeySkill(int fkey, int* grade);
+	const MItem* GetHotkeyItem(int fkey);
+	int		HoveredSlot();
+	void	ShowSkillIcon(int _x, int _y, int skill_id);
+	void	ResetSize();
+
+public:
+	C_VS_UI_HOTKEY_BAR(C_VS_UI_TRIBE* p_tribe);
+	~C_VS_UI_HOTKEY_BAR();
+
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	WindowEventReceiver(id_t event) {}
+	bool	IsPixel(int _x, int _y);
+	void	AcquireDisappear() {}
+	void	Run(id_t id);
+	bool	MouseControl(UINT message, int _x, int _y);
+	void	KeyboardControl(UINT message, UINT key, long extra) {}
+
+	void	Show();
+	void	Process();
+	void	Start();
+	void	Finish();
+};
+
+
+
+//-----------------------------------------------------------------------------
+// class C_VS_UI_SKILL_BOOK
+//
+// DK Umbra's "Skills & Runes" window with a Rank tab of our own: the race's
+// skills under sub tabs, its rank skills, and the rare and advanced skills in
+// the lists on the right. Runes is a stub.
+//-----------------------------------------------------------------------------
+class C_VS_UI_SKILL_BOOK : public Window, public Exec, public ButtonVisual
+{
+public:
+	enum TAB
+	{
+		TAB_SKILLS,
+		TAB_RANK,
+		TAB_RUNES,
+		TAB_COUNT
+	};
+
+private:
+	enum SKILL_BOOK_SPK_INDEX	// SkillWindow.spk, DK Umbra's skillwindow.spk
+	{
+		BOOK_WINDOW = 0,
+		BOOK_TAB = 4,				// 92x22: normal, focused, selected
+		BOOK_SUB_TAB = 7,			// 82x22: normal, focused, selected
+		BOOK_DOMAIN_ICON = 10,		// 18x18: blade, sword, gun, heal, enchant
+		BOOK_CLOSE = 23,			// +1 focused, +2 pushed
+		BOOK_SCROLL_UP = 26,		// +1 focused, +2 pushed
+		BOOK_SCROLL_DOWN = 29,
+		BOOK_SLOT = 32,				// 40x42 behind a skill
+		BOOK_LEVEL_BAR = 33,		// 30x15 under it
+		BOOK_TREE_COMBAT = 34,		// the lines of the ousters trees
+		BOOK_TREE_ELEMENTAL = 35,
+	};
+
+	enum RUNE_TAB_SPK_INDEX		// RuneTab.spk, DK Umbra's runetab.spk
+	{
+		RUNE_BAR_BACK = 3,
+		RUNE_BAR = 4,
+	};
+
+	enum
+	{
+		MAX_SUB_TABS = 6,
+		GRID_COLUMNS = 6,
+		LIST_COUNT = 2,				// rare skills, advanced skills
+		LIST_ROWS = 4,
+		RANK_TIERS = 10,			// a rank name each
+		RANK_TABS_PER_ROW = 5,
+		RANK_ROWS = 7,				// rank skills shown at once
+	};
+
+	enum EXEC_ID
+	{
+		CLOSE_ID,
+		SCROLL_UP_ID,
+		SCROLL_DOWN_ID,
+		TAB_ID,						// + TAB
+		SUB_TAB_ID = TAB_ID + TAB_COUNT,	// + sub tab
+		RANK_TAB_ID = SUB_TAB_ID + MAX_SUB_TABS,	// + rank tier
+	};
+
+	// an icon on the grid, the tree or a list, where it was last drawn
+	struct ENTRY
+	{
+		int id;					// skill id, or rank bonus index on the Rank tab
+		int sprite;
+		int state;
+		int label;				// the level under a grid icon, or -1
+		int domain;				// SKILLDOMAIN, for the tooltip
+		bool passive;
+		bool enabled;
+		int x, y;				// the icon, in the window
+	};
+
+	C_SPRITE_PACK* m_pC_spk;
+	C_SPRITE_PACK* m_pC_rune_spk;
+	ButtonGroup* m_pC_button_group;
+	C_VS_UI_DIALOG* m_pC_confirm;
+
+	int m_tab;
+	int m_sub_tab;
+	int m_sub_tab_count;
+	int m_sub_tab_key[MAX_SUB_TABS];	// slayer domain, vampire skill group, ousters tree
+	int m_scroll;					// grid rows, or tree pixels
+	int m_scroll_max;
+	int m_list_scroll[LIST_COUNT];
+	int m_rank_tier;				// the rank on show: five grades each
+	int m_rank_tab_tier[RANK_TIERS];	// the ranks that have rank skills, one per tab
+	int m_rank_tab_count;
+	int m_rank_learnable;			// a bit per rank with a skill to learn
+	int m_desc_domain;				// what the skill tooltip looks the skill up in
+	bool m_bOustersDownSkill;		// opened by the NPC who lowers skills: a learnt skill's card offers that
+	std::vector<ENTRY> m_entries;
+	std::vector<ENTRY> m_list[LIST_COUNT];
+
+	bool	IsTree() const;			// the ousters trees rather than a grid
+	int		GetDomain() const;
+	int		GetLineY() const;		// the level line, under one or two rows of sub tabs
+	void	LayoutTabs();			// hides the sub tabs of the other tabs
+	void	Rebuild();
+	void	BuildGrid();
+	void	BuildTree();
+	void	BuildRank();
+	void	BuildLists();
+	void	LayoutGrid(std::vector<ENTRY>& entries);
+	int		HitEntry(int _x, int _y) const;
+	int		HitList(int _x, int _y, int& list) const;
+	void	Scroll(int step);
+	void	LearnRankSkill(const ENTRY& entry);
+	void	LearnAdvancedSkill(const ENTRY& entry);
+	int		GetLineExp(bool& max_level) const;
+	void	ShowLevelBar();
+	void	ShowRankText();
+	void	ShowText();
+
+public:
+	C_VS_UI_SKILL_BOOK();
+	~C_VS_UI_SKILL_BOOK();
+
+	void	ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button);
+	void	WindowEventReceiver(id_t event) {}
+	bool	IsPixel(int _x, int _y);
+	void	AcquireDisappear() {}
+	void	Run(id_t id);
+	bool	MouseControl(UINT message, int _x, int _y);
+	void	KeyboardControl(UINT message, UINT key, long extra) {}
+
+	void	Show();
+	void	Process();
+	void	Start();
+	void	Finish();
+	void	StartOustersDownSkill();
+};
+
+
+
 class C_VS_UI_TRIBE : public Window, public HotKey, public Exec, public ButtonVisual
 {
+	friend class C_VS_UI_HOTKEY_BAR;	// reads the F-key bindings
 public:
 	enum	HOTKEYTYPE
 	{
@@ -2079,172 +2298,56 @@ public:
 
 protected:
 
-	// renewal by chyaya
-	enum MAIN_SPK_INDEX	// by larosel
+	// simpleinformation.spk, DK Umbra's status panel
+	enum SIMPLE_SPK_INDEX
 	{
-		MAIN_WINDOW,
-		ICON_SUN,
-		ICON_MOON,
-
-		EXP_BACK,
-		EXP_BAR,
-
-		SLAYER_SKILL_EXP_BAR,		// For Slayer Only
+		SIMPLE_EXP_TRACK = 0,
+		SIMPLE_EXP_FILL = 1,
+		SIMPLE_CIRCLE_LIT = 4,
+		SIMPLE_CIRCLE = 5,			// the pin
+		SIMPLE_DAY_FRAME = 6,
+		SIMPLE_DAY_BAR = 7,
+		SIMPLE_NIGHT_BAR = 8,
+		SIMPLE_SUN = 9,
+		SIMPLE_MOON = 10,
+		SIMPLE_DOMAIN = 13,			// + SKILLDOMAIN_BLADE .. SKILLDOMAIN_ENCHANT
+		SIMPLE_DOMAIN_LIT = 18,		// the same five, for a domain with levels
+		SIMPLE_DOMAIN_FRAME = 23,
+		SIMPLE_EARTH = 24,
+		SIMPLE_WATER = 25,
+		SIMPLE_FIRE = 26,
+		SIMPLE_PANEL = 30,
 	};
 
-	enum SYSTEM_BUTTON_INDEX
+	// Where things go on the panel, from DK Umbra's DarkEden.exe. Relative to
+	// the window, which is SIMPLE_PANEL's top-left; the art is transparent
+	// above SIMPLE_PANEL_TOP.
+	enum SIMPLE_LAYOUT
 	{
-		SUB_MENU_BOTTOM,
-		SUB_MENU_BUTTON_NORMAL,
-		SUB_MENU_BUTTON_HILIGHTED,
-		SUB_MENU_BUTTON_PUSHED,
-		SUB_MENU_BUTTON_DISABLE,
+		SIMPLE_PANEL_TOP = 56,
+		SIMPLE_PIN_X = 8,
+		SIMPLE_PIN_Y = 63,
+		SIMPLE_TIME_Y = 62,
+		SIMPLE_SUN_Y = 73,
+		SIMPLE_DAY_Y = 78,
 
-		TAB_INFO_NORMAL,
-		TAB_INFO_HILIGHTED,
-		TAB_INFO_PUSHED,
-		TAB_INFO_DISABLE,
+		SIMPLE_STAT_W = 54,			// a stat's label and value share a column this wide
+		SIMPLE_EXP_LABEL_X = 20,
+		SIMPLE_EXP_TRACK_X = 44,
 
-		TAB_GUILD_NORMAL,
-		TAB_GUILD_HILIGHTED,
-		TAB_GUILD_PUSHED,
-		TAB_GUILD_DISABLE,
+		SIMPLE_SLAYER_STAT_Y = 99,
+		SIMPLE_DOMAIN_X = 35,
+		SIMPLE_DOMAIN_GAP = 38,
+		SIMPLE_DOMAIN_LEVEL_Y = 110,
+		SIMPLE_DOMAIN_Y = 118,
+		SIMPLE_SLAYER_EXP_LABEL_Y = 138,
+		SIMPLE_SLAYER_EXP_Y = 140,
 
-		TAB_COMMUNITY_NORMAL,
-		TAB_COMMUNITY_HILIGHTED,
-		TAB_COMMUNITY_PUSHED,
-		TAB_COMMUNITY_DISABLE,
-
-		TAB_SHOP_NORMAL,
-		TAB_SHOP_HILIGHTED,
-		TAB_SHOP_PUSHED,
-		TAB_SHOP_DISABLE,
-
-		TAB_HELP_NORMAL,
-		TAB_HELP_HILIGHTED,
-		TAB_HELP_PUSHED,
-		TAB_HELP_DISABLE,
-
-		TAB_SYSTEM_NORMAL,
-		TAB_SYSTEM_HILIGHTED,
-		TAB_SYSTEM_PUSHED,
-		TAB_SYSTEM_DISABLE,
-
-
-		// 		// menu tab
-		// 		BUTTON_INVENTORY,
-		// 		BUTTON_INVENTORY_HILIGHTED,
-		// 		BUTTON_INVENTORY_HILIGHTED_PUSHED,
-		// 		BUTTON_GEAR,
-		// 		BUTTON_GEAR_HILIGHTED,
-		// 		BUTTON_GEAR_HILIGHTED_PUSHED,
-		// 		BUTTON_INFO,
-		// 		BUTTON_INFO_HILIGHTED,
-		// 		BUTTON_INFO_HILIGHTED_PUSHED,
-		// 		BUTTON_PARTY,
-		// 		BUTTON_PARTY_HILIGHTED,
-		// 		BUTTON_PARTY_HILIGHTED_PUSHED,
-		// 		BUTTON_QUEST,
-		// 		BUTTON_QUEST_HILIGHTED,
-		// 		BUTTON_QUEST_HILIGHTED_PUSHED,
-		// 		
-		// 		// help tab
-		// 		BUTTON_HELP,
-		// 		BUTTON_HELP_HILIGHTED,
-		// 		BUTTON_HELP_HILIGHTED_PUSHED,
-		// 		BUTTON_CHAT_HELP,
-		// 		BUTTON_CHAT_HELP_HILIGHTED,
-		// 		BUTTON_CHAT_HELP_HILIGHTED_PUSHED,
-		// 		BUTTON_BATTLE_HELP,
-		// 		BUTTON_BATTLE_HELP_HILIGHTED,
-		// 		BUTTON_BATTLE_HELP_HILIGHTED_PUSHED,
-		// 		BUTTON_SKILL_HELP,
-		// 		BUTTON_SKILL_HELP_HILIGHTED,
-		// 		BUTTON_SKILL_HELP_HILIGHTED_PUSHED,
-		// 
-		// 		// guild tab
-		// 		BUTTON_TEAM_INFO,
-		// 		BUTTON_TEAM_INFO_HILIGHTED,
-		// 		BUTTON_TEAM_INFO_HILIGHTED_PUSHED,
-		// 		BUTTON_TEAM_MEMBER_LIST,
-		// 		BUTTON_TEAM_MEMBER_LIST_HILIGHTED,
-		// 		BUTTON_TEAM_MEMBER_LIST_HILIGHTED_PUSHED,
-		// 
-		// 		// etc-_- ???¹?? by ????
-		// 		BUTTON_MAIL,					// ?????? ????
-		// 		BUTTON_MAIL_HILIGHTED,
-		// 		BUTTON_MAIL_HILIGHTED_PUSHED,
-		// 
-		// 		BUTTON_SMS,
-		// 		BUTTON_SMS_HILIGHTED,
-		// 		BUTTON_SMS_HILIGHTED_PUSHED,
-		// 
-		// 		BUTTON_NAMING,
-		// 		BUTTON_NAMING_HILIGHTED,
-		// 		BUTTON_NAMING_HILIGHTED_PUSHED,
-		// 
-		// 		BUTTON_GUILD_LIST,
-		// 		BUTTON_GUILD_LIST_HILIGHTED,
-		// 		BUTTON_GUILD_LIST_HILIGHTED_PUSHED,
-		// 
-		// 		BUTTON_WAIT_GUILD_LIST,
-		// 		BUTTON_WAIT_GUILD_LIST_HILIGHTED,
-		// 		BUTTON_WAIT_GUILD_LIST_HILIGHTED_PUSHED,
-		// 
-		// 		BUTTON_UNION,
-		// 		BUTTON_UNION_HILIGHTED,
-		// 		BUTTON_UNION_HILIGHTED_PUSHED,
-		// 		
-		// 		TAB_UTIL,
-		// 		TAB_UTIL_NEW,
-		// 		TAB_UTIL_HILIGHTED,
-		// 
-		// 		BUTTON_STORE,
-		// 		BUTTON_STORE_HILIGHTED,
-		// 		BUTTON_STORE_HILIGHTED_PUSHED,
-		// 
-		// 		BUTTON_POWER_JJANG,
-		// 		BUTTON_POWER_JJANG_HILIGHTED,
-		// 		BUTTON_POWER_JJANG_HILIGHTED_PUSHED,
-		// 		
-		// 		// ???? ???
-		// 		BUTTON_MARKETM,
-		// 		BUTTON_MARKETM_HILIGHTED, 
-		// 		BUTTON_MARKETM_PUSHED,
-		// 
-		// 		BUTTON_MARKETB, 
-		// 		BUTTON_MARKETB_HILIGHTED,
-		// 		BUTTON_MARKETB_PUSHED,
-		// 
-		// 		// ???? ?? ???
-		// 		BUTTON_WORLD_MAP,
-		// 		BUTTON_WORLD_MAP_HILIGHTED,
-		// 		BUTTON_WORLD_MAP_PUSHED,
-		// 
-		// #if __CONTENTS(__FRIEND_ADDITION)
-		// 		BUTTON_FRIEND_SYSTEM,
-		// 		BUTTON_FRIEND_SYSTEM_HILIGHTED,
-		// 		BUTTON_FRIEND_SYSTEM_PUSHED,
-		// 
-		// 		BUTTON_FRIEND_WAIT,
-		// 		BUTTON_FRIEND_WAIT_HILIGHTED,
-		// 		BUTTON_FRIEND_WAIT_PUSHED,
-		// #endif //__FRIEND_ADDITION
-		// 
-		// //		BUTTON_TEAM_COMMAND,
-		// //		BUTTON_TEAM_COMMAND_HILIGHTED,
-		// //		BUTTON_TEAM_COMMAND_HILIGHTED_PUSHED,
-		// //		BUTTON_TEAM_LIST,
-		// //		BUTTON_TEAM_LIST_HILIGHTED,
-		// //		BUTTON_TEAM_LIST_HILIGHTED_PUSHED,
-		// //		BUTTON_TEAM_WAIT_LIST,
-		// //		BUTTON_TEAM_WAIT_LIST_HILIGHTED,
-		// //		BUTTON_TEAM_WAIT_LIST_HILIGHTED_PUSHED,
-		// //		BUTTON_TEAM_UNION,
-		// //		BUTTON_TEAM_UNION_HILIGHTED,
-		// //		BUTTON_TEAM_UNION_HILIGHTED_PUSHED,
-		// //	
-
+		SIMPLE_VAMPIRE_STAT_Y = 110,
+		SIMPLE_OUSTERS_STAT_Y = 100,
+		SIMPLE_OUSTERS_ELEMENT_Y = 115,
+		SIMPLE_EXP_LABEL_Y = 131,		// vampires and ousters
+		SIMPLE_EXP_Y = 134,
 	};
 
 	enum EXEC_INDEX	// by larosel
@@ -2273,15 +2376,15 @@ protected:
 		NAMING_ID,
 
 		// TEAM TAB
-		TEAM_INFO_ID, // ??ä ?????
-		TEAM_MEMBER_LIST_ID, // ??ä ??? ???
+		TEAM_INFO_ID, // ??ï¿½ ?????
+		TEAM_MEMBER_LIST_ID, // ??ï¿½ ??? ???
 		//		TEAM_COMMAND_ID, // ??? ????
 		TEAM_LIST_ID, // ??? ?????
 		TEAM_WAIT_LIST_ID, // ??? ??? ?????
 		TEAM_UNION_ID,		// ???? ????
 
 		// UTIL TAB
-		UTIL_STORE_ID, // ??ä ??? ????
+		UTIL_STORE_ID, // ??ï¿½ ??? ????
 		//#if __CONTENTS(__POWER_JJANG_ID)
 		//		UTIL_POWER_JJANG_ID,
 		//#endif
@@ -2323,8 +2426,6 @@ protected:
 	Point						m_backup_inventory_xy, m_backup_gear_xy;
 	ButtonGroup* m_pC_common_button_group;
 
-	enum { MENU_BUTTON_GROUP_COUNT = MENU_HELP_ID - MENU_INFO_ID + 1 };
-	ButtonGroup* m_pC_menu_button_groups[MENU_BUTTON_GROUP_COUNT];
 
 	// 	ButtonGroup *				m_pC_menu_button_group;
 	// 	ButtonGroup *				m_pC_guild_button_group;
@@ -2338,6 +2439,8 @@ protected:
 
 	C_VS_UI_EFFECT_STATUS* m_pC_effect_status;
 	C_VS_UI_MINIMAP* m_pC_minimap;
+	C_VS_UI_HOTKEY_BAR* m_pC_hotkey_bar;
+	C_VS_UI_SKILL_BOOK* m_pC_skill_book;
 	C_VS_UI_CHATTING* m_pC_chatting;
 	C_VS_UI_SLAYER_QUICKITEM* m_pC_quickitem;
 
@@ -2347,8 +2450,7 @@ protected:
 	C_VS_UI_INVENTORY* m_pC_inventory;
 	//C_VS_UI_QUEST_STATUS *		m_pC_quest;
 
-	C_SPRITE_PACK* m_pC_main_spk;
-	C_SPRITE_PACK* m_pC_sys_button_spk;
+	C_SPRITE_PACK* m_pC_simple_spk;
 
 
 	std::string m_time;
@@ -2609,7 +2711,7 @@ public:
 	virtual void	ResetSlayerQuickItemSize() {}
 	virtual void	ResetOustersQuickItemSize() {}
 	virtual void	OpenGear(bool bl_set_load = true) = 0;
-#if __CONTENTS(__GEAR_SWAP_CHANGE)			//?????? ??ü ???? ???? ??? ????
+#if __CONTENTS(__GEAR_SWAP_CHANGE)			//?????? ??ï¿½ ???? ???? ??? ????
 	virtual	void	RunGearChange() = 0;
 #endif //__GEAR_SWAP_CHANGE
 	virtual void	CloseGear() = 0;
@@ -2621,13 +2723,27 @@ public:
 	C_VS_UI_TRIBE();
 	virtual ~C_VS_UI_TRIBE();
 
-	void	SetupMenuItems(const char* mainSpkFileName, const char* sysButtonSpkFileName);
+	void	SetupMenuItems();
 
 
 	void	Start();
 
 	void	Show();
 	virtual void ShowExp() = 0;
+	bool	GetOccludeRect(int* px0, int* py0, int* px1, int* py1) const;
+
+protected:
+	bool	IsSimplePanelShown() const { return GetAttributes()->autohide == ATTRIBUTES_HIDE_NOT; }
+	void	ShowDayBar();
+	void	ShowSimpleStats(int row_y, int* value_x = NULL);
+	void	ShowSimpleExp(int track_y, int label_y);
+public:
+	static void	GetSimpleExp(__int64& goal_exp, __int64& exp_remain);	// the equipment window's EXP bar too
+protected:
+	void	ShowSimpleDescription(int _x, int _y);
+	void	PlaceSkillBox(bool bl_force);
+
+public:
 
 	void Finish()
 	{
@@ -2643,17 +2759,11 @@ public:
 	virtual void CancelPushState()
 	{
 		m_pC_common_button_group->CancelPushState();
-
-		for (int i = 0; i < MENU_BUTTON_GROUP_COUNT; ++i)
-			m_pC_menu_button_groups[i]->CancelPushState();
 	}
 
 	virtual void UnacquireMouseFocus()
 	{
 		m_pC_common_button_group->UnacquireMouseFocus();
-
-		for (int i = 0; i < MENU_BUTTON_GROUP_COUNT; ++i)
-			m_pC_menu_button_groups[i]->UnacquireMouseFocus();
 	}
 
 	void AcquireFirstSequence()
@@ -2708,6 +2818,8 @@ public:
 
 
 	bool	CloseInventoryGearWindow();
+	bool	CloseSkillBook();
+	void	SetOustersDownSkill()	{ if (m_pC_skill_book != NULL) m_pC_skill_book->StartOustersDownSkill(); }
 	bool	GetGearOpenState() const;
 	bool	GetInventoryOpenState() const;
 
@@ -2745,20 +2857,20 @@ public:
 	void	HotKey_Coer_Attack();		// ctrl	+ o
 	void	HotKey_Sysrq();				// printscreen sysrq
 	void	HotKey_Slash();				// ctrl + /
-	void	HotKey_Background_Music();	// ä?ø???? /?????
-	void	HotKey_Effect_Music();		// ä?ø???? /?????
-	void	HotKey_Chat_Help();			// ä?ø???? /ä?õ???
-	void	HotKey_ZoneChat();			// ä?ø???? /z
-	void	HotKey_GuildChat();			// ä?ø???? /g
-	void	HotKey_UnionChat();			// ä?ø???? /u
-	void	HotKey_Whisper();			// ä?ø???? /w
-	void	HotKey_Where();				// ä?ø???? /???
+	void	HotKey_Background_Music();	// ï¿½?ï¿½???? /?????
+	void	HotKey_Effect_Music();		// ï¿½?ï¿½???? /?????
+	void	HotKey_Chat_Help();			// ï¿½?ï¿½???? /ï¿½?ï¿½???
+	void	HotKey_ZoneChat();			// ï¿½?ï¿½???? /z
+	void	HotKey_GuildChat();			// ï¿½?ï¿½???? /g
+	void	HotKey_UnionChat();			// ï¿½?ï¿½???? /u
+	void	HotKey_Whisper();			// ï¿½?ï¿½???? /w
+	void	HotKey_Where();				// ï¿½?ï¿½???? /???
 	//	void	HotKey_F9();	
 	//	void	HotKey_F10();
 	//	void	HotKey_F11();
 	//	void	HotKey_F12();
-	void	HotKey_PartyChat();			// ä?ø???? /p
-	void	HotKey_NormalChat();		// ä?ø???? /c
+	void	HotKey_PartyChat();			// ï¿½?ï¿½???? /p
+	void	HotKey_NormalChat();		// ï¿½?ï¿½???? /c
 	void	HotKey_Quest();				// ctrl + q
 	void	HotKey_MailBox();			// ctrl + b
 	void	HotKey_PetInfo();			// ctrl + CapsLock
@@ -2773,9 +2885,9 @@ public:
 
 	void	Inventory_Item_Position_Remove();
 	//2008.09.24 shootkj
-	//?ð??? ??????? ????? ??ü ??? ???? ???????? cannotadd?? ?????? ???????.
-	//??? ???? ??ü ?? ?? ????. ??? ??????? ??ü ?õ??? ???.
-	//??ü?? ???? ????? ????? ??? ???? ??? ??? ??? ???.
+	//?ï¿½??? ??????? ????? ??ï¿½ ??? ???? ???????? cannotadd?? ?????? ???????.
+	//??? ???? ??ï¿½ ?? ?? ????. ??? ??????? ??ï¿½ ?ï¿½??? ???.
+	//??ï¿½?? ???? ????? ????? ??? ???? ??? ??? ??? ???.
 };
 
 //-----------------------------------------------------------------------------
@@ -2825,8 +2937,8 @@ private:
 
 	SKILLDOMAIN				m_skill_domain;
 
-	MSkillDomain::SKILL_STEP_LIST	m_advance_skill_id_vec;		// ??? ??õ?? ???? ??? ????? ???????.
-	MSkillDomain::SKILL_STEP_LIST	m_rare_skill_id_vec;		// ??? ??õ?? ???? ??? ????? ???????.
+	MSkillDomain::SKILL_STEP_LIST	m_advance_skill_id_vec;		// ??? ??ï¿½?? ???? ??? ????? ???????.
+	MSkillDomain::SKILL_STEP_LIST	m_rare_skill_id_vec;		// ??? ??ï¿½?? ???? ??? ????? ???????.
 
 	int						m_rare_skill_max;					// ?????? ??? ?? ??? ??????? ???
 
@@ -3039,13 +3151,13 @@ public:
 	void	SetCorrectGrade();
 	const char* GetChinhoLevel(const int level);
 
-	// ?????? ???? ó??
+	// ?????? ???? ï¿½??
 	void	Process5_ACSkillList();
 	void	Process5_ACSkillList_Slayer();
 	void	Process5_ACSkillList_Vampire();
 	void	Process5_ACSkillList_Ousters();
 
-	// ??????? ???? ó??
+	// ??????? ???? ï¿½??
 	void	Process6_RareSkillList();
 };
 
@@ -3077,7 +3189,7 @@ public:
 
 		NAMING_WINDOW,
 
-		QUEST_MANAGER_LIST, // ???? â
+		QUEST_MANAGER_LIST, // ???? ï¿½
 		QUEST_MANAGER_DETAIL, // ???????
 		QUEST_MANAGER_MISSION, // ???
 		QUEST_MANAGER_ITEM, // ?????
@@ -3102,6 +3214,10 @@ public:
 
 	void SetRect(WINDOW_ID id, Rect rect);
 	Rect& GetRect(WINDOW_ID id) { return m_rect[id]; }
+
+	// The hotkey bar's position; the file keeps it after everything else.
+	void SetHotkeyBarRect(const Rect& rect) { m_hotkey_bar_rect = rect; }
+	const Rect& GetHotkeyBarRect() const { return m_hotkey_bar_rect; }
 
 	void SetHPBarSmall(bool bl_small) { m_bl_hpbar_small = bl_small; }
 	bool IsHPBarSmall() { return m_bl_hpbar_small; }
@@ -3145,6 +3261,7 @@ public:
 
 private:
 	Rect m_rect[WINDOW_TOTAL];
+	Rect m_hotkey_bar_rect;
 	Window::ATTRIBUTES_HIDE m_autohide[WINDOW_TOTAL];
 	bool m_alpha[WINDOW_TOTAL];
 
@@ -3382,7 +3499,7 @@ private:
 	int		m_print_x[2], m_print_y, m_print_gap;
 	int		m_focus;
 	std::vector<TEAM_MEMBER_LIST>	m_v_member_list;
-	BYTE	m_bAvailableRecall; // Ÿ??? ???? ??? ?????? 
+	BYTE	m_bAvailableRecall; // ï¿½??? ???? ??? ?????? 
 	char	m_SelectedID[16];
 	char	m_AskingMessage[128];
 public:
@@ -4382,7 +4499,7 @@ public:
 // class C_VS_UI_BRING_FEE
 //
 // ??? ??????
-// -_- ????? ???ô?.
+// -_- ????? ???ï¿½?.
 //-----------------------------------------------------------------------------
 class C_VS_UI_INPUT_NAME : public Window, public Exec, public ButtonVisual
 {
@@ -4460,7 +4577,7 @@ public:
 // class C_VS_UI_BRING_FEE
 //
 // ??? ??????
-// -_- ????? ???ô?.
+// -_- ????? ???ï¿½?.
 //-----------------------------------------------------------------------------
 class C_VS_UI_POPUP_MESSAGE : public Window, public Exec, public ButtonVisual
 {
@@ -4687,7 +4804,7 @@ public:
 // class C_VS_UI_ITEM_LIST
 //
 // ??? ??????
-// -_- ????? ???ô?.
+// -_- ????? ???ï¿½?.
 //-----------------------------------------------------------------------------
 class C_VS_UI_ITEM_LIST : public Window, public Exec, public ButtonVisual
 {
@@ -4759,7 +4876,7 @@ public:
 // class C_VS_UI_IMAGE_NOTICE
 //
 // ??? ??????
-// -_- ????? ???ô?.
+// -_- ????? ???ï¿½?.
 //-----------------------------------------------------------------------------
 class C_VS_UI_IMAGE_NOTICE : public Window, public Exec, public ButtonVisual
 {
@@ -5127,24 +5244,28 @@ public:
 private:
 
 	ButtonGroup* m_pC_button_group;
-	C_VS_UI_SCROLL_BAR* m_pC_scroll_bar;
 	bool				m_bDownSkill;
-	C_SPRITE_PACK		m_SPK;
+	C_SPRITE_PACK		m_SPK;				// SkillWindow.spk, for its scroll arrows
 
 	enum EXEC_ID
 	{
 		CLOSE_ID,
-		HELP_ID,
 		ALPHA_ID,
 		LEARN_ID,
+		SCROLL_UP_ID,
+		SCROLL_DOWN_ID,
 	};
 	int		m_skillID;
+	bool	CanPressLearn();
+	bool	CanScroll()				{ return GetDescSize() > GetDescCol(); }
+	void	ShowButtonLabels();
 
 public:
 	C_VS_UI_OUSTERS_SKILL_INFO(int skillID, int window_x, int window_y, bool DownSkill = false);
 	~C_VS_UI_OUSTERS_SKILL_INFO();
 
 	void	SetSkillID(int skillID);
+	bool	IsDownSkill() const		{ return m_bDownSkill; }
 	void	Show();
 	void	Start();
 	void	Finish();
@@ -5274,7 +5395,7 @@ private:
 	{
 		GAMESTATUS_GAME,	// ??????
 		GAMESTATUS_DIE,		// ???? ???? ??????-??-
-		GAMESTATUS_CLEAR,	// ???? ???? ?? ã???
+		GAMESTATUS_CLEAR,	// ???? ???? ?? ï¿½???
 		GAMESTATUS_READY,	// ?? ????
 	};
 
@@ -5360,7 +5481,7 @@ extern C_VS_UI_WINDOW_MANAGER* gpC_vs_ui_window_manager;
 extern S_SLOT	g_char_slot_ingame;
 extern Point g_item_ref_point[];
 
-extern int g_HISTORY_LINE;	// ä??â ????
+extern int g_HISTORY_LINE;	// ï¿½??ï¿½ ????
 
 void g_SetItemRefPoint(int item_rect_w, int item_rect_h);
 

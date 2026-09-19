@@ -156,6 +156,16 @@ MStopZoneRectEffectGenerator::Generate( const EFFECTGENERATOR_INFO& egInfo )
 
 	}
 
+	// Ousters book skills: the server hits Blizzard (2) and Chakram Hail (2) on 5x5; their pieces
+	// fall at random moments like Sharp Hail's
+	bool bStagger = false;
+	if (egInfo.nActionInfo == RESULT_SKILL_BLIZZARD || egInfo.nActionInfo == RESULT_SKILL_BLIZZARD_2
+		|| egInfo.nActionInfo == RESULT_SKILL_CHAKRAM_HAIL || egInfo.nActionInfo == RESULT_SKILL_CHAKRAM_HAIL_2)
+	{
+		power = 2;
+		bStagger = true;
+	}
+
 	// Ruper Island: Palus Long Range Magic's result record sits in action slot 155 + MinResult
 	// (Packet/Gpackets/ServerSkillDisplay.h). The server hits a 5x5 area, so draw 5x5.
 	if (g_pActionInfoTable != NULL
@@ -240,7 +250,7 @@ MStopZoneRectEffectGenerator::Generate( const EFFECTGENERATOR_INFO& egInfo )
 			// ���� ���
 			//pEffect->SetLight( light );
 
-			 if(egInfo.nActionInfo == SKILL_LAND_MINE_EXPLOSION || bSharpHail )
+			 if(egInfo.nActionInfo == SKILL_LAND_MINE_EXPLOSION || bSharpHail || bStagger )
 			 {
 				TempDelay = rand()%16;
 				pEffect->SetWaitFrame(TempDelay);

@@ -175,6 +175,9 @@ class MFakeCreature : public MCreatureWear {
 		FAKE_CREATURE_TYPE	GetFakeCreatureType() const		{ return m_FakeCreatureType; }
 		void				SetFakeCreatureType(FAKE_CREATURE_TYPE fct);
 
+		// the clone stays at least this many frames (Bat Breaker)
+		void				SetFakeMinFrame(DWORD frames);
+
 		//------------------------------------------------------
 		// Set FakePosition
 		//------------------------------------------------------
@@ -290,6 +293,7 @@ class MFakeCreature : public MCreatureWear {
 
 		// 계산 했던 곳인지 check
 		DWORD						m_nextMoveTime;
+		DWORD						m_FakeMinFrame;
 		int							m_PatrolCount;
 		BYTE						m_TurretDirect;
 		BYTE						m_FinalTurretDirect;

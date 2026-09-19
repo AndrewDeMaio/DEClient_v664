@@ -134,6 +134,7 @@ int				ConvertAlignment(int alignment);
 //-----------------------------------------------------------------------------
 extern void		SkillToSector(TYPE_ACTIONINFO nActionInfo, TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION sY, int dir, DWORD delayFrame, MActionResult* pResult);
 extern void		SkillCrossCounter(MCreature* pUserCreature, MCreature* pTargetCreature, int skillID);
+extern void		SkillBatBreakerShadows(MCreature* pUserCreature, int tx, int ty);
 extern void		SkillIllendue(MCreature* pUserCreature, MCreature* pTargetCreature, int skillID, int shape = 0);	// shape 0 : 자동, 1 : 십자모양(+), 2 : 엑스모양(x)
 extern void		SkillBlazeWalk(MCreature* pUserCreature, MCreature* pTargetCreature, int skillID, BYTE grade);
 #if __CONTENTS(__ONIBLA)

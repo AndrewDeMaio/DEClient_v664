@@ -56,6 +56,7 @@ extern void		UI_AffectUserOption();
 // status
 //-----------------------------------------------------------------------------
 extern void		UI_LevelUp();
+extern void		UI_FinishLevelUp();
 extern void		UI_SetHP(int current, int max);
 extern void		UI_SetMP(int current, int max);
 extern void		UI_SetBonusPoint(int bp);

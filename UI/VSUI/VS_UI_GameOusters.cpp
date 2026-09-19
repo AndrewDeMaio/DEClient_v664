@@ -10,15 +10,11 @@
 #include "ExperienceTable.h"
 #include "UserInformation.h"
 int		C_VS_UI_OUSTERS_GEAR::m_slot_image[SLOT_SIZE] = {
-	CIRCLET, COAT, CHAKRAM, WRISTLET, BOOTS, ARMSBAND, ARMSBAND, RING, RING, PENDENT, PENDENT, PENDENT, STONE_1, STONE_2, STONE_3, STONE_4
-	,-1
-	,-1
-	,-1
-	,-1
-	,FASCIA,MITTEN
-	,-1// nanomech 2006.03.09 Item ���� �۾�
-	,-1,-1 	// Cue Of Adam
-	,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE
+	// MyInformation.spk frames, as DK Umbra's DarkEden.exe has them (0x8f7b88)
+	64, 68, 74, 73, 75, 67, 67, 53,
+	53, 52, 52, 52, 69, 70, 71, 72,
+	-1, -1, -1, -1, 65, 66, -1, -1,
+	-1, 55, 55, 55, 55, 55, 55
 };
 
 //----------------------------------------------------------------------------
@@ -58,7 +54,7 @@ C_VS_UI_OUSTERS::C_VS_UI_OUSTERS():C_VS_UI_TRIBE()
 {
 	m_pC_armsband = NULL; 
 
-	SetupMenuItems(SPK_OUSTERS_MAIN, SPK_OUSTERS_SYS_BUTTON);
+	SetupMenuItems();
 
 	
 // 	int system_x = w-m_pC_main_spk->GetWidth(BUTTON_SYSTEM)-5, system_y = h-m_pC_main_spk->GetHeight(BUTTON_SYSTEM);
@@ -235,6 +231,7 @@ void C_VS_UI_OUSTERS::Start()
 //	m_pC_Market->Start();
 	m_pC_effect_status->Start();
 	m_pC_minimap->Start();
+	m_pC_hotkey_bar->Start();
 	m_pC_armsband->Start();
 
 	WindowEventReceiver(EVENT_WINDOW_MOVE);
@@ -249,64 +246,41 @@ void C_VS_UI_OUSTERS::Start()
 //-----------------------------------------------------------------------------
 void C_VS_UI_OUSTERS::ShowExp()
 {
-	if(gpC_base->m_p_DDSurface_back->Lock())
+	// Under each stat its element: fire under STR, earth under DEX, water
+	// under INT, the number beside it outlined in the element's colour.
+	static const int icon_id[3] = { SIMPLE_FIRE, SIMPLE_EARTH, SIMPLE_WATER };
+	static const int icon_x[3] = { 22, 99, 179 };
+	static const int icon_y[3] = { 114, 117, 115 };
+	static const COLORREF element_rgb[3] = { RGB(255, 0, 0), RGB(0, 255, 0), RGB(0, 0, 255) };
+
+	const int element[3] = { g_char_slot_ingame.ElementalFire, g_char_slot_ingame.ElementalEarth, g_char_slot_ingame.ElementalWater };
+
+	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		//////////////////////////////////////////////////////////////////////////
-		// �ƿ� ����ġ
-		const int bar_x = 120, bar_y = 88, num_x = 60, bar_gap = 14;
-		char sz_temp[100];
-		Rect rect;
-		
-		
-		int exp_remain = g_char_slot_ingame.EXP_REMAIN;
-		__int64 goal_exp = g_pExperienceTable->GetOustersInfo( g_char_slot_ingame.level ).GoalExp;
-		int exp_width = m_pC_main_spk->GetWidth(EXP_BAR);
-		int exp_height = m_pC_main_spk->GetHeight(EXP_BAR);
-		int exp_bar = /*int((float)exp_width * ((float)exp_remain / (float)goal_exp));*/
-			exp_width * (goal_exp - exp_remain) / goal_exp;
-		
-		//exp bar
-		rect.Set(0, 0, exp_bar, exp_height);
-		
-		//exp bar
-		m_pC_main_spk->BltLocked(x+bar_x-3, y+bar_y-3, EXP_BACK);
-		m_pC_main_spk->BltLockedClip(x+bar_x, y+bar_y, rect, EXP_BAR);
-		
-		const int elemental_max = 25;
-		
-		exp_bar = int((float)exp_width * ((float)g_char_slot_ingame.ElementalFire / (float)elemental_max));
-		rect.Set(0, 0, exp_bar, exp_height);
-		m_pC_main_spk->BltLocked(x+bar_x-3, y+bar_y-3+bar_gap*1+8, EXP_BACK);
-		m_pC_main_spk->BltLockedClip(x+bar_x, y+bar_y+bar_gap*1+8, rect, EXP_BAR);
-		
-		exp_bar = int((float)exp_width * ((float)g_char_slot_ingame.ElementalWater / (float)elemental_max));
-		rect.Set(0, 0, exp_bar, exp_height);
-		m_pC_main_spk->BltLocked(x+bar_x-3, y+bar_y-3+bar_gap*2+8, EXP_BACK);
-		m_pC_main_spk->BltLockedClip(x+bar_x, y+bar_y+bar_gap*2+8, rect, EXP_BAR);
-		
-		exp_bar = int((float)exp_width * ((float)g_char_slot_ingame.ElementalEarth / (float)elemental_max));
-		rect.Set(0, 0, exp_bar, exp_height);
-		m_pC_main_spk->BltLocked(x+bar_x-3, y+bar_y-3+bar_gap*3+8, EXP_BACK);
-		m_pC_main_spk->BltLockedClip(x+bar_x, y+bar_y+bar_gap*3+8, rect, EXP_BAR);
-		
+		for (int i = 0; i < 3; i++)
+			m_pC_simple_spk->BltLocked(x + icon_x[i], y + icon_y[i], icon_id[i]);
+
 		gpC_base->m_p_DDSurface_back->Unlock();
-		
-		g_FL2_GetDC();
-		sprintf(sz_temp, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_LEVEL_DESCRIPTION].GetString(), g_char_slot_ingame.level);
-		g_PrintColorStrShadow(x+num_x, y+bar_y-3, sz_temp, gpC_base->m_chatting_pi, RGB_GRAY, RGB_BLACK);
-		
-		sprintf(sz_temp, (*g_pGameStringTable)[UI_STRING_MESSAGE_ELEMENTAL_FIRE_DESCRIPTION].GetString(), g_char_slot_ingame.ElementalFire);
-		g_PrintColorStrShadow(x+num_x, y+bar_y-3+bar_gap*1+8, sz_temp, gpC_base->m_chatting_pi, g_ELEMENTAL_COLOR[ITEMTABLE_INFO::ELEMENTAL_TYPE_FIRE], RGB_BLACK);
-		
-		sprintf(sz_temp, (*g_pGameStringTable)[UI_STRING_MESSAGE_ELEMENTAL_WATER_DESCRIPTION].GetString(), g_char_slot_ingame.ElementalWater);
-		g_PrintColorStrShadow(x+num_x, y+bar_y-3+bar_gap*2+8, sz_temp, gpC_base->m_chatting_pi, g_ELEMENTAL_COLOR[ITEMTABLE_INFO::ELEMENTAL_TYPE_WATER], RGB_BLACK);
-		
-		sprintf(sz_temp, (*g_pGameStringTable)[UI_STRING_MESSAGE_ELEMENTAL_EARTH_DESCRIPTION].GetString(), g_char_slot_ingame.ElementalEarth);
-		g_PrintColorStrShadow(x+num_x, y+bar_y-3+bar_gap*3+9, sz_temp, gpC_base->m_chatting_pi, g_ELEMENTAL_COLOR[ITEMTABLE_INFO::ELEMENTAL_TYPE_EARTH], RGB_BLACK);
-		
-		g_FL2_ReleaseDC();
- 	}	
-	
+	}
+
+	ShowSimpleExp(SIMPLE_EXP_Y, SIMPLE_EXP_LABEL_Y);
+
+	g_FL2_GetDC();
+
+	int value_x[3];
+	ShowSimpleStats(SIMPLE_OUSTERS_STAT_Y, value_x);
+
+	PrintInfo& pi = gpC_base->m_chatting_pi;
+	char sz_value[16];
+
+	for (int i = 0; i < 3; i++)
+	{
+		wsprintf(sz_value, "%d", element[i]);
+		g_PrintColorStrOut(value_x[i] + 3, y + SIMPLE_OUSTERS_ELEMENT_Y, sz_value, pi, RGB_WHITE, element_rgb[i]);
+	}
+
+	g_FL2_ReleaseDC();
+
 	SHOW_WINDOW_ATTR;
 }
 
@@ -470,42 +444,43 @@ C_VS_UI_OUSTERS_GEAR::C_VS_UI_OUSTERS_GEAR()
   
 //	if(g_char_slot_ingame.m_AdvancementLevel > 0)// 2������ bycsm 2004.12.31 
 //	{
-	m_slot_rect[SN_CIRCLET].Set(114, 62, 60, 60);			// ��Ŭ��
-	m_slot_rect[SN_COAT].Set(114, 165, 60, 90);				// ��
-	m_slot_rect[SN_LEFTHAND].Set(199, 165, 60, 90);			// �޼�
-	m_slot_rect[SN_RIGHTHAND].Set(28, 165, 60, 90);			// ������
-	m_slot_rect[SN_BOOTS].Set(114, 261, 60, 90);				// �Ź�
-	m_slot_rect[SN_ARMSBAND1].Set(28, 100, 60, 60);			// �Ͻ����1
-	m_slot_rect[SN_ARMSBAND2].Set(199, 100, 60, 60);			// �Ͻ����2
-	m_slot_rect[SN_RING1].Set(29, 269, 30, 30);				// ��1
-	m_slot_rect[SN_RING2].Set(230, 269, 30, 30);				// ��2
-	m_slot_rect[SN_PENDENT1].Set(94, 129, 30, 30);			// �����1
-	m_slot_rect[SN_PENDENT2].Set(130, 129, 30, 30);			// �����2
-	m_slot_rect[SN_PENDENT3].Set(166, 129, 30, 30);			// �����3
-	m_slot_rect[SN_STONE1].Set(65, 268, 30, 30);			// ���ɼ�1
-	m_slot_rect[SN_STONE2].Set(195, 268, 30, 30);			// ���ɼ�2
-	m_slot_rect[SN_STONE3].Set(65, 304, 30, 30);			// ���ɼ�3
-	m_slot_rect[SN_STONE4].Set(195, 304, 30, 30);			// ���ɼ�4
+	// DK Umbra's slot frames (DarkEden.exe 0x6ebd70), drawn closer together for the narrower window
+	m_slot_rect[SN_CIRCLET].Set(116, 36, 66, 66);			// ��Ŭ��
+	m_slot_rect[SN_COAT].Set(116, 152, 66, 96);				// ��
+	m_slot_rect[SN_LEFTHAND].Set(188, 209, 66, 96);			// �޼�
+	m_slot_rect[SN_RIGHTHAND].Set(43, 209, 66, 96);			// ������
+	m_slot_rect[SN_BOOTS].Set(116, 256, 66, 96);				// �Ź�
+	m_slot_rect[SN_ARMSBAND1].Set(43, 314, 66, 66);			// �Ͻ����1
+	m_slot_rect[SN_ARMSBAND2].Set(188, 314, 66, 66);			// �Ͻ����2
+	m_slot_rect[SN_RING1].Set(30, 389, 36, 36);				// ��1
+	m_slot_rect[SN_RING2].Set(228, 389, 36, 36);				// ��2
+	m_slot_rect[SN_PENDENT1].Set(95, 109, 36, 36);			// �����1
+	m_slot_rect[SN_PENDENT2].Set(131, 109, 36, 36);			// �����2
+	m_slot_rect[SN_PENDENT3].Set(167, 109, 36, 36);			// �����3
+	m_slot_rect[SN_STONE1].Set(70, 389, 36, 36);			// ���ɼ�1
+	m_slot_rect[SN_STONE2].Set(188, 389, 36, 36);			// ���ɼ�2
+	m_slot_rect[SN_STONE3].Set(70, 429, 36, 36);			// ���ɼ�3
+	m_slot_rect[SN_STONE4].Set(188, 429, 36, 36);			// ���ɼ�4
 
-	m_slot_rect[SN_COREZAP1].Set(62, 270, 30, 30);			// �ھ���1
-	m_slot_rect[SN_COREZAP2].Set(194, 270, 30, 30);			// �ھ���2
-	m_slot_rect[SN_COREZAP3].Set(62, 306, 30, 30);			// �ھ���3
-	m_slot_rect[SN_COREZAP4].Set(194, 306, 30, 30);			// �ھ���4
+	m_slot_rect[SN_COREZAP1].Set(70, 389, 36, 36);			// �ھ���1
+	m_slot_rect[SN_COREZAP2].Set(188, 389, 36, 36);			// �ھ���2
+	m_slot_rect[SN_COREZAP3].Set(70, 429, 36, 36);			// �ھ���3
+	m_slot_rect[SN_COREZAP4].Set(188, 429, 36, 36);			// �ھ���4
 
-	m_slot_rect[SN_FASCIA].Set(28, 34, 60, 60);	
-	m_slot_rect[SN_MITTEN].Set(199, 34, 60, 60);
+	m_slot_rect[SN_FASCIA].Set(10, 70, 66, 66);	
+	m_slot_rect[SN_MITTEN].Set(222, 70, 66, 66);
 	// nanomech 2006.03.09 Item ���� �۾�
-	m_slot_rect[SN_NECK_CHAIN].Set(127, 128, 30, 30);		// ���׸��� ü��
+	m_slot_rect[SN_NECK_CHAIN].Set(131, 109, 36, 36);		// ���׸��� ü��
 
-	m_slot_rect[SN_CUEOFADAM1].Set(29, 269, 30, 30);		// ť1
-	m_slot_rect[SN_CUEOFADAM2].Set(230, 269, 30, 30);		// ť2
+	m_slot_rect[SN_CUEOFADAM1].Set(30, 389, 36, 36);		// ť1
+	m_slot_rect[SN_CUEOFADAM2].Set(228, 389, 36, 36);		// ť2
 
-	m_slot_rect[SN_BLOODBIBLE1].Set(41, 351, 30, 30);
-	m_slot_rect[SN_BLOODBIBLE2].Set(75, 351, 30, 30);
-	m_slot_rect[SN_BLOODBIBLE3].Set(111, 351, 30, 30);
-	m_slot_rect[SN_BLOODBIBLE4].Set(146, 351, 30, 30);
-	m_slot_rect[SN_BLOODBIBLE5].Set(180, 351, 30, 30);
-	m_slot_rect[SN_BLOODBIBLE6].Set(215, 351, 30, 30);
+	m_slot_rect[SN_BLOODBIBLE1].Set(40, 480, 36, 36);
+	m_slot_rect[SN_BLOODBIBLE2].Set(76, 480, 36, 36);
+	m_slot_rect[SN_BLOODBIBLE3].Set(112, 480, 36, 36);
+	m_slot_rect[SN_BLOODBIBLE4].Set(148, 480, 36, 36);
+	m_slot_rect[SN_BLOODBIBLE5].Set(184, 480, 36, 36);
+	m_slot_rect[SN_BLOODBIBLE6].Set(220, 480, 36, 36);
 	
 	m_slot_size = SLOT_SIZE;
 
@@ -1862,7 +1837,7 @@ int	C_VS_UI_OUSTERS_QUICKITEM::GetHotkey(int	slot)
 int	C_VS_UI_OUSTERS_QUICKITEM::GetSlot(HOTKEY hotkey)
 
 {
-	int slot = 0 ; 
+	int slot = NOT_SELECTED;	// was 0, which made an unbound F key use the first slot
 	for (int i=0; i < HOTKEY_MAX; i++)
 	{
 		if(m_Hotkey_buf[i] == hotkey)

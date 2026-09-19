@@ -210,6 +210,7 @@ void GCSkillToObjectOK1Handler::execute ( GCSkillToObjectOK1 * pPacket , Player 
 				break;
 #endif //__ONIBLA
 			case SKILL_BLAZE_WALK :
+			case SKILL_BLAZE_WALK_2 :
 				SkillBlazeWalk( dynamic_cast<MCreature*>(g_pPlayer), pCreature, SKILL_BLAZE_WALK_ATTACK , pPacket->getGrade() );
 				break;
 
@@ -221,6 +222,8 @@ void GCSkillToObjectOK1Handler::execute ( GCSkillToObjectOK1 * pPacket , Player 
 				break;
 				
 			case SKILL_ILLUSION_INVERSION:
+				
+			case SKILL_SPECTOR_INVERSE:
 				SkillIllendue( g_pPlayer, pCreature, SKILL_DUMMY_ACTION_MAGIC, 2);
 				break;
 			}

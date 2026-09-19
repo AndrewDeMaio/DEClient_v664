@@ -41,6 +41,24 @@ MAttackCreatureEffectGenerator::Generate( const EFFECTGENERATOR_INFO& egInfo )
 		egInfo.nActionInfo == STEP_SKILL_EARTHS_TEETH_3 )
 		effectCount = 2;
 
+	// Shady Double (book skill 554): three ghosts launched 5 frames (0.3 s) apart, one server hit each:
+	// in front of the caster, then at its left, then at its right
+	DWORD spawnStep = 0, waitFrame = 0;
+	int frontX = 0, frontY = 0, sideX = 0, sideY = 0;
+	if( egInfo.nActionInfo == SKILL_SHADY_DOUPLE )
+	{
+		// DIRECTION_LEFT, LEFTDOWN, DOWN, RIGHTDOWN, RIGHT, RIGHTUP, UP, LEFTUP
+		const int dirX[8] = { -1, -1, 0, 1, 1, 1, 0, -1 };
+		const int dirY[8] = { 0, 1, 1, 1, 0, -1, -1, -1 };
+		int d = egInfo.direction % 8;
+
+		effectCount = 2;
+		spawnStep = 5;
+		frontX = dirX[d] * TILE_X / 2;
+		frontY = dirY[d] * TILE_Y / 2;
+		sideX = dirY[d] * TILE_X / 2;	// the caster's left; its right is the opposite
+		sideY = -dirX[d] * TILE_Y / 2;
+	}
 	if( egInfo.nActionInfo == SKILL_HETER_CHAKRAM || egInfo.nActionInfo == SKILL_HETER_CHAKRAM_CHAIN )
 		arrivedelay = 3;
 
@@ -74,7 +92,7 @@ MAttackCreatureEffectGenerator::Generate( const EFFECTGENERATOR_INFO& egInfo )
 	pEffect->SetFrameID( frameID, maxFrame );		// 0번 Effect, Max 3 Frame					
 
 	// 발사 위치 Pixel좌표	
-	pEffect->SetPixelPosition( egInfo.x0, egInfo.y0, egInfo.z0 );
+	pEffect->SetPixelPosition( egInfo.x0 + frontX, egInfo.y0 + frontY, egInfo.z0 );
 
 	pEffect->SetDirection( egInfo.direction );
 	
@@ -122,6 +140,11 @@ MAttackCreatureEffectGenerator::Generate( const EFFECTGENERATOR_INFO& egInfo )
 			} else
 				pEffect->SetPixelPosition( egInfo.x0, egInfo.y0, egInfo.z0 - z );
 			z+=24;
+			if( spawnStep != 0 )	// Shady Double: the first extra ghost at the left, the second at the right
+			{
+				int side = (waitFrame == 0) ? 1 : -1;
+				pEffect->SetPixelPosition( egInfo.x0 + side * sideX, egInfo.y0 + side * sideY, egInfo.z0 );
+			}
 			pEffect->SetDirection( egInfo.direction );
 			pEffect->SetTraceCreatureID( egInfo.creatureID );
 			pEffect->SetStepPixel( egInfo.step );
@@ -130,7 +153,15 @@ MAttackCreatureEffectGenerator::Generate( const EFFECTGENERATOR_INFO& egInfo )
 
 			pEffect->SetArriveDelay( arrivedelay );
 
-			if( g_pZone->AddEffect( pEffect ) )
+			// Shady Double: each extra ghost waits, then flies (MZone::UpdateWaitEffects)
+			waitFrame += spawnStep;
+			if( waitFrame != 0 )
+			{
+				pEffect->SetWaitFrame( waitFrame );
+				pEffect->SetCount( egInfo.count + waitFrame, egInfo.linkCount );
+			}
+
+			if( g_pZone->AddEffect( pEffect, waitFrame ) )
 			{
 				if( egInfo.pEffectTarget != NULL )
 				{

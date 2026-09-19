@@ -66,7 +66,7 @@ UserOption::UserOption()
 
 	//new interface
 	BackupID[0]			= '\0';
-	UseEnterChat		= FALSE;
+	UseEnterChat		= TRUE;	// the only chat mode: the option windows no longer offer Normal chat
 	UseMouseSpeed		= FALSE;
 	MouseSpeedValue		= 50;
 	PlayYellSound		= TRUE;

@@ -1080,15 +1080,7 @@ void GCUpdateInfoHandler::execute ( GCUpdateInfo * pPacket , Player * pPlayer )
 //		fclose(fp);
 //	}
 	
-	FILE *fp=fopen("DKLEGEND.HIS","rt");
-	if( fp == NULL )
-	{
-		fp = fopen("DKLEGEND.HIS","wt");
-		fprintf(fp,"!@#");
-		CSystemInfo SystemInfo;
-		SendBugReport("SystemInfo : %d %d CPU : %dMhz",g_bEnable3DHAL, g_dwVideoMemory,SystemInfo.GetCpuClock());
-	}
-	fclose(fp);
+	// removed: first-run marker file + one-time SystemInfo bug report
 
 #if __CONTENTS(__PREMIUM_GIVE_ITEM_UI)
 	//ij-ch 2008.09.30 �����̾� ����â ���� Add

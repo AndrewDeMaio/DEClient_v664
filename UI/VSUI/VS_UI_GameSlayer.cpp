@@ -100,15 +100,11 @@ long	C_VS_UI_SLAYER_PDS::m_cc_max;*/
 #endif
 
 int C_VS_UI_SLAYER_GEAR::m_slot_image[SLOT_SIZE] = {
-	HELM, NECKLACE, COAT, SHIELD, SWORD, GLOVE, BELT, TROUSER, BRACELET, BRACELET, RING, RING, RING, RING, SHOES
-	,-1
-	,-1
-	,-1
-	,-1
-	,PDA,SHOULDER
-	,-1// nanomech 2006.03.09 Item ���� �۾�
-	,-1,-1 	// Cue Of Adam
-	,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE
+	// MyInformation.spk frames, as DK Umbra's DarkEden.exe has them (0x8f8a00)
+	44, 52, 47, 43, 42, 50, 51, 48,
+	54, 54, 53, 53, 53, 53, 49, -1,
+	-1, -1, -1, 45, 46, -1, -1, -1,
+	55, 55, 55, 55, 55, 55
 };
 
 
@@ -1546,7 +1542,7 @@ int	C_VS_UI_SLAYER_QUICKITEM::GetHotkey(int	slot)
 int	C_VS_UI_SLAYER_QUICKITEM::GetSlot(HOTKEY hotkey)
 
 {
-	int slot = 0;
+	int slot = NOT_SELECTED;	// was 0, which made an unbound F key use the first slot
 	for (int i = 0; i < HOTKEY_MAX; i++)
 	{
 		if (m_Hotkey_buf[i] == hotkey)
@@ -2549,43 +2545,44 @@ C_VS_UI_SLAYER_GEAR::C_VS_UI_SLAYER_GEAR()
 	//	if(g_char_slot_ingame.m_AdvancementLevel == 0 ) // 2�� ���� 
 	////	if(g_char_slot_ingame.m_AdvancementLevel == 0) // 2�� ���� �� ��� �������̽� 
 	//	{
-	m_slot_rect[SN_HELM].Set(79, 18, 60, 60);
-	m_slot_rect[SN_NECKLACE].Set(95, 86, 30, 30);
-	m_slot_rect[SN_COAT].Set(79, 120, 60, 90);
-	m_slot_rect[SN_LEFTHAND].Set(144, 120, 60, 90);
-	m_slot_rect[SN_RIGHTHAND].Set(13, 120, 60, 90);
-	m_slot_rect[SN_GLOVE].Set(14, 215, 60, 60);
-	m_slot_rect[SN_BELT].Set(144, 215, 60, 60);
-	m_slot_rect[SN_TROUSER].Set(79, 215, 60, 90);
-	m_slot_rect[SN_LEFTBRACELET].Set(27, 279, 30, 30);
-	m_slot_rect[SN_RIGHTBRACELET].Set(162, 279, 30, 30);
-	m_slot_rect[SN_RIGHTRING1].Set(8, 315, 30, 30);
-	m_slot_rect[SN_RIGHTRING2].Set(43, 315, 30, 30);
-	m_slot_rect[SN_LEFTRING1].Set(144, 315, 30, 30);
-	m_slot_rect[SN_LEFTRING2].Set(179, 315, 30, 30);
-	m_slot_rect[SN_SHOES].Set(79, 307, 60, 60);
+	// DK Umbra's slot frames (DarkEden.exe 0x724160), drawn closer together for the narrower window
+	m_slot_rect[SN_HELM].Set(116, 36, 66, 66);
+	m_slot_rect[SN_NECKLACE].Set(131, 109, 36, 36);
+	m_slot_rect[SN_COAT].Set(116, 152, 66, 96);
+	m_slot_rect[SN_LEFTHAND].Set(188, 209, 66, 96);
+	m_slot_rect[SN_RIGHTHAND].Set(43, 209, 66, 96);
+	m_slot_rect[SN_GLOVE].Set(43, 314, 66, 66);
+	m_slot_rect[SN_BELT].Set(188, 314, 66, 66);
+	m_slot_rect[SN_TROUSER].Set(116, 256, 66, 96);
+	m_slot_rect[SN_LEFTBRACELET].Set(73, 166, 36, 36);
+	m_slot_rect[SN_RIGHTBRACELET].Set(188, 166, 36, 36);
+	m_slot_rect[SN_RIGHTRING1].Set(34, 429, 36, 36);
+	m_slot_rect[SN_RIGHTRING2].Set(70, 429, 36, 36);
+	m_slot_rect[SN_LEFTRING1].Set(188, 429, 36, 36);
+	m_slot_rect[SN_LEFTRING2].Set(224, 429, 36, 36);
+	m_slot_rect[SN_SHOES].Set(116, 360, 66, 66);
 
-	m_slot_rect[SN_COREZAP1].Set(9, 313, 30, 30);
-	m_slot_rect[SN_COREZAP2].Set(44, 313, 30, 30);
-	m_slot_rect[SN_COREZAP3].Set(142, 313, 30, 30);
-	m_slot_rect[SN_COREZAP4].Set(177, 313, 30, 30);
+	m_slot_rect[SN_COREZAP1].Set(34, 429, 36, 36);
+	m_slot_rect[SN_COREZAP2].Set(70, 429, 36, 36);
+	m_slot_rect[SN_COREZAP3].Set(188, 429, 36, 36);
+	m_slot_rect[SN_COREZAP4].Set(224, 429, 36, 36);
 
-	m_slot_rect[SN_PDA].Set(14, 55, 60, 60);
-	m_slot_rect[SN_SHOULDER].Set(142, 55, 60, 60);
+	m_slot_rect[SN_PDA].Set(10, 70, 66, 66);
+	m_slot_rect[SN_SHOULDER].Set(222, 70, 66, 66);
 
 	// nanomech 2006.03.09 Item ���� �۾� start
-	m_slot_rect[SN_NECK_CHAIN].Set(94, 84, 30, 30);			// ���׸��� ü��
+	m_slot_rect[SN_NECK_CHAIN].Set(131, 109, 36, 36);			// ���׸��� ü��
 	// nanomech 2006.03.09 Item ���� �۾� end
 
-	m_slot_rect[SN_CUEOFADAM1].Set(27, 279, 30, 30);
-	m_slot_rect[SN_CUEOFADAM2].Set(162, 279, 30, 30);
+	m_slot_rect[SN_CUEOFADAM1].Set(73, 166, 36, 36);
+	m_slot_rect[SN_CUEOFADAM2].Set(188, 166, 36, 36);
 
-	m_slot_rect[SN_BLOODBIBLE1].Set(6, 372, 30, 30);
-	m_slot_rect[SN_BLOODBIBLE2].Set(41, 372, 30, 30);
-	m_slot_rect[SN_BLOODBIBLE3].Set(76, 372, 30, 30);
-	m_slot_rect[SN_BLOODBIBLE4].Set(111, 372, 30, 30);
-	m_slot_rect[SN_BLOODBIBLE5].Set(146, 372, 30, 30);
-	m_slot_rect[SN_BLOODBIBLE6].Set(181, 372, 30, 30);
+	m_slot_rect[SN_BLOODBIBLE1].Set(40, 480, 36, 36);
+	m_slot_rect[SN_BLOODBIBLE2].Set(76, 480, 36, 36);
+	m_slot_rect[SN_BLOODBIBLE3].Set(112, 480, 36, 36);
+	m_slot_rect[SN_BLOODBIBLE4].Set(148, 480, 36, 36);
+	m_slot_rect[SN_BLOODBIBLE5].Set(184, 480, 36, 36);
+	m_slot_rect[SN_BLOODBIBLE6].Set(220, 480, 36, 36);
 
 	m_slot_size = SLOT_SIZE;
 
@@ -2798,9 +2795,7 @@ C_VS_UI_SLAYER::C_VS_UI_SLAYER() :C_VS_UI_TRIBE()
 	m_pC_gear = NULL;
 	//	m_pC_advence_gear = NULL;
 	m_pC_quickitem = NULL;
-	m_pC_main_spk = NULL;
-
-	SetupMenuItems(SPK_SLAYER_MAIN, SPK_SLAYER_SYS_BUTTON);
+	SetupMenuItems();
 
 	// 	int system_x = w-m_pC_main_spk->GetWidth(BUTTON_SYSTEM)-5, system_y = h-m_pC_main_spk->GetHeight(BUTTON_SYSTEM);
 	// 	m_pC_common_button_group->Add( new C_VS_UI_EVENT_BUTTON(system_x, system_y, m_pC_main_spk->GetWidth(BUTTON_SYSTEM), m_pC_main_spk->GetHeight(BUTTON_SYSTEM), SYSTEM_ID, this, BUTTON_SYSTEM) );
@@ -3213,150 +3208,59 @@ bool C_VS_UI_SLAYER::IsRunningQuickItemSlot()
 
 //}
 
-int qsort_SortExp(const void* arg1, const void* arg2)
-{
-	return ((*g_pSkillManager)[*(int*)arg1].GetDomainLevel() < (*g_pSkillManager)[*(int*)arg2].GetDomainLevel());
-}
-
 /*-----------------------------------------------------------------------------
 - Show
 -
 -----------------------------------------------------------------------------*/
 void C_VS_UI_SLAYER::ShowExp()
 {
+	int domain_level[SKILLDOMAIN_ENCHANT + 1];
 
+	for (int d = SKILLDOMAIN_BLADE; d <= SKILLDOMAIN_ENCHANT; d++)
+		domain_level[d] = (*g_pSkillManager)[d].GetDomainLevel();
+
+	// The five domains, lit and framed where there are levels in them.
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		//////////////////////////////////////////////////////////////////////////
-		// ��ų ����ġ
-		int skill_id = m_pC_skill->GetSelectedSkillID();
-		if (skill_id != NOT_SELECTED)
+		for (int d = SKILLDOMAIN_BLADE; d <= SKILLDOMAIN_ENCHANT; d++)
 		{
-			int max_exp = (*g_pSkillInfoTable)[skill_id].maxExp;
-			int exp = (*g_pSkillInfoTable)[skill_id].GetSkillExp();
-			int exp_percent;
-			if (max_exp > 0)
-				exp_percent = (exp % (max_exp / 100)) * 100 / (max_exp / 100);
-			else exp_percent = 0;
+			const int icon_x = x + SIMPLE_DOMAIN_X + SIMPLE_DOMAIN_GAP * (d - SKILLDOMAIN_BLADE);
 
-			if (exp == max_exp)exp_percent = 100;
-			Rect rect;
-			rect.Set(0, m_pC_main_spk->GetHeight(SLAYER_SKILL_EXP_BAR) - m_pC_main_spk->GetHeight(SLAYER_SKILL_EXP_BAR) * exp_percent / 100,
-				m_pC_main_spk->GetWidth(SLAYER_SKILL_EXP_BAR), m_pC_main_spk->GetHeight(SLAYER_SKILL_EXP_BAR) * exp_percent / 100);
-			m_pC_main_spk->BltLockedClip(x + 79, y + 6, rect, SLAYER_SKILL_EXP_BAR);
-		}
-
-		//////////////////////////////////////////////////////////////////////////
-		// �����̾� ����ġ
-		const int bar_x = 120, bar_y = 81, str_x = 58, num_x = 98, bar_gap = 12;
-		char sz_temp[10];
-
-		int domain[3];
-		domain[0] = -1;
-		domain[1] = -1;
-		domain[2] = -1;
-
-		for (int i = 0; i < 3; i++)
-		{
-			int high_level = -1;
-
-			for (int d = SKILLDOMAIN_BLADE; d <= SKILLDOMAIN_ENCHANT; d++)
+			if (domain_level[d] > 0)
 			{
-				const int domain_level = (*g_pSkillManager)[d].GetDomainLevel();
-				if (d != domain[0] && d != domain[1] && d != domain[2] && domain_level > high_level)
-				{
-					domain[i] = d;
-					high_level = domain_level;
-				}
+				m_pC_simple_spk->BltLocked(icon_x, y + SIMPLE_DOMAIN_Y, SIMPLE_DOMAIN_LIT + d - SKILLDOMAIN_BLADE);
+				m_pC_simple_spk->BltLocked(icon_x - 2, y + SIMPLE_DOMAIN_Y - 2, SIMPLE_DOMAIN_FRAME);
+			}
+			else
+			{
+				m_pC_simple_spk->BltLocked(icon_x, y + SIMPLE_DOMAIN_Y, SIMPLE_DOMAIN + d - SKILLDOMAIN_BLADE);
 			}
 		}
 
-		if ((*g_pSkillManager)[domain[0]].GetDomainLevel() == 0 &&
-			(*g_pSkillManager)[domain[1]].GetDomainLevel() == 0 &&
-			(*g_pSkillManager)[domain[2]].GetDomainLevel() == 0)
-		{
-			int domain2[5] = { SKILLDOMAIN_BLADE, SKILLDOMAIN_SWORD, SKILLDOMAIN_GUN, SKILLDOMAIN_HEAL, SKILLDOMAIN_ENCHANT };
-
-			qsort((void*)domain2, 5, sizeof(int), qsort_SortExp);
-
-			memcpy(domain, domain2, sizeof(int) * 3);
-		}
-
-		char* domain_string[5] =
-		{
-			(*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_DOMAIN_BLADE].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_DOMAIN_SWORD].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_DOMAIN_GUN].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_DOMAIN_HEAL].GetString(),
-				(*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_DOMAIN_ENCHANT].GetString(),
-		};
-
-		//			if(gpC_base->m_p_DDSurface_back->Lock())
-		{
-			Rect rect;
-			int exp_remain = g_char_slot_ingame.STR_EXP_REMAIN;
-			int goal_exp = g_pExperienceTable->GetSTRInfo(g_char_slot_ingame.STR_PURE).GoalExp;
-			if (goal_exp)
-			{
-				m_pC_main_spk->BltLocked(x + bar_x, y + bar_y + bar_gap * 0, EXP_BACK);
-				rect.Set(0, 0, m_pC_main_spk->GetWidth(EXP_BAR) * (goal_exp - exp_remain) / (max(1, goal_exp)), m_pC_main_spk->GetHeight(EXP_BAR));
-				m_pC_main_spk->BltLockedClip(x + bar_x + 3, y + bar_y + bar_gap * 0 + 3, rect, EXP_BAR);
-			}
-			exp_remain = g_char_slot_ingame.DEX_EXP_REMAIN;
-			goal_exp = g_pExperienceTable->GetDEXInfo(g_char_slot_ingame.DEX_PURE).GoalExp;
-			if (goal_exp)
-			{
-				m_pC_main_spk->BltLocked(x + bar_x, y + bar_y + bar_gap * 1, EXP_BACK);
-				rect.Set(0, 0, m_pC_main_spk->GetWidth(EXP_BAR) * (goal_exp - exp_remain) / (max(1, goal_exp)), m_pC_main_spk->GetHeight(EXP_BAR));
-				m_pC_main_spk->BltLockedClip(x + bar_x + 3, y + bar_y + bar_gap * 1 + 3, rect, EXP_BAR);
-			}
-			exp_remain = g_char_slot_ingame.INT_EXP_REMAIN;
-			goal_exp = g_pExperienceTable->GetINTInfo(g_char_slot_ingame.INT_PURE).GoalExp;
-			if (goal_exp)
-			{
-				m_pC_main_spk->BltLocked(x + bar_x, y + bar_y + bar_gap * 2, EXP_BACK);
-				rect.Set(0, 0, m_pC_main_spk->GetWidth(EXP_BAR) * (goal_exp - exp_remain) / (max(1, goal_exp)), m_pC_main_spk->GetHeight(EXP_BAR));
-				m_pC_main_spk->BltLockedClip(x + bar_x + 3, y + bar_y + bar_gap * 2 + 3, rect, EXP_BAR);
-			}
-
-			for (int i = 0; i < 3; i++)
-			{
-				const int domain_level = (*g_pSkillManager)[domain[i]].GetDomainLevel();
-				const int exp_remain = (*g_pSkillManager)[domain[i]].GetDomainExpRemain();
-				const int goal_exp = (*g_pSkillManager)[domain[i]].GetExpInfo(domain_level).GoalExp;
-				//������ ����ġ ��
-				m_pC_main_spk->BltLocked(x + bar_x, y + bar_y + bar_gap * (3 + i), EXP_BACK);
-				rect.Set(0, 0, m_pC_main_spk->GetWidth(EXP_BAR) * (goal_exp - exp_remain) / (goal_exp), m_pC_main_spk->GetHeight(EXP_BAR));
-				m_pC_main_spk->BltLockedClip(x + bar_x + 3, y + bar_y + bar_gap * (3 + i) + 3, rect, EXP_BAR);
-			}
-
-			gpC_base->m_p_DDSurface_back->Unlock();
-		}
-
-		g_FL2_GetDC();
-
-		g_PrintColorStrShadow(x + str_x, y + bar_y + bar_gap * 0, (*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_STR].GetString(), gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-		wsprintf(sz_temp, "%d", g_char_slot_ingame.STR_CUR);
-		g_PrintColorStrShadow(x + num_x, y + bar_y + bar_gap * 0, sz_temp, gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-
-		g_PrintColorStrShadow(x + str_x, y + bar_y + bar_gap * 1, (*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_DEX].GetString(), gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-		wsprintf(sz_temp, "%d", g_char_slot_ingame.DEX_CUR);
-		g_PrintColorStrShadow(x + num_x, y + bar_y + bar_gap * 1, sz_temp, gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-
-		g_PrintColorStrShadow(x + str_x, y + bar_y + bar_gap * 2, (*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_INT].GetString(), gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-		wsprintf(sz_temp, "%d", g_char_slot_ingame.INT_CUR);
-		g_PrintColorStrShadow(x + num_x, y + bar_y + bar_gap * 2, sz_temp, gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-
-		for (int i = 0; i < 3; i++)
-		{
-			g_PrintColorStrShadow(x + str_x, y + bar_y + bar_gap * (3 + i), domain_string[domain[i] - SKILLDOMAIN_BLADE], gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-			const int domain_level = (*g_pSkillManager)[domain[i]].GetDomainLevel();
-			wsprintf(sz_temp, "%d", domain_level);
-			g_PrintColorStrShadow(x + num_x, y + bar_y + bar_gap * (3 + i), sz_temp, gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-		}
-
-		g_FL2_ReleaseDC();
+		gpC_base->m_p_DDSurface_back->Unlock();
 	}
+
+	ShowSimpleExp(SIMPLE_SLAYER_EXP_Y, SIMPLE_SLAYER_EXP_LABEL_Y);
+
+	g_FL2_GetDC();
+
+	ShowSimpleStats(SIMPLE_SLAYER_STAT_Y);
+
+	// each domain's level over its icon
+	PrintInfo& pi = gpC_base->m_chatting_pi;
+	const int icon_w = m_pC_simple_spk->GetWidth(SIMPLE_DOMAIN);
+	char sz_level[16];
+
+	for (int d = SKILLDOMAIN_BLADE; d <= SKILLDOMAIN_ENCHANT; d++)
+	{
+		const int icon_x = x + SIMPLE_DOMAIN_X + SIMPLE_DOMAIN_GAP * (d - SKILLDOMAIN_BLADE);
+
+		wsprintf(sz_level, "%d", domain_level[d]);
+		g_PrintColorStrOut(icon_x + (icon_w - g_GetStringWidth(sz_level, pi.hfont)) / 2, y + SIMPLE_DOMAIN_LEVEL_Y,
+			sz_level, pi, RGB(255, 255, 0), RGB_BLACK);
+	}
+
+	g_FL2_ReleaseDC();
 
 	SHOW_WINDOW_ATTR;
 }
@@ -3378,6 +3282,7 @@ void C_VS_UI_SLAYER::Start()
 	//	m_pC_Market->Start();
 	m_pC_effect_status->Start();
 	m_pC_minimap->Start();
+	m_pC_hotkey_bar->Start();
 
 	WindowEventReceiver(EVENT_WINDOW_MOVE);
 

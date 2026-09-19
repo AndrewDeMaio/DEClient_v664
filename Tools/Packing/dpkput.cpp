@@ -259,6 +259,7 @@ int main(int argc, char** argv)
                "  dpkput                                          interactive\n"
                "  dpkput <vfsbase> list  [pattern]\n"
                "  dpkput <vfsbase> add   <diskfile> <vpath> [...]\n"
+               "  dpkput <vfsbase> del   <vpath> [...]\n"
                "  dpkput <vfsbase> build <rootdir>\n\n"
                "vfsbase omits the extension. Work on a COPY of the master archive.\n");
         return 1;
@@ -272,7 +273,7 @@ int main(int argc, char** argv)
 
     // Guard rails. Without these a typo silently destroys an archive: opening
     // an existing .dpk for write reinitialises it to an empty filesystem.
-    if ((listing || !strcmp(mode, "add")) && !exists)
+    if ((listing || !strcmp(mode, "add") || !strcmp(mode, "del")) && !exists)
     {
         printf("ERROR: %s.dpk does not exist.\n"
                "       \"%s\" needs an existing archive. Use \"build\" to create one.\n",
@@ -329,6 +330,38 @@ int main(int argc, char** argv)
                 if (AddOne(vfs, argv[i], argv[i + 1], false)) ++failed; else ++added;
             printf("\n%d written, %d failed\n", added, failed);
             rc = failed ? 3 : 0;
+        }
+    }
+    else if (!strcmp(mode, "del"))
+    {
+        // Drops entries from the index. The payload stays in the .dpk -- the
+        // format has no free list, which is why "add" over an existing entry
+        // orphans the old bytes too. Use "build" to actually reclaim space.
+        if (argc < 4)
+        {
+            printf("ERROR: del needs <vpath> [...]\n");
+            rc = 1;
+        }
+        else
+        {
+            int gone = 0, missing = 0;
+            for (int i = 3; i < argc; ++i)
+            {
+                std::string v(argv[i]);
+                ToVPath(v);
+                if (!vfs.IsFileExist(v.c_str()))
+                {
+                    printf("  ABSENT   %s\n", v.c_str());
+                    ++missing;
+                    continue;
+                }
+                vfs.DeleteFile(v.c_str());
+                bool ok = !vfs.IsFileExist(v.c_str());
+                printf("  %-8s %s\n", ok ? "DELETE" : "FAILED", v.c_str());
+                if (ok) ++gone; else ++missing;
+            }
+            printf("\n%d deleted, %d not deleted\n", gone, missing);
+            rc = missing ? 3 : 0;
         }
     }
     else

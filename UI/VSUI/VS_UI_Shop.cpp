@@ -16,6 +16,7 @@
 
 #include "MGameStringTABLE.h"
 #include "SystemAvailabilities.h"
+#include "CDirectInput.h"
 
 // dialog exec func���� ����ϹǷ� �����..
 static MShop *		m_pShop;
@@ -1029,7 +1030,9 @@ bool C_VS_UI_SHOP::MouseControl(UINT message, int _x, int _y)
 					else if (gbl_item_trade_lock == false)
 					{
 						m_select_item_slot = m_focused_slot;
-						StartBuyConfirmDialog(GetDialogShowX(), GetDialogShowY(), 1);
+						// Shift+click opens it at the largest stack, as a right-click does
+						const bool bShift = g_pDXInput != NULL && (g_pDXInput->KeyDown(DIK_LSHIFT) || g_pDXInput->KeyDown(DIK_RSHIFT));
+						StartBuyConfirmDialog(GetDialogShowX(), GetDialogShowY(), bShift ? p_item->GetMaxNumber() : 1);
 					}
 				}
 			}

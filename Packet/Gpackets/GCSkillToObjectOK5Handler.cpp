@@ -134,12 +134,14 @@ void GCSkillToObjectOK5Handler::execute ( GCSkillToObjectOK5 * pPacket , Player 
 				break;
 #endif //__ONIBLA
 			case SKILL_BLAZE_WALK :
+			case SKILL_BLAZE_WALK_2 :
 				SkillBlazeWalk( pUserCreature, pTargetCreature, SKILL_BLAZE_WALK_ATTACK, pPacket->getGrade()  );
 				break;
 			case SKILL_SET_AFIRE:
 				pUserCreature->AddEffectStatus(EFFECTSTATUS_SET_AFIRE_ATTACK, 20);
 				break;
 			case SKILL_ILLUSION_INVERSION:
+			case SKILL_SPECTOR_INVERSE:
 				SkillIllendue( pUserCreature, pTargetCreature, SKILL_DUMMY_ACTION_MAGIC, 2);
 				break;
 			}

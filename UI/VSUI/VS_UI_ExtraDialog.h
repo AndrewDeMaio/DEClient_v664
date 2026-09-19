@@ -231,7 +231,7 @@ private:
 	bool m_bl_up_focused;
 	bool m_bl_down_focused;
 
-	std::string m_sz_question_msg[1];
+	std::string m_sz_question_msg[2];	// the question, and a blank line the number box sits on
 
 	void	ScrollButton(bool up);
 

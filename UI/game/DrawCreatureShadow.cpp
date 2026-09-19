@@ -548,7 +548,7 @@ MTopView::DrawCreatureShadow(POINT* pPoint, MCreature* pCreature)
 		// Slayer인 경우 Darkness 안을 볼 수 없다.
 		//------------------------------------------------
 		if (pCreature->IsInDarkness() && !pCreature->IsNPC() && !g_pPlayer->IsVampire()
-			&& g_pPlayer!=pCreature && (!g_pPlayer->HasEffectStatus( EFFECTSTATUS_LIGHTNESS)|| g_pZone->GetID() == 3001) )
+			&& g_pPlayer!=pCreature && (!(g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pPlayer->HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT))|| g_pZone->GetID() == 3001) )
 		{
 			#ifdef OUTPUT_DEBUG_DRAW_PROCESS
 				DEBUG_ADD("EndDrawCreatureSha-D");

@@ -536,9 +536,6 @@
     <ClInclude Include="game\MWarManager.h">
       <Filter>M Header</Filter>
     </ClInclude>
-    <ClInclude Include="game\MWeather.h">
-      <Filter>M Header</Filter>
-    </ClInclude>
     <ClInclude Include="game\MWorkNode.h">
       <Filter>M Header</Filter>
     </ClInclude>
@@ -650,9 +647,6 @@
     <ClInclude Include="MSector.h">
       <Filter>M Header</Filter>
     </ClInclude>
-    <ClInclude Include="OustersSkillInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SectorSoundInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -665,1735 +659,7 @@
     <ClInclude Include="CAvi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GLIncomingConnectionError.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GLIncomingConnectionOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GPacket_PCH.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCActiveGuildList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddBat.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddBurrowingCreature.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddEffect.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddEffectToScreen.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddEffectToTile.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddGearToInventory.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddGearToZone.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddHelicopter.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddInjuriousCreature.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddInstalledMineToZone.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddItemToInventory.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddItemToItemVerify.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddItemToZone.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddMonster.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddMonsterCorpse.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddMonsterFromBurrowing.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddMonsterFromTransformation.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddNewItemToZone.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddNickname.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddNPC.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddOusters.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddOustersCorpse.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddressListVerify.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddSlayer.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddSlayerCorpse.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddStoreItem.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddSylph.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddVampire.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddVampireCorpse.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddVampireFromBurrowing.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddVampireFromTransformation.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddVampirePortal.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAddWolf.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAttack.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAttackArmsOK1.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAttackArmsOK2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAttackArmsOK3.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAttackArmsOK4.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAttackArmsOK5.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAttackMeleeOK1.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAttackMeleeOK2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAttackMeleeOK3.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAuthKey.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCAuthXTrap.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCBloodBibleList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCBloodBibleSignInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCBloodBibleStatus.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCBloodDrainOK1.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCBloodDrainOK2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCBloodDrainOK3.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCCannotAdd.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCCannotUse.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCCastingSkill.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCChangeDarkLight.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCChangeGearSlot.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCChangeInventoryItemNum.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCChangeShape.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCChangeWeather.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCCreateItem.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCCreatureDied.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCCrossCounterOK1.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCCrossCounterOK2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCCrossCounterOK3.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCDeleteandPickUpOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCDeleteEffectFromTile.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCDeleteInventoryItem.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCDeleteObject.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCDisconnect.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCDownSkillFailed.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCDownSkillOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCDropItemToZone.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCEnterVampirePortal.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCExecuteElement.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCFakeMove.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCFastMove.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCFlagWarStatus.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCFriendAdd.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCFriendDel.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCFriendList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCFriendReqToAdd.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCFriendReqToDel.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCFriendResToAdd.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCFriendSuggestToAdd.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCFriendUpdateConnect.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCFriendUpdateZone.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCFriendViewInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCFriendWaitList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCGetDamage.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCGetOffMotorCycle.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCGetOffMotorCycleFailed.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCGetOffMotorCycleOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCGlobalChat.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCGoodsList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCGQuestInventory.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCGQuestStatusInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCGQuestStatusModify.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCGuildChat.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCGuildMemberList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCGuildResponse.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCHolyLandBonusInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCHPRecoveryEndToOthers.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCHPRecoveryEndToSelf.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCHPRecoveryStartToOthers.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCHPRecoveryStartToSelf.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCInstanceDoungeonLobby.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCInstanceDoungeonResult.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCKickMessage.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCKnockBack.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCKnocksTargetBackOK1.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCKnocksTargetBackOK2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCKnocksTargetBackOK4.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCKnocksTargetBackOK5.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCLearnSkillFailed.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCLearnSkillOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCLearnSkillReady.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCLightning.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMakeItemFail.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMakeItemOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMineExplosionOK1.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMineExplosionOK2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMiniGameScores.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCModifyGuildMemberInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCModifyInformation.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCModifyNickname.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMonsterKillQuestInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMorph1.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMorphSlayer2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMorphVampire2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMove.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMoveError.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMoveOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMPRecoveryEnd.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMPRecoveryStart.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCMyStoreInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCNicknameList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCNicknameVerify.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCNoticeEvent.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCNotifyWin.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCNPCAsk.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCNPCAskDynamic.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCNPCAskVariable.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCNPCInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCNPCResponse.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCNPCSay.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCNPCSayDynamic.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCOtherGuildName.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCOtherModifyInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCOtherStoreInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCPartyError.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCPartyInvite.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCPartyJoined.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCPartyLeave.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCPartyPosition.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCPartySay.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCPetInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCPetStashList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCPetStashVerify.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCPetUseSkill.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCPhoneConnected.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCPhoneConnectionFailed.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCPhoneDisconnected.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCPhoneSay.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCQuestStatus.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRankBonusInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRealWearingInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCReconnect.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCReconnectLogin.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRegenZoneStatus.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCReloadOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRemoveCorpseHead.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRemoveEffect.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRemoveFromGear.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRemoveInjuriousCreature.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRemoveStoreItem.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRepairInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRequestedIP.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRequestFailed.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRequestPowerPointResult.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRideMotorCycle.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRideMotorCycleFailed.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRideMotorCycleOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCRing.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSay.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSearchMotorcycleFail.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSearchMotorcycleOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSelectQuestID.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSelectRankBonusFailed.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSelectRankBonusOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSetPosition.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShopBought.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShopBuyFail.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShopBuyOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShopList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShopListMysterious.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShopMarketCondition.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShopSellFail.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShopSellOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShopSold.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShopVersion.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShowGuildInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShowGuildJoin.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShowGuildMemberInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShowMessageBox.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShowUnionInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShowWaitGuildInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCShowWebMarket.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillFailed1.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillFailed2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToInventoryOK1.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToInventoryOK2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToObjectOK1.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToObjectOK2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToObjectOK3.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToObjectOK4.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToObjectOK5.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToObjectOK6.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToSelfOK1.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToSelfOK2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToSelfOK3.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToTileOK1.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToTileOK2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToTileOK3.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToTileOK4.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToTileOK5.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSkillToTileOK6.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSMSAddressList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCStashList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCStashSell.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCStatusCurrentHP.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSubInventoryInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSupplyItemList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSweeperBonusInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSystemAvailabilities.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCSystemMessage.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCTakeOff.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCTakeOutFail.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCTakeOutOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCTeachSkillInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCThrowBombOK1.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCThrowBombOK2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCThrowBombOK3.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCThrowItemOK1.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCThrowItemOK2.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCThrowItemOK3.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCTimeLimitItemInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCTradeAddItem.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCTradeError.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCTradeFinish.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCTradeMoney.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCTradePrepare.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCTradeRemoveItem.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCTradeVerify.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCUnburrowFail.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCUnburrowOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCUnionOfferList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCUntransformFail.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCUntransformOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCUpdateInfo.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCUpdateSupplyItemList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCUpdateWeekItemList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCUseBonusPointFail.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCUseBonusPointOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCUseOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCUsePowerPointResult.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCVisibleFail.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCVisibleOK.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCWaitGuildList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCWarList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCWarScheduleList.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCWhisper.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Gpackets\GCWhisperFailed.h">
-      <Filter>Packets\GPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\DatagramSocket.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\EffectInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Encrypter.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\EncryptUtility.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Exception.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\ExtraInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\ExtraSlotInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\FriendDetailInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\FriendGlobalOptionInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\FriendIndividualOptionInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\FriendSimpleInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\FriendWaitInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\GameTime.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\GearInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\GearSlotInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\GuildInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\GuildMemberInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\GuildWarInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\InstanceDoungeonInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\InventoryInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\InventorySlotInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\LevelWarInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\ModifyInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\NicknameInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\NPCInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Packet.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PacketFactory.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PacketFactoryManager.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PacketFunction.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PacketIDSet.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PacketValidator.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PCInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PCItemInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PCOustersInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PCOustersInfo2.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PCOustersInfo3.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PCSkillInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PCSlayerInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PCSlayerInfo2.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PCSlayerInfo3.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PCVampireInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PCVampireInfo2.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PCVampireInfo3.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PetInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Player.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PlayerInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\PlayerStatus.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Properties.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\QuestStatusInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\RaceWarInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\RequestClientPlayer.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\RequestClientPlayerManager.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\RequestServerPlayer.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\RequestServerPlayerManager.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\RideMotorcycleInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\RideMotorcycleSlotInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\ScriptParameter.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\ServerGroupInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\ServerSocket.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\SlayerSkillInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Socket.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\SocketAPI.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\SocketEncryptInputStream.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\SocketEncryptOutputStream.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\SocketImpl.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\SocketInputStream.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\SocketOutputStream.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\StoreInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\StringInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\StringStream.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\SubItemInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\SubOustersSkillInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\SubServerInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\SubSlayerSkillInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\SubVampireSkillInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\SweeperBonusInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\TempInformation.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\TextInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Types.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\UserInformation.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\ValueList.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\VampireSkillInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\WarInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\WorldInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Assert.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\BloodBibleBonusInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\BloodBibleSignInfo.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\ClientCommunicationManager.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\ClientPlayer.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Datagram.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\DatagramPacket.h">
-      <Filter>Packets\Root</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCCreatePCError.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCCreatePCOK.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCDeletePCError.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCDeletePCOK.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCLoginError.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCLoginOK.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCPCList.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCQueryResultCharacterName.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCQueryResultPlayerID.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCReconnect.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCRegisterPlayerError.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCRegisterPlayerOK.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCSelectPCError.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCSelectWorldError.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCServerList.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCShowWebPage.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCVersionCheckError.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCVersionCheckOK.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LCWorldList.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Lpackets\LGIncomingConnection.h">
-      <Filter>Packets\LPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Rpackets\CRConnect.h">
-      <Filter>Packets\RPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Rpackets\CRDisconnect.h">
-      <Filter>Packets\RPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Rpackets\CRRequest.h">
-      <Filter>Packets\RPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Rpackets\CRRequest2.h">
-      <Filter>Packets\RPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Rpackets\CRWhisper.h">
-      <Filter>Packets\RPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Rpackets\RCCharacterInfo.h">
-      <Filter>Packets\RPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Rpackets\RCConnectVerify.h">
-      <Filter>Packets\RPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Rpackets\RCPositionInfo.h">
-      <Filter>Packets\RPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Rpackets\RCRequestedFile.h">
-      <Filter>Packets\RPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Rpackets\RCRequestVerify.h">
-      <Filter>Packets\RPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Rpackets\RCSay.h">
-      <Filter>Packets\RPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Rpackets\RCStatusHP.h">
-      <Filter>Packets\RPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAbsorbSoul.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAcceptUnion.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAddGearToMouse.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAddInventoryToMouse.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAddItemToCodeSheet.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAddItemToItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAddMouseToGear.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAddMouseToInventory.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAddMouseToQuickSlot.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAddMouseToZone.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAddQuickSlotToMouse.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAddSMSAddress.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAddZoneToInventory.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAddZoneToMouse.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAppointSubmaster.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAttack.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAuthKey.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGAuthXTrap.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGBloodDrain.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGBuyStoreItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGCastingSkill.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGChangeGearSlot.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGConnect.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGCrashReport.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGDeleteSMSAddress.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGDenyUnion.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGDepositPet.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGDialUp.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGDisplayItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGDissectionCorpse.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGDonationMoney.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGDownSkill.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGDropMoney.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGExpelGuild.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGFailQuest.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGFriendReqToAdd.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGFriendReqToDel.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGFriendResToAdd.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGFriendUpdateGlobalOption.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGFriendUpdateIndividualOption.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGFriendViewInfo.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGGetEventItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGGetOffMotorCycle.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGGlobalChat.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGGQuestAccept.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGGQuestCancel.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGGuildChat.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGInstanceDoungeonEnter.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGJoinGuild.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGLearnSkill.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGLogout.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGLotterySelect.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGMakeItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGMixItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGModifyGuildIntro.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGModifyGuildMember.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGModifyGuildMemberIntro.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGModifyNickname.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGModifyTaxRatio.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGMouseToStash.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGMove.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGNPCAskAnswer.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGNPCTalk.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGPartyInvite.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGPartyLeave.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGPartyPosition.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGPartySay.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGPetGamble.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGPhoneDisconnect.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGPhoneSay.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGPickupMoney.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGPortCheck.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGQuitUnion.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGQuitUnionAccept.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGQuitUnionDeny.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRangerSay.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGReady.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRegistGuild.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRelicToObject.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGReloadFromInventory.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGReloadFromQuickSlot.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRequestGuildList.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRequestGuildMemberList.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRequestInfo.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRequestIP.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRequestNewbieItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRequestPowerPoint.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRequestRepair.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRequestRepairInfo.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRequestStoreInfo.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRequestUnion.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRequestUnionInfo.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRequestWebMarket.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGResurrect.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGRideMotorCycle.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSay.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSelectAllSupplyItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSelectAllWeekItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSelectBloodBible.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSelectGuild.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSelectGuildMember.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSelectNickname.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSelectPortal.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSelectQuest.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSelectRankBonus.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSelectRegenZone.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSelectSupplyItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSelectTileEffect.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSelectWayPoint.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSelectWeekItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSetSlayerHotKey.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSetVampireHotKey.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGShopRequestBuy.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGShopRequestList.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGShopRequestSell.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSilverCoating.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSkillToInventory.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSkillToNamed.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSkillToObject.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSkillToSelf.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSkillToTile.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSMSAddressList.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSMSSend.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGStashDeposit.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGStashList.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGStashRequestBuy.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGStashToMouse.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGStashWithdraw.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGStoreClose.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGStoreOpen.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGStoreSign.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGSubmitScore.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGTakeOutGood.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGTameMonster.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGThrowBomb.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGThrowItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGTradeAddItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGTradeFinish.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGTradeMoney.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGTradePrepare.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGTradeRemoveItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGTryJoinGuild.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGTypeStringList.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGUnburrow.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGUndisplayItem.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGUntransform.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGUseBonusPoint.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGUseItemFromGear.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGUseItemFromGQuestInventory.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGUseItemFromInventory.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGUseMessageItemFromInventory.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGUsePotionFromInventory.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGUsePotionFromQuickSlot.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGUsePowerPoint.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGVerifyTime.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGVisible.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGWhisper.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGWithdrawPet.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CGWithdrawTax.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLAgreement.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLChangeServer.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLCreatePC.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLDeletePC.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLGetPCList.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLGetServerList.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLGetWorldList.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLLogin.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLLogout.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLQueryCharacterName.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLQueryPlayerID.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLReconnectLogin.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLRegisterPlayer.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLSelectPC.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLSelectServer.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLSelectWorld.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\Cpackets\CLVersionCheck.h">
-      <Filter>Packets\CPacket</Filter>
-    </ClInclude>
     <ClInclude Include="header\ACriticalSection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="header\BitAttribute.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MAttachSkipEffect.h">
@@ -2461,9 +727,6 @@
     </ClInclude>
     <ClInclude Include="MActionResultDef.h">
       <Filter>M Header</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Packet\QuestDef.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="header\Client_PCH.h">
       <Filter>Header Files</Filter>
@@ -2627,6 +890,27 @@
     <ClInclude Include="UpdateManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ClientCommunicationManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientPlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PacketFunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RequestClientPlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RequestClientPlayerManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RequestServerPlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RequestServerPlayerManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="hangul\FL2.cpp">
@@ -2637,24 +921,6 @@
     </ClCompile>
     <ClCompile Include="Imm\CImm.cpp">
       <Filter>CImm</Filter>
-    </ClCompile>
-    <ClCompile Include="widget\mother.cpp">
-      <Filter>widget</Filter>
-    </ClCompile>
-    <ClCompile Include="widget\pi_core.cpp">
-      <Filter>widget</Filter>
-    </ClCompile>
-    <ClCompile Include="widget\u_button.cpp">
-      <Filter>widget</Filter>
-    </ClCompile>
-    <ClCompile Include="widget\U_edit.cpp">
-      <Filter>widget</Filter>
-    </ClCompile>
-    <ClCompile Include="widget\u_scrollbar.cpp">
-      <Filter>widget</Filter>
-    </ClCompile>
-    <ClCompile Include="widget\u_window.cpp">
-      <Filter>widget</Filter>
     </ClCompile>
     <ClCompile Include="AcceleratorDef.cpp">
       <Filter>Source Files</Filter>
@@ -3253,9 +1519,6 @@
     <ClCompile Include="MCreatureWear.cpp">
       <Filter>M Source</Filter>
     </ClCompile>
-    <ClCompile Include="OustersSkillInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SectorSoundInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -3268,112 +1531,52 @@
     <ClCompile Include="CAvi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GLIncomingConnectionError.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GLIncomingConnectionErrorHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GLIncomingConnectionOK.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GLIncomingConnectionOKHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCActiveGuildList.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCActiveGuildListHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddBat.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddBatHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddBurrowingCreature.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddBurrowingCreatureHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddEffect.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddEffectHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddEffectToScreen.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddEffectToScreenHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddEffectToTile.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddEffectToTileHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddGearToInventory.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddGearToInventoryHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddGearToZone.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddGearToZoneHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddHelicopter.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddHelicopterHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddInjuriousCreature.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddInjuriousCreatureHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddInstalledMineToZone.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddInstalledMineToZoneHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddItemToInventory.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddItemToItemVerify.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddItemToItemVerifyHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddItemToZone.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddMonster.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddMonsterCorpse.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddMonsterCorpseHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddMonsterFromBurrowing.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddMonsterFromBurrowingHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddMonsterFromTransformation.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddMonsterFromTransformationHandler.cpp">
@@ -3382,28 +1585,13 @@
     <ClCompile Include="..\Packet\Gpackets\GCAddMonsterHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddNewItemToZone.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddNewItemToZoneHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddNickname.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddNicknameHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddNPC.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddNPCHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddOusters.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddOustersCorpse.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddOustersCorpseHandler.cpp">
@@ -3412,16 +1600,7 @@
     <ClCompile Include="..\Packet\Gpackets\GCAddOustersHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddressListVerify.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddressListVerifyHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddSlayer.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddSlayerCorpse.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddSlayerCorpseHandler.cpp">
@@ -3430,34 +1609,16 @@
     <ClCompile Include="..\Packet\Gpackets\GCAddSlayerHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddStoreItem.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddStoreItemHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddSylph.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddSylphHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddVampire.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddVampireCorpse.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddVampireCorpseHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddVampireFromBurrowing.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddVampireFromBurrowingHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddVampireFromTransformation.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddVampireFromTransformationHandler.cpp">
@@ -3466,46 +1627,22 @@
     <ClCompile Include="..\Packet\Gpackets\GCAddVampireHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddVampirePortal.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddVampirePortalHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAddWolf.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAddWolfHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAttack.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAttackArmsOK1.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAttackArmsOK1Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAttackArmsOK2.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAttackArmsOK2Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAttackArmsOK3.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAttackArmsOK3Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAttackArmsOK4.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAttackArmsOK4Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAttackArmsOK5.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAttackArmsOK5Handler.cpp">
@@ -3514,301 +1651,148 @@
     <ClCompile Include="..\Packet\Gpackets\GCAttackHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAttackMeleeOK1.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAttackMeleeOK1Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAttackMeleeOK2.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAttackMeleeOK2Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAttackMeleeOK3.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAttackMeleeOK3Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAuthKey.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAuthKeyHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCAuthXTrap.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCAuthXTrapHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCBloodBibleList.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCBloodBibleListHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCBloodBibleSignInfo.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCBloodBibleSignInfoHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCBloodBibleStatus.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCBloodBibleStatusHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCBloodDrainOK1.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCBloodDrainOK1Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCBloodDrainOK2.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCBloodDrainOK2Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCBloodDrainOK3.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCBloodDrainOK3Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCCannotAdd.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCCannotAddHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCCannotUse.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCCannotUseHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCCastingSkill.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCCastingSkillHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCChangeDarkLight.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCChangeDarkLightHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCChangeGearSlot.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCChangeGearSlotHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCChangeInventoryItemNum.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCChangeShape.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCChangeShapeHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCChangeWeather.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCChangeWeatherHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCCreateItem.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCCreateItemHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCCreatureDied.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCCreatureDiedHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCCrossCounterOK1.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCCrossCounterOK1Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCCrossCounterOK2.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCCrossCounterOK2Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCCrossCounterOK3.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCCrossCounterOK3Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCDeleteandPickUpOK.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCDeleteandPickUpOKHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCDeleteEffectFromTile.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCDeleteEffectFromTileHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCDeleteInventoryItem.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCDeleteInventoryItemHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCDeleteObject.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCDeleteObjectHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCDisconnect.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCDisconnectHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCDownSkillFailed.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCDownSkillFailedHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCDownSkillOK.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCDownSkillOKHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCDropItemToZone.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCDropItemToZoneHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCEnterVampirePortal.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCEnterVampirePortalHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCExecuteElement.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCExecuteElementHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCFakeMove.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCFakeMoveHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCFastMove.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCFastMoveHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCFlagWarStatus.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCFlagWarStatusHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCFriendAdd.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCFriendAddHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCFriendDel.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCFriendDelHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCFriendList.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCFriendListHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCFriendReqToAdd.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCFriendReqToAddHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCFriendReqToDel.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCFriendReqToDelHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCFriendResToAdd.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCFriendResToAddHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCFriendSuggestToAdd.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCFriendSuggestToAddHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCFriendUpdateConnect.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCFriendUpdateConnectHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCFriendUpdateZone.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCFriendUpdateZoneHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCFriendViewInfo.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCFriendViewInfoHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCFriendWaitList.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCFriendWaitListHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCGetDamage.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCGetDamageHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCGetOffMotorCycle.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCGetOffMotorCycleFailed.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCGetOffMotorCycleFailedHandler.cpp">
@@ -3817,238 +1801,118 @@
     <ClCompile Include="..\Packet\Gpackets\GCGetOffMotorCycleHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCGetOffMotorCycleOK.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCGetOffMotorCycleOKHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCGlobalChat.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCGlobalChatHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCGoodsList.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCGoodsListHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCGQuestInventory.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCGQuestInventoryHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCGQuestStatusInfo.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCGQuestStatusInfoHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCGQuestStatusModify.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCGQuestStatusModifyHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCGuildChat.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCGuildChatHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCGuildMemberList.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCGuildMemberListHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCGuildResponse.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCGuildResponseHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCHolyLandBonusInfo.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCHolyLandBonusInfoHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCHPRecoveryEndToOthers.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCHPRecoveryEndToOthersHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCHPRecoveryEndToSelf.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCHPRecoveryEndToSelfHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCHPRecoveryStartToOthers.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCHPRecoveryStartToOthersHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCHPRecoveryStartToSelf.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCHPRecoveryStartToSelfHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCInstanceDoungeonLobby.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCInstanceDoungeonLobbyHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCInstanceDoungeonResult.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCInstanceDoungeonResultHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCKickMessage.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCKickMessageHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCKnockBack.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCKnockBackHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCKnocksTargetBackOK1.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCKnocksTargetBackOK1Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCKnocksTargetBackOK2.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCKnocksTargetBackOK2Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCKnocksTargetBackOK4.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCKnocksTargetBackOK4Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCKnocksTargetBackOK5.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCKnocksTargetBackOK5Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCLearnSkillFailed.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCLearnSkillFailedHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCLearnSkillOK.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCLearnSkillOKHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCLearnSkillReady.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCLearnSkillReadyHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCLightning.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCLightningHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMakeItemFail.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCMakeItemFailHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMakeItemOK.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCMakeItemOKHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMineExplosionOK1.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCMineExplosionOK1Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMineExplosionOK2.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCMineExplosionOK2Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMiniGameScores.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCMiniGameScoresHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCModifyGuildMemberInfo.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCModifyGuildMemberInfoHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCModifyInformation.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCModifyInformationHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCModifyNickname.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCModifyNicknameHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMonsterKillQuestInfo.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCMonsterKillQuestInfoHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMorph1.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCMorph1Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMorphSlayer2.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCMorphSlayer2Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMorphVampire2.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCMorphVampire2Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMove.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMoveError.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCMoveErrorHandler.cpp">
@@ -4057,58 +1921,28 @@
     <ClCompile Include="..\Packet\Gpackets\GCMoveHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMoveOK.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCMoveOKHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMPRecoveryEnd.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCMPRecoveryEndHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMPRecoveryStart.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCMPRecoveryStartHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCMyStoreInfo.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCMyStoreInfoHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCNicknameList.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCNicknameListHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCNicknameVerify.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCNicknameVerifyHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCNoticeEvent.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCNoticeEventHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCNotifyWin.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCNotifyWinHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCNPCAsk.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCNPCAskDynamic.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCNPCAskDynamicHandler.cpp">
@@ -4117,28 +1951,13 @@
     <ClCompile Include="..\Packet\Gpackets\GCNPCAskHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCNPCAskVariable.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCNPCAskVariableHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCNPCInfo.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCNPCInfoHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCNPCResponse.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCNPCResponseHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCNPCSay.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCNPCSayDynamic.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCNPCSayDynamicHandler.cpp">
@@ -4147,208 +1966,103 @@
     <ClCompile Include="..\Packet\Gpackets\GCNPCSayHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCOtherGuildName.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCOtherGuildNameHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCOtherModifyInfo.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCOtherModifyInfoHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCOtherStoreInfo.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCOtherStoreInfoHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCPartyError.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCPartyErrorHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCPartyInvite.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCPartyInviteHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCPartyJoined.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCPartyJoinedHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCPartyLeave.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCPartyLeaveHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCPartyPosition.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCPartyPositionHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCPartySay.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCPartySayHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCPetInfo.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCPetInfoHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCPetStashList.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCPetStashListHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCPetStashVerify.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCPetStashVerifyHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCPetUseSkill.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCPetUseSkillHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCPhoneConnected.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCPhoneConnectedHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCPhoneConnectionFailed.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCPhoneConnectionFailedHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCPhoneDisconnected.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCPhoneDisconnectedHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCPhoneSay.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCPhoneSayHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCQuestStatus.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCQuestStatusHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRankBonusInfo.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRankBonusInfoHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRealWearingInfo.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRealWearingInfoHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCReconnect.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCReconnectHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCReconnectLogin.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCReconnectLoginHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRegenZoneStatus.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRegenZoneStatusHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCReloadOK.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCReloadOKHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRemoveCorpseHead.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRemoveCorpseHeadHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRemoveEffect.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRemoveEffectHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRemoveFromGear.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRemoveFromGearHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRemoveInjuriousCreature.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRemoveInjuriousCreatureHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRemoveStoreItem.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRemoveStoreItemHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRepairInfo.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRepairInfoHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRequestedIP.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRequestedIPHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRequestFailed.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRequestFailedHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRequestPowerPointResult.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRequestPowerPointResultHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRideMotorCycle.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRideMotorCycleFailed.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRideMotorCycleFailedHandler.cpp">
@@ -4357,550 +2071,274 @@
     <ClCompile Include="..\Packet\Gpackets\GCRideMotorCycleHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRideMotorCycleOK.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRideMotorCycleOKHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCRing.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCRingHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSay.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSayHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSearchMotorcycleFail.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSearchMotorcycleFailHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSearchMotorcycleOK.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSearchMotorcycleOKHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSelectQuestID.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSelectQuestIDHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSelectRankBonusFailed.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSelectRankBonusFailedHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSelectRankBonusOK.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSelectRankBonusOKHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSetPosition.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSetPositionHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShopBought.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShopBoughtHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShopBuyFail.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShopBuyFailHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShopBuyOK.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShopBuyOKHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShopList.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShopListHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShopListMysterious.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShopListMysteriousHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShopMarketCondition.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShopMarketConditionHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShopSellFail.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShopSellFailHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShopSellOK.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShopSellOKHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShopSold.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShopSoldHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShopVersion.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShopVersionHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShowGuildInfo.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShowGuildInfoHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShowGuildJoin.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShowGuildJoinHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShowGuildMemberInfo.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShowGuildMemberInfoHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShowMessageBox.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShowMessageBoxHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShowUnionInfo.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShowUnionInfoHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShowWaitGuildInfo.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShowWaitGuildInfoHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCShowWebMarket.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCShowWebMarketHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillFailed1.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillFailed1Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillFailed2.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillFailed2Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillInfo.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillInfoHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToInventoryOK1.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToInventoryOK1Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToInventoryOK2.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToInventoryOK2Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToObjectOK1.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToObjectOK1Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToObjectOK2.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToObjectOK2Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToObjectOK3.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToObjectOK3Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToObjectOK4.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToObjectOK4Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToObjectOK5.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToObjectOK5Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToObjectOK6.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToObjectOK6Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToSelfOK1.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToSelfOK1Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToSelfOK2.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToSelfOK2Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToSelfOK3.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToSelfOK3Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToTileOK1.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToTileOK1Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToTileOK2.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToTileOK2Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToTileOK3.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToTileOK3Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToTileOK4.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToTileOK4Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToTileOK5.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToTileOK5Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSkillToTileOK6.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSkillToTileOK6Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSMSAddressList.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSMSAddressListHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCStashList.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCStashListHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCStashSell.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCStashSellHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCStatusCurrentHP.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCStatusCurrentHPHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSubInventoryInfo.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSubInventoryInfoHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSupplyItemList.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSupplyItemListHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSweeperBonusInfo.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSweeperBonusInfoHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSystemAvailabilities.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSystemAvailabilitiesHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCSystemMessage.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCSystemMessageHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCTakeOff.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCTakeOffHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCTakeOutFail.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCTakeOutFailHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCTakeOutOK.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCTakeOutOKHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCTeachSkillInfo.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCTeachSkillInfoHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCThrowBombOK1.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCThrowBombOK1Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCThrowBombOK2.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCThrowBombOK2Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCThrowBombOK3.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCThrowBombOK3Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCThrowItemOK1.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCThrowItemOK1Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCThrowItemOK2.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCThrowItemOK2Handler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCThrowItemOK3.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCThrowItemOK3Handler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCTimeLimitItemInfo.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCTimeLimitItemInfoHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCTradeAddItem.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCTradeAddItemHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCTradeError.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCTradeErrorHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCTradeFinish.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCTradeFinishHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCTradeMoney.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCTradeMoneyHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCTradePrepare.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCTradePrepareHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCTradeRemoveItem.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCTradeRemoveItemHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCTradeVerify.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCTradeVerifyHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCUnburrowFail.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCUnburrowFailHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCUnburrowOK.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCUnburrowOKHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCUnionOfferList.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCUnionOfferListHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCUntransformFail.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCUntransformFailHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCUntransformOK.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCUntransformOKHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCUpdateInfo.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCUpdateInfoHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCUpdateSupplyItemList.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCUpdateSupplyItemListHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCUpdateWeekItemList.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCUpdateWeekItemListHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCUseBonusPointFail.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCUseBonusPointFailHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCUseBonusPointOK.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCUseBonusPointOKHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCUseOK.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCUseOKHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCUsePowerPointResult.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCUsePowerPointResultHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCVisibleFail.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCVisibleFailHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCVisibleOK.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCVisibleOKHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCWaitGuildList.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCWaitGuildListHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCWarList.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCWarListHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCWarScheduleList.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCWarScheduleListHandler.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCWhisper.cpp">
-      <Filter>Packets\GPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Gpackets\GCWhisperFailed.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Gpackets\GCWhisperFailedHandler.cpp">
@@ -4909,388 +2347,73 @@
     <ClCompile Include="..\Packet\Gpackets\GCWhisperHandler.cpp">
       <Filter>Packets\GPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Assert.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\BloodBibleBonusInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\BloodBibleSignInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\ClientCommunicationManager.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\ClientPlayer.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Datagram.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\DatagramSocket.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\EffectInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Encrypter.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\ExtraInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\ExtraSlotInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\FriendDetailInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\FriendGlobalOptionInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\FriendIndividualOptionInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\FriendSimpleInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\FriendWaitInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\GameTime.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\GearInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\GearSlotInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\GuildInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\GuildMemberInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\GuildWarInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\InstanceDoungeonInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\InventoryInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\InventorySlotInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\LevelWarInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\ModifyInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\NicknameInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\NPCInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PacketFactoryManager.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PacketFunction.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PacketIDSet.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PacketValidator.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PCItemInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PCOustersInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PCOustersInfo2.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PCOustersInfo3.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PCSlayerInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PCSlayerInfo2.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PCSlayerInfo3.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PCVampireInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PCVampireInfo2.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PCVampireInfo3.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\PetInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Player.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Properties.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\QuestStatusInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\RaceWarInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\RequestClientPlayer.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\RequestClientPlayerManager.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\RequestServerPlayer.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\RequestServerPlayerManager.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\RideMotorcycleInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\RideMotorcycleSlotInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\ScriptParameter.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\ServerGroupInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\ServerSocket.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\SlayerSkillInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Socket.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\SocketAPI.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\SocketEncryptInputStream.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\SocketEncryptOutputStream.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\SocketImpl.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\SocketInputStream.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\SocketOutputStream.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\StoreInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\StringInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\StringStream.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\SubItemInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\SubOustersSkillInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\SubServerInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\SubSlayerSkillInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\SubVampireSkillInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\SweeperBonusInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\TempInformation.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\TextInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\UserInformation.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\VampireSkillInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\WarInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\WorldInfo.cpp">
-      <Filter>Packets\Root</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCShowWebPageHandler.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCVersionCheckError.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCVersionCheckErrorHandler.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCVersionCheckOK.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCVersionCheckOKHandler.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCWorldList.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCWorldListHandler.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LGIncomingConnection.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LGIncomingConnectionHandler.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCCreatePCError.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCCreatePCErrorHandler.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCCreatePCOK.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCCreatePCOKHandler.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCDeletePCError.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCDeletePCErrorHandler.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCDeletePCOK.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCDeletePCOKHandler.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCLoginError.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCLoginErrorHandler.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCLoginOK.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCLoginOKHandler.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCPCList.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCPCListHandler.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCQueryResultCharacterName.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCQueryResultCharacterNameHandler.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCQueryResultPlayerID.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCQueryResultPlayerIDHandler.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCReconnect.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCReconnectHandler.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCRegisterPlayerError.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCRegisterPlayerErrorHandler.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCRegisterPlayerOK.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCRegisterPlayerOKHandler.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCSelectPCError.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCSelectPCErrorHandler.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCSelectWorldError.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCSelectWorldErrorHandler.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCServerList.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Lpackets\LCServerListHandler.cpp">
       <Filter>Packets\LPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Lpackets\LCShowWebPage.cpp">
-      <Filter>Packets\LPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Rpackets\RCStatusHP.cpp">
-      <Filter>Packets\RPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Rpackets\RCStatusHPHandler.cpp">
-      <Filter>Packets\RPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Rpackets\CRConnect.cpp">
       <Filter>Packets\RPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Rpackets\CRConnectHandler.cpp">
       <Filter>Packets\RPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Rpackets\CRDisconnect.cpp">
-      <Filter>Packets\RPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Rpackets\CRDisconnectHandler.cpp">
-      <Filter>Packets\RPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Rpackets\CRRequest.cpp">
-      <Filter>Packets\RPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Rpackets\CRRequest2.cpp">
       <Filter>Packets\RPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Rpackets\CRRequest2Handler.cpp">
@@ -5299,391 +2422,112 @@
     <ClCompile Include="..\Packet\Rpackets\CRRequestHandler.cpp">
       <Filter>Packets\RPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Rpackets\CRWhisper.cpp">
-      <Filter>Packets\RPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Rpackets\CRWhisperHandler.cpp">
-      <Filter>Packets\RPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Rpackets\RCCharacterInfo.cpp">
       <Filter>Packets\RPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Rpackets\RCCharacterInfoHandler.cpp">
       <Filter>Packets\RPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Rpackets\RCConnectVerify.cpp">
-      <Filter>Packets\RPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Rpackets\RCConnectVerifyHandler.cpp">
-      <Filter>Packets\RPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Rpackets\RCPositionInfo.cpp">
       <Filter>Packets\RPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Rpackets\RCPositionInfoHandler.cpp">
       <Filter>Packets\RPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Rpackets\RCRequestedFile.cpp">
-      <Filter>Packets\RPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Rpackets\RCRequestedFileHandler.cpp">
-      <Filter>Packets\RPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Rpackets\RCRequestVerify.cpp">
       <Filter>Packets\RPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Rpackets\RCRequestVerifyHandler.cpp">
       <Filter>Packets\RPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Rpackets\RCSay.cpp">
-      <Filter>Packets\RPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Rpackets\RCSayHandler.cpp">
       <Filter>Packets\RPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLGetWorldList.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLLogin.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLLogout.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLQueryCharacterName.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLQueryPlayerID.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLReconnectLogin.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLRegisterPlayer.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLSelectPC.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLSelectServer.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLSelectWorld.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLVersionCheck.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAbsorbSoul.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAcceptUnion.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGAcceptUnionHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAddGearToMouse.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAddInventoryToMouse.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAddItemToCodeSheet.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGAddItemToCodeSheetHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAddItemToItem.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAddMouseToGear.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAddMouseToInventory.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAddMouseToQuickSlot.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAddMouseToZone.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAddQuickSlotToMouse.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAddSMSAddress.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGAddSMSAddressHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAddZoneToInventory.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAddZoneToMouse.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAppointSubmaster.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGAppointSubmasterHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAttack.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAuthKey.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGAuthKeyHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGAuthXTrap.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGAuthXTrapHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGBloodDrain.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGBuyStoreItem.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGBuyStoreItemHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGCastingSkill.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGChangeGearSlot.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGConnect.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGCrashReport.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGDeleteSMSAddress.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGDeleteSMSAddressHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGDenyUnion.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGDenyUnionHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGDepositPet.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGDepositPetHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGDialUp.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGDisplayItem.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGDisplayItemHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGDissectionCorpse.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGDonationMoney.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGDonationMoneyHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGDownSkill.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGDownSkillHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGDropMoney.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGExpelGuild.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGExpelGuildHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGFailQuest.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGFailQuestHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGFriendReqToAdd.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGFriendReqToAddHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGFriendReqToDel.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGFriendReqToDelHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGFriendResToAdd.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGFriendResToAddHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGFriendUpdateGlobalOption.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGFriendUpdateGlobalOptionHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGFriendUpdateIndividualOption.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGFriendUpdateIndividualOptionHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGFriendViewInfo.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGFriendViewInfoHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGGetEventItem.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGGetEventItemHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGGetOffMotorCycle.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGGlobalChat.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGGQuestAccept.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGGQuestCancel.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGGuildChat.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGInstanceDoungeonEnter.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGInstanceDoungeonEnterHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGJoinGuild.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGLearnSkill.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGLogout.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGLotterySelect.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGLotterySelectHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGMakeItem.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGMixItem.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGMixItemHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGModifyGuildIntro.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGModifyGuildMember.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGModifyGuildMemberIntro.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGModifyNickname.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGModifyNicknameHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGModifyTaxRatio.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGMouseToStash.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGMove.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGNPCAskAnswer.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGNPCTalk.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGPartyInvite.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGPartyLeave.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGPartyPosition.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGPartyPositionHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGPartySay.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGPartySayHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGPetGamble.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGPhoneDisconnect.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGPhoneSay.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGPickupMoney.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGPortCheck.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGQuitUnion.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGQuitUnionAccept.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGQuitUnionAcceptHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGQuitUnionDeny.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGQuitUnionDenyHandler.cpp">
@@ -5692,361 +2536,91 @@
     <ClCompile Include="..\Packet\Cpackets\CGQuitUnionHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRangerSay.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGRangerSayHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGReady.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRegistGuild.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRelicToObject.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGReloadFromInventory.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGReloadFromQuickSlot.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRequestGuildList.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGRequestGuildListHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRequestGuildMemberList.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRequestInfo.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRequestIP.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRequestNewbieItem.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRequestPowerPoint.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGRequestPowerPointHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRequestRepair.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRequestRepairInfo.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGRequestRepairInfoHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRequestStoreInfo.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGRequestStoreInfoHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRequestUnion.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGRequestUnionHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRequestUnionInfo.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGRequestUnionInfoHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRequestWebMarket.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGRequestWebMarketHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGResurrect.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGRideMotorCycle.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSay.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSelectAllSupplyItem.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGSelectAllSupplyItemHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSelectAllWeekItem.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGSelectAllWeekItemHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSelectBloodBible.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGSelectBloodBibleHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSelectGuild.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSelectGuildMember.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSelectNickname.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGSelectNicknameHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSelectPortal.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSelectQuest.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGSelectQuestHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSelectRankBonus.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSelectRegenZone.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGSelectRegenZoneHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSelectSupplyItem.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGSelectSupplyItemHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSelectTileEffect.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSelectWayPoint.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSelectWeekItem.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGSelectWeekItemHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSetSlayerHotKey.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSetVampireHotKey.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGShopRequestBuy.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGShopRequestList.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGShopRequestSell.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSilverCoating.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSkillToInventory.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSkillToNamed.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSkillToObject.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSkillToSelf.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSkillToTile.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSMSAddressList.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGSMSAddressListHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSMSSend.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGSMSSendHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGStashDeposit.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGStashList.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGStashRequestBuy.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGStashToMouse.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGStashWithdraw.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGStoreClose.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGStoreCloseHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGStoreOpen.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGStoreOpenHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGStoreSign.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGStoreSignHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGSubmitScore.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGSubmitScoreHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGTakeOutGood.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGTakeOutGoodHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGTameMonster.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGThrowBomb.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGThrowItem.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGTradeAddItem.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGTradeFinish.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGTradeMoney.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGTradePrepare.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGTradeRemoveItem.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGTryJoinGuild.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGTypeStringList.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGUnburrow.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGUndisplayItem.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGUndisplayItemHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGUntransform.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGUseBonusPoint.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGUseItemFromGear.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGUseItemFromGQuestInventory.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGUseItemFromGQuestInventoryHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGUseItemFromInventory.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGUseMessageItemFromInventory.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGUsePotionFromInventory.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGUsePotionFromQuickSlot.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGUsePowerPoint.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGUsePowerPointHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGVerifyTime.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGVisible.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGWhisper.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGWithdrawPet.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGWithdrawPetHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CGWithdrawTax.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CGWithdrawTaxHandler.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLAgreement.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
     <ClCompile Include="..\Packet\Cpackets\CLAgreementHandler.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLChangeServer.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLCreatePC.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLDeletePC.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLGetPCList.cpp">
-      <Filter>Packets\CPacket</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Packet\Cpackets\CLGetServerList.cpp">
       <Filter>Packets\CPacket</Filter>
     </ClCompile>
     <ClCompile Include="MBloodyBreakerEffectGenerator.cpp">
@@ -6054,147 +2628,6 @@
     </ClCompile>
     <ClCompile Include="MAttachZoneAroundEffectGenerator.cpp">
       <Filter>M Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Tutorial.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_ui_result_receiver.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_UserGrade.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_util.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_WebBrowser.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_widget.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_WorldMap.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\Vs_ui.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Base.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_BBS.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Control.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_DESC.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Description.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Descriptor.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Dialog.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_ELEVATOR.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Exception.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Exchange.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_ExtraDialog.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Friend_System.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Game.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_GameCommon.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\vs_ui_gamecommon2.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_GameOusters.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_GameSlayer.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_GameVampire.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_GlobalResource.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_GPS.CPP">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Helper.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_INDOUN_NPC_DIALOG.CPP">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Item.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Message.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_mouse_pointer.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_NewTitle.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Operator.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_PetMixingForge.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_PetStorage.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_PremiumGiveItem.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_progress.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Shop.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_skill_tree.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_SKILL_VIEW.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Storage.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_TaxRate.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_TIMECOUNT.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_Title.cpp">
-      <Filter>VS Source</Filter>
-    </ClCompile>
-    <ClCompile Include="VSUI\VS_UI_TITLE_SHOWCHAR.CPP">
-      <Filter>VS Source</Filter>
     </ClCompile>
     <ClCompile Include="UpdateUtility.cpp">
       <Filter>Source Files</Filter>
@@ -6209,6 +2642,14 @@
     <ClCompile Include="WinMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ClientCommunicationManager.cpp" />
+    <ClCompile Include="ClientPlayer.cpp" />
+    <ClCompile Include="PacketFunction.cpp" />
+    <ClCompile Include="RequestClientPlayer.cpp" />
+    <ClCompile Include="RequestClientPlayerManager.cpp" />
+    <ClCompile Include="RequestServerPlayer.cpp" />
+    <ClCompile Include="RequestServerPlayerManager.cpp" />
+    <ClCompile Include="Client.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="game\MTopViewDraw.inl">

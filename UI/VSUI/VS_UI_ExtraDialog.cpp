@@ -62,8 +62,12 @@ char * C_VS_UI_ASK_DIALOG::m_sz_question_msg[MAX_ASK_DIALOG_TYPE][2] = {	// by s
 C_VS_UI_EDIT_DIALOG::C_VS_UI_EDIT_DIALOG(int _x, int _y, int center_x, int center_y, void (*exec_fp)(C_VS_UI_DIALOG*, id_t), WORD dd_button, int cur_val, int max_val) :
 	C_VS_UI_DIALOG(_x, _y, center_x, center_y, exec_fp, dd_button)
 {
-	m_sz_question_msg[0] = (*g_pGameStringTable)[UI_STRING_MESSAGE_BUY_ITEM_NUM].GetString();
-	SetMessage(m_sz_question_msg, 1, SMO_NOFIT);
+	// The question on its own line, with a blank line under it for the number
+	// box. The English string table's "Buy            of this item?" left a gap
+	// for a box drawn at a fixed x, which never lined up with the text.
+	m_sz_question_msg[0] = "How many would you like to buy?";
+	m_sz_question_msg[1] = " ";
+	SetMessage(m_sz_question_msg, 2, SMO_NOFIT);
 	int digit_count, number;
 
 	//	if (digit_count < 0)
@@ -81,8 +85,11 @@ C_VS_UI_EDIT_DIALOG::C_VS_UI_EDIT_DIALOG(int _x, int _y, int center_x, int cente
 
 	m_p_image_spk = new C_SPRITE_PACK(SPK_SLAYER_BUY_DIALOG);
 
-	m_buy_dialog_pt.x = m_client_rect.x + 90;
-	m_buy_dialog_pt.y = m_client_rect.y + 13;
+	// the box and its arrows, centred under the question
+	const int box_w = SCROLL_BUTTON_OFFSET_X + SCROLL_BUTTON_WIDTH;
+	const int question_h = g_GetStringHeight(m_sz_question_msg[0].c_str(), gpC_base->m_dialog_msg_pi.hfont);
+	m_buy_dialog_pt.x = m_msg_rect.x + m_msg_rect.w / 2 - box_w / 2;
+	m_buy_dialog_pt.y = m_nofit_mode_msg_y + question_h + 6;
 
 	// set scroll button rect
 	m_scroll_button_up_rt.Set(m_buy_dialog_pt.x + SCROLL_BUTTON_OFFSET_X, m_buy_dialog_pt.y + SCROLL_BUTTON1_OFFSET_Y, SCROLL_BUTTON_WIDTH, SCROLL_BUTTON_HEIGHT);
@@ -454,7 +461,7 @@ void	C_VS_UI_MONEY_DIALOG::Show()
 {
 	C_VS_UI_DIALOG::Show();
 
-	gpC_global_resource->m_pC_assemble_box_button_spk->Blt(m_money_dialog_pt.x, m_money_dialog_pt.y, C_GLOBAL_RESOURCE::AB_MONEY_BAR);
+	DialogButtonSpk()->Blt(m_money_dialog_pt.x, m_money_dialog_pt.y, C_GLOBAL_RESOURCE::AB_MONEY_BAR);
 	//	m_p_image_spk->Blt(m_money_dialog_pt.x, m_money_dialog_pt.y, MONEY_DIALOG);
 
 	if ((m_type == MONEY_CAMPAIGN_HELP) || (m_type == MONEY_WEDDING_CONTRIBUTION))
@@ -905,8 +912,7 @@ C_VS_UI_ASK_DIALOG::C_VS_UI_ASK_DIALOG(int _x, int _y, int center_x, int center_
 			memcpy(_Name1, (char*)pName, i); _Name1[i] = 0;
 			strcpy(_Name2, (char*)&pName[i + 1]);
 
-			m_sz_question_msg_temp[0] = new char[strlen(_Name1) + strlen(_Name2) + strlen(m_sz_question_msg[type][11]) + 1];
-			sprintf(m_sz_question_msg_temp[0], m_sz_question_msg[type][11], _Name1, _Name2);
+			{ char szTuning[1024]; _snprintf(szTuning, sizeof(szTuning) - 1, m_sz_question_msg[type][11].c_str(), _Name1, _Name2); szTuning[sizeof(szTuning) - 1] = 0; m_sz_question_msg_temp[0] = szTuning; }
 			SetMessage(m_sz_question_msg_temp, 1, SMO_FIT);
 			break;
 
@@ -915,8 +921,7 @@ C_VS_UI_ASK_DIALOG::C_VS_UI_ASK_DIALOG(int _x, int _y, int center_x, int center_
 			memcpy(_Name1, (char*)pName, i); _Name1[i] = 0;
 			strcpy(_Name2, (char*)&pName[i + 1]);
 
-			m_sz_question_msg_temp[0] = new char[strlen(_Name1) + strlen(_Name2) + strlen(m_sz_question_msg[type][12]) + 1];
-			sprintf(m_sz_question_msg_temp[0], m_sz_question_msg[type][12], _Name1, _Name2);
+			{ char szTuning[1024]; _snprintf(szTuning, sizeof(szTuning) - 1, m_sz_question_msg[type][12].c_str(), _Name1, _Name2); szTuning[sizeof(szTuning) - 1] = 0; m_sz_question_msg_temp[0] = szTuning; }
 			SetMessage(m_sz_question_msg_temp, 1, SMO_FIT);
 			break;
 
@@ -925,8 +930,7 @@ C_VS_UI_ASK_DIALOG::C_VS_UI_ASK_DIALOG(int _x, int _y, int center_x, int center_
 			memcpy(_Name1, (char*)pName, i); _Name1[i] = 0;
 			strcpy(_Name2, (char*)&pName[i + 1]);
 
-			m_sz_question_msg_temp[0] = new char[strlen(_Name1) + strlen(_Name2) + strlen(m_sz_question_msg[type][13]) + 1];
-			sprintf(m_sz_question_msg_temp[0], m_sz_question_msg[type][13], _Name1);
+			{ char szTuning[1024]; _snprintf(szTuning, sizeof(szTuning) - 1, m_sz_question_msg[type][13].c_str(), _Name1); szTuning[sizeof(szTuning) - 1] = 0; m_sz_question_msg_temp[0] = szTuning; }
 			SetMessage(m_sz_question_msg_temp, 1, SMO_FIT);
 			break;
 
@@ -935,8 +939,7 @@ C_VS_UI_ASK_DIALOG::C_VS_UI_ASK_DIALOG(int _x, int _y, int center_x, int center_
 			memcpy(_Name1, (char*)pName, i); _Name1[i] = 0;
 			strcpy(_Name2, (char*)&pName[i + 1]);
 
-			m_sz_question_msg_temp[0] = new char[strlen(_Name1) + strlen(_Name2) + strlen(m_sz_question_msg[type][14]) + 1];
-			sprintf(m_sz_question_msg_temp[0], m_sz_question_msg[type][14], _Name1);
+			{ char szTuning[1024]; _snprintf(szTuning, sizeof(szTuning) - 1, m_sz_question_msg[type][14].c_str(), _Name1); szTuning[sizeof(szTuning) - 1] = 0; m_sz_question_msg_temp[0] = szTuning; }
 			SetMessage(m_sz_question_msg_temp, 1, SMO_FIT);
 			break;
 #endif //__TUNING_ITEM
@@ -956,8 +959,7 @@ C_VS_UI_ASK_DIALOG::C_VS_UI_ASK_DIALOG(int _x, int _y, int center_x, int center_
 	{
 		// ???? ?????
 		const char* pMessage = (const char*)m_pTemporayValue;
-		m_sz_question_msg_temp[0] = new char[lstrlen(pMessage) + 1];
-		sprintf(m_sz_question_msg_temp[0], pMessage);
+		m_sz_question_msg_temp[0] = pMessage;
 		SetMessage(m_sz_question_msg_temp, 1, SMO_FIT);
 		break;
 	}
@@ -1469,6 +1471,18 @@ void	C_VS_UI_NPC_DIALOG::Show()
 	}
 }
 
+// The description window in DK Umbra's dialog frame, the same for every race
+static const int s_desc_bar_h = 22;			// its title bar, stretched to fit the title
+static const int s_desc_title_x = 12;
+static const int s_desc_title_h = 14;		// m_desc_menu_pi
+static const int s_desc_text_x = 16;
+static const int s_desc_text_gap = 12;		// between the bar and the text
+static const int s_desc_margin = 20;		// right of the text when nothing scrolls,
+static const int s_desc_scroll_gutter = 36;	// and when the scroll bar is beside it
+static const int s_desc_button_margin_x = 10;
+static const int s_desc_button_margin_y = 8;
+static const char* s_desc_close_label = "Close";
+
 //-----------------------------------------------------------------------------
 // C_VS_UI_DESC_DIALOG::C_VS_UI_DESC_DIALOG
 //
@@ -1484,35 +1498,8 @@ C_VS_UI_DESC_DIALOG::C_VS_UI_DESC_DIALOG(id_t type, void* void_ptr, void* void_p
 
 	AttrTopmost(true);
 
-	int close_x_offset, close_y_offset;
-	int help_x_offset, help_y_offset;
-
 	PrintInfo pi, title_pi;
 	COLORREF color, title_color;
-
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		close_x_offset = 422;
-		close_y_offset = 345;
-		help_x_offset = 353;
-		help_y_offset = 345;
-		break;
-
-	case RACE_VAMPIRE:
-		close_x_offset = 431;
-		close_y_offset = 350;
-		help_x_offset = 363;
-		help_y_offset = 350;
-		break;
-
-	case RACE_OUSTERS:
-		close_x_offset = 431;
-		close_y_offset = 350;
-		help_x_offset = 363;
-		help_y_offset = 350;
-		break;
-	}
 
 	w = 540; h = 405;
 	//Set(RESOLUTION_X/2-w/2, RESOLUTION_Y/2-h/2, w, h);
@@ -2447,6 +2434,9 @@ C_VS_UI_DESC_DIALOG::C_VS_UI_DESC_DIALOG(id_t type, void* void_ptr, void* void_p
 	//	if(sprID != -1)
 	//		SetSprite(0, sprID, 0);
 
+	// lay the text out in the font it is drawn in, or every line comes out
+	// wider than it was measured
+	SetDescPi(pi);
 	if (LoadDesc(filename.c_str(), 60, 17, bl_title, corezapID) == false)Run(CLOSE_ID);
 
 	//	if(m_ori_string.empty() && !m_rep_string.empty())
@@ -2458,35 +2448,30 @@ C_VS_UI_DESC_DIALOG::C_VS_UI_DESC_DIALOG(id_t type, void* void_ptr, void* void_p
 	m_rep_string.clear();
 
 
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		SetDesc(50, 35, color, pi);
-		SetDescTitle(50, 5, title_color, title_pi);
-		break;
-
-	case RACE_VAMPIRE:
-		SetDesc(50, 35, color, pi);
-		SetDescTitle(50, 5, title_color, title_pi);
-		break;
-
-	case RACE_OUSTERS:
-		SetDesc(50, 35, color, pi);
-		SetDescTitle(53, 8, title_color, title_pi);
-		break;
-	}
+	// DK Umbra's frame: the title in its bar, the text under it
+	SetDesc(s_desc_text_x, s_desc_bar_h + s_desc_text_gap, color, pi);
+	SetDescTitle(s_desc_title_x, (s_desc_bar_h - s_desc_title_h) / 2, title_color, title_pi);
 
 	// Fit the frame to the text instead of always drawing a 540x405 box. The
 	// 60x17 grid this dialog was written against assumed a 6px monospaced
 	// cell, so a four-line English skill description still opened a box with
 	// three quarters of it empty.
+	C_SPRITE_PACK* p_button_spk = gpC_global_resource->m_pC_assemble_box_button_renewal_spk;
+	const int button_w = p_button_spk->GetWidth(C_GLOBAL_RESOURCE::ABR_BUTTON_SMALL_RED);
+	const int button_h = p_button_spk->GetHeight(C_GLOBAL_RESOURCE::ABR_BUTTON_SMALL_RED);
 	{
 		const int MAX_W = 540, MAX_H = 405;
-		const int MIN_W = 300, MIN_H = 150;
+		const int MIN_W = 260, MIN_H = 120;
+		const int bottom = button_h + s_desc_button_margin_y * 2;
 
 		int rows = GetDescSize();
 		if (rows > GetDescCol())	rows = GetDescCol();
+
+		// what the tallest frame can't hold scrolls
+		const int max_rows = m_desc_y_distance > 0 ? (MAX_H - m_desc_y - bottom) / m_desc_y_distance : rows;
+		if (rows > max_rows)		rows = max_rows;
 		if (rows < 1)				rows = 1;
+		const bool scrolls = GetDescSize() > rows;
 
 		int body = GetDescContentWidth();
 
@@ -2500,9 +2485,8 @@ C_VS_UI_DESC_DIALOG::C_VS_UI_DESC_DIALOG(id_t type, void* void_ptr, void* void_p
 			if (title > body)	body = title;
 		}
 
-		// 50 keeps the scroll gutter, 60 keeps the close-button strip
-		int nw = m_desc_x + body + 50;
-		int nh = m_desc_y + rows * m_desc_y_distance + 60;
+		int nw = m_desc_x + body + (scrolls ? s_desc_scroll_gutter : s_desc_margin);
+		int nh = m_desc_y + rows * m_desc_y_distance + bottom;
 
 		if (nw > MAX_W)	nw = MAX_W;
 		if (nh > MAX_H)	nh = MAX_H;
@@ -2510,9 +2494,6 @@ C_VS_UI_DESC_DIALOG::C_VS_UI_DESC_DIALOG(id_t type, void* void_ptr, void* void_p
 		if (nh < MIN_H)	nh = MIN_H;
 
 		SetDescCol(rows);
-
-		close_x_offset -= (w - nw);
-		close_y_offset -= (h - nh);
 
 		w = nw;	h = nh;
 		Set(g_pUserInformation->iResolution_x / 2 - w / 2,
@@ -2527,10 +2508,8 @@ C_VS_UI_DESC_DIALOG::C_VS_UI_DESC_DIALOG(id_t type, void* void_ptr, void* void_p
 
 	m_pC_scroll_bar->SetPosMax(GetDescSize() - GetDescCol() + 1);
 	m_pC_button_group = new ButtonGroup(this);
-	//	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(scroll_x_offset, scroll_up_y_offset, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_UP), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_UP), SCROLL_UP_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_UP));
-	//	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(scroll_x_offset, scroll_down_y_offset, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_DOWN), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_DOWN), SCROLL_DOWN_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_DOWN));
-
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(close_x_offset, close_y_offset, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE), CLOSE_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(w - button_w - s_desc_button_margin_x, h - button_h - s_desc_button_margin_y,
+		button_w, button_h, CLOSE_ID, this, C_GLOBAL_RESOURCE::ABR_BUTTON_SMALL_RED));
 	//	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(x+help_x_offset, y+help_y_offset, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_HELP), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_HELP), HELP_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_HELP));
 
 }
@@ -2647,7 +2626,7 @@ void	C_VS_UI_DESC_DIALOG::Show()
 {
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		gpC_global_resource->DrawDialogLocked2(x, y, w, h, GetAttributes()->alpha);
+		gpC_global_resource->DrawDialogRenewalLocked(x, y, w, h, s_desc_bar_h);
 		m_pC_button_group->Show();
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
@@ -2662,6 +2641,14 @@ void	C_VS_UI_DESC_DIALOG::Show()
 
 	if (bScrollable)
 		m_pC_scroll_bar->Show(x, y);
+
+	// the button's label, over its blank art
+	C_VS_UI_EVENT_BUTTON* p_close = m_pC_button_group->GetButton(CLOSE_ID);
+	if (p_close != NULL)
+	{
+		gpC_global_resource->DrawRenewalButtonLabel(x + p_close->x, y + p_close->y, p_close->w, p_close->h,
+			s_desc_close_label, p_close->GetFocusState() && p_close->GetPressState());
+	}
 
 	m_pC_button_group->ShowDescription();
 }
@@ -2695,12 +2682,12 @@ void	C_VS_UI_DESC_DIALOG::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 	if (p_button->GetFocusState())
 	{
 		if (p_button->GetPressState())
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET);
+			gpC_global_resource->m_pC_assemble_box_button_renewal_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET);
 		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET);
+			gpC_global_resource->m_pC_assemble_box_button_renewal_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET);
 	}
 	else
-		gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
+		gpC_global_resource->m_pC_assemble_box_button_renewal_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
 
 }
 
@@ -3968,7 +3955,13 @@ void C_VS_UI_SUMMER_COME_BACK::Process()
 
 void	C_VS_UI_SUMMER_COME_BACK::Show()
 {
-	gpC_global_resource->DrawDialog(x, y, w, h, GetAttributes()->alpha);
+	if (m_bRenewal && gpC_base->m_p_DDSurface_back->Lock())
+	{
+		gpC_global_resource->DrawDialogRenewalLocked(x, y, w, h, 0);
+		gpC_base->m_p_DDSurface_back->Unlock();
+	}
+	else if (!m_bRenewal)
+		gpC_global_resource->DrawDialog(x, y, w, h, GetAttributes()->alpha);
 
 	g_FL2_GetDC();
 	std::string str;
@@ -4031,6 +4024,8 @@ void	C_VS_UI_SUMMER_COME_BACK::Show()
 	g_FL2_ReleaseDC();
 
 	m_pC_button_group->Show();
+	if (m_bRenewal)
+		ShowRenewalButtonLabels();
 
 	SHOW_WINDOW_ATTR;
 }
@@ -4042,6 +4037,11 @@ void	C_VS_UI_SUMMER_COME_BACK::Show()
 //-----------------------------------------------------------------------------
 void	C_VS_UI_SUMMER_COME_BACK::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
+	if (m_bRenewal)
+	{
+		ShowRenewalButton(p_button);
+		return;
+	}
 
 	if (p_button->GetFocusState())
 	{

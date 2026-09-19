@@ -869,10 +869,11 @@ C_VS_UI_TRIBE::C_VS_UI_TRIBE()
 	m_pC_minimap = new C_VS_UI_MINIMAP;
 	m_pC_chatting = NULL;
 	m_pC_skill = new C_VS_UI_SKILL;
+	m_pC_hotkey_bar = new C_VS_UI_HOTKEY_BAR(this);
+	m_pC_skill_book = new C_VS_UI_SKILL_BOOK;
 	m_pC_common_button_group = new ButtonGroup(this);
 
-	for (int i = 0; i < MENU_BUTTON_GROUP_COUNT; ++i)
-		m_pC_menu_button_groups[i] = new ButtonGroup(this);
+	m_pC_simple_spk = NULL;
 
 	m_pC_level_up = NULL;
 
@@ -907,17 +908,15 @@ C_VS_UI_TRIBE::~C_VS_UI_TRIBE()
 
 	DeleteNew(m_pC_quest_status);
 	DeleteNew(m_pC_effect_status);
+	DeleteNew(m_pC_skill_book);
+	DeleteNew(m_pC_hotkey_bar);
 	DeleteNew(m_pC_minimap);
 	DeleteNew(m_pC_inventory);
 	DeleteNew(m_pC_skill);
 
-	DeleteNew(m_pC_main_spk);
-	DeleteNew(m_pC_sys_button_spk);
+	DeleteNew(m_pC_simple_spk);
 
 	DeleteNew(m_pC_common_button_group);
-
-	for (int i = 0; i < MENU_BUTTON_GROUP_COUNT; ++i)
-		DeleteNew(m_pC_menu_button_groups[i]);
 
 	DeleteNew(m_pC_level_up);
 
@@ -934,289 +933,124 @@ C_VS_UI_TRIBE::~C_VS_UI_TRIBE()
 
 }
 
-void C_VS_UI_TRIBE::SetupMenuItems(const char* mainSpkFileName, const char* sysButtonSpkFileName)
+//-----------------------------------------------------------------------------
+// Skill box
+//
+// The skill box sits just left of the minimap, level with its top, as in DK
+// Umbra. C_VS_UI_SKILL draws it from SkillEtc*.spk.
+//-----------------------------------------------------------------------------
+static const int SKILL_BOX_SIZE = 42;	// C_VS_UI_SKILL's m_skill_guard_x/y
+static const int SKILL_BOX_GAP = 1;		// the guard's edge is clear, so the tile reads ~4px off
+
+static RECT s_skill_box = { 0, 0, 0, 0 };
+
+void g_GetSkillBoxRect(RECT* rect)
 {
-	//////////////////////////////////////////////////////////////////////////
-	// load spk
-	m_pC_main_spk = new C_SPRITE_PACK(mainSpkFileName);
+	*rect = s_skill_box;
+}
 
-	Set(g_pUserInformation->iResolution_x - m_pC_main_spk->GetWidth() + 1,
-		g_pUserInformation->iResolution_y - m_pC_main_spk->GetHeight() + 1,
-		m_pC_main_spk->GetWidth() - 1, m_pC_main_spk->GetHeight() - 1);
+// The visible part of the simple information panel (its art is transparent
+// above SIMPLE_PANEL_TOP). The level-up and resurrection buttons sit flush
+// against its right edge.
+static RECT s_simple_panel = { 0, 0, 0, 0 };
 
-	m_pC_sys_button_spk = new C_SPRITE_PACK(sysButtonSpkFileName);
-
-	//////////////////////////////////////////////////////////////////////////
-	// common buttons
-	int tab_x = 51, tab_y = 179, tab_gap = 24;
-
-	m_pC_common_button_group->Add(new C_VS_UI_EVENT_BUTTON(tab_x, tab_y,
-		m_pC_sys_button_spk->GetWidth(TAB_INFO_NORMAL), m_pC_sys_button_spk->GetHeight(TAB_INFO_NORMAL),
-		MENU_INFO_ID, this, TAB_INFO_NORMAL));
-	tab_x += tab_gap;
-
-	m_pC_common_button_group->Add(new C_VS_UI_EVENT_BUTTON(tab_x, tab_y,
-		m_pC_sys_button_spk->GetWidth(TAB_GUILD_NORMAL), m_pC_sys_button_spk->GetHeight(TAB_GUILD_NORMAL),
-		MENU_GUILD_ID, this, TAB_GUILD_NORMAL));
-	tab_x += tab_gap;
-
-	m_pC_common_button_group->Add(new C_VS_UI_EVENT_BUTTON(tab_x, tab_y,
-		m_pC_sys_button_spk->GetWidth(TAB_COMMUNITY_NORMAL), m_pC_sys_button_spk->GetHeight(TAB_COMMUNITY_NORMAL),
-		MENU_COMMUNITY_ID, this, TAB_COMMUNITY_NORMAL));
-	tab_x += tab_gap;
-
-	m_pC_common_button_group->Add(new C_VS_UI_EVENT_BUTTON(tab_x, tab_y,
-		m_pC_sys_button_spk->GetWidth(TAB_SHOP_NORMAL), m_pC_sys_button_spk->GetHeight(TAB_SHOP_NORMAL),
-		MENU_SHOP_ID, this, TAB_SHOP_NORMAL));
-	tab_x += tab_gap;
-
-	m_pC_common_button_group->Add(new C_VS_UI_EVENT_BUTTON(tab_x, tab_y,
-		m_pC_sys_button_spk->GetWidth(TAB_HELP_NORMAL), m_pC_sys_button_spk->GetHeight(TAB_HELP_NORMAL),
-		MENU_HELP_ID, this, TAB_HELP_NORMAL));
-	tab_x += tab_gap;
-
-	m_pC_common_button_group->Add(new C_VS_UI_EVENT_BUTTON(tab_x, tab_y,
-		m_pC_sys_button_spk->GetWidth(TAB_SYSTEM_NORMAL), m_pC_sys_button_spk->GetHeight(TAB_SYSTEM_NORMAL),
-		SYSTEM_ID, this, TAB_SYSTEM_NORMAL));
-	tab_x += tab_gap;
-
-#if	__CONTENTS(__USER_GRADE) // �̹����� ��� �ϴ� �ּ� ó��
-	//  	m_pC_common_button_group->Add( new C_VS_UI_EVENT_BUTTON(50, 161,
-	// 		m_pC_main_spk->GetWidth(BUTTON_USER_GRADE), m_pC_main_spk->GetHeight(BUTTON_USER_GRADE), USER_GRADE, this, BUTTON_USER_GRADE));
-#endif
-	// Push Pin
-	m_pC_common_button_group->Add(new C_VS_UI_EVENT_BUTTON(175, 161,
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN),
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN),
-		PUSHPIN_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN));
-
-	//////////////////////////////////////////////////////////////////////////
-	// Menu Items
-
-	// �ؿ��� ���� �߰� 
-	const int button_x_start = 21, button_y_start = 117, button_x_gap = 0, button_y_gap = 26;
-	const int button_w = m_pC_sys_button_spk->GetWidth(SUB_MENU_BUTTON_NORMAL);
-	const int button_h = m_pC_sys_button_spk->GetHeight(SUB_MENU_BUTTON_NORMAL);
-
-	ButtonGroup* menuBtnGroup;
-	int menu_idx = -1, button_x = 0, button_y = 0;
-
-	// ����
-	menu_idx = MENU_INFO_ID - MENU_INFO_ID;
-	menuBtnGroup = m_pC_menu_button_groups[menu_idx];
-	button_x = button_x_start + tab_gap * menu_idx;
-	button_y = button_y_start;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		NAMING_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		QUEST_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		INFO_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		GEAR_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		INVENTORY_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	// ��, Ŭ��, ���
-	menu_idx = MENU_GUILD_ID - MENU_INFO_ID;
-	menuBtnGroup = m_pC_menu_button_groups[menu_idx];
-	button_x = button_x_start + tab_gap * menu_idx;
-	button_y = button_y_start;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		TEAM_UNION_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		TEAM_WAIT_LIST_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		TEAM_LIST_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		TEAM_MEMBER_LIST_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		TEAM_INFO_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	// Ŀ�´�Ƽ
-	menu_idx = MENU_COMMUNITY_ID - MENU_INFO_ID;
-	menuBtnGroup = m_pC_menu_button_groups[menu_idx];
-	button_x = button_x_start + tab_gap * menu_idx;
-	button_y = button_y_start;
-
-#if __CONTENTS(__SMS_SERVICES)
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		SMS_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-#endif
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		MAIL_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		PARTY_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-#if __CONTENTS(__FRIEND_ADDITION)
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		UTIL_FRIEND_WAIT, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		UTIL_FRIEND_SYSTEM, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-#endif //__FRIEND_ADDITION
-
-	// ����
-	menu_idx = MENU_SHOP_ID - MENU_INFO_ID;
-	menuBtnGroup = m_pC_menu_button_groups[menu_idx];
-	button_x = button_x_start + tab_gap * menu_idx;
-	button_y = button_y_start;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		UTIL_MARKETB_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-#if __CONTENTS(__DARKEDEN_MARKET)
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		UTIL_MARKETM_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-#endif //__DARKEDEN_MARKET
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		UTIL_STORE_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	// ����
-	menu_idx = MENU_HELP_ID - MENU_INFO_ID;
-	menuBtnGroup = m_pC_menu_button_groups[menu_idx];
-	button_x = button_x_start + tab_gap * menu_idx;
-	button_y = button_y_start;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		GUILD_HELP_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		SKILL_HELP_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		BATTLE_HELP_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		CHAT_HELP_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
-	menuBtnGroup->Add(new C_VS_UI_EVENT_BUTTON(button_x, button_y, button_w, button_h,
-		HELP_ID, this, SUB_MENU_BUTTON_NORMAL));
-	button_y -= button_y_gap;
-
+void g_GetSimplePanelRect(RECT* rect)
+{
+	*rect = s_simple_panel;
 }
 
 //-----------------------------------------------------------------------------
-// OccludeButtonGroup
+// C_VS_UI_TRIBE::PlaceSkillBox
 //
-// Declare a button group's footprint to the crisp-text overlay, at the frame
-// position it is about to paint at.
-//
-// WindowManager::Show declares whole windows, which settles z-order BETWEEN
-// windows. It cannot see inside one: text a window prints early and buttons
-// it paints later are all the same window from out there. So a window that
-// paints over its own text says so here, and the rule stays the one rule -
-// text yields to what is declared after it, and to nothing else. The labels
-// these buttons print next are mirrored later still, so they stay on top.
+// Beside the minimap's resting spot, so it stays put while the minimap is
+// hidden or dragged.
 //-----------------------------------------------------------------------------
-static void OccludeButtonGroup(ButtonGroup * p_group, int win_x, int win_y, const char * psz_who)
+void C_VS_UI_TRIBE::PlaceSkillBox(bool bl_force)
 {
-	if (p_group == NULL)
-		return;
+	RECT map;
+	m_pC_minimap->GetRestingRect(&map);
 
-	C_VS_UI_EVENT_BUTTON * p_button;
+	RECT box;
+	box.left = map.left - SKILL_BOX_GAP - SKILL_BOX_SIZE;
+	box.top = map.top;
+	box.right = box.left + SKILL_BOX_SIZE;
+	box.bottom = box.top + SKILL_BOX_SIZE;
 
-	for (int i = 0; i < p_group->Size(); i++)
+	if (bl_force || memcmp(&box, &s_skill_box, sizeof(RECT)) != 0)
 	{
-		if (!p_group->Data(i, p_button) || p_button == NULL)
-			continue;
-
-		if (p_button->w <= 0 || p_button->h <= 0)
-			continue;
-
-		RECT rect;
-		rect.left   = win_x + p_button->x;
-		rect.top    = win_y + p_button->y;
-		rect.right  = rect.left + p_button->w;
-		rect.bottom = rect.top  + p_button->h;
-
-		g_FL2_OverlayOccludeRect(&rect, psz_who);
+		s_skill_box = box;
+		m_pC_skill->SetStartPoint(box.left, box.top);
 	}
 }
 
+// The panel's STR/DEX/INT columns, and their colours.
+static const int SIMPLE_STAT_COLUMN_X[3] = { 20, 97, 178 };
+static const COLORREF SIMPLE_STAT_RGB[3] = { RGB(255, 0, 0), RGB(0, 255, 0), RGB(0, 100, 255) };
+
+void C_VS_UI_TRIBE::SetupMenuItems()
+{
+	m_pC_simple_spk = new C_SPRITE_PACK(SPK_SIMPLE_INFORMATION);
+
+	// Bottom-left, 2px up from the edge, as DK Umbra has it.
+	const int panel_w = m_pC_simple_spk->GetWidth(SIMPLE_PANEL);
+	const int panel_h = m_pC_simple_spk->GetHeight(SIMPLE_PANEL);
+
+	Set(0, g_pUserInformation->iResolution_y - panel_h - 2, panel_w, panel_h);
+
+	s_simple_panel.left = x;
+	s_simple_panel.top = y + SIMPLE_PANEL_TOP;
+	s_simple_panel.right = x + w;
+	s_simple_panel.bottom = y + h;
+
+	// The pin, a plain circle, is the only button left: DK Umbra has no menu tabs.
+	m_pC_common_button_group->Add(new C_VS_UI_EVENT_BUTTON(SIMPLE_PIN_X, SIMPLE_PIN_Y,
+		m_pC_simple_spk->GetWidth(SIMPLE_CIRCLE), m_pC_simple_spk->GetHeight(SIMPLE_CIRCLE),
+		PUSHPIN_ID, this, SIMPLE_CIRCLE));
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_TRIBE::GetOccludeRect
+//
+// The panel below its transparent top rows, or just the pin while the panel
+// is hidden. The skill box is outside this window and declares itself.
+//-----------------------------------------------------------------------------
+bool C_VS_UI_TRIBE::GetOccludeRect(int* px0, int* py0, int* px1, int* py1) const
+{
+	if (IsSimplePanelShown())
+	{
+		*px0 = x;      *py0 = y + SIMPLE_PANEL_TOP;
+		*px1 = x + w;  *py1 = y + h;
+	}
+	else
+	{
+		*px0 = x + SIMPLE_PIN_X;
+		*py0 = y + SIMPLE_PIN_Y;
+		*px1 = *px0 + m_pC_simple_spk->GetWidth(SIMPLE_CIRCLE);
+		*py1 = *py0 + m_pC_simple_spk->GetHeight(SIMPLE_CIRCLE);
+	}
+
+	return true;
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_TRIBE::Show
+//
+// The pin hides the panel outright, as DK Umbra's does, instead of sliding it
+// off the screen: the pin stays, and so does the skill box.
+//-----------------------------------------------------------------------------
 void	C_VS_UI_TRIBE::Show()
 {
+	const bool bl_panel = IsSimplePanelShown();
+
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		m_pC_main_spk->BltLocked(x, y, MAIN_WINDOW);
-
-		int sec = 0, min = 0, hour = 0;
-		char sz_temp[20];
-		strcpy(sz_temp, m_time.c_str());
-		sec = atoi(sz_temp + strlen(sz_temp) - 2);
-		sz_temp[strlen(sz_temp) - 3] = '\0';
-		min = atoi(sz_temp + strlen(sz_temp) - 2);
-		sz_temp[strlen(sz_temp) - 3] = '\0';
-		hour = atoi(sz_temp);
-
-		const int icon_x = 88 + 24, icon_y = 29 + 23;
-		if (hour >= 8 && hour < 16)	// ���̴�
-			m_pC_main_spk->BltLocked(x + icon_x, y + icon_y, ICON_SUN);
-		else if (hour >= 20 || hour < 4)	// ���̴�
-			m_pC_main_spk->BltLocked(x + icon_x + 3, y + icon_y, ICON_MOON);
-		else	// ���� ��ü�� �ñ�-_- �ñ�-_-?;;
+		if (bl_panel)
 		{
-			if (hour >= 4 && hour < 8)	// �ضߴ� �ð�
-			{
-				int time = (hour - 4) * 60 + min;
-				// �ض� ���̶� ����� �޶� ������-_-;
-				Rect rect(0, 0, m_pC_main_spk->GetWidth(ICON_MOON), m_pC_main_spk->GetHeight(ICON_MOON) * (240 - time) / 240);
-				rect.y = m_pC_main_spk->GetHeight(ICON_MOON) - rect.h;
-				m_pC_main_spk->BltLockedClip(x + icon_x + 3, y + icon_y - rect.y, rect, ICON_MOON);
-				rect.w = m_pC_main_spk->GetWidth(ICON_SUN);
-				rect.h = m_pC_main_spk->GetHeight(ICON_SUN) * (time) / 240;
-				rect.y = 0;
-				m_pC_main_spk->BltLockedClip(x + icon_x, y + icon_y + m_pC_main_spk->GetHeight(ICON_SUN) - rect.h, rect, ICON_SUN);
-			}
-			else						// �ƴϸ� ������ �ð��̰���-_-
-			{
-				int time = (hour - 16) * 60 + min;
-				// �ض� ���̶� ����� �޶� ������-_-;
-				Rect rect(0, 0, m_pC_main_spk->GetWidth(ICON_SUN), m_pC_main_spk->GetHeight(ICON_SUN) * (240 - time) / 240);
-				rect.y = m_pC_main_spk->GetHeight(ICON_SUN) - rect.h;
-				m_pC_main_spk->BltLockedClip(x + icon_x, y + icon_y - rect.y, rect, ICON_SUN);
-				rect.w = m_pC_main_spk->GetWidth(ICON_MOON);
-				rect.h = m_pC_main_spk->GetHeight(ICON_MOON) * (time) / 240;
-				rect.y = 0;
-				m_pC_main_spk->BltLockedClip(x + icon_x + 3, y + icon_y + m_pC_main_spk->GetHeight(ICON_MOON) - rect.h, rect, ICON_MOON);
-			}
+			m_pC_simple_spk->BltLocked(x, y, SIMPLE_PANEL);
+			ShowDayBar();
 		}
 
+		m_pC_common_button_group->Show();
 
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
@@ -1225,20 +1059,14 @@ void	C_VS_UI_TRIBE::Show()
 
 	m_pC_common_button_group->ShowDescription();
 
-	//	g_PrintColorStr(x +128 - g_GetStringWidth(m_date.c_str(), gpC_base->m_chatting_pi.hfont)/2, y+10, m_date.c_str() ,gpC_base->m_chatting_pi, RGB_WHITE);	
-	//	g_PrintColorStr(x + 6+128 - g_GetStringWidth(m_time.c_str(), gpC_base->m_chatting_pi.hfont)/2, y+31, m_time.c_str(), gpC_base->m_chatting_pi, RGB_WHITE);	
-
-	g_PrintColorStr(x + 152 - g_GetStringWidth(m_date.c_str(), gpC_base->m_chatting_pi.hfont) / 2, y + 37, m_date.c_str(), gpC_base->m_chatting_pi, RGB_WHITE);
-	g_PrintColorStr(x + 6 + 152 - g_GetStringWidth(m_time.c_str(), gpC_base->m_chatting_pi.hfont) / 2, y + 54, m_time.c_str(), gpC_base->m_chatting_pi, RGB_WHITE);
+	if (bl_panel)
+		g_PrintColorStr(x + w / 2 - g_GetStringWidth(m_time.c_str(), gpC_base->m_chatting_pi.hfont) / 2, y + SIMPLE_TIME_Y,
+			m_time.c_str(), gpC_base->m_chatting_pi, RGB_WHITE);
 
 	g_FL2_ReleaseDC();
 
-
-	//////////////////////////////////////////////////////////////////////////
-	// �� ������ ����ġ ǥ��
-	ShowExp();
-	//
-	//////////////////////////////////////////////////////////////////////////
+	if (bl_panel)
+		ShowExp();
 
 	// The skill bar is registered with the WindowManager, but its Window::Show
 	// is a stub and its IsPixel always returns false - it paints here, from
@@ -1262,108 +1090,194 @@ void	C_VS_UI_TRIBE::Show()
 	}
 
 	m_pC_skill->Show2();
+}
 
-	static const char* slayer_menu_string[] =
+//-----------------------------------------------------------------------------
+// C_VS_UI_TRIBE::ShowDayBar
+//
+// Day runs 8-20 and night 20-8. For the four hours before each turn the next
+// one fills in from the left, its sun or moon riding the edge. Needs the back
+// surface locked.
+//-----------------------------------------------------------------------------
+void C_VS_UI_TRIBE::ShowDayBar()
+{
+	if (m_time.size() < 5)
+		return;
+
+	// "h:mm:ss"
+	const int hour = atoi(m_time.c_str());
+	const int min = atoi(m_time.c_str() + m_time.size() - 5);
+
+	const int bar_x = (m_pC_simple_spk->GetWidth(SIMPLE_PANEL) - m_pC_simple_spk->GetWidth(SIMPLE_DAY_FRAME)) / 2;
+
+	const bool bl_day = (hour >= 8 && hour < 20);
+	const int bar = bl_day ? SIMPLE_DAY_BAR : SIMPLE_NIGHT_BAR;
+	const int bar_w = m_pC_simple_spk->GetWidth(bar);
+
+	m_pC_simple_spk->BltLocked(x + bar_x, y + SIMPLE_DAY_Y, SIMPLE_DAY_FRAME);
+	m_pC_simple_spk->BltLocked(x + bar_x, y + SIMPLE_DAY_Y, bar);
+	m_pC_simple_spk->BltLocked(x + bar_x + bar_w - 3, y + SIMPLE_SUN_Y, bl_day ? SIMPLE_SUN : SIMPLE_MOON);
+
+	const int turn = bl_day ? 16 : 4;
+
+	if (hour >= turn && hour < turn + 4)
 	{
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_MENU].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_TEAM].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_EXP].GetString(),		// Ŀ�´�Ƽ
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_MESSAGE].GetString(),	// ����
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_HELP].GetString(),
+		const int next_bar = bl_day ? SIMPLE_NIGHT_BAR : SIMPLE_DAY_BAR;
+		const int fill_w = bar_w * ((hour - turn) * 60 + min) / 240;
+
+		if (fill_w > 0)
+		{
+			Rect rect(0, 0, fill_w, m_pC_simple_spk->GetHeight(next_bar));
+			m_pC_simple_spk->BltLockedClip(x + bar_x, y + SIMPLE_DAY_Y, rect, next_bar);
+		}
+
+		m_pC_simple_spk->BltLocked(x + bar_x + fill_w - 3, y + SIMPLE_SUN_Y, bl_day ? SIMPLE_MOON : SIMPLE_SUN);
+	}
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_TRIBE::ShowSimpleStats
+//
+// STR/DEX/INT across the panel at row_y: each label outlined in its stat's
+// colour, the value centred in the rest of its column. value_x, if given,
+// gets where each value went, for a row under it. Prints, so call it with
+// the DC held.
+//-----------------------------------------------------------------------------
+void C_VS_UI_TRIBE::ShowSimpleStats(int row_y, int* value_x)
+{
+	const char* label[3] =
+	{
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_STR].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_DEX].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_INT].GetString(),
 	};
 
-	static const char* vampire_menu_string[] =
-	{
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_MENU].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_CLAN].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_EXP].GetString(),		// Ŀ�´�Ƽ
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_MESSAGE].GetString(),	// ����
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_HELP].GetString(),
-	};
+	const int value[3] = { g_char_slot_ingame.STR_CUR, g_char_slot_ingame.DEX_CUR, g_char_slot_ingame.INT_CUR };
 
-	static const char* ousters_menu_string[] =
-	{
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_MENU].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_GUILD].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_EXP].GetString(),		// Ŀ�´�Ƽ
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_MESSAGE].GetString(),	// ����
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_HELP].GetString(),
-	};
+	PrintInfo& pi = gpC_base->m_chatting_pi;
+	char sz_value[16];
 
-	const char** menuStrings = NULL;
+	for (int i = 0; i < 3; i++)
+	{
+		wsprintf(sz_value, "%d", value[i]);
+
+		const int label_w = g_GetStringWidth(label[i], pi.hfont);
+		const int gap = max(4, (SIMPLE_STAT_W - label_w - g_GetStringWidth(sz_value, pi.hfont)) / 2);
+		const int number_x = x + SIMPLE_STAT_COLUMN_X[i] + label_w + gap;
+
+		g_PrintColorStrOut(x + SIMPLE_STAT_COLUMN_X[i], y + row_y, label[i], pi, RGB_WHITE, SIMPLE_STAT_RGB[i]);
+		g_PrintColorStrOut(number_x, y + row_y, sz_value, pi, SIMPLE_STAT_RGB[i], RGB_BLACK);
+
+		if (value_x != NULL)
+			value_x[i] = number_x;
+	}
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_TRIBE::GetSimpleExp
+//
+// What the EXP bar is out of, and how much of it is left: the server sends
+// the exp still to go, not the exp earned. An advanced character levels on
+// advancement exp; below that a slayer's bar is the five domains together.
+//-----------------------------------------------------------------------------
+void C_VS_UI_TRIBE::GetSimpleExp(__int64& goal_exp, __int64& exp_remain)
+{
+	goal_exp = 0;
+	exp_remain = g_char_slot_ingame.EXP_REMAIN;
+
+	if (g_char_slot_ingame.m_AdvancementLevel > 0)
+	{
+		goal_exp = g_pExperienceTable->GetAdvanceMent(g_char_slot_ingame.m_AdvancementLevel).GoalExp;
+		return;
+	}
 
 	switch (g_eRaceInterface)
 	{
-	case RACE_SLAYER:	menuStrings = slayer_menu_string;	break;
-	case RACE_VAMPIRE:	menuStrings = vampire_menu_string;	break;
-	case RACE_OUSTERS:	menuStrings = ousters_menu_string;	break;
-	}
+	case RACE_SLAYER:
+		exp_remain = 0;
 
+		for (int d = SKILLDOMAIN_BLADE; d <= SKILLDOMAIN_ENCHANT; d++)
+		{
+			const int level = (*g_pSkillManager)[d].GetDomainLevel();
+			const int remain = (*g_pSkillManager)[d].GetDomainExpRemain();
+
+			if (level < 0)
+				continue;
+
+			goal_exp += (*g_pSkillManager)[d].GetExpInfo(level).GoalExp;
+
+			if (remain > 0)		// negative once the domain can't level
+				exp_remain += remain;
+		}
+		break;
+
+	case RACE_VAMPIRE:
+		goal_exp = g_pExperienceTable->GetVampireInfo(g_char_slot_ingame.level).GoalExp;
+		break;
+
+	case RACE_OUSTERS:
+		goal_exp = g_pExperienceTable->GetOustersInfo(g_char_slot_ingame.level).GoalExp;
+		break;
+	}
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_TRIBE::ShowSimpleExp
+//
+// The EXP bar with its label and percentage.
+//-----------------------------------------------------------------------------
+void C_VS_UI_TRIBE::ShowSimpleExp(int track_y, int label_y)
+{
+	__int64 goal_exp, exp_remain;
+	GetSimpleExp(goal_exp, exp_remain);
+
+	__int64 done = goal_exp - exp_remain;
+
+	if (done > goal_exp)
+		done = goal_exp;
+
+	if (done < 0)
+		done = 0;
+
+	const int fill_w = m_pC_simple_spk->GetWidth(SIMPLE_EXP_FILL);
+	const int fill_h = m_pC_simple_spk->GetHeight(SIMPLE_EXP_FILL);
 
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		// The exp bar, the stat rows and the date and time are already in the
-		// overlay by now; everything from here paints over them.
-		OccludeButtonGroup(m_pC_common_button_group, x, y, "tribe tabs");
+		m_pC_simple_spk->BltLocked(x + SIMPLE_EXP_TRACK_X, y + track_y, SIMPLE_EXP_TRACK);
 
-		m_pC_common_button_group->Show();
-
-		if (m_selected_menu >= MENU_INFO_ID && m_selected_menu <= MENU_HELP_ID)
+		if (goal_exp > 0 && done > 0)
 		{
-			int menuIdx = m_selected_menu - MENU_INFO_ID;
-
-			const int sub_menu_bottom_x = 21 + menuIdx * 24;
-			const int sub_menu_bottom_y = 141;
-
-			// This menu expands upwards across the stat rows - the STR/DEX/INT
-			// readouts printed above are underneath it, not on top of it.
-			RECT stem;
-			stem.left   = x + sub_menu_bottom_x;
-			stem.top    = y + sub_menu_bottom_y;
-			stem.right  = stem.left + m_pC_sys_button_spk->GetWidth(SUB_MENU_BOTTOM);
-			stem.bottom = stem.top  + m_pC_sys_button_spk->GetHeight(SUB_MENU_BOTTOM);
-			g_FL2_OverlayOccludeRect(&stem, "tribe menu stem");
-
-			OccludeButtonGroup(m_pC_menu_button_groups[menuIdx], x, y, "tribe menu");
-
-			m_pC_sys_button_spk->BltLocked(x + sub_menu_bottom_x, y + sub_menu_bottom_y, SUB_MENU_BOTTOM);
-			m_pC_menu_button_groups[menuIdx]->Show();
-
-			gpC_base->m_p_DDSurface_back->Unlock();
-
-			g_FL2_GetDC();
-			m_pC_menu_button_groups[menuIdx]->ShowDescription();
-
-			const char* menuString = menuStrings[menuIdx];
-
-			PrintInfo* pi = &gpC_base->m_chatting_pi;
-			int strW = g_GetStringWidth(menuString, pi->hfont);
-			int strH = g_GetStringHeight(menuString, pi->hfont);
-
-			int strX = sub_menu_bottom_x + (m_pC_sys_button_spk->GetWidth(SUB_MENU_BOTTOM) - strW) / 2;
-			int strY = sub_menu_bottom_y + (m_pC_sys_button_spk->GetHeight(SUB_MENU_BOTTOM) - strH) / 2;
-
-			g_PrintColorStrShadow(x + strX, y + strY + 5, menuString, *pi, RGB_WHITE, RGB_BLACK);
-
-			g_FL2_ReleaseDC();
+			Rect rect(0, 0, (int)(fill_w * done / goal_exp), fill_h);
+			m_pC_simple_spk->BltLockedClip(x + SIMPLE_EXP_TRACK_X + 1, y + track_y + 1, rect, SIMPLE_EXP_FILL);
 		}
-		else
-		{
-			gpC_base->m_p_DDSurface_back->Unlock();
-		}
+
+		gpC_base->m_p_DDSurface_back->Unlock();
 	}
+
+	g_FL2_GetDC();
+
+	g_PrintColorStrOut(x + SIMPLE_EXP_LABEL_X, y + label_y, "EXP", gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
+
+	if (goal_exp > 0)
+	{
+		PrintInfo& pi = gpC_base->m_small_pi;
+		char sz_percent[16];
+
+		sprintf(sz_percent, "%.1f%%", done * 100.0 / goal_exp);
+
+		// centred on the fill, a 14px line as DK Umbra places it
+		g_PrintColorStrOut(x + SIMPLE_EXP_TRACK_X + 1 + (fill_w - g_GetStringWidth(sz_percent, pi.hfont)) / 2,
+			y + track_y + 3 + (fill_h - 14) / 2, sz_percent, pi, RGB_WHITE, RGB_BLACK);
+	}
+
+	g_FL2_ReleaseDC();
 }
 
 void	C_VS_UI_TRIBE::Process()
 {
-	if (!m_pC_skill->IsPixel(gpC_mouse_pointer->GetX(), gpC_mouse_pointer->GetY()))
-	{
-		ProcessHide(68);
-	}
+	PlaceSkillBox(false);
 	m_pC_common_button_group->Process();
-
-	for (int i = 0; i < MENU_BUTTON_GROUP_COUNT; ++i)
-		m_pC_menu_button_groups[i]->Process();
 }
 
 void	C_VS_UI_TRIBE::WindowEventReceiver(id_t event)
@@ -1371,7 +1285,7 @@ void	C_VS_UI_TRIBE::WindowEventReceiver(id_t event)
 	switch (event)
 	{
 	case EVENT_WINDOW_MOVE:
-		m_pC_skill->SetStartPoint(x + 67, y + 30);
+		PlaceSkillBox(true);
 		EMPTY_MOVE;
 		break;
 	}
@@ -1441,44 +1355,9 @@ void	C_VS_UI_TRIBE::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 	//	ShowButtonDescription(p_button);
 	if (p_button->GetID() == PUSHPIN_ID)
 	{
-		if (GetAttributes()->autohide)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN_PUSHED);
-	}
-#if	__CONTENTS(__USER_GRADE)
-	else if (p_button->GetID() == USER_GRADE)
-	{
-		if (p_button->GetFocusState())
-		{
-			if (p_button->GetPressState())
-				m_pC_main_spk->BltLocked(x + p_button->x, y + p_button->y + 1, p_button->m_image_index + 1);
-			else
-				m_pC_main_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 1);
-		}
-		else
-			m_pC_main_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
-	}
-#endif	//__USER_GRADE
-	else
-	{
-		if (p_button->GetID() == m_selected_menu)
-		{
-			m_pC_sys_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 2);
-		}
-		else if (p_button->GetFocusState())
-		{
-			if (p_button->GetPressState())
-			{
-				m_pC_sys_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 2);
-			}
-			else
-			{
-				m_pC_sys_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 1);
-			}
-		}
-		else
-			m_pC_sys_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
+		// the plain circle, lit while the mouse is on it
+		m_pC_simple_spk->BltLocked(x + p_button->x, y + p_button->y,
+			p_button->GetFocusState() ? SIMPLE_CIRCLE_LIT : SIMPLE_CIRCLE);
 	}
 
 	const static char* slayer_string[EXEC_MAX + 1] =
@@ -1926,15 +1805,19 @@ void	C_VS_UI_TRIBE::Run(id_t id)
 //-----------------------------------------------------------------------------
 bool C_VS_UI_TRIBE::IsPixel(int _x, int _y)
 {
-	bool re;
-	re = m_pC_main_spk->IsPixel(_x - x, _y - y);
-	re |= m_pC_skill->IsPixel2(_x, _y);
+	if (m_pC_skill->IsPixel2(_x, _y))
+		return true;
 
-	re |= m_pC_common_button_group->IsInRect(_x - x, _y - y) ? true : false;
-	for (int i = 0; i < MENU_BUTTON_GROUP_COUNT; ++i)
-		re |= m_pC_menu_button_groups[i]->IsInRect(_x - x, _y - y) ? true : false;
+	RECT box;
+	g_GetSkillBoxRect(&box);
 
-	return re;
+	if (_x >= box.left && _x < box.right && _y >= box.top && _y < box.bottom)
+		return true;
+
+	if (m_pC_common_button_group->IsInRect(_x - x, _y - y))
+		return true;
+
+	return IsSimplePanelShown() && m_pC_simple_spk->IsPixel(_x - x, _y - y, SIMPLE_PANEL);
 }
 
 //-----------------------------------------------------------------------------
@@ -2251,6 +2134,20 @@ bool C_VS_UI_TRIBE::CloseInventoryGearWindow()
 }
 
 //-----------------------------------------------------------------------------
+// C_VS_UI_TRIBE::CloseSkillBook
+//
+// ESC closes the skills window, as it closed the old skill info.
+//-----------------------------------------------------------------------------
+bool C_VS_UI_TRIBE::CloseSkillBook()
+{
+	if (m_pC_skill_book == NULL || !m_pC_skill_book->Running())
+		return false;
+
+	m_pC_skill_book->Finish();
+	return true;
+}
+
+//-----------------------------------------------------------------------------
 // C_VS_UI_TRIBE::GetInventoryOpenState
 //
 // 
@@ -2350,10 +2247,19 @@ void C_VS_UI_TRIBE::HotKey_Gear()
 	if (gpC_base == NULL || gpC_base->EventOccured() == true)
 		return;
 
+	// DK Umbra opens and closes the inventory with the equipment window.
 	if (!GetGearOpenState())
+	{
 		OpenGear();
+		if (!GetInventoryOpenState())
+			OpenInventory();
+	}
 	else
+	{
 		CloseGear();
+		if (GetInventoryOpenState())
+			CloseInventory();
+	}
 
 	switch (g_eRaceInterface)
 	{
@@ -2383,21 +2289,8 @@ void C_VS_UI_TRIBE::HotKey_GearChange()
 		return;
 
 	RunGearChange();
-
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		PlaySound(SOUND_SLAYER_BUTTON);
-		break;
-
-	case RACE_VAMPIRE:
-		PlaySound(SOUND_VAMPIRE_BUTTON);
-		break;
-
-	case RACE_OUSTERS:
-		PlaySound(SOUND_OUSTERS_INTERFACE);
-		break;
-	}
+	// no race button sound here: the swap itself plays the equipment sound,
+	// and the two together sounded like a menu opening (2026-09-17)
 }
 
 void C_VS_UI_TRIBE::HotKey_GearChangeShow()
@@ -2452,28 +2345,8 @@ void	C_VS_UI_TRIBE::HotKey_Skill()
 
 void	C_VS_UI_TRIBE::HotKey_CharInfo()
 {
-	if (gpC_base == NULL || gpC_base->EventOccured() == true)
-		return;
-
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		PlaySound(SOUND_SLAYER_BUTTON);
-		break;
-
-	case RACE_VAMPIRE:
-		PlaySound(SOUND_VAMPIRE_BUTTON);
-		break;
-
-	case RACE_OUSTERS:
-		PlaySound(SOUND_OUSTERS_INTERFACE);
-		break;
-	}
-
-	if (gC_vs_ui.IsRunningCharInfo())
-		gC_vs_ui.CloseInfo();
-	else
-		gC_vs_ui.RunInfo(C_VS_UI_INFO::CHARACTER_INFO_MODE);
+	// DK Umbra: the character information is part of the equipment window.
+	HotKey_Gear();
 }
 
 void	C_VS_UI_TRIBE::HotKey_SkillInfo()
@@ -2496,10 +2369,11 @@ void	C_VS_UI_TRIBE::HotKey_SkillInfo()
 		break;
 	}
 
-	if (gC_vs_ui.IsRunningSkillInfo())
-		gC_vs_ui.CloseInfo();
+	// DK Umbra's skills window, with our Rank tab, in place of the old skill info
+	if (m_pC_skill_book->Running())
+		m_pC_skill_book->Finish();
 	else
-		gC_vs_ui.RunInfo(C_VS_UI_INFO::SKILL_INFO_MODE);
+		m_pC_skill_book->Start();
 }
 
 void	C_VS_UI_TRIBE::HotKey_Grade1Info()
@@ -3198,249 +3072,62 @@ bool C_VS_UI_TRIBE::MouseControl(UINT message, int _x, int _y)
 {
 	_x -= x; _y -= y;
 
-	bool bMenuFocus = false;
-
 	m_pC_common_button_group->MouseControl(message, _x, _y);
-	bMenuFocus |= m_pC_common_button_group->IsInRect(_x, _y) ? true : false;
 
-	if (m_selected_menu >= MENU_INFO_ID && m_selected_menu <= MENU_HELP_ID)
-	{
-		int menuIdx = m_selected_menu - MENU_INFO_ID;
-		m_pC_menu_button_groups[menuIdx]->MouseControl(message, _x, _y);
-		bMenuFocus |= m_pC_menu_button_groups[menuIdx]->IsInRect(_x, _y) ? true : false;
-		bMenuFocus |= m_pC_sys_button_spk->IsPixel(_x - 21 - menuIdx * 24, _y - 141, SUB_MENU_BOTTOM);
-	}
-
-	if (bMenuFocus)
+	if (m_pC_common_button_group->IsInRect(_x, _y))
 		return true;
 
-	// EXP �� ��ư�� ����
-	if (g_eRaceInterface == RACE_SLAYER)
+	if (IsSimplePanelShown() && m_pC_simple_spk->IsPixel(_x, _y, SIMPLE_PANEL))
+		ShowSimpleDescription(_x, _y);
+
+	if (m_pC_skill->IsPixel2(_x + x, _y + y))
+		m_pC_skill->MouseControl(message, _x + x, _y + y);
+
+	return true;
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_TRIBE::ShowSimpleDescription
+//
+// Tooltips for the panel, at window coordinates: the EXP bar, and a slayer's
+// stats and domains.
+//-----------------------------------------------------------------------------
+void C_VS_UI_TRIBE::ShowSimpleDescription(int _x, int _y)
+{
+	const bool bl_slayer = (g_eRaceInterface == RACE_SLAYER);
+	const int exp_y = bl_slayer ? SIMPLE_SLAYER_EXP_Y : SIMPLE_EXP_Y;
+
+	if (_x >= SIMPLE_EXP_LABEL_X && _x < SIMPLE_EXP_TRACK_X + m_pC_simple_spk->GetWidth(SIMPLE_EXP_TRACK) &&
+		_y >= exp_y - 4 && _y < exp_y + m_pC_simple_spk->GetHeight(SIMPLE_EXP_TRACK) + 4)
 	{
-		//			char* exp_bar_string[1] = 
-		//			{
-		//				(*g_pGameStringTable)[UI_STRING_MESSAGE_CURRENT_EXP].GetString(),
-		//				(*g_pGameStringTable)[UI_STRING_MESSAGE_NEXT_LEVEL].GetString(),
-		//				(*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_EXP].GetString(),
-		//			};
-		static char temp_str[1][50];
-		static LPSTR str[1] = { temp_str[0] };//, temp_str[1] };//, temp_str[2] };
-		str[0] = temp_str[0];
-		//			str[1] = temp_str[1];
-		//			str[2] = temp_str[2];
+		__int64 goal_exp, exp_remain;
+		GetSimpleExp(goal_exp, exp_remain);
 
-		const int bar_x = 98, bar_y = 74, str_x = 27, num_x = 76, bar_gap = 12;
-		int num[2] = { -1, -1 };//, -1};
+		const int percent = (int)((goal_exp - exp_remain) * 100 / max(1, goal_exp));
 
-
-		if (_x > str_x && _x < 165 && _y > bar_y && _y < bar_y + bar_gap * 6)
+		if (bl_slayer)
 		{
-			int domain[3];
-			domain[0] = -1;
-			domain[1] = -1;
-			domain[2] = -1;
+			static char sz_exp[256];
+			static LPSTR str[1] = { sz_exp };
 
-			bool bMax = false, bFame = false;
+			wsprintf(sz_exp, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_EXP_DESCRIPTION_NEW].GetString(),
+				g_GetNumberString((int)exp_remain).c_str(), g_GetNumberString(percent).c_str());
 
-			int TotalAttr = g_char_slot_ingame.STR_PURE + g_char_slot_ingame.DEX_PURE + g_char_slot_ingame.INT_PURE;
-			int DomainLevelMax = -1;
-			int fame = -1;
-
-
-			if ((_y - bar_y) / bar_gap > 2)
-			{
-				for (int i = 0; i < 3; i++)
-				{
-					int high_level = -1;
-
-					for (int d = SKILLDOMAIN_BLADE; d <= SKILLDOMAIN_ENCHANT; d++)
-					{
-						const int domain_level = (*g_pSkillManager)[d].GetDomainLevel();
-						if (d != domain[0] && d != domain[1] && d != domain[2] && domain_level > high_level)
-						{
-							domain[i] = d;
-							high_level = domain_level;
-						}
-
-						DomainLevelMax = max(DomainLevelMax, (*g_pSkillManager)[d].GetDomainLevel());
-					}
-				}
-			}
-
-
-			switch ((_y - bar_y) / bar_gap)
-			{
-			case 0:	// str
-			{
-				const __int64 goal_exp = g_pExperienceTable->GetSTRInfo(g_char_slot_ingame.STR_PURE).GoalExp;
-				num[0] = g_char_slot_ingame.STR_EXP_REMAIN;
-
-				num[1] = (goal_exp - num[0]) * 100 / max(1, (goal_exp));
-				//						num[2] = g_pExperienceTable->GetSTRInfo(g_char_slot_ingame.STR_PURE).AccumExp - g_char_slot_ingame.STR_EXP_CUR;
-
-				// ������ ������ 100�����̸鼭 �ɷ�ġ ������ 300�����̸�..
-				// �ϳ��� �ɷ�ġ�� 200�� ���� �� ����.
-				if (DomainLevelMax <= MAX_SLAYER_DOMAIN_SUM_OLD && TotalAttr <= MAX_SLAYER_ATTR_SUM_OLD)
-				{
-					if (g_char_slot_ingame.STR_PURE >= MAX_SLAYER_ATTR_OLD)
-						bMax = true;
-				}
-			}
-			break;
-
-			case 1:	// dex
-			{
-				const __int64 goal_exp = g_pExperienceTable->GetDEXInfo(g_char_slot_ingame.DEX_PURE).GoalExp;
-				num[0] = g_char_slot_ingame.DEX_EXP_REMAIN;
-
-				num[1] = (goal_exp - num[0]) * 100 / max(1, (goal_exp));
-				//						num[2] = g_pExperienceTable->GetSTRInfo(g_char_slot_ingame.STR_PURE).AccumExp - g_char_slot_ingame.STR_EXP_CUR;
-
-				// ������ ������ 100�����̸鼭 �ɷ�ġ ������ 300�����̸�..
-				// �ϳ��� �ɷ�ġ�� 200�� ���� �� ����.
-				if (DomainLevelMax <= MAX_SLAYER_DOMAIN_SUM_OLD && TotalAttr <= MAX_SLAYER_ATTR_SUM_OLD)
-				{
-					if (g_char_slot_ingame.DEX_PURE >= MAX_SLAYER_ATTR_OLD)
-						bMax = true;
-				}
-			}
-			break;
-
-			case 2:	// int
-			{
-				const __int64 goal_exp = g_pExperienceTable->GetINTInfo(g_char_slot_ingame.INT_PURE).GoalExp;
-				num[0] = g_char_slot_ingame.INT_EXP_REMAIN;
-
-				num[1] = (goal_exp - num[0]) * 100 / max(1, (goal_exp));
-				//						num[2] = g_pExperienceTable->GetSTRInfo(g_char_slot_ingame.STR_PURE).AccumExp - g_char_slot_ingame.STR_EXP_CUR;
-
-				// ������ ������ 100�����̸鼭 �ɷ�ġ ������ 300�����̸�..
-				// �ϳ��� �ɷ�ġ�� 200�� ���� �� ����.
-				if (DomainLevelMax <= MAX_SLAYER_DOMAIN_SUM_OLD && TotalAttr <= MAX_SLAYER_ATTR_SUM_OLD)
-				{
-					if (g_char_slot_ingame.INT_PURE >= MAX_SLAYER_ATTR_OLD)
-						bMax = true;
-				}
-			}
-			break;
-
-			case 3:	// skill1
-				if (g_pSkillManager)
-				{
-					int domainIndex = domain[0];
-					int level = (*g_pSkillManager)[domainIndex].GetDomainLevel();
-					int exp_remain = (*g_pSkillManager)[domainIndex].GetDomainExpRemain();
-
-					if (level >= 0 && exp_remain >= 0)
-					{
-						//							int next_exp = (*g_pSkillManager)[domainIndex].GetExpInfo(level).AccumExp;
-						const __int64 goal_exp = (*g_pSkillManager)[domainIndex].GetExpInfo(level).GoalExp;
-
-						num[0] = exp_remain;
-						num[1] = (goal_exp - exp_remain) * 100 / max(1, (goal_exp));
-						//							num[2] = next_exp - exp;
-					}
-
-					fame = g_pFameInfoTable->GetFameForLevel((SKILLDOMAIN)domainIndex, level);
-
-					if (g_char_slot_ingame.FAME < fame)
-						bFame = true;
-				}
-				break;
-
-			case 4:	// skill2
-				if (g_pSkillManager)
-				{
-					int domainIndex = domain[1];
-					int level = (*g_pSkillManager)[domainIndex].GetDomainLevel();
-					int exp_remain = (*g_pSkillManager)[domainIndex].GetDomainExpRemain();
-
-					if (level >= 0 && exp_remain >= 0)
-					{
-						//							int next_exp = (*g_pSkillManager)[domainIndex].GetExpInfo(level).AccumExp;
-						const __int64 goal_exp = (*g_pSkillManager)[domainIndex].GetExpInfo(level).GoalExp;
-
-						num[0] = exp_remain;
-						num[1] = (goal_exp - exp_remain) * 100 / max(1, (goal_exp));
-						//							num[2] = next_exp - exp;
-					}
-
-					fame = g_pFameInfoTable->GetFameForLevel((SKILLDOMAIN)domainIndex, level);
-
-					if (g_char_slot_ingame.FAME < fame)
-						bFame = true;
-				}
-				break;
-
-			case 5:	// skill3
-				if (g_pSkillManager)
-				{
-					int domainIndex = domain[2];
-					int level = (*g_pSkillManager)[domainIndex].GetDomainLevel();
-					int exp_remain = (*g_pSkillManager)[domainIndex].GetDomainExpRemain();
-
-					if (level >= 0 && exp_remain >= 0)
-					{
-						//							int next_exp = (*g_pSkillManager)[domainIndex].GetExpInfo(level).AccumExp;
-						const __int64 goal_exp = (*g_pSkillManager)[domainIndex].GetExpInfo(level).GoalExp;
-
-						num[0] = exp_remain;
-						num[1] = (goal_exp - exp_remain) * 100 / max(1, (goal_exp));
-						//							num[2] = next_exp - exp;
-					}
-
-					fame = g_pFameInfoTable->GetFameForLevel((SKILLDOMAIN)domainIndex, level);
-
-					if (g_char_slot_ingame.FAME < fame)
-						bFame = true;
-				}
-				break;
-			}
-
-
-			// ���ڻ��̿� ,�ֱ�
-			wsprintf(temp_str[0], (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_EXP_DESCRIPTION_NEW].GetString(), g_GetNumberString(num[0]).c_str(), g_GetNumberString(num[1]).c_str());
-
-			if (num[0] < 0)
-				bMax = true;	// �������ƽ�
-
-			if (bMax)
-			{
-				strcpy(temp_str[0], (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_UP_STAT].GetString());
-				//					str[2] = NULL;
-				g_descriptor_manager.Set(DID_STRINGS, x + _x, y + _y, (void*)str, 1);
-			}
-			else
-				if (bFame)
-				{
-					wsprintf(temp_str[0], "%s(%s:%d)", (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_UP_LEVEL_BY_FAME].GetString(),
-						(*g_pGameStringTable)[UI_STRING_MESSAGE_NEED_FAME].GetString(),
-						fame - g_char_slot_ingame.FAME);
-					//					str[2] = NULL;
-					g_descriptor_manager.Set(DID_STRINGS, x + _x, y + _y, (void*)str, 1);
-				}
-				else
-					g_descriptor_manager.Set(DID_STRINGS, x + _x, y + _y, (void*)str, 1);
-
+			g_descriptor_manager.Set(DID_STRINGS, x + _x, y + _y, (void*)str, 1);
 		}
-	}
-	else if (g_eRaceInterface == RACE_OUSTERS)
-	{
-		const int bar_x = 110, bar_y = 95, str_x = 27, num_x = 46, bar_gap = 14;
-		if (_y >= bar_y && _y <= bar_y + 14)
+		else
 		{
 			static std::string hpbar_string[2];
 			const static char* help_string[3] = { NULL, NULL, NULL };
-
 			char temp_string[512];
 
-			int LeftExp = g_char_slot_ingame.EXP_REMAIN;//g_pExperienceTable->GetOustersInfo(g_char_slot_ingame.level).AccumExp - g_char_slot_ingame.EXP_CUR;
 			wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_LEVEL_DESCRIPTION].GetString(), g_char_slot_ingame.level);
 			hpbar_string[0] = temp_string;
 
-			int fame = g_pFameInfoTable->GetFameForLevel(SKILLDOMAIN_OUSTERS, g_char_slot_ingame.level);
+			const int fame = g_pFameInfoTable->GetFameForLevel(g_eRaceInterface == RACE_VAMPIRE ? SKILLDOMAIN_VAMPIRE : SKILLDOMAIN_OUSTERS,
+				g_char_slot_ingame.level);
 
-			if (LeftExp < 0)
+			if (g_char_slot_ingame.EXP_REMAIN < 0)
 			{
 				hpbar_string[1] = (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_UP_LEVEL].GetString();
 			}
@@ -3453,47 +3140,110 @@ bool C_VS_UI_TRIBE::MouseControl(UINT message, int _x, int _y)
 			}
 			else
 			{
-				std::string temp[2];
-				char szTemp[256] = { 0, };
-				wsprintf(szTemp, "%d", g_char_slot_ingame.EXP_REMAIN);
-				temp[0] = szTemp;
-				for (int i = 3; i <= 13; i += 4)
-				{
-					if (temp[0].size() > i) temp[0].insert(temp[0].size() - i, ",");
-				}
-
-				__int64 goal_exp = g_pExperienceTable->GetOustersInfo(g_char_slot_ingame.level).GoalExp;
-				wsprintf(szTemp, "%d", (goal_exp - g_char_slot_ingame.EXP_REMAIN) * 100 / max(1, (goal_exp)));
-
-				temp[1] = szTemp;
-				for (int i = 3; i <= 13; i += 4)
-				{
-					if (temp[1].size() > i)temp[1].insert(temp[1].size() - i, ",");
-				}
-				//					wsprintf(szTemp,"%d",LeftExp);
-				//					temp[2] = szTemp;
-				//					for(i = 3; i <= 13; i += 4)
-				//					{
-				//						if(temp[2].size() > i)temp[2].insert(temp[2].size()-i, ",");
-				//					}
-
 				wsprintf(temp_string, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_EXP_DESCRIPTION_NEW].GetString(),
-					temp[0].c_str(), temp[1].c_str());//,temp[2].c_str());
-				//						g_char_slot_ingame.EXP_CUR, 
-				//						g_pExperienceTable->GetVampireInfo(g_char_slot_ingame.level).AccumExp, 	LeftExp);
+					g_GetNumberString(g_char_slot_ingame.EXP_REMAIN).c_str(), g_GetNumberString(percent).c_str());
 				hpbar_string[1] = temp_string;
 			}
-			help_string[2] = hpbar_string[1].c_str();
+
 			help_string[0] = hpbar_string[0].c_str();
-			g_descriptor_manager.Set(DID_HELP, x + bar_x, y + bar_y, (void*)help_string);
+			help_string[2] = hpbar_string[1].c_str();
+			g_descriptor_manager.Set(DID_HELP, x + SIMPLE_EXP_TRACK_X, y + exp_y, (void*)help_string);
+		}
+
+		return;
+	}
+
+	if (!bl_slayer)
+		return;
+
+	int stat = -1, domain = -1;
+
+	if (_y >= SIMPLE_SLAYER_STAT_Y && _y < SIMPLE_SLAYER_STAT_Y + 14)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			if (_x >= SIMPLE_STAT_COLUMN_X[i] && _x < SIMPLE_STAT_COLUMN_X[i] + SIMPLE_STAT_W)
+				stat = i;
+		}
+	}
+	else if (_y >= SIMPLE_DOMAIN_LEVEL_Y && _y < SIMPLE_DOMAIN_Y + m_pC_simple_spk->GetHeight(SIMPLE_DOMAIN))
+	{
+		for (int d = SKILLDOMAIN_BLADE; d <= SKILLDOMAIN_ENCHANT; d++)
+		{
+			const int icon_x = SIMPLE_DOMAIN_X + SIMPLE_DOMAIN_GAP * (d - SKILLDOMAIN_BLADE);
+
+			if (_x >= icon_x - 2 && _x < icon_x + m_pC_simple_spk->GetWidth(SIMPLE_DOMAIN) + 2)
+				domain = d;
 		}
 	}
 
+	if (stat < 0 && domain < 0)
+		return;
 
-	if (m_pC_skill->IsPixel2(_x + x, _y + y))
-		m_pC_skill->MouseControl(message, _x + x, _y + y);
+	static char temp_str[256];
+	static LPSTR str[1] = { temp_str };
 
-	return true;
+	int remain = -1, percent = -1, fame = -1;
+	bool bMax = false, bFame = false;
+
+	if (stat >= 0)
+	{
+		const int pure[3] = { g_char_slot_ingame.STR_PURE, g_char_slot_ingame.DEX_PURE, g_char_slot_ingame.INT_PURE };
+		const int stat_remain[3] = { g_char_slot_ingame.STR_EXP_REMAIN, g_char_slot_ingame.DEX_EXP_REMAIN, g_char_slot_ingame.INT_EXP_REMAIN };
+
+		const __int64 goal_exp = stat == 0 ? g_pExperienceTable->GetSTRInfo(pure[0]).GoalExp
+			: stat == 1 ? g_pExperienceTable->GetDEXInfo(pure[1]).GoalExp
+			: g_pExperienceTable->GetINTInfo(pure[2]).GoalExp;
+
+		remain = stat_remain[stat];
+		percent = (int)((goal_exp - remain) * 100 / max(1, goal_exp));
+
+		// Within the old domain and stat sums, a single stat stops at
+		// MAX_SLAYER_ATTR_OLD.
+		int domain_level_max = -1;
+
+		for (int d = SKILLDOMAIN_BLADE; d <= SKILLDOMAIN_ENCHANT; d++)
+			domain_level_max = max(domain_level_max, (*g_pSkillManager)[d].GetDomainLevel());
+
+		if (domain_level_max <= MAX_SLAYER_DOMAIN_SUM_OLD &&
+			pure[0] + pure[1] + pure[2] <= MAX_SLAYER_ATTR_SUM_OLD &&
+			pure[stat] >= MAX_SLAYER_ATTR_OLD)
+			bMax = true;
+	}
+	else
+	{
+		const int level = (*g_pSkillManager)[domain].GetDomainLevel();
+		const int domain_remain = (*g_pSkillManager)[domain].GetDomainExpRemain();
+
+		if (level >= 0 && domain_remain >= 0)
+		{
+			const __int64 goal_exp = (*g_pSkillManager)[domain].GetExpInfo(level).GoalExp;
+
+			remain = domain_remain;
+			percent = (int)((goal_exp - remain) * 100 / max(1, goal_exp));
+		}
+
+		fame = g_pFameInfoTable->GetFameForLevel((SKILLDOMAIN)domain, level);
+		bFame = g_char_slot_ingame.FAME < fame;
+	}
+
+	if (remain < 0 || bMax)
+	{
+		strcpy(temp_str, (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_UP_STAT].GetString());
+	}
+	else if (bFame)
+	{
+		wsprintf(temp_str, "%s(%s:%d)", (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_UP_LEVEL_BY_FAME].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_NEED_FAME].GetString(),
+			fame - g_char_slot_ingame.FAME);
+	}
+	else
+	{
+		wsprintf(temp_str, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_EXP_DESCRIPTION_NEW].GetString(),
+			g_GetNumberString(remain).c_str(), g_GetNumberString(percent).c_str());
+	}
+
+	g_descriptor_manager.Set(DID_STRINGS, x + _x, y + _y, (void*)str, 1);
 }
 
 void C_VS_UI_TRIBE::Start()
@@ -3504,9 +3254,6 @@ void C_VS_UI_TRIBE::Start()
 
 	m_pC_chatting->Start();
 	m_pC_common_button_group->Init();
-
-	for (int i = 0; i < MENU_BUTTON_GROUP_COUNT; ++i)
-		m_pC_menu_button_groups[i]->Init();
 
 	AttrAlpha(gpC_vs_ui_window_manager->IsAlpha(C_VS_UI_WINDOW_MANAGER::MAINMENU));
 	AttrAutoHide(gpC_vs_ui_window_manager->GetAutoHide(C_VS_UI_WINDOW_MANAGER::MAINMENU));
@@ -3521,193 +3268,45 @@ C_VS_UI_GEAR::C_VS_UI_GEAR()
 	g_RegisterWindow(this);
 
 	m_focus_slot = NOT_SELECTED;
-
 	m_pC_button_group = new ButtonGroup(this);
 
-	int level = -1;
-	int close_button_offset_x, close_button_offset_y, help_button_offset_x, help_button_offset_y;
-	int alpha_button_offset_x, alpha_button_offset_y;
+	// DK Umbra's equipment window, one for every race: the paperdoll on the
+	// race's backdrop, the character information beside it. The slot
+	// silhouettes are in the same pack.
+	m_bl_Abvencement = true;
+	m_pC_gear_spk = new C_SPRITE_PACK(SPK_MY_INFORMATION);
+	m_pC_gear_slot_spk = NULL;
+	Set(g_pUserInformation->iResolution_x - m_pC_gear_spk->GetWidth(GEAR_WINDOW) - 10, 128,
+		m_pC_gear_spk->GetWidth(GEAR_WINDOW), m_pC_gear_spk->GetHeight(GEAR_WINDOW));
 
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		// by csm 2004.12.31
-//		if(g_char_slot_ingame.m_AdvancementLevel> 0) // 2�� ���� �� ��� �������̽� 
-//		{
-		m_bl_Abvencement = true;
-		m_pC_gear_spk = new C_SPRITE_PACK(SPK_SLAYER_ADVANCEMENTGEAR);
-
-		close_button_offset_x = 183;
-		close_button_offset_y = 409;
-
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		alpha_button_offset_x = 183 - 26 - 26;
-		alpha_button_offset_y = 409;
-		help_button_offset_x = 183 - 26;
-		help_button_offset_y = 409;
-#else
-		help_button_offset_x = 157;
-		help_button_offset_y = 409;
-		alpha_button_offset_x = 19;
-		alpha_button_offset_y = 414;
-#endif //__080405_FIREST_UI_UPDATE
-
-
-#if __CONTENTS(__GEAR_SWAP_CHANGE)	//  C_VS_UI_GEAR::C_VS_UI_GEAR() ����â �ʱ� ����
-		m_dwGearChange_ID1_Button_Pos_X = 13;													//����â�� ��ü�� ��ư�� ��ġ
-		m_dwGearChange_ID1_Button_Pos_Y = 21;
-		m_dwGearChange_ID2_Button_Pos_X = 181;													//����â�� ��ü�� ��ư�� ��ġ
-		m_dwGearChange_ID2_Button_Pos_Y = 21;
-#endif	//__GEAR_SWAP_CHANGE
-
-		//		}
-		//		else
-		//		{
-		//			m_bl_Abvencement = false;
-		//			m_pC_gear_spk = new C_SPRITE_PACK(SPK_SLAYER_GEAR);
-		//			close_button_offset_x = 183;
-		//			close_button_offset_y = 369;
-		//			help_button_offset_x = 157;
-		//			help_button_offset_y = 369;
-		//			alpha_button_offset_x = 19;
-		//			alpha_button_offset_y = 374;
-		//			
-		//		}
-
-		m_pC_gear_slot_spk = new C_SPRITE_PACK(SPK_SLAYER_GEAR_SLOT);
-		Set(426, 128, m_pC_gear_spk->GetWidth(0), m_pC_gear_spk->GetHeight(0));
-
-		break;
-
-	case RACE_VAMPIRE:
-
-		//		if(g_char_slot_ingame.m_AdvancementLevel> 0) // 2�� ���� �� ��� �������̽� 
-		//		{
-		m_bl_Abvencement = true;
-		m_pC_gear_spk = new C_SPRITE_PACK(SPK_VAMPIRE_ADVANCEMENTGEAR);
-
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		alpha_button_offset_x = 84;
-		alpha_button_offset_y = 296;
-		help_button_offset_x = 84 + 26;
-		help_button_offset_y = 296;
-		close_button_offset_x = 84 + 26 + 26;
-		close_button_offset_y = 296;
-#else
-		close_button_offset_x = 175;
-		close_button_offset_y = 290;
-		help_button_offset_x = 150;
-		help_button_offset_y = 290;
-		alpha_button_offset_x = 49;
-		alpha_button_offset_y = 295;
-#endif //__080405_FIREST_UI_UPDATE
-
-
-#if __CONTENTS(__GEAR_SWAP_CHANGE)	//  C_VS_UI_GEAR::C_VS_UI_GEAR() ����â �ʱ� ����
-		m_dwGearChange_ID1_Button_Pos_X = 25;													//����â�� ��ü�� ��ư�� ��ġ
-		m_dwGearChange_ID1_Button_Pos_Y = 16;
-		m_dwGearChange_ID2_Button_Pos_X = 193;													//����â�� ��ü�� ��ư�� ��ġ
-		m_dwGearChange_ID2_Button_Pos_Y = 16;
-#endif	//__GEAR_SWAP_CHANGE
-
-		//		}
-		//		else
-		//		{
-		//			m_bl_Abvencement = false;
-		//			m_pC_gear_spk = new C_SPRITE_PACK(SPK_VAMPIRE_GEAR);
-		//			close_button_offset_x = 175;
-		//			close_button_offset_y = 250;
-		//			help_button_offset_x = 150;
-		//			help_button_offset_y = 250;
-		//			alpha_button_offset_x = 49;
-		//			alpha_button_offset_y = 255;
-		//		}
-		m_pC_gear_slot_spk = new C_SPRITE_PACK(SPK_VAMPIRE_GEAR_SLOT);
-
-		Set(526, 128, m_pC_gear_spk->GetWidth(0), m_pC_gear_spk->GetHeight(0));
-
-		break;
-
-	case RACE_OUSTERS:
-		//		if(g_char_slot_ingame.m_AdvancementLevel > 0) // 2�� ���� �� ��� �������̽� 
-		//		{
-		m_bl_Abvencement = true;
-		m_pC_gear_spk = new C_SPRITE_PACK(SPK_OUSTERS_ADVANCEMENTGEAR);
-
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		alpha_button_offset_x = 229 - 26 - 26;
-		alpha_button_offset_y = 388;
-		help_button_offset_x = 229 - 26;
-		help_button_offset_y = 388;
-		close_button_offset_x = 229;
-		close_button_offset_y = 388;
-#else
-		close_button_offset_x = 237;
-		close_button_offset_y = 395;
-		help_button_offset_x = 213;
-		help_button_offset_y = 395;
-		alpha_button_offset_x = 41;
-		alpha_button_offset_y = 395;
-#endif //__080405_FIREST_UI_UPDATE
-
-#if __CONTENTS(__GEAR_SWAP_CHANGE)	//  C_VS_UI_GEAR::C_VS_UI_GEAR() ����â �ʱ� ����
-		m_dwGearChange_ID1_Button_Pos_X = 99;													//����â�� ��ü�� ��ư�� ��ġ
-		m_dwGearChange_ID1_Button_Pos_Y = 32;
-		m_dwGearChange_ID2_Button_Pos_X = 163;													//����â�� ��ü�� ��ư�� ��ġ
-		m_dwGearChange_ID2_Button_Pos_Y = 32;
-#endif	//__GEAR_SWAP_CHANGE
-
-		//		}
-		//		else
-		//		{
-		//			m_bl_Abvencement = false;
-		//			m_pC_gear_spk = new C_SPRITE_PACK(SPK_OUSTERS_GEAR);
-		//			close_button_offset_x = 237;
-		//			close_button_offset_y = 355;
-		//			help_button_offset_x = 213;
-		//			help_button_offset_y = 355;
-		//			alpha_button_offset_x = 41;
-		//			alpha_button_offset_y = 355;
-		//			
-		//		}
-		m_pC_gear_slot_spk = new C_SPRITE_PACK(SPK_OUSTERS_GEAR_SLOT);
-		Set(526, 128, m_pC_gear_spk->GetWidth(0), m_pC_gear_spk->GetHeight(0));
-
-		break;
-	}
-
-#if __CONTENTS(__GEAR_SWAP_CHANGE)	//C_VS_UI_GEAR::C_VS_UI_GEAR() ����â ��ư �߰� ����
+#if __CONTENTS(__GEAR_SWAP_CHANGE)
 	m_dwSendGearID = 0;
 	m_dwAccepGearID = 0;
-
-	m_dwGearChange_ID1_Button_Width = m_pC_gear_spk->GetWidth(GEAR_CHANGE_ID1_CHECK);		//����â�� ��ü�� ��ư�� ũ��
+	m_dwGearChange_ID1_Button_Pos_X = 82;
+	m_dwGearChange_ID1_Button_Pos_Y = 33;
+	m_dwGearChange_ID2_Button_Pos_X = 190;
+	m_dwGearChange_ID2_Button_Pos_Y = 33;
+	m_dwGearChange_ID1_Button_Width = m_pC_gear_spk->GetWidth(GEAR_CHANGE_ID1_CHECK);
 	m_dwGearChange_ID1_Button_Height = m_pC_gear_spk->GetHeight(GEAR_CHANGE_ID1_CHECK);
-	m_dwGearChange_ID2_Button_Width = m_pC_gear_spk->GetWidth(GEAR_CHANGE_ID2_CHECK);		//����â�� ��ü�� ��ư�� ũ��
+	m_dwGearChange_ID2_Button_Width = m_pC_gear_spk->GetWidth(GEAR_CHANGE_ID2_CHECK);
 	m_dwGearChange_ID2_Button_Height = m_pC_gear_spk->GetHeight(GEAR_CHANGE_ID2_CHECK);
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_dwGearChange_ID1_Button_Pos_X, m_dwGearChange_ID1_Button_Pos_Y,
+		m_dwGearChange_ID1_Button_Width, m_dwGearChange_ID1_Button_Height, GEAR_ID1, this, GEAR_CHANGE_ID1_CHECK));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_dwGearChange_ID2_Button_Pos_X, m_dwGearChange_ID2_Button_Pos_Y,
+		m_dwGearChange_ID2_Button_Width, m_dwGearChange_ID2_Button_Height, GEAR_ID2, this, GEAR_CHANGE_ID2_CHECK));
+#endif //__GEAR_SWAP_CHANGE
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(
-		m_dwGearChange_ID1_Button_Pos_X, m_dwGearChange_ID1_Button_Pos_Y,
-		m_dwGearChange_ID1_Button_Width,
-		m_dwGearChange_ID1_Button_Height,
-		GEAR_ID1, this, GEAR_CHANGE_ID1_CHECK
-	)
-	);
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(
-		m_dwGearChange_ID2_Button_Pos_X, m_dwGearChange_ID2_Button_Pos_Y,
-		m_dwGearChange_ID2_Button_Width,
-		m_dwGearChange_ID2_Button_Height,
-		GEAR_ID2, this, GEAR_CHANGE_ID2_CHECK
-	)
-	);
-#endif
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_pC_gear_spk->GetWidth(GEAR_WINDOW) - 23, 8,
+		m_pC_gear_spk->GetWidth(GEAR_CLOSE), m_pC_gear_spk->GetHeight(GEAR_CLOSE), CLOSE_ID, this, GEAR_CLOSE));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(459, 88,	// the end of the nick value box
+		m_pC_gear_spk->GetWidth(GEAR_NICK_DROP), m_pC_gear_spk->GetHeight(GEAR_NICK_DROP), NICK_ID, this, GEAR_NICK_DROP));
+	// STR, DEX and INT, each taking a bonus point; drawn only while there are some
+	for (int stat = 0; stat < 3; stat++)
+	{
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(455, 204 + stat * 15,	// the end of the first three rows
+			m_pC_gear_spk->GetWidth(GEAR_PLUS), m_pC_gear_spk->GetHeight(GEAR_PLUS), STR_PLUS_ID + stat, this, GEAR_PLUS));
+	}
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(help_button_offset_x, help_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION), HELP_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(close_button_offset_x, close_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_X), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_X), CLOSE_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_X));
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_button_offset_x, alpha_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_NEW), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_NEW), ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_NEW));
-#else
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_button_offset_x, alpha_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA), ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA));
-#endif //__080405_FIREST_UI_UPDATE
 	m_bl_set_load = false;
 }
 
@@ -4087,6 +3686,8 @@ bool C_VS_UI_GEAR::MouseControl(UINT message, int _x, int _y)
 //-----------------------------------------------------------------------------
 void	C_VS_UI_GEAR::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 {
+	if (p_button->GetID() > GEAR_ID2)
+		return;		// the nick drop-down and the bonus point buttons have no tip
 	const static char* m_inventory_button_string[7] =
 	{
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_HELP_GEAR_WINDOW].GetString(),
@@ -4134,56 +3735,31 @@ void	C_VS_UI_GEAR::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 //-----------------------------------------------------------------------------
 void	C_VS_UI_GEAR::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	if (p_button->GetID() == ALPHA_ID)
+	switch (p_button->GetID())
 	{
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		if (GetAttributes()->alpha)
-		{
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_NEW);
-		}
-		else
-		{
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED_NEW);
-		}
-#else
-		if (GetAttributes()->alpha)
-		{
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA);
-		}
-		else
-		{
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED);
-		}
-#endif //__080405_FIREST_UI_UPDATE
-	}
-	else if (p_button->GetID() == FIRST_ID || p_button->GetID() == SECOND_ID)
-	{
-		if (p_button->GetFocusState())
-		{
-			if (p_button->GetPressState())
-				m_pC_gear_spk->BltLocked(p_button->x + x, p_button->y + y, p_button->m_image_index + 2);
-			else
-				m_pC_gear_spk->BltLocked(p_button->x + x, p_button->y + y, p_button->m_image_index + 1);
-		}
-		else
-			m_pC_gear_spk->BltLocked(p_button->x + x, p_button->y + y, p_button->m_image_index);
-	}
-#if __CONTENTS(__GEAR_SWAP_CHANGE) // C_VS_UI_GEAR::ShowButtonWidget ��ư �׸���
-	else if (p_button->GetID() == GEAR_ID1 || p_button->GetID() == GEAR_ID2)
-	{
+#if __CONTENTS(__GEAR_SWAP_CHANGE)
+	case GEAR_ID1:
+	case GEAR_ID2:
 		GearChangeButtonShow();
-	}
+		break;
 #endif //__GEAR_SWAP_CHANGE
-	else if (p_button->GetFocusState())
-	{
-		if (p_button->GetPressState())
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET);
-	}
-	else
-		gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, p_button->m_image_index);
 
+	case STR_PLUS_ID:
+	case DEX_PLUS_ID:
+	case INT_PLUS_ID:
+		if (g_char_slot_ingame.bonus_point > 0)
+			m_pC_gear_spk->BltLocked(p_button->x + x, p_button->y + y, p_button->m_image_index);
+		break;
+
+	default:
+		{
+			int image = p_button->m_image_index;
+			if (p_button->GetFocusState())
+				image += p_button->GetPressState() ? 2 : 1;
+			m_pC_gear_spk->BltLocked(p_button->x + x, p_button->y + y, image);
+		}
+		break;
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -4216,6 +3792,18 @@ void C_VS_UI_GEAR::Run(id_t id)
 		{
 			gC_vs_ui.HotKey_Gear();
 		}
+		break;
+
+	case NICK_ID:
+		gC_vs_ui.RunNaming();
+		break;
+
+	case STR_PLUS_ID:
+	case DEX_PLUS_ID:
+	case INT_PLUS_ID:
+		// the messages the old character information window sent
+		if (g_char_slot_ingame.bonus_point > 0)
+			gpC_base->SendMessage(UI_CLICK_BONUS_POINT, id - STR_PLUS_ID);
 		break;
 
 	case ALPHA_ID:
@@ -4271,46 +3859,7 @@ void C_VS_UI_GEAR::Show()
 
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		if (GetAttributes()->alpha)
-		{
-			switch (g_eRaceInterface)
-			{
-			case RACE_SLAYER:
-			{
-				if (m_bl_Abvencement)
-				{
-					RECT alpha_rect = { x + 5, y + 11, x + 215, y + 435 };
-					DrawAlphaBox(&alpha_rect, 0, 2, 2, g_pUserOption->ALPHA_DEPTH);
-				}
-				else
-				{
-					RECT alpha_rect = { x + 5, y + 11, x + 215, y + 391 };
-					DrawAlphaBox(&alpha_rect, 0, 2, 2, g_pUserOption->ALPHA_DEPTH);
-				}
-
-			}
-			break;
-
-			case RACE_OUSTERS:
-			{
-				if (m_bl_Abvencement)
-				{
-					RECT alpha_rect = { x + 16, y + 14, x + 271, y + 420 };
-					DrawAlphaBox(&alpha_rect, 0, 2, 2, g_pUserOption->ALPHA_DEPTH);
-				}
-				else
-				{
-					RECT alpha_rect = { x + 16, y + 14, x + 271, y + 381 };
-					DrawAlphaBox(&alpha_rect, 0, 2, 2, g_pUserOption->ALPHA_DEPTH);
-				}
-
-			}
-			break;
-			}
-			m_pC_gear_spk->BltLocked(x, y, GEAR_WINDOW_ALPHA);
-		}
-		else
-			m_pC_gear_spk->BltLocked(x, y, GEAR_WINDOW);
+		ShowInformationFrame();
 
 		const MItem* p_selected_item = gC_vs_ui.GetGearItem(m_focus_slot);
 
@@ -4355,25 +3904,11 @@ void C_VS_UI_GEAR::Show()
 
 			if (p_item == NULL)
 			{
-				if (m_pC_gear_slot_spk != NULL && m_p_slot_image[i] != -1)
+				if (m_p_slot_image[i] != -1)
 				{
-					// 2004, 10, 20, sobeit add & modify start
-					bool IsBloodBibleSlotClose = gC_vs_ui.IsCloseBloodBibleSlot(i);
-
-					if (!IsBloodBibleSlotClose)
-					{
-						int slotX = m_p_slot_rect[i].x + x + m_p_slot_rect[i].w / 2 - m_pC_gear_slot_spk->GetWidth(m_p_slot_image[i]) / 2;
-						int slotY = m_p_slot_rect[i].y + y + m_p_slot_rect[i].h / 2 - m_pC_gear_slot_spk->GetHeight(m_p_slot_image[i]) / 2;
-						m_pC_gear_slot_spk->BltLocked(slotX, slotY, m_p_slot_image[i]);
-					}
-					else
-					{
-						int slotX = m_p_slot_rect[i].x + x;
-						int slotY = m_p_slot_rect[i].y + y;
-						m_pC_gear_spk->BltLocked(slotX, slotY, GEAR_BLOOD_BIBLE_BLOCK);
-					}
-
-					// 2004, 10, 20, sobeit add & modify end
+					// silhouettes sit 4 in from the corner of the slot frame
+					const int image = gC_vs_ui.IsCloseBloodBibleSlot(i) ? GEAR_BLOOD_BIBLE_BLOCK : m_p_slot_image[i];
+					m_pC_gear_spk->BltLocked(x + m_p_slot_rect[i].x + 4, y + m_p_slot_rect[i].y + 4, image);
 				}
 			}
 			else
@@ -4473,10 +4008,9 @@ void C_VS_UI_GEAR::Show()
 			if (pPickUpItem)
 			{
 				if (gC_vs_ui.CanReplaceItemInGear(pPickUpItem, i, pOldItem) &&
-					m_pC_gear_slot_spk != NULL && m_p_slot_image[i] != -1)
+					m_p_slot_image[i] != -1)
 				{
 					//int slotX = m_p_slot_rect[i].x+x+m_p_slot_rect[i].w/2-m_pC_gear_slot_spk->GetWidth(m_p_slot_image[i])/2;
-					int slotY = m_p_slot_rect[i].y + y + m_p_slot_rect[i].h / 2 - m_pC_gear_slot_spk->GetHeight(m_p_slot_image[i]) / 2;
 					//m_pC_gear_slot_spk->BltLockedColor(slotX, slotY, m_p_slot_image[i], 17);
 
 					Rect& otherRect = m_p_slot_rect[i];
@@ -4543,6 +4077,7 @@ void C_VS_UI_GEAR::Show()
 		m_pC_button_group->Show();
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
+	ShowInformationText();
 	m_pC_button_group->ShowDescription();
 
 	/*			m_dwSendGearID						= 0;
@@ -4610,6 +4145,303 @@ void C_VS_UI_GEAR::Show()
 }
 
 
+//-----------------------------------------------------------------------------
+// DK Umbra's character information, beside the paperdoll
+//
+// Positions from DK Umbra's DarkEden.exe (Show 0x61f240), from the window's
+// top-left corner.
+//-----------------------------------------------------------------------------
+static void MakeHPBarLevelString(char* szBuf, int nBuf);	// the HP bar's level or class title
+
+// DK Umbra's layout with the paperdoll drawn closer together and the information
+// column narrowed, to take less of the screen; MyInformation.spk's window,
+// backdrops and bars are cut to match.
+static const int s_gear_doll_w = 298;				// the paperdoll, left of the divider
+static const int s_gear_top_line_y = 27;
+static const int s_gear_bottom_band = 26;			// under the bottom line
+static const int s_gear_label_x = s_gear_doll_w + 7;	// label boxes
+static const int s_gear_value_x = s_gear_doll_w + 69;	// value boxes
+static const int s_gear_row_y[5] = { 50, 86, 108, 130, 152 };	// name, nick, honor, fame, alignment
+static const int s_gear_exp_x = s_gear_doll_w + 36;
+static const int s_gear_exp_y = 73;
+static const int s_gear_section_x = s_gear_doll_w + 9;
+static const int s_gear_section_y[3] = { 180, 283, 401 };	// basic ability, offensive, endurance
+static const int s_gear_section_rows[3] = { 5, 6, 6 };
+static const int s_gear_table_x = s_gear_doll_w + 15;	// the ruled rows under each section
+static const int s_gear_table_right = s_gear_table_x + 155;
+static const int s_gear_row_h = 15;
+static const int s_gear_row_label_x = s_gear_doll_w + 20;
+
+// How far through the EXP bar the character is, in tenths of a percent.
+static int g_GetGearExpPermille()
+{
+	__int64 goal_exp, exp_remain;
+	C_VS_UI_TRIBE::GetSimpleExp(goal_exp, exp_remain);
+	if (goal_exp <= 0)
+		return 1000;
+
+	__int64 done = goal_exp - exp_remain;
+	if (done < 0)
+		done = 0;
+	if (done > goal_exp)
+		done = goal_exp;
+	return (int)(done * 1000 / goal_exp);
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_GEAR::ShowInformationFrame
+//
+// Everything around the items: the frame, the race's backdrop, a frame under
+// every slot, and the boxes and ruled tables of the character information.
+// Called with the surface locked.
+//-----------------------------------------------------------------------------
+void C_VS_UI_GEAR::ShowInformationFrame()
+{
+	m_pC_gear_spk->BltLocked(x, y, GEAR_WINDOW);
+
+	int backdrop = GEAR_BACKDROP_SLAYER;
+	if (g_eRaceInterface == RACE_VAMPIRE)
+		backdrop = GEAR_BACKDROP_VAMPIRE;
+	else if (g_eRaceInterface == RACE_OUSTERS)
+		backdrop = GEAR_BACKDROP_OUSTERS;
+	m_pC_gear_spk->BltLocked(x, y + 30, backdrop);
+
+	const int bottom_line_y = h - s_gear_bottom_band;
+	Rect across(0, 0, w, 1);
+	m_pC_gear_spk->BltLockedClip(x, y + s_gear_top_line_y, across, GEAR_LINE_H);
+	m_pC_gear_spk->BltLockedClip(x, y + bottom_line_y, across, GEAR_LINE_H);
+	Rect divider(0, 0, 1, bottom_line_y - s_gear_top_line_y);
+	m_pC_gear_spk->BltLockedClip(x + s_gear_doll_w, y + s_gear_top_line_y, divider, GEAR_LINE_V);
+
+	// a frame under every slot the paperdoll shows
+	for (int i = 0; i < m_slot_size; i++)
+	{
+		if (m_p_slot_image[i] == -1)
+			continue;
+
+		const Rect& rect = m_p_slot_rect[i];
+		int frame = GEAR_SLOT_SQUARE;
+		if (rect.w < m_pC_gear_spk->GetWidth(GEAR_SLOT_SQUARE))
+			frame = GEAR_SLOT_SMALL;
+		else if (rect.h > rect.w)
+			frame = GEAR_SLOT_TALL;
+		m_pC_gear_spk->BltLocked(x + rect.x, y + rect.y, frame);
+	}
+
+	// level, the boxes for name, nick, honor, fame and alignment, and EXP
+	m_pC_gear_spk->BltLocked(x + s_gear_doll_w + 11, y + 32, GEAR_LEVEL_MARK);
+	for (int row = 0; row < 5; row++)
+	{
+		m_pC_gear_spk->BltLocked(x + s_gear_label_x, y + s_gear_row_y[row], GEAR_LABEL_BOX);
+		m_pC_gear_spk->BltLocked(x + s_gear_value_x, y + s_gear_row_y[row], GEAR_VALUE_BOX);
+	}
+	m_pC_gear_spk->BltLocked(x + s_gear_exp_x, y + s_gear_exp_y, GEAR_EXP_BACK);
+	Rect fill(0, 0, m_pC_gear_spk->GetWidth(GEAR_EXP_BAR) * g_GetGearExpPermille() / 1000, m_pC_gear_spk->GetHeight(GEAR_EXP_BAR));
+	if (fill.w > 0)
+		m_pC_gear_spk->BltLockedClip(x + s_gear_exp_x + 1, y + s_gear_exp_y + 1, fill, GEAR_EXP_BAR);
+
+	// each section's header over its ruled rows
+	Rect row_line(0, 0, s_gear_table_right - s_gear_table_x + 1, 1);
+	for (int s = 0; s < 3; s++)
+	{
+		const int top = s_gear_section_y[s] + 22;
+		for (int r = 0; r <= s_gear_section_rows[s]; r++)
+			m_pC_gear_spk->BltLockedClip(x + s_gear_table_x, y + top + r * s_gear_row_h, row_line, GEAR_LINE_H);
+
+		Rect side(0, 0, 1, s_gear_section_rows[s] * s_gear_row_h + 1);
+		m_pC_gear_spk->BltLockedClip(x + s_gear_table_x, y + top, side, GEAR_LINE_V);
+		m_pC_gear_spk->BltLockedClip(x + s_gear_table_right, y + top, side, GEAR_LINE_V);
+		m_pC_gear_spk->BltLocked(x + s_gear_section_x, y + s_gear_section_y[s], GEAR_SECTION);
+	}
+}
+
+// The total of one option part over a list of item options.
+static int g_SumOptionList(const std::list<TYPE_ITEM_OPTION>& options, int part)
+{
+	int sum = 0;
+	for (std::list<TYPE_ITEM_OPTION>::const_iterator it = options.begin(); it != options.end(); ++it)
+	{
+		if ((int)*it < g_pItemOptionTable->GetSize() && (*g_pItemOptionTable)[*it].Part == part)
+			sum += (*g_pItemOptionTable)[*it].PlusPoint;
+	}
+	return sum;
+}
+
+// The total of one option part over what counts toward the character, for the
+// stats DK Umbra's server sends and ours doesn't: the equipped items (their
+// type's default options and their own, and for critical hit the type's own
+// critical hit) and the contracts in the inventory's contract boxes, the two
+// grid columns from 8 where C_VS_UI_INVENTORY::Show draws them.
+static int g_SumOptionPart(int part, int slot_size)
+{
+	std::vector<const MItem*> items;
+	for (int i = 0; i < slot_size; i++)
+	{
+		const MItem* p_item = gC_vs_ui.GetGearItem(i);
+		if (p_item != NULL && p_item->IsAffectStatus() &&
+			std::find(items.begin(), items.end(), p_item) == items.end())
+			items.push_back(p_item);
+	}
+
+	if (g_pInventory != NULL)
+	{
+		g_pInventory->SetBegin();
+		while (g_pInventory->IsNotEnd())
+		{
+			const MItem* p_item = g_pInventory->Get();
+			if (p_item != NULL && p_item->GetItemClass() == ITEM_CLASS_CONTRACT_OF_BLOOD && p_item->GetGridX() >= 8)
+				items.push_back(p_item);
+			g_pInventory->Next();
+		}
+	}
+
+	int sum = 0;
+	for (size_t n = 0; n < items.size(); n++)
+	{
+		const ITEMTABLE_INFO& info = (*g_pItemTable)[items[n]->GetItemClass()][items[n]->GetItemType()];
+		if (part == ITEMOPTION_TABLE::PART_CRITICAL_HIT)
+			sum += info.CriticalHit;
+		sum += g_SumOptionList(info.DefaultOptionList, part);
+		sum += g_SumOptionList(items[n]->GetItemOptionList(), part);
+	}
+	return sum;
+}
+
+static void g_PrintGearRight(int right, int _y, const char* sz_str, PrintInfo& pi)
+{
+	g_PrintColorStr(right - g_GetStringWidth(sz_str, pi.hfont), _y, sz_str, pi, RGB_WHITE);
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_GEAR::ShowInformationText
+//
+// The character information's text, with the surface unlocked.
+//-----------------------------------------------------------------------------
+void C_VS_UI_GEAR::ShowInformationText()
+{
+	PrintInfo& pi = gpC_base->m_chatting_pi;
+	char sz_temp[128];
+
+	g_FL2_GetDC();
+
+	// "Level 150", and once advanced the class title the HP bar shows too
+	char sz_level[64];
+	MakeHPBarLevelString(sz_level, sizeof(sz_level));
+	if (g_char_slot_ingame.m_AdvancementLevel > 0)
+		sprintf_s(sz_temp, sizeof(sz_temp), "Level %d  %s", g_char_slot_ingame.level, sz_level);
+	else
+		sprintf_s(sz_temp, sizeof(sz_temp), "Level %s", sz_level);
+	g_PrintColorStr(x + s_gear_doll_w + 34, y + 33, sz_temp, pi, RGB_WHITE);
+
+	static const char* s_label[5] = { "Name", "Nick", "Honor", "Fame", "Align" };
+	const int label_w = m_pC_gear_spk->GetWidth(GEAR_LABEL_BOX);
+	for (int row = 0; row < 5; row++)
+	{
+		g_PrintColorStr(x + s_gear_label_x + (label_w - g_GetStringWidth(s_label[row], pi.hfont)) / 2,
+			y + s_gear_row_y[row] + 4, s_label[row], pi, RGB_WHITE);
+	}
+
+	const int value_left = x + s_gear_value_x + 7;
+	const int value_right = x + s_gear_value_x + m_pC_gear_spk->GetWidth(GEAR_VALUE_BOX) - 7;
+	if (!g_char_slot_ingame.sz_name.empty())
+		g_PrintColorStr(value_left, y + s_gear_row_y[0] + 4, g_char_slot_ingame.sz_name.c_str(), pi, RGB_WHITE);
+	if (g_pPlayer != NULL && !g_pPlayer->GetNickName().empty())
+		g_PrintColorStr(value_left, y + s_gear_row_y[1] + 4, g_pPlayer->GetNickName().c_str(), pi, RGB_WHITE);
+
+	int contribute = 0;
+#if __CONTENTS(__CONTRIBUTE_SYSTEM)
+	contribute = g_char_slot_ingame.ContributePoint;
+#endif
+	wsprintf(sz_temp, "(%d) Grade:%d", contribute, g_char_slot_ingame.GRADE);
+	g_PrintGearRight(value_right, y + s_gear_row_y[2] + 4, sz_temp, pi);
+	wsprintf(sz_temp, "%d", g_char_slot_ingame.FAME);
+	g_PrintGearRight(value_right, y + s_gear_row_y[3] + 4, sz_temp, pi);
+
+	const char* align[5] =
+	{
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_ALIGN_VERY_BAD].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_ALIGN_BAD].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_ALIGN_NORMAL].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_ALIGN_GOOD].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_ALIGN_VERY_GOOD].GetString(),
+	};
+	if (g_char_slot_ingame.alignment >= 0 && g_char_slot_ingame.alignment < 5)
+		g_PrintGearRight(value_right, y + s_gear_row_y[4] + 4, align[g_char_slot_ingame.alignment], pi);
+
+	g_PrintColorStr(x + s_gear_doll_w + 11, y + s_gear_exp_y, "EXP", pi, RGB_WHITE);
+	sprintf(sz_temp, "%.1f%%", g_GetGearExpPermille() / 10.0);
+	g_PrintColorStr(x + s_gear_exp_x + (m_pC_gear_spk->GetWidth(GEAR_EXP_BACK) - g_GetStringWidth(sz_temp, pi.hfont)) / 2,
+		y + s_gear_exp_y, sz_temp, pi, RGB_WHITE);
+
+	// the sections
+	static const char* s_section[3] = { "Basic Ability", "Offensive", "Endurance" };
+	const int section_w = m_pC_gear_spk->GetWidth(GEAR_SECTION);
+	for (int s = 0; s < 3; s++)
+	{
+		const char* section = s_section[s];
+		// the Basic Ability header carries the unspent bonus points while there are any
+		if (s == 0 && g_char_slot_ingame.bonus_point > 0)
+		{
+			sprintf_s(sz_temp, sizeof(sz_temp), "%s - %d Unspent Point%s", s_section[0],
+				g_char_slot_ingame.bonus_point, g_char_slot_ingame.bonus_point == 1 ? "" : "s");
+			section = sz_temp;
+		}
+		g_PrintColorStr(x + s_gear_section_x + (section_w - g_GetStringWidth(section, pi.hfont)) / 2,
+			y + s_gear_section_y[s] + 4, section, pi, RGB_WHITE);
+	}
+
+	const char* speed[3] =
+	{
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SPEED_SLOW].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SPEED_NORMAL].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SPEED_FAST].GetString(),
+	};
+	const int dam_max = g_char_slot_ingame.DAM + g_char_slot_ingame.SILVER_DAM;
+	const int dam_min = g_char_slot_ingame.DAM2 + g_char_slot_ingame.SILVER_DAM2;
+
+	static const char* s_row_label[3][6] =
+	{
+		{ "STR", "DEX", "INT", "Total Ability", "Attack Speed", NULL },
+		{ "Minimum Damage", "Maximum Damage", "ToHit", "Critical Hit", "HP Steal", "MP Steal" },
+		{ "HP", "MP", "Defense", "Protection", "All Resistance", "HP Regeneration" },
+	};
+	char value[3][6][64];
+	wsprintf(value[0][0], "(%d) %d", g_char_slot_ingame.STR_PURE, g_char_slot_ingame.STR_CUR);
+	wsprintf(value[0][1], "(%d) %d", g_char_slot_ingame.DEX_PURE, g_char_slot_ingame.DEX_CUR);
+	wsprintf(value[0][2], "(%d) %d", g_char_slot_ingame.INT_PURE, g_char_slot_ingame.INT_CUR);
+	wsprintf(value[0][3], "(%d) %d", g_char_slot_ingame.STR_PURE + g_char_slot_ingame.DEX_PURE + g_char_slot_ingame.INT_PURE,
+		g_char_slot_ingame.STR_CUR + g_char_slot_ingame.DEX_CUR + g_char_slot_ingame.INT_CUR);
+	wsprintf(value[0][4], "(%s) %d", (g_char_slot_ingame.WS >= 0 && g_char_slot_ingame.WS < 3) ? speed[g_char_slot_ingame.WS] : "",
+		g_char_slot_ingame.WeaponSpeed);
+	value[0][5][0] = '\0';
+	wsprintf(value[1][0], "%d", dam_min);
+	wsprintf(value[1][1], "%d", dam_max);
+	wsprintf(value[1][2], "%d", g_char_slot_ingame.TOHIT);
+	wsprintf(value[1][3], "%d", g_SumOptionPart(ITEMOPTION_TABLE::PART_CRITICAL_HIT, m_slot_size));
+	wsprintf(value[1][4], "%d", g_SumOptionPart(ITEMOPTION_TABLE::PART_HP_STEAL, m_slot_size));
+	wsprintf(value[1][5], "%d", g_SumOptionPart(ITEMOPTION_TABLE::PART_MP_STEAL, m_slot_size));
+	wsprintf(value[2][0], "%d", g_char_slot_ingame.HP_MAX);
+	wsprintf(value[2][1], "%d", g_char_slot_ingame.MP_MAX);
+	wsprintf(value[2][2], "%d", g_char_slot_ingame.DEFENSE);
+	wsprintf(value[2][3], "%d", g_char_slot_ingame.PROTECTION);
+	wsprintf(value[2][4], "%d", g_SumOptionPart(ITEMOPTION_TABLE::PART_ALL_RES, m_slot_size));
+	wsprintf(value[2][5], "%d", g_SumOptionPart(ITEMOPTION_TABLE::PART_HP_REGEN, m_slot_size));
+
+	for (int s = 0; s < 3; s++)
+	{
+		for (int r = 0; r < s_gear_section_rows[s]; r++)
+		{
+			const int row_y = y + s_gear_section_y[s] + 24 + r * s_gear_row_h;
+			g_PrintColorStr(x + s_gear_row_label_x, row_y, s_row_label[s][r], pi, RGB_WHITE);
+			// the bonus point buttons sit at the end of the STR, DEX and INT rows
+			const int right = (s == 0 && r < 3) ? x + s_gear_table_right - 17 : x + s_gear_table_right - 5;
+			if (value[s][r][0] != '\0')
+				g_PrintGearRight(right, row_y, value[s][r], pi);
+		}
+	}
+
+	g_FL2_ReleaseDC();
+}
 #if __CONTENTS(__GEAR_SWAP_CHANGE) // C_VS_UI_GEAR::GearChangeButtonShow()
 void	C_VS_UI_GEAR::GearChangeButtonShow()
 {
@@ -4652,7 +4484,7 @@ void	C_VS_UI_GEAR::GearChangeButtonShow()
 void C_VS_UI_GEAR::Start(bool bl_set_load)
 {
 	m_bl_set_load = bl_set_load;
-	AttrAlpha(gpC_vs_ui_window_manager->IsAlpha(C_VS_UI_WINDOW_MANAGER::GEAR));
+	AttrAlpha(false);	// DK Umbra's window has no see-through version
 	if (bl_set_load == true)
 	{
 		Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::GEAR);
@@ -4662,6 +4494,10 @@ void C_VS_UI_GEAR::Start(bool bl_set_load)
 			y = rect.y;
 		}
 	}
+
+	// Back on screen: a saved place may be from the smaller old window.
+	x = max(0, min(x, g_pUserInformation->iResolution_x - w));
+	y = max(0, min(y, g_pUserInformation->iResolution_y - h));
 
 	PI_Processor::Start();
 
@@ -8714,10 +8550,6 @@ C_VS_UI_INVENTORY::C_VS_UI_INVENTORY()
 	g_pTempItem = NULL;
 	g_RegisterWindow(this);
 	// 20090317 �׽�Ʈ �ڵ�
-	int	desc_button_offset_x, desc_button_offset_y;
-	int	close_button_offset_x, close_button_offset_y;
-	int	help_button_offset_x, help_button_offset_y;
-	int alpha_button_offset_x, alpha_button_offset_y;
 
 	m_pC_dialog_drop_money = NULL;
 
@@ -8728,111 +8560,31 @@ C_VS_UI_INVENTORY::C_VS_UI_INVENTORY()
 	m_pC_mine_progress_spk = NULL;
 	m_pC_inventory_spk = NULL;
 
+	// DK Umbra's inventory, one layout for every race: its 10x6 grid art (cut
+	// down from its 13x9 window) with only the money and close buttons under it.
+	// Its own packs, so the trade and storage windows keep the old inventory art.
 	switch (g_eRaceInterface)
 	{
 	case RACE_SLAYER:
-		m_pC_inventory_spk = new C_SPRITE_PACK(SPK_SLAYER_INVENTORY);
+		m_pC_inventory_spk = new C_SPRITE_PACK(SPK_SLAYER_INVENTORY_RENEWAL);
 		m_pC_mine_progress_spk = new C_SPRITE_PACK(SPK_MINE_PROGRESS);
-
-		m_grid_start_offset_x = 13;
-		m_grid_start_offset_y = 25;
-
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		m_money_button_offset_x = 16;
-		m_money_button_offset_y = 214;
-		desc_button_offset_x = 292 - 26 - 26 - 26;
-		desc_button_offset_y = 214;
-		alpha_button_offset_x = 292 - 26 - 26;
-		alpha_button_offset_y = 214;
-		help_button_offset_x = 292 - 26;
-		help_button_offset_y = 214;
-		close_button_offset_x = 292;
-		close_button_offset_y = 214;
-#else
-		m_money_button_offset_x = 90;
-		m_money_button_offset_y = 204 + 10;
-		desc_button_offset_x = 65;
-		desc_button_offset_y = 204 + 10;
-		close_button_offset_x = 294;
-		close_button_offset_y = 204 + 10;
-		help_button_offset_x = 40;
-		help_button_offset_y = 204 + 10;
-		alpha_button_offset_x = 20;
-		alpha_button_offset_y = 204 + 10;
-#endif //__080405_FIREST_UI_UPDATE
-		Set(10, 128, m_pC_inventory_spk->GetWidth(INVENTORY_WINDOW), m_pC_inventory_spk->GetHeight(INVENTORY_WINDOW));
 		break;
 
 	case RACE_VAMPIRE:
-		m_pC_inventory_spk = new C_SPRITE_PACK(SPK_VAMPIRE_INVENTORY);
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		m_grid_start_offset_x = 17;
-		m_grid_start_offset_y = 19;
-
-		close_button_offset_x = 294;
-		close_button_offset_y = 204;
-
-		m_money_button_offset_y = 204;
-		m_money_button_offset_x = 18;
-
-		desc_button_offset_x = 294 - 26 - 26 - 26;
-		desc_button_offset_y = 204;
-		alpha_button_offset_x = 294 - 26 - 26;
-		alpha_button_offset_y = 204;
-		help_button_offset_x = 294 - 26;
-		help_button_offset_y = 204;
-#else
-		m_grid_start_offset_x = 17;
-		m_grid_start_offset_y = 19;
-		m_money_button_offset_x = 90;
-		m_money_button_offset_y = 204;
-		desc_button_offset_x = 65;
-		desc_button_offset_y = 204;
-		close_button_offset_x = 294;
-		close_button_offset_y = 204;
-		help_button_offset_x = 40;
-
-		help_button_offset_y = 204;
-		alpha_button_offset_x = 20;
-		alpha_button_offset_y = 204;
-#endif //__080405_FIREST_UI_UPDATE
-
-		Set(10, 128, m_pC_inventory_spk->GetWidth(INVENTORY_WINDOW), m_pC_inventory_spk->GetHeight(INVENTORY_WINDOW) + m_pC_inventory_spk->GetHeight(INVENTORY_WINDOW_BOTTOM) - 25);
+		m_pC_inventory_spk = new C_SPRITE_PACK(SPK_VAMPIRE_INVENTORY_RENEWAL);
 		break;
 
 	case RACE_OUSTERS:
-		m_pC_inventory_spk = new C_SPRITE_PACK(SPK_OUSTERS_INVENTORY);
-
-		m_grid_start_offset_x = 25;
-		m_grid_start_offset_y = 35;
-
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		m_money_button_offset_x = 33;
-		m_money_button_offset_y = 226;
-		desc_button_offset_x = 302 - 26 - 26 - 26;
-		desc_button_offset_y = 226;
-		alpha_button_offset_x = 302 - 26 - 26;
-		alpha_button_offset_y = 226;
-		help_button_offset_x = 302 - 26;
-		help_button_offset_y = 226;
-		close_button_offset_x = 302;
-		close_button_offset_y = 226;
-#else
-		m_money_button_offset_x = 103;
-		m_money_button_offset_y = 224;
-		desc_button_offset_x = 78;
-		desc_button_offset_y = 224;
-		close_button_offset_x = 307;
-		close_button_offset_y = 224;
-		help_button_offset_x = 53;
-		help_button_offset_y = 224;
-		alpha_button_offset_x = 33;
-		alpha_button_offset_y = 224;
-#endif //__080405_FIREST_UI_UPDATE
-
-		Set(10, 128, m_pC_inventory_spk->GetWidth(INVENTORY_WINDOW), m_pC_inventory_spk->GetHeight(INVENTORY_WINDOW));
+		m_pC_inventory_spk = new C_SPRITE_PACK(SPK_OUSTERS_INVENTORY_RENEWAL);
 		break;
 	}
+
+	m_grid_start_offset_x = 13;
+	m_grid_start_offset_y = 25;
+	m_money_button_offset_x = 16;
+	m_money_button_offset_y = 214;
+	if (m_pC_inventory_spk != NULL)
+		Set(10, 128, m_pC_inventory_spk->GetWidth(INVENTORY_WINDOW), m_pC_inventory_spk->GetHeight(INVENTORY_WINDOW));
 
 	if (m_pC_inventory_spk == NULL)
 	{
@@ -8840,15 +8592,9 @@ C_VS_UI_INVENTORY::C_VS_UI_INVENTORY()
 		gpC_base->SendMessage(UI_SEND_BUG_REPORT, __LINE__, 0, (void*)g_szBugReportBuffer);
 	}
 
+	// DK Umbra dropped the description, help and see-through buttons.
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_money_button_offset_x, m_money_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_MONEY), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_MONEY), MONEY_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_MONEY));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(desc_button_offset_x, desc_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_DESC), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_DESC), DESC_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_DESC));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(help_button_offset_x, help_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION), HELP_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(close_button_offset_x, close_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_X), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_X), CLOSE_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_X));
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_button_offset_x, alpha_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_NEW), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_NEW), ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_NEW));
-#else
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_button_offset_x, alpha_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA), ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA));
-#endif //__080405_FIREST_UI_UPDATE
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(292, 214, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_X), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_X), CLOSE_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_X));
 
 	m_focus_grid_x_Prev = 0;
 	m_focus_grid_y_Prev = 0;
@@ -9333,7 +9079,7 @@ void C_VS_UI_INVENTORY::Start(bool bl_set_load)
 {
 	m_bl_set_load = bl_set_load;
 
-	AttrAlpha(gpC_vs_ui_window_manager->IsAlpha(C_VS_UI_WINDOW_MANAGER::INVENTORY));
+	AttrAlpha(false);	// DK Umbra's inventory has no see-through version
 
 	if (bl_set_load)
 	{
@@ -9800,9 +9546,6 @@ void C_VS_UI_INVENTORY::Show()
 
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		Rect rect;
-		if (g_eRaceInterface == RACE_VAMPIRE)
-			rect.Set(0, 0, w, h - m_pC_inventory_spk->GetHeight(INVENTORY_WINDOW_BOTTOM));
 
 		if (GetAttributes()->alpha)
 		{
@@ -9920,10 +9663,7 @@ void C_VS_UI_INVENTORY::Show()
 				g_pInventory->Next();
 			}
 
-			if (g_eRaceInterface == RACE_VAMPIRE)
-				m_pC_inventory_spk->BltLockedClip(x, y, rect, INVENTORY_WINDOW_ALPHA);
-			else
-				m_pC_inventory_spk->BltLocked(x, y, INVENTORY_WINDOW_ALPHA);
+			m_pC_inventory_spk->BltLocked(x, y, INVENTORY_WINDOW_ALPHA);
 
 			int alpha_r, alpha_g, alpha_b;
 			switch (g_eRaceInterface)
@@ -9968,21 +9708,7 @@ void C_VS_UI_INVENTORY::Show()
 		}
 		else
 		{
-			switch (g_eRaceInterface)
-			{
-			case RACE_SLAYER:
-				m_pC_inventory_spk->BltLocked(x, y, INVENTORY_WINDOW);
-
-				break;
-
-			case RACE_VAMPIRE:
-				m_pC_inventory_spk->BltLockedClip(x, y, rect, INVENTORY_WINDOW);
-				break;
-
-			case RACE_OUSTERS:
-				m_pC_inventory_spk->BltLocked(x, y, INVENTORY_WINDOW);
-				break;
-			}
+			m_pC_inventory_spk->BltLocked(x, y, INVENTORY_WINDOW);
 		}
 
 
@@ -10060,9 +9786,6 @@ void C_VS_UI_INVENTORY::Show()
 		}
 		/**/
 
-		if (g_eRaceInterface == RACE_VAMPIRE)
-			// �����̾� �������̽��� �ϴ� ��ü
-			m_pC_inventory_spk->BltLocked(x, y + rect.h, INVENTORY_WINDOW_BOTTOM);
 
 
 		gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + m_money_button_offset_x + 25, y + m_money_button_offset_y, C_GLOBAL_RESOURCE::AB_MONEY_BAR);
@@ -12868,6 +12591,13 @@ void	C_VS_UI_SKILL::CloseInterface()
 //-----------------------------------------------------------------------------
 bool C_VS_UI_SKILL::AbleToUse(int id) const
 {
+	// Satellite Bomb 1/2 need 10 bullets (MPlayer::ActionToSendPacket): show them red without them
+	if ((id == SKILL_SATELLITE_BOMB || id == SKILL_SATELLITE_BOMB_2)
+		&& (g_pCurrentMagazine == NULL || g_pCurrentMagazine->GetNumber() < 10))
+	{
+		return false;
+	}
+
 	return g_pSkillAvailable->IsEnableSkill((ACTIONINFO)id);
 	//	{
 	//		return (*g_pSkillInfoTable)[id].IsAvailableTime();
@@ -14082,20 +13812,14 @@ C_VS_UI_LEVELUP::C_VS_UI_LEVELUP()
 
 	AttrPin(true);
 
-	int _y;
-
 	m_image_spk.Open(SPK_LEVELUP);
-	_y = 425;
-	if (g_eRaceInterface == RACE_OUSTERS || g_eRaceInterface == RACE_SLAYER)
-		_y = 382;
 
-	_y += g_pUserInformation->iResolution_y - 600;
-
-	//#ifdef CONVERT_1024_768
-	//	_y += 168;
-	//#endif
-
-	Set(2, _y, m_image_spk.GetWidth(LVU_GUARD_SLAYER), m_image_spk.GetHeight(LVU_GUARD_SLAYER));
+	// flush against the right edge of the simple information panel, level with its top
+	RECT panel;
+	g_GetSimplePanelRect(&panel);
+	const int _w = m_image_spk.GetWidth(LVU_GUARD_SLAYER);
+	const int _h = m_image_spk.GetHeight(LVU_GUARD_SLAYER);
+	Set(panel.right, panel.top, _w, _h);
 }
 
 //-----------------------------------------------------------------------------
@@ -14115,7 +13839,11 @@ C_VS_UI_LEVELUP::~C_VS_UI_LEVELUP()
 //-----------------------------------------------------------------------------
 void	C_VS_UI_LEVELUP::Show()
 {
-	RECT rect = { x + 9, y + 9, x + 9 + 36, y + 9 + 36 };
+	// the icon sits centred in the guard; the art sets the inset
+	const int icon_w = m_image_spk.GetWidth(LVU_BUTTON);
+	const int icon_h = m_image_spk.GetHeight(LVU_BUTTON);
+	const int pad = (m_image_spk.GetWidth(LVU_GUARD_SLAYER) - icon_w) / 2;
+	RECT rect = { x + pad, y + pad, x + pad + icon_w, y + pad + icon_h };
 	gpC_base->m_p_DDSurface_back->FillRect(&rect, 0);
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
@@ -14134,11 +13862,11 @@ void	C_VS_UI_LEVELUP::Show()
 
 		if (m_bl_pushed && m_bl_focused)
 		{
-			m_image_spk.BltLocked(x + 10, y + 10, buttonSpriteID);
+			m_image_spk.BltLocked(x + pad + 1, y + pad + 1, buttonSpriteID);
 		}
 		else
 		{
-			m_image_spk.BltLocked(x + 9, y + 9, buttonSpriteID);
+			m_image_spk.BltLocked(x + pad, y + pad, buttonSpriteID);
 		}
 
 		m_image_spk.BltLocked(x, y, guardSpriteID);
@@ -14207,9 +13935,9 @@ bool	C_VS_UI_LEVELUP::MouseControl(UINT message, int _x, int _y)
 	case M_LEFTBUTTON_UP:
 		if (m_bl_pushed)
 		{
-			// run
-			if (!gC_vs_ui.IsRunningCharInfo())
-				gC_vs_ui.RunInfo(C_VS_UI_INFO::CHARACTER_INFO_MODE);
+			// the new character window, without the inventory (user 2026-09-17);
+			// it was the old character sheet C_VS_UI_INFO
+			gC_vs_ui.OpenGearWindow();
 
 			if (g_eRaceInterface == RACE_SLAYER)
 				gpC_base->SendMessage(UI_FINISH_LEVELUP_BUTTON);
@@ -14234,25 +13962,15 @@ C_VS_UI_REQUEST_PREMIUM_GIVE_ITEM::C_VS_UI_REQUEST_PREMIUM_GIVE_ITEM()
 
 	AttrPin(true);
 
-	int _y;
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		_y = g_pUserInformation->iResolution_y - 218;
-		break;
-
-	case RACE_VAMPIRE:
-		_y = g_pUserInformation->iResolution_y - 175;
-		break;
-
-	case RACE_OUSTERS:
-		_y = g_pUserInformation->iResolution_y - 218;
-		break;
-	}
-
 	m_image_spk.Open(SPK_LEVELUP);
 
-	Set(2 + m_image_spk.GetWidth(REQUEST_GUARD_SLAYER) + 15, _y, m_image_spk.GetWidth(REQUEST_GUARD_SLAYER), m_image_spk.GetHeight(REQUEST_GUARD_SLAYER));
+	// bottom-aligned against the simple information panel, right of the party
+	// request's slot; the level-up/resurrection button owns the top corner
+	RECT panel;
+	g_GetSimplePanelRect(&panel);
+	const int _w = m_image_spk.GetWidth(REQUEST_GUARD_SLAYER);
+	const int _h = m_image_spk.GetHeight(REQUEST_GUARD_SLAYER);
+	Set(panel.right + _w, panel.bottom - _h, _w, _h);
 }
 
 //-----------------------------------------------------------------------------
@@ -14270,7 +13988,11 @@ C_VS_UI_REQUEST_PREMIUM_GIVE_ITEM::~C_VS_UI_REQUEST_PREMIUM_GIVE_ITEM()
 //-----------------------------------------------------------------------------
 void	C_VS_UI_REQUEST_PREMIUM_GIVE_ITEM::Show()
 {
-	RECT rect = { x + 9, y + 9, x + 9 + 36, y + 9 + 36 };
+	// the icon sits centred in the guard; the art sets the inset
+	const int icon_w = m_image_spk.GetWidth(GIVE_ITEM01);
+	const int icon_h = m_image_spk.GetHeight(GIVE_ITEM01);
+	const int pad = (m_image_spk.GetWidth(GIVE_ITEM_CASE01) - icon_w) / 2;
+	RECT rect = { x + pad, y + pad, x + pad + icon_w, y + pad + icon_h };
 	POINT eff_pt;
 	gpC_base->m_p_DDSurface_back->FillRect(&rect, 0);
 
@@ -14278,11 +14000,11 @@ void	C_VS_UI_REQUEST_PREMIUM_GIVE_ITEM::Show()
 	{
 		if (m_bl_pushed && m_bl_focused)
 		{
-			m_image_spk.BltLocked(x + 10, y + 10, GIVE_ITEM01);
+			m_image_spk.BltLocked(x + pad + 1, y + pad + 1, GIVE_ITEM01);
 		}
 		else
 		{
-			m_image_spk.BltLocked(x + 9, y + 9, GIVE_ITEM01);
+			m_image_spk.BltLocked(x + pad, y + pad, GIVE_ITEM01);
 
 			int src_color = g_CurrentFrame % 64;
 
@@ -14291,7 +14013,7 @@ void	C_VS_UI_REQUEST_PREMIUM_GIVE_ITEM::Show()
 				src_color = 64 - src_color;
 			}
 
-			m_image_spk.BltLockedAlpha(x + 9, y + 9, GIVE_ITEM02, src_color);
+			m_image_spk.BltLockedAlpha(x + pad, y + pad, GIVE_ITEM02, src_color);
 		}
 
 		switch (g_eRaceInterface)
@@ -14488,25 +14210,15 @@ C_VS_UI_REQUEST_PARTY::C_VS_UI_REQUEST_PARTY(const char* name, DWORD timer)
 
 	AttrPin(true);
 
-	int _y;
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		_y = g_pUserInformation->iResolution_y - 218; //382;
-		break;
-
-	case RACE_VAMPIRE:
-		_y = g_pUserInformation->iResolution_y - 175; //425;
-		break;
-
-	case RACE_OUSTERS:
-		_y = g_pUserInformation->iResolution_y - 218; //382;
-		break;
-	}
-
 	m_image_spk.Open(SPK_LEVELUP);
 
-	Set(2, _y, m_image_spk.GetWidth(REQUEST_GUARD_SLAYER), m_image_spk.GetHeight(REQUEST_GUARD_SLAYER));
+	// bottom-aligned against the simple information panel; the
+	// level-up/resurrection button owns the top corner
+	RECT panel;
+	g_GetSimplePanelRect(&panel);
+	const int _w = m_image_spk.GetWidth(REQUEST_GUARD_SLAYER);
+	const int _h = m_image_spk.GetHeight(REQUEST_GUARD_SLAYER);
+	Set(panel.right, panel.bottom - _h, _w, _h);
 
 	m_name = name;
 
@@ -14541,17 +14253,21 @@ void	C_VS_UI_REQUEST_PARTY::Show()
 	if (!Timer())
 		gpC_base->SendMessage(UI_FINISH_REQUEST_PARTY_BUTTON, TRUE);
 
-	RECT rect = { x + 9, y + 9, x + 9 + 36, y + 9 + 36 };
+	// the icon sits centred in the guard; the art sets the inset
+	const int icon_w = m_image_spk.GetWidth(PARTY_REQUEST);
+	const int icon_h = m_image_spk.GetHeight(PARTY_REQUEST);
+	const int pad = (m_image_spk.GetWidth(REQUEST_GUARD_SLAYER) - icon_w) / 2;
+	RECT rect = { x + pad, y + pad, x + pad + icon_w, y + pad + icon_h };
 	gpC_base->m_p_DDSurface_back->FillRect(&rect, 0);
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
 		if (m_bl_pushed && m_bl_focused)
 		{
-			m_image_spk.BltLocked(x + 10, y + 10, PARTY_REQUEST + m_type);
+			m_image_spk.BltLocked(x + pad + 1, y + pad + 1, PARTY_REQUEST + m_type);
 		}
 		else
 		{
-			m_image_spk.BltLocked(x + 9, y + 9, PARTY_REQUEST + m_type);
+			m_image_spk.BltLocked(x + pad, y + pad, PARTY_REQUEST + m_type);
 		}
 
 		switch (g_eRaceInterface) // request_guard
@@ -14689,25 +14405,14 @@ C_VS_UI_REQUEST_DIE::C_VS_UI_REQUEST_DIE(DWORD timer, bool enforceResurrect, DWO
 
 	m_bl_enforce_resurrect = enforceResurrect;
 
-	int _y;
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		_y = g_pUserInformation->iResolution_y - 218; //382;
-		break;
-
-	case RACE_VAMPIRE:
-		_y = g_pUserInformation->iResolution_y - 175; //425;
-		break;
-
-	case RACE_OUSTERS:
-		_y = g_pUserInformation->iResolution_y - 218; //382;
-		break;
-	}
-
 	m_image_spk.Open(SPK_LEVELUP);
 
-	Set(2, _y, m_image_spk.GetWidth(RESURRECT_GUARD_SLAYER), m_image_spk.GetHeight(RESURRECT_GUARD_SLAYER));
+	// flush against the right edge of the simple information panel, level with its top
+	RECT panel;
+	g_GetSimplePanelRect(&panel);
+	const int _w = m_image_spk.GetWidth(RESURRECT_GUARD_SLAYER);
+	const int _h = m_image_spk.GetHeight(RESURRECT_GUARD_SLAYER);
+	Set(panel.right, panel.top, _w, _h);
 
 	//timer
 	m_dw_timer_tickcount = timer;
@@ -14746,7 +14451,11 @@ void	C_VS_UI_REQUEST_DIE::Show()
 	// ���� ��Ȱ�̸� ���ǹ��ϴ�.
 	if (m_bl_enforce_resurrect) return;
 
-	RECT rect = { x + 9, y + 9, x + 9 + 36, y + 9 + 36 };
+	// the icon sits centred in the guard; the art sets the inset
+	const int icon_w = m_image_spk.GetWidth(RESURRECT_SLAYER);
+	const int icon_h = m_image_spk.GetHeight(RESURRECT_SLAYER);
+	const int pad = (m_image_spk.GetWidth(RESURRECT_GUARD_SLAYER) - icon_w) / 2;
+	RECT rect = { x + pad, y + pad, x + pad + icon_w, y + pad + icon_h };
 	gpC_base->m_p_DDSurface_back->FillRect(&rect, 0);
 
 	if (gpC_base->m_p_DDSurface_back->Lock())
@@ -14756,16 +14465,16 @@ void	C_VS_UI_REQUEST_DIE::Show()
 			switch (g_eRaceInterface)
 			{
 			case RACE_SLAYER:
-				m_image_spk.BltLocked(x + 10, y + 10, RESURRECT_SLAYER);
+				m_image_spk.BltLocked(x + pad + 1, y + pad + 1, RESURRECT_SLAYER);
 				break;
 
 			case RACE_VAMPIRE:
-				m_image_spk.BltLocked(x + 10, y + 10, RESURRECT_VAMPIRE);
+				m_image_spk.BltLocked(x + pad + 1, y + pad + 1, RESURRECT_VAMPIRE);
 				break;
 
 			case RACE_OUSTERS:
 			{
-				m_image_spk.BltLocked(x + 10, y + 10, RESURRECT_OUSTERS);
+				m_image_spk.BltLocked(x + pad + 1, y + pad + 1, RESURRECT_OUSTERS);
 #if __CONTENTS(__LEVEL_WAR_RENEWAL)
 				//					if(levelWarTimer(false))
 				//					{
@@ -14787,16 +14496,16 @@ void	C_VS_UI_REQUEST_DIE::Show()
 			switch (g_eRaceInterface)
 			{
 			case RACE_SLAYER:
-				m_image_spk.BltLocked(x + 9, y + 9, RESURRECT_SLAYER);
+				m_image_spk.BltLocked(x + pad, y + pad, RESURRECT_SLAYER);
 				break;
 
 			case RACE_VAMPIRE:
-				m_image_spk.BltLocked(x + 9, y + 9, RESURRECT_VAMPIRE);
+				m_image_spk.BltLocked(x + pad, y + pad, RESURRECT_VAMPIRE);
 				break;
 
 			case RACE_OUSTERS:
 			{
-				m_image_spk.BltLocked(x + 9, y + 9, RESURRECT_OUSTERS);
+				m_image_spk.BltLocked(x + pad, y + pad, RESURRECT_OUSTERS);
 #if __CONTENTS(__LEVEL_WAR_RENEWAL)
 				//					if(levelWarTimer(false))
 				//					{
@@ -16899,44 +16608,12 @@ void	C_VS_UI_INFO::CheckGradeSkillIDList()
 	m_draw_grade_skill_mark = m_grade_skill_id.size();
 }
 
-//-----------------------------------------------------------------------------
-// C_VS_UI_INFO::ShowButtonWidget
-//
-// 
-//-----------------------------------------------------------------------------
-
-void	C_VS_UI_INFO::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
+// The description of a rank skill, by its RankBonusInfo type; the skills
+// window shows it too.
+const char* g_GetRankBonusDescription(int type)
 {
-	const static char* m_info_button_string[27] =
-	{
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_ALPHA_WINDOW].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_CLOSE_CHARACTER_INFO_WINDOW].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_HELP_CHARACTER_INFO_WINDOW].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_BLADE_INFO].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_SWORD_INFO].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_GUN_INFO].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_HEAL_INFO].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_ENCHANT_INFO].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_ALL_INFO].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_POISON_INFO].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_ACID_INFO].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_CURSE_INFO].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_SUMMON_INFO].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_BLOOD_INFO].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_ESSENCE_INFO].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_UP_STR].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_UP_STR].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_UP_STR].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_UP_DEX].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_UP_INT].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_NO_ALPHA_WINDOW].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_CLOSE_MAGIC_INFO_WINDOW].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_CLOSE_SKILL_INFO_WINDOW].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_HELP_MAGIC_INFO_WINDOW].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_HELP_SKILL_INFO_WINDOW].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_TIP_CHANGE_PICTURE_CLICK_HERE].GetString(),
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_PET_INFO_WINDOW].GetString(),
-	};
+	if (type < 0 || type >= RANK_BONUS_MAX)
+		return NULL;
 
 	char* m_grade_skill_description_string[RANK_BONUS_MAX] =
 	{
@@ -17031,6 +16708,48 @@ void	C_VS_UI_INFO::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 	(*g_pGameStringTable)[UI_STRING_MESSAGE_RANK_BONUS_GNOMES_KNOWLEDGE].GetString(),//] = "�����迭 ���� +1";
 	};
 
+	return m_grade_skill_description_string[type];
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_INFO::ShowButtonWidget
+//
+// 
+//-----------------------------------------------------------------------------
+
+void	C_VS_UI_INFO::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
+{
+	const static char* m_info_button_string[27] =
+	{
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_ALPHA_WINDOW].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_CLOSE_CHARACTER_INFO_WINDOW].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_HELP_CHARACTER_INFO_WINDOW].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_BLADE_INFO].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_SWORD_INFO].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_GUN_INFO].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_HEAL_INFO].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_ENCHANT_INFO].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_ALL_INFO].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_POISON_INFO].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_ACID_INFO].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_CURSE_INFO].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_SUMMON_INFO].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_BLOOD_INFO].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_ESSENCE_INFO].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_UP_STR].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_UP_STR].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_UP_STR].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_UP_DEX].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_UP_INT].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_NO_ALPHA_WINDOW].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_CLOSE_MAGIC_INFO_WINDOW].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_CLOSE_SKILL_INFO_WINDOW].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_HELP_MAGIC_INFO_WINDOW].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_HELP_SKILL_INFO_WINDOW].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_TIP_CHANGE_PICTURE_CLICK_HERE].GetString(),
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_PET_INFO_WINDOW].GetString(),
+	};
+
 	if (p_button->GetID() == CHANGE_IMAGE_ID && m_info_mode != CHARACTER_INFO_MODE)
 		return;
 
@@ -17115,7 +16834,7 @@ void	C_VS_UI_INFO::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 
 					int Skill_Id = m_grade_skill_id[id];
 					int Skill_Type = (*g_pRankBonusTable)[Skill_Id].GetType();
-					grade_desc[1] = m_grade_skill_description_string[Skill_Type];
+					grade_desc[1] = g_GetRankBonusDescription(Skill_Type);
 					if (grade_desc[1] != NULL)
 					{
 						grade_desc[0] = (*g_pRankBonusTable)[m_grade_skill_id[id]].GetName();
@@ -25954,6 +25673,11 @@ void C_VS_UI_INFO::Process6_RareSkillList()
 }
 
 
+// Where the bottom row opens when the character has no saved layout: the HP/MP
+// bar centred above the hotkey bar, the rampage circles resting on it. Measured
+// from the bottom edge, so they follow the resolution (2026-09-17).
+static const int s_hpbar_default_bottom = 88;
+
 //-----------------------------------------------------------------------------
 // C_VS_UI_HPBAR
 //
@@ -25985,7 +25709,9 @@ C_VS_UI_HPBAR::C_VS_UI_HPBAR()
 		m_pC_hpbar_spk = new C_SPRITE_PACK(SPK_HPBAR_OUSTERS);
 		break;
 	}
-	Set(0, 0, m_pC_hpbar_spk->GetWidth(), m_pC_hpbar_spk->GetHeight());
+	Set((g_pUserInformation->iResolution_x - m_pC_hpbar_spk->GetWidth()) / 2,
+		g_pUserInformation->iResolution_y - s_hpbar_default_bottom,
+		m_pC_hpbar_spk->GetWidth(), m_pC_hpbar_spk->GetHeight());
 	ComputeOpaqueBounds();
 
 	//skillinfo ��ư
@@ -26364,7 +26090,7 @@ void C_VS_UI_HPBAR::KeyboardControl(UINT message, UINT key, long extra)
 // tier = (level-1)/10, grade = (level-1)%10+1, the same split the item
 // requirement text uses. Only the tier strings carry the title names, and they
 // read "<name> grade %d or higher", so the name is their first token - which
-// holds in Korean too ("��Ÿ %d��� �̻�").
+// holds in Korean too ("��Ÿ %d��� �̻�").
 //-----------------------------------------------------------------------------
 static void MakeHPBarLevelString(char* szBuf, int nBuf)
 {
@@ -26909,8 +26635,9 @@ C_VS_UI_BLOOD_BURST::C_VS_UI_BLOOD_BURST()
 
 	const int size = m_pC_BloodBurst_spk->GetWidth(m_image_base);
 	const int cell = size + m_margin * 2;
-	int iTypeYValue[3] = { 40 , 38 , 45 };
-	Set(0, iTypeYValue[g_eRaceInterface], cell * GAUGE_COUNT, cell);
+	const int width = cell * GAUGE_COUNT;
+	Set((g_pUserInformation->iResolution_x - width) / 2,
+		g_pUserInformation->iResolution_y - s_hpbar_default_bottom - cell, width, cell);
 
 	// one button per circle; its letter is drawn, and a click bursts, only when full
 	m_pC_button_group = new ButtonGroup(this);
@@ -27356,182 +27083,23 @@ void	C_VS_UI_MARKET_ACCOUNT::Finish()
 //-----------------------------------------------------------------------------
 C_VS_UI_EFFECT_STATUS::C_VS_UI_EFFECT_STATUS()
 {
-	m_scroll = 0;
-	m_bl_effect_size_null = true;
-
-	m_pC_effect_status_spk = NULL;
-
 	AttrTopmost(false);
 	AttrPin(true);
 
-	m_width_mode = true;//false;
-
 	g_RegisterWindow(this);
 
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		m_pC_effect_status_spk = new C_SPRITE_PACK(SPK_EFFECT_STATUS_SLAYER);
-		break;
-
-	case RACE_VAMPIRE:
-		m_pC_effect_status_spk = new C_SPRITE_PACK(SPK_EFFECT_STATUS_VAMPIRE);
-		break;
-
-	case RACE_OUSTERS:
-		m_pC_effect_status_spk = new C_SPRITE_PACK(SPK_EFFECT_STATUS_OUSTERS);
-		break;
-	}
-
-	//	if(g_pUserInformation->IsResolution1024)
-	//	{
-	int midpos = g_pUserInformation->iResolution_x / 2;
-	midpos = midpos - m_pC_effect_status_spk->GetWidth() / 2;
-	Set(midpos, 0, m_pC_effect_status_spk->GetWidth(), m_pC_effect_status_spk->GetHeight());
-	//	}
-	//	else	Set(240, 0, m_pC_effect_status_spk->GetWidth(), m_pC_effect_status_spk->GetHeight());
-
-
-	//#ifdef CONVERT_1024_768
-	//	int midpos = RESOLUTION_X/2;
-	//	midpos = midpos - m_pC_effect_status_spk->GetWidth()/2;
-	//	Set(midpos, 0, m_pC_effect_status_spk->GetWidth(), m_pC_effect_status_spk->GetHeight());
-	//#else
-	//	Set(240, 0, m_pC_effect_status_spk->GetWidth(), m_pC_effect_status_spk->GetHeight());
-	//#endif
-
-
-	m_pC_width_button_group = new ButtonGroup(this);
-	m_pC_height_button_group = new ButtonGroup(this);
-
-	const int width_pushpin_x = 5, width_pushpin_y = 8, width_change_x = 20, width_change_y = 7, width_left_x = 54, width_right_x = 37;
-	m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(width_pushpin_x, width_pushpin_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN), PUSHPIN_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN));
-	m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(width_change_x, width_change_y, m_pC_effect_status_spk->GetWidth(BUTTON_CHANGE), m_pC_effect_status_spk->GetHeight(BUTTON_CHANGE), CHANGE_ID, this, BUTTON_CHANGE));
-	m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(width_left_x, width_change_y, m_pC_effect_status_spk->GetWidth(BUTTON_LEFT), m_pC_effect_status_spk->GetHeight(BUTTON_LEFT), UP_ID, this, BUTTON_LEFT));
-	m_pC_width_button_group->Add(new C_VS_UI_EVENT_BUTTON(width_right_x, width_change_y, m_pC_effect_status_spk->GetWidth(BUTTON_RIGHT), m_pC_effect_status_spk->GetHeight(BUTTON_RIGHT), DOWN_ID, this, BUTTON_RIGHT));
-
-	const int height_pushpin_y = 5, height_pushpin_x = 7, height_change_y = 20, height_change_x = 6, height_left_y = 54, height_right_y = 37;
-	m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(height_pushpin_x, height_pushpin_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN), PUSHPIN_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN));
-	m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(height_change_x, height_change_y, m_pC_effect_status_spk->GetWidth(BUTTON_CHANGE), m_pC_effect_status_spk->GetHeight(BUTTON_CHANGE), CHANGE_ID, this, BUTTON_CHANGE));
-	m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(height_change_x, height_left_y, m_pC_effect_status_spk->GetWidth(BUTTON_UP), m_pC_effect_status_spk->GetHeight(BUTTON_UP), UP_ID, this, BUTTON_UP));
-	m_pC_height_button_group->Add(new C_VS_UI_EVENT_BUTTON(height_change_x, height_right_y, m_pC_effect_status_spk->GetWidth(BUTTON_DOWN), m_pC_effect_status_spk->GetHeight(BUTTON_DOWN), DOWN_ID, this, BUTTON_DOWN));
-
-
+	// no frame and no buttons: Show sizes the window to the icons each frame
+	Set(0, 0, 0, 0);
 }
 
 //-----------------------------------------------------------------------------
 // ~C_VS_UI_EFFECT_STATUS
 //
-// 
+//
 //-----------------------------------------------------------------------------
 C_VS_UI_EFFECT_STATUS::~C_VS_UI_EFFECT_STATUS()
 {
-	gpC_vs_ui_window_manager->SetAutoHide(C_VS_UI_WINDOW_MANAGER::EFFECT_STATUS, GetAttributes()->autohide);
-	gpC_vs_ui_window_manager->SetRect(C_VS_UI_WINDOW_MANAGER::EFFECT_STATUS, Rect(x, y, w, h));
-	gpC_vs_ui_window_manager->SetEffectStatusHeight(!m_width_mode);
-
 	g_UnregisterWindow(this);
-
-	DeleteNew(m_pC_effect_status_spk);
-	DeleteNew(m_pC_width_button_group);
-	DeleteNew(m_pC_height_button_group);
-}
-
-//-----------------------------------------------------------------------------
-// C_VS_UI_EFFECT_STATUS::ShowButtonWidget
-//
-// 
-//-----------------------------------------------------------------------------
-void	C_VS_UI_EFFECT_STATUS::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
-{
-	const static char* m_effect_button_string[4] =
-	{
-		(*g_pGameStringTable)[UI_STRING_MESSAGE_AUTO_HIDE_ON].GetString(),
-			(*g_pGameStringTable)[UI_STRING_MESSAGE_AUTO_HIDE_OFF].GetString(),
-			(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_HEIGHT].GetString(),
-			(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_WIDTH].GetString(),
-	};
-	if (m_width_mode)
-	{
-		if (p_button->GetID() == PUSHPIN_ID)
-		{
-			if (GetAttributes()->autohide)
-				g_descriptor_manager.Set(DID_INFO, x + w - p_button->x - p_button->w, y + p_button->y, (void*)m_effect_button_string[1], 0, 0);
-			else
-				g_descriptor_manager.Set(DID_INFO, x + w - p_button->x - p_button->w, y + p_button->y, (void*)m_effect_button_string[0], 0, 0);
-		}
-		if (p_button->GetID() == CHANGE_ID)
-		{
-			g_descriptor_manager.Set(DID_INFO, x + w - p_button->x - p_button->w, y + p_button->y, (void*)m_effect_button_string[2], 0, 0);
-		}
-	}
-	else
-	{
-		if (p_button->GetID() == PUSHPIN_ID)
-		{
-			if (GetAttributes()->autohide)
-				g_descriptor_manager.Set(DID_INFO, x + p_button->x, y + h - p_button->y - p_button->h, (void*)m_effect_button_string[1], 0, 0);
-			else
-				g_descriptor_manager.Set(DID_INFO, x + p_button->x, y + h - p_button->y - p_button->h, (void*)m_effect_button_string[0], 0, 0);
-		}
-		if (p_button->GetID() == CHANGE_ID)
-		{
-			g_descriptor_manager.Set(DID_INFO, x + p_button->x, y + h - p_button->y - p_button->h, (void*)m_effect_button_string[3], 0, 0);
-		}
-	}
-}
-
-//-----------------------------------------------------------------------------
-// C_VS_UI_EFFECT_STATUS::ShowButtonWidget
-//
-// 
-//-----------------------------------------------------------------------------
-void	C_VS_UI_EFFECT_STATUS::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
-{
-	if (m_width_mode)	// width mode
-	{
-		if (p_button->GetID() == PUSHPIN_ID)
-		{
-			if (GetAttributes()->autohide)
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + w - p_button->x - p_button->w, y + p_button->y, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN);
-			else
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + w - p_button->x - p_button->w, y + p_button->y, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN_PUSHED);
-		}
-		else
-		{
-			if (p_button->GetFocusState())
-			{
-				if (p_button->GetPressState())
-					m_pC_effect_status_spk->BltLocked(x + w - p_button->x - p_button->w, y + p_button->y, p_button->m_image_index + 2);
-				else
-					m_pC_effect_status_spk->BltLocked(x + w - p_button->x - p_button->w, y + p_button->y, p_button->m_image_index + 1);
-			}
-			else
-				m_pC_effect_status_spk->BltLocked(x + w - p_button->x - p_button->w, y + p_button->y, p_button->m_image_index);
-		}
-	}
-	else	// height mode
-	{
-		if (p_button->GetID() == PUSHPIN_ID)
-		{
-			if (GetAttributes()->autohide)
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN);
-			else
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN_PUSHED);
-		}
-		else
-		{
-			if (p_button->GetFocusState())
-			{
-				if (p_button->GetPressState())
-					m_pC_effect_status_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, p_button->m_image_index + 2);
-				else
-					m_pC_effect_status_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, p_button->m_image_index + 1);
-			}
-			else
-				m_pC_effect_status_spk->BltLocked(x + p_button->x, y + h - p_button->y - p_button->h, p_button->m_image_index);
-		}
-	}
 }
 
 //-----------------------------------------------------------------------------
@@ -27550,65 +27118,7 @@ void C_VS_UI_EFFECT_STATUS::WindowEventReceiver(id_t event)
 //-----------------------------------------------------------------------------
 bool C_VS_UI_EFFECT_STATUS::IsPixel(int _x, int _y)
 {
-	if (Moving()) return true;
-	return IsInRect(_x, _y);
-	//	if(m_width_mode)
-	//		return m_pC_EFFECT_STATUS_spk->IsPixel(_x-x, _y-y, MAIN_WIDTH);
-	//	else
-	//		return m_pC_EFFECT_STATUS_spk->IsPixel(_x-x, _y-y, MAIN_HEIGHT);
-
-	//	return false;
-	//	return m_pC_charinfo->IsPixel(SCR2WIN_X(_x), SCR2WIN_Y(_y), CHARINFO_WINDOW);
-}
-
-//-----------------------------------------------------------------------------
-// Run
-//
-// 
-//-----------------------------------------------------------------------------
-void C_VS_UI_EFFECT_STATUS::Run(id_t id)
-{
-	switch (id)
-	{
-	case PUSHPIN_ID:
-		if (GetAttributes()->autohide)
-			AttrAutoHide(ATTRIBUTES_HIDE_NOT);
-		else
-		{
-			if (m_width_mode)
-				AttrAutoHide(ATTRIBUTES_HIDE_HEIGHT);
-			else
-				AttrAutoHide(ATTRIBUTES_HIDE_WIDTH);
-		}
-		EMPTY_MOVE;
-		break;
-
-	case CHANGE_ID:
-		if (m_width_mode)
-		{
-			if (GetAttributes()->autohide != ATTRIBUTES_HIDE_NOT)
-				AttrAutoHide(ATTRIBUTES_HIDE_WIDTH);
-		}
-		else
-		{
-			if (GetAttributes()->autohide != ATTRIBUTES_HIDE_NOT)
-				AttrAutoHide(ATTRIBUTES_HIDE_HEIGHT);
-		}
-		m_width_mode = !m_width_mode;
-		w ^= h; h ^= w; w ^= h; //swap
-		x -= w - h;
-		EMPTY_MOVE;
-		break;
-
-	case UP_ID:
-		if (m_scroll > 0)m_scroll--;
-		break;
-
-	case DOWN_ID:
-		if (m_scroll + 10 < g_char_slot_ingame.STATUS.size() + g_pUserInformation->WarInfo.size())
-			m_scroll++;
-		break;
-	}
+	return HitIcon(_x - x, _y - y) >= 0;
 }
 
 //-----------------------------------------------------------------------------
@@ -27622,11 +27132,6 @@ bool C_VS_UI_EFFECT_STATUS::MouseControl(UINT message, int _x, int _y)
 	_x -= x; _y -= y;
 
 	static int skill_id = -1;
-	bool re;
-	if (m_width_mode)
-		re = m_pC_width_button_group->MouseControl(message, w - _x, _y);
-	else
-		re = m_pC_height_button_group->MouseControl(message, _x, h - _y);
 
 	switch (message)
 	{
@@ -27634,22 +27139,7 @@ bool C_VS_UI_EFFECT_STATUS::MouseControl(UINT message, int _x, int _y)
 		skill_id = -1;
 		if (!g_pUserInformation->WarInfo.empty())
 		{
-			int select = -1;
-
-			if (m_width_mode)
-			{
-				if (_x >= 5 && _x < 5 + 10 * 20 && _y >= 5 && _y < 5 + 20)
-				{
-					select = (_x - 5) / 20 + m_scroll;
-				}
-			}
-			else
-			{
-				if (_y >= 5 && _y < 5 + 10 * 20 && _x >= 5 && _x < 5 + 20)
-				{
-					select = (_y - 5) / 20 + m_scroll;
-				}
-			}
+			int select = HitIcon(_x, _y);
 
 			if (select != -1 && select < g_char_slot_ingame.STATUS.size() + g_pUserInformation->WarInfo.size())
 			{
@@ -27744,21 +27234,7 @@ bool C_VS_UI_EFFECT_STATUS::MouseControl(UINT message, int _x, int _y)
 		}
 		if (!g_char_slot_ingame.STATUS.empty())
 		{
-			int select = -1;
-			if (m_width_mode)
-			{
-				if (_x >= 5 && _x < 5 + 10 * 20 && _y >= 5 && _y < 5 + 20)
-				{
-					select = (_x - 5) / 20 + m_scroll;
-				}
-			}
-			else
-			{
-				if (_y >= 5 && _y < 5 + 10 * 20 && _x >= 5 && _x < 5 + 20)
-				{
-					select = (_y - 5) / 20 + m_scroll;
-				}
-			}
+			int select = HitIcon(_x, _y);
 			if (select != -1 && select < g_char_slot_ingame.STATUS.size())
 				skill_id = g_char_slot_ingame.STATUS[select].actionInfo;
 			if (skill_id != -1 && skill_id != ACTIONINFO_NULL && skill_id >= 0 && skill_id < g_pSkillInfoTable->GetSize())
@@ -27879,20 +27355,6 @@ bool C_VS_UI_EFFECT_STATUS::MouseControl(UINT message, int _x, int _y)
 	case M_LB_DOUBLECLICK:
 		if (skill_id != -1)
 			gC_vs_ui.RunDescDialog(DID_SKILL, (void*)skill_id);
-		if (!gpC_mouse_pointer->GetPickUpItem() && re)
-		{
-			MoveReady();
-			SetOrigin(_x, _y);
-			break;
-		}
-		break;
-
-	case M_WHEEL_UP:
-		Run(UP_ID);
-		break;
-
-	case M_WHEEL_DOWN:
-		Run(DOWN_ID);
 		break;
 	}
 
@@ -27920,328 +27382,121 @@ void C_VS_UI_EFFECT_STATUS::KeyboardControl(UINT message, UINT key, long extra)
 //-----------------------------------------------------------------------------
 void C_VS_UI_EFFECT_STATUS::Show()
 {
-	int size = g_char_slot_ingame.STATUS.size() + g_pUserInformation->WarInfo.size();
-	if (size < m_scroll + 10)
-		m_scroll = max(0, size - 10);
-	bool bDrained = false;
+	g_char_slot_ingame.bl_drained = false;
 
-	if (m_width_mode)
-		// ���� ���
+	const int count = IconCount();
+	const int rows = (count + ICONS_PER_ROW - 1) / ICONS_PER_ROW;
+
+	// The window is the icons' bounding box, so that is all the mouse and the
+	// text overlay lose to it.
+	Set(0, 0, min(count, (int)ICONS_PER_ROW) * ICON_SIZE, rows * ICON_SIZE);
+
+	if (count == 0 || !gpC_base->m_p_DDSurface_back->Lock())
+		return;
+
+	const DWORD current_100msec = timeGetTime() / 100;
+	int i = 0;
+
+	for (; i < count && i < (int)g_char_slot_ingame.STATUS.size(); i++)
 	{
-		/*
-		��¡�� ����: �� �� �տ��� ������ �����ϴ� ������ �մϴ�. �� ���� ��¡���� �°� 4������ ������ ���� �� �տ� 4���� ��ġ�ϸ� �˴ϴ�.
-��Ÿ�ν�(nw): ���㳯���� �ް� �ִ� ��ǥ��.
-��Ƽ����(sw): ���������� �� ���� ���� ��
-�׸�Ƽ�콺(ne): ��
-���Ƹ�����(se): �һ���(Phoenix)
-*/
-		if (gpC_base->m_p_DDSurface_back->Lock())
-		{
-			Rect rect(0, 0, w - 4, h);
-			int i = 0;
-			m_pC_effect_status_spk->BltLockedClip(x, y, rect, MAIN_WIDTH);
-			m_pC_effect_status_spk->BltLocked(x + w - m_pC_effect_status_spk->GetWidth(MAIN_WIDTH_RIGHT), y, MAIN_WIDTH_RIGHT);
+		const int skill_id = g_char_slot_ingame.STATUS[i].actionInfo;
 
-			if (!g_char_slot_ingame.STATUS.empty())
-			{
-				DWORD CurrentFrame = timeGetTime();
-				DWORD Current100msec = CurrentFrame / 100;
+		if (skill_id == ACTIONINFO_NULL || skill_id < 0 || skill_id >= g_pSkillInfoTable->GetSize())
+			break;
 
-				for (i = 0; i < min(10, g_char_slot_ingame.STATUS.size()); i++)
-				{
-					const int skill_id = g_char_slot_ingame.STATUS[i + m_scroll].actionInfo;
-					if (skill_id == ACTIONINFO_NULL || skill_id < 0 || skill_id >= g_pSkillInfoTable->GetSize())
-						break;
+		DWORD delay100msec = g_char_slot_ingame.STATUS[i].delay100msec - current_100msec;
 
-					// 2007.08.22 chyaya - ���� ��/�� ��ȯ ����
-					//if(skill_id == SKILL_BLOOD_DRAIN)bDrained = true;
+		if (current_100msec > g_char_slot_ingame.STATUS[i].delay100msec)
+			delay100msec = 0;
 
-					POINT point = { x + 5 + i * 20, y + 5 };
-					const int sprite_id = (*g_pSkillInfoTable)[skill_id].GetSpriteID();
+		if (skill_id == SKILL_CLIENT_MAGICAL_PET_CHANGER && delay100msec == 0)
+			gpC_base->SendMessage(UI_CLIENT_REMOVE_EFFECT_STATUS, skill_id);
 
-					DWORD delay100msec = (g_char_slot_ingame.STATUS[i + m_scroll].delay100msec - Current100msec);
-					if (Current100msec > g_char_slot_ingame.STATUS[i + m_scroll].delay100msec)
-						delay100msec = 0;
+		// the last five seconds blink
+		if (delay100msec > 0 && delay100msec < 50 && (g_CurrentFrame & 0x04) == 0)
+			continue;
 
-					if (skill_id == SKILL_CLIENT_MAGICAL_PET_CHANGER && delay100msec <= 0)
-					{
-						gpC_base->SendMessage(UI_CLIENT_REMOVE_EFFECT_STATUS, skill_id);
-					}
-
-					if (C_VS_UI_SKILL::m_C_spk_mini.GetSize() > sprite_id)
-					{
-						if (0 < delay100msec && delay100msec < 50)
-						{
-							if (g_CurrentFrame & 0x04)
-								gpC_base->m_p_DDSurface_back->BltSprite(&point, &C_VS_UI_SKILL::m_C_spk_mini[sprite_id]);
-						}
-						else
-							gpC_base->m_p_DDSurface_back->BltSprite(&point, &C_VS_UI_SKILL::m_C_spk_mini[sprite_id]);
-					}
-				}
-			}
-			if (!g_pUserInformation->WarInfo.empty())
-			{
-				for (int a = 0; a < g_pUserInformation->WarInfo.size(); i++, a++)
-				{
-					if (i >= 10)
-						break;
-					POINT point = { x + 5 + i * 20, y + 5 };
-					int sprite_id = 12;
-
-					int color_set = 315 - 256;
-
-					if (g_pUserInformation->WarInfo[a].war_type == WAR_LEVEL)
-					{
-						sprite_id = 356;
-					}
-					else
-					{
-						switch (g_pUserInformation->WarInfo[a].zone_id)
-						{
-						case 1201:
-							sprite_id = 226;
-							if (g_pUserInformation->WarInfo[a].war_type == WAR_GUILD)	// ������ΰ��
-								color_set = 155;
-							break;
-
-						case 1202:
-							sprite_id = 227;
-							if (g_pUserInformation->WarInfo[a].war_type == WAR_GUILD)	// ������ΰ��
-								color_set = 25;
-							break;
-
-						case 1203:
-							sprite_id = 228;
-							if (g_pUserInformation->WarInfo[a].war_type == WAR_GUILD)	// ������ΰ��
-								color_set = 85;
-							break;
-
-						case 1204:
-							sprite_id = 229;
-							if (g_pUserInformation->WarInfo[a].war_type == WAR_GUILD)	// ������ΰ��
-								color_set = 40;
-							break;
-
-						case 1205:
-							sprite_id = 355;
-							if (g_pUserInformation->WarInfo[a].war_type == WAR_GUILD)	// ������ΰ��
-								color_set = 40;
-							break;
-
-						case 1206:
-							sprite_id = 354;
-							if (g_pUserInformation->WarInfo[a].war_type == WAR_GUILD)	// ������ΰ��
-								color_set = 40;
-							break;
-
-						}
-					}
-
-					if (C_VS_UI_SKILL::m_C_spk_mini.GetSize() > sprite_id)
-					{
-						//gpC_base->m_p_DDSurface_back->BltSprite(&point, &C_VS_UI_SKILL::m_C_spk_mini[sprite_id]);
-
-						gpC_base->m_p_DDSurface_back->BltSpriteColorSet(&point, &C_VS_UI_SKILL::m_C_spk_mini[sprite_id], color_set);
-					}
-				}
-			}
-
-			m_pC_width_button_group->Show();
-			gpC_base->m_p_DDSurface_back->Unlock();
-			m_pC_width_button_group->ShowDescription();
-		}
+		ShowIcon(i, (*g_pSkillInfoTable)[skill_id].GetSpriteID());
 	}
-	else
-		// ���� ���
+
+	// then the wars in progress
+	for (int a = 0; i < count && a < (int)g_pUserInformation->WarInfo.size(); a++, i++)
 	{
-		if (gpC_base->m_p_DDSurface_back->Lock())
+		const WAR_INFO& war = g_pUserInformation->WarInfo[a];
+		int sprite_id = 12;
+
+		if (war.war_type == WAR_LEVEL)
 		{
-			Rect rect(0, 0, w, h - 4);
-			int i = 0;
-			m_pC_effect_status_spk->BltLockedClip(x, y, rect, MAIN_HEIGHT);
-			m_pC_effect_status_spk->BltLocked(x, y + h - m_pC_effect_status_spk->GetHeight(MAIN_HEIGHT_BOTTOM), MAIN_HEIGHT_BOTTOM);
-
-			if (!g_char_slot_ingame.STATUS.empty())
-			{
-				DWORD CurrentFrame = timeGetTime();
-				DWORD Current100msec = CurrentFrame / 100;
-
-				for (int i = 0; i < min(10, g_char_slot_ingame.STATUS.size()); i++)
-				{
-					const int skill_id = g_char_slot_ingame.STATUS[i + m_scroll].actionInfo;
-					if (skill_id == ACTIONINFO_NULL || skill_id < 0 || skill_id >= g_pSkillInfoTable->GetSize())
-						break;
-
-					// 2007.08.22 chyaya - ���� ��/�� ��ȯ ����
-					//if(skill_id == SKILL_BLOOD_DRAIN)bDrained = true;
-
-					POINT point = { x + 5, y + 5 + i * 20 };
-					const int sprite_id = (*g_pSkillInfoTable)[skill_id].GetSpriteID();
-
-					DWORD delay100msec = (g_char_slot_ingame.STATUS[i + m_scroll].delay100msec - Current100msec);
-					if (Current100msec > g_char_slot_ingame.STATUS[i + m_scroll].delay100msec)
-						delay100msec = 0;
-
-					if (skill_id == SKILL_CLIENT_MAGICAL_PET_CHANGER && delay100msec <= 0)
-					{
-						gpC_base->SendMessage(UI_CLIENT_REMOVE_EFFECT_STATUS, skill_id);
-					}
-
-					if (C_VS_UI_SKILL::m_C_spk_mini.GetSize() > sprite_id)
-					{
-						if (delay100msec < 50)
-						{
-							if (g_CurrentFrame & 0x04)
-								gpC_base->m_p_DDSurface_back->BltSprite(&point, &C_VS_UI_SKILL::m_C_spk_mini[sprite_id]);
-						}
-						else
-							gpC_base->m_p_DDSurface_back->BltSprite(&point, &C_VS_UI_SKILL::m_C_spk_mini[sprite_id]);
-					}
-				}
-			}if (!g_pUserInformation->WarInfo.empty())
-			{
-				for (int a = 0; a < g_pUserInformation->WarInfo.size(); i++, a++)
-				{
-					if (i >= 10)
-						break;
-					POINT point = { x + 5, y + 5 + i * 20 };
-					int sprite_id = 12;
-
-					int color_set = 315 - 256;
-
-					if (g_pUserInformation->WarInfo[a].war_type == WAR_LEVEL)
-					{
-						sprite_id = 356;
-					}
-					else
-					{
-						switch (g_pUserInformation->WarInfo[a].zone_id)
-						{
-						case 1201:
-							sprite_id = 226;
-							if (g_pUserInformation->WarInfo[a].war_type == WAR_GUILD)	// ������ΰ��
-								color_set = 155;
-							break;
-
-						case 1202:
-							sprite_id = 227;
-							if (g_pUserInformation->WarInfo[a].war_type == WAR_GUILD)	// ������ΰ��
-								color_set = 25;
-							break;
-
-						case 1203:
-							sprite_id = 228;
-							if (g_pUserInformation->WarInfo[a].war_type == WAR_GUILD)	// ������ΰ��
-								color_set = 85;
-							break;
-
-						case 1204:
-							sprite_id = 229;
-							if (g_pUserInformation->WarInfo[a].war_type == WAR_GUILD)	// ������ΰ��
-								color_set = 40;
-							break;
-
-						case 1205:
-							sprite_id = 355;
-							if (g_pUserInformation->WarInfo[a].war_type == WAR_GUILD)	// ������ΰ��
-								color_set = 40;
-							break;
-
-						case 1206:
-							sprite_id = 354;
-							if (g_pUserInformation->WarInfo[a].war_type == WAR_GUILD)	// ������ΰ��
-								color_set = 40;
-							break;
-						}
-					}
-
-					if (C_VS_UI_SKILL::m_C_spk_mini.GetSize() > sprite_id)
-					{
-						//gpC_base->m_p_DDSurface_back->BltSprite(&point, &C_VS_UI_SKILL::m_C_spk_mini[sprite_id]);
-
-						gpC_base->m_p_DDSurface_back->BltSpriteColorSet(&point, &C_VS_UI_SKILL::m_C_spk_mini[sprite_id], color_set);
-					}
-				}
-				//				for(int a=0;a<g_pUserInformation->WarInfo.size();i++,a++)
-				//				{					
-				//					if(i>=10)
-				//						break;
-				//					POINT point = {x+5, y+5+i*20};
-				//					
-				//					int sprite_id = 12;
-				//
-				//					switch(g_pUserInformation->WarInfo[a].zone_id)
-				//					{
-				//					case 1201 :
-				//						sprite_id = 226;
-				//						break;
-				//					case 1202 :
-				//						sprite_id = 227;
-				//						break;
-				//					case 1203 :
-				//						sprite_id = 228;
-				//						break;
-				//					case 1204 :
-				//						sprite_id = 229;
-				//						break;
-				//					}					
-				//
-				//					if(C_VS_UI_SKILL::m_C_spk_mini.GetSize() > sprite_id)
-				//					{
-				//						gpC_base->m_p_DDSurface_back->BltSprite(&point, &C_VS_UI_SKILL::m_C_spk_mini[sprite_id]);
-				//					}
-				//				}
-			}
-			m_pC_height_button_group->Show();
-			gpC_base->m_p_DDSurface_back->Unlock();
-			m_pC_height_button_group->ShowDescription();
+			sprite_id = 356;
 		}
+		else
+		{
+			switch (war.zone_id)
+			{
+			case 1201: sprite_id = 226; break;
+			case 1202: sprite_id = 227; break;
+			case 1203: sprite_id = 228; break;
+			case 1204: sprite_id = 229; break;
+			case 1205: sprite_id = 355; break;
+			case 1206: sprite_id = 354; break;
+			}
+		}
+
+		ShowIcon(i, sprite_id);
 	}
-	g_char_slot_ingame.bl_drained = bDrained;
+
+	gpC_base->m_p_DDSurface_back->Unlock();
 }
 
 //-----------------------------------------------------------------------------
-// ResetSize
+// IconCount / HitIcon / ShowIcon
 //
-// 
+// The icons run effects first, then wars, left to right from the top-left
+// corner, ICONS_PER_ROW to a row.
 //-----------------------------------------------------------------------------
-void C_VS_UI_EFFECT_STATUS::ResetSize()
+int C_VS_UI_EFFECT_STATUS::IconCount() const
 {
-	//13���� ������ ��ũ�� ��ư ���´���!
+	const int count = (int)(g_char_slot_ingame.STATUS.size() + g_pUserInformation->WarInfo.size());
+
+	return min(count, (int)MAX_ICONS);
+}
+
+// The icon under a point in window coordinates, or -1.
+int C_VS_UI_EFFECT_STATUS::HitIcon(int _x, int _y) const
+{
+	if (_x < 0 || _y < 0 || _x >= ICONS_PER_ROW * ICON_SIZE)
+		return -1;
+
+	const int index = _y / ICON_SIZE * ICONS_PER_ROW + _x / ICON_SIZE;
+
+	return index < IconCount() ? index : -1;
+}
+
+// One icon in its slot, half transparent. Needs the back surface locked.
+void C_VS_UI_EFFECT_STATUS::ShowIcon(int index, int sprite_id)
+{
+	if (sprite_id < 0 || sprite_id >= C_VS_UI_SKILL::m_C_spk.GetSize())
+		return;
+
+	POINT point = { x + index % ICONS_PER_ROW * ICON_SIZE, y + index / ICONS_PER_ROW * ICON_SIZE };
+
+	gpC_base->m_p_DDSurface_back->BltSpriteHalf(&point, &C_VS_UI_SKILL::m_C_spk[sprite_id]);
 }
 
 //-----------------------------------------------------------------------------
 // Start
 //
-// 
+//
 //-----------------------------------------------------------------------------
 void C_VS_UI_EFFECT_STATUS::Start()
 {
 	PI_Processor::Start();
 
-	m_pC_width_button_group->Init();
-	m_pC_height_button_group->Init();
-
 	gpC_window_manager->AppearWindow(this);
-
-	AttrAutoHide(gpC_vs_ui_window_manager->GetAutoHide(C_VS_UI_WINDOW_MANAGER::EFFECT_STATUS));
-	if (m_width_mode == gpC_vs_ui_window_manager->IsEffectStatusHeight())
-		Run(CHANGE_ID);
-	Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::EFFECT_STATUS);
-	if (rect.w != -1)
-	{
-		x = rect.x;
-		y = rect.y;
-	}
 }
 
 void C_VS_UI_EFFECT_STATUS::Finish()
 {
-	gpC_vs_ui_window_manager->SetAutoHide(C_VS_UI_WINDOW_MANAGER::EFFECT_STATUS, GetAttributes()->autohide);
-	gpC_vs_ui_window_manager->SetRect(C_VS_UI_WINDOW_MANAGER::EFFECT_STATUS, Rect(x, y, w, h));
-	gpC_vs_ui_window_manager->SetEffectStatusHeight(!m_width_mode);
-
 	PI_Processor::Finish();
 
 	gpC_window_manager->DisappearWindow(this);
@@ -28250,42 +27505,10 @@ void C_VS_UI_EFFECT_STATUS::Finish()
 //-----------------------------------------------------------------------------
 // Process
 //
-// 
+//
 //-----------------------------------------------------------------------------
 void C_VS_UI_EFFECT_STATUS::Process()
 {
-	if ((g_pUserInformation->WarInfo.empty() && g_char_slot_ingame.STATUS.empty()) && m_bl_effect_size_null == false)
-	{
-		m_bl_effect_size_null = true;
-		if (m_width_mode)
-			AttrAutoHide(ATTRIBUTES_HIDE_HEIGHT);
-		else
-			AttrAutoHide(ATTRIBUTES_HIDE_WIDTH);
-	}
-	else if (!(g_pUserInformation->WarInfo.empty() && g_char_slot_ingame.STATUS.empty()) && m_bl_effect_size_null == true)
-	{
-		m_bl_effect_size_null = false;
-		AttrAutoHide(ATTRIBUTES_HIDE_NOT);
-	}
-
-	if (m_width_mode)
-		m_pC_width_button_group->Process();
-	else
-		m_pC_height_button_group->Process();
-	ProcessHide();
-
-	/*std::vector<WAR_INFO>::iterator itr = g_pUserInformation->WarInfo.begin();
-
-	while(itr != g_pUserInformation->WarInfo.end() )
-	{
-		//WAR_INFO info =(*itr);
-		//if(info.left_time <= timeGetTime()/1000)
-
-		if ( itr->left_time <= timeGetTime() / 1000 )
-
-
-		itr++;
-	}*/
 }
 
 const int zone_id_size = 73;
@@ -28424,40 +27647,26 @@ C_VS_UI_MINIMAP::C_VS_UI_MINIMAP()
 
 	g_RegisterWindow(this);
 
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		m_pC_minimap_spk = new C_SPRITE_PACK(SPK_MINIMAP_SLAYER);
-		break;
-
-	case RACE_VAMPIRE:
-		m_pC_minimap_spk = new C_SPRITE_PACK(SPK_MINIMAP_VAMPIRE);
-		break;
-
-	case RACE_OUSTERS:
-		m_pC_minimap_spk = new C_SPRITE_PACK(SPK_MINIMAP_OUSTERS);
-	}
+	m_pC_minimap_spk = new C_SPRITE_PACK(SPK_MINIMAP_RENEWAL);
 
 	//Set(RESOLUTION_X-m_pC_minimap_spk->GetWidth(MINIMAP_MAIN)-m_pC_minimap_spk->GetWidth(MINIMAP_RIGHT), 0, m_pC_minimap_spk->GetWidth(MINIMAP_MAIN)+m_pC_minimap_spk->GetWidth(MINIMAP_RIGHT), m_pC_minimap_spk->GetHeight(MINIMAP_MAIN));
 
-	Set(g_pUserInformation->iResolution_x - m_pC_minimap_spk->GetWidth(MINIMAP_MAIN) - m_pC_minimap_spk->GetWidth(MINIMAP_RIGHT), 0, m_pC_minimap_spk->GetWidth(MINIMAP_MAIN) + m_pC_minimap_spk->GetWidth(MINIMAP_RIGHT), m_pC_minimap_spk->GetHeight(MINIMAP_MAIN));
+	Set(0, 0, m_pC_minimap_spk->GetWidth(MINIMAP_PANEL), m_pC_minimap_spk->GetHeight(MINIMAP_PANEL));
+
+	// Bottom-right, as in DK Umbra.
+	RECT rest;
+	GetRestingRect(&rest);
+	x = rest.left;
+	y = rest.top;
 
 	//skillinfo ��ư
 	m_pC_button_group = new ButtonGroup(this);
 
-	int alpha_button_offset_x, alpha_button_offset_y;
-	int pushpin_button_offset_x, pushpin_button_offset_y;
-
-	alpha_button_offset_x = 7; alpha_button_offset_y = 36;
-	pushpin_button_offset_x = 23; pushpin_button_offset_y = 36;
-
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_button_offset_x, alpha_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD), ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD));
-#else
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_button_offset_x, alpha_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA), ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA));
-#endif //__080405_FIREST_UI_UPDATE
-
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pushpin_button_offset_x, pushpin_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN), PUSHPIN_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN));
+	// The pin and the world map ("M"); DK Umbra has no see-through button.
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(MINIMAP_PIN_X, MINIMAP_PIN_Y,
+		m_pC_minimap_spk->GetWidth(MINIMAP_PIN), m_pC_minimap_spk->GetHeight(MINIMAP_PIN), PUSHPIN_ID, this, MINIMAP_PIN));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(MINIMAP_WORLDMAP_X, MINIMAP_WORLDMAP_Y,
+		m_pC_minimap_spk->GetWidth(MINIMAP_WORLDMAP_BUTTON), m_pC_minimap_spk->GetHeight(MINIMAP_WORLDMAP_BUTTON), WORLDMAP_ID, this, MINIMAP_WORLDMAP_BUTTON));
 
 #if __CONTENTS(__GPS_ADD)
 	/*	int	gps_button_offset_x, gps_button_offset_y;
@@ -28472,8 +27681,8 @@ C_VS_UI_MINIMAP::C_VS_UI_MINIMAP()
 
 	m_map_x = 0; m_map_y = 0;
 	m_map_w = 0; m_map_h = 0;
-	m_map_start_point.x = 4;
-	m_map_start_point.y = 29;
+	m_map_start_point.x = MINIMAP_MAP_X;
+	m_map_start_point.y = MINIMAP_MAP_Y;
 
 	m_bl_refresh = false;
 
@@ -28488,25 +27697,9 @@ C_VS_UI_MINIMAP::C_VS_UI_MINIMAP()
 
 	m_surface_w = 200;
 	m_surface_h = 100;
+	m_map_cut = 0;
 	m_Block.clear();
 	m_Flag.clear();
-
-	// The X/Y board hangs off whichever side of the minimap faces the middle
-	// of the screen. This placement used to live inside the __GPS_ADD block
-	// below, which is OFF for every build except Korea - so everywhere else
-	// m_board_x/m_board_y were never initialised at all, and the board (with
-	// the coordinates printed on it) was blitted at whatever the uninitialised
-	// members happened to hold, i.e. off-screen. Dragging the minimap fixed it
-	// by accident, because EVENT_WINDOW_MOVE recomputes both.
-	if (x + w / 2 < g_pUserInformation->iResolution_x / 2)
-		m_board_x = w - 4;
-	else
-		m_board_x = -m_pC_minimap_spk->GetWidth(MINIMAP_BOARD) + 4;
-	//if(y+h/2 < RESOLUTION_Y/2)
-	if (y + h / 2 < g_pUserInformation->iResolution_y / 2)
-		m_board_y = 0;
-	else
-		m_board_y = h - m_pC_minimap_spk->GetHeight(MINIMAP_BOARD);
 
 #if __CONTENTS(__GPS_ADD)
 	//	if(x+w/2 < g_pUserInformation->iResolution_x/2)
@@ -28546,6 +27739,41 @@ C_VS_UI_MINIMAP::C_VS_UI_MINIMAP()
 	SetNPC(npc);
 #endif
 
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_MINIMAP::GetRestingRect
+//
+// Where the minimap sits when it isn't hidden or dragged away.
+//-----------------------------------------------------------------------------
+void C_VS_UI_MINIMAP::GetRestingRect(RECT* rect) const
+{
+	rect->right  = g_pUserInformation->iResolution_x - MINIMAP_MARGIN;
+	rect->bottom = g_pUserInformation->iResolution_y - MINIMAP_MARGIN;
+	rect->left   = rect->right - w;
+	rect->top    = rect->bottom - h;
+}
+
+// A narrow map (Perona's quarters are half as wide) would leave part of the map
+// window see-through, so the panel leaves that part out. Its right edge stays
+// put, and the skill box, placed from GetRestingRect, follows it.
+void C_VS_UI_MINIMAP::ResetWidth()
+{
+	const int cut = max(0, (MINIMAP_MAP_RIGHT - MINIMAP_MAP_X) - m_surface_w);
+	if (cut == m_map_cut)
+		return;
+
+	const int right = x + w;
+	m_map_cut = cut;
+	w = m_pC_minimap_spk->GetWidth(MINIMAP_PANEL) - m_map_cut;
+	x = right - w;
+
+	C_VS_UI_EVENT_BUTTON* p_button = m_pC_button_group->GetButton(PUSHPIN_ID);
+	if (p_button != NULL)
+		p_button->x = MINIMAP_PIN_X - m_map_cut;
+	p_button = m_pC_button_group->GetButton(WORLDMAP_ID);
+	if (p_button != NULL)
+		p_button->x = MINIMAP_WORLDMAP_X - m_map_cut;
 }
 
 //-----------------------------------------------------------------------------
@@ -28592,6 +27820,9 @@ void	C_VS_UI_MINIMAP::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
 	if (m_bMiniMapDisableZone)
 		return;
 
+	if (p_button->GetID() == WORLDMAP_ID)
+		return;		// no string for it
+
 	const static char* m_minimap_button_string[5] =
 	{
 		(*g_pGameStringTable)[UI_STRING_MESSAGE_SHOW_ALPHA_WINDOW].GetString(),
@@ -28627,60 +27858,27 @@ void	C_VS_UI_MINIMAP::ShowButtonDescription(C_VS_UI_EVENT_BUTTON * p_button)
 void	C_VS_UI_MINIMAP::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 {
 	// 2006.08.22 sjheon
-	static bool bGpsActive = false;
-	static bool bGpsNonActive = true;
-
 	if (m_bMiniMapDisableZone)
 		return;
 
-	if (p_button->GetID() == ALPHA_ID)
+	switch (p_button->GetID())
 	{
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		if (GetAttributes()->alpha)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x + m_board_x, p_button->y + y + m_board_y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x + m_board_x, p_button->y + y + m_board_y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED_OLD);
-#else
-		if (GetAttributes()->alpha)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x + m_board_x, p_button->y + y + m_board_y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x + m_board_x, p_button->y + y + m_board_y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED);
-#endif //__080405_FIREST_UI_UPDATE
-	}
-	else if (p_button->GetID() == PUSHPIN_ID)
-	{
-		if (GetAttributes()->autohide)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x + m_board_x, p_button->y + y + m_board_y, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x + m_board_x, p_button->y + y + m_board_y, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN_PUSHED);
-	}
-	/*
-	#if __CONTENTS(__GPS_ADD)
-		else if(p_button->GetID()	== GPSVIEW_ID)
+	case PUSHPIN_ID:
+		m_pC_minimap_spk->BltLocked(x + p_button->x, y + p_button->y,
+			p_button->GetFocusState() ? MINIMAP_PIN_LIT : MINIMAP_PIN);
+		break;
+
+	case WORLDMAP_ID:
 		{
-			if(GetAttributes()->gpsview)
-			{
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x+x+m_GPSBoard_X, p_button->y+y, C_GLOBAL_RESOURCE::AB_BUTTON_GPSVIEW);
-				if(bGpsActive)
-				{
-					gpC_Gps->NonActive();
-					bGpsActive		= false;
-					bGpsNonActive	= true;
-				}
-			}
-			else
-			{
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x+x+m_GPSBoard_X, p_button->y+y, C_GLOBAL_RESOURCE::AB_BUTTON_GPSVIEW_PUSHED);
-				if(bGpsNonActive)
-				{
-					gpC_Gps->Active();
-					bGpsNonActive	= false;
-					bGpsActive		= true;
-				}
-			}
+			int image = MINIMAP_WORLDMAP_BUTTON;
+
+			if (p_button->GetFocusState())
+				image += p_button->GetPressState() ? 2 : 1;
+
+			m_pC_minimap_spk->BltLocked(x + p_button->x, y + p_button->y, image);
 		}
-	#endif // __GPS_ADD
-	*/
+		break;
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -28690,42 +27888,11 @@ void	C_VS_UI_MINIMAP::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 //-----------------------------------------------------------------------------
 void C_VS_UI_MINIMAP::WindowEventReceiver(id_t event)
 {
-	// 2006.08.22 sjheon
-	if (m_bMiniMapDisableZone)
-		return;
-
 	switch (event)
 	{
 	case EVENT_WINDOW_MOVE:
-	{
-
 		m_bWindowEvent = true;
-		//if(x+w/2 < RESOLUTION_X/2)
-		if (x + w / 2 < g_pUserInformation->iResolution_x / 2)
-			m_board_x = w - 4;
-		else
-			m_board_x = -m_pC_minimap_spk->GetWidth(MINIMAP_BOARD) + 4;
-		//if(y+h/2 < RESOLUTION_Y/2)
-		if (y + h / 2 < g_pUserInformation->iResolution_y / 2)
-			m_board_y = 0;
-		else
-			m_board_y = h - m_pC_minimap_spk->GetHeight(MINIMAP_BOARD);
-#if __CONTENTS(__GPS_ADD)
-		/*
-					if(x+w/2 < g_pUserInformation->iResolution_x/2)
-						m_GPSBoard_X = w-4;
-					else
-						m_GPSBoard_X = -m_pC_minimap_spk->GetWidth(MINIMAP_GPSBTN_BOARD)+4;
-						//if(y+h/2 < RESOLUTION_Y/2)
-					if(y+h/2 < g_pUserInformation->iResolution_y/2)
-						m_GPSBoard_Y = m_board_y + m_pC_minimap_spk->GetHeight(MINIMAP_GPSBTN_BOARD)+1;
-					else
-						m_GPSBoard_Y = m_board_y + h - m_pC_minimap_spk->GetHeight(MINIMAP_GPSBTN_BOARD)+1;
-		*/			// GPS ��ư �κ�
-#endif // __GPS_ADD
-	}
-	break;
-
+		break;
 	}
 }
 
@@ -28740,29 +27907,10 @@ bool C_VS_UI_MINIMAP::IsPixel(int _x, int _y)
 	if (m_bMiniMapDisableZone)
 		return false;
 
-	if (Moving()) return true;
-	if (GetAttributes()->alpha &&
-		_x >= x + m_map_start_point.x && _x <= x + m_map_start_point.x + m_surface_w &&
-		_y >= y + m_map_start_point.y && _y <= y + m_map_start_point.y + m_surface_h)
-	{
-		return false;
-	}
+	if (Moving())
+		return true;
 
-
-	bool re = IsInRect(_x + 4, _y + 4);
-	if (re == false)
-	{
-		re = m_pC_minimap_spk->IsPixel(_x - x - m_board_x, _y - y - m_board_y, MINIMAP_BOARD);
-#if __CONTENTS(__GPS_ADD)
-		/*
-				if(m_pC_minimap_spk->IsPixel(_x-x-m_board_x, _y-y-m_board_y, MINIMAP_BOARD)||m_pC_minimap_spk->IsPixel(_x-x-m_GPSBoard_X, _y-y-m_GPSBoard_Y, MINIMAP_GPSBTN_BOARD))
-					re = true;
-		*/		// GPS ��ư �κ�
-#endif //__GPS_ADD
-	}
-
-	return re;
-
+	return IsInRect(_x, _y) ? true : false;
 }
 
 //-----------------------------------------------------------------------------
@@ -28796,6 +27944,11 @@ void C_VS_UI_MINIMAP::Run(id_t id)
 			AttrAutoHide(ATTRIBUTES_HIDE_WIDTH);
 		EMPTY_MOVE;
 		break;
+	case WORLDMAP_ID:
+		gC_vs_ui.ToggleWorldMap();
+		EMPTY_MOVE;
+		break;
+
 #if __CONTENTS(__GPS_ADD)
 		/*
 			case GPSVIEW_ID:
@@ -28823,7 +27976,7 @@ bool C_VS_UI_MINIMAP::MouseControl(UINT message, int _x, int _y)
 
 	bool re = false;
 
-	re = m_pC_button_group->MouseControl(message, _x - m_board_x, _y - m_board_y);
+	re = m_pC_button_group->MouseControl(message, _x, _y);
 #if __CONTENTS(__GPS_ADD)
 	/*
 			if(m_pC_button_group->MouseControl(message, _x-m_board_x, _y-m_board_y) || m_pC_button_group->MouseControl(message, _x-m_board_x, _y))
@@ -29073,82 +28226,38 @@ void C_VS_UI_MINIMAP::Show()
 	if (m_bMiniMapDisableZone)
 		return;
 
-	// �����
-	if (GetAttributes()->alpha)
-	{
-		RECT rt = { 0,0,m_p_minimap_surface->GetWidth(),m_p_minimap_surface->GetHeight() };
-		POINT map_point = { x + m_map_start_point.x, y + m_map_start_point.y };
-
-		// BltHalf() is a software blend: it takes the destination pointer from the
-		// shared CDirectDraw::m_ddsd, so the destination has to be locked here.
-		// (The else branch below uses BltFast, which must NOT be locked.)
-		if (gpC_base->m_p_DDSurface_back->Lock())
-		{
-			gpC_base->m_p_DDSurface_back->BltHalf(&map_point, m_p_minimap_surface, &rt);
-			gpC_base->m_p_DDSurface_back->Unlock();
-		}
-		//		DrawMinimapAlpha(x+m_map_start_point.x, y+m_map_start_point.y, m_p_minimap_surface);
-	}
-	else
 	{
 		RECT rt = { 0, 0, m_surface_w, m_surface_h };
-		POINT map_point = m_map_start_point;
-		map_point.x += x;
-		map_point.y += y;
+		POINT map_point = { x + m_map_start_point.x, y + m_map_start_point.y };
 
-		//		if(gpC_base->m_p_DDSurface_back->Lock())
-		{
-			gpC_base->m_p_DDSurface_back->Blt(&map_point, m_p_minimap_surface, &rt);
-			//			gpC_base->m_p_DDSurface_back->Lock();
-		}
+		gpC_base->m_p_DDSurface_back->Blt(&map_point, m_p_minimap_surface, &rt);
 	}
 
 	// �̴ϸ����� ��Ÿ��� ���
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		//		if(m_bWindowEvent)	//�ʱ�ȭ �Ǿ��� ��� ������ ����
-		m_pC_minimap_spk->BltLocked(x + m_board_x, y + m_board_y, MINIMAP_BOARD);
-#if __CONTENTS(__GPS_ADD)
-		//			m_pC_minimap_spk->BltLocked(x+m_GPSBoard_X, y+m_GPSBoard_Y, MINIMAP_GPSBTN_BOARD);	// GPS ��ư �κ�
-#endif //__GPS_ADD
-//		else
-//			m_pC_minimap_spk->BltLocked(g_pUserInformation->iResolution_x-m_pC_minimap_spk->GetWidth(MINIMAP_MAIN) - m_pC_minimap_spk->GetWidth(MINIMAP_BOARD), 0, MINIMAP_BOARD);
+		// The panel goes over the map, all but the window the map shows
+		// through; its right strip carries the X/Y boxes. For a narrow map the
+		// m_map_cut unused columns of the window are left out at the seam,
+		// where the border shading on either side matches best.
+		const int panel_w = m_pC_minimap_spk->GetWidth(MINIMAP_PANEL);
+		const int panel_h = m_pC_minimap_spk->GetHeight(MINIMAP_PANEL);
+		const int cut = m_map_cut;
+		const int seam = min((int)MINIMAP_SEAM_X, (int)MINIMAP_MAP_RIGHT - cut);
+		const int right_from = seam + cut;
 
-		// ���׵θ�
-		Rect rect(0, 0, w - m_pC_minimap_spk->GetWidth(MINIMAP_RIGHT), h);
-		if (GetAttributes()->alpha)
-		{
-			RECT alpha_rect = { x + 4, y + 4, x + w - 4, y + 25 };
-			switch (g_eRaceInterface)
-			{
-			case RACE_SLAYER:
-				DrawAlphaBox(&alpha_rect, 0, 2, 2, g_pUserOption->ALPHA_DEPTH);
-				break;
-
-			case RACE_VAMPIRE:
-				DrawAlphaBox(&alpha_rect, 2, 0, 0, g_pUserOption->ALPHA_DEPTH);
-				break;
-
-			case RACE_OUSTERS:
-				DrawAlphaBox(&alpha_rect, 0, 4, 0, g_pUserOption->ALPHA_DEPTH);
-				break;
-			}
-			m_pC_minimap_spk->BltLockedClip(x, y, rect, MINIMAP_MAIN_ALPHA);
-		}
-		else
-			m_pC_minimap_spk->BltLockedClip(x, y, rect, MINIMAP_MAIN);
-
-		rect.Set(0, 0, m_pC_minimap_spk->GetWidth(MINIMAP_RIGHT), h);
-		m_pC_minimap_spk->BltLockedClip(x + w - m_pC_minimap_spk->GetWidth(MINIMAP_RIGHT), y, rect, MINIMAP_RIGHT);
-
-		// use only peiac
-		if (m_surface_h != 100)
-		{
-			rect.Set(0, m_pC_minimap_spk->GetHeight(MINIMAP_MAIN) - 4, w - m_pC_minimap_spk->GetWidth(MINIMAP_RIGHT), 4);
-			m_pC_minimap_spk->BltLockedClip(x, y - (100 - m_surface_h), rect, MINIMAP_MAIN);
-			rect.Set(0, m_pC_minimap_spk->GetHeight(MINIMAP_MAIN) - 4, m_pC_minimap_spk->GetWidth(MINIMAP_RIGHT), 4);
-			m_pC_minimap_spk->BltLockedClip(x + w - m_pC_minimap_spk->GetWidth(MINIMAP_RIGHT), y - (100 - m_surface_h), rect, MINIMAP_RIGHT);
-		}
+		Rect strip(0, 0, seam, MINIMAP_MAP_Y);
+		m_pC_minimap_spk->BltLockedClip(x, y, strip, MINIMAP_PANEL);
+		strip.Set(right_from, 0, panel_w - right_from, MINIMAP_MAP_Y);
+		m_pC_minimap_spk->BltLockedClip(x - cut, y, strip, MINIMAP_PANEL);
+		strip.Set(0, MINIMAP_MAP_BOTTOM, seam, panel_h - MINIMAP_MAP_BOTTOM);
+		m_pC_minimap_spk->BltLockedClip(x, y, strip, MINIMAP_PANEL);
+		strip.Set(right_from, MINIMAP_MAP_BOTTOM, panel_w - right_from, panel_h - MINIMAP_MAP_BOTTOM);
+		m_pC_minimap_spk->BltLockedClip(x - cut, y, strip, MINIMAP_PANEL);
+		strip.Set(0, 0, MINIMAP_MAP_X, panel_h);
+		m_pC_minimap_spk->BltLockedClip(x, y, strip, MINIMAP_PANEL);
+		strip.Set(MINIMAP_MAP_RIGHT, 0, panel_w - MINIMAP_MAP_RIGHT, panel_h);
+		m_pC_minimap_spk->BltLockedClip(x - cut, y, strip, MINIMAP_PANEL);
 
 		// hiding�߿��� ��Ÿ��� ����
 		//		if(GetAttributes()->autohide && x < 0 || x+w > RESOLUTION_X || y < 0 || y+h > RESOLUTION_Y)
@@ -29400,7 +28509,11 @@ void C_VS_UI_MINIMAP::Show()
 				_y = y + m_map_start_point.y + g_pParty->GetMemberInfo(i)->zoneY * map_h / m_map_h;
 				//if(_x > 0 && _x < RESOLUTION_X-1 && _y > 0 && _y < RESOLUTION_Y-1)
 				if (_x > 0 && _x < g_pUserInformation->iResolution_x - 1 && _y > 0 && _y < g_pUserInformation->iResolution_y - 1)
-					m_pC_minimap_spk->BltLocked(_x - m_pC_minimap_spk->GetWidth(MINIMAP_ICON_PARTY) / 2, _y - m_pC_minimap_spk->GetHeight(MINIMAP_ICON_PARTY) / 2, MINIMAP_ICON_PARTY);
+				{
+					// a party member at no HP shows red
+					const int icon = g_pParty->GetMemberInfo(i)->HP > 0 ? MINIMAP_ICON_PARTY : MINIMAP_ICON_PARTY_DEAD;
+					m_pC_minimap_spk->BltLocked(_x - m_pC_minimap_spk->GetWidth(icon) / 2, _y - m_pC_minimap_spk->GetHeight(icon) / 2, icon);
+				}
 			}
 		}
 
@@ -29436,12 +28549,15 @@ void C_VS_UI_MINIMAP::Show()
 	}
 
 	g_FL2_GetDC();
-	g_PrintColorStr(x + w / 2 - g_GetStringWidth(m_zone_name.c_str(), gpC_base->m_info_pi.hfont) / 2, y + 8, m_zone_name.c_str(), gpC_base->m_info_pi, RGB_WHITE);
-	char sz_temp[5];
+	g_PrintColorStr(x + w / 2 - g_GetStringWidth(m_zone_name.c_str(), gpC_base->m_info_pi.hfont) / 2, y + MINIMAP_TITLE_Y, m_zone_name.c_str(), gpC_base->m_info_pi, RGB_WHITE);
+	// X and Y, each centred in its box
+	char sz_temp[8];
 	wsprintf(sz_temp, "%d", m_map_x);
-	g_PrintColorStr(x + m_board_x + 19, y + m_board_y + 6, sz_temp, gpC_base->m_chatting_pi, RGB_WHITE);
+	g_PrintColorStr(x + MINIMAP_COORD_X - m_map_cut + (MINIMAP_COORD_W - g_GetStringWidth(sz_temp, gpC_base->m_chatting_pi.hfont)) / 2, y + MINIMAP_COORD_X_Y,
+		sz_temp, gpC_base->m_chatting_pi, RGB_WHITE);
 	wsprintf(sz_temp, "%d", m_map_y);
-	g_PrintColorStr(x + m_board_x + 19, y + m_board_y + 21, sz_temp, gpC_base->m_chatting_pi, RGB_WHITE);
+	g_PrintColorStr(x + MINIMAP_COORD_X - m_map_cut + (MINIMAP_COORD_W - g_GetStringWidth(sz_temp, gpC_base->m_chatting_pi.hfont)) / 2, y + MINIMAP_COORD_Y_Y,
+		sz_temp, gpC_base->m_chatting_pi, RGB_WHITE);
 	m_pC_button_group->ShowDescription();
 	g_FL2_ReleaseDC();
 }
@@ -29453,7 +28569,7 @@ void C_VS_UI_MINIMAP::Show()
 //-----------------------------------------------------------------------------
 void C_VS_UI_MINIMAP::Start()
 {
-	AttrAlpha(gpC_vs_ui_window_manager->IsAlpha(C_VS_UI_WINDOW_MANAGER::MINIMAP));
+	AttrAlpha(false);	// the renewal panel has no see-through version
 	AttrAutoHide(gpC_vs_ui_window_manager->GetAutoHide(C_VS_UI_WINDOW_MANAGER::MINIMAP));
 	Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::MINIMAP);
 	if (rect.w != -1)
@@ -29493,21 +28609,10 @@ void C_VS_UI_MINIMAP::Process()
 {
 	m_pC_button_group->Process();
 
-	bool bl_alpha = GetAttributes()->alpha;
-	if (bl_alpha)
-	{
-		AttrAlpha(false);
-	}
-	//if(x <= 0 || x+w >= RESOLUTION_X)
 	if (x <= 0 || x + w >= g_pUserInformation->iResolution_x)
-		ProcessHide(-4, bl_alpha);
+		ProcessHide(-4);
 	else
-		ProcessHide(0, bl_alpha);
-	if (bl_alpha)
-	{
-		AttrAlpha(true);
-	}
-
+		ProcessHide(0);
 }
 
 void C_VS_UI_MINIMAP::SetZone(int zone_id)
@@ -29570,18 +28675,6 @@ void C_VS_UI_MINIMAP::SetZone(int zone_id)
 		m_p_minimap_surface->Lock();
 		m_p_minimap_surface->BltSprite(&point, &minimapSPK[0]);
 		m_p_minimap_surface->Unlock();
-
-		int map_minus_w = 200 - m_surface_w;
-		//if(x+w == RESOLUTION_X)
-		if (x + w == g_pUserInformation->iResolution_x)
-			x -= m_pC_minimap_spk->GetWidth(MINIMAP_MAIN) + m_pC_minimap_spk->GetWidth(MINIMAP_RIGHT) - map_minus_w - w;
-		w = m_pC_minimap_spk->GetWidth(MINIMAP_MAIN) + m_pC_minimap_spk->GetWidth(MINIMAP_RIGHT) - map_minus_w;
-
-		int map_minus_h = 100 - m_surface_h;
-		//if(x+h == RESOLUTION_Y)
-		if (x + h == g_pUserInformation->iResolution_y)
-			y -= m_pC_minimap_spk->GetHeight(MINIMAP_MAIN) - map_minus_h - h;
-		h = m_pC_minimap_spk->GetHeight(MINIMAP_MAIN) - map_minus_h;
 	}
 
 	m_portal.clear();
@@ -29590,6 +28683,8 @@ void C_VS_UI_MINIMAP::SetZone(int zone_id)
 	m_shrine.clear();
 	m_Block.clear();
 	m_Flag.clear();
+
+	ResetWidth();
 }
 
 
@@ -29882,6 +28977,7 @@ void C_VS_UI_WINDOW_MANAGER::SetDefault()
 		SetRect((WINDOW_ID)i, Rect(-1, -1, -1, -1));
 	}
 
+	m_hotkey_bar_rect.Set(-1, -1, -1, -1);
 	m_bl_hpbar_small = false;
 	m_bl_hpbar_height = false;
 	m_bl_quickitemslot_height = false;
@@ -30102,6 +29198,8 @@ void C_VS_UI_WINDOW_MANAGER::SaveToFile(std::ofstream & file)
 	file.write((const char*)&m_SMS_MyNum, 11);
 	// 2004, 6, 4, sobeit add end
 	file.write((const char*)&m_bl_bloodburst_height, sizeof(bool));
+	// Added for the hotkey bar; older clients stop reading before it.
+	file.write((const char*)&m_hotkey_bar_rect, sizeof(Rect));
 }
 
 void C_VS_UI_WINDOW_MANAGER::LoadFromFile(ivfstream & file)
@@ -30314,6 +29412,13 @@ void C_VS_UI_WINDOW_MANAGER::LoadFromFile(ivfstream & file)
 	// 2004, 6, 4, sobeit add start
 	file.read((char*)&m_SMS_MyNum, 11);
 	file.read((char*)&m_bl_bloodburst_height, sizeof(bool));
+	// The hotkey bar's position, if the file is new enough to have one.
+	Rect hotkey_bar_rect(-1, -1, -1, -1);
+	file.read((char*)&hotkey_bar_rect, sizeof(Rect));
+	if (file.gcount() == (int)sizeof(Rect) && !bConvert)
+		m_hotkey_bar_rect = hotkey_bar_rect;
+	else
+		m_hotkey_bar_rect.Set(-1, -1, -1, -1);
 
 	if (bConvert)
 	{
@@ -41226,3 +40331,1803 @@ void C_VS_UI_QUEST_STATUS::IncreaseQuestPoint()
 
 
 
+//-----------------------------------------------------------------------------
+// C_VS_UI_HOTKEY_BAR
+//
+// DK Umbra's shortcut bar. It only reads the F1-F12 bindings, the same ones
+// each race's Hotkey_Function acts on: the skill box's hotkey grades, the
+// tribe's m_HotKey_Type, and the quick item slots' m_Hotkey_buf.
+//-----------------------------------------------------------------------------
+C_VS_UI_HOTKEY_BAR::C_VS_UI_HOTKEY_BAR(C_VS_UI_TRIBE* p_tribe)
+{
+	m_p_tribe = p_tribe;
+	m_bl_folded = false;
+
+	AttrTopmost(false);
+	AttrPin(true);
+	g_RegisterWindow(this);
+
+	m_pC_spk = new C_SPRITE_PACK(SPK_SHORTCUT_SLOT);
+
+	ResetSize();
+	// centred on the bottom edge; Umbra's x = 255 centred it for a 1024-wide screen
+	x = (g_pUserInformation->iResolution_x - w) / 2;
+	y = g_pUserInformation->iResolution_y - h;
+
+	m_pC_button_group = new ButtonGroup(this);
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(0, 0,
+		m_pC_spk->GetWidth(SHORTCUT_PIN), m_pC_spk->GetHeight(SHORTCUT_PIN), BAR_PIN_ID, this, SHORTCUT_PIN));
+}
+
+C_VS_UI_HOTKEY_BAR::~C_VS_UI_HOTKEY_BAR()
+{
+	gpC_vs_ui_window_manager->SetHotkeyBarRect(Rect(x, y, w, h));
+
+	g_UnregisterWindow(this);
+
+	DeleteNew(m_pC_button_group);
+	DeleteNew(m_pC_spk);
+}
+
+void C_VS_UI_HOTKEY_BAR::ResetSize()
+{
+	if (m_bl_folded)
+	{
+		w = m_pC_spk->GetWidth(SHORTCUT_PIN);
+		h = m_pC_spk->GetHeight(SHORTCUT_PIN);
+	}
+	else
+	{
+		w = BAR_SLOT_COUNT * BAR_SLOT_PITCH;
+		h = m_pC_spk->GetHeight(SHORTCUT_SLOT) + 9;	// down to the foot of the key labels
+	}
+}
+
+void C_VS_UI_HOTKEY_BAR::Start()
+{
+	PI_Processor::Start();
+
+	const Rect& rect = gpC_vs_ui_window_manager->GetHotkeyBarRect();
+	if (rect.w != -1)
+	{
+		x = rect.x;
+		y = rect.y;
+	}
+	// Back on screen, in case the resolution shrank since it was saved.
+	x = max(0, min(x, g_pUserInformation->iResolution_x - w));
+	y = max(0, min(y, g_pUserInformation->iResolution_y - h));
+
+	m_pC_button_group->Init();
+	gpC_window_manager->AppearWindow(this);
+}
+
+void C_VS_UI_HOTKEY_BAR::Finish()
+{
+	gpC_vs_ui_window_manager->SetHotkeyBarRect(Rect(x, y, w, h));
+
+	PI_Processor::Finish();
+	gpC_window_manager->DisappearWindow(this);
+}
+
+void C_VS_UI_HOTKEY_BAR::Process()
+{
+	m_pC_button_group->Process();
+}
+
+void C_VS_UI_HOTKEY_BAR::Run(id_t id)
+{
+	switch (id)
+	{
+	case BAR_PIN_ID:
+		// Folds down to the pin, or opens back out, from the top-left corner.
+		m_bl_folded = !m_bl_folded;
+		ResetSize();
+		x = max(0, min(x, g_pUserInformation->iResolution_x - w));
+		y = max(0, min(y, g_pUserInformation->iResolution_y - h));
+		EMPTY_MOVE;
+		break;
+	}
+}
+
+bool C_VS_UI_HOTKEY_BAR::IsPixel(int _x, int _y)
+{
+	if (Moving())
+		return true;
+
+	return IsInRect(_x, _y) ? true : false;
+}
+
+bool C_VS_UI_HOTKEY_BAR::MouseControl(UINT message, int _x, int _y)
+{
+	Window::MouseControl(message, _x, _y);
+	_x -= x; _y -= y;
+	bool re = m_pC_button_group->MouseControl(message, _x, _y);
+
+	switch (message)
+	{
+	case M_LEFTBUTTON_DOWN:
+	case M_LB_DOUBLECLICK:
+		// Anywhere off the pin picks the bar up.
+		if (!gpC_mouse_pointer->GetPickUpItem() && re)
+		{
+			MoveReady();
+			SetOrigin(_x, _y);
+		}
+		break;
+	}
+
+	return true;
+}
+
+void C_VS_UI_HOTKEY_BAR::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
+{
+	m_pC_spk->BltLocked(x + p_button->x, y + p_button->y,
+		p_button->GetFocusState() ? SHORTCUT_PIN_FOCUSED : SHORTCUT_PIN);
+}
+
+// The slot under the mouse, or -1.
+int C_VS_UI_HOTKEY_BAR::HoveredSlot()
+{
+	if (m_bl_folded || Moving())
+		return -1;
+
+	int mouse_x = gpC_window_manager->GetCurrentMouse_x() - x;
+	int mouse_y = gpC_window_manager->GetCurrentMouse_y() - y;
+	if (mouse_x < 0 || mouse_y < 0 || mouse_x >= w || mouse_y >= h)
+		return -1;
+
+	return mouse_x / BAR_SLOT_PITCH;
+}
+
+// The skill a key casts, or NOT_SELECTED, and in *grade the grade shown: the
+// grade in use if this key holds the selected skill, otherwise the first.
+int C_VS_UI_HOTKEY_BAR::GetHotkeySkill(int fkey, int* grade)
+{
+	*grade = C_VS_UI_SKILL::GRADE1;
+
+	C_VS_UI_SKILL* p_skill = m_p_tribe->GetSkillWindow();
+	if (p_skill == NULL)
+		return NOT_SELECTED;
+
+	if (g_eRaceInterface == RACE_VAMPIRE)
+	{
+		if (fkey < 2)
+			return NOT_SELECTED;	// serums, see GetHotkeyItem
+	}
+	else if (m_p_tribe->m_HotKey_Type[fkey] != C_VS_UI_TRIBE::SKILL_TYPE)
+		return NOT_SELECTED;
+
+	int selected = p_skill->GetSelectedSkillID();
+	for (int i = 0; i < C_VS_UI_SKILL::GRADE_MAX; i++)
+	{
+		int id = p_skill->GetHotkey((C_VS_UI_SKILL::HOTKEY)fkey, (C_VS_UI_SKILL::HOTKEY_GRADE)i);
+		if (id != NOT_SELECTED && id == selected)
+		{
+			*grade = i;
+			return id;
+		}
+	}
+
+	return p_skill->GetHotkey((C_VS_UI_SKILL::HOTKEY)fkey, C_VS_UI_SKILL::GRADE1);
+}
+
+// Which quick item slot is bound to a key, or -1; hotkey_buf maps slot to key.
+static int g_FindHotkeySlot(const int* hotkey_buf, int count, int fkey)
+{
+	for (int slot = 0; slot < count; slot++)
+	{
+		if (hotkey_buf[slot] == fkey)
+			return slot;
+	}
+	return -1;
+}
+
+// The item a key uses, or NULL. Vampires' F1 and F2 take a serum from the
+// inventory (C_VS_UI_VAMPIRE::HotKey_F1/F2); slayers and ousters use the quick
+// item slot bound to the key.
+const MItem* C_VS_UI_HOTKEY_BAR::GetHotkeyItem(int fkey)
+{
+	switch (g_eRaceInterface)
+	{
+	case RACE_VAMPIRE:
+		if (g_pInventory != NULL && fkey == 0)
+		{
+			const MItem* p_item = g_pInventory->FindItem(ITEM_CLASS_SERUM);
+			return p_item != NULL ? p_item : g_pInventory->FindItem(ITEM_CLASS_SERUM, 4);
+		}
+		if (g_pInventory != NULL && fkey == 1)
+		{
+			const MItem* p_item = g_pInventory->FindItem(ITEM_CLASS_SERUM, 4);
+			return p_item != NULL ? p_item : g_pInventory->FindItem(ITEM_CLASS_SERUM);
+		}
+		break;
+
+	case RACE_SLAYER:
+		if (m_p_tribe->m_pC_quickitem != NULL && g_pQuickSlot != NULL &&
+			m_p_tribe->m_HotKey_Type[fkey] != C_VS_UI_TRIBE::SKILL_TYPE)
+		{
+			int slot = g_FindHotkeySlot(m_p_tribe->m_pC_quickitem->m_Hotkey_buf, C_VS_UI_SLAYER_QUICKITEM::HOTKEY_MAX, fkey);
+			if (slot >= 0 && slot < m_p_tribe->m_pC_quickitem->GetPocketCount())
+				return g_pQuickSlot->GetItem((BYTE)slot);
+		}
+		break;
+
+	case RACE_OUSTERS:
+		if (m_p_tribe->m_pC_armsband != NULL &&
+			m_p_tribe->m_HotKey_Type[fkey] != C_VS_UI_TRIBE::SKILL_TYPE)
+		{
+			int slot = g_FindHotkeySlot(m_p_tribe->m_pC_armsband->m_Hotkey_buf, C_VS_UI_OUSTERS_QUICKITEM::HOTKEY_MAX, fkey);
+			if (slot >= 0)
+				return C_VS_UI_OUSTERS_QUICKITEM::GetItem(slot);
+		}
+		break;
+	}
+
+	return NULL;
+}
+
+// Draws a skill icon the way the skill box does (greyed, red, cooling down).
+void C_VS_UI_HOTKEY_BAR::ShowSkillIcon(int _x, int _y, int skill_id)
+{
+	C_VS_UI_SKILL* p_skill = m_p_tribe->GetSkillWindow();
+	if (p_skill == NULL || skill_id < 0 || skill_id >= g_pSkillInfoTable->GetSize() ||
+		(*g_pSkillInfoTable)[skill_id].GetSpriteID() >= C_VS_UI_SKILL::m_C_spk.GetSize())
+		return;
+
+	// DrawSkillIcon nudges the icon to suit the skill box; undo that here.
+	_x -= p_skill->m_extra_icon_offset_x;
+	_y -= p_skill->m_extra_icon_offset_y;
+	if (p_skill->m_bl_pushed == true && p_skill->m_focused_slot == 0)
+	{
+		_x -= 1;
+		_y -= 1;
+	}
+	p_skill->DrawSkillIcon(CPoint(_x, _y), skill_id);
+}
+
+void C_VS_UI_HOTKEY_BAR::Show()
+{
+	if (m_bl_folded)
+	{
+		if (gpC_base->m_p_DDSurface_back->Lock())
+		{
+			m_pC_button_group->Show();
+			gpC_base->m_p_DDSurface_back->Unlock();
+		}
+		return;
+	}
+
+	C_VS_UI_SKILL* p_skill = m_p_tribe->GetSkillWindow();
+	int selected = p_skill != NULL ? p_skill->GetSelectedSkillID() : NOT_SELECTED;
+
+	int skill_id[BAR_SLOT_COUNT], grade[BAR_SLOT_COUNT];
+	const MItem* p_item[BAR_SLOT_COUNT];
+	int slot;
+	for (slot = 0; slot < BAR_SLOT_COUNT; slot++)
+	{
+		skill_id[slot] = GetHotkeySkill(slot, &grade[slot]);
+		p_item[slot] = skill_id[slot] == NOT_SELECTED ? GetHotkeyItem(slot) : NULL;
+	}
+
+	// Hovering a skill key stacks its other grades over the slot: upward as in
+	// DK Umbra, or downward when the bar is too near the top of the screen.
+	int hovered = HoveredSlot();
+	int stack_grade[C_VS_UI_SKILL::GRADE_MAX];
+	int stack_id[C_VS_UI_SKILL::GRADE_MAX];
+	int stack_count = 0;
+	if (hovered >= 0 && skill_id[hovered] != NOT_SELECTED)
+	{
+		for (int i = 0; i < C_VS_UI_SKILL::GRADE_MAX; i++)
+		{
+			int id = p_skill->GetHotkey((C_VS_UI_SKILL::HOTKEY)hovered, (C_VS_UI_SKILL::HOTKEY_GRADE)i);
+			if (id == NOT_SELECTED || i == grade[hovered])
+				continue;
+			stack_grade[stack_count] = i;
+			stack_id[stack_count] = id;
+			stack_count++;
+		}
+	}
+	int stack_step = -BAR_STACK_PITCH;
+	int stack_base = y - BAR_STACK_GAP;
+	if (stack_base + stack_step * (C_VS_UI_SKILL::GRADE_MAX - 1) < 0)
+	{
+		stack_step = BAR_STACK_PITCH;
+		stack_base = y + h + BAR_STACK_GAP - BAR_STACK_PITCH;
+	}
+
+	// The stack paints outside this window's rect, where the window manager's
+	// report does not reach, so tell the text overlay it covers whatever was
+	// written there earlier (the HP bar's numbers). Its own labels come later.
+	if (stack_count > 0)
+	{
+		const int icon_size = BAR_STACK_PITCH - 1;	// a 36px skill icon
+		const int first_y = stack_base + stack_step;
+		const int last_y = stack_base + stack_step * stack_count;
+		RECT rect;
+		rect.left = SlotX(hovered) + BAR_ICON_X;
+		rect.right = rect.left + icon_size;
+		rect.top = min(first_y, last_y);
+		rect.bottom = max(first_y, last_y) + icon_size;
+		g_FL2_OverlayOccludeRect(&rect, "hotkey bar grades");
+	}
+
+	// The slots, with the skill in use framed.
+	if (gpC_base->m_p_DDSurface_back->Lock())
+	{
+		for (slot = 0; slot < BAR_SLOT_COUNT; slot++)
+		{
+			m_pC_spk->BltLocked(SlotX(slot), y, SHORTCUT_SLOT);
+			if (skill_id[slot] != NOT_SELECTED && skill_id[slot] == selected)
+			{
+				m_pC_spk->BltLocked(SlotX(slot) + BAR_SELECTED_X, y + BAR_SELECTED_Y, SHORTCUT_SELECTED);
+				m_pC_spk->BltLocked(SlotX(slot) + BAR_SELECTED_LABEL_X, y + BAR_SELECTED_LABEL_Y, SHORTCUT_SELECTED_LABEL);
+			}
+		}
+		gpC_base->m_p_DDSurface_back->Unlock();
+	}
+
+	// DrawSkillIcon locks the surface itself.
+	for (slot = 0; slot < BAR_SLOT_COUNT; slot++)
+	{
+		if (skill_id[slot] != NOT_SELECTED)
+			ShowSkillIcon(SlotX(slot) + BAR_ICON_X, y + BAR_ICON_Y, skill_id[slot]);
+	}
+	for (int i = 0; i < stack_count; i++)
+		ShowSkillIcon(SlotX(hovered) + BAR_ICON_X, stack_base + stack_step * (i + 1), stack_id[i]);
+
+	// Items, the key label bars, the dark backing of the stacked labels, the pin.
+	if (gpC_base->m_p_DDSurface_back->Lock())
+	{
+		for (slot = 0; slot < BAR_SLOT_COUNT; slot++)
+		{
+			if (p_item[slot] != NULL)
+			{
+				TYPE_FRAMEID frame_id = p_item[slot]->GetInventoryFrameID();
+				CIndexSprite::SetUsingColorSet(const_cast<MItem*>(p_item[slot])->GetItemOptionColorSet(), 0);
+				gpC_item->BltLocked(SlotX(slot) + BAR_SLOT_PITCH / 2 - gpC_item->GetWidth(frame_id) / 2,
+					y + BAR_SLOT_PITCH / 2 - gpC_item->GetHeight(frame_id) / 2, frame_id);
+			}
+			m_pC_spk->BltLocked(SlotX(slot) + BAR_LABEL_X, y + BAR_LABEL_Y, SHORTCUT_LABEL);
+		}
+		for (int i = 0; i < stack_count; i++)
+		{
+			int stack_y = stack_base + stack_step * (i + 1);
+			RECT rect = { SlotX(hovered) + BAR_ICON_X, stack_y,
+				SlotX(hovered) + BAR_ICON_X + (hovered < 9 ? 26 : 32), stack_y + BAR_STACK_LABEL_H };
+			DrawAlphaBox(&rect, 0, 0, 0, g_pUserOption->ALPHA_DEPTH);
+		}
+		m_pC_button_group->Show();
+		gpC_base->m_p_DDSurface_back->Unlock();
+	}
+
+	PrintInfo& pi = gpC_base->m_chatting_pi;
+	const COLORREF key_color = RGB(140, 140, 255);
+	char sz_text[16];
+
+	g_FL2_GetDC();
+	for (slot = 0; slot < BAR_SLOT_COUNT; slot++)
+	{
+		bool bl_bound = skill_id[slot] != NOT_SELECTED || p_item[slot] != NULL;
+		if (skill_id[slot] != NOT_SELECTED)
+			sprintf(sz_text, "F%d:%d", slot + 1, grade[slot] + 1);
+		else
+			sprintf(sz_text, "F%d", slot + 1);
+		// DK Umbra leaves an unbound key's label blank; a dim key name reads better.
+		g_PrintColorStr(SlotX(slot) + BAR_LABEL_X + (BAR_LABEL_W - g_GetStringWidth(sz_text, pi.hfont)) / 2,
+			y + BAR_LABEL_TEXT_Y, sz_text, pi, bl_bound ? key_color : RGB(110, 110, 110));
+
+		if (p_item[slot] != NULL && p_item[slot]->IsPileItem())
+		{
+			sprintf(sz_text, "%d", p_item[slot]->GetNumber());
+			g_PrintColorStr(SlotX(slot) + BAR_COUNT_RIGHT - g_GetStringWidth(sz_text, pi.hfont), y + BAR_COUNT_Y,
+				sz_text, pi, RGB(220, 220, 220));
+		}
+	}
+	for (int i = 0; i < stack_count; i++)
+	{
+		sprintf(sz_text, "F%d:%d", hovered + 1, stack_grade[i] + 1);
+		g_PrintColorStr(SlotX(hovered) + BAR_ICON_X + 2, stack_base + stack_step * (i + 1) + 1, sz_text, pi, key_color);
+	}
+	g_FL2_ReleaseDC();
+}
+//-----------------------------------------------------------------------------
+// C_VS_UI_SKILL_BOOK
+//
+// DK Umbra's "Skills & Runes" window (DarkEden.exe ctor 0x607c20, Show
+// 0x638290), with a Rank tab of our own:
+//  * Skills: slayers by domain and vampires by skill group, as grids of icons
+//    over the level each needs; ousters as Umbra's skill trees, whose icons the
+//    skill table places and whose learning goes through the skill info popup.
+//  * Rank: the race's rank skills under a sub tab per rank, each with its
+//    description, learnt from here as on the old rank tabs.
+//  * Runes: a stub.
+// The lists on the right are the learnt rare skills and the advanced skills.
+// It reads the same data and sends the same messages as C_VS_UI_INFO did.
+//-----------------------------------------------------------------------------
+extern C_VS_UI_DIALOG* g_msg_not_available_menu;
+const char* g_GetRankBonusDescription(int type);
+
+// Positions in DK Umbra's window as cut down to 637x540: the left panel is
+// 60 pixels narrower and each list on the right a row shorter.
+static const int s_book_close_x = 604;
+static const int s_book_close_y = 13;
+static const int s_book_tab_x = 18;
+static const int s_book_tab_y = 45;
+static const int s_book_tab_pitch = 93;
+static const int s_book_sub_tab_x = 18;
+static const int s_book_sub_tab_y = 72;
+static const int s_book_sub_tabs_w = 390;		// what a row of sub tabs may fill
+static const int s_book_sub_tab_row_h = 23;		// the second row of rank tabs
+static const int s_book_panel_right = 412;		// inside the left panel's right border
+static const int s_book_line_y = 101;			// the level line over the grid
+static const int s_book_bar_x = 205;			// its EXP bar, 203 wide
+static const int s_book_grid_x = 36;
+static const int s_book_grid_y = 125;
+static const int s_book_grid_pitch_x = 62;
+static const int s_book_grid_pitch_y = 56;
+static const int s_book_grid_rows = 6;
+static const int s_book_tree_x = 18;			// the ousters trees' view, down to the bottom of the panel
+static const int s_book_tree_y = 95;
+static const int s_book_tree_h = 397;
+static const int s_book_tree_step = 25;
+static const int s_book_tree_margin = 6;		// above the highest icon and below the lowest
+static const int s_book_tree_icon = 36;
+static const int s_book_scroll_x = 392;
+static const int s_book_scroll_y[2] = { 442, 472 };
+static const int s_book_rank_x = 24;			// a rank skill's icon, its name and description beside it
+static const int s_book_rank_line_gap = 26;		// from the level line to the first row
+static const int s_book_rank_pitch = 50;
+static const int s_book_rank_text_x = 72;
+static const int s_book_rank_status_right = 386;
+static const int s_book_list_x = 432;			// the rows of the lists on the right
+static const int s_book_list_w = 178;
+static const int s_book_list_y[2] = { 97, 316 };
+static const int s_book_list_title_y[2] = { 73, 292 };
+static const int s_book_list_pitch = 44;
+static const int s_book_list_name_y = 6;		// a row's name sits over its separator,
+static const int s_book_list_status_y = 27;		// its status under it
+
+// DK Umbra's ousters trees (DarkEden.exe, Show 0x638290): where each skill's
+// icon sits in its 697-wide window, with the combat tree's art drawn at (18, 95)
+// and the elemental tree's at (18, 85). The skill table's own positions are
+// for the old tree art, not these. Skill 185 sits apart and doesn't scroll.
+struct BOOK_TREE_NODE
+{
+	int id;
+	int x, y;
+};
+
+static const BOOK_TREE_NODE s_book_combat_nodes[] =
+{
+	{ 219, 164, 129 }, { 247, 287, 129 }, { 246, 351, 129 }, { 220, 100, 187 }, { 252, 164, 187 },
+	{ 221, 226, 187 }, { 224, 287, 187 }, { 223, 100, 245 }, { 227, 164, 245 }, { 230, 287, 245 },
+	{ 226, 100, 303 }, { 280, 164, 303 }, { 229, 226, 303 }, { 225, 287, 303 }, { 228, 100, 361 },
+	{ 222, 226, 361 }, { 297, 287, 361 }, { 295, 100, 419 }, { 296, 226, 419 }, { 299, 287, 419 },
+	{ 300, 351, 419 }, { 298, 100, 477 }, { 302, 164, 477 }, { 304, 226, 477 }, { 303, 287, 477 },
+	{ 332, 351, 477 }, { 331, 100, 535 }, { 301, 164, 535 }, { 348, 226, 535 }, { 185, 415, 129 },
+};
+
+static const BOOK_TREE_NODE s_book_elemental_nodes[] =
+{
+	{ 185, 415, 129 }, { 247, 194, 111 }, { 246, 254, 111 }, { 231, 137, 161 }, { 250, 194, 161 },
+	{ 252, 253, 161 }, { 251, 311, 161 }, { 241, 369, 161 }, { 236, 194, 211 }, { 242, 369, 211 },
+	{ 232, 137, 261 }, { 237, 194, 261 }, { 243, 369, 261 }, { 233, 137, 311 }, { 248, 253, 311 },
+	{ 234, 137, 361 }, { 238, 194, 361 }, { 239, 253, 361 }, { 289, 311, 361 }, { 244, 369, 361 },
+	{ 280, 253, 411 }, { 235, 137, 461 }, { 240, 253, 461 }, { 245, 369, 461 }, { 249, 253, 511 },
+	{ 281, 137, 561 }, { 285, 253, 561 }, { 291, 369, 561 }, { 282, 137, 611 }, { 334, 194, 611 },
+	{ 286, 253, 611 }, { 335, 311, 611 }, { 292, 369, 611 }, { 283, 137, 661 }, { 288, 194, 661 },
+	{ 287, 253, 661 }, { 293, 369, 661 }, { 333, 80, 711 }, { 284, 137, 711 }, { 290, 253, 711 },
+	{ 294, 369, 711 }, { 349, 137, 761 }, { 351, 253, 761 }, { 352, 369, 761 },
+};
+
+struct BOOK_TREE
+{
+	const BOOK_TREE_NODE* nodes;
+	int count;
+	int art_y;
+};
+
+static const BOOK_TREE s_book_trees[2] =
+{
+	{ s_book_combat_nodes, sizeof(s_book_combat_nodes) / sizeof(s_book_combat_nodes[0]), 95 },
+	{ s_book_elemental_nodes, sizeof(s_book_elemental_nodes) / sizeof(s_book_elemental_nodes[0]), 85 },
+};
+static const int s_book_tree_art_x = 18;
+static const int s_book_tree_shift_x = 44;		// Umbra's layout moved left into our narrower panel
+static const int s_book_tree_fixed_skill = 185;
+
+// The highest and lowest icons of a tree, below its art's origin
+static void g_GetBookTreeExtent(const BOOK_TREE& tree, int& top, int& bottom)
+{
+	top = 0x7fff;
+	bottom = 0;
+	for (int n = 0; n < tree.count; n++)
+	{
+		if (tree.nodes[n].id == s_book_tree_fixed_skill)
+			continue;
+		top = min(top, tree.nodes[n].y - tree.art_y);
+		bottom = max(bottom, tree.nodes[n].y - tree.art_y + s_book_tree_icon);
+	}
+}
+
+// Where a tree's art starts when it isn't scrolled, so its highest icon sits
+// just inside the view
+static int g_GetBookTreeArtY(const BOOK_TREE& tree)
+{
+	int top, bottom;
+	g_GetBookTreeExtent(tree, top, bottom);
+	return s_book_tree_y + s_book_tree_margin - top;
+}
+
+enum SKILL_BOOK_STATE
+{
+	BOOK_LEARNED,
+	BOOK_LEARNABLE,
+	BOOK_LOCKED,
+	BOOK_CANNOT_LEARN,				// a rank skill the server turned down
+};
+
+// Draws a skill icon the way the old info window did for its state.
+static void g_ShowBookIcon(int _x, int _y, int sprite_id, int state, bool passive, bool enabled)
+{
+	if (sprite_id < 0 || sprite_id >= (int)C_VS_UI_SKILL::m_C_spk.GetSize() || !C_VS_UI_SKILL::m_C_spk[sprite_id].IsInit())
+		return;
+
+	POINT point = { _x, _y };
+	CSprite* p_sprite = &C_VS_UI_SKILL::m_C_spk[sprite_id];
+	CSpriteSurface* p_surface = gpC_base->m_p_DDSurface_back;
+	switch (state)
+	{
+	case BOOK_LEARNED:
+		if (!enabled)
+		{
+			CSpriteSurface::SetEffect(CSpriteSurface::EFFECT_GRAY_SCALE);
+			p_surface->BltSpriteEffect(&point, p_sprite);
+		}
+		else if (passive)
+			p_surface->BltSpriteColorSet(&point, p_sprite, 315 - 256);
+		else
+			p_surface->BltSprite(&point, p_sprite);
+		break;
+
+	case BOOK_LEARNABLE:
+		p_surface->BltSpriteColor(&point, p_sprite, rgb_GREEN);
+		break;
+
+	case BOOK_CANNOT_LEARN:
+		p_surface->BltSpriteDarkness(&point, p_sprite, 1);
+		break;
+
+	default:
+		CSpriteSurface::SetEffect(CSpriteSurface::EFFECT_GRAY_SCALE);
+		p_surface->BltSpriteEffect(&point, p_sprite);
+		break;
+	}
+}
+
+// How far through a bar, in hundredths of a percent, when goal_exp is what the
+// bar is out of and exp_remain what is still to go.
+static int g_BookBasisPoints(__int64 goal_exp, __int64 exp_remain)
+{
+	if (goal_exp <= 0)
+		return 10000;
+
+	__int64 done = goal_exp - exp_remain;
+	if (done < 0)
+		done = 0;
+	if (done > goal_exp)
+		done = goal_exp;
+	return (int)(done * 10000 / goal_exp);
+}
+
+static bool g_BookLessLearnLevel(int a, int b)
+{
+	return (*g_pSkillInfoTable)[a].GetLearnLevel() < (*g_pSkillInfoTable)[b].GetLearnLevel();
+}
+
+static bool g_BookLessRankLevel(int a, int b)
+{
+	return (*g_pRankBonusTable)[a].GetLevel() < (*g_pRankBonusTable)[b].GetLevel();
+}
+
+static bool g_IsBookSkillLearned(int domain, int skill_id)
+{
+	return (*g_pSkillManager)[(SKILLDOMAIN)domain].GetSkillStatus((ACTIONINFO)skill_id) == MSkillDomain::SKILLSTATUS_LEARNED;
+}
+
+// Whether an ousters skill's prerequisites are met, as the old skill tree
+// decided it: a skill it needs is learnt, or a shared skill it needs is learnt
+// together with one of that skill's own on this tree.
+static bool g_CanLearnOustersSkill(int skill_id, bool combat)
+{
+	SKILLINFO_NODE& info = (*g_pSkillInfoTable)[skill_id];
+	if (info.SkillTypeList.empty())
+		return true;
+
+	SKILLINFO_NODE::SKILLTYPE_LIST::iterator itr = info.SkillTypeList.begin();
+	for (; itr != info.SkillTypeList.end(); ++itr)
+	{
+		SKILLINFO_NODE& need = (*g_pSkillInfoTable)[*itr];
+		if (!g_IsBookSkillLearned(SKILLDOMAIN_OUSTERS, *itr))
+			continue;
+		if (need.GetSkillStep() != SKILL_STEP_OUSTERS_ETC)
+			return true;
+
+		SKILLINFO_NODE::SKILLTYPE_LIST::iterator itr2 = need.SkillTypeList.begin();
+		for (; itr2 != need.SkillTypeList.end(); ++itr2)
+		{
+			const int step = (*g_pSkillInfoTable)[*itr2].GetSkillStep();
+			if (g_IsBookSkillLearned(SKILLDOMAIN_OUSTERS, *itr2) &&
+				(combat == (step == SKILL_STEP_OUSTERS_COMBAT) || step == SKILL_STEP_OUSTERS_ETC))
+				return true;
+		}
+	}
+	return false;
+}
+
+static const char* g_GetRankName(int grade)
+{
+	static const int slayer[10] =
+	{
+		UI_STRING_MESSAGE_GRADE_PIVATE, UI_STRING_MESSAGE_GRADE_SERENT, UI_STRING_MESSAGE_GRADE_FEACEL,
+		UI_STRING_MESSAGE_GRADE_LITENA, UI_STRING_MESSAGE_GRADE_KAINEL, UI_STRING_MESSAGE_GRADE_GENEAL,
+		UI_STRING_MESSAGE_GRADE_FORE_GENEAL, UI_STRING_MESSAGE_GRADE_MAJORIS_GENEAL,
+		UI_STRING_MESSAGE_GRADE_CLOEL_GENEAL, UI_STRING_MESSAGE_GRADE_MARSHAL,
+	};
+	static const int vampire[10] =
+	{
+		UI_STRING_MESSAGE_GRADE_RITTER, UI_STRING_MESSAGE_GRADE_REICHSRITTER, UI_STRING_MESSAGE_GRADE_BARONET,
+		UI_STRING_MESSAGE_GRADE_PREYHER, UI_STRING_MESSAGE_GRADE_GRAF, UI_STRING_MESSAGE_GRADE_MARKGRAF,
+		UI_STRING_MESSAGE_GRADE_PFALZGRAF, UI_STRING_MESSAGE_GRADE_FURST, UI_STRING_MESSAGE_GRADE_HERZOG,
+		UI_STRING_MESSAGE_GRADE_LANDESHER,
+	};
+	static const int ousters[10] =
+	{
+		UI_STRING_MESSAGE_GRADE_MALCHUT, UI_STRING_MESSAGE_GRADE_YESOD, UI_STRING_MESSAGE_GRADE_HOD,
+		UI_STRING_MESSAGE_GRADE_NETRETH, UI_STRING_MESSAGE_GRADE_TIPHRETH, UI_STRING_MESSAGE_GRADE_GEBURAH,
+		UI_STRING_MESSAGE_GRADE_CHESED, UI_STRING_MESSAGE_GRADE_BINAH, UI_STRING_MESSAGE_GRADE_CHOKMA,
+		UI_STRING_MESSAGE_GRADE_KEATHER,
+	};
+	if (grade <= 0 || grade > GRADE_MARK_MAX)
+		return "";
+
+	const int tier = (grade - 1) / 5;
+	const int* names = g_eRaceInterface == RACE_VAMPIRE ? vampire : (g_eRaceInterface == RACE_OUSTERS ? ousters : slayer);
+	return (*g_pGameStringTable)[names[tier]].GetString();
+}
+
+static bool g_IsBookRankSkillMine(RankBonusInfo& rank)
+{
+	switch (g_eRaceInterface)
+	{
+	case RACE_VAMPIRE:
+		return rank.IsVampireSkill();
+	case RACE_OUSTERS:
+		return rank.IsOustersSkill();
+	}
+	return rank.IsSlayerSkill();
+}
+
+C_VS_UI_SKILL_BOOK::C_VS_UI_SKILL_BOOK()
+{
+	g_RegisterWindow(this);
+
+	m_pC_spk = new C_SPRITE_PACK(SPK_SKILL_BOOK);
+	m_pC_rune_spk = new C_SPRITE_PACK(SPK_RUNE_TAB);
+	m_pC_confirm = NULL;
+	m_tab = TAB_SKILLS;
+	m_sub_tab = 0;
+	m_scroll = 0;
+	m_scroll_max = 0;
+	m_list_scroll[0] = m_list_scroll[1] = 0;
+	m_rank_tier = 0;
+	m_rank_tab_count = 0;
+	m_rank_learnable = 0;
+	m_desc_domain = SKILLDOMAIN_BLADE;
+	m_bOustersDownSkill = false;
+
+	const int win_w = m_pC_spk->GetWidth(BOOK_WINDOW);
+	const int win_h = m_pC_spk->GetHeight(BOOK_WINDOW);
+	Set((g_pUserInformation->iResolution_x - win_w) / 2, max(0, (g_pUserInformation->iResolution_y - win_h) / 2), win_w, win_h);
+
+	// the sub tabs: slayer domains, vampire skill groups that have skills, ousters trees
+	m_sub_tab_count = 0;
+	switch (g_eRaceInterface)
+	{
+	case RACE_SLAYER:
+		for (int d = 0; d < 5; d++)
+			m_sub_tab_key[m_sub_tab_count++] = d;
+		break;
+
+	case RACE_VAMPIRE:
+		for (int g = 0; g < 6; g++)
+		{
+			const SKILL_STEP step = (SKILL_STEP)(SKILL_STEP_VAMPIRE_POISON + g);
+			if (g_pSkillManager == NULL || ((*g_pSkillManager)[SKILLDOMAIN_VAMPIRE].IsExistSkillStep(step) &&
+				!(*g_pSkillManager)[SKILLDOMAIN_VAMPIRE].GetSkillStepList(step)->empty()))
+				m_sub_tab_key[m_sub_tab_count++] = g;
+		}
+		if (m_sub_tab_count == 0)
+		{
+			for (int g = 0; g < 6; g++)
+				m_sub_tab_key[m_sub_tab_count++] = g;
+		}
+		break;
+
+	default:
+		m_sub_tab_key[m_sub_tab_count++] = 0;
+		m_sub_tab_key[m_sub_tab_count++] = 1;
+		break;
+	}
+
+	// a row of sub tabs shares the panel's width; the rank tabs are rows of five
+	const int full_w = m_pC_spk->GetWidth(BOOK_SUB_TAB);
+	const int tab_h = m_pC_spk->GetHeight(BOOK_SUB_TAB);
+	const int sub_w = min(full_w, (s_book_sub_tabs_w - (m_sub_tab_count - 1)) / max(1, m_sub_tab_count));
+	const int rank_w = min(full_w, (s_book_sub_tabs_w - (RANK_TABS_PER_ROW - 1)) / RANK_TABS_PER_ROW);
+
+	m_pC_button_group = new ButtonGroup(this);
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(s_book_close_x, s_book_close_y,
+		m_pC_spk->GetWidth(BOOK_CLOSE), m_pC_spk->GetHeight(BOOK_CLOSE), CLOSE_ID, this, BOOK_CLOSE));
+	for (int t = 0; t < TAB_COUNT; t++)
+	{
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(s_book_tab_x + t * s_book_tab_pitch, s_book_tab_y,
+			m_pC_spk->GetWidth(BOOK_TAB), m_pC_spk->GetHeight(BOOK_TAB), TAB_ID + t, this, BOOK_TAB));
+	}
+	for (int i = 0; i < m_sub_tab_count; i++)
+	{
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(s_book_sub_tab_x + i * (sub_w + 1), s_book_sub_tab_y,
+			sub_w, tab_h, SUB_TAB_ID + i, this, BOOK_SUB_TAB));
+	}
+	for (int t = 0; t < RANK_TIERS; t++)
+	{
+		// placed by LayoutTabs
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(s_book_sub_tab_x, s_book_sub_tab_y, rank_w, tab_h, RANK_TAB_ID + t, this, BOOK_SUB_TAB));
+	}
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(s_book_scroll_x, s_book_scroll_y[0],
+		m_pC_spk->GetWidth(BOOK_SCROLL_UP), m_pC_spk->GetHeight(BOOK_SCROLL_UP), SCROLL_UP_ID, this, BOOK_SCROLL_UP));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(s_book_scroll_x, s_book_scroll_y[1],
+		m_pC_spk->GetWidth(BOOK_SCROLL_DOWN), m_pC_spk->GetHeight(BOOK_SCROLL_DOWN), SCROLL_DOWN_ID, this, BOOK_SCROLL_DOWN));
+	LayoutTabs();
+}
+
+C_VS_UI_SKILL_BOOK::~C_VS_UI_SKILL_BOOK()
+{
+	g_UnregisterWindow(this);
+
+	DeleteNew(m_pC_confirm);
+	DeleteNew(m_pC_button_group);
+	DeleteNew(m_pC_rune_spk);
+	DeleteNew(m_pC_spk);
+}
+
+void C_VS_UI_SKILL_BOOK::Start()
+{
+	PI_Processor::Start();
+	AttrPin(true);
+	m_pC_button_group->Init();
+	gpC_window_manager->AppearWindow(this);
+
+	// as the old skill info did: only the NPC's own opening lowers skills
+	m_bOustersDownSkill = false;
+
+	// the rank tab opens on the rank the character holds
+	const int grade = g_char_slot_ingame.GRADE;
+	m_rank_tier = grade > 0 ? min((grade - 1) / 5, (int)RANK_TIERS - 1) : 0;
+	if (m_tab == TAB_RANK)
+		m_scroll = 0;
+	LayoutTabs();
+}
+
+void C_VS_UI_SKILL_BOOK::Finish()
+{
+	PI_Processor::Finish();
+	gpC_window_manager->DisappearWindow(this);
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_SKILL_BOOK::StartOustersDownSkill
+//
+// The NPC who lowers skills (UI_DownSkill) opens the trees with this: until
+// the window is next opened, a learnt skill's card takes a level off instead
+// of adding one.
+//-----------------------------------------------------------------------------
+void C_VS_UI_SKILL_BOOK::StartOustersDownSkill()
+{
+	if (!Running())
+		Start();
+
+	if (m_tab != TAB_SKILLS)
+	{
+		m_tab = TAB_SKILLS;
+		m_scroll = 0;
+		LayoutTabs();
+	}
+
+	m_bOustersDownSkill = true;
+}
+
+void C_VS_UI_SKILL_BOOK::Process()
+{
+	m_pC_button_group->Process();
+}
+
+bool C_VS_UI_SKILL_BOOK::IsPixel(int _x, int _y)
+{
+	if (Moving())
+		return true;
+	return m_pC_spk->IsPixel(_x - x, _y - y);
+}
+
+bool C_VS_UI_SKILL_BOOK::IsTree() const
+{
+	return m_tab == TAB_SKILLS && g_eRaceInterface == RACE_OUSTERS;
+}
+
+int C_VS_UI_SKILL_BOOK::GetDomain() const
+{
+	switch (g_eRaceInterface)
+	{
+	case RACE_VAMPIRE:
+		return SKILLDOMAIN_VAMPIRE;
+	case RACE_OUSTERS:
+		return SKILLDOMAIN_OUSTERS;
+	}
+	return SKILLDOMAIN_BLADE + m_sub_tab_key[m_sub_tab];
+}
+
+int C_VS_UI_SKILL_BOOK::GetLineY() const
+{
+	if (m_tab != TAB_RANK)
+		return s_book_line_y;
+
+	// under the rows of rank tabs
+	const int rows = max(1, (m_rank_tab_count + RANK_TABS_PER_ROW - 1) / RANK_TABS_PER_ROW);
+	return s_book_line_y + (rows - 1) * s_book_sub_tab_row_h;
+}
+
+// Each tab has its own sub tabs; the other tabs' are moved out of reach. The
+// rank tabs are only the ranks that have rank skills for the race.
+void C_VS_UI_SKILL_BOOK::LayoutTabs()
+{
+	bool has_skills[RANK_TIERS] = { false, };
+	if (g_pRankBonusTable != NULL)
+	{
+		for (int i = 0; i < g_pRankBonusTable->GetSize(); i++)
+		{
+			RankBonusInfo& rank = (*g_pRankBonusTable)[i];
+			const int tier = rank.GetLevel() / 5;
+			if (tier >= 0 && tier < RANK_TIERS && g_IsBookRankSkillMine(rank))
+				has_skills[tier] = true;
+		}
+	}
+	m_rank_tab_count = 0;
+	for (int t = 0; t < RANK_TIERS; t++)
+	{
+		if (has_skills[t])
+			m_rank_tab_tier[m_rank_tab_count++] = t;
+	}
+
+	// a rank without a tab shows the nearest one below it, or the first
+	if (m_rank_tab_count > 0 && !has_skills[m_rank_tier])
+	{
+		int tier = m_rank_tab_tier[0];
+		for (int i = 0; i < m_rank_tab_count; i++)
+		{
+			if (m_rank_tab_tier[i] <= m_rank_tier)
+				tier = m_rank_tab_tier[i];
+		}
+		m_rank_tier = tier;
+	}
+
+	const int hidden_y = -1000;
+	for (int i = 0; i < m_sub_tab_count; i++)
+	{
+		C_VS_UI_EVENT_BUTTON* p_button = m_pC_button_group->GetButton(SUB_TAB_ID + i);
+		if (p_button != NULL)
+			p_button->y = m_tab == TAB_SKILLS ? s_book_sub_tab_y : hidden_y;
+	}
+	for (int i = 0; i < RANK_TIERS; i++)
+	{
+		C_VS_UI_EVENT_BUTTON* p_button = m_pC_button_group->GetButton(RANK_TAB_ID + i);
+		if (p_button == NULL)
+			continue;
+		p_button->x = s_book_sub_tab_x + (i % RANK_TABS_PER_ROW) * (p_button->w + 1);
+		p_button->y = m_tab == TAB_RANK && i < m_rank_tab_count ?
+			s_book_sub_tab_y + (i / RANK_TABS_PER_ROW) * s_book_sub_tab_row_h : hidden_y;
+	}
+}
+
+void C_VS_UI_SKILL_BOOK::Scroll(int step)
+{
+	m_scroll += step * (IsTree() ? s_book_tree_step : 1);
+	m_scroll = max(0, min(m_scroll, m_scroll_max));
+}
+
+void C_VS_UI_SKILL_BOOK::Run(id_t id)
+{
+	if (id == CLOSE_ID)
+	{
+		Finish();
+		return;
+	}
+	if (id == SCROLL_UP_ID || id == SCROLL_DOWN_ID)
+	{
+		Scroll(id == SCROLL_UP_ID ? -1 : 1);
+		return;
+	}
+	if (id >= TAB_ID && id < TAB_ID + TAB_COUNT)
+	{
+		const int tab = id - TAB_ID;
+		if (tab == TAB_RUNES)
+		{
+			// we have no runes; the tab says so, like the game menu's Market
+			if (g_msg_not_available_menu != NULL)
+				g_msg_not_available_menu->Start();
+		}
+		else if (tab != m_tab)
+		{
+			m_tab = tab;
+			m_scroll = 0;
+			LayoutTabs();
+		}
+		return;
+	}
+	if (m_tab == TAB_SKILLS && id >= SUB_TAB_ID && id < SUB_TAB_ID + m_sub_tab_count)
+	{
+		if ((int)id - SUB_TAB_ID != m_sub_tab)
+		{
+			m_sub_tab = id - SUB_TAB_ID;
+			m_scroll = 0;
+		}
+		return;
+	}
+	if (m_tab == TAB_RANK && id >= RANK_TAB_ID && (int)id < RANK_TAB_ID + m_rank_tab_count)
+	{
+		const int tier = m_rank_tab_tier[id - RANK_TAB_ID];
+		if (tier != m_rank_tier)
+		{
+			m_rank_tier = tier;
+			m_scroll = 0;
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Building what is shown: m_entries (the grid or the tree) and m_list
+//-----------------------------------------------------------------------------
+void C_VS_UI_SKILL_BOOK::Rebuild()
+{
+	m_entries.clear();
+	if (m_tab == TAB_RANK)
+		BuildRank();
+	else if (IsTree())
+		BuildTree();
+	else
+		BuildGrid();
+	BuildLists();
+}
+
+// Places the entries six to a row, keeping only the rows the panel shows.
+void C_VS_UI_SKILL_BOOK::LayoutGrid(std::vector<ENTRY>& entries)
+{
+	const int rows = ((int)entries.size() + GRID_COLUMNS - 1) / GRID_COLUMNS;
+	m_scroll_max = max(0, rows - s_book_grid_rows);
+	m_scroll = max(0, min(m_scroll, m_scroll_max));
+
+	for (int i = 0; i < (int)entries.size(); i++)
+	{
+		const int row = i / GRID_COLUMNS - m_scroll;
+		if (row < 0 || row >= s_book_grid_rows)
+			continue;
+		ENTRY entry = entries[i];
+		entry.x = s_book_grid_x + (i % GRID_COLUMNS) * s_book_grid_pitch_x + 2;
+		entry.y = s_book_grid_y + row * s_book_grid_pitch_y + 3;
+		m_entries.push_back(entry);
+	}
+}
+
+void C_VS_UI_SKILL_BOOK::BuildGrid()
+{
+	const int domain = GetDomain();
+	const SKILL_STEP step = g_eRaceInterface == RACE_VAMPIRE ?
+		(SKILL_STEP)(SKILL_STEP_VAMPIRE_POISON + m_sub_tab_key[m_sub_tab]) : SKILL_STEP_APPRENTICE;
+	MSkillDomain& skills = (*g_pSkillManager)[(SKILLDOMAIN)domain];
+
+	std::vector<int> ids;
+	if (skills.IsExistSkillStep(step))
+	{
+		const MSkillDomain::SKILL_STEP_LIST& list = *skills.GetSkillStepList(step);
+		for (MSkillDomain::SKILL_STEP_LIST::const_iterator it = list.begin(); it != list.end(); ++it)
+			ids.push_back(*it);
+	}
+	std::stable_sort(ids.begin(), ids.end(), g_BookLessLearnLevel);
+
+	// slayers learn by domain level, vampires by their own level
+	const int have = g_eRaceInterface == RACE_SLAYER ? skills.GetDomainLevel() : g_char_slot_ingame.level;
+	const int limit = g_pSystemAvailableManager->GetLimitLearnSkillLevel();
+
+	std::vector<ENTRY> entries;
+	for (size_t n = 0; n < ids.size(); n++)
+	{
+		SKILLINFO_NODE& info = (*g_pSkillInfoTable)[ids[n]];
+		ENTRY entry;
+		entry.id = ids[n];
+		entry.sprite = info.GetSpriteID();
+		entry.label = info.GetLearnLevel();
+		entry.domain = domain;
+		entry.passive = info.IsPassive();
+		entry.enabled = info.IsEnable();
+		entry.x = entry.y = 0;
+		if (skills.GetSkillStatus((ACTIONINFO)ids[n]) == MSkillDomain::SKILLSTATUS_LEARNED)
+			entry.state = BOOK_LEARNED;
+		else if (entry.label >= 0 && entry.label <= have && entry.label <= limit)
+			entry.state = BOOK_LEARNABLE;
+		else
+			entry.state = BOOK_LOCKED;
+		entries.push_back(entry);
+	}
+	LayoutGrid(entries);
+}
+
+void C_VS_UI_SKILL_BOOK::BuildTree()
+{
+	const bool combat = m_sub_tab_key[m_sub_tab] == 0;
+	const SKILL_STEP steps[2] =
+	{
+		combat ? SKILL_STEP_OUSTERS_COMBAT : (SKILL_STEP)(SKILL_STEP_OUSTERS_COMBAT + 1),
+		SKILL_STEP_OUSTERS_ETC,
+	};
+	MSkillDomain& skills = (*g_pSkillManager)[SKILLDOMAIN_OUSTERS];
+	const BOOK_TREE& tree = s_book_trees[combat ? 0 : 1];
+	const int art_y = g_GetBookTreeArtY(tree);
+
+	int top, bottom;
+	g_GetBookTreeExtent(tree, top, bottom);
+	m_scroll_max = max(0, art_y + bottom + s_book_tree_margin - (s_book_tree_y + s_book_tree_h));
+	m_scroll = max(0, min(m_scroll, m_scroll_max));
+
+	for (int s = 0; s < 2; s++)
+	{
+		if (!skills.IsExistSkillStep(steps[s]))
+			continue;
+
+		const MSkillDomain::SKILL_STEP_LIST& list = *skills.GetSkillStepList(steps[s]);
+		for (MSkillDomain::SKILL_STEP_LIST::const_iterator it = list.begin(); it != list.end(); ++it)
+		{
+			// only the skills Umbra's tree has a place for
+			const BOOK_TREE_NODE* p_node = NULL;
+			for (int n = 0; n < tree.count && p_node == NULL; n++)
+			{
+				if (tree.nodes[n].id == (int)*it)
+					p_node = &tree.nodes[n];
+			}
+			if (p_node == NULL)
+				continue;
+
+			SKILLINFO_NODE& info = (*g_pSkillInfoTable)[*it];
+			ENTRY entry;
+			entry.id = *it;
+			entry.sprite = info.GetSpriteID();
+			entry.label = -1;
+			entry.domain = SKILLDOMAIN_OUSTERS;
+			entry.passive = info.IsPassive();
+			entry.enabled = info.IsEnable();
+			if (skills.GetSkillStatus((ACTIONINFO)*it) == MSkillDomain::SKILLSTATUS_LEARNED)
+				entry.state = BOOK_LEARNED;
+			else if (info.SkillPoint <= g_char_slot_ingame.skill_point && info.GetLearnLevel() <= g_char_slot_ingame.level &&
+				g_CanLearnOustersSkill(*it, combat))
+				entry.state = BOOK_LEARNABLE;
+			else
+				entry.state = BOOK_LOCKED;
+
+			// placed against the art as Umbra placed it; the lone skill doesn't scroll
+			const bool pinned = p_node->id == s_book_tree_fixed_skill;
+			entry.x = p_node->x - s_book_tree_shift_x;
+			entry.y = art_y + p_node->y - tree.art_y - (pinned ? 0 : m_scroll);
+			if (entry.y >= s_book_tree_y && entry.y + s_book_tree_icon <= s_book_tree_y + s_book_tree_h)
+				m_entries.push_back(entry);
+		}
+	}
+}
+
+void C_VS_UI_SKILL_BOOK::BuildRank()
+{
+	m_rank_learnable = 0;
+	m_scroll_max = 0;
+	if (g_pRankBonusTable == NULL)
+		return;
+
+	std::vector<int> ids;
+	for (int i = 0; i < g_pRankBonusTable->GetSize(); i++)
+	{
+		if (g_IsBookRankSkillMine((*g_pRankBonusTable)[i]))
+			ids.push_back(i);
+	}
+	std::stable_sort(ids.begin(), ids.end(), g_BookLessRankLevel);
+
+	// a tier is five grades; its skills open once the rank reaches it
+	const int my_tier = g_char_slot_ingame.GRADE > 0 ? (g_char_slot_ingame.GRADE - 1) / 5 : -1;
+	std::vector<ENTRY> entries;
+	for (size_t n = 0; n < ids.size(); n++)
+	{
+		RankBonusInfo& rank = (*g_pRankBonusTable)[ids[n]];
+		const int tier = rank.GetLevel() / 5;
+		ENTRY entry;
+		entry.id = ids[n];
+		entry.sprite = rank.GetSkillIconID();
+		entry.label = tier * 5 + 1;
+		entry.domain = -1;
+		entry.passive = false;
+		entry.enabled = true;
+		entry.x = entry.y = 0;
+		if (rank.GetStatus() == RankBonusInfo::STATUS_LEARNED)
+			entry.state = BOOK_LEARNED;
+		else if (rank.GetStatus() == RankBonusInfo::STATUS_CANNOT_LEARN)
+			entry.state = BOOK_CANNOT_LEARN;
+		else if (tier <= my_tier)
+			entry.state = BOOK_LEARNABLE;
+		else
+			entry.state = BOOK_LOCKED;
+
+		if (entry.state == BOOK_LEARNABLE && tier >= 0 && tier < RANK_TIERS)
+			m_rank_learnable |= 1 << tier;
+		if (tier == m_rank_tier)
+			entries.push_back(entry);
+	}
+
+	// the rank's skills one to a row, their names and descriptions beside them
+	m_scroll_max = max(0, (int)entries.size() - RANK_ROWS);
+	m_scroll = max(0, min(m_scroll, m_scroll_max));
+	const int rank_y = GetLineY() + s_book_rank_line_gap;
+	for (int i = m_scroll; i < (int)entries.size() && i < m_scroll + RANK_ROWS; i++)
+	{
+		ENTRY entry = entries[i];
+		entry.x = s_book_rank_x;
+		entry.y = rank_y + (i - m_scroll) * s_book_rank_pitch;
+		m_entries.push_back(entry);
+	}
+}
+
+// The lists on the right, as C_VS_UI_INFO::Process6_RareSkillList and
+// Process5_ACSkillList built them: the learnt rare skills, and the advanced
+// skills of the domain on show (vampires and ousters see every class until
+// they pick one, then only that class's).
+void C_VS_UI_SKILL_BOOK::BuildLists()
+{
+	for (int l = 0; l < LIST_COUNT; l++)
+		m_list[l].clear();
+
+	// rare skills
+	std::vector<int> rare_steps;
+	std::vector<int> rare_domains;
+	switch (g_eRaceInterface)
+	{
+	case RACE_VAMPIRE:
+		rare_steps.push_back(SKILL_STEP_VAMPIRE_RARE);
+		rare_domains.push_back(SKILLDOMAIN_VAMPIRE);
+		break;
+	case RACE_OUSTERS:
+		rare_steps.push_back(SKILL_STEP_OUSTERS_RARE);
+		rare_domains.push_back(SKILLDOMAIN_OUSTERS);
+		break;
+	default:
+		rare_steps.push_back(SKILL_STEP_SLAYER_RARE);
+		for (int d = SKILLDOMAIN_BLADE; d <= SKILLDOMAIN_ENCHANT; d++)
+			rare_domains.push_back(d);
+		rare_domains.push_back(SKILLDOMAIN_ETC);
+		break;
+	}
+	rare_steps.push_back(SKILL_STEP_COMMON_RARE);
+
+	std::vector<std::pair<int, int> > rare;	// domain, skill
+	for (size_t d = 0; d < rare_domains.size(); d++)
+	{
+		MSkillDomain& skills = (*g_pSkillManager)[(SKILLDOMAIN)rare_domains[d]];
+		for (size_t s = 0; s < rare_steps.size(); s++)
+		{
+			if (!skills.IsExistSkillStep((SKILL_STEP)rare_steps[s]))
+				continue;
+			const MSkillDomain::SKILL_STEP_LIST& list = *skills.GetSkillStepList((SKILL_STEP)rare_steps[s]);
+			for (MSkillDomain::SKILL_STEP_LIST::const_iterator it = list.begin(); it != list.end(); ++it)
+			{
+				if (skills.GetSkillStatus((ACTIONINFO)*it) == MSkillDomain::SKILLSTATUS_LEARNED)
+					rare.push_back(std::make_pair(rare_domains[d], (int)*it));
+			}
+		}
+	}
+
+	// advanced skills
+	std::vector<int> advanced;
+	int advanced_domain = GetDomain();
+	MSkillDomain& race_skills = (*g_pSkillManager)[(SKILLDOMAIN)advanced_domain];
+	if (g_eRaceInterface == RACE_SLAYER)
+	{
+		const SKILL_STEP step = (SKILL_STEP)(SKILL_STEP_SLAYER_BLADE_ADVANCEMENT + advanced_domain);
+		if (race_skills.IsExistSkillStep(step))
+		{
+			const MSkillDomain::SKILL_STEP_LIST& list = *race_skills.GetSkillStepList(step);
+			advanced.assign(list.begin(), list.end());
+		}
+	}
+	else
+	{
+		// vampires choose between two classes, ousters between four
+		const bool vampire = g_eRaceInterface == RACE_VAMPIRE;
+		const int first = vampire ? SKILL_STEP_VAMPIRE_WARRIOR_ADVANCEMENT : SKILL_STEP_OUSTERS_COMBAT_ADVANCEMENT;
+		const int classes = vampire ? 2 : 4;
+		int chosen = -1;
+		for (int i = 0; i < classes && chosen == -1; i++)
+		{
+			const SKILL_STEP step = (SKILL_STEP)(first + i);
+			if (race_skills.IsExistSkillStep(step) && !race_skills.GetSkillStepList(step)->empty() &&
+				race_skills.GetSkillStatus((ACTIONINFO)race_skills.GetSkillStepList(step)->front()) == MSkillDomain::SKILLSTATUS_LEARNED)
+				chosen = i;
+		}
+		if (vampire)
+			C_VS_UI_INFO::m_vampire_ACType = chosen;
+		else
+			C_VS_UI_INFO::m_ousters_Magic = chosen;
+
+		for (int i = 0; i < classes; i++)
+		{
+			const SKILL_STEP step = (SKILL_STEP)(first + i);
+			if (!race_skills.IsExistSkillStep(step) || race_skills.GetSkillStepList(step)->empty())
+				continue;
+			const MSkillDomain::SKILL_STEP_LIST& list = *race_skills.GetSkillStepList(step);
+			if (chosen == -1)
+				advanced.push_back(list.front());	// each class's first skill
+			else if (i == chosen)
+			{
+				for (MSkillDomain::SKILL_STEP_LIST::const_iterator it = list.begin(); it != list.end(); ++it)
+				{
+					// Blood Curse comes with Bloods Symposion
+					if (!vampire || *it != SKILL_BLOOD_CURSE)
+						advanced.push_back(*it);
+				}
+			}
+		}
+	}
+
+	const int domain_level = race_skills.GetDomainLevel();
+	const int advance_level = g_char_slot_ingame.m_AdvancementLevel;
+	for (int l = 0; l < LIST_COUNT; l++)
+	{
+		const int count = l == 0 ? (int)rare.size() : (int)advanced.size();
+		m_list_scroll[l] = max(0, min(m_list_scroll[l], count - LIST_ROWS));
+		for (int n = m_list_scroll[l]; n < count && n < m_list_scroll[l] + LIST_ROWS; n++)
+		{
+			ENTRY entry;
+			entry.id = l == 0 ? rare[n].second : advanced[n];
+			entry.domain = l == 0 ? rare[n].first : advanced_domain;
+			SKILLINFO_NODE& info = (*g_pSkillInfoTable)[entry.id];
+			entry.sprite = info.GetSpriteID();
+			entry.label = info.GetLearnLevel();
+			entry.passive = info.IsPassive();
+			entry.enabled = info.IsEnable();
+			entry.x = s_book_list_x + 2;
+			entry.y = s_book_list_y[l] + (n - m_list_scroll[l]) * s_book_list_pitch + 3;
+			if (g_IsBookSkillLearned(entry.domain, entry.id))
+				entry.state = BOOK_LEARNED;
+			else if (l == 1 && entry.label >= 0 && domain_level >= 150 && advance_level > 0 &&
+				entry.label <= domain_level + advance_level)
+				entry.state = BOOK_LEARNABLE;
+			else
+				entry.state = BOOK_LOCKED;
+			m_list[l].push_back(entry);
+		}
+	}
+}
+
+int C_VS_UI_SKILL_BOOK::HitEntry(int _x, int _y) const
+{
+	for (size_t n = 0; n < m_entries.size(); n++)
+	{
+		const ENTRY& entry = m_entries[n];
+		if (m_tab == TAB_RANK)
+		{
+			// a rank skill's whole row
+			if (_x >= entry.x - 2 && _x < s_book_panel_right && _y >= entry.y - 3 && _y < entry.y + 39)
+				return (int)n;
+		}
+		else if (_x >= entry.x && _x < entry.x + 36 && _y >= entry.y && _y < entry.y + 36)
+			return (int)n;
+	}
+	return -1;
+}
+
+int C_VS_UI_SKILL_BOOK::HitList(int _x, int _y, int& list) const
+{
+	for (int l = 0; l < LIST_COUNT; l++)
+	{
+		for (size_t n = 0; n < m_list[l].size(); n++)
+		{
+			const int row_y = m_list[l][n].y - 3;
+			if (_x >= s_book_list_x && _x < s_book_list_x + s_book_list_w && _y >= row_y && _y < row_y + s_book_list_pitch - 2)
+			{
+				list = l;
+				return (int)n;
+			}
+		}
+	}
+	return -1;
+}
+
+void C_VS_UI_SKILL_BOOK::LearnRankSkill(const ENTRY& entry)
+{
+	C_VS_UI_INFO::m_selected_grade_skill = (int)(*g_pRankBonusTable)[entry.id].GetType();
+	DeleteNew(m_pC_confirm);
+	m_pC_confirm = new C_VS_UI_DIALOG(x + entry.x, y + entry.y + 40, 3, 0, ExecF_LearnGradeSkillConfirm, DIALOG_OK | DIALOG_CANCEL);
+	static std::string ppmsg[] =
+	{
+		(*g_pGameStringTable)[UI_STRING_MESSAGE_LEARN_GRADE_SKILL_CONFIRM].GetString(),
+	};
+	m_pC_confirm->SetMessage(ppmsg, 1, SMO_NOFIT);
+	m_pC_confirm->Start();
+}
+
+// The old advanced skill buttons' learning, with its class-choice warnings.
+void C_VS_UI_SKILL_BOOK::LearnAdvancedSkill(const ENTRY& entry)
+{
+	C_VS_UI_INFO::m_selected_ACSkillID = entry.id;
+	C_VS_UI_INFO::m_selected_grade_skill = entry.id;
+	C_VS_UI_INFO::m_selected_skill_domain = entry.domain;
+	DeleteNew(m_pC_confirm);
+	m_pC_confirm = new C_VS_UI_DIALOG(-1, -1, 3, 0, ExecF_LearnAdvenceSkillConfirm, DIALOG_OK | DIALOG_CANCEL);
+	if (g_eRaceInterface == RACE_VAMPIRE && C_VS_UI_INFO::m_vampire_ACType == -1)
+	{
+		const bool warrior = (*g_pSkillInfoTable)[entry.id].GetSkillStep() == SKILL_STEP_VAMPIRE_WARRIOR_ADVANCEMENT;
+		LPCSTR type = warrior ?
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_ACVAMPIRE_WARRIOR_TYPE].GetString() :
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_ACVAMPIRE_MAGICIAN_TYPE].GetString();
+		static char sz_buf[128];
+		sprintf(sz_buf, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEARN_SKILL_ACVAMPIRE].GetString(), type, type);
+		static std::string ppmsg[] = { sz_buf };
+		ppmsg[0] = sz_buf;
+		m_pC_confirm->SetMessage(ppmsg, 1, SMO_FIT, 2);
+		m_pC_confirm->WH(400, 140);
+	}
+	else
+	{
+		static std::string ppmsg[] = { (*g_pGameStringTable)[UI_STRING_MESSAGE_LEARN_SKILL].GetString() };
+		m_pC_confirm->SetMessage(ppmsg, 1, SMO_NOFIT);
+	}
+	m_pC_confirm->Start();
+}
+
+bool C_VS_UI_SKILL_BOOK::MouseControl(UINT message, int _x, int _y)
+{
+	Window::MouseControl(message, _x, _y);
+	_x -= x;
+	_y -= y;
+	bool re = m_pC_button_group->MouseControl(message, _x, _y);
+
+	int list = 0;
+	const int entry = HitEntry(_x, _y);
+	const int row = entry == -1 ? HitList(_x, _y, list) : -1;
+
+	switch (message)
+	{
+	case M_MOVING:
+		if (entry != -1 && m_tab == TAB_RANK)
+			break;	// a rank skill's row already describes it
+		if (entry != -1 || row != -1)
+		{
+			const ENTRY& e = entry != -1 ? m_entries[entry] : m_list[list][row];
+			m_desc_domain = e.domain;
+			g_descriptor_manager.Set(DID_SKILLTREE, x + e.x, y + e.y, (void*)&m_desc_domain, e.id, 0);
+		}
+		break;
+
+	case M_WHEEL_UP:
+	case M_WHEEL_DOWN:
+		{
+			const int step = message == M_WHEEL_UP ? -1 : 1;
+			if (_x >= s_book_list_x)
+			{
+				const int l = _y >= s_book_list_title_y[1] ? 1 : 0;
+				m_list_scroll[l] = max(0, m_list_scroll[l] + step);
+			}
+			else
+				Scroll(step);
+		}
+		break;
+
+	case M_LEFTBUTTON_DOWN:
+	case M_LB_DOUBLECLICK:
+		if (!re)
+			break;
+		if (entry != -1)
+		{
+			const ENTRY& e = m_entries[entry];
+			if (m_tab == TAB_RANK)
+			{
+				if (e.state == BOOK_LEARNABLE)
+					LearnRankSkill(e);
+			}
+			else if (IsTree())
+			{
+				PlaySound(SOUND_OUSTERS_SKILL_INFO);
+
+				// only a learnt skill has a level to take off
+				if (!m_bOustersDownSkill
+					|| (*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)e.id) == MSkillDomain::SKILLSTATUS_LEARNED)
+					gC_vs_ui.RunOustersSkillInfo(e.id, min(x + w, g_pUserInformation->iResolution_x - 300), y, m_bOustersDownSkill);
+			}
+			else
+				gC_vs_ui.RunDescDialog(DID_SKILL, (void*)e.id);
+		}
+		else if (row != -1)
+		{
+			const ENTRY& e = m_list[list][row];
+			if (list == 1 && e.state == BOOK_LEARNABLE)
+				LearnAdvancedSkill(e);
+			else
+				gC_vs_ui.RunDescDialog(DID_SKILL, (void*)e.id);
+		}
+		else if (!gpC_mouse_pointer->GetPickUpItem())
+		{
+			MoveReady();
+			SetOrigin(_x, _y);
+		}
+		break;
+	}
+	return true;
+}
+
+//-----------------------------------------------------------------------------
+// Drawing
+//-----------------------------------------------------------------------------
+void C_VS_UI_SKILL_BOOK::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
+{
+	const int id = p_button->GetID();
+	const int bx = x + p_button->x;
+	const int by = y + p_button->y;
+
+	if (id >= TAB_ID && id < TAB_ID + TAB_COUNT)
+	{
+		int frame = BOOK_TAB;
+		if (id - TAB_ID == m_tab)
+			frame += 2;
+		else if (p_button->GetFocusState())
+			frame += 1;
+		m_pC_spk->BltLocked(bx, by, frame);
+		return;
+	}
+
+	if (id >= SUB_TAB_ID)
+	{
+		const bool rank = id >= RANK_TAB_ID;
+		if (m_tab != (rank ? TAB_RANK : TAB_SKILLS) || (rank && id - RANK_TAB_ID >= m_rank_tab_count))
+			return;
+		int frame = BOOK_SUB_TAB;
+		if (rank ? m_rank_tab_tier[id - RANK_TAB_ID] == m_rank_tier : id - SUB_TAB_ID == m_sub_tab)
+			frame += 2;
+		else if (p_button->GetFocusState())
+			frame += 1;
+
+		// a narrower tab keeps its right end
+		const int full_w = m_pC_spk->GetWidth(frame);
+		if (p_button->w >= full_w)
+			m_pC_spk->BltLocked(bx, by, frame);
+		else
+		{
+			Rect left(0, 0, p_button->w - 8, p_button->h);
+			Rect right(full_w - 8, 0, 8, p_button->h);
+			m_pC_spk->BltLockedClip(bx, by, left, frame);
+			m_pC_spk->BltLockedClip(bx + p_button->w - full_w, by, right, frame);
+		}
+		if (!rank && g_eRaceInterface == RACE_SLAYER)
+			m_pC_spk->BltLocked(bx + 4, by + 2, BOOK_DOMAIN_ICON + m_sub_tab_key[id - SUB_TAB_ID]);
+		return;
+	}
+
+	if ((id == SCROLL_UP_ID || id == SCROLL_DOWN_ID) && (m_scroll_max == 0 || m_tab == TAB_RUNES))
+		return;
+
+	int image = p_button->m_image_index;
+	if (p_button->GetFocusState())
+		image += p_button->GetPressState() ? 2 : 1;
+	m_pC_spk->BltLocked(bx, by, image);
+}
+
+// How full the level line's EXP bar is, in hundredths of a percent, or -1 when
+// the line has no bar: the slayer domain on show, or the rank. Vampire skill
+// groups don't level, so they have none. max_level says there is no more to gain.
+int C_VS_UI_SKILL_BOOK::GetLineExp(bool& max_level) const
+{
+	__int64 goal_exp = 0;
+	__int64 exp_remain = 0;
+	max_level = false;
+
+	if (m_tab == TAB_RANK)
+	{
+		const int grade = g_char_slot_ingame.GRADE;
+		if (grade <= 0)
+			return -1;
+		exp_remain = g_char_slot_ingame.GRADE_EXP_REMAIN;
+		max_level = grade >= GRADE_MARK_MAX || exp_remain < 0;
+		goal_exp = g_pExperienceTable->GetRankInfo(grade, g_eRaceInterface).GoalExp;
+	}
+	else if (m_tab == TAB_SKILLS && g_eRaceInterface == RACE_SLAYER)
+	{
+		// a domain's remaining EXP turns negative once it can't level
+		MSkillDomain& skills = (*g_pSkillManager)[(SKILLDOMAIN)GetDomain()];
+		const int level = skills.GetDomainLevel();
+		if (level < 0)
+			return -1;
+		exp_remain = (int)skills.GetDomainExpRemain();
+		max_level = exp_remain < 0;
+		goal_exp = skills.GetExpInfo(level).GoalExp;
+	}
+	else
+		return -1;
+
+	return max_level ? 10000 : g_BookBasisPoints(goal_exp, exp_remain);
+}
+
+void C_VS_UI_SKILL_BOOK::ShowLevelBar()
+{
+	bool max_level;
+	const int basis = GetLineExp(max_level);
+	if (basis < 0)
+		return;
+
+	const int bar_y = y + GetLineY();
+	m_pC_rune_spk->BltLocked(x + s_book_bar_x, bar_y, RUNE_BAR_BACK);
+	Rect fill(0, 0, m_pC_rune_spk->GetWidth(RUNE_BAR) * basis / 10000, m_pC_rune_spk->GetHeight(RUNE_BAR));
+	if (fill.w > 0)
+		m_pC_rune_spk->BltLockedClip(x + s_book_bar_x + 1, bar_y + 1, fill, RUNE_BAR);
+}
+
+void C_VS_UI_SKILL_BOOK::Show()
+{
+	Rebuild();
+
+	if (gpC_base->m_p_DDSurface_back->Lock())
+	{
+		m_pC_spk->BltLocked(x, y, BOOK_WINDOW);
+
+		if (m_tab != TAB_RUNES)
+		{
+			if (IsTree())
+			{
+				// Umbra's art, moved as its icons were and clipped to the view
+				const bool combat = m_sub_tab_key[m_sub_tab] == 0;
+				const int frame = combat ? BOOK_TREE_COMBAT : BOOK_TREE_ELEMENTAL;
+				const int art_x = s_book_tree_art_x - s_book_tree_shift_x;
+				const int art_y = g_GetBookTreeArtY(s_book_trees[combat ? 0 : 1]) - m_scroll;
+				const int view_w = min(m_pC_spk->GetWidth(frame) - (s_book_tree_x - art_x), s_book_panel_right - s_book_tree_x);
+				Rect view(s_book_tree_x - art_x, s_book_tree_y - art_y, view_w, s_book_tree_h);
+				m_pC_spk->BltLockedClip(x + art_x, y + art_y, view, frame);
+			}
+			else
+			{
+				ShowLevelBar();
+				for (size_t n = 0; n < m_entries.size(); n++)
+				{
+					const ENTRY& entry = m_entries[n];
+					m_pC_spk->BltLocked(x + entry.x - 2, y + entry.y - 3, BOOK_SLOT);
+					if (m_tab == TAB_SKILLS)
+						m_pC_spk->BltLocked(x + entry.x + 3, y + entry.y + 37, BOOK_LEVEL_BAR);
+				}
+			}
+
+			for (size_t n = 0; n < m_entries.size(); n++)
+			{
+				const ENTRY& entry = m_entries[n];
+				g_ShowBookIcon(x + entry.x, y + entry.y, entry.sprite, entry.state, entry.passive, entry.enabled);
+			}
+		}
+
+		for (int l = 0; l < LIST_COUNT; l++)
+		{
+			for (size_t n = 0; n < m_list[l].size(); n++)
+			{
+				const ENTRY& entry = m_list[l][n];
+				g_ShowBookIcon(x + entry.x, y + entry.y, entry.sprite, entry.state, entry.passive, entry.enabled);
+			}
+		}
+
+		m_pC_button_group->Show();
+		gpC_base->m_p_DDSurface_back->Unlock();
+	}
+
+	ShowText();
+	m_pC_button_group->ShowDescription();
+}
+
+static void g_PrintBookCentred(int left, int width, int _y, const char* sz_str, PrintInfo& pi, COLORREF color)
+{
+	g_PrintColorStr(left + (width - g_GetStringWidth(sz_str, pi.hfont)) / 2, _y, sz_str, pi, color);
+}
+
+static const COLORREF s_book_green = RGB(120, 230, 120);
+static const COLORREF s_book_grey = RGB(170, 170, 170);
+static const COLORREF s_book_dim = RGB(140, 140, 140);
+
+// A rank skill's row: its name and state on top, its description under them.
+void C_VS_UI_SKILL_BOOK::ShowRankText()
+{
+	PrintInfo& pi = gpC_base->m_chatting_pi;
+	PrintInfo& small_pi = gpC_base->m_small_pi;
+	char sz_temp[64];
+
+	for (size_t n = 0; n < m_entries.size(); n++)
+	{
+		const ENTRY& entry = m_entries[n];
+		RankBonusInfo& rank = (*g_pRankBonusTable)[entry.id];
+		const int text_x = x + s_book_rank_text_x;
+
+		COLORREF color = entry.state == BOOK_LEARNED ? RGB_WHITE : (entry.state == BOOK_LEARNABLE ? s_book_green : s_book_grey);
+		const char* sz_name = rank.GetName();
+		if (sz_name != NULL && sz_name[0] != '\0')
+			g_PrintColorStr(text_x, y + entry.y + 1, sz_name, pi, color);
+
+		const char* sz_desc = g_GetRankBonusDescription(rank.GetType());
+		if (sz_desc != NULL && sz_desc[0] != '\0')
+			g_PrintColorStr(text_x, y + entry.y + 20, sz_desc, small_pi, entry.state == BOOK_LOCKED ? s_book_dim : RGB(205, 205, 205));
+
+		switch (entry.state)
+		{
+		case BOOK_LEARNED:
+			strcpy(sz_temp, "Learned");
+			color = s_book_grey;
+			break;
+		case BOOK_LEARNABLE:
+			strcpy(sz_temp, "Click to learn");
+			color = s_book_green;
+			break;
+		case BOOK_CANNOT_LEARN:
+			strcpy(sz_temp, "Unavailable");
+			color = RGB(220, 110, 110);
+			break;
+		default:
+			wsprintf(sz_temp, "Grade %d", entry.label);
+			color = s_book_dim;
+			break;
+		}
+		g_PrintColorStr(x + s_book_rank_status_right - g_GetStringWidth(sz_temp, small_pi.hfont), y + entry.y + 3, sz_temp, small_pi, color);
+	}
+
+	if (m_entries.empty())
+		g_PrintBookCentred(x + 14, s_book_panel_right - 14, y + GetLineY() + s_book_rank_line_gap + 20, "No rank skills.", pi, s_book_grey);
+}
+
+void C_VS_UI_SKILL_BOOK::ShowText()
+{
+	PrintInfo& pi = gpC_base->m_chatting_pi;
+	PrintInfo& small_pi = gpC_base->m_small_pi;
+	char sz_temp[128];
+
+	g_FL2_GetDC();
+
+	g_PrintColorStr(x + 15, y + 15, "Skills", pi, RGB_WHITE);
+
+	static const char* s_tab[TAB_COUNT] = { "Skills", "Rank", "Runes" };
+	const int tab_w = m_pC_spk->GetWidth(BOOK_TAB);
+	for (int t = 0; t < TAB_COUNT; t++)
+		g_PrintBookCentred(x + s_book_tab_x + t * s_book_tab_pitch, tab_w, y + s_book_tab_y + 4, s_tab[t], pi, RGB_WHITE);
+
+	const int grade = g_char_slot_ingame.GRADE;
+	if (m_tab == TAB_SKILLS)
+	{
+		static const char* s_slayer[5] = { "Blade", "Sword", "Gun", "Heal", "Enchant" };
+		static const char* s_vampire[6] = { "Poison", "Acid", "Curse", "Summon", "Blood", "Innate" };
+		static const char* s_ousters[2] = { "Combat", "Elemental" };
+		for (int i = 0; i < m_sub_tab_count; i++)
+		{
+			C_VS_UI_EVENT_BUTTON* p_button = m_pC_button_group->GetButton(SUB_TAB_ID + i);
+			if (p_button == NULL)
+				continue;
+			const int key = m_sub_tab_key[i];
+			const int by = y + p_button->y + 4;
+			if (g_eRaceInterface == RACE_SLAYER)
+				g_PrintColorStr(x + p_button->x + 25, by, s_slayer[key], pi, RGB_WHITE);
+			else
+				g_PrintBookCentred(x + p_button->x, p_button->w, by, g_eRaceInterface == RACE_VAMPIRE ? s_vampire[key] : s_ousters[key], pi, RGB_WHITE);
+		}
+
+		if (g_eRaceInterface == RACE_OUSTERS)
+		{
+			wsprintf(sz_temp, "Skill Points:  %d", g_char_slot_ingame.skill_point);
+			g_PrintColorStr(x + s_book_panel_right - 6 - g_GetStringWidth(sz_temp, pi.hfont), y + s_book_sub_tab_y + 4, sz_temp, pi, RGB_WHITE);
+		}
+	}
+	else if (m_tab == TAB_RANK)
+	{
+		// the rank tabs: dim past the character's rank, green where a skill waits
+		const int my_tier = grade > 0 ? (grade - 1) / 5 : -1;
+		for (int i = 0; i < m_rank_tab_count; i++)
+		{
+			C_VS_UI_EVENT_BUTTON* p_button = m_pC_button_group->GetButton(RANK_TAB_ID + i);
+			if (p_button == NULL)
+				continue;
+			const int t = m_rank_tab_tier[i];
+			const char* sz_name = g_GetRankName(t * 5 + 1);
+			COLORREF color = RGB_WHITE;
+			if (t > my_tier)
+				color = s_book_dim;
+			else if (m_rank_learnable & (1 << t))
+				color = s_book_green;
+
+			// a long name takes the small font
+			const bool use_small = g_GetStringWidth(sz_name, pi.hfont) > p_button->w - 6;
+			g_PrintBookCentred(x + p_button->x, p_button->w, y + p_button->y + (use_small ? 5 : 4), sz_name,
+				use_small ? small_pi : pi, color);
+		}
+	}
+
+	// the level line, and the EXP on its bar
+	const int line_y = y + GetLineY();
+	sz_temp[0] = '\0';
+	if (m_tab == TAB_RANK)
+	{
+		if (grade > 0)
+			wsprintf(sz_temp, "%s  Grade %d", g_GetRankName(grade), grade);
+	}
+	else if (m_tab == TAB_SKILLS && g_eRaceInterface == RACE_SLAYER)
+	{
+		static const char* s_domain[5] = { "Blade", "Sword", "Gun", "Heal", "Enchant" };
+		wsprintf(sz_temp, "%s Level %d", s_domain[m_sub_tab_key[m_sub_tab]], (*g_pSkillManager)[(SKILLDOMAIN)GetDomain()].GetDomainLevel());
+	}
+	else if (m_tab == TAB_SKILLS && g_eRaceInterface == RACE_VAMPIRE)
+		wsprintf(sz_temp, "Level %d", g_char_slot_ingame.level);
+	if (sz_temp[0] != '\0')
+		g_PrintColorStr(x + 24, line_y, sz_temp, pi, RGB_WHITE);
+
+	bool max_level;
+	const int basis = GetLineExp(max_level);
+	if (basis >= 0)
+	{
+		if (max_level)
+			strcpy(sz_temp, "MAX");
+		else
+			wsprintf(sz_temp, "%d.%02d%%", basis / 100, basis % 100);
+		const int bar_w = m_pC_rune_spk->GetWidth(RUNE_BAR_BACK);
+		const int bar_h = m_pC_rune_spk->GetHeight(RUNE_BAR_BACK);
+		g_PrintColorStrOut(x + s_book_bar_x + (bar_w - g_GetStringWidth(sz_temp, small_pi.hfont)) / 2,
+			line_y + (bar_h - 14) / 2, sz_temp, small_pi, RGB_WHITE, RGB_BLACK);
+	}
+
+	// the level each grid skill needs
+	if (m_tab == TAB_SKILLS && !IsTree())
+	{
+		const int bar_w = m_pC_spk->GetWidth(BOOK_LEVEL_BAR);
+		for (size_t n = 0; n < m_entries.size(); n++)
+		{
+			const ENTRY& entry = m_entries[n];
+			if (entry.label < 0)
+				continue;
+			wsprintf(sz_temp, "%d", entry.label);
+			g_PrintBookCentred(x + entry.x + 3, bar_w, y + entry.y + 37, sz_temp, pi, RGB_WHITE);
+		}
+	}
+	if (m_tab == TAB_RANK)
+		ShowRankText();
+	if (m_tab == TAB_RUNES)
+		g_PrintBookCentred(x + 14, s_book_panel_right - 14, y + 260, "Runes are not available.", pi, RGB_WHITE);
+
+	// the lists: a row's name over its separator, its state under it
+	static const char* s_list[LIST_COUNT] = { "Rare Skills", "Advanced Skills" };
+	for (int l = 0; l < LIST_COUNT; l++)
+	{
+		g_PrintBookCentred(x + s_book_list_x, s_book_list_w, y + s_book_list_title_y[l], s_list[l], pi, RGB_WHITE);
+		for (size_t n = 0; n < m_list[l].size(); n++)
+		{
+			const ENTRY& entry = m_list[l][n];
+			SKILLINFO_NODE& info = (*g_pSkillInfoTable)[entry.id];
+			const char* sz_name = info.GetHName();
+			if (sz_name != NULL && sz_name[0] != '\0')
+				g_PrintBookCentred(x + s_book_list_x + 40, s_book_list_w - 42, y + entry.y + s_book_list_name_y, sz_name, pi, RGB_WHITE);
+			if (entry.state == BOOK_LEARNED)
+				strcpy(sz_temp, "Learned");
+			else
+				wsprintf(sz_temp, "Level %d", entry.label);
+			g_PrintBookCentred(x + s_book_list_x + 40, s_book_list_w - 42, y + entry.y + s_book_list_status_y, sz_temp, small_pi,
+				entry.state == BOOK_LEARNABLE ? s_book_green : s_book_grey);
+		}
+	}
+
+	g_FL2_ReleaseDC();
+}

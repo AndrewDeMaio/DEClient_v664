@@ -186,8 +186,24 @@ class C_VS_UI_GAMEMENU : public Window, public Exec, public ButtonVisual
 private:
 	enum MENU
 	{
-//		TO_BOARD,
-		OPTION = 0,
+		DETAILS_ID,
+		SKILLS_ID,
+		QUESTS_ID,
+		PET_ID,
+
+		CLAN_INFO_ID,
+		CLAN_LIST_ID,
+		CLAN_WAIT_LIST_ID,
+		CLAN_MEMBERS_ID,
+
+		FRIENDS_ID,
+		PARTY_ID,
+
+		MARKET_ID,
+		SHOP_ID,
+		CART_ID,
+
+		OPTION,
 		LOGOUT,
 #if __CONTENTS(__GAMEMENU_QUITEXIT)
 		QUITEXIT,
@@ -198,25 +214,54 @@ private:
 		INVALID_ID
 	};
 
-	enum GAMEMENU_SPK_INDEX
+	enum GAMEMENU_SPK_INDEX	// GameMenuRenewal.spk, DK Umbra's game menu
 	{
-		GAMEMENU_WINDOW,
-//		TO_BOARD_IMAGE,
-		OPTION_IMAGE,
-		LOGOUT_IMAGE,
-#if __CONTENTS(__GAMEMENU_QUITEXIT)
-		QUITEXIT_IMAGE,
-#endif //__GAMEMENU_QUITEXIT
-		CANCEL_IMAGE,
+		GAMEMENU_WINDOW = 0,
+		GAMEMENU_TILE = 1,			// +1 highlighted, +2 pushed
 	};
-	
-	C_SPRITE_PACK	*			m_pC_gamemenu_spk;
 
-	ButtonGroup *				m_pC_button_group;
-//	bool						m_bHangul;
+	// Positions from DK Umbra's DarkEden.exe, relative to the window, for its
+	// UMBRA_TILE_SIZE tiles. The art on disk may be smaller; Scaled() fits them.
+	enum GAMEMENU_LAYOUT
+	{
+		GAMEMENU_TITLE_X = 12,
+		GAMEMENU_TITLE_Y = 15,
+		GAMEMENU_ROW_LABEL_RIGHT = 64,	// the row labels end here
+		GAMEMENU_LABEL_BOTTOM = 49,		// a button's label ends this far down its tile
+		UMBRA_TILE_SIZE = 53,
+	};
+
+	struct BUTTON_INFO
+	{
+		int			id;
+		int			x, y;			// the tile
+		int			icon;			// sprite index
+		int			icon_x, icon_y;
+		const char*	label;
+	};
+
+	struct ROW_INFO
+	{
+		const char*	label;
+		int			y;
+	};
+
+	static const BUTTON_INFO	s_button[];
+	static const int			s_button_count;
+	static const ROW_INFO		s_row[];
+	static const int			s_row_count;
+
+	C_SPRITE_PACK *			m_pC_gamemenu_spk;
+	ButtonGroup *			m_pC_button_group;
+	HotKey *				m_p_hotkey;			// the tribe interface's, which opens the windows
+	int					m_tile_w;			// GAMEMENU_TILE's width on disk, which sets the scale
+
+	const BUTTON_INFO *	FindButton(id_t id) const;
+	void				OpenWindow(id_t id);
+	int					Scaled(int umbra) const;
 
 public:
-	C_VS_UI_GAMEMENU();
+	C_VS_UI_GAMEMENU(HotKey * p_hotkey);
 	~C_VS_UI_GAMEMENU();
 
 	void	UnacquireMouseFocus() { m_pC_button_group->UnacquireMouseFocus(); }
@@ -960,6 +1005,7 @@ public:
 	// 2004, 6, 14 sobeit add end
 	// 2004, 6, 15 sobeit add start
 	bool	IsRunningGearWindow() const;
+	void	OpenGearWindow();
 	void	Change_Custom_Naming(int nID, char* szName);
 	// 2004, 6, 15 sobeit add end
 	// 2004, 6, 16 sobeit add start

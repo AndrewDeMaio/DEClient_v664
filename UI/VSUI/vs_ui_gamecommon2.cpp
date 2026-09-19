@@ -1875,6 +1875,8 @@ bool	C_VS_UI_BULLETIN_BOARD::IsPixel(int _x, int _y)
 		|| m_pC_back_spk->IsPixel(SCR2WIN_X(_x) - 165, SCR2WIN_Y(_y) - 146, BUTTON_CANCEL);
 }
 
+void g_GetSimplePanelRect(RECT* rect);	// VS_UI_GameCommon.cpp
+
 //-----------------------------------------------------------------------------
 // C_VS_UI_REQUEST_RESURRECT::C_VS_UI_REQUEST_RESURRECT
 //
@@ -1892,38 +1894,23 @@ C_VS_UI_REQUEST_RESURRECT::C_VS_UI_REQUEST_RESURRECT(bool resurrect, bool elixir
 
 	AttrPin(true);
 
-	int _y;
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		m_image_spk.Open(SPK_LEVELUP);
-		_y = g_pUserInformation->iResolution_y - 218; //382;
-		break;
+	m_image_spk.Open(SPK_LEVELUP);
 
-	case RACE_VAMPIRE:
-		m_image_spk.Open(SPK_LEVELUP);
-		_y = g_pUserInformation->iResolution_y - 175; //425;
-		break;
+	// the mode row runs right from the resurrection button, which sits at
+	// the top-right of the simple information panel
+	RECT panel;
+	g_GetSimplePanelRect(&panel);
+	const int _w = m_image_spk.GetWidth(RESURRECT_GUARD_SLAYER);
+	const int _h = m_image_spk.GetHeight(RESURRECT_GUARD_SLAYER);
+	const int _y = panel.top;
+	Set(panel.right, _y, _w, _h);
 
-	case RACE_OUSTERS:
-		m_image_spk.Open(SPK_LEVELUP);
-		_y = g_pUserInformation->iResolution_y - 218; //382;
-		break;
-	}
-
-	Set(2, _y, m_image_spk.GetWidth(RESURRECT_GUARD_SLAYER), m_image_spk.GetHeight(RESURRECT_GUARD_SLAYER));
-
-
-	int posx = 2 + 15 + m_image_spk.GetWidth(RESURRECT_GUARD_SLAYER);
+	int posx = panel.right + _w;
 	for (int i = 0; i < RESURRECT_MODE_MAX; i++)
 	{
-		m_ResurrectButton[i].SetRect(
-			posx,
-			_y,
-			m_image_spk.GetWidth(RESURRECT_GUARD_SLAYER),
-			m_image_spk.GetHeight(RESURRECT_GUARD_SLAYER));
+		m_ResurrectButton[i].SetRect(posx, _y, _w, _h);
 
-		posx += m_image_spk.GetWidth(RESURRECT_GUARD_SLAYER) + 15;
+		posx += _w;
 
 		RequestResurrectSetButton(i, m_ResurrectButton[i].m_Enable);
 	}
@@ -1985,12 +1972,16 @@ void C_VS_UI_REQUEST_RESURRECT::RequestResurrectSetButton(int resurrectMode, boo
 //-----------------------------------------------------------------------------
 void	C_VS_UI_REQUEST_RESURRECT::Show()
 {
+	// the icon sits centred in the guard; the art sets the inset
+	const int icon_w = m_image_spk.GetWidth(RESURRECT_SLAYER);
+	const int icon_h = m_image_spk.GetHeight(RESURRECT_SLAYER);
+	const int pad = (m_image_spk.GetWidth(RESURRECT_GUARD_SLAYER) - icon_w) / 2;
 	for (int i = 0; i < RESURRECT_MODE_MAX; i++)
 	{
 		if (m_ResurrectButton[i].m_Enable == true && m_ResurrectButton[i].m_Image != -1)
 		{
-			RECT rt = { m_ResurrectButton[i].m_ButtonRect.left + 9, m_ResurrectButton[i].m_ButtonRect.top + 9,
-				m_ResurrectButton[i].m_ButtonRect.left + 9 + 36, m_ResurrectButton[i].m_ButtonRect.top + 9 + 36 };
+			RECT rt = { m_ResurrectButton[i].m_ButtonRect.left + pad, m_ResurrectButton[i].m_ButtonRect.top + pad,
+				m_ResurrectButton[i].m_ButtonRect.left + pad + icon_w, m_ResurrectButton[i].m_ButtonRect.top + pad + icon_h };
 
 			gpC_base->m_p_DDSurface_back->FillRect(&rt, 0);
 		}
@@ -2003,9 +1994,9 @@ void	C_VS_UI_REQUEST_RESURRECT::Show()
 			if (m_ResurrectButton[i].m_Enable == true && m_ResurrectButton[i].m_Image != -1)
 			{
 				if (m_focus == i && m_pushed == i)
-					m_image_spk.BltLocked(m_ResurrectButton[i].m_ButtonRect.left + 10, m_ResurrectButton[i].m_ButtonRect.top + 10, m_ResurrectButton[i].m_Image);
+					m_image_spk.BltLocked(m_ResurrectButton[i].m_ButtonRect.left + pad + 1, m_ResurrectButton[i].m_ButtonRect.top + pad + 1, m_ResurrectButton[i].m_Image);
 				else
-					m_image_spk.BltLocked(m_ResurrectButton[i].m_ButtonRect.left + 9, m_ResurrectButton[i].m_ButtonRect.top + 9, m_ResurrectButton[i].m_Image);
+					m_image_spk.BltLocked(m_ResurrectButton[i].m_ButtonRect.left + pad, m_ResurrectButton[i].m_ButtonRect.top + pad, m_ResurrectButton[i].m_Image);
 
 				if (m_ResurrectButton[i].m_Delay > 0)
 				{
@@ -2020,7 +2011,7 @@ void	C_VS_UI_REQUEST_RESURRECT::Show()
 						{
 							Rect rect;
 							RECT rt;
-							POINT point = { m_ResurrectButton[i].m_ButtonRect.left + 9, m_ResurrectButton[i].m_ButtonRect.top + 9 };
+							POINT point = { m_ResurrectButton[i].m_ButtonRect.left + pad, m_ResurrectButton[i].m_ButtonRect.top + pad };
 
 							S_SURFACEINFO surface_info;
 							CSprite* pSprite = &m_image_spk.GetSprite(m_ResurrectButton[i].m_Image);
@@ -4041,41 +4032,186 @@ C_VS_UI_REMOVE_OPTION::IsCanRemoveOption_Puritas(const MItem* pItem, const MItem
 // Ousters SkillInfo
 //
 ///////////////////////////////////////////////////////////////////
+//-----------------------------------------------------------------------------
+// C_VS_UI_OUSTERS_SKILL_INFO
+//
+// The skill's card when a node in the ousters tree is clicked: DK Umbra's
+// frame, the name in the title bar, the icon and its numbers, then the
+// description. The buttons are the blank renewal ones with our own labels.
+//-----------------------------------------------------------------------------
+static const int s_osi_w = 300;
+static const int s_osi_bar_h = 22;
+static const int s_osi_title_x = 12;
+static const int s_osi_title_h = 14;		// m_desc_menu_pi
+static const int s_osi_pad_x = 16;
+static const int s_osi_icon_x = 16;
+static const int s_osi_icon_y = 34;
+static const int s_osi_icon_w = 36;			// C_VS_UI_SKILL::m_C_spk
+static const int s_osi_icon_gap = 12;		// between the icon and its numbers
+static const int s_osi_line_h = 16;
+static const int s_osi_prompt_y = 112;		// the learn question and its price
+static const int s_osi_desc_y = 154;
+static const int s_osi_desc_rows = 5;
+static const int s_osi_desc_line_h = 18;	// what ShowDesc lays the text out on
+static const int s_osi_arrow_up = 26;		// SkillWindow.spk: the skills window's scroll
+static const int s_osi_arrow_down = 29;		// arrows, +1 focused, +2 pushed
+static const int s_osi_arrow_margin_x = 10;	// from the right edge
+static const int s_osi_arrow_gap = 4;		// between the text and the arrows, and between the two
+static const int s_osi_button_margin_x = 10;
+static const int s_osi_button_margin_y = 10;
+static const int s_osi_button_gap = 6;
+static const char* s_osi_learn_label = "Learn";
+static const char* s_osi_lower_label = "Lower";
+static const char* s_osi_close_label = "Close";
+
 C_VS_UI_OUSTERS_SKILL_INFO::C_VS_UI_OUSTERS_SKILL_INFO(int skillID, int window_x, int window_y, bool DownSkill)
 {
-	//	AttrTopmost( true );
 	g_RegisterWindow(this);
-
-	int window_w = 300;
-	int window_h = 350;
 
 	m_bDownSkill = DownSkill;
 
+	C_SPRITE_PACK* p_button_spk = gpC_global_resource->m_pC_assemble_box_button_renewal_spk;
+	const int small_w = p_button_spk->GetWidth(C_GLOBAL_RESOURCE::ABR_BUTTON_SMALL_RED);
+	const int small_h = p_button_spk->GetHeight(C_GLOBAL_RESOURCE::ABR_BUTTON_SMALL_RED);
+	const int wide_w = p_button_spk->GetWidth(C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN);
+	const int wide_h = p_button_spk->GetHeight(C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN);
+
+	const int window_w = s_osi_w;
+	const int window_h = s_osi_desc_y + s_osi_desc_rows * s_osi_desc_line_h + s_osi_button_margin_y * 2 + max(small_h, wide_h);
+
 	Set(window_x, window_y, window_w, window_h);
 
-	m_pC_scroll_bar = new C_VS_UI_SCROLL_BAR(0, Rect(240, 200, -1, 70));
+	// before SetSkillID: the text is wrapped short of the arrows
+	m_SPK.Open(SPK_SKILL_BOOK);
 
 	SetSkillID(skillID);
 
-	//�����ư
-	m_pC_button_group = new ButtonGroup(this);
+	// one row on the bottom edge, right aligned, as in the message boxes
+	const int close_x = w - s_osi_button_margin_x - small_w;
+	const int learn_x = close_x - s_osi_button_gap - wide_w;
+	const int small_y = h - s_osi_button_margin_y - small_h;
+	const int wide_y = h - s_osi_button_margin_y - wide_h;
 
-	int close_x = w - 45, close_y = h - 40;
-	int help_x = w - 70, help_y = h - 40;
-	int alpha_x = 30, alpha_y = h - 40;
-	int learn_x = w - 140, learn_y = h - 43;
+	// the arrows sit beside the top of the text, clear of the bottom row
+	const int arrow_w = m_SPK.GetWidth(s_osi_arrow_up);
+	const int arrow_h = m_SPK.GetHeight(s_osi_arrow_up);
+	const int arrow_x = w - s_osi_arrow_margin_x - arrow_w;
 
-	//�����ư
 	m_pC_button_group = new ButtonGroup(this);
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(close_x, close_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_X), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_X), CLOSE_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_X));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(help_x, help_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION), HELP_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION));
-	// 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_x, alpha_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA), ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(close_x, small_y, small_w, small_h, CLOSE_ID, this, C_GLOBAL_RESOURCE::ABR_BUTTON_SMALL_RED));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(learn_x, wide_y, wide_w, wide_h, LEARN_ID, this, C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(arrow_x, s_osi_desc_y, arrow_w, arrow_h, SCROLL_UP_ID, this, s_osi_arrow_up));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(arrow_x, s_osi_desc_y + arrow_h + s_osi_arrow_gap,
+		m_SPK.GetWidth(s_osi_arrow_down), m_SPK.GetHeight(s_osi_arrow_down), SCROLL_DOWN_ID, this, s_osi_arrow_down));
+}
+
+//-----------------------------------------------------------------------------
+// g_OustersSkillPrerequisiteLearned
+//
+// A skill opens once one of the skills that lead to it is learned; a node
+// sitting behind an "etc" skill opens on that skill's own list instead. This
+// is the walk the learn button used to do inline while drawing itself.
+//-----------------------------------------------------------------------------
+static bool g_OustersSkillPrerequisiteLearned(const SKILLINFO_NODE& sInfo)
+{
+	if (sInfo.SkillTypeList.empty())
+		return true;
+
+	SKILLINFO_NODE::SKILLTYPE_LIST::const_iterator itr = sInfo.SkillTypeList.begin();
+	SKILLINFO_NODE::SKILLTYPE_LIST::const_iterator endItr = sInfo.SkillTypeList.end();
+
+	while (itr != endItr)
+	{
+		if (*itr < 0 || *itr >= g_pSkillInfoTable->GetSize())
+		{
+			itr++;
+			continue;
+		}
+
+		if ((*g_pSkillInfoTable)[*itr].GetSkillStep() == SKILL_STEP_OUSTERS_ETC
+			&& (*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)*itr) == MSkillDomain::SKILLSTATUS_LEARNED)
+		{
+			SKILLINFO_NODE::SKILLTYPE_LIST::const_iterator itr2 = (*g_pSkillInfoTable)[*itr].SkillTypeList.begin();
+			SKILLINFO_NODE::SKILLTYPE_LIST::const_iterator endItr2 = (*g_pSkillInfoTable)[*itr].SkillTypeList.end();
+
+			while (itr2 != endItr2)
+			{
+				if ((*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)*itr2) == MSkillDomain::SKILLSTATUS_LEARNED
+					&& (sInfo.GetSkillStep() == (*g_pSkillInfoTable)[*itr2].GetSkillStep() || (*g_pSkillInfoTable)[*itr2].GetSkillStep() == SKILL_STEP_OUSTERS_ETC))
+					return true;
+
+				itr2++;
+			}
+		}
+		else if ((*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)*itr) == MSkillDomain::SKILLSTATUS_LEARNED)
+			return true;
+
+		itr++;
+	}
+
+	return false;
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_OUSTERS_SKILL_INFO::CanPressLearn
+//
+// Whether the button does anything: what the old art said by drawing itself in
+// colour instead of grey.
+//-----------------------------------------------------------------------------
+bool	C_VS_UI_OUSTERS_SKILL_INFO::CanPressLearn()
+{
+	const MSkillDomain::SKILLSTATUS status = (*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)m_skillID);
+	SKILLINFO_NODE sInfo = (*g_pSkillInfoTable)[m_skillID];
 
 	if (m_bDownSkill)
-		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(learn_x, learn_y, gpC_global_resource->m_pC_info_spk->GetWidth(C_GLOBAL_RESOURCE::OUSTERS_DOWN_SKILL_BUTTON), gpC_global_resource->m_pC_info_spk->GetHeight(C_GLOBAL_RESOURCE::OUSTERS_DOWN_SKILL_BUTTON), LEARN_ID, this, C_GLOBAL_RESOURCE::OUSTERS_DOWN_SKILL_BUTTON));
-	else
-		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(learn_x, learn_y, gpC_global_resource->m_pC_info_spk->GetWidth(C_GLOBAL_RESOURCE::OUSTERS_LEARN_BUTTON), gpC_global_resource->m_pC_info_spk->GetHeight(C_GLOBAL_RESOURCE::OUSTERS_LEARN_BUTTON), LEARN_ID, this, C_GLOBAL_RESOURCE::OUSTERS_LEARN_BUTTON));
+	{
+		if (status != MSkillDomain::SKILLSTATUS_LEARNED)
+			return false;
 
+		return sInfo.GetExpLevel() > 1 || (sInfo.CanDelete && sInfo.GetExpLevel() == 1);
+	}
+
+	if (status == MSkillDomain::SKILLSTATUS_LEARNED)
+	{
+		// these six have no levels to buy
+		if (m_skillID == SKILL_FIRE_OF_SOUL_STONE || m_skillID == SKILL_ICE_OF_SOUL_STONE ||
+			m_skillID == SKILL_SAND_OF_SOUL_STONE || m_skillID == SKILL_BLOCK_HEAD ||
+			m_skillID == SKILL_ABSORB_SOUL || m_skillID == SKILL_SUMMON_SYLPH)
+			return false;
+
+		if (sInfo.LevelUpPoint > g_char_slot_ingame.skill_point || sInfo.GetExpLevel() >= 30)
+			return false;
+	}
+	else
+	{
+		if (sInfo.SkillPoint > g_char_slot_ingame.skill_point || sInfo.GetLearnLevel() > g_char_slot_ingame.level)
+			return false;
+	}
+
+	return g_OustersSkillPrerequisiteLearned(sInfo);
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_OUSTERS_SKILL_INFO::ShowButtonLabels
+//
+// The renewal buttons are blank art; their text is drawn over them.
+//-----------------------------------------------------------------------------
+void	C_VS_UI_OUSTERS_SKILL_INFO::ShowButtonLabels()
+{
+	static const int id_list[2] = { LEARN_ID, CLOSE_ID };
+	const char* label_list[2] = { m_bDownSkill ? s_osi_lower_label : s_osi_learn_label, s_osi_close_label };
+
+	for (int i = 0; i < 2; i++)
+	{
+		C_VS_UI_EVENT_BUTTON* p_button = m_pC_button_group->GetButton(id_list[i]);
+		if (p_button == NULL)
+			continue;
+
+		const bool enabled = (id_list[i] != LEARN_ID) || CanPressLearn();
+		gpC_global_resource->DrawRenewalButtonLabel(x + p_button->x, y + p_button->y, p_button->w, p_button->h,
+			label_list[i], enabled && p_button->GetFocusState() && p_button->GetPressState(),
+			enabled ? RGB_WHITE : RGB_GRAY);
+	}
 }
 
 C_VS_UI_OUSTERS_SKILL_INFO::~C_VS_UI_OUSTERS_SKILL_INFO()
@@ -4083,7 +4219,6 @@ C_VS_UI_OUSTERS_SKILL_INFO::~C_VS_UI_OUSTERS_SKILL_INFO()
 	g_UnregisterWindow(this);
 
 	DeleteNew(m_pC_button_group);
-	DeleteNew(m_pC_scroll_bar);
 	DeleteNew(gpC_dialog_ousters_down_skill);
 	DeleteNew(gpC_dialog_ousters_level_up_to_last_skill_level);
 }
@@ -4106,7 +4241,7 @@ void	C_VS_UI_OUSTERS_SKILL_INFO::Finish()
 
 void	C_VS_UI_OUSTERS_SKILL_INFO::Show()
 {
-	bool bCanLearn = false;
+	const bool bCanLearn = CanPressLearn();
 
 	MSkillDomain::SKILLSTATUS status = (*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)m_skillID);
 	SKILLINFO_NODE sInfo = (*g_pSkillInfoTable)[m_skillID];
@@ -4115,207 +4250,101 @@ void	C_VS_UI_OUSTERS_SKILL_INFO::Show()
 
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		gpC_global_resource->DrawDialogLocked(x, y, w, h, gpC_vs_ui_window_manager->IsAlpha(C_VS_UI_WINDOW_MANAGER::INFO));
+		gpC_global_resource->DrawDialogRenewalLocked(x, y, w, h, s_osi_bar_h);
 
-		Rect rect(x + 30, y + 50, w - 60, h - 100);
-		gpC_global_resource->DrawOutBoxLocked(rect);
-		rect.Set(x + 40, y + 180, w - 80, 110);
-		gpC_global_resource->DrawOutBoxLocked(rect);
+		POINT p = { x + s_osi_icon_x, y + s_osi_icon_y };
 
-		POINT p = { x + 50, y + 70 };
+		const int sprID = sInfo.GetSpriteID();
 
-		int sprID = sInfo.GetSpriteID();
-
-		switch (status)
+		if (sprID >= 0 && sprID < C_VS_UI_SKILL::m_C_spk.GetSize() && C_VS_UI_SKILL::m_C_spk[sprID].IsInit())
 		{
-		case MSkillDomain::SKILLSTATUS_LEARNED:
-		{
-			if (sInfo.IsEnable() == false)
+			if (status == MSkillDomain::SKILLSTATUS_LEARNED)
 			{
-				if (sprID < C_VS_UI_SKILL::m_C_spk.GetSize() && C_VS_UI_SKILL::m_C_spk[sprID].IsInit())
+				if (sInfo.IsEnable() == false)
 					gpC_base->m_p_DDSurface_back->BltSpriteEffect(&p, &C_VS_UI_SKILL::m_C_spk[sprID]);
-			}
-			if (sInfo.IsPassive())
-			{
-				if (sprID < C_VS_UI_SKILL::m_C_spk.GetSize() && C_VS_UI_SKILL::m_C_spk[sprID].IsInit())
+				else if (sInfo.IsPassive())
 					gpC_base->m_p_DDSurface_back->BltSpriteColorSet(&p, &C_VS_UI_SKILL::m_C_spk[sprID], 315);
-			}
-			else
-			{
-				if (sprID < C_VS_UI_SKILL::m_C_spk.GetSize() && C_VS_UI_SKILL::m_C_spk[sprID].IsInit())
+				else
 					gpC_base->m_p_DDSurface_back->BltSprite(&p, &C_VS_UI_SKILL::m_C_spk[sprID]);
 			}
+			else if (bCanLearn)
+				gpC_base->m_p_DDSurface_back->BltSpriteColor(&p, &C_VS_UI_SKILL::m_C_spk[sprID], rgb_GREEN);
+			else
+				gpC_base->m_p_DDSurface_back->BltSpriteEffect(&p, &C_VS_UI_SKILL::m_C_spk[sprID]);
 		}
-		break;
-
-		default:
-		{
-			if (sInfo.SkillPoint <= g_char_slot_ingame.skill_point && sInfo.GetLearnLevel() <= g_char_slot_ingame.level)
-			{
-				if (sInfo.SkillTypeList.empty())
-					bCanLearn = true;
-				else
-				{
-					SKILLINFO_NODE::SKILLTYPE_LIST::iterator itr = sInfo.SkillTypeList.begin();
-					SKILLINFO_NODE::SKILLTYPE_LIST::iterator endItr = sInfo.SkillTypeList.end();
-
-					while (itr != endItr)
-					{
-						if ((*g_pSkillInfoTable)[*itr].GetSkillStep() == SKILL_STEP_OUSTERS_ETC && (*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)*itr) == MSkillDomain::SKILLSTATUS_LEARNED)
-						{
-							SKILLINFO_NODE::SKILLTYPE_LIST::iterator itr2 = (*g_pSkillInfoTable)[*itr].SkillTypeList.begin();
-							SKILLINFO_NODE::SKILLTYPE_LIST::iterator endItr2 = (*g_pSkillInfoTable)[*itr].SkillTypeList.end();
-							while (itr2 != endItr2)
-							{
-								if ((*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)*itr2) == MSkillDomain::SKILLSTATUS_LEARNED
-									&& sInfo.GetSkillStep() == (*g_pSkillInfoTable)[*itr2].GetSkillStep())
-								{
-									bCanLearn = true;
-									break;
-								}
-								itr2++;
-							}
-							if (bCanLearn)
-								break;
-						}
-						else
-						{
-							if ((*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)*itr) == MSkillDomain::SKILLSTATUS_LEARNED)
-							{
-								bCanLearn = true;
-								break;
-							}
-						}
-						itr++;
-					}
-				}
-
-				if (bCanLearn)
-				{
-					if (sprID < C_VS_UI_SKILL::m_C_spk.GetSize() && C_VS_UI_SKILL::m_C_spk[sprID].IsInit())
-						gpC_base->m_p_DDSurface_back->BltSpriteColor(&p, &C_VS_UI_SKILL::m_C_spk[sprID], rgb_GREEN);
-				}
-			}
-
-			if (bCanLearn == false)
-			{
-				if (sprID < C_VS_UI_SKILL::m_C_spk.GetSize() && C_VS_UI_SKILL::m_C_spk[sprID].IsInit())
-					gpC_base->m_p_DDSurface_back->BltSpriteEffect(&p, &C_VS_UI_SKILL::m_C_spk[sprID]);
-			}
-		}
-		break;
-		}
-		//Skill icon back
-		p.x -= 7; p.y -= 7;
-		//gpC_base->m_p_DDSurface_back->BltSprite(&p, &gpC_global_resource->m_pC_info_spk->GetSprite(C_GLOBAL_RESOURCE::OUSTERS_SKILL_BACK));
-
-		if (sInfo.GetLearnLevel() > 1)
-			gpC_base->m_p_DDSurface_back->BltSprite(&p, &gpC_global_resource->m_pC_info_spk->GetSprite(C_GLOBAL_RESOURCE::OUSTERS_SKILL_BACK_2));
-		else
-			gpC_base->m_p_DDSurface_back->BltSprite(&p, &gpC_global_resource->m_pC_info_spk->GetSprite(C_GLOBAL_RESOURCE::OUSTERS_SKILL_BACK));
-
-
 
 		m_pC_button_group->Show();
 
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 
-	SetDescScrollPos(m_pC_scroll_bar->GetScrollPos());
-
-	m_desc_y_distance = 5;	//��ũ�� �������� �ʴ� ���� ���� ShowDesc()�Լ��� �������� m_desc_y_distance ���� ���� �ٲ� �־�� �Ѵ�.
-	ShowDesc(x, y + 20);
-
-	m_pC_scroll_bar->Show(x, y);
+	// ShowDesc puts its own 18 back; this is only what clears the scroll
+	// position while the text still fits
+	m_desc_y_distance = 5;
+	ShowDesc(x, y);
 
 	if (g_FL2_GetDC())
 	{
-		int TempX = g_PrintColorStr(x + 30, y + 35, sInfo.GetHName(), gpC_base->m_chatting_pi, RGB_WHITE);
-
 		char szTemp[512];
-
-		const int exp_level = sInfo.GetExpLevel();
 
 		COLORREF color = RGB_WHITE;
 		DWORD shadow_color = RGB_BLACK;
 
-		//		SKILLINFO_NODE sInfo = (*g_pSkillInfoTable)[m_skillID];
+		// the name in the title bar, passive skills marked after it
+		const int title_y = y + (s_osi_bar_h - s_osi_title_h) / 2;
+		const int title_end = g_PrintColorStr(x + s_osi_title_x, title_y, sInfo.GetHName(), gpC_base->m_desc_menu_pi, RGB_WHITE);
+
 		if (sInfo.IsPassive())
 		{
-			color = RGB(150, 200, 255);
-			// 2004, 10, 20, sobeit modify start - 
-			//strcpy(szTemp, (*g_pGameStringTable)[UI_STRING_MESSAGE_HAN_PASSIVE].GetString());
-			//g_PrintColorStrShadow(x+100, y+86, szTemp, gpC_base->m_chatting_pi, color, shadow_color);
 			sprintf(szTemp, "(%s)", (*g_pGameStringTable)[UI_STRING_MESSAGE_HAN_PASSIVE].GetString());
-			g_PrintColorStrShadow(TempX + 10, y + 35, szTemp, gpC_base->m_chatting_pi, color, shadow_color);
-			// 2004, 10, 20, sobeit modify end
-
-//			if(g_char_slot_ingame.skill_point < sInfo.LevelUpPoint)
-//				color = RGB_GRAY;
-//			else
-//				color = RGB_WHITE;
-//			
-//			sprintf(szTemp,(*g_pGameStringTable)[UI_STRING_MESSAGE_REQUIRE_SKILL_POINT].GetString(), sInfo.LevelUpPoint );
-//			g_PrintColorStr(x+40, y+138, szTemp, gpC_base->m_chatting_pi, RGB_WHITE);
-//			
-//			sprintf(szTemp, (*g_pGameStringTable)[UI_STRING_MESSAGE_SKILL_LEVEL].GetString(), exp_level);					
+			g_PrintColorStr(title_end + 8, title_y, szTemp, gpC_base->m_desc_menu_pi, RGB(150, 200, 255));
 		}
+
+		const int prompt_x = x + s_osi_pad_x;
 
 		switch (status)
 		{
 		case MSkillDomain::SKILLSTATUS_LEARNED:
-		{
-			if (g_char_slot_ingame.skill_point < sInfo.LevelUpPoint)
-				color = RGB_GRAY;
-			else
-				color = RGB_WHITE;
+			color = (g_char_slot_ingame.skill_point < sInfo.LevelUpPoint) ? RGB_GRAY : RGB_WHITE;
 
 			if (m_bDownSkill)
 			{
-				g_PrintColorStr(x + 40, y + 142, (*g_pGameStringTable)[UI_STRING_MESSAGE_DESC_DOWN_SKILL].GetString(), gpC_base->m_chatting_pi, color);
-
+				g_PrintColorStr(prompt_x, y + s_osi_prompt_y, (*g_pGameStringTable)[UI_STRING_MESSAGE_DESC_DOWN_SKILL].GetString(), gpC_base->m_chatting_pi, color);
 				sprintf(szTemp, (*g_pGameStringTable)[UI_STRING_MESSAGE_WITHDRAW_POINT].GetString(), sInfo.LevelUpPoint);
-				g_PrintColorStr(x + 40, y + 158, szTemp, gpC_base->m_chatting_pi, RGB_WHITE);
 			}
 			else
 			{
-				g_PrintColorStr(x + 40, y + 142, (*g_pGameStringTable)[UI_STRING_MESSAGE_SKILL_LEVEL_UP].GetString(), gpC_base->m_chatting_pi, color);
-
+				g_PrintColorStr(prompt_x, y + s_osi_prompt_y, (*g_pGameStringTable)[UI_STRING_MESSAGE_SKILL_LEVEL_UP].GetString(), gpC_base->m_chatting_pi, color);
 				sprintf(szTemp, (*g_pGameStringTable)[UI_STRING_MESSAGE_REQUIRE_SKILL_POINT].GetString(), sInfo.LevelUpPoint);
-				g_PrintColorStr(x + 40, y + 158, szTemp, gpC_base->m_chatting_pi, RGB_WHITE);
 			}
-			sprintf(szTemp, (*g_pGameStringTable)[UI_STRING_MESSAGE_SKILL_LEVEL].GetString(), exp_level);
-		}
-		break;
+
+			g_PrintColorStr(prompt_x, y + s_osi_prompt_y + s_osi_line_h, szTemp, gpC_base->m_chatting_pi, RGB_WHITE);
+			break;
 
 		default:
-			if (sInfo.SkillPoint <= g_char_slot_ingame.skill_point && bCanLearn)
-				color = RGB_GREEN;
-			else
-				color = RGB_GRAY;
+			color = bCanLearn ? RGB_GREEN : RGB_GRAY;
 
-			sprintf(szTemp, (*g_pGameStringTable)[UI_STRING_MESSAGE_SKILL_LEVEL].GetString(), exp_level);
-			g_PrintColorStr(x + 40, y + 140, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEARN_SKILL].GetString(), gpC_base->m_chatting_pi, color);
+			g_PrintColorStr(prompt_x, y + s_osi_prompt_y, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEARN_SKILL].GetString(), gpC_base->m_chatting_pi, color);
 			sprintf(szTemp, (*g_pGameStringTable)[UI_STRING_MESSAGE_REQUIRE_SKILL_POINT].GetString(), sInfo.SkillPoint);
-			g_PrintColorStr(x + 40, y + 158, szTemp, gpC_base->m_chatting_pi, color);
-
-			sprintf(szTemp, (*g_pGameStringTable)[UI_STRING_MESSAGE_SKILL_LEVEL].GetString(), exp_level);
+			g_PrintColorStr(prompt_x, y + s_osi_prompt_y + s_osi_line_h, szTemp, gpC_base->m_chatting_pi, color);
 			break;
 		}
 
-		g_PrintColorStrShadow(x + 100, y + 66, szTemp, gpC_base->m_chatting_pi, color, shadow_color);
+		// the numbers beside the icon
+		const int stat_x = x + s_osi_icon_x + s_osi_icon_w + s_osi_icon_gap;
+		int stat_y = y + s_osi_icon_y;
 
-		// 200, 10, 20, sobeit add start
-		int line_gap = 0;
+		sprintf(szTemp, (*g_pGameStringTable)[UI_STRING_MESSAGE_SKILL_LEVEL].GetString(), sInfo.GetExpLevel());
+		g_PrintColorStrShadow(stat_x, stat_y, szTemp, gpC_base->m_chatting_pi, color, shadow_color);
+		stat_y += s_osi_line_h;
+
 		if (sInfo.GetLearnLevel() > 1)
 		{
 			sprintf(szTemp, (*g_pGameStringTable)[UI_STRING_LEARN_SKILL_LEVEL].GetString(), sInfo.GetLearnLevel());
-			g_PrintColorStr(x + 100, y + 82, szTemp, gpC_base->m_chatting_pi, color);
-			line_gap += 16;
+			g_PrintColorStr(stat_x, stat_y, szTemp, gpC_base->m_chatting_pi, color);
+			stat_y += s_osi_line_h;
 		}
 
-
-		// 200, 10, 20, sobeit add end		
 		if (sInfo.ElementalDomain == ITEMTABLE_INFO::ELEMENTAL_TYPE_FIRE ||
 			sInfo.ElementalDomain == ITEMTABLE_INFO::ELEMENTAL_TYPE_WATER ||
 			sInfo.ElementalDomain == ITEMTABLE_INFO::ELEMENTAL_TYPE_EARTH ||
@@ -4324,19 +4353,19 @@ void	C_VS_UI_OUSTERS_SKILL_INFO::Show()
 		{
 			int elemental_point[5] = { sInfo.Fire, sInfo.Water, sInfo.Earth, sInfo.Wind, sInfo.Sum };
 			sprintf(szTemp, (*g_pGameStringTable)[UI_STRING_MESSAGE_REQUIRE_ELEMENTAL_LEVEL].GetString(), (*g_pGameStringTable)[g_ELEMENTAL_STRING_ID[sInfo.ElementalDomain]].GetString(), elemental_point[sInfo.ElementalDomain]);
-			g_PrintColorStr(x + 100, y + 82 + line_gap, szTemp, gpC_base->m_chatting_pi, g_ELEMENTAL_COLOR[sInfo.ElementalDomain]);
-			line_gap += 16;
+			g_PrintColorStr(stat_x, stat_y, szTemp, gpC_base->m_chatting_pi, g_ELEMENTAL_COLOR[sInfo.ElementalDomain]);
+			stat_y += s_osi_line_h;
 		}
 
 		if (sInfo.CanDelete)
-			g_PrintColorStr(x + 100, y + 82 + line_gap, (*g_pGameStringTable)[UI_STRING_MESSAGE_CAN_SKILL_DELETE].GetString(), gpC_base->m_chatting_pi, RGB_GREEN);
+			g_PrintColorStr(stat_x, stat_y, (*g_pGameStringTable)[UI_STRING_MESSAGE_CAN_SKILL_DELETE].GetString(), gpC_base->m_chatting_pi, RGB_GREEN);
 		else
-			g_PrintColorStr(x + 100, y + 82 + line_gap, (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_SKILL_DELETE].GetString(), gpC_base->m_chatting_pi, RGB_RED);
-
+			g_PrintColorStr(stat_x, stat_y, (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_SKILL_DELETE].GetString(), gpC_base->m_chatting_pi, RGB_RED);
 
 		g_FL2_ReleaseDC();
 	}
 
+	ShowButtonLabels();
 }
 
 bool	C_VS_UI_OUSTERS_SKILL_INFO::MouseControl(UINT message, int _x, int _y)
@@ -4344,8 +4373,7 @@ bool	C_VS_UI_OUSTERS_SKILL_INFO::MouseControl(UINT message, int _x, int _y)
 	Window::MouseControl(message, _x, _y);
 
 	_x -= x; _y -= y;
-	bool re = m_pC_scroll_bar->MouseControl(message, _x, _y);
-	re &= m_pC_button_group->MouseControl(message, _x, _y);
+	bool re = m_pC_button_group->MouseControl(message, _x, _y);
 
 	switch (message)
 	{
@@ -4366,11 +4394,11 @@ bool	C_VS_UI_OUSTERS_SKILL_INFO::MouseControl(UINT message, int _x, int _y)
 		break;
 
 	case M_WHEEL_UP:
-		m_pC_scroll_bar->ScrollUp();
+		ScrollDescUp();
 		break;
 
 	case M_WHEEL_DOWN:
-		m_pC_scroll_bar->ScrollDown();
+		ScrollDescDown();
 		break;
 	}
 	return true;
@@ -4396,200 +4424,37 @@ bool	C_VS_UI_OUSTERS_SKILL_INFO::IsPixel(int _x, int _y)
 
 void	C_VS_UI_OUSTERS_SKILL_INFO::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	if (p_button->GetID() == ALPHA_ID)
+	// the arrows are there only while the text runs past its five rows
+	if (p_button->GetID() == SCROLL_UP_ID || p_button->GetID() == SCROLL_DOWN_ID)
 	{
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		if (GetAttributes()->alpha)
-		{
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD);
-		}
-		else
-		{
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED_OLD);
-		}
-#else
-		if (GetAttributes()->alpha)
-		{
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA);
-		}
-		else
-		{
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED);
-		}
-#endif //__080405_FIREST_UI_UPDATE
-	}
-	else if (p_button->GetID() == LEARN_ID)
-	{
-		MSkillDomain::SKILLSTATUS status = (*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)m_skillID);
+		if (CanScroll() == false)
+			return;
 
-		int sprID;
+		int sprID = p_button->m_image_index;
+
 		if (p_button->GetFocusState())
-		{
-			if (p_button->GetPressState())
-				sprID = p_button->m_image_index + 2;
-			else
-				sprID = p_button->m_image_index + 1;
-		}
-		else
-			sprID = p_button->m_image_index;
+			sprID += p_button->GetPressState() ? 2 : 1;
 
-		POINT p = { x + p_button->x, y + p_button->y };
-
-		switch (status)
-		{
-		case MSkillDomain::SKILLSTATUS_LEARNED:
-			if (m_bDownSkill)
-			{
-				bool bCanDown = false;
-
-				SKILLINFO_NODE sInfo = (*g_pSkillInfoTable)[m_skillID];
-				if ((sInfo.GetExpLevel() > 1 ||
-					(sInfo.CanDelete && sInfo.GetExpLevel() == 1))
-
-					//	&&(*g_pSkillManager)[SKILLDOMAIN_OUSTERS].IsAvailableDeleteSkill((ACTIONINFO)m_skillID)
-					/*&& sInfo.GetExpLevel() < 30*/)
-				{
-					bCanDown = true;
-				}
-
-				if (bCanDown)
-					gpC_base->m_p_DDSurface_back->BltSprite(&p, &gpC_global_resource->m_pC_info_spk->GetSprite(sprID));
-				else
-					gpC_base->m_p_DDSurface_back->BltSpriteEffect(&p, &gpC_global_resource->m_pC_info_spk->GetSprite(C_GLOBAL_RESOURCE::OUSTERS_DOWN_SKILL_BUTTON));
-			}
-			else
-			{
-				bool bCanLearn = false;
-				SKILLINFO_NODE sInfo = (*g_pSkillInfoTable)[m_skillID];
-				if (sInfo.LevelUpPoint <= g_char_slot_ingame.skill_point &&
-					sInfo.GetExpLevel() < 30
-					)
-				{
-					if (sInfo.SkillTypeList.empty())
-						bCanLearn = true;
-					else
-					{
-						SKILLINFO_NODE::SKILLTYPE_LIST::iterator itr = sInfo.SkillTypeList.begin();
-						SKILLINFO_NODE::SKILLTYPE_LIST::iterator endItr = sInfo.SkillTypeList.end();
-
-						while (itr != endItr)
-						{
-							if ((*g_pSkillInfoTable)[*itr].GetSkillStep() == SKILL_STEP_OUSTERS_ETC && (*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)*itr) == MSkillDomain::SKILLSTATUS_LEARNED)
-							{
-								SKILLINFO_NODE::SKILLTYPE_LIST::iterator itr2 = (*g_pSkillInfoTable)[*itr].SkillTypeList.begin();
-								SKILLINFO_NODE::SKILLTYPE_LIST::iterator endItr2 = (*g_pSkillInfoTable)[*itr].SkillTypeList.end();
-								while (itr2 != endItr2)
-								{
-									if ((*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)*itr2) == MSkillDomain::SKILLSTATUS_LEARNED
-										&& (sInfo.GetSkillStep() == (*g_pSkillInfoTable)[*itr2].GetSkillStep() || (*g_pSkillInfoTable)[*itr2].GetSkillStep() == SKILL_STEP_OUSTERS_ETC))
-									{
-										bCanLearn = true;
-										break;
-									}
-									itr2++;
-								}
-								if (bCanLearn)
-									break;
-							}
-							else
-							{
-								if ((*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)*itr) == MSkillDomain::SKILLSTATUS_LEARNED)
-								{
-									bCanLearn = true;
-									break;
-								}
-							}
-							itr++;
-						}
-					}
-
-					if (bCanLearn)
-					{
-						if (m_skillID == SKILL_FIRE_OF_SOUL_STONE || m_skillID == SKILL_ICE_OF_SOUL_STONE ||
-							m_skillID == SKILL_SAND_OF_SOUL_STONE || m_skillID == SKILL_BLOCK_HEAD ||
-							m_skillID == SKILL_ABSORB_SOUL || m_skillID == SKILL_SUMMON_SYLPH)
-							gpC_base->m_p_DDSurface_back->BltSpriteEffect(&p, &gpC_global_resource->m_pC_info_spk->GetSprite(C_GLOBAL_RESOURCE::OUSTERS_PLUS_BUTTON));
-						else
-							gpC_base->m_p_DDSurface_back->BltSprite(&p, &gpC_global_resource->m_pC_info_spk->GetSprite(sprID + 3));
-					}
-				}
-				if (!bCanLearn)
-					gpC_base->m_p_DDSurface_back->BltSpriteEffect(&p, &gpC_global_resource->m_pC_info_spk->GetSprite(C_GLOBAL_RESOURCE::OUSTERS_PLUS_BUTTON));
-			}
-			break;
-
-		default:
-			if (m_bDownSkill)
-			{
-				gpC_base->m_p_DDSurface_back->BltSpriteEffect(&p, &gpC_global_resource->m_pC_info_spk->GetSprite(C_GLOBAL_RESOURCE::OUSTERS_DOWN_SKILL_BUTTON));
-			}
-			else
-			{
-				bool bCanLearn = false;
-
-				SKILLINFO_NODE sInfo = (*g_pSkillInfoTable)[m_skillID];
-				if (sInfo.SkillPoint <= g_char_slot_ingame.skill_point && sInfo.GetLearnLevel() <= g_char_slot_ingame.level)
-				{
-					if (sInfo.SkillTypeList.empty())
-						bCanLearn = true;
-					else
-					{
-						SKILLINFO_NODE::SKILLTYPE_LIST::iterator itr = sInfo.SkillTypeList.begin();
-						SKILLINFO_NODE::SKILLTYPE_LIST::iterator endItr = sInfo.SkillTypeList.end();
-
-						while (itr != endItr)
-						{
-							if (*itr >= 0 && *itr < g_pSkillInfoTable->GetSize() &&
-								(*g_pSkillInfoTable)[*itr].GetSkillStep() == SKILL_STEP_OUSTERS_ETC &&
-								(*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)*itr) == MSkillDomain::SKILLSTATUS_LEARNED)
-							{
-								SKILLINFO_NODE::SKILLTYPE_LIST::iterator itr2 = (*g_pSkillInfoTable)[*itr].SkillTypeList.begin();
-								SKILLINFO_NODE::SKILLTYPE_LIST::iterator endItr2 = (*g_pSkillInfoTable)[*itr].SkillTypeList.end();
-								while (itr2 != endItr2)
-								{
-									if ((*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)*itr2) == MSkillDomain::SKILLSTATUS_LEARNED
-										&& (sInfo.GetSkillStep() == (*g_pSkillInfoTable)[*itr2].GetSkillStep() || (*g_pSkillInfoTable)[*itr2].GetSkillStep() == SKILL_STEP_OUSTERS_ETC))
-									{
-										bCanLearn = true;
-										break;
-									}
-									itr2++;
-								}
-								if (bCanLearn)
-									break;
-							}
-							else
-							{
-								if ((*g_pSkillManager)[SKILLDOMAIN_OUSTERS].GetSkillStatus((ACTIONINFO)*itr) == MSkillDomain::SKILLSTATUS_LEARNED)
-								{
-									bCanLearn = true;
-									break;
-								}
-							}
-							itr++;
-						}
-					}
-
-					if (bCanLearn)
-						gpC_base->m_p_DDSurface_back->BltSprite(&p, &gpC_global_resource->m_pC_info_spk->GetSprite(sprID));
-				}
-				if (!bCanLearn)
-					gpC_base->m_p_DDSurface_back->BltSpriteEffect(&p, &gpC_global_resource->m_pC_info_spk->GetSprite(C_GLOBAL_RESOURCE::OUSTERS_LEARN_BUTTON));
-			}
-			break;
-		}
-
+		m_SPK.BltLocked(x + p_button->x, y + p_button->y, sprID);
+		return;
 	}
-	else if (p_button->GetFocusState())
+
+	C_SPRITE_PACK* p_button_spk = gpC_global_resource->m_pC_assemble_box_button_renewal_spk;
+
+	// a skill that can't be learned, levelled up or lowered right now keeps its
+	// button, dimmed, the way the old art did
+	if (p_button->GetID() == LEARN_ID && CanPressLearn() == false)
 	{
-		if (p_button->GetPressState())
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET);
+		p_button_spk->BltLockedDarkness(x + p_button->x, y + p_button->y, p_button->m_image_index, 2);
+		return;
 	}
-	else
-		gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, p_button->m_image_index);
 
+	int sprID = p_button->m_image_index;
+
+	if (p_button->GetFocusState())
+		sprID += p_button->GetPressState() ? C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET : C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET;
+
+	p_button_spk->BltLocked(x + p_button->x, y + p_button->y, sprID);
 }
 
 void	C_VS_UI_OUSTERS_SKILL_INFO::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
@@ -4631,8 +4496,12 @@ void	C_VS_UI_OUSTERS_SKILL_INFO::Run(id_t id)
 {
 	switch (id)
 	{
-	case HELP_ID:
-		gC_vs_ui.RunDescDialog(DID_HELP, (void*)C_VS_UI_DESC_DIALOG::OUSTERS_SKILL_INFO);
+	case SCROLL_UP_ID:
+		ScrollDescUp();
+		break;
+
+	case SCROLL_DOWN_ID:
+		ScrollDescDown();
 		break;
 
 	case CLOSE_ID:
@@ -4765,15 +4634,22 @@ void	C_VS_UI_OUSTERS_SKILL_INFO::SetSkillID(int skillID)
 	std::string filename = (*g_pSkillInfoTable)[m_skillID].GetName();
 	filename += ".txt";
 
-	//	OutputDebugString(filename.c_str()) ;  
-	//	OutputDebugString("\n") ;  
+	// lay the text out in the font it is drawn in, or every line comes out
+	// wider than it was measured
+	SetDescPi(gpC_base->m_chatting_pi);
 
-	if (LoadDesc(filename.c_str(), 30, 5, false) == true)
-	{
-		SetDesc(50, 170, RGB_GRAY, gpC_base->m_chatting_pi);
-		m_pC_scroll_bar->SetPosMax(GetDescSize() - GetDescCol() + 1);
-	}
+	// the text runs the width of the card; LoadDesc counts its row in cells.
+	// Only a text too long for its five rows gives up the arrows' column.
+	const int cell = max(1, DescCellWidth());
+	const int full_w = w - s_osi_pad_x * 2;
+	const int scroll_w = w - s_osi_pad_x - s_osi_arrow_gap - m_SPK.GetWidth(s_osi_arrow_up) - s_osi_arrow_margin_x;
 
+	bool loaded = LoadDesc(filename.c_str(), full_w / cell, s_osi_desc_rows, false);
+	if (loaded && CanScroll())
+		loaded = LoadDesc(filename.c_str(), scroll_w / cell, s_osi_desc_rows, false);
+
+	if (loaded)
+		SetDesc(s_osi_pad_x, s_osi_desc_y, RGB_GRAY, gpC_base->m_chatting_pi);
 }
 
 

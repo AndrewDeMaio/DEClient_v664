@@ -11,15 +11,11 @@
 
 class C_VS_UI_TRIBE;
 int		C_VS_UI_VAMPIRE_GEAR::m_slot_image[SLOT_SIZE] = {
-	NECKLACE, COAT, BRACELET, BRACELET, RING, RING, RING, RING, EARRING, EARRING, WEAPON, WEAPON, AMULET, AMULET, AMULET, AMULET
-	,-1
-	,-1
-	,-1
-	,-1
-	,DERMIS,PERSONA
-	,-1// nanomech 2006.03.09 Item 수정 작업
-	,-1,-1	// Cue Of Adam
-	,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE,BLOODBIBLE
+	// MyInformation.spk frames, as DK Umbra's DarkEden.exe has them (0x8f8cd8)
+	52, 60, 62, 62, 53, 53, 53, 53,
+	61, 61, 57, 57, 63, 63, 63, 63,
+	-1, -1, -1, -1, 59, 58, -1, -1,
+	-1, 55, 55, 55, 55, 55, 55
 };
 
 
@@ -60,7 +56,7 @@ static S_DEFAULT_HELP_STRING	g_chat_help_string[5] = {
 //-----------------------------------------------------------------------------
 C_VS_UI_VAMPIRE::C_VS_UI_VAMPIRE():C_VS_UI_TRIBE()
 {
-	SetupMenuItems(SPK_VAMPIRE_MAIN, SPK_VAMPIRE_SYS_BUTTON);
+	SetupMenuItems();
 
 
 // 	int system_x = w-m_pC_main_spk->GetWidth(BUTTON_SYSTEM)-5, system_y = h-m_pC_main_spk->GetHeight(BUTTON_SYSTEM);
@@ -538,6 +534,7 @@ void C_VS_UI_VAMPIRE::Start()
 	//m_pC_Market->Start();
 	m_pC_effect_status->Start();
 	m_pC_minimap->Start();
+	m_pC_hotkey_bar->Start();
 
 	WindowEventReceiver(EVENT_WINDOW_MOVE);
 
@@ -551,56 +548,10 @@ void C_VS_UI_VAMPIRE::Start()
 //-----------------------------------------------------------------------------
 void C_VS_UI_VAMPIRE::ShowExp()
 {
-	//////////////////////////////////////////////////////////////////////////
-	// 뱀파 경험치
-	const int bar_x = 120, bar_y = 86, str_x = 58, num_x = 98, pure_x = 165, bar_gap = 14;
+	ShowSimpleExp(SIMPLE_EXP_Y, SIMPLE_EXP_LABEL_Y);
 
-	char sz_temp[100];
-	Rect rect;
-
-	if(gpC_base->m_p_DDSurface_back->Lock())
-	{
-		int exp_remain = g_char_slot_ingame.EXP_REMAIN;
-		__int64 goal_exp = g_pExperienceTable->GetVampireInfo( g_char_slot_ingame.level ).GoalExp;
-		int exp_width = m_pC_main_spk->GetWidth(EXP_BAR);
-		int exp_height = m_pC_main_spk->GetHeight(EXP_BAR);
-		int exp_bar = /*int((float)exp_width * ((float)exp_remain / (float)goal_exp));*/
-			exp_width * (goal_exp - exp_remain) / goal_exp;
-		
-		//exp bar
-		rect.Set(0, 0, exp_bar, exp_height);
-		
-		//exp bar
-		m_pC_main_spk->BltLocked(x+bar_x, y+bar_y, EXP_BACK);
-		m_pC_main_spk->BltLockedClip(x+bar_x+3, y+bar_y+3, rect, EXP_BAR);
-		
-		gpC_base->m_p_DDSurface_back->Unlock();
- 	}	
-	
 	g_FL2_GetDC();
-	
-	g_PrintColorStrShadow(x+str_x, y+bar_y+bar_gap*0, (*g_pGameStringTable)[UI_STRING_MESSAGE_DESC_LEVEL].GetString(), gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-	wsprintf(sz_temp, "%d", g_char_slot_ingame.level);
-	g_PrintColorStrShadow(x+num_x, y+bar_y+bar_gap*0, sz_temp, gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-
-	g_PrintColorStrShadow(x+str_x, y+bar_y+bar_gap*1+8, (*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_STR].GetString(), gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-	wsprintf(sz_temp, "%d/%d", g_char_slot_ingame.STR_CUR, g_char_slot_ingame.STR_MAX);
-	g_PrintColorStrShadow(x+num_x, y+bar_y+bar_gap*1+8, sz_temp, gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-	wsprintf(sz_temp, "%d", g_char_slot_ingame.STR_PURE);
-	g_PrintColorStrShadow(x+pure_x, y+bar_y+bar_gap*1+8, sz_temp, gpC_base->m_chatting_pi, RGB_GRAY, RGB_BLACK);
-		
-	g_PrintColorStrShadow(x+str_x, y+bar_y+bar_gap*2+8, (*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_DEX].GetString(), gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-	wsprintf(sz_temp, "%d/%d", g_char_slot_ingame.DEX_CUR, g_char_slot_ingame.DEX_MAX);
-	g_PrintColorStrShadow(x+num_x, y+bar_y+bar_gap*2+8, sz_temp, gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-	wsprintf(sz_temp, "%d", g_char_slot_ingame.DEX_PURE);
-	g_PrintColorStrShadow(x+pure_x, y+bar_y+bar_gap*2+8, sz_temp, gpC_base->m_chatting_pi, RGB_GRAY, RGB_BLACK);
-		
-	g_PrintColorStrShadow(x+str_x, y+bar_y+bar_gap*3+8, (*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_INT].GetString(), gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-	wsprintf(sz_temp, "%d/%d", g_char_slot_ingame.INT_CUR, g_char_slot_ingame.INT_MAXX);
-	g_PrintColorStrShadow(x+num_x, y+bar_y+bar_gap*3+8, sz_temp, gpC_base->m_chatting_pi, RGB_WHITE, RGB_BLACK);
-	wsprintf(sz_temp, "%d", g_char_slot_ingame.INT_PURE);
-	g_PrintColorStrShadow(x+pure_x, y+bar_y+bar_gap*3+8, sz_temp, gpC_base->m_chatting_pi, RGB_GRAY, RGB_BLACK);
-
+	ShowSimpleStats(SIMPLE_VAMPIRE_STAT_Y);
 	g_FL2_ReleaseDC();
 
 	SHOW_WINDOW_ATTR;
@@ -976,42 +927,43 @@ C_VS_UI_VAMPIRE_GEAR::C_VS_UI_VAMPIRE_GEAR()
 	
 //	if(g_char_slot_ingame.m_AdvancementLevel== 0)// 2차전직 bycsm 2004.12.31
 //	{
-		m_slot_rect[SN_NECKLACE].Set(108, 14, 30, 30);
-		m_slot_rect[SN_COAT].Set(91, 105, 60, 90);
-		m_slot_rect[SN_BRACELET1].Set(56, 167, 30, 30);
-		m_slot_rect[SN_BRACELET2].Set(158, 167, 30, 30);
-		m_slot_rect[SN_RING1].Set(56, 198, 30, 30);
-		m_slot_rect[SN_RING2].Set(90, 198, 30, 30);
-		m_slot_rect[SN_RING3].Set(124, 198, 30, 30);
-		m_slot_rect[SN_RING4].Set(158, 198, 30, 30);
-		m_slot_rect[SN_EARRING1].Set(57, 14, 30, 30);
-		m_slot_rect[SN_EARRING2].Set(159, 14, 30, 30);
-		m_slot_rect[SN_LEFTHAND].Set (26, 105, 60, 60);
-		m_slot_rect[SN_RIGHTHAND].Set(159, 105, 60, 60);
-		m_slot_rect[SN_AMULET1].Set(56, 230, 30, 30); 
-		m_slot_rect[SN_AMULET2].Set(90, 230, 30, 30);
-		m_slot_rect[SN_AMULET3].Set(125, 230, 30, 30);
-		m_slot_rect[SN_AMULET4].Set(158, 230, 30, 30);
-		m_slot_rect[SN_COREZAP1].Set(55, 198, 30, 30);
-		m_slot_rect[SN_COREZAP2].Set(89, 198, 30, 30);
-		m_slot_rect[SN_COREZAP3].Set(123, 198, 30, 30);
-		m_slot_rect[SN_COREZAP4].Set(158, 198, 30, 30);
+		// DK Umbra's slot frames (DarkEden.exe 0x728980), drawn closer together for the narrower window
+		m_slot_rect[SN_NECKLACE].Set(131, 119, 36, 36);
+		m_slot_rect[SN_COAT].Set(116, 165, 66, 96);
+		m_slot_rect[SN_BRACELET1].Set(71, 180, 36, 36);
+		m_slot_rect[SN_BRACELET2].Set(190, 180, 36, 36);
+		m_slot_rect[SN_RING1].Set(30, 390, 36, 36);
+		m_slot_rect[SN_RING2].Set(71, 390, 36, 36);
+		m_slot_rect[SN_RING3].Set(190, 390, 36, 36);
+		m_slot_rect[SN_RING4].Set(231, 390, 36, 36);
+		m_slot_rect[SN_EARRING1].Set(88, 73, 36, 36);
+		m_slot_rect[SN_EARRING2].Set(173, 73, 36, 36);
+		m_slot_rect[SN_LEFTHAND].Set(41, 226, 66, 66);
+		m_slot_rect[SN_RIGHTHAND].Set(190, 226, 66, 66);
+		m_slot_rect[SN_AMULET1].Set(30, 431, 36, 36); 
+		m_slot_rect[SN_AMULET2].Set(71, 431, 36, 36);
+		m_slot_rect[SN_AMULET3].Set(190, 431, 36, 36);
+		m_slot_rect[SN_AMULET4].Set(231, 431, 36, 36);
+		m_slot_rect[SN_COREZAP1].Set(30, 390, 36, 36);
+		m_slot_rect[SN_COREZAP2].Set(71, 390, 36, 36);
+		m_slot_rect[SN_COREZAP3].Set(190, 390, 36, 36);
+		m_slot_rect[SN_COREZAP4].Set(231, 390, 36, 36);
 
-		m_slot_rect[SN_DERMIS].Set(159, 45, 60, 60);
-		m_slot_rect[SN_PERSONA].Set(26, 45, 60, 60);
+		m_slot_rect[SN_DERMIS].Set(219, 73, 66, 66);
+		m_slot_rect[SN_PERSONA].Set(12, 73, 66, 66);
 
 		// nanomech 2006.03.09 Item 수정 작업
-		m_slot_rect[SN_NECK_CHAIN].Set(106, 14, 30, 30);// 에테리얼 체인
+		m_slot_rect[SN_NECK_CHAIN].Set(131, 119, 36, 36);// 에테리얼 체인
 
-		m_slot_rect[SN_CUEOFADAM1].Set(56, 167, 30, 30);
-		m_slot_rect[SN_CUEOFADAM2].Set(158, 167, 30, 30);
+		m_slot_rect[SN_CUEOFADAM1].Set(71, 180, 36, 36);
+		m_slot_rect[SN_CUEOFADAM2].Set(190, 180, 36, 36);
 
-		m_slot_rect[SN_BLOODBIBLE1].Set(23, 263, 30, 30);
-		m_slot_rect[SN_BLOODBIBLE2].Set(57, 263, 30, 30);
-		m_slot_rect[SN_BLOODBIBLE3].Set(91, 263, 30, 30);
-		m_slot_rect[SN_BLOODBIBLE4].Set(125, 263, 30, 30);
-		m_slot_rect[SN_BLOODBIBLE5].Set(159, 263, 30, 30);
-		m_slot_rect[SN_BLOODBIBLE6].Set(193, 263, 30, 30);
+		m_slot_rect[SN_BLOODBIBLE1].Set(40, 480, 36, 36);
+		m_slot_rect[SN_BLOODBIBLE2].Set(76, 480, 36, 36);
+		m_slot_rect[SN_BLOODBIBLE3].Set(112, 480, 36, 36);
+		m_slot_rect[SN_BLOODBIBLE4].Set(148, 480, 36, 36);
+		m_slot_rect[SN_BLOODBIBLE5].Set(184, 480, 36, 36);
+		m_slot_rect[SN_BLOODBIBLE6].Set(220, 480, 36, 36);
 
 		m_slot_size = SLOT_SIZE;
 

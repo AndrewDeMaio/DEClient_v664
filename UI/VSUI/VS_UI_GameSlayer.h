@@ -175,6 +175,7 @@ public:
 	void	InitHotKey(HOTKEY hotkey) ;
 	int		GetFocusedSlot()	;
 	int		GetSlot(HOTKEY hotkey) ; 
+	friend class C_VS_UI_HOTKEY_BAR;	// reads m_Hotkey_buf and GetPocketCount
 	int		GetHotkey(int	slot) ;
 
 };

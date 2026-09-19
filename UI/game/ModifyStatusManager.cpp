@@ -766,6 +766,10 @@ ModifyStatusManager::Function_MODIFY_BONUS_POINT(void* pVoid)
 	{
 		UI_LevelUp();
 	}
+	else
+	{
+		UI_FinishLevelUp();	// no point left: the button goes away
+	}
 
 	UI_SetBonusPoint( value );
 

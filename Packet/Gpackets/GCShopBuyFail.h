@@ -63,7 +63,7 @@ public :
 	void write(SocketOutputStream & oStream) const;
 	void execute(Player* pPlayer);
 	PacketID_t getPacketID() const { return PACKET_GC_SHOP_BUY_FAIL; }
-	size_t getPacketSize() const { return szObjectID;}
+	size_t getPacketSize() const { return szObjectID + szBYTE + szuint; }	// ObjectID, Code, Amount: what read() takes
 
 	#ifdef __DEBUG_OUTPUT__
 		std::string getPacketName() const { return "GCShopBuyFail"; }
@@ -99,7 +99,7 @@ public:
 	#endif
 
 	PacketID_t getPacketID() const { return Packet::PACKET_GC_SHOP_BUY_FAIL; }
-	PacketSize_t getPacketMaxSize() const { return szObjectID; }
+	PacketSize_t getPacketMaxSize() const { return szObjectID + szBYTE + szuint; }
 };
 
 //////////////////////////////////////////////////////////////////////////////

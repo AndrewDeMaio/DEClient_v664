@@ -1390,6 +1390,7 @@ MCreatureWear::RemoveEffectStatus(EFFECTSTATUS status)
 		//------------------------------------------------------------
 		case EFFECTSTATUS_GUN_SHOT_GUIDANCE_AIM :
 		case EFFECTSTATUS_SATELLITE_BOMB_AIM :
+		case EFFECTSTATUS_SATELLITE_BOMB_AIM_2 :
 			if (m_bAlive)
 			{
 				SetStop();
@@ -1798,6 +1799,13 @@ MCreatureWear::UpdateAttachEffect()
 		{
 			if(!(  GetAction() == ACTION_SLAYER_SWORD_2 || GetAction() == ACTION_SLAYER_SWORD_2_SLOW || GetAction() == ACTION_SLAYER_SWORD_2_FAST ) 
 				&& m_RepeatCount <= 0 )
+			{
+				pEffect->SetCount(0);
+			}
+		}
+		else if (pEffect->GetEffectSpriteType() >= EFFECTSPRITETYPE_TEMP2298 && pEffect->GetEffectSpriteType() <= EFFECTSPRITETYPE_TEMP2303)	// Lar Stroke: gone once walking
+		{
+			if (GetAction() == ACTION_MOVE || GetAction() == ACTION_SLAYER_MOTOR_MOVE)
 			{
 				pEffect->SetCount(0);
 			}

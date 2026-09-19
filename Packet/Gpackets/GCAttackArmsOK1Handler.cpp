@@ -87,7 +87,7 @@ void GCAttackArmsOK1Handler::execute ( GCAttackArmsOK1 * pPacket , Player * pPla
 				MActionResult* pResult = new MActionResult;
 
 				if( pPacket->getSkillType() == SKILL_JABBING_VEIN || pPacket->getSkillType() == SKILL_MOLE_SHOT ||
-					pPacket->getSkillType() == SKILL_TRIDENT || pPacket->getSkillType() == SKILL_QUICK_FIRE || 
+					pPacket->getSkillType() == SKILL_TRIDENT || pPacket->getSkillType() == SKILL_GAE_BULGA || pPacket->getSkillType() == SKILL_QUICK_FIRE || 
 					pPacket->getSkillType() == SKILL_ULTIMATE_BLOW  || pPacket->getSkillType() == SKILL_HARPOON_BOMB)
 				{
 					pResult->Add( new MActionResultNodeActionInfo( 

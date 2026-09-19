@@ -230,7 +230,7 @@
 #define __2008_NEW_YEAR_EVENT				__OFF
 #define __2008_FIRST_CHARGE_ITEM			__OFF	// 2008 first paid item
 #define __DSG_EFFECT						__ON
-#define __GEAR_SWAP_CHANGE					__OFF	// Dual equip window
+#define __GEAR_SWAP_CHANGE					__ON	// Dual equip window (gear set I/II); DEServer wire fields restored to match 2026-09-17
 #define __2008_WHITEDAY_LOVECANDY			__OFF	// 2008 White Day item
 #define __080327_ORDINIS_VAPOR				__ON	// 2008 rank experience hourglass
 #define __PAYZONE_PASS_TICKET				__OFF
@@ -249,7 +249,7 @@
 #define __2008_JUNE_EVENT_EX_STONE			__OFF	// Experience stone event (Friday the 13th)
 #define __CREATURE_INDEX_BLANK_SUCCESS		__ON	// Fixes the empty-index error when two people edit creature contents at once.
 #define __NEW_ADVANCEMENT_ITEM				__OFF	// New advancement item
-#define __TUNING_ITEM						__OFF	// Tuning item
+#define __TUNING_ITEM						__ON	// Tuning item
 #define __JAPAN_REVERSE_DEVELOP				__ON	// Japan item reverse development
 #define __CHINESE_UI						__OFF	// Apply Chinese font enlargement and UI changes
 #define __JAPAN_UI							__OFF	// Japan UI

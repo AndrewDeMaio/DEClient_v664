@@ -50,6 +50,16 @@ void GCShopBuyFailHandler::execute ( GCShopBuyFail * pPacket , Player * pPlayer 
 			break;
 */
 			//pPacket->getAmount()	// ������ ����
+		// The block above went dark when three of its string IDs were dropped,
+		// which left every failure saying "You do not have that item." These
+		// two still exist.
+		case GC_SHOP_BUY_FAIL_NOT_ENOUGH_MONEY:
+			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_BUY_NO_MONEY].GetString() );
+			break;
+
+		case GC_SHOP_BUY_FAIL_NOT_ENOUGH_SPACE:
+			g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[STRING_MESSAGE_CANNOT_BUY_NO_SPACE].GetString() );
+			break;
 		case GC_SHOP_BUY_FAIL_NOT_ENOUGH_BLACK_STAR :
 		case GC_SHOP_BUY_FAIL_NOT_ENOUGH_RED_STAR :
 		case GC_SHOP_BUY_FAIL_NOT_ENOUGH_BLUE_STAR :

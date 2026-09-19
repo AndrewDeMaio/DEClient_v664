@@ -686,6 +686,7 @@ public:
 	// 2004, 6, 14 sobeit add end
 	// 2004, 6, 15 sobeit add start
 	bool	IsRunningGearWindow() const;
+	void	OpenGearWindow();
 	void	Change_Custom_Naming(int nID, char* szName);
 	// 2004, 6, 15 sobeit add end
 	// 2004, 6, 16 sobeit add start

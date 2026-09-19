@@ -53,7 +53,7 @@ void GCAttackArmsOK4Handler::execute ( GCAttackArmsOK4 * pPacket , Player * pPla
 	//------------------------------------------------------
 	
 	if( pPacket->getSkillType() == SKILL_JABBING_VEIN || pPacket->getSkillType() == SKILL_MOLE_SHOT ||
-					pPacket->getSkillType() == SKILL_TRIDENT || pPacket->getSkillType() == SKILL_QUICK_FIRE ||
+					pPacket->getSkillType() == SKILL_TRIDENT || pPacket->getSkillType() == SKILL_GAE_BULGA || pPacket->getSkillType() == SKILL_QUICK_FIRE ||
 					pPacket->getSkillType() == SKILL_ULTIMATE_BLOW || pPacket->getSkillType() == SKILL_HARPOON_BOMB)
 	{
 		pTargetCreature->PacketSpecialActionResult( 

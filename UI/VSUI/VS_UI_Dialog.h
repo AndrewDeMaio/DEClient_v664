@@ -217,6 +217,10 @@ protected:
 
 	int	GetButtonGap() const;
 	bool						m_bOkOnly;
+	bool						m_bRenewal;			// DK Umbra's frame and buttons
+	C_SPRITE_PACK*				DialogButtonSpk() const;
+	void						ShowRenewalButton(C_VS_UI_EVENT_BUTTON* p_button);
+	void						ShowRenewalButtonLabels();
 protected:
 	void	CancelPushState();
 	void	UnacquireMouseFocus();

@@ -122,6 +122,7 @@ MFakeCreature::MFakeCreature()
 	m_nextMoveTime = timeGetTime()+(rand()%8+3)*1000;
 	m_PatrolCount = rand()%5+1;
 
+	m_FakeMinFrame = 0;
 	m_TurretDelay = 0;
 	m_WildWolf_Mode = 0;
 	m_IsEatCorps = false;
@@ -379,6 +380,7 @@ MFakeCreature::Action()
 		|| HasEffectStatus(EFFECTSTATUS_GLACIER)
 		|| HasEffectStatus(EFFECTSTATUS_LOSE_SIGHT)
 		|| HasEffectStatus(EFFECTSTATUS_STUN)
+		|| HasEffectStatus(EFFECTSTATUS_CHAIN_OF_DEMON)
 		|| HasEffectStatus(EFFECTSTATUS_CURSE_OF_BLOOD)
 		|| HasEffectStatus(EFFECTSTATUS_FREEZE))
 	{			
@@ -590,6 +592,19 @@ MFakeCreature::SetFakeCreatureFastMoveAction(TYPE_SECTORPOSITION sX, TYPE_SECTOR
 	m_TraceID = targetID;
 }
 
+//----------------------------------------------------------------------
+// Set FakeMinFrame
+//----------------------------------------------------------------------
+// Bat Breaker: its clones stay while their claw plays, however short
+// their own action is (SkillBatBreakerShadows).
+//----------------------------------------------------------------------
+void
+MFakeCreature::SetFakeMinFrame(DWORD frames)
+{
+	m_FakeMinFrame = g_CurrentFrame + frames;
+}
+
+
 
 //----------------------------------------------------------------------
 // Set FakePosition
@@ -696,6 +711,12 @@ MFakeCreature::UpdateFake()
 bool
 MFakeCreature::IsFakeEnd()
 {
+	// Bat Breaker: its clones stay while their claw plays
+	if (g_CurrentFrame < m_FakeMinFrame)
+	{
+		return false;
+	}
+
 	switch (m_FakeCreatureType)
 	{
 		case FAKE_CREATURE_FADE_ACTION :

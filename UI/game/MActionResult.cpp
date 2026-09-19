@@ -179,6 +179,7 @@ MActionResultNodeActionInfo::Execute()
 		break;
 #endif //__ONIBLA
 	case SKILL_BLAZE_WALK :
+	case SKILL_BLAZE_WALK_2 :
 		resultActionInfo = SKILL_BLAZE_WALK_ATTACK + (*g_pActionInfoTable).GetMinResultActionInfo();
 		break;
 	}

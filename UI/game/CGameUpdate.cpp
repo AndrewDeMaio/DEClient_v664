@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // CGameUpdate.cpp
 //-----------------------------------------------------------------------------
-// ���� ������ �����ϴ� �κ�
+// ???? ?????? ??????? ???
 //-----------------------------------------------------------------------------
 #include "Client_PCH.h"
 #pragma warning(disable:4786)
@@ -84,7 +84,7 @@ extern bool	g_bTestMode;
 
 extern bool g_bZoneSafe;
 
-// ����...
+// ????...
 extern void	SetWatchMode( bool );
 extern bool g_bWatchMode;
 
@@ -109,7 +109,7 @@ extern char	g_CWD[_MAX_PATH];
 	extern int g_tempY;
 #endif
 
-// update loop�� ���� debug message�� ����ұ� ����?
+// update loop?? ???? debug message?? ?????? ?????
 #if defined(OUTPUT_DEBUG) //&& defined(_DEBUG)
 	#ifdef __METROTECH_TEST__
 //		#define	OUTPUT_DEBUG_UPDATE_LOOP	
@@ -177,10 +177,10 @@ CGameUpdate::Init()
 {
 	g_bPreviousMove = false;
 
-	// mouse event ó��
+	// mouse event �??
 	g_pDXInput->SetMouseEventReceiver( DXMouseEvent );
 	
-	// keyboard event ó��
+	// keyboard event �??
 	g_pDXInput->SetKeyboardEventReceiver( DXKeyboardEvent ); 
 }
 
@@ -202,9 +202,9 @@ CGameUpdate::DXMouseEvent(CDirectInput::E_MOUSE_EVENT event, int x, int y, int z
 	switch (event)
 	{
 			case CDirectInput::LEFTDOWN :
-				// 2008. 10. 02 "�����̾� ���޾�����" ����Ŭ��ó�� ���Ͽ� �Ʒ��ڵ带 ���� ������. ij-ch
+				// 2008. 10. 02 "??????? ?????????" ???????�?? ????? ?????? ???? ??????. ij-ch
 				// Start
-#if __CONTENTS(__PREMIUM_GIVE_ITEM_UI) // �Ʒ���ƾ�� ������ �������� �ƴ϶�, �ּ�ó���� �ڵ忴��.
+#if __CONTENTS(__PREMIUM_GIVE_ITEM_UI) // ???????? ?????? ???????? ????, ???�???? ?????.
 				if ((DWORD)abs(GetTickCount() - last_click_time) <= g_double_click_time)
 				{
 					if (g_x>= double_click_x-1 && g_x <= double_click_x+1 &&
@@ -245,9 +245,9 @@ CGameUpdate::DXMouseEvent(CDirectInput::E_MOUSE_EVENT event, int x, int y, int z
 				}
 
 				//---------------------------------------------------------
-				// Minimap�� Ŭ���ϸ� �������� �̵��Ѵ�.
+				// Minimap?? ?????? ???????? ??????.
 				//---------------------------------------------------------
-				/* // 2001.7.14 �ּ�ó��
+				/* // 2001.7.14 ???�??
 				if (g_pDXInput->KeyDown(DIK_RCONTROL) && g_pUserOption->DrawMinimap)
 				{
 					int x = g_x - (800 - 256) * g_pZone->GetWidth() / 256;
@@ -274,7 +274,7 @@ CGameUpdate::DXMouseEvent(CDirectInput::E_MOUSE_EVENT event, int x, int y, int z
 				}
 
 				//---------------------------------------------------------
-				// Chattingâ�� extra input
+				// Chatting�?? extra input
 				//---------------------------------------------------------
 				gC_vs_ui.ChatMouseControlExtra( M_LEFTBUTTON_DOWN, g_x, g_y );
 				*/
@@ -282,7 +282,7 @@ CGameUpdate::DXMouseEvent(CDirectInput::E_MOUSE_EVENT event, int x, int y, int z
 			break;
 
 			case CDirectInput::RIGHTUP :
-				// ���� ����� �� ����
+				// ???? ????? ?? ????
 				gC_vs_ui.EndInstallMineProgress();
 				//gC_vs_ui.EndCreateMineProgress();
 				//gC_vs_ui.EndCreateBombProgress();
@@ -290,9 +290,9 @@ CGameUpdate::DXMouseEvent(CDirectInput::E_MOUSE_EVENT event, int x, int y, int z
 
 			//case CDirectInput::RIGHTDOWN :
 				//---------------------------------------------------------
-				// Chattingâ�� extra input
+				// Chatting�?? extra input
 				//---------------------------------------------------------
-				// 2001.7.14 �ּ�ó��
+				// 2001.7.14 ???�??
 				//gC_vs_ui.ChatMouseControlExtra( M_RIGHTBUTTON_DOWN, g_x, g_y );
 			//break;
 
@@ -324,7 +324,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 	
 	if (event==CDirectInput::KEYDOWN)
 	{
-		if(key == 0xcc) return;		// �̰� ����-_-?;;
+		if(key == 0xcc) return;		// ??? ????-_-?;;
 				
 		gC_vs_ui.DIKeyboardControl(event, key);
 	
@@ -332,13 +332,13 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 		{	
 //			__BEGIN_HELP_EVENT
 //				case DIK_LMENU :
-//					// [����] alt������
+//					// [????] alt??????
 //				
 //					ExecuteHelpEvent( HE_PRESSED_ALT );					
 //				break;
 //			__END_HELP_EVENT				
 
-// ���� �̰�-_-?;;; Ȥ�� ? �ƴѵ�-_-;
+// ???? ???-_-?;;; ??? ? ????-_-;
 //			case DIK_F10 :
 //				gC_vs_ui.HotKey_F10();
 //			break;
@@ -402,7 +402,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 					}
 					*/
 					/*
-					// �ӽ�...
+					// ???...
 					g_TempInformation.Value2 = SKILL_DOUBLE_IMPACT;
 
 					if (g_TempInformation.Mode==TempInformation::MODE_SKILL_LEARN)
@@ -410,7 +410,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 						#ifdef CONNECT_SERVER
 							CGLearnSkill _CGLearnSkill;
 
-							// temp information�� ����� ���� �б�
+							// temp information?? ????? ???? ???
 							_CGLearnSkill.setSkillDomainType( g_TempInformation.Value1 );
 							_CGLearnSkill.setSkillType( g_TempInformation.Value2 );
 							
@@ -448,17 +448,17 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 					//
 					//---------------------------------------------------
 					//---------------------------------------------------
-					// UI�� �˸�...
+					// UI?? ???...
 					//---------------------------------------------------
 					//
 					// [ TEST CODE ]
 					//
-					// UI���� ���õ� ���
+					// UI???? ???�? ???
 					/*
 					g_PCTalkBox.SetAnswerID( rand()%g_PCTalkBox.size() );
 
 					//---------------------------------------------------
-					// server�� �˸�
+					// server?? ???
 					//---------------------------------------------------
 					#ifdef CONNECT_SERVER
 						CGNPCAskAnswer _CGNPCAskAnswer;
@@ -510,7 +510,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 						}
 						else
 						{
-							// 5�� ���� �¿� �ܻ�
+							// 5?? ???? ?�? ???
 							g_pPlayer->AddEffectStatus( EFFECTSTATUS_FADE_OUT, 5*1000 );
 						}
 					}
@@ -566,14 +566,14 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 			*/
 
 			//------------------------------------
-			// ȿ���� on/off
+			// ????? on/off
 			//------------------------------------
 			/*
 			case DIK_E : 
 				if (g_pDXInput->KeyDown(DIK_LCONTROL) || g_pDXInput->KeyDown(DIK_RCONTROL))
 				{
 					//------------------------------------
-					// �������̸�.. �ߴ�..
+					// ?????????.. ???..
 					//------------------------------------
 					if (g_pUserOption->PlaySound)
 					{
@@ -598,13 +598,13 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 			*/
 
 			//------------------------------------
-			// ��� ���� on/off
+			// ??? ???? on/off
 			//------------------------------------
 			/*
 			case DIK_B : 
 				#ifdef OUTPUT_DEBUG
 					//------------------------------------
-					// ���� ���� test
+					// ???? ???? test
 					//------------------------------------
 					if (g_pDXInput->KeyDown(DIK_LMENU) || g_pDXInput->KeyDown(DIK_RMENU))
 					{
@@ -624,22 +624,22 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 						}
 
 						//--------------------------------------------------
-						// ���� ���� test
+						// ???? ???? test
 						//--------------------------------------------------								
 						ExecuteActionInfoFromMainNode(
-							RESULT_MAGIC_TRANSFORM_TO_BAT,										// ��� ��� ��ȣ
+							RESULT_MAGIC_TRANSFORM_TO_BAT,										// ??? ??? ???
 						
 							g_pPlayer->GetX(), g_pPlayer->GetY(), 0,
-							g_pPlayer->GetDirection(),														// ��� ����
+							g_pPlayer->GetDirection(),														// ??? ????
 							
-							OBJECTID_NULL,												// ��ǥ�� ���� ����
+							OBJECTID_NULL,												// ????? ???? ????
 							g_pPlayer->GetX(), g_pPlayer->GetY(), 0, 
 							
-							0,													// ����� (����) ���� �ð�		
+							0,													// ????? (????) ???? ?�?		
 							
 							pResult, //NULL,
 							
-							false);			// ��� ÷���� �����Ѵ�.
+							false);			// ??? �???? ???????.
 
 						g_pPlayer->SetDelay( 1000 );
 					}
@@ -657,7 +657,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 					//}
 					
 					//------------------------------------
-					// �������̸�.. �ߴ�..
+					// ?????????.. ???..
 					//------------------------------------
 					if (g_pUserOption->PlayWaveMusic)
 					{
@@ -671,7 +671,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 							}
 						}
 						//------------------------------------
-						// �ƴϸ�.. �ٽ� play
+						// ????.. ??? play
 						//------------------------------------
 						else 
 						{
@@ -692,7 +692,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 							}
 						}
 						//------------------------------------
-						// �ƴϸ�.. �ٽ� play
+						// ????.. ??? play
 						//------------------------------------
 						else 
 						{
@@ -721,7 +721,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 				{
 					//(*g_pUserOption).DrawInterface = !(*g_pUserOption).DrawInterface;
 
-					// ���� ����.
+					// ???? ????.
 					//(*g_pUIDialog).PopupHelpDlg();
 				}
 			break;
@@ -790,7 +790,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 						DEBUG_ADD_FORMAT("[Execute] %s", _GCAddEffect.toString().c_str());
 						_GCAddEffect.execute( g_pSocket );
 						*/
-						//gC_vs_ui.RunTimeCount(15, "Ÿ�̸� �׽�Ʈ��");
+						//gC_vs_ui.RunTimeCount(15, "�??? ??????");
 
 
 // 						for(int i = 0; i < 100; ++i)
@@ -823,7 +823,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 
 					//------------------------------------------------------------
 					//
-					// ��� ��� - packet �׽�Ʈ�� ���ؼ�
+					// ??? ??? - packet ?????? ?????
 					//
 					//------------------------------------------------------------
 					case DIK_L : 
@@ -838,15 +838,15 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 
 								if (pCreature!=g_pPlayer)
 								{
-									// ��� ���
-									// ��� ����
+									// ??? ???
+									// ??? ????
 									//int targetID;						
 										
 									//int nth;
 									
 									MZone::CREATURE_MAP::const_iterator iCreature2;
 
-									// ��� ����
+									// ??? ????
 								
 									/*if (rand()%2==0)
 									{
@@ -932,7 +932,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 									}
 									else
 									{
-										// ��� ����
+										// ??? ????
 										nth = rand()%g_pZone->GetCreatureNumber();
 
 										iCreature2 = g_pZone->GetCreatureBegin();
@@ -985,9 +985,9 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 ////							g_pMP3->Open("data\\music\\blood.mp3");
 ////							g_pMP3->Play( true );
 ////							g_bTestMusic = false;
-////							g_pSystemMessage->Add("Blood.mp3 �� �����մϴ�");							
+////							g_pSystemMessage->Add("Blood.mp3 ?? ????????");							
 //						}
-//						// ALT + 1  --> ���� �ӵ� Slow
+//						// ALT + 1  --> ???? ??? Slow
 					//	if(g_pDXInput->KeyDown(DIK_LCONTROL))
 					//	{ 
 							
@@ -1071,7 +1071,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //								event.eventType = EVENTTYPE_ZONE;
 //								event.eventFlag = EVENTFLAG_CLOUD_BACKGROUND;
 //								event.parameter3 = 2;
-//								event.eventDelay =60000; // 5 ��
+//								event.eventDelay =60000; // 5 ??
 //								g_pEventManager->AddEvent(event);
 //							}
 							
@@ -1097,29 +1097,29 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //								g_pPlayer->SetAction( ACTION_STAND );			
 //
 //								//--------------------------------------------------
-//								// ����� �����ϴ� ���
+//								// ????? ??????? ???
 //								//--------------------------------------------------
 //								MActionResult* pResult = new MActionResult;
 //
 //								pResult->Add( new MActionResultNodeChangeCreatureType( g_pPlayer->GetID(), 742 ) );
 //
 //								//--------------------------------------------------
-//								// ���� ���� 
+//								// ???? ???? 
 //								//--------------------------------------------------								
 //								ExecuteActionInfoFromMainNode(
-//									RESULT_SKILL_INSTALL_TURRET,										// ��� ��� ��ȣ
+//									RESULT_SKILL_INSTALL_TURRET,										// ??? ??? ???
 //								
 //									g_pPlayer->GetX(), g_pPlayer->GetY(), 0,
-//									g_pPlayer->GetDirection(),														// ��� ����
+//									g_pPlayer->GetDirection(),														// ??? ????
 //									
-//									OBJECTID_NULL,												// ��ǥ�� ���� ����
+//									OBJECTID_NULL,												// ????? ???? ????
 //									g_pPlayer->GetX(), g_pPlayer->GetY(), 0, 
 //									
-//									0,													// ����� (����) ���� �ð�		
+//									0,													// ????? (????) ???? ?�?		
 //									
 //									NULL, //NULL,
 //									
-//									false);			// ��� ÷���� �����Ѵ�.
+//									false);			// ??? �???? ???????.
 //
 //							}
 //							else
@@ -1136,13 +1136,13 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 							
 //							UI_RunPetStorage();SKILL_CLIENT_TEST_SUMMON_GORE_GRAND_GROUND
 //							UI_SetPetStorage(g_pStorage);
-							// start �� ��ȯ ����Ű ����
+							// start ?? ??? ????? ????
 //							for(int i = 0; i< 10; i++)
 //								for(int j = 0; j < 6; j++)
 //								{
 //									const MItem * p_item = g_pInventory->GetItem(i, j);
 //				
-//									if (p_item) // Item�� �ִ�.
+//									if (p_item) // Item?? ???.
 //									{
 //										if(p_item->GetItemClass() == ITEM_CLASS_PET_ITEM)
 //										{
@@ -1151,9 +1151,9 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //										}
 //									}
 //								}
-							// end �� ��ȯ ����Ű ����
+							// end ?? ??? ????? ????
 
-							// start npc ��ȭâ ����
+							// start npc ???� ????
 //							g_pPCTalkBox->Release();
 //							//---------------------------------------------------
 //							// normal
@@ -1163,28 +1163,28 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //							int scriptID = 101;
 //							
 //							//---------------------------------------------------
-//							// PC Talk Box�� ���� ����
+//							// PC Talk Box?? ???? ????
 //							//---------------------------------------------------
-//							// SetContent��� �̸��� �Ǿ�������.. Subject�̴�. - -;
-//							g_pPCTalkBox->SetContent( "������" );
+//							// SetContent??? ????? ?????????.. Subject???. - -;
+//							g_pPCTalkBox->SetContent( "??????" );
 //							g_pPCTalkBox->SetNPCID( 297 );
 //							g_pPCTalkBox->SetCreatureType( 297 );
 //							g_pPCTalkBox->SetScriptID( scriptID );
 //							
 //							//---------------------------------------------------
-//							// �� string �߰�
+//							// ?? string ???
 //							//---------------------------------------------------
 //							int contentSize = 2;//g_pNPCScriptTable->GetContentSize( scriptID );
 //							
 //							//for (int i=0; i<contentSize; i++)
 //							{
-//								// g_PCTalkBox�� �߰�
-//								g_pPCTalkBox->AddString( "������" );
-//								g_pPCTalkBox->AddString( "ũ����" );
+//								// g_PCTalkBox?? ???
+//								g_pPCTalkBox->AddString( "??????" );
+//								g_pPCTalkBox->AddString( "?????" );
 //							}
 //							
 //							g_pUIDialog->PopupPCTalkDlg();
-							// start npc ��ȭâ ����
+							// start npc ???� ????
 
 //							gC_vs_ui.AddHelpMail(6); 
 //							gC_vs_ui.AddHelpMail(0); 
@@ -1294,15 +1294,15 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //
 //
 //								ExecuteActionInfoFromMainNode(
-//									SKILL_CLIENT_TANK_ATTACK_3,										// ��� ��� ��ȣ
+//									SKILL_CLIENT_TANK_ATTACK_3,										// ??? ??? ???
 //									
 //									0, 0, 0,
-//									pCreature->GetDirection(), // ��� ����
+//									pCreature->GetDirection(), // ??? ????
 //									
-//									petID,												// ��ǥ�� ���� ����
+//									petID,												// ????? ???? ????
 //									0, 0, 0, 
 //									
-//									0,													// ����� (����) ���� �ð�		
+//									0,													// ????? (????) ???? ?�?		
 //									
 //									NULL,
 //									
@@ -1450,15 +1450,15 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //								
 //								g_pPlayer->SetAction( ACTION_DAMAGED );
 //								ExecuteActionInfoFromMainNode(
-//									SKILL_CLIENT_TANK_ATTACKED,										// ��� ��� ��ȣ
+//									SKILL_CLIENT_TANK_ATTACKED,										// ??? ??? ???
 //									
 //									0, 0, 0,
-//									DIRECTION_DOWN, // ��� ����
+//									DIRECTION_DOWN, // ??? ????
 //									
-//									g_pPlayer->GetID(),												// ��ǥ�� ���� ����
+//									g_pPlayer->GetID(),												// ????? ???? ????
 //									0, 0, 0, 
 //									
-//									0,													// ����� (����) ���� �ð�		
+//									0,													// ????? (????) ???? ?�?		
 //									
 //									NULL,
 //									
@@ -1476,7 +1476,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //							event.parameter4 = EVENTBACKGROUNDID_QUEST_2;
 //							g_pEventManager->AddEvent(event);		
 						//}
-						// ALT + 2  --> ���� �ӵ� normal
+						// ALT + 2  --> ???? ??? normal
 					//	if (g_pDXInput->KeyDown(DIK_LMENU) || g_pDXInput->KeyDown(DIK_RMENU))
 					//	{
 							//g_pPlayer->SetWeaponSpeed( MCreature::WEAPON_SPEED_NORMAL);
@@ -1540,20 +1540,20 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //								g_pPlayer->GetX()+2, g_pPlayer->GetY()-2, 0, 1000, NULL, false);
 //							ExecuteActionInfoFromMainNode(SKILL_CLIENT_TURRET_LASER_ATTACK,g_pPlayer->GetX()+3, g_pPlayer->GetY()-1, 0,g_pPlayer->GetDirection(),0	,	
 //								g_pPlayer->GetX()+3, g_pPlayer->GetY()-1, 0, 1000, NULL, false);
-//��      ��   �� ��
-//��      ��   �� ��
-//������   �� �� 
-//��      ��   �� ��
-//������   �� ��
-//             �� ��
-//������   �� ��
-//    ��   ���� ��
-//    ��       �� ��
-//����������
-//        ��      ��
-//������      ��
-//��              ��
-//������      ��
+//??      ??   ?? ??
+//??      ??   ?? ??
+//??????   ?? ?? 
+//??      ??   ?? ??
+//??????   ?? ??
+//             ?? ??
+//??????   ?? ??
+//    ??   ???? ??
+//    ??       ?? ??
+//??????????
+//        ??      ??
+//??????      ??
+//??              ??
+//??????      ??
 
 
 
@@ -1574,10 +1574,10 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //							g_pMP3->Stop();
 //							g_pMP3->Open("data\\music\\dominator of darkness.mp3");
 //							g_pMP3->Play( true );
-//							g_pSystemMessage->Add("dominator of darkness.mp3 �� �����մϴ�");
+//							g_pSystemMessage->Add("dominator of darkness.mp3 ?? ????????");
 //							g_bTestMusic = false;
 						//}
-						// ALT + 3  --> ���� �ӵ� Fast
+						// ALT + 3  --> ???? ??? Fast
 						//if (g_pDXInput->KeyDown(DIK_LMENU) || g_pDXInput->KeyDown(DIK_RMENU))
 						//{
 							//g_pPlayer->SetWeaponSpeed( MCreature::WEAPON_SPEED_FAST );
@@ -1609,7 +1609,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //							g_pMP3->Stop();
 //							g_pMP3->Open("data\\music\\oblivion.mp3");
 //							g_pMP3->Play( true );
-//							g_pSystemMessage->Add("oblivion.mp3 �� �����մϴ�");
+//							g_pSystemMessage->Add("oblivion.mp3 ?? ????????");
 //							g_bTestMusic = false;
 						}
 #ifdef __METROTECH_TEST__
@@ -1628,7 +1628,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //							g_pMP3->Stop();
 //							g_pMP3->Open("data\\music\\rest.mp3");
 //							g_pMP3->Play( true );
-//							g_pSystemMessage->Add("rest.mp3 �� �����մϴ�");
+//							g_pSystemMessage->Add("rest.mp3 ?? ????????");
 //							g_bTestMusic = false;
 //						}
 						
@@ -1654,7 +1654,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //								g_pMP3->Stop();
 //								g_pMP3->Open("data\\music\\ruin.mp3");
 //								g_pMP3->Play( true );
-//								g_pSystemMessage->Add("ruin.mp3 �� �����մϴ�");
+//								g_pSystemMessage->Add("ruin.mp3 ?? ????????");
 //								g_bTestMusic = false;
 //								
 //								(*g_pUserOption).BlendingShadow = !(*g_pUserOption).BlendingShadow;
@@ -1677,7 +1677,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //								g_pMP3->Stop();
 //								g_pMP3->Open("data\\music\\silence of battlefield.mp3");
 //								g_pMP3->Play( true );
-//								g_pSystemMessage->Add("silence of battlefield.mp3 �� �����մϴ�");
+//								g_pSystemMessage->Add("silence of battlefield.mp3 ?? ????????");
 //								g_bTestMusic = false;
 //							}				
 //						}
@@ -1698,7 +1698,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //							g_pMP3->Stop();
 //							g_pMP3->Open("data\\music\\underworld.mp3");
 //							g_pMP3->Play( true );
-//							g_pSystemMessage->Add("underworld.mp3 �� �����մϴ�");
+//							g_pSystemMessage->Add("underworld.mp3 ?? ????????");
 //							g_bTestMusic = false;
 //						}
 						break;
@@ -1783,24 +1783,24 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 									int scriptID = 101;
 									
 									//---------------------------------------------------
-									// PC Talk Box�� ���� ����
+									// PC Talk Box?? ???? ????
 									//---------------------------------------------------
-									// SetContent��� �̸��� �Ǿ�������.. Subject�̴�. - -;
-									g_pPCTalkBox->SetContent( "������" );
+									// SetContent??? ????? ?????????.. Subject???. - -;
+									g_pPCTalkBox->SetContent( "??????" );
 									g_pPCTalkBox->SetNPCID( 297 );
 									g_pPCTalkBox->SetCreatureType( 297 );
 									g_pPCTalkBox->SetScriptID( scriptID );
 									
 									//---------------------------------------------------
-									// �� string �߰�
+									// ?? string ???
 									//---------------------------------------------------
 									int contentSize = 2;//g_pNPCScriptTable->GetContentSize( scriptID );
 									
 									//for (int i=0; i<contentSize; i++)
 									{
-										// g_PCTalkBox�� �߰�
-										g_pPCTalkBox->AddString( "������" );
-										g_pPCTalkBox->AddString( "ũ����" );
+										// g_PCTalkBox?? ???
+										g_pPCTalkBox->AddString( "??????" );
+										g_pPCTalkBox->AddString( "?????" );
 									}
 									
 									g_pUIDialog->PopupPCTalkDlg();
@@ -1838,7 +1838,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //							pFakeCreature->SetFakeCreatureFastMoveAction(g_pPlayer->GetX()+10, g_pPlayer->GetY()+10, 0, 0);
 //							
 //							//------------------------------------------------------
-//							// Fake Creature�� Zone�� �߰�
+//							// Fake Creature?? Zone?? ???
 //							//------------------------------------------------------
 //							if (!g_pZone->AddFakeCreature( pFakeCreature ))
 //							{
@@ -1883,10 +1883,10 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 										int strValue = value/4;
 										int intValue = value - strValue;
 
-										// NPC ó�� packet�� ������.
+										// NPC �?? packet?? ??????.
 										CGUseBonusPoint _CGUseBonusPoint;
 
-										// 1/4�� STR�� �ø���.
+										// 1/4?? STR?? ?�???.
 										_CGUseBonusPoint.setWhich( INC_STR );
 
 										for (int i=0; i<strValue; i++)
@@ -1898,7 +1898,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 											#endif
 										}
 										
-										// 3/4�� INT�� �ø���.
+										// 3/4?? INT?? ?�???.
 										_CGUseBonusPoint.setWhich( INC_INT );
 
 										for (i=0; i<strValue; i++)
@@ -1921,7 +1921,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 
 				//------------------------------------------------------------
 				//
-				// ���� ���� ����
+				// ???? ???? ????
 				//
 				//------------------------------------------------------------				
 				case DIK_SUBTRACT :
@@ -1983,7 +1983,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 				case DIK_E : 
 					if (g_pDXInput->KeyDown(DIK_LCONTROL) || g_pDXInput->KeyDown(DIK_RCONTROL))
 					{
-						if (g_HISTORY_LINE > 4)//HISTORY_LINE) ����
+						if (g_HISTORY_LINE > 4)//HISTORY_LINE) ????
 						{
 							g_HISTORY_LINE = 4;
 						}
@@ -1993,7 +1993,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 						}
 					}
 					//---------------------------------------------------------
-					// Wolf ���� test
+					// Wolf ???? test
 					//---------------------------------------------------------
 					else if (g_pDXInput->KeyDown(DIK_LMENU) || g_pDXInput->KeyDown(DIK_RMENU))
 					{
@@ -2013,22 +2013,22 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 						}
 
 						//--------------------------------------------------
-						// ���� ���� test
+						// ???? ???? test
 						//--------------------------------------------------								
 						ExecuteActionInfoFromMainNode(
-							RESULT_MAGIC_TRANSFORM_TO_WOLF,										// ��� ��� ��ȣ
+							RESULT_MAGIC_TRANSFORM_TO_WOLF,										// ??? ??? ???
 						
 							g_pPlayer->GetX(), g_pPlayer->GetY(), 0,
-							g_pPlayer->GetDirection(),														// ��� ����
+							g_pPlayer->GetDirection(),														// ??? ????
 							
-							OBJECTID_NULL,												// ��ǥ�� ���� ����
+							OBJECTID_NULL,												// ????? ???? ????
 							g_pPlayer->GetX(), g_pPlayer->GetY(), 0, 
 							
-							0,													// ����� (����) ���� �ð�		
+							0,													// ????? (????) ???? ?�?		
 							
 							pResult, //NULL,
 							
-							false);			// ��� ÷���� �����Ѵ�.
+							false);			// ??? �???? ???????.
 
 						g_pPlayer->SetDelay( 1000 );
 					}
@@ -2036,12 +2036,12 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 				break;
 				*/
 				//------------------------------------------------------------
-				// ���
+				// ???
 				//------------------------------------------------------------
 				/*
 				case DIK_H :
 				{
-					// helicopter �׽�Ʈ
+					// helicopter ????
 					if (g_pDXInput->KeyDown(DIK_LMENU) || g_pDXInput->KeyDown(DIK_RMENU))
 					{
 						TYPE_OBJECTID creatureID = g_pPlayer->GetID();
@@ -2094,7 +2094,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 				case DIK_P : 
 				{					
 					//------------------------------------------------------------
-					// ���� ������ ����
+					// ???? ?????? ?????
 					//------------------------------------------------------------
 					if (g_pDXInput->KeyDown(DIK_LMENU))
 					{
@@ -2105,22 +2105,22 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 							MCreature* pCreature = (*iCreature).second;
 
 							//--------------------------------------------------
-							// Player, NPC�� �ƴ� ���
+							// Player, NPC?? ??? ???
 							//--------------------------------------------------					
 							if (pCreature->GetID()!=g_pPlayer->GetID()
 								&& pCreature->IsVampire()
 								&& !pCreature->IsNPC())
 							{					
 								AddVampirePortal(
-										0,								// ����Ʈ�� OID
-										pCreature->GetName(),								// ��Ż ����
-										pCreature->GetX(), pCreature->GetY(),		// ��Ż�� ��ǥ
-										16*10,							// ��Ż�� ���� �ð�
+										0,								// ??????? OID
+										pCreature->GetName(),								// ??? ????
+										pCreature->GetX(), pCreature->GetY(),		// ????? ???
+										16*10,							// ????? ???? ?�?
 										
-										// ��ǥ ����
-										rand()%4+11,							// ��Ż�� ��ǥ �� ID
-										rand()%255,			// ��Ż�� ��ǥ ��ǥ x
-										rand()%255,			// ��Ż�� ��ǥ ��ǥ y
+										// ??? ????
+										rand()%4+11,							// ????? ??? ?? ID
+										rand()%255,			// ????? ??? ??? x
+										rand()%255,			// ????? ??? ??? y
 
 										(rand()%2? true : false) );
 
@@ -2135,7 +2135,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 						}
 					}
 					//------------------------------------------------------------
-					// ������ ������ ������
+					// ?????? ?????? ??????
 					//------------------------------------------------------------
 					else if (g_pDXInput->KeyDown(DIK_RMENU))
 					{
@@ -2146,15 +2146,15 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 							&& !pCreature->IsNPC())
 						{
 							AddVampirePortal(
-										0,								// ����Ʈ�� OID
-										pCreature->GetName(),								// ��Ż ����
-										pCreature->GetX(), pCreature->GetY(),		// ��Ż�� ��ǥ
-										16*10,							// ��Ż�� ���� �ð�
+										0,								// ??????? OID
+										pCreature->GetName(),								// ??? ????
+										pCreature->GetX(), pCreature->GetY(),		// ????? ???
+										16*10,							// ????? ???? ?�?
 										
-										// ��ǥ ����
-										rand()%4+11,							// ��Ż�� ��ǥ �� ID
-										rand()%255,			// ��Ż�� ��ǥ ��ǥ x
-										rand()%255,			// ��Ż�� ��ǥ ��ǥ y
+										// ??? ????
+										rand()%4+11,							// ????? ??? ?? ID
+										rand()%255,			// ????? ??? ??? x
+										rand()%255,			// ????? ??? ??? y
 
 										(rand()%2? true : false) );
 
@@ -2181,7 +2181,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 							MCreature* pCreature = (*iCreature).second;
 
 							//--------------------------------------------------
-							// Player, NPC�� �ƴ� ���
+							// Player, NPC?? ??? ???
 							//--------------------------------------------------					
 							if (pCreature->GetID()!=g_pPlayer->GetID()
 								&& pCreature->IsVampire()
@@ -2260,7 +2260,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 
 				//------------------------------------------------------------
 				//
-				// ��ǻ�� ����
+				// ????? ????
 				//
 				//------------------------------------------------------------
 				case DIK_D : 
@@ -2277,7 +2277,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 
 				//------------------------------------------------------------
 				//
-				// ĳ���� �߰� - packet �׽�Ʈ�� ���ؼ�
+				// ????? ??? - packet ?????? ?????
 				//
 				//------------------------------------------------------------
 				case DIK_K : 
@@ -2303,7 +2303,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 
 
 							//------------------------------------------------------------
-							// Vampire �߰�
+							// Vampire ???
 							//------------------------------------------------------------
 							if (rand()%2)
 							{
@@ -2312,7 +2312,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 								pCreature->SetZone( g_pZone );
 								
 								//--------------------------------------------------
-								// CreatureType ����
+								// CreatureType ????
 								//--------------------------------------------------
 								if (rand()%3)
 								{
@@ -2334,7 +2334,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 
 								pCreature->SetName( name );
 
-								// �ӽ÷�
+								// ??�?
 								pCreature->SetGuildNumber( 2 );
 
 								pCreature->SetGroundCreature();
@@ -2347,7 +2347,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 								pCreature->SetCurrentDirection( dir );
 								pCreature->SetAction( ACTION_STAND );
 
-								// ����
+								// ????
 								pCreature->SetBodyColor1( rand()%MAX_COLORSET );
 								pCreature->SetBodyColor2( rand()%MAX_COLORSET );
 								
@@ -2363,7 +2363,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 								}
 							}
 							//------------------------------------------------------------
-							// Slayer �߰�
+							// Slayer ???
 							//------------------------------------------------------------
 							else
 							{
@@ -2384,16 +2384,16 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 								pCreatureWear->SetCurrentDirection( dir );
 								pCreatureWear->SetAction( ACTION_STAND );
 
-								// �Ǻλ�
+								// ????
 								pCreatureWear->SetBodyColor2( rand()%MAX_COLORSET );
 
 								pCreatureWear->SetStatus( MODIFY_MAX_HP, 80 );
 								pCreatureWear->SetStatus( MODIFY_CURRENT_HP, 100 );
 
-								// �̸�
+								// ???
 								pCreatureWear->SetName( name );
 
-								// �ӽ÷� NPC������ ������.
+								// ??�? NPC?????? ??????.
 								SetAddonToSlayer( pCreatureWear, 250 );
 
 								
@@ -2410,7 +2410,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 				
 
 				//-------------------------------------------------------------
-				// ���� �ٲٱ�
+				// ???? ????
 				//-------------------------------------------------------------
 				case DIK_LEFT :
 				case DIK_RIGHT :
@@ -2422,7 +2422,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 						MCreature* pCreature = (*iCreature).second;
 
 						//--------------------------------------------------
-						// Player, NPC�� �ƴ� ���
+						// Player, NPC?? ??? ???
 						//--------------------------------------------------					
 						if (pCreature->GetID()!=g_pPlayer->GetID()
 							&& !pCreature->IsNPC())
@@ -2447,7 +2447,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 				break;
 
 				//------------------------------------
-				// HP ȸ�� test
+				// HP ??? test
 				//------------------------------------
 				case DIK_R : 
 					if (g_pDXInput->KeyDown(DIK_LMENU) || g_pDXInput->KeyDown(DIK_RMENU))
@@ -2461,7 +2461,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 
 				//------------------------------------------------------------
 				//
-				// zone �̵� �ڵ�..
+				// zone ??? ???..
 				//
 				//------------------------------------------------------------
 				case DIK_LBRACKET : case DIK_RBRACKET :
@@ -2472,12 +2472,12 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 
 						if (key==DIK_LBRACKET)
 						{
-							// �����̾� ���
+							// ??????? ???
 							strcpy(str, "*warp 3 229 52");
 						}
 						else
 						{
-							// �����̾� ���
+							// ??????? ???
 							sprintf(str, "*warp 9 55 78");
 						}
 
@@ -2545,7 +2545,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //								{
 //									AddNewInventoryEffect( pItem->GetID(),
 //														RESULT_MAGIC_CREATE_HOLY_WATER,
-//														80	// 5��
+//														80	// 5??
 //													);
 //								}
 //							}
@@ -2677,13 +2677,13 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 						}
 
 						#ifdef __FIX_GUNFRAME__
-							// �ӽ� �� �Ҳ�
+							// ??? ?? ???
 							g_pPlayer->ClearAttachEffect();
 							MAttachEffect* pEffect = g_pPlayer->CreateAttachEffect( 
 																(*g_pActionInfoTable)[ac].GetActionEffectSpriteType(), 
 																//(*g_pActionInfoTable)[m_nUsedActionInfo].GetDelay()
 																0xFFFF
-																);	// ���� �ð�
+																);	// ???? ?�?
 
 							if (pEffect != NULL)
 							{
@@ -2691,7 +2691,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 
 								pEffect->SetLink( ac, NULL );
 
-								// �پ�� �ϴ� ĳ����
+								// ???? ??? ?????
 								pEffect->SetAttachCreatureID( 1 );			
 							}
 						#endif
@@ -2700,10 +2700,10 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 					
 						MMagazine* pMagazine = (MMagazine*)MItem::NewItem( (ITEM_CLASS)ITEM_CLASS_MAGAZINE );
 
-						// �ǹ� ���� - -;
+						// ??? ???? - -;
 						pMagazine->SetID( 0 );
 
-						// �̰Ŵ� �ѿ� ���缭 ����ߵȴ�.
+						// ???? ??? ???? ???????.
 						for (int j=0; j<g_ItemTable[ITEM_CLASS_MAGAZINE].GetSize(); j++)			
 						{
 							pMagazine->SetItemType(	j );
@@ -2714,14 +2714,14 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 							}
 						}
 
-						// �ǹ� ����
+						// ??? ????
 						pMagazine->SetItemOption( 0 );
 
-						// źâ ����
+						// ?� ????
 						pMagazine->SetNumber( 0xFFFF );
 
 						//------------------------------------
-						// źâ ����
+						// ?� ????
 						//------------------------------------
 						pGunItem->SetMagazine( pMagazine );
 
@@ -2737,14 +2737,14 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 					if (g_pDXInput->KeyDown(DIK_LCONTROL) || g_pDXInput->KeyDown(DIK_RCONTROL))
 					{
 						//------------------------------------------------------
-						// �����
+						// ?????
 						//------------------------------------------------------
 						MCreature* pCreature = g_pZone->GetCreature( 1000 );
 
 						if (pCreature!=NULL)
 						{
 							//------------------------------------------------------
-							// TileOK2�� ���� ��� 
+							// TileOK2?? ???? ??? 
 							//------------------------------------------------------
 							MActionResult* pResult = new MActionResult;
 	
@@ -2758,16 +2758,16 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 										);
 								
 							//------------------------------------------------------
-							// TileOK2�� ���� ��� �߰�
+							// TileOK2?? ???? ??? ???
 							//------------------------------------------------------
 							//Duration_t	m_Duration;
 							pCreature->PacketSpecialActionToSector(
 												MAGIC_LIGHT, 
 												g_pPlayer->GetX(), g_pPlayer->GetY(),
-												pResult						// ���
+												pResult						// ???
 							);
 
-							// ������ �ٶ󺸱�
+							// ?????? ?????
 							pCreature->SetDirectionToPosition(g_pPlayer->GetX(), g_pPlayer->GetY());
 					
 						}
@@ -2788,7 +2788,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 						}
 						else
 						{
-							// ���� ���..
+							// ???? ???..
 							g_pPlayer->SetDead();						
 						}
 					}
@@ -2827,7 +2827,7 @@ CGameUpdate::DXKeyboardEvent(CDirectInput::E_KEYBOARD_EVENT event, DWORD key)
 //-----------------------------------------------------------------------------
 // Update Game
 //-----------------------------------------------------------------------------
-// ���� ���� ��...
+// ???? ???? ??...
 //-----------------------------------------------------------------------------
 class CGLeranSkill;
 void 
@@ -2851,7 +2851,7 @@ CGameUpdate::Update(void)
 	}
 	
 	//------------------------------------------
-	// Logout �� �ð���ġ üũ�Ѵ�.
+	// Logout ?? ?�???? �????.
 	//------------------------------------------
 	if (g_pUserInformation!=NULL
 		&& g_pUserInformation->LogoutTime!=0
@@ -2860,7 +2860,7 @@ CGameUpdate::Update(void)
 	{
 		ExecuteLogout();
 		
-		g_pUserInformation->LogoutTime = 0;	// Logout�ð� ����
+		g_pUserInformation->LogoutTime = 0;	// Logout?�? ????
 
 		#ifdef OUTPUT_DEBUG_UPDATE_LOOP
 			DEBUG_ADD("UE2");
@@ -2871,7 +2871,7 @@ CGameUpdate::Update(void)
 
 #if __CONTENTS(__GAMEMENU_QUITEXIT)
 	//------------------------------------------
-	// ���������� �ð���ġ üũ�Ѵ�.
+	// ?????????? ?�???? �????.
 	//------------------------------------------
 	if (g_pUserInformation!=NULL
 		&& g_pUserInformation->QuitExitTime!=0
@@ -2880,7 +2880,7 @@ CGameUpdate::Update(void)
 	{
 		ExecuteQuitExit();
 		
-		g_pUserInformation->QuitExitTime = 0;	// Logout�ð� ����
+		g_pUserInformation->QuitExitTime = 0;	// Logout?�? ????
 
 		#ifdef OUTPUT_DEBUG_UPDATE_LOOP
 			DEBUG_ADD("UE2");
@@ -2908,9 +2908,9 @@ CGameUpdate::Update(void)
 
 
 	//---------------------------------------------
-	// Sound����
+	// Sound????
 	//---------------------------------------------
-	// �� loop ���� �����൵ ���� ������..
+	// ?? loop ???? ?????? ???? ??????..
 	#ifdef OUTPUT_DEBUG_UPDATE_LOOP
 		DEBUG_ADD("DXRTDB");
 	#endif
@@ -2925,24 +2925,24 @@ CGameUpdate::Update(void)
 
 	if (g_CurrentTime > nextSoundCheckTime)
 	{
-		// �ʴ� play�� sound ��..
+		// ??? play?? sound ??..
 		g_SoundPerSecond = 0;
 
-		// 1�� ��
+		// 1?? ??
 		nextSoundCheckTime = g_CurrentTime + 1000;
 	}
 
 	//---------------------------------------------------
 	//
-	// ���� �ð����� �ѹ��� ó���� ���ش�.
+	// ???? ?�????? ????? �???? ?????.
 	//
 	//---------------------------------------------------
-	// [����]
+	// [????]
 	// g_UpdateDelay	: 100
 	// lastTime			: 1000 
 	// currentTime		: 1240 
 	//
-	// 1200, 1100�� �ι��� ó���ϰ� �ȴ�.
+	// 1200, 1100?? ????? �????? ???.
 	//---------------------------------------------------
 
 	int k = g_pClientConfig->MAX_UPDATE_ONETIME;		// 12 frame * 1 Tile.. 
@@ -2964,13 +2964,13 @@ CGameUpdate::Update(void)
 	UpdateMouse();
 
 	//------------------------------------------
-	// ���ѷ��� ���浵 �ǰ�...
-	// k������ �ѹ����� Draw�� ���ֱ� ������
-	// Frame Skipping�� �����Ų��.				
+	// ??????? ???? ???...
+	// k?????? ??????? Draw?? ????? ??????
+	// Frame Skipping?? ????????.				
 	//------------------------------------------
 	if (g_CurrentTime - lastTime >= g_UpdateDelay)
 	{
-		// ��ȭ�Ȱ��� �ִٰ� check
+		// ???????? ???? check
 		g_bFrameChanged = true;
 		do
 		{
@@ -2978,14 +2978,14 @@ CGameUpdate::Update(void)
 				DEBUG_ADD("CGUP");
 			#endif
 
-			// ������ frame�� ����
+			// ?????? frame?? ????
 			g_CurrentFrame++;
 		
 			//if (--k==0) break;
 
 			//------------------------------------------
 			//
-			// Socket �Է� ó��
+			// Socket ??? �??
 			//
 			//------------------------------------------
 			__BEGIN_PROFILE("GameSocketInput")
@@ -3012,12 +3012,12 @@ CGameUpdate::Update(void)
 
 			//------------------------------------------
 			//
-			// Input ó��
+			// Input �??
 			//
 			//------------------------------------------
 			if (g_bActiveGame)
 			{
-				// Input���� �о�´�.
+				// Input???? ???�?.
 				if (!(g_lGameRunBreakTime))
 					UpdateInput();
 				
@@ -3054,18 +3054,18 @@ CGameUpdate::Update(void)
 			}
 
 			//------------------------------------------
-			// 1�и��� �ѹ��� ������ packet
+			// 1????? ????? ?????? packet
 			//------------------------------------------
 			CheckTime();
 
 			//------------------------------------------
-			// ������ �����ؾ��ϴ� ��쿡�� ���� ����..
+			// ?????? ?????????? ????? ???? ????..
 			//------------------------------------------			
 			//KeepConnection();
 
 			//------------------------------------------
 			//
-			// Socket ��� ó��
+			// Socket ??? �??
 			//
 			//------------------------------------------
 			__BEGIN_PROFILE("GameSocketOutput")
@@ -3087,7 +3087,7 @@ CGameUpdate::Update(void)
 
 			//------------------------------------------
 			//
-			//	���� ó��
+			//	???? �??
 			//
 			//------------------------------------------
 			if (g_pWeather!=NULL)
@@ -3137,7 +3137,7 @@ CGameUpdate::Update(void)
 
 			//------------------------------------------
 			//
-			// Zone�� object���� update�Ѵ�.
+			// Zone?? object???? update???.
 			//
 			//------------------------------------------
 			#ifdef OUTPUT_DEBUG_UPDATE_LOOP
@@ -3160,19 +3160,19 @@ CGameUpdate::Update(void)
 					&& --k
 					&& !g_lGameRunBreakTime);
 		
-		// k�� ��ŭ update�ߴµ���..
-		// �� update�ؾ��� ���� ������.. �����Ѵ�..
-		// �����ұ�??
-		// ���ó��.. ���ڱ� �޸���� ���? -_-;
+		// k?? ??? update??�???..
+		// ?? update????? ???? ??????.. ???????..
+		// ?????????
+		// ???�??.. ????? ?????? ????? -_-;
 		static int OnetimeUpdateCount = 0;
 		if (k==0)
 		{
-			//lastTime = g_CurrentTime;  // �����ϴ� ���..
+			//lastTime = g_CurrentTime;  // ??????? ???..
 			OnetimeUpdateCount++;
 	
 			if (OnetimeUpdateCount > g_pClientConfig->MAX_UPDATE_ONETIME_COUNT)
 			{
-				// �� �̻��� update���ϰ� �Ѵ�.
+				// ?? ????? update????? ???.
 				lastTime = g_CurrentTime;
 				OnetimeUpdateCount = 0;
 			}
@@ -3197,7 +3197,7 @@ CGameUpdate::Update(void)
 	}
 
 	//---------------------------------------------
-	// Update ȸ�� ���
+	// Update ??? ???
 	//---------------------------------------------
 	/*
 	#ifdef OUTPUT_DEBUG
@@ -3214,11 +3214,11 @@ CGameUpdate::Update(void)
 		}
 	#endif
 	*/
-	// ��ð� ���� �̿� ���� ����
+	// ??�? ???? ??? ???? ????
 	if( g_pUserInformation != NULL && g_pUserInformation->IsNetmarble)
 	{
 		static int playhour;
-		DWORD currentPlayHour = gGetApplcationRunTime()/3600000;//testTime 1��
+		DWORD currentPlayHour = gGetApplcationRunTime()/3600000;//testTime 1??
 		switch( currentPlayHour )
 		{
 		case 0:
@@ -3233,7 +3233,7 @@ CGameUpdate::Update(void)
 				g_pNoticeMessage->AddFormat((*g_pGameStringTable)[STRING_MESSAGE_WARMING_1HOUROVER].GetString(),currentPlayHour);
 			}
 			break;
-		default://3�̻�
+		default://3???
 			if( currentPlayHour > playhour )//add once
 			{
 				playhour++;
@@ -3243,7 +3243,7 @@ CGameUpdate::Update(void)
 		}
 	}
 #if __CONTENTS(__USER_GRADE)
-	//����� ��޿� ���� ���� ��� ǥ��20070419 by diesirace 
+	//????? ???? ???? ???? ??? ???20070419 by diesirace 
 	if(m_userGraddisplay.IsTimeLimit())
 	{
 #if __CONTENTS(__IMI_INTERFACE)
@@ -3290,7 +3290,7 @@ CGameUpdate::Update(void)
 		if (lastHour != currentHour)
 		{
 			//---------------------------------------------
-			// �ð��� �ٲ����� �׸��ڵ� �ٲ�� �Ѵ�.
+			// ?�??? ??????? ?????? ???? ???.
 			//---------------------------------------------
 			if (g_pTopView!=NULL)
 			{
@@ -3299,11 +3299,11 @@ CGameUpdate::Update(void)
 
 			lastHour = g_pGameTime->GetHour();
 
-			// ���� �ð��� ���� ������ �ٲ��� �ʴ� ����� �ּ�ó��
+			// ???? ?�??? ???? ?????? ????? ??? ????? ???�??
 			//---------------------------------------------
-			// ���ǵ� �ٲ۴�.
+			// ????? ????.
 			//---------------------------------------------
-			// ¦�� �ð��뿡�� ���� ����..
+			// �?? ?�????? ???? ????..
 			//if ((currentHour & 0x01)==0)
 			//{
 			//	PlayMusicCurrentZone();
@@ -3313,7 +3313,7 @@ CGameUpdate::Update(void)
 
 		
 		//---------------------------------------------
-		// �ð�
+		// ?�?
 		//---------------------------------------------
 		char str[80];
 
@@ -3335,7 +3335,7 @@ CGameUpdate::Update(void)
 		}
 
 		//---------------------------------------------
-		// �ð�
+		// ?�?
 		//---------------------------------------------
 		sprintf(str, (*g_pGameStringTable)[STRING_DRAW_GAME_DATE].GetString(),
 					g_pGameTime->GetYear(),
@@ -3348,7 +3348,7 @@ CGameUpdate::Update(void)
 	
 	
 	//---------------------------------------------
-	// Zone�� ȯ�� ���� ���
+	// Zone?? ??? ???? ???
 	//---------------------------------------------
 	if (g_pZoneSoundManager!=NULL)
 	{
@@ -3356,13 +3356,13 @@ CGameUpdate::Update(void)
 	}
 
 	//---------------------------------------------
-	// UI�� player ��ǥ ����
+	// UI?? player ??? ????
 	//---------------------------------------------
 	gC_vs_ui.SetXY( g_pPlayer->GetX(), g_pPlayer->GetY() );
 
 	//---------------------------------------------
 	//
-	// Draw - ��ȭ�Ȱ� ������ �׷��ش�.
+	// Draw - ?????? ?????? ??????.
 	//
 	//---------------------------------------------
 	if (g_bActiveGame
@@ -3376,8 +3376,8 @@ CGameUpdate::Update(void)
 		static DWORD oldFrame = 0;
 
 		//------------------------------------------------------
-		// Update������.. 
-		// ���ο� ���� ȭ���� �׷��ش�.
+		// Update??????.. 
+		// ????? ???? ????? ??????.
 		//------------------------------------------------------
 		if (g_bFrameChanged || !(*g_pUserOption).UseSmoothCursor)
 		{
@@ -3389,7 +3389,7 @@ CGameUpdate::Update(void)
 			
 			/*
 			//------------------------------------------------------
-			// ��ġ�� �ð� ����..
+			// ????? ?�? ????..
 			//------------------------------------------------------
 			if (g_CurrentTime > g_pUserInformation->GlobalSayTime+g_pClientConfig->DELAY_GLOBAL_SAY
 				//#if defined(OUTPUT_DEBUG) && defined(_DEBUG)
@@ -3397,11 +3397,11 @@ CGameUpdate::Update(void)
 				//#endif
 				)			
 			{
-				// �������� ���			
+				// ???????? ???			
 				gC_vs_ui.SetInputStringColor( gpC_base->m_chatting_pi.text_color );
 			}
 			//------------------------------------------------------
-			// ��ġ�� �Ұ��� ����
+			// ????? ????? ????
 			//------------------------------------------------------
 			else
 			{
@@ -3427,9 +3427,9 @@ CGameUpdate::Update(void)
 			*/
 
 			//------------------------------------------------------
-			// ȭ�� ���
+			// ??? ???
 			//------------------------------------------------------
-			// ���콺 ��ǥ�� ... frame�� �ٲ� ��쿡 ���..
+			// ???? ????? ... frame?? ??? ??? ???..
 			if (g_CurrentFrame != oldFrame
 				|| g_x != oldX
 				|| g_y != oldY || 1)
@@ -3466,7 +3466,7 @@ CGameUpdate::Update(void)
 			//g_FrameCount++;
 		}		
 		//------------------------------------------------------
-		// �ε巴�� �����̴� Ŀ���� ����ұ�??
+		// ????? ??????? ????? ????????
 		//------------------------------------------------------
 		else if (g_bSmoothCursor)
 		{
@@ -3481,30 +3481,30 @@ CGameUpdate::Update(void)
 			CDirectDraw::WindowToViewport(cursorPoint);
 
 
-			// UI�� ���콺 ��ǥ ����
+			// UI?? ???? ??? ????
 			gC_vs_ui.MouseControl(M_MOVING, cursorPoint.x, cursorPoint.y);
 
 
 			//------------------------------------------------------
-			// ��� ���� ȭ���� �׷��� ���¶��..
+			// ??? ???? ????? ????? ???�??..
 			//------------------------------------------------------
-			// �������ʹ� Flip�ؼ� ���콺�� �׸��� ���ؼ�..
-			// Primary�� Back�� �Ȱ��� �����.
+			// ????????? Flip??? ?????? ????? ?????..
+			// Primary?? Back?? ????? ?????.
 			//------------------------------------------------------
 			if (g_bNewDraw)
 			{
-				// �ٽ� false��..
+				// ??? false??..
 				g_bNewDraw = false;
 				
 				//------------------------------------------------------
-				// PrimarySurface --> BackSurface�� copy
+				// PrimarySurface --> BackSurface?? copy
 				//------------------------------------------------------
-				// �ϵ���� ������ �Ǵ� ���..
-				// Primary --> Back����..
-				// �׷���(!) ������ ��!! �ִ�.. 
-				// �׷��� �ι� Blt�����. - -;;
+				// ?????? ?????? ??? ???..
+				// Primary --> Back????..
+				// ?????(!) ?????? ??!! ???.. 
+				// ????? ??? Blt?????. - -;;
 				//------------------------------------------------------
-				// (��� �׸� ȭ��� ������ ȭ���� �ٸ��� ������.. �Ȱ��� ���ش�)
+				// (??? ??? ???? ?????? ????? ????? ??????.. ????? ?????)
 //				if (CDirect3D::IsHAL())
 //				{
 //					point.x = 0;
@@ -3513,33 +3513,33 @@ CGameUpdate::Update(void)
 //
 //					g_pBack->BltPrimarySurface(&point, &rect);
 //
-//					// ����ߴ� Ŀ�� �κ��� �����ش�. --> (0)
+//					// ?????? ??? ????? ???????. --> (0)
 //					//g_pCursorSurface->Restore(0, g_pBack);
 //					//g_FrameCount++;
 //					CDirectDraw::Flip();
 //
 //					g_pBack->BltPrimarySurface(&point, &rect);
 //
-//					// ����ߴ� Ŀ�� �κ��� �����ش�. --> (0)
+//					// ?????? ??? ????? ???????. --> (0)
 //					g_pCursorSurface->Restore(0, g_pBack);
 //					
-//					// ���� ȭ���� Interface�κ��� Update������� �Ѵ�.
+//					// ???? ????? Interface????? Update??????? ???.
 //					//
 //					// [ TEST CODE ]					
 //					//gC_vs_ui.VS_UI_Loop();					
 //
 //					//---------------------------------------
-//					// ���� ���
+//					// ???? ???
 //					//---------------------------------------
 //					//UpdateDrawText();
 //				}
 //				//------------------------------------------------------
-//				// �ϵ���� ������ �ȵǴ� ���..
-//				// Last --> Back���� copy
+//				// ?????? ?????? ???? ???..
+//				// Last --> Back???? copy
 //				//------------------------------------------------------
 //				else
 				{
-					// Last --> Back���� copy
+					// Last --> Back???? copy
 					RECT rect;
 					point.x = 0;
 					point.y = 0;
@@ -3549,13 +3549,13 @@ CGameUpdate::Update(void)
 					rect.bottom = CLIPSURFACE_HEIGHT;
 					g_pBack->BltNoColorkey( &point, g_pLast, &rect );
 
-					// ���� ȭ���� Interface�κ��� Update������� �Ѵ�.
+					// ???? ????? Interface????? Update??????? ???.
 					//
 					// [ TEST CODE ]					
 					gC_vs_ui.Show();					
 
 					//---------------------------------------
-					// ���� ���
+					// ???? ???
 					//---------------------------------------
 					//UpdateDrawText();
 
@@ -3565,34 +3565,34 @@ CGameUpdate::Update(void)
 				MOUSEPOINTER_INFO mp_info;
 				gC_vs_ui.GetCurrentMousePointerInfo(mp_info);
 
-				// Ŀ�� ��� ��ġ�� ����Ų��. --> (1)
+				// ??? ??? ????? ???????. --> (1)
 				point.x = mp_info.x;
 				point.y = mp_info.y;
 				g_pCursorSurface->Store(1, g_pBack, &point);
 
-				// ������ ó���� surface��ȣ
+				// ?????? �???? surface???
 				surface = 0;
 			}
 			//------------------------------------------------------
-			// Flip�ؼ� ���콺�� Update�ϴ� ����..
+			// Flip??? ?????? Update??? ????..
 			//------------------------------------------------------
 			else
 			{	
-				// ����ߴ� �κ��� ����ؼ� Ŀ���� �����ش�. --> (surface)
+				// ?????? ????? ?????? ????? ???????. --> (surface)
 				g_pCursorSurface->Restore(surface, g_pBack);
 
-				// ���콺 ��� ���� ����
+				// ???? ??? ???? ????
 				MOUSEPOINTER_INFO mp_info;
 				gC_vs_ui.GetCurrentMousePointerInfo(mp_info);
 
-				// Ŀ�� ��� ��ġ�� ����Ų��. --> (surface)
+				// ??? ??? ????? ???????. --> (surface)
 				point.x = mp_info.x;
 				point.y = mp_info.y;
 				g_pCursorSurface->Store(surface, g_pBack, &point);
 				
 				//g_pCursorSurface->Restore(surface, g_pBack);
 
-				// ������ ó���� surface��ȣ
+				// ?????? �???? surface???
 				surface = ((surface==0)? 1 : 0);				
 			}
 			
@@ -3617,7 +3617,7 @@ CGameUpdate::Update(void)
 	}
 //#ifdef OUTPUT_DEBUG
 //	static DWORD playTime = 0;
-//	if( g_bTestMusic )			// ������� �������̸�
+//	if( g_bTestMusic )			// ??????? ?????????
 //	{		
 //		if( playTime == 0 )
 //			playTime = timeGetTime();
@@ -3638,7 +3638,7 @@ CGameUpdate::Update(void)
 //		{
 //			g_pSystemMessage->Clear();
 //			char szbuffer[512];
-//			wsprintf(szbuffer,"CTRL+1~8�� �����ø� �ش� � �ݺ��ؼ� ���� �� �ֽ��ϴ�.CTRL+0 �� ���������� �Ѿ�ϴ�.");
+//			wsprintf(szbuffer,"CTRL+1~8?? ?????�? ??? ?? ?????? ???? ?? ??????.CTRL+0 ?? ?????????? ??????.");
 //			g_pSystemMessage->Add(szbuffer);
 //			wsprintf(szbuffer,"%s(%d/8) %2d:%2d", g_musicfilename[g_CurrentMusicNum].c_str(), g_CurrentMusicNum+1,(timeGetTime() - playTime)/1000/60, ((timeGetTime() - playTime )/ 1000)%60 );
 //			g_pSystemMessage->Add(szbuffer);
@@ -3657,14 +3657,14 @@ CGameUpdate::Update(void)
 //-----------------------------------------------------------------------------
 // ProcessInput RButton Down
 //-----------------------------------------------------------------------------
-// pObject�� ����..�� ���� ���� �ְ�..
+// pObject?? ????..?? ???? ???? ???..
 //-----------------------------------------------------------------------------
 void
 ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 {
 	g_bRButtonDown = TRUE;
 
-	// ���õ� sector�� ���� �Ѵ�.
+	// ???�? sector?? ???? ???.
 	if (g_pTopView!=NULL)
 	{
 		g_pTopView->SetSelectedSectorNULL();
@@ -3722,10 +3722,10 @@ ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 	} else
 	//---------------------------------------------------------------
 	// 
-	// ������̸� Ÿ�� �ִ� ��� 
+	// ???????? �?? ??? ??? 
 	//
 	//---------------------------------------------------------------
-	// ������̿��� ������.
+	// ?????????? ??????.
 	//---------------------------------------------------------------
 	if (g_pPlayer->GetMoveDevice()==MCreature::MOVE_DEVICE_RIDE
 		&& g_pPlayer->IsStop()
@@ -3733,6 +3733,7 @@ ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 		&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_CAUSE_CRITICAL_WOUNDS)
 		&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_EXPLOSION_WATER)
 		&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_STUN)
+		&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_CHAIN_OF_DEMON)
 		&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_CURSE_OF_BLOOD)
 		&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_FREEZE)
 		)
@@ -3761,7 +3762,7 @@ ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 	}
 	//---------------------------------------------------------------
 	//
-	// Burrow �� ��� ������ �ھƳ��´ٴ� packet�� ������.
+	// Burrow ?? ??? ?????? ?????�?? packet?? ??????.
 	//
 	//---------------------------------------------------------------
 	else if (g_pPlayer->IsUndergroundCreature())
@@ -3786,7 +3787,7 @@ ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 	}
 	//---------------------------------------------------------------
 	//
-	// object/tile�� ����� ����ϴ� ��� 
+	// object/tile?? ????? ?????? ??? 
 	//
 	//---------------------------------------------------------------
 	else
@@ -3795,7 +3796,7 @@ ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 			DEBUG_ADD("TileSkill");
 		#endif
 
-		// sector �����ϱ�
+		// sector ???????
 		//g_SelectSector = g_pTopView->GetSelectedSector(g_x, g_y);
 		//g_pTopView->SetSelectedSector(g_SelectSector.x, g_SelectSector.y);
 
@@ -3803,7 +3804,7 @@ ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 		//MObject*	pObject = g_pTopView->GetSelectedObject(g_x, g_y);
 	
 		//--------------------------------------------------
-		// ������ ���� Object�� ������ ..
+		// ?????? ???? Object?? ?????? ..
 		//--------------------------------------------------
 		if (pObject == NULL)
 		{		
@@ -3811,25 +3812,25 @@ ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 			//g_pPlayer->TraceNextNULL();
 
 			//--------------------------------------------------
-			// �ڽ����� Ư�� ��� ���
+			// ??????? ??? ??? ???
 			//--------------------------------------------------
 			if (g_pPlayer->SelfSpecialAction())
 			{
 				g_pPlayer->SetRepeatAction();
 			}
 			//--------------------------------------------------
-			// �ڽ����� ����ϴ� Ư�� ����� �ƴ� ���
+			// ??????? ?????? ??? ????? ??? ???
 			//--------------------------------------------------				
 			else if (!g_pPlayer->IsSpecialActionInfoTargetSelf())
 			{
 				g_SelectSector = g_pTopView->GetSelectedSector(g_x, g_y);
 
 				//--------------------------------------------------				
-				// Zone�� Ư�� ����� ����Ѵ�.
+				// Zone?? ??? ????? ??????.
 				//--------------------------------------------------				
 				if (g_pPlayer->TraceSectorToSpecialAction( g_SelectSector.x, g_SelectSector.y ))
 				{
-					// ���õ� Sector�� ǥ���Ѵ�.
+					// ???�? Sector?? ??????.
 					g_pTopView->SetSelectedSector( g_SelectSector );
 				
 					g_pPlayer->SetRepeatAction();
@@ -3839,13 +3840,13 @@ ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 			}
 
 			//----------------------------------
-			// Tile�̳� �ڽſ��� �ϴ� �ൿ �ݺ� ����
+			// Tile??? ?????? ??? ?? ??? ????
 			//----------------------------------						
 			g_pTopView->SetSelectedSectorNULL();
 			
 		}		
 		//--------------------------------------------------
-		// ���õ� Object�� ���ؼ� 
+		// ???�? Object?? ????? 
 		//--------------------------------------------------
 		else 
 		{				
@@ -3861,11 +3862,11 @@ ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 				//--------------------------------------------------
 				case MObject::TYPE_CREATURE :		
 				{
-					// ��ǥ�� �Ǵ� Creature
+					// ????? ??? Creature
 					MCreature* pCreature = ((MCreature*)pObject);
 					
 					//--------------------------------------------------
-					// �ٸ� �ִ����� ����ϴ°ǰ�?
+					// ??? ??????? ?????�???
 					//--------------------------------------------------
 					if (g_pPlayer->TraceCreatureToSpecialAction( pCreature->GetID(), bForceAttack ))
 					{
@@ -3875,9 +3876,9 @@ ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 					else if (!g_pPlayer->IsSpecialActionInfoTargetOther())
 					{
 						//--------------------------------------------------
-						// (!) �ٸ� Creature�� ����ϴ°� �ƴ� ���
+						// (!) ??? Creature?? ?????�? ??? ???
 						//--------------------------------------------------
-						// �ڽ����� Ư�� ��� ���
+						// ??????? ??? ??? ???
 						if (g_pPlayer->SelfSpecialAction())
 						{
 							g_pPlayer->SetRepeatAction();
@@ -3885,10 +3886,10 @@ ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 						else
 						{	
 							//--------------------------------------------------
-							// �ڽſ��� ����ϴ°� �ƴ� ���
+							// ?????? ?????�? ??? ???
 							//--------------------------------------------------
-							// ���õƴ� Creature�� ��ǥ�� ..
-							// Zone�� Ư�� ����� ����ұ�?
+							// ???�?? Creature?? ????? ..
+							// Zone?? ??? ????? ???????
 							if (!g_pPlayer->IsSpecialActionInfoTargetSelf()
 								&& g_pPlayer->TraceSectorToSpecialAction( pCreature->GetX(), pCreature->GetY()))
 							{
@@ -3900,7 +3901,7 @@ ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 					}
 					
 					//----------------------------------
-					// ���� sectorǥ�� ���ֱ�
+					// ???? sector??? ?????
 					//----------------------------------
 					g_pTopView->SetSelectedSectorNULL();
 				}
@@ -3909,11 +3910,11 @@ ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 				//--------------------------------------------------
 				// Item
 				//--------------------------------------------------
-				// Item�� ����.. �ڽ����� ����ϰų� Zone�� ����Ѵ�.
+				// Item?? ????.. ??????? ??????? Zone?? ??????.
 				case MObject::TYPE_ITEM :		
 				{
 					//--------------------------------------------------
-					// �ڽ����� Ư�� ��� ���
+					// ??????? ??? ??? ???
 					//--------------------------------------------------
 					if (g_pPlayer->SelfSpecialAction())
 					{
@@ -3922,22 +3923,22 @@ ProcessInputRButtonDown(MObject* pObject, bool bForceAttack = false)
 					else
 					{	
 						//--------------------------------------------------
-						// �ڽ����� ����ϴ°� �ƴ� ���..
+						// ??????? ?????�? ??? ???..
 						//--------------------------------------------------
-						// ��ǥ�� �Ǵ� Creature
+						// ????? ??? Creature
 						if (!g_pPlayer->IsSpecialActionInfoTargetSelf())
 						{
 							MItem* pItem = ((MItem*)pObject);
 
 							if (pItem!=NULL)
 							{
-								// ���ϵ� ������ ��ü���� ������ ���� ó��
+								// ????? ?????? ??�???? ?????? ???? �??
 								if(g_pPlayer->GetSpecialActionInfo() == SKILL_WILD_WOLF)
 								{
 									g_pPlayer->UseWildWolf_Corpse(pItem);
 								}
-								// ���õƴ� Creature�� ��ǥ�� ..
-								// Zone�� Ư�� ����� ����Ѵ�.
+								// ???�?? Creature?? ????? ..
+								// Zone?? ??? ????? ??????.
 								else if (g_pPlayer->TraceSectorToSpecialAction( pItem->GetX(), pItem->GetY()))
 								{
 									g_pPlayer->SetRepeatAction();
@@ -3985,7 +3986,7 @@ CGameUpdate::ProcessInput()
 
 
 	//-----------------------------------------------
-	// packet �̵� �׽�Ʈ
+	// packet ??? ????
 	//-----------------------------------------------
 	#ifdef OUTPUT_DEBUG
 	if (g_pDXInput->KeyDown(DIK_M) 
@@ -4016,7 +4017,7 @@ CGameUpdate::ProcessInput()
 
 	
 	//g_SelectSector = g_pTopView->GetSelectedSector(g_x, g_y);
-//�ڵ������� �Ҽ� �ִ� ����� ���� �ݺ� �׼��� Ǯ�� �ʴ´�.
+//????????? ??? ??? ????? ???? ??? ????? ??? ??�?.
 #if __CONTENTS(__JAPAN_UI)
 	if (!g_pUserOption->DoNotOneClickAttackOff &&
 		(g_pDXInput->m_lb_down || g_pDXInput->m_rb_down))
@@ -4038,7 +4039,7 @@ CGameUpdate::ProcessInput()
 	// LButton Up
 	//---------------------------------------------------	
 	if (g_bLButtonDown
-		// L�� Up�̰ų�.. R�� Down�� ���
+		// L?? Up????.. R?? Down?? ???
 		&& (g_pDXInput->m_lb_up	|| g_pDXInput->m_rb_down)
 #ifdef __METROTECH_TEST__
 		&& !g_bCButtonDown
@@ -4051,11 +4052,11 @@ CGameUpdate::ProcessInput()
 
 		g_bLButtonDown = FALSE;
 
-		// ������ �������� ��� �����ϴ� mode�� �����Ѵ�.
+		// ?????? ???????? ??? ??????? mode?? ???????.
 		g_pPlayer->UnSetLockMode();
 	
 		if (g_pPlayer->IsRepeatAction()
-// !!!!Japan�� Auto Attack�� ���� ��� �ؼ� �ȵȴ�.!!!!
+// !!!!Japan?? Auto Attack?? ???? ??? ??? ????.!!!!
 #if __CONTENTS(__JAPAN_UI)
 			&& g_pUserOption->DoNotOneClickAttackOff
 #endif //__JAPAN_UI
@@ -4064,8 +4065,8 @@ CGameUpdate::ProcessInput()
 #endif //__AUTO_ATTACT
 			)
 		{
-			// ��ư�� �������Ƿ� �ൿ �ݺ��� ����Ѵ�.
-			//�ڵ������� �Ҽ� �ִ� ����� ���� �ݺ� �׼��� Ǯ�� �ʴ´�.
+			// ????? ????????? ?? ????? ??????.
+			//????????? ??? ??? ????? ???? ??? ????? ??? ??�?.
 			g_pPlayer->UnSetRepeatAction();
 			//g_pPlayer->TraceNextNULL();
 
@@ -4076,14 +4077,14 @@ CGameUpdate::ProcessInput()
 		else 
 		{		
 			//---------------------------------------------------	
-			// item�� ��� ���� ���� ���
+			// item?? ??? ???? ???? ???
 			//---------------------------------------------------	
-			// ���õ� sector�� ���Ѵ�.
+			// ???�? sector?? ?????.
 			POINT point;
 			g_pPlayer->GetNextDestination( point );		
 			if (point.x==SECTORPOSITION_NULL || point.y==SECTORPOSITION_NULL)
 			{
-				// ���� ���� �ִ� ���� ������
+				// ???? ???? ??? ???? ??????
 				g_pPlayer->GetDestination( point );
 				if (point.x==SECTORPOSITION_NULL || point.y==SECTORPOSITION_NULL)
 				{
@@ -4105,7 +4106,7 @@ CGameUpdate::ProcessInput()
 	// RButton Up
 	//---------------------------------------------------	
 	if (g_bRButtonDown
-		// R�� Up�̰ų�. L�� Down�� ���
+		// R?? Up????. L?? Down?? ???
 		&& (g_pDXInput->m_rb_up || g_pDXInput->m_lb_down)
 #ifdef __METROTECH_TEST__
 		&& !g_bCButtonDown
@@ -4125,7 +4126,7 @@ CGameUpdate::ProcessInput()
 		// 2004, 8, 30, sobeit add end
 		{
 			if (g_pPlayer->IsRepeatAction()
-// !!!!Japan�� Auto Attack�� ���� ��� �ؼ� �ȵȴ�.!!!!
+// !!!!Japan?? Auto Attack?? ???? ??? ??? ????.!!!!
 #if __CONTENTS(__JAPAN_UI)
 				&& g_pUserOption->DoNotOneClickAttackOff
 #endif //__JAPAN_UI
@@ -4134,8 +4135,8 @@ CGameUpdate::ProcessInput()
 #endif //__AUTO_ATTACT
 				)
 			{
-				// ��ư�� �������Ƿ� �ൿ �ݺ��� ����Ѵ�.
-				//�ڵ������� �Ҽ� �ִ� ����� ���� �ݺ� �׼��� Ǯ�� �ʴ´�.
+				// ????? ????????? ?? ????? ??????.
+				//????????? ??? ??? ????? ???? ??? ????? ??? ??�?.
 				g_pPlayer->UnSetRepeatAction();
 				//g_pPlayer->TraceNextNULL();
 
@@ -4168,7 +4169,7 @@ CGameUpdate::ProcessInput()
 	//if (gC_vs_ui.MouseControl(M_MOVING, g_x, g_y))
 	//	return;
 
-	// ����ȸ�� Client�� interface�� �� �׷��ٶ��� �ִ�.
+	// ??????? Client?? interface?? ?? ???????? ???.
 	//#ifdef __EXPO_CLIENT__	
 	//	if ((*g_pUserOption).DrawInterface)
 	//	{
@@ -4220,13 +4221,13 @@ CGameUpdate::ProcessInput()
 		}
 	}
 
-	if (g_pDXInput->m_rb_down)				//���콺 ������ ��ư üũ
+	if (g_pDXInput->m_rb_down)				//???? ?????? ??? �?
 	{
 #if __CONTENTS(__FRIEND_ADDITION)
 		UI_ReleasePlayerPopupMenu(g_x,g_y);
 #endif //__FRIEND_ADDITION		
 
-#if __CONTENTS(__GEAR_SWAP_CHANGE)			// �������� ��ü ���϶����� �ൿ�� �ߴ��Ѵ�.
+#if __CONTENTS(__GEAR_SWAP_CHANGE)			// ???????? ??� ????????? ???? ??????.
 		if(g_pPlayer)
 		{
 			bool	bGearChange	= true;
@@ -4275,7 +4276,7 @@ CGameUpdate::ProcessInput()
 #endif // __GEAR_SWAP_CHANGE
 	}
 	
-//�׽�Ʈ �ڵ�
+//???? ???
 #if __CONTENTS(__AUTO_ITEM_ROOTING)
 	else
 	{
@@ -4310,7 +4311,7 @@ CGameUpdate::ProcessInput()
 			return;
 		}
 	}	
-//�׽�Ʈ �ڵ�
+//???? ???
 #if __CONTENTS(__AUTO_ITEM_ROOTING)
 	else
 	{
@@ -4347,7 +4348,7 @@ CGameUpdate::ProcessInput()
 	}
 	
 	//#ifdef OUTPUT_DEBUG
-	// ä��
+	// �??
 //		if (gC_vs_ui.ChatMouseControlExtra( M_MOVING, g_x, g_y ))
 //			return;
 	//#endif
@@ -4376,7 +4377,7 @@ CGameUpdate::ProcessInput()
 	#endif
 
 	//---------------------------------------------------	
-	// ItemName List ���?
+	// ItemName List ????
 	//---------------------------------------------------	
 	if ((g_pDXInput->KeyDown(DIK_LMENU) || g_pDXInput->KeyDown(DIK_RMENU) || g_pDXInput->KeyDown(DIK_RCONTROL))
 		&& !g_pDXInput->KeyDown(DIK_LSHIFT)
@@ -4389,9 +4390,9 @@ CGameUpdate::ProcessInput()
 		g_pTopView->SetDrawItemNameList();
 
 		if (!g_bWatchMode 
-			// ���� �ݺ��ൿ�� �ϰ� ���� ���� ���
+			// ???? ??????? ??? ???? ???? ???
 			&& !g_pPlayer->IsRepeatAction()
-			// ���㳪 ���� , ����Ʈ �� �ƴ� ���
+			// ???? ???? , ????? ?? ??? ???
 			&& g_pPlayer->GetCreatureType()!=CREATURETYPE_BAT
 			&& g_pPlayer->GetCreatureType()!=CREATURETYPE_VAMPIRE_GHOST
 			&& g_pPlayer->GetCreatureType()!=CREATURETYPE_WOLF
@@ -4444,8 +4445,8 @@ CGameUpdate::ProcessInput()
 
 		
 	//---------------------------------------------------	
-	// ��Ƽ ���µ� ��Ƽâ�� �� �ִ� ���..
-	// ��Ƽ ��û ���.
+	// ??? ???�? ???�?? ?? ??? ???..
+	// ??? ??� ???.
 	//---------------------------------------------------	
 //	if (g_pParty!=NULL 
 //		&& g_pParty->GetSize()==0
@@ -4453,9 +4454,9 @@ CGameUpdate::ProcessInput()
 //		&& !gC_vs_ui.IsRunningRequestParty()
 //		&& g_pTempInformation->Mode==TempInformation::MODE_NULL
 //		&& !g_bWatchMode 
-//		// ���� �ݺ��ൿ�� �ϰ� ���� ���� ���
+//		// ???? ??????? ??? ???? ???? ???
 //		&& !g_pPlayer->IsRepeatAction()
-//		// ���㳪 ���밡 �ƴ� ���
+//		// ???? ???? ??? ???
 //		&& g_pPlayer->GetCreatureType()!=CREATURETYPE_BAT
 //		&& g_pPlayer->GetCreatureType()!=CREATURETYPE_WOLF)
 //	{
@@ -4465,28 +4466,28 @@ CGameUpdate::ProcessInput()
 
 	//---------------------------------------------------	
 	//
-	//		�Է��� ���ѵǴ� ���..
+	//		????? ?????? ???..
 	//
 	//---------------------------------------------------	
-	// - ���� ���ϰ� �ϴ� dialog�� �� �ִ� ���
+	// - ???? ????? ??? dialog?? ?? ??? ???
 	//
-	// - Player�� server�κ��� ������ ��ٸ��� ����
+	// - Player?? server????? ?????? ?????? ????
 	//
-	// - �ݺ� action�߿��� �� �Է��� �ʿ����.(����)
+	// - ??? action????? ?? ????? ??????.(????)
 	//
-	// - UI���� �Է��� �ް� �ִ� ���
+	// - UI???? ????? ??? ??? ???
 	//
 	//---------------------------------------------------	
 	if (g_pPlayer->IsWaitVerify() 
-		|| gC_vs_ui.IsInstallMineProgress()		// ���� ����� ���̸�..
-		//|| gC_vs_ui.IsCreateMineProgress()	// ���� ����� ���̸�..
-		//|| gC_vs_ui.IsCreateBombProgress()	// ���� ����� ���̸�..
-		|| gC_vs_ui.IsSkillCastingProgress()	// ��ų ĳ���� ���̸�..
-		|| g_pPlayer->IsFastMove()	// ���� �����̴� ���
-		// 2004, 12, 3, ���ξ� �߰�
+		|| gC_vs_ui.IsInstallMineProgress()		// ???? ????? ?????..
+		//|| gC_vs_ui.IsCreateMineProgress()	// ???? ????? ?????..
+		//|| gC_vs_ui.IsCreateBombProgress()	// ???? ????? ?????..
+		|| gC_vs_ui.IsSkillCastingProgress()	// ??? ????? ?????..
+		|| g_pPlayer->IsFastMove()	// ???? ??????? ???
+		// 2004, 12, 3, ????? ???
 //		|| g_pPlayer->CurPernalShop() == 1  || gC_vs_ui.inventory_mode == 2
 //		|| gC_vs_ui.IsRunningPersnalShop()
-		// 2004, 12, 3, ���ξ� �߰�
+		// 2004, 12, 3, ????? ???
 		|| UI_IsRunning_WebBrowser()
 		)	
 	{
@@ -4497,7 +4498,7 @@ CGameUpdate::ProcessInput()
 		return;
 	}
 
-	// ���� ����Ʈ���� ĳ���Ϳ� ���� ������ ������ ����
+	// ???? ????????? ?????? ???? ?????? ?????? ????
 	if (g_pPlayer->IsRepeatAction())
 	{
 		g_pTopView->SetSelectedSectorNULL();
@@ -4514,15 +4515,15 @@ CGameUpdate::ProcessInput()
 	#endif
 
 	//---------------------------------------------------	
-	// UI���� mouseĿ�� �Է��� ��� �ִ� ���
-	// elevator �۵���..
+	// UI???? mouse??? ????? ??? ??? ???
+	// elevator ?????..
 	//---------------------------------------------------	
 	if ((g_pUIDialog->IsLockInput() || g_bUIInput)
 		
-		// ��Ƽ ���������� ��Ƽâ�� ĳ���� ������ ���� �ִ�.
+		// ??? ?????????? ???�?? ????? ?????? ???? ???.
 		&& !bRunningParty
 
-		// �ٸ� ���� ���ϵ��� ...
+		// ??? ???? ??????? ...
 		|| gC_vs_ui.IsRunningTraceWindow()
 		|| g_pUIDialog->IsRunningPCTalkDlg()
 		|| gC_vs_ui.IsRunningElevator()
@@ -4542,7 +4543,7 @@ CGameUpdate::ProcessInput()
 	
 	//---------------------------------------------------	
 	//
-	// Player�� ���� ���... 
+	// Player?? ???? ???... 
 	//
 	//---------------------------------------------------		
 	if (g_pPlayer->IsDead())
@@ -4551,8 +4552,8 @@ CGameUpdate::ProcessInput()
 		g_pTopView->SetSelectedSectorNULL();
 
 		//---------------------------------------------------	
-		// delay�ð��� ������ ����
-		// ������ ������ �ٽ� ��Ƴ��� �Ѵ�.
+		// delay?�??? ?????? ????
+		// ?????? ?????? ??? ?????? ???.
 		//---------------------------------------------------	
 		//if (g_pPlayer->IsNotDeadDelay() && g_pDXInput->KeyDown( DIK_SPACE ))
 		//{
@@ -4568,7 +4569,7 @@ CGameUpdate::ProcessInput()
  
 
 
-	// Mouse�� ���ؼ� �ٶ󺸴� player...
+	// Mouse?? ????? ????? player...
 	//POINT temp = g_pTopView->ScreenToPixel(g_x, g_y);
 	//temp = MTopView::PixelToMap( temp.x, temp.y );
 	//g_pPlayer->SetDirectionToPosition(temp.x, temp.y);
@@ -4579,15 +4580,15 @@ CGameUpdate::ProcessInput()
 
 	//---------------------------------------------------	
 	//
-	// ���� mouse�� ��ġ�� �ִ� object�� ���ؼ� check
+	// ???? mouse?? ????? ??? object?? ????? check
 	//
 	//---------------------------------------------------	
-	// ���������̰ų� SmallZone�� �ְų�
-	// Hallucination�� �ɷ����� ��~ ����
+	// ???????????? SmallZone?? ????
+	// Hallucination?? ??????? ??~ ????
 	//---------------------------------------------------	
 	
 
-	// ���� ������ �����Ǵ� ���
+	// ???? ?????? ??????? ???
 	bool bForceAttack = (m_bForceAttack
 						|| g_pPlayer->HasEffectStatus(EFFECTSTATUS_HALLUCINATION)
 						||g_pDXInput->KeyDown(DIK_LSHIFT));
@@ -4599,8 +4600,9 @@ CGameUpdate::ProcessInput()
 			|| g_pPlayer->IsSlayer() && g_pPlayer->GetSpecialActionInfo() != ACTIONINFO_NULL && (*g_pActionInfoTable)[g_pPlayer->GetSpecialActionInfo()].GetUser() == FLAG_ACTIONINFO_USER_SLAYER
 			|| g_pPlayer->IsVampire() && g_pPlayer->GetSpecialActionInfo() != ACTIONINFO_NULL && (*g_pActionInfoTable)[g_pPlayer->GetSpecialActionInfo()].GetUser() == FLAG_ACTIONINFO_USER_VAMPIRE
 			|| g_pPlayer->IsOusters() && g_pPlayer->GetSpecialActionInfo() != ACTIONINFO_NULL && (*g_pActionInfoTable)[g_pPlayer->GetSpecialActionInfo()].GetUser() == FLAG_ACTIONINFO_USER_OUSTERS
-			// 2004, 11, 26, sobeit add start - ���� 140 ��æ ��ų - �������� �ູ, ������ ����..���� 
+			// 2004, 11, 26, sobeit add start - ???? 140 ??� ??? - ???????? ??, ?????? ????..???? 
 			|| g_pPlayer->GetSpecialActionInfo() == SKILL_INTIMATE_GRAIL
+			|| g_pPlayer->GetSpecialActionInfo() == SKILL_INTIMATE_GRAIL_2
 			// 2004, 11, 26, sobeit add end
 			)
 		{
@@ -4608,7 +4610,7 @@ CGameUpdate::ProcessInput()
 		}
 	
 	//---------------------------------------------------	
-	// L-Control������ �츮���� ����
+	// L-Control?????? ?????? ????
 	//---------------------------------------------------	
 	else if (g_pDXInput->KeyDown(DIK_LCONTROL)
 		|| g_pTopView->IsRequestMode())
@@ -4616,38 +4618,38 @@ CGameUpdate::ProcessInput()
 		g_pObjectSelector->SelectFriend();		
 	}
 	//---------------------------------------------------	
-	// �ƴϸ�.. ���� ����
+	// ????.. ???? ????
 	//---------------------------------------------------	
 	else
 	{
-		// Notice Event üũ�ؼ� ...
-		// ���� �����ϱ� ���� �������̶��!!
-		// 1. ������ �����ϴ� ����� ��� �ڱ� ��� �ƴϸ� �� ��!
-		// 2. ���� ��û�� �� ����ϰ�� �츮 ��� �ƴϸ� �� ��!
-		// 3. ��尣 ���� ��û �ܿ� �ٸ�����ϰ�� �� �� ���� ���� �� ���� ��!
+		// Notice Event �???? ...
+		// ???? ??????? ???? ??????????!!
+		// 1. ?????? ??????? ????? ??? ??? ??? ???? ?? ??!
+		// 2. ???? ??�?? ?? ??????? ?? ??? ???? ?? ??!
+		// 3. ??? ???? ??� ??? ?????????? ?? ?? ???? ???? ?? ???? ??!
 		
 		g_pObjectSelector->SelectEnemy();		
 	}
 
 	//---------------------------------------------------	
-	// �̰� �ܿ���..
+	// ??? ?????..
 	//
-	// g_pObjectSelector->SelectByRace()����
-	// g_pObjectSelector->SelectByGuild()������ �����ؾ� �Ѵ�.
+	// g_pObjectSelector->SelectByRace()????
+	// g_pObjectSelector->SelectByGuild()?????? ??????? ???.
 	//
-	// ȭ�鿡 �� Icon�� ������°� ���� ��.. Race/Guild
+	// ??? ?? Icon?? ??????�? ???? ??.. Race/Guild
 	//
-	// ��, ���ݸ�忡 ���� Peace/Attack/Normal Icon��
-	// �־�� �Ѵ�.
+	// ??, ?????? ???? Peace/Attack/Normal Icon??
+	// ???? ???.
 	//---------------------------------------------------	
-	// Slayer�� ���� ������ ���� ����
+	// Slayer?? ???? ?????? ???? ????
 	//---------------------------------------------------	
 	if (g_pPlayer->IsSlayer() || g_pPlayer->IsOusters() )
 	{
 		g_pObjectSelector->SelectByRace();
 	}
 	//---------------------------------------------------	
-	// Vampire�� ���� Guild�� ���� ����
+	// Vampire?? ???? Guild?? ???? ????
 	//---------------------------------------------------	
 	else
 	{
@@ -4666,7 +4668,7 @@ CGameUpdate::ProcessInput()
 	int partyMember = (bRunningParty? gC_vs_ui.GetPartyManagerFocused() : -1) - 1;
 
 	//---------------------------------------------------	
-	// ��ƼUI�� �����ϴ� ���..
+	// ???UI?? ??????? ???..
 	//---------------------------------------------------	
 	if (partyMember >= 0
 		&& partyMember < g_pParty->GetSize())
@@ -4683,9 +4685,9 @@ CGameUpdate::ProcessInput()
 				DEBUG_ADD("SPM");
 			#endif
 
-			// ���.. terrible.. - -;
-			// MZone�� Name���� id�˻��� �� �ְ� map�� �߰��ؾ��Ѵ�.
-			// �׸���.. �ٷ� Name --> MCreature* �� �� �� �ְ� �ؾ��Ѵ�.. ����? - -;
+			// ???.. terrible.. - -;
+			// MZone?? Name???? id????? ?? ??? map?? ?????????.
+			// ?????.. ??? Name --> MCreature* ?? ?? ?? ??? ??????.. ????? - -;
 			pObject = g_pZone->GetCreature( g_pZone->GetCreatureID( pInfo->Name.GetString(), 1 ) );
 
 			#ifdef OUTPUT_DEBUG_PROCESS_INPUT
@@ -4694,7 +4696,7 @@ CGameUpdate::ProcessInput()
 		}
 	}
 	//---------------------------------------------------	
-	// ������ ����..
+	// ?????? ????..
 	//---------------------------------------------------	
 	else
 	{
@@ -4703,11 +4705,11 @@ CGameUpdate::ProcessInput()
 		#endif
 
 		//---------------------------------------------------
-		// �ƿ� �� UI�� focus �� ������ �� return�ؾ� �Ѵ�.
-		// inventory���� ������ ����ߴµ� ��� ���� ���� �־.
+		// ??? ?? UI?? focus ?? ?????? ?? return??? ???.
+		// inventory???? ?????? ?????�? ??? ???? ???? ???.
 		//---------------------------------------------------
-		if (partyMember==-2		// partyâ�� focus �Ȱ� �ƴϰ�
-			&& g_bUIInput)		// UI�� �Է��� �ִٸ�..
+		if (partyMember==-2		// party�?? focus ??? ????
+			&& g_bUIInput)		// UI?? ????? ????..
 		{
 			#ifdef OUTPUT_DEBUG_PROCESS_INPUT
 				DEBUG_ADD("selZk1");
@@ -4717,7 +4719,7 @@ CGameUpdate::ProcessInput()
 		}
 
 		//---------------------------------------------------	
-		// ItemName�� �����ϴ� ����..
+		// ItemName?? ??????? ????..
 		//---------------------------------------------------	
 		if (g_pTopView->IsDrawItemNameList())
 		{
@@ -4741,7 +4743,7 @@ CGameUpdate::ProcessInput()
 			}
 
 			//---------------------------------------------------	
-			// ItemName�� ���� �ȵ����� Object����
+			// ItemName?? ???? ??????? Object????
 			//---------------------------------------------------	
 			if (pObject==NULL)
 			{
@@ -4757,7 +4759,7 @@ CGameUpdate::ProcessInput()
 			}
 		}
 		//---------------------------------------------------	
-		// �׳� Object ����
+		// ??? Object ????
 		//---------------------------------------------------	
 		else
 		{
@@ -4828,7 +4830,7 @@ CGameUpdate::ProcessInput()
 	static bool bDownPress = false;
 
 	//---------------------------------------------------	
-	// Lock Mode üũ
+	// Lock Mode �?
 	//---------------------------------------------------	
 
 	if( g_pDXInput->KeyDown(DIK_CAPITAL)) {
@@ -4853,11 +4855,11 @@ CGameUpdate::ProcessInput()
 
 				g_pPlayer->SetLockMode();
 				
-				// ������ ���� Ŀ���� �ٲ��.
+				// ?????? ???? ????? ????.
 				gpC_mouse_pointer->SetCursorAttack();
 			
 				bDownPress = true;
-				// Lock Mode������ ���õ� sector�� ���ش�.
+				// Lock Mode?????? ???�? sector?? ?????.
 				g_pTopView->SetSelectedSectorNULL();
 			}
 			
@@ -4868,8 +4870,8 @@ CGameUpdate::ProcessInput()
 
 		bDownPress = false;
 
-		// �ƹ��͵� ������ ���� ���¿��� 
-		// LockMode�̸� LockMode �����ؾ� �Ѵ�.
+		// ?????? ?????? ???? ???�??? 
+		// LockMode??? LockMode ??????? ???.
 		if (!g_bLButtonDown && !g_bRButtonDown
 #ifdef __METROTECH_TEST__
 			&& !g_bCButtonDown
@@ -4881,8 +4883,8 @@ CGameUpdate::ProcessInput()
 	}
 
 	//---------------------------------------------------	
-	// Lock Mode�� �ƴ� ��츸 
-	// �Ϲ����� �Է��� �޾Ƶ鿩 �ൿ�� ���Ѵ�.
+	// Lock Mode?? ??? ??? 
+	// ??????? ????? ???? ???? ?????.
 	//---------------------------------------------------	
 	if (!g_pPlayer->IsLockMode())
 	{	
@@ -4891,7 +4893,7 @@ CGameUpdate::ProcessInput()
 #endif
 		
 		//---------------------------------------------------	
-		// Mouse ��ġ�� Object�� ������..
+		// Mouse ????? Object?? ??????..
 		//---------------------------------------------------	
 		if (pObject==NULL)
 		{
@@ -4899,11 +4901,11 @@ CGameUpdate::ProcessInput()
 			DEBUG_ADD("noObj");
 #endif
 			
-			// ���õ� �� ���� �Ѵ�.
+			// ???�? ?? ???? ???.
 			g_pTopView->SetSelectedNULL();
 			
 			//---------------------------------------------------	
-			// mouse pointer ����
+			// mouse pointer ????
 			//---------------------------------------------------	
 			//if (!g_bMouseInPortal)
 			{
@@ -4927,26 +4929,26 @@ CGameUpdate::ProcessInput()
 						const MSector& sector = g_pZone->GetSector(g_MouseSector.x, g_MouseSector.y);
 						
 						//---------------------------------------------------
-						// �� �� ���� ���̸�
+						// ?? ?? ???? ?????
 						//---------------------------------------------------
 						if (g_pPlayer->IsGroundCreature() && sector.IsBlockGround()
 							|| g_pPlayer->IsUndergroundCreature() && sector.IsBlockUnderground()
 							|| g_pPlayer->IsFlyingCreature() && sector.IsBlockFlying())
 							//g_pZone->CanMove(g_pPlayer->GetMoveType(), g_MouseSector.x, g_MouseSector.y))
 						{	
-							// ��Ż�� �ƴϰ�
+							// ????? ????
 							if (!g_bMouseInPortal
-								// UI�� �Է��� ���� ��� --> ���ӿ� Ŀ���� �ִ� ���
+								// UI?? ????? ???? ??? --> ????? ????? ??? ???
 								&& !g_bUIInput
-								// ���õ� ĳ���Ͱ� ���� ���
+								// ???�? ?????? ???? ???
 								&& g_pTopView->GetSelectedCreature()==OBJECTID_NULL)
 							{
-								// �� �� ���� Ŀ���� ǥ��
+								// ?? ?? ???? ????? ???
 								gpC_mouse_pointer->SetCursorNotMove();					
 							}
 						}
 						//---------------------------------------------------
-						// �� �� �ִ� ���̸�..
+						// ?? ?? ??? ?????..
 						//---------------------------------------------------
 						else
 						{
@@ -4972,7 +4974,7 @@ CGameUpdate::ProcessInput()
 		}
 		//---------------------------------------------------	
 		//
-		// Mouse ��ġ�� Object�� �ִ� ���
+		// Mouse ????? Object?? ??? ???
 		//
 		//---------------------------------------------------	
 		else
@@ -4984,7 +4986,7 @@ CGameUpdate::ProcessInput()
 #endif
 			
 			//------------------------------------------------
-			// Creature ���� mouse�� �ִ� ���
+			// Creature ???? mouse?? ??? ???
 			//------------------------------------------------
 			if (objectType==MObject::TYPE_CREATURE)
 			{
@@ -4994,11 +4996,11 @@ CGameUpdate::ProcessInput()
 					
 				if (!g_bMouseInPortal 
 						
-					// ������ ���� ������ �� �ְų�
-					// ���� �����̰ų�..
+					// ?????? ???? ?????? ?? ????
+					// ???? ????????..
 					//&& (g_pPlayer->CanAttackTribe( pCreature ) || bForceAttack)
 					&& g_pObjectSelector->CanAttack( pCreature ) )
-					// �����̾��� ��쿡�� Guild�� ���� ������ �� �ְų�..	
+					// ????????? ????? Guild?? ???? ?????? ?? ????..	
 						
 				{
 					if (pCreature->IsNPC())
@@ -5015,7 +5017,7 @@ CGameUpdate::ProcessInput()
 			}
 			
 			//------------------------------------------------
-			// Item ���� mouse�� �ִ� ���
+			// Item ???? mouse?? ??? ???
 			//------------------------------------------------
 			else if (pObject->GetObjectType()==MObject::TYPE_ITEM)
 			{
@@ -5025,13 +5027,13 @@ CGameUpdate::ProcessInput()
 				
 				if(g_pZone != NULL && pItem != NULL )
 				{
-					// �����̾�� �ȵǰ�
-					// �����̾�� creature ã�Ƽ� �����ΰ�츸
+					// ???????? ????
+					// ???????? creature �??? ????????
 
 					if(!g_pZone->GetSector(pItem->GetX(), pItem->GetY()).HasDarkness() || 
 						g_pZone->GetSector(pItem->GetX(), pItem->GetY()).HasDarkness() && g_pPlayer->IsVampire() && g_pZone->GetID() != 3001||
 						g_pZone->GetSector(pItem->GetX(), pItem->GetY()).HasDarkness() && !g_pPlayer->IsVampire() && 
-						g_pPlayer->HasEffectStatus( EFFECTSTATUS_LIGHTNESS ) && g_pZone->GetID() != 3001						
+						(g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pPlayer->HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) && g_pZone->GetID() != 3001						
 						|| g_pPlayer->HasEffectStatus( EFFECTSTATUS_GHOST )
 #ifdef __METROTECH_TEST__
 						|| g_bLight
@@ -5043,7 +5045,7 @@ CGameUpdate::ProcessInput()
 						
 						COLORREF color;
 						//------------------------------------------------
-						// option�� ���� ����
+						// option?? ???? ????
 						//------------------------------------------------
 #if __CONTENTS(__TUNING_ITEM)
 						if (pItem->IsTuningItem())
@@ -5081,16 +5083,16 @@ CGameUpdate::ProcessInput()
 						}
 						
 						//------------------------------------------------
-						// item���� Ŀ��
+						// item???? ???
 						//------------------------------------------------
 						if (!g_bMouseInPortal&&!g_pPlayer->IsInDarkness())
 						{						
-							// ��ü�� ���� '��ü'��� ǥ�� ���Ѵ�.
+							// ??�?? ???? '??�'??? ??? ?????.
 							if (pItem->GetItemClass()==ITEM_CLASS_CORPSE)
 							{
 								gpC_mouse_pointer->SetCursorPickUp( "", color );
 							}
-							// ���� �������� �̸� ǥ���Ѵ�.
+							// ???? ???????? ??? ??????.
 							else
 							{
 								char str[80];
@@ -5104,7 +5106,7 @@ CGameUpdate::ProcessInput()
 			}
 
 			//------------------------------------------------
-			// Effect ���� mouse�� �ִ� ���
+			// Effect ???? mouse?? ??? ???
 			//------------------------------------------------
 			else if (pObject->GetObjectType()==MObject::TYPE_EFFECT)
 			{
@@ -5112,7 +5114,7 @@ CGameUpdate::ProcessInput()
 			}
 
 			//------------------------------------------------
-			// InteractionObject ���� mouse�� �ִ� ���
+			// InteractionObject ???? mouse?? ??? ???
 			//------------------------------------------------
 //			else if (pObject->GetObjectType()==MObject::TYPE_INTERACTIONOBJECT)
 //			{
@@ -5122,7 +5124,7 @@ CGameUpdate::ProcessInput()
 
 		//---------------------------------------------------	
 		//
-		// player�� ��� ��� delay �ð��� ������ ���� �����ϴ�.
+		// player?? ??? ??? delay ?�??? ?????? ???? ???????.
 		//
 		//---------------------------------------------------	
 		if (g_pPlayer->IsNotDelay() && !g_pPlayer->HasEffectStatus( EFFECTSTATUS_ETERNITY_PAUSE ) )
@@ -5132,7 +5134,7 @@ CGameUpdate::ProcessInput()
 			#endif
 
 			//-----------------------------------------------
-			// Shift + L/R ButtonDown : ���� Tile ����
+			// Shift + L/R ButtonDown : ???? Tile ????
 			//-----------------------------------------------
 			if (g_pDXInput->KeyDown(DIK_LSHIFT))
 			{
@@ -5140,10 +5142,10 @@ CGameUpdate::ProcessInput()
 					DEBUG_ADD("shiAt");
 				#endif
 				//-----------------------------------------------
-				// Shift + LButtonDown : ���� ����
+				// Shift + LButtonDown : ???? ????
 				//-----------------------------------------------
 				if (g_pDXInput->m_lb_down
-					// ���� �ִ� ��찡 �ƴҶ�
+					// ???? ??? ??? ????
 					&& !g_pPlayer->IsInCasket()
 					&& !g_pPlayer->IsUndergroundCreature()
 					&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_INSTALL_TURRET))
@@ -5151,14 +5153,14 @@ CGameUpdate::ProcessInput()
 					g_pPlayer->UnSetRequestMode();
 
 					//-----------------------------------------------
-					// ĳ���͸� ���� ����..
+					// ?????? ???? ????..
 					//-----------------------------------------------
 					if (pObject!=NULL)
 					{
 						if (pObject->GetObjectType()==MObject::TYPE_CREATURE)
 						{
-							// Object�� ���� ���õ��� ��쿡�� 
-							// LButton�� ������ �ִ� �͸����� �̵��� �����ʰ� �Ѵ�.
+							// Object?? ???? ???�??? ????? 
+							// LButton?? ?????? ??? ??????? ????? ??????? ???.
 							MCreature *pCreature = dynamic_cast<MCreature*>(pObject);
 							g_bLButtonDown = TRUE;
 
@@ -5168,30 +5170,30 @@ CGameUpdate::ProcessInput()
 
 								if (g_pPlayer->TraceCreatureToBasicAction( 
 											pCreature->GetID(), 
-											true))		// ���� ����
+											true))		// ???? ????
 								{
 									//----------------------------------
-									// ������ �ϴ� �⺻ �ൿ �ݺ� ����
+									// ?????? ??? ?? ?? ??? ????
 									//----------------------------------
 									g_pPlayer->SetRepeatAction(); 
 									g_bPreviousMove = false;
 
-									// ���� �޺� ���� �ʱ�ȭ Sjheon	2005.07.04 Add 
+									// ???? ??? ???? ???? Sjheon	2005.07.04 Add 
 									//g_pPlayer->SetCombo(1)	;
-									// ���� �޺� ���� �ʱ�ȭ Sjheon	2005.07.04 End
+									// ???? ??? ???? ???? Sjheon	2005.07.04 End
 
 								}
-								// ������ ǥ�ø� ���ش�.
+								// ?????? ??�? ?????.
 								g_pTopView->SetSelectedSectorNULL();
 							}
 						}
 					}
 					//-----------------------------------------------
-					// ���� Tile ����
+					// ???? Tile ????
 					//-----------------------------------------------
 					//g_SelectSector = g_pTopView->GetSelectedSector(g_x, g_y);
 					
-					// ���õ� Sector�� ǥ���Ѵ�.
+					// ???�? Sector?? ??????.
 					//g_pTopView->SetSelectedSector( g_SelectSector );
 
 					//g_pPlayer->TraceSectorToBasicAction( g_SelectSector.x, g_SelectSector.y );			
@@ -5201,7 +5203,7 @@ CGameUpdate::ProcessInput()
 					#endif
 				}		
 				//-----------------------------------------------
-				// Shift + RButtonDown : ���� Tile ��� ����
+				// Shift + RButtonDown : ???? Tile ??? ????
 				//-----------------------------------------------
 				else if (g_pDXInput->m_rb_down)
 				{
@@ -5227,7 +5229,7 @@ CGameUpdate::ProcessInput()
 					/*
 					g_SelectSector = g_pTopView->GetSelectedSector(g_x, g_y);
 
-					// ���õ� Sector�� ǥ���Ѵ�.
+					// ???�? Sector?? ??????.
 					g_pTopView->SetSelectedSector( g_SelectSector );
 
 					if (g_pPlayer->TraceSectorToSpecialAction( g_SelectSector.x, g_SelectSector.y ))
@@ -5236,7 +5238,7 @@ CGameUpdate::ProcessInput()
 					}
 
 
-					// ������ ǥ�ø� ���ش�.
+					// ?????? ??�? ?????.
 					g_pTopView->SetSelectedSectorNULL();
 					*/
 
@@ -5262,7 +5264,7 @@ CGameUpdate::ProcessInput()
 				//
 				//---------------------------------------------------------------
 				if (g_pDXInput->m_lb_down 
-					// burrow ���°� �ƴϾ�� �Ѵ�.
+					// burrow ???�? ????? ???.
 					&& !g_pPlayer->IsInCasket()
 					&& !g_pPlayer->IsUndergroundCreature()
 					&& g_pPlayer->CurPernalShop() != 2
@@ -5278,17 +5280,17 @@ CGameUpdate::ProcessInput()
 
 					g_bLButtonDown = TRUE;
 					
-					// ���õ� sector�� ���� �Ѵ�.
+					// ???�? sector?? ???? ???.
 					g_pTopView->SetSelectedSectorNULL();
 
-					// sector �����ϱ�
+					// sector ???????
 					g_SelectSector = g_pTopView->GetSelectedSector(g_x, g_y);
 					//g_pTopView->SetSelectedSector(g_SelectSector.x, g_SelectSector.y);
 
 					//
 					//MObject*	pObject = g_pTopView->GetSelectedObject(g_x, g_y);
 
-					// �ν��� �ͷ��϶�.. ����� lbuttton ó�� �ʴ´�.. lbutton = ������ �ͷ� ����
+					// ????? ??????.. ????? lbuttton �?? ??�?.. lbutton = ?????? ??? ????
 					if(g_pPlayer->HasEffectStatus(EFFECTSTATUS_INSTALL_TURRET))
 					{		
 						int TempDir = MTopView::GetDirectionToPosition(g_pPlayer->GetX(), g_pPlayer->GetY(),g_SelectSector.x, g_SelectSector.y);
@@ -5308,7 +5310,7 @@ CGameUpdate::ProcessInput()
 //							g_pPlayer->SetSpecialActionInfo(SKILL_TURRET_FIRE);
 //							if (g_pPlayer->TraceSectorToSpecialAction( g_SelectSector.x, g_SelectSector.y ))
 //							{
-//								// ���õ� Sector�� ǥ���Ѵ�.
+//								// ???�? Sector?? ??????.
 //								g_pTopView->SetSelectedSector( g_SelectSector );
 //							
 //								g_pPlayer->SetRepeatAction();
@@ -5316,7 +5318,7 @@ CGameUpdate::ProcessInput()
 //
 //							g_bPreviousMove = false;
 //								char szTemp[128];
-//								sprintf(szTemp, "������ ����: %d,���� ", TempDir);
+//								sprintf(szTemp, "?????? ????: %d,???? ", TempDir);
 //								g_pSystemMessage->Add(szTemp);
 						}
 						else
@@ -5331,25 +5333,25 @@ CGameUpdate::ProcessInput()
 						}
 					}
 					//--------------------------------------------------
-					// ������ ���� Object�� ������ MOVE
+					// ?????? ???? Object?? ?????? MOVE
 					//--------------------------------------------------
 					else if (pObject == NULL)
 					{		
-						// l-shift�� l-control�� �������� ���� ���¿����� �̵�.
+						// l-shift?? l-control?? ???????? ???? ???�????? ???.
 						if (//!g_pDXInput->KeyDown(DIK_LSHIFT) &&
 							!g_pDXInput->KeyDown(DIK_LCONTROL))
 						{		
 							if (g_pPlayer->IsNotDelay() && !g_pPlayer->HasEffectStatus(EFFECTSTATUS_ETERNITY_PAUSE ) 
-								// 2004, 9, 14, sobeit add start - �ѽ� 130 skill ����
+								// 2004, 9, 14, sobeit add start - ??? 130 skill ????
 								//&&  !g_pPlayer->HasEffectStatus(EFFECTSTATUS_INSTALL_TURRET ) 
-								// 2004, 9, 14, sobeit add end - �ѽ� 130 skill ����
+								// 2004, 9, 14, sobeit add end - ??? 130 skill ????
 								)
 							{
 								if (g_pPlayer->SetMovePosition(g_SelectSector.x, g_SelectSector.y))
 								{
 									//if (g_pPlayer->IsStop())
 									{
-										// ���� ��ǥ��ġ�� �����Ѵ�
+										// ???? ???????? ???????
 										g_pPlayer->TraceNULL();							
 										
 										g_pPlayer->SetNextActionToMove();
@@ -5363,7 +5365,7 @@ CGameUpdate::ProcessInput()
 						/*
 						if (g_pPlayer->IsStop())
 						{
-							// ���� ��ǥ��ġ�� �����Ѵ�
+							// ???? ???????? ???????
 							g_pPlayer->TraceNULL();
 							
 							if (g_pPlayer->SetMovePosition(g_SelectSector.x, g_SelectSector.y))
@@ -5374,24 +5376,24 @@ CGameUpdate::ProcessInput()
 						*/
 					}
 					//--------------------------------------------------
-					// ���õ� Object�� ���ؼ� 
+					// ???�? Object?? ????? 
 					//--------------------------------------------------
 					else 
 					{	
-						// Object�� ���� ���õ��� ��쿡�� 
-						// LButton�� ������ �ִ� �͸����� �̵��� �����ʰ� �Ѵ�.
+						// Object?? ???? ???�??? ????? 
+						// LButton?? ?????? ??? ??????? ????? ??????? ???.
 						//g_bLButtonDown = FALSE;
 
 						switch (pObject->GetObjectType())
 						{			
 							case MObject::TYPE_CREATURE :	
 								{
-									//20090226���ڴԵ��� ���� ctrl Ű�� ������ Ŭ���ϴ� ĳ���ʹ� ��� ����ȴ�. ���� ���� ���� ���� ��� ����.
+									//20090226???????? ???? ctrl ??? ?????? ?????? ?????? ??? ??????. ???? ???? ???? ???? ??? ????.
 									if(g_pDXInput->KeyDown(DIK_RSHIFT) && g_pOperatorOption->bRecordCharName)
 									{
 										g_pPlayer->RecordCharName(pObject->GetID());
 									}
-									// 2004, 12, 3, ���ξ� �߰�
+									// 2004, 12, 3, ????? ???
 									MCreature* TempCreature = (MCreature*)pObject;
 									if(TempCreature->CurPernalShop() == 1 )
 //										|| g_pPlayer->IsFlyingCreature() || g_pPlayer->IsUndergroundCreature() 
@@ -5401,19 +5403,19 @@ CGameUpdate::ProcessInput()
 										gpC_base->SendMessage(UI_REQUEST_STORE_INFO, pObject->GetID(),0);
 										gC_vs_ui.SetOtherObjectID(pObject->GetID());
 									}
-									// 2004, 12, 3, ���ξ� �߰�
+									// 2004, 12, 3, ????? ???
 									if (g_pPlayer->TraceCreatureToBasicAction( pObject->GetID(), 
 																				bForceAttack, true ))
 									{
 										//----------------------------------
-										// ������ �ϴ� �⺻ �ൿ �ݺ� ����
+										// ?????? ??? ?? ?? ??? ????
 										//----------------------------------
 										g_pPlayer->SetRepeatAction();
 										g_bPreviousMove = false;
 
-										// ���� �޺� ���� �ʱ�ȭ Sjheon	2005.07.04 Add 
+										// ???? ??? ???? ???? Sjheon	2005.07.04 Add 
 									//	g_pPlayer->SetCombo(1) ;
-										// ���� �޺� ���� �ʱ�ȭ Sjheon	2005.07.04 End
+										// ???? ??? ???? ???? Sjheon	2005.07.04 End
 									}
 
 									g_pTopView->SetSelectedSectorNULL();
@@ -5518,9 +5520,9 @@ CGameUpdate::ProcessInput()
 				}
 
 				//---------------------------------------------------------------
-				// L/R Button�� �������� �ʾ�����,
-				// ������ ���� LButton�� ��� ������ ���¶��..
-				// But(!), L-Shift�� �������� �ʾƾ� �Ѵ�.
+				// L/R Button?? ???????? ???????,
+				// ?????? ???? LButton?? ??? ?????? ???�??..
+				// But(!), L-Shift?? ???????? ???? ???.
 				//---------------------------------------------------------------
 				else if (g_bLButtonDown 				
 						&& !g_pDXInput->KeyDown(DIK_LSHIFT)
@@ -5534,8 +5536,8 @@ CGameUpdate::ProcessInput()
 					#endif
 
 					//--------------------------------------------------
-					// ������ ���� Object�� ����
-					// ������� �̵��ϰ� �ִ� ���̸� MOVE
+					// ?????? ???? Object?? ????
+					// ??????? ?????? ??? ????? MOVE
 					//--------------------------------------------------
 					if (pObject == NULL && g_bPreviousMove)
 					{	
@@ -5543,7 +5545,7 @@ CGameUpdate::ProcessInput()
 						{
 							g_SelectSector = g_pTopView->GetSelectedSector(g_x, g_y);
 
-							// ���� ��ǥ��ġ�� �����Ѵ�
+							// ???? ???????? ???????
 							g_pPlayer->TraceNULL();
 							
 							if (g_pPlayer->SetMovePosition(g_SelectSector.x, g_SelectSector.y))
@@ -5578,7 +5580,7 @@ CGameUpdate::ProcessInput()
 	
 		if (g_pPlayer->IsRepeatAction())
 		{
-			// ��ư�� �������Ƿ� �ൿ �ݺ��� ����Ѵ�.
+			// ????? ????????? ?? ????? ??????.
 			g_pPlayer->UnSetRepeatAction();
 			//g_pPlayer->TraceNextNULL();
 
@@ -5586,14 +5588,14 @@ CGameUpdate::ProcessInput()
 		}
 		else
 		{	
-			// ���õ� sector�� ���Ѵ�.
+			// ???�? sector?? ?????.
 			POINT point;
 			
-			// ���� �� ���� ������
+			// ???? ?? ???? ??????
 			g_pPlayer->GetNextDestination( point );		
 			if (point.x==SECTORPOSITION_NULL || point.y==SECTORPOSITION_NULL)
 			{
-				// ���� ���� �ִ� ���� ������
+				// ???? ???? ??? ???? ??????
 				g_pPlayer->GetDestination( point );
 				if (point.x==SECTORPOSITION_NULL || point.y==SECTORPOSITION_NULL)
 				{
@@ -5628,7 +5630,7 @@ CGameUpdate::ProcessInput()
 	
 		if (g_pPlayer->IsRepeatAction())
 		{
-			// ��ư�� �������Ƿ� �ൿ �ݺ��� ����Ѵ�.
+			// ????? ????????? ?? ????? ??????.
 			g_pPlayer->UnSetRepeatAction();
 			//g_pPlayer->TraceNextNULL();
 		}
@@ -5639,7 +5641,7 @@ CGameUpdate::ProcessInput()
 		g_bCButtonDown = FALSE;
 	}
 
-	// ������ �� �ִ� �����̸� ��ǥ ��ġ�� ���ش�.
+	// ?????? ?? ??? ??????? ??? ????? ?????.
 	if (g_pPlayer->GetAction()==ACTION_STAND)
 	{
 		g_pTopView->SetSelectedSectorNULL();
@@ -5656,7 +5658,7 @@ CGameUpdate::ProcessInput()
 	//
 	//---------------------------------------------------
 	/*
-	// Missile ���� �ٲٱ�
+	// Missile ???? ????
 	if (g_pDXInput->KeyDown(DIK_1))
 		g_pPlayer->SetActionInfo( ACTIONINFO_BOMB_TO_CREATURE );
 
@@ -5675,7 +5677,7 @@ CGameUpdate::ProcessInput()
 
 	#if defined(OUTPUT_DEBUG) && defined(_DEBUG)
 		//---------------------------------------------------
-		// ��~~
+		// ??~~
 		//---------------------------------------------------
 		if (g_pDXInput->KeyDown(DIK_8))
 		{
@@ -5683,7 +5685,7 @@ CGameUpdate::ProcessInput()
 		}
 
 		//---------------------------------------------------
-		// ��~~
+		// ??~~
 		//---------------------------------------------------
 		if (g_pDXInput->KeyDown(DIK_9))
 		{
@@ -5691,7 +5693,7 @@ CGameUpdate::ProcessInput()
 		}
 
 		//---------------------------------------------------
-		// ���� ����
+		// ???? ????
 		//---------------------------------------------------
 		if (g_pDXInput->KeyDown(DIK_0))
 		{
@@ -5701,7 +5703,7 @@ CGameUpdate::ProcessInput()
 
 
 		//---------------------------------------------------
-		// �þ�  + / -
+		// ?�?  + / -
 		//---------------------------------------------------
 
 		if (g_pDXInput->KeyDown(DIK_SUBTRACT) 
@@ -5760,7 +5762,7 @@ CGameUpdate::ProcessInput()
 		}
 
 		//---------------------------------------------------
-		// ��� ����
+		// ??? ????
 		//---------------------------------------------------
 		if (g_pDXInput->KeyDown(DIK_F9))
 		{
@@ -5769,7 +5771,7 @@ CGameUpdate::ProcessInput()
 		}
 		
 		//---------------------------------------------------
-		// ��� ����
+		// ??? ????
 		//---------------------------------------------------
 		if (g_pDXInput->KeyDown(DIK_F10))
 		{
@@ -5835,7 +5837,7 @@ CGameUpdate::ProcessInput()
 	*/
 		
 	#ifdef OUTPUT_DEBUG
-		// Zone�̵� test
+		// Zone??? test
 		/*
 		if (g_pDXInput->KeyDown(DIK_1))
 		{	
@@ -5885,9 +5887,9 @@ CGameUpdate::ProcessInput()
 								MEffect*	pEffect;
 								pEffect = new MEffect;
 
-								pEffect->SetFrameID(0, 8);		// 0�� Effect, Max 8 Frame
-								pEffect->SetPosition(g_pPlayer->GetX()+j, g_pPlayer->GetY()+i);	// Sector ��ǥ						
-								pEffect->SetCount(125+rand()%8);			// ���ӵǴ� Frame
+								pEffect->SetFrameID(0, 8);		// 0?? Effect, Max 8 Frame
+								pEffect->SetPosition(g_pPlayer->GetX()+j, g_pPlayer->GetY()+i);	// Sector ???						
+								pEffect->SetCount(125+rand()%8);			// ?????? Frame
 
 								g_pZone->AddEffect( pEffect );
 							}
@@ -5916,18 +5918,18 @@ CGameUpdate::ProcessInput()
 							//pEffect = new MParabolaEffect(BLT_EFFECT);
 							pEffect = new MLinearEffect(BLT_EFFECT);
 
-							pEffect->SetFrameID(frameID, maxFrame);		// 0�� Effect, Max 8 Frame
+							pEffect->SetFrameID(frameID, maxFrame);		// 0?? Effect, Max 8 Frame
 
-							// �߻� ��ġ Pixel��ǥ
+							// ??? ??? Pixel???
 							pEffect->SetPixelPosition(playerPoint.x, playerPoint.y, 0);	
 							
-							// ��ǥ ��ġ Pixel��ǥ
+							// ??? ??? Pixel???
 							pEffect->SetTarget(playerPoint.x + -i*300, 
 												playerPoint.y + -j*350,
 												0,
 												20);	// step
 
-							// ���ӵǴ� Frame (��ǥ�� �ִٸ� ���� ���� ���� - -;)
+							// ?????? Frame (????? ???? ???? ???? ???? - -;)
 							pEffect->SetCount(1000);							
 
 							//pEffect->SetLight(1);							
@@ -5940,21 +5942,21 @@ CGameUpdate::ProcessInput()
 							MLinearEffect*	pEffect;
 							pEffect = new MLinearEffect;
 
-							pEffect->SetFrameID(0, 8);		// 0�� Effect, Max 8 Frame
+							pEffect->SetFrameID(0, 8);		// 0?? Effect, Max 8 Frame
 
-							// �߻� ��ġ Pixel��ǥ
+							// ??? ??? Pixel???
 							int xx=rand()%800-300;
 							int yy=rand()%400-400;
 							int last=rand()%500;
 							pEffect->SetPixelPosition(playerPoint.x+xx, playerPoint.y+yy, 0);
 							
-							// ��ǥ ��ġ Pixel��ǥ
+							// ??? ??? Pixel???
 							pEffect->SetTarget(playerPoint.x+xx-rand()%50 , 
 												playerPoint.y+yy+last,
 												0,
 												20);
 
-							// ���ӵǴ� Frame (��ǥ�� �ִٸ� ���� ���� ���� - -;)
+							// ?????? Frame (????? ???? ???? ???? ???? - -;)
 							pEffect->SetCount(25);						
 
 							g_pZone->AddEffect( pEffect );
@@ -5996,11 +5998,11 @@ CGameUpdate::UpdateDraw()
 		char	str[128];
 	//#endif
 
-	// buffer : InitSurface���� SYSTEMMEMORY�� ���ְ� ��ߵȴ�.
+	// buffer : InitSurface???? SYSTEMMEMORY?? ????? ?????.
 	//
 	//g_pLast->FillSurface(CDirectDraw::Color(20,20,20));
 	
-	// ȭ�� �ؿ� Interface�κ� �����ֱ�...
+	// ??? ??? Interface??? ???????...
 	// [ TEST CODE ]
 	/*
 	rect.left = 0;
@@ -6011,18 +6013,18 @@ CGameUpdate::UpdateDraw()
 	*/
 
 	//-----------------------------------------------------------------		
-	// ���콺 ��ǥ �ٽ� ����
+	// ???? ??? ??? ????
 	//-----------------------------------------------------------------
 	GetCursorPos(&point);
 	ScreenToClient(g_hWnd, &point);
 	// Window pixels -> back-surface pixels, the space the UI uses.
 	CDirectDraw::WindowToViewport(point);
 
-	// ui�� mouse��ǥ ����
+	// ui?? mouse??? ????
 	gC_vs_ui.MouseControl(M_MOVING, point.x, point.y);
 
 	//-----------------------------------------------------------------
-	// ž�� Zone ���
+	// �?? Zone ???
 	//-----------------------------------------------------------------
 	#ifdef OUTPUT_DEBUG_UPDATE_LOOP
 			DEBUG_ADD("dd");//[Update-Draw] Before Draw");
@@ -6031,7 +6033,7 @@ CGameUpdate::UpdateDraw()
 //	if (CDirect3D::IsHAL())
 //	{
 //		//-----------------------------------------------------------------
-//		// Game ȭ�� ���
+//		// Game ??? ???
 //		//-----------------------------------------------------------------
 //		__BEGIN_PROFILE("GameDraw3D")
 //			
@@ -6060,7 +6062,7 @@ CGameUpdate::UpdateDraw()
 //		#endif
 //
 //		//-----------------------------------------------------------------
-//		// UI ���
+//		// UI ???
 //		//-----------------------------------------------------------------		
 //		__BEGIN_PROFILE("UIDraw3D")
 //
@@ -6073,7 +6075,7 @@ CGameUpdate::UpdateDraw()
 //			if (outputInfo || g_pUserOption->DrawFPS)
 //			{
 //				//-----------------------------------------------------------------
-//				// FPS ���	
+//				// FPS ???	
 //				//-----------------------------------------------------------------
 //				sprintf(str, "%d FPS(HAL)", g_FrameRate);	
 //			
@@ -6094,12 +6096,12 @@ CGameUpdate::UpdateDraw()
 //	else
 	{
 		//-----------------------------------------------------------------
-		// Font ����ϴ� Surface�� �ٲ���� �Ѵ�.
+		// Font ?????? Surface?? ?????? ???.
 		//-----------------------------------------------------------------
 		//g_SetFL2Surface( g_pLast->GetSurface() );
 
 		//-----------------------------------------------------------------
-		// Game ȭ�� ���
+		// Game ??? ???
 		//-----------------------------------------------------------------
 		__BEGIN_PROFILE("GameDraw2D")
 
@@ -6137,7 +6139,7 @@ CGameUpdate::UpdateDraw()
 		#endif
 
 		//-----------------------------------------------------------------
-		// UI ���
+		// UI ???
 		//-----------------------------------------------------------------		
 		__BEGIN_PROFILE("UIDraw2D")
 
@@ -6163,19 +6165,19 @@ CGameUpdate::UpdateDraw()
 			if (outputInfo || g_pUserOption->DrawFPS)
 			{
 				//-----------------------------------------------------------------
-				// FPS ���	
+				// FPS ???	
 				//-----------------------------------------------------------------				
 				sprintf(str, "%d FPS", g_FrameRate);
 
 				// FL2 instead of a raw surface GetDC: proper font, dirty
 				// tracking, and the native-res overlay pick it up.
-				g_PrintColorStr(11, 11, str, gpC_base->m_chatting_pi, RGB(20,20,20));
-				g_PrintColorStr(10, 10, str, gpC_base->m_chatting_pi, RGB(255,255,255));
+				g_PrintColorStr(11, 41, str, gpC_base->m_chatting_pi, RGB(20,20,20));
+				g_PrintColorStr(10, 40, str, gpC_base->m_chatting_pi, RGB(255,255,255));
 			}
 		__END_PROFILE("DrawFPS")
 
 		//-----------------------------------------------------------------
-		// Last�� Back���� copy - 3D HAL�� �ƴ� ��츸..
+		// Last?? Back???? copy - 3D HAL?? ??? ???..
 		//-----------------------------------------------------------------
 		__BEGIN_PROFILE("LastToBack")
 
@@ -6210,7 +6212,7 @@ CGameUpdate::UpdateDraw()
 
 
 	//-------------------------------------------------------------------
-	// Mouse�� ������ ��ǥ�� ���� debug�� code
+	// Mouse?? ?????? ????? ???? debug?? code
 	//-------------------------------------------------------------------
 	/*
 	WORD*	lpSurface;
@@ -6236,7 +6238,7 @@ CGameUpdate::UpdateDraw()
 
 
 	//-----------------------------------------------------------------
-	// tab������ MiniMap�� ��������.
+	// tab?????? MiniMap?? ????????.
 	//-----------------------------------------------------------------
 	//if (g_bDrawMinimap)
 	//{	
@@ -6247,7 +6249,7 @@ CGameUpdate::UpdateDraw()
 	//}
 
 	//-----------------------------------------------------------------
-	// ��Ʈ�� ���°� ������?
+	// ????? ???�? ???????
 	//-----------------------------------------------------------------
 	/*
 	if (!g_bNetStatusGood)
@@ -6260,24 +6262,24 @@ CGameUpdate::UpdateDraw()
 	*/
 
 	//-----------------------------------------------------------------
-	// ���� ����..
+	// ???? ????..
 	//-----------------------------------------------------------------
 	if (g_pPlayer->IsDead())
 	{	
 #if __CONTENTS(__PREMIUM_GIVE_ITEM_UI)
-		//ij-ch 2008.09.29 �����̾� ����â ���� Add
+		//ij-ch 2008.09.29 ??????? ????� ???? Add
 		if(gC_vs_ui.IsRunningRequest_PremiumGiveItem())
 			gC_vs_ui.FinishRequest_PremiumGiveItem();
-		//ij-ch 2008.09.29 �����̾� ����â ���� End
+		//ij-ch 2008.09.29 ??????? ????� ???? End
 #endif //__PREMIUM_GIVE_ITEM_UI
 
 		//m_pC_game->CloseTraceWindow();() ; 
-		//Sjheon 2005.11.11 Ʈ���̽� â ���� Add
+		//Sjheon 2005.11.11 ?????? � ???? Add
 		if(gC_vs_ui.IsRunningTraceWindow())
 			gC_vs_ui.CloseTraceWindow(); 
-		//Sjheon 2005.11.11 Ʈ���̽� â ���� End
+		//Sjheon 2005.11.11 ?????? � ???? End
 
-		// �����ε� ����Ʈ ����
+		// ??????? ????? ????
 		g_pTopView->SetBlindEffect(false);
 
 		if (g_pPlayer->GetActionCount()==g_pPlayer->GetActionCountMax())		
@@ -6296,7 +6298,7 @@ CGameUpdate::UpdateDraw()
 				blackValue = min(31, second+20);
 			}
 
-			// �״� ������ ���� ��쿡 ȭ���� �˰�...
+			// ??? ?????? ???? ??? ????? ???...
 			g_pTopView->SetFadeStart(blackValue, 0, 0, 5,5,5);
 
 			/*
@@ -6308,12 +6310,12 @@ CGameUpdate::UpdateDraw()
 			}
 			*/
 
-			// 6 frame�� �����ش�.
+			// 6 frame?? ???????.
 			if ((a & 0x01)==0)
 			{
 				//if (second==0)
 				{
-					//sprintf(str, "[SPACE]�� ������ �ǻ�Ƴ� �� �ֽ��ϴ�.", second);
+					//sprintf(str, "[SPACE]?? ?????? ????? ?? ??????.", second);
 					//g_pBack->GDI_Text(270,400, str, RGB(230,230,230));
 				}
 				//else
@@ -6324,7 +6326,7 @@ CGameUpdate::UpdateDraw()
 				//	g_pBack->GDI_Text(300,400, str, RGB(230,230,230));
 				}
 				
-				// 6�ʰ� ���������� ��Ȱ��ư�� ����.
+				// 6??? ?????????? ???????? ????.
 				if (second < 4
 					&& g_pTempInformation->GetMode()==TempInformation::MODE_NULL)
 				{
@@ -6347,7 +6349,7 @@ CGameUpdate::UpdateDraw()
 					g_pTempInformation->SetMode(TempInformation::MODE_WAIT_RESURRECT);
 					bool bResurrect = false, bElixir= false, bEternity= false, IsSiegeAttacker= false, IsSkillFromOther = false;
 
-					// 2005, 1, 18, sobeit add start - ����Ʈ action���� ���� ��쿣 �Ʒ��� üũ ���Ѵ�.
+					// 2005, 1, 18, sobeit add start - ????? action???? ???? ??? ????? �? ?????.
 					
 
 					if(0 == g_pPlayer->GetResurrectZoneID() && !g_pZone->IsSurvivalZone())
@@ -6363,7 +6365,7 @@ CGameUpdate::UpdateDraw()
 						//bEternity = (*g_pSkillInfoTable)[SKILL_ETERNITY].IsEnable();						
 						bEternity = g_pSkillAvailable->IsEnableSkill( SKILL_ETERNITY ) &&
 									(*g_pSkillInfoTable)[SKILL_ETERNITY].IsAvailableTime() 
-									// 2004, 11, 11, sobeit add start - ���� �˻絵 �Ѵ�.. ���..g_char_slot_ingame.DOMAIN_HEAL�� ����? -_-; ���� ����..�Ѥ�;
+									// 2004, 11, 11, sobeit add start - ???? ??? ???.. ???..g_char_slot_ingame.DOMAIN_HEAL?? ????? -_-; ???? ????..???;
 									&& (*g_pSkillManager)[SKILLDOMAIN_HEAL].GetDomainLevel() >= (*g_pSkillInfoTable)[SKILL_ETERNITY].GetLearnLevel()
 									&& !bEnforceResurrect;
 									// 2004, 11, 11, sobeit add end
@@ -6392,12 +6394,12 @@ CGameUpdate::UpdateDraw()
 	}
 
 	//-----------------------------------------------------------------
-	// Mouse Cursor ��ġ�� image�� �����ѵα�
+	// Mouse Cursor ????? image?? ????????
 	//-----------------------------------------------------------------
 	//
-	// FullScreen�̰�...
-	// �ٷ� ���� FPS�� ���FPS �Ѱ踦 ���� ���....
-	// Ŀ�� ��� ��ġ�� ����Ѵ�.
+	// FullScreen???...
+	// ??? ???? FPS?? ???FPS ??? ???? ???....
+	// ??? ??? ????? ??????.
 	// 	
 	if (g_pUserOption->UseSmoothCursor)
 	{
@@ -6408,10 +6410,10 @@ CGameUpdate::UpdateDraw()
 			// Window pixels -> back-surface pixels, the space the UI uses.
 			CDirectDraw::WindowToViewport(point);
 
-			// ui�� mouse��ǥ ����
+			// ui?? mouse??? ????
 			gC_vs_ui.MouseControl(M_MOVING, point.x, point.y);
 
-			// ������ ���� ����
+			// ?????? ???? ????
 			MOUSEPOINTER_INFO mp_info;
 			gC_vs_ui.GetCurrentMousePointerInfo(mp_info);
 
@@ -6434,14 +6436,14 @@ CGameUpdate::UpdateDraw()
 	{
 		//GetCursorPos(&point);	
 			
-		// ui�� mouse��ǥ ����
+		// ui?? mouse??? ????
 		//gC_vs_ui.MouseControl(M_MOVING, point.x, point.y);
 	}
 
 	if (CDirect3D::IsHAL())
 	{
 		//-----------------------------------------------------------------
-		// Mouse �׸���
+		// Mouse ?????
 		//-----------------------------------------------------------------		
 		if (!g_pTopView->IsDrawRequest())
 		{
@@ -6450,15 +6452,15 @@ CGameUpdate::UpdateDraw()
 	}
 	else
 	{
-		// â��忡�� 3D���� ���� ��쿡..
-		// �� �̰� �ϴϱ� ��������? - -;
+		// �????? 3D???? ???? ???..
+		// ?? ??? ???? ????????? - -;
 		//HDC hdc;
 		//g_pBack->GetSurface()->GetDC(&hdc);
 		//g_pBack->GetSurface()->ReleaseDC(hdc);
 	}
 
 	//-----------------------------------------------------------------
-	// Debug Information���
+	// Debug Information???
 	//-----------------------------------------------------------------
 	__BEGIN_PROFILE("DrawDebugInfo")
 
@@ -6482,7 +6484,7 @@ CGameUpdate::UpdateDraw()
 		//----------------------------------------------------------------
 		// UDP packet test
 		//----------------------------------------------------------------
-		/* �ڵ����� ����Դ� ��� ���� --;
+		/* ??????? ?????? ??? ???? --;
 		#ifdef __METROTECH_TEST__
 
 			if (g_pPlayer!=NULL)
@@ -6664,7 +6666,7 @@ CGameUpdate::UpdateDraw()
 			//-----------------------------------------------------------------
 			//if (!g_pBack->Lock()) return;
 
-			// Surface�� ������ �����صд�.
+			// Surface?? ?????? ????????.
 			//S_SURFACEINFO		SurfaceInfo;
 			//SetSurfaceInfo(&SurfaceInfo, g_pBack->GetDDSD());
 		
@@ -6687,7 +6689,7 @@ CGameUpdate::UpdateDraw()
 					}
 				}
 
-				// Debug Log Filename ����ϱ�
+				// Debug Log Filename ??????
 				if (g_pDebugMessage->GetFilename()!=NULL)
 				{
 					sprintf(str, "LogFile : %s", g_pDebugMessage->GetFilename());
@@ -6719,7 +6721,7 @@ CGameUpdate::UpdateDraw()
 			}
 			*/
 			
-			// Missile����
+			// Missile????
 			///*	 
 			if (g_pPlayer->GetSpecialActionInfo() != ACTIONINFO_NULL)
 			{
@@ -6742,7 +6744,7 @@ CGameUpdate::UpdateDraw()
 			}	
 			//*/
 
-			// ���� ��
+			// ???? ??
 			sprintf(str, "Money : %d", (*g_pMoneyManager).GetMoney());
 			
 			//g_pBack->GDI_Text(550,10, str, RGB(20,20,20));
@@ -6770,7 +6772,7 @@ CGameUpdate::UpdateDraw()
 		
 
 			/*
-			// �ӽ÷� item ���� �����ֱ�
+			// ??�? item ???? ???????
 			if (gpC_mouse_pointer->GetPickUpItem() != NULL)
 			{
 				sprintf(str, "%d", gpC_mouse_pointer->GetPickUpItem()->GetNumber());
@@ -6790,7 +6792,7 @@ CGameUpdate::UpdateDraw()
 	if (outputInfo || (*g_pUserOption).DrawFPS)
 	{
 		//-----------------------------------------------------------------
-		// FPS ���	
+		// FPS ???	
 		//-----------------------------------------------------------------
 		if (CDirect3D::IsHAL())
 		{
@@ -6809,14 +6811,14 @@ CGameUpdate::UpdateDraw()
 
 	//---------------------------------------------------------------------
 	//
-	// [ TEST CODE ] - Sword Domain�� Skill���� ������ �۾��Ѵ�.
+	// [ TEST CODE ] - Sword Domain?? Skill???? ?????? ??????.
 	//
 	//---------------------------------------------------------------------
 	/*
 	MSkillDomain& swordDomain = g_SkillManager[SKILLDOMAIN_SWORD];
 
 	//---------------------------------------------------------------------
-	// ��� skill�� ����ٰ� ǥ���Ѵ�.
+	// ???? skill?? ?????? ??????.
 	//---------------------------------------------------------------------
 	//swordDomain.LearnSkill( SKILL_DOUBLE_IMPACT );
 	//swordDomain.LearnSkill( SKILL_TRIPLE_SLASHER );
@@ -6826,27 +6828,27 @@ CGameUpdate::UpdateDraw()
 	//swordDomain.UnLearnSkill( SKILL_HURRICANE_COMBO );
 
 	//---------------------------------------------------------------------
-	// Sword Domain�� ��� ������� ����Ѵ�.
+	// Sword Domain?? ??? ??????? ??????.
 	//---------------------------------------------------------------------
 	swordDomain.SetBegin();
 	
 	while (swordDomain.IsNotEnd())
 	{
-		// skill�� id�� status
+		// skill?? id?? status
 		ACTIONINFO					id		= swordDomain.GetSkillID();
 		MSkillDomain::SKILLSTATUS	status	= swordDomain.GetSkillStatus();
 
 		//---------------------------------------
-		// status�� ������ ����. 
+		// status?? ?????? ????. 
 		//---------------------------------------
-		//	MSkillDomain::SKILLSTATUS_LEARNED		// �����.
-		//	MSkillDomain::SKILLSTATUS_NEXT			// ������ ��� �� �ִ�.
-		//	MSkillDomain::SKILLSTATUS_OTHER			// ������ ��� �� ����.	
+		//	MSkillDomain::SKILLSTATUS_LEARNED		// ?????.
+		//	MSkillDomain::SKILLSTATUS_NEXT			// ?????? ??? ?? ???.
+		//	MSkillDomain::SKILLSTATUS_OTHER			// ?????? ??? ?? ????.	
 		//---------------------------------------
 		
 		//---------------------------------------
-		// id�� �˸� g_SkillInfoTable���� 
-		// �� id�� skill�� ���� ������ ���� �� �ִ�.
+		// id?? ??? g_SkillInfoTable???? 
+		// ?? id?? skill?? ???? ?????? ???? ?? ???.
 		//---------------------------------------
 		COLORREF color;
 		switch (status)
@@ -6871,12 +6873,12 @@ CGameUpdate::UpdateDraw()
 		g_pBack->GDI_Text(x+1, y+1, skillInfo.GetName(), 0);
 		g_pBack->GDI_Text(x, y, skillInfo.GetName(), color);
 
-		// ����
+		// ????
 		swordDomain.Next();
 	}
 	//*/
 
-	// Ŀ�� ��� 
+	// ??? ??? 
 	//WORD color = 0xFFFF;//(rand()%2)?CDirectDraw::Color(20,20,20):CDirectDraw::Color(230,230,230);
 	//g_pBack->HLine(point.x-7, point.y, 7, color);
 	//g_pBack->HLine(point.x+1, point.y, 7, color);
@@ -6918,7 +6920,7 @@ CGameUpdate::UpdateDrawHelp()
 		}		
 	}
 
-	// 5�ʸ��� �ѹ���.. scroll
+	// 5????? ?????.. scroll
 	static DWORD HelplastTime = g_CurrentTime;
 	if (g_CurrentTime - HelplastTime >= g_pClientConfig->DELAY_GAMEMESSAGE)
 	{
@@ -6953,7 +6955,7 @@ PacketTest()
 	}
 }
 #if __CONTENTS(__AUTO_ATTACT)
-// Trace Obj�� ũ�����̰� �÷��̾ �ƴҶ��� �ڵ����� ����
+// Trace Obj?? ???????? ?�???? ?????? ??????? ????
 bool
 IsTargetCanAutoAttcak()
 {

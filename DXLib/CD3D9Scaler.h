@@ -9,6 +9,10 @@
 //                   scale ratio. Crisper than sharp-bilinear at 1.5x.
 // Mode 2:           mode 1 followed by a contrast-adaptive sharpen pass
 //                   (AMD CAS) at destination resolution. Strength 0..100.
+// Mode 3:           xBR level-2 reconstruction (Hyllian): rebuilds diagonal
+//                   and curved edges from the pixel art. Needs shader model
+//                   3; on lesser hardware it silently behaves like mode 1.
+// Mode 4:           mode 3 followed by the CAS sharpen pass.
 //
 // Only the game frame goes through these; the native-resolution text
 // overlay is composited afterwards and is never filtered. Everything here

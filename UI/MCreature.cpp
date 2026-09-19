@@ -1594,6 +1594,7 @@ MCreature::RemoveEffectStatus(EFFECTSTATUS status)
 		//------------------------------------------------------------
 	case EFFECTSTATUS_GUN_SHOT_GUIDANCE_AIM:
 	case EFFECTSTATUS_SATELLITE_BOMB_AIM:
+	case EFFECTSTATUS_SATELLITE_BOMB_AIM_2:
 		if (m_bAlive)
 		{
 			SetStop();
@@ -1712,6 +1713,7 @@ MCreature::RemoveEffectStatus(EFFECTSTATUS status)
 		break;
 
 	case EFFECTSTATUS_STUN:
+	case EFFECTSTATUS_CHAIN_OF_DEMON:
 	case EFFECTSTATUS_CURSE_OF_BLOOD:
 	case EFFECTSTATUS_FREEZE:
 		if (m_bAlive)
@@ -2049,6 +2051,7 @@ MCreature::AddEffectStatus(enum EFFECTSTATUS status, DWORD delayFrame)
 		//------------------------------------------------------------
 	case EFFECTSTATUS_GUN_SHOT_GUIDANCE_AIM:
 	case EFFECTSTATUS_SATELLITE_BOMB_AIM:
+	case EFFECTSTATUS_SATELLITE_BOMB_AIM_2:
 #ifdef OUTPUT_DEBUG					
 		DEBUG_ADD_FORMAT("[GSG] Set");
 #endif
@@ -2628,6 +2631,7 @@ MCreature::AddEffectStatus(enum EFFECTSTATUS status, DWORD delayFrame)
 		break;
 
 	case EFFECTSTATUS_ICE_HORIZON:
+	case EFFECTSTATUS_RADCHIA:
 		delayFrame = 22;
 		break;
 
@@ -2637,6 +2641,7 @@ MCreature::AddEffectStatus(enum EFFECTSTATUS status, DWORD delayFrame)
 		break;
 
 	case EFFECTSTATUS_PASSING_HEAL:
+	case EFFECTSTATUS_PASSING_HEAL_2:
 		delayFrame = 20;
 		break;
 	case EFFECTSTATUS_DONATION_200501:
@@ -2685,6 +2690,7 @@ MCreature::AddEffectStatus(enum EFFECTSTATUS status, DWORD delayFrame)
 			GetX(), GetY(), 0, delayFrame, NULL, false);
 		break;
 	case EFFECTSTATUS_STUN:
+	case EFFECTSTATUS_CHAIN_OF_DEMON:
 		// �� �̵���Ų��.
 		AffectMoveBufferAll();
 		ActionMoveNextPosition();
@@ -3868,6 +3874,10 @@ MCreature::CreateAttachEffect(TYPE_EFFECTSPRITETYPE type,
 
 		if (type >= EFFECTSPRITETYPE_NEW_LAR_SLASH_MALE_FAST && type <= EFFECTSPRITETYPE_NEW_LAR_SLASH_FEMALE_SLOW)
 			delayFrame = 0xFFFF;
+		if (type >= EFFECTSPRITETYPE_TEMP2298 && type <= EFFECTSPRITETYPE_TEMP2303)	// Lar Stroke: every swing plays its own slash
+			IsMulti = true;
+		if (type == EFFECTSPRITETYPE_SHADY_DOUPLE_BOMB)	// Shady Double: each ghost bursts on its own
+			IsMulti = true;
 	}
 	TYPE_FRAMEID	frameID = (*g_pEffectSpriteTypeTable)[type].FrameID;
 
@@ -4096,6 +4106,13 @@ MCreature::UpdateAttachEffect()
 		{
 			if (!(GetAction() == ACTION_SLAYER_SWORD_2 || GetAction() == ACTION_SLAYER_SWORD_2_SLOW || GetAction() == ACTION_SLAYER_SWORD_2_FAST)
 				&& m_RepeatCount <= 0)
+			{
+				pEffect->SetCount(0);
+			}
+		}
+		else if (pEffect->GetEffectSpriteType() >= EFFECTSPRITETYPE_TEMP2298 && pEffect->GetEffectSpriteType() <= EFFECTSPRITETYPE_TEMP2303)	// Lar Stroke: gone once walking
+		{
+			if (GetAction() == ACTION_MOVE || GetAction() == ACTION_SLAYER_MOTOR_MOVE)
 			{
 				pEffect->SetCount(0);
 			}
@@ -6734,11 +6751,11 @@ MCreature::ActionMove()
 
 						int ActionInfo = GetBasicActionInfo();//m_nBasicActionInfo;
 
-						if (m_nSpecialActionInfo == SKILL_BLITZ_SLIDING || m_nSpecialActionInfo == SKILL_BLAZE_WALK)
+						if (m_nSpecialActionInfo == SKILL_BLITZ_SLIDING || m_nSpecialActionInfo == SKILL_BLAZE_WALK || m_nSpecialActionInfo == SKILL_BLAZE_WALK_2)
 						{
 							ActionInfo = SKILL_BLITZ_SLIDING_ATTACK;
 
-							if (m_nSpecialActionInfo == SKILL_BLAZE_WALK)
+							if (m_nSpecialActionInfo == SKILL_BLAZE_WALK || m_nSpecialActionInfo == SKILL_BLAZE_WALK_2)
 								ActionInfo = SKILL_BLAZE_WALK_ATTACK;
 
 							SetDirection(MTopView::GetDirectionToPosition(GetX(), GetY(), pCreature->GetX(), pCreature->GetY()));
@@ -8371,6 +8388,7 @@ MCreature::Action()
 			|| HasEffectStatus(EFFECTSTATUS_EXPLOSION_WATER)
 			|| HasEffectStatus(EFFECTSTATUS_GLACIER)
 			|| HasEffectStatus(EFFECTSTATUS_STUN)
+			|| HasEffectStatus(EFFECTSTATUS_CHAIN_OF_DEMON)
 			|| HasEffectStatus(EFFECTSTATUS_CURSE_OF_BLOOD)
 			|| HasEffectStatus(EFFECTSTATUS_FREEZE)
 			)
@@ -9091,7 +9109,7 @@ MCreature::GetActionInfoAction(TYPE_ACTIONINFO nActionInfo, bool IsSelfAction, b
 		//-----------------------------------------------------
 		// Lightning Hand�� ������ ACTION_SLAYER_SWORD_2�̴�. - -;d
 		//-----------------------------------------------------
-		if (nActionInfo == SKILL_LIGHTNING_HAND || nActionInfo == SKILL_LARSLASH)
+		if (nActionInfo == SKILL_LIGHTNING_HAND || nActionInfo == SKILL_LARSLASH || nActionInfo == SKILL_LAR_STROKE)
 		{
 			return ACTION_SLAYER_SWORD_2_REPEAT;
 		}
@@ -11361,7 +11379,7 @@ MCreature::ShowInDarkness(int sX, int sY) const
 	if (//!(m_CreatureType >= 526 && m_CreatureType <= 549 || m_CreatureType >= 371 && m_CreatureType <= 376 || m_CreatureType >= 560 && m_CreatureType <= 563) &&
 		//		!IsNPC() &&
 		m_DarknessCount >= 0 &&
-		(!HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pZone->GetID() == 3001)
+		(!(HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) || g_pZone->GetID() == 3001)
 		&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
 		&& !g_bLight

@@ -5494,6 +5494,11 @@ bool	C_VS_UI::IsRunningGearWindow() const
 		return m_pC_game->IsRunningGearWindow();
 	return false;
 }
+void	C_VS_UI::OpenGearWindow()
+{
+	if (m_pC_game)
+		m_pC_game->OpenGearWindow();
+}
 void C_VS_UI::Change_Custom_Naming(int nID, char* szName)
 {
 	if (m_pC_game)

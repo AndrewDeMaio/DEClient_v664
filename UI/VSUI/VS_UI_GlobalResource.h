@@ -158,6 +158,19 @@ public:
 	};
 
 	C_SPRITE_PACK *			m_pC_assemble_box_button_spk;
+	// DK Umbra's message box art, the same for every race
+	C_SPRITE_PACK *			m_pC_assemble_box_renewal_spk;
+	C_SPRITE_PACK *			m_pC_assemble_box_button_renewal_spk;
+
+	// frames we added to the renewal button pack: small blank buttons, 32x16 or
+	// 50x16, labelled with overlay text (DrawRenewalButtonLabel)
+	enum ASSEMBLE_BOX_BUTTON_RENEWAL_INDEX
+	{
+		ABR_BUTTON_SMALL_GREEN = 54,	// +1 highlighted, +2 pushed
+		ABR_BUTTON_SMALL_RED = 57,
+		ABR_BUTTON_WIDE_GREEN = 60,	// 50x16
+		ABR_BUTTON_WIDE_RED = 63,
+	};
 
 //	enum ASSEMBLE_BOX_ETC
 //	{
@@ -608,6 +621,10 @@ public:
 	void	DrawDialog2(Rect &rect, bool alpha = false);
 	void	DrawDialogLocked2(int x, int y, int w, int h, bool alpha = false);
 	void	DrawDialogLocked2(Rect &rect, bool alpha = false);
+	// DK Umbra's dialog frame, its title bar bar_h tall
+	void	DrawDialogRenewalLocked(int x, int y, int w, int h, int bar_h);
+	// a label over one of the blank renewal buttons, outside a surface lock
+	void	DrawRenewalButtonLabel(int x, int y, int w, int h, const char* sz_label, bool pushed, COLORREF color = RGB_WHITE);
 	
 	// 아우스터즈 배경 바꾼거
 	void	DrawDialog4(int x, int y, int w, int h, bool alpha = false);

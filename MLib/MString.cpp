@@ -3,7 +3,7 @@
 //--------------------------------------------------------------------------
 
 
-/*	using namespace std �� ���� ���� �ʴٴ� �Ѱ��� ���� --;;
+/*	using namespace std ?? ???? ???? ???? ????? ???? --;;
 #include <windows.h>
 #include "MString.h"
 #include <io.h>
@@ -73,7 +73,7 @@ MString::~MString()
 //--------------------------------------------------------------------------
 // Init( len )
 //--------------------------------------------------------------------------
-// size��ŭ memoryȮ��
+// size??? memory???
 //--------------------------------------------------------------------------
 void	
 MString::Init(int len)
@@ -88,7 +88,7 @@ MString::Init(int len)
 //--------------------------------------------------------------------------
 // Relase
 //--------------------------------------------------------------------------
-// memory���� ����
+// memory???? ????
 //--------------------------------------------------------------------------
 void	
 MString::Release()
@@ -136,7 +136,7 @@ void
 MString::operator = (const MString& str)
 {
 	//--------------------------------
-	// ���̰� 0�� ���..
+	// ????? 0?? ???..
 	//--------------------------------
 	if (str.m_Length==0)
 	{
@@ -148,7 +148,7 @@ MString::operator = (const MString& str)
 		}		
 	}
 	//--------------------------------
-	// ���̰� 0 �̻��� ���...
+	// ????? 0 ????? ???...
 	//--------------------------------
 	else
 	{
@@ -167,7 +167,7 @@ MString::operator = (const MString& str)
 //--------------------------------------------------------------------------
 // Format
 //--------------------------------------------------------------------------
-// ������ �������� string�� �����.
+// ?????? ???????? string?? ?????.
 //--------------------------------------------------------------------------
 void
 MString::Format(const char* format, ...)
@@ -189,7 +189,7 @@ MString::SaveToFile(std::ofstream& file)
 {
 	file.write((const char*)&m_Length, 4);
 
-	// length�� 0�� �ƴ� ��쿡��..
+	// length?? 0?? ??? ?????..
 	if (m_Length!=0)
 	{
 		file.write((const char*)m_pString, static_cast<int>(m_Length));
@@ -218,7 +218,7 @@ MString::LoadFromFile(ivfstream& file)
 	// certainly a read that drifted off alignment due to a struct layout change.
 	if (m_Length > 0x10000)
 	{
-		FILE* dbg = fopen("winmain_step.log", "a");
+		FILE* dbg = fopen("Log\\winmain_step.log", "a");
 		if (dbg)
 		{
 			fprintf(dbg,
@@ -241,7 +241,7 @@ MString::LoadFromFile(ivfstream& file)
 
 	if(bNull)
 	{
-		// len�� 0�� �ƴ� ��쿡��...
+		// len?? 0?? ??? ?????...
 		m_pString = new char [m_Length + 1];
 
 		if (m_Length != 0)

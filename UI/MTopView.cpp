@@ -96,6 +96,9 @@
 #include "MTopViewDraw.inl"
 #include "VS_UI_GameCommon2.h"
 
+// The skill box on screen (VS_UI_GameCommon.cpp); game messages stack above it.
+void g_GetSkillBoxRect(RECT* rect);
+
 #include "OperatorOption.h"
 
 #include "BGMManager.h"
@@ -257,7 +260,7 @@ TextComparison::operator () (DRAWTEXT_NODE* left, DRAWTEXT_NODE* right) const
 inline		bool			IsAffectFromDarkness()
 {
 	if (g_pPlayer->IsVampire() ||
-		g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) ||
+		(g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pPlayer->HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) ||
 		g_pZone->GetID() == 3001)
 		return false;
 
@@ -8591,7 +8594,7 @@ MTopView::GetSelectedObject(int x, int y, BYTE_ATTRIBUTE actionTarget)
 //	bool bSlayerPlayer = g_pPlayer->IsSlayer();
 
 	if ((m_bFirstTileDraw
-		|| !g_pPlayer->IsVampire() && g_pPlayer->IsInDarkness() && (!g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pZone->GetID() == 3001)
+		|| !g_pPlayer->IsVampire() && g_pPlayer->IsInDarkness() && (!(g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pPlayer->HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) || g_pZone->GetID() == 3001)
 		&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
 		&& !g_bLight
@@ -8937,7 +8940,7 @@ MTopView::GetSelectedObject(int x, int y, BYTE_ATTRIBUTE actionTarget)
 							if (
 								(g_pPlayer->IsVampire() && g_pZone->GetID() != 3001 ||
 									!g_pPlayer->IsVampire() && !(!pCreature->IsNPC() && pCreature->IsInDarkness()) ||
-									!g_pPlayer->IsVampire() && g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS)
+									!g_pPlayer->IsVampire() && (g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pPlayer->HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT))
 									|| g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
 									|| g_bLight
@@ -9169,7 +9172,7 @@ MTopView::GetSelectedObject(int x, int y, BYTE_ATTRIBUTE actionTarget)
 							// ?????? ????? Creature?? ?????? ?????
 							if ((g_pPlayer->IsVampire() && g_pZone->GetID() != 3001 ||
 								!g_pPlayer->IsVampire() && !(!pCreature->IsNPC() && pCreature->IsInDarkness()) ||
-								!g_pPlayer->IsVampire() && g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS)
+								!g_pPlayer->IsVampire() && (g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pPlayer->HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT))
 								|| g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
 								|| g_bLight
@@ -9337,7 +9340,7 @@ MTopView::GetSelectedObject(int x, int y, BYTE_ATTRIBUTE actionTarget)
 							if ((
 								g_pPlayer->IsVampire() && g_pZone->GetID() != 3001 ||
 								!g_pPlayer->IsVampire() && !(!pCreature->IsNPC() && pCreature->IsInDarkness()) ||
-								!g_pPlayer->IsVampire() && g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS)
+								!g_pPlayer->IsVampire() && (g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pPlayer->HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT))
 								|| g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
 								|| g_bLight
@@ -9477,7 +9480,7 @@ MTopView::GetSelectedObject(int x, int y, BYTE_ATTRIBUTE actionTarget)
 							// ?????? ????? Creature?? ?????? ?????
 							if ((g_pPlayer->IsVampire() && g_pZone->GetID() != 3001 ||
 								!g_pPlayer->IsVampire() && !(!pCreature->IsNPC() && pCreature->IsInDarkness()) ||
-								!g_pPlayer->IsVampire() && g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS)
+								!g_pPlayer->IsVampire() && (g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pPlayer->HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT))
 								|| g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
 								|| g_bLight
@@ -9566,7 +9569,7 @@ MTopView::GetSelectedObject(int x, int y, BYTE_ATTRIBUTE actionTarget)
 							// ?????? ????? Creature?? ?????? ?????
 							if ((g_pPlayer->IsVampire() && g_pZone->GetID() != 3001 ||
 								!g_pPlayer->IsVampire() && !(!pCreature->IsNPC() && pCreature->IsInDarkness())
-								|| !g_pPlayer->IsVampire() && g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS)
+								|| !g_pPlayer->IsVampire() && (g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pPlayer->HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT))
 								|| g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
 								|| g_bLight
@@ -11241,7 +11244,7 @@ MTopView::ClearLightBufferFilter3D()
 		//DarkColor = m_DarkBits;
 		int darkBits = m_DarkBits;
 
-		if (g_pPlayer->IsInDarkness() && (!g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pZone->GetID() == 3001))
+		if (g_pPlayer->IsInDarkness() && (!(g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pPlayer->HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) || g_pZone->GetID() == 3001))
 		{
 			darkBits = 15;
 		}
@@ -11293,7 +11296,7 @@ MTopView::ClearLightBufferFilter2D()
 		*/
 		int darkBits = m_DarkBits;
 
-		if (g_pPlayer->IsInDarkness() && (!g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pZone->GetID() == 3001))
+		if (g_pPlayer->IsInDarkness() && (!(g_pPlayer->HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pPlayer->HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) || g_pZone->GetID() == 3001))
 		{
 			darkBits = 15;
 		}
@@ -12118,42 +12121,21 @@ MTopView::DrawInformation()
 	// Game Message ???
 	//
 	//-----------------------------------------------------------------
-	switch (g_pPlayer->GetRace())
-	{
-	case RACE_SLAYER:
-		strX = 10;
-		strY = 410;
-		break;
+	// Right-aligned above the skill box, newest at the bottom.
+	RECT skill_box;
+	g_GetSkillBoxRect(&skill_box);
 
-	case RACE_VAMPIRE:
-		strX = 10;
-		strY = 440;
-		if (g_pPlayer->GetBonusPoint() != 0)
-		{
-			// bonus point ?ø????? ?????? ????? ??? ???
-			strX = 85;
-		}
-		break;
-
-	case RACE_OUSTERS:
-		strX = 10;
-		strY = 410;
-		if (g_pPlayer->GetBonusPoint() != 0)
-		{
-			// bonus point ?ø????? ?????? ????? ??? ???
-			strX = 85;
-		}
-		break;
-	}
-
-	//strY+= 168 ; 
-	strY += g_pUserInformation->iResolution_y - 600;
+	// Clear of the skill box's tooltip, which opens upward from the box: the
+	// tallest, Bless (two names, level and MP cost), is 80px.
+	strY = skill_box.top - 80 - 24;
 
 	for (int c = g_pGameMessage->GetSize() - 1; c >= 0; c--)
 	{
 		if ((*g_pGameMessage)[c][0] != NULL)
 		{
 			const COLORREF color = RGB(8 << 3, 28 << 3, 8 << 3);	//CDirectDraw::Color(29,8,12);
+
+			strX = g_pUserInformation->iResolution_x - 10 - g_GetStringWidth((*g_pGameMessage)[c], pPrintInfo->hfont);
 
 			pPrintInfo->text_color = 0;
 			g_Print(strX + 1, strY + 1, (*g_pGameMessage)[c], pPrintInfo);
@@ -22097,6 +22079,45 @@ MTopView::GetEffectSpriteType(BLT_TYPE bltType, TYPE_FRAMEID frameID) const
 }
 
 //----------------------------------------------------------------
+// EffectPalette
+//----------------------------------------------------------------
+// Flame Spike (Ousters book skill 556) uses Fire Piercing's fire
+// sprites; its effects are drawn with a pink copy of the palette.
+//----------------------------------------------------------------
+static MPalette&
+EffectPalette(MPalettePack& ppk, MEffect* pEffect)
+{
+	TYPE_FRAMEID frameID = pEffect->GetFrameID();
+
+	if (pEffect->GetActionInfo() != SKILL_FLAME_SPIKE)
+	{
+		return ppk[frameID];
+	}
+
+	static std::map<TYPE_FRAMEID, MPalette*> s_PinkPalette;
+
+	MPalette*& pPink = s_PinkPalette[frameID];
+
+	if (pPink == NULL)
+	{
+		pPink = new MPalette;
+		*pPink = ppk[frameID];
+
+		for (int i = 0; i < pPink->GetSize(); i++)
+		{
+			WORD& color = (*pPink)[(BYTE)i];
+			int r = CDirectDraw::Red(color);
+			int g = CDirectDraw::Green(color);
+			int b = CDirectDraw::Blue(color);
+
+			color = CDirectDraw::Color((BYTE)r, (BYTE)(g * 11 / 20), (BYTE)min(31, max(b, g * 17 / 20)));
+		}
+	}
+
+	return *pPink;
+}
+
+//----------------------------------------------------------------
 // DrawEffect ( point, MEffect* )
 //----------------------------------------------------------------
 // m_pSurface->IsLock() ???¿??? ?????? ???????.
@@ -22166,7 +22187,7 @@ MTopView::DrawEffect(POINT* pPoint, MEffect* pEffect, bool bSelectable)
 			point.x += Frame.GetCX();
 			point.y += Frame.GetCY();
 
-			DRAW_ALPHASPRITEPAL(&point, spriteID, m_EffectAlphaSPK, m_EffectAlphaPPK[pEffect->GetFrameID()])//, m_EffectAlphaSPKI, m_EffectAlphaSPKFile)
+			DRAW_ALPHASPRITEPAL(&point, spriteID, m_EffectAlphaSPK, EffectPalette(m_EffectAlphaPPK, pEffect))//, m_EffectAlphaSPKI, m_EffectAlphaSPKFile)
 
 				//---------------------------------------- 		
 				// ????? ???? ???? ???? ????

@@ -364,7 +364,7 @@ void ClientPlayer::processCommand ()
 					// Recording the mismatch is enough: it names the packet class to
 					// fix, and the desync that follows behaves exactly as it did
 					// before this check existed.
-					std::ofstream mismatch("PacketSizeMismatch.log", std::ios::out | std::ios::app);
+					std::ofstream mismatch("Log\\PacketSizeMismatch.log", std::ios::out | std::ios::app);
 					mismatch << "PacketID " << (int)packetID
 					         << " declared " << (int)packetSize
 					         << " but read " << ((int)consumed - (int)szPacketHeader)

@@ -2930,7 +2930,7 @@ MPlayer::KeepTraceCreature()
 	//-------------------------------------------------------
 	if ((pCreature == NULL ||
 		pCreature->IsInDarkness() && !pCreature->IsNPC() &&
-		(!IsVampire() && !HasEffectStatus(EFFECTSTATUS_LIGHTNESS) ||
+		(!IsVampire() && !(HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) ||
 			IsVampire() && g_pZone->GetID() == 3001)
 		|| bTraceTimer
 		|| pCreature->IsInGroundElemental() && pCreature->IsOusters() && !g_pPlayer->IsOusters())
@@ -3054,7 +3054,7 @@ MPlayer::TraceCreatureToBasicAction(TYPE_OBJECTID id, bool bForceAttack, bool bC
 		|| IsInCasket()	// [�����3]
 		|| HasEffectStatus(EFFECTSTATUS_ETERNITY_PAUSE)
 		|| IsInDarkness() &&
-		!HasEffectStatus(EFFECTSTATUS_LIGHTNESS)
+		!(HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT))
 		&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
 		&& !g_bLight
@@ -3180,7 +3180,7 @@ MPlayer::TraceCreatureToBasicAction(TYPE_OBJECTID id, bool bForceAttack, bool bC
 		if (pCreature == NULL
 			|| pCreature->IsDead()
 			|| pCreature->IsInDarkness() && !pCreature->IsNPC() &&
-			(!IsVampire() && !HasEffectStatus(EFFECTSTATUS_LIGHTNESS) ||
+			(!IsVampire() && !(HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) ||
 				IsVampire() && g_pZone->GetID() == 3001)
 			|| pCreature->IsInGroundElemental() && pCreature->IsOusters() && !g_pPlayer->IsOusters()
 			&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
@@ -3532,7 +3532,7 @@ MPlayer::TraceCreatureToSpecialAction(TYPE_OBJECTID id, bool bForceAttack)
 	if (!IsNotDelay()
 		|| HasEffectStatus(EFFECTSTATUS_ETERNITY_PAUSE)
 		|| IsInCasket()	// [�����3]
-		|| IsInDarkness() && (!HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pZone->GetID() == 3001)
+		|| IsInDarkness() && (!(HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) || g_pZone->GetID() == 3001)
 		&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
 		&& !g_bLight
@@ -3650,7 +3650,7 @@ MPlayer::TraceCreatureToSpecialAction(TYPE_OBJECTID id, bool bForceAttack)
 			//m_ComboCnt = 0 ;
 			if(originalSkill != SKILL_HALO  && originalSkill != SKILL_SHARP_HAIL && originalSkill != SKILL_DRAGON_TORNADO &&
 			   originalSkill != SKILL_HIT_CONVERT  && originalSkill != SKILL_SWORD_OF_THOR && originalSkill != SKILL_BLITZ_SLIDING &&
-			   originalSkill != SKILL_MENTAL_SWORD  && originalSkill != SKILL_BLAZE_WALK && originalSkill != SKILL_BLITZ_SLIDING &&
+			   originalSkill != SKILL_MENTAL_SWORD  && originalSkill != SKILL_BLAZE_WALK && originalSkill != SKILL_BLAZE_WALK_2 && originalSkill != SKILL_BLITZ_SLIDING &&
 			   originalSkill != SKILL_SHADOW_DANCING  && originalSkill != SKILL_POWER_OF_LAND && originalSkill != SKILL_TYPHOON
 			)
 				m_ComboCnt = 0 ;
@@ -3708,11 +3708,11 @@ MPlayer::TraceCreatureToSpecialAction(TYPE_OBJECTID id, bool bForceAttack)
 				|| pCreature->IsInGroundElemental() && pCreature->IsOusters() && !g_pPlayer->IsOusters()
 				// 2004, 10, 14, sobiet modify start - ����Ʈ�Ͻ��ɷ����� ��ũ�Ͻ� �ȿ� �༮ ������ �ȵȴٰ� �ؼ� ����..
 //				|| pCreature->IsInDarkness() && !pCreature->IsNPC() && 
-//				!(IsVampire() && !HasEffectStatus( EFFECTSTATUS_LIGHTNESS )  ||
+//				!(IsVampire() && !(HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT))  ||
 //				g_pZone->GetID() != 3001 && IsVampire() )
 //				&& !g_pPlayer->HasEffectStatus( EFFECTSTATUS_GHOST ) 
 || pCreature->IsInDarkness() && !pCreature->IsNPC() && !g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST) &&
-(!IsVampire() && !HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pZone->GetID() == 3001 && IsVampire())
+(!IsVampire() && !(HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) || g_pZone->GetID() == 3001 && IsVampire())
 // 2004, 10, 14, sobiet modify end- ����Ʈ�Ͻ��ɷ����� ��ũ�Ͻ� �ȿ� �༮ ������ �ȵȴٰ� �ؼ� ����..
 #ifdef __METROTECH_TEST__
 && !g_bLight
@@ -3853,7 +3853,7 @@ MPlayer::TraceCreatureToSpecialAction(TYPE_OBJECTID id, bool bForceAttack)
 				//-------------------------------------------------------
 				if ((*g_pActionInfoTable)[originalSkill].IsOptionUseWithBless())
 				{
-					if (!m_bEffectStatus[EFFECTSTATUS_BLESS])
+					if (!m_bEffectStatus[EFFECTSTATUS_BLESS] && !m_bEffectStatus[EFFECTSTATUS_BLESS_2])
 					{
 						m_fNextTrace = FLAG_TRACE_NULL;
 
@@ -4697,7 +4697,7 @@ MPlayer::TraceItem(TYPE_OBJECTID id)
 	if (!IsNotDelay()
 		|| HasEffectStatus(EFFECTSTATUS_ETERNITY_PAUSE)
 		|| IsInCasket()	// [�����3]
-		|| IsInDarkness() && (!HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pZone->GetID() == 3001)
+		|| IsInDarkness() && (!(HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) || g_pZone->GetID() == 3001)
 		&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
 		&& !g_bLight
@@ -4715,7 +4715,7 @@ MPlayer::TraceItem(TYPE_OBJECTID id)
 		// item�� zone�� ���� ���
 		if (pItem == NULL
 			|| g_pZone->GetSector(pItem->GetX(), pItem->GetY()).HasDarkness() &&
-			(!IsVampire() && (!HasEffectStatus(EFFECTSTATUS_LIGHTNESS) ||
+			(!IsVampire() && (!(HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) ||
 				IsVampire() && g_pZone->GetID() == 3001))
 			&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
@@ -5406,7 +5406,7 @@ MPlayer::ActionInTraceDistance()
 			// ������ �Ϸ������Ƿ� Item�� �ݴ´�.
 			if (pItem != NULL
 				&& (!g_pZone->GetSector(pItem->GetX(), pItem->GetY()).HasDarkness() || IsVampire() && g_pZone->GetID() != 3001 ||
-					!IsVampire() && HasEffectStatus(EFFECTSTATUS_LIGHTNESS)
+					!IsVampire() && (HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT))
 					&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
 					&& !g_bLight
@@ -5730,7 +5730,7 @@ MPlayer::ActionMove()
 					//-------------------------------------------------------								
 					if (pCreature == NULL
 						|| pCreature->IsInDarkness() && !pCreature->IsNPC() &&
-						(!IsVampire() && !HasEffectStatus(EFFECTSTATUS_LIGHTNESS) ||
+						(!IsVampire() && !(HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) ||
 							g_pZone->GetID() == 3001 && IsVampire() ||
 							pCreature->IsOusters() && pCreature->IsInGroundElemental() && !g_pPlayer->IsOusters())
 						&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
@@ -5792,7 +5792,7 @@ MPlayer::ActionMove()
 					//-------------------------------------------------------
 					if (pItem == NULL
 						|| g_pZone->GetSector(pItem->GetX(), pItem->GetY()).HasDarkness() &&
-						(!IsVampire() && (!HasEffectStatus(EFFECTSTATUS_LIGHTNESS) ||
+						(!IsVampire() && (!(HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) ||
 							IsVampire() && g_pZone->GetID() == 3001))
 						&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
@@ -6360,12 +6360,12 @@ MPlayer::ActionMove()
 
 						// ��� ǥ��
 						int ActionInfo = GetBasicActionInfo(); //m_nBasicActionInfo;
-						if (m_nSpecialActionInfo == SKILL_BLITZ_SLIDING || m_nSpecialActionInfo == SKILL_BLAZE_WALK)
+						if (m_nSpecialActionInfo == SKILL_BLITZ_SLIDING || m_nSpecialActionInfo == SKILL_BLAZE_WALK || m_nSpecialActionInfo == SKILL_BLAZE_WALK_2)
 						{
 							m_fTrace = FLAG_TRACE_CREATURE_SPECIAL;
 							if (m_nSpecialActionInfo == SKILL_BLITZ_SLIDING)
 								m_nNextUsedActionInfo = SKILL_BLITZ_SLIDING_ATTACK;
-							else if (m_nSpecialActionInfo == SKILL_BLAZE_WALK)
+							else if (m_nSpecialActionInfo == SKILL_BLAZE_WALK || m_nSpecialActionInfo == SKILL_BLAZE_WALK_2)
 								m_nNextUsedActionInfo = SKILL_BLAZE_WALK_ATTACK;
 							else
 								return;
@@ -6932,6 +6932,7 @@ MPlayer::ActionToSendPacket(bool bImmediately)
 	case SKILL_PLASMA_ROCKET_LAUNCHER:
 #if __CONTENTS(__SECOND_RARE_SKILL)
 	case SKILL_XRL:
+	case SKILL_GAE_BULGA:
 #endif //__SECOND_RARE_SKILL
 		if (g_pCurrentMagazine != NULL)
 		{
@@ -6946,6 +6947,7 @@ MPlayer::ActionToSendPacket(bool bImmediately)
 		else return;
 		break;
 	case SKILL_SATELLITE_BOMB:
+	case SKILL_SATELLITE_BOMB_2:
 		if (g_pCurrentMagazine != NULL)
 		{
 			int MagazineCount = g_pCurrentMagazine->GetNumber();
@@ -8130,6 +8132,12 @@ MPlayer::ActionEffect()
 	//----------------------------------------------------------
 	// affect �Ŀ� �̰� �ٲ� ���� �ִ� T_T;
 	TYPE_ACTIONINFO currentUsedActionInfo = SkillInfo;
+
+	// Lar Stroke: every repeat loop of a held attack starts a new slash (the start frame is 0)
+	if (bRepeatAction && SkillInfo == SKILL_LAR_STROKE)
+	{
+		bStartEffect = TRUE;
+	}
 
 	if (bStartEffect)
 	{
@@ -9624,6 +9632,8 @@ MPlayer::AddEffectStatus(EFFECTSTATUS status, DWORD delayFrame)
 			break;
 
 		case EFFECTSTATUS_LIGHTNESS:
+
+		case EFFECTSTATUS_FLAME_SIGHT:
 		case EFFECTSTATUS_YELLOW_POISON:
 		case EFFECTSTATUS_FLARE:
 		case EFFECTSTATUS_YELLOW_POISON_TO_CREATURE:
@@ -9761,6 +9771,7 @@ MPlayer::RemoveEffectStatus(EFFECTSTATUS status)
 	case EFFECTSTATUS_YELLOW_POISON:
 	case EFFECTSTATUS_YELLOW_POISON_TO_CREATURE:
 	case EFFECTSTATUS_LIGHTNESS:
+	case EFFECTSTATUS_FLAME_SIGHT:
 		// 2004, 6, 21 sobeit add start - about blindness
 //		case EFFECTSTATUS_BLINDNESS:
 			// 2004, 6, 21 sobeit add end - about blindness
@@ -10197,6 +10208,7 @@ MPlayer::Action()
 	if (!m_bTurning	// [�����]
 		&& !HasEffectStatus(EFFECTSTATUS_CURSE_PARALYSIS)
 		&& !HasEffectStatus(EFFECTSTATUS_STUN)
+		&& !HasEffectStatus(EFFECTSTATUS_CHAIN_OF_DEMON)
 		&& !HasEffectStatus(EFFECTSTATUS_CURSE_OF_BLOOD)
 		&& !HasEffectStatus(EFFECTSTATUS_FREEZE)
 		&& !IsCauseCriticalWounds()
@@ -13906,7 +13918,7 @@ void
 MPlayer::CheckInDarkness()
 {
 	if (g_pZone != NULL &&
-		(!IsVampire() && (!HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || g_pZone->GetID() == 3001) ||
+		(!IsVampire() && (!(HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) || g_pZone->GetID() == 3001) ||
 			g_pZone->GetID() == 3001 && IsVampire())
 		&& !g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
@@ -14118,7 +14130,7 @@ void	MPlayer::CalculateLightSight()
 	// 2004, 6, 24, sobeit add end
 
 	if (HasEffectStatus(EFFECTSTATUS_LIGHT) ||
-		HasEffectStatus(EFFECTSTATUS_LIGHTNESS))
+		(HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)))
 	{
 		m_LightSight += 6;
 	}
@@ -14207,7 +14219,7 @@ void	MPlayer::CalculateSight()
 		}
 		pGear->Next();
 	}
-	if ( //HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || 
+	if ( //(HasEffectStatus(EFFECTSTATUS_LIGHTNESS) || HasEffectStatus(EFFECTSTATUS_FLAME_SIGHT)) || 
 		g_pPlayer->HasEffectStatus(EFFECTSTATUS_GHOST)
 #ifdef __METROTECH_TEST__
 		|| g_bLight

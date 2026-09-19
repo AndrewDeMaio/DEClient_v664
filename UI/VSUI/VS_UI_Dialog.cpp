@@ -102,6 +102,10 @@ void C_VS_UI_DIALOG::UnacquireMouseFocus()
 	m_pC_button_group->UnacquireMouseFocus();
 }
 
+// DK Umbra's look for these boxes (not the title screen's own)
+static const int s_dialog_button_margin = 12;	// from the frame's right and bottom edges
+static const int s_dialog_button_gap = 6;
+
 //-----------------------------------------------------------------------------
 // C_VS_UI_DIALOG
 //
@@ -119,6 +123,7 @@ C_VS_UI_DIALOG::C_VS_UI_DIALOG(int _x, int _y, int width, int height, void (*exe
 	m_dwDlg_Hight = height;
 
 	m_bOkOnly = false;
+	m_bRenewal = (dd_button & (DIALOG_TITLE_OK | DIALOG_TITLE_CANCEL | DIALOG_TITLE_NO_BUTTON)) == 0;
 	m_TempValue1 = 0;
 
 #if __CONTENTS(__TUNING_ITEM)
@@ -178,6 +183,12 @@ C_VS_UI_DIALOG::C_VS_UI_DIALOG(int _x, int _y, int width, int height, void (*exe
 	DIALOG_BUTTON_HEIGHT = gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_OK);
 	DIALOG_BUTTON_TITLE_WIDTH = gpC_global_resource->m_pC_common_button_spk->GetWidth(C_GLOBAL_RESOURCE::BUTTON_OK_TITLE);
 	DIALOG_BUTTON_TITLE_HEIGHT = gpC_global_resource->m_pC_common_button_spk->GetHeight(C_GLOBAL_RESOURCE::BUTTON_OK_TITLE);
+	if (m_bRenewal)
+	{
+		// DK Umbra's buttons, labelled in overlay text
+		DIALOG_BUTTON_WIDTH = gpC_global_resource->m_pC_assemble_box_button_renewal_spk->GetWidth(C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN);
+		DIALOG_BUTTON_HEIGHT = gpC_global_resource->m_pC_assemble_box_button_renewal_spk->GetHeight(C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN);
+	}
 
 	// -1 = center
 	if (_x == -1)
@@ -335,6 +346,21 @@ C_VS_UI_DIALOG::C_VS_UI_DIALOG(int _x, int _y, int width, int height, void (*exe
 		}
 	}
 
+	// DK Umbra's buttons sit in the frame's bottom right corner
+	if (m_bRenewal && h != -1)
+	{
+		const int ids[2] = { (int)DIALOG_EXECID_CANCEL, (int)DIALOG_EXECID_OK };
+		int right = x + w - s_dialog_button_margin;
+		for (int i = 0; i < 2; i++)
+		{
+			C_VS_UI_EVENT_BUTTON* p_button = m_pC_button_group->GetButton(ids[i]);
+			if (p_button == NULL)
+				continue;
+			p_button->x = right - DIALOG_BUTTON_WIDTH;
+			p_button->y = y + h - s_dialog_button_margin - DIALOG_BUTTON_HEIGHT;
+			right = p_button->x - s_dialog_button_gap;
+		}
+	}
 	m_blSelect_Return_Button = TRUE;
 }
 
@@ -671,6 +697,11 @@ void C_VS_UI_DIALOG::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 	if (p_button->GetID() == DIALOG_EXECID_OK ||
 		p_button->GetID() == DIALOG_EXECID_CANCEL)
 	{
+		if (m_bRenewal)
+		{
+			ShowRenewalButton(p_button);
+			return;
+		}
 		if (p_button->GetFocusState())
 		{
 
@@ -833,7 +864,7 @@ void C_VS_UI_DIALOG::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 			if (p_button->GetFocusState() && p_button->GetPressState())
 			{
 				if (p_button->y - y_skip_line < m_menu_rect.y + m_menu_rect.h)
-					gpC_global_resource->m_pC_assemble_box_button_spk->Blt(p_button->x - 20, p_button->y + 2 - y_skip_line, C_GLOBAL_RESOURCE::AB_DIALOG_TAG_SELECTED);
+					DialogButtonSpk()->Blt(p_button->x - 20, p_button->y + 2 - y_skip_line, C_GLOBAL_RESOURCE::AB_DIALOG_TAG_SELECTED);
 
 				if (!m_p_menu[p_button->m_image_index].sz_menu_str.empty())
 				{
@@ -855,12 +886,12 @@ void C_VS_UI_DIALOG::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 				if (p_button->GetFocusState())
 				{
 					if (p_button->y - y_skip_line < m_menu_rect.y + m_menu_rect.h)
-						gpC_global_resource->m_pC_assemble_box_button_spk->Blt(p_button->x - 20, p_button->y - y_skip_line, C_GLOBAL_RESOURCE::AB_DIALOG_TAG_SELECTED);
+						DialogButtonSpk()->Blt(p_button->x - 20, p_button->y - y_skip_line, C_GLOBAL_RESOURCE::AB_DIALOG_TAG_SELECTED);
 				}
 				else
 				{
 					if (p_button->y - y_skip_line < m_menu_rect.y + m_menu_rect.h)
-						gpC_global_resource->m_pC_assemble_box_button_spk->Blt(p_button->x - 20, p_button->y - y_skip_line, C_GLOBAL_RESOURCE::AB_DIALOG_TAG);
+						DialogButtonSpk()->Blt(p_button->x - 20, p_button->y - y_skip_line, C_GLOBAL_RESOURCE::AB_DIALOG_TAG);
 				}
 				if (!m_p_menu[p_button->m_image_index].sz_menu_str.empty())
 				{
@@ -993,7 +1024,16 @@ void C_VS_UI_DIALOG::Show()
 	}
 	else
 	{
-		gpC_global_resource->DrawDialog(x, y, w, h, GetAttributes()->alpha);
+		if (m_bRenewal)
+		{
+			if (gpC_base->m_p_DDSurface_back->Lock())
+			{
+				gpC_global_resource->DrawDialogRenewalLocked(x, y, w, h, 0);
+				gpC_base->m_p_DDSurface_back->Unlock();
+			}
+		}
+		else
+			gpC_global_resource->DrawDialog(x, y, w, h, GetAttributes()->alpha);
 	}
 	//	Rect rect;
 	//	rect.Set(0, 0, w-2, h-2);
@@ -1270,6 +1310,8 @@ void C_VS_UI_DIALOG::Show()
 	}
 
 	m_pC_button_group->Show();
+	if (m_bRenewal)
+		ShowRenewalButtonLabels();
 	if (m_pC_msg_scroll_bar)
 		m_pC_msg_scroll_bar->Show(m_msg_rect.x, m_msg_rect.y);
 	if (m_pC_menu_scroll_bar)
@@ -2178,6 +2220,65 @@ void C_VS_UI_DIALOG::ProcessMenuScrollBar()
 				}
 				break;
 			}
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------
+// DialogButtonSpk
+//
+// The pack the buttons and menu tags come from.
+//-----------------------------------------------------------------------------
+C_SPRITE_PACK* C_VS_UI_DIALOG::DialogButtonSpk() const
+{
+	return m_bRenewal ? gpC_global_resource->m_pC_assemble_box_button_renewal_spk :
+		gpC_global_resource->m_pC_assemble_box_button_spk;
+}
+
+//-----------------------------------------------------------------------------
+// ShowRenewalButton
+//
+// OK or Cancel as one of DK Umbra's blank buttons, lit the way the old art
+// was. The label goes on after all the buttons (ShowRenewalButtonLabels).
+//-----------------------------------------------------------------------------
+void C_VS_UI_DIALOG::ShowRenewalButton(C_VS_UI_EVENT_BUTTON* p_button)
+{
+#if __CONTENTS(__TUNING_ITEM)
+	const int shift = m_button_yPos;
+#else
+	const int shift = 0;
+#endif
+	const bool ok = p_button->GetID() == DIALOG_EXECID_OK;
+	int frame = ok ? C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN : C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_RED;
+	if (p_button->GetFocusState())
+	{
+		m_blSelect_Return_Button = ok ? TRUE : FALSE;
+		frame += p_button->GetPressState() ? C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET : C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET;
+	}
+	else if (gpC_dialog_confirm_item_bay_messagebox == this && (m_blSelect_Return_Button ? ok : !ok))
+	{
+		// the one Enter picks
+		frame += C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET;
+	}
+	gpC_global_resource->m_pC_assemble_box_button_renewal_spk->Blt(p_button->x, p_button->y + shift, frame);
+}
+
+void C_VS_UI_DIALOG::ShowRenewalButtonLabels()
+{
+#if __CONTENTS(__TUNING_ITEM)
+	const int shift = m_button_yPos;
+#else
+	const int shift = 0;
+#endif
+	const int ids[2] = { (int)DIALOG_EXECID_OK, (int)DIALOG_EXECID_CANCEL };
+	const char* labels[2] = { "OK", "Cancel" };
+	for (int i = 0; i < 2; i++)
+	{
+		C_VS_UI_EVENT_BUTTON* p_button = m_pC_button_group->GetButton(ids[i]);
+		if (p_button != NULL)
+		{
+			gpC_global_resource->DrawRenewalButtonLabel(p_button->x, p_button->y + shift, p_button->w, p_button->h,
+				labels[i], p_button->GetFocusState() && p_button->GetPressState());
 		}
 	}
 }

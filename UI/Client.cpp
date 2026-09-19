@@ -3145,9 +3145,10 @@ void InitResolutionConfig()
 	}
 
 	// Pixel-shader scaler: "Scaler: 0" (or absent) = the fixed-function path
-	// above, untouched; "Scaler: 1" = sharp pixel shader; "Scaler: 2" = sharp
-	// + contrast-adaptive sharpen with "Sharpen: 0..100" (default 50). Text
-	// is composited after scaling and is never filtered. See CD3D9Scaler.h.
+	// above, untouched; 1 = sharp pixel shader; 2 = sharp + contrast-adaptive
+	// sharpen ("Sharpen: 0..100", default 50); 3 = xBR edge reconstruction;
+	// 4 = xBR + sharpen. Text is composited after scaling and is never
+	// filtered. See CD3D9Scaler.h.
 	try
 	{
 		Properties ScalerConfig;

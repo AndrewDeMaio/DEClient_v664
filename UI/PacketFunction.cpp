@@ -4628,6 +4628,74 @@ SkillCrossCounter(MCreature* pUserCreature, MCreature* pTargetCreature, int skil
 }
 
 //------------------------------------------------------------------
+// Skill BatBreaker (book skill 553)
+//------------------------------------------------------------------
+// Four faded clones of the caster appear around the target tile,
+// facing it, and claw (SKILL_CLIENT_BAT_BREAKER). DK Umbra
+// (DarkEden.exe 0x586a56) dashes them in with FAST_MOVE_ACTION, but
+// that only claws when the engine finds the traced creature after the
+// move, and it faces them at that creature; Umbra's spots are the
+// corners 1 tile out, or a plus 2 tiles out when the caster faces
+// diagonally - here both sit on the edge of the 5x5 the server hits.
+//------------------------------------------------------------------
+void
+SkillBatBreakerShadows(MCreature* pUserCreature, int tx, int ty)
+{
+	if (pUserCreature == NULL || g_pZone == NULL)
+	{
+		return;
+	}
+
+	const POINT corner[4] = { { -2, -2 }, { -2, 2 }, { 2, -2 }, { 2, 2 } };
+	const POINT plus[4] = { { 0, 2 }, { 2, 0 }, { -2, 0 }, { 0, -2 } };
+	const POINT* offset = (pUserCreature->GetDirection() & 0x1) ? plus : corner;
+
+	for (int i = 0; i < 4; i++)
+	{
+		int x = tx + offset[i].x;
+		int y = ty + offset[i].y;
+
+		if (x < 0 || y < 0 || x >= g_pZone->GetWidth() || y >= g_pZone->GetHeight())
+		{
+			continue;
+		}
+
+		MFakeCreature* pFakeCreature = g_pZone->NewFakeCreature( pUserCreature, x, y );
+
+		// facing the tile the skill was cast at
+		int dir = pFakeCreature->GetDirectionToPosition( tx, ty );
+		pFakeCreature->SetDirection( dir );
+		pFakeCreature->SetCurrentDirection( dir );
+		pFakeCreature->SetAction( ACTION_ATTACK );
+
+		// faded, gone once the claw is over (MFakeCreature::IsFakeEnd)
+		pFakeCreature->SetFakeCreatureType( MFakeCreature::FAKE_CREATURE_FADE_ACTION );
+
+		if (!g_pZone->AddFakeCreature( pFakeCreature ))
+		{
+			delete pFakeCreature;
+			continue;
+		}
+
+		// the claw runs 13 + 13 frames; the clone's own action is shorter
+		pFakeCreature->SetFakeMinFrame( 34 );
+
+		// The claw is started here, not through PacketSpecialAction*: those refuse every action id at or
+		// above the result range, and this client-only record sits above it. The clone's own id makes the
+		// claw (attach-to-self nodes) hang on the clone.
+		ExecuteActionInfoFromMainNode(
+			SKILL_CLIENT_BAT_BREAKER,
+			x, y, 0,
+			dir,
+			pFakeCreature->GetID(),
+			x, y, 0,
+			0,
+			NULL );
+	}
+}
+
+
+//------------------------------------------------------------------
 // Skill ShadowDancing // [�����]
 //------------------------------------------------------------------
 // user --> target 
@@ -6811,7 +6879,7 @@ void SetDragonTorando(int Type, DWORD ObjectID, int TileX, int TileY)
 	if(pFakeCreature == NULL)
 	{
 		// ������ ����
-		int TempCreatureType = Type==EFFECTSTATUS_DRAGON_TORNADO? 788:789;
+		int TempCreatureType = (Type==EFFECTSTATUS_DRAGON_TORNADO || Type==EFFECTSTATUS_DRAGON_HURRICANE || Type==EFFECTSTATUS_DRAGON_HURRICANE_2)? 788:789;
 		pFakeCreature = g_pZone->NewFakeCreature(TempCreatureType, TileX, TileY, 0);
 		pFakeCreature->SetID(ObjectID);
 		if (!g_pZone->AddFakeCreature( pFakeCreature ))
