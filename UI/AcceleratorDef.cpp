@@ -90,7 +90,7 @@ const char* ACCELERATOR_NAME[MAX_ACCELERATOR] =
 	"GEAR",
 	"CHAR INFO",
 	"SKILL INFO",
-	"RANK 1",
+	"RANK",
 	"WORLDMAP",
 	"PARTY",
 	"HELP",

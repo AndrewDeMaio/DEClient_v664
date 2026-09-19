@@ -42,8 +42,6 @@ class CTypeMap : public std::map<unsigned int, DataType*> {
 		virtual void		SaveToFile(std::ofstream& file);
 		virtual void		LoadFromFile(ivfstream& file);
 
-	protected :
-		TYPE_MAP data_map;
 };
 
 
@@ -71,9 +69,9 @@ template <class DataType>
 void
 CTypeMap<DataType>::Release()
 {
-	auto iData = data_map.begin();
+	auto iData = this->begin();
 
-	while (iData != data_map.end())
+	while (iData != this->end())
 	{
 		DataType*	pData	= (*iData).second;		
 
@@ -82,7 +80,7 @@ CTypeMap<DataType>::Release()
 		iData ++;
 	}
 
-	data_map.clear();
+	this->clear();
 }
 
 //----------------------------------------------------------------------
@@ -92,9 +90,9 @@ template <class DataType>
 bool				
 CTypeMap<DataType>::AddData( unsigned int id, DataType* pData )
 {
-	auto iData = data_map.find( id );
+	auto iData = this->find( id );
 
-	if (iData != data_map.end())
+	if (iData != this->end())
 	{
 		// 이미 있는 경우
 		// pData는 외부에서 지워줘야한다.
@@ -104,7 +102,7 @@ CTypeMap<DataType>::AddData( unsigned int id, DataType* pData )
 	//------------------------------------------------------
 	// 없는 경우 --> 추가
 	//------------------------------------------------------
-	data_map.insert({ id, pData });
+	this->insert({ id, pData });
 
 	return true;
 }
@@ -116,9 +114,9 @@ template <class DataType>
 DataType*	
 CTypeMap<DataType>::GetData( unsigned int id )
 {
-	auto iData = data_map.find( id );
+	auto iData = this->find( id );
 
-	if (iData == data_map.end())
+	if (iData == this->end())
 	{
 		// 없는 경우 
 		return NULL;
@@ -135,9 +133,9 @@ template <class DataType>
 bool				
 CTypeMap<DataType>::RemoveData( unsigned int id )
 {
-	auto iData = data_map.find( id );
+	auto iData = this->find( id );
 
-	if (iData == data_map.end())
+	if (iData == this->end())
 	{
 		// 없는 경우 
 		return false;
@@ -146,7 +144,7 @@ CTypeMap<DataType>::RemoveData( unsigned int id )
 	// 있으면 지워줘야 한다.
 	delete (*iData).second;
 
-	data_map.erase( iData );
+	this->erase( iData );
 
 	return true;
 }
@@ -158,18 +156,18 @@ template <class DataType>
 void		
 CTypeMap<DataType>::SaveToFile(std::ofstream& file)
 {
-	auto iData = data_map.begin();
+	auto iData = this->begin();
 
 	//-----------------------------------------------------
 	// 개수 저장
 	//-----------------------------------------------------
-	int infoSize = data_map.size();
+	int infoSize = this->size();
 	file.write((const char*)&infoSize, 4);
 
 	//-----------------------------------------------------
 	// 각 info 저장
 	//-----------------------------------------------------
-	while (iData != data_map.end())
+	while (iData != this->end())
 	{
 		unsigned int	id		= (*iData).first;
 		DataType*		pData	= (*iData).second;		

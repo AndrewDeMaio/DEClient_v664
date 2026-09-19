@@ -2281,6 +2281,9 @@ public:
 	void	Start();
 	void	Finish();
 	void	StartOustersDownSkill();
+	// R: open (or raise) the window on the Rank tab
+	void	StartRank();
+	bool	OnRankTab() const	{ return m_tab == TAB_RANK; }
 };
 
 

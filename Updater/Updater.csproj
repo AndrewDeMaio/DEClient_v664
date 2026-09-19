@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- The launcher/patcher that ships beside DarkEden.exe. .NET Framework 4.8 is
+       part of Windows 10 and 11, so testers install nothing. -->
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <AssemblyName>Updater</AssemblyName>
+    <RootNamespace>DarkEden.Updater</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+    <ApplicationIcon>Art\darkeden.ico</ApplicationIcon>
+    <Version>1.0.0</Version>
+    <Product>DarkEden Updater</Product>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>bin\</OutputPath>
+    <DebugType>none</DebugType>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+    <GenerateSupportedRuntime>false</GenerateSupportedRuntime>
+    <!-- the 2008 Smart Update sources the folder also holds are not part of this -->
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="src\*.cs" />
+    <EmbeddedResource Include="Art\*.bmp" LogicalName="Art.%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!-- the game runs out of Release\, so that is where the exe has to be -->
+  <Target Name="CopyToRelease" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(MSBuildThisFileDirectory)..\Release\" SkipUnchangedFiles="true" />
+  </Target>
+
+</Project>

@@ -2396,10 +2396,11 @@ void	C_VS_UI_TRIBE::HotKey_Grade1Info()
 		break;
 	}
 
-	if (gC_vs_ui.IsRunningGrade1Info())
-		gC_vs_ui.CloseInfo();
+	// the Rank tab of DK Umbra's skills window, in place of the old grade window
+	if (m_pC_skill_book->Running() && m_pC_skill_book->OnRankTab())
+		m_pC_skill_book->Finish();
 	else
-		gC_vs_ui.RunInfo(C_VS_UI_INFO::GRADE1_INFO_MODE);
+		m_pC_skill_book->StartRank();
 }
 
 void	C_VS_UI_TRIBE::HotKey_Grade3Info()
@@ -41145,6 +41146,18 @@ void C_VS_UI_SKILL_BOOK::StartOustersDownSkill()
 	}
 
 	m_bOustersDownSkill = true;
+}
+void C_VS_UI_SKILL_BOOK::StartRank()
+{
+	if (!Running())
+		Start();
+
+	if (m_tab != TAB_RANK)
+	{
+		m_tab = TAB_RANK;
+		m_scroll = 0;
+		LayoutTabs();
+	}
 }
 
 void C_VS_UI_SKILL_BOOK::Process()

@@ -194,6 +194,16 @@ BYTE				g_PayType = 1;
 // [Futec????]
 char g_FutecIP[20] = { 0, };
 unsigned int g_FutecPort = 0;
+
+// Futec(ip:port) points the client at a test setup whose servers all sit behind
+// that one address. When they hand the client on (login to game, and back), they
+// name each other by the address they use between themselves - 127.0.0.1 on a
+// shared host - which means nothing to a client on another machine. So a client
+// started that way goes back to the address it dialled, to the server's port.
+std::string g_GetReconnectIP(const std::string& serverIP)
+{
+	return (g_FutecPort != 0) ? std::string(g_FutecIP) : serverIP;
+}
 BYTE g_AdvanceVampireActionMaxCount[ACTION_ADVANCEMENT_MAX - ACTION_ADVANCEMENT_STOP];
 BYTE g_AdvanceSlayerActionMaxCount[ACTION_ADVANCEMENT_SLAYER_MAX - ACTION_ADVANCEMENT_SLAYER_STOP_SWORD];
 BYTE g_AdvanceOustersActionMaxCount[ACTION_ADVANCEMENT_OUSTERS_MAX - ACTION_ADVANCEMENT_OUSTERS_CHAKRAM_STOP];
@@ -3216,8 +3226,197 @@ void SaveResolutionConfig()
 // Name: WinMain()
 // Desc: Initialization, message loop
 //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+// Crash reporting
+//
+// This build has no crash reporting compiled in (__BUGTRAP is off), so a client
+// that dies leaves nothing behind - the testers' machines had no Application
+// Error entry either.
+//
+// Everything here avoids the CRT: fopen/fprintf allocate, and if the heap is
+// what broke, the handler dies before it can say anything. Paths are built from
+// the exe's own folder, because the working directory is only pointed at the
+// game folder further down, in CClient::Init.
+//
+// Output, in Log\ like every other client log:
+//   crash.log                  one line per event: code, address, module+offset
+//   crash_<date>_<time>.dmp    minidump of the first fault; open it against the
+//                              DarkEden.pdb of the SAME build
+//-----------------------------------------------------------------------------
+#include <dbghelp.h>
+#pragma comment(lib, "dbghelp.lib")
+#include <signal.h>
+#include <stdlib.h>
+#include <exception>
+
+static volatile LONG g_bDumpWritten = 0;
+
+static void g_CrashPath(const char* szLeaf, char* szOut)
+{
+	char szDir[MAX_PATH];
+	szDir[0] = 0;
+	GetModuleFileNameA(NULL, szDir, MAX_PATH);
+
+	int cut = 0;
+
+	for (int i = 0; szDir[i] != 0; ++i)
+	{
+		if (szDir[i] == '\\')
+			cut = i;
+	}
+
+	szDir[cut] = 0;
+	wsprintfA(szOut, "%s\\Log\\%s", szDir, szLeaf);
+}
+
+static void g_CrashWrite(const char* szLine)
+{
+	char szPath[MAX_PATH];
+	g_CrashPath("crash.log", szPath);
+
+	HANDLE hFile = CreateFileA(szPath, FILE_APPEND_DATA,
+		FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	if (hFile == INVALID_HANDLE_VALUE)
+		return;
+
+	DWORD written = 0;
+	SetFilePointer(hFile, 0, NULL, FILE_END);
+	WriteFile(hFile, szLine, lstrlenA(szLine), &written, NULL);
+	CloseHandle(hFile);
+}
+
+static void g_CrashReport(EXCEPTION_POINTERS* pExceptionInfo, const char* szWhen)
+{
+	EXCEPTION_RECORD* pRecord = (pExceptionInfo != NULL) ? pExceptionInfo->ExceptionRecord : NULL;
+	DWORD  code     = (pRecord != NULL) ? pRecord->ExceptionCode : 0;
+	void*  pAddress = (pRecord != NULL) ? pRecord->ExceptionAddress : NULL;
+
+	// which module, and how far into it: that maps to a function with the pdb
+	char szModule[MAX_PATH];
+	szModule[0] = 0;
+	DWORD_PTR offset = 0;
+	HMODULE hModule = NULL;
+
+	if (pAddress != NULL
+		&& GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+			(LPCSTR)pAddress, &hModule)
+		&& hModule != NULL)
+	{
+		GetModuleFileNameA(hModule, szModule, MAX_PATH);
+		offset = (DWORD_PTR)pAddress - (DWORD_PTR)hModule;
+	}
+
+	SYSTEMTIME st;
+	GetLocalTime(&st);
+
+	// an access violation says what it was doing, and to which address
+	DWORD_PTR opType    = (pRecord != NULL && pRecord->NumberParameters >= 1) ? pRecord->ExceptionInformation[0] : 0;
+	DWORD_PTR opAddress = (pRecord != NULL && pRecord->NumberParameters >= 2) ? pRecord->ExceptionInformation[1] : 0;
+
+	char szLine[1024];
+	wsprintfA(szLine, "%04d-%02d-%02d %02d:%02d:%02d %s code=0x%08X at=0x%08X %s+0x%X %s=0x%08X thread=%u\r\n",
+		st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond,
+		szWhen, code, (DWORD)(DWORD_PTR)pAddress, szModule, (DWORD)offset,
+		(opType == 0) ? "read" : ((opType == 1) ? "write" : "exec"), (DWORD)opAddress,
+		GetCurrentThreadId());
+	g_CrashWrite(szLine);
+
+	// one dump, for the first fault
+	if (pExceptionInfo != NULL && InterlockedExchange(&g_bDumpWritten, 1) == 0)
+	{
+		char szLeaf[MAX_PATH];
+		wsprintfA(szLeaf, "crash_%04d%02d%02d_%02d%02d%02d.dmp",
+			st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+
+		char szDump[MAX_PATH];
+		g_CrashPath(szLeaf, szDump);
+
+		HANDLE hDump = CreateFileA(szDump, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
+		if (hDump != INVALID_HANDLE_VALUE)
+		{
+			MINIDUMP_EXCEPTION_INFORMATION mei;
+			mei.ThreadId          = GetCurrentThreadId();
+			mei.ExceptionPointers = pExceptionInfo;
+			mei.ClientPointers    = FALSE;
+
+			BOOL ok = MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hDump,
+				(MINIDUMP_TYPE)(MiniDumpWithIndirectlyReferencedMemory | MiniDumpScanMemory),
+				&mei, NULL, NULL);
+
+			CloseHandle(hDump);
+			g_CrashWrite(ok ? "  dump written\r\n" : "  dump FAILED\r\n");
+		}
+	}
+}
+
+// First chance: before any __except or unwinding can hide it. The client raises
+// C++ exceptions (Throwable) as a matter of course, so those are left alone.
+static LONG CALLBACK g_VectoredCrash(EXCEPTION_POINTERS* pExceptionInfo)
+{
+	DWORD code = (pExceptionInfo != NULL && pExceptionInfo->ExceptionRecord != NULL)
+		? pExceptionInfo->ExceptionRecord->ExceptionCode : 0;
+
+	switch (code)
+	{
+	case EXCEPTION_ACCESS_VIOLATION:
+	case EXCEPTION_ILLEGAL_INSTRUCTION:
+	case EXCEPTION_PRIV_INSTRUCTION:
+	case EXCEPTION_STACK_OVERFLOW:
+	case EXCEPTION_IN_PAGE_ERROR:
+	case EXCEPTION_INT_DIVIDE_BY_ZERO:
+	case EXCEPTION_ARRAY_BOUNDS_EXCEEDED:
+		g_CrashReport(pExceptionInfo, "first-chance");
+		break;
+	}
+
+	return EXCEPTION_CONTINUE_SEARCH;
+}
+
+static LONG WINAPI g_UnhandledCrash(EXCEPTION_POINTERS* pExceptionInfo)
+{
+	g_CrashReport(pExceptionInfo, "unhandled");
+	return EXCEPTION_EXECUTE_HANDLER;
+}
+
+static void g_CrashNote(const char* szWhat)
+{
+	SYSTEMTIME st;
+	GetLocalTime(&st);
+
+	char szLine[512];
+	wsprintfA(szLine, "%04d-%02d-%02d %02d:%02d:%02d %s thread=%u\r\n",
+		st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, szWhat, GetCurrentThreadId());
+	g_CrashWrite(szLine);
+}
+
+static void g_OnExit()      { g_CrashNote("clean exit"); }
+static void g_OnTerminate() { g_CrashNote("terminate() - unhandled C++ exception"); }
+static void g_OnAbort(int)  { g_CrashNote("abort()"); }
+
+static void g_InstallCrashReporting()
+{
+	// the log has to be writable before anything else
+	char szLogDir[MAX_PATH];
+	g_CrashPath("", szLogDir);
+
+	int nDir = lstrlenA(szLogDir);
+
+	if (nDir > 0 && szLogDir[nDir - 1] == '\\')
+		szLogDir[nDir - 1] = 0;
+
+	CreateDirectoryA(szLogDir, NULL);
+	AddVectoredExceptionHandler(1, g_VectoredCrash);
+	SetUnhandledExceptionFilter(g_UnhandledCrash);
+	atexit(g_OnExit);
+	std::set_terminate(g_OnTerminate);
+	signal(SIGABRT, g_OnAbort);
+	g_CrashNote("client start (built " __DATE__ " " __TIME__ ")");
+}
 int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	g_InstallCrashReporting();
 #if __CONTENTS(__XTRAP)
 	//2009 04 21 ??? ????? ????? ??? ???? ?????? ???..
 	//http://patch.wiselogic.co.kr/DarkEden

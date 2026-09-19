@@ -4509,7 +4509,7 @@ void C_VS_UI_GAME::HotKey_Grade1Info()
 {
 	assert(m_pC_hotkey);
 
-	if (!m_pC_gamemenu && g_pSystemAvailableManager->IsAvailableRankBonusSystem() )
+	if (!m_pC_gamemenu)
 		m_pC_hotkey->HotKey_Grade1Info();
 }
 

@@ -35,6 +35,7 @@
 extern int g_Dimension;
 extern bool		UpdateSocketOutput();
 extern BYTE g_macAddress[6];
+extern std::string g_GetReconnectIP(const std::string& serverIP);
 //--------------------------------------------------------------------------------
 // �α��μ����κ��� ���� ������ �ּҿ� ��Ʈ, �׸��� ����Ű�� ���� ���
 // ���� ������ ������ ��, ����Ű�� ���� CGConnect ��Ŷ�� �����Ѵ�.
@@ -135,16 +136,17 @@ void LCReconnectHandler::execute ( LCReconnect * pPacket , Player * pPlayer )
 	
 	pClientPlayer->disconnect();
 
-	// LCReconnect ��Ŷ�� ����ִ� ������ ����ؼ�, ���� ������ �����Ѵ�.
-	DEBUG_ADD_FORMAT("Reconnecting to %s:%d", 
-										pPacket->getGameServerIP().c_str(), 
+	const std::string gameServerIP = g_GetReconnectIP( pPacket->getGameServerIP() );
+
+	DEBUG_ADD_FORMAT("Reconnecting to %s:%d",
+										gameServerIP.c_str(),
 										pPacket->getGameServerPort());
-	
+
 	try {
 #ifdef OUTPUT_DEBUG
 		tickCount = timeGetTime();//GetTickCount();
 #endif
-		pClientPlayer->getSocket()->reconnect( pPacket->getGameServerIP() , pPacket->getGameServerPort() );
+		pClientPlayer->getSocket()->reconnect( gameServerIP , pPacket->getGameServerPort() );
 #ifdef OUTPUT_DEBUG
 		currentTempStruct.reconnectTickCount = timeGetTime()-tickCount;
 #endif

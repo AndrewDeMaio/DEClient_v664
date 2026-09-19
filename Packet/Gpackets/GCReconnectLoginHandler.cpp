@@ -17,6 +17,8 @@
 	#include "UserInformation.h"
 #endif
 
+extern std::string g_GetReconnectIP(const std::string& serverIP);
+
 //--------------------------------------------------------------------------------
 // �α��μ����κ��� ���� ������ �ּҿ� ��Ʈ, �׸��� ����Ű�� ���� ���
 // ���� ������ ������ ��, ����Ű�� ���� CGConnect ��Ŷ�� �����Ѵ�.
@@ -36,13 +38,15 @@ void GCReconnectLoginHandler::execute ( GCReconnectLogin * pPacket , Player * pP
 	pClientPlayer->disconnect();
 
 	// GCReconnectLogin ��Ŷ�� ����ִ� ������ ����ؼ�, login ������ �����Ѵ�.
-	DEBUG_ADD_FORMAT("Reconnecting to %s:%d", 
-									pPacket->getLoginServerIP().c_str(), 
+	const std::string loginServerIP = g_GetReconnectIP( pPacket->getLoginServerIP() );
+
+	DEBUG_ADD_FORMAT("Reconnecting to %s:%d",
+									loginServerIP.c_str(),
 									pPacket->getLoginServerPort());
-	
+
 	try {
 
-		pClientPlayer->getSocket()->reconnect( pPacket->getLoginServerIP() , pPacket->getLoginServerPort() );
+		pClientPlayer->getSocket()->reconnect( loginServerIP , pPacket->getLoginServerPort() );
 
 		// reconnect�ϰ� �Ǹ� ������ ���� ��������� �ȴ�.
 		// ����, �� ���� ���� �ɼ��� ���� ��������� �Ѵ�.
