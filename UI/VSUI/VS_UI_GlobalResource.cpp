@@ -480,8 +480,8 @@ void C_GLOBAL_RESOURCE::DrawDialogLocked2(int x, int y, int w, int h, bool alpha
 //-----------------------------------------------------------------------------
 // DrawDialogRenewalLocked
 //
-// DK Umbra's dialog frame: the pieces DrawDialogLocked2 draws, from its
-// assemblemessagebox art (the same for every race), opaque as Umbra draws it.
+// The renewal dialog frame: the pieces DrawDialogLocked2 draws, from its
+// assemblemessagebox art (the same for every race), drawn opaque.
 // The art's title bar is 14 rows; a taller bar repeats its plain rows so a
 // title fits inside.
 //-----------------------------------------------------------------------------

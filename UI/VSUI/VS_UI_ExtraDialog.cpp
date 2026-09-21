@@ -1471,7 +1471,7 @@ void	C_VS_UI_NPC_DIALOG::Show()
 	}
 }
 
-// The description window in DK Umbra's dialog frame, the same for every race
+// The description window in the renewal dialog frame, the same for every race
 static const int s_desc_bar_h = 22;			// its title bar, stretched to fit the title
 static const int s_desc_title_x = 12;
 static const int s_desc_title_h = 14;		// m_desc_menu_pi
@@ -2448,7 +2448,7 @@ C_VS_UI_DESC_DIALOG::C_VS_UI_DESC_DIALOG(id_t type, void* void_ptr, void* void_p
 	m_rep_string.clear();
 
 
-	// DK Umbra's frame: the title in its bar, the text under it
+	// the renewal frame: the title in its bar, the text under it
 	SetDesc(s_desc_text_x, s_desc_bar_h + s_desc_text_gap, color, pi);
 	SetDescTitle(s_desc_title_x, (s_desc_bar_h - s_desc_title_h) / 2, title_color, title_pi);
 

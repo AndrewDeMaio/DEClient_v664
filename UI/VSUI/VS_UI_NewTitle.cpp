@@ -710,7 +710,7 @@ void C_VS_UI_CHAR_DELETE::KeyboardControl(UINT message, UINT key, long extra)
 //-----------------------------------------------------------------------------
 // Character creation, renewal layout
 //
-// CharCreateRenewal.spk is DK Umbra's charcreaterenewal without its four
+// CharCreateRenewal.spk is the charcreaterenewal art without its four
 // background frames and its two logos, plus the two lettered buttons from its
 // char manager pack. Everything in it is already English in the pixels, which
 // is what takes the Korean off this screen.
@@ -851,7 +851,7 @@ void	C_VS_UI_NEWCHAR::LayoutCreateRenewal()
 	m_wSkinColor_Start_X	= s_cc_side_x + 9;
 	m_wSkinColor_Start_Y	= s_cc_side_y + 120;
 
-	// gender under the preview, as Umbra has it. Ousters are female only, so
+	// gender under the preview. Ousters are female only, so
 	// DrawRenewalCreate leaves it out for them.
 	m_wMale_OR_Female_Select_Box_X	= panel_x + 16;
 	m_wMale_OR_Female_Select_Box_Y	= panel_y + 172;
@@ -933,7 +933,7 @@ void	C_VS_UI_NEWCHAR::DrawRenewalCreate()
 		m_renewal_spk.BltLocked(m_wMale_OR_Female_Select_Box_X, m_wMale_OR_Female_Select_Box_Y, CCR_GENDER);
 	}
 
-	// a radio beside each figure, as Umbra has it: filled on the chosen one
+	// a radio beside each figure, filled on the chosen one
 	if (m_p_slot->Race != RACE_OUSTERS)
 	{
 		m_renewal_spk.BltLocked(m_wMale_Select_Radio_X, m_wMale_Select_Radio_Y,
@@ -979,7 +979,7 @@ void	C_VS_UI_NEWCHAR::DrawRenewalCreateText()
 	if (m_p_slot->Race != RACE_SLAYER)
 		return;
 
-	// one line above the row, the way Umbra names the chosen class
+	// one line above the row, naming the chosen class
 	char szClass[64];
 	sprintf(szClass, "Class: %s", s_cc_classes[m_slayer_class].name);
 
@@ -1825,7 +1825,7 @@ void C_VS_UI_NEWCHAR::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 		break;
 
 	// The panel draws both rotate boxes itself, so these are hit areas only.
-	// (What used to be blitted here were Umbra's radio dots, not arrows.)
+	// (What used to be blitted here were the pack's radio dots, not arrows.)
 	case CHAR_LEFT_LOTATION_ID:
 	case CHAR_RIGHT_LOTATION_ID:
 		p_button->x = (p_button->GetID() == CHAR_LEFT_LOTATION_ID)

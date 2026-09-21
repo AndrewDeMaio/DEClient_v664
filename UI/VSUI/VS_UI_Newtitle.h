@@ -831,7 +831,7 @@ private:
 		ANI_MARK,
 		HIDE_OUSTERS_SELECTION_BUTTON,
 	};
-	// CharCreateRenewal.spk - DK Umbra's charcreaterenewal without its
+	// CharCreateRenewal.spk - the charcreaterenewal art without its
 	// backgrounds and logos, plus two lettered buttons from its char manager
 	enum CHAR_CREATE_RENEWAL_SPK_ID
 	{

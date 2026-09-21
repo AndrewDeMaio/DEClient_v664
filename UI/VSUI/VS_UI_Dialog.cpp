@@ -102,7 +102,7 @@ void C_VS_UI_DIALOG::UnacquireMouseFocus()
 	m_pC_button_group->UnacquireMouseFocus();
 }
 
-// DK Umbra's look for these boxes (not the title screen's own)
+// The renewal look for these boxes (not the title screen's own)
 static const int s_dialog_button_margin = 12;	// from the frame's right and bottom edges
 static const int s_dialog_button_gap = 6;
 
@@ -185,7 +185,7 @@ C_VS_UI_DIALOG::C_VS_UI_DIALOG(int _x, int _y, int width, int height, void (*exe
 	DIALOG_BUTTON_TITLE_HEIGHT = gpC_global_resource->m_pC_common_button_spk->GetHeight(C_GLOBAL_RESOURCE::BUTTON_OK_TITLE);
 	if (m_bRenewal)
 	{
-		// DK Umbra's buttons, labelled in overlay text
+		// the renewal buttons, labelled in overlay text
 		DIALOG_BUTTON_WIDTH = gpC_global_resource->m_pC_assemble_box_button_renewal_spk->GetWidth(C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN);
 		DIALOG_BUTTON_HEIGHT = gpC_global_resource->m_pC_assemble_box_button_renewal_spk->GetHeight(C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN);
 	}
@@ -346,7 +346,7 @@ C_VS_UI_DIALOG::C_VS_UI_DIALOG(int _x, int _y, int width, int height, void (*exe
 		}
 	}
 
-	// DK Umbra's buttons sit in the frame's bottom right corner
+	// the renewal buttons sit in the frame's bottom right corner
 	if (m_bRenewal && h != -1)
 	{
 		const int ids[2] = { (int)DIALOG_EXECID_CANCEL, (int)DIALOG_EXECID_OK };
@@ -2238,7 +2238,7 @@ C_SPRITE_PACK* C_VS_UI_DIALOG::DialogButtonSpk() const
 //-----------------------------------------------------------------------------
 // ShowRenewalButton
 //
-// OK or Cancel as one of DK Umbra's blank buttons, lit the way the old art
+// OK or Cancel as one of the blank renewal buttons, lit the way the old art
 // was. The label goes on after all the buttons (ShowRenewalButtonLabels).
 //-----------------------------------------------------------------------------
 void C_VS_UI_DIALOG::ShowRenewalButton(C_VS_UI_EVENT_BUTTON* p_button)

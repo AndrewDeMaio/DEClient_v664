@@ -4035,7 +4035,7 @@ C_VS_UI_REMOVE_OPTION::IsCanRemoveOption_Puritas(const MItem* pItem, const MItem
 //-----------------------------------------------------------------------------
 // C_VS_UI_OUSTERS_SKILL_INFO
 //
-// The skill's card when a node in the ousters tree is clicked: DK Umbra's
+// The skill's card when a node in the ousters tree is clicked: the renewal
 // frame, the name in the title bar, the icon and its numbers, then the
 // description. The buttons are the blank renewal ones with our own labels.
 //-----------------------------------------------------------------------------

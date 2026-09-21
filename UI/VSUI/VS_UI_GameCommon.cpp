@@ -936,8 +936,8 @@ C_VS_UI_TRIBE::~C_VS_UI_TRIBE()
 //-----------------------------------------------------------------------------
 // Skill box
 //
-// The skill box sits just left of the minimap, level with its top, as in DK
-// Umbra. C_VS_UI_SKILL draws it from SkillEtc*.spk.
+// The skill box sits just left of the minimap, level with its top.
+// C_VS_UI_SKILL draws it from SkillEtc*.spk.
 //-----------------------------------------------------------------------------
 static const int SKILL_BOX_SIZE = 42;	// C_VS_UI_SKILL's m_skill_guard_x/y
 static const int SKILL_BOX_GAP = 1;		// the guard's edge is clear, so the tile reads ~4px off
@@ -991,7 +991,7 @@ void C_VS_UI_TRIBE::SetupMenuItems()
 {
 	m_pC_simple_spk = new C_SPRITE_PACK(SPK_SIMPLE_INFORMATION);
 
-	// Bottom-left, 2px up from the edge, as DK Umbra has it.
+	// Bottom-left, 2px up from the edge.
 	const int panel_w = m_pC_simple_spk->GetWidth(SIMPLE_PANEL);
 	const int panel_h = m_pC_simple_spk->GetHeight(SIMPLE_PANEL);
 
@@ -1002,7 +1002,7 @@ void C_VS_UI_TRIBE::SetupMenuItems()
 	s_simple_panel.right = x + w;
 	s_simple_panel.bottom = y + h;
 
-	// The pin, a plain circle, is the only button left: DK Umbra has no menu tabs.
+	// The pin, a plain circle, is the only button left: the renewal panel has no menu tabs.
 	m_pC_common_button_group->Add(new C_VS_UI_EVENT_BUTTON(SIMPLE_PIN_X, SIMPLE_PIN_Y,
 		m_pC_simple_spk->GetWidth(SIMPLE_CIRCLE), m_pC_simple_spk->GetHeight(SIMPLE_CIRCLE),
 		PUSHPIN_ID, this, SIMPLE_CIRCLE));
@@ -1035,7 +1035,7 @@ bool C_VS_UI_TRIBE::GetOccludeRect(int* px0, int* py0, int* px1, int* py1) const
 //-----------------------------------------------------------------------------
 // C_VS_UI_TRIBE::Show
 //
-// The pin hides the panel outright, as DK Umbra's does, instead of sliding it
+// The pin hides the panel outright instead of sliding it
 // off the screen: the pin stays, and so does the skill box.
 //-----------------------------------------------------------------------------
 void	C_VS_UI_TRIBE::Show()
@@ -1266,7 +1266,7 @@ void C_VS_UI_TRIBE::ShowSimpleExp(int track_y, int label_y)
 
 		sprintf(sz_percent, "%.1f%%", done * 100.0 / goal_exp);
 
-		// centred on the fill, a 14px line as DK Umbra places it
+		// centred on the fill, a 14px line
 		g_PrintColorStrOut(x + SIMPLE_EXP_TRACK_X + 1 + (fill_w - g_GetStringWidth(sz_percent, pi.hfont)) / 2,
 			y + track_y + 3 + (fill_h - 14) / 2, sz_percent, pi, RGB_WHITE, RGB_BLACK);
 	}
@@ -2247,7 +2247,7 @@ void C_VS_UI_TRIBE::HotKey_Gear()
 	if (gpC_base == NULL || gpC_base->EventOccured() == true)
 		return;
 
-	// DK Umbra opens and closes the inventory with the equipment window.
+	// The inventory opens and closes with the equipment window.
 	if (!GetGearOpenState())
 	{
 		OpenGear();
@@ -2345,7 +2345,7 @@ void	C_VS_UI_TRIBE::HotKey_Skill()
 
 void	C_VS_UI_TRIBE::HotKey_CharInfo()
 {
-	// DK Umbra: the character information is part of the equipment window.
+	// The character information is part of the equipment window.
 	HotKey_Gear();
 }
 
@@ -2369,7 +2369,7 @@ void	C_VS_UI_TRIBE::HotKey_SkillInfo()
 		break;
 	}
 
-	// DK Umbra's skills window, with our Rank tab, in place of the old skill info
+	// the renewal skills window, with our Rank tab, in place of the old skill info
 	if (m_pC_skill_book->Running())
 		m_pC_skill_book->Finish();
 	else
@@ -2396,7 +2396,7 @@ void	C_VS_UI_TRIBE::HotKey_Grade1Info()
 		break;
 	}
 
-	// the Rank tab of DK Umbra's skills window, in place of the old grade window
+	// the Rank tab of the renewal skills window, in place of the old grade window
 	if (m_pC_skill_book->Running() && m_pC_skill_book->OnRankTab())
 		m_pC_skill_book->Finish();
 	else
@@ -3271,7 +3271,7 @@ C_VS_UI_GEAR::C_VS_UI_GEAR()
 	m_focus_slot = NOT_SELECTED;
 	m_pC_button_group = new ButtonGroup(this);
 
-	// DK Umbra's equipment window, one for every race: the paperdoll on the
+	// The renewal equipment window, one for every race: the paperdoll on the
 	// race's backdrop, the character information beside it. The slot
 	// silhouettes are in the same pack.
 	m_bl_Abvencement = true;
@@ -4170,7 +4170,7 @@ static int GetDisplayLevel()
 	return level;
 }
 
-// DK Umbra's layout with the paperdoll drawn closer together and the information
+// The renewal layout with the paperdoll drawn closer together and the information
 // column narrowed, to take less of the screen; MyInformation.spk's window,
 // backdrops and bars are cut to match.
 static const int s_gear_doll_w = 298;				// the paperdoll, left of the divider
@@ -4285,7 +4285,7 @@ static int g_SumOptionList(const std::list<TYPE_ITEM_OPTION>& options, int part)
 }
 
 // The total of one option part over what counts toward the character, for the
-// stats DK Umbra's server sends and ours doesn't: the equipped items (their
+// stats our server doesn't send: the equipped items (their
 // type's default options and their own, and for critical hit the type's own
 // critical hit) and the contracts in the inventory's contract boxes, the two
 // grid columns from 8 where C_VS_UI_INVENTORY::Show draws them.
@@ -4501,7 +4501,7 @@ void	C_VS_UI_GEAR::GearChangeButtonShow()
 void C_VS_UI_GEAR::Start(bool bl_set_load)
 {
 	m_bl_set_load = bl_set_load;
-	AttrAlpha(false);	// DK Umbra's window has no see-through version
+	AttrAlpha(false);	// the renewal window has no see-through version
 	if (bl_set_load == true)
 	{
 		Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::GEAR);
@@ -6489,7 +6489,7 @@ void C_VS_UI_CHATTING::Show()
 		{
 			gap = CHAT_INPUT_BAR_H;
 
-			// DK Umbra draws the open chat as a plain half-dark panel. Ours rounds its two
+			// The open chat is a plain half-dark panel that rounds its two
 			// right-hand corners (the left edge sits on the screen edge). DrawAlphaBox
 			// rects are right/bottom exclusive, so the pieces never overlap.
 			static const int corner_inset[CHAT_CORNER_R] = { 5, 3, 2, 1, 1 };
@@ -6627,7 +6627,7 @@ void C_VS_UI_CHATTING::Show()
 			}
 			else if (m_sub_window == 3)	// channel settings
 			{
-				// Umbra's "chat invisible settings": which channels the history
+				// the "chat invisible settings": which channels the history
 				// shows, in m_chat_filter order (normal, zone / whisper, party /
 				// guild, union)
 				for (int i = 0; i < 6; ++i)
@@ -6810,7 +6810,7 @@ void C_VS_UI_CHATTING::Show()
 						}
 						else
 						{
-							// no panel behind the text: shadowed, as Umbra draws it
+							// no panel behind the text: shadowed
 							vx = g_PrintColorStrShadow(CHAT_LINE_START_X, ly, p_line->GetIdString(), gpC_base->m_user_id_pi, m_color_tab[tabvalue]);
 							vx = g_PrintColorStrShadow(vx, ly, g_sz_chat_id_divisor[p_line->GetCondition()], gpC_base->m_chatting_pi, m_color_tab[tabvalue]);
 						}
@@ -7479,7 +7479,7 @@ void	C_VS_UI_CHATTING::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 //-----------------------------------------------------------------------------
 void	C_VS_UI_CHATTING::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	// Renewal art, laid out as DK Umbra's client does it. The gear and channel
+	// Renewal art. The gear and channel
 	// tabs are anchored to the top edge; the column and input bar to the bottom.
 	const bool top_row = p_button->GetID() == SETTING_ID
 		|| (p_button->GetID() >= CHAT_NORMAL_ID && p_button->GetID() <= CHAT_UNION_ID);
@@ -7814,7 +7814,7 @@ void C_VS_UI_CHATTING::Run(id_t id)
 		break;
 
 	case HIDE_ID:
-		// Umbra toggles the chat line: in Enter-chat mode that hides or shows the chat
+		// toggles the chat line: in Enter-chat mode that hides or shows the chat
 		m_bl_input_mode = !m_bl_input_mode;
 		break;
 	case LANGUAGE_ID:
@@ -7986,17 +7986,16 @@ C_VS_UI_CHATTING::C_VS_UI_CHATTING()
 	m_sub_selected.x = -1;
 	m_bl_menu_open = false;
 
-	// Renewal chat buttons, positioned as in DK Umbra's client (read from its
-	// DarkEden.exe) but tightened for a 28px input bar.
+	// Renewal chat buttons, tightened for a 28px input bar.
 	//
 	// Column, bottom-up: hide chat, scroll to latest, scroll down, scroll up,
 	// and the megaphone that shows the menu row.
-	// shrunk icons when the loose pack carries them, Umbra's originals otherwise
+	// shrunk icons when the loose pack carries them, the full-size originals otherwise
 	const int icon = (m_pC_chatting_spk->GetSize() > RENEWAL_SMALL_SETTING + 1) ? RENEWAL_SMALL_ARROW_UP - RENEWAL_ARROW_UP : 0;
 
 	static const int column_id[5] = { HIDE_ID, SCROLL_END_ID, SCROLL_DOWN_ID, SCROLL_UP_ID, MENU_ID };
 	static const int column_image[5] = { RENEWAL_HIDE, RENEWAL_ARROW_END, RENEWAL_ARROW_DOWN, RENEWAL_ARROW_UP, RENEWAL_MENU };
-	static const int column_gap[5] = { 4, 10, 2, 4, 2 };	// space above each; the scroll arrows pair up as in Umbra
+	static const int column_gap[5] = { 4, 10, 2, 4, 2 };	// space above each; the scroll arrows pair up
 
 	int column_y = (CHAT_INPUT_BAR_H - m_pC_chatting_spk->GetHeight(RENEWAL_HIDE + icon)) / 2;
 	for (int i = 0; i < 5; ++i)
@@ -8119,7 +8118,7 @@ bool C_VS_UI_CHATTING::IsPixel(int _x, int _y)
 	if (m_sub_window != 0 && m_sub_rect.IsInRect(_x, _y))
 		return true;
 
-	// As in DK Umbra's client, clicks on the history text go through to the
+	// Clicks on the history text go through to the
 	// game. With the chat line closed only the column's buttons are solid; with
 	// it open the menu row, the input bar and the resize edges are too.
 	if (IsPanelOpen())
@@ -8584,7 +8583,7 @@ C_VS_UI_INVENTORY::C_VS_UI_INVENTORY()
 	m_pC_mine_progress_spk = NULL;
 	m_pC_inventory_spk = NULL;
 
-	// DK Umbra's inventory, one layout for every race: its 10x6 grid art (cut
+	// The renewal inventory, one layout for every race: its 10x6 grid art (cut
 	// down from its 13x9 window) with only the money and close buttons under it.
 	// Its own packs, so the trade and storage windows keep the old inventory art.
 	switch (g_eRaceInterface)
@@ -8616,7 +8615,7 @@ C_VS_UI_INVENTORY::C_VS_UI_INVENTORY()
 		gpC_base->SendMessage(UI_SEND_BUG_REPORT, __LINE__, 0, (void*)g_szBugReportBuffer);
 	}
 
-	// DK Umbra dropped the description, help and see-through buttons.
+	// The renewal art has no description, help or see-through buttons.
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_money_button_offset_x, m_money_button_offset_y, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_MONEY), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_MONEY), MONEY_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_MONEY));
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(292, 214, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_X), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_X), CLOSE_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_X));
 
@@ -9103,7 +9102,7 @@ void C_VS_UI_INVENTORY::Start(bool bl_set_load)
 {
 	m_bl_set_load = bl_set_load;
 
-	AttrAlpha(false);	// DK Umbra's inventory has no see-through version
+	AttrAlpha(false);	// the renewal inventory has no see-through version
 
 	if (bl_set_load)
 	{
@@ -26665,7 +26664,7 @@ C_VS_UI_BLOOD_BURST::C_VS_UI_BLOOD_BURST()
 	m_iDefenseGage = 0;
 	m_iPartyGage = 0;
 
-	// DK Umbra's renewal gauges: circles in a row, one pack for every race
+	// The renewal gauges: circles in a row, one pack for every race
 	m_pC_BloodBurst_spk = new C_SPRITE_PACK(SPK_BLOOD_BURST_RENEWAL);
 
 	// the shrunk set with its glow frames when the loose pack carries them
@@ -26717,7 +26716,7 @@ bool	C_VS_UI_BLOOD_BURST::IsGaugeFull(int gauge) const
 
 void	C_VS_UI_BLOOD_BURST::ShowButtonWidget(C_VS_UI_EVENT_BUTTON * p_button)
 {
-	// a gauge's letter shows once it is full, as in Umbra
+	// a gauge's letter shows once it is full
 	const int gauge = p_button->GetID() - ATTACK_ID;
 	if (gauge < 0 || gauge >= GaugeCount() || !IsGaugeFull(gauge))
 		return;
@@ -27693,7 +27692,7 @@ C_VS_UI_MINIMAP::C_VS_UI_MINIMAP()
 
 	Set(0, 0, m_pC_minimap_spk->GetWidth(MINIMAP_PANEL), m_pC_minimap_spk->GetHeight(MINIMAP_PANEL));
 
-	// Bottom-right, as in DK Umbra.
+	// Bottom-right.
 	RECT rest;
 	GetRestingRect(&rest);
 	x = rest.left;
@@ -27702,7 +27701,7 @@ C_VS_UI_MINIMAP::C_VS_UI_MINIMAP()
 	//skillinfo ???
 	m_pC_button_group = new ButtonGroup(this);
 
-	// The pin and the world map ("M"); DK Umbra has no see-through button.
+	// The pin and the world map ("M"); there is no see-through button.
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(MINIMAP_PIN_X, MINIMAP_PIN_Y,
 		m_pC_minimap_spk->GetWidth(MINIMAP_PIN), m_pC_minimap_spk->GetHeight(MINIMAP_PIN), PUSHPIN_ID, this, MINIMAP_PIN));
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(MINIMAP_WORLDMAP_X, MINIMAP_WORLDMAP_Y,
@@ -40374,7 +40373,7 @@ void C_VS_UI_QUEST_STATUS::IncreaseQuestPoint()
 //-----------------------------------------------------------------------------
 // C_VS_UI_HOTKEY_BAR
 //
-// DK Umbra's shortcut bar. It only reads the F1-F12 bindings, the same ones
+// The renewal shortcut bar. It only reads the F1-F12 bindings, the same ones
 // each race's Hotkey_Function acts on: the skill box's hotkey grades, the
 // tribe's m_HotKey_Type, and the quick item slots' m_Hotkey_buf.
 //-----------------------------------------------------------------------------
@@ -40390,7 +40389,7 @@ C_VS_UI_HOTKEY_BAR::C_VS_UI_HOTKEY_BAR(C_VS_UI_TRIBE* p_tribe)
 	m_pC_spk = new C_SPRITE_PACK(SPK_SHORTCUT_SLOT);
 
 	ResetSize();
-	// centred on the bottom edge; Umbra's x = 255 centred it for a 1024-wide screen
+	// centred on the bottom edge (a fixed x = 255 only centres it at 1024 wide)
 	x = (g_pUserInformation->iResolution_x - w) / 2;
 	y = g_pUserInformation->iResolution_y - h;
 
@@ -40649,8 +40648,8 @@ void C_VS_UI_HOTKEY_BAR::Show()
 		p_item[slot] = skill_id[slot] == NOT_SELECTED ? GetHotkeyItem(slot) : NULL;
 	}
 
-	// Hovering a skill key stacks its other grades over the slot: upward as in
-	// DK Umbra, or downward when the bar is too near the top of the screen.
+	// Hovering a skill key stacks its other grades over the slot: upward,
+	// or downward when the bar is too near the top of the screen.
 	int hovered = HoveredSlot();
 	int stack_grade[C_VS_UI_SKILL::GRADE_MAX];
 	int stack_id[C_VS_UI_SKILL::GRADE_MAX];
@@ -40752,7 +40751,7 @@ void C_VS_UI_HOTKEY_BAR::Show()
 			sprintf(sz_text, "F%d:%d", slot + 1, grade[slot] + 1);
 		else
 			sprintf(sz_text, "F%d", slot + 1);
-		// DK Umbra leaves an unbound key's label blank; a dim key name reads better.
+		// an unbound key shows its name dimmed rather than a blank label
 		g_PrintColorStr(SlotX(slot) + BAR_LABEL_X + (BAR_LABEL_W - g_GetStringWidth(sz_text, pi.hfont)) / 2,
 			y + BAR_LABEL_TEXT_Y, sz_text, pi, bl_bound ? key_color : RGB(110, 110, 110));
 
@@ -40773,10 +40772,9 @@ void C_VS_UI_HOTKEY_BAR::Show()
 //-----------------------------------------------------------------------------
 // C_VS_UI_SKILL_BOOK
 //
-// DK Umbra's "Skills & Runes" window (DarkEden.exe ctor 0x607c20, Show
-// 0x638290), with a Rank tab of our own:
+// The renewal "Skills & Runes" window, with a Rank tab of our own:
 //  * Skills: slayers by domain and vampires by skill group, as grids of icons
-//    over the level each needs; ousters as Umbra's skill trees, whose icons the
+//    over the level each needs; ousters as skill trees, whose icons the
 //    skill table places and whose learning goes through the skill info popup.
 //  * Rank: the race's rank skills under a sub tab per rank, each with its
 //    description, learnt from here as on the old rank tabs.
@@ -40787,7 +40785,7 @@ void C_VS_UI_HOTKEY_BAR::Show()
 extern C_VS_UI_DIALOG* g_msg_not_available_menu;
 const char* g_GetRankBonusDescription(int type);
 
-// Positions in DK Umbra's window as cut down to 637x540: the left panel is
+// Positions in the renewal window as cut down to 637x540: the left panel is
 // 60 pixels narrower and each list on the right a row shorter.
 static const int s_book_close_x = 604;
 static const int s_book_close_y = 13;
@@ -40827,7 +40825,7 @@ static const int s_book_list_pitch = 44;
 static const int s_book_list_name_y = 6;		// a row's name sits over its separator,
 static const int s_book_list_status_y = 27;		// its status under it
 
-// DK Umbra's ousters trees (DarkEden.exe, Show 0x638290): where each skill's
+// The renewal ousters trees: where each skill's
 // icon sits in its 697-wide window, with the combat tree's art drawn at (18, 95)
 // and the elemental tree's at (18, 85). The skill table's own positions are
 // for the old tree art, not these. Skill 185 sits apart and doesn't scroll.
@@ -40873,7 +40871,7 @@ static const BOOK_TREE s_book_trees[2] =
 	{ s_book_elemental_nodes, sizeof(s_book_elemental_nodes) / sizeof(s_book_elemental_nodes[0]), 85 },
 };
 static const int s_book_tree_art_x = 18;
-static const int s_book_tree_shift_x = 44;		// Umbra's layout moved left into our narrower panel
+static const int s_book_tree_shift_x = 44;		// the tree layout moved left into our narrower panel
 static const int s_book_tree_fixed_skill = 185;
 
 // The highest and lowest icons of a tree, below its art's origin
@@ -41447,7 +41445,7 @@ void C_VS_UI_SKILL_BOOK::BuildTree()
 		const MSkillDomain::SKILL_STEP_LIST& list = *skills.GetSkillStepList(steps[s]);
 		for (MSkillDomain::SKILL_STEP_LIST::const_iterator it = list.begin(); it != list.end(); ++it)
 		{
-			// only the skills Umbra's tree has a place for
+			// only the skills the tree has a place for
 			const BOOK_TREE_NODE* p_node = NULL;
 			for (int n = 0; n < tree.count && p_node == NULL; n++)
 			{
@@ -41473,7 +41471,7 @@ void C_VS_UI_SKILL_BOOK::BuildTree()
 			else
 				entry.state = BOOK_LOCKED;
 
-			// placed against the art as Umbra placed it; the lone skill doesn't scroll
+			// placed against the tree art; the lone skill doesn't scroll
 			const bool pinned = p_node->id == s_book_tree_fixed_skill;
 			entry.x = p_node->x - s_book_tree_shift_x;
 			entry.y = art_y + p_node->y - tree.art_y - (pinned ? 0 : m_scroll);
@@ -41944,7 +41942,7 @@ void C_VS_UI_SKILL_BOOK::Show()
 		{
 			if (IsTree())
 			{
-				// Umbra's art, moved as its icons were and clipped to the view
+				// the tree art, moved as its icons were and clipped to the view
 				const bool combat = m_sub_tab_key[m_sub_tab] == 0;
 				const int frame = combat ? BOOK_TREE_COMBAT : BOOK_TREE_ELEMENTAL;
 				const int art_x = s_book_tree_art_x - s_book_tree_shift_x;

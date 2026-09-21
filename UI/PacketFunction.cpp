@@ -4631,12 +4631,12 @@ SkillCrossCounter(MCreature* pUserCreature, MCreature* pTargetCreature, int skil
 // Skill BatBreaker (book skill 553)
 //------------------------------------------------------------------
 // Four faded clones of the caster appear around the target tile,
-// facing it, and claw (SKILL_CLIENT_BAT_BREAKER). DK Umbra
-// (DarkEden.exe 0x586a56) dashes them in with FAST_MOVE_ACTION, but
-// that only claws when the engine finds the traced creature after the
-// move, and it faces them at that creature; Umbra's spots are the
-// corners 1 tile out, or a plus 2 tiles out when the caster faces
-// diagonally - here both sit on the edge of the 5x5 the server hits.
+// facing it, and claw (SKILL_CLIENT_BAT_BREAKER). They go straight into
+// the attack rather than dashing in with FAST_MOVE_ACTION, which only
+// claws when the engine finds the traced creature after the move, and
+// faces them at that creature. They stand on the edge of the 5x5 the
+// server hits: at its corners, or mid-edge when the caster faces
+// diagonally.
 //------------------------------------------------------------------
 void
 SkillBatBreakerShadows(MCreature* pUserCreature, int tx, int ty)

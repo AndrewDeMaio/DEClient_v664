@@ -100,7 +100,7 @@ long	C_VS_UI_SLAYER_PDS::m_cc_max;*/
 #endif
 
 int C_VS_UI_SLAYER_GEAR::m_slot_image[SLOT_SIZE] = {
-	// MyInformation.spk frames, as DK Umbra's DarkEden.exe has them (0x8f8a00)
+	// MyInformation.spk frames
 	44, 52, 47, 43, 42, 50, 51, 48,
 	54, 54, 53, 53, 53, 53, 49, -1,
 	-1, -1, -1, 45, 46, -1, -1, -1,
@@ -2545,7 +2545,7 @@ C_VS_UI_SLAYER_GEAR::C_VS_UI_SLAYER_GEAR()
 	//	if(g_char_slot_ingame.m_AdvancementLevel == 0 ) // 2�� ���� 
 	////	if(g_char_slot_ingame.m_AdvancementLevel == 0) // 2�� ���� �� ��� �������̽� 
 	//	{
-	// DK Umbra's slot frames (DarkEden.exe 0x724160), drawn closer together for the narrower window
+	// the renewal slot frames, drawn closer together for the narrower window
 	m_slot_rect[SN_HELM].Set(116, 36, 66, 66);
 	m_slot_rect[SN_NECKLACE].Set(131, 109, 36, 36);
 	m_slot_rect[SN_COAT].Set(116, 152, 66, 96);

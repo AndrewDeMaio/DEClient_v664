@@ -6682,10 +6682,10 @@ C_VS_UI_GAMEMENU::~C_VS_UI_GAMEMENU()
 	DeleteNew(m_pC_gamemenu_spk);
 }
 
-// Umbra's layout, fitted to the tile size on disk (rounded).
-int C_VS_UI_GAMEMENU::Scaled(int umbra) const
+// A layout position, fitted to the tile size on disk (rounded).
+int C_VS_UI_GAMEMENU::Scaled(int layout_pos) const
 {
-	return (umbra * m_tile_w + UMBRA_TILE_SIZE / 2) / UMBRA_TILE_SIZE;
+	return (layout_pos * m_tile_w + LAYOUT_TILE_SIZE / 2) / LAYOUT_TILE_SIZE;
 }
 
 const C_VS_UI_GAMEMENU::BUTTON_INFO * C_VS_UI_GAMEMENU::FindButton(id_t id) const

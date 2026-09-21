@@ -158,7 +158,7 @@ public:
 	};
 
 	C_SPRITE_PACK *			m_pC_assemble_box_button_spk;
-	// DK Umbra's message box art, the same for every race
+	// the renewal message box art, the same for every race
 	C_SPRITE_PACK *			m_pC_assemble_box_renewal_spk;
 	C_SPRITE_PACK *			m_pC_assemble_box_button_renewal_spk;
 
@@ -621,7 +621,7 @@ public:
 	void	DrawDialog2(Rect &rect, bool alpha = false);
 	void	DrawDialogLocked2(int x, int y, int w, int h, bool alpha = false);
 	void	DrawDialogLocked2(Rect &rect, bool alpha = false);
-	// DK Umbra's dialog frame, its title bar bar_h tall
+	// the renewal dialog frame, its title bar bar_h tall
 	void	DrawDialogRenewalLocked(int x, int y, int w, int h, int bar_h);
 	// a label over one of the blank renewal buttons, outside a surface lock
 	void	DrawRenewalButtonLabel(int x, int y, int w, int h, const char* sz_label, bool pushed, COLORREF color = RGB_WHITE);

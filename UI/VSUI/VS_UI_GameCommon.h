@@ -673,7 +673,7 @@ public:
 		FILTER_PARTY_ID,
 		FILTER_GUILD_ID,
 		FILTER_UNION_ID,
-		// renewal column and menu row (DK Umbra's ids 18-23)
+		// renewal column and menu row (ids 18-23)
 		MENU_ID,
 		SCROLL_UP_ID,
 		SCROLL_DOWN_ID,
@@ -1180,7 +1180,7 @@ class C_VS_UI_GEAR : public Window, public Exec, public ButtonVisual
 	// Data
 	//-----------
 protected:
-	// MyInformation.spk: DK Umbra's equipment and character information window
+	// MyInformation.spk: the renewal equipment and character information window
 	enum GEAR_SPK_INDEX
 	{
 		GEAR_WINDOW = 0,
@@ -1269,7 +1269,7 @@ protected:
 
 
 	void	Use();
-	void	ShowInformationFrame();		// DK Umbra's window around the items
+	void	ShowInformationFrame();		// the renewal window around the items
 	void	ShowInformationText();
 	//------------
 	// Method
@@ -1608,7 +1608,7 @@ private:
 		PARTY_ID,
 	};
 
-	// BloodBurstRenewal.spk (DK Umbra's renewal art): 33x33 cells, one pack for
+	// BloodBurstRenewal.spk (renewal art): 33x33 cells, one pack for
 	// every race
 	enum RENEWAL_SPK_INDEX
 	{
@@ -1765,7 +1765,7 @@ public:
 class C_VS_UI_EFFECT_STATUS : public Window
 {
 private:
-	// DK Umbra's layout: no frame, only the icons, half transparent, flush in
+	// Renewal layout: no frame, only the icons, half transparent, flush in
 	// the top-left corner and wrapping every ICONS_PER_ROW.
 	enum
 	{
@@ -1863,7 +1863,7 @@ private:
 
 	bool	TimerMinimap();
 
-	enum MINIMAP_SPK_INDEX	// MinimapRenewal.spk, DK Umbra's minimap, for every race
+	enum MINIMAP_SPK_INDEX	// MinimapRenewal.spk, the renewal minimap, for every race
 	{
 		MINIMAP_PANEL = 0,
 		MINIMAP_WORLDMAP_BUTTON = 1,	// +1 highlighted, +2 pushed
@@ -1874,7 +1874,7 @@ private:
 		MINIMAP_ICON_PARTY_DEAD = 18,
 	};
 
-	// Positions from DK Umbra's DarkEden.exe, relative to the panel.
+	// Positions relative to the panel.
 	enum MINIMAP_LAYOUT
 	{
 		MINIMAP_MARGIN = 2,				// from the right and bottom of the screen
@@ -2069,7 +2069,7 @@ public:
 //-----------------------------------------------------------------------------
 // class C_VS_UI_HOTKEY_BAR
 //
-// DK Umbra's shortcut bar: a movable strip of twelve slots showing what F1-F12
+// The renewal shortcut bar: a movable strip of twelve slots showing what F1-F12
 // are bound to, a skill at its selected grade or a quick item. Binding still
 // happens the old way, by pressing the key over the skill box or a quick slot.
 //-----------------------------------------------------------------------------
@@ -2079,7 +2079,7 @@ class MItem;
 class C_VS_UI_HOTKEY_BAR : public Window, public Exec, public ButtonVisual
 {
 private:
-	enum SHORTCUT_SPK_INDEX	// ShortcutSlot.spk, DK Umbra's shortcutslot.spk
+	enum SHORTCUT_SPK_INDEX	// ShortcutSlot.spk, the renewal shortcut slots
 	{
 		SHORTCUT_SLOT = 12,			// the dark slot behind each key
 		SHORTCUT_LABEL = 13,		// the small bar under it that the key name prints on
@@ -2089,8 +2089,7 @@ private:
 		SHORTCUT_SELECTED_LABEL = 17,	// and its label
 	};
 
-	// From DK Umbra's DarkEden.exe (ctor 0x5f7280, Show 0x5e5a80, skill slot
-	// 0x5e57c0, labels 0x5d5cc0); offsets are from a slot's top-left.
+	// Offsets are from a slot's top-left.
 	enum BAR_LAYOUT
 	{
 		BAR_SLOT_COUNT = 12,
@@ -2152,7 +2151,7 @@ public:
 //-----------------------------------------------------------------------------
 // class C_VS_UI_SKILL_BOOK
 //
-// DK Umbra's "Skills & Runes" window with a Rank tab of our own: the race's
+// The renewal "Skills & Runes" window with a Rank tab of our own: the race's
 // skills under sub tabs, its rank skills, and the rare and advanced skills in
 // the lists on the right. Runes is a stub.
 //-----------------------------------------------------------------------------
@@ -2168,7 +2167,7 @@ public:
 	};
 
 private:
-	enum SKILL_BOOK_SPK_INDEX	// SkillWindow.spk, DK Umbra's skillwindow.spk
+	enum SKILL_BOOK_SPK_INDEX	// SkillWindow.spk, the renewal skill window
 	{
 		BOOK_WINDOW = 0,
 		BOOK_TAB = 4,				// 92x22: normal, focused, selected
@@ -2183,7 +2182,7 @@ private:
 		BOOK_TREE_ELEMENTAL = 35,
 	};
 
-	enum RUNE_TAB_SPK_INDEX		// RuneTab.spk, DK Umbra's runetab.spk
+	enum RUNE_TAB_SPK_INDEX		// RuneTab.spk, the renewal rune tab
 	{
 		RUNE_BAR_BACK = 3,
 		RUNE_BAR = 4,
@@ -2301,7 +2300,7 @@ public:
 
 protected:
 
-	// simpleinformation.spk, DK Umbra's status panel
+	// simpleinformation.spk, the renewal status panel
 	enum SIMPLE_SPK_INDEX
 	{
 		SIMPLE_EXP_TRACK = 0,
@@ -2322,7 +2321,7 @@ protected:
 		SIMPLE_PANEL = 30,
 	};
 
-	// Where things go on the panel, from DK Umbra's DarkEden.exe. Relative to
+	// Where things go on the panel. Relative to
 	// the window, which is SIMPLE_PANEL's top-left; the art is transparent
 	// above SIMPLE_PANEL_TOP.
 	enum SIMPLE_LAYOUT

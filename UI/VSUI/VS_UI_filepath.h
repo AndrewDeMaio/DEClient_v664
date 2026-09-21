@@ -157,7 +157,7 @@
 #define	SPK_CHAR_MANAGER				_ROOT"spk\\CharManager.spk"
 #define	SPK_CHAR_MANAGER800				_ROOT"spk\\CharManager800.spk"
 #define SPK_CHAR_CREATE					_ROOT"spk\\CharCreate.spk"
-#define SPK_CHAR_CREATE_RENEWAL			_ROOT"spk\\CharCreateRenewal.spk"	// DK Umbra's furniture, English in the pixels
+#define SPK_CHAR_CREATE_RENEWAL			_ROOT"spk\\CharCreateRenewal.spk"	// renewal furniture, English in the pixels
 #define SPK_CHAR_CREATE800					_ROOT"spk\\CharCreate800.spk"
 
 //#define SPK_CHARACTERS_MENU_DEFAULT	_ROOT"spk\\characters_menu_default.spk"

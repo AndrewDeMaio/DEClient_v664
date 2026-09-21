@@ -23221,7 +23221,7 @@ MTopView::DrawCreatureName(POINT* pPoint, MCreature* pCreature)
 					gradeID = -1;
 
 				// A monster carries its level on a badge left of the name plate, the
-				// way Umbra shows it. Monsters ONLY: never a player, a town NPC, a
+				// way the renewal art has it. Monsters ONLY: never a player, a town NPC, a
 				// neutral (Competence 0) creature or a pet. The badge takes the spot
 				// a clan mark would otherwise use.
 				const bool bMonsterLevelBox =
@@ -23235,7 +23235,7 @@ MTopView::DrawCreatureName(POINT* pPoint, MCreature* pCreature)
 				{
 					guildID = 0;
 
-					// Umbra's badge art: sprite 0 is green, sprite 1 red, both 25x20.
+					// The badge art: sprite 0 is green, sprite 1 red, both 25x20.
 					// Loaded on first use. Without the art there is no badge at all.
 					static CSpritePack s_MonsterLevelSPK;
 					static bool s_bMonsterLevelTried = false;
@@ -23287,12 +23287,12 @@ MTopView::DrawCreatureName(POINT* pPoint, MCreature* pCreature)
 						m_pSurface->BltSprite(&pointBadge, pBadge);
 						m_pSurface->Unlock();
 
-						// flush against the plate, like Umbra. The node keeps only a pointer,
+						// flush against the plate. The node keeps only a pointer,
 						// so the digits need the heap copy
 						const int levelX = levelBoxLeft + ((levelBoxW - levelPixel) >> 1);
 
 						AddText(new DRAWTEXT_NODE_HEAP(levelX + 1, yPoint_20 + 4 + 1, szLevel, 0, font));
-						AddText(new DRAWTEXT_NODE_HEAP(levelX, yPoint_20 + 4, szLevel, color, font));	// same colour as the name, as Umbra has it
+						AddText(new DRAWTEXT_NODE_HEAP(levelX, yPoint_20 + 4, szLevel, color, font));	// same colour as the name
 					}
 				}
 

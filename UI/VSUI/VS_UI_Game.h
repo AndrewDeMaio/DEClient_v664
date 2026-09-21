@@ -214,21 +214,20 @@ private:
 		INVALID_ID
 	};
 
-	enum GAMEMENU_SPK_INDEX	// GameMenuRenewal.spk, DK Umbra's game menu
+	enum GAMEMENU_SPK_INDEX	// GameMenuRenewal.spk, the renewal game menu
 	{
 		GAMEMENU_WINDOW = 0,
 		GAMEMENU_TILE = 1,			// +1 highlighted, +2 pushed
 	};
 
-	// Positions from DK Umbra's DarkEden.exe, relative to the window, for its
-	// UMBRA_TILE_SIZE tiles. The art on disk may be smaller; Scaled() fits them.
+	// Positions relative to the window, for LAYOUT_TILE_SIZE tiles. The art on disk may be smaller; Scaled() fits them.
 	enum GAMEMENU_LAYOUT
 	{
 		GAMEMENU_TITLE_X = 12,
 		GAMEMENU_TITLE_Y = 15,
 		GAMEMENU_ROW_LABEL_RIGHT = 64,	// the row labels end here
 		GAMEMENU_LABEL_BOTTOM = 49,		// a button's label ends this far down its tile
-		UMBRA_TILE_SIZE = 53,
+		LAYOUT_TILE_SIZE = 53,
 	};
 
 	struct BUTTON_INFO
@@ -258,7 +257,7 @@ private:
 
 	const BUTTON_INFO *	FindButton(id_t id) const;
 	void				OpenWindow(id_t id);
-	int					Scaled(int umbra) const;
+	int					Scaled(int layout_pos) const;
 
 public:
 	C_VS_UI_GAMEMENU(HotKey * p_hotkey);

@@ -10,7 +10,7 @@
 #include "ExperienceTable.h"
 #include "UserInformation.h"
 int		C_VS_UI_OUSTERS_GEAR::m_slot_image[SLOT_SIZE] = {
-	// MyInformation.spk frames, as DK Umbra's DarkEden.exe has them (0x8f7b88)
+	// MyInformation.spk frames
 	64, 68, 74, 73, 75, 67, 67, 53,
 	53, 52, 52, 52, 69, 70, 71, 72,
 	-1, -1, -1, -1, 65, 66, -1, -1,
@@ -444,7 +444,7 @@ C_VS_UI_OUSTERS_GEAR::C_VS_UI_OUSTERS_GEAR()
   
 //	if(g_char_slot_ingame.m_AdvancementLevel > 0)// 2������ bycsm 2004.12.31 
 //	{
-	// DK Umbra's slot frames (DarkEden.exe 0x6ebd70), drawn closer together for the narrower window
+	// the renewal slot frames, drawn closer together for the narrower window
 	m_slot_rect[SN_CIRCLET].Set(116, 36, 66, 66);			// ��Ŭ��
 	m_slot_rect[SN_COAT].Set(116, 152, 66, 96);				// ��
 	m_slot_rect[SN_LEFTHAND].Set(188, 209, 66, 96);			// �޼�

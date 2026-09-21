@@ -11,7 +11,7 @@
 
 class C_VS_UI_TRIBE;
 int		C_VS_UI_VAMPIRE_GEAR::m_slot_image[SLOT_SIZE] = {
-	// MyInformation.spk frames, as DK Umbra's DarkEden.exe has them (0x8f8cd8)
+	// MyInformation.spk frames
 	52, 60, 62, 62, 53, 53, 53, 53,
 	61, 61, 57, 57, 63, 63, 63, 63,
 	-1, -1, -1, -1, 59, 58, -1, -1,
@@ -927,7 +927,7 @@ C_VS_UI_VAMPIRE_GEAR::C_VS_UI_VAMPIRE_GEAR()
 	
 //	if(g_char_slot_ingame.m_AdvancementLevel== 0)// 2Â÷ÀüÁ÷ bycsm 2004.12.31
 //	{
-		// DK Umbra's slot frames (DarkEden.exe 0x728980), drawn closer together for the narrower window
+		// the renewal slot frames, drawn closer together for the narrower window
 		m_slot_rect[SN_NECKLACE].Set(131, 119, 36, 36);
 		m_slot_rect[SN_COAT].Set(116, 165, 66, 96);
 		m_slot_rect[SN_BRACELET1].Set(71, 180, 36, 36);
