@@ -48,7 +48,13 @@ HRESULT FileStream::Open(std::string sFileName)
 
 	m_sFileName = sFileName;
 	auto ret = fopen_s(&m_pFile, sFileName.c_str(), "rb");
-
+	// A music file that is not there must not take the client down:
+	// the caller (VorbisFile::Open) plays nothing when this fails.
+	if (ret != 0 || m_pFile == NULL)
+	{
+		m_pFile = 0;
+		return E_FAIL;
+	}
 
 	fseek(m_pFile, 0, SEEK_END);
 	m_nSize = ftell(m_pFile);

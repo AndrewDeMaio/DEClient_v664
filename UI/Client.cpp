@@ -3457,6 +3457,36 @@ static void g_OnExit()      { g_CrashNote("clean exit"); }
 static void g_OnTerminate() { g_CrashNote("terminate() - unhandled C++ exception"); }
 static void g_OnAbort(int)  { g_CrashNote("abort()"); }
 
+// The CRT answers a bad argument (fclose(NULL), an overlong strcpy_s, ...) and a
+// pure virtual call with a fail-fast that no exception handler ever sees, so the
+// process used to vanish with nothing in this log. Report those through the dump
+// writer first: raising and catching an exception supplies the context, and the
+// dump's stack shows which call it was. The fail-fast still happens afterwards.
+#include <intrin.h>
+
+static void g_DumpHere(const char* szWhen)
+{
+	__try
+	{
+		RaiseException(0xE0000417, 0, 0, NULL);
+	}
+	__except (g_CrashReport(GetExceptionInformation(), szWhen), EXCEPTION_EXECUTE_HANDLER)
+	{
+	}
+}
+
+static void g_OnInvalidParameter(const wchar_t*, const wchar_t*, const wchar_t*, unsigned int, uintptr_t)
+{
+	g_DumpHere("invalid CRT parameter");
+	__fastfail(FAST_FAIL_INVALID_ARG);
+}
+
+static void g_OnPureCall()
+{
+	g_DumpHere("pure virtual call");
+	abort();
+}
+
 static void g_InstallCrashReporting()
 {
 	// the log has to be writable before anything else
@@ -3474,6 +3504,8 @@ static void g_InstallCrashReporting()
 	atexit(g_OnExit);
 	std::set_terminate(g_OnTerminate);
 	signal(SIGABRT, g_OnAbort);
+	_set_invalid_parameter_handler(g_OnInvalidParameter);
+	_set_purecall_handler(g_OnPureCall);
 	g_CrashNote("client start (built " __DATE__ " " __TIME__ ")");
 }
 int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)

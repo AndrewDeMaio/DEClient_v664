@@ -316,7 +316,6 @@ public :
 		ASK_STORAGE_BUY,
 		ASK_EXCHANGE,
 		ASK_EXCHANGE_CANCEL,
-		ASK_TUTORIAL_EXIT,		// by larosel
 		ASK_PARTY_REQUEST,
 		ASK_PARTY_INVITE,
 		ASK_PARTY_CANCEL,
@@ -352,6 +351,8 @@ public :
 #if __CONTENTS(__REPAIRSYSTEM_RENEWAL)
 		ASK_REPAIRITEMALL,				//아이템 전체 수리
 #endif //__REPAIRSYSTEM_RENEWAL
+		ASK_TUTORIAL_EXIT,		// by larosel. Kept last: InitString numbers its texts
+								// as if this entry did not exist, as the original did.
 		MAX_ASK_DIALOG_TYPE
 	};
 

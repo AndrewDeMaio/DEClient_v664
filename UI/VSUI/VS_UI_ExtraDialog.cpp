@@ -612,6 +612,54 @@ C_VS_UI_MONEY_DIALOG::~C_VS_UI_MONEY_DIALOG()
 }
 
 
+// The ask-dialog texts are printf-style formats from the string table
+// ("Buy storage for $%d?", "%s has invited you to %s."). Fill each %s / %d
+// in order with ready-made text. A placeholder with no value is left empty
+// and %% stays a %, so a string whose placeholders differ from what the
+// caller expects can never read a wrong argument the way sprintf would.
+static std::string FillAskFormat(const std::string& fmt, const char* a0 = NULL,
+	const char* a1 = NULL, const char* a2 = NULL)
+{
+	const char* args[3] = { a0, a1, a2 };
+	int next = 0;
+	std::string out;
+	out.reserve(fmt.size() + 32);
+
+	for (size_t i = 0; i < fmt.size(); i++)
+	{
+		if (fmt[i] != '%' || i + 1 >= fmt.size())
+		{
+			out += fmt[i];
+			continue;
+		}
+
+		size_t j = i + 1;
+		if (fmt[j] == '%')
+		{
+			out += '%';
+			i = j;
+			continue;
+		}
+
+		// flags, width and length: %-5d, %lu, %I64d
+		while (j < fmt.size() && strchr("-+ #0123456789.lhI", fmt[j]) != NULL)
+			j++;
+
+		if (j < fmt.size() && strchr("sdiuxXc", fmt[j]) != NULL)
+		{
+			if (next < 3 && args[next] != NULL)
+				out += args[next];
+			next++;
+			i = j;
+			continue;
+		}
+
+		out += fmt[i];
+	}
+
+	return out;
+}
+
 void	C_VS_UI_ASK_DIALOG::InitString()
 {
 	/*	(*g_pGameStringTable)[UI_STRING_MESSAGE_ASK_DIALOG_BUY_STORAGE] = "???????? $%d?? ??ð??????";
@@ -782,7 +830,7 @@ C_VS_UI_ASK_DIALOG::C_VS_UI_ASK_DIALOG(int _x, int _y, int center_x, int center_
 		// ????? ??? ????? ???.. - -;
 	case ASK_STORAGE_BUY:
 	{
-		m_sz_question_msg_temp[0] = m_sz_question_msg[type][0] + std::to_string(value);
+		m_sz_question_msg_temp[0] = FillAskFormat(m_sz_question_msg[type][0], std::to_string(value).c_str());
 		SetMessage(m_sz_question_msg_temp, 1, SMO_NOFIT);
 	}
 	break;
@@ -790,7 +838,7 @@ C_VS_UI_ASK_DIALOG::C_VS_UI_ASK_DIALOG(int _x, int _y, int center_x, int center_
 	case ASK_EXCHANGE:
 	{
 		const char* pName = (const char*)m_pTemporayValue;
-		m_sz_question_msg_temp[0] = m_sz_question_msg[type][0] + pName;
+		m_sz_question_msg_temp[0] = FillAskFormat(m_sz_question_msg[type][0], pName);
 		SetMessage(m_sz_question_msg_temp, 1, SMO_NOFIT);
 	}
 	break;
@@ -799,7 +847,7 @@ C_VS_UI_ASK_DIALOG::C_VS_UI_ASK_DIALOG(int _x, int _y, int center_x, int center_
 	{
 		const char* pName = (const char*)m_pTemporayValue;
 
-		m_sz_question_msg_temp[0] = m_sz_question_msg[type][0] + pName;
+		m_sz_question_msg_temp[0] = FillAskFormat(m_sz_question_msg[type][0], pName);
 		m_sz_question_msg_temp[1] = m_sz_question_msg[type][1];
 		SetMessage(m_sz_question_msg_temp, 2, SMO_NOFIT);
 	}
@@ -821,7 +869,7 @@ C_VS_UI_ASK_DIALOG::C_VS_UI_ASK_DIALOG(int _x, int _y, int center_x, int center_
 	{
 		const char* pName = (const char*)m_pTemporayValue;
 
-		m_sz_question_msg_temp[0] = m_sz_question_msg[type][0] + pName + PartyName;
+		m_sz_question_msg_temp[0] = FillAskFormat(m_sz_question_msg[type][0], pName, PartyName);
 		SetMessage(m_sz_question_msg_temp, 1, SMO_NOFIT);
 	}
 	break;
@@ -829,7 +877,7 @@ C_VS_UI_ASK_DIALOG::C_VS_UI_ASK_DIALOG(int _x, int _y, int center_x, int center_
 	case ASK_PARTY_INVITE:
 	{
 		const char* pName = (const char*)m_pTemporayValue;
-		m_sz_question_msg_temp[0] = m_sz_question_msg[type][0] + pName + PartyName;
+		m_sz_question_msg_temp[0] = FillAskFormat(m_sz_question_msg[type][0], pName, PartyName);
 		SetMessage(m_sz_question_msg_temp, 1, SMO_NOFIT);
 	}
 	break;
@@ -838,7 +886,7 @@ C_VS_UI_ASK_DIALOG::C_VS_UI_ASK_DIALOG(int _x, int _y, int center_x, int center_
 	{
 		const char* pName = (const char*)m_pTemporayValue;
 
-		m_sz_question_msg_temp[0] = m_sz_question_msg[type][0] + pName;
+		m_sz_question_msg_temp[0] = FillAskFormat(m_sz_question_msg[type][0], pName);
 		m_sz_question_msg_temp[1] = m_sz_question_msg[type][1];
 		SetMessage(m_sz_question_msg_temp, 2, SMO_NOFIT);
 	}
@@ -1032,7 +1080,7 @@ C_VS_UI_ASK_DIALOG::C_VS_UI_ASK_DIALOG(int _x, int _y, int center_x, int center_
 
 	case ASK_CHECK_TO_ENTER_SERVER:
 
-		m_sz_question_msg_temp[0] = m_sz_question_msg[type][0] + std::to_string(value);
+		m_sz_question_msg_temp[0] = FillAskFormat(m_sz_question_msg[type][0], std::to_string(value).c_str());
 		SetMessage(m_sz_question_msg_temp, 1, SMO_NOFIT);
 
 		break;
@@ -1041,8 +1089,8 @@ C_VS_UI_ASK_DIALOG::C_VS_UI_ASK_DIALOG(int _x, int _y, int center_x, int center_
 	{
 		const char* pName = (const char*)m_pTemporayValue;
 
-		m_sz_question_msg_temp[0] = m_sz_question_msg[type][0] +
-			g_char_slot_ingame.sz_guild_name.c_str() + pName + pName;
+		m_sz_question_msg_temp[0] = FillAskFormat(m_sz_question_msg[type][0],
+			g_char_slot_ingame.sz_guild_name.c_str(), pName, pName);
 		SetMessage(m_sz_question_msg_temp, 1, SMO_NOFIT);
 	}
 	//m_sz_question_msg_temp[0] = new char [strlen(m_sz_question_msg[type][0])+20];
@@ -1052,7 +1100,8 @@ C_VS_UI_ASK_DIALOG::C_VS_UI_ASK_DIALOG(int _x, int _y, int center_x, int center_
 	break;
 
 	case ASK_DYEPOTION_INITPOTION:
-		m_sz_question_msg_temp[0] = m_sz_question_msg[type][0] + (char*)pValue + std::to_string(value) + std::to_string(value);
+		m_sz_question_msg_temp[0] = FillAskFormat(m_sz_question_msg[type][0], (char*)pValue,
+			std::to_string(value).c_str(), std::to_string(value).c_str());
 		SetMessage(m_sz_question_msg_temp, 1, SMO_NOFIT);
 		break;
 
