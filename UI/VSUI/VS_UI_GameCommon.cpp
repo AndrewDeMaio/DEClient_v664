@@ -4163,6 +4163,19 @@ void C_VS_UI_GEAR::Show()
 //-----------------------------------------------------------------------------
 static void MakeHPBarLevelString(char* szBuf, int nBuf);	// the HP bar's level or class title
 
+// Slayers have no character level - g_char_slot_ingame.level is pinned to 1 for
+// them - so the level they display is all five skill domains summed.
+static int GetDisplayLevel()
+{
+	if (g_eRaceInterface != RACE_SLAYER)
+		return g_char_slot_ingame.level;
+
+	int level = 0;
+	for (int d = SKILLDOMAIN_BLADE; d <= SKILLDOMAIN_ENCHANT; d++)
+		level += max(0, (*g_pSkillManager)[d].GetDomainLevel());
+	return level;
+}
+
 // DK Umbra's layout with the paperdoll drawn closer together and the information
 // column narrowed, to take less of the screen; MyInformation.spk's window,
 // backdrops and bars are cut to match.
@@ -4338,7 +4351,7 @@ void C_VS_UI_GEAR::ShowInformationText()
 	char sz_level[64];
 	MakeHPBarLevelString(sz_level, sizeof(sz_level));
 	if (g_char_slot_ingame.m_AdvancementLevel > 0)
-		sprintf_s(sz_temp, sizeof(sz_temp), "Level %d  %s", g_char_slot_ingame.level, sz_level);
+		sprintf_s(sz_temp, sizeof(sz_temp), "Level %d  %s", GetDisplayLevel(), sz_level);
 	else
 		sprintf_s(sz_temp, sizeof(sz_temp), "Level %s", sz_level);
 	g_PrintColorStr(x + s_gear_doll_w + 34, y + 33, sz_temp, pi, RGB_WHITE);
@@ -26115,7 +26128,7 @@ static void MakeHPBarLevelString(char* szBuf, int nBuf)
 
 	if (adv <= 0)
 	{
-		sprintf_s(szBuf, nBuf, "%d", g_char_slot_ingame.level);
+		sprintf_s(szBuf, nBuf, "%d", GetDisplayLevel());
 		return;
 	}
 
