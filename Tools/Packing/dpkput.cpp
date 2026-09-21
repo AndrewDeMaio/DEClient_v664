@@ -22,6 +22,7 @@
 #include "VirtualFileSystem.h"
 #include <windows.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <string>
 #include <fcntl.h>
@@ -61,6 +62,55 @@ static bool ArchiveExists(const char* base)
 {
     std::string dpk(base); dpk += ".dpk";
     return _access(dpk.c_str(), 0) == 0;
+}
+
+// An archive is a PAIR, and opening it for write with either half missing is
+// destructive: nfs_start takes its "create" branch and nfs_data_create opens
+// the .dpk with "w+b", truncating a 1.8GB payload to nothing. So list/add/del
+// refuse to start unless both halves exist and the .dpi really is an index
+// (ABCD magic, and not an empty index beside a full payload).
+static bool CheckPair(const char* base)
+{
+    std::string dpk(base); dpk += ".dpk";
+    std::string dpi(base); dpi += ".dpi";
+
+    if (_access(dpk.c_str(), 0) != 0) { printf("ERROR: %s does not exist.\n", dpk.c_str()); return false; }
+    if (_access(dpi.c_str(), 0) != 0)
+    {
+        printf("ERROR: %s does not exist. Refusing to open %s without its index:\n"
+               "       the archive code would recreate the pair and empty the .dpk.\n", dpi.c_str(), dpk.c_str());
+        return false;
+    }
+
+    FILE* fk = fopen(dpk.c_str(), "rb");
+    FILE* fi = fopen(dpi.c_str(), "rb");
+    if (!fk || !fi)
+    {
+        printf("ERROR: could not read the archive pair (in use by the game?).\n");
+        if (fk) fclose(fk);
+        if (fi) fclose(fi);
+        return false;
+    }
+    fseek(fk, 0, SEEK_END); long kSize = ftell(fk);
+    fseek(fi, 0, SEEK_END); long iSize = ftell(fi);
+
+    char magic[4] = {0};
+    fseek(fi, 0, SEEK_SET);
+    size_t rd = fread(magic, 1, 4, fi);
+    fclose(fk); fclose(fi);
+
+    if (rd != 4 || memcmp(magic, "ABCD", 4) != 0)
+    {
+        printf("ERROR: %s is not a dpk index (missing ABCD magic).\n", dpi.c_str());
+        return false;
+    }
+    if (iSize <= 8 && kSize > 8)
+    {
+        printf("ERROR: %s is EMPTY (%ld bytes) but %s holds %ld bytes - they do not belong together.\n",
+               dpi.c_str(), iSize, dpk.c_str(), kSize);
+        return false;
+    }
+    return true;
 }
 
 static std::string Prompt(const char* label, const char* def)
@@ -250,6 +300,11 @@ static int Interactive()
 
 int main(int argc, char** argv)
 {
+    // run by the updater with its output captured: a failed assert on a damaged
+    // archive must end the process with an error code, not open a crash dialog
+    _set_abort_behavior(0, _WRITE_ABORT_MSG | _CALL_REPORTFAULT);
+    SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
+
     if (argc == 1)
         return Interactive();
 
@@ -296,6 +351,9 @@ int main(int argc, char** argv)
         return DoBuild(base, argv[3]);
     }
 
+    if (!CheckPair(base))
+        return 2;
+
     VirtualFileSystem vfs;
     if (!vfs.Start(base, listing ? O_RDONLY : FS_RW))
     {
@@ -334,9 +392,11 @@ int main(int argc, char** argv)
     }
     else if (!strcmp(mode, "del"))
     {
-        // Drops entries from the index. The payload stays in the .dpk -- the
-        // format has no free list, which is why "add" over an existing entry
-        // orphans the old bytes too. Use "build" to actually reclaim space.
+        // Drops entries from the index. Their blocks go back to the free pool
+        // and later adds reuse them (measured: replacing an entry with one the
+        // same size or smaller leaves the .dpk the same size; a larger one grows
+        // it only by the difference), but the .dpk never shrinks. Use "build"
+        // to compact it.
         if (argc < 4)
         {
             printf("ERROR: del needs <vpath> [...]\n");
@@ -349,10 +409,11 @@ int main(int argc, char** argv)
             {
                 std::string v(argv[i]);
                 ToVPath(v);
+                // already gone is what was asked for: not a failure, so a
+                // repeated removal (an interrupted update run again) succeeds
                 if (!vfs.IsFileExist(v.c_str()))
                 {
                     printf("  ABSENT   %s\n", v.c_str());
-                    ++missing;
                     continue;
                 }
                 vfs.DeleteFile(v.c_str());

@@ -102,7 +102,7 @@ namespace DarkEden.Updater
                 m_secrets.Add(host);
         }
 
-        void Log(string line)
+        internal void Log(string line)
         {
             line = Scrub(line);
 
@@ -184,7 +184,7 @@ namespace DarkEden.Updater
             if (m_config.LoginServer.Length == 0)
                 Server = manifest.Server;
             AddSecret(manifest.Server);
-            Log("Manifest " + manifest.Version + ": " + manifest.Files.Count + " files.");
+            Log("Manifest " + manifest.Version + ": " + manifest.Files.Count + " files" + (manifest.HasArchive ? " + the game archive, patched file by file." : "."));
 
             try { News = DownloadText("news.txt"); }
             catch (WebException) { }    // optional
@@ -242,6 +242,14 @@ namespace DarkEden.Updater
                 Log("Updated " + entry.Path);
             }
 
+            // the files inside darkeden.dpk, one by one (only when the server
+            // describes the archive that way; otherwise it was a plain file above)
+            if (manifest.HasArchive)
+            {
+                cache.Save();
+                new ArchivePatcher(this, manifest, cache, m_repair).Run();
+            }
+
             RemoveObsolete(manifest, cache);
             SaveState(manifest);
             cache.Save();
@@ -253,7 +261,7 @@ namespace DarkEden.Updater
             Phase = Phase.Ready;
         }
 
-        static double Fraction(long done, long total)
+        internal static double Fraction(long done, long total)
         {
             return total <= 0 ? 1 : Math.Min(1.0, (double)done / total);
         }
@@ -343,7 +351,10 @@ namespace DarkEden.Updater
         HttpWebRequest Request(string url)
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.UserAgent = "DarkEdenUpdater/1.0";
+            // make_manifest.py looks for "ArchivePatch/1" in Updater.exe before it
+            // publishes an archive as base/entries lines: an updater without it
+            // would not know those lines and would lose the archive
+            request.UserAgent = "DarkEdenUpdater/2 ArchivePatch/1";
             request.Timeout = 20000;
             request.ReadWriteTimeout = 30000;
             request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
@@ -360,43 +371,50 @@ namespace DarkEden.Updater
 
         // Into <file>.part, picking up where a broken download stopped, and only
         // accepted once the whole file hashes to what the manifest says.
-        void Download(ManifestEntry entry, Action<long> progress)
+        internal void Download(ManifestEntry entry, Action<long> progress)
         {
-            string part = LocalPath(entry.Path) + PartSuffix;
+            Download("files/" + entry.Path, LocalPath(entry.Path) + PartSuffix, entry.Hash, entry.Size, entry.Path, progress);
+        }
+
+        // serverPath: under BaseUrl; part: where it is written; label: for the log
+        internal void Download(string serverPath, string part, string hash, long size, string label, Action<long> progress)
+        {
+            if (progress == null)
+                progress = delegate(long done) { };
             Directory.CreateDirectory(Path.GetDirectoryName(part));
 
             for (int attempt = 1; ; attempt++)
             {
                 try
                 {
-                    DownloadOnce(entry, part, progress);
+                    DownloadOnce(serverPath, part, size, label, progress);
 
-                    if (HashCache.HashFile(part, null) == entry.Hash)
+                    if (HashCache.HashFile(part, null) == hash)
                         return;
 
                     File.Delete(part);
-                    throw new InvalidDataException("Downloaded " + entry.Path + " does not match the manifest.");
+                    throw new InvalidDataException("Downloaded " + label + " does not match the manifest.");
                 }
                 catch (Exception e)
                 {
                     if (attempt >= 3 || !(e is WebException || e is IOException || e is InvalidDataException))
                         throw;
 
-                    Log("Retrying " + entry.Path + ": " + e.Message);
+                    Log("Retrying " + label + ": " + e.Message);
                     Thread.Sleep(1500 * attempt);
                 }
             }
         }
 
-        void DownloadOnce(ManifestEntry entry, string part, Action<long> progress)
+        void DownloadOnce(string serverPath, string part, long size, string label, Action<long> progress)
         {
             long have = File.Exists(part) ? new FileInfo(part).Length : 0;
-            if (have > entry.Size)
+            if (have > size)
             {
                 File.Delete(part);
                 have = 0;
             }
-            if (have == entry.Size)
+            if (have == size)
             {
                 // an empty file (the install has a few) is nothing to ask the server for
                 if (have == 0)
@@ -404,7 +422,7 @@ namespace DarkEden.Updater
                 return;
             }
 
-            HttpWebRequest request = Request(Url("files/" + entry.Path));
+            HttpWebRequest request = Request(Url(serverPath));
             request.AutomaticDecompression = DecompressionMethods.None;    // a Range is in stored bytes
             if (have > 0)
                 request.AddRange(have);
@@ -430,11 +448,11 @@ namespace DarkEden.Updater
                 }
             }
 
-            if (have != entry.Size)
-                throw new IOException(entry.Path + " stopped at " + have + " of " + entry.Size + " bytes.");
+            if (have != size)
+                throw new IOException(label + " stopped at " + have + " of " + size + " bytes.");
         }
 
-        void Install(ManifestEntry entry, HashCache cache)
+        internal void Install(ManifestEntry entry, HashCache cache)
         {
             string target = LocalPath(entry.Path);
             string part = target + PartSuffix;
@@ -471,6 +489,11 @@ namespace DarkEden.Updater
             HashSet<string> current = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (ManifestEntry entry in manifest.Files)
                 current.Add(entry.Path);
+            if (manifest.HasArchive)
+            {
+                current.Add(manifest.BaseDpk.Path);
+                current.Add(manifest.BaseDpi.Path);
+            }
 
             // an older manifest may have listed, as plain files, what the game writes
             // for itself; those are the player's now
@@ -483,6 +506,11 @@ namespace DarkEden.Updater
             {
                 string path = line.Trim();
                 if (path.Length == 0 || current.Contains(path) || string.Equals(path, selfName, StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                // never the archive: a manifest that stopped naming it is far more
+                // likely a publishing mistake than a wish to delete 1.8 GB
+                if (path.EndsWith(".dpk", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".dpi", StringComparison.OrdinalIgnoreCase))
                     continue;
 
                 try
@@ -511,6 +539,11 @@ namespace DarkEden.Updater
             {
                 if (!entry.Seed)
                     lines.Add(entry.Path);
+            }
+            if (manifest.HasArchive)
+            {
+                lines.Add(manifest.BaseDpk.Path);
+                lines.Add(manifest.BaseDpi.Path);
             }
             File.WriteAllLines(BookFiles.PathOf(m_gameDir, StateFileName), lines.ToArray());
         }

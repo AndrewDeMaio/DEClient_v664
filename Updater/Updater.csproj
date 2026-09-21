@@ -25,6 +25,10 @@
   <ItemGroup>
     <Compile Include="src\*.cs" />
     <EmbeddedResource Include="Art\*.bmp" LogicalName="Art.%(Filename)%(Extension)" />
+    <!-- the archive tools (Tools\Packing\build.bat), unpacked into Data\Updater\tools
+         at run time: the updater writes and checks darkeden.dpk through them -->
+    <EmbeddedResource Include="..\Tools\Packing\dpkput.exe" LogicalName="Tools.dpkput.exe" />
+    <EmbeddedResource Include="..\Tools\Packing\dpkget.exe" LogicalName="Tools.dpkget.exe" />
   </ItemGroup>
 
   <!-- the game runs out of Release\, so that is where the exe has to be -->

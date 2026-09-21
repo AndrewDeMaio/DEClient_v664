@@ -17,8 +17,23 @@ Updater.ini points at it:
 The updater downloads whatever is missing or hashes differently, and deletes
 what an earlier manifest listed and this one no longer does. So a patch is: put
 the changed or new loose file in the game folder, run this again with a new
-version, upload. darkeden.dpk is one line here - touch it and everybody
-downloads all of it again.
+version, upload.
+
+THE ARCHIVE, FILE BY FILE. When the game folder holds Data/darkeden.entries (the
+list make_dpk.py writes next to the pair it builds), darkeden.dpk is not one
+2 GB manifest line any more:
+
+    base <sha256> <size> Data/darkeden.dpk    the pair, fetched only by players
+    base <sha256> <size> Data/darkeden.dpi    whose archive is missing or broken
+    entries <sha256> <size> archive/entries.txt
+
+archive/entries.txt lists every file the archive should hold. It is the base
+list plus the single-file patches in <game>/Archive/files/<vpath> (make_patch.py
+stages them; Archive/removed.txt drops entries): patched rows are marked P and
+hosted at files/archive/<vpath>, the rest B (only inside the base archive).
+Players' updaters download just the P files that differ from their archive and
+write them into it. Publishing refuses to write this unless Updater.exe knows
+it ("ArchivePatch/1"), because an older updater would lose the archive.
 
 Unchanged files are not copied again (same size and time), and are hard linked
 rather than copied when <out> is on the same drive.
@@ -32,7 +47,7 @@ import sys
 # what the game and the updater write for themselves; never shipped, and since
 # it is never listed the updater never deletes it either
 SKIP_DIRS = {"log", "screenshot", "userset", "temp"}
-# the updater's own bookkeeping (Updater.cache, Updater.state)
+# the updater's own bookkeeping (Updater.cache, Updater.state, Archive.state, tools)
 SKIP_PREFIXES = ("data/updater/",)
 SKIP_FILES = {"updater.ini", "updater.cache", "updater.state", "start.bat", "make_manifest.py", "publish.sh"}
 # written by the game and personal: Player.inf is the account and character
@@ -42,6 +57,12 @@ SKIP_PATHS = {"data/info/player.inf"}
 # fetches one only when it is missing and never overwrites or deletes it.
 SEED_PATHS = {"data/info/clientconfig.inf", "data/info/resolution.inf"}
 SKIP_SUFFIXES = (".part", ".old", ".new", ".dpl", ".pdb", ".lib", ".exp", ".ilk", ".iobj", ".ipdb")
+
+# archive mode
+ARCHIVE_DIR = "archive"         # <game>/Archive: the single-file patches, never a plain file
+PAIR_FILES = {"data/darkeden.dpk", "data/darkeden.dpi", "data/darkeden.entries"}
+MARKER = "ArchivePatch/1".encode("utf-16-le")
+ARCHIVE_LEFTOVERS = (".bak", ".orig", ".tmp", ".py", ".pyc", ".log", ".part", ".old", ".new", ".dpl", ".exe", ".pdb")
 
 
 def wanted(rel):
@@ -77,6 +98,137 @@ def place(src, dst):
         return "copied"
 
 
+def find_ci(root, rel):
+    """The real path of rel under root, whatever its casing (the VPS is Linux)."""
+    cur = root
+    for part in rel.split("/"):
+        try:
+            cur = os.path.join(cur, next(e for e in os.listdir(cur) if e.lower() == part.lower()))
+        except (StopIteration, FileNotFoundError, NotADirectoryError):
+            return None
+    return cur
+
+
+def archive_refusal(vpath, size):
+    """Why a patch file cannot go into the archive (same rules as make_dpk.py), or None."""
+    if not vpath.startswith("data/") or vpath.count("/") < 2:
+        return "not under data/<folder>/"
+    if vpath.startswith("data/music/"):
+        return "music is read from disk, never from the archive"
+    if vpath == "data/info/player.inf":
+        return "private"
+    if size == 2:
+        return "a 2-byte file cannot be stored in the archive (ship it loose)"
+    name = vpath.rsplit("/", 1)[1]
+    if name.endswith(ARCHIVE_LEFTOVERS) or ".before_" in name:
+        return "editing leftover"
+    return None
+
+
+def read_entries(path):
+    header, rows = {}, {}
+    with open(path, encoding="utf-8") as f:
+        for n, line in enumerate(f, 1):
+            line = line.rstrip("\n").rstrip("\r")
+            if line.startswith("#"):
+                p = line[1:].split()
+                if len(p) == 3 and p[0] in ("dpk", "dpi"):
+                    header[p[0]] = (p[1], int(p[2]))
+                continue
+            if not line.strip():
+                continue
+            parts = line.split(" ", 2)
+            if len(parts) != 3 or len(parts[0]) != 64 or not parts[1].isdigit():
+                sys.exit("darkeden.entries line %d is not an entry: %s" % (n, line))
+            rows[parts[2]] = (parts[0], int(parts[1]))
+    if "dpk" not in header or "dpi" not in header:
+        sys.exit("darkeden.entries does not say which dpk/dpi it describes (no '# dpk' / '# dpi' lines)")
+    return header, rows
+
+
+def archive_mode(game, out, entries_path, lines, listed):
+    """Adds the base/entries lines and fills files/archive/. Returns a summary line."""
+    updater = find_ci(game, "Updater.exe")
+    if updater is None or MARKER not in open(updater, "rb").read():
+        sys.exit("Updater.exe in %s does not know how to patch the archive file by file.\n"
+                 "Publishing the archive as base/entries lines would make it LOSE the archive.\n"
+                 "Upload the new Updater.exe first (or remove Data/darkeden.entries to publish the old way)." % game)
+
+    header, base = read_entries(entries_path)
+
+    # the pair must be the one the list describes - uploaded together, or not at all
+    for key, rel in (("dpk", "Data/darkeden.dpk"), ("dpi", "Data/darkeden.dpi")):
+        path = find_ci(game, rel)
+        if path is None:
+            sys.exit("%s is missing but darkeden.entries is there" % rel)
+        want_hash, want_size = header[key]
+        if os.path.getsize(path) != want_size or sha256(path) != want_hash:
+            sys.exit("%s is not the one darkeden.entries describes.\n"
+                     "Upload darkeden.dpk, darkeden.dpi and darkeden.entries together." % rel)
+        rel_real = os.path.relpath(path, game).replace(os.sep, "/")
+        place(path, os.path.join(out, "files", rel_real))
+        lines.append("base %s %d %s" % (want_hash, want_size, "Data/darkeden." + key))
+        listed.add(rel_real.lower())
+
+    # the single-file patches
+    current = {v: ("B", h, s) for v, (h, s) in base.items()}
+    arch = find_ci(game, "Archive")
+    hosted, same, dropped = [], [], []
+    if arch is not None:
+        base_txt = find_ci(arch, "base.txt")
+        if base_txt is not None:
+            staged_for = open(base_txt, encoding="utf-8").read().strip()
+            if staged_for and staged_for != header["dpk"][0]:
+                sys.exit("Archive/ was staged for another base archive (%s...), not this one (%s...).\n"
+                         "Its patches would be wrong here. Stage them again against this base."
+                         % (staged_for[:16], header["dpk"][0][:16]))
+
+        files = find_ci(arch, "files")
+        if files is not None:
+            for root, dirs, names in os.walk(files):
+                for name in names:
+                    src = os.path.join(root, name)
+                    vpath = os.path.relpath(src, files).replace(os.sep, "/").lower()
+                    size = os.path.getsize(src)
+                    why = archive_refusal(vpath, size)
+                    if why:
+                        sys.exit("Archive/files/%s cannot be patched into the archive: %s" % (vpath, why))
+                    h = sha256(src)
+                    if base.get(vpath) == (h, size):
+                        same.append(vpath)
+                        continue
+                    current[vpath] = ("P", h, size)
+                    place(src, os.path.join(out, "files", "archive", *vpath.split("/")))
+                    listed.add(("archive/" + vpath).lower())
+                    hosted.append((vpath, size))
+
+        removed_txt = find_ci(arch, "removed.txt")
+        if removed_txt is not None:
+            for v in open(removed_txt, encoding="utf-8"):
+                v = v.strip().lower()
+                if v and current.pop(v, None) is not None:
+                    dropped.append(v)
+
+    listing = os.path.join(out, "files", "archive", "entries.txt")
+    os.makedirs(os.path.dirname(listing), exist_ok=True)
+    with open(listing, "w", encoding="utf-8", newline="\n") as f:
+        f.write("# darkeden entries\n")
+        for v in sorted(current):
+            flag, h, s = current[v]
+            f.write("%s %s %d %s\n" % (flag, h, s, v))
+    lines.append("entries %s %d archive/entries.txt" % (sha256(listing), os.path.getsize(listing)))
+    listed.add("archive/entries.txt")
+
+    for v, s in sorted(hosted):
+        print("  patch   %12d  %s%s" % (s, v, "   (new)" if v not in base else ""))
+    for v in same:
+        print("  same as the base, not sent: %s" % v)
+    for v in dropped:
+        print("  removed from the archive: %s" % v)
+    return current, "archive: %d files, %d patched singly (%.1f KB), %d removed" % (
+        len(current), len(hosted), sum(s for _, s in hosted) / 1024.0, len(dropped))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("game")
@@ -92,12 +244,29 @@ def main():
     if out == game or out.startswith(game + os.sep):
         sys.exit("the out folder must not be inside the game folder")
 
+    entries_path = find_ci(game, "Data/darkeden.entries")
+
+    # Archive/ belongs beside Data/, not inside it: in Data/ it would go out as plain
+    # loose files and its patches would never reach the archive
+    misplaced = find_ci(game, "Data/Archive")
+    if misplaced is not None and os.path.isdir(misplaced):
+        sys.exit("%s is in the wrong place: the Archive folder goes in the game folder itself,\n"
+                 "beside Data/ (%s), not inside Data/. Move it:\n"
+                 "    mv \"%s\" \"%s\"" % (misplaced, os.path.join(game, "Archive"), misplaced, os.path.join(game, "Archive")))
+
     rels = []
     for root, dirs, files in os.walk(game):
         for name in files:
             rel = os.path.relpath(os.path.join(root, name), game).replace(os.sep, "/")
-            if wanted(rel):
-                rels.append(rel)
+            if not wanted(rel):
+                continue
+            low = rel.lower()
+            # in archive mode the pair and Archive/ are published as base/entries, not as files
+            if entries_path and (low in PAIR_FILES or low.split("/")[0] == ARCHIVE_DIR):
+                continue
+            if not entries_path and low == "data/darkeden.entries":
+                continue
+            rels.append(rel)
     rels.sort(key=str.lower)
 
     lines = ["# DarkEden update manifest", "version " + args.version]
@@ -117,6 +286,16 @@ def main():
 
     # files/ holds exactly what the manifest lists
     listed = {rel.lower() for rel in rels}
+    summary = ""
+    if entries_path:
+        current, summary = archive_mode(game, out, entries_path, lines, listed)
+        # a loose copy of an archive file wins over the archive on every player's disk
+        for rel in rels:
+            low = rel.lower()
+            if low in current and low not in SEED_PATHS:
+                print("WARNING: %s is published loose AND is in the archive - the loose copy overrides the"
+                      " archive for every player. Remove it from the game folder unless that is intended." % rel)
+
     for root, dirs, files in os.walk(os.path.join(out, "files")):
         for name in files:
             full = os.path.join(root, name)
@@ -131,6 +310,8 @@ def main():
     if not any(r.lower() == "updater.exe" for r in rels):
         print("note: no Updater.exe in the game folder, so players' updaters will not update themselves")
     print("%d files, %.1f MB, version %s -> %s" % (len(rels), total / 1048576.0, args.version, out))
+    if summary:
+        print(summary)
 
 
 if __name__ == "__main__":

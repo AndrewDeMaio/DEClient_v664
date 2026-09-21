@@ -20,7 +20,8 @@ namespace DarkEden.Updater
         }
 
         // Updater.exe [/repair] [/start] [/shot <png>]
-        //   /repair   hash every file again instead of trusting Updater.cache
+        //   /repair   hash every file again instead of trusting Updater.cache, and
+        //             read every file inside the game archive again (Archive.state)
         //   /start    start the game as soon as the update is through, without the click
         //   /shot     draw the window once into a png and exit (layout checks)
         //

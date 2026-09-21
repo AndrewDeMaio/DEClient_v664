@@ -19,14 +19,28 @@
 //   dpkget <vfsbase> <outdir> <vpath> [vpath ...]   extract named entries
 //   dpkget <vfsbase> <outdir> --glob <pattern>      extract everything matching
 //   dpkget <vfsbase> --list [pattern]               list without extracting
+//   dpkget <vfsbase> --hash [vpath ...]             sha256 of entries (all if none named)
 //
 // <vfsbase> omits the extension; the VFS appends .dpk / .dpi itself.
+//
+// --hash reads each entry through the VFS in memory and prints
+//     <sha256> <size> <vpath>
+// or  MISSING <vpath>
+// one line each; exit 3 if any named entry is missing or unreadable. It is how
+// the updater and the packing scripts check what an archive really holds
+// without writing anything to disk.
 #include "VirtualFileSystem.h"
+#include "VirtualFileIO.h"
+#include <windows.h>
+#include <bcrypt.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <string>
 #include <fcntl.h>
 #include <io.h>
+
+#pragma comment(lib, "bcrypt.lib")
 
 static const char SEP = 0x2F;   // '/'
 
@@ -135,6 +149,127 @@ static int Extract(VirtualFileSystem& vfs, const char* outdir, const char* vpath
     return ok ? 0 : 1;
 }
 
+// Same normalisation the VFS applies to lookups: lowercase, backslash -> slash.
+static std::string ToVPath(const char* in)
+{
+    std::string out;
+    for (const char* p = in; *p; ++p)
+    {
+        char c = *p;
+        if (c == 0x5C) c = SEP;
+        if (c >= 'A' && c <= 'Z') c = char(c - 'A' + 'a');
+        if (c == SEP && !out.empty() && out[out.size() - 1] == SEP)
+            continue;
+        out += c;
+    }
+    return out;
+}
+
+// sha256 of one entry, read through the VFS exactly as the client would read it.
+// Returns 0 and prints "<hash> <size> <vpath>", or 1 and prints MISSING/FAILED.
+static int HashEntry(VirtualFileSystem& vfs, BCRYPT_ALG_HANDLE alg, const char* rawpath)
+{
+    std::string vpath = ToVPath(rawpath);
+    if (!vfs.IsFileExist(vpath.c_str()))
+    {
+        printf("MISSING %s\n", vpath.c_str());
+        return 1;
+    }
+
+    VirtualFileIO file(&vfs);
+    file.open(vpath.c_str(), std::ios_base::in | std::ios_base::binary);
+    if (!file.is_open())
+    {
+        printf("FAILED %s\n", vpath.c_str());
+        return 1;
+    }
+
+    BCRYPT_HASH_HANDLE h = NULL;
+    if (BCryptCreateHash(alg, &h, NULL, 0, NULL, 0, 0) < 0)
+    {
+        file.close();
+        printf("FAILED %s\n", vpath.c_str());
+        return 1;
+    }
+
+    static char buffer[VirtualFileSystem::FILE_COPY_BUFFER_SIZE];
+    long long total = 0;
+    for (;;)
+    {
+        file.read(buffer, sizeof(buffer));
+        int got = (int)file.gcount();
+        if (got <= 0) break;
+        BCryptHashData(h, (PUCHAR)buffer, (ULONG)got, 0);
+        total += got;
+    }
+    file.close();
+
+    UCHAR digest[32];
+    bool ok = BCryptFinishHash(h, digest, sizeof(digest), 0) >= 0;
+    BCryptDestroyHash(h);
+    if (!ok)
+    {
+        printf("FAILED %s\n", vpath.c_str());
+        return 1;
+    }
+
+    char hex[65];
+    for (int i = 0; i < 32; ++i)
+        sprintf(hex + i * 2, "%02x", digest[i]);
+    printf("%s %lld %s\n", hex, total, vpath.c_str());
+    return 0;
+}
+
+// An entry whose blocks were half overwritten (a write killed part way) can make
+// the decompressor read wild memory. Catch that per entry, so one damaged entry is
+// reported as FAILED and every other entry still gets its answer. (No C++ objects
+// live in this frame, which __try requires.)
+static int SafeHashEntry(VirtualFileSystem* vfs, BCRYPT_ALG_HANDLE alg, const char* vpath)
+{
+    __try
+    {
+        return HashEntry(*vfs, alg, vpath);
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    {
+        printf("FAILED %s\n", vpath);
+        return 1;
+    }
+}
+
+static int RunHash(VirtualFileSystem& vfs, int count, char** vpaths)
+{
+    // every line reaches the caller even if the process dies on a later entry
+    setvbuf(stdout, NULL, _IONBF, 0);
+
+    BCRYPT_ALG_HANDLE alg = NULL;
+    if (BCryptOpenAlgorithmProvider(&alg, BCRYPT_SHA256_ALGORITHM, NULL, 0) < 0)
+    {
+        printf("ERROR: SHA-256 is not available\n");
+        return 2;
+    }
+
+    int failed = 0;
+    if (count > 0)
+    {
+        for (int i = 0; i < count; ++i)
+            failed += SafeHashEntry(&vfs, alg, vpaths[i]);
+    }
+    else
+    {
+        nfs_glob_t g;
+        g.gl_offs = 0;
+        vfs.GetNFS()->glob("*", GLOB_DOOFS, NULL, &g);
+        for (int i = g.gl_offs; i < g.gl_pathc + g.gl_offs; ++i)
+            failed += SafeHashEntry(&vfs, alg, g.gl_pathv[i]);
+        vfs.GetNFS()->glob_free(&g);
+    }
+
+    BCryptCloseAlgorithmProvider(alg, 0);
+    fflush(stdout);
+    return failed ? 3 : 0;
+}
+
 // Returns entries matched. Pass extract=false to only list.
 static int RunGlob(VirtualFileSystem& vfs, const char* outdir,
                    const char* pattern, bool extract)
@@ -226,6 +361,11 @@ static int Interactive()
 
 int main(int argc, char** argv)
 {
+    // run by the updater with its output captured: a failed assert on a damaged
+    // entry must end the process with an error code, not open a crash dialog
+    _set_abort_behavior(0, _WRITE_ABORT_MSG | _CALL_REPORTFAULT);
+    SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
+
     if (argc == 1)
         return Interactive();
 
@@ -235,7 +375,8 @@ int main(int argc, char** argv)
                "  dpkget                                        interactive\n"
                "  dpkget <vfsbase> <outdir> <vpath> [vpath ...]\n"
                "  dpkget <vfsbase> <outdir> --glob <pattern>\n"
-               "  dpkget <vfsbase> --list [pattern]\n\n"
+               "  dpkget <vfsbase> --list [pattern]\n"
+               "  dpkget <vfsbase> --hash [vpath ...]\n\n"
                "vfsbase omits the extension. Never writes to the archive.\n");
         return 1;
     }
@@ -246,7 +387,11 @@ int main(int argc, char** argv)
 
     int rc = 0;
 
-    if (!strcmp(argv[2], "--list"))
+    if (!strcmp(argv[2], "--hash"))
+    {
+        rc = RunHash(vfs, argc - 3, argv + 3);
+    }
+    else if (!strcmp(argv[2], "--list"))
     {
         RunGlob(vfs, "", (argc > 3) ? argv[3] : "*", false);
     }

@@ -13,8 +13,14 @@ namespace DarkEden.Updater
     //   file <sha256 hex> <size> <path/with/forward/slashes and spaces>
     //   seed <sha256 hex> <size> <path>     a settings file the game rewrites: fetched
     //                                       when missing, then never touched again
+    //   base <sha256 hex> <size> Data/darkeden.dpk   the archive pair as first published:
+    //   base <sha256 hex> <size> Data/darkeden.dpi   fetched only when the local pair is
+    //                                       missing or unusable, never compared as a whole
+    //                                       afterwards (patching changes both files)
+    //   entries <sha256 hex> <size> archive/entries.txt   what the archive should hold,
+    //                                       file by file (see ArchivePatcher)
     //
-    // Every file of the install is listed; the 1.8GB archive is one line of it.
+    // Without base/entries lines the archive is two plain file lines, as before.
     sealed class ManifestEntry
     {
         public string Path;     // relative, forward slashes
@@ -25,10 +31,20 @@ namespace DarkEden.Updater
 
     sealed class Manifest
     {
+        public const string DpkPath = "Data/darkeden.dpk";
+        public const string DpiPath = "Data/darkeden.dpi";
+
         public string Version = "";
         public string Server = "";
         public string Launch = "DarkEden.exe";
         public readonly List<ManifestEntry> Files = new List<ManifestEntry>();
+
+        // set together or not at all
+        public ManifestEntry BaseDpk;
+        public ManifestEntry BaseDpi;
+        public ManifestEntry Entries;   // Path is where it lives under files/ on the server
+
+        public bool HasArchive { get { return BaseDpk != null; } }
 
         public static Manifest Parse(string text)
         {
@@ -60,11 +76,13 @@ namespace DarkEden.Updater
 
                     case "file":
                     case "seed":
+                    case "base":
+                    case "entries":
                     {
                         string[] parts = value.Split(new[] { ' ' }, 3);
                         ManifestEntry entry = new ManifestEntry();
                         if (parts.Length != 3 || parts[0].Length != 64 || !long.TryParse(parts[1], out entry.Size) || entry.Size < 0)
-                            throw new InvalidDataException("Bad manifest file line: " + line);
+                            throw new InvalidDataException("Bad manifest " + key + " line: " + line);
 
                         entry.Seed = key == "seed";
                         entry.Hash = parts[0].ToLowerInvariant();
@@ -74,7 +92,23 @@ namespace DarkEden.Updater
                         if (!seen.Add(entry.Path))
                             throw new InvalidDataException("Manifest lists a file twice: " + entry.Path);
 
-                        manifest.Files.Add(entry);
+                        if (key == "base")
+                        {
+                            if (string.Equals(entry.Path, DpkPath, StringComparison.OrdinalIgnoreCase))
+                                manifest.BaseDpk = entry;
+                            else if (string.Equals(entry.Path, DpiPath, StringComparison.OrdinalIgnoreCase))
+                                manifest.BaseDpi = entry;
+                            else
+                                throw new InvalidDataException("A base line names something other than the archive: " + entry.Path);
+                        }
+                        else if (key == "entries")
+                        {
+                            if (manifest.Entries != null)
+                                throw new InvalidDataException("The manifest has two entries lines.");
+                            manifest.Entries = entry;
+                        }
+                        else
+                            manifest.Files.Add(entry);
                         break;
                     }
 
@@ -85,6 +119,19 @@ namespace DarkEden.Updater
 
             if (manifest.Files.Count == 0)
                 throw new InvalidDataException("The manifest lists no files.");
+
+            // the archive is described completely or not at all
+            bool anyArchive = manifest.BaseDpk != null || manifest.BaseDpi != null || manifest.Entries != null;
+            if (anyArchive && (manifest.BaseDpk == null || manifest.BaseDpi == null || manifest.Entries == null))
+                throw new InvalidDataException("The manifest describes the archive only in part (needs both base lines and an entries line).");
+
+            // and never also as plain files
+            foreach (ManifestEntry entry in manifest.Files)
+            {
+                if (anyArchive && (string.Equals(entry.Path, DpkPath, StringComparison.OrdinalIgnoreCase)
+                                   || string.Equals(entry.Path, DpiPath, StringComparison.OrdinalIgnoreCase)))
+                    throw new InvalidDataException("The manifest lists the archive both as base and as a file.");
+            }
 
             return manifest;
         }
