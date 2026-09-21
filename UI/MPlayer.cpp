@@ -138,6 +138,7 @@ extern bool		g_bZonePlayerInLarge;
 extern bool		g_bZoneSafe;
 extern bool		g_bHolyLand;
 extern POINT	g_SelectSector;
+extern bool		g_bPlayerSkillSound;
 
 
 //#define	new			DEBUG_NEW
@@ -6590,6 +6591,18 @@ MPlayer::AffectUsedActionInfo(TYPE_ACTIONINFO nUsedActionInfo)
 		else
 			return;
 		break;
+
+	// Blaze Walk 2 dashes with its own flame, the nodes of SKILL_BLAZE_WALK_2,
+	// instead of Blaze Walk's fire
+	case SKILL_BLAZE_WALK_ATTACK:
+		if (m_nSpecialActionInfo == SKILL_BLAZE_WALK_2)
+		{
+			if (m_DelayActionInfo == nUsedActionInfo)
+				m_DelayActionInfo = SKILL_BLAZE_WALK_2;
+
+			nUsedActionInfo = SKILL_BLAZE_WALK_2;
+		}
+		break;
 	}
 	POINT point;
 #ifdef __METROTECH_TEST__
@@ -6865,6 +6878,10 @@ MPlayer::AffectUsedActionInfo(TYPE_ACTIONINFO nUsedActionInfo)
 	//                   Effect����		
 	//
 	//--------------------------------------------------------
+	// the player's own Blaze Walk 2 sound (on its flame node) must not be dropped
+	// by the per-second sound cap when it lands among several monsters
+	g_bPlayerSkillSound = (nUsedActionInfo == SKILL_BLAZE_WALK_2);
+
 	g_pEffectGeneratorTable->Generate(
 		x, y, z,				// ���� ��ġ
 		direction, 		// ����
@@ -6873,6 +6890,7 @@ MPlayer::AffectUsedActionInfo(TYPE_ACTIONINFO nUsedActionInfo)
 		pEffectTarget		// ��ǥ ����
 		, GetActionGrade()
 	);
+	g_bPlayerSkillSound = false;
 	ClearActionGrade();
 
 	DEBUG_ADD_FORMAT("[MPlayer-StartEffect] AffectUsedActionInfo OK");

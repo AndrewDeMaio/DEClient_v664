@@ -210,9 +210,11 @@ void GCSkillToObjectOK1Handler::execute ( GCSkillToObjectOK1 * pPacket , Player 
 				break;
 #endif //__ONIBLA
 			case SKILL_BLAZE_WALK :
-			case SKILL_BLAZE_WALK_2 :
 				SkillBlazeWalk( dynamic_cast<MCreature*>(g_pPlayer), pCreature, SKILL_BLAZE_WALK_ATTACK , pPacket->getGrade() );
 				break;
+
+			// SKILL_BLAZE_WALK_2 has no afterimages rushing the target: its flame is
+			// its own action, attached to the user
 
 			case SKILL_BITE_OF_DEATH :
 				pCreature->SetDrainCreatureID( g_pPlayer->GetID() );

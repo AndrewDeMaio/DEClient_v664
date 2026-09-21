@@ -134,9 +134,11 @@ void GCSkillToObjectOK5Handler::execute ( GCSkillToObjectOK5 * pPacket , Player 
 				break;
 #endif //__ONIBLA
 			case SKILL_BLAZE_WALK :
-			case SKILL_BLAZE_WALK_2 :
 				SkillBlazeWalk( pUserCreature, pTargetCreature, SKILL_BLAZE_WALK_ATTACK, pPacket->getGrade()  );
 				break;
+
+			// SKILL_BLAZE_WALK_2 has no afterimages rushing the target: its flame is
+			// its own action, attached to the user
 			case SKILL_SET_AFIRE:
 				pUserCreature->AddEffectStatus(EFFECTSTATUS_SET_AFIRE_ATTACK, 20);
 				break;

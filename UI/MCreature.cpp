@@ -7292,6 +7292,16 @@ MCreature::AffectUsedActionInfo(TYPE_ACTIONINFO nUsedActionInfo)
 		return;
 	}
 
+	// Blaze Walk 2 dashes with its own flame, the nodes of SKILL_BLAZE_WALK_2,
+	// instead of Blaze Walk's fire
+	if (nUsedActionInfo == SKILL_BLAZE_WALK_ATTACK && m_nSpecialActionInfo == SKILL_BLAZE_WALK_2)
+	{
+		if (m_DelayActionInfo == nUsedActionInfo)
+			m_DelayActionInfo = SKILL_BLAZE_WALK_2;
+
+		nUsedActionInfo = SKILL_BLAZE_WALK_2;
+	}
+
 	DEBUG_ADD_FORMAT("[AffectUsedActionInfo] %d %d", __LINE__, nUsedActionInfo);
 
 	if ((*g_pActionInfoTable)[nUsedActionInfo].GetSize() != 0)

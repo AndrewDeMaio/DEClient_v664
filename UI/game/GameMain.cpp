@@ -163,6 +163,7 @@ int						g_ScreenShotNumber = 0;
 CDirectSoundStream*		g_pDXSoundStream = NULL;
 CMP3*					g_pMP3 = NULL;
 int						g_SoundPerSecond = 0;
+bool					g_bPlayerSkillSound = false;	// set while the player's own skill plays its sound: not held to MAX_SOUND_PER_SECOND
 
 // Chat string
 #ifdef	OUTPUT_DEBUG
@@ -3923,6 +3924,7 @@ PlaySound(TYPE_SOUNDID soundID, bool repeat, int x, int y)
 	// ??? ????? ?? ??? ???? ????
 	//-----------------------------------------------------------
 	if (!repeat 
+		&& !g_bPlayerSkillSound
 		&& g_SoundPerSecond > g_pClientConfig->MAX_SOUND_PER_SECOND)
 	{
 		__END_PROFILE("PlaySound1")

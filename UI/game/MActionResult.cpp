@@ -178,8 +178,8 @@ MActionResultNodeActionInfo::Execute()
 		resultActionInfo = MAGIC_RAPID_GLIDING + (*g_pActionInfoTable).GetMinResultActionInfo();
 		break;
 #endif //__ONIBLA
+	// SKILL_BLAZE_WALK_2 keeps its own hit, RESULT_SKILL_BLAZE_WALK_2 (blood splash)
 	case SKILL_BLAZE_WALK :
-	case SKILL_BLAZE_WALK_2 :
 		resultActionInfo = SKILL_BLAZE_WALK_ATTACK + (*g_pActionInfoTable).GetMinResultActionInfo();
 		break;
 	}

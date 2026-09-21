@@ -10909,19 +10909,25 @@ MTopView::AddText(DRAWTEXT_NODE* pNode)
 //
 // The game server sends GCGetDamage to the player who swung, one per monster
 // hit, carrying the final damage. Each number appears on top of that monster's
-// head and rises straight up for a moment. The head position is taken ONCE,
-// when the number spawns: a monster's sprite rect changes width from one
-// animation frame to the next, so following it made the number jitter
-// sideways. 0xFFFF is reserved (it once meant a miss) and is ignored.
+// head, rides along with it, and rises straight up for a moment.
+//
+// The number is anchored in zone pixels, not screen pixels: the view scrolls
+// whenever the player walks, so a screen anchor left the number following the
+// player instead of the monster. The head's offset from the monster's position
+// is measured ONCE, when the number spawns: a monster's sprite rect changes
+// width from one animation frame to the next, so re-measuring it every frame
+// made the number jitter sideways. 0xFFFF is reserved (it once meant a miss)
+// and is ignored.
 //----------------------------------------------------------------------
 namespace
 {
 	struct FLOATING_DAMAGE
 	{
 		TYPE_OBJECTID	id;
-		int				damage;		// FLOATING_DAMAGE_MISS for a miss
+		int				damage;
 		DWORD			start;
-		int				x, y;		// top centre of the monster, last seen
+		int				zoneX, zoneY;	// the monster's zone pixel position, last seen
+		int				headX, headY;	// top centre of its sprite, relative to that
 		bool			placed;
 		int				fan;		// 0..2: stacks a burst of hits on one monster, upwards
 	};
@@ -10934,7 +10940,9 @@ namespace
 	const int	FLOATING_DAMAGE_LIFT	= 16;		// the text's height: it sits ON the head
 	const int	FLOATING_DAMAGE_STACK	= 14;		// between hits that land together
 
-	bool PlaceFloatingDamage(FLOATING_DAMAGE& fd)
+	// firstZonePixel is the zone pixel at screen (0,0) in the frame that
+	// recorded the creature's screen rect
+	bool PlaceFloatingDamage(FLOATING_DAMAGE& fd, const POINT& firstZonePixel)
 	{
 		MCreature* pCreature = (g_pZone != NULL) ? g_pZone->GetCreature(fd.id) : NULL;
 
@@ -10946,10 +10954,25 @@ namespace
 		if (r.right <= r.left)		// never drawn yet
 			return false;
 
-		fd.x = (r.left + r.right) / 2;
-		fd.y = r.top;
-		fd.placed = true;
+		fd.zoneX	= pCreature->GetPixelX();
+		fd.zoneY	= pCreature->GetPixelY();
+		fd.headX	= (r.left + r.right) / 2 + firstZonePixel.x - fd.zoneX;
+		fd.headY	= r.top + firstZonePixel.y - fd.zoneY;
+		fd.placed	= true;
 		return true;
+	}
+
+	// tracks the monster while it is still in the zone; once it is gone the
+	// number stays where the monster was last seen
+	void FollowFloatingDamage(FLOATING_DAMAGE& fd)
+	{
+		MCreature* pCreature = (g_pZone != NULL) ? g_pZone->GetCreature(fd.id) : NULL;
+
+		if (pCreature == NULL)
+			return;
+
+		fd.zoneX = pCreature->GetPixelX();
+		fd.zoneY = pCreature->GetPixelY();
 	}
 }
 
@@ -10963,8 +10986,10 @@ MTopView::AddFloatingDamage(TYPE_OBJECTID id, int damage)
 	fd.id		= id;
 	fd.damage	= damage;
 	fd.start	= g_CurrentTime;
-	fd.x		= 0;
-	fd.y		= 0;
+	fd.zoneX	= 0;
+	fd.zoneY	= 0;
+	fd.headX	= 0;
+	fd.headY	= 0;
 	fd.placed	= false;
 
 	// several hits on one monster at once fan out instead of stacking
@@ -10979,7 +11004,7 @@ MTopView::AddFloatingDamage(TYPE_OBJECTID id, int damage)
 	fd.fan = live % 3;
 
 	// place it now: a killing blow can remove the monster before the next frame
-	PlaceFloatingDamage(fd);
+	PlaceFloatingDamage(fd, m_FirstZonePixel);
 
 	s_FloatingDamage.push_back(fd);
 
@@ -11004,10 +11029,12 @@ MTopView::DrawFloatingDamage()
 			continue;
 		}
 
-		// placed once, then it rises straight up from there - following the
-		// sprite rect every frame is what made it jitter sideways
+		// the head offset is measured once; after that only the monster's
+		// position is followed - re-measuring the sprite rect made it jitter
 		if (!it->placed)
-			PlaceFloatingDamage(*it);
+			PlaceFloatingDamage(*it, m_FirstZonePixel);
+		else
+			FollowFloatingDamage(*it);
 
 		if (!it->placed || pInfo == NULL)
 		{
@@ -11018,11 +11045,13 @@ MTopView::DrawFloatingDamage()
 		char szText[16];
 		sprintf(szText, "%d", it->damage);
 
-		// centred on the head, and only y ever changes
+		// zone pixels back to screen pixels with this frame's scroll
 		const int width	= g_GetStringWidth(szText, pInfo->hfont);
 		const int rise	= (int)(age * FLOATING_DAMAGE_RISE / FLOATING_DAMAGE_MS);
-		const int x		= it->x - width / 2;
-		const int y		= it->y - FLOATING_DAMAGE_LIFT - it->fan * FLOATING_DAMAGE_STACK - rise;
+		const int headX	= it->zoneX + it->headX - m_FirstZonePixel.x;
+		const int headY	= it->zoneY + it->headY - m_FirstZonePixel.y;
+		const int x		= headX - width / 2;
+		const int y		= headY - FLOATING_DAMAGE_LIFT - it->fan * FLOATING_DAMAGE_STACK - rise;
 
 		// the node must own its string: DRAWTEXT_NODE keeps only the pointer
 		AddText(new DRAWTEXT_NODE_HEAP(x, y, szText, RGB(255, 225, 110),
