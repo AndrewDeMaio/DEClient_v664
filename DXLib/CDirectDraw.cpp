@@ -353,7 +353,10 @@ bool CDirectDraw::InitWindowMode(WORD wWidth, WORD wHeight)
 	//------------------------------------------------------
 	// Get the dimensions of the viewport and screen bounds
 	//------------------------------------------------------
-	GetClientRect(m_hWnd, &m_rcViewport);
+	// The viewport is what gets presented FROM, so it is the back surface,
+	// whatever size the window is: a window bigger than the surface shows the
+	// same picture scaled up (see Flip), it does not show more of it.
+	SetRect(&m_rcViewport, 0, 0, wWidth, wHeight);
 	GetClientRect(m_hWnd, &m_rcScreen);
 	ClientToScreen(m_hWnd, (POINT*)&m_rcScreen.left);
 	ClientToScreen(m_hWnd, (POINT*)&m_rcScreen.right);
@@ -538,17 +541,24 @@ bool CDirectDraw::RestoreAllSurfaces()
 //----------------------------------------------------------------------
 void CDirectDraw::WindowToViewport(int &x, int &y)
 {
-	if (!m_bFullscreen)
-		return;		// window mode presents 1:1
-
 	int dstW = m_rcScreen.right - m_rcScreen.left;
 	int dstH = m_rcScreen.bottom - m_rcScreen.top;
 
 	if (dstW <= 0 || dstH <= 0)
 		return;
 
-	x = (int)(((__int64)(x - m_rcScreen.left) * m_ScreenWidth) / dstW);
-	y = (int)(((__int64)(y - m_rcScreen.top) * m_ScreenHeight) / dstH);
+	// A 1:1 window has nothing to undo.
+	if (!m_bFullscreen && dstW == m_ScreenWidth && dstH == m_ScreenHeight)
+		return;
+
+	// m_rcScreen is in screen coordinates. The fullscreen window sits at the
+	// screen's origin, so those are its client coordinates too; a window's
+	// picture starts at its own client origin wherever the window has moved.
+	const int left = m_bFullscreen ? m_rcScreen.left : 0;
+	const int top  = m_bFullscreen ? m_rcScreen.top : 0;
+
+	x = (int)(((__int64)(x - left) * m_ScreenWidth) / dstW);
+	y = (int)(((__int64)(y - top) * m_ScreenHeight) / dstH);
 
 	// Clamp into the frame so clicks on the bars land on the nearest edge
 	// instead of running off the end of a widget array.
@@ -1161,7 +1171,7 @@ void CDirectDraw::OnMove()
 	// Retrieve the window position after a move.
 	// Pseudo-fullscreen is a positioned window, so update rects always.
 	GetWindowRect(m_hWnd, &m_rcWindow);
-	GetClientRect(m_hWnd, &m_rcViewport);
+	SetRect(&m_rcViewport, 0, 0, m_ScreenWidth, m_ScreenHeight);	// the source: always the whole surface
 	GetClientRect(m_hWnd, &m_rcScreen);
 	ClientToScreen(m_hWnd, (POINT*)&m_rcScreen.left);
 	ClientToScreen(m_hWnd, (POINT*)&m_rcScreen.right);

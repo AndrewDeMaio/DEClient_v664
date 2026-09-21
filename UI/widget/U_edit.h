@@ -133,6 +133,10 @@ public:
 public:
 	//virtual bool EndOfLogicalSize() const { return false; } // 어떤 font인지 모름으로 LineEditor에서 결정할 수 없음.
 	virtual bool	ReachEndOfBox(char_t will_input_char) const { return false; }
+	// true while the text between the scroll position and the cursor is wider,
+	// in pixels, than the box - the font is proportional, so a character count
+	// alone lets wide text run past the right edge.
+	virtual bool	CursorPastBox() const { return false; }
 	bool	CheckInputLimit(char_t will_input_char);
 	bool	CheckInputCharLimit() const;
 
@@ -206,6 +210,7 @@ public:
 	void	SetEditorMode(int gap, int height = 0) { m_gap = gap; m_editor_height = height; }
 
 	bool		ReachEndOfBox(char_t will_input_char = 0) const;
+	bool		CursorPastBox() const;
 	int		ReachSizeOfBox() const;
 
 	//bool	EndOfLogicalSize() const;

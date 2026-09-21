@@ -25,7 +25,7 @@ namespace DarkEden.Updater
 
         public HashCache(string gameDir, bool ignoreSaved)
         {
-            m_path = Path.Combine(gameDir, FileName);
+            m_path = BookFiles.PathOf(gameDir, FileName);
 
             if (ignoreSaved || !File.Exists(m_path))
                 return;

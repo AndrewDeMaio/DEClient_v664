@@ -766,11 +766,13 @@ static bool s_FL2_OverlayBegin()
 #endif
 		return false;   // presenter geometry doesn't match the text surface
 	}
-	if (g.dstW <= g.srcW || g.dstH <= g.srcH)
+	if (g.dstW < g.srcW || g.dstH < g.srcH)
 	{
 		FL2_OV_DIAG_INC(begNoUpscale);
-		return false;   // 1:1 (window mode) or downscale: lo-res text is already right
+		return false;   // downscale: leave the lo-res text alone
 	}
+	// 1:1 (window mode) runs the overlay too: same size and layout, but the
+	// glyphs come out antialiased instead of as the aliased lo-res face.
 
 	if (s_fl2_ov_dc == NULL || g.dstW != s_fl2_ov_w || g.dstH != s_fl2_ov_h ||
 	    g.srcW != s_fl2_ov_srcW || g.srcH != s_fl2_ov_srcH)
@@ -854,11 +856,16 @@ static HFONT s_FL2_OverlayFont(HFONT hBase)
 	// Scale the height, then take it down a notch: at native resolution
 	// slightly finer text reads better and can never overflow the lo-res
 	// layout boxes.
+	// At 1:1 (window mode) there is no extra resolution to spend, so the
+	// height stays exactly what the layout asked for.
 	int nScaledH = MulDiv(lf.lfHeight, s_fl2_ov_h, s_fl2_ov_srcH);
-	if (nScaledH > 14)
-		nScaledH -= 2;
-	else if (nScaledH > 8)
-		nScaledH -= 1;
+	if (s_fl2_ov_h > s_fl2_ov_srcH)
+	{
+		if (nScaledH > 14)
+			nScaledH -= 2;
+		else if (nScaledH > 8)
+			nScaledH -= 1;
+	}
 	lf.lfHeight = nScaledH;
 	lf.lfWidth  = 0;   // natural aspect of the overlay face
 
@@ -869,7 +876,7 @@ static HFONT s_FL2_OverlayFont(HFONT hBase)
 	if (lf.lfCharSet == HANGUL_CHARSET)
 		strcpy_s(lf.lfFaceName, "Malgun Gothic");
 	else
-		strcpy_s(lf.lfFaceName, "Segoe UI");
+		strcpy_s(lf.lfFaceName, "Tahoma");
 	lf.lfQuality = ANTIALIASED_QUALITY;
 
 	HFONT hNew = CreateFontIndirect(&lf);

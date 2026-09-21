@@ -31,6 +31,7 @@ namespace DarkEden.Updater
         readonly string m_args;         // handed on to the updater that replaces this one
         readonly object m_lock = new object();
         readonly List<string> m_log = new List<string>();
+        readonly List<string> m_secrets = new List<string>();
         StreamWriter m_logFile;
 
         public volatile Phase Phase = Phase.Working;
@@ -50,6 +51,8 @@ namespace DarkEden.Updater
             m_repair = repair;
             m_args = args;
             Server = config.LoginServer;
+            AddSecret(config.BaseUrl);
+            AddSecret(config.LoginServer);
         }
 
         public string GameDir { get { return m_gameDir; } }
@@ -68,8 +71,41 @@ namespace DarkEden.Updater
             thread.Start();
         }
 
+        // Neither the window nor Log\Updater.log (which testers paste into chats
+        // and bug reports) ever names a server: a framework error message can
+        // carry the address it failed on, so every line is scrubbed on the way in.
+        string Scrub(string line)
+        {
+            foreach (string secret in m_secrets)
+            {
+                int at;
+                while (secret.Length > 0 && (at = line.IndexOf(secret, StringComparison.OrdinalIgnoreCase)) >= 0)
+                    line = line.Substring(0, at) + "[server]" + line.Substring(at + secret.Length);
+            }
+            return line;
+        }
+
+        void AddSecret(string urlOrServer)
+        {
+            if (string.IsNullOrEmpty(urlOrServer))
+                return;
+
+            m_secrets.Add(urlOrServer.TrimEnd('/'));
+
+            // and the bare host, however the message spells the rest
+            string host = urlOrServer;
+            int scheme = host.IndexOf("://", StringComparison.Ordinal);
+            if (scheme >= 0) host = host.Substring(scheme + 3);
+            int end = host.IndexOfAny(new[] { '/', ':' });
+            if (end >= 0) host = host.Substring(0, end);
+            if (host.Length > 3)
+                m_secrets.Add(host);
+        }
+
         void Log(string line)
         {
+            line = Scrub(line);
+
             lock (m_lock)
             {
                 m_log.Add(line);
@@ -99,7 +135,7 @@ namespace DarkEden.Updater
             catch (Exception e)
             {
                 Log("FAILED: " + e.Message);
-                Status = Describe(e);
+                Status = Scrub(Describe(e));
                 Detail = "";
                 Phase = Phase.Failed;
             }
@@ -141,13 +177,13 @@ namespace DarkEden.Updater
             ServicePointManager.DefaultConnectionLimit = 4;
 
             Status = "Connecting to the update server...";
-            Log("Update server: " + m_config.BaseUrl);
 
             Manifest manifest = Manifest.Parse(DownloadText("manifest.txt"));
             Version = manifest.Version;
             Launch = manifest.Launch;
             if (m_config.LoginServer.Length == 0)
                 Server = manifest.Server;
+            AddSecret(manifest.Server);
             Log("Manifest " + manifest.Version + ": " + manifest.Files.Count + " files.");
 
             try { News = DownloadText("news.txt"); }
@@ -211,7 +247,7 @@ namespace DarkEden.Updater
             cache.Save();
 
             FileFraction = TotalFraction = 1;
-            Detail = "Version " + manifest.Version;
+            Detail = "";
             Status = wanted.Count > 0 ? "Update complete. Ready to start." : "Up to date. Ready to start.";
             Log(Status);
             Phase = Phase.Ready;
@@ -225,6 +261,11 @@ namespace DarkEden.Updater
         bool IsCurrent(ManifestEntry entry, HashCache cache, long doneBytes, long totalBytes)
         {
             FileInfo file = new FileInfo(LocalPath(entry.Path));
+
+            // the player's own settings by now, whatever they hash to
+            if (entry.Seed && file.Exists)
+                return true;
+
             if (!file.Exists || file.Length != entry.Size)
                 return false;
 
@@ -356,7 +397,12 @@ namespace DarkEden.Updater
                 have = 0;
             }
             if (have == entry.Size)
+            {
+                // an empty file (the install has a few) is nothing to ask the server for
+                if (have == 0)
+                    File.WriteAllBytes(part, new byte[0]);
                 return;
+            }
 
             HttpWebRequest request = Request(Url("files/" + entry.Path));
             request.AutomaticDecompression = DecompressionMethods.None;    // a Range is in stored bytes
@@ -418,13 +464,18 @@ namespace DarkEden.Updater
         // screenshots and logs were never listed, so they are never touched.
         void RemoveObsolete(Manifest manifest, HashCache cache)
         {
-            string statePath = Path.Combine(m_gameDir, StateFileName);
+            string statePath = BookFiles.PathOf(m_gameDir, StateFileName);
             if (!File.Exists(statePath))
                 return;
 
             HashSet<string> current = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (ManifestEntry entry in manifest.Files)
                 current.Add(entry.Path);
+
+            // an older manifest may have listed, as plain files, what the game writes
+            // for itself; those are the player's now
+            foreach (string path in s_never_remove)
+                current.Add(path);
 
             string selfName = Path.GetFileName(Process.GetCurrentProcess().MainModule.FileName);
 
@@ -451,12 +502,17 @@ namespace DarkEden.Updater
             }
         }
 
+        static readonly string[] s_never_remove = { "Data/Info/Player.inf", "Data/Info/ClientConfig.inf", "Data/Info/Resolution.inf" };
+
         void SaveState(Manifest manifest)
         {
             List<string> lines = new List<string>();
             foreach (ManifestEntry entry in manifest.Files)
-                lines.Add(entry.Path);
-            File.WriteAllLines(Path.Combine(m_gameDir, StateFileName), lines.ToArray());
+            {
+                if (!entry.Seed)
+                    lines.Add(entry.Path);
+            }
+            File.WriteAllLines(BookFiles.PathOf(m_gameDir, StateFileName), lines.ToArray());
         }
 
         public static string FormatBytes(long bytes)

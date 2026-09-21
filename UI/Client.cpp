@@ -132,6 +132,13 @@ char				g_CWD[_MAX_PATH];
 int					g_Dimension = 0;
 DWORD				g_TimerNPMON = 0;
 
+// Window mode's client size, from Resolution.inf's ResolutionX (the launcher
+// writes it). Only the size of the picture: the game still draws the locked
+// 1280x720 surface and the present layer scales that to the window, as it does
+// to the desktop in fullscreen. Nobody sees further for having a bigger window.
+int					g_WindowWidth = 1280;
+int					g_WindowHeight = 720;
+
 // FPS
 DWORD				g_CurrentTime = 0;		// ?�?
 DWORD				g_CurrentFrame = 0;		// frame??
@@ -1085,9 +1092,13 @@ LRESULT FAR PASCAL WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPa
 		// Fix the size of the window to 640x480 (client size)
 		MINMAXINFO* pMinMax = (MINMAXINFO*)lParam;
 
-		pMinMax->ptMinTrackSize.x = SURFACE_WIDTH + GetSystemMetrics(SM_CXSIZEFRAME) * 2;
-		pMinMax->ptMinTrackSize.y = SURFACE_HEIGHT + GetSystemMetrics(SM_CYSIZEFRAME) * 2
-			+ GetSystemMetrics(SM_CYMENU);
+		// Same client-exact size the window is created with (see InitApp).
+		RECT rcWindow = { 0, 0, g_WindowWidth, g_WindowHeight };
+		AdjustWindowRectEx(&rcWindow, (DWORD)GetWindowLong(hWnd, GWL_STYLE), FALSE,
+			(DWORD)GetWindowLong(hWnd, GWL_EXSTYLE));
+
+		pMinMax->ptMinTrackSize.x = rcWindow.right - rcWindow.left;
+		pMinMax->ptMinTrackSize.y = rcWindow.bottom - rcWindow.top;
 
 		pMinMax->ptMaxTrackSize.x = pMinMax->ptMinTrackSize.x;
 		pMinMax->ptMaxTrackSize.y = pMinMax->ptMinTrackSize.y;
@@ -1825,8 +1836,15 @@ BOOL InitApp(int nCmdShow)
 		style = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;//WS_CLIPCHILDREN | WS_OVERLAPPED | WS_THICKFRAME | WS_MINIMIZEBOX;//WS_OVERLAPPEDWINDOW;
 		style &= ~WS_MAXIMIZEBOX;
 
-		cx = SURFACE_WIDTH + GetSystemMetrics(SM_CXSIZEFRAME) * 2;
-		cy = SURFACE_HEIGHT + GetSystemMetrics(SM_CYSIZEFRAME) * 2 + GetSystemMetrics(SM_CYMENU);
+		// Size the window so the CLIENT area is exactly the chosen window size
+		// (the game surface itself at 1280x720, a scaled picture of it above
+		// that). The old frame/menu metrics come up short on Windows 10 (padded
+		// borders, taller caption), and the right and bottom edges of the UI
+		// were cut off.
+		RECT rcWindow = { 0, 0, g_WindowWidth, g_WindowHeight };
+		AdjustWindowRectEx(&rcWindow, style, FALSE, exStyle);
+		cx = rcWindow.right - rcWindow.left;
+		cy = rcWindow.bottom - rcWindow.top;
 	}
 
 	// Create a window
@@ -3123,6 +3141,23 @@ void InitResolutionConfig()
 	// FOV on every monitor); the present layer scales it to the desktop.
 	// 16:9 fills widescreen displays edge-to-edge (1.5x at 1080p). The
 	// .inf file is still read for FullScreen / D3DPresent / SmoothScale.
+	//
+	// What the file's ResolutionX does decide is how big the window is: the
+	// same 1280x720 picture, scaled. The height follows the width so the
+	// picture is never stretched, and the window never outgrows the desktop.
+	{
+		int nWindowWidth = nResolutionX;
+		const int nDesktopW = GetSystemMetrics(SM_CXSCREEN);
+		const int nDesktopH = GetSystemMetrics(SM_CYSCREEN);
+
+		if (nWindowWidth < 1280)				nWindowWidth = 1280;	// never below 1:1 (a missing file says 1024)
+		if (nWindowWidth > nDesktopW)			nWindowWidth = nDesktopW;
+		if (nWindowWidth * 9 / 16 > nDesktopH)	nWindowWidth = nDesktopH * 16 / 9;
+
+		g_WindowWidth = nWindowWidth;
+		g_WindowHeight = nWindowWidth * 9 / 16;
+	}
+
 	nResolutionX = 1280;
 	nResolutionY = 720;
 
@@ -3212,12 +3247,39 @@ void SaveResolutionConfig()
 	if (g_pUserOption)
 	{
 		std::string str = g_pFileDef->getProperty("FILE_INFO_RESOLUTION");
+
+		// Only these three lines are ours. The file also carries D3DPresent,
+		// SmoothScale, Scaler, Sharpen and TextOverlay, which this used to
+		// wipe out every time the game closed.
+		std::vector<std::string> others;
+		{
+			std::ifstream old(str.c_str());
+			std::string line;
+			while (std::getline(old, line))
+			{
+				if (!line.empty() && line[line.size() - 1] == '\r')
+					line.erase(line.size() - 1);
+
+				if (line.empty()
+					|| line.compare(0, 11, "ResolutionX") == 0
+					|| line.compare(0, 11, "ResolutionY") == 0
+					|| line.compare(0, 10, "FullScreen") == 0)
+					continue;
+
+				others.push_back(line);
+			}
+		}
+
 		std::ofstream file(str.c_str());
 		if (file.is_open())
 		{
-			file << "ResolutionX: " << g_pUserInformation->iResolution_x << std::endl;
-			file << "ResolutionY: " << g_pUserInformation->iResolution_y << std::endl;
+			// the window's size, not the surface's: that one is always 1280x720
+			file << "ResolutionX: " << g_WindowWidth << std::endl;
+			file << "ResolutionY: " << g_WindowHeight << std::endl;
 			file << "FullScreen: " << (g_bFullScreen ? "1" : "0") << '\n';	//add by kim
+
+			for (size_t i = 0; i < others.size(); i++)
+				file << others[i] << '\n';
 		}
 	}
 }

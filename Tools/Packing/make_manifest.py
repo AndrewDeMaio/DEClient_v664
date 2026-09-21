@@ -10,6 +10,7 @@ Updater.ini points at it:
 
     <out>/manifest.txt       version, login server, and one line per file:
                              file <sha256> <size> <path>
+                             seed <sha256> <size> <path>   (settings, see SEED)
     <out>/files/<path>       the files themselves
     <out>/news.txt           optional, yours to write; shown in the launcher
 
@@ -31,13 +32,23 @@ import sys
 # what the game and the updater write for themselves; never shipped, and since
 # it is never listed the updater never deletes it either
 SKIP_DIRS = {"log", "screenshot", "userset", "temp"}
-SKIP_FILES = {"updater.ini", "updater.cache", "updater.state", "start.bat"}
+# the updater's own bookkeeping (Updater.cache, Updater.state)
+SKIP_PREFIXES = ("data/updater/",)
+SKIP_FILES = {"updater.ini", "updater.cache", "updater.state", "start.bat", "make_manifest.py", "publish.sh"}
+# written by the game and personal: Player.inf is the account and character
+# names last used on this machine. Never published.
+SKIP_PATHS = {"data/info/player.inf"}
+# settings the game or the player rewrites. Published as "seed": the updater
+# fetches one only when it is missing and never overwrites or deletes it.
+SEED_PATHS = {"data/info/clientconfig.inf", "data/info/resolution.inf"}
 SKIP_SUFFIXES = (".part", ".old", ".new", ".dpl", ".pdb", ".lib", ".exp", ".ilk", ".iobj", ".ipdb")
 
 
 def wanted(rel):
     parts = rel.lower().split("/")
     if parts[0] in SKIP_DIRS and len(parts) > 1:
+        return False
+    if rel.lower() in SKIP_PATHS or rel.lower().startswith(SKIP_PREFIXES):
         return False
     return parts[-1] not in SKIP_FILES and not parts[-1].endswith(SKIP_SUFFIXES)
 
@@ -99,9 +110,10 @@ def main():
         src = os.path.join(game, rel)
         size = os.path.getsize(src)
         how = place(src, os.path.join(out, "files", rel))
-        lines.append("file %s %d %s" % (sha256(src), size, rel))
+        kind = "seed" if rel.lower() in SEED_PATHS else "file"
+        lines.append("%s %s %d %s" % (kind, sha256(src), size, rel))
         total += size
-        print("  %-7s %12d  %s" % (how, size, rel))
+        print("  %-7s %12d  %s%s" % (how, size, rel, "   (seed)" if kind == "seed" else ""))
 
     # files/ holds exactly what the manifest lists
     listed = {rel.lower() for rel in rels}

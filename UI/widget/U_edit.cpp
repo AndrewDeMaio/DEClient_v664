@@ -127,6 +127,28 @@ void	LineEditor::AddString(const char * sz_str)
 		{
 			m_string.insert(Size(), p_new_buf);
 			m_cursor += dbcs_len;
+
+			// A long string arriving in one go (a chat line recalled with the
+			// Up arrow) lands the cursor far past the box. Bring the scroll
+			// position along, the way IncreaseCursor does per typed character:
+			// first by its character count, then exactly, in pixels.
+			if (m_gap == 0)
+			{
+				while (m_scroll < m_cursor)
+				{
+					char * str_buf = NULL;
+					int len = g_Convert_DBCS_Ascii2SingleByte(m_string.c_str()+m_scroll, m_cursor-m_scroll, str_buf);
+					DeleteNewArray(str_buf);
+
+					if (len <= m_reach_limit)
+						break;
+
+					m_scroll++;
+				}
+
+				while (m_scroll < m_cursor && CursorPastBox())
+					m_scroll++;
+			}
 		}
 
 		DeleteNewArray(p_new_buf);
@@ -286,6 +308,11 @@ int LineEditor::IncreaseCursor()
 					}
 				}while(len > m_reach_limit);
 			}
+
+			// the count above assumes every character is as wide as 'a';
+			// finish the job in pixels so the cursor never leaves the box
+			while (m_scroll < m_cursor && CursorPastBox())
+				m_scroll++;
 		}
 		if(m_string[m_cursor-1] & 0xff00)
 			return 2;
@@ -932,6 +959,22 @@ bool LineEditorVisual::ReachEndOfBox(char_t will_input_char) const
 //
 // DBCS�� ��� will_input_char�� 0�̴�.
 //-----------------------------------------------------------------------------
+bool LineEditorVisual::CursorPastBox() const
+{
+	if (m_abs_width <= 0 || m_gap != 0 || m_cursor <= m_scroll)
+		return false;
+
+	char * str_buf = NULL;
+	g_Convert_DBCS_Ascii2SingleByte(m_string.c_str()+m_scroll, m_cursor-m_scroll, str_buf);
+	if (str_buf == NULL)
+		return false;
+
+	const int str_width = g_GetStringWidth(str_buf, m_print_info.hfont);
+	DeleteNewArray(str_buf);
+
+	return str_width > m_abs_width;
+}
+
 int LineEditorVisual::ReachSizeOfBox() const
 {
 	int str_width = g_GetStringWidth("a", m_print_info.hfont);
@@ -1017,7 +1060,7 @@ static HFONT s_GetEditFallbackFont()
 		lf.lfWidth   = 0;
 		lf.lfWeight  = FW_NORMAL;   // bold made adjacent asterisks touch
 		lf.lfQuality = NONANTIALIASED_QUALITY;   // AA bridges 1px glyph gaps
-		strcpy_s(lf.lfFaceName, "Segoe UI");   // same family as the overlay face
+		strcpy_s(lf.lfFaceName, "Tahoma");   // same family as the overlay face
 
 		s_hFont = CreateFontIndirect(&lf);
 		if (s_hFont == NULL)
@@ -1110,7 +1153,28 @@ void LineEditorVisual::Show() const
 	{
 		if(m_gap == 0)
 		{
-			g_FL2_TextOutMirrored(hdc, m_xy.x, print_y, str_buf, min(len, m_reach_limit+1));
+			// m_reach_limit counts characters as if each were as wide as 'a'.
+			// Trim whatever would still cross the box's right edge in pixels.
+			int show_len = min(len, m_reach_limit+1);
+			if (m_abs_width > 0)
+			{
+				while (show_len > 0)
+				{
+					const char saved = str_buf[show_len];
+					str_buf[show_len] = '\0';
+					const int show_width = g_GetStringWidth(str_buf, m_print_info.hfont);
+					str_buf[show_len] = saved;
+
+					if (show_width <= m_abs_width)
+						break;
+
+					show_len--;
+					if (show_len > 0 && !g_PossibleStringCut(str_buf, show_len))
+						show_len--;
+				}
+			}
+
+			g_FL2_TextOutMirrored(hdc, m_xy.x, print_y, str_buf, show_len);
 		}
 		else
 		{

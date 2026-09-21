@@ -11,6 +11,8 @@ namespace DarkEden.Updater
     //   server 203.0.113.7:9909          optional; Updater.ini's LoginServer wins
     //   launch DarkEden.exe
     //   file <sha256 hex> <size> <path/with/forward/slashes and spaces>
+    //   seed <sha256 hex> <size> <path>     a settings file the game rewrites: fetched
+    //                                       when missing, then never touched again
     //
     // Every file of the install is listed; the 1.8GB archive is one line of it.
     sealed class ManifestEntry
@@ -18,6 +20,7 @@ namespace DarkEden.Updater
         public string Path;     // relative, forward slashes
         public long Size;
         public string Hash;     // lowercase sha256
+        public bool Seed;       // only ever created, never brought back in line
     }
 
     sealed class Manifest
@@ -56,12 +59,14 @@ namespace DarkEden.Updater
                         break;
 
                     case "file":
+                    case "seed":
                     {
                         string[] parts = value.Split(new[] { ' ' }, 3);
                         ManifestEntry entry = new ManifestEntry();
                         if (parts.Length != 3 || parts[0].Length != 64 || !long.TryParse(parts[1], out entry.Size) || entry.Size < 0)
                             throw new InvalidDataException("Bad manifest file line: " + line);
 
+                        entry.Seed = key == "seed";
                         entry.Hash = parts[0].ToLowerInvariant();
                         entry.Path = parts[2].Replace('\\', '/');
                         CheckPath(entry.Path);

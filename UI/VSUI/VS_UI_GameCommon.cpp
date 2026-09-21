@@ -3277,8 +3277,17 @@ C_VS_UI_GEAR::C_VS_UI_GEAR()
 	m_bl_Abvencement = true;
 	m_pC_gear_spk = new C_SPRITE_PACK(SPK_MY_INFORMATION);
 	m_pC_gear_slot_spk = NULL;
-	Set(g_pUserInformation->iResolution_x - m_pC_gear_spk->GetWidth(GEAR_WINDOW) - 10, 128,
-		m_pC_gear_spk->GetWidth(GEAR_WINDOW), m_pC_gear_spk->GetHeight(GEAR_WINDOW));
+	// Opens flush with the right edge, sitting above the minimap - the user's
+	// own arrangement (their saved layout: x 796, y 11 at 1280x720). The
+	// minimap's top is 136 above the bottom, and the window keeps 23 clear of
+	// it; clamped so it never opens above the top of the screen.
+	{
+		const int gear_w = m_pC_gear_spk->GetWidth(GEAR_WINDOW);
+		const int gear_h = m_pC_gear_spk->GetHeight(GEAR_WINDOW);
+		const int gear_y = max(0, g_pUserInformation->iResolution_y - 136 - 23 - gear_h);
+
+		Set(g_pUserInformation->iResolution_x - gear_w, gear_y, gear_w, gear_h);
+	}
 
 #if __CONTENTS(__GEAR_SWAP_CHANGE)
 	m_dwSendGearID = 0;
@@ -5152,6 +5161,57 @@ void	C_VS_UI_GEAR::GearChange(DWORD	dwGearID)
 #endif	//__GEAR_SWAP_CHANGE
 
 /*-----------------------------------------------------------------------------
+- s_ChatCutLengths
+-
+- Splits one chat message into display lines of at most cut_length bytes and
+- returns the byte length of each; the lengths always add up to the whole
+- string, which is what the history draw loop (walking it backwards) relies on.
+-
+- A line ends at the last space inside it when there is one, so words are no
+- longer broken in two ("be" / "cause"); the space stays on the line it ends,
+- invisible, and the next line opens with the word. A single word longer than
+- a line is still cut hard, on a DBCS-safe byte.
+-----------------------------------------------------------------------------*/
+static void s_ChatCutLengths(const char* p_str, int cut_length, std::vector<int>& out)
+{
+	const int str_length = (int)strlen(p_str);
+	int pos = 0;
+
+	while (cut_length > 0 && str_length - pos > cut_length)
+	{
+		int len = cut_length;
+
+		if (!g_PossibleStringCut(p_str, pos + len))
+			--len;
+
+		if (p_str[pos + len] == ' ')
+		{
+			++len;						// cut fell just before a space: keep it here
+		}
+		else
+		{
+			for (int p = pos + len - 1; p > pos; --p)
+			{
+				if (p_str[p] == ' ')
+				{
+					len = p + 1 - pos;
+					break;
+				}
+			}
+		}
+
+		if (len <= 0)
+			break;
+
+		out.push_back(len);
+		pos += len;
+	}
+
+	if (str_length - pos > 0 || out.empty())
+		out.push_back(str_length - pos);
+}
+
+/*-----------------------------------------------------------------------------
 - ResetScroll
 -
 -----------------------------------------------------------------------------*/
@@ -5184,31 +5244,11 @@ void C_VS_UI_CHATTING::ResetScroll()
 			int	cut_length = CHAT_WINDOW_WIDTH / _F_WIDTH
 				- (p_line->GetIdString() == NULL ? 0 : (strlen(p_line->GetIdString()) + 2));
 
-			int str_length = strlen(p_temp);
-			int loopSum = cut_length;
+			// the same split Show() draws, so the scroll range matches it
+			std::vector<int> cuts;
+			s_ChatCutLengths(p_temp, cut_length, cuts);
 
-			if (cut_length < str_length)
-			{
-				for (;;)
-				{
-					int len = cut_length;
-
-					if (!g_PossibleStringCut(p_temp, loopSum))
-					{
-						--loopSum;
-						--len;
-					}
-
-					++line;
-
-					if (cut_length >= str_length - loopSum)
-						break;
-
-					loopSum += cut_length;
-				}
-			}
-
-			++line;
+			line += (int)cuts.size();
 		}
 	}
 
@@ -6715,33 +6755,9 @@ void C_VS_UI_CHATTING::Show()
 				std::vector<int> CutLenghtVec;
 
 				int str_length = strlen(p_temp);
-				int loopSum = cut_length;
 
-				if (cut_length < str_length)
-				{
-					for (;;)
-					{
-						int len = cut_length;
-
-						if (!g_PossibleStringCut(p_temp, loopSum))
-						{
-							--loopSum;
-							--len;
-						}
-
-						CutLenghtVec.push_back(len);
-
-						if (cut_length >= str_length - loopSum)
-							break;
-
-						loopSum += cut_length;
-					}
-					CutLenghtVec.push_back(str_length - loopSum);
-				}
-				else
-				{
-					CutLenghtVec.push_back(str_length);
-				}
+				// word-aware split; the lengths add up to str_length
+				s_ChatCutLengths(p_temp, cut_length, CutLenghtVec);
 
 				int	loopCnt = CutLenghtVec.size() - 1;
 
@@ -26144,12 +26160,28 @@ void C_VS_UI_HPBAR::ShowBarText(int hp_cx, int mid_cx, int right_cx, int bar_y,
 {
 	gpC_base->m_p_DDSurface_back->Unlock();
 
-	PrintInfo* pi = &gpC_base->m_small_pi;
+	// 12px bold: the 10px small face was too fine to read at a glance.
+	PrintInfo* pi = &gpC_base->m_user_id_pi;
 
 	// the fill sprite is the channel, so its height is the row to centre in
 	const int bar_h = m_pC_hpbar_spk->GetHeight(HPBAR_WIDTH + m_small_offset);
+	const int bar_w = m_pC_hpbar_spk->GetWidth(HPBAR_WIDTH + m_small_offset);
 
 	g_FL2_GetDC();
+
+	// Before advancement the crest reads "Level 72" rather than a bare number
+	// (an advanced character shows its title there instead). The crest is the
+	// gap between the two channels; if the label would not fit inside it (the
+	// small bar), the number alone stays.
+	char szLevel[80];
+	if (g_char_slot_ingame.m_AdvancementLevel <= 0 && szMid != NULL && szMid[0] != 0)
+	{
+		sprintf_s(szLevel, sizeof(szLevel), "Level %s", szMid);
+
+		const int crest_w = (right_cx - hp_cx) - bar_w - 12;
+		if (g_GetStringWidth(szLevel, pi->hfont) <= crest_w)
+			szMid = szLevel;
+	}
 
 	const char* szText[3] = { szHP, szMid, szRight };
 	const int   cx[3]     = { hp_cx, mid_cx, right_cx };

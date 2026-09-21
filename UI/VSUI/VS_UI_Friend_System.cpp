@@ -814,7 +814,7 @@ C_VS_UI_FRIEND_INFO::C_VS_UI_FRIEND_INFO()
 
 	m_print_info.hfont = CreateFont(12,0,0,0,FW_NORMAL,FALSE,FALSE,
 									0,ANSI_CHARSET,OUT_DEFAULT_PRECIS,CLIP_DEFAULT_PRECIS ,NONANTIALIASED_QUALITY,DEFAULT_PITCH|FF_ROMAN,
-									"Segoe UI");
+									"Tahoma");
 	m_print_info.text_color = gpC_base->m_dialog_msg_pi.text_color;
 	m_print_info.text_align = gpC_base->m_dialog_msg_pi.text_align;
 	m_print_info.bk_mode = gpC_base->m_dialog_msg_pi.bk_mode;

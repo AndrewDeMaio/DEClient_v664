@@ -722,13 +722,13 @@ static const int s_cc_card_y		= 203;
 static const int s_cc_card_pitch	= 105;
 static const int s_cc_panel_x		= 430;		// main panel, 275x380 (spliced)
 static const int s_cc_panel_y		= 165;
-static const int s_cc_side_x		= 720;		// colors and gender, 145x380 (spliced)
+static const int s_cc_side_x		= 710;		// colors and gender, 145x380 (spliced)
 static const int s_cc_side_y		= 165;
 static const int s_cc_stat_top		= 57;		// first row of the stat table
 static const int s_cc_stat_pitch	= 19;
 static const int s_cc_stat_value_x	= 205;		// the table's value column
 static const int s_cc_class_y		= 245;		// the class row, just under the stat table (art ends row 221)
-static const int s_cc_class_x		= 23;		// 5 icons at pitch 50 centred in 275
+static const int s_cc_class_x		= 18;		// 5 icons at pitch 50 centred in 265
 static const int s_cc_class_pitch	= 50;
 static const int s_cc_rotate_size	= 15;		// the boxes drawn inside the preview
 static const int s_cc_button_y		= 565;		// above the help bar at 630
@@ -765,7 +765,7 @@ void	C_VS_UI_NEWCHAR::LayoutCreateRenewal()
 
 	// name, and the Check button that tests it
 	m_wCharNameFocus_X		= panel_x + 20;
-	m_wCharNameFocus_Y		= panel_y + 33;
+	m_wCharNameFocus_Y		= panel_y + 28;	// caret centred in the box's rows 26-42
 	m_wNameCheck_Button_X	= panel_x + 180;
 	m_wNameCheck_Button_Y	= panel_y + 23;
 	m_lev_name.SetPosition(m_wCharNameFocus_X, m_wCharNameFocus_Y);
@@ -859,10 +859,10 @@ void	C_VS_UI_NEWCHAR::LayoutCreateRenewal()
 	m_wMale_Select_Button_Y			= panel_y + 172;
 	m_wFemale_Select_Button_X		= panel_x + 64;
 	m_wFemale_Select_Button_Y		= panel_y + 172;
-	m_wMale_Select_Radio_X			= panel_x + 34;
-	m_wMale_Select_Radio_Y			= panel_y + 196;
-	m_wFemale_Select_Radio_X		= panel_x + 82;
-	m_wFemale_Select_Radio_Y		= panel_y + 196;
+	m_wMale_Select_Radio_X			= panel_x + 16 + 25;	// beside the figures at cols 14-20
+	m_wMale_Select_Radio_Y			= panel_y + 172 + 6;	// and 52-59 of the 97x22 strip
+	m_wFemale_Select_Radio_X		= panel_x + 16 + 62;
+	m_wFemale_Select_Radio_Y		= panel_y + 172 + 6;
 
 	m_wPrevButton_X = 500;
 	m_wPrevButton_Y = s_cc_button_y;
@@ -933,12 +933,13 @@ void	C_VS_UI_NEWCHAR::DrawRenewalCreate()
 		m_renewal_spk.BltLocked(m_wMale_OR_Female_Select_Box_X, m_wMale_OR_Female_Select_Box_Y, CCR_GENDER);
 	}
 
-	// mark the chosen figure. Umbra's 15x15 frames turned out to be cursor
-	// icons, so this is the radio from our own pack
+	// a radio beside each figure, as Umbra has it: filled on the chosen one
 	if (m_p_slot->Race != RACE_OUSTERS)
 	{
-		m_image_spk.BltLocked(m_p_slot->bl_female ? m_wFemale_Select_Radio_X : m_wMale_Select_Radio_X,
-			m_p_slot->bl_female ? m_wFemale_Select_Radio_Y : m_wMale_Select_Radio_Y, RADIO_SELECT_BUTTON);
+		m_renewal_spk.BltLocked(m_wMale_Select_Radio_X, m_wMale_Select_Radio_Y,
+			m_p_slot->bl_female ? CCR_RADIO_RING : CCR_RADIO_DOT);
+		m_renewal_spk.BltLocked(m_wFemale_Select_Radio_X, m_wFemale_Select_Radio_Y,
+			m_p_slot->bl_female ? CCR_RADIO_DOT : CCR_RADIO_RING);
 	}
 
 	// the class row belongs to slayers; the other races have no stats to choose
@@ -982,7 +983,7 @@ void	C_VS_UI_NEWCHAR::DrawRenewalCreateText()
 	char szClass[64];
 	sprintf(szClass, "Class: %s", s_cc_classes[m_slayer_class].name);
 
-	DrawCentredLabel(s_cc_panel_x + 137, s_cc_panel_y + s_cc_class_y - 20, szClass, RGB_WHITE);
+	DrawCentredLabel(s_cc_panel_x + 132, s_cc_panel_y + s_cc_class_y - 20, szClass, RGB_WHITE);
 }
 
 
@@ -1135,6 +1136,7 @@ void C_VS_UI_NEWCHAR::Start()
 	m_bl_pushed_table = false;
 	m_p_slot = NULL;
 	m_selected_slot = 0;
+	m_chDirection = 2;		// every new character starts facing the same way
 
 	gpC_window_manager->AppearWindow(this);
 	m_pC_button_group->Init();
@@ -1168,6 +1170,11 @@ void C_VS_UI_NEWCHAR::Start()
 
 void C_VS_UI_NEWCHAR::Finish()
 {
+	// The select screen draws its characters through this object's
+	// ShowCharacter, which faces them by m_chDirection - leaving it rotated
+	// here turned every existing character too.
+	m_chDirection = 2;
+
 	//m_pC_char_appearance->Finish();
 
 	PI_Processor::Finish();
@@ -2999,6 +3006,19 @@ void C_VS_UI_NEWCHAR::Show()
 		m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(background)) / 2,
 			(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(background)) / 2, background);
 
+		gpC_base->m_p_DDSurface_back->Unlock();
+	}
+
+	// The torches' fire is part of the backdrop, so it goes down before the
+	// panels - drawn last, it burned on top of the race cards.
+	g_pTopView->DrawTitleEffect(EFFECT_INDEX_FIRE_LEFT1);
+	g_pTopView->DrawTitleEffect(EFFECT_INDEX_FIRE_LEFT2);
+	g_pTopView->DrawTitleEffect(EFFECT_INDEX_FIRE_RIGHT1);
+	g_pTopView->DrawTitleEffect(EFFECT_INDEX_FIRE_RIGHT2);
+	g_pTopView->DrawTitleEffect(EFFECT_INDEX_FIRE_CENTER);
+
+	if (gpC_base->m_p_DDSurface_back->Lock())
+	{
 		DrawRenewalCreate();
 
 		gpC_base->m_p_DDSurface_back->Unlock();
@@ -3034,12 +3054,6 @@ void C_VS_UI_NEWCHAR::Show()
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 
-	g_pTopView->DrawTitleEffect(EFFECT_INDEX_FIRE_LEFT1);
-	g_pTopView->DrawTitleEffect(EFFECT_INDEX_FIRE_LEFT2);
-	g_pTopView->DrawTitleEffect(EFFECT_INDEX_FIRE_RIGHT1);
-	g_pTopView->DrawTitleEffect(EFFECT_INDEX_FIRE_RIGHT2);
-	g_pTopView->DrawTitleEffect(EFFECT_INDEX_FIRE_CENTER);
-
 	g_FL2_GetDC();
 
 	DrawStetText();
@@ -3071,6 +3085,11 @@ void C_VS_UI_NEWCHAR::Show()
 	}
 
 	g_FL2_ReleaseDC();
+
+	// The name box: Window::ShowWidget draws attached line editors and must
+	// be called at the end of the window's own Show (u_window.cpp). This
+	// screen never did, so a typed name was never drawn.
+	Window::ShowWidget();
 
 	SHOW_WINDOW_ATTR;
 }

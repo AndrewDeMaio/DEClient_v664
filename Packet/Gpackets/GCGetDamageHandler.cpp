@@ -12,6 +12,7 @@
 #include "ClientDef.h"
 #include "MActionInfoTable.h"
 #include "SkillDef.h"
+#include "MTopView.h"
 
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
@@ -19,50 +20,13 @@ void GCGetDamageHandler::execute ( GCGetDamage * pGCGetDamage , Player * pPlayer
 {
 	__BEGIN_TRY
 
-	// message
-
-	//------------------------------------------------------
-	// Player�� Damage�� �޾�����..
-	//------------------------------------------------------
-	if (pGCGetDamage->getObjectID()==g_pPlayer->GetID())
+	// The game server sends this to the player who swung, one per monster hit
+	// (the final damage) or missed (0xFFFF), for the floating number over it.
+	// It used to play a hit reaction here, but the server never sent the
+	// packet until the floating numbers, so that path never ran.
+	if (g_pTopView != NULL)
 	{
-		g_pPlayer->PacketSpecialActionResult( 
-					SKILL_ATTACK_MELEE + (*g_pActionInfoTable).GetMinResultActionInfo(),
-					g_pPlayer->GetID(),
-					g_pPlayer->GetX(),
-					g_pPlayer->GetY()
-			);
-	}
-	else
-	{
-		//------------------------------------------------------
-		// Zone�� ���� �������� ���� ���
-		//------------------------------------------------------
-		if (g_pZone==NULL)
-		{
-			// message
-			DEBUG_ADD("[Error] Zone is Not Init.. yet.");			
-		}
-		//------------------------------------------------------
-		// ����.. 
-		//------------------------------------------------------
-		else
-		{
-			MCreature* pCreature = g_pZone->GetCreature( pGCGetDamage->getObjectID() );
-
-			// Creature���� Damage ����
-			if (pCreature != NULL)
-			{
-				// SKILL_ATTACK_MELEE�� ���� ����� ǥ�����ش�.
-				pCreature->PacketSpecialActionResult( 
-								SKILL_ATTACK_MELEE + (*g_pActionInfoTable).GetMinResultActionInfo(),
-								pCreature->GetID(),
-								pCreature->GetX(),
-								pCreature->GetY()
-				);
-				
-			}
-		}
+		g_pTopView->AddFloatingDamage(pGCGetDamage->getObjectID(), pGCGetDamage->getDamage());
 	}
 
 	__END_CATCH

@@ -10904,6 +10904,134 @@ MTopView::AddText(DRAWTEXT_NODE* pNode)
 
 	m_pqDrawText.push(pNode);
 }
+//----------------------------------------------------------------------
+// Floating damage numbers
+//
+// The game server sends GCGetDamage to the player who swung, one per monster
+// hit, carrying the final damage. Each number appears on top of that monster's
+// head and rises straight up for a moment. The head position is taken ONCE,
+// when the number spawns: a monster's sprite rect changes width from one
+// animation frame to the next, so following it made the number jitter
+// sideways. 0xFFFF is reserved (it once meant a miss) and is ignored.
+//----------------------------------------------------------------------
+namespace
+{
+	struct FLOATING_DAMAGE
+	{
+		TYPE_OBJECTID	id;
+		int				damage;		// FLOATING_DAMAGE_MISS for a miss
+		DWORD			start;
+		int				x, y;		// top centre of the monster, last seen
+		bool			placed;
+		int				fan;		// 0..2: stacks a burst of hits on one monster, upwards
+	};
+
+	std::list<FLOATING_DAMAGE>	s_FloatingDamage;
+
+	const DWORD	FLOATING_DAMAGE_MS		= 900;		// on screen this long
+	const int	FLOATING_DAMAGE_RISE	= 36;		// and rises this far
+	const int	FLOATING_DAMAGE_MISS	= 0xFFFF;	// reserved: ignored, no Miss indicator
+	const int	FLOATING_DAMAGE_LIFT	= 16;		// the text's height: it sits ON the head
+	const int	FLOATING_DAMAGE_STACK	= 14;		// between hits that land together
+
+	bool PlaceFloatingDamage(FLOATING_DAMAGE& fd)
+	{
+		MCreature* pCreature = (g_pZone != NULL) ? g_pZone->GetCreature(fd.id) : NULL;
+
+		if (pCreature == NULL)
+			return false;
+
+		const RECT& r = pCreature->GetScreenRect();
+
+		if (r.right <= r.left)		// never drawn yet
+			return false;
+
+		fd.x = (r.left + r.right) / 2;
+		fd.y = r.top;
+		fd.placed = true;
+		return true;
+	}
+}
+
+void
+MTopView::AddFloatingDamage(TYPE_OBJECTID id, int damage)
+{
+	if (damage == FLOATING_DAMAGE_MISS)		// the user wants hits only
+		return;
+
+	FLOATING_DAMAGE fd;
+	fd.id		= id;
+	fd.damage	= damage;
+	fd.start	= g_CurrentTime;
+	fd.x		= 0;
+	fd.y		= 0;
+	fd.placed	= false;
+
+	// several hits on one monster at once fan out instead of stacking
+	int live = 0;
+
+	for (std::list<FLOATING_DAMAGE>::const_iterator it = s_FloatingDamage.begin(); it != s_FloatingDamage.end(); ++it)
+	{
+		if (it->id == id)
+			live++;
+	}
+
+	fd.fan = live % 3;
+
+	// place it now: a killing blow can remove the monster before the next frame
+	PlaceFloatingDamage(fd);
+
+	s_FloatingDamage.push_back(fd);
+
+	while (s_FloatingDamage.size() > 64)
+		s_FloatingDamage.pop_front();
+}
+
+void
+MTopView::DrawFloatingDamage()
+{
+	PrintInfo* pInfo = g_ClientPrintInfo[FONTID_LARGE_CHAT];
+
+	std::list<FLOATING_DAMAGE>::iterator it = s_FloatingDamage.begin();
+
+	while (it != s_FloatingDamage.end())
+	{
+		const DWORD age = g_CurrentTime - it->start;
+
+		if (age >= FLOATING_DAMAGE_MS)
+		{
+			it = s_FloatingDamage.erase(it);
+			continue;
+		}
+
+		// placed once, then it rises straight up from there - following the
+		// sprite rect every frame is what made it jitter sideways
+		if (!it->placed)
+			PlaceFloatingDamage(*it);
+
+		if (!it->placed || pInfo == NULL)
+		{
+			++it;
+			continue;
+		}
+
+		char szText[16];
+		sprintf(szText, "%d", it->damage);
+
+		// centred on the head, and only y ever changes
+		const int width	= g_GetStringWidth(szText, pInfo->hfont);
+		const int rise	= (int)(age * FLOATING_DAMAGE_RISE / FLOATING_DAMAGE_MS);
+		const int x		= it->x - width / 2;
+		const int y		= it->y - FLOATING_DAMAGE_LIFT - it->fan * FLOATING_DAMAGE_STACK - rise;
+
+		// the node must own its string: DRAWTEXT_NODE keeps only the pointer
+		AddText(new DRAWTEXT_NODE_HEAP(x, y, szText, RGB(255, 225, 110),
+			FONTID_LARGE_CHAT, FLAG_DRAWTEXT_OUTLINE));
+
+		++it;
+	}
+}
+
 
 //----------------------------------------------------------------------
 // DrawTextList
@@ -17541,6 +17669,9 @@ MTopView::DrawZone(int firstPointX, int firstPointY)
 	//----------------------------------------------------------------
 	// ??? ?????? ????? ??????.
 	//----------------------------------------------------------------
+	// floating damage numbers join this frame's text before it is drawn
+	DrawFloatingDamage();
+
 	__BEGIN_PROFILE("DrawTextList")
 
 		DrawTextList();
@@ -23088,6 +23219,82 @@ MTopView::DrawCreatureName(POINT* pPoint, MCreature* pCreature)
 				// ?÷???? ??? ???, ???? ????? ????
 				if (!pCreature->IsPlayerOnly())
 					gradeID = -1;
+
+				// A monster carries its level on a badge left of the name plate, the
+				// way Umbra shows it. Monsters ONLY: never a player, a town NPC, a
+				// neutral (Competence 0) creature or a pet. The badge takes the spot
+				// a clan mark would otherwise use.
+				const bool bMonsterLevelBox =
+					!pCreature->IsNPC()
+					&& pCreature->GetCompetence() != 0
+					&& !pCreature->IsPlayerOnly()
+					&& pCreature->GetClassType() != MCreature::CLASS_FAKE
+					&& pCreature->GetLevel() > 0;
+
+				if (bMonsterLevelBox)
+				{
+					guildID = 0;
+
+					// Umbra's badge art: sprite 0 is green, sprite 1 red, both 25x20.
+					// Loaded on first use. Without the art there is no badge at all.
+					static CSpritePack s_MonsterLevelSPK;
+					static bool s_bMonsterLevelTried = false;
+					if (!s_bMonsterLevelTried)
+					{
+						s_bMonsterLevelTried = true;
+						if (!s_MonsterLevelSPK.LoadFromFile("data\\ui\\spk\\monsterlevel.spk"))
+							s_MonsterLevelSPK.Release();
+					}
+
+					// No art, no badge. The plain drawn box that used to stand in for a
+					// missing monsterlevel.spk looked poor, so it shows nothing instead.
+					const int MONSTER_LEVEL_BADGE_GREEN = 0;
+					const int MONSTER_LEVEL_BADGE_RED = 1;
+
+					if (s_MonsterLevelSPK.GetSize() > MONSTER_LEVEL_BADGE_RED)
+					{
+						// Red: the monster is more than 5 levels above the player. Green: it
+						// is within the player's range or below it. The player's level is
+						// worked out exactly as the name colour below does it - a Slayer's
+						// best domain level, otherwise the character level, plus advancement.
+						int badgePlayerLevel = g_char_slot_ingame.level;
+
+						if (g_pPlayer->IsSlayer())
+						{
+							badgePlayerLevel = max((*g_pSkillManager)[SKILLDOMAIN_SWORD].GetDomainLevel(),
+												   (*g_pSkillManager)[SKILLDOMAIN_BLADE].GetDomainLevel());
+							badgePlayerLevel = max(badgePlayerLevel, (*g_pSkillManager)[SKILLDOMAIN_GUN].GetDomainLevel());
+							badgePlayerLevel = max(badgePlayerLevel, (*g_pSkillManager)[SKILLDOMAIN_HEAL].GetDomainLevel());
+							badgePlayerLevel = max(badgePlayerLevel, (*g_pSkillManager)[SKILLDOMAIN_ENCHANT].GetDomainLevel());
+						}
+
+						badgePlayerLevel += g_char_slot_ingame.m_AdvancementLevel;
+
+						const bool bBadgeRed = pCreature->GetLevel() > badgePlayerLevel + 5;
+						CSprite* pBadge = &s_MonsterLevelSPK[bBadgeRed ? MONSTER_LEVEL_BADGE_RED : MONSTER_LEVEL_BADGE_GREEN];
+
+						char szLevel[16];
+						sprintf_s(szLevel, sizeof(szLevel), "%d", pCreature->GetLevel());
+
+						const int levelPixel = g_GetStringWidth(szLevel, g_ClientPrintInfo[font]->hfont);
+						const int levelBoxW = pBadge->GetWidth();
+						const int levelBoxLeft = rectLeft - levelBoxW;
+
+						POINT pointBadge = { levelBoxLeft,
+											 rectTop + (((rectBottom - rectTop) - (int)pBadge->GetHeight()) >> 1) };
+
+						m_pSurface->Lock();
+						m_pSurface->BltSprite(&pointBadge, pBadge);
+						m_pSurface->Unlock();
+
+						// flush against the plate, like Umbra. The node keeps only a pointer,
+						// so the digits need the heap copy
+						const int levelX = levelBoxLeft + ((levelBoxW - levelPixel) >> 1);
+
+						AddText(new DRAWTEXT_NODE_HEAP(levelX + 1, yPoint_20 + 4 + 1, szLevel, 0, font));
+						AddText(new DRAWTEXT_NODE_HEAP(levelX, yPoint_20 + 4, szLevel, color, font));	// same colour as the name, as Umbra has it
+					}
+				}
 
 				/*
 				if (guildID>=0)

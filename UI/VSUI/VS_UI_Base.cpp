@@ -137,7 +137,7 @@ void Base::SetDefaultLogfont(LOGFONT &lf) const
 		lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf.lfQuality = DEFAULT_QUALITY;
 		lf.lfPitchAndFamily = DEFAULT_PITCH|FF_DONTCARE;
-		strcpy(lf.lfFaceName, "Segoe UI");//"Times New Roman");
+		strcpy(lf.lfFaceName, "Tahoma");//"Times New Roman");
 	}
 }
 
@@ -219,11 +219,11 @@ void Base::InitFont()
 	//
 	const char szFontName[5][3][20] = {
 		// Hangul Font      Chinese Font
-		{ "Segoe UI",			"宋体",			"俵俽 僑僔僢"},
-		{ "Segoe UI",	"MS Sans Serif","俵俽 僑僔僢"},
-		{ "Segoe UI",			"新宋体",		"俵俽 僑僔僢"},
-		{ "Segoe UI",			"宋体",			"俵俽 柧挬"},
-		{ "Segoe UI",		"宋体",			"俵俽 柧挬"}
+		{ "Tahoma",			"宋体",			"俵俽 僑僔僢"},
+		{ "Tahoma",	"MS Sans Serif","俵俽 僑僔僢"},
+		{ "Tahoma",			"新宋体",		"俵俽 僑僔僢"},
+		{ "Tahoma",			"宋体",			"俵俽 柧挬"},
+		{ "Tahoma",		"宋体",			"俵俽 柧挬"}
 	};
 
 

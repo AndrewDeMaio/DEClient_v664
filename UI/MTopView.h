@@ -436,6 +436,9 @@ public:
 	void			ClearTextList();
 	void			AddText(DRAWTEXT_NODE* pNode);
 	void			DrawTextList();
+	// floating damage numbers over monsters (GCGetDamage)
+	void			AddFloatingDamage(TYPE_OBJECTID id, int damage);
+	void			DrawFloatingDamage();
 
 	//------------------------------------------------------		
 	//

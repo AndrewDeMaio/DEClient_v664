@@ -213,7 +213,10 @@ static bool s_EnsureResources(int nSrcW, int nSrcH, bool bSrc565, int nScale)
 	       ((DWORD)(nSrcW * nScale) > s_dwMaxTexW || (DWORD)(nSrcH * nScale) > s_dwMaxTexH))
 		nScale--;
 
-	if (s_pSrcTex != NULL && s_pScaleRT != NULL &&
+	// k == 1 (window mode, 1:1) never has an intermediate RT, so its absence
+	// must not count as "stale" - that released every resource each frame,
+	// the freshly uploaded text overlay included.
+	if (s_pSrcTex != NULL && (s_pScaleRT != NULL || nScale == 1) &&
 	    nSrcW == s_nSrcW && nSrcH == s_nSrcH && nScale == s_nScale)
 		return true;
 

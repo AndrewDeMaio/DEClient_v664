@@ -5400,6 +5400,35 @@ MCreature::SetAction(BYTE action)
 }
 
 //----------------------------------------------------------------------
+// s_ChatWordCut
+//
+// The speech bubble cuts a message every MAX_CHATSTRING_LENGTH bytes, which
+// lands mid-word ("goi" / "ng"). Given that hard cut [startIndex, endIndex),
+// move it back to the last space when there is one - but only while what is
+// left still fits in the bubble's remaining lines at full length, so a long
+// message never loses its tail to tidier breaks. A space byte is never half
+// of a DBCS character, so the returned index is always a safe cut.
+//----------------------------------------------------------------------
+static int s_ChatWordCut(const char* str, int startIndex, int endIndex, int len, int linesLeft)
+{
+	if (str[endIndex] == ' ')
+		return endIndex;			// already between two words
+
+	for (int p = endIndex - 1; p > startIndex; p--)
+	{
+		if (str[p] != ' ')
+			continue;
+
+		if (len - (p + 1) <= linesLeft * g_pClientConfig->MAX_CHATSTRING_LENGTH)
+			return p + 1;			// the space stays on this line, invisible
+
+		break;
+	}
+
+	return endIndex;
+}
+
+//----------------------------------------------------------------------
 // Clear Chat String
 //----------------------------------------------------------------------
 void
@@ -5485,6 +5514,13 @@ MCreature::SetPersnalString(char* str, COLORREF color)
 				endIndex--;
 			}
 
+			// break between words rather than through one, when it still fits
+			if (!bTree)
+			{
+				endIndex = s_ChatWordCut(str, startIndex, endIndex, len,
+					g_pClientConfig->MAX_CHATSTRING - 1 - m_ChatStringCurrent);
+			}
+
 			// startIndex ~ endIndex-1 ���� strcpy
 			char* pSource = str + startIndex,
 				* pDest = m_ChatString[m_ChatStringCurrent];
@@ -5506,6 +5542,12 @@ MCreature::SetPersnalString(char* str, COLORREF color)
 
 		// index�� �ٲ۴�.
 		startIndex = endIndex;
+
+		// a line never opens with the space it was broken at
+		if (startIndex + 1 < len && str[startIndex] == ' ')
+		{
+			startIndex++;
+		}
 	}
 
 	// ä�� String�� Delay�� �ð��� �������ش�.	
@@ -5671,6 +5713,13 @@ MCreature::SetChatString(char* str, COLORREF color)
 				endIndex--;
 			}
 
+			// break between words rather than through one, when it still fits
+			if (!bTree)
+			{
+				endIndex = s_ChatWordCut(str, startIndex, endIndex, len,
+					g_pClientConfig->MAX_CHATSTRING - 1 - m_ChatStringCurrent);
+			}
+
 			// startIndex ~ endIndex-1 ���� strcpy
 			char* pSource = str + startIndex,
 				* pDest = m_ChatString[m_ChatStringCurrent];
@@ -5692,6 +5741,12 @@ MCreature::SetChatString(char* str, COLORREF color)
 
 		// index�� �ٲ۴�.
 		startIndex = endIndex;
+
+		// a line never opens with the space it was broken at
+		if (startIndex + 1 < len && str[startIndex] == ' ')
+		{
+			startIndex++;
+		}
 	}
 	DEBUG_ADD("[SetChatString] while ok");
 

@@ -29,13 +29,17 @@ namespace DarkEden.Updater
         static readonly Rectangle s_drag = new Rectangle(0, 0, 620, 28);
         static readonly Point s_version_right = new Point(533, 12);
 
-        // The art's 1024x768 / 800x600 switch. The client is 1280x720 only, so the
-        // pill it sat in is wiped clean and carries the progress count instead.
+        // The art's 1024x768 / 800x600 switch. Those two are wiped off the pill they
+        // sat in, and it carries our own display settings instead: a fullscreen box
+        // and a size that opens a list.
         static readonly Rectangle s_pill = new Rectangle(204, 438, 212, 19);
+        static readonly Rectangle s_fullscreen = new Rectangle(211, 439, 94, 17);
+        static readonly Rectangle s_resolution = new Rectangle(312, 439, 98, 17);
+        const int s_box = 11;                   // btn_on.bmp, the art's "selected" dot
         const int s_pill_clean_left = 231;      // columns of the pill with nothing drawn on them
         const int s_pill_clean_right = 386;
 
-        enum Hot { None, Homepage, Market, Start, Exit }
+        enum Hot { None, Homepage, Market, Start, Exit, Fullscreen, Resolution }
 
         readonly UpdateEngine m_engine;
         readonly Config m_config;
@@ -44,6 +48,8 @@ namespace DarkEden.Updater
         readonly Dictionary<Hot, Bitmap> m_hover = new Dictionary<Hot, Bitmap>();
         readonly Dictionary<char, Bitmap> m_digits = new Dictionary<char, Bitmap>();
         readonly Bitmap m_ver;
+        readonly Bitmap m_box_on;
+        readonly ContextMenuStrip m_sizes = new ContextMenuStrip();
         readonly Font m_font = new Font("Segoe UI", 8.25f);
         readonly Font m_small_font = new Font("Segoe UI", 7.5f);
         readonly Timer m_timer = new Timer();
@@ -61,6 +67,7 @@ namespace DarkEden.Updater
             m_back = CleanPill(LoadArt("back.bmp"));
             m_bar = LoadArt("bar_full.bmp");
             m_ver = LoadArt("ver.bmp");
+            m_box_on = LoadArt("btn_on.bmp");
             m_hover[Hot.Homepage] = LoadArt("customers_on.bmp");
             m_hover[Hot.Market] = LoadArt("account_on.bmp");
             m_hover[Hot.Start] = LoadArt("start_on.bmp");
@@ -77,6 +84,12 @@ namespace DarkEden.Updater
             ClientSize = m_back.Size;
             BackColor = Color.Black;
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer, true);
+
+            m_sizes.ShowImageMargin = false;
+            m_sizes.ShowCheckMargin = true;
+            m_sizes.Font = m_font;
+            m_sizes.Renderer = new ToolStripProfessionalRenderer(new DarkMenuColors());
+            m_sizes.BackColor = Color.FromArgb(24, 10, 10);
 
             m_timer.Interval = 50;
             m_timer.Tick += delegate { OnTick(); };
@@ -169,6 +182,8 @@ namespace DarkEden.Updater
                 case Hot.Market: return m_config.MarketUrl.Length > 0;
                 case Hot.Start: return CanStart;
                 case Hot.Exit: return true;
+                case Hot.Fullscreen: return !m_launching;
+                case Hot.Resolution: return !m_launching && !m_config.FullScreen;    // fullscreen fills the desktop
             }
             return false;
         }
@@ -181,13 +196,15 @@ namespace DarkEden.Updater
                 case Hot.Market: return s_market;
                 case Hot.Start: return s_start;
                 case Hot.Exit: return s_exit;
+                case Hot.Fullscreen: return s_fullscreen;
+                case Hot.Resolution: return s_resolution;
             }
             return Rectangle.Empty;
         }
 
         Hot HitTest(Point p)
         {
-            foreach (Hot hot in new[] { Hot.Exit, Hot.Start, Hot.Homepage, Hot.Market })
+            foreach (Hot hot in new[] { Hot.Exit, Hot.Start, Hot.Homepage, Hot.Market, Hot.Fullscreen, Hot.Resolution })
             {
                 if (RectOf(hot).Contains(p) && IsLive(hot))
                     return hot;
@@ -204,7 +221,7 @@ namespace DarkEden.Updater
 
             g.DrawImage(m_back, 0, 0, m_back.Width, m_back.Height);
 
-            if (m_hot != Hot.None && IsLive(m_hot))
+            if (m_hot != Hot.None && IsLive(m_hot) && m_hover.ContainsKey(m_hot))
             {
                 Rectangle rect = RectOf(m_hot);
                 g.DrawImage(m_hover[m_hot], rect.X, rect.Y + (m_pressed == m_hot ? 1 : 0), rect.Width, rect.Height);
@@ -223,11 +240,99 @@ namespace DarkEden.Updater
             DrawPanel(g);
 
             Color status_color = m_engine.Phase == Phase.Failed ? Color.FromArgb(255, 120, 110) : Color.FromArgb(215, 215, 215);
-            TextRenderer.DrawText(g, m_engine.Status, m_font, s_status, status_color,
+            string status = m_engine.Status;
+            string detail = m_engine.Detail;
+            if (!string.IsNullOrEmpty(detail))
+                status += "   (" + detail + ")";
+
+            TextRenderer.DrawText(g, status, m_font, s_status, status_color,
                 TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
 
-            TextRenderer.DrawText(g, m_engine.Detail, m_small_font, s_pill, Color.FromArgb(235, 215, 215),
-                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
+            DrawDisplaySettings(g);
+        }
+
+        // [o] Fullscreen     1280x720 v
+        void DrawDisplaySettings(Graphics g)
+        {
+            Color lit = Color.FromArgb(255, 235, 235), normal = Color.FromArgb(225, 205, 205), dim = Color.FromArgb(120, 95, 95);
+            TextFormatFlags flags = TextFormatFlags.Left | TextFormatFlags.VerticalCenter | TextFormatFlags.NoPrefix | TextFormatFlags.NoPadding;
+
+            int box_x = s_fullscreen.X + 2, box_y = s_fullscreen.Y + (s_fullscreen.Height - s_box) / 2;
+            if (m_config.FullScreen)
+                g.DrawImage(m_box_on, box_x, box_y, s_box, s_box);
+            else
+            {
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                using (Brush dot = new SolidBrush(Color.FromArgb(235, 228, 228)))
+                    g.FillEllipse(dot, box_x + 1, box_y + 1, s_box - 3, s_box - 3);
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.Default;
+            }
+
+            Rectangle label = new Rectangle(box_x + s_box + 5, s_fullscreen.Y, s_fullscreen.Right - box_x - s_box - 5, s_fullscreen.Height);
+            TextRenderer.DrawText(g, "Fullscreen", m_small_font, label, m_hot == Hot.Fullscreen ? lit : normal, flags);
+
+            Color size_color = m_config.FullScreen ? dim : (m_hot == Hot.Resolution ? lit : normal);
+            string size = m_config.Width + "x" + m_config.Height;
+            TextRenderer.DrawText(g, size, m_small_font, s_resolution, size_color, flags);
+
+            // the little arrow that says this one opens
+            int ax = s_resolution.X + TextRenderer.MeasureText(g, size, m_small_font, s_resolution.Size, flags).Width + 6;
+            int ay = s_resolution.Y + s_resolution.Height / 2 - 1;
+            using (Brush arrow = new SolidBrush(size_color))
+                g.FillPolygon(arrow, new[] { new Point(ax, ay), new Point(ax + 7, ay), new Point(ax + 3, ay + 4) });
+        }
+
+        void ToggleFullscreen()
+        {
+            m_config.FullScreen = !m_config.FullScreen;
+            m_config.Save("FullScreen", m_config.FullScreen ? "1" : "0");
+            Invalidate();
+        }
+
+        void ShowSizes()
+        {
+            m_sizes.Items.Clear();
+
+            List<Size> choices = ResolutionFile.Choices();
+            Size current = new Size(m_config.Width, m_config.Height);
+            if (!choices.Contains(current))
+                choices.Add(current);           // typed into the ini by hand; keep it on offer
+
+            foreach (Size choice in choices)
+            {
+                Size size = choice;
+                ToolStripMenuItem item = new ToolStripMenuItem(size.Width + " x " + size.Height);
+                item.ForeColor = Color.FromArgb(230, 215, 215);
+                item.Checked = size == current;
+                item.Click += delegate
+                {
+                    m_config.Width = size.Width;
+                    m_config.Height = size.Height;
+                    m_config.Save("Resolution", size.Width + "x" + size.Height);
+                    Invalidate();
+                };
+                m_sizes.Items.Add(item);
+            }
+
+            m_sizes.Show(this, new Point(s_resolution.X, s_pill.Bottom + 1));
+        }
+
+        sealed class DarkMenuColors : ProfessionalColorTable
+        {
+            static readonly Color s_back = Color.FromArgb(24, 10, 10), s_pick = Color.FromArgb(110, 18, 18), s_edge = Color.FromArgb(120, 30, 30);
+
+            public override Color ToolStripDropDownBackground { get { return s_back; } }
+            public override Color ImageMarginGradientBegin { get { return s_back; } }
+            public override Color ImageMarginGradientMiddle { get { return s_back; } }
+            public override Color ImageMarginGradientEnd { get { return s_back; } }
+            public override Color MenuBorder { get { return s_edge; } }
+            public override Color MenuItemBorder { get { return s_edge; } }
+            public override Color MenuItemSelected { get { return s_pick; } }
+            public override Color MenuItemSelectedGradientBegin { get { return s_pick; } }
+            public override Color MenuItemSelectedGradientEnd { get { return s_pick; } }
+            public override Color CheckBackground { get { return s_pick; } }
+            public override Color CheckSelectedBackground { get { return s_pick; } }
+            public override Color CheckPressedBackground { get { return s_pick; } }
         }
 
         void DrawBar(Graphics g, Rectangle rect, double fraction)
@@ -365,6 +470,8 @@ namespace DarkEden.Updater
                 case Hot.Start: StartGame(); break;
                 case Hot.Homepage: OpenUrl(m_config.HomepageUrl); break;
                 case Hot.Market: OpenUrl(m_config.MarketUrl); break;
+                case Hot.Fullscreen: ToggleFullscreen(); break;
+                case Hot.Resolution: ShowSizes(); break;
             }
         }
 
@@ -421,9 +528,20 @@ namespace DarkEden.Updater
 
                 if (address == null)
                 {
-                    MessageBox.Show(this, "Cannot find the login server \"" + host + "\".", "DarkEden", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(this, "Cannot find the login server.", "DarkEden", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+            }
+
+            // The game reads its display settings once, as it starts - and writes the
+            // file back as 1280x720 when it exits, which is why this is done every time.
+            try
+            {
+                ResolutionFile.Write(m_engine.GameDir, m_config.Width, m_config.Height, m_config.FullScreen);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(this, "Could not save the display settings:\n" + e.Message, "DarkEden", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             try
@@ -450,6 +568,7 @@ namespace DarkEden.Updater
             if (disposing)
             {
                 m_timer.Dispose();
+                m_sizes.Dispose();
                 m_font.Dispose();
                 m_small_font.Dispose();
             }
