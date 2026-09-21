@@ -368,3 +368,12 @@ FodyWeavers.xsd
 # Tool binaries - rebuilt from source by each tool's build.bat, and
 # antivirus heuristics flag freshly-built unsigned exes anyway.
 Tools/**/*.exe
+
+# Hand-made backups and editor temp copies. Git history is the backup.
+*.before_*
+*.after_*
+*_bak
+*.bak
+*.BAK
+*.orig
+*.tmp.*
