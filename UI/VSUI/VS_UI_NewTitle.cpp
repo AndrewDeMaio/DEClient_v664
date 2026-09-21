@@ -707,6 +707,295 @@ void C_VS_UI_CHAR_DELETE::KeyboardControl(UINT message, UINT key, long extra)
 //
 // ??????? ?????? point?? ?????.
 //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+// Character creation, renewal layout
+//
+// CharCreateRenewal.spk is DK Umbra's charcreaterenewal without its four
+// background frames and its two logos, plus the two lettered buttons from its
+// char manager pack. Everything in it is already English in the pixels, which
+// is what takes the Korean off this screen.
+//
+// These are the numbers from the mock-up the layout was agreed on.
+//-----------------------------------------------------------------------------
+static const int s_cc_card_x		= 60;		// race cards, 312x93
+static const int s_cc_card_y		= 203;
+static const int s_cc_card_pitch	= 105;
+static const int s_cc_panel_x		= 430;		// main panel, 275x380 (spliced)
+static const int s_cc_panel_y		= 165;
+static const int s_cc_side_x		= 720;		// colors and gender, 145x380 (spliced)
+static const int s_cc_side_y		= 165;
+static const int s_cc_stat_top		= 57;		// first row of the stat table
+static const int s_cc_stat_pitch	= 19;
+static const int s_cc_stat_value_x	= 205;		// the table's value column
+static const int s_cc_class_y		= 245;		// the class row, just under the stat table (art ends row 221)
+static const int s_cc_class_x		= 23;		// 5 icons at pitch 50 centred in 275
+static const int s_cc_class_pitch	= 50;
+static const int s_cc_rotate_size	= 15;		// the boxes drawn inside the preview
+static const int s_cc_button_y		= 565;		// above the help bar at 630
+
+// Slayer class presets. The server takes any Slayer with each stat 5..20 and a
+// total of 30 or less (CLCreatePCHandler), so these all spend exactly 30.
+static const struct
+{
+	const char* name;
+	int str, dex, intel;
+}
+s_cc_classes[5] =
+{
+	{ "Sword",   20,  5,  5 },
+	{ "Blade",   15, 10,  5 },
+	{ "Gun",      5, 20,  5 },
+	{ "Heal",     5,  5, 20 },
+	{ "Enchant",  5, 10, 15 },
+};
+//-----------------------------------------------------------------------------
+// Put the screen where the renewal art wants it.
+//
+// Hit testing reads these same members, so moving them moves the clickable
+// areas with the pictures. Called at the end of Init_TitleUIInterface_InfInfo,
+// which runs every frame, so this always wins over the .ini.
+//-----------------------------------------------------------------------------
+void	C_VS_UI_NEWCHAR::LayoutCreateRenewal()
+{
+	const int panel_x = s_cc_panel_x;
+	const int panel_y = s_cc_panel_y;
+
+	m_wNewCharBox_X = panel_x;
+	m_wNewCharBox_Y = panel_y;
+
+	// name, and the Check button that tests it
+	m_wCharNameFocus_X		= panel_x + 20;
+	m_wCharNameFocus_Y		= panel_y + 33;
+	m_wNameCheck_Button_X	= panel_x + 180;
+	m_wNameCheck_Button_Y	= panel_y + 23;
+	m_lev_name.SetPosition(m_wCharNameFocus_X, m_wCharNameFocus_Y);
+
+	// the character stands in the panel's preview box, between its two arrows
+	// ShowCharacter draws about 18px right of the x it is handed, so this
+	// anchor is offset to put the character in the middle of the box
+	m_wCharView_X = panel_x + 46;
+	m_wCharView_Y = panel_y + 142;
+
+	// exactly on the boxes the panel art draws
+	m_wCharLeftRotation_Button_X	= panel_x + 20;
+	m_wCharLeftRotation_Button_Y	= panel_y + 100;
+	m_wCharRightRotation_Button_X	= panel_x + 94;
+	m_wCharRightRotation_Button_Y	= panel_y + 100;
+
+	// The face portraits are gone - only the party window used them and it is
+	// on its way out, and they were what clipped into the stat table.
+	for (int f = 0; f < SELECT_FACE_MAX; f++)
+	{
+		m_ptFace[f].x		= 0x3FFF;
+		m_ptFace[f].y		= 0x3FFF;
+		m_ptFace_Radio[f].x	= 0x3FFF;
+		m_ptFace_Radio[f].y	= 0x3FFF;
+	}
+
+	// the stat table: the art letters it, we only place the numbers.
+	// note the art's order is Prot above Def, which is not the member order
+	const int vx = panel_x + s_cc_stat_value_x;
+	const int vy = panel_y + s_cc_stat_top;
+
+	m_wSTR_Text_X = vx;			m_wSTR_Text_Y = vy + 0 * s_cc_stat_pitch;
+	m_wDEX_Text_X = vx;			m_wDEX_Text_Y = vy + 1 * s_cc_stat_pitch;
+	m_wINT_Text_X = vx;			m_wINT_Text_Y = vy + 2 * s_cc_stat_pitch;
+	m_wHP_Text_X = vx;			m_wHP_Text_Y = vy + 3 * s_cc_stat_pitch;
+	m_wMP_Text_X = vx;			m_wMP_Text_Y = vy + 4 * s_cc_stat_pitch;
+	m_wPROTECTION_Text_X = vx;	m_wPROTECTION_Text_Y = vy + 5 * s_cc_stat_pitch;
+	m_wDEFENSE_Text_X = vx;		m_wDEFENSE_Text_Y = vy + 6 * s_cc_stat_pitch;
+	m_wTOHIT_Text_X = vx;		m_wTOHIT_Text_Y = vy + 7 * s_cc_stat_pitch;
+	m_wDAM_Text_X = vx;			m_wDAM_Text_Y = vy + 8 * s_cc_stat_pitch;
+	m_wBonus_Text_X = vx;		m_wBonus_Text_Y = vy + 9 * s_cc_stat_pitch;
+
+	// ousters still spend their points by hand, beside the three attributes
+	for (int s = 0; s < STET_MAX; s++)
+	{
+		m_ptStet_Plus[s].x	= panel_x + 244;
+		m_ptStet_Plus[s].y	= vy + s * s_cc_stat_pitch + 2;
+		m_ptStet_Minus[s].x	= panel_x + 228;
+		m_ptStet_Minus[s].y	= vy + s * s_cc_stat_pitch + 2;
+	}
+
+	// Save/Load/Reroll are gone for slayers - the class picker replaces them.
+	// Park their hit boxes off screen so nothing can be clicked by accident.
+	m_wSave_Button_X = m_wSave_Button_Y = 0x3FFF;
+	m_wLoad_Button_X = m_wLoad_Button_Y = 0x3FFF;
+	m_wReset_Button_X = m_wReset_Button_Y = 0x3FFF;
+	m_wStet_Box_X = m_wStet_Box_Y = 0x3FFF;
+	m_wOpset_BOX_X = m_wOpset_BOX_Y = 0x3FFF;
+
+	// race cards
+	m_wSelect_Race_Slayer_Button_X	= s_cc_card_x;
+	m_wSelect_Race_Slayer_Button_Y	= s_cc_card_y;
+	m_wSelect_Race_Vampire_Button_X	= s_cc_card_x;
+	m_wSelect_Race_Vampire_Button_Y	= s_cc_card_y + s_cc_card_pitch;
+	m_wSelect_Race_Ousters_Button_X	= s_cc_card_x;
+	m_wSelect_Race_Ousters_Button_Y	= s_cc_card_y + 2 * s_cc_card_pitch;
+	m_wHide_Ousters_Selection_Button_X = 0x3FFF;
+	m_wHide_Ousters_Selection_Button_Y = 0x3FFF;
+
+	for (int r = 0; r < RACE_MAX; r++)
+	{
+		m_ptRaceSelect_Radio[r].x = s_cc_card_x + 4;
+		m_ptRaceSelect_Radio[r].y = s_cc_card_y + r * s_cc_card_pitch + 4;
+	}
+
+	// colours and gender, in the side panel
+	m_wHairColor_BOX_X		= s_cc_side_x;
+	m_wHairColor_BOX_Y		= s_cc_side_y;
+	m_wHairColor_Start_X	= s_cc_side_x + 9;
+	m_wHairColor_Start_Y	= s_cc_side_y + 48;
+	m_wSkinColor_BOX_X		= s_cc_side_x;
+	m_wSkinColor_BOX_Y		= s_cc_side_y;
+	m_wSkinColor_Start_X	= s_cc_side_x + 9;
+	m_wSkinColor_Start_Y	= s_cc_side_y + 120;
+
+	// gender under the preview, as Umbra has it. Ousters are female only, so
+	// DrawRenewalCreate leaves it out for them.
+	m_wMale_OR_Female_Select_Box_X	= panel_x + 16;
+	m_wMale_OR_Female_Select_Box_Y	= panel_y + 172;
+	m_wMale_Select_Button_X			= panel_x + 16;
+	m_wMale_Select_Button_Y			= panel_y + 172;
+	m_wFemale_Select_Button_X		= panel_x + 64;
+	m_wFemale_Select_Button_Y		= panel_y + 172;
+	m_wMale_Select_Radio_X			= panel_x + 34;
+	m_wMale_Select_Radio_Y			= panel_y + 196;
+	m_wFemale_Select_Radio_X		= panel_x + 82;
+	m_wFemale_Select_Radio_Y		= panel_y + 196;
+
+	m_wPrevButton_X = 500;
+	m_wPrevButton_Y = s_cc_button_y;
+	m_wNextButton_X = 656;
+	m_wNextButton_Y = s_cc_button_y;
+}
+
+//-----------------------------------------------------------------------------
+// The numbers the stat table shows, derived from STR/DEX/INT. Lifted out of
+// RollDice so the class picker can share it.
+//-----------------------------------------------------------------------------
+void	C_VS_UI_NEWCHAR::UpdateDerivedStats()
+{
+	m_p_slot->DAM = 1;
+	m_p_slot->DAM2 = max(1, m_p_slot->STR_PURE / 10);
+	m_p_slot->DEFENSE = m_p_slot->DEX_PURE;
+	m_p_slot->PROTECTION = m_p_slot->STR_PURE / 15;
+	m_p_slot->TOHIT = m_p_slot->DEX_PURE;
+
+	m_p_slot->HP = m_p_slot->STR_PURE * 2;
+	m_p_slot->MP = m_p_slot->INT_PURE * 2;
+
+	m_p_slot->HP_MAX = 20 * 2;
+	m_p_slot->MP_MAX = 20 * 2;
+}
+
+//-----------------------------------------------------------------------------
+// A slayer's class, in place of rolling dice.
+//-----------------------------------------------------------------------------
+void	C_VS_UI_NEWCHAR::ApplySlayerClass(int index)
+{
+	if (index < 0 || index >= 5 || m_p_slot == NULL)
+		return;
+
+	m_slayer_class = index;
+
+	if (m_p_slot->Race != RACE_SLAYER)
+		return;
+
+	m_p_slot->STR_PURE = s_cc_classes[index].str;
+	m_p_slot->DEX_PURE = s_cc_classes[index].dex;
+	m_p_slot->INT_PURE = s_cc_classes[index].intel;
+
+	UpdateDerivedStats();
+}
+
+//-----------------------------------------------------------------------------
+// The renewal furniture: panels, race cards, gender, the class row.
+// Runs with the back surface locked.
+//-----------------------------------------------------------------------------
+void	C_VS_UI_NEWCHAR::DrawRenewalCreate()
+{
+	m_renewal_spk.BltLocked(s_cc_panel_x, s_cc_panel_y, CCR_MAIN_PANEL);
+	m_renewal_spk.BltLocked(s_cc_side_x, s_cc_side_y, CCR_SIDE_PANEL);
+
+	const int races[RACE_MAX] = { RACE_SLAYER, RACE_VAMPIRE, RACE_OUSTERS };
+
+	for (int i = 0; i < RACE_MAX; i++)
+	{
+		const bool chosen = (m_p_slot->Race == races[i]);
+
+		m_renewal_spk.BltLocked(s_cc_card_x, s_cc_card_y + i * s_cc_card_pitch,
+			CCR_CARD_SLAYER + i * 2 + (chosen ? 1 : 0));
+	}
+
+	if (m_p_slot->Race != RACE_OUSTERS)		// ousters are female only
+	{
+		m_renewal_spk.BltLocked(m_wMale_OR_Female_Select_Box_X, m_wMale_OR_Female_Select_Box_Y, CCR_GENDER);
+	}
+
+	// mark the chosen figure. Umbra's 15x15 frames turned out to be cursor
+	// icons, so this is the radio from our own pack
+	if (m_p_slot->Race != RACE_OUSTERS)
+	{
+		m_image_spk.BltLocked(m_p_slot->bl_female ? m_wFemale_Select_Radio_X : m_wMale_Select_Radio_X,
+			m_p_slot->bl_female ? m_wFemale_Select_Radio_Y : m_wMale_Select_Radio_Y, RADIO_SELECT_BUTTON);
+	}
+
+	// the class row belongs to slayers; the other races have no stats to choose
+	if (m_p_slot->Race == RACE_SLAYER)
+	{
+		for (int c = 0; c < 5; c++)
+		{
+			m_renewal_spk.BltLocked(s_cc_panel_x + s_cc_class_x + c * s_cc_class_pitch,
+				s_cc_panel_y + s_cc_class_y,
+				CCR_CLASS_SWORD + c * 2 + (c == m_slayer_class ? 1 : 0));
+		}
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Class names under the icons, in the text pass.
+//-----------------------------------------------------------------------------
+void	C_VS_UI_NEWCHAR::DrawRenewalCreateText()
+{
+	const COLORREF gold = RGB(222, 200, 130);
+
+	// the side panel's header bars are blank art: these are their labels, and
+	// each only appears when that race can actually choose the colour
+	if (m_p_slot->Race != RACE_VAMPIRE)
+		DrawCentredLabel(s_cc_side_x + 68, s_cc_side_y + 26, "Hair Color", gold);
+
+	if (m_p_slot->Race != RACE_OUSTERS)
+		DrawCentredLabel(s_cc_side_x + 68, s_cc_side_y + 98, "Skin Color", gold);
+
+	// ousters spend a pool of points by hand; it used to be a bare number
+	if (m_p_slot->Race == RACE_OUSTERS)
+	{
+		g_PrintColorStr(s_cc_panel_x + 132, s_cc_panel_y + 228, "Bonus",
+			gpC_base->m_chatting_pi, gold);
+	}
+
+	if (m_p_slot->Race != RACE_SLAYER)
+		return;
+
+	// one line above the row, the way Umbra names the chosen class
+	char szClass[64];
+	sprintf(szClass, "Class: %s", s_cc_classes[m_slayer_class].name);
+
+	DrawCentredLabel(s_cc_panel_x + 137, s_cc_panel_y + s_cc_class_y - 20, szClass, RGB_WHITE);
+}
+
+
+//-----------------------------------------------------------------------------
+// A string centred on x, in the chatting font.
+//-----------------------------------------------------------------------------
+void	C_VS_UI_NEWCHAR::DrawCentredLabel(int x, int y, const char* szText, COLORREF color)
+{
+	const int width = g_GetStringWidth2(szText, strlen(szText), gpC_base->m_chatting_pi.hfont);
+
+	g_PrintColorStr(x - width / 2, y, szText, gpC_base->m_chatting_pi, color);
+}
+
 void C_VS_UI_NEWCHAR::RollDice(bool load)
 {
 	switch (m_p_slot->Race)
@@ -779,17 +1068,11 @@ void C_VS_UI_NEWCHAR::RollDice(bool load)
 	break;
 	}
 
-	m_p_slot->DAM = 1;
-	m_p_slot->DAM2 = max(1, m_p_slot->STR_PURE / 10);
-	m_p_slot->DEFENSE = m_p_slot->DEX_PURE;
-	m_p_slot->PROTECTION = m_p_slot->STR_PURE / 15;
-	m_p_slot->TOHIT = m_p_slot->DEX_PURE;
+	UpdateDerivedStats();
 
-	m_p_slot->HP = m_p_slot->STR_PURE * 2;
-	m_p_slot->MP = m_p_slot->INT_PURE * 2;
-
-	m_p_slot->HP_MAX = 20 * 2; // ??? ... const int?? ???? SetEnergy()???? ?? ???? ?????!
-	m_p_slot->MP_MAX = 20 * 2;
+	// a slayer's stats come from the class picker, not the dice
+	if (m_p_slot->Race == RACE_SLAYER && load == false)
+		ApplySlayerClass(m_slayer_class);
 }
 
 //-----------------------------------------------------------------------------
@@ -931,6 +1214,8 @@ C_VS_UI_NEWCHAR::C_VS_UI_NEWCHAR()
 	//	m_face_spk.Open(SPK_FACE_MAKE);
 
 	m_image_spk.Open(SPK_CHAR_CREATE);
+	m_renewal_spk.Open(SPK_CHAR_CREATE_RENEWAL);
+	m_slayer_class = 0;
 	m_common_spk.Open(SPK_COMMON);
 
 #if	__CONTENTS(__USER_GRADE)
@@ -993,6 +1278,14 @@ C_VS_UI_NEWCHAR::C_VS_UI_NEWCHAR()
 		OUSTERS_ID, this, HIDE_OUSTERS_SELECTION_BUTTON));	// ??????? ????? ????.
 #endif	
 
+	// the five class icons; DrawRenewalCreate paints them, these just catch clicks
+	for (int cc = 0; cc < 5; cc++)
+	{
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(
+			s_cc_panel_x + s_cc_class_x + cc * s_cc_class_pitch, s_cc_panel_y + s_cc_class_y,
+			m_renewal_spk.GetWidth(CCR_CLASS_SWORD), m_renewal_spk.GetHeight(CCR_CLASS_SWORD),
+			CLASS_SWORD_ID + cc, this, CCR_CLASS_SWORD + cc * 2));
+	}
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(m_wNameCheck_Button_X, m_wNameCheck_Button_Y,
 		m_image_spk.GetWidth(CHAR_NAME_CHECK_BUTTON), m_image_spk.GetHeight(CHAR_NAME_CHECK_BUTTON),
 		CHECK_ID, this, CHAR_NAME_CHECK_BUTTON));
@@ -1427,6 +1720,8 @@ void	C_VS_UI_NEWCHAR::Init_TitleUIInterface_InfInfo()
 	GetPrivateProfileString(arrstrAppName, "TEXT_LINE4", "", m_arrTextLine[LINE4], sizeof(m_arrTextLine[LINE4]), arrstrFileName);
 
 	m_lev_name.SetPosition(m_wCharNameFocus_X, m_wCharNameFocus_Y);
+
+	LayoutCreateRenewal();	// the renewal layout always wins over the ini
 }
 
 
@@ -1497,184 +1792,88 @@ void C_VS_UI_NEWCHAR::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
 //-----------------------------------------------------------------------------
 void C_VS_UI_NEWCHAR::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
+	// -1: this button has no art of its own. The race cards and the class
+	// icons are painted by DrawRenewalCreate, which knows which one is chosen.
+	int sprite = -1;
+	bool has_lit = true;
+
 	switch (p_button->GetID())
 	{
 	case BACK_ID:
 		p_button->x = m_wPrevButton_X;
 		p_button->y = m_wPrevButton_Y;
+		sprite = CCR_BUTTON_PREV;
 		break;
 
 	case NEXT_ID:
 		p_button->x = m_wNextButton_X;
 		p_button->y = m_wNextButton_Y;
+		sprite = CCR_BUTTON_CREATE;
 		break;
 
 	case CHECK_ID:
 		p_button->x = m_wNameCheck_Button_X;
 		p_button->y = m_wNameCheck_Button_Y;
+		sprite = CCR_CHECK;
 		break;
 
+	// The panel draws both rotate boxes itself, so these are hit areas only.
+	// (What used to be blitted here were Umbra's radio dots, not arrows.)
 	case CHAR_LEFT_LOTATION_ID:
-		p_button->x = m_wCharLeftRotation_Button_X;
-		p_button->y = m_wCharLeftRotation_Button_Y;
-		break;
-
 	case CHAR_RIGHT_LOTATION_ID:
-		p_button->x = m_wCharRightRotation_Button_X;
-		p_button->y = m_wCharRightRotation_Button_Y;
+		p_button->x = (p_button->GetID() == CHAR_LEFT_LOTATION_ID)
+			? m_wCharLeftRotation_Button_X : m_wCharRightRotation_Button_X;
+		p_button->y = (p_button->GetID() == CHAR_LEFT_LOTATION_ID)
+			? m_wCharLeftRotation_Button_Y : m_wCharRightRotation_Button_Y;
+		p_button->w = s_cc_rotate_size;
+		p_button->h = s_cc_rotate_size;
 		break;
 
 	case SLAYER_ID:
-		p_button->x = m_wSelect_Race_Slayer_Button_X;
-		p_button->y = m_wSelect_Race_Slayer_Button_Y;
-
-		if (p_button->GetFocusState())
-		{
-			m_image_spk.BltLockedAlpha(m_ptRaceSelect_Radio[RACE_SLAYER].x, m_ptRaceSelect_Radio[RACE_SLAYER].y, RADIO_SELECT_BUTTON, p_button->m_alpha);
-
-			if (p_button->GetPressState())
-				m_btRace_Select = RACE_SLAYER;
-		}
-		break;
-
 	case VAMPIRE_ID:
-		p_button->x = m_wSelect_Race_Vampire_Button_X;
-		p_button->y = m_wSelect_Race_Vampire_Button_Y;
-
-		if (p_button->GetFocusState())
-		{
-			m_image_spk.BltLockedAlpha(m_ptRaceSelect_Radio[RACE_VAMPIRE].x, m_ptRaceSelect_Radio[RACE_VAMPIRE].y, RADIO_SELECT_BUTTON, p_button->m_alpha);
-
-			if (p_button->GetPressState())
-				m_btRace_Select = RACE_VAMPIRE;
-		}
-		break;
-
 	case OUSTERS_ID:
-		p_button->x = m_wSelect_Race_Ousters_Button_X;
-		p_button->y = m_wSelect_Race_Ousters_Button_Y;
-
-		if (p_button->GetFocusState())
-		{
-			m_image_spk.BltLockedAlpha(m_ptRaceSelect_Radio[RACE_OUSTERS].x, m_ptRaceSelect_Radio[RACE_OUSTERS].y, RADIO_SELECT_BUTTON, p_button->m_alpha);
-
-			if (p_button->GetPressState())
-				m_btRace_Select = RACE_OUSTERS;
-		}
-		break;
-	}
-
-	if (!((p_button->GetID() == SLAYER_ID) || (p_button->GetID() == VAMPIRE_ID) || (p_button->GetID() == OUSTERS_ID)))
-		m_image_spk.BltLocked(p_button->x, p_button->y, p_button->m_image_index);
-
-	if (p_button->GetFocusState())
 	{
-		if (!(p_button->GetID() == CHECK_ID))
-		{
-			if (p_button->m_alpha >= 31)
-				p_button->m_alpha = 0;
-		}
+		const int row = (p_button->GetID() == SLAYER_ID) ? 0
+			: (p_button->GetID() == VAMPIRE_ID) ? 1 : 2;
 
-		if (!((p_button->GetID() == SLAYER_ID) || (p_button->GetID() == VAMPIRE_ID) || (p_button->GetID() == OUSTERS_ID)))
-		{
-			m_image_spk.BltLockedAlpha(p_button->x, p_button->y, p_button->m_image_index - 1, p_button->m_alpha);
-		}
+		p_button->x = s_cc_card_x;
+		p_button->y = s_cc_card_y + row * s_cc_card_pitch;
+		p_button->w = m_renewal_spk.GetWidth(CCR_CARD_SLAYER);
+		p_button->h = m_renewal_spk.GetHeight(CCR_CARD_SLAYER);
 	}
-	/*	if(p_button->GetID() == MALE_ID || p_button->GetID() == FEMALE_ID
-			|| p_button->GetID() == SLAYER_ID || p_button->GetID() == VAMPIRE_ID || p_button->GetID() == OUSTERS_ID )
-		{
-			if(p_button->GetFocusState())
-			{
-				if(m_p_slot->Race != RACE_OUSTERS)
-					m_image_spk.BltLocked(x+p_button->x+20, y+p_button->y, p_button->m_image_index);
-			}
-		}
-		else
-		if(p_button->GetID() == BACK_ID || p_button->GetID() == NEXT_ID)
-		{
-			if(p_button->GetFocusState())
-			{
-				if (p_button->GetPressState()) // push state
-					m_common_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index+1);
-				else
-				{
-					m_common_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
-					m_common_spk.BltLockedAlpha(x+p_button->x, y+p_button->y, p_button->m_image_index+2, p_button->m_alpha);
-				}
-				if(p_button->GetID() == BACK_ID)
-					m_focused_help = HELP_BACK;
-				else
-					m_focused_help = HELP_NEXT;
-			}
-			else
-				m_common_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
-		}
+	break;
 
-		else
-		{
-			if(
-				(p_button->GetID() >= STR_PLUS_ID && p_button->GetID() <= INT_MINUS_ID && m_p_slot->Race !=  RACE_OUSTERS ) ||
-				(p_button->GetID() == REROLL_ID && m_p_slot->Race != RACE_SLAYER )
-			  )
-				return;
+	case CLASS_SWORD_ID:
+	case CLASS_BLADE_ID:
+	case CLASS_GUN_ID:
+	case CLASS_HEAL_ID:
+	case CLASS_ENCHANT_ID:
+	{
+		const int slot = (int)(p_button->GetID() - CLASS_SWORD_ID);
 
-			if(p_button->GetFocusState())
-			{
-				if( m_p_slot->Race == RACE_SLAYER || !(p_button->GetID() == LOAD_ID || p_button->GetID() == SAVE_ID || p_button->GetID() == REROLL_ID || p_button->GetID() == FACE_BACK_ID || p_button->GetID() == FACE_NEXT_ID))
-				{
-					if (p_button->GetPressState()) // push state
-						m_image_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index+1);
-					else
-					{
-						m_image_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
-						m_image_spk.BltLockedAlpha(x+p_button->x, y+p_button->y, p_button->m_image_index+2, p_button->m_alpha);
-					}
+		p_button->x = s_cc_panel_x + s_cc_class_x + slot * s_cc_class_pitch;
+		p_button->y = s_cc_panel_y + s_cc_class_y;
+		p_button->w = m_renewal_spk.GetWidth(CCR_CLASS_SWORD);
+		p_button->h = m_renewal_spk.GetHeight(CCR_CLASS_SWORD);
+	}
+	break;
 
-					switch(p_button->GetID())
-					{
-					case CHECK_ID:
-						m_focused_help = HELP_CHECK;
-						break;
+	default:
+		return;
+	}
 
-					case LOAD_ID:
-						m_focused_help = HELP_LOAD;
-						break;
+	if (sprite < 0)
+		return;
 
-					case SAVE_ID:
-						m_focused_help = HELP_SAVE;
-						break;
+	// the click area follows the picture
+	p_button->w = m_renewal_spk.GetWidth(sprite);
+	p_button->h = m_renewal_spk.GetHeight(sprite);
 
-					case REROLL_ID:
-						m_focused_help = HELP_REROLL;
-						break;
-					}
-				}// else
-			}
+	const bool lit = has_lit && p_button->GetFocusState();
 
-			else
-			{
-				if( m_p_slot->Race == RACE_SLAYER && (p_button->GetID() == LOAD_ID || p_button->GetID() == SAVE_ID || p_button->GetID() == REROLL_ID) )
-				{
-					m_image_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
-					return;
-				}
-
-				if(
-					(
-					m_p_slot->Race == RACE_SLAYER ||
-					!(p_button->GetID() == LOAD_ID ||
-					p_button->GetID() == SAVE_ID ||
-					p_button->GetID() == REROLL_ID ||
-					p_button->GetID() == FACE_BACK_ID ||
-					p_button->GetID() == FACE_NEXT_ID)
-					)
-
-					&& (m_p_slot->Race == RACE_OUSTERS && p_button->GetID() >= STR_PLUS_ID && p_button->GetID() <= INT_MINUS_ID))
-					m_image_spk.BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
-			}
-		}
-	*/
+	m_renewal_spk.BltLocked(p_button->x, p_button->y, lit ? sprite + 1 : sprite);
 }
+
 
 //-----------------------------------------------------------------------------
 // WindowEventReceiver
@@ -1711,9 +1910,9 @@ void C_VS_UI_NEWCHAR::SetCharacterToThisSlot(int slot, S_SLOT* p_slot)
 	m_p_slot->bl_female = false;
 
 #if __CONTENTS(__RACE_OUSTERS)
-	m_btRace_Select = rand() % 3;
+	m_btRace_Select = RACE_SLAYER;	// the screen opens on Slayer, not a random race
 #else
-	m_btRace_Select = rand() % 2;
+	m_btRace_Select = RACE_SLAYER;	// the screen opens on Slayer, not a random race
 #endif // ??????? ?????????? ???.
 
 	srand(GetTickCount());
@@ -1797,6 +1996,13 @@ void C_VS_UI_NEWCHAR::KeyboardControl(UINT message, UINT key, long extra)
 //-----------------------------------------------------------------------------
 void C_VS_UI_NEWCHAR::Run(id_t id)
 {
+	if (id >= CLASS_SWORD_ID && id <= CLASS_ENCHANT_ID)
+	{
+		if (m_p_slot != NULL && m_p_slot->Race == RACE_SLAYER)
+			ApplySlayerClass((int)(id - CLASS_SWORD_ID));
+
+		return;
+	}
 
 	int i = 0;
 
@@ -2680,8 +2886,7 @@ void	C_VS_UI_NEWCHAR::DrawSelect_Stet()
 
 void	C_VS_UI_NEWCHAR::DrawSelect_Hair_Skin_Color()
 {
-	m_image_spk.BltLocked(m_wHairColor_BOX_X, m_wHairColor_BOX_Y, HAIR_COLOR_BOX);
-	m_image_spk.BltLocked(m_wSkinColor_BOX_X, m_wSkinColor_BOX_Y, SKIN_COLOR_BOX);
+	// the renewal side panel has both boxes in its own art
 
 	int i, j;
 	S_SURFACEINFO	surfaceinfo;
@@ -2773,41 +2978,28 @@ void C_VS_UI_NEWCHAR::Show()
 	if (m_p_slot == NULL)
 		return;
 
-	Init_TitleUIInterface_InfInfo();
+	Init_TitleUIInterface_InfInfo();		// ends in LayoutCreateRenewal()
 	ChangeEffectPoint();
 
 	gpC_base->m_p_DDSurface_back->FillSurface(0);
 
-	int convx = (g_pUserInformation->iResolution_x - 800) / 2;
-	int convy = (g_pUserInformation->iResolution_y - 600) / 2;
-
-	bool bHighResolution = g_pUserInformation->iResolution_x > 800;
-
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		if (bHighResolution)
-		{
-			if (g_pUserInformation->iResolution_x <= 1024)
-				m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_1024_768)) / 2,
-					(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(BACK_GROUND_1024_768)) / 2, BACK_GROUND_1024_768);
-			else
-			{
-				if (g_pUserInformation->iResolution_y < 960)
-					m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_1280_720)) / 2,
-						(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(BACK_GROUND_1280_720)) / 2, BACK_GROUND_1280_720);
-				else if (g_pUserInformation->iResolution_y < 1024)
-					m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_1280_960)) / 2,
-						(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(BACK_GROUND_1280_960)) / 2, BACK_GROUND_1280_960);
-				else
-					m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_1280_1024)) / 2,
-						(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(BACK_GROUND_1280_1024)) / 2, BACK_GROUND_1280_1024);
-			}
-		}
-		else
-			m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(BACK_GROUND_800_600)) / 2,
-				(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(BACK_GROUND_800_600)) / 2, BACK_GROUND_800_600);
+		// our own background, as before
+		int background = BACK_GROUND_800_600;
 
-		m_image_spk.BltLocked(m_wNewCharBox_X, m_wNewCharBox_Y, NEW_CHAR_BOX);
+		if (g_pUserInformation->iResolution_x > 800)
+		{
+			if (g_pUserInformation->iResolution_x <= 1024)		background = BACK_GROUND_1024_768;
+			else if (g_pUserInformation->iResolution_y < 960)	background = BACK_GROUND_1280_720;
+			else if (g_pUserInformation->iResolution_y < 1024)	background = BACK_GROUND_1280_960;
+			else												background = BACK_GROUND_1280_1024;
+		}
+
+		m_image_spk.BltLocked((g_pUserInformation->iResolution_x - m_image_spk.GetWidth(background)) / 2,
+			(g_pUserInformation->iResolution_y - m_image_spk.GetHeight(background)) / 2, background);
+
+		DrawRenewalCreate();
 
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
@@ -2816,11 +3008,11 @@ void C_VS_UI_NEWCHAR::Show()
 
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		DrawCharFaceSelect();
-		DrawSelect_Race();
-		DrawSelect_Male_OR_Female();
+		DrawSelect_Hair_Skin_Color();	// the face portraits are gone
 
-		DrawSelect_Stet();
+		// ousters spend bonus points by hand; slayers pick a class instead
+		if (m_p_slot->Race == RACE_OUSTERS)
+			DrawSelect_Stet();
 
 #if __CONTENTS(__USER_GRADE)
 #if __CONTENTS(!__IMI_INTERFACE)
@@ -2832,12 +3024,10 @@ void C_VS_UI_NEWCHAR::Show()
 
 		m_pC_use_grade->BltLocked(m_wViolence_X, m_wViolence_Y, VIOLENCE);
 		m_pC_use_grade->BltLocked(m_wFear_X, m_wFear_Y, FEAR);
-#endif // __USER_GRADE	
+#endif // __USER_GRADE
 
 		m_image_spk.BltLocked(m_wTex_Bar_X, m_wTex_Bar_Y, TEXT_BAR);
 		m_image_spk.BltLocked(m_wAni_Mark_X, m_wAni_Mark_Y, ANI_MARK);
-
-		DrawSelect_Hair_Skin_Color();
 
 		m_pC_button_group->Show();
 
@@ -2851,70 +3041,40 @@ void C_VS_UI_NEWCHAR::Show()
 	g_pTopView->DrawTitleEffect(EFFECT_INDEX_FIRE_CENTER);
 
 	g_FL2_GetDC();
+
 	DrawStetText();
+	DrawRenewalCreateText();
 
 	int iLine = 0;
+
 	for (int i = 0; i < LINE_MAX; i++)
 	{
-		//		g_PrintColorStr(m_ptText_Line[i].x, 	m_ptText_Line[i].y,
-		//						m_arrTextLine[i], gpC_base->m_title_menu_pi, RGB_WHITE);
 #if __CONTENTS(__RACE_OUSTERS)
 		if (i == 1)
 			continue;
+
 		g_PrintColorStr(m_ptText_Line[iLine].x, m_ptText_Line[iLine].y,
 			(*g_pGameStringTable)[UI_TITLE_UI_RENEWAL_CREATECHAR_TEXT1 + i].GetString(), gpC_base->m_title_menu_pi, RGB_WHITE);
+
 		if (iLine < LINE_MAX - 1)
 			iLine++;
 #else
 		if (i == 0 || i == 4)
 			continue;
+
 		g_PrintColorStr(m_ptText_Line[iLine].x, m_ptText_Line[iLine].y,
 			(*g_pGameStringTable)[UI_TITLE_UI_RENEWAL_CREATECHAR_TEXT1 + i].GetString(), gpC_base->m_title_menu_pi, RGB_WHITE);
+
 		if (iLine < LINE_MAX - 2)
 			iLine++;
 #endif
 	}
 
-	char szBuffer[256] = { NULL, };
-
-	if (g_LeftPremiumDays == 0xFFFE)
-	{
-		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_NOT_PREMIUM_USER].GetString());
-	}
-	else if (g_LeftPremiumDays == 0xFFFC && g_PayType == 4)
-	{
-		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_DEFERRED_PAYMENT_NOTICE].GetString());
-	}
-	else if (g_LeftPremiumDays > 0 && g_PayType == 1)
-	{
-		if (g_bFamily)
-			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_FAMILY_DAYS].GetString(), g_LeftPremiumDays);
-		else
-			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_DAYS].GetString(), g_LeftPremiumDays);
-	}
-	else if (g_LeftPremiumDays == 0 && g_PayType == 1)
-	{
-		if (g_bFamily)
-			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_EXPIRE_FAMILY_TODAY].GetString());
-		else
-			sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_EXPIRE_PREMIUM_SERVICE_TODAY].GetString());
-	}
-	else if (g_LeftPremiumDays > 0 && g_PayType == 3)
-	{
-		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_PAYZONE_DAYS].GetString(), g_LeftPremiumDays);
-	}
-	else if (g_LeftPremiumDays == 0 && g_PayType == 3)
-	{
-		sprintf(szBuffer, (*g_pGameStringTable)[UI_STRING_MESSAGE_LEFT_PREMIUM_PAYZONE_DAYS].GetString());
-	}
-
-	int szBufferLen = g_GetStringWidth(szBuffer, gpC_base->m_desc_menu_pi.hfont) / 2;
-
-	Window::ShowWidget();
 	g_FL2_ReleaseDC();
 
 	SHOW_WINDOW_ATTR;
 }
+
 
 
 

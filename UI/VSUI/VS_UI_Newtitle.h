@@ -684,6 +684,13 @@ private:
 		SELECT_SLAYER_ID,
 		SELECT_VAMPIRE_ID,
 		SELECT_OUSTERS_ID,
+
+		// a slayer picks a class instead of rolling stats
+		CLASS_SWORD_ID,
+		CLASS_BLADE_ID,
+		CLASS_GUN_ID,
+		CLASS_HEAL_ID,
+		CLASS_ENCHANT_ID,
 	};
 
 	enum
@@ -760,6 +767,15 @@ private:
 	C_SPRITE_PACK				m_common_spk;
 	C_SPRITE_PACK				m_image_spk;
 	C_SPRITE_PACK				m_face_spk;
+	C_SPRITE_PACK				m_renewal_spk;	// CharCreateRenewal.spk
+	int							m_slayer_class;		// index into s_cc_classes
+
+	void						LayoutCreateRenewal();
+	void						DrawRenewalCreate();
+	void						DrawRenewalCreateText();
+	void						DrawCentredLabel(int x, int y, const char* szText, COLORREF color);
+	void						UpdateDerivedStats();
+	void						ApplySlayerClass(int index);
 	C_SPRITE_PACK				m_title_spk;
 	C_SPRITE_PACK* m_pC_use_grade;
 
@@ -814,6 +830,42 @@ private:
 		TEXT_BAR,
 		ANI_MARK,
 		HIDE_OUSTERS_SELECTION_BUTTON,
+	};
+	// CharCreateRenewal.spk - DK Umbra's charcreaterenewal without its
+	// backgrounds and logos, plus two lettered buttons from its char manager
+	enum CHAR_CREATE_RENEWAL_SPK_ID
+	{
+		CCR_MAIN_PANEL = 0,			// 275x470: name, preview, stat table
+		CCR_SIDE_PANEL,				// 145x470: colours and gender
+		CCR_CARD_SLAYER,			// each card: dim then lit
+		CCR_CARD_SLAYER_LIT,
+		CCR_CARD_VAMPIRE,
+		CCR_CARD_VAMPIRE_LIT,
+		CCR_CARD_OUSTERS,
+		CCR_CARD_OUSTERS_LIT,
+		CCR_CHECK,
+		CCR_CHECK_PUSHED,
+		CCR_GENDER,					// the two figures, one sprite
+		CCR_RADIO_OFF,
+		CCR_RADIO_ON,
+		CCR_RADIO_OFF_FOCUS,
+		CCR_RADIO_ON_FOCUS,
+		CCR_RADIO_DOT,				// these two are radio dots, not arrows:
+		CCR_RADIO_RING,				// the rotate arrows are part of the panel art
+		CCR_CLASS_SWORD,			// five domains, dim then lit
+		CCR_CLASS_SWORD_LIT,
+		CCR_CLASS_BLADE,
+		CCR_CLASS_BLADE_LIT,
+		CCR_CLASS_GUN,
+		CCR_CLASS_GUN_LIT,
+		CCR_CLASS_HEAL,
+		CCR_CLASS_HEAL_LIT,
+		CCR_CLASS_ENCHANT,
+		CCR_CLASS_ENCHANT_LIT,
+		CCR_BUTTON_PREV,
+		CCR_BUTTON_PREV_LIT,
+		CCR_BUTTON_CREATE,
+		CCR_BUTTON_CREATE_LIT,
 	};
 
 
