@@ -86,6 +86,18 @@ void GCStashList::read ( SocketInputStream & iStream )
 		
 		iStream.read(rack);
 		iStream.read(index);
+
+		// rack and index come straight off the wire and index a fixed
+		// STASH_RACK_MAX x STASH_INDEX_MAX array, so a stream that has drifted out
+		// of step lands this reference outside m_pItems and the push_back()s below
+		// run on a std::list in whatever memory happens to be there. That is how a
+		// one-byte-per-item read mismatch turned into an access violation rather
+		// than a garbled stash. Refuse the packet instead: there is no resync after
+		// read(), so everything following it is lost either way, and a named
+		// protocol error beats corrupting memory.
+		if ( rack >= STASH_RACK_MAX || index >= STASH_INDEX_MAX )
+			throw InvalidProtocolException("GCStashList: rack/index out of range");
+
 		_STASHITEM& item = m_pItems[rack][index];
 
 		iStream.read(item.objectID);

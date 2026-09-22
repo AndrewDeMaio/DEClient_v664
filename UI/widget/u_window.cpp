@@ -932,18 +932,20 @@ static void ShowOne(Window * p_window)
 		// those would blank out text inside an empty rectangle - the very bug
 		// this is here to fix, in reverse.
 		//
-		// IsPixel is the game's own answer to "is this Window solid here?" -
-		// it is what the mouse is hit-tested against, and the Windows that
-		// paint conditionally already gate it the same way they gate Show.
-		// Probing the middle and the quarter points is enough to tell a
-		// painted panel from one that is not there at all.
+		// IsPaintedAt is the game's own answer to "is this Window solid
+		// here?" - IsPixel, what the mouse is hit-tested against, except in
+		// the Windows whose IsPixel follows the item on the mouse instead of
+		// the point it is given. The Windows that paint conditionally already
+		// gate it the same way they gate Show. Probing the middle and the
+		// quarter points is enough to tell a painted panel from one that is
+		// not there at all.
 		const int mx = (x0 + x1) / 2,  my = (y0 + y1) / 2;
 		const int qx = (x0 + mx)  / 2,  qy = (y0 + my)  / 2;
 		const int rx = (mx + x1)  / 2,  ry = (my + y1)  / 2;
 
-		if (p_window->IsPixel(mx, my) ||
-		    p_window->IsPixel(qx, qy) || p_window->IsPixel(rx, qy) ||
-		    p_window->IsPixel(qx, ry) || p_window->IsPixel(rx, ry))
+		if (p_window->IsPaintedAt(mx, my) ||
+		    p_window->IsPaintedAt(qx, qy) || p_window->IsPaintedAt(rx, qy) ||
+		    p_window->IsPaintedAt(qx, ry) || p_window->IsPaintedAt(rx, ry))
 		{
 			RECT rect;
 			rect.left = x0;  rect.top = y0;  rect.right = x1;  rect.bottom = y1;

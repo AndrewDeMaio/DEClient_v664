@@ -4173,10 +4173,16 @@ MPlayer::TraceSectorToSpecialAction(TYPE_SECTORPOSITION sX, TYPE_SECTORPOSITION 
 	//-----------------------------------------------------
 	// delay�� ������ �ȵȴ�.
 	//-----------------------------------------------------
+	// Ousters Village (zone 1311) is flagged Safety in zone.inf, which otherwise
+	// blocks every tile skill in the zone.  Teleport is let through so Ousters can
+	// still cross their own town; the server allows only that one skill there.
+	bool bVillageTeleport = (m_nSpecialActionInfo == SKILL_TELEPORT
+							&& m_pZone != NULL && m_pZone->GetID() == 1311);
+
 	if (!IsNotDelay()
 		|| HasEffectStatus(EFFECTSTATUS_ETERNITY_PAUSE)
 		|| IsInCasket()	// [�����3]
-		|| g_bZoneSafe
+		|| (g_bZoneSafe && !bVillageTeleport)
 		|| CanActionByZoneInfo()
 		)
 	{

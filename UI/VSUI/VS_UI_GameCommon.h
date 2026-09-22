@@ -1096,6 +1096,7 @@ private:
 	//	void	CancelPushState();
 	bool	AllMatchWindowPixel(int _x, int _y) const;
 	bool	AnyMatchWindowPixel(int _x, int _y) const;
+	bool	IsPaintedAt(int _x, int _y);
 
 protected:
 	bool	Click(int grid_start_x, int grid_start_y);
@@ -1284,6 +1285,7 @@ private:
 	bool	AllMatchWindowPixel(int _x, int _y) const;
 	bool	TestSlotRect(int _x, int _y) const;
 	bool	IsPixel(int _x, int _y);
+	bool	IsPaintedAt(int _x, int _y);
 
 public:
 	C_VS_UI_GEAR();

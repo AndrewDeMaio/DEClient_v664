@@ -246,6 +246,18 @@ public:
 		return w > 0 && h > 0;
 	}
 
+	//
+	// IsPaintedAt
+	//
+	// Does this Window's own art cover (x, y)? WindowManager::ShowOne asks
+	// before it files the occlude rect, to tell a Window that is painting
+	// from one that is merely listed. IsPixel is the usual answer, but a
+	// Window whose IsPixel reports on the item held by the mouse instead of
+	// the point it was handed must override this, or it occludes nothing
+	// while an item is being dragged.
+	//
+	virtual bool IsPaintedAt(int _x, int _y) { return IsPixel(_x, _y); }
+
 	virtual void AcquireMouseFocus() {}		// mouse focus가 설정될 때.
 	virtual void UnacquireMouseFocus() {}	// mouse focus가 해제될 때.
 

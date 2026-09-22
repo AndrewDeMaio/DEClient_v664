@@ -5135,6 +5135,18 @@ bool C_VS_UI_GEAR::IsPixel(int _x, int _y)
 //
 // Item?? ??? ???? ?????? 'item ?????????'?? ???? ???????.
 //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+// C_VS_UI_GEAR::IsPaintedAt
+//
+// While an item is on the mouse IsPixel answers for that item, wherever the
+// pointer is, so it cannot say whether this window paints a given point. The
+// window art can, and it is what covers the text underneath.
+//-----------------------------------------------------------------------------
+bool C_VS_UI_GEAR::IsPaintedAt(int _x, int _y)
+{
+	return m_pC_gear_spk->IsPixel(_x - x, _y - y);
+}
+
 bool C_VS_UI_GEAR::AnyMatchWindowPixel(int _x, int _y) const
 {
 	if (gpC_mouse_pointer->GetPickUpItem())
@@ -9592,6 +9604,16 @@ void C_VS_UI_INVENTORY::Run(id_t id)
 //
 // Item?? ??? ???? ?????? 'item ?????????'?? ???? ???????.
 //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+// C_VS_UI_INVENTORY::IsPaintedAt
+//
+// As in C_VS_UI_GEAR: the window art, not the item on the mouse.
+//-----------------------------------------------------------------------------
+bool C_VS_UI_INVENTORY::IsPaintedAt(int _x, int _y)
+{
+	return m_pC_inventory_spk->IsPixel(_x - x, _y - y);
+}
+
 bool C_VS_UI_INVENTORY::AnyMatchWindowPixel(int _x, int _y) const
 {
 	if (gpC_mouse_pointer->GetPickUpItem())
