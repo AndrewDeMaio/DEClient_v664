@@ -11,11 +11,11 @@
 //-----------------------------------------------------------------------------
 
 //
-// FL2������ DC�� ����ϹǷ� surface�� �ʿ��ϴ�. �̰��� �Ϲ������� ����� 
-// surface�̰�����, offscreen surface�ε� �� �� �ְڴ�.
+// FL2?????? DC?? ??????? surface?? ??????. ????? ????????? ????? 
+// surface???????, offscreen surface??? ?? ?? ????.
 //
-// Unicorn edit line widget���� FL2�� ����ϹǷ� �װ����� �� surface�� ������
-// ���̴�.
+// Unicorn edit line widget???? FL2?? ??????? ??????? ?? surface?? ??????
+// ?????.
 //
 LPDIRECTDRAWSURFACE7	gpC_fl2_surface = NULL;
 HDC gh_FL2_DC = NULL;
@@ -291,7 +291,7 @@ static void s_FL2_EnsureCleared()
 // CD3D9Present::UpdateOverlay, which composites them 1:1 AFTER the upscale.
 // The lo-res path is untouched; the overlay expires every frame.
 // ---------------------------------------------------------------------------
-#define FL2_OV_MAX_REGION 256
+#define FL2_OV_MAX_REGION 1024
 #define FL2_OV_MAX_UPLOAD 64
 #define FL2_OV_MAX_SCALED_FONT 32
 #define FL2_OV_MAX_TEXTLEN 512
@@ -366,7 +366,7 @@ static int  s_fl2_ov_shapeH   = 0;
 static int  s_fl2_ov_shapeSeq = 0;      // regions recorded before it
 static bool s_fl2_ov_shapeOn  = false;
 
-#define FL2_OV_POOL 32768
+#define FL2_OV_POOL 65536
 struct FL2_SCALEDFONT { HFONT base; HFONT scaled; };
 
 static bool    s_fl2_ov_userEnabled = true;    // Resolution.inf "TextOverlay"
@@ -389,7 +389,6 @@ static FL2_OVOCCL    s_fl2_ov_occl[FL2_OV_MAX_OCCL];      // this frame's coveri
 static int           s_fl2_ov_occlN    = 0;
 static FL2_DIRTYRECT s_fl2_ov_prevHi[FL2_OV_MAX_REGION];  // last frame's glyphs, to erase
 static int           s_fl2_ov_prevHiN  = 0;
-static bool          s_fl2_ov_overflow = false;           // whole frame falls back lo-res
 
 static FL2_SCALEDFONT s_fl2_ov_font[FL2_OV_MAX_SCALED_FONT];
 static int            s_fl2_ov_fontN = 0;
@@ -540,7 +539,7 @@ static void s_FL2_OvClearRect(const FL2_DIRTYRECT& e)
 //---------------------------------------------------------------------------
 void g_FL2_OverlayOccludeRect(const RECT* pRect, const char* pszWho)
 {
-	if (pRect == NULL || !s_fl2_ov_on || s_fl2_ov_overflow)
+	if (pRect == NULL || !s_fl2_ov_on)
 		return;
 
 	// Nothing mirrored yet: this paint is underneath every glyph there is.
@@ -658,7 +657,7 @@ void g_FL2_OverlayOccludeShape(const RECT* pRect, FL2_PFN_OPAQUE pfnOpaque, void
 {
 	s_fl2_ov_shapeOn = false;
 
-	if (pRect == NULL || pfnOpaque == NULL || !s_fl2_ov_on || s_fl2_ov_overflow)
+	if (pRect == NULL || pfnOpaque == NULL || !s_fl2_ov_on)
 		return;
 
 	// Nothing mirrored yet: the sprite is underneath every glyph there is.
@@ -727,7 +726,6 @@ static void s_FL2_OverlayRelease()
 	s_fl2_ov_frameN = s_fl2_ov_occlN = s_fl2_ov_prevHiN = 0;
 	s_fl2_ov_shapeOn = false;
 	s_fl2_ov_poolN = 0;
-	s_fl2_ov_overflow = false;
 	s_fl2_ov_on = false;
 	s_fl2_ov_began = false;
 	s_fl2_ov_geomFailed = false;
@@ -896,17 +894,14 @@ static HFONT s_FL2_OverlayFont(HFONT hBase)
 // decline returns false and the caller renders lo-res exactly as before.
 static bool s_FL2_OverlayMirrorTextOut(HDC hdcLo, int x, int y, const char* psz, int len)
 {
-	// Nothing to draw: decline WITHOUT tripping the whole-frame overflow.
-	// (Empty strings do get printed every frame - the chat whisper line for
-	// one - and the bounds helper rejects len<=0, so before this guard a
-	// single empty print discarded the entire frame's crisp text.)
+	// Nothing to draw: decline. (Empty strings do get printed every frame -
+	// the chat whisper line for one - and the bounds helper rejects len<=0.)
 	if (psz == NULL || len <= 0)
 		return false;
 
-	if (!s_FL2_OverlayBegin() || s_fl2_ov_overflow)
+	if (!s_FL2_OverlayBegin())
 	{
-		if (s_fl2_ov_overflow) { FL2_OV_DIAG_INC(mirOverflow); }
-		else                   { FL2_OV_DIAG_INC(mirBeginFail); }
+		FL2_OV_DIAG_INC(mirBeginFail);
 		return false;
 	}
 	if (gpC_fl2_surface != s_fl2_ov_boundSurface)
@@ -915,9 +910,15 @@ static bool s_FL2_OverlayMirrorTextOut(HDC hdcLo, int x, int y, const char* psz,
 		return false;   // mid-frame surface swap (debug paths): leave those draws lo-res
 	}
 
+	// Region list full: this string draws lo-res at its own place in the
+	// frame. Occluders are still filed after it, so a window painted later
+	// covers the crisp text under it exactly as before.
+	//
+	// (This used to discard the entire frame's crisp text, and the strings
+	// mirrored before the cap had already skipped their lo-res copy, so the
+	// whole UI went blank while a four-box gear tooltip was open.)
 	if (s_fl2_ov_frameN >= FL2_OV_MAX_REGION)
 	{
-		s_fl2_ov_overflow = true;
 		FL2_OV_DIAG_INC(mirOverflow);
 		return false;
 	}
@@ -1078,8 +1079,8 @@ void g_SetFL2Surface(LPDIRECTDRAWSURFACE7 surface)
 //-----------------------------------------------------------------------------
 // g_PossibleStringCut
 //
-// sz_str�� position(byte)�� cut�� �� �ִ°� ���θ� ��ȯ�Ѵ�.
-// sz_str�� �ѱ� 2byte, ���� 1byte�̴�.
+// sz_str?? position(byte)?? cut?? ?? ??�? ????? ??????.
+// sz_str?? ??? 2byte, ???? 1byte???.
 //-----------------------------------------------------------------------------
 bool g_PossibleStringCut(const char* sz_str, int position)
 {
@@ -1089,14 +1090,14 @@ bool g_PossibleStringCut(const char* sz_str, int position)
 			return true;
 
 		//
-		// position���� ������ ����� data�� ���� �� �ִ�.
+		// position???? ?????? ????? data?? ???? ?? ???.
 		//
 		// (1) ASCII
-		// (2) �ѱ� 1 byte
-		// (3) �ѱ� 2 byte
+		// (2) ??? 1 byte
+		// (3) ??? 2 byte
 		//
-		// �׷��� (3)�� ��� �� ���� ASCII�� �ƴ϶�� ����� �� ����.
-		// �׷��� ó������ position���� �˻縦 �ؾ� �Ѵ�.
+		// ????? (3)?? ??? ?? ???? ASCII?? ????? ????? ?? ????.
+		// ????? �?????? position???? ??? ??? ???.
 		//
 		enum _CODE
 		{
@@ -1162,14 +1163,14 @@ int g_GetStringWidth2(const char* sz_str, int Index, HFONT hfont)
 	return size.cx;
 }
 
-// sz_str���ڿ���, Width���� ���Ե� �� �ִ� ���ڿ��� Index (base 0)�� �˷��ش�. 
+// sz_str???????, Width???? ????? ?? ??? ??????? Index (base 0)?? ??????. 
 int g_GetStringIndexByWidth(const char* sz_str, int Width, HFONT hfont)
 {
 	int iStrWidth = g_GetStringWidth(sz_str, hfont);
 	int resIndex;
 	int Len = strlen(sz_str);
 
-	if (iStrWidth <= Width)	//��� ���Եȴ�.
+	if (iStrWidth <= Width)	//??? ??????.
 		resIndex = Len - 1;
 	else
 	{
@@ -1183,7 +1184,7 @@ int g_GetStringIndexByWidth(const char* sz_str, int Width, HFONT hfont)
 			if (iStrWidth <= Width)
 				break;
 		}
-		//���� Index����.. Width���� ���� �ʴ� ���ڿ��� ������ ĳ������ ��ġ.
+		//???? Index????.. Width???? ???? ??? ??????? ?????? ??????? ???.
 		resIndex = Index;
 	}
 
@@ -1197,7 +1198,7 @@ int g_PrintColorStr2(int x, int y, const char* sz_str, PrintInfo& pi, COLORREF s
 		return g_PrintColorStr(x, y, sz_str, pi, str_rgb);
 	else
 	{
-		// ����� ���ڿ��� �ȼ� ���̰�, ���� ���̺��� ���. ���� ���̸� ���� �ʵ���.. ���ڿ��� �ڸ���..
+		// ????? ??????? ??? ?????, ???? ??????? ???. ???? ????? ???? ?????.. ??????? ?????..
 		int Len = strlen(sz_str);
 		char* strTemp = new char[Len + 1];
 
@@ -1206,18 +1207,18 @@ int g_PrintColorStr2(int x, int y, const char* sz_str, PrintInfo& pi, COLORREF s
 		{
 			if (!g_PossibleStringCut(sz_str, Index))
 			{
-				//�ڸ� �� ���� Index (�ѱ۵� 2����Ʈ ���ڱ��������� .. ����)�� ���.. �ѹ� �� --
+				//??? ?? ???? Index (???? 2????? ????????????? .. ????)?? ???.. ??? ?? --
 				Index--;
 			}
-			//���ڿ� ���� ��..
+			//????? ???? ??..
 			iStrWidth = g_GetStringWidth2((const char*)sz_str, Index - 1, pi.hfont);
 			if (iStrWidth <= LimitWidth)
 				break;
 		}
-		// ���ڿ��� ó������ �Դٸ�.. �׷����� ���� ��������.. üũ
+		// ??????? �?????? ????.. ??????? ???? ????????.. �?
 		if (Index == 0)
 			return g_PrintColorStr(x, y, sz_str, pi, str_rgb);
-		// �ƴ϶��.. Index ��ŭ��.. �׸���. �ϴ�.. ���� �ڸ� ������.. '..'�� �ٿ�����.
+		// ?????.. Index ?????.. ?????. ???.. ???? ??? ??????.. '..'?? ???????.
 		strncpy_s(strTemp, Len, sz_str, Index - 2);
 		strTemp[Index - 2] = '.';
 		strTemp[Index - 1] = '.';
@@ -1231,10 +1232,10 @@ int g_PrintColorStr2(int x, int y, const char* sz_str, PrintInfo& pi, COLORREF s
 //-----------------------------------------------------------------------------
 // g_GetStringWidth
 //
-// p_str�� null terminated string�̴�.
-// hfont�� �ùٸ��� setting�ؾ� ��Ȯ�� ���� ���´�.
+// p_str?? null terminated string???.
+// hfont?? ?�???? setting??? ????? ???? ???�?.
 //
-// ! �ܺο��� lock�ɸ� �ȵȴ�.
+// ! ?????? lock??? ????.
 //-----------------------------------------------------------------------------
 int g_GetStringWidth(const char* sz_str, HFONT hfont)
 {
@@ -1272,10 +1273,10 @@ int g_GetStringWidth(const char* sz_str, HFONT hfont)
 //-----------------------------------------------------------------------------
 // g_GetStringHeight
 //
-// p_str�� null terminated string�̴�.
-// hfont�� �ùٸ��� setting�ؾ� ��Ȯ�� ���� ���´�.
+// p_str?? null terminated string???.
+// hfont?? ?�???? setting??? ????? ???? ???�?.
 //
-// !�ܺο��� lock�ɸ� �ȵȴ�.
+// !?????? lock??? ????.
 //-----------------------------------------------------------------------------
 int g_GetStringHeight(const char* sz_str, HFONT hfont)
 {
@@ -1308,10 +1309,10 @@ int g_GetStringHeight(const char* sz_str, HFONT hfont)
 //-----------------------------------------------------------------------------
 // g_PrintLen
 //
-// gpC_fl2_surface�� ����Ѵ�.
-// p_str�� null terminated string�̴�.
+// gpC_fl2_surface?? ??????.
+// p_str?? null terminated string???.
 //
-// !�ܺο��� lock�ɸ� �ȵȴ�.
+// !?????? lock??? ????.
 //-----------------------------------------------------------------------------
 void g_PrintLen(int x, int y, const char* sz_str, int str_length, PrintInfo* p_print_info)
 {
@@ -1405,7 +1406,7 @@ void g_DrawText(RECT* pRt, const char* sz_str, PrintInfo* p_print_info)
 		//assert(sz_str != NULL);
 		assert(gpC_fl2_surface != NULL);
 
-		//sz_str�� �����ȼ� ũ��� pRt�� ���� ���Ͽ�, ���ڿ��� �����ǵ�� �� �ֵ��� �� ó���Ѵ�.
+		//sz_str?? ??????? ???? pRt?? ???? ?????, ??????? ???????? ?? ????? ?? �?????.
 
 		int str_length = strlen(sz_str);
 		int destWidth = pRt->right - pRt->left;
@@ -1451,11 +1452,11 @@ void g_DrawText(RECT* pRt, const char* sz_str, PrintInfo* p_print_info)
 			SetBkMode(hdc, p_print_info->bk_mode);
 			SetBkColor(hdc, p_print_info->back_color);
 			SelectObject(hdc, s_FL2_PickFont(p_print_info->hfont, srcStr.c_str(), (int)srcStr.length()));
-			//�׸��� ���
+			//????? ???
 			SetTextColor(hdc, 0);
 			RECT sRt = { pRt->left + 1, pRt->top + 1, pRt->right + 1, pRt->bottom + 1 };
 			DrawText(hdc, srcStr.c_str(), srcStr.length(), &sRt, p_print_info->text_align);
-			//���ڿ� ���
+			//????? ???
 			SetTextColor(hdc, p_print_info->text_color);
 			DrawText(hdc, srcStr.c_str(), srcStr.length(), pRt, p_print_info->text_align);
 
@@ -1486,7 +1487,7 @@ void g_DrawText(RECT* pRt, const char* sz_str, PrintInfo* p_print_info)
 //-----------------------------------------------------------------------------
 // g_DBCSLen
 //
-// p_dbcs�� length�� ��ȯ�Ѵ�.
+// p_dbcs?? length?? ??????.
 //-----------------------------------------------------------------------------
 int g_DBCSLen(const char_t* p_dbcs)
 {
@@ -1524,10 +1525,10 @@ int	g_GetByteLenth(const char_t* p_dbcs, int dbcs_len)
 //-----------------------------------------------------------------------------
 // g_Convert_DBCS_Ascii2SingleByte
 //
-// DBCS Ascii code�� single byte�� �ٲ۴�. �ٸ� ���ڵ��� �״�� ������Ų��.
-// p_new_buf�� new�� �Ҵ��Ѵ�. ���� �ܺο��� p_new_buf�� delete����� �Ѵ�.
+// DBCS Ascii code?? single byte?? ????. ??? ??????? ???? ?????????.
+// p_new_buf?? new?? ??????. ???? ?????? p_new_buf?? delete????? ???.
 //
-// ����� buffer�� ����(by byte)�� ��ȯ�Ѵ�.
+// ????? buffer?? ????(by byte)?? ??????.
 //-----------------------------------------------------------------------------
 int g_Convert_DBCS_Ascii2SingleByte(const char_t* p_dbcs, int dbcs_len, char*& p_new_buf)
 {
@@ -1573,8 +1574,8 @@ int g_Convert_DBCS_Ascii2SingleByte(const char_t* p_dbcs, int dbcs_len, char*& p
 //-----------------------------------------------------------------------------
 // g_ConvertAscii2DBCS
 //
-// ascii code(single byte���� ����)�� DBCS�� ��ȯ�Ͽ� p_new_buf�� �Ҵ��Ѵ�.
-// p_new_buf�� �ܺο��� delete�ؾ� �Ѵ�.
+// ascii code(single byte???? ????)?? DBCS?? ?????? p_new_buf?? ??????.
+// p_new_buf?? ?????? delete??? ???.
 //
 //-----------------------------------------------------------------------------
 // p_ascii:		single byte string
@@ -1608,8 +1609,8 @@ int g_ConvertAscii2DBCS(const char* p_ascii, int ascii_len, char_t*& p_new_buf)
 			i++;
 		}
 
-	// ��Ȯ�� size�� buffer�� p_new_buf�� ����Ű���� �Ѵ�.
-	// �ѱ��� ���ԵǸ� dbcs�� ascii_len�� �ٸ���.
+	// ????? size?? buffer?? p_new_buf?? ????????? ???.
+	// ????? ?????? dbcs?? ascii_len?? ?????.
 	p_new_buf = new char_t[dbcs + 1];
 
 	for (int m = 0; m < dbcs; m++)
@@ -1621,7 +1622,7 @@ int g_ConvertAscii2DBCS(const char* p_ascii, int ascii_len, char_t*& p_new_buf)
 	return dbcs;
 }
 
-// DC�� Get�Ѵ�.
+// DC?? Get???.
 // ---------------------------------------------------------------------------
 // s_FL2_EnsureFallbackDC
 // Lazily creates the DIBSection and memory DC on first use.
@@ -1744,7 +1745,7 @@ static void s_FL2_BlitFallbackToSurface()
 		{
 			DWORD p = src[x];
 			if (p == FL2_FB_COLORKEY)
-				continue;   // transparent – leave destination pixel untouched
+				continue;   // transparent � leave destination pixel untouched
 
 			// GDI DIBSection (BI_RGB, 32-bit) stores pixels as 0x00RRGGBB
 			BYTE r = (BYTE)(p >> 16);
@@ -1795,7 +1796,7 @@ bool	g_FL2_GetDC()
 			}
 		}
 
-		// GetDC failed – this surface is likely 16-bit (modern Windows limitation).
+		// GetDC failed � this surface is likely 16-bit (modern Windows limitation).
 		// Use the GDI DIBSection fallback instead.
 		gh_FL2_DC = NULL;
 		if (s_FL2_EnsureFallbackDC())
@@ -1821,7 +1822,7 @@ bool	g_FL2_GetDC()
 			return true;
 		}
 
-		return false;   // completely out of options – caller gets NULL hdc
+		return false;   // completely out of options � caller gets NULL hdc
 	}
 
 	return false;
@@ -1841,7 +1842,7 @@ void g_FL2_MarkDirty()
 	}
 }
 
-// DC�� Release �Ѵ�.
+// DC?? Release ???.
 bool	g_FL2_ReleaseDC()
 {
 	assert(!gpC_base->m_p_DDSurface_back->IsLock());
@@ -1868,12 +1869,12 @@ bool	g_FL2_ReleaseDC()
 		}
 		else if (s_fl2_bare_active)
 		{
-			// Bare measure-only DC – nothing to copy back.
+			// Bare measure-only DC � nothing to copy back.
 			s_fl2_bare_active = false;
 		}
 		else
 		{
-			// Real DirectDraw DC – release normally.
+			// Real DirectDraw DC � release normally.
 			gpC_fl2_surface->ReleaseDC(gh_FL2_DC);
 		}
 
@@ -1886,11 +1887,11 @@ bool	g_FL2_ReleaseDC()
 
 
 ////////////////////////////////////////////////
-// �̸� �ٿ��ִ� �ҽ� by sonee
+// ??? ?????? ??? by sonee
 //
-// �� ���ڸ� 40�ڷ� ���̰� ������ ReduceString(str,40);
-// str ��ü�� �����Ѵ�.
-// �������� �ʰ� ���ϰ����� �Ұ�� ������ ����κ��� ���� �׳� �����ϸ��
+// ?? ????? 40??? ????? ?????? ReduceString(str,40);
+// str ??�?? ???????.
+// ???????? ??? ????????? ???? ?????? ???????? ???? ??? ????????
 ////////////////////////////////////////////////
 
 void ReduceString(char* str, int len)
@@ -1931,7 +1932,7 @@ void ReduceString(char* str, int len)
 	}
 }
 
-// �޺κп� ... �� ����ش�.				 by sonee
+// ????? ... ?? ??????.				 by sonee
 void ReduceString2(char* str, int len)
 {
 	if (len < 15) return;
@@ -1990,7 +1991,7 @@ void ReduceString3(char* str, int len)
 //-----------------------------------------------------------------------------
 // g_PrintColorStrLen
 //
-// str�� ����� ���� x�� ��ȯ�Ѵ�.
+// str?? ????? ???? x?? ??????.
 //-----------------------------------------------------------------------------
 int g_PrintColorStrLen(int x, int y, const char* sz_str, int str_length, PrintInfo& pi, COLORREF str_rgb)
 {
@@ -2014,7 +2015,7 @@ int g_PrintColorStrLen(int x, int y, const char* sz_str, int str_length, PrintIn
 //-----------------------------------------------------------------------------
 // g_PrintColorStrOut
 //
-// str�� ����� ���� x�� ��ȯ�Ѵ�.
+// str?? ????? ???? x?? ??????.
 //-----------------------------------------------------------------------------
 int g_PrintColorStrOut(int x, int y, const char* sz_str, PrintInfo& pi, COLORREF str_rgb, COLORREF out_rgb)
 {
@@ -2041,7 +2042,7 @@ int g_PrintColorStrOut(int x, int y, const char* sz_str, PrintInfo& pi, COLORREF
 //-----------------------------------------------------------------------------
 // g_PrintColorStrShadow
 //
-// str�� ����� ���� x�� ��ȯ�Ѵ�.
+// str?? ????? ???? x?? ??????.
 //-----------------------------------------------------------------------------
 int g_PrintColorStrShadow(int x, int y, const char* sz_str, PrintInfo& pi, COLORREF str_rgb, COLORREF shadow_rgb)
 {
@@ -2090,21 +2091,21 @@ std::string g_GetStringByMoney(DWORD dwMoney)
 	char TempBuffer[32] = { 0, };
 	std::string sstr;
 	DWORD TempMoney = 0;
-	if (dwMoney >= 100000000) // ��
+	if (dwMoney >= 100000000) // ??
 	{
 		TempMoney = dwMoney / 100000000;
 		if (TempMoney)
 		{
-			wsprintf(TempBuffer, "%d��", TempMoney);
+			wsprintf(TempBuffer, "%d??", TempMoney);
 			sstr += TempBuffer;
 		}
 	}
-	if (dwMoney >= 10000) // ��
+	if (dwMoney >= 10000) // ??
 	{
 		TempMoney = (dwMoney % 100000000) / 10000;
 		if (TempMoney)
 		{
-			wsprintf(TempBuffer, "%d��", TempMoney);
+			wsprintf(TempBuffer, "%d??", TempMoney);
 			sstr += TempBuffer;
 		}
 	}
@@ -2199,7 +2200,7 @@ bool g_FL2_CaretMirrored(HDC hdcLo, int xBase, int yBase, const char* psz, int l
 {
 	if (!s_fl2_fb_active)
 		return false;
-	if (!s_FL2_OverlayBegin() || s_fl2_ov_overflow)
+	if (!s_FL2_OverlayBegin())
 		return false;
 	if (gpC_fl2_surface != s_fl2_ov_boundSurface)
 		return false;
@@ -2278,6 +2279,8 @@ void g_FL2_OverlayFlush()
 	s_diag.lastFrameN = s_fl2_ov_frameN;
 	s_diag.lastOcclN  = s_fl2_ov_occlN;
 	s_diag.regionsTotal += s_fl2_ov_frameN;
+	if (s_fl2_ov_frameN >= FL2_OV_MAX_REGION)
+		s_diag.flushOverflow++;   // frames that filled the region list
 	s_FL2_DiagDump();
 #endif
 
@@ -2289,31 +2292,9 @@ void g_FL2_OverlayFlush()
 		FL2_OV_DIAG_INC(flushInactive);
 		s_fl2_ov_frameN = s_fl2_ov_occlN = 0;
 		s_fl2_ov_poolN = 0;
-		s_fl2_ov_overflow = false;
 		return;
 	}
 	s_fl2_ov_on = false;
-
-	// Whole-frame fallback: something exceeded the tracking limits. Clear
-	// everything and push one full transparent rect so no stale texel can
-	// ever resurface.
-	if (s_fl2_ov_overflow)
-	{
-		FL2_OV_DIAG_INC(flushOverflow);
-		FL2_DIRTYRECT all = { 0, 0, s_fl2_ov_w, s_fl2_ov_h };
-		s_FL2_OvClearRect(all);
-
-		RECT rc = { 0, 0, s_fl2_ov_w, s_fl2_ov_h };
-		CD3D9Present::UpdateOverlay((const unsigned long*)s_fl2_ov_bits,
-		                            s_fl2_ov_w, s_fl2_ov_h, s_fl2_ov_w,
-		                            &rc, 1, FL2_FB_COLORKEY);
-
-		s_fl2_ov_prevHiN = 0;
-		s_fl2_ov_frameN = s_fl2_ov_occlN = 0;
-		s_fl2_ov_poolN = 0;
-		s_fl2_ov_overflow = false;
-		return;
-	}
 
 	// Frame with no text at all: erase last frame's glyphs from the texture
 	// (Begin never ran, so the DIB still holds them).

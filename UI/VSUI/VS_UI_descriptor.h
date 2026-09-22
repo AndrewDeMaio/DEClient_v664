@@ -95,6 +95,10 @@ public:
 	// 같은 종류의 pointer인 경우만 제거한다.
 	void	Unset(void* pPtr=NULL);	// by sigi
 
+	// Moves a description that is already set. Callers that lay out several
+	// boxes together call this after Set, once every box's size is known.
+	void	MoveDesc(void* void_ptr, int x, int y);
+
 	void	Show();
 
 	void	AddDescribedUnit(id_t id, void (*fp_rect_calculator)(void (*fp_show)(Rect, void *, long, long), int, int, void *, long, long, int), void (*fp_show)(Rect, void *, long, long), bool bl_immediate=true);

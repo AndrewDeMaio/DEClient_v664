@@ -10311,106 +10311,86 @@ void C_VS_UI_INVENTORY::Show()
 			std::vector<int> slotIndices;
 			gC_vs_ui.GetSlotIndicesItemCanReplace(p_selected_item, slotIndices);
 
-			std::vector<int>::reverse_iterator iter = slotIndices.rbegin();
-			std::vector<int>::reverse_iterator endIter = slotIndices.rend();
+			// The hovered item's box, copied: the map changes as boxes are set.
+			const Rect selRect = selectedItemDesc->m_fp_show_param.rect;
 
-			std::set<const MItem*> itemSet;
+			// Pass 1: set a box for each equipped item the hovered one could
+			// replace, to learn its size. The calculator places a box relative
+			// to an anchor (above it, or below when there is no room), so the
+			// anchor here is a dummy and pass 2 moves every box.
+			std::vector<const MItem*> items;
+			std::vector<Rect> boxes;
 
-			const int gap = 5;
-			const int startX = x + GetFocusedItemGridX(p_selected_item) + selectedItemDesc->m_fp_show_param.rect.w + gap;
-			const int startY = y + GetFocusedItemGridY(p_selected_item) + gap;
-
-			int count = 0;
-			int size = slotIndices.size();
-			int offsetX = 0;
-			int offsetY = 0;
-			int maxY = 0;
-			int stringOffsetY = -1;
-
-			for (; iter != endIter; ++iter)
+			for (std::vector<int>::reverse_iterator iter = slotIndices.rbegin(); iter != slotIndices.rend(); ++iter)
 			{
 				const MItem* gearItem = gC_vs_ui.GetGearItem(*iter);
 
-				if (!gearItem)
+				if (!gearItem || std::find(items.begin(), items.end(), gearItem) != items.end())
 					continue;
 
-				if (itemSet.find(gearItem) == itemSet.end())
-					itemSet.insert(gearItem);
-				else
+				g_descriptor_manager.Set(DID_ITEM, 0, 0, (void*)gearItem, 0, 0, true);
+
+				const DescriptorManager::DESC* desc = g_descriptor_manager.GetDesc((void*)gearItem);
+
+				if (desc == NULL)
 					continue;
 
-				if ((count % 2) == 0)
+				items.push_back(gearItem);
+				boxes.push_back(desc->m_fp_show_param.rect);
+			}
+
+			// Pass 2: two boxes per row, each row top-aligned and starting
+			// below the tallest box of the row above.
+			const int per_row = 2;
+			const int gap = 5;
+			const int count = items.size();
+
+			std::vector<int> offsetX(count), offsetY(count);
+			int total_w = 0, total_h = 0;
+
+			for (int row = 0; row < count; row += per_row)
+			{
+				int row_w = 0, row_h = 0;
+
+				for (int i = row; i < min(count, row + per_row); i++)
 				{
-					offsetX = 0;
-					offsetY += maxY;
-					maxY = 0;
+					offsetX[i] = row_w;
+					offsetY[i] = total_h;
+					row_w += boxes[i].w;
+					row_h = max(row_h, boxes[i].h);
 				}
 
-				g_descriptor_manager.Set(DID_ITEM,
-					x + GetFocusedItemGridX(p_selected_item) + selectedItemDesc->m_fp_show_param.rect.w + gap + offsetX,
-					y + GetFocusedItemGridY(p_selected_item) + gap + offsetY,
-					(void*)gearItem, 0, 0, true);
-
-				const DescriptorManager::DESC* desc = g_descriptor_manager.GetDesc((void*)gearItem);
-
-				if (desc->m_fp_show_param.rect.h > maxY)
-					maxY = desc->m_fp_show_param.rect.h;
-
-				if (stringOffsetY == -1)
-					stringOffsetY = desc->m_fp_show_param.rect.h;
-
-				offsetX += desc->m_fp_show_param.rect.w;
-
-				++count;
+				total_w = max(total_w, row_w);
+				total_h += row_h;
 			}
 
+			// Beside the hovered item's box: right of it, else left of it,
+			// else against the right edge of the screen.
+			const int res_x = g_pUserInformation->iResolution_x;
+			const int res_y = g_pUserInformation->iResolution_y;
 
-			int z_order = 0;
-			int z_speed = 1;
+			int left = selRect.x + selRect.w + gap;
 
-
-
-			int scroll = abs(m_nGearItemQuickViewScroll / 3);
-
-			for (; iter != endIter; ++iter)
+			if (left + total_w > res_x)
 			{
-				const MItem* gearItem = gC_vs_ui.GetGearItem(*iter);
+				left = selRect.x - gap - total_w;
 
-				if (!gearItem)
-					continue;
-
-				if (itemSet.find(gearItem) == itemSet.end())
-					itemSet.insert(gearItem);
-				else
-					continue;
-
-				if (scroll == count)
-					z_speed = -1;
-
-				g_descriptor_manager.Set(DID_ITEM,
-					x + GetFocusedItemGridX(p_selected_item) + selectedItemDesc->m_fp_show_param.rect.w + gap + count * gap,
-					y + GetFocusedItemGridY(p_selected_item) + gap + count * gap,
-					(void*)gearItem, 0, 0, true, z_order);
-
-				const DescriptorManager::DESC* desc = g_descriptor_manager.GetDesc((void*)gearItem);
-
-				if (stringOffsetY == -1)
-					stringOffsetY = desc->m_fp_show_param.rect.h;
-
-				++count;
-				z_order += z_speed;
+				if (left < 0)
+					left = max(0, res_x - total_w);
 			}
+
+			int top = selRect.y;
+
+			if (top + total_h > res_y)
+				top = max(0, res_y - total_h);
+
+			for (int i = 0; i < count; i++)
+				g_descriptor_manager.MoveDesc((void*)items[i], left + offsetX[i], top + offsetY[i]);
 
 			if (m_nGearItemQuickViewScroll < 0)
 				m_nGearItemQuickViewScroll = 0;
-			if (m_nGearItemQuickViewScroll >= itemSet.size() * 3)
-				m_nGearItemQuickViewScroll = itemSet.size() * 3 - 1;
-
-
-
-			// 			g_FL2_GetDC();
-			// 			g_PrintColorStr(startX, startY-stringOffsetY-15, "???????? ??????",  gpC_base->m_info_pi, RGB_WHITE);
-			// 			g_FL2_ReleaseDC();
+			if (m_nGearItemQuickViewScroll >= count * 3)
+				m_nGearItemQuickViewScroll = count * 3 - 1;
 		}
 	}
 	//

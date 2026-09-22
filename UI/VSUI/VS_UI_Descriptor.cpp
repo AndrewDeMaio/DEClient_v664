@@ -99,20 +99,37 @@ void	DescriptorManager::Unset(void* pPtr)
 		return;
 	}
 
+	// Every entry: a pointer left behind here outlives the item it describes.
+	DescMap::iterator iter = m_DescMap.begin();
+
+	while (iter != m_DescMap.end())
+	{
+		if (iter->second.m_fp_show_param.void_ptr == pPtr)
+			m_DescMap.erase(iter++);
+		else
+			++iter;
+	}
+}
+
+//-----------------------------------------------------------------------------
+// DescriptorManager::MoveDesc
+//
+//
+//-----------------------------------------------------------------------------
+void	DescriptorManager::MoveDesc(void* void_ptr, int x, int y)
+{
 	DescMap::iterator iter = m_DescMap.begin();
 	DescMap::iterator endIter = m_DescMap.end();
 
 	for(; iter != endIter; ++iter)
 	{
-		const DESC& desc = iter->second;
-
-		if(desc.m_fp_show_param.void_ptr == pPtr)
+		if (iter->second.m_fp_show_param.void_ptr == void_ptr)
 		{
-			m_DescMap.erase(iter);
-			break;
+			iter->second.m_fp_show_param.rect.x = x;
+			iter->second.m_fp_show_param.rect.y = y;
+			return;
 		}
 	}
-
 }
 
 
@@ -174,6 +191,12 @@ void	DescriptorManager::RectCalculationFinished(void (*fp_show)(Rect, void *, lo
 	desc.m_fp_show_param.rect = rect;
 	desc.m_fp_show_param.left = left;
 	desc.m_fp_show_param.right = right;
-	
+
+	// One box per described object. The inventory's gear quick view sets its
+	// boxes again every frame; without this each frame stacked another copy
+	// until the mouse moved, darkening the boxes and flooding the text overlay.
+	if (void_ptr != NULL)
+		Unset(void_ptr);
+
 	m_DescMap.insert(DescMap::value_type(z_order, desc));
 }
