@@ -3924,8 +3924,17 @@ void		UI_RunAskGoBilingPage(int n)
 
 void		UI_RunQuestList(GCSelectQuestID *pPacket)
 {		
-	if( g_pQuestInfoManager == NULL || pPacket->empty())
+	if( g_pQuestInfoManager == NULL )
 		return;
+
+	// No quest fits the player's grade (Slayer) or level: say so and leave the NPC
+	// menu usable, instead of waiting for an answer that never comes.
+	if( pPacket->empty() )
+	{
+		g_pPlayer->SetWaitVerifyNULL();
+		g_pUIDialog->PopupFreeMessageDlg( (*g_pGameStringTable)[UI_STRING_MESSAGE_FAIL_MONSTER_KILL_QUEST_BY_STATUS].GetString() );
+		return;
+	}
 
 	g_pPlayer->SetWaitVerifyNULL();
 	g_pPCTalkBox->Release();	

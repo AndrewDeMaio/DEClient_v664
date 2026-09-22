@@ -66,13 +66,17 @@
 
 #define WHISPER_MAX 10	// by larosel
 
-#define MAX_SLAYER_ATTR_OLD				200
-#define MAX_SLAYER_ATTR_SUM_OLD			300
+// Slayer stat limits, the server's (Slayer.h): while no skill domain is past
+// level MAX_SLAYER_DOMAIN_SUM_OLD and the three stats total
+// MAX_SLAYER_ATTR_SUM_OLD or less, one stat stops at MAX_SLAYER_ATTR_OLD; after
+// that at MAX_SLAYER_ATTR, with the total held at MAX_SLAYER_ATTR_SUM.
+#define MAX_SLAYER_ATTR_OLD				210
+#define MAX_SLAYER_ATTR_SUM_OLD			330
 #define MAX_SLAYER_DOMAIN_SUM_OLD		100
 #define MAX_VAMPIRE_LEVEL_OLD			100
 
-#define	MAX_SLAYER_ATTR					290
-#define	MAX_SLAYER_ATTR_SUM				435
+#define	MAX_SLAYER_ATTR					315
+#define	MAX_SLAYER_ATTR_SUM				475
 #define MAX_VAMPIRE_LEVEL				150
 
 
@@ -987,6 +991,174 @@ void C_VS_UI_TRIBE::PlaceSkillBox(bool bl_force)
 static const int SIMPLE_STAT_COLUMN_X[3] = { 20, 97, 178 };
 static const COLORREF SIMPLE_STAT_RGB[3] = { RGB(255, 0, 0), RGB(0, 255, 0), RGB(0, 100, 255) };
 
+// While a slayer's stats can still grow, each column ends in an EXP ring, and
+// the columns close up to the left to make room for it.
+static const int SIMPLE_STAT_RING_COLUMN_X[3] = { 14, 92, 170 };
+static const int SIMPLE_STAT_RING_X = 50;		// the ring's left edge, from its column's
+static const int SIMPLE_STAT_RING_TOP = -1;		// its top, from the stat row's
+static const int SIMPLE_STAT_RING_D = 14;		// across
+
+//-----------------------------------------------------------------------------
+// Slayer stat EXP
+//
+// How the server grows a slayer's stats (Slayer::divideAttrExp): each has its
+// own EXP toward its next point, up to the limits at MAX_SLAYER_ATTR_OLD. A
+// stat at its limit takes no more EXP. Once the three total
+// MAX_SLAYER_ATTR_SUM every point has been handed out, and a stat only rises
+// by taking a point from another.
+//-----------------------------------------------------------------------------
+struct SLAYER_STAT_EXP
+{
+	int		cap;		// the most the stat can reach for now
+	int		goal;		// EXP its next point takes; 0 once it is at its cap
+	int		remain;		// how much of that is still to earn
+};
+
+static void g_GetSlayerStatExp(int stat, SLAYER_STAT_EXP& info)
+{
+	const int pure[3] = { g_char_slot_ingame.STR_PURE, g_char_slot_ingame.DEX_PURE, g_char_slot_ingame.INT_PURE };
+	const int remain[3] = { g_char_slot_ingame.STR_EXP_REMAIN, g_char_slot_ingame.DEX_EXP_REMAIN, g_char_slot_ingame.INT_EXP_REMAIN };
+
+	int domain_level_max = 0;
+
+	for (int d = SKILLDOMAIN_BLADE; d <= SKILLDOMAIN_ENCHANT; d++)
+		domain_level_max = max(domain_level_max, (*g_pSkillManager)[d].GetDomainLevel());
+
+	const bool bl_bound = domain_level_max <= MAX_SLAYER_DOMAIN_SUM_OLD &&
+		pure[0] + pure[1] + pure[2] <= MAX_SLAYER_ATTR_SUM_OLD;
+
+	info.cap = bl_bound ? MAX_SLAYER_ATTR_OLD : MAX_SLAYER_ATTR;
+	info.goal = 0;
+	info.remain = 0;
+
+	// This also keeps the lookup inside the EXP tables, which stop at
+	// MAX_SLAYER_ATTR. A negative remainder is how older servers marked a
+	// capped stat.
+	if (pure[stat] < 1 || pure[stat] >= info.cap || remain[stat] < 0)
+		return;
+
+	const ExpInfo& exp = stat == 0 ? g_pExperienceTable->GetSTRInfo(pure[0])
+		: stat == 1 ? g_pExperienceTable->GetDEXInfo(pure[1])
+		: g_pExperienceTable->GetINTInfo(pure[2]);
+
+	if (exp.GoalExp <= 0)
+		return;
+
+	info.goal = exp.GoalExp;
+	info.remain = min(remain[stat], info.goal);
+}
+
+// The rings show while a slayer still has stat points to earn.
+static bool g_IsSlayerStatRingShown()
+{
+	return g_eRaceInterface == RACE_SLAYER &&
+		g_char_slot_ingame.STR_PURE + g_char_slot_ingame.DEX_PURE + g_char_slot_ingame.INT_PURE < MAX_SLAYER_ATTR_SUM;
+}
+
+// How far a slayer stat is toward its next point, in tenths of a percent. A
+// stat at its cap is full, which is where the server leaves its EXP.
+static int g_GetSlayerStatPermille(int stat)
+{
+	SLAYER_STAT_EXP info;
+	g_GetSlayerStatExp(stat, info);
+
+	if (info.goal <= 0)
+		return 1000;
+
+	return (int)((__int64)(info.goal - info.remain) * 1000 / info.goal);
+}
+
+// How much of a pixel at dist from a disc's centre the disc covers, 0 to 1.
+static float g_DiscCoverage(float radius, float dist)
+{
+	const float cover = radius - dist + 0.5f;
+	return cover < 0 ? 0 : (cover > 1 ? 1 : cover);
+}
+
+// From colour a to colour b by t (0 to 1), channel by channel, in the back
+// surface's 16-bit format.
+static WORD g_BlendPixel(WORD a, WORD b, float t)
+{
+	if (t <= 0)
+		return a;
+
+	if (t >= 1)
+		return b;
+
+	const bool bl_565 = CDirectDraw::Is565();
+	const int mask[3] = { bl_565 ? 0xF800 : 0x7C00, bl_565 ? 0x07E0 : 0x03E0, 0x001F };
+	const int k = (int)(t * 256);
+	WORD out = 0;
+
+	for (int i = 0; i < 3; i++)
+	{
+		const int ca = a & mask[i];
+		const int cb = b & mask[i];
+		out |= (WORD)((ca + (((cb - ca) * k) >> 8)) & mask[i]);
+	}
+
+	return out;
+}
+
+//-----------------------------------------------------------------------------
+// g_DrawExpRing
+//
+// An EXP bar bent into a ring d pixels across, its top-left at (left, top):
+// the track's light rim round its dark trough, and the fill laid clockwise
+// from 12 o'clock as far as permille, its colours running round the ring as
+// they run along the bar. The colours are read from the bar's own sprites,
+// and the edges blend into what is under them. Needs the back surface locked.
+//-----------------------------------------------------------------------------
+static void g_DrawExpRing(C_SPRITE_PACK* p_spk, SPRITE_ID track, SPRITE_ID fill, int left, int top, int d, int permille)
+{
+	const CSprite& track_sprite = p_spk->GetSprite(track);
+	const CSprite& fill_sprite = p_spk->GetSprite(fill);
+
+	const WORD rim = track_sprite.GetPixel(1, 0);
+	const WORD trough = track_sprite.GetPixel(1, 1);
+	const int fill_w = fill_sprite.GetWidth();
+	const int fill_row = fill_sprite.GetHeight() / 2;
+
+	WORD* mem = (WORD*)gpC_base->m_p_DDSurface_back->GetSurfacePointer();
+	const long pitch = gpC_base->m_p_DDSurface_back->GetSurfacePitch() / 2;
+
+	// the trough is 2.5px wide, with a 1px rim either side of it
+	const float outer = d / 2.0f;
+	const float hole = outer - 4.5f;
+	const float cx = left + outer;
+	const float cy = top + outer;
+
+	for (int py = max(0, top); py < min(top + d, g_pUserInformation->iResolution_y); py++)
+	{
+		for (int px = max(0, left); px < min(left + d, g_pUserInformation->iResolution_x); px++)
+		{
+			const float dx = px + 0.5f - cx;
+			const float dy = py + 0.5f - cy;
+			const float dist = sqrtf(dx * dx + dy * dy);
+			const float cover = g_DiscCoverage(outer, dist) * (1 - g_DiscCoverage(hole, dist));
+
+			if (cover <= 0)
+				continue;
+
+			// how far round from 12 o'clock, clockwise, 0 to 1
+			float turn = atan2f(dx, -dy) / 6.2831853f;
+
+			if (turn < 0)
+				turn += 1;
+
+			const WORD band = (turn * 1000 < permille)
+				? fill_sprite.GetPixel(min(fill_w - 1, (int)(turn * fill_w)), fill_row)
+				: trough;
+
+			WORD color = g_BlendPixel(rim, band, g_DiscCoverage(outer - 1, dist));
+			color = g_BlendPixel(color, rim, g_DiscCoverage(hole + 1, dist));
+
+			WORD& dest = mem[py * pitch + px];
+			dest = g_BlendPixel(dest, color, cover);
+		}
+	}
+}
+
 void C_VS_UI_TRIBE::SetupMenuItems()
 {
 	m_pC_simple_spk = new C_SPRITE_PACK(SPK_SIMPLE_INFORMATION);
@@ -1048,6 +1220,16 @@ void	C_VS_UI_TRIBE::Show()
 		{
 			m_pC_simple_spk->BltLocked(x, y, SIMPLE_PANEL);
 			ShowDayBar();
+
+			if (g_IsSlayerStatRingShown())
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					g_DrawExpRing(m_pC_simple_spk, SIMPLE_EXP_TRACK, SIMPLE_EXP_FILL,
+						x + SIMPLE_STAT_RING_COLUMN_X[i] + SIMPLE_STAT_RING_X, y + SIMPLE_SLAYER_STAT_Y + SIMPLE_STAT_RING_TOP,
+						SIMPLE_STAT_RING_D, g_GetSlayerStatPermille(i));
+				}
+			}
 		}
 
 		m_pC_common_button_group->Show();
@@ -1157,15 +1339,20 @@ void C_VS_UI_TRIBE::ShowSimpleStats(int row_y, int* value_x)
 	PrintInfo& pi = gpC_base->m_chatting_pi;
 	char sz_value[16];
 
+	// with a ring, the value centres between the label and the ring
+	const bool bl_rings = g_IsSlayerStatRingShown();
+	const int* column_x = bl_rings ? SIMPLE_STAT_RING_COLUMN_X : SIMPLE_STAT_COLUMN_X;
+	const int column_w = bl_rings ? SIMPLE_STAT_RING_X : SIMPLE_STAT_W;
+
 	for (int i = 0; i < 3; i++)
 	{
 		wsprintf(sz_value, "%d", value[i]);
 
 		const int label_w = g_GetStringWidth(label[i], pi.hfont);
-		const int gap = max(4, (SIMPLE_STAT_W - label_w - g_GetStringWidth(sz_value, pi.hfont)) / 2);
-		const int number_x = x + SIMPLE_STAT_COLUMN_X[i] + label_w + gap;
+		const int gap = max(4, (column_w - label_w - g_GetStringWidth(sz_value, pi.hfont)) / 2);
+		const int number_x = x + column_x[i] + label_w + gap;
 
-		g_PrintColorStrOut(x + SIMPLE_STAT_COLUMN_X[i], y + row_y, label[i], pi, RGB_WHITE, SIMPLE_STAT_RGB[i]);
+		g_PrintColorStrOut(x + column_x[i], y + row_y, label[i], pi, RGB_WHITE, SIMPLE_STAT_RGB[i]);
 		g_PrintColorStrOut(number_x, y + row_y, sz_value, pi, SIMPLE_STAT_RGB[i], RGB_BLACK);
 
 		if (value_x != NULL)
@@ -3159,11 +3346,15 @@ void C_VS_UI_TRIBE::ShowSimpleDescription(int _x, int _y)
 
 	int stat = -1, domain = -1;
 
-	if (_y >= SIMPLE_SLAYER_STAT_Y && _y < SIMPLE_SLAYER_STAT_Y + 14)
+	if (_y >= SIMPLE_SLAYER_STAT_Y + SIMPLE_STAT_RING_TOP && _y < SIMPLE_SLAYER_STAT_Y + 14)
 	{
+		const bool bl_rings = g_IsSlayerStatRingShown();
+		const int* column_x = bl_rings ? SIMPLE_STAT_RING_COLUMN_X : SIMPLE_STAT_COLUMN_X;
+		const int column_w = bl_rings ? SIMPLE_STAT_RING_X + SIMPLE_STAT_RING_D : SIMPLE_STAT_W;
+
 		for (int i = 0; i < 3; i++)
 		{
-			if (_x >= SIMPLE_STAT_COLUMN_X[i] && _x < SIMPLE_STAT_COLUMN_X[i] + SIMPLE_STAT_W)
+			if (_x >= column_x[i] && _x < column_x[i] + column_w)
 				stat = i;
 		}
 	}
@@ -3181,67 +3372,67 @@ void C_VS_UI_TRIBE::ShowSimpleDescription(int _x, int _y)
 	if (stat < 0 && domain < 0)
 		return;
 
-	static char temp_str[256];
-	static LPSTR str[1] = { temp_str };
+	static char temp_str[2][256];
+	static LPSTR str[2] = { temp_str[0], temp_str[1] };
 
-	int remain = -1, percent = -1, fame = -1;
-	bool bMax = false, bFame = false;
-
+	// A stat: the EXP it has toward its next point, and how much is left.
 	if (stat >= 0)
 	{
-		const int pure[3] = { g_char_slot_ingame.STR_PURE, g_char_slot_ingame.DEX_PURE, g_char_slot_ingame.INT_PURE };
-		const int stat_remain[3] = { g_char_slot_ingame.STR_EXP_REMAIN, g_char_slot_ingame.DEX_EXP_REMAIN, g_char_slot_ingame.INT_EXP_REMAIN };
-
-		const __int64 goal_exp = stat == 0 ? g_pExperienceTable->GetSTRInfo(pure[0]).GoalExp
-			: stat == 1 ? g_pExperienceTable->GetDEXInfo(pure[1]).GoalExp
-			: g_pExperienceTable->GetINTInfo(pure[2]).GoalExp;
-
-		remain = stat_remain[stat];
-		percent = (int)((goal_exp - remain) * 100 / max(1, goal_exp));
-
-		// Within the old domain and stat sums, a single stat stops at
-		// MAX_SLAYER_ATTR_OLD.
-		int domain_level_max = -1;
-
-		for (int d = SKILLDOMAIN_BLADE; d <= SKILLDOMAIN_ENCHANT; d++)
-			domain_level_max = max(domain_level_max, (*g_pSkillManager)[d].GetDomainLevel());
-
-		if (domain_level_max <= MAX_SLAYER_DOMAIN_SUM_OLD &&
-			pure[0] + pure[1] + pure[2] <= MAX_SLAYER_ATTR_SUM_OLD &&
-			pure[stat] >= MAX_SLAYER_ATTR_OLD)
-			bMax = true;
-	}
-	else
-	{
-		const int level = (*g_pSkillManager)[domain].GetDomainLevel();
-		const int domain_remain = (*g_pSkillManager)[domain].GetDomainExpRemain();
-
-		if (level >= 0 && domain_remain >= 0)
+		const char* label[3] =
 		{
-			const __int64 goal_exp = (*g_pSkillManager)[domain].GetExpInfo(level).GoalExp;
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_STR].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_DEX].GetString(),
+			(*g_pGameStringTable)[UI_STRING_MESSAGE_ENG_INT].GetString(),
+		};
 
-			remain = domain_remain;
-			percent = (int)((goal_exp - remain) * 100 / max(1, goal_exp));
+		SLAYER_STAT_EXP info;
+		g_GetSlayerStatExp(stat, info);
+
+		int lines = 1;
+
+		if (!g_IsSlayerStatRingShown() || (info.goal <= 0 && info.cap == MAX_SLAYER_ATTR))
+		{
+			strcpy(temp_str[0], (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_UP_STAT].GetString());
+		}
+		else if (info.goal <= 0)
+		{
+			wsprintf(temp_str[0], "%s stops at %d until a skill domain passes level %d.",
+				label[stat], info.cap, MAX_SLAYER_DOMAIN_SUM_OLD);
+		}
+		else
+		{
+			wsprintf(temp_str[0], "EXP: %s / %s", g_GetNumberString(info.goal - info.remain).c_str(),
+				g_GetNumberString(info.goal).c_str());
+			wsprintf(temp_str[1], "Remaining: %s", g_GetNumberString(info.remain).c_str());
+			lines = 2;
 		}
 
-		fame = g_pFameInfoTable->GetFameForLevel((SKILLDOMAIN)domain, level);
-		bFame = g_char_slot_ingame.FAME < fame;
+		g_descriptor_manager.Set(DID_STRINGS, x + _x, y + _y, (void*)str, lines);
+		return;
 	}
 
-	if (remain < 0 || bMax)
+	// A domain: its EXP toward the next level, or what holds it back.
+	const int level = (*g_pSkillManager)[domain].GetDomainLevel();
+	const int domain_remain = (*g_pSkillManager)[domain].GetDomainExpRemain();
+	const int fame = g_pFameInfoTable->GetFameForLevel((SKILLDOMAIN)domain, level);
+
+	if (level < 0 || domain_remain < 0)
 	{
-		strcpy(temp_str, (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_UP_STAT].GetString());
+		strcpy(temp_str[0], (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_UP_STAT].GetString());
 	}
-	else if (bFame)
+	else if (g_char_slot_ingame.FAME < fame)
 	{
-		wsprintf(temp_str, "%s(%s:%d)", (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_UP_LEVEL_BY_FAME].GetString(),
+		wsprintf(temp_str[0], "%s(%s:%d)", (*g_pGameStringTable)[UI_STRING_MESSAGE_CANNOT_UP_LEVEL_BY_FAME].GetString(),
 			(*g_pGameStringTable)[UI_STRING_MESSAGE_NEED_FAME].GetString(),
 			fame - g_char_slot_ingame.FAME);
 	}
 	else
 	{
-		wsprintf(temp_str, (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_EXP_DESCRIPTION_NEW].GetString(),
-			g_GetNumberString(remain).c_str(), g_GetNumberString(percent).c_str());
+		const __int64 goal_exp = (*g_pSkillManager)[domain].GetExpInfo(level).GoalExp;
+		const int percent = (int)((goal_exp - domain_remain) * 100 / max(1, goal_exp));
+
+		wsprintf(temp_str[0], (*g_pGameStringTable)[UI_STRING_MESSAGE_HPBAR_EXP_DESCRIPTION_NEW].GetString(),
+			g_GetNumberString(domain_remain).c_str(), g_GetNumberString(percent).c_str());
 	}
 
 	g_descriptor_manager.Set(DID_STRINGS, x + _x, y + _y, (void*)str, 1);

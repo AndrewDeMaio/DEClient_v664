@@ -40,10 +40,6 @@ public:
 		size += szCoordInven;                         // m_Y
 
 		size += m_PCItemInfo.getSize();				// pciteminfo
-
-#if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-		size += szBYTE;
-#endif //__INTERNATIONAL_PREMIUM_SYSTEM
 		return size;
 	}
 
@@ -65,22 +61,12 @@ public:
 	void SetPCItemInfo(PCItemInfo& pcItemInfo) { m_PCItemInfo = pcItemInfo; }
 	PCItemInfo* GetPCItemInfo() { return &m_PCItemInfo; }
 
-
-#if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-	BYTE getCashItem() const { return m_CashItem; }
-	void setCashItem(BYTE cashItem) {m_CashItem = cashItem; }
-
-#endif //__INTERNATIONAL_PREMIUM_SYSTEM
 private:
 	ObjectID_t         m_TargetObjectID;  // ��ȯ�� �ϰ� �ִ� ������ OID
 	CoordInven_t       m_X;               // �κ��丮������ X ��ǥ
 	CoordInven_t       m_Y;               // �κ��丮������ Y ��ǥ
 
 	PCItemInfo m_PCItemInfo;
-
-#if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-	BYTE			   m_CashItem;
-#endif //__INTERNATIONAL_PREMIUM_SYSTEM
 };
 #else //__PCITEMINFO2
 class GCTradeAddItem : public Packet 
@@ -266,10 +252,10 @@ public:
 		size +=(SubItemInfo::getSize()* 8); // list<SubItemInfo*> m_InfoList;
 		size = size + szBYTE + 255;			//m_ThirdOptionType
 		size += szBYTE;						//m_ThirdEnchantType
-#endif//
 #if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
 		size += szBYTE;
 #endif //__INTERNATIONAL_PREMIUM_SYSTEM
+#endif//
 		return size;
 	}
 };

@@ -118,9 +118,8 @@ void GCStashList::read ( SocketInputStream & iStream )
 		}
 		
 		iStream.read( item.thirdEnchantType );
-#if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-		iStream.read(item.cashItem);
-#endif		
+		// No cash-item byte here: the server only writes one under
+		// INTERNATIONAL_PREMIUM_SERVICE, which it never defines.
 		// sub ������ ������ �о���δ�.
 		iStream.read( m_SubItemsCount[rack][index] );
 		for (int s=0; s < m_SubItemsCount[rack][index]; s++)
@@ -201,9 +200,6 @@ void GCStashList::write ( SocketOutputStream & oStream ) const
 					oStream.write( optionType );
 				}
 				oStream.write( item.thirdEnchantType );
-#if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-				oStream.write(item.cashItem);
-#endif
 				// sub ������ ������ ����.
 				oStream.write(m_SubItemsCount[r][i]);
 
@@ -317,9 +313,6 @@ std::string GCStashList::toString () const
 					<< "EnchantLevel:" << (int)(m_pItems[r][i].enchantLevel)
 					<< "ThirdOptionTypeSize:"	<< (int)m_pItems[r][i].thirdOptionType.size()
 					<< "ThirdEnchantType"		<<	(int)m_pItems[r][i].thirdEnchantType
-#if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-					<< "CashItem"	<< (int)m_pItems[r][i].cashItem
-#endif
 					;
 			}
 			msg << ")";

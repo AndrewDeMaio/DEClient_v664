@@ -13,11 +13,11 @@ Paths are relative to Release\\Data. Much faster than make_dpk.py when only a
 handful of files changed: dpkput add frees the old entry's blocks and the new
 copy reuses them (npcscript.en.inf went in without the .dpk growing a byte).
 
-Steps: back up the .dpi (the .dpk only changes where the entry lives), dpkput add,
-then check that every replaced entry reads back byte for byte, that no entry was
-lost, and that a sample of the others (all info files, the neighbours of each
-replaced entry, 400 random) still match Release\\Data. Finally the new sha256s
-go into PACKAGE.txt. The same rules as make_dpk.py apply: nothing make_dpk.py
+Steps: dpkput add, then check that every replaced entry reads back byte for byte,
+that no entry was lost, and that a sample of the others (all info files, the
+neighbours of each replaced entry, 400 random) still match Release\\Data. Finally
+the new sha256s go into PACKAGE.txt. If dpkput fails, rebuild the package with
+make_dpk.py. The same rules as make_dpk.py apply: nothing make_dpk.py
 would leave out or ship loose (Music, 2-byte files, player.inf, ...) is accepted.
 """
 import argparse
@@ -67,9 +67,6 @@ def main():
 
     before = dpkget_list(data_dir)
     size_before = os.path.getsize(os.path.join(data_dir, "darkeden.dpk"))
-    logs = os.path.join(a.package, "logs")
-    os.makedirs(logs, exist_ok=True)
-    shutil.copy2(os.path.join(data_dir, "darkeden.dpi"), os.path.join(logs, "darkeden.dpi.before_replace"))
 
     args = [DPKPUT, "darkeden", "add"]
     for rel, disk in items:
@@ -77,7 +74,7 @@ def main():
     p = subprocess.run(args, cwd=data_dir, capture_output=True)
     print(p.stdout.decode("cp949", "replace").strip())
     if p.returncode != 0:
-        sys.exit("dpkput add failed (%d). The previous index is logs\\darkeden.dpi.before_replace" % p.returncode)
+        sys.exit("dpkput add failed (%d). Rebuild the package with make_dpk.py" % p.returncode)
     lock = os.path.join(data_dir, "darkeden.dpl")
     if os.path.exists(lock):
         os.remove(lock)

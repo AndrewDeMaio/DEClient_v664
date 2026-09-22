@@ -41,11 +41,9 @@ void GCTradeAddItem::read ( SocketInputStream & iStream )
 	iStream.read( m_Y );
 	
 	m_PCItemInfo.read(iStream);
-	
-#if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-	iStream.read(m_CashItem);
-#endif //__INTERNATIONAL_PREMIUM_SYSTEM
-		
+	// No trailing cash-item byte: PCItemInfo already carries it, and the
+	// server writes nothing after PCItemInfo.
+
 	__END_CATCH
 }
 
@@ -63,10 +61,6 @@ void GCTradeAddItem::write ( SocketOutputStream & oStream ) const
 
 	m_PCItemInfo.write(oStream);
 
-#if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-	oStream.write(m_CashItem);
-#endif //__INTERNATIONAL_PREMIUM_SYSTEM
-	
 	__END_CATCH
 }
 
@@ -109,9 +103,6 @@ std::string GCTradeAddItem::toString () const
 		<< "ThirdOptionTypeSize:" << (int)m_ThirdOptionType.size()
 		<< "ThirdEnchantType"	<<	(int)m_ThirdEnchantType
 #endif //__PCITEMINFO2
-#if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-		<< "CashItem"			<< (int)m_CashItem
-#endif //__INTERNATIONAL_PREMIUM_SYSTEM
 		<< " )";
 	return msg.toString();
 		

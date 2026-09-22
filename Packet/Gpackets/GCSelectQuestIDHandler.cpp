@@ -26,9 +26,12 @@ void GCSelectQuestIDHandler::execute ( GCSelectQuestID * pPacket , Player * pPla
 #ifdef __GAME_CLIENT__
 	
 	DEBUG_ADD("[GCSelectQuestIDHandler] Execute");
-	UI_RunQuestList( pPacket ); 
-	
-	g_pTempInformation->SetMode( TempInformation::MODE_SELECT_QUEST );	
+	// UI_RunQuestList empties the packet, so check first
+	bool bNoQuest = pPacket->empty();
+	UI_RunQuestList( pPacket );
+
+	if( !bNoQuest )
+		g_pTempInformation->SetMode( TempInformation::MODE_SELECT_QUEST );
 	
 #endif
 

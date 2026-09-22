@@ -27,9 +27,6 @@ typedef struct _STASHITEM
 				szEnchantLevel
 				+ szBYTE + thirdOptionType.size() +
 				szBYTE
-#if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-				+ szBYTE
-#endif
 				;
 	}
 
@@ -46,9 +43,6 @@ typedef struct _STASHITEM
 				szEnchantLevel
 				+ szBYTE + 255 +
 				szBYTE
-#if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-				+szBYTE
-#endif
 				;
 	}
 
@@ -63,9 +57,6 @@ typedef struct _STASHITEM
 	EnchantLevel_t 		enchantLevel;
 	std::list<OptionType_t> thirdOptionType;      // item Third option type
 	BYTE				thirdEnchantType;			// Third Enchant type
-#if __CONTENTS(__INTERNATIONAL_PREMIUM_SYSTEM)
-	BYTE				cashItem;			// this item is cash
-#endif
 } STASHITEM;
 
 //////////////////////////////////////////////////////////////////////////////
