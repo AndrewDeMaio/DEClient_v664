@@ -377,3 +377,4 @@ Tools/**/*.exe
 *.BAK
 *.orig
 *.tmp.*
+/Tools/NewSPKEditor/path_sprite_pack.txt
