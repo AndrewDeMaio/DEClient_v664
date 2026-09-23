@@ -144,8 +144,11 @@ MFirePiecingEffectGenerator::Generate( const EFFECTGENERATOR_INFO& egInfo )
 	{
 		switch( egInfo.direction )
 		{
+		// East and west start a quarter tile out, so the fire leaves the
+		// caster at the same on-screen distance as north and south (half a
+		// tile out is twice as far across the screen as it is up or down).
 		case DIRECTION_LEFT:
-			x -= TILE_X/2;
+			x -= TILE_X/4;
 			est[0] = EFFECTSPRITETYPE_FIRE_5+(rand()%2)*16;
 			break;
 
@@ -167,7 +170,7 @@ MFirePiecingEffectGenerator::Generate( const EFFECTGENERATOR_INFO& egInfo )
 			break;
 			
 		case DIRECTION_RIGHT:
-			x += TILE_X/2;
+			x += TILE_X/4;
 			est[0] = EFFECTSPRITETYPE_FIRE_13+(rand()%2)*16;
 			break;
 			
@@ -249,6 +252,21 @@ MFirePiecingEffectGenerator::Generate( const EFFECTGENERATOR_INFO& egInfo )
 		
 		// 중복 가능한가
 		pEffect->SetMulti(true);
+
+		// Facing north or sideways, the first flames land on the caster's own row
+		// and would draw over them (a row's effects follow its creatures). Sort
+		// them one row back instead: still after every shadow, but before the
+		// caster. Facing south they draw on top, like the later flames do.
+		if (egInfo.pPreviousEffect == NULL
+			&& direction != DIRECTION_LEFTDOWN
+			&& direction != DIRECTION_DOWN
+			&& direction != DIRECTION_RIGHTDOWN
+			&& sY > 0)
+		{
+			// MObject's SetY: MEffect::SetY would also move the flame to that row.
+			pEffect->MObject::SetY( sY - 1 );
+		}
+
 		if(g_pZone->AddEffect( pEffect ))
 		{
 			if (!bAdd)
