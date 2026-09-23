@@ -71,6 +71,8 @@ public:
 		SLAYER_BIT_SHIELD1,
 		SLAYER_BIT_SHIELD2,
 		SLAYER_BIT_SHIELD_OSIRIS,
+		SLAYER_BIT_WEAPON_TIER1,	// weapon art tier, 2 bits (GetWeaponArtTier)
+		SLAYER_BIT_WEAPON_TIER2,
 		SLAYER_BIT_MOTORCYCLE1,
 		SLAYER_BIT_MOTORCYCLE2,
 		SLAYER_BIT_MOTORCYCLE3,
@@ -287,6 +289,10 @@ public:
 	WeaponType getWeaponType () const
 	{ 
 		return WeaponType((m_Outlook.to_ulong() >> SLAYER_BIT_WEAPON1) & 255); 
+	}
+	BYTE getWeaponTier () const
+	{
+		return BYTE((m_Outlook.to_ulong() >> SLAYER_BIT_WEAPON_TIER1) & 3);
 	}
 	void setWeaponType (WeaponType weaponType)
 	{ 

@@ -160,8 +160,11 @@ void	MTopView::DrawDivineGuidanceAdvancementClassSlayerCharacter( POINT *pPoint,
 	WORD clothes;
 	BYTE clothesType;
 	
-	CCreatureFramePack& slayerFPK = pCreature->IsMale() ? m_AdvancementSlayerManFPK : m_AdvancementSlayerWomanFPK;
-	CIndexSpritePack& addonISPK = pCreature->IsMale() ? m_AdvancementSlayerManSPK : m_AdvancementSlayerWomanSPK;
+	// Osiris items switch to advancedslayer* (MTopView::GetAdvancementSlayerLook).
+	ADVANCEMENT_SLAYER_LOOK look;
+	GetAdvancementSlayerLook( pCreature, ACTION_ADVANCEMENT_SLAYER_DRAINED-ADVANCEMENT_ACTION_START, direction, tempFrame, look );
+	CCreatureFramePack& slayerFPK = *look.pFPK;
+	CIndexSpritePack& addonISPK = *look.pSPK;
 			
 	for(int k = 0; k < 2; k++)
 	{
@@ -177,8 +180,16 @@ void	MTopView::DrawDivineGuidanceAdvancementClassSlayerCharacter( POINT *pPoint,
 			if (addonInfo.bAddon)
 			{
 				clothes = GetAdvancementPartFromItemClass( addonInfo.ItemClass, addonInfo.FrameID );
+				ADVANCEMENT_SLAYER_LAYER slayerLayers[ADVANCEMENT_SLAYER_LAYER_MAX];
+				int slayerLayerCount = GetAdvancementSlayerLayers( look, pCreatureWear, clothes, addonInfo, slayerLayers );
+				for (int slayerLayer = 0; slayerLayer < slayerLayerCount; ++slayerLayer)
+				{
+				const MCreatureWear::ADDON_INFO& addonInfo = slayerLayers[slayerLayer].info;
+				clothes = slayerLayers[slayerLayer].part;
+				CCreatureFramePack& slayerFPK = *slayerLayers[slayerLayer].pFPK;
+				CIndexSpritePack& addonISPK = *slayerLayers[slayerLayer].pSPK;
 				
-				FRAME_ARRAY &FA = slayerFPK[clothes][ACTION_ADVANCEMENT_SLAYER_DRAINED-ADVANCEMENT_ACTION_START][(direction+g_CurrentFrame/2+k)%8];
+				FRAME_ARRAY &FA = slayerFPK[clothes][look.action][(direction+g_CurrentFrame/2+k)%8];
 				
 				
 				// 있는 동작인 경우
@@ -214,6 +225,7 @@ void	MTopView::DrawDivineGuidanceAdvancementClassSlayerCharacter( POINT *pPoint,
 					CIndexSprite::SetUsingColorSet( colorSet1, colorSet2 );
 					
 					m_pSurface->BltIndexSpriteDarkness(&pointTemp, pSprite, 2-k);
+				}
 				}
 			}
 		}
@@ -322,12 +334,16 @@ void	MTopView::DrawDivineGuidanceAdvancementClassVampireCharacter(
 	tempGuidance = (g_CurrentFrame)%20;
 	const int tempFrame = 30;
 
-	CCreatureFramePack& advanceVampireFPK = pCreature->IsMale() ? m_AdvancementVampireManFPK : m_AdvancementVampireWomanFPK;
-	CIndexSpritePack& advanceVampireSPK = pCreature->IsMale() ? m_AdvancementVampireManSPK : m_AdvancementVampireWomanSPK;	
+	// Osiris items switch to advancedvampire* (MTopView::GetAdvancementVampireLook).
+	ADVANCEMENT_VAMPIRE_LOOK look;
+	GetAdvancementVampireLook( pCreature, ACTION_ADVANCEMENT_DRAINED-ADVANCEMENT_ACTION_START, direction, tempFrame, look );
+
+	CCreatureFramePack& advanceVampireFPK = *look.pFPK;
+	CIndexSpritePack& advanceVampireSPK = *look.pSPK;
 
 	for(int k = 0; k < 2; k++)
 	{
-		FRAME_ARRAY &FA = advanceVampireFPK[0][ACTION_ADVANCEMENT_DRAINED-ADVANCEMENT_ACTION_START][(direction+g_CurrentFrame/2+k)%8];
+		FRAME_ARRAY &FA = advanceVampireFPK[look.body][look.action][(direction+g_CurrentFrame/2+k)%8];
 		
 		if (FA.GetSize() > tempFrame)
 		{
@@ -527,6 +543,8 @@ void	MTopView::DrawDivineGuidanceAdvancementClassOustersCharacter(
 	bool bChakram = addonInfoChakram.bAddon && addonInfoChakram.ItemClass == ITEM_CLASS_OUSTERS_CHAKRAM;
 	
 	int tempAction = ACTION_ADVANCEMENT_OUSTERS_DRAINED-ADVANCEMENT_ACTION_START;
+	ADVANCEMENT_OUSTERS_LOOK look;
+	GetAdvancementOustersLook( pCreatureWear, tempAction, look );
 	const MCreatureWear::ADDON_INFO& addonInfo = pCreatureWear->GetAddonInfo(ADDON_COAT);
 	const MCreatureWear::ADDON_INFO& bootsAddonInfo = pCreatureWear->GetAddonInfo(ADDON_TROUSER);
 	
@@ -534,9 +552,9 @@ void	MTopView::DrawDivineGuidanceAdvancementClassOustersCharacter(
 	{
 		if (addonInfo.bAddon && !pCreatureWear->IsGhost(1))
 		{
-			int clothes = 1;
+			int clothes = look.coatBody;
 			
-			FRAME_ARRAY &FA = m_AdvancementOustersFPK[clothes][tempAction][(direction+g_CurrentFrame/2+k)%8];
+			FRAME_ARRAY &FA = (*look.pFPK)[clothes][look.action][(direction+g_CurrentFrame/2+k)%8];
 			
 			// 있는 동작인 경우
 			if (FA.GetSize() > tempFrame)
@@ -546,7 +564,7 @@ void	MTopView::DrawDivineGuidanceAdvancementClassOustersCharacter(
 				int cx		= Frame.GetCX();	//m_AddonFPK[clothes][action][direction][frame].GetCX();
 				int cy		= Frame.GetCY();	//m_AddonFPK[clothes][action][direction][frame].GetCY();
 				
-				CIndexSprite* pSprite = &m_AdvancementOustersSPK[ sprite ];					
+				CIndexSprite* pSprite = &(*look.pSPK)[ sprite ];					
 				
 				pointTemp.x = pPoint->x + cx;// + pCreature->GetSX();
 				pointTemp.y = pPoint->y + cy-(*g_pCreatureTable)[pCreature->GetCreatureType()].Height;// + pCreature->GetSY();
@@ -629,9 +647,9 @@ void	MTopView::DrawDivineGuidanceAdvancementClassOustersCharacter(
 		
 		if (bChakram && !pCreatureWear->IsGhost(2))
 		{
-			int clothes = 0;
+			int clothes = look.chakramBody;
 			
-			FRAME_ARRAY &FA = m_AdvancementOustersFPK[clothes][tempAction][(direction+g_CurrentFrame/2+k)%8];
+			FRAME_ARRAY &FA = (*look.pChakramFPK)[clothes][look.action][(direction+g_CurrentFrame/2+k)%8];
 			
 			// 있는 동작인 경우
 			if (FA.GetSize() > tempFrame)
@@ -641,7 +659,7 @@ void	MTopView::DrawDivineGuidanceAdvancementClassOustersCharacter(
 				int cx		= Frame.GetCX();	//m_AddonFPK[clothes][action][direction][frame].GetCX();
 				int cy		= Frame.GetCY();	//m_AddonFPK[clothes][action][direction][frame].GetCY();
 				
-				CIndexSprite* pSprite = &m_AdvancementOustersSPK[ sprite ];					
+				CIndexSprite* pSprite = &(*look.pChakramSPK)[ sprite ];					
 				
 				pointTemp.x = pPoint->x + cx;// + pCreature->GetSX();
 				pointTemp.y = pPoint->y + cy-(*g_pCreatureTable)[pCreature->GetCreatureType()].Height;// + pCreature->GetSY();

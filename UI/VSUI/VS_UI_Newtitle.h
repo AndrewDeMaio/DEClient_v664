@@ -130,7 +130,7 @@ enum ALIGNMENT
 // character creation slot
 struct S_SLOT
 {
-	S_SLOT() { m_AdvancementLevel = 0; }
+	S_SLOT() { m_AdvancementLevel = 0; OsirisLook = 0; }
 	void Init();
 
 	bool								bl_set; // slot�� �����Ǿ��°�?
@@ -245,6 +245,7 @@ struct S_SLOT
 	int									m_SMS_Charge;
 	int									m_Powerjjang_Point;
 	int									m_AdvancementLevel;	// ���� ���� 
+	BYTE								OsirisLook;	// OSIRIS_LOOK_PART bits (PacketItemDef.h)
 	//	BYTE								m_NickNameType;
 	//	std::string							m_NickName;
 };
@@ -749,9 +750,19 @@ private:
 
 	CCreatureFramePack		m_AdvancementSlayerManCfpk;
 	CCreatureFramePack		m_AdvancementSlayerWomanCfpk;
+	CCreatureFramePack		m_OsirisSlayerManCfpk;		// advancedslayer*, optional
+	CCreatureFramePack		m_OsirisSlayerWomanCfpk;
+	CCreatureFramePack		m_Tier2OustersCfpk;
+	CCreatureFramePack		m_Tier2VampireManCfpk;
+	CCreatureFramePack		m_Tier2VampireWomanCfpk;
+	CCreatureFramePack		m_Tier2SlayerManCfpk;
+	CCreatureFramePack		m_Tier2SlayerWomanCfpk;
 	CCreatureFramePack		m_AdvancementVampireManCfpk;
 	CCreatureFramePack		m_AdvancementVampireWomanCfpk;
+	CCreatureFramePack		m_OsirisVampireManCfpk;		// advancedvampire*, optional
+	CCreatureFramePack		m_OsirisVampireWomanCfpk;
 	CCreatureFramePack		m_AdvancementOustersCfpk;
+	CCreatureFramePack		m_OsirisOustersCfpk;		// advancedousters, optional
 
 	CIndexSpritePack 			m_slayer_man_ispk;
 	CIndexSpritePack 			m_slayer_woman_ispk;
@@ -760,9 +771,19 @@ private:
 
 	CIndexSpritePack			m_AdvancementSlayerManIspk;
 	CIndexSpritePack			m_AdvancementSlayerWomanIspk;
+	CIndexSpritePack			m_OsirisSlayerManIspk;
+	CIndexSpritePack			m_OsirisSlayerWomanIspk;
+	CIndexSpritePack			m_Tier2OustersIspk;
+	CIndexSpritePack			m_Tier2VampireManIspk;
+	CIndexSpritePack			m_Tier2VampireWomanIspk;
+	CIndexSpritePack			m_Tier2SlayerManIspk;
+	CIndexSpritePack			m_Tier2SlayerWomanIspk;
 	CIndexSpritePack			m_AdvancementVampireManIspk;
 	CIndexSpritePack			m_AdvancementVampireWomanIspk;
+	CIndexSpritePack			m_OsirisVampireManIspk;
+	CIndexSpritePack			m_OsirisVampireWomanIspk;
 	CIndexSpritePack			m_AdvancementOustersIspk;
+	CIndexSpritePack			m_OsirisOustersIspk;
 
 	C_SPRITE_PACK				m_common_spk;
 	C_SPRITE_PACK				m_image_spk;

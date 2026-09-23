@@ -18,6 +18,36 @@
 #include "ClientDef.h"
 #include "UIFunction.h"
 
+#ifdef __GAME_CLIENT__
+	#include "UserInformation.h"
+
+	extern int g_Dimension;
+
+//--------------------------------------------------------------------------------
+// The client keys a character's local files by name alone, and the server lets a
+// deleted character's name be reused, so a new character with that name would
+// load the old skill hotkeys, window layout and cached mail. Remove them once the
+// server has confirmed the delete. The names match the ones VS_UI_Game.cpp reads.
+//--------------------------------------------------------------------------------
+static void DeleteCharacterLocalFiles(const char* name)
+{
+	if (name == NULL || name[0] == '\0' || strpbrk(name, "\\/:*?\"<>|.") != NULL)
+		return;
+
+	const int world = g_pUserInformation->WorldID;
+	char path[MAX_PATH];
+
+	sprintf_s(path, "UserSet\\%s.set", name);
+	DeleteFile(path);
+	sprintf_s(path, "UserSet\\%s-%d.set", name, world);
+	DeleteFile(path);
+	sprintf_s(path, "UserSet\\%s-%d-%d.set", name, g_Dimension, world);
+	DeleteFile(path);
+	sprintf_s(path, "UserSet\\%s-%d-%d.mail", name, g_Dimension, world);
+	DeleteFile(path);
+}
+#endif
+
 //--------------------------------------------------------------------------------
 //
 // PC �� ���������� �����ߴٴ� ���̴�.
@@ -54,6 +84,12 @@ void LCDeletePCOKHandler::execute ( LCDeletePCOK * pPacket , Player * pPlayer )
 	#elif defined(_WIN32)
 
 		ClientPlayer * pClientPlayer = dynamic_cast<ClientPlayer*>(pPlayer);
+
+		// the list is only refreshed after this, so the slot still names the deleted character
+		if (g_pUserInformation->Slot >= 0 && g_pUserInformation->Slot < 3)
+		{
+			DeleteCharacterLocalFiles(g_pUserInformation->Character[g_pUserInformation->Slot].GetString());
+		}
 
 		// delete����
 		UI_DeleteCharacterOK();

@@ -125,6 +125,8 @@ const string VampireArmType2String[] =
 	"VAMPIRE_ARM_NONE",
 	"VAMPIRE_ARM_WEAPON",
 	"VAMPIRE_ARM_OSIRIS_WEAPON",		// 1�� ���� ���ø��� ���� ����
+	"VAMPIRE_ARM_TIER1_WEAPON",
+	"VAMPIRE_ARM_TIER2_WEAPON",
 	"VAMPIRE_ARM_MAX"
 };
 
@@ -144,6 +146,8 @@ const std::string OustersArmType2String[] =
 	"OUSTERS_ARM_GAUNTLET",
 	"OUSTERS_ARM_CHAKRAM",
 	"OUSTERS_ARM_OSIRIS_CHAKRAM",		// 1�� ���� ���ø��� ���� ����
+	"OUSTERS_ARM_TIER1_CHAKRAM",
+	"OUSTERS_ARM_TIER2_CHAKRAM",
 	"OUSTERS_ARM_MAX"
 };
 

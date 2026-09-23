@@ -2202,6 +2202,7 @@ UI_SetCharacter(int slotID, PCSlayerInfo * pInfo)
 		M_HELMET1,
 		M_HELMET2,
 		M_HELMET3,		// 3�� ��� by chyaya
+		M_HELMET3,		// HELMET_OSIRIS
 	};
 	
 	const CHAR_MAN uiCoatMale[] =
@@ -2211,6 +2212,7 @@ UI_SetCharacter(int slotID, PCSlayerInfo * pInfo)
 		M_COAT2,
 		M_COAT3,
 		M_COAT4,		// 4�� ���� by chyaya
+		M_COAT4,		// JACKET_OSIRIS
 	};
 	
 	const CHAR_MAN uiTrouserMale[] =
@@ -2220,6 +2222,7 @@ UI_SetCharacter(int slotID, PCSlayerInfo * pInfo)
 		M_TROUSER2,
 		M_TROUSER3,
 		M_TROUSER4,	// 4�� ���� by chyaya
+		M_TROUSER4,		// PANTS_OSIRIS
 	};
 	
 	const CHAR_MAN uiWeaponMale[] =
@@ -2239,7 +2242,8 @@ UI_SetCharacter(int slotID, PCSlayerInfo * pInfo)
 	{
 		M_NO_WEAR,
 		M_SHIELD1,
-		M_SHIELD2			
+		M_SHIELD2,
+		M_SHIELD2,		// SHIELD_OSIRIS
 	};
 	
 	slot.man_info.helmet	= uiHelmMale[pInfo->getHelmetType()];
@@ -2249,6 +2253,18 @@ UI_SetCharacter(int slotID, PCSlayerInfo * pInfo)
 	slot.man_info.hair		= uiHairMale[pInfo->getHairStyle()];
 	slot.man_info.right		= uiWeaponMale[pInfo->getWeaponType()];
 	slot.man_info.left		= uiShieldMale[pInfo->getShieldType()];
+
+	if (pInfo->getHelmetType() == HELMET_OSIRIS)
+		slot.OsirisLook |= OSIRIS_LOOK_HELMET;
+	if (pInfo->getJacketType() == JACKET_OSIRIS)
+		slot.OsirisLook |= OSIRIS_LOOK_COAT;
+	if (pInfo->getPantsType() == PANTS_OSIRIS)
+		slot.OsirisLook |= OSIRIS_LOOK_TROUSER;
+	if (pInfo->getShieldType() == SHIELD_OSIRIS)
+		slot.OsirisLook |= OSIRIS_LOOK_SHIELD;
+
+	static const BYTE weaponTierLook[] = { 0, OSIRIS_LOOK_WEAPON_TIER1, OSIRIS_LOOK_WEAPON_TIER2, OSIRIS_LOOK_WEAPON };
+	slot.OsirisLook |= weaponTierLook[ pInfo->getWeaponTier() ];
 	
 
 	// ���� ����
@@ -2413,6 +2429,15 @@ UI_SetCharacter(int slotID, PCVampireInfo * pInfo)
 
 	slot.m_AdvancementLevel = pInfo->getAdvancementLevel();
 
+	if (coatType == VAMPIRE_OSIRIS_COAT)
+		slot.OsirisLook |= OSIRIS_LOOK_COAT;
+	if (pInfo->getArmType() == VAMPIRE_ARM_OSIRIS_WEAPON)
+		slot.OsirisLook |= OSIRIS_LOOK_WEAPON;
+	if (pInfo->getArmType() == VAMPIRE_ARM_TIER1_WEAPON)
+		slot.OsirisLook |= OSIRIS_LOOK_WEAPON_TIER1;
+	if (pInfo->getArmType() == VAMPIRE_ARM_TIER2_WEAPON)
+		slot.OsirisLook |= OSIRIS_LOOK_WEAPON_TIER2;
+
 	slot.left_color = 0;
 	slot.helmet_color = 0;
 	slot.trouser_color = 0;
@@ -2544,6 +2569,15 @@ UI_SetCharacter(int slotID, PCOustersInfo * pInfo)
 	int bootsColor = pInfo->getBootsColor();
 	int armColor = pInfo->getArmColor();
 
+	if (coatType == OUSTERS_OSIRIS_COAT)
+		slot.OsirisLook |= OSIRIS_LOOK_COAT;
+	if (weaponType == OUSTERS_ARM_OSIRIS_CHAKRAM)
+		slot.OsirisLook |= OSIRIS_LOOK_WEAPON;
+	if (weaponType == OUSTERS_ARM_TIER1_CHAKRAM)
+		slot.OsirisLook |= OSIRIS_LOOK_WEAPON_TIER1;
+	if (weaponType == OUSTERS_ARM_TIER2_CHAKRAM)
+		slot.OsirisLook |= OSIRIS_LOOK_WEAPON_TIER2;
+
 	// color
 //	slot.skin_color	= pInfo->getSkinColor();
 	slot.hair_color = pInfo->getHairColor();
@@ -2561,7 +2595,11 @@ UI_SetCharacter(int slotID, PCOustersInfo * pInfo)
 //		creatureType = (*g_pItemTable)[ITEM_CLASS_VAMPIRE_COAT][coatType].AddonMaleFrameID;
 //
 //	int spriteType = (*g_pCreatureTable)[creatureType].SpriteType;
-	int spriteType = (*g_pItemTable)[ITEM_CLASS_OUSTERS_COAT][g_pPacketItemOustersCoat[coatType]->GetItemType()].AddonMaleFrameID;
+	// coatType comes off the wire; an unknown look falls back to the basic coat.
+	MItem* pCoatItem = (coatType >= 0 && coatType < OUSTERS_COAT_MAX)? g_pPacketItemOustersCoat[coatType] : NULL;
+	if (pCoatItem == NULL)
+		pCoatItem = g_pPacketItemOustersCoat[OUSTERS_COAT_BASIC];
+	int spriteType = (*g_pItemTable)[ITEM_CLASS_OUSTERS_COAT][pCoatItem->GetItemType()].AddonMaleFrameID;
 	
 	slot.man_info.helmet = M_NO_WEAR;
 	slot.man_info.coat = (CHAR_MAN)(spriteType);		// coatType�� ���� �ٲ�� �Ѵ�.. ���߿�~

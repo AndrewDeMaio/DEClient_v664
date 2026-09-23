@@ -5434,6 +5434,7 @@ int S_SLOT::Init()
 	m_SMS_Charge = 0;
 	m_Powerjjang_Point = 0;
 	m_AdvancementLevel = 0;	// ���� ���� 
+	OsirisLook = 0;
 
 	SlayerAdvancedStr = 0;
 	SlayerAdvancedDex = 0;

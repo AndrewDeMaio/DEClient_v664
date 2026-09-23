@@ -65,6 +65,7 @@ void			SetGoreLevel(bool bGoreLevel);
 // Init / Release PacketItemTable
 //-----------------------------------------------------------------------------
 extern void		InitPacketItemTable();
+extern void		InitPacketItemTierTypes();	// after the item table is loaded
 extern void		ReleasePacketItemTable();
 
 //-----------------------------------------------------------------------------

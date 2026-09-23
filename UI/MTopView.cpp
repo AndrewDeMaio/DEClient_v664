@@ -852,14 +852,34 @@ MTopView::Release()
 	// ???? ???? fpk ?????
 	m_AdvancementSlayerManFPK.Release();
 	m_AdvancementSlayerWomanFPK.Release();
+	m_OsirisSlayerManFPK.Release();
+	m_OsirisSlayerWomanFPK.Release();
+	m_Tier2OustersFPK.Release();
+	m_Tier2VampireManFPK.Release();
+	m_Tier2VampireWomanFPK.Release();
+	m_Tier2SlayerManFPK.Release();
+	m_Tier2SlayerWomanFPK.Release();
 	m_AdvancementVampireManFPK.Release();
+	m_OsirisVampireManFPK.Release();
+	m_OsirisVampireWomanFPK.Release();
 	m_AdvancementVampireWomanFPK.Release();
 	m_AdvancementOustersFPK.Release();
+	m_OsirisOustersFPK.Release();
 	m_AdvancementSlayerManShadowFPK.Release();
 	m_AdvancementSlayerWomanShadowFPK.Release();
+	m_OsirisSlayerManShadowFPK.Release();
+	m_OsirisSlayerWomanShadowFPK.Release();
+	m_Tier2OustersShadowFPK.Release();
+	m_Tier2VampireManShadowFPK.Release();
+	m_Tier2VampireWomanShadowFPK.Release();
+	m_Tier2SlayerManShadowFPK.Release();
+	m_Tier2SlayerWomanShadowFPK.Release();
 	m_AdvancementVampireManShadowFPK.Release();
 	m_AdvancementVampireWomanShadowFPK.Release();
+	m_OsirisVampireManShadowFPK.Release();
+	m_OsirisVampireWomanShadowFPK.Release();
 	m_AdvancementOustersShadowFPK.Release();
+	m_OsirisOustersShadowFPK.Release();
 	//	m_InteractionObjectFPK.Release();		// ImageObject?? ???? frames
 
 	DEBUG_ADD("MTV-Rel-EffectFPK");
@@ -924,15 +944,35 @@ MTopView::Release()
 	// ???? ???? SPK ????
 	m_AdvancementSlayerManSPK.Release();
 	m_AdvancementSlayerWomanSPK.Release();
+	m_OsirisSlayerManSPK.Release();
+	m_OsirisSlayerWomanSPK.Release();
+	m_Tier2OustersSPK.Release();
+	m_Tier2VampireManSPK.Release();
+	m_Tier2VampireWomanSPK.Release();
+	m_Tier2SlayerManSPK.Release();
+	m_Tier2SlayerWomanSPK.Release();
 	m_AdvancementVampireManSPK.Release();
 	m_AdvancementVampireWomanSPK.Release();
+	m_OsirisVampireManSPK.Release();
+	m_OsirisVampireWomanSPK.Release();
 	m_AdvancementOustersSPK.Release();
+	m_OsirisOustersSPK.Release();
 
 	m_AdvancementSlayerManSSPK.Release();
 	m_AdvancementSlayerWomanSSPK.Release();
+	m_OsirisSlayerManSSPK.Release();
+	m_OsirisSlayerWomanSSPK.Release();
+	m_Tier2OustersSSPK.Release();
+	m_Tier2VampireManSSPK.Release();
+	m_Tier2VampireWomanSSPK.Release();
+	m_Tier2SlayerManSSPK.Release();
+	m_Tier2SlayerWomanSSPK.Release();
 	m_AdvancementVampireManSSPK.Release();
 	m_AdvancementVampireWomanSSPK.Release();
+	m_OsirisVampireManSSPK.Release();
+	m_OsirisVampireWomanSSPK.Release();
 	m_AdvancementOustersSSPK.Release();
+	m_OsirisOustersSSPK.Release();
 
 	//------------------------------------------------------		
 	// Shadow SpritePack
@@ -1530,6 +1570,22 @@ MTopView::InitColors()
 
 
 //----------------------------------------------------------------------
+// Optional filedef entry: "" when the key is missing (older data folders).
+//----------------------------------------------------------------------
+static std::string
+GetOptionalFileDef(const char* key)
+{
+	try
+	{
+		return g_pFileDef->getProperty(key);
+	}
+	catch (...)
+	{
+		return "";
+	}
+}
+
+//----------------------------------------------------------------------
 // SpritePack?? ???  memory?? Load???.
 //----------------------------------------------------------------------
 bool
@@ -2032,9 +2088,42 @@ MTopView::InitSprites()
 
 	m_AdvancementSlayerManSPK.LoadFromFileRunning(g_pFileDef->getProperty("FILE_ISPRITE_ADVANCEMENT_CLASS_SLAYER_MAN").c_str());
 	m_AdvancementSlayerWomanSPK.LoadFromFileRunning(g_pFileDef->getProperty("FILE_ISPRITE_ADVANCEMENT_CLASS_SLAYER_WOMAN").c_str());
+	// advancedslayer* hold the Osiris Slayer parts (GetAdvancementSlayerLook).
+	std::string osirisSlayerManSPK = GetOptionalFileDef("FILE_ISPRITE_ADVANCEMENT_CLASS_SLAYER_MAN_171");
+	if (!osirisSlayerManSPK.empty())
+		m_OsirisSlayerManSPK.LoadFromFileRunning(osirisSlayerManSPK.c_str());
+	std::string osirisSlayerWomanSPK = GetOptionalFileDef("FILE_ISPRITE_ADVANCEMENT_CLASS_SLAYER_WOMAN_171");
+	if (!osirisSlayerWomanSPK.empty())
+		m_OsirisSlayerWomanSPK.LoadFromFileRunning(osirisSlayerWomanSPK.c_str());
+	// secondadvanced* give the tier-2 weapon art (GetWeaponArtTier).
+	struct { const char* key; CIndexSpritePack* pPack; } tier2SPK[] =
+	{
+		{ "FILE_ISPRITE_ADVANCEMENT_CLASS_OUSTERS_201",	&m_Tier2OustersSPK },
+		{ "FILE_ISPRITE_ADVANCEMENT_CLASS_VAMPIRE_MAN_201",	&m_Tier2VampireManSPK },
+		{ "FILE_ISPRITE_ADVANCEMENT_CLASS_VAMPIRE_WOMAN_201",	&m_Tier2VampireWomanSPK },
+		{ "FILE_ISPRITE_ADVANCEMENT_CLASS_SLAYER_MAN_201",	&m_Tier2SlayerManSPK },
+		{ "FILE_ISPRITE_ADVANCEMENT_CLASS_SLAYER_WOMAN_201",	&m_Tier2SlayerWomanSPK },
+	};
+	for (int i = 0; i < (int)(sizeof(tier2SPK) / sizeof(tier2SPK[0])); ++i)
+	{
+		std::string path = GetOptionalFileDef(tier2SPK[i].key);
+		if (!path.empty())
+			tier2SPK[i].pPack->LoadFromFileRunning(path.c_str());
+	}
 	m_AdvancementOustersSPK.LoadFromFileRunning(g_pFileDef->getProperty("FILE_ISPRITE_ADVANCEMENT_CLASS_OUSTERS").c_str());
+	// advancedousters holds the Osiris Ousters bodies (GetAdvancementOustersLook).
+	std::string osirisOustersSPK = GetOptionalFileDef("FILE_ISPRITE_ADVANCEMENT_CLASS_OUSTERS_171");
+	if (!osirisOustersSPK.empty())
+		m_OsirisOustersSPK.LoadFromFileRunning(osirisOustersSPK.c_str());
 	m_AdvancementVampireManSPK.LoadFromFileRunning(g_pFileDef->getProperty("FILE_ISPRITE_ADVANCEMENT_CLASS_VAMPIRE_MAN").c_str());
 	m_AdvancementVampireWomanSPK.LoadFromFileRunning(g_pFileDef->getProperty("FILE_ISPRITE_ADVANCEMENT_CLASS_VAMPIRE_WOMAN").c_str());
+	// advancedvampire* hold the Osiris Vampire bodies (GetAdvancementVampireLook).
+	std::string osirisVampireManSPK = GetOptionalFileDef("FILE_ISPRITE_ADVANCEMENT_CLASS_VAMPIRE_MAN_171");
+	if (!osirisVampireManSPK.empty())
+		m_OsirisVampireManSPK.LoadFromFileRunning(osirisVampireManSPK.c_str());
+	std::string osirisVampireWomanSPK = GetOptionalFileDef("FILE_ISPRITE_ADVANCEMENT_CLASS_VAMPIRE_WOMAN_171");
+	if (!osirisVampireWomanSPK.empty())
+		m_OsirisVampireWomanSPK.LoadFromFileRunning(osirisVampireWomanSPK.c_str());
 
 	// Sprite Pack
 // 	m_AddonSPK.LoadFromFileThread(g_pFileDef->getProperty("FILE_ISPRITE_ADDON").c_str());
@@ -2071,9 +2160,38 @@ MTopView::InitSprites()
 
 	m_AdvancementSlayerManSSPK.LoadFromFileRunning(g_pFileDef->getProperty("FILE_SSPRITE_ADVANCEMENT_CLASS_SLAYER_MAN").c_str());
 	m_AdvancementSlayerWomanSSPK.LoadFromFileRunning(g_pFileDef->getProperty("FILE_SSPRITE_ADVANCEMENT_CLASS_SLAYER_WOMAN").c_str());
+	std::string osirisSlayerManSSPK = GetOptionalFileDef("FILE_SSPRITE_ADVANCEMENT_CLASS_SLAYER_MAN_171");
+	if (!osirisSlayerManSSPK.empty())
+		m_OsirisSlayerManSSPK.LoadFromFileRunning(osirisSlayerManSSPK.c_str());
+	std::string osirisSlayerWomanSSPK = GetOptionalFileDef("FILE_SSPRITE_ADVANCEMENT_CLASS_SLAYER_WOMAN_171");
+	if (!osirisSlayerWomanSSPK.empty())
+		m_OsirisSlayerWomanSSPK.LoadFromFileRunning(osirisSlayerWomanSSPK.c_str());
+	struct { const char* key; CShadowSpriteTypePack* pPack; } tier2SSPK[] =
+	{
+		{ "FILE_SSPRITE_ADVANCEMENT_CLASS_OUSTERS_201",	&m_Tier2OustersSSPK },
+		{ "FILE_SSPRITE_ADVANCEMENT_CLASS_VAMPIRE_MAN_201",	&m_Tier2VampireManSSPK },
+		{ "FILE_SSPRITE_ADVANCEMENT_CLASS_VAMPIRE_WOMAN_201",	&m_Tier2VampireWomanSSPK },
+		{ "FILE_SSPRITE_ADVANCEMENT_CLASS_SLAYER_MAN_201",	&m_Tier2SlayerManSSPK },
+		{ "FILE_SSPRITE_ADVANCEMENT_CLASS_SLAYER_WOMAN_201",	&m_Tier2SlayerWomanSSPK },
+	};
+	for (int i = 0; i < (int)(sizeof(tier2SSPK) / sizeof(tier2SSPK[0])); ++i)
+	{
+		std::string path = GetOptionalFileDef(tier2SSPK[i].key);
+		if (!path.empty())
+			tier2SSPK[i].pPack->LoadFromFileRunning(path.c_str());
+	}
 	m_AdvancementOustersSSPK.LoadFromFileRunning(g_pFileDef->getProperty("FILE_SSPRITE_ADVANCEMENT_CLASS_OUSTERS").c_str());
+	std::string osirisOustersSSPK = GetOptionalFileDef("FILE_SSPRITE_ADVANCEMENT_CLASS_OUSTERS_171");
+	if (!osirisOustersSSPK.empty())
+		m_OsirisOustersSSPK.LoadFromFileRunning(osirisOustersSSPK.c_str());
 	m_AdvancementVampireManSSPK.LoadFromFileRunning(g_pFileDef->getProperty("FILE_SSPRITE_ADVANCEMENT_CLASS_VAMPIRE_MAN").c_str());
 	m_AdvancementVampireWomanSSPK.LoadFromFileRunning(g_pFileDef->getProperty("FILE_SSPRITE_ADVANCEMENT_CLASS_VAMPIRE_WOMAN").c_str());
+	std::string osirisVampireManSSPK = GetOptionalFileDef("FILE_SSPRITE_ADVANCEMENT_CLASS_VAMPIRE_MAN_171");
+	if (!osirisVampireManSSPK.empty())
+		m_OsirisVampireManSSPK.LoadFromFileRunning(osirisVampireManSSPK.c_str());
+	std::string osirisVampireWomanSSPK = GetOptionalFileDef("FILE_SSPRITE_ADVANCEMENT_CLASS_VAMPIRE_WOMAN_171");
+	if (!osirisVampireWomanSSPK.empty())
+		m_OsirisVampireWomanSSPK.LoadFromFileRunning(osirisVampireWomanSSPK.c_str());
 
 
 	// 	m_AddonSSPK.LoadFromFileThread(g_pFileDef->getProperty("FILE_SSPRITE_ADDON").c_str());
@@ -4341,6 +4459,56 @@ MTopView::InitCreatureFrames()
 		return false;
 	m_AdvancementOustersShadowFPK.LoadFromFile(AdvancementOustersShadowFile);
 	AdvancementOustersFile.close();
+
+	// Optional: without advancedousters the Osiris items keep the ACOusters look.
+	ivfstream OsirisOustersFile;
+	std::string osirisOustersCFPK = GetOptionalFileDef("FILE_CFRAME_ADVANCEMENT_CLASS_OUSTERS_171");
+	if (!osirisOustersCFPK.empty() && FileOpenBinary(osirisOustersCFPK.c_str(), OsirisOustersFile))
+	{
+		m_OsirisOustersFPK.LoadFromFile(OsirisOustersFile);
+		OsirisOustersFile.close();
+	}
+
+	ivfstream OsirisOustersShadowFile;
+	std::string osirisOustersShadowCFPK = GetOptionalFileDef("FILE_CFRAME_ADVANCEMENT_CLASS_OUSTERS_SHADOW_171");
+	if (!osirisOustersShadowCFPK.empty() && FileOpenBinary(osirisOustersShadowCFPK.c_str(), OsirisOustersShadowFile))
+	{
+		m_OsirisOustersShadowFPK.LoadFromFile(OsirisOustersShadowFile);
+		OsirisOustersShadowFile.close();
+	}
+
+	// Optional: without the advanced* packs the Osiris items keep the AC* look.
+	struct { const char* key; CCreatureFramePack* pFPK; } osirisFPK[] =
+	{
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_VAMPIRE_MAN_171",			&m_OsirisVampireManFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_VAMPIRE_WOMAN_171",			&m_OsirisVampireWomanFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_VAMPIRE_MAN_SHADOW_171",		&m_OsirisVampireManShadowFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_VAMPIRE_WOMAN_SHADOW_171",	&m_OsirisVampireWomanShadowFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_SLAYER_MAN_171",				&m_OsirisSlayerManFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_SLAYER_WOMAN_171",			&m_OsirisSlayerWomanFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_SLAYER_MAN_SHADOW_171",		&m_OsirisSlayerManShadowFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_SLAYER_WOMAN_SHADOW_171",		&m_OsirisSlayerWomanShadowFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_OUSTERS_201",	&m_Tier2OustersFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_VAMPIRE_MAN_201",	&m_Tier2VampireManFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_VAMPIRE_WOMAN_201",	&m_Tier2VampireWomanFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_SLAYER_MAN_201",	&m_Tier2SlayerManFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_SLAYER_WOMAN_201",	&m_Tier2SlayerWomanFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_OUSTERS_SHADOW_201",	&m_Tier2OustersShadowFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_VAMPIRE_MAN_SHADOW_201",	&m_Tier2VampireManShadowFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_VAMPIRE_WOMAN_SHADOW_201",	&m_Tier2VampireWomanShadowFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_SLAYER_MAN_SHADOW_201",	&m_Tier2SlayerManShadowFPK },
+		{ "FILE_CFRAME_ADVANCEMENT_CLASS_SLAYER_WOMAN_SHADOW_201",	&m_Tier2SlayerWomanShadowFPK },
+	};
+	for (int i = 0; i < (int)(sizeof(osirisFPK) / sizeof(osirisFPK[0])); ++i)
+	{
+		ivfstream osirisFile;
+		std::string path = GetOptionalFileDef(osirisFPK[i].key);
+		if (!path.empty() && FileOpenBinary(path.c_str(), osirisFile))
+		{
+			osirisFPK[i].pFPK->LoadFromFile(osirisFile);
+			osirisFile.close();
+		}
+	}
 
 	ivfstream AdvancementVampireManFile;
 	if (!FileOpenBinary(g_pFileDef->getProperty("FILE_CFRAME_ADVANCEMENT_CLASS_VAMPIRE_MAN").c_str(),

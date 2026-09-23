@@ -3718,6 +3718,8 @@ MCreature::CreateAttachEffect(TYPE_EFFECTSPRITETYPE type,
 		case EFFECTSPRITETYPE_RENEWAL_BLOODY_NAIL_MALE_ACTION_1_NORMAL:
 		case EFFECTSPRITETYPE_RENEWAL_TALON_OF_CROW_FEMALE_ACTION_1_NORMAL:
 		case EFFECTSPRITETYPE_RENEWAL_TALON_OF_CROW_MALE_ACTION_1_NORMAL:
+		case EFFECTSPRITETYPE_RENEWAL_ACID_TOUCH_FEMALE_ACTION_1_NORMAL:
+		case EFFECTSPRITETYPE_RENEWAL_ACID_TOUCH_MALE_ACTION_1_NORMAL:
 			if (m_ActionStep < 3)
 			{
 				type += m_ActionStep * 3;
@@ -11853,8 +11855,16 @@ bool MCreature::UpDateInstallTurret()
 
 BYTE		MCreature::GetActionCountMax() const
 {
-	//if( IsAdvancementClass() )
-	//	return GetCreatureActionCountMax(( this, GetAction() );
+	// An advanced character's stand pose changes with the weapon in hand (Ousters: chakram
+	// 20 frames, wristlet 30), so the count stored when the action began can outlast the
+	// pose after a swap - every layer then fails its frame check and the character vanishes.
+	if( m_Action == ACTION_STAND && IsAdvancementClass() )
+	{
+		BYTE countMax = GetCreatureActionCountMax( this, ACTION_STAND );
+		if( countMax > 0 )
+			return countMax;
+	}
+
 	return m_ActionCountMax;
 }
 // 2005, 1, 5, sobeit add start

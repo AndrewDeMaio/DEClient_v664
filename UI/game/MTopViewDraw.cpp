@@ -650,6 +650,526 @@ int ConvAdvancementOustersActionFromOusterAction( int CurAction, bool bChakram )
 	return AdvancementOustersActionConvTable[ CurAction ];
 }
 
+//----------------------------------------------------------------------
+// Blink diagnostic (Log\osiris_blink.log)
+//----------------------------------------------------------------------
+// For the player only: one line each time the advanced draw switches between
+// drawing the body and drawing nothing, with the state that decided it, and a
+// GAP line when frames went by without the advanced draw being called at all.
+static void
+WritePlayerBlinkLine(const char* tag, const char* text)
+{
+	FILE* fp = fopen("Log\\osiris_blink.log", "a");
+	if (fp == NULL)
+		return;
+
+	SYSTEMTIME st;
+	GetLocalTime(&st);
+	fprintf(fp, "%02d:%02d:%02d.%03d frame %lu %s %s\n", st.wHour, st.wMinute, st.wSecond,
+		st.wMilliseconds, g_CurrentFrame, tag, text);
+	fclose(fp);
+}
+
+static void
+LogPlayerBlink(bool bBlank, const char* format, ...)
+{
+	static bool s_bBlank = false;
+	if (bBlank == s_bBlank)
+		return;
+	s_bBlank = bBlank;
+
+	char text[512];
+	va_list ap;
+	va_start(ap, format);
+	_vsnprintf(text, sizeof(text) - 1, format, ap);
+	va_end(ap);
+	text[sizeof(text) - 1] = '\0';
+	WritePlayerBlinkLine(bBlank ? "BLANK" : "back ", text);
+}
+
+static void
+NotePlayerAdvancedDraw(const char* race)
+{
+	static DWORD s_lastFrame = 0;
+	static DWORD s_lastTick = 0;
+	DWORD now = GetTickCount();
+
+	if (s_lastTick != 0 && (g_CurrentFrame - s_lastFrame > 2 || now - s_lastTick > 250))
+	{
+		char text[128];
+		sprintf(text, "%s: %lu frames / %lu ms since the last advanced draw", race,
+			g_CurrentFrame - s_lastFrame, now - s_lastTick);
+		WritePlayerBlinkLine("GAP  ", text);
+	}
+
+	s_lastFrame = g_CurrentFrame;
+	s_lastTick = now;
+}
+
+//----------------------------------------------------------------------
+// Weapon art tier of a worn item (GetWeaponArtTier), from the item table
+//----------------------------------------------------------------------
+int
+GetItemWeaponArtTier(int itemClass, int itemType)
+{
+	if (itemClass < 0 || itemClass >= (*g_pItemTable).GetSize()
+		|| itemType < 0 || itemType >= (*g_pItemTable)[itemClass].GetSize())
+		return 0;
+
+	return GetWeaponArtTier((*g_pItemTable)[itemClass][itemType].GetRequireAdvancementLevel());
+}
+
+//----------------------------------------------------------------------
+// Advanced Ousters look
+//----------------------------------------------------------------------
+// ACOusters has one body (1) and one chakram layer (0). advancedousters has two of
+// each - 0/1 chakram, 2/3 body, the odd one being the Osiris version - and lists its
+// actions in a different order, without MAGIC_ATTACK. It is only used while an
+// Osiris item is worn, so every other advanced Ousters keeps the ACOusters look.
+static const int s_OsirisOustersAction[ACTION_ADVANCEMENT_OUSTERS_MAX - ADVANCEMENT_ACTION_START] =
+{
+	0,	// CHAKRAM_STOP
+	1,	// CHAKRAM_MOVE
+	6,	// WRISTLET_STOP
+	7,	// WRISTLET_MOVE
+	12,	// ATTACK_SLOW
+	13,	// ATTACK_NORMAL
+	14,	// ATTACK_FAST
+	15,	// SKILL_SLOW
+	16,	// SKILL_NORMAL
+	17,	// SKILL_FAST
+	2,	// MAGIC_ATTACK - no frames of its own, uses MAGIC
+	2,	// MAGIC
+	9,	// ABSORB_SOUL
+	4,	// DRAINED
+	5,	// DIE
+	3,	// DAMAGED
+	8,	// SPECIAL
+	10,	// FAST_MOVE_STOP
+	11,	// FAST_MOVE
+	18,	// WING_MOVE
+	19,	// WING_STOP
+	20,	// UNICORN_MOVE
+	21,	// UNICORN_STOP
+};
+
+// advancedousters action for an ACOusters one (both 0-based), -1 when out of range.
+int
+ConvOsirisOustersAction(int action)
+{
+	const int actionCount = sizeof(s_OsirisOustersAction) / sizeof(s_OsirisOustersAction[0]);
+
+	if (action < 0 || action >= actionCount)
+		return -1;
+
+	return s_OsirisOustersAction[action];
+}
+
+void
+MTopView::GetAdvancementOustersLook(MCreatureWear* pCreatureWear, int action, ADVANCEMENT_OUSTERS_LOOK& look)
+{
+	const MCreatureWear::ADDON_INFO& coat = pCreatureWear->GetAddonInfo(ADDON_COAT);
+	const MCreatureWear::ADDON_INFO& chakram = pCreatureWear->GetAddonInfo(ADDON_RIGHTHAND);
+
+	bool bOsirisCoat = coat.bAddon && coat.ItemClass == ITEM_CLASS_OUSTERS_COAT
+						&& coat.ItemType == OUSTERS_OSIRIS_COAT_ITEMTYPE;
+	int chakramTier = (chakram.bAddon && chakram.ItemClass == ITEM_CLASS_OUSTERS_CHAKRAM)
+						? GetItemWeaponArtTier(chakram.ItemClass, chakram.ItemType) : 0;
+
+	int osirisAction = ConvOsirisOustersAction(action);
+
+	if ((bOsirisCoat || chakramTier > 0) && osirisAction >= 0
+		&& m_OsirisOustersFPK.GetSize() >= 4 && m_OsirisOustersShadowFPK.GetSize() >= 4
+		&& m_OsirisOustersSPK.GetSize() > 0 && m_OsirisOustersSSPK.GetSize() > 0)
+	{
+		look.pFPK			= &m_OsirisOustersFPK;
+		look.pShadowFPK		= &m_OsirisOustersShadowFPK;
+		look.pSPK			= &m_OsirisOustersSPK;
+		look.pSSPK			= &m_OsirisOustersSSPK;
+		look.coatBody		= bOsirisCoat ? 3 : 2;
+		look.chakramBody	= chakramTier == 3 ? 1 : 0;
+		look.action			= osirisAction;
+	}
+	else
+	{
+		look.pFPK			= &m_AdvancementOustersFPK;
+		look.pShadowFPK		= &m_AdvancementOustersShadowFPK;
+		look.pSPK			= &m_AdvancementOustersSPK;
+		look.pSSPK			= &m_AdvancementOustersSSPK;
+		look.coatBody		= 1;
+		look.chakramBody	= 0;
+		look.action			= action;
+	}
+
+	// A tier-2 chakram comes from secondadvancedousters (chakram layer 0, same action order;
+	// it has no wing or unicorn actions, where the advancedousters chakram stays).
+	bool bTier2 = chakramTier == 2 && look.pFPK == &m_OsirisOustersFPK
+		&& m_Tier2OustersFPK.GetSize() >= 1 && m_Tier2OustersShadowFPK.GetSize() >= 1
+		&& look.action < m_Tier2OustersFPK[0].GetSize()
+		&& m_Tier2OustersSPK.GetSize() > 0 && m_Tier2OustersSSPK.GetSize() > 0;
+
+	look.pChakramFPK		= bTier2 ? &m_Tier2OustersFPK : look.pFPK;
+	look.pChakramShadowFPK	= bTier2 ? &m_Tier2OustersShadowFPK : look.pShadowFPK;
+	look.pChakramSPK		= bTier2 ? &m_Tier2OustersSPK : look.pSPK;
+	look.pChakramSSPK		= bTier2 ? &m_Tier2OustersSSPK : look.pSSPK;
+}
+
+//----------------------------------------------------------------------
+// Advanced Vampire look
+//----------------------------------------------------------------------
+// ACVampire* have a body (0) and claws (1). advancedvampire* have two of each -
+// 0/1 body, 2/3 claws, the odd one being the Osiris version - with the actions in
+// a different order and without SPECIAL/CREATE_WEAPON/DESTROY_WEAPON. They are
+// only used while an Osiris item is worn.
+static const int s_OsirisVampireAction[ACTION_ADVANCEMENT_MAX - ADVANCEMENT_ACTION_START] =
+{
+	0,	// STOP
+	1,	// MOVE
+	2,	// DAMAGED
+	3,	// DIE
+	4,	// DRAIN
+	5,	// DRAINED
+	8,	// ATTACK_SLOW
+	9,	// ATTACK_NORMAL
+	10,	// ATTACK_FAST
+	11,	// SKILL_SLOW
+	12,	// SKILL_NORMAL
+	13,	// SKILL_FAST
+	6,	// MAGIC
+	7,	// MAGIC_ATTACK
+	6,	// SPECIAL - no frames of its own, uses MAGIC
+	6,	// CREATE_WEAPON - uses MAGIC
+	6,	// DESTROY_WEAPON - uses MAGIC
+};
+
+// advancedvampire* action for an ACVampire one (both 0-based), -1 when out of range.
+int
+ConvOsirisVampireAction(int action)
+{
+	const int actionCount = sizeof(s_OsirisVampireAction) / sizeof(s_OsirisVampireAction[0]);
+
+	if (action < 0 || action >= actionCount)
+		return -1;
+
+	return s_OsirisVampireAction[action];
+}
+
+void
+MTopView::GetAdvancementVampireLook(MCreature* pCreature, int action, int direction, int frame, ADVANCEMENT_VAMPIRE_LOOK& look)
+{
+	const bool bMale = pCreature->IsMale();
+
+	look.pFPK			= bMale ? &m_AdvancementVampireManFPK : &m_AdvancementVampireWomanFPK;
+	look.pShadowFPK		= bMale ? &m_AdvancementVampireManShadowFPK : &m_AdvancementVampireWomanShadowFPK;
+	look.pSPK			= bMale ? &m_AdvancementVampireManSPK : &m_AdvancementVampireWomanSPK;
+	look.pSSPK			= bMale ? &m_AdvancementVampireManSSPK : &m_AdvancementVampireWomanSSPK;
+	look.pWeaponFPK		= look.pFPK;
+	look.pWeaponShadowFPK	= look.pShadowFPK;
+	look.pWeaponSPK		= look.pSPK;
+	look.pWeaponSSPK		= look.pSSPK;
+	look.body			= 0;
+	look.weapon			= 1;
+	look.action			= action;
+	look.frame			= frame;
+
+	if (!pCreature->IsWear())
+		return;
+
+	const MCreatureWear::ADDON_INFO& coat = ((MCreatureWear*)pCreature)->GetAddonInfo(ADDON_COAT);
+	const MCreatureWear::ADDON_INFO& claws = ((MCreatureWear*)pCreature)->GetAddonInfo(ADDON_RIGHTHAND);
+
+	bool bOsirisCoat = coat.bAddon && coat.ItemClass == ITEM_CLASS_VAMPIRE_COAT
+						&& (coat.ItemType == VAMPIRE_OSIRIS_COAT_ITEMTYPE || coat.ItemType == VAMPIRE_OSIRIS_COAT2_ITEMTYPE);
+	int weaponTier = (claws.bAddon && claws.ItemClass == ITEM_CLASS_VAMPIRE_WEAPON)
+						? GetItemWeaponArtTier(claws.ItemClass, claws.ItemType) : 0;
+
+	CCreatureFramePack& osirisFPK = bMale ? m_OsirisVampireManFPK : m_OsirisVampireWomanFPK;
+	CCreatureFramePack& osirisShadowFPK = bMale ? m_OsirisVampireManShadowFPK : m_OsirisVampireWomanShadowFPK;
+	CIndexSpritePack& osirisSPK = bMale ? m_OsirisVampireManSPK : m_OsirisVampireWomanSPK;
+	CShadowSpriteTypePack& osirisSSPK = bMale ? m_OsirisVampireManSSPK : m_OsirisVampireWomanSSPK;
+	int osirisAction = ConvOsirisVampireAction(action);
+
+	if (!(bOsirisCoat || weaponTier > 0) || osirisAction < 0
+		|| osirisFPK.GetSize() < 4 || osirisShadowFPK.GetSize() < 4
+		|| osirisSPK.GetSize() == 0 || osirisSSPK.GetSize() == 0)
+		return;
+
+	// Timing still follows ACVampire, so a shorter new action is stretched over it.
+	int oldCount = (*look.pFPK)[0][action][direction].GetSize();
+	int newCount = osirisFPK[0][osirisAction][direction].GetSize();
+
+	look.pFPK			= &osirisFPK;
+	look.pShadowFPK		= &osirisShadowFPK;
+	look.pSPK			= &osirisSPK;
+	look.pSSPK			= &osirisSSPK;
+	look.body			= bOsirisCoat ? 1 : 0;
+	look.weapon			= weaponTier == 3 ? 3 : 2;
+	look.action			= osirisAction;
+	if (newCount > 0 && newCount < oldCount)
+		look.frame		= frame * newCount / oldCount;
+
+	// A tier-2 weapon's claws come from secondadvancedvampire* (layer 2, same actions).
+	CCreatureFramePack& tier2FPK = bMale ? m_Tier2VampireManFPK : m_Tier2VampireWomanFPK;
+	CCreatureFramePack& tier2ShadowFPK = bMale ? m_Tier2VampireManShadowFPK : m_Tier2VampireWomanShadowFPK;
+	CIndexSpritePack& tier2SPK = bMale ? m_Tier2VampireManSPK : m_Tier2VampireWomanSPK;
+	CShadowSpriteTypePack& tier2SSPK = bMale ? m_Tier2VampireManSSPK : m_Tier2VampireWomanSSPK;
+	bool bTier2 = weaponTier == 2 && tier2FPK.GetSize() >= 3 && tier2ShadowFPK.GetSize() >= 3
+		&& osirisAction < tier2FPK[2].GetSize() && tier2SPK.GetSize() > 0 && tier2SSPK.GetSize() > 0;
+
+	look.pWeaponFPK		= bTier2 ? &tier2FPK : look.pFPK;
+	look.pWeaponShadowFPK	= bTier2 ? &tier2ShadowFPK : look.pShadowFPK;
+	look.pWeaponSPK		= bTier2 ? &tier2SPK : look.pSPK;
+	look.pWeaponSSPK		= bTier2 ? &tier2SSPK : look.pSSPK;
+}
+
+//----------------------------------------------------------------------
+// Advanced Slayer look
+//----------------------------------------------------------------------
+// ACSlayer* draw the whole body as one layer (AC_BODY). advancedslayer* split it
+// into pants, jacket and hair, give most parts a normal and an Osiris layer
+// (OSIRIS_SLAYER_LAYER), and list the actions in a different order. They are only
+// used while an Osiris item is worn; shoulder armour has no layer there.
+extern BYTE g_AdvanceSlayerActionMaxCount[];
+
+static const int s_OsirisSlayerAction[ACTION_ADVANCEMENT_SLAYER_MAX - ADVANCEMENT_ACTION_START] =
+{
+	30,	// STOP_SWORD
+	31,	// STOP_BLADE
+	29,	// STOP_GUN
+	0,	// STOP_MACE_AND_CROSS
+	33,	// MOVE_SWORD
+	34,	// MOVE_BLADE
+	32,	// MOVE_GUN
+	1,	// MOVE_MACE_AND_CROSS
+	17, 18, 19,	// ATTACK_SWORD_SLOW/NORMAL/FAST
+	20, 21, 22,	// ATTACK_BLADE
+	14, 15, 16,	// ATTACK_AR_GUN
+	11, 12, 13,	// ATTACK_SR_GUN
+	23, 24, 25,	// SKILL_SWORD
+	26, 27, 28,	// SKILL_BLADE
+	11, 12, 13,	// SKILL_GUN - no frames of its own, uses ATTACK_SR_GUN
+	35,	// MAGIC
+	2,	// MAGIC_ATTACK
+	3,	// DRAINED
+	6,	// DAMAGED_SWORD
+	7,	// DAMAGED_BLADE
+	8,	// DAMAGED_GUN
+	5,	// DAMAGED_CROSS_MACE
+	4,	// DIE
+	9,	// BIKE_MOVE
+	10,	// BIKE_STOP
+	35,	// SPECIAL - uses MAGIC
+	11,	// SPECIAL_2 - uses ATTACK_SR_GUN_SLOW
+	-1,	// SLIDING - empty in both packs, stays on ACSlayer
+	-1,	// SLIDING_END
+};
+
+// advancedslayer* action for an ACSlayer one (both 0-based), -1 when it has none.
+int
+ConvOsirisSlayerAction(int action)
+{
+	const int actionCount = sizeof(s_OsirisSlayerAction) / sizeof(s_OsirisSlayerAction[0]);
+
+	if (action < 0 || action >= actionCount)
+		return -1;
+
+	return s_OsirisSlayerAction[action];
+}
+
+// advancedslayer* layer for a one-layer ACSlayer part, -1 for none. AC_BODY is split
+// by the callers.
+int
+ConvOsirisSlayerPart(int part, BYTE osirisParts)
+{
+	const int osirisWeapon = (osirisParts & OSIRIS_LOOK_WEAPON) ? 1 : 0;
+
+	switch (part)
+	{
+	case AC_HELMET:			return OSIRIS_SLAYER_HELMET + ((osirisParts & OSIRIS_LOOK_HELMET) ? 1 : 0);
+	case AC_SHIELD:			return OSIRIS_SLAYER_SHIELD + ((osirisParts & OSIRIS_LOOK_SHIELD) ? 1 : 0);
+	case AC_SWORD:			return OSIRIS_SLAYER_SWORD + osirisWeapon;
+	case AC_BLADE:			return OSIRIS_SLAYER_BLADE + osirisWeapon;
+	case AC_CROSS:			return OSIRIS_SLAYER_CROSS + osirisWeapon;
+	case AC_MACE:			return OSIRIS_SLAYER_MACE + osirisWeapon;
+	case AC_GUN_AR:			return OSIRIS_SLAYER_GUN_AR + osirisWeapon;
+	case AC_GUN_SR:			return OSIRIS_SLAYER_GUN_SR + osirisWeapon;
+	case AC_BIKE_1:			return OSIRIS_SLAYER_BIKE_1;
+	case AC_BIKE_2:
+	case AC_BIKE_2_COLOR:	return OSIRIS_SLAYER_BIKE_2;
+#if __CONTENTS(__FAST_TRANSFORTER)
+	case AC_WING_BIKE:		return OSIRIS_SLAYER_WING_BIKE;
+#endif //__FAST_TRANSFORTER
+#if __CONTENTS(__SECOND_TRANSFORTER)
+	case AC_HOVER_VEHICLE:	return OSIRIS_SLAYER_HOVER_VEHICLE;
+#endif //__SECOND_TRANSFORTER
+	}
+
+	return -1;
+}
+
+static bool
+IsSlayerWeaponPart(int part)
+{
+	return part == AC_SWORD || part == AC_BLADE || part == AC_CROSS || part == AC_MACE
+		|| part == AC_GUN_AR || part == AC_GUN_SR;
+}
+
+void
+MTopView::GetAdvancementSlayerLook(MCreature* pCreature, int action, int direction, int frame, ADVANCEMENT_SLAYER_LOOK& look)
+{
+	const bool bMale = pCreature->IsMale();
+
+	look.pFPK			= bMale ? &m_AdvancementSlayerManFPK : &m_AdvancementSlayerWomanFPK;
+	look.pShadowFPK		= bMale ? &m_AdvancementSlayerManShadowFPK : &m_AdvancementSlayerWomanShadowFPK;
+	look.pSPK			= bMale ? &m_AdvancementSlayerManSPK : &m_AdvancementSlayerWomanSPK;
+	look.pSSPK			= bMale ? &m_AdvancementSlayerManSSPK : &m_AdvancementSlayerWomanSSPK;
+	look.pTier2FPK		= NULL;
+	look.pTier2ShadowFPK	= NULL;
+	look.pTier2SPK		= NULL;
+	look.pTier2SSPK		= NULL;
+	look.action			= action;
+	look.frame			= frame;
+	look.bOsiris		= false;
+	look.osirisParts	= 0;
+
+	if (!pCreature->IsWear())
+		return;
+
+	MCreatureWear* pCreatureWear = (MCreatureWear*)pCreature;
+	const MCreatureWear::ADDON_INFO& helm = pCreatureWear->GetAddonInfo(ADDON_HELM);
+	const MCreatureWear::ADDON_INFO& coat = pCreatureWear->GetAddonInfo(ADDON_COAT);
+	const MCreatureWear::ADDON_INFO& trouser = pCreatureWear->GetAddonInfo(ADDON_TROUSER);
+	const MCreatureWear::ADDON_INFO& shield = pCreatureWear->GetAddonInfo(ADDON_LEFTHAND);
+	const MCreatureWear::ADDON_INFO& weapon = pCreatureWear->GetAddonInfo(ADDON_RIGHTHAND);
+
+	BYTE osirisParts = 0;
+	if (helm.bAddon && helm.ItemClass == ITEM_CLASS_HELM && helm.ItemType == SLAYER_OSIRIS_HELM_ITEMTYPE)
+		osirisParts |= OSIRIS_LOOK_HELMET;
+	if (coat.bAddon && coat.ItemClass == ITEM_CLASS_COAT
+		&& (coat.ItemType == SLAYER_OSIRIS_COAT_ITEMTYPE || coat.ItemType == SLAYER_OSIRIS_COAT2_ITEMTYPE))
+		osirisParts |= OSIRIS_LOOK_COAT;
+	if (trouser.bAddon && trouser.ItemClass == ITEM_CLASS_TROUSER
+		&& (trouser.ItemType == SLAYER_OSIRIS_TROUSER_ITEMTYPE || trouser.ItemType == SLAYER_OSIRIS_TROUSER2_ITEMTYPE))
+		osirisParts |= OSIRIS_LOOK_TROUSER;
+	if (shield.bAddon && shield.ItemClass == ITEM_CLASS_SHIELD && shield.ItemType == SLAYER_OSIRIS_SHIELD_ITEMTYPE)
+		osirisParts |= OSIRIS_LOOK_SHIELD;
+	if (weapon.bAddon && weapon.ItemClass != ITEM_CLASS_MOTORCYCLE)
+	{
+		static const BYTE weaponTierLook[] = { 0, OSIRIS_LOOK_WEAPON_TIER1, OSIRIS_LOOK_WEAPON_TIER2, OSIRIS_LOOK_WEAPON };
+		osirisParts |= weaponTierLook[ GetItemWeaponArtTier(weapon.ItemClass, weapon.ItemType) ];
+	}
+
+	CCreatureFramePack& osirisFPK = bMale ? m_OsirisSlayerManFPK : m_OsirisSlayerWomanFPK;
+	CCreatureFramePack& osirisShadowFPK = bMale ? m_OsirisSlayerManShadowFPK : m_OsirisSlayerWomanShadowFPK;
+	CIndexSpritePack& osirisSPK = bMale ? m_OsirisSlayerManSPK : m_OsirisSlayerWomanSPK;
+	CShadowSpriteTypePack& osirisSSPK = bMale ? m_OsirisSlayerManSSPK : m_OsirisSlayerWomanSSPK;
+	int osirisAction = ConvOsirisSlayerAction(action);
+
+	if (osirisParts == 0 || osirisAction < 0
+		|| osirisFPK.GetSize() < OSIRIS_SLAYER_LAYER_MAX || osirisShadowFPK.GetSize() < OSIRIS_SLAYER_LAYER_MAX
+		|| osirisSPK.GetSize() == 0 || osirisSSPK.GetSize() == 0)
+		return;
+
+	// Timing still follows ACSlayer, so the new action is stretched or squeezed onto it.
+	int oldCount = g_AdvanceSlayerActionMaxCount[action];
+	int newCount = osirisFPK[OSIRIS_SLAYER_JACKET][osirisAction][direction].GetSize();
+
+	look.pFPK			= &osirisFPK;
+	look.pShadowFPK		= &osirisShadowFPK;
+	look.pSPK			= &osirisSPK;
+	look.pSSPK			= &osirisSSPK;
+	look.action			= osirisAction;
+	look.bOsiris		= true;
+	look.osirisParts	= osirisParts;
+	if (oldCount > 0 && newCount > 0 && oldCount != newCount)
+		look.frame		= min(frame * newCount / oldCount, newCount - 1);
+
+	// secondadvancedslayer* for a tier-2 weapon: same actions, weapon layers at the same indices.
+	CCreatureFramePack& tier2FPK = bMale ? m_Tier2SlayerManFPK : m_Tier2SlayerWomanFPK;
+	CCreatureFramePack& tier2ShadowFPK = bMale ? m_Tier2SlayerManShadowFPK : m_Tier2SlayerWomanShadowFPK;
+	CIndexSpritePack& tier2SPK = bMale ? m_Tier2SlayerManSPK : m_Tier2SlayerWomanSPK;
+	CShadowSpriteTypePack& tier2SSPK = bMale ? m_Tier2SlayerManSSPK : m_Tier2SlayerWomanSSPK;
+	if ((osirisParts & OSIRIS_LOOK_WEAPON_TIER2) && tier2FPK.GetSize() > OSIRIS_SLAYER_SHIELD
+		&& tier2ShadowFPK.GetSize() > OSIRIS_SLAYER_SHIELD && tier2SPK.GetSize() > 0 && tier2SSPK.GetSize() > 0)
+	{
+		look.pTier2FPK			= &tier2FPK;
+		look.pTier2ShadowFPK	= &tier2ShadowFPK;
+		look.pTier2SPK			= &tier2SPK;
+		look.pTier2SSPK			= &tier2SSPK;
+	}
+}
+
+// One advancedslayer* layer coloured like the given addon, but with colorSet in colour
+// set 0 - the only one these layers use. The draw code puts ColorSet1 there, after
+// replacing it with the converted ColorSet2 for any class but coat and trouser.
+static void
+SetOsirisSlayerLayer(ADVANCEMENT_SLAYER_LAYER& layer, int part, const MCreatureWear::ADDON_INFO& from, int colorSet)
+{
+	layer.part				= part;
+	layer.info				= from;
+	layer.info.bAddon		= TRUE;
+	layer.info.ItemClass	= ITEM_CLASS_HELM;
+	layer.info.ColorSet1	= colorSet;
+	layer.info.ColorSet2	= colorSet;
+}
+
+static void
+SetSlayerLayerPacks(ADVANCEMENT_SLAYER_LAYER& layer, const ADVANCEMENT_SLAYER_LOOK& look, bool bTier2)
+{
+	layer.pFPK			= bTier2 ? look.pTier2FPK : look.pFPK;
+	layer.pShadowFPK	= bTier2 ? look.pTier2ShadowFPK : look.pShadowFPK;
+	layer.pSPK			= bTier2 ? look.pTier2SPK : look.pSPK;
+	layer.pSSPK			= bTier2 ? look.pTier2SSPK : look.pSSPK;
+}
+
+// The layers standing in for one ACSlayer part, returns how many (0 to ADVANCEMENT_SLAYER_LAYER_MAX).
+int
+GetAdvancementSlayerLayers( const ADVANCEMENT_SLAYER_LOOK& look, MCreatureWear* pCreatureWear,
+							int part, const MCreatureWear::ADDON_INFO& addonInfo,
+							ADVANCEMENT_SLAYER_LAYER* pLayers )
+{
+	if (!look.bOsiris)
+	{
+		pLayers[0].part = part;
+		pLayers[0].info = addonInfo;
+		SetSlayerLayerPacks(pLayers[0], look, false);
+		return 1;
+	}
+
+	if (part == AC_BODY)
+	{
+		// addonInfo is the coat: ColorSet1 = hair, ColorSet2 = jacket. Other Slayers get the
+		// pants colour in the trouser's ColorSet2 (SetAddonToSlayer), the player's worn
+		// trousers in ColorSet1 (MCreatureWear::SetAddonItem).
+		const MCreatureWear::ADDON_INFO& trouser = pCreatureWear->GetAddonInfo(ADDON_TROUSER);
+		const MCreatureWear::ADDON_INFO& hair = pCreatureWear->GetAddonInfo(ADDON_HAIR);
+		int pantsColor = !trouser.bAddon ? 375 : (pCreatureWear == g_pPlayer ? trouser.ColorSet1 : trouser.ColorSet2);
+		int jacketColor = addonInfo.bAddon ? addonInfo.ColorSet2 : 375;
+
+		SetOsirisSlayerLayer(pLayers[0], OSIRIS_SLAYER_PANTS + ((look.osirisParts & OSIRIS_LOOK_TROUSER) ? 1 : 0),
+							trouser.bAddon ? trouser : addonInfo, pantsColor);
+		SetOsirisSlayerLayer(pLayers[1], OSIRIS_SLAYER_JACKET + ((look.osirisParts & OSIRIS_LOOK_COAT) ? 1 : 0),
+							addonInfo, jacketColor);
+		SetOsirisSlayerLayer(pLayers[2], OSIRIS_SLAYER_HAIR, addonInfo, hair.ColorSet1);
+		for (int i = 0; i < 3; ++i)
+			SetSlayerLayerPacks(pLayers[i], look, false);
+		return 3;
+	}
+
+	int layer = ConvOsirisSlayerPart(part, look.osirisParts);
+	if (layer < 0)
+		return 0;
+
+	// a tier-2 weapon comes from secondadvancedslayer*, when it has frames for this action
+	bool bTier2 = IsSlayerWeaponPart(part) && look.pTier2FPK != NULL
+		&& layer < look.pTier2FPK->GetSize() && look.action < (*look.pTier2FPK)[layer].GetSize();
+
+	pLayers[0].part = layer;
+	pLayers[0].info = addonInfo;
+	SetSlayerLayerPacks(pLayers[0], look, bTier2);
+	return 1;
+}
+
 
 bool IsEscapeDrawCreatureFunction( MCreature* pCreature )
 {
@@ -2873,10 +3393,36 @@ void	MTopView::DrawAdvancementClassOustersCharacter(
 	
 	int tempAction = ConvAdvancementOustersActionFromOusterAction( action, bChakram );
 
+	if( pCreature == g_pPlayer )
+	{
+		NotePlayerAdvancedDraw( "ousters" );
+		if( tempAction == -1 )
+			LogPlayerBlink( true, "ousters action %d has no advancement action", action );
+	}
+
 	if( tempAction == -1 )
 		return;
 	else
 		tempAction -= ADVANCEMENT_ACTION_START;
+
+	ADVANCEMENT_OUSTERS_LOOK look;
+	GetAdvancementOustersLook( pCreatureWear, tempAction, look );
+
+	if( pCreature == g_pPlayer )
+	{
+		const MCreatureWear::ADDON_INFO& coatInfo = pCreatureWear->GetAddonInfo(ADDON_COAT);
+		int bodyFrames = (*look.pFPK)[ look.coatBody ][ look.action ][ direction ].GetSize();
+		int chakramFrames = (*look.pChakramFPK)[ look.chakramBody ][ look.action ][ direction ].GetSize();
+		bool bBody = coatInfo.bAddon && !pCreatureWear->IsGhost(1) && bodyFrames > frame;
+		bool bChakramDrawn = bChakram && !pCreatureWear->IsGhost(2) && chakramFrames > frame;
+		LogPlayerBlink( !bBody && !bChakramDrawn,
+			"ousters act %d->%d dir %d frame %d | coat %d %d:%d ghost %d | right %d %d:%d | %s pack, body %d has %d frames, chakram %d has %d",
+			action, look.action, direction, frame,
+			coatInfo.bAddon, coatInfo.ItemClass, coatInfo.ItemType, pCreatureWear->IsGhost(1),
+			addonInfoChakram.bAddon, addonInfoChakram.ItemClass, addonInfoChakram.ItemType,
+			look.pFPK == &m_OsirisOustersFPK ? "advanced" : "AC",
+			look.coatBody, bodyFrames, look.chakramBody, chakramFrames );
+	}
 	
 	// 2005.08.12 Sjheon 콤보 스킬 관련 Add
 	/*
@@ -2943,7 +3489,7 @@ void	MTopView::DrawAdvancementClassOustersCharacter(
 		
 		//FRAME_ARRAY &FA = m_OustersFPK[clothes][tempAction][direction];
 		
-		FRAME_ARRAY &FA = m_AdvancementOustersFPK[ 1 ][ tempAction ][ direction ];
+		FRAME_ARRAY &FA = (*look.pFPK)[ look.coatBody ][ look.action ][ direction ];
 		
 		// 있는 동작인 경우
 		if (FA.GetSize() > frame)
@@ -2954,7 +3500,7 @@ void	MTopView::DrawAdvancementClassOustersCharacter(
 			int cy		= Frame.GetCY();	//m_AddonFPK[clothes][action][direction][frame].GetCY();
 			
 			//CIndexSprite* pSprite = &m_OustersSPK[ sprite ];					
-			CIndexSprite* pSprite = &m_AdvancementOustersSPK[ sprite ];
+			CIndexSprite* pSprite = &(*look.pSPK)[ sprite ];
 			
 			pointTemp.x = pPoint->x + cx;// + pCreature->GetSX();
 			pointTemp.y = pPoint->y + cy;// + pCreature->GetSY();
@@ -3075,7 +3621,7 @@ void	MTopView::DrawAdvancementClassOustersCharacter(
 		
 		
 
-		FRAME_ARRAY &FA = m_AdvancementOustersFPK[ 0 ][ tempAction ][ direction ];
+		FRAME_ARRAY &FA = (*look.pChakramFPK)[ look.chakramBody ][ look.action ][ direction ];
 		
 		// 있는 동작인 경우
 		if (FA.GetSize() > frame)
@@ -3087,7 +3633,7 @@ void	MTopView::DrawAdvancementClassOustersCharacter(
 			int cy		= Frame.GetCY();	//m_AddonFPK[clothes][action][direction][frame].GetCY();
 			
 			//CIndexSprite* pSprite = &m_OustersSPK[ sprite ];					
-			CIndexSprite* pSprite = &m_AdvancementOustersSPK[ sprite ];
+			CIndexSprite* pSprite = &(*look.pChakramSPK)[ sprite ];
 			
 			pointTemp.x = pPoint->x + cx;// + pCreature->GetSX();
 			pointTemp.y = pPoint->y + cy;// + pCreature->GetSY();
@@ -3389,6 +3935,13 @@ void	MTopView::DrawAdvancementClassSlayerCharacter( POINT *pPoint, MCreature* pC
 		// ToT 시간없다.. 하드 코딩.. by sonee
 		action = ConvAdvancementSlayerActionFromSlayerAction( action, dynamic_cast< MCreatureWear* >(pCreature) );
 
+		if( pCreature == g_pPlayer )
+		{
+			NotePlayerAdvancedDraw( "slayer" );
+			if( action == -1 )
+				LogPlayerBlink( true, "slayer action has no advancement action" );
+		}
+
 		if( action == -1 )
 			return;
 		else
@@ -3497,8 +4050,26 @@ void	MTopView::DrawAdvancementClassSlayerCharacter( POINT *pPoint, MCreature* pC
 		//------------------------------------------------------------
 		else
 		{
-			CCreatureFramePack& slayerFPK = pCreature->IsMale() ? m_AdvancementSlayerManFPK : m_AdvancementSlayerWomanFPK;
-			CIndexSpritePack& addonISPK = pCreature->IsMale() ? m_AdvancementSlayerManSPK : m_AdvancementSlayerWomanSPK;
+			// Osiris items switch to advancedslayer* (MTopView::GetAdvancementSlayerLook).
+			ADVANCEMENT_SLAYER_LOOK look;
+			GetAdvancementSlayerLook( pCreature, action, direction, frame, look );
+
+			if( pCreature == g_pPlayer )
+			{
+				const MCreatureWear::ADDON_INFO& bodyInfo = pCreatureWear->GetACAddonInfo( AC_ADDON_BODY );
+				const MCreatureWear::ADDON_INFO& rightInfo = pCreatureWear->GetACAddonInfo( AC_ADDON_RIGHTHAND );
+				int bodyPart = GetAdvancementPartFromItemClass( bodyInfo.ItemClass, bodyInfo.FrameID );
+				int bodyFrames = (*look.pFPK)[ look.bOsiris ? OSIRIS_SLAYER_JACKET : AC_BODY ][ look.action ][ direction ].GetSize();
+				LogPlayerBlink( bodyPart == -1 || bodyFrames <= look.frame,
+					"slayer act %d->%d dir %d frame %d->%d | coat %d %d:%d part %d | right %d %d:%d | %s pack, parts %x, body has %d frames",
+					action, look.action, direction, frame, look.frame,
+					bodyInfo.bAddon, bodyInfo.ItemClass, bodyInfo.ItemType, bodyPart,
+					rightInfo.bAddon, rightInfo.ItemClass, rightInfo.ItemType,
+					look.bOsiris ? "advanced" : "AC", look.osirisParts, bodyFrames );
+			}
+			frame = look.frame;
+			CCreatureFramePack& slayerFPK = *look.pFPK;
+			CIndexSpritePack& addonISPK = *look.pSPK;
 			
 			for( int i = 0; i < AC_ADDON_MAX; ++i )
 			{
@@ -3514,6 +4085,14 @@ void	MTopView::DrawAdvancementClassSlayerCharacter( POINT *pPoint, MCreature* pC
 					clothes = GetAdvancementPartFromItemClass( addonInfo.ItemClass, addonInfo.FrameID );
 
 					if( clothes == -1 ) continue;
+					ADVANCEMENT_SLAYER_LAYER slayerLayers[ADVANCEMENT_SLAYER_LAYER_MAX];
+					int slayerLayerCount = GetAdvancementSlayerLayers( look, pCreatureWear, clothes, addonInfo, slayerLayers );
+					for (int slayerLayer = 0; slayerLayer < slayerLayerCount; ++slayerLayer)
+					{
+					const MCreatureWear::ADDON_INFO& addonInfo = slayerLayers[slayerLayer].info;
+					clothes = slayerLayers[slayerLayer].part;
+					CCreatureFramePack& slayerFPK = *slayerLayers[slayerLayer].pFPK;
+					CIndexSpritePack& addonISPK = *slayerLayers[slayerLayer].pSPK;
 
 					
 					//int iFrame = FA.GetSize() ; 
@@ -3526,7 +4105,7 @@ void	MTopView::DrawAdvancementClassSlayerCharacter( POINT *pPoint, MCreature* pC
 					//int Frame_Save = frame ; 
 					//int Action_Save= action;
 
-					FRAME_ARRAY& FA = slayerFPK[ clothes ][ action ][ direction ];
+					FRAME_ARRAY& FA = slayerFPK[ clothes ][ look.action ][ direction ];
 
 					if( FA.GetSize() > frame )
 					{
@@ -3597,6 +4176,7 @@ void	MTopView::DrawAdvancementClassSlayerCharacter( POINT *pPoint, MCreature* pC
 							}
 						}						
 					}
+					}
 #if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
 					//윙바이크 타고 있을때는 다른 파츠를 그려 주지 않는다. 어찌 되도 윙바이크 먼저 검사 할수 밖에 없기 때문에 
 					//다른 부위를 그리고 나서 연산하게 되면 어쩌나 하는 걱정은 일단 접어 두자.
@@ -3627,6 +4207,13 @@ void	MTopView::DrawAdvancementClassVampireCharacter( POINT* pPoint, MCreature* p
 
 	action = GetAdvancementVampireActionFromVampireAction( action, pCreature );
 
+	if( pCreature == g_pPlayer )
+	{
+		NotePlayerAdvancedDraw( "vampire" );
+		if( action == -1 )
+			LogPlayerBlink( true, "vampire action has no advancement action" );
+	}
+
 	if( action == -1 )
 		return;
 	else
@@ -3653,8 +4240,23 @@ void	MTopView::DrawAdvancementClassVampireCharacter( POINT* pPoint, MCreature* p
 	}*/
 	// 2005.08.12 Sjheon 콤보 스킬 관련 End
 
-	CCreatureFramePack& advanceVampireFPK = pCreature->IsMale() ? m_AdvancementVampireManFPK : m_AdvancementVampireWomanFPK;
-	CIndexSpritePack& advanceVampireSPK = pCreature->IsMale() ? m_AdvancementVampireManSPK : m_AdvancementVampireWomanSPK;
+	// Osiris items switch to advancedvampire* (MTopView::GetAdvancementVampireLook).
+	ADVANCEMENT_VAMPIRE_LOOK look;
+	GetAdvancementVampireLook( pCreature, action, direction, frame, look );
+	frame = look.frame;
+
+	if( pCreature == g_pPlayer )
+	{
+		int bodyFrames = (*look.pFPK)[ look.body ][ look.action ][ direction ].GetSize();
+		LogPlayerBlink( bCasketOnly || bodyFrames <= frame,
+			"vampire act %d dir %d frame %d | casket %d | %s pack, body %d has %d frames",
+			look.action, direction, frame, bCasketOnly,
+			(look.pFPK == &m_OsirisVampireManFPK || look.pFPK == &m_OsirisVampireWomanFPK) ? "advanced" : "AC",
+			look.body, bodyFrames );
+	}
+
+	CCreatureFramePack& advanceVampireFPK = *look.pFPK;
+	CIndexSpritePack& advanceVampireSPK = *look.pSPK;
 	
 	BOOL	bAffterEffect  = FALSE ; 
 	int iAction = GetAdvancementVampireActionFromVampireAction(action , pCreature) ; 
@@ -3697,7 +4299,7 @@ void	MTopView::DrawAdvancementClassVampireCharacter( POINT* pPoint, MCreature* p
 	if (!bCasketOnly)
 	{
 		
-		FRAME_ARRAY& FA = advanceVampireFPK[0][action][direction];
+		FRAME_ARRAY& FA = advanceVampireFPK[look.body][look.action][direction];
 		
 		if (FA.GetSize() > frame)
 		{
@@ -4091,7 +4693,7 @@ void	MTopView::DrawAdvancementClassVampireCharacter( POINT* pPoint, MCreature* p
 			)
 		{
 			
-			FRAME_ARRAY& FAWEAPON = advanceVampireFPK[1][action][direction];
+			FRAME_ARRAY& FAWEAPON = (*look.pWeaponFPK)[look.weapon][look.action][direction];
 			if (FAWEAPON.GetSize() > frame)
 			{
 				CFrame& Frame =	FAWEAPON[frame];
@@ -4103,7 +4705,7 @@ void	MTopView::DrawAdvancementClassVampireCharacter( POINT* pPoint, MCreature* p
 				pointTemp.x = pPoint->x + cx;// + pCreature->GetSX();
 				pointTemp.y = pPoint->y + cy;// + pCreature->GetSY();
 				
-				CIndexSprite* pSprite = &advanceVampireSPK[ sprite ];
+				CIndexSprite* pSprite = &(*look.pWeaponSPK)[ sprite ];
 				
 				//---------------------------------------- 
 				// 캐릭터 선택 사각형 영역 설정
@@ -4750,15 +5352,23 @@ void	MTopView::DrawSelectedAdvancementVampireCreature( POINT* pPoint, MCreature*
 	else
 		action -= ADVANCEMENT_ACTION_START;
 
-	CCreatureFramePack& advanceVampireFPK = pCreature->IsMale() ? m_AdvancementVampireManFPK : m_AdvancementVampireWomanFPK;
-	CIndexSpritePack& advanceVampireSPK = pCreature->IsMale() ? m_AdvancementVampireManSPK : m_AdvancementVampireWomanSPK;	
+	// Osiris items switch to advancedvampire* (MTopView::GetAdvancementVampireLook).
+	ADVANCEMENT_VAMPIRE_LOOK look;
+	GetAdvancementVampireLook( pCreature, action, direction, frame, look );
+	frame = look.frame;
+
+	CCreatureFramePack& advanceVampireFPK = *look.pFPK;
+	CIndexSpritePack& advanceVampireSPK = *look.pSPK;
 	
 	if (!bCasketOnly)
 	{	
 		for( int i = body; i <= body+1; ++i )
 		{
+			// the body and the claws may come from different packs (GetAdvancementVampireLook)
+			CCreatureFramePack& advanceVampireFPK = (i == body) ? *look.pFPK : *look.pWeaponFPK;
+			CIndexSpritePack& advanceVampireSPK = (i == body) ? *look.pSPK : *look.pWeaponSPK;
 			// 0:body 1: 무기 착탈에 따라 나중에 수정 
-			FRAME_ARRAY& FA = advanceVampireFPK[i][action][direction];
+			FRAME_ARRAY& FA = advanceVampireFPK[i == body ? look.body : look.weapon][look.action][direction];
 			
 			if (FA.GetSize() > frame)
 			{			
@@ -4948,8 +5558,12 @@ void	MTopView::DrawSelectedAdvancementSlayerCreature( POINT* pPoint, MCreature* 
 	int clothes;
 	BYTE clothesType;
 
-	CCreatureFramePack& slayerFPK = pCreature->IsMale() ? m_AdvancementSlayerManFPK : m_AdvancementSlayerWomanFPK;
-	CIndexSpritePack& addonISPK = pCreature->IsMale() ? m_AdvancementSlayerManSPK : m_AdvancementSlayerWomanSPK;
+	// Osiris items switch to advancedslayer* (MTopView::GetAdvancementSlayerLook).
+	ADVANCEMENT_SLAYER_LOOK look;
+	GetAdvancementSlayerLook( pCreature, action, direction, frame, look );
+	frame = look.frame;
+	CCreatureFramePack& slayerFPK = *look.pFPK;
+	CIndexSpritePack& addonISPK = *look.pSPK;
 	
 	for (int i=0; i<AC_ADDON_MAX; i++)
 	{
@@ -4969,8 +5583,16 @@ void	MTopView::DrawSelectedAdvancementSlayerCreature( POINT* pPoint, MCreature* 
 
 			if( clothes == -1 )
 				continue;
+			ADVANCEMENT_SLAYER_LAYER slayerLayers[ADVANCEMENT_SLAYER_LAYER_MAX];
+			int slayerLayerCount = GetAdvancementSlayerLayers( look, pCreatureWear, clothes, addonInfo, slayerLayers );
+			for (int slayerLayer = 0; slayerLayer < slayerLayerCount; ++slayerLayer)
+			{
+			const MCreatureWear::ADDON_INFO& addonInfo = slayerLayers[slayerLayer].info;
+			clothes = slayerLayers[slayerLayer].part;
+			CCreatureFramePack& slayerFPK = *slayerLayers[slayerLayer].pFPK;
+			CIndexSpritePack& addonISPK = *slayerLayers[slayerLayer].pSPK;
 			
-			FRAME_ARRAY &FA = slayerFPK[clothes][action][direction];
+			FRAME_ARRAY &FA = slayerFPK[clothes][look.action][direction];
 			
 			// 있는 동작인 경우
 			if (FA.GetSize() > frame)
@@ -5037,6 +5659,7 @@ void	MTopView::DrawSelectedAdvancementSlayerCreature( POINT* pPoint, MCreature* 
 					m_SOM.Add( pointTemp.x, pointTemp.y, pSprite );
 				}
 			}
+			}
 #if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
 					//윙바이크 타고 있을때는 다른 파츠를 그려 주지 않는다. 어찌 되도 윙바이크 먼저 검사 할수 밖에 없기 때문에 
 					//다른 부위를 그리고 나서 연산하게 되면 어쩌나 하는 걱정은 일단 접어 두자.
@@ -5067,14 +5690,17 @@ void	MTopView::DrawSelectedAdvancementOustersCreature( POINT* pPoint, MCreature*
 	else
 		tempAction -= ADVANCEMENT_ACTION_START;
 
+	ADVANCEMENT_OUSTERS_LOOK look;
+	GetAdvancementOustersLook( pCreatureWear, tempAction, look );
+
 	const MCreatureWear::ADDON_INFO& addonInfo = pCreatureWear->GetAddonInfo(ADDON_COAT);
 	const MCreatureWear::ADDON_INFO& bootsAddonInfo = pCreatureWear->GetAddonInfo(ADDON_TROUSER);
 	
 	if (addonInfo.bAddon && !pCreatureWear->IsGhost(1))
 	{
-		int clothes = 1;		
+		int clothes = look.coatBody;		
 		
-		FRAME_ARRAY &FA = m_AdvancementOustersFPK[clothes][tempAction][direction];
+		FRAME_ARRAY &FA = (*look.pFPK)[clothes][look.action][direction];
 		
 		// 있는 동작인 경우
 		if (FA.GetSize() > frame)
@@ -5084,7 +5710,7 @@ void	MTopView::DrawSelectedAdvancementOustersCreature( POINT* pPoint, MCreature*
 			int cx		= Frame.GetCX();	//m_AddonFPK[clothes][action][direction][frame].GetCX();
 			int cy		= Frame.GetCY();	//m_AddonFPK[clothes][action][direction][frame].GetCY();
 			
-			CIndexSprite* pSprite = &m_AdvancementOustersSPK[ sprite ];					
+			CIndexSprite* pSprite = &(*look.pSPK)[ sprite ];					
 			
 			pointTemp.x = pPoint->x + cx;// + pCreature->GetSX();
 			pointTemp.y = pPoint->y + cy;// + pCreature->GetSY();
@@ -5179,9 +5805,9 @@ void	MTopView::DrawSelectedAdvancementOustersCreature( POINT* pPoint, MCreature*
 	
 	if (bChakram && !pCreatureWear->IsGhost(2))
 	{
-		int clothes = 0;
+		int clothes = look.chakramBody;
 		
-		FRAME_ARRAY &FA = m_AdvancementOustersFPK[clothes][tempAction][direction];
+		FRAME_ARRAY &FA = (*look.pChakramFPK)[clothes][look.action][direction];
 		
 		// 있는 동작인 경우
 		if (FA.GetSize() > frame)
@@ -5191,7 +5817,7 @@ void	MTopView::DrawSelectedAdvancementOustersCreature( POINT* pPoint, MCreature*
 			int cx		= Frame.GetCX();	//m_AddonFPK[clothes][action][direction][frame].GetCX();
 			int cy		= Frame.GetCY();	//m_AddonFPK[clothes][action][direction][frame].GetCY();
 			
-			CIndexSprite* pSprite = &m_AdvancementOustersSPK[ sprite ];					
+			CIndexSprite* pSprite = &(*look.pChakramSPK)[ sprite ];					
 			
 			pointTemp.x = pPoint->x + cx;// + pCreature->GetSX();
 			pointTemp.y = pPoint->y + cy;// + pCreature->GetSY();

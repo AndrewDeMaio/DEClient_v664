@@ -19,6 +19,10 @@
 #include "MTypeDef.h"
 #include "AddonDef.h"
 #include "MCreatureWear.h"
+#include "PacketItemDef.h"
+
+int ConvOsirisOustersAction(int action);	// MTopViewDraw.cpp
+int ConvOsirisVampireAction(int action);	// MTopViewDraw.cpp
 
 int	g_ACAddonOrder[ DIRECTION_MAX ][ AC_ADDON_MAX ] =
 {
@@ -456,7 +460,32 @@ void	C_VS_UI_NEWCHAR::_ShowCharacterACOusters( int _x, int _y, S_SLOT* p_slot, i
 	}
 
 	action-=ADVANCEMENT_ACTION_START;
-	index %= m_AdvancementOustersCfpk[coat][action][2].GetSize();
+
+	// Osiris items draw from advancedousters, as in game (MTopView::GetAdvancementOustersLook).
+	CCreatureFramePack* pCfpk = &m_AdvancementOustersCfpk;
+	CIndexSpritePack* pIspk = &m_AdvancementOustersIspk;
+	int chakram = 0;
+	int osirisAction = ConvOsirisOustersAction(action);
+	if (p_slot->OsirisLook != 0 && osirisAction >= 0
+		&& m_OsirisOustersCfpk.GetSize() >= 4 && m_OsirisOustersIspk.GetSize() > 0)
+	{
+		pCfpk = &m_OsirisOustersCfpk;
+		pIspk = &m_OsirisOustersIspk;
+		coat = (p_slot->OsirisLook & OSIRIS_LOOK_COAT) ? 3 : 2;
+		chakram = (p_slot->OsirisLook & OSIRIS_LOOK_WEAPON) ? 1 : 0;
+		action = osirisAction;
+	}
+
+	// A tier-2 chakram comes from secondadvancedousters (GetWeaponArtTier).
+	CCreatureFramePack* pChakramCfpk = pCfpk;
+	CIndexSpritePack* pChakramIspk = pIspk;
+	if ((p_slot->OsirisLook & OSIRIS_LOOK_WEAPON_TIER2) && pCfpk == &m_OsirisOustersCfpk
+		&& m_Tier2OustersCfpk.GetSize() >= 1 && action < m_Tier2OustersCfpk[0].GetSize() && m_Tier2OustersIspk.GetSize() > 0)
+	{
+		pChakramCfpk = &m_Tier2OustersCfpk;
+		pChakramIspk = &m_Tier2OustersIspk;
+	}
+	index %= (*pCfpk)[coat][action][2].GetSize();
 	
 	
 	int coat_color = p_slot->coat_color;
@@ -500,30 +529,30 @@ void	C_VS_UI_NEWCHAR::_ShowCharacterACOusters( int _x, int _y, S_SLOT* p_slot, i
 		CIndexSprite::SetUsingColorSetOnly(2, weapon_color);
 	CIndexSprite::SetUsingColorSetOnly(3, trouser_color);
 	
-	point.x = _x+m_AdvancementOustersCfpk[coat][action][2][index].GetCX();
-	point.y = _y+m_AdvancementOustersCfpk[coat][action][2][index].GetCY();
+	point.x = _x+(*pCfpk)[coat][action][2][index].GetCX();
+	point.y = _y+(*pCfpk)[coat][action][2][index].GetCY();
 	
-	const int sprite_id = m_AdvancementOustersCfpk[coat][action][2][index].GetSpriteID();
+	const int sprite_id = (*pCfpk)[coat][action][2][index].GetSpriteID();
 	
 	if(dark)
-		gpC_base->m_p_DDSurface_back->BltIndexSpriteDarkness(&point, &m_AdvancementOustersIspk[sprite_id], DARK_BIT);
+		gpC_base->m_p_DDSurface_back->BltIndexSpriteDarkness(&point, &(*pIspk)[sprite_id], DARK_BIT);
 	else
-		gpC_base->m_p_DDSurface_back->BltIndexSprite(&point, &m_AdvancementOustersIspk[sprite_id]);
+		gpC_base->m_p_DDSurface_back->BltIndexSprite(&point, &(*pIspk)[sprite_id]);
 	
 	if(weapon)	// Ã­Å©¶÷ Âï±â
 	{
-		index %= m_AdvancementOustersCfpk[0][action][2].GetSize();
+		index %= (*pChakramCfpk)[chakram][action][2].GetSize();
 		
-		point.x = _x+m_AdvancementOustersCfpk[0][action][2][index].GetCX();
-		point.y = _y+m_AdvancementOustersCfpk[0][action][2][index].GetCY();
+		point.x = _x+(*pChakramCfpk)[chakram][action][2][index].GetCX();
+		point.y = _y+(*pChakramCfpk)[chakram][action][2][index].GetCY();
 		
-		const int sprite_id = m_AdvancementOustersCfpk[0][action][2][index].GetSpriteID();
+		const int sprite_id = (*pChakramCfpk)[chakram][action][2][index].GetSpriteID();
 		
 		CIndexSprite::SetUsingColorSet(weapon_color, weapon_color); // blt¿Í ÇÑ½ÖÀ» ÀÌ·ï¾ß ÇÔ. Ãâ·ÂÁ÷Àü¿¡ ¼³Á¤.
 		if(dark)
-			gpC_base->m_p_DDSurface_back->BltIndexSpriteDarkness(&point, &m_AdvancementOustersIspk[sprite_id], DARK_BIT);
+			gpC_base->m_p_DDSurface_back->BltIndexSpriteDarkness(&point, &(*pChakramIspk)[sprite_id], DARK_BIT);
 		else
-			gpC_base->m_p_DDSurface_back->BltIndexSprite(&point, &m_AdvancementOustersIspk[sprite_id]);
+			gpC_base->m_p_DDSurface_back->BltIndexSprite(&point, &(*pChakramIspk)[sprite_id]);
 	}
 }
 
@@ -584,6 +613,33 @@ void	C_VS_UI_NEWCHAR::_ShowCharacterACVampire( int _x, int _y, S_SLOT* p_slot, i
 	}
 
 	action-=ADVANCEMENT_ACTION_START;
+
+	// Osiris items draw from advancedvampire*, as in game (MTopView::GetAdvancementVampireLook).
+	int claws = 1;
+	int osirisAction = ConvOsirisVampireAction(action);
+	CCreatureFramePack* pOsirisCFPK = p_slot->bl_female ? &m_OsirisVampireWomanCfpk : &m_OsirisVampireManCfpk;
+	CIndexSpritePack* pOsirisISPK = p_slot->bl_female ? &m_OsirisVampireWomanIspk : &m_OsirisVampireManIspk;
+	if (p_slot->OsirisLook != 0 && osirisAction >= 0
+		&& pOsirisCFPK->GetSize() >= 4 && pOsirisISPK->GetSize() > 0)
+	{
+		pCFPK = pOsirisCFPK;
+		pISPK = pOsirisISPK;
+		coat = (p_slot->OsirisLook & OSIRIS_LOOK_COAT) ? 1 : 0;
+		claws = (p_slot->OsirisLook & OSIRIS_LOOK_WEAPON) ? 3 : 2;
+		action = osirisAction;
+	}
+
+	// A tier-2 weapon's claws come from secondadvancedvampire* (GetWeaponArtTier).
+	CCreatureFramePack* pClawsCFPK = pCFPK;
+	CIndexSpritePack* pClawsISPK = pISPK;
+	CCreatureFramePack* pTier2CFPK = p_slot->bl_female ? &m_Tier2VampireWomanCfpk : &m_Tier2VampireManCfpk;
+	CIndexSpritePack* pTier2ISPK = p_slot->bl_female ? &m_Tier2VampireWomanIspk : &m_Tier2VampireManIspk;
+	if ((p_slot->OsirisLook & OSIRIS_LOOK_WEAPON_TIER2) && pCFPK == pOsirisCFPK
+		&& pTier2CFPK->GetSize() >= 3 && action < (*pTier2CFPK)[2].GetSize() && pTier2ISPK->GetSize() > 0)
+	{
+		pClawsCFPK = pTier2CFPK;
+		pClawsISPK = pTier2ISPK;
+	}
 	index %= (*pCFPK)[coat][action][2].GetSize();
 		
 	int coat_color = p_slot->coat_color;
@@ -606,19 +662,119 @@ void	C_VS_UI_NEWCHAR::_ShowCharacterACVampire( int _x, int _y, S_SLOT* p_slot, i
 	
 	if(weapon)	// Ã­Å©¶÷ Âï±â
 	{
-		index %= (*pCFPK)[1][action][2].GetSize();
+		index %= (*pClawsCFPK)[claws][action][2].GetSize();
 		
-		point.x = _x+(*pCFPK)[1][action][2][index].GetCX();
-		point.y = _y+(*pCFPK)[1][action][2][index].GetCY();
+		point.x = _x+(*pClawsCFPK)[claws][action][2][index].GetCX();
+		point.y = _y+(*pClawsCFPK)[claws][action][2][index].GetCY();
 		
-		const int sprite_id = (*pCFPK)[1][action][2][index].GetSpriteID();
+		const int sprite_id = (*pClawsCFPK)[claws][action][2][index].GetSpriteID();
 		
 		if(dark)
-			gpC_base->m_p_DDSurface_back->BltIndexSpriteDarkness(&point, &(*pISPK)[sprite_id], DARK_BIT);
+			gpC_base->m_p_DDSurface_back->BltIndexSpriteDarkness(&point, &(*pClawsISPK)[sprite_id], DARK_BIT);
 		else
-			gpC_base->m_p_DDSurface_back->BltIndexSprite(&point, &(*pISPK)[sprite_id]);
+			gpC_base->m_p_DDSurface_back->BltIndexSprite(&point, &(*pClawsISPK)[sprite_id]);
 	}
 }
+
+int ConvOsirisSlayerAction(int action);					// MTopViewDraw.cpp
+int ConvOsirisSlayerPart(int part, BYTE osirisParts);	// MTopViewDraw.cpp
+
+static int
+ConvSlotColorSet(int colorSet)
+{
+	if (colorSet == QUEST_ITEM_COLOR)
+		return MItem::GetQuestItemColorset();
+	if (colorSet == UNIQUE_ITEM_COLOR)
+		return MItem::GetUniqueItemColorset();
+	if (colorSet >= OPTIONEXT_ITEM_COLOR)
+		return MItem::GetItemOptionExtColorSet(colorSet);
+	return colorSet;
+}
+
+// Osiris Slayer slot: advancedslayer* split the body into pants, jacket and hair, and
+// every layer has one colour set (see GetAdvancementSlayerLayers). action is an
+// advancedslayer* action.
+static void
+ShowOsirisSlayer( CCreatureFramePack& cfpk, CIndexSpritePack& ispk, int _x, int _y, S_SLOT* p_slot,
+					int action, int index, int dark,
+					CCreatureFramePack* pTier2Cfpk, CIndexSpritePack* pTier2Ispk )	// tier-2 weapon art, or NULL
+{
+	const int DARK_BIT = 1;
+	MAN_INFO* info = &p_slot->man_info;
+	int parts[AC_ADDON_MAX + 2];
+	int colors[AC_ADDON_MAX + 2];
+	bool tier2[AC_ADDON_MAX + 2] = { false, };
+	int count = 0;
+
+	for (int i = 0; i < AC_ADDON_MAX; ++i)
+	{
+		int part = -1;
+		int color = 0;
+
+		switch (g_ACAddonOrder[2][i])
+		{
+		case AC_ADDON_BODY:
+			parts[count] = OSIRIS_SLAYER_PANTS + ((p_slot->OsirisLook & OSIRIS_LOOK_TROUSER) ? 1 : 0);
+			colors[count++] = p_slot->trouser_color;
+			parts[count] = OSIRIS_SLAYER_JACKET + ((p_slot->OsirisLook & OSIRIS_LOOK_COAT) ? 1 : 0);
+			colors[count++] = p_slot->coat_color;
+			part = OSIRIS_SLAYER_HAIR;
+			color = p_slot->hair_color;
+			break;
+
+		case AC_ADDON_HELM:
+			if (info->helmet != M_NO_WEAR)
+			{
+				part = ConvOsirisSlayerPart(AC_HELMET, p_slot->OsirisLook);
+				color = p_slot->helmet_color;
+			}
+			break;
+
+		case AC_ADDON_LEFTHAND:
+			if (info->left != M_NO_WEAR)
+			{
+				part = ConvOsirisSlayerPart(AC_SHIELD, p_slot->OsirisLook);
+				color = p_slot->left_color;
+			}
+			break;
+
+		case AC_ADDON_RIGHTHAND:
+			if (info->right != M_NO_WEAR && GetWeaponPartFromType(info->right) != -1)
+			{
+				part = ConvOsirisSlayerPart(GetWeaponPartFromType(info->right), p_slot->OsirisLook);
+				color = p_slot->right_color;
+				tier2[count] = (p_slot->OsirisLook & OSIRIS_LOOK_WEAPON_TIER2) && pTier2Cfpk != NULL
+					&& part >= 0 && part < pTier2Cfpk->GetSize() && action < (*pTier2Cfpk)[part].GetSize();
+			}
+			break;
+		}
+
+		if (part >= 0)
+		{
+			parts[count] = part;
+			colors[count++] = color;
+		}
+	}
+
+	for (int l = 0; l < count; ++l)
+	{
+		CCreatureFramePack& layerCfpk = tier2[l] ? *pTier2Cfpk : cfpk;
+		CIndexSpritePack& layerIspk = tier2[l] ? *pTier2Ispk : ispk;
+		FRAME_ARRAY& FA = layerCfpk[ parts[l] ][ action ][ 2 ];
+		if (FA.GetSize() == 0)
+			continue;
+
+		CFrame& frame = FA[ index % FA.GetSize() ];
+		POINT point = { _x + frame.GetCX(), _y + frame.GetCY() };
+
+		CIndexSprite::SetUsingColorSet(ConvSlotColorSet(colors[l]), 0);
+		if (dark)
+			gpC_base->m_p_DDSurface_back->BltIndexSpriteDarkness( &point, &layerIspk[ frame.GetSpriteID() ], DARK_BIT );
+		else
+			gpC_base->m_p_DDSurface_back->BltIndexSprite( &point, &layerIspk[ frame.GetSpriteID() ] );
+	}
+}
+
 
 void	C_VS_UI_NEWCHAR::_ShowCharacterACSlayer( int _x, int _y, S_SLOT* p_slot, int index, int enable, int dark )
 {
@@ -652,6 +808,21 @@ void	C_VS_UI_NEWCHAR::_ShowCharacterACSlayer( int _x, int _y, S_SLOT* p_slot, in
 	}
 
 	action -= ADVANCEMENT_ACTION_START;
+
+	// Osiris items draw from advancedslayer*, as in game (GetAdvancementSlayerLayers).
+	int osirisAction = ConvOsirisSlayerAction(action);
+	CCreatureFramePack& osirisCfpk = !p_slot->bl_female ? m_OsirisSlayerManCfpk : m_OsirisSlayerWomanCfpk;
+	CIndexSpritePack& osirisIspk = !p_slot->bl_female ? m_OsirisSlayerManIspk : m_OsirisSlayerWomanIspk;
+	if (p_slot->OsirisLook != 0 && osirisAction >= 0
+		&& osirisCfpk.GetSize() >= OSIRIS_SLAYER_LAYER_MAX && osirisIspk.GetSize() > 0)
+	{
+		CCreatureFramePack* pTier2Cfpk = !p_slot->bl_female ? &m_Tier2SlayerManCfpk : &m_Tier2SlayerWomanCfpk;
+		CIndexSpritePack* pTier2Ispk = !p_slot->bl_female ? &m_Tier2SlayerManIspk : &m_Tier2SlayerWomanIspk;
+		if (pTier2Cfpk->GetSize() == 0 || pTier2Ispk->GetSize() == 0)
+			pTier2Cfpk = NULL, pTier2Ispk = NULL;
+		ShowOsirisSlayer(osirisCfpk, osirisIspk, _x, _y, p_slot, osirisAction, index, dark, pTier2Cfpk, pTier2Ispk);
+		return;
+	}
 
 	for( int i = 0; i < AC_ADDON_MAX; ++i )
 	{

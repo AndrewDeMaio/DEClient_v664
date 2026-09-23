@@ -132,6 +132,7 @@ MItem*		g_pPacketItemHelm[HELMET_MAX] = { NULL, };
 MItem*		g_pPacketItemJacket[JACKET_MAX] = { NULL, };
 MItem*		g_pPacketItemPants[PANTS_MAX] = { NULL, };
 MItem*		g_pPacketItemWeapon[WEAPON_MAX] = { NULL, };
+MItem*		g_pPacketItemWeaponTier[WEAPON_MAX][3];	// art tier 1-3 stand-ins, see InitPacketItemTierTypes
 MItem*		g_pPacketItemShield[SHIELD_MAX] = { NULL, };
 MItem*		g_pPacketItemMotorcycle[MOTORCYCLE_MAX] = { NULL, };
 MItem*		g_pPacketItemShoulder[SHOULDER_MAX] = { NULL, };
@@ -146,6 +147,32 @@ MItem*		g_pPacketItemVampireArm[VAMPIRE_ARM_MAX] = { NULL, };
 GearInfo* g_pGearInfo	= NULL;
 #endif	// __GEAR_SWAP_CHANGE
 //-----------------------------------------------------------------------------
+// A packet stand-in weapon of the given WeaponType
+//-----------------------------------------------------------------------------
+static MItem*
+NewPacketWeapon(int weaponType)
+{
+	MItem* pItem = NULL;
+
+	switch (weaponType)
+	{
+	case WEAPON_SWORD:	pItem = new MSword;	break;
+	case WEAPON_BLADE:	pItem = new MBlade;	break;
+	case WEAPON_SR:		pItem = new MGunTR;	break;
+	case WEAPON_AR:		pItem = new MGunAR;	break;
+	case WEAPON_SG:		pItem = new MGunSG;	break;
+	case WEAPON_SMG:	pItem = new MGunSMG;	break;
+	case WEAPON_CROSS:	pItem = new MCross;	break;
+	case WEAPON_MACE:	pItem = new MMace;	break;
+	}
+
+	if (pItem != NULL)
+		pItem->ClearItemOption();
+
+	return pItem;
+}
+
+//-----------------------------------------------------------------------------
 // Init PacketItemTable
 //-----------------------------------------------------------------------------
 void
@@ -159,20 +186,28 @@ InitPacketItemTable()
 	MVampireCoat* pVampireCoat2 = new MVampireCoat;	 pVampireCoat2->SetItemType( 4 ); pVampireCoat2->ClearItemOption(); 
 	MVampireCoat* pVampireCoat3 = new MVampireCoat;	 pVampireCoat3->SetItemType( 8 ); pVampireCoat3->ClearItemOption(); 
 	MVampireCoat* pVampireCoat4 = new MVampireCoat;	 pVampireCoat4->SetItemType( 18 ); pVampireCoat4->ClearItemOption(); 
+	MVampireCoat* pVampireCoatOsiris = new MVampireCoat;	 pVampireCoatOsiris->SetItemType( VAMPIRE_OSIRIS_COAT_ITEMTYPE ); pVampireCoatOsiris->ClearItemOption(); 
 	
 	g_pPacketItemVampireCoat[VAMPIRE_COAT_BASIC] = pVampireCoatBasic;
 	g_pPacketItemVampireCoat[VAMPIRE_COAT1] = pVampireCoat1;
 	g_pPacketItemVampireCoat[VAMPIRE_COAT2] = pVampireCoat2;
 	g_pPacketItemVampireCoat[VAMPIRE_COAT3] = pVampireCoat3;
 	g_pPacketItemVampireCoat[VAMPIRE_COAT4] = pVampireCoat4;
+	g_pPacketItemVampireCoat[VAMPIRE_OSIRIS_COAT] = pVampireCoatOsiris;
 
 	//------------------------------------------------------------
 	// MVampire Arm
 	//------------------------------------------------------------
 	MVampireWeapon* pVampireArm1 = new MVampireWeapon;	 pVampireArm1->SetItemType( 0 ); pVampireArm1->ClearItemOption(); 
+	MVampireWeapon* pVampireArmOsiris = new MVampireWeapon;	 pVampireArmOsiris->SetItemType( VAMPIRE_OSIRIS_WEAPON_ITEMTYPE ); pVampireArmOsiris->ClearItemOption(); 
 
 	g_pPacketItemVampireArm[VAMPIRE_ARM_NONE]	= NULL;
 	g_pPacketItemVampireArm[VAMPIRE_ARM_WEAPON]	= pVampireArm1;
+	g_pPacketItemVampireArm[VAMPIRE_ARM_OSIRIS_WEAPON]	= pVampireArmOsiris;
+	MVampireWeapon* pVampireArmTier1 = new MVampireWeapon;	pVampireArmTier1->ClearItemOption();	// typed by InitPacketItemTierTypes
+	MVampireWeapon* pVampireArmTier2 = new MVampireWeapon;	pVampireArmTier2->ClearItemOption();
+	g_pPacketItemVampireArm[VAMPIRE_ARM_TIER1_WEAPON]	= pVampireArmTier1;
+	g_pPacketItemVampireArm[VAMPIRE_ARM_TIER2_WEAPON]	= pVampireArmTier2;
 
 
 	//------------------------------------------------------------
@@ -183,21 +218,29 @@ InitPacketItemTable()
 	MOustersCoat* pOustersCoat2 = new MOustersCoat;	 pOustersCoat2->SetItemType( 3 ); pOustersCoat2->ClearItemOption(); 
 	MOustersCoat* pOustersCoat3 = new MOustersCoat;	 pOustersCoat3->SetItemType( 6 ); pOustersCoat3->ClearItemOption(); 
 	MOustersCoat* pOustersCoat4 = new MOustersCoat;	 pOustersCoat4->SetItemType( 11 ); pOustersCoat4->ClearItemOption(); 
+	MOustersCoat* pOustersCoatOsiris = new MOustersCoat;	 pOustersCoatOsiris->SetItemType( OUSTERS_OSIRIS_COAT_ITEMTYPE ); pOustersCoatOsiris->ClearItemOption(); 
 	
 	g_pPacketItemOustersCoat[OUSTERS_COAT_BASIC] = pOustersCoatBasic;
 	g_pPacketItemOustersCoat[OUSTERS_COAT1] = pOustersCoat1;
 	g_pPacketItemOustersCoat[OUSTERS_COAT2] = pOustersCoat2;
 	g_pPacketItemOustersCoat[OUSTERS_COAT3] = pOustersCoat3;
 	g_pPacketItemOustersCoat[OUSTERS_COAT4] = pOustersCoat4;
+	g_pPacketItemOustersCoat[OUSTERS_OSIRIS_COAT] = pOustersCoatOsiris;
 	
 	//------------------------------------------------------------
 	// MOustersArm
 	//------------------------------------------------------------
 	MOustersWristlet* pOustersArm1 = new MOustersWristlet;	 pOustersArm1->SetItemType( 0 ); pOustersArm1->ClearItemOption(); 
 	MOustersChakram* pOustersArm2 = new MOustersChakram;	 pOustersArm2->SetItemType( 0 ); pOustersArm2->ClearItemOption(); 
+	MOustersChakram* pOustersArmOsiris = new MOustersChakram;	 pOustersArmOsiris->SetItemType( OUSTERS_OSIRIS_CHAKRAM_ITEMTYPE ); pOustersArmOsiris->ClearItemOption(); 
 
 	g_pPacketItemOustersArm[OUSTERS_ARM_GAUNTLET] = pOustersArm1;
 	g_pPacketItemOustersArm[OUSTERS_ARM_CHAKRAM] = pOustersArm2;
+	g_pPacketItemOustersArm[OUSTERS_ARM_OSIRIS_CHAKRAM] = pOustersArmOsiris;
+	MOustersChakram* pOustersArmTier1 = new MOustersChakram;	pOustersArmTier1->ClearItemOption();	// typed by InitPacketItemTierTypes
+	MOustersChakram* pOustersArmTier2 = new MOustersChakram;	pOustersArmTier2->ClearItemOption();
+	g_pPacketItemOustersArm[OUSTERS_ARM_TIER1_CHAKRAM] = pOustersArmTier1;
+	g_pPacketItemOustersArm[OUSTERS_ARM_TIER2_CHAKRAM] = pOustersArmTier2;
 
 	//------------------------------------------------------------
 	// HELM
@@ -210,6 +253,8 @@ InitPacketItemTable()
 	g_pPacketItemHelm[HELMET1]		= pHelm1;
 	g_pPacketItemHelm[HELMET2]		= pHelm2;
 	g_pPacketItemHelm[HELMET3]		= pHelm3;
+	MHelm* pHelmOsiris = new MHelm;	 pHelmOsiris->SetItemType( SLAYER_OSIRIS_HELM_ITEMTYPE ); pHelmOsiris->ClearItemOption();
+	g_pPacketItemHelm[HELMET_OSIRIS]	= pHelmOsiris;
 
 	//------------------------------------------------------------
 	// COAT
@@ -224,6 +269,8 @@ InitPacketItemTable()
 	g_pPacketItemJacket[JACKET2]		= pCoat2;
 	g_pPacketItemJacket[JACKET3]		= pCoat3;
 	g_pPacketItemJacket[JACKET4]		= pCoat4;
+	MCoat* pCoatOsiris = new MCoat;	pCoatOsiris->SetItemType( SLAYER_OSIRIS_COAT_ITEMTYPE );	pCoatOsiris->ClearItemOption();
+	g_pPacketItemJacket[JACKET_OSIRIS]	= pCoatOsiris;
 
 	//------------------------------------------------------------
 	// TROUSER
@@ -238,6 +285,8 @@ InitPacketItemTable()
 	g_pPacketItemPants[PANTS2]			= pTrouser2;
 	g_pPacketItemPants[PANTS3]			= pTrouser3;
 	g_pPacketItemPants[PANTS4]			= pTrouser4;
+	MTrouser* pTrouserOsiris = new MTrouser;	pTrouserOsiris->SetItemType( SLAYER_OSIRIS_TROUSER_ITEMTYPE ); pTrouserOsiris->ClearItemOption();
+	g_pPacketItemPants[PANTS_OSIRIS]	= pTrouserOsiris;
 
 	//------------------------------------------------------------
 	// WEAPON
@@ -263,6 +312,13 @@ InitPacketItemTable()
 	g_pPacketItemWeapon[WEAPON_CROSS]			= pCross;	
 	g_pPacketItemWeapon[WEAPON_MACE]			= pMace;
 
+	// Other Slayers' weapons of art tier 1-3, typed once the item table is loaded.
+	for (int weaponType = WEAPON_SWORD; weaponType <= WEAPON_MACE; ++weaponType)
+	{
+		for (int tier = 0; tier < 3; ++tier)
+			g_pPacketItemWeaponTier[weaponType][tier] = NewPacketWeapon(weaponType);
+	}
+
 	//------------------------------------------------------------
 	// SHIELD
 	//------------------------------------------------------------
@@ -272,6 +328,8 @@ InitPacketItemTable()
 	g_pPacketItemShield[SHIELD_NONE] = NULL;
 	g_pPacketItemShield[SHIELD1] = pShield1;
 	g_pPacketItemShield[SHIELD2] = pShield2;
+	MShield* pShieldOsiris = new MShield; pShieldOsiris->SetItemType( SLAYER_OSIRIS_SHIELD_ITEMTYPE ); pShieldOsiris->ClearItemOption();
+	g_pPacketItemShield[SHIELD_OSIRIS] = pShieldOsiris;
 	
 	//------------------------------------------------------------
 	// motorcycle
@@ -314,12 +372,59 @@ InitPacketItemTable()
 }
 
 //-----------------------------------------------------------------------------
+// Init PacketItem tier types
+//-----------------------------------------------------------------------------
+// Gives each tier stand-in the first type of its class whose required
+// advancement is in that art tier. Needs the item table, so it runs after
+// the table is loaded.
+static void
+SetTierItemType(MItem* pItem, int tier)
+{
+	if (pItem == NULL || pItem->GetItemClass() >= (*g_pItemTable).GetSize())
+		return;
+
+	int typeCount = (*g_pItemTable)[pItem->GetItemClass()].GetSize();
+	for (int itemType = 0; itemType < typeCount; ++itemType)
+	{
+		if (GetWeaponArtTier((*g_pItemTable)[pItem->GetItemClass()][itemType].GetRequireAdvancementLevel()) == tier)
+		{
+			pItem->SetItemType(itemType);
+			return;
+		}
+	}
+}
+
+void
+InitPacketItemTierTypes()
+{
+	for (int weaponType = 0; weaponType < WEAPON_MAX; ++weaponType)
+	{
+		for (int tier = 1; tier <= 3; ++tier)
+			SetTierItemType(g_pPacketItemWeaponTier[weaponType][tier - 1], tier);
+	}
+
+	SetTierItemType(g_pPacketItemOustersArm[OUSTERS_ARM_TIER1_CHAKRAM], 1);
+	SetTierItemType(g_pPacketItemOustersArm[OUSTERS_ARM_TIER2_CHAKRAM], 2);
+	SetTierItemType(g_pPacketItemVampireArm[VAMPIRE_ARM_TIER1_WEAPON], 1);
+	SetTierItemType(g_pPacketItemVampireArm[VAMPIRE_ARM_TIER2_WEAPON], 2);
+}
+
+//-----------------------------------------------------------------------------
 // Init PacketItemTable
 //-----------------------------------------------------------------------------
 void
 ReleasePacketItemTable()
 {
 	int i;
+
+	for (i=0; i<WEAPON_MAX; i++)
+	{
+		for (int tier=0; tier<3; tier++)
+		{
+			delete g_pPacketItemWeaponTier[i][tier];
+			g_pPacketItemWeaponTier[i][tier] = NULL;
+		}
+	}
 
 	//------------------------------------------------------------
 	// VAMPIRE_ARM
@@ -977,6 +1082,10 @@ SetAddonToSlayer(MCreatureWear* pCreature, const PCSlayerInfo3* pInfo)
 	MItem* pTrouser		= g_pPacketItemPants[pInfo->getPantsType()];
 	MItem* pHelm		= g_pPacketItemHelm[pInfo->getHelmetType()];
 	MItem* pWeapon		= g_pPacketItemWeapon[pInfo->getWeaponType()];
+	// A tiered stand-in makes the draw code pick the weapon's art (GetWeaponArtTier).
+	if (pInfo->getWeaponTier() > 0 && pInfo->getWeaponType() < WEAPON_MAX
+		&& g_pPacketItemWeaponTier[pInfo->getWeaponType()][pInfo->getWeaponTier() - 1] != NULL)
+		pWeapon = g_pPacketItemWeaponTier[pInfo->getWeaponType()][pInfo->getWeaponTier() - 1];
 	MItem* pShield		= g_pPacketItemShield[pInfo->getShieldType()];
 
 #if __CONTENTS(__SECOND_TRANSFORTER)
@@ -5071,8 +5180,8 @@ SetAddonToOusters(MCreatureWear* pCreature, const PCOustersInfo2* pInfo)
 void		
 SetAddonToOusters(MCreatureWear* pCreature, const PCOustersInfo3* pInfo)
 {	
-	MItem* pCoat		= g_pPacketItemOustersCoat[pInfo->getCoatType()];
-	MItem* pArm			= g_pPacketItemOustersArm[pInfo->getArmType()];	
+	MItem* pCoat		= (pInfo->getCoatType() < OUSTERS_COAT_MAX)? g_pPacketItemOustersCoat[pInfo->getCoatType()] : NULL;
+	MItem* pArm			= (pInfo->getArmType() < OUSTERS_ARM_MAX)? g_pPacketItemOustersArm[pInfo->getArmType()] : NULL;	
 		
 	pCreature->SetAddonItem( pCoat );
 	pCreature->SetAddonItem( pArm );
@@ -5095,8 +5204,8 @@ SetAddonToVampire(MCreatureWear* pCreature, const PCVampireInfo2* pInfo)
 void		
 SetAddonToVampire(MCreatureWear* pCreature, const PCVampireInfo3* pInfo)
 {	
-	MItem* pCoat		= g_pPacketItemVampireCoat[pInfo->getCoatType()];
-	MItem* pArm			= g_pPacketItemVampireArm[pInfo->getArmType()];	
+	MItem* pCoat		= (pInfo->getCoatType() < VAMPIRE_COAT_MAX)? g_pPacketItemVampireCoat[pInfo->getCoatType()] : NULL;
+	MItem* pArm			= (pInfo->getArmType() < VAMPIRE_ARM_MAX)? g_pPacketItemVampireArm[pInfo->getArmType()] : NULL;	
 		
 	pCreature->SetAddonItem( pCoat );
 	pCreature->SetAddonItem( pArm );

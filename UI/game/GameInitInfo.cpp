@@ -664,6 +664,7 @@ InitInfomation()
 		return FALSE;
 	(*g_pItemTable).LoadFromFile(itemTable2);
 	itemTable2.close();
+	InitPacketItemTierTypes();	// the tier stand-ins need the item table
 
 
 

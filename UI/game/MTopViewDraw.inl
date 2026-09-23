@@ -1,6 +1,29 @@
 #include "Client_PCH.h"
 #define MOTORCYCLE_LIGHT		2
 
+#include "MCreatureWear.h"
+#include "MTopView.h"
+
+//----------------------------------------------------------------------
+// Advanced Slayer layers (MTopViewDraw.cpp)
+//----------------------------------------------------------------------
+#define ADVANCEMENT_SLAYER_LAYER_MAX	3
+
+struct ADVANCEMENT_SLAYER_LAYER
+{
+	int							part;	// layer of look.pFPK
+	MCreatureWear::ADDON_INFO	info;	// what the draw code colours it with
+	CCreatureFramePack*			pFPK;	// packs it is drawn from
+	CCreatureFramePack*			pShadowFPK;
+	CIndexSpritePack*			pSPK;
+	CShadowSpriteTypePack*		pSSPK;
+};
+
+int GetAdvancementSlayerLayers( const ADVANCEMENT_SLAYER_LOOK& look, MCreatureWear* pCreatureWear,
+								int part, const MCreatureWear::ADDON_INFO& addonInfo,
+								ADVANCEMENT_SLAYER_LAYER* pLayers );
+int GetItemWeaponArtTier( int itemClass, int itemType );	// MTopViewDraw.cpp
+
 //----------------------------------------------------------------------
 //
 // Define Function¤¤

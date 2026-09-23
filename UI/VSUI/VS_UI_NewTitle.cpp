@@ -1353,6 +1353,15 @@ C_VS_UI_NEWCHAR::C_VS_UI_NEWCHAR()
 	m_AdvancementOustersCfpk.LoadFromFile(file_ac_ousters);
 	file_ac_ousters.close();
 
+	// Osiris Ousters look; optional, without it the slot keeps the ACOusters look.
+	m_OsirisOustersIspk.LoadFromFileRunning(ISPK_OSIRIS_OUSTERS);
+	ivfstream file_osiris_ousters(CFPK_OSIRIS_OUSTERS, std::ios::binary);
+	if (file_osiris_ousters.is_open())
+	{
+		m_OsirisOustersCfpk.LoadFromFile(file_osiris_ousters);
+		file_osiris_ousters.close();
+	}
+
 	//if(access(CFPK_ADVANCEMENT_VAMPIRE_MAN, 0))	_Error(FILE_OPEN);
 	ivfstream file_ac_vampire(CFPK_ADVANCEMENT_VAMPIRE_MAN, std::ios::binary);
 	if (!file_ac_vampire.is_open()) _Error(FILE_OPEN);
@@ -1365,6 +1374,22 @@ C_VS_UI_NEWCHAR::C_VS_UI_NEWCHAR()
 	m_AdvancementVampireWomanCfpk.LoadFromFile(file_ac_vampire2);
 	file_ac_vampire2.close();
 
+	// Osiris Vampire look; optional, without it the slot keeps the ACVampire look.
+	m_OsirisVampireManIspk.LoadFromFileRunning(ISPK_OSIRIS_VAMPIRE_MAN);
+	m_OsirisVampireWomanIspk.LoadFromFileRunning(ISPK_OSIRIS_VAMPIRE_WOMAN);
+	ivfstream file_osiris_vampire(CFPK_OSIRIS_VAMPIRE_MAN, std::ios::binary);
+	if (file_osiris_vampire.is_open())
+	{
+		m_OsirisVampireManCfpk.LoadFromFile(file_osiris_vampire);
+		file_osiris_vampire.close();
+	}
+	ivfstream file_osiris_vampire2(CFPK_OSIRIS_VAMPIRE_WOMAN, std::ios::binary);
+	if (file_osiris_vampire2.is_open())
+	{
+		m_OsirisVampireWomanCfpk.LoadFromFile(file_osiris_vampire2);
+		file_osiris_vampire2.close();
+	}
+
 	//if(access(CFPK_ADVANCEMENT_SLAYER_MAN, 0))	_Error(FILE_OPEN);
 	ivfstream file_ac_slayerman(CFPK_ADVANCEMENT_SLAYER_MAN, std::ios::binary);
 	if (!file_ac_slayerman.is_open()) _Error(FILE_OPEN);
@@ -1376,6 +1401,69 @@ C_VS_UI_NEWCHAR::C_VS_UI_NEWCHAR()
 	if (!file_ac_slayerwoman.is_open()) _Error(FILE_OPEN);
 	m_AdvancementSlayerWomanCfpk.LoadFromFile(file_ac_slayerwoman);
 	file_ac_slayerwoman.close();
+
+	// Osiris Slayer look; optional, without it the slot keeps the ACSlayer look.
+	m_OsirisSlayerManIspk.LoadFromFileRunning(ISPK_OSIRIS_SLAYER_MAN);
+	m_OsirisSlayerWomanIspk.LoadFromFileRunning(ISPK_OSIRIS_SLAYER_WOMAN);
+	ivfstream file_osiris_slayerman(CFPK_OSIRIS_SLAYER_MAN, std::ios::binary);
+	if (file_osiris_slayerman.is_open())
+	{
+		m_OsirisSlayerManCfpk.LoadFromFile(file_osiris_slayerman);
+		file_osiris_slayerman.close();
+	}
+	ivfstream file_osiris_slayerwoman(CFPK_OSIRIS_SLAYER_WOMAN, std::ios::binary);
+	if (file_osiris_slayerwoman.is_open())
+	{
+		m_OsirisSlayerWomanCfpk.LoadFromFile(file_osiris_slayerwoman);
+		file_osiris_slayerwoman.close();
+	}
+
+	// Tier-2 weapon art (secondadvanced*); optional.
+	m_Tier2OustersIspk.LoadFromFileRunning(ISPK_TIER2_OUSTERS);
+	{
+		ivfstream file_tier2(CFPK_TIER2_OUSTERS, std::ios::binary);
+		if (file_tier2.is_open())
+		{
+			m_Tier2OustersCfpk.LoadFromFile(file_tier2);
+			file_tier2.close();
+		}
+	}
+	m_Tier2VampireManIspk.LoadFromFileRunning(ISPK_TIER2_VAMPIRE_MAN);
+	{
+		ivfstream file_tier2(CFPK_TIER2_VAMPIRE_MAN, std::ios::binary);
+		if (file_tier2.is_open())
+		{
+			m_Tier2VampireManCfpk.LoadFromFile(file_tier2);
+			file_tier2.close();
+		}
+	}
+	m_Tier2VampireWomanIspk.LoadFromFileRunning(ISPK_TIER2_VAMPIRE_WOMAN);
+	{
+		ivfstream file_tier2(CFPK_TIER2_VAMPIRE_WOMAN, std::ios::binary);
+		if (file_tier2.is_open())
+		{
+			m_Tier2VampireWomanCfpk.LoadFromFile(file_tier2);
+			file_tier2.close();
+		}
+	}
+	m_Tier2SlayerManIspk.LoadFromFileRunning(ISPK_TIER2_SLAYER_MAN);
+	{
+		ivfstream file_tier2(CFPK_TIER2_SLAYER_MAN, std::ios::binary);
+		if (file_tier2.is_open())
+		{
+			m_Tier2SlayerManCfpk.LoadFromFile(file_tier2);
+			file_tier2.close();
+		}
+	}
+	m_Tier2SlayerWomanIspk.LoadFromFileRunning(ISPK_TIER2_SLAYER_WOMAN);
+	{
+		ivfstream file_tier2(CFPK_TIER2_SLAYER_WOMAN, std::ios::binary);
+		if (file_tier2.is_open())
+		{
+			m_Tier2SlayerWomanCfpk.LoadFromFile(file_tier2);
+			file_tier2.close();
+		}
+	}
 
 	srand((unsigned)time(NULL));
 
@@ -6320,6 +6408,7 @@ void S_SLOT::Init()
 	m_SMS_Charge = 0;
 	m_Powerjjang_Point = 0;
 	m_AdvancementLevel = 0;	// ???? ???? 
+	OsirisLook = 0;
 
 	SlayerAdvancedStr = 0;
 	SlayerAdvancedDex = 0;

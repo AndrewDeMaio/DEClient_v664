@@ -131,7 +131,7 @@ enum ALIGNMENT
 // character creation slot
 struct S_SLOT
 {
-	S_SLOT() { m_AdvancementLevel = 0; }
+	S_SLOT() { m_AdvancementLevel = 0; OsirisLook = 0; }
 	int Init();
 
 	bool								bl_set; // slot이 설정되었는가?
@@ -247,6 +247,7 @@ struct S_SLOT
 	int									m_SMS_Charge;
 	int									m_Powerjjang_Point;
 	int									m_AdvancementLevel;	// 전직 레벨 
+	BYTE								OsirisLook;	// OSIRIS_LOOK_PART bits (PacketItemDef.h)
 //	BYTE								m_NickNameType;
 //	std::string							m_NickName;
 };	

@@ -206,8 +206,12 @@ void	MTopView::DrawFadeOutForACSlayer( POINT *pPoint, MCreature* pCreature, int 
 	else
 		action -= ADVANCEMENT_ACTION_START;
 */
-	CCreatureFramePack& slayerFPK = pCreature->IsMale() ? m_AdvancementSlayerManFPK : m_AdvancementSlayerWomanFPK;
-	CIndexSpritePack& addonISPK = pCreature->IsMale() ? m_AdvancementSlayerManSPK : m_AdvancementSlayerWomanSPK;
+	// Osiris items switch to advancedslayer* (MTopView::GetAdvancementSlayerLook).
+	ADVANCEMENT_SLAYER_LOOK look;
+	GetAdvancementSlayerLook( pCreature, action, direction, frame, look );
+	frame = look.frame;
+	CCreatureFramePack& slayerFPK = *look.pFPK;
+	CIndexSpritePack& addonISPK = *look.pSPK;
 
 
 	//-----------------------------------------------------------
@@ -228,8 +232,16 @@ void	MTopView::DrawFadeOutForACSlayer( POINT *pPoint, MCreature* pCreature, int 
 
 			if( clothes == -1 )
 				continue;
+			ADVANCEMENT_SLAYER_LAYER slayerLayers[ADVANCEMENT_SLAYER_LAYER_MAX];
+			int slayerLayerCount = GetAdvancementSlayerLayers( look, pCreatureWear, clothes, addonInfo, slayerLayers );
+			for (int slayerLayer = 0; slayerLayer < slayerLayerCount; ++slayerLayer)
+			{
+			const MCreatureWear::ADDON_INFO& addonInfo = slayerLayers[slayerLayer].info;
+			clothes = slayerLayers[slayerLayer].part;
+			CCreatureFramePack& slayerFPK = *slayerLayers[slayerLayer].pFPK;
+			CIndexSpritePack& addonISPK = *slayerLayers[slayerLayer].pSPK;
 			
-			FRAME_ARRAY &FA = slayerFPK[clothes][action][direction];
+			FRAME_ARRAY &FA = slayerFPK[clothes][look.action][direction];
 			
 			// 있는 동작인 경우
 			if (FA.GetSize() > frame)
@@ -306,6 +318,7 @@ void	MTopView::DrawFadeOutForACSlayer( POINT *pPoint, MCreature* pCreature, int 
 				// 가운데							
 				//m_pSurface->BltIndexSpriteDarkness(&pointTemp, pSprite, 1);	
 				//m_pSurface->BltIndexSprite(&pointTemp, pSprite);	
+			}
 			}
 		}
 	}
@@ -2370,8 +2383,12 @@ void	MTopView::DrawFastMoveForACSlayer(POINT* pPoint, MCreature* pCreature, int 
 	else
 		action -= ADVANCEMENT_ACTION_START;
 */
-	CCreatureFramePack& slayerFPK = pCreature->IsMale() ? m_AdvancementSlayerManFPK : m_AdvancementSlayerWomanFPK;
-	CIndexSpritePack& addonISPK = pCreature->IsMale() ? m_AdvancementSlayerManSPK : m_AdvancementSlayerWomanSPK;
+	// Osiris items switch to advancedslayer* (MTopView::GetAdvancementSlayerLook).
+	ADVANCEMENT_SLAYER_LOOK look;
+	GetAdvancementSlayerLook( pCreature, action, direction, frame, look );
+	frame = look.frame;
+	CCreatureFramePack& slayerFPK = *look.pFPK;
+	CIndexSpritePack& addonISPK = *look.pSPK;
 
 
 	//-----------------------------------------------------------
@@ -2392,8 +2409,16 @@ void	MTopView::DrawFastMoveForACSlayer(POINT* pPoint, MCreature* pCreature, int 
 
 			if( clothes == -1 )
 				continue;
+			ADVANCEMENT_SLAYER_LAYER slayerLayers[ADVANCEMENT_SLAYER_LAYER_MAX];
+			int slayerLayerCount = GetAdvancementSlayerLayers( look, pCreatureWear, clothes, addonInfo, slayerLayers );
+			for (int slayerLayer = 0; slayerLayer < slayerLayerCount; ++slayerLayer)
+			{
+			const MCreatureWear::ADDON_INFO& addonInfo = slayerLayers[slayerLayer].info;
+			clothes = slayerLayers[slayerLayer].part;
+			CCreatureFramePack& slayerFPK = *slayerLayers[slayerLayer].pFPK;
+			CIndexSpritePack& addonISPK = *slayerLayers[slayerLayer].pSPK;
 			
-			FRAME_ARRAY &FA = slayerFPK[clothes][action][direction];
+			FRAME_ARRAY &FA = slayerFPK[clothes][look.action][direction];
 			
 			// 있는 동작인 경우
 			if (FA.GetSize() > frame)
@@ -2497,6 +2522,7 @@ void	MTopView::DrawFastMoveForACSlayer(POINT* pPoint, MCreature* pCreature, int 
 					//m_pSurface->BltIndexSprite(&pointTemp, pSprite);
 				}
 				
+			}
 			}
 		}
 	}
@@ -2653,8 +2679,12 @@ void	MTopView::DrawInvisibleForACSlayer(POINT* pPoint, MCreature* pCreature, int
 	else
 		action -= ADVANCEMENT_ACTION_START;
 */
-	CCreatureFramePack& slayerFPK = pCreature->IsMale() ? m_AdvancementSlayerManFPK : m_AdvancementSlayerWomanFPK;
-	CIndexSpritePack& addonISPK = pCreature->IsMale() ? m_AdvancementSlayerManSPK : m_AdvancementSlayerWomanSPK;
+	// Osiris items switch to advancedslayer* (MTopView::GetAdvancementSlayerLook).
+	ADVANCEMENT_SLAYER_LOOK look;
+	GetAdvancementSlayerLook( pCreature, action, direction, frame, look );
+	frame = look.frame;
+	CCreatureFramePack& slayerFPK = *look.pFPK;
+	CIndexSpritePack& addonISPK = *look.pSPK;
 
 
 	//-----------------------------------------------------------
@@ -2675,8 +2705,16 @@ void	MTopView::DrawInvisibleForACSlayer(POINT* pPoint, MCreature* pCreature, int
 
 			if( clothes == -1 )
 				continue;
+			ADVANCEMENT_SLAYER_LAYER slayerLayers[ADVANCEMENT_SLAYER_LAYER_MAX];
+			int slayerLayerCount = GetAdvancementSlayerLayers( look, pCreatureWear, clothes, addonInfo, slayerLayers );
+			for (int slayerLayer = 0; slayerLayer < slayerLayerCount; ++slayerLayer)
+			{
+			const MCreatureWear::ADDON_INFO& addonInfo = slayerLayers[slayerLayer].info;
+			clothes = slayerLayers[slayerLayer].part;
+			CCreatureFramePack& slayerFPK = *slayerLayers[slayerLayer].pFPK;
+			CIndexSpritePack& addonISPK = *slayerLayers[slayerLayer].pSPK;
 	
-			FRAME_ARRAY &FA = slayerFPK[clothes][action][direction];
+			FRAME_ARRAY &FA = slayerFPK[clothes][look.action][direction];
 			
 			// 있는 동작인 경우
 			if (FA.GetSize() > frame)
@@ -2782,6 +2820,7 @@ void	MTopView::DrawInvisibleForACSlayer(POINT* pPoint, MCreature* pCreature, int
 				//CIndexSprite::SetUsingColorSet( addonInfo.ColorSet1, addonInfo.ColorSet2 );
 				//m_pSurface->BltIndexSprite(&pointTemp, pSprite);
 				
+			}
 			}
 		}
 	}
@@ -2969,8 +3008,12 @@ void	MTopView::DrawWeaponFadeOutForACSlayer(POINT* pPoint, MCreature* pCreature,
 		action -= ADVANCEMENT_ACTION_START;
 		*/
 
-	CCreatureFramePack& slayerFPK = pCreature->IsMale() ? m_AdvancementSlayerManFPK : m_AdvancementSlayerWomanFPK;
-	CIndexSpritePack& addonISPK = pCreature->IsMale() ? m_AdvancementSlayerManSPK : m_AdvancementSlayerWomanSPK;
+	// Osiris items switch to advancedslayer* (MTopView::GetAdvancementSlayerLook).
+	ADVANCEMENT_SLAYER_LOOK look;
+	GetAdvancementSlayerLook( pCreature, action, direction, frame, look );
+	frame = look.frame;
+	CCreatureFramePack& slayerFPK = *look.pFPK;
+	CIndexSpritePack& addonISPK = *look.pSPK;
 
 
 	//-----------------------------------------------------------
@@ -2991,8 +3034,16 @@ void	MTopView::DrawWeaponFadeOutForACSlayer(POINT* pPoint, MCreature* pCreature,
 
 			if( clothes == -1 )
 				continue;
+			ADVANCEMENT_SLAYER_LAYER slayerLayers[ADVANCEMENT_SLAYER_LAYER_MAX];
+			int slayerLayerCount = GetAdvancementSlayerLayers( look, pCreatureWear, clothes, addonInfo, slayerLayers );
+			for (int slayerLayer = 0; slayerLayer < slayerLayerCount; ++slayerLayer)
+			{
+			const MCreatureWear::ADDON_INFO& addonInfo = slayerLayers[slayerLayer].info;
+			clothes = slayerLayers[slayerLayer].part;
+			CCreatureFramePack& slayerFPK = *slayerLayers[slayerLayer].pFPK;
+			CIndexSpritePack& addonISPK = *slayerLayers[slayerLayer].pSPK;
 			
-			FRAME_ARRAY &FA = slayerFPK[clothes][action][direction];
+			FRAME_ARRAY &FA = slayerFPK[clothes][look.action][direction];
 			
 			// 있는 동작인 경우
 			if (FA.GetSize() > frame)
@@ -3125,6 +3176,7 @@ void	MTopView::DrawWeaponFadeOutForACSlayer(POINT* pPoint, MCreature* pCreature,
 				if(addonInfo.ItemClass==ITEM_CLASS_MOTORCYCLE&&(addonInfo.ItemType==8||addonInfo.ItemType==9)) break;
 #endif //__FAST_TRANSFORTER||__SECOND_TRANSFORTER
 
+			}
 			}
 		}
 	}

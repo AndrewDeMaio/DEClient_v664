@@ -137,6 +137,24 @@ typedef void (*DrawCreatureExceptionProc)(MCreature* pCreature, int& action, int
 //----------------------------------------------------------------------
 // 한 Surface에 특정한 Zone에 대한 그림을 그려주는 class
 //----------------------------------------------------------------------
+// Which packs, action and frame an advanced Slayer is drawn with (MTopView::GetAdvancementSlayerLook).
+// When bOsiris is set the parts go through GetAdvancementSlayerLayers (MTopViewDraw.inl).
+struct ADVANCEMENT_SLAYER_LOOK
+{
+	CCreatureFramePack*		pFPK;
+	CCreatureFramePack*		pShadowFPK;
+	CIndexSpritePack*		pSPK;
+	CShadowSpriteTypePack*	pSSPK;
+	CCreatureFramePack*		pTier2FPK;		// secondadvanced* for a tier-2 weapon, NULL if not loaded
+	CCreatureFramePack*		pTier2ShadowFPK;
+	CIndexSpritePack*		pTier2SPK;
+	CShadowSpriteTypePack*	pTier2SSPK;
+	int						action;
+	int						frame;
+	bool					bOsiris;
+	BYTE					osirisParts;	// OSIRIS_LOOK_* bits
+};
+
 class MTopView : public MRequestMode {
 public:
 	// 출력에 이용할 ImageObject map
@@ -607,9 +625,19 @@ public:
 
 	CCreatureFramePack		m_AdvancementSlayerManFPK;			// Creature frames
 	CCreatureFramePack		m_AdvancementSlayerWomanFPK;			// Creature frames
+	CCreatureFramePack		m_OsirisSlayerManFPK;			// advancedslayer*, see OSIRIS_SLAYER_LAYER
+	CCreatureFramePack		m_OsirisSlayerWomanFPK;
+	CCreatureFramePack		m_Tier2OustersFPK;			// secondadvanced*: the tier-2 weapon art (GetWeaponArtTier)
+	CCreatureFramePack		m_Tier2VampireManFPK;
+	CCreatureFramePack		m_Tier2VampireWomanFPK;
+	CCreatureFramePack		m_Tier2SlayerManFPK;
+	CCreatureFramePack		m_Tier2SlayerWomanFPK;
 	CCreatureFramePack		m_AdvancementVampireManFPK;				// Player addon frames
 	CCreatureFramePack		m_AdvancementVampireWomanFPK;				// Player addon frames
+	CCreatureFramePack		m_OsirisVampireManFPK;			// advancedvampire*: 0/1 body, 2/3 claws (odd = Osiris)
+	CCreatureFramePack		m_OsirisVampireWomanFPK;
 	CCreatureFramePack		m_AdvancementOustersFPK;			// Ousters frames
+	CCreatureFramePack		m_OsirisOustersFPK;				// advancedousters: 0/1 chakram, 2/3 body (odd = Osiris)
 
 	CImageFramePack			m_ItemTileFPK;			// Tile에 있는 Item에 대한..
 	CAnimationFramePack		m_ItemDropFPK;			// 바닥으로 떨어지는 Item에 대한..
@@ -632,9 +660,19 @@ public:
 
 	CCreatureFramePack		m_AdvancementSlayerManShadowFPK;			// Creature frames
 	CCreatureFramePack		m_AdvancementSlayerWomanShadowFPK;			// Creature frames
+	CCreatureFramePack		m_OsirisSlayerManShadowFPK;
+	CCreatureFramePack		m_OsirisSlayerWomanShadowFPK;
+	CCreatureFramePack		m_Tier2OustersShadowFPK;
+	CCreatureFramePack		m_Tier2VampireManShadowFPK;
+	CCreatureFramePack		m_Tier2VampireWomanShadowFPK;
+	CCreatureFramePack		m_Tier2SlayerManShadowFPK;
+	CCreatureFramePack		m_Tier2SlayerWomanShadowFPK;
 	CCreatureFramePack		m_AdvancementVampireManShadowFPK;			// Player addon frames
 	CCreatureFramePack		m_AdvancementVampireWomanShadowFPK;			// Player addon frames
+	CCreatureFramePack		m_OsirisVampireManShadowFPK;
+	CCreatureFramePack		m_OsirisVampireWomanShadowFPK;
 	CCreatureFramePack		m_AdvancementOustersShadowFPK;			// Ousters addon frames
+	CCreatureFramePack		m_OsirisOustersShadowFPK;
 
 
 	//------------------------------------------------------
@@ -661,9 +699,19 @@ public:
 
 	CIndexSpritePack		m_AdvancementSlayerManSPK;		// Creature Sprite들
 	CIndexSpritePack		m_AdvancementSlayerWomanSPK;	// Creature Sprite들
+	CIndexSpritePack		m_OsirisSlayerManSPK;
+	CIndexSpritePack		m_OsirisSlayerWomanSPK;
+	CIndexSpritePack		m_Tier2OustersSPK;
+	CIndexSpritePack		m_Tier2VampireManSPK;
+	CIndexSpritePack		m_Tier2VampireWomanSPK;
+	CIndexSpritePack		m_Tier2SlayerManSPK;
+	CIndexSpritePack		m_Tier2SlayerWomanSPK;
 	CIndexSpritePack		m_AdvancementVampireManSPK;		// Sprite들		
 	CIndexSpritePack		m_AdvancementVampireWomanSPK;	// Sprite들		
+	CIndexSpritePack		m_OsirisVampireManSPK;
+	CIndexSpritePack		m_OsirisVampireWomanSPK;
 	CIndexSpritePack		m_AdvancementOustersSPK;		// Sprite들		
+	CIndexSpritePack		m_OsirisOustersSPK;
 
 	//		CSpritePack				m_ItemTileSPK;			// Sprite들
 	CIndexSpritePack		m_ItemTileISPK;			// Sprite들
@@ -704,9 +752,19 @@ public:
 
 	CShadowSpriteTypePack		m_AdvancementSlayerManSSPK;			// Sprite들		
 	CShadowSpriteTypePack		m_AdvancementSlayerWomanSSPK;			// Sprite들		
+	CShadowSpriteTypePack		m_OsirisSlayerManSSPK;
+	CShadowSpriteTypePack		m_OsirisSlayerWomanSSPK;
+	CShadowSpriteTypePack		m_Tier2OustersSSPK;
+	CShadowSpriteTypePack		m_Tier2VampireManSSPK;
+	CShadowSpriteTypePack		m_Tier2VampireWomanSSPK;
+	CShadowSpriteTypePack		m_Tier2SlayerManSSPK;
+	CShadowSpriteTypePack		m_Tier2SlayerWomanSSPK;
 	CShadowSpriteTypePack		m_AdvancementVampireManSSPK;
 	CShadowSpriteTypePack		m_AdvancementVampireWomanSSPK;
+	CShadowSpriteTypePack		m_OsirisVampireManSSPK;
+	CShadowSpriteTypePack		m_OsirisVampireWomanSSPK;
 	CShadowSpriteTypePack		m_AdvancementOustersSSPK;
+	CShadowSpriteTypePack		m_OsirisOustersSSPK;
 
 	CShadowSpriteTypePack		m_ImageObjectSSPK;
 	//CShadowSpritePack		m_InteractionObjectSSPK;
@@ -1024,8 +1082,46 @@ private:
 
 	// DrawAdvancementClassCharacter
 	void	DrawAdvancementClassSlayerCharacter(POINT* pPoint, MCreature* pCreature, int action, int direction, int frame, int FrameIndex);
+	void	GetAdvancementSlayerLook(MCreature* pCreature, int action, int direction, int frame, ADVANCEMENT_SLAYER_LOOK& look);
 	void	DrawAdvancementClassOustersCharacter(POINT* pPoint, MCreature* pCreature, int action, int direction, int frame);
+
+	// Which pack, bodies and action an advanced Ousters is drawn with (see MTopViewDraw.cpp).
+	struct ADVANCEMENT_OUSTERS_LOOK
+	{
+		CCreatureFramePack*		pFPK;
+		CCreatureFramePack*		pShadowFPK;
+		CIndexSpritePack*		pSPK;
+		CShadowSpriteTypePack*	pSSPK;
+		CCreatureFramePack*		pChakramFPK;		// the chakram's own packs (tier 2 art)
+		CCreatureFramePack*		pChakramShadowFPK;
+		CIndexSpritePack*		pChakramSPK;
+		CShadowSpriteTypePack*	pChakramSSPK;
+		int						coatBody;
+		int						chakramBody;
+		int						action;
+	};
+	void	GetAdvancementOustersLook(MCreatureWear* pCreatureWear, int action, ADVANCEMENT_OUSTERS_LOOK& look);
+
 	void	DrawAdvancementClassVampireCharacter(POINT* pPoint, MCreature* pCreature, int action, int direction, int frame, int body, int frameindex);
+
+	// Which pack, layers, action and frame an advanced Vampire is drawn with (see MTopViewDraw.cpp).
+	struct ADVANCEMENT_VAMPIRE_LOOK
+	{
+		CCreatureFramePack*		pFPK;
+		CCreatureFramePack*		pShadowFPK;
+		CIndexSpritePack*		pSPK;
+		CShadowSpriteTypePack*	pSSPK;
+		CCreatureFramePack*		pWeaponFPK;		// the claws' own packs (tier 2 art)
+		CCreatureFramePack*		pWeaponShadowFPK;
+		CIndexSpritePack*		pWeaponSPK;
+		CShadowSpriteTypePack*	pWeaponSSPK;
+		int						body;
+		int						weapon;
+		int						action;
+		int						frame;
+	};
+	void	GetAdvancementVampireLook(MCreature* pCreature, int action, int direction, int frame, ADVANCEMENT_VAMPIRE_LOOK& look);
+
 
 	void	DrawShadowAdvancementClassSlayerCharacter(POINT* pPoint, MCreature* pCreature, int action, int direction, int frame);
 	void	DrawShadowAdvancementClassVampireCharacter(POINT* pPoint, MCreature* pCreature, int action, int direction, int frame, int body, bool bBlendingShadow, bool bSlayerPet_ShowTurret);

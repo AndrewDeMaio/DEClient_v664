@@ -1213,8 +1213,12 @@ void	MTopView::DrawShadowAdvancementClassSlayerCharacter( POINT *pPoint, MCreatu
 		int clothes;
 		BYTE clothesType;
 
-		CCreatureFramePack& slayerFPK = pCreature->IsMale() ? m_AdvancementSlayerManShadowFPK : m_AdvancementSlayerWomanShadowFPK;
-		CShadowSpriteTypePack& addonSSPK = pCreature->IsMale() ? m_AdvancementSlayerManSSPK : m_AdvancementSlayerWomanSSPK;
+		// Osiris items switch to advancedslayer* (MTopView::GetAdvancementSlayerLook).
+		ADVANCEMENT_SLAYER_LOOK look;
+		GetAdvancementSlayerLook( pCreature, action, direction, frame, look );
+		frame = look.frame;
+		CCreatureFramePack& slayerFPK = *look.pShadowFPK;
+		CShadowSpriteTypePack& addonSSPK = *look.pSSPK;
 		
 		int Frame_Save = frame ; 
 		int Action_Save= action;
@@ -1234,9 +1238,17 @@ void	MTopView::DrawShadowAdvancementClassSlayerCharacter( POINT *pPoint, MCreatu
 
 				if( clothes == -1 )
 					continue;
+				ADVANCEMENT_SLAYER_LAYER slayerLayers[ADVANCEMENT_SLAYER_LAYER_MAX];
+				int slayerLayerCount = GetAdvancementSlayerLayers( look, pCreatureWear, clothes, addonInfo, slayerLayers );
+				for (int slayerLayer = 0; slayerLayer < slayerLayerCount; ++slayerLayer)
+				{
+				const MCreatureWear::ADDON_INFO& addonInfo = slayerLayers[slayerLayer].info;
+				clothes = slayerLayers[slayerLayer].part;
+				CCreatureFramePack& slayerFPK = *slayerLayers[slayerLayer].pShadowFPK;
+				CShadowSpriteTypePack& addonSSPK = *slayerLayers[slayerLayer].pSSPK;
 				
 				
-				FRAME_ARRAY &FA = slayerFPK[clothes][action][direction];
+				FRAME_ARRAY &FA = slayerFPK[clothes][look.action][direction];
 				
 				// 있는 동작인 경우
 				if (FA.GetSize() > frame)
@@ -1266,6 +1278,7 @@ void	MTopView::DrawShadowAdvancementClassSlayerCharacter( POINT *pPoint, MCreatu
 						m_pSurface->BltShadowSprite( &pointTemp, pSprite );
 					}
 				}
+				}
 #if __CONTENTS(__FAST_TRANSFORTER)
 				//윙바이크 타고 있을때는 다른 파츠를 그려 주지 않는다. 어찌 되도 윙바이크 먼저 검사 할수 밖에 없기 때문에 
 				//다른 부위를 그리고 나서 연산하게 되면 어쩌나 하는 걱정은 일단 접어 두자.
@@ -1289,8 +1302,6 @@ void	MTopView::DrawShadowAdvancementClassSlayerCharacter( POINT *pPoint, MCreatu
 
 void	MTopView::DrawShadowAdvancementClassVampireCharacter( POINT *pPoint, MCreature* pCreature, int action, int direction, int frame, int body, bool bBlendingShadow , bool bSlayerPet_ShowTurret )
 {		
-	CCreatureFramePack& advanceVampireFPK = pCreature->IsMale() ? m_AdvancementVampireManShadowFPK : m_AdvancementVampireWomanShadowFPK;
-	CShadowSpriteTypePack& advanceVampireSSPK = pCreature->IsMale() ? m_AdvancementVampireManSSPK : m_AdvancementVampireWomanSSPK;
 
 	action = GetAdvancementVampireActionFromVampireAction( action, pCreature );
 
@@ -1298,6 +1309,14 @@ void	MTopView::DrawShadowAdvancementClassVampireCharacter( POINT *pPoint, MCreat
 		return;
 	else
 		action -= ADVANCEMENT_ACTION_START;
+
+	// Osiris items switch to advancedvampire* (MTopView::GetAdvancementVampireLook).
+	ADVANCEMENT_VAMPIRE_LOOK look;
+	GetAdvancementVampireLook( pCreature, action, direction, frame, look );
+	frame = look.frame;
+
+	CCreatureFramePack& advanceVampireFPK = *look.pShadowFPK;
+	CShadowSpriteTypePack& advanceVampireSSPK = *look.pSSPK;
 
 	// 2005.08.12 Sjheon 콤보 스킬 관련 Add
 	/*
@@ -1319,7 +1338,7 @@ void	MTopView::DrawShadowAdvancementClassVampireCharacter( POINT *pPoint, MCreat
 		}
 	}*/
 
-	FRAME_ARRAY &FA = advanceVampireFPK[0][action][direction];
+	FRAME_ARRAY &FA = advanceVampireFPK[look.body][look.action][direction];
 	
 	if (FA.GetSize() > frame)
 	{
@@ -1372,7 +1391,7 @@ void	MTopView::DrawShadowAdvancementClassVampireCharacter( POINT *pPoint, MCreat
 #endif //__SECOND_TRANSFORTER
 		)
 	{
-		FRAME_ARRAY &FAW = advanceVampireFPK[1][action][direction];
+		FRAME_ARRAY &FAW = (*look.pWeaponShadowFPK)[look.weapon][look.action][direction];
 	
 		if (FAW.GetSize() > frame)
 		{
@@ -1385,7 +1404,7 @@ void	MTopView::DrawShadowAdvancementClassVampireCharacter( POINT *pPoint, MCreat
 			// 좌표 보정
 			pointTemp.x = pPoint->x + cx;// + pCreature->GetSX();
 			pointTemp.y = pPoint->y + cy;// + pCreature->GetSY();
-			CShadowSprite* pSprite = &advanceVampireSSPK[sprite];
+			CShadowSprite* pSprite = &(*look.pWeaponSSPK)[sprite];
 			
 			//				if (pSprite->IsNotInit())
 			//				{
@@ -1472,6 +1491,9 @@ void	MTopView::DrawShadowAdvancementClassOustersCharacter( POINT *pPoint, MCreat
 	else
 		tempAction -= ADVANCEMENT_ACTION_START;
 
+	ADVANCEMENT_OUSTERS_LOOK look;
+	GetAdvancementOustersLook( pCreatureWear, tempAction, look );
+
 	// 2005.08.12 Sjheon 콤보 스킬 관련 Add
 	/*
 	int		iComboCnt = pCreature->GetCombo();
@@ -1501,7 +1523,7 @@ void	MTopView::DrawShadowAdvancementClassOustersCharacter( POINT *pPoint, MCreat
 	{
 		int clothes = addonInfo.FrameID;
 		
-		FRAME_ARRAY &FA = m_AdvancementOustersShadowFPK[1][tempAction][direction];
+		FRAME_ARRAY &FA = (*look.pShadowFPK)[look.coatBody][look.action][direction];
 		
 		// 있는 동작인 경우
 		if (FA.GetSize() > frame)
@@ -1515,7 +1537,7 @@ void	MTopView::DrawShadowAdvancementClassOustersCharacter( POINT *pPoint, MCreat
 			pointTemp.x = pPoint->x + cx;// + pCreature->GetSX();
 			pointTemp.y = pPoint->y + cy;// + pCreature->GetSY();
 			
-			CShadowSprite* pSprite = &m_AdvancementOustersSSPK[ sprite ];
+			CShadowSprite* pSprite = &(*look.pSSPK)[ sprite ];
 			
 			if (g_pUserOption->BlendingShadow)
 			{
@@ -1534,7 +1556,7 @@ void	MTopView::DrawShadowAdvancementClassOustersCharacter( POINT *pPoint, MCreat
 		
 	
 
-		FRAME_ARRAY &FA = m_AdvancementOustersShadowFPK[0][tempAction][direction];
+		FRAME_ARRAY &FA = (*look.pChakramShadowFPK)[look.chakramBody][look.action][direction];
 		
 		// 있는 동작인 경우
 		if (FA.GetSize() > frame)
@@ -1544,7 +1566,7 @@ void	MTopView::DrawShadowAdvancementClassOustersCharacter( POINT *pPoint, MCreat
 			int cx		= Frame.GetCX();	//m_AddonFPK[clothes][action][direction][frame].GetCX();
 			int cy		= Frame.GetCY();	//m_AddonFPK[clothes][action][direction][frame].GetCY();
 			
-			CShadowSprite* pSprite = &m_AdvancementOustersSSPK[ sprite ];
+			CShadowSprite* pSprite = &(*look.pChakramSSPK)[ sprite ];
 			
 			pointTemp.x = pPoint->x + cx;// + pCreature->GetSX();
 			pointTemp.y = pPoint->y + cy;// + pCreature->GetSY();
