@@ -651,62 +651,6 @@ int ConvAdvancementOustersActionFromOusterAction( int CurAction, bool bChakram )
 }
 
 //----------------------------------------------------------------------
-// Blink diagnostic (Log\osiris_blink.log)
-//----------------------------------------------------------------------
-// For the player only: one line each time the advanced draw switches between
-// drawing the body and drawing nothing, with the state that decided it, and a
-// GAP line when frames went by without the advanced draw being called at all.
-static void
-WritePlayerBlinkLine(const char* tag, const char* text)
-{
-	FILE* fp = fopen("Log\\osiris_blink.log", "a");
-	if (fp == NULL)
-		return;
-
-	SYSTEMTIME st;
-	GetLocalTime(&st);
-	fprintf(fp, "%02d:%02d:%02d.%03d frame %lu %s %s\n", st.wHour, st.wMinute, st.wSecond,
-		st.wMilliseconds, g_CurrentFrame, tag, text);
-	fclose(fp);
-}
-
-static void
-LogPlayerBlink(bool bBlank, const char* format, ...)
-{
-	static bool s_bBlank = false;
-	if (bBlank == s_bBlank)
-		return;
-	s_bBlank = bBlank;
-
-	char text[512];
-	va_list ap;
-	va_start(ap, format);
-	_vsnprintf(text, sizeof(text) - 1, format, ap);
-	va_end(ap);
-	text[sizeof(text) - 1] = '\0';
-	WritePlayerBlinkLine(bBlank ? "BLANK" : "back ", text);
-}
-
-static void
-NotePlayerAdvancedDraw(const char* race)
-{
-	static DWORD s_lastFrame = 0;
-	static DWORD s_lastTick = 0;
-	DWORD now = GetTickCount();
-
-	if (s_lastTick != 0 && (g_CurrentFrame - s_lastFrame > 2 || now - s_lastTick > 250))
-	{
-		char text[128];
-		sprintf(text, "%s: %lu frames / %lu ms since the last advanced draw", race,
-			g_CurrentFrame - s_lastFrame, now - s_lastTick);
-		WritePlayerBlinkLine("GAP  ", text);
-	}
-
-	s_lastFrame = g_CurrentFrame;
-	s_lastTick = now;
-}
-
-//----------------------------------------------------------------------
 // Weapon art tier of a worn item (GetWeaponArtTier), from the item table
 //----------------------------------------------------------------------
 int
@@ -3393,13 +3337,6 @@ void	MTopView::DrawAdvancementClassOustersCharacter(
 	
 	int tempAction = ConvAdvancementOustersActionFromOusterAction( action, bChakram );
 
-	if( pCreature == g_pPlayer )
-	{
-		NotePlayerAdvancedDraw( "ousters" );
-		if( tempAction == -1 )
-			LogPlayerBlink( true, "ousters action %d has no advancement action", action );
-	}
-
 	if( tempAction == -1 )
 		return;
 	else
@@ -3407,22 +3344,6 @@ void	MTopView::DrawAdvancementClassOustersCharacter(
 
 	ADVANCEMENT_OUSTERS_LOOK look;
 	GetAdvancementOustersLook( pCreatureWear, tempAction, look );
-
-	if( pCreature == g_pPlayer )
-	{
-		const MCreatureWear::ADDON_INFO& coatInfo = pCreatureWear->GetAddonInfo(ADDON_COAT);
-		int bodyFrames = (*look.pFPK)[ look.coatBody ][ look.action ][ direction ].GetSize();
-		int chakramFrames = (*look.pChakramFPK)[ look.chakramBody ][ look.action ][ direction ].GetSize();
-		bool bBody = coatInfo.bAddon && !pCreatureWear->IsGhost(1) && bodyFrames > frame;
-		bool bChakramDrawn = bChakram && !pCreatureWear->IsGhost(2) && chakramFrames > frame;
-		LogPlayerBlink( !bBody && !bChakramDrawn,
-			"ousters act %d->%d dir %d frame %d | coat %d %d:%d ghost %d | right %d %d:%d | %s pack, body %d has %d frames, chakram %d has %d",
-			action, look.action, direction, frame,
-			coatInfo.bAddon, coatInfo.ItemClass, coatInfo.ItemType, pCreatureWear->IsGhost(1),
-			addonInfoChakram.bAddon, addonInfoChakram.ItemClass, addonInfoChakram.ItemType,
-			look.pFPK == &m_OsirisOustersFPK ? "advanced" : "AC",
-			look.coatBody, bodyFrames, look.chakramBody, chakramFrames );
-	}
 	
 	// 2005.08.12 Sjheon 콤보 스킬 관련 Add
 	/*
@@ -3935,13 +3856,6 @@ void	MTopView::DrawAdvancementClassSlayerCharacter( POINT *pPoint, MCreature* pC
 		// ToT 시간없다.. 하드 코딩.. by sonee
 		action = ConvAdvancementSlayerActionFromSlayerAction( action, dynamic_cast< MCreatureWear* >(pCreature) );
 
-		if( pCreature == g_pPlayer )
-		{
-			NotePlayerAdvancedDraw( "slayer" );
-			if( action == -1 )
-				LogPlayerBlink( true, "slayer action has no advancement action" );
-		}
-
 		if( action == -1 )
 			return;
 		else
@@ -4053,20 +3967,6 @@ void	MTopView::DrawAdvancementClassSlayerCharacter( POINT *pPoint, MCreature* pC
 			// Osiris items switch to advancedslayer* (MTopView::GetAdvancementSlayerLook).
 			ADVANCEMENT_SLAYER_LOOK look;
 			GetAdvancementSlayerLook( pCreature, action, direction, frame, look );
-
-			if( pCreature == g_pPlayer )
-			{
-				const MCreatureWear::ADDON_INFO& bodyInfo = pCreatureWear->GetACAddonInfo( AC_ADDON_BODY );
-				const MCreatureWear::ADDON_INFO& rightInfo = pCreatureWear->GetACAddonInfo( AC_ADDON_RIGHTHAND );
-				int bodyPart = GetAdvancementPartFromItemClass( bodyInfo.ItemClass, bodyInfo.FrameID );
-				int bodyFrames = (*look.pFPK)[ look.bOsiris ? OSIRIS_SLAYER_JACKET : AC_BODY ][ look.action ][ direction ].GetSize();
-				LogPlayerBlink( bodyPart == -1 || bodyFrames <= look.frame,
-					"slayer act %d->%d dir %d frame %d->%d | coat %d %d:%d part %d | right %d %d:%d | %s pack, parts %x, body has %d frames",
-					action, look.action, direction, frame, look.frame,
-					bodyInfo.bAddon, bodyInfo.ItemClass, bodyInfo.ItemType, bodyPart,
-					rightInfo.bAddon, rightInfo.ItemClass, rightInfo.ItemType,
-					look.bOsiris ? "advanced" : "AC", look.osirisParts, bodyFrames );
-			}
 			frame = look.frame;
 			CCreatureFramePack& slayerFPK = *look.pFPK;
 			CIndexSpritePack& addonISPK = *look.pSPK;
@@ -4207,13 +4107,6 @@ void	MTopView::DrawAdvancementClassVampireCharacter( POINT* pPoint, MCreature* p
 
 	action = GetAdvancementVampireActionFromVampireAction( action, pCreature );
 
-	if( pCreature == g_pPlayer )
-	{
-		NotePlayerAdvancedDraw( "vampire" );
-		if( action == -1 )
-			LogPlayerBlink( true, "vampire action has no advancement action" );
-	}
-
 	if( action == -1 )
 		return;
 	else
@@ -4244,16 +4137,6 @@ void	MTopView::DrawAdvancementClassVampireCharacter( POINT* pPoint, MCreature* p
 	ADVANCEMENT_VAMPIRE_LOOK look;
 	GetAdvancementVampireLook( pCreature, action, direction, frame, look );
 	frame = look.frame;
-
-	if( pCreature == g_pPlayer )
-	{
-		int bodyFrames = (*look.pFPK)[ look.body ][ look.action ][ direction ].GetSize();
-		LogPlayerBlink( bCasketOnly || bodyFrames <= frame,
-			"vampire act %d dir %d frame %d | casket %d | %s pack, body %d has %d frames",
-			look.action, direction, frame, bCasketOnly,
-			(look.pFPK == &m_OsirisVampireManFPK || look.pFPK == &m_OsirisVampireWomanFPK) ? "advanced" : "AC",
-			look.body, bodyFrames );
-	}
 
 	CCreatureFramePack& advanceVampireFPK = *look.pFPK;
 	CIndexSpritePack& advanceVampireSPK = *look.pSPK;
