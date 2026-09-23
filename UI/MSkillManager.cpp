@@ -1434,17 +1434,21 @@ MSkillSet::SetAvailableSkills()
 
 					if (id == SKILL_SUMMON_SYLPH)
 					{
+						// the same search the cast makes (SKILL_SUMMON_SYLPH in MPlayer.cpp):
+						// a wing in the main grid, else a charged summon gem anywhere
 						MItem* pSubInventory = NULL;
-						MItemClassTypeFinder finder(ITEM_CLASS_OUSTERSWING_ITEM, 0);
-						MItemClassTypeFinder finder_alt(ITEM_CLASS_OUSTERSWING_ITEM, 0);
-						if (NULL == ((MItemManager*)g_pInventory)->FindItemAll(finder, pSubInventory)
-#if __CONTENTS(__FAST_TRANSFORTER)
-							&& NULL == g_pInventory->FindItemAll(finder, pSubInventory)
-#endif //__FAST_TRANSFORTER
-#if __CONTENTS(__SECOND_TRANSFORTER)
-							&& NULL == g_pInventory->FindItemAll(finder_alt, pSubInventory)
-#endif //__SECOND_TRANSFORTER
-							)
+						MItem* pSummonItem = NULL;
+#if __CONTENTS(__FAST_TRANSFORTER || __SECOND_TRANSFORTER)
+						MOustersWingItemFinder finder_wing;
+						pSummonItem = ((MItemManager*)g_pInventory)->FindItemOrderByIndex(finder_wing);
+						if (pSummonItem == NULL)
+#endif
+						{
+							MOustersSummonGemItemFinder finder_summon_gem;
+							pSummonItem = ((MItemManager*)g_pInventory)->FindItemAll(finder_summon_gem, pSubInventory);
+						}
+
+						if (pSummonItem == NULL)
 							flag = 0;
 					}
 

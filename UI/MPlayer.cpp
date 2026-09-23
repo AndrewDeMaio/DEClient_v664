@@ -2689,27 +2689,20 @@ MPlayer::SelfSpecialAction()
 					#endif //__SECOND_TRANSFORTER
 												pItem = ((MItemManager*)g_pInventory)->FindItemAll( MOustersSummonGemItemFinder(), pSubInventory );*/
 					
-					//MItem* pItem = nullptr;
+					MItem* pItem = NULL;
 #if __CONTENTS(__FAST_TRANSFORTER || __SECOND_TRANSFORTER)
-
-/* 1. When moving an item, we need to update the positions of other items accordingly.
-    The FindItemAll function only updates items that exist in the list, so it may
-    not automatically update positions of other related items. Therefore, in some
-    cases, we must manually update positions of linked or affected items depending
-    on where the moved item is.
-
- 2. Moving an item can also affect linked or child items. We need a function that
-    finds and updates the positions of these linked items as well. For example,
-    if a child item is moved along with its parent, we should call
-    FindItemAllOrderByIndex to correctly update their positions. */
-//							pItem = ((MItemManager*)g_pInventory)->FindItemAll( MOustersWingItemFinder(), pSubInventory );
-//							pItem = ((MItemManager*)g_pInventory)->FindItemAllOrderByIndex( MOustersWingItemFinder(), pSubInventory);
-
-					MOustersSummonGemItemFinder finder_summon_gem;
-					MItem* pItem = ((MItemManager*)g_pInventory)->FindItemOrderByIndex(finder_summon_gem);
+					// 1. A wing transport takes priority over summon gems. With more than one wing,
+					//    the first by inventory position (top to bottom, left to right) wins, which
+					//    FindItemAll can't give: it goes by item map order.
+					// 2. Wings can't be used from a sub-inventory, so only the main grid is searched.
+					MOustersWingItemFinder finder_wing;
+					pItem = ((MItemManager*)g_pInventory)->FindItemOrderByIndex(finder_wing);
 					if (pItem == NULL)
 #endif
-					//pItem = ((MItemManager*)g_pInventory)->FindItemAll(finder_summon_gem, pSubInventory);
+					{
+						MOustersSummonGemItemFinder finder_summon_gem;
+						pItem = ((MItemManager*)g_pInventory)->FindItemAll(finder_summon_gem, pSubInventory);
+					}
 
 					if (pItem != NULL)
 					{
