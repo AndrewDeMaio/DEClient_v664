@@ -1548,9 +1548,26 @@ private:
 	// (vertical ? 1 : 0) + (small ? 2 : 0). See GetOccludeRect().
 	RECT	m_rcOpaque[4];
 
+	// How far each pixel in a GLOW_WIDTH band round a main sprite is from
+	// the sprite's painted art, in sixteenths of a pixel, 255 where it is
+	// too far or on the art itself. Same indexing as m_rcOpaque; its
+	// origin is GLOW_WIDTH up and left of the sprite's.
+	enum { GLOW_WIDTH = 8 };
+	std::vector<BYTE>	m_glow_field[4];
+
+	// The safe-zone halo eases in and out rather than snapping: how far
+	// it has come, 0 (off) to 1, and when it was last stepped.
+	float	m_glow_level;
+	DWORD	m_glow_tick;
+
 	int				MainSpriteIndex() const;
 	ButtonGroup*	CurrentButtonGroup() const;
 	void			ComputeOpaqueBounds();
+	void			ComputeGlowField(int sprite, std::vector<BYTE>& field);
+
+	// The green halo round the bar while the player stands in a safe zone.
+	// Needs the back surface locked; draw it before the bar's art.
+	void			ShowSafeZoneGlow();
 
 public:
 	C_VS_UI_HPBAR();

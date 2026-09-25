@@ -1159,6 +1159,55 @@ static void g_DrawExpRing(C_SPRITE_PACK* p_spk, SPRITE_ID track, SPRITE_ID fill,
 	}
 }
 
+//-----------------------------------------------------------------------------
+// g_DrawGlowField
+//
+// A soft halo of one colour hugging a shape, from a distance field: field
+// holds, for each pixel of a w by h box whose top-left lands at (left, top),
+// how far that pixel is from the shape in sixteenths of a pixel, or 255 for
+// no halo. The halo is strongest against the shape and fades to nothing
+// width pixels out; strength (0 to 1) is how solid it is at the edge. Needs
+// the back surface locked.
+//-----------------------------------------------------------------------------
+static void g_DrawGlowField(const BYTE* field, int w, int h, int left, int top, WORD color, int width, float strength)
+{
+	WORD* mem = (WORD*)gpC_base->m_p_DDSurface_back->GetSurfacePointer();
+	const long pitch = gpC_base->m_p_DDSurface_back->GetSurfacePitch() / 2;
+
+	const int x0 = max(0, -left), y0 = max(0, -top);
+	const int x1 = min(w, g_pUserInformation->iResolution_x - left);
+	const int y1 = min(h, g_pUserInformation->iResolution_y - top);
+	const float scale = 1.0f / (16 * width);
+
+	for (int fy = y0; fy < y1; fy++)
+	{
+		const BYTE* row = field + fy * w;
+		WORD* dest = mem + (top + fy) * pitch + left;
+
+		for (int fx = x0; fx < x1; fx++)
+		{
+			if (row[fx] == 255)
+				continue;
+
+			const float t = 1 - row[fx] * scale;
+
+			if (t <= 0)
+				continue;
+
+			dest[fx] = g_BlendPixel(dest[fx], color, t * t * strength);
+		}
+	}
+}
+
+// r, g, b (0 to 255) in the back surface's 16-bit format.
+static WORD g_Color16(int r, int g, int b)
+{
+	if (CDirectDraw::Is565())
+		return (WORD)(((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3));
+
+	return (WORD)(((r >> 3) << 10) | ((g >> 3) << 5) | (b >> 3));
+}
+
 void C_VS_UI_TRIBE::SetupMenuItems()
 {
 	m_pC_simple_spk = new C_SPRITE_PACK(SPK_SIMPLE_INFORMATION);
@@ -6671,6 +6720,49 @@ C_VS_UI_CHATTING::AddInputString(const char* pString)
 }
 
 
+//-----------------------------------------------------------------------------
+// g_LogChatDraw
+//
+// Diagnostic. A black box has drawn at the chat's bottom-left: once the
+// pop-up panel's art, empty and solid, while the chat line was closed, and
+// once a smaller dark box over the button column. Log\chat_draw.log gets a
+// line whenever what the chat is drawing changes, so the next one shows the
+// state that drew it. `which` keeps each call site's last state apart.
+//-----------------------------------------------------------------------------
+static void g_LogChatDraw(int which, const char* sz_where, const int* state, int count, const char* sz_line)
+{
+	enum { SITES = 2, STATE_MAX = 16, LINES_MAX = 2000 };
+	static int s_last[SITES][STATE_MAX];
+	static bool s_bl_logged[SITES] = { false, false };
+	static int s_lines = 0;
+
+	if (which < 0 || which >= SITES || count > STATE_MAX || s_lines >= LINES_MAX)
+		return;
+	if (s_bl_logged[which] && memcmp(s_last[which], state, count * sizeof(int)) == 0)
+		return;
+
+	memcpy(s_last[which], state, count * sizeof(int));
+	s_bl_logged[which] = true;
+
+	FILE* f = fopen("Log\\chat_draw.log", "a");
+	if (f == NULL)
+		return;
+	SYSTEMTIME st;
+	GetLocalTime(&st);
+	fprintf(f, "%04d-%02d-%02d %02d:%02d:%02d.%03d %-6s %s\n", st.wYear, st.wMonth, st.wDay,
+		st.wHour, st.wMinute, st.wSecond, st.wMilliseconds, sz_where, sz_line);
+	fclose(f);
+	if (++s_lines == LINES_MAX)
+	{
+		f = fopen("Log\\chat_draw.log", "a");
+		if (f != NULL)
+		{
+			fprintf(f, "(stopped logging after %d lines)\n", (int)LINES_MAX);
+			fclose(f);
+		}
+	}
+}
+
 /*-----------------------------------------------------------------------------
 - Show
 -
@@ -6679,6 +6771,17 @@ void C_VS_UI_CHATTING::Show()
 {
 	int gap = 0;
 	const bool panel_open = IsPanelOpen();
+
+	{
+		// diagnostic: the state this frame draws from
+		const int state[] = { m_sub_window, panel_open, m_bl_input_mode, g_pUserOption->UseEnterChat,
+			m_bl_menu_open, m_bl_spreadID, GetAttributes()->autohide, x, y, w, h, m_sub_rect.x, m_sub_rect.y, m_sub_rect.w, m_sub_rect.h };
+		char sz_line[256];
+		sprintf(sz_line, "sub_window=%d panel_open=%d input_mode=%d enter_chat=%d menu_open=%d spread=%d autohide=%d "
+			"chat=(%d,%d %dx%d) sub_rect=(%d,%d %dx%d)", state[0], state[1], state[2], state[3], state[4], state[5], state[6],
+			state[7], state[8], state[9], state[10], state[11], state[12], state[13], state[14]);
+		g_LogChatDraw(0, "state", state, sizeof(state) / sizeof(state[0]), sz_line);
+	}
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
 		if (!panel_open)
@@ -6769,6 +6872,13 @@ void C_VS_UI_CHATTING::Show()
 			RECT dialog = { m_sub_rect.x + 4, m_sub_rect.y + 5,
 				m_sub_rect.x + 4 + m_pC_chatting_spk->GetWidth(RENEWAL_DIALOG),
 				m_sub_rect.y + 5 + m_pC_chatting_spk->GetHeight(RENEWAL_DIALOG) };
+			{
+				// diagnostic: where the pop-up panel's art goes, and for what
+				const int state[] = { m_sub_window, panel_open, dialog.left, dialog.top, dialog.right, dialog.bottom };
+				char sz_line[160];
+				sprintf(sz_line, "sub_window=%d panel_open=%d dialog=(%d,%d)-(%d,%d)", state[0], state[1], state[2], state[3], state[4], state[5]);
+				g_LogChatDraw(1, "dialog", state, sizeof(state) / sizeof(state[0]), sz_line);
+			}
 			g_FL2_OverlayOccludeRect(&dialog, "ChatDialog");
 			m_pC_chatting_spk->BltLockedAlpha(dialog.left, dialog.top, RENEWAL_DIALOG, 20);
 
@@ -25908,6 +26018,8 @@ C_VS_UI_HPBAR::C_VS_UI_HPBAR()
 	m_width_mode = true;//false;
 	m_small_mode = false;
 	m_small_offset = 0;
+	m_glow_level = 0;
+	m_glow_tick = GetTickCount();
 
 	g_RegisterWindow(this);
 
@@ -26115,6 +26227,84 @@ void C_VS_UI_HPBAR::ComputeOpaqueBounds()
 		// nothing painted at all: fall back to the whole sprite rather than nothing
 		if (rc.right <= rc.left || rc.bottom <= rc.top)
 			SetRect(&rc, 0, 0, sw, sh);
+
+		ComputeGlowField(sprite[i], m_glow_field[i]);
+	}
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_HPBAR::ComputeGlowField
+//
+// The distance field the safe-zone halo draws from, so it hugs the bar's
+// cut corners instead of boxing them in. Every painted pixel on the art's
+// edge writes its distance into the clear pixels within GLOW_WIDTH of it,
+// keeping the smallest; painted pixels and anything further away stay 255.
+//-----------------------------------------------------------------------------
+void C_VS_UI_HPBAR::ComputeGlowField(int sprite, std::vector<BYTE>& field)
+{
+	const int sw = m_pC_hpbar_spk->GetWidth(sprite);
+	const int sh = m_pC_hpbar_spk->GetHeight(sprite);
+	const int w = sw + GLOW_WIDTH * 2;
+	const int h = sh + GLOW_WIDTH * 2;
+
+	field.assign(w * h, 255);
+
+	std::vector<BYTE> mask(sw * sh);
+
+	for (int py = 0; py < sh; py++)
+		for (int px = 0; px < sw; px++)
+			mask[py * sw + px] = m_pC_hpbar_spk->IsPixel(px, py, sprite) ? 1 : 0;
+
+	// distance from a pixel to another dx, dy away, in sixteenths
+	static BYTE splat[GLOW_WIDTH * 2 + 1][GLOW_WIDTH * 2 + 1];
+	static bool bl_splat = false;
+
+	if (!bl_splat)
+	{
+		for (int dy = -GLOW_WIDTH; dy <= GLOW_WIDTH; dy++)
+			for (int dx = -GLOW_WIDTH; dx <= GLOW_WIDTH; dx++)
+			{
+				const float d = sqrtf((float)(dx * dx + dy * dy)) * 16;
+				splat[dy + GLOW_WIDTH][dx + GLOW_WIDTH] = (BYTE)min(255, (int)d);
+			}
+		bl_splat = true;
+	}
+
+	for (int py = 0; py < sh; py++)
+	{
+		for (int px = 0; px < sw; px++)
+		{
+			if (!mask[py * sw + px])
+				continue;
+
+			// only the art's edge matters: a painted pixel with a clear
+			// neighbour, or one on the sprite's border
+			const bool bl_edge = px == 0 || py == 0 || px == sw - 1 || py == sh - 1 ||
+				!mask[py * sw + px - 1] || !mask[py * sw + px + 1] ||
+				!mask[(py - 1) * sw + px] || !mask[(py + 1) * sw + px];
+
+			if (!bl_edge)
+				continue;
+
+			for (int dy = -GLOW_WIDTH; dy <= GLOW_WIDTH; dy++)
+			{
+				const int qy = py + dy;
+
+				for (int dx = -GLOW_WIDTH; dx <= GLOW_WIDTH; dx++)
+				{
+					const int qx = px + dx;
+
+					if (qx >= 0 && qy >= 0 && qx < sw && qy < sh && mask[qy * sw + qx])
+						continue;	// painted: no halo there
+
+					BYTE& cell = field[(qy + GLOW_WIDTH) * w + qx + GLOW_WIDTH];
+					const BYTE d = splat[dy + GLOW_WIDTH][dx + GLOW_WIDTH];
+
+					if (d < cell)
+						cell = d;
+				}
+			}
+		}
 	}
 }
 
@@ -26166,6 +26356,50 @@ bool C_VS_UI_HPBAR::GetOccludeRect(int* px0, int* py0, int* px1, int* py1) const
 	*px0 = x + rc.left;   *py0 = y + rc.top;
 	*px1 = x + rc.right;  *py1 = y + rc.bottom;
 	return rc.right > rc.left && rc.bottom > rc.top;
+}
+
+//-----------------------------------------------------------------------------
+// C_VS_UI_HPBAR::ShowSafeZoneGlow
+//
+// While the player stands in a sector the minimap paints green, a green
+// halo breathes round the bar's art: an 8px fade hugging its painted edge,
+// swelling and easing over about two seconds so it reads as a state, not
+// a frame. It comes up in a third of a second on entering the zone and
+// takes most of a second to die away on leaving. A town that is safe
+// throughout gets no halo - that is not what the minimap shows either.
+//-----------------------------------------------------------------------------
+void C_VS_UI_HPBAR::ShowSafeZoneGlow()
+{
+	static const DWORD GLOW_PERIOD = 2000;	// ms per breath
+	static const float GLOW_FADE_IN = 0.3f;	// seconds, off to full
+	static const float GLOW_FADE_OUT = 0.8f;	// seconds, full to off
+
+	// step the level toward where it is headed; a long gap (the bar was
+	// hidden) counts as a short one so it never jumps
+	const DWORD now = GetTickCount();
+	const float dt = min(0.1f, (now - m_glow_tick) / 1000.0f);
+	m_glow_tick = now;
+
+	if (IsPlayerInSectorSafeZone())
+		m_glow_level = min(1.0f, m_glow_level + dt / GLOW_FADE_IN);
+	else
+		m_glow_level = max(0.0f, m_glow_level - dt / GLOW_FADE_OUT);
+
+	if (m_glow_level <= 0)
+		return;
+
+	const float phase = (now % GLOW_PERIOD) * 6.2831853f / GLOW_PERIOD;
+	const float strength = (0.55f + 0.30f * sinf(phase)) * m_glow_level;
+
+	const int index = (m_width_mode ? 0 : 1) + (m_small_mode ? 2 : 0);
+	const std::vector<BYTE>& field = m_glow_field[index];
+	const int w = m_pC_hpbar_spk->GetWidth(MainSpriteIndex()) + GLOW_WIDTH * 2;
+	const int h = m_pC_hpbar_spk->GetHeight(MainSpriteIndex()) + GLOW_WIDTH * 2;
+
+	if ((int)field.size() != w * h)
+		return;
+
+	g_DrawGlowField(&field[0], w, h, x - GLOW_WIDTH, y - GLOW_WIDTH, g_Color16(64, 255, 96), GLOW_WIDTH, strength);
 }
 
 //-----------------------------------------------------------------------------
@@ -26420,6 +26654,8 @@ void C_VS_UI_HPBAR::Show()
 
 		if (gpC_base->m_p_DDSurface_back->Lock())
 		{
+			ShowSafeZoneGlow();
+
 			if (m_width_mode)
 			{
 				m_pC_hpbar_spk->BltLocked(x, y, MAIN_WIDTH + m_small_offset);
@@ -26513,6 +26749,8 @@ void C_VS_UI_HPBAR::Show()
 	{
 		if (gpC_base->m_p_DDSurface_back->Lock())
 		{
+			ShowSafeZoneGlow();
+
 			if (m_width_mode)
 			{
 				m_pC_hpbar_spk->BltLocked(x, y, MAIN_WIDTH + m_small_offset);
@@ -26610,6 +26848,8 @@ void C_VS_UI_HPBAR::Show()
 	{
 		if (gpC_base->m_p_DDSurface_back->Lock())
 		{
+			ShowSafeZoneGlow();
+
 			int MaxMP = max(g_char_slot_ingame.MP_MAX, 1);
 			int Magnification = min(2, (g_char_slot_ingame.MP / (MaxMP + 1)));
 			int CurrentMP = g_char_slot_ingame.MP - (MaxMP * Magnification);

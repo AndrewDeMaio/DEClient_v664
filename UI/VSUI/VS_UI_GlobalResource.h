@@ -162,6 +162,24 @@ public:
 	C_SPRITE_PACK *			m_pC_assemble_box_renewal_spk;
 	C_SPRITE_PACK *			m_pC_assemble_box_button_renewal_spk;
 
+	// small pieces the renewal windows share (RenewalWidget.spk), the same
+	// for every race
+	C_SPRITE_PACK *			m_pC_renewal_widget_spk;
+
+	enum RENEWAL_WIDGET_INDEX
+	{
+		RW_TAB = 0,				// 82x22: normal, focused, selected
+		RW_CLOSE = 3,			// 14x14 title bar X: normal, focused, pushed
+		RW_SHELF = 6,			// 303x93 dark panel behind a row of items
+		RW_SCROLL_UP = 7,		// 20x20 scroll bar arrows: normal, focused, pushed
+		RW_SCROLL_DOWN = 10,
+		RW_SCROLL_LEFT = 13,
+		RW_SCROLL_RIGHT = 16,
+	};
+
+	// the title bar DrawDialogRenewalLocked draws for these windows
+	enum { RENEWAL_TITLE_BAR_H = 22 };
+
 	// frames we added to the renewal button pack: small blank buttons, 32x16 or
 	// 50x16, labelled with overlay text (DrawRenewalButtonLabel)
 	enum ASSEMBLE_BOX_BUTTON_RENEWAL_INDEX
@@ -625,6 +643,8 @@ public:
 	void	DrawDialogRenewalLocked(int x, int y, int w, int h, int bar_h);
 	// a label over one of the blank renewal buttons, outside a surface lock
 	void	DrawRenewalButtonLabel(int x, int y, int w, int h, const char* sz_label, bool pushed, COLORREF color = RGB_WHITE);
+	void	DrawRenewalTitle(int x, int y, const char* sz_title);
+	void	BltRenewalCloseLocked(int x, int y, bool focused, bool pushed);
 	
 	// 아우스터즈 배경 바꾼거
 	void	DrawDialog4(int x, int y, int w, int h, bool alpha = false);

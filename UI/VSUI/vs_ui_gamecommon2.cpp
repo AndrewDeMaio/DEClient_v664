@@ -31,6 +31,7 @@
 #include "MZoneTable.h"
 
 #include <algorithm>
+#include <map>
 #include <time.h>
 #include <stdio.h>
 #include "TCHAR.H"
@@ -342,44 +343,36 @@ void g_StartOustersDownSkill(int _x, int _y, int PriceRaito)
 //
 // �˾�â�� ����.
 //------------------------------------------------------------------------------
+// The shopping cart: the picked item's picture and details on top, the list
+// of items waiting to be collected under them, Close at the bottom right.
+static const int s_cart_w = 450, s_cart_h = 404;
+static const int s_cart_pic_x = 20, s_cart_pic_y = 34, s_cart_pic_w = 110, s_cart_pic_h = 139;
+static const int s_cart_hint_y = 206;
+static const int s_cart_list_x = 20, s_cart_list_y = 226, s_cart_list_w = 330, s_cart_list_h = 160;
+static const int s_cart_row_h = 20, s_cart_rows = 8;
+static const int s_cart_margin = 12;
+
 C_VS_UI_ITEM_LIST::C_VS_UI_ITEM_LIST()
 {
-	int window_x, window_y, window_w, window_h;
-
-
 	AttrTopmost(true);
-	window_w = 450;
-	window_h = 400;
-
-	//window_x = RESOLUTION_X / 2 - window_w/2;
-	//window_y = RESOLUTION_Y / 2 - window_h/2;
-
-	window_x = g_pUserInformation->iResolution_x / 2 - window_w / 2;
-	window_y = g_pUserInformation->iResolution_y / 2 - window_h / 2;
 
 	m_ItemList.clear();
 
 	m_pItem = NULL;
 
-	Set(window_x, window_y, window_w, window_h);
-
-	int ok_x = w - 150, ok_y = h - 44;
-	int cancel_x = w - 70, cancel_y = h - 44;
-
-	int button_y1 = 190;
-	int prev_button_x = 30;
-	int next_button_y = 100;
+	Set(g_pUserInformation->iResolution_x / 2 - s_cart_w / 2, g_pUserInformation->iResolution_y / 2 - s_cart_h / 2, s_cart_w, s_cart_h);
 
 	m_pC_button_group = new ButtonGroup(this);
 
+	C_SPRITE_PACK* p_button_spk = gpC_global_resource->m_pC_assemble_box_button_renewal_spk;
+	const int close_w = p_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE);
+	const int close_h = p_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE);
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(w - s_cart_margin - close_w, h - s_cart_margin - close_h,
+		close_w, close_h, OK_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE));
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(cancel_x, cancel_y,
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE),
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE),
-		OK_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE));
-
-
-	m_pC_scroll_bar = new C_VS_UI_SCROLL_BAR(0, Rect(w - 90, h - 165, -1, 130));
+	// beside the list, its arrows level with the first and last rows
+	m_pC_scroll_bar = new C_VS_UI_SCROLL_BAR(0, Rect(s_cart_list_x + s_cart_list_w + 4, s_cart_list_y, -1, s_cart_list_h));
+	m_pC_scroll_bar->SetRenewal();
 	m_pC_scroll_bar->SetScrollPos(0);
 	m_pC_scroll_bar->SetPosMax(0);
 
@@ -420,29 +413,21 @@ void	C_VS_UI_ITEM_LIST::Show()
 	if (!(m_CurrentItem < 0 || m_CurrentItem >= m_ItemList.size()))
 		pCurrentFocusItem = m_ItemList[m_CurrentItem].pItem;
 
-	Rect rect(x + 20, y + 20, 110, 139);
-	Rect ItemListRect(rect.x, rect.y + rect.h + 20 + 40, 340, 160);
+	Rect rect(x + s_cart_pic_x, y + s_cart_pic_y, s_cart_pic_w, s_cart_pic_h);
+	Rect ItemListRect(x + s_cart_list_x, y + s_cart_list_y, s_cart_list_w, s_cart_list_h);
 
 	RECT BoxRect = { rect.x, rect.y , rect.x + rect.w, rect.y + rect.h };
-	RECT ItemListRECT = { ItemListRect.x,ItemListRect.y,ItemListRect.x + ItemListRect.w,ItemListRect.y + ItemListRect.h };
-
-	gpC_global_resource->DrawDialog(x, y, w, h, g_pUserOption->DefaultAlpha == TRUE);
-
-	if (g_pUserOption->DefaultAlpha == FALSE)
-	{
-		gpC_base->m_p_DDSurface_back->FillRect(&BoxRect, 0);
-		gpC_base->m_p_DDSurface_back->FillRect(&ItemListRECT, 0);
-	}
 
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
+		gpC_global_resource->DrawDialogRenewalLocked(x, y, w, h, C_GLOBAL_RESOURCE::RENEWAL_TITLE_BAR_H);
 
-		if (m_CurrentItem >= m_pC_scroll_bar->GetScrollPos() && m_pC_scroll_bar->GetScrollPos() + 8 > m_CurrentItem)
+		// the picked row, as a band inside the list's border
+		if (m_CurrentItem < (int)m_ItemList.size() && m_CurrentItem >= m_pC_scroll_bar->GetScrollPos() && m_pC_scroll_bar->GetScrollPos() + s_cart_rows > m_CurrentItem)
 		{
-			RECT SelectRECT = { ItemListRect.x, ItemListRect.y + (m_CurrentItem - m_pC_scroll_bar->GetScrollPos()) * 20 , ItemListRect.x + ItemListRect.w, ItemListRect.y + 20 + (m_CurrentItem - m_pC_scroll_bar->GetScrollPos()) * 20 };
-			DrawAlphaBox(&SelectRECT, 12, 12, 12, g_pUserOption->ALPHA_DEPTH);
-			Rect SelectBox(SelectRECT.left + 2, SelectRECT.top, SelectRECT.right - SelectRECT.left - 4, SelectRECT.bottom - SelectRECT.top + 2);
-			gpC_global_resource->DrawOutBoxLocked(SelectBox);
+			const int row_top = ItemListRect.y + (m_CurrentItem - m_pC_scroll_bar->GetScrollPos()) * s_cart_row_h;
+			RECT SelectRECT = { ItemListRect.x + 2, row_top + 1, ItemListRect.x + ItemListRect.w - 2, row_top + s_cart_row_h };
+			DrawAlphaBox(&SelectRECT, 5, 8, 8, 28);
 		}
 
 		if (!m_ItemList.empty())
@@ -481,12 +466,12 @@ void	C_VS_UI_ITEM_LIST::Show()
 	m_pC_scroll_bar->Show(x, y);
 
 
-	const int line_num = 8;
-	int line_gap = 20;
+	const int line_num = s_cart_rows;
+	int line_gap = s_cart_row_h;
 
 	for (int i = 0; i < line_num - 1; i++)
 	{
-		if (m_CurrentItem >= m_pC_scroll_bar->GetScrollPos() && m_CurrentItem < m_pC_scroll_bar->GetScrollPos() + 8)
+		if (m_CurrentItem >= m_pC_scroll_bar->GetScrollPos() && m_CurrentItem < m_pC_scroll_bar->GetScrollPos() + line_num)
 		{
 			if (m_CurrentItem - m_pC_scroll_bar->GetScrollPos() != i &&
 				max(0, m_CurrentItem - m_pC_scroll_bar->GetScrollPos() - 1) != i)
@@ -499,7 +484,8 @@ void	C_VS_UI_ITEM_LIST::Show()
 	}
 
 	g_FL2_GetDC();
-	g_PrintColorStr(x + 35, y + 200, (*g_pGameStringTable)[UI_STRING_MESSAGE_ITEM_SHOP].GetString(), gpC_base->m_chatting_pi, RGB_WHITE);
+	gpC_global_resource->DrawRenewalTitle(x, y, (*g_pGameStringTable)[UI_STRING_MESSAGE_SHOPPING_BASKET].GetString());
+	g_PrintColorStr(x + s_cart_list_x + 2, y + s_cart_hint_y, (*g_pGameStringTable)[UI_STRING_MESSAGE_ITEM_SHOP].GetString(), gpC_base->m_chatting_pi, RGB(220, 220, 220));
 	for (int i = 0; i < line_num; i++)
 	{
 		COLORREF TitleColor, ShadowColor;
@@ -574,7 +560,7 @@ void	C_VS_UI_ITEM_LIST::Show()
 	char tempstr[256];
 	wsprintf(tempstr, "<%d/%d>", m_ItemList.empty() ? 0 : m_CurrentItem + 1, m_ItemList.size());
 	int len = g_GetStringWidth(tempstr, gpC_base->m_chatting_pi.hfont);
-	g_PrintColorStr(rect.x + rect.w / 2 - len / 2, y + 162, tempstr, gpC_base->m_chatting_pi, RGB_WHITE);
+	g_PrintColorStr(rect.x + rect.w / 2 - len / 2, rect.y + rect.h + 5, tempstr, gpC_base->m_chatting_pi, RGB_WHITE);
 
 	if (pCurrentFocusItem != NULL)
 	{
@@ -996,11 +982,10 @@ void	C_VS_UI_ITEM_LIST::Show()
 
 bool	C_VS_UI_ITEM_LIST::MouseControl(UINT message, int _x, int _y)
 {
-	Rect rect(x + 20, y + 20, 110, 139);
-	Rect ItemListRect(rect.x, rect.y + rect.h + 20 + 40, 340, 160);
+	Rect ItemListRect(x + s_cart_list_x, y + s_cart_list_y, s_cart_list_w, s_cart_list_h);
 
-	const int line_num = 8;
-	const int line_gap = 20;
+	const int line_num = s_cart_rows;
+	const int line_gap = s_cart_row_h;
 
 	Window::MouseControl(message, _x, _y);
 	_x -= x; _y -= y;
@@ -1101,15 +1086,16 @@ bool	C_VS_UI_ITEM_LIST::IsPixel(int _x, int _y)
 
 void	C_VS_UI_ITEM_LIST::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
+	C_SPRITE_PACK* p_button_spk = gpC_global_resource->m_pC_assemble_box_button_renewal_spk;
 	if (p_button->GetFocusState())
 	{
 		if (p_button->GetPressState())
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET);
+			p_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET);
 		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET);
+			p_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET);
 	}
 	else
-		gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
+		p_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
 }
 
 void	C_VS_UI_ITEM_LIST::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
@@ -1177,7 +1163,7 @@ bool	C_VS_UI_ITEM_LIST::AddItem(ItemList pItem)
 
 	m_ItemList.push_back(pItem);
 
-	m_pC_scroll_bar->SetPosMax(m_ItemList.size() - 8 + 1);
+	m_pC_scroll_bar->SetPosMax(max(1, (int)m_ItemList.size() - s_cart_rows + 1));
 
 	return true;
 }
@@ -1238,7 +1224,7 @@ bool	C_VS_UI_ITEM_LIST::DeleteItem(DWORD ID)
 		itr++;
 	}
 
-	m_pC_scroll_bar->SetPosMax(m_ItemList.size() - 8 + 1);
+	m_pC_scroll_bar->SetPosMax(max(1, (int)m_ItemList.size() - s_cart_rows + 1));
 	m_pC_scroll_bar->SetScrollPos(0);
 
 	if (pDeleteItem != NULL)
@@ -15527,6 +15513,459 @@ C_VS_UI_QUEST_MANAGER::~C_VS_UI_QUEST_MANAGER()
 // �ϴ� ÷�� �ε��س��� ��~�� ����� �ڵ�^^;
 // ���� �غ��� �׶� �׶� �ε��ϴ°� ������ �ؼ� ����..����
 // ó�� ����Ʈ ���� �� �⺻ tree�� ��� ������ �ְ� �߰��߰� modify�Ҷ� �׶� �׶� �о� �´�.
+//-----------------------------------------------------------------------------
+// The quest journal
+//
+// What the journal shows beyond the server's quest status comes from the
+// quest file itself: the level range, the NPC who gives the quest, what
+// finishing it asks for, and its rewards. It is read once, the first time the
+// file is loaded, for every quest in it.
+//-----------------------------------------------------------------------------
+struct QUEST_JOURNAL_ITEM
+{
+	int		item_class;
+	int		item_type;
+	int		num;
+	int		option;		// 0 for none
+	int		domain;		// the slayer skill domain it is for, -1 for everyone
+	bool	random;		// one of a set
+};
+
+struct QUEST_JOURNAL
+{
+	int								level_min, level_max;
+	std::string						sender;
+	DWORD							exp, money;
+	bool							advance;
+	std::vector<QUEST_JOURNAL_ITEM>	items;
+	std::vector<std::string>		objectives;		// what finishing it asks, in order
+
+	QUEST_JOURNAL() : level_min(0), level_max(0), exp(0), money(0), advance(false) {}
+};
+
+static std::map<DWORD, QUEST_JOURNAL> s_quest_journal;
+
+// the item class a quest file names: ITEM_CLASS_<name>
+static int g_QuestItemClass(const char* sz_name)
+{
+	static const struct { const char* name; int item_class; } s_names[] =
+	{
+		{ "MOTORCYCLE", ITEM_CLASS_MOTORCYCLE },
+		{ "POTION", ITEM_CLASS_POTION },
+		{ "WATER", ITEM_CLASS_WATER },
+		{ "HOLYWATER", ITEM_CLASS_HOLYWATER },
+		{ "MAGAZINE", ITEM_CLASS_MAGAZINE },
+		{ "BOMB_MATERIAL", ITEM_CLASS_BOMB_MATERIAL },
+		{ "ETC", ITEM_CLASS_ETC },
+		{ "KEY", ITEM_CLASS_KEY },
+		{ "RING", ITEM_CLASS_RING },
+		{ "BRACELET", ITEM_CLASS_BRACELET },
+		{ "NECKLACE", ITEM_CLASS_NECKLACE },
+		{ "COAT", ITEM_CLASS_COAT },
+		{ "TROUSER", ITEM_CLASS_TROUSER },
+		{ "SHOES", ITEM_CLASS_SHOES },
+		{ "SWORD", ITEM_CLASS_SWORD },
+		{ "BLADE", ITEM_CLASS_BLADE },
+		{ "SHIELD", ITEM_CLASS_SHIELD },
+		{ "CROSS", ITEM_CLASS_CROSS },
+		{ "GLOVE", ITEM_CLASS_GLOVE },
+		{ "HELM", ITEM_CLASS_HELM },
+		{ "SG", ITEM_CLASS_SG },
+		{ "SMG", ITEM_CLASS_SMG },
+		{ "AR", ITEM_CLASS_AR },
+		{ "SR", ITEM_CLASS_SR },
+		{ "BOMB", ITEM_CLASS_BOMB },
+		{ "MINE", ITEM_CLASS_MINE },
+		{ "BELT", ITEM_CLASS_BELT },
+		{ "LEARNINGITEM", ITEM_CLASS_LEARNINGITEM },
+		{ "MONEY", ITEM_CLASS_MONEY },
+		{ "CORPSE", ITEM_CLASS_CORPSE },
+		{ "VAMPIRE_RING", ITEM_CLASS_VAMPIRE_RING },
+		{ "VAMPIRE_BRACELET", ITEM_CLASS_VAMPIRE_BRACELET },
+		{ "VAMPIRE_NECKLACE", ITEM_CLASS_VAMPIRE_NECKLACE },
+		{ "VAMPIRE_COAT", ITEM_CLASS_VAMPIRE_COAT },
+		{ "SKULL", ITEM_CLASS_SKULL },
+		{ "MACE", ITEM_CLASS_MACE },
+		{ "SERUM", ITEM_CLASS_SERUM },
+		{ "VAMPIRE_ETC", ITEM_CLASS_VAMPIRE_ETC },
+		{ "SLAYER_PORTAL_ITEM", ITEM_CLASS_SLAYER_PORTAL_ITEM },
+		{ "VAMPIRE_PORTAL_ITEM", ITEM_CLASS_VAMPIRE_PORTAL_ITEM },
+		{ "EVENT_GIFT_BOX", ITEM_CLASS_EVENT_GIFT_BOX },
+		{ "EVENT_STAR", ITEM_CLASS_EVENT_STAR },
+		{ "VAMPIRE_EARRING", ITEM_CLASS_VAMPIRE_EARRING },
+		{ "RELIC", ITEM_CLASS_RELIC },
+		{ "VAMPIRE_WEAPON", ITEM_CLASS_VAMPIRE_WEAPON },
+		{ "VAMPIRE_AMULET", ITEM_CLASS_VAMPIRE_AMULET },
+		{ "QUEST_ITEM", ITEM_CLASS_QUEST_ITEM },
+		{ "EVENT_TREE", ITEM_CLASS_EVENT_TREE },
+		{ "EVENT_ETC", ITEM_CLASS_EVENT_ETC },
+		{ "BLOOD_BIBLE", ITEM_CLASS_BLOOD_BIBLE },
+		{ "CASTLE_SYMBOL", ITEM_CLASS_CASTLE_SYMBOL },
+		{ "COUPLE_RING", ITEM_CLASS_COUPLE_RING },
+		{ "VAMPIRE_COUPLE_RING", ITEM_CLASS_VAMPIRE_COUPLE_RING },
+		{ "EVENT_ITEM", ITEM_CLASS_EVENT_ITEM },
+		{ "DYE_POTION", ITEM_CLASS_DYE_POTION },
+		{ "RESURRECT_ITEM", ITEM_CLASS_RESURRECT_ITEM },
+		{ "MIXING_ITEM", ITEM_CLASS_MIXING_ITEM },
+		{ "OUSTERS_ARMSBAND", ITEM_CLASS_OUSTERS_ARMSBAND },
+		{ "OUSTERS_BOOTS", ITEM_CLASS_OUSTERS_BOOTS },
+		{ "OUSTERS_CHAKRAM", ITEM_CLASS_OUSTERS_CHAKRAM },
+		{ "OUSTERS_CIRCLET", ITEM_CLASS_OUSTERS_CIRCLET },
+		{ "OUSTERS_COAT", ITEM_CLASS_OUSTERS_COAT },
+		{ "OUSTERS_PENDENT", ITEM_CLASS_OUSTERS_PENDENT },
+		{ "OUSTERS_RING", ITEM_CLASS_OUSTERS_RING },
+		{ "OUSTERS_STONE", ITEM_CLASS_OUSTERS_STONE },
+		{ "OUSTERS_WRISTLET", ITEM_CLASS_OUSTERS_WRISTLET },
+		{ "LARVA", ITEM_CLASS_LARVA },
+		{ "PUPA", ITEM_CLASS_PUPA },
+		{ "COMPOS_MEI", ITEM_CLASS_COMPOS_MEI },
+		{ "OUSTERS_SUMMON_ITEM", ITEM_CLASS_OUSTERS_SUMMON_ITEM },
+		{ "EFFECT_ITEM", ITEM_CLASS_EFFECT_ITEM },
+		{ "CODE_SHEET", ITEM_CLASS_CODE_SHEET },
+		{ "MOON_CARD", ITEM_CLASS_MOON_CARD },
+		{ "SWEEPER", ITEM_CLASS_SWEEPER },
+		{ "PET_ITEM", ITEM_CLASS_PET_ITEM },
+		{ "PET_FOOD", ITEM_CLASS_PET_FOOD },
+		{ "PET_ENCHANT_ITEM", ITEM_CLASS_PET_ENCHANT_ITEM },
+		{ "LUCKY_BAG", ITEM_CLASS_LUCKY_BAG },
+		{ "SMS_ITEM", ITEM_CLASS_SMS_ITEM },
+		{ "CORE_ZAP", ITEM_CLASS_CORE_ZAP },
+		{ "GQUEST_ITEM", ITEM_CLASS_GQUEST_ITEM },
+		{ "TRAP_ITEM", ITEM_CLASS_TRAP_ITEM },
+		{ "BLOOD_BIBLE_SIGN", ITEM_CLASS_BLOOD_BIBLE_SIGN },
+		{ "WAR_ITEM", ITEM_CLASS_WAR_ITEM },
+		{ "CARRYING_RECEIVER", ITEM_CLASS_CARRYING_RECEIVER },
+		{ "SHOULDER_ARMOR", ITEM_CLASS_SHOULDER_ARMOR },
+		{ "DERMIS", ITEM_CLASS_DERMIS },
+		{ "PERSONA", ITEM_CLASS_PERSONA },
+		{ "FASCIA", ITEM_CLASS_FASCIA },
+		{ "MITTEN", ITEM_CLASS_MITTEN },
+		{ "SUB_INVENTORY", ITEM_CLASS_SUB_INVENTORY },
+		{ "COMMON_QUEST_ITEM", ITEM_CLASS_COMMON_QUEST_ITEM },
+		{ "ETHEREAL_CHAIN", ITEM_CLASS_ETHEREAL_CHAIN },
+		{ "OUSTERS_HARMONIC_PENDENT", ITEM_CLASS_OUSTERS_HARMONIC_PENDENT },
+		{ "CHECK_MONEY", ITEM_CLASS_CHECK_MONEY },
+		{ "CUE_OF_ADAM", ITEM_CLASS_CUE_OF_ADAM },
+		{ "CONTRACT_OF_BLOOD", ITEM_CLASS_CONTRACT_OF_BLOOD },
+		{ "SKILL_BOOK", ITEM_CLASS_SKILL_BOOK },
+#if __CONTENTS(__FAST_TRANSFORTER||__SECOND_TRANSFORTER)
+		{ "VAMPIREWING_ITEM", ITEM_CLASS_VAMPIREWING_ITEM },
+		{ "OUSTERSWING_ITEM", ITEM_CLASS_OUSTERSWING_ITEM },
+#endif
+#if __CONTENTS(__TUNING_ITEM)
+		{ "TUNING_SLAYER", ITEM_CLASS_TUNING_SLAYER },
+		{ "TUNING_VAMPIRE", ITEM_CLASS_TUNING_VAMPIRE },
+		{ "TUNING_OUSTERS", ITEM_CLASS_TUNING_OUSTERS },
+#endif
+#if __CONTENTS(__GLOBAL_NPC)
+		{ "CALLNPC_CARD", ITEM_CLASS_CALLNPC_CARD },
+#endif
+	};
+	for (int i = 0; i < sizeof(s_names) / sizeof(s_names[0]); i++)
+	{
+		if (_stricmp(sz_name, s_names[i].name) == 0)
+			return s_names[i].item_class;
+	}
+	return -1;
+}
+
+// "STR+3" is the third STR option: the server's option nicknames number each
+// part's options in order
+static int g_QuestItemOption(const char* sz_nickname)
+{
+	static const struct { const char* abbr; int part; } s_parts[] =
+	{
+		{ "STR", ITEMOPTION_TABLE::PART_STR },
+		{ "DEX", ITEMOPTION_TABLE::PART_DEX },
+		{ "INT", ITEMOPTION_TABLE::PART_INT },
+		{ "HP", ITEMOPTION_TABLE::PART_HP },
+		{ "MP", ITEMOPTION_TABLE::PART_MP },
+		{ "HPSTL", ITEMOPTION_TABLE::PART_HP_STEAL },
+		{ "MPSTL", ITEMOPTION_TABLE::PART_MP_STEAL },
+		{ "HPRGN", ITEMOPTION_TABLE::PART_HP_REGEN },
+		{ "MPRGN", ITEMOPTION_TABLE::PART_MP_REGEN },
+		{ "TOHIT", ITEMOPTION_TABLE::PART_TOHIT },
+		{ "DEF", ITEMOPTION_TABLE::PART_DEFENSE },
+		{ "DAM", ITEMOPTION_TABLE::PART_DAMAGE },
+		{ "PRO", ITEMOPTION_TABLE::PART_PROTECTION },
+		{ "DUR", ITEMOPTION_TABLE::PART_DURABILITY },
+		{ "PORES", ITEMOPTION_TABLE::PART_POISON },
+		{ "ACRES", ITEMOPTION_TABLE::PART_ACID },
+		{ "CURES", ITEMOPTION_TABLE::PART_CURSE },
+		{ "BLRES", ITEMOPTION_TABLE::PART_BLOOD },
+		{ "VIS", ITEMOPTION_TABLE::PART_VISION },
+		{ "ASPD", ITEMOPTION_TABLE::PART_ATTACK_SPEED },
+		{ "CRI", ITEMOPTION_TABLE::PART_CRITICAL_HIT },
+		{ "LUCK", ITEMOPTION_TABLE::PART_LUCK },
+		{ "RES", ITEMOPTION_TABLE::PART_ALL_RES },
+		{ "ATTR", ITEMOPTION_TABLE::PART_ALL_ATTR },
+	};
+
+	const char* plus = strchr(sz_nickname, '+');
+	if (plus == NULL || g_pItemOptionTable == NULL)
+		return 0;
+
+	const std::string abbr(sz_nickname, plus - sz_nickname);
+	const int tier = atoi(plus + 1);
+	int part = -1;
+	for (int i = 0; i < sizeof(s_parts) / sizeof(s_parts[0]); i++)
+	{
+		if (_stricmp(abbr.c_str(), s_parts[i].abbr) == 0)
+			part = s_parts[i].part;
+	}
+	if (part < 0 || tier <= 0)
+		return 0;
+
+	int n = 0;
+	for (int type = 1; type < g_pItemOptionTable->GetSize(); type++)
+	{
+		const ITEMOPTION_INFO& info = (*g_pItemOptionTable)[type];
+		if (info.Part == part && info.PlusPoint > 0 && ++n == tier)
+			return type;
+	}
+	return 0;
+}
+
+// the slayer skill domain a quest file names
+static int g_QuestSkillDomain(const char* sz_domain)
+{
+	static const char* s_domains[] = { "blade", "sword", "gun", "heal", "enchant" };	// SKILLDOMAIN order
+	for (int i = 0; i < sizeof(s_domains) / sizeof(s_domains[0]); i++)
+	{
+		if (_stricmp(sz_domain, s_domains[i]) == 0)
+			return SKILLDOMAIN_BLADE + i;
+	}
+	return -1;
+}
+
+static int g_QuestXmlInt(const XMLTree* p_node, const char* sz_name, int def)
+{
+	const XMLAttribute* p_attr = p_node != NULL ? p_node->GetAttribute(sz_name) : NULL;
+	return p_attr != NULL ? p_attr->ToInt() : def;
+}
+
+static void g_ReadQuestReward(const XMLTree* p_node, QUEST_JOURNAL& journal, int domain, bool random)
+{
+	for (size_t i = 0; i < p_node->GetChildCount(); i++)
+	{
+		const XMLTree* p = p_node->GetChild(i);
+		const std::string& name = p->GetName();
+
+		if (name == "GiveVampireExp" || name == "GiveOustersExp" || name == "GiveDomainExp")
+			journal.exp += g_QuestXmlInt(p, "amount", 0);
+		else if (name == "GiveMoney")
+			journal.money += g_QuestXmlInt(p, "amount", 0);
+		else if (name == "AdvanceClass")
+			journal.advance = true;
+		else if (name == "Random")
+			g_ReadQuestReward(p, journal, domain, true);
+		else if (name == "OR")
+			g_ReadQuestReward(p, journal, domain, random);
+		else if (name == "SlayerHighestSkillDomain")
+		{
+			const XMLAttribute* p_domain = p->GetAttribute("domain");
+			g_ReadQuestReward(p, journal, p_domain != NULL ? g_QuestSkillDomain(p_domain->ToString()) : domain, random);
+		}
+		else if (name == "GiveItem")
+		{
+			const XMLAttribute* p_class = p->GetAttribute("class");
+			const XMLAttribute* p_option = p->GetAttribute("option");
+
+			QUEST_JOURNAL_ITEM item;
+			item.item_class = p_class != NULL ? g_QuestItemClass(p_class->ToString()) : -1;
+			item.item_type = g_QuestXmlInt(p, "type", 0);
+			item.num = max(1, g_QuestXmlInt(p, "num", 1));
+			item.option = p_option != NULL ? g_QuestItemOption(p_option->ToString()) : 0;
+			item.domain = domain;
+			item.random = random;
+			if (item.item_class < 0)
+				continue;
+
+			// the same item given more than once shows once, with the total
+			bool merged = false;
+			for (size_t k = 0; k < journal.items.size() && !random && !merged; k++)
+			{
+				QUEST_JOURNAL_ITEM& other = journal.items[k];
+				if (!other.random && other.item_class == item.item_class && other.item_type == item.item_type &&
+					other.option == item.option && other.domain == item.domain)
+				{
+					other.num += item.num;
+					merged = true;
+				}
+			}
+			if (!merged)
+				journal.items.push_back(item);
+		}
+	}
+}
+
+static void g_ReadQuestJournal(const XMLTree& root)
+{
+	for (size_t i = 0; i < root.GetChildCount(); i++)
+	{
+		const XMLTree* p_quest = root.GetChild(i);
+		if (p_quest == NULL || p_quest->GetName() != "Quest")
+			continue;
+
+		QUEST_JOURNAL& journal = s_quest_journal[(DWORD)g_QuestXmlInt(p_quest, "id", 0)];
+		journal = QUEST_JOURNAL();
+
+		const XMLTree* p_happen = p_quest->GetChild("Happen");
+		const XMLTree* p_level = p_happen != NULL ? p_happen->GetChild("Level") : NULL;
+		journal.level_min = g_QuestXmlInt(p_level, "min", 0);
+		journal.level_max = g_QuestXmlInt(p_level, "max", 0);
+
+		const XMLTree* p_script = p_quest->GetChild("Script");
+		const XMLAttribute* p_sender = p_script != NULL ? p_script->GetAttribute("sender") : NULL;
+		if (p_sender != NULL)
+			journal.sender = p_sender->ToString();
+
+		const XMLTree* p_reward = p_quest->GetChild("Reward");
+		if (p_reward != NULL)
+			g_ReadQuestReward(p_reward, journal, -1, false);
+
+		// what finishing it asks, by index; the Script and Message lines
+		// among them are what NPCs say, not steps
+		const XMLTree* p_complete = p_quest->GetChild("Complete");
+		if (p_complete != NULL)
+		{
+			std::vector<std::pair<int, std::string> > steps;
+			for (size_t k = 0; k < p_complete->GetChildCount(); k++)
+			{
+				const XMLTree* p = p_complete->GetChild(k);
+				if (p->GetName() == "Script" || p->GetName() == "Message")
+					continue;
+				const int index = g_QuestXmlInt(p, "index", -1);
+				const std::string text = XMLUtil::trim(p->GetText());
+				if (index >= 0 && !text.empty())
+					steps.push_back(std::make_pair(index, text));
+			}
+			std::stable_sort(steps.begin(), steps.end());
+			for (size_t k = 0; k < steps.size(); k++)
+				journal.objectives.push_back(steps[k].second);
+		}
+	}
+}
+
+static const QUEST_JOURNAL* g_FindQuestJournal(DWORD qID)
+{
+	std::map<DWORD, QUEST_JOURNAL>::const_iterator itr = s_quest_journal.find(qID);
+	return itr != s_quest_journal.end() ? &itr->second : NULL;
+}
+
+// the rewards this character would see: a slayer only the weapons for their
+// highest skill domain; everyone only items the item table knows
+static void g_QuestShownRewards(const QUEST_JOURNAL& journal, std::vector<const QUEST_JOURNAL_ITEM*>& shown)
+{
+	int highest = -1;
+	if (g_eRaceInterface == RACE_SLAYER && g_pSkillManager != NULL)
+	{
+		int level = -1;
+		for (int d = SKILLDOMAIN_BLADE; d <= SKILLDOMAIN_ENCHANT; d++)
+		{
+			if ((*g_pSkillManager)[d].GetDomainLevel() > level)
+			{
+				level = (*g_pSkillManager)[d].GetDomainLevel();
+				highest = d;
+			}
+		}
+	}
+
+	shown.clear();
+	for (size_t i = 0; i < journal.items.size(); i++)
+	{
+		const QUEST_JOURNAL_ITEM& item = journal.items[i];
+		if (item.domain >= 0 && highest >= 0 && item.domain != highest)
+			continue;
+		if (item.item_class < 0 || item.item_class >= MAX_ITEM_CLASS ||
+			item.item_type < 0 || item.item_type >= (*g_pItemTable)[item.item_class].GetSize())
+			continue;
+		shown.push_back(&item);
+	}
+}
+
+static MItem* g_NewQuestRewardItem(const QUEST_JOURNAL_ITEM& reward)
+{
+	MItem* p_item = MItem::NewItem((ITEM_CLASS)reward.item_class);
+	if (p_item == NULL)
+		return NULL;
+
+	p_item->SetItemType(reward.item_type);
+	p_item->SetIdentified();
+	if (reward.option > 0)
+		p_item->AddItemOption(reward.option);
+	if (reward.num > 1)
+		p_item->SetNumber(reward.num);
+	const int max_durability = p_item->GetMaxDurability();
+	if (max_durability > 0)
+		p_item->SetCurrentDurability(max_durability);
+	return p_item;
+}
+
+// a quest file line with its %s and %d filled in, without trusting it as a
+// printf format
+static std::string g_QuestStepText(const std::string& text, const std::string& str_arg, DWORD num_arg)
+{
+	std::string out;
+	bool str_done = false, num_done = false;
+	for (size_t i = 0; i < text.size(); i++)
+	{
+		if (text[i] == '%' && i + 1 < text.size() && text[i + 1] == 's' && !str_done)
+		{
+			out += str_arg;
+			str_done = true;
+			i++;
+		}
+		else if (text[i] == '%' && i + 1 < text.size() && text[i + 1] == 'd' && !num_done)
+		{
+			char sz_num[16];
+			sprintf(sz_num, "%u", num_arg);
+			out += sz_num;
+			num_done = true;
+			i++;
+		}
+		else
+			out += text[i];
+	}
+	return XMLUtil::trim(out);
+}
+
+// src cut from the end, with "...", to fit max_px
+static void g_FitQuestString(char* sz_out, int out_size, const char* src, int max_px, HFONT hfont)
+{
+	strncpy(sz_out, src, out_size - 1);
+	sz_out[out_size - 1] = '\0';
+	if (g_GetStringWidth(sz_out, hfont) <= max_px)
+		return;
+
+	for (int n = (int)strlen(sz_out) - 1; n > 0; n--)
+	{
+		if (!g_PossibleStringCut(src, n))
+			continue;
+		if (n + 4 > out_size)
+			continue;
+		memcpy(sz_out, src, n);
+		strcpy(sz_out + n, "...");
+		if (g_GetStringWidth(sz_out, hfont) <= max_px)
+			return;
+	}
+}
+
+static void g_FormatQuestNumber(DWORD value, char* sz_out)
+{
+	char sz_digits[16];
+	sprintf(sz_digits, "%u", value);
+	const int len = strlen(sz_digits);
+	int o = 0;
+	for (int i = 0; i < len; i++)
+	{
+		if (i > 0 && (len - i) % 3 == 0)
+			sz_out[o++] = ',';
+		sz_out[o++] = sz_digits[i];
+	}
+	sz_out[o] = '\0';
+}
+
 bool	C_VS_UI_QUEST_MANAGER::LoadQuestXML()
 {
 	m_Quest_XML_file.SetRAR(RPK_TUTORIAL_ETC, RPK_PASSWORD);
@@ -15546,6 +15985,10 @@ bool	C_VS_UI_QUEST_MANAGER::LoadQuestXML()
 	parser.parse((char*)m_Quest_XML_file.GetFilePointer(), &m_Quest_XML_Tree, true);
 
 	m_Quest_XML_file.Release();
+
+	// the journal reads what it needs from the file once
+	if (s_quest_journal.empty())
+		g_ReadQuestJournal(m_Quest_XML_Tree);
 
 	return TRUE;
 }
@@ -15570,8 +16013,8 @@ void	C_VS_UI_QUEST_MANAGER::SetSubWindowInfo(DWORD qID, bool bOpenSubWindows)
 {
 	if (bOpenSubWindows)
 	{
+		// the steps show on the details page
 		RunQuestDetail();
-		RunQuestMission();
 		if (m_QuestItemInfo.size() > 0)
 			RunQuestItem();
 	}
@@ -15586,6 +16029,7 @@ void	C_VS_UI_QUEST_MANAGER::SetSubWindowInfo(DWORD qID, bool bOpenSubWindows)
 			{
 				if (IsRunningQuestDetail())
 				{
+					m_Ui_Quest_Detail->SetQuestJournal(TempInfo->dwQuestID, TempInfo->vMissionList);
 					m_Ui_Quest_Detail->SetQuestDetailInfo((char*)TempInfo->szQuestTitle.c_str(), (char*)TempInfo->szQuestDescription.c_str(), TempInfo->bStatus);
 #if __CONTENTS(__QUEST_RENEWAL2)
 					m_Ui_Quest_Detail->SetQuestCompensation(TempInfo->strQuestCompensation);
@@ -16269,7 +16713,6 @@ void	C_VS_UI_QUEST_MANAGER::RunAllWinow()
 {
 	RunQuestList();
 	RunQuestDetail();
-	RunQuestMission();
 	RunQuestItem();
 	if (IsRunningQuestList())
 	{
@@ -16660,6 +17103,147 @@ void	C_VS_UI_QUEST_MANAGER::RunGQuestExcuteElement(DWORD qID, BYTE bCondition, W
 	ReleaseQuestXML();
 }
 //-----------------------------------------------------------------------------
+// The quest windows share one look: the renewal frame with the title in its
+// bar and an X at the bar's right, lists as rows of text under a header band.
+//-----------------------------------------------------------------------------
+static const int s_quest_close_right = 22;		// the X, from the window's right edge
+static const int s_quest_close_y = 4;
+static const int s_quest_row_x = 8;				// rows stop short of the scroll bar
+static const int s_quest_row_right = 28;		// from the window's right edge
+static const int s_quest_row_h = 20;
+static const int s_quest_text_x = 12;
+static const int s_quest_text_dy = 3;			// text inside its row
+static const int s_quest_scroll_right = 25;		// the scroll bar, from the right edge
+static const WORD s_quest_line_color = 0x2945;	// (40, 40, 40) between rows
+
+static const int s_quest_tab_y = 27;
+static const int s_quest_list_header_y = 53, s_quest_list_header_h = 16;
+static const int s_quest_journal_w = 300, s_quest_journal_h = 520;
+static const int s_quest_journal_footer_h = 34;
+static const int s_quest_list_rows_y = 71;
+static const int s_quest_list_rows = (s_quest_journal_h - s_quest_list_rows_y - s_quest_journal_footer_h) / 20;
+static const int s_quest_level_w = 72;			// the status column, right of the level
+
+static const int s_quest_detail_name_y = 28, s_quest_detail_line_y = 46;
+static const int s_quest_detail_text_y = 50, s_quest_detail_line_h = 18;
+static const int s_quest_detail_bottom = 36;	// the Accept row under the text
+
+static const int s_quest_mission_rows_y = 30, s_quest_mission_rows = 10;
+
+// the Quest Mission window, which the journal no longer opens
+static const int s_quest_column_w = 290;
+static const int s_quest_list_h = 240, s_quest_mission_h = 240;
+static const int s_quest_detail_w = 360, s_quest_detail_h = s_quest_journal_h;
+
+// the details page, top to bottom: the level badge and name, Rewards,
+// Description, and Objectives with the NPC under them, over the Accept row
+static const int s_quest_page_x = 12;
+static const int s_quest_badge_y = 30, s_quest_badge_w = 52, s_quest_badge_h = 22;
+static const int s_quest_section_top = 62;
+static const int s_quest_section_label_h = 16, s_quest_section_gap = 10;
+static const int s_quest_reward_pad = 6, s_quest_reward_cell = 36, s_quest_reward_gap = 6;
+static const int s_quest_objective_h = 20, s_quest_objective_max = 8;
+static const int s_quest_npc_h = 18;
+static const int s_quest_default_x = 0, s_quest_default_y = 37;
+
+// the Details text lines that fit between the quest's name and the Accept row
+static const int s_quest_detail_lines = (s_quest_detail_h - s_quest_detail_bottom - s_quest_detail_text_y) / s_quest_detail_line_h;
+
+static const char* s_quest_title_list = "Quest Journal";
+static const char* s_quest_title_detail = "Quest Details";
+static const char* s_quest_title_mission = "Quest Mission";
+static const char* s_quest_title_item = "Quest Items";
+static const char* s_quest_tab_label[2] = { "Active", "Completed" };
+static const char* s_quest_header_title = "Title";
+static const char* s_quest_header_status = "Status";
+static const char* s_quest_header_level = "Lv.";
+static const char* s_quest_section_rewards = "Rewards";
+static const char* s_quest_section_description = "Description";
+static const char* s_quest_section_objectives = "Objectives";
+static const char* s_quest_reward_exp = "EXP";
+static const char* s_quest_reward_money = "Money";
+static const char* s_quest_reward_advance = "Class advancement";
+static const char* s_quest_reward_one_of = "One of these:";
+static const char* s_quest_reward_none = "None";
+static const char* s_quest_accept_label = "Accept";
+static const char* s_quest_abandon_label = "Abandon";
+
+// the renewal scroll bar beside the given rows, its arrows level with the
+// first and last of them
+static C_VS_UI_SCROLL_BAR* g_NewQuestScrollBar(int window_w, int rows_y, int rows_h)
+{
+	C_VS_UI_SCROLL_BAR* p_scroll_bar = new C_VS_UI_SCROLL_BAR(0, Rect(window_w - s_quest_scroll_right, rows_y, -1, rows_h));
+	p_scroll_bar->SetRenewal();
+	return p_scroll_bar;
+}
+
+// how far a list scrolls: until its last row is at the bottom
+static int g_ScrollPosMax(int count, int rows_shown)
+{
+	return max(1, count - rows_shown + 1);
+}
+
+// the scroll bar only shows when there is something to scroll
+static bool g_QuestCanScroll(C_VS_UI_SCROLL_BAR* p_scroll_bar)
+{
+	return p_scroll_bar != NULL && p_scroll_bar->GetPosMax() > 1;
+}
+
+// where the rows stop: short of the scroll bar, or near the frame without one
+static int g_QuestRowRight(C_VS_UI_SCROLL_BAR* p_scroll_bar)
+{
+	return g_QuestCanScroll(p_scroll_bar) ? s_quest_row_right : s_quest_row_x;
+}
+
+// a quest's status, coloured by what it means for the player
+static COLORREF g_QuestStatusColor(int status)
+{
+	switch (status)
+	{
+	case C_VS_UI_QUEST_LIST::CAN_ACCEPT:
+	case C_VS_UI_QUEST_LIST::CAN_REPLAY:
+		return RGB_YELLOW;
+	case C_VS_UI_QUEST_LIST::DOING:
+		return RGB(120, 220, 255);
+	case C_VS_UI_QUEST_LIST::SUCCESS:
+		return RGB(120, 220, 120);
+	case C_VS_UI_QUEST_LIST::FAIL:
+		return RGB(255, 110, 110);
+	}
+	return RGB(170, 170, 170);
+}
+
+// a saved rect only counts if it was saved by this layout
+static bool g_QuestSavedRectFits(const Rect& rect, int window_w, int window_h)
+{
+	return rect.w == window_w && rect.h == window_h;
+}
+
+static void g_AddQuestCloseButton(ButtonGroup* p_group, Exec* p_exec, int window_w, id_t close_id)
+{
+	C_SPRITE_PACK* p_spk = gpC_global_resource->m_pC_renewal_widget_spk;
+	p_group->Add(new C_VS_UI_EVENT_BUTTON(window_w - s_quest_close_right, s_quest_close_y,
+		p_spk->GetWidth(C_GLOBAL_RESOURCE::RW_CLOSE), p_spk->GetHeight(C_GLOBAL_RESOURCE::RW_CLOSE),
+		close_id, p_exec, C_GLOBAL_RESOURCE::RW_CLOSE));
+}
+
+// the lines under the first `rows` rows starting at rows_y
+static void g_ShowQuestRowLines(int window_x, int window_y, int window_w, int row_right, int rows_y, int rows)
+{
+	for (int i = 1; i <= rows; i++)
+	{
+		gpC_base->m_p_DDSurface_back->HLine(window_x + s_quest_row_x, window_y + rows_y + i * s_quest_row_h - 1,
+			window_w - s_quest_row_x - row_right, s_quest_line_color);
+	}
+}
+
+// a string whose right edge sits at the rows' right edge
+static void g_PrintQuestRight(int window_x, int window_w, int row_right, int text_y, const char* sz, PrintInfo& pi, COLORREF color)
+{
+	g_PrintColorStr(window_x + window_w - row_right - 4 - g_GetStringWidth(sz, pi.hfont), text_y, sz, pi, color);
+}
+
+//-----------------------------------------------------------------------------
 // C_VS_UI_QUEST_LIST::C_VS_UI_QUEST_LIST
 //
 // 
@@ -16670,67 +17254,42 @@ C_VS_UI_QUEST_LIST::C_VS_UI_QUEST_LIST(C_SPRITE_PACK* spr)
 	g_RegisterWindow(this);
 	AttrPin(true);
 
-	int window_w = 290;
-	int window_h = 160;
+	int window_w = s_quest_journal_w;
+	int window_h = s_quest_journal_h;
 
 	m_bl_focus = false;
 
 	//Set(RESOLUTION_X/2-window_w/2, RESOLUTION_Y/2 - window_h/2, window_w, window_h);
 	Set(g_pUserInformation->iResolution_x / 2 - window_w / 2, g_pUserInformation->iResolution_y / 2 - window_h / 2, window_w, window_h);
 
-	AttrAlpha(gpC_vs_ui_window_manager->IsAlpha(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_LIST));
-	AttrAutoHide(gpC_vs_ui_window_manager->GetAutoHide(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_LIST));
+	AttrAlpha(false);
+	AttrAutoHide(ATTRIBUTES_HIDE_NOT);
 	Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_LIST);
-	if (rect.w != -1)
+	if (g_QuestSavedRectFits(rect, w, h))
 	{
 		x = rect.x;
 		y = rect.y;
 	}
-	if (g_eRaceInterface == RACE_OUSTERS)
-		m_OustersOffset = 2;
-	else
-		m_OustersOffset = 0;
+	m_OustersOffset = 0;	// one layout for every race
 
 	m_pImage_Spk = spr;
 
 	m_SelectPos = NOT_SELECTED;
 	m_SelectContents = NOT_SELECTED;
 
-	m_pC_scroll_bar = new C_VS_UI_SCROLL_BAR(0, Rect(w - 18, 75, -1, window_h - 108));
+	m_pC_scroll_bar = g_NewQuestScrollBar(w, s_quest_list_rows_y, s_quest_list_rows * s_quest_row_h);
 	m_pC_scroll_bar->SetPosMax(0);
 
 	m_TabID = 0;
 
-	int pin_x = 24, pin_y = h - 154 + m_OustersOffset;
-	int close_x = w - 20, close_y = h - 152 + m_OustersOffset;
-	int alpha_x = 6, alpha_y = h - 154 + m_OustersOffset;
-
-	//�����ư
 	m_pC_button_group = new ButtonGroup(this);
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pin_x, pin_y,
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN),
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN),
-		PUSHPIN_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN));
+	g_AddQuestCloseButton(m_pC_button_group, this, w, CLOSE_ID);
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(close_x, close_y,
-		gpC_global_resource->m_pC_info_spk->GetWidth(C_GLOBAL_RESOURCE::BUTTON_CLOSE),
-		gpC_global_resource->m_pC_info_spk->GetHeight(C_GLOBAL_RESOURCE::BUTTON_CLOSE),
-		CLOSE_ID, this, C_GLOBAL_RESOURCE::BUTTON_CLOSE));
-
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_x, alpha_y,
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_NEW),
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_NEW),
-		ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_NEW));
-#else
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_x, alpha_y,
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA),
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA),
-		ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA));
-#endif //__080405_FIREST_UI_UPDATE
-
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(5, 30, 60, 20, TAB1_ID, this, NULL));
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(65, 30, 60, 20, TAB2_ID, this, NULL));
+	C_SPRITE_PACK* p_widget_spk = gpC_global_resource->m_pC_renewal_widget_spk;
+	const int tab_w = p_widget_spk->GetWidth(C_GLOBAL_RESOURCE::RW_TAB);
+	const int tab_h = p_widget_spk->GetHeight(C_GLOBAL_RESOURCE::RW_TAB);
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(s_quest_row_x, s_quest_tab_y, tab_w, tab_h, TAB1_ID, this, C_GLOBAL_RESOURCE::RW_TAB));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(s_quest_row_x + tab_w + 2, s_quest_tab_y, tab_w, tab_h, TAB2_ID, this, C_GLOBAL_RESOURCE::RW_TAB));
 #ifndef _LIB
 	//
 	//	C_VS_UI_QUEST_MANAGER::_GQuestInfo* Test1 = new C_VS_UI_QUEST_MANAGER::_GQuestInfo;
@@ -16765,18 +17324,18 @@ C_VS_UI_QUEST_LIST::~C_VS_UI_QUEST_LIST()
 
 void	C_VS_UI_QUEST_LIST::Start()
 {
-	AttrAlpha(gpC_vs_ui_window_manager->IsAlpha(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_LIST));
-	AttrAutoHide(gpC_vs_ui_window_manager->GetAutoHide(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_LIST));
+	AttrAlpha(false);
+	AttrAutoHide(ATTRIBUTES_HIDE_NOT);
 	Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_LIST);
-	if (rect.w != -1)
+	if (g_QuestSavedRectFits(rect, w, h))
 	{
 		x = rect.x;
 		y = rect.y;
 	}
 	else // default setting
 	{
-		x = 0;
-		y = 37;
+		x = s_quest_default_x;
+		y = s_quest_default_y;
 	}
 	PI_Processor::Start();
 	gpC_window_manager->AppearWindow(this);
@@ -16796,50 +17355,55 @@ void	C_VS_UI_QUEST_LIST::Finish()
 
 void	C_VS_UI_QUEST_LIST::Show()
 {
-	int ScrPos = m_pC_scroll_bar->GetScrollPos();
+	const int ScrPos = m_pC_scroll_bar->GetScrollPos();
+	const int row_right = g_QuestRowRight(m_pC_scroll_bar);
+	const int row_w = w - s_quest_row_x - row_right;
+	const int level_right = w - row_right - 4 - s_quest_level_w;
+	const std::vector<C_VS_UI_QUEST_MANAGER::_GQuestInfo*>& quests = m_QuestListInfo[m_TabID];
+	const int shown = max(0, min((int)quests.size() - ScrPos, s_quest_list_rows));
 
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		gpC_global_resource->DrawDialogLocked4(x, y, w, h, GetAttributes()->alpha);
-		m_pImage_Spk->BltLocked(x + 115, y + 7 + m_OustersOffset, C_VS_UI_QUEST_MANAGER::QUEST_LIST_TITLE);
+		gpC_global_resource->DrawDialogRenewalLocked(x, y, w, h, C_GLOBAL_RESOURCE::RENEWAL_TITLE_BAR_H);
 
-		if (m_TabID == 0)
-			m_pImage_Spk->BltLocked(x + 4, y + 30, C_VS_UI_QUEST_MANAGER::TAB_BUTTON_PROCESS);
-		else
-			m_pImage_Spk->BltLocked(x + 4, y + 30, C_VS_UI_QUEST_MANAGER::TAB_BUTTON_COMPLETE);
+		RECT header = { x + s_quest_row_x, y + s_quest_list_header_y, x + s_quest_row_x + row_w, y + s_quest_list_header_y + s_quest_list_header_h };
+		DrawAlphaBox(&header, 4, 5, 6, 28);
 
-		//	m_pImage_Spk->BltLocked(x+2, y+2, QUEST_TITLE_BG);
-
-		m_pImage_Spk->BltLocked(x + 5, y + 46, C_VS_UI_QUEST_MANAGER::QUEST_LIST_SUBJECT);
-		m_pImage_Spk->BltLocked(x + 5, y + 68, C_VS_UI_QUEST_MANAGER::QUEST_TABLE_BG);
-		m_pImage_Spk->BltLocked(x + 5, y + 85, C_VS_UI_QUEST_MANAGER::QUEST_TABLE_BG);
-		m_pImage_Spk->BltLocked(x + 5, y + 102, C_VS_UI_QUEST_MANAGER::QUEST_TABLE_BG);
-		m_pImage_Spk->BltLocked(x + 5, y + 119, C_VS_UI_QUEST_MANAGER::QUEST_TABLE_BG);
+		// the quest whose details are open
+		if (m_SelectPos >= ScrPos && m_SelectPos < ScrPos + shown)
+		{
+			const int row_y = y + s_quest_list_rows_y + (m_SelectPos - ScrPos) * s_quest_row_h;
+			RECT band = { x + s_quest_row_x, row_y, x + s_quest_row_x + row_w, row_y + s_quest_row_h - 1 };
+			DrawAlphaBox(&band, 5, 8, 8, 28);
+		}
 
 		m_pC_button_group->Show();
 
 #if __CONTENTS(__QUEST_RENEWAL)
-		for (int i = ScrPos; i < m_QuestListInfo[m_TabID].size(); i++)
+		for (int i = ScrPos; i < ScrPos + shown; i++)
 		{
-			if (i > ScrPos + 4)
-				break;
-			C_VS_UI_QUEST_MANAGER::_GQuestInfo* TempInfo = (C_VS_UI_QUEST_MANAGER::_GQuestInfo*)m_QuestListInfo[m_TabID][i];
-			if (TempInfo != NULL)
-			{
-				if (TempInfo->btQeustType >= 0 && TempInfo->btQeustType <= m_pImage_Spk->GetSize())
-					m_pImage_Spk->BltLocked(x + 7, y + 72 + (i - ScrPos) * 17, TempInfo->btQeustType);
-			}
+			C_VS_UI_QUEST_MANAGER::_GQuestInfo* TempInfo = quests[i];
+			if (TempInfo != NULL && TempInfo->btQeustType >= 0 && TempInfo->btQeustType <= m_pImage_Spk->GetSize())
+				m_pImage_Spk->BltLocked(x + s_quest_text_x, y + s_quest_list_rows_y + (i - ScrPos) * s_quest_row_h + s_quest_text_dy, TempInfo->btQeustType);
 		}
 #endif // __QUEST_RENEWAL
 
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 
-	m_pC_scroll_bar->Show(x, y);
+	g_ShowQuestRowLines(x, y, w, row_right, s_quest_list_rows_y, shown);
+
+	// the footer's line
+	gpC_base->m_p_DDSurface_back->HLine(x + s_quest_row_x, y + h - s_quest_journal_footer_h + 4, w - s_quest_row_x * 2, s_quest_line_color);
+
+	if (g_QuestCanScroll(m_pC_scroll_bar))
+		m_pC_scroll_bar->Show(x, y);
+
+	gpC_global_resource->DrawRenewalTitle(x, y, s_quest_title_list);
 
 	if (g_FL2_GetDC())
 	{
-		char szString[256] = "\0";
+		char szString[256];
 
 		const static char* szQuestStatus[7] =
 		{
@@ -16851,44 +17415,60 @@ void	C_VS_UI_QUEST_LIST::Show()
 			(*g_pGameStringTable)[UI_STRING_GQUEST_FAIL].GetString(),// = "����";
 			(*g_pGameStringTable)[UI_STRING_GQUEST_CAN_REPLAY].GetString(),// = "����డ";
 		};
-		for (int i = ScrPos; i < m_QuestListInfo[m_TabID].size(); i++)
-		{
-			if (i > ScrPos + 4)
-				break;
-			C_VS_UI_QUEST_MANAGER::_GQuestInfo* TempInfo = (C_VS_UI_QUEST_MANAGER::_GQuestInfo*)m_QuestListInfo[m_TabID][i];
-			if (TempInfo != NULL)
-			{
-				sprintf(szString, "%s", TempInfo->szQuestTitle.c_str());
-				if (strlen(szString) > 34)
-					ReduceString2(szString, 32);
-				DWORD NormalColor = RGB_WHITE;
-				if (i == m_SelectContents)
-					NormalColor = RGB(200, 200, 255);
 
-#if __CONTENTS(__QUEST_RENEWAL)
-				if (TempInfo != NULL)
-				{
-					if (TempInfo->btQeustType >= 0 && TempInfo->btQeustType <= m_pImage_Spk->GetSize())
-					{
-						g_PrintColorStr(m_pImage_Spk->GetWidth(TempInfo->btQeustType) + x + 7, y + 72 + (i - ScrPos) * 17,
-							szString, gpC_base->m_chatting_pi, NormalColor);
-						sprintf(szString, "%s", szQuestStatus[TempInfo->bStatus]);
-						g_PrintColorStr(x + 215, y + 72 + (i - ScrPos) * 17, szString, gpC_base->m_chatting_pi, RGB_YELLOW);
-					}
-					else
-					{
-						g_PrintColorStr(x + 7, y + 72 + (i - ScrPos) * 17, szString, gpC_base->m_chatting_pi, NormalColor);
-						sprintf(szString, "%s", szQuestStatus[TempInfo->bStatus]);
-						g_PrintColorStr(x + 215, y + 72 + (i - ScrPos) * 17, szString, gpC_base->m_chatting_pi, RGB_YELLOW);
-					}
-				}
-#else
-				g_PrintColorStr(x + 7, y + 72 + (i - ScrPos) * 17, szString, gpC_base->m_chatting_pi, NormalColor);
-				sprintf(szString, "%s", szQuestStatus[TempInfo->bStatus]);
-				g_PrintColorStr(x + 215, y + 72 + (i - ScrPos) * 17, szString, gpC_base->m_chatting_pi, RGB_YELLOW);
-#endif	// __QUEST_RENEWAL
+		for (int tab = 0; tab < 2; tab++)
+		{
+			C_VS_UI_EVENT_BUTTON* p_tab = m_pC_button_group->GetButton(TAB1_ID + tab);
+			if (p_tab != NULL)
+			{
+				const char* sz_label = s_quest_tab_label[tab];
+				g_PrintColorStr(x + p_tab->x + (p_tab->w - g_GetStringWidth(sz_label, gpC_base->m_chatting_pi.hfont)) / 2, y + p_tab->y + s_quest_text_dy,
+					sz_label, gpC_base->m_chatting_pi, m_TabID == tab ? RGB_WHITE : RGB(150, 150, 150));
 			}
 		}
+
+		const COLORREF header_color = RGB(160, 190, 190);
+		const int header_y = y + s_quest_list_header_y + 1;
+		g_PrintColorStr(x + s_quest_text_x, header_y, s_quest_header_title, gpC_base->m_small_pi, header_color);
+		g_PrintColorStr(x + level_right - g_GetStringWidth(s_quest_header_level, gpC_base->m_small_pi.hfont), header_y, s_quest_header_level, gpC_base->m_small_pi, header_color);
+		g_PrintQuestRight(x, w, row_right, header_y, s_quest_header_status, gpC_base->m_small_pi, header_color);
+
+		for (int i = ScrPos; i < ScrPos + shown; i++)
+		{
+			C_VS_UI_QUEST_MANAGER::_GQuestInfo* TempInfo = quests[i];
+			if (TempInfo == NULL)
+				continue;
+
+			const int text_y = y + s_quest_list_rows_y + (i - ScrPos) * s_quest_row_h + s_quest_text_dy;
+			int text_x = x + s_quest_text_x;
+#if __CONTENTS(__QUEST_RENEWAL)
+			if (TempInfo->btQeustType >= 0 && TempInfo->btQeustType <= m_pImage_Spk->GetSize())
+				text_x += m_pImage_Spk->GetWidth(TempInfo->btQeustType);
+#endif // __QUEST_RENEWAL
+
+			// the level, then the title in the room left of it
+			const QUEST_JOURNAL* p_journal = g_FindQuestJournal(TempInfo->dwQuestID);
+			if (p_journal != NULL)
+			{
+				sprintf(szString, "%d", max(1, p_journal->level_min));
+				g_PrintColorStr(x + level_right - g_GetStringWidth(szString, gpC_base->m_chatting_pi.hfont), text_y, szString, gpC_base->m_chatting_pi, RGB(210, 210, 210));
+			}
+
+			g_FitQuestString(szString, sizeof(szString), TempInfo->szQuestTitle.c_str(), x + level_right - 30 - text_x, gpC_base->m_chatting_pi.hfont);
+			g_PrintColorStr(text_x, text_y, szString, gpC_base->m_chatting_pi, i == m_SelectContents ? RGB(200, 200, 255) : RGB_WHITE);
+			g_PrintQuestRight(x, w, row_right, text_y, szQuestStatus[TempInfo->bStatus], gpC_base->m_chatting_pi, g_QuestStatusColor(TempInfo->bStatus));
+		}
+
+		// the footer: how many on each tab
+		const int footer_y = y + h - s_quest_journal_footer_h + 11;
+		int footer_x = x + s_quest_text_x;
+		for (int tab = 0; tab < 2; tab++)
+		{
+			footer_x = g_PrintColorStr(footer_x, footer_y + 1, s_quest_tab_label[tab], gpC_base->m_small_pi, header_color) + 6;
+			sprintf(szString, "%d", (int)m_QuestListInfo[tab].size());
+			footer_x = g_PrintColorStr(footer_x, footer_y, szString, gpC_base->m_user_id_pi, RGB_WHITE) + 20;
+		}
+
 		m_pC_button_group->ShowDescription();
 		g_FL2_ReleaseDC();
 	}
@@ -16903,7 +17483,7 @@ bool	C_VS_UI_QUEST_LIST::MouseControl(UINT message, int _x, int _y)
 
 	bool re = m_pC_button_group->MouseControl(message, _x, _y);
 
-	if (NULL != m_pC_scroll_bar)
+	if (g_QuestCanScroll(m_pC_scroll_bar))
 		re &= m_pC_scroll_bar->MouseControl(message, _x, _y);
 
 	m_bl_focus = false;
@@ -16917,9 +17497,9 @@ bool	C_VS_UI_QUEST_LIST::MouseControl(UINT message, int _x, int _y)
 		{
 			m_bl_focus = true;
 		}
-		if (_x > 5 && _x < 270 && _y>68 && _y < 136)
+		if (_x >= s_quest_row_x && _x < w - g_QuestRowRight(m_pC_scroll_bar) && _y >= s_quest_list_rows_y && _y < s_quest_list_rows_y + s_quest_list_rows * s_quest_row_h)
 		{
-			m_SelectContents = (_y - 68) / 17;
+			m_SelectContents = (_y - s_quest_list_rows_y) / s_quest_row_h;
 			m_SelectContents += m_pC_scroll_bar->GetScrollPos();
 		}
 		else
@@ -16955,9 +17535,9 @@ bool	C_VS_UI_QUEST_LIST::MouseControl(UINT message, int _x, int _y)
 		//			{
 		//				Run(DETAIL_ID);
 		//			}
-		if (_x > 5 && _x < 270 && _y>68 && _y < 136)
+		if (_x >= s_quest_row_x && _x < w - g_QuestRowRight(m_pC_scroll_bar) && _y >= s_quest_list_rows_y && _y < s_quest_list_rows_y + s_quest_list_rows * s_quest_row_h)
 		{
-			m_SelectPos = (_y - 68) / 17;
+			m_SelectPos = (_y - s_quest_list_rows_y) / s_quest_row_h;
 			m_SelectPos += m_pC_scroll_bar->GetScrollPos();
 			if (m_SelectPos < m_QuestListInfo[m_TabID].size())
 			{
@@ -17005,65 +17585,18 @@ bool	C_VS_UI_QUEST_LIST::IsPixel(int _x, int _y)
 
 void	C_VS_UI_QUEST_LIST::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
+	const bool focused = p_button->GetFocusState();
+
 	if (p_button->GetID() == TAB1_ID || p_button->GetID() == TAB2_ID)
-		return;
-	if (p_button->GetID() == ALPHA_ID)
 	{
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		if (GetAttributes()->alpha)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED_OLD);
-#else
-		if (GetAttributes()->alpha)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED);
-#endif //__080405_FIREST_UI_UPDATE
+		const bool selected = (p_button->GetID() == TAB1_ID) == (m_TabID == 0);
+		gpC_global_resource->m_pC_renewal_widget_spk->BltLocked(x + p_button->x, y + p_button->y,
+			C_GLOBAL_RESOURCE::RW_TAB + (selected ? 2 : (focused ? 1 : 0)));
 	}
-	else
-		if (p_button->GetID() == PUSHPIN_ID)
-		{
-			if (GetAttributes()->autohide)
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN);
-			else
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN_PUSHED);
-
-		}
-		else
-			if (p_button->GetID() == CLOSE_ID)
-			{
-				gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x - 5, y + p_button->y - 5, C_GLOBAL_RESOURCE::BUTTON_CLOSE_BACK);
-				if (p_button->GetFocusState())
-				{
-					if (p_button->GetPressState())
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 3);
-					else
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 2);
-				}
-				else
-				{
-					if (p_button->GetPressState())
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 1);
-					else
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
-				}
-
-			}
-			else
-			{
-				if (p_button->GetFocusState())
-				{
-					if (p_button->GetPressState())
-						gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION_PUSHED);
-					else
-						gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION_HILIGHTED);
-				}
-				else
-				{
-					gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
-				}
-			}
+	else if (p_button->GetID() == CLOSE_ID)
+	{
+		gpC_global_resource->BltRenewalCloseLocked(x + p_button->x, y + p_button->y, focused, p_button->GetPressState());
+	}
 }
 
 void	C_VS_UI_QUEST_LIST::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
@@ -17130,12 +17663,14 @@ void	C_VS_UI_QUEST_LIST::Run(id_t id)
 		break;
 	case TAB1_ID:
 		m_TabID = 0;
-		m_pC_scroll_bar->SetPosMax(m_QuestListInfo[0].size());
+		m_SelectPos = NOT_SELECTED;
+		m_pC_scroll_bar->SetPosMax(g_ScrollPosMax(m_QuestListInfo[0].size(), s_quest_list_rows));
 		m_pC_scroll_bar->SetScrollPos(0);
 		break;
 	case TAB2_ID:
 		m_TabID = 1;
-		m_pC_scroll_bar->SetPosMax(m_QuestListInfo[1].size());
+		m_SelectPos = NOT_SELECTED;
+		m_pC_scroll_bar->SetPosMax(g_ScrollPosMax(m_QuestListInfo[1].size(), s_quest_list_rows));
 		m_pC_scroll_bar->SetScrollPos(0);
 		break;
 
@@ -17191,9 +17726,9 @@ void	C_VS_UI_QUEST_LIST::SetQuestListInfo(void* pVoid)
 	}
 
 	if (m_TabID == 0) // ���� ��
-		m_pC_scroll_bar->SetPosMax(m_QuestListInfo[0].size());
+		m_pC_scroll_bar->SetPosMax(g_ScrollPosMax(m_QuestListInfo[0].size(), s_quest_list_rows));
 	else if (m_TabID == 1) // �Ϸ� ��
-		m_pC_scroll_bar->SetPosMax(m_QuestListInfo[1].size());
+		m_pC_scroll_bar->SetPosMax(g_ScrollPosMax(m_QuestListInfo[1].size(), s_quest_list_rows));
 }
 //-----------------------------------------------------------------------------
 // C_VS_UI_QUEST_DETAIL::C_VS_UI_QUEST_DETAIL
@@ -17206,36 +17741,37 @@ C_VS_UI_QUEST_DETAIL::C_VS_UI_QUEST_DETAIL(C_SPRITE_PACK* spr)
 	g_RegisterWindow(this);
 	AttrPin(true);
 
-	int window_w = 290;
-	int window_h = 160;
+	int window_w = s_quest_detail_w;
+	int window_h = s_quest_detail_h;
 
 	//Set(RESOLUTION_X/2-window_w/2, RESOLUTION_Y/2 - window_h/2, window_w, window_h);
 	Set(g_pUserInformation->iResolution_x / 2 - window_w / 2, g_pUserInformation->iResolution_y / 2 - window_h / 2, window_w, window_h);
 
-	AttrAlpha(gpC_vs_ui_window_manager->IsAlpha(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_DETAIL));
-	AttrAutoHide(gpC_vs_ui_window_manager->GetAutoHide(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_DETAIL));
+	AttrAlpha(false);
+	AttrAutoHide(ATTRIBUTES_HIDE_NOT);
 	Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_DETAIL);
-	if (rect.w != -1)
+	if (g_QuestSavedRectFits(rect, w, h))
 	{
 		x = rect.x;
 		y = rect.y;
 	}
-	if (g_eRaceInterface == RACE_OUSTERS)
-		m_OustersOffset = 2;
-	else
-		m_OustersOffset = 0;
+	m_OustersOffset = 0;	// one layout for every race
 
 	m_pImage_Spk = spr;
 	m_IsAbleRunQuest = 0;
 	m_bl_focus = false;
 
-	m_pC_scroll_bar = new C_VS_UI_SCROLL_BAR(0, Rect(w - 18, 60, -1, window_h - 105));
+	m_QuestID = 0;
+	m_FocusedReward = NOT_SELECTED;
+	m_reward_y = m_reward_h = m_desc_top = m_desc_lines = m_objective_y = 0;
+
+	m_pC_scroll_bar = g_NewQuestScrollBar(w, s_quest_detail_text_y, s_quest_detail_lines * s_quest_detail_line_h);
 	m_pC_scroll_bar->SetPosMax(0);
 
-	int pin_x = 24, pin_y = h - 154 + m_OustersOffset;
-	int close_x = w - 20, close_y = h - 152 + m_OustersOffset;
-	int alpha_x = 6, alpha_y = h - 154 + m_OustersOffset;
-	int accept_x = w - 80, accept_y = h - 36 + m_OustersOffset;
+	C_SPRITE_PACK* p_button_spk = gpC_global_resource->m_pC_assemble_box_button_renewal_spk;
+	const int accept_w = p_button_spk->GetWidth(C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN);
+	const int accept_h = p_button_spk->GetHeight(C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN);
+	int accept_x = w - 12 - accept_w, accept_y = h - 10 - accept_h;
 #if __CONTENTS(__QUEST_RENEWAL2)
 	int iCompensation_X = w - 140, iCompensation_Y = h - 36 + m_OustersOffset;
 
@@ -17243,34 +17779,15 @@ C_VS_UI_QUEST_DETAIL::C_VS_UI_QUEST_DETAIL(C_SPRITE_PACK* spr)
 	memset(m_arrchQeustCompesationList, NULL, sizeof(m_arrchQeustCompesationList));
 	memset(m_pchQeustCompesationList, NULL, sizeof(m_pchQeustCompesationList));
 #endif //__QUEST_RENEWAL2
-	//�����ư
+
 	m_pC_button_group = new ButtonGroup(this);
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pin_x, pin_y,
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN),
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN),
-		PUSHPIN_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN));
+	g_AddQuestCloseButton(m_pC_button_group, this, w, CLOSE_ID);
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(close_x, close_y,
-		gpC_global_resource->m_pC_info_spk->GetWidth(C_GLOBAL_RESOURCE::BUTTON_CLOSE),
-		gpC_global_resource->m_pC_info_spk->GetHeight(C_GLOBAL_RESOURCE::BUTTON_CLOSE),
-		CLOSE_ID, this, C_GLOBAL_RESOURCE::BUTTON_CLOSE));
+	// green Accept, or red Abandon while the quest is running
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(accept_x, accept_y, accept_w, accept_h,
+		ACCEPT_ID, this, C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN));
 
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_x, alpha_y,
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD),
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD),
-		ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD));
-#else
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_x, alpha_y,
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA),
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA),
-		ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA));
-#endif //__080405_FIREST_UI_UPDATE
-
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(accept_x, accept_y,
-		m_pImage_Spk->GetWidth(C_VS_UI_QUEST_MANAGER::BUTTON_ACCEPT),
-		m_pImage_Spk->GetHeight(C_VS_UI_QUEST_MANAGER::BUTTON_ACCEPT),
-		ACCEPT_ID, this, C_VS_UI_QUEST_MANAGER::BUTTON_ACCEPT));
+	Layout();
 
 #if __CONTENTS(__QUEST_RENEWAL2)
 	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(iCompensation_X, iCompensation_Y,
@@ -17299,6 +17816,8 @@ C_VS_UI_QUEST_DETAIL::~C_VS_UI_QUEST_DETAIL()
 
 	g_UnregisterWindow(this);
 
+	ClearRewardItem();
+
 	DeleteNew(m_pC_button_group);
 	DeleteNew(m_pC_scroll_bar);
 
@@ -17309,18 +17828,18 @@ C_VS_UI_QUEST_DETAIL::~C_VS_UI_QUEST_DETAIL()
 
 void	C_VS_UI_QUEST_DETAIL::Start()
 {
-	AttrAlpha(gpC_vs_ui_window_manager->IsAlpha(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_DETAIL));
-	AttrAutoHide(gpC_vs_ui_window_manager->GetAutoHide(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_DETAIL));
+	AttrAlpha(false);
+	AttrAutoHide(ATTRIBUTES_HIDE_NOT);
 	Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_DETAIL);
-	if (rect.w != -1)
+	if (g_QuestSavedRectFits(rect, w, h))
 	{
 		x = rect.x;
 		y = rect.y;
 	}
 	else // default setting
 	{
-		x = 0;
-		y = 197;
+		x = s_quest_default_x + s_quest_journal_w;
+		y = s_quest_default_y;
 	}
 	PI_Processor::Start();
 	gpC_window_manager->AppearWindow(this);
@@ -17340,34 +17859,235 @@ void	C_VS_UI_QUEST_DETAIL::Finish()
 
 void	C_VS_UI_QUEST_DETAIL::Show()
 {
-	int ScrPos = m_pC_scroll_bar->GetScrollPos();
+	const QUEST_JOURNAL* p_journal = g_FindQuestJournal(m_QuestID);
+	const int page_w = w - s_quest_page_x * 2;
+	const int reward_top = m_reward_y + s_quest_section_label_h;
+	const int objectives = ObjectiveCount();
+	const bool bLine = p_journal != NULL && (p_journal->exp > 0 || p_journal->money > 0 || p_journal->advance);
+
+	std::vector<const QUEST_JOURNAL_ITEM*> shown;
+	if (p_journal != NULL)
+		g_QuestShownRewards(*p_journal, shown);
+	bool bRandom = false;
+	for (size_t i = 0; i < shown.size(); i++)
+		bRandom = bRandom || shown[i]->random;
+
+	// each objective's text, colour and status word
+	std::vector<std::string> objective_text(objectives);
+	std::vector<COLORREF> objective_color(objectives, RGB(150, 150, 150));
+	std::vector<const char*> objective_status(objectives, (const char*)NULL);
+	for (int i = 0; i < objectives; i++)
+	{
+		if (!m_Mission.empty())
+		{
+			C_VS_UI_QUEST_MANAGER::_GMissionInfo& mission = m_Mission[i];
+			DWORD value = mission.m_NumArg;
+			if (mission.dwTimeLimit)
+			{
+				const DWORD now = timeGetTime();
+				value = mission.dwTimeLimit < now ? mission.m_NumArg - ((now - mission.dwTimeLimit) / 60000) : 0;
+				if (mission.bStatus == C_VS_UI_QUEST_MISSION::SUCCESS || mission.bStatus == C_VS_UI_QUEST_MISSION::FAIL)
+				{
+					mission.dwTimeLimit = 0;
+					mission.m_NumArg = 0;
+				}
+			}
+			objective_text[i] = g_QuestStepText(mission.szMissionTitle, mission.m_StrArg, value);
+
+			switch (mission.bStatus)
+			{
+			case C_VS_UI_QUEST_MISSION::CURRENT:
+				objective_color[i] = RGB_WHITE;
+				break;
+			case C_VS_UI_QUEST_MISSION::SUCCESS:
+				objective_color[i] = RGB(120, 220, 120);
+				objective_status[i] = (*g_pGameStringTable)[UI_STRING_GQUEST_COMPLETE].GetString();
+				break;
+			case C_VS_UI_QUEST_MISSION::FAIL:
+				objective_color[i] = RGB(255, 110, 110);
+				objective_status[i] = (*g_pGameStringTable)[UI_STRING_GQUEST_FAIL].GetString();
+				break;
+			}
+		}
+		else if (p_journal != NULL)
+		{
+			// what it will ask, before it is taken
+			objective_text[i] = g_QuestStepText(p_journal->objectives[i], "", 0);
+		}
+	}
+
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		gpC_global_resource->DrawDialogLocked4(x, y, w, h, GetAttributes()->alpha);
-		m_pImage_Spk->BltLocked(x + 100, y + 7 + m_OustersOffset, C_VS_UI_QUEST_MANAGER::QUEST_DETAIL_TITLE);
+		gpC_global_resource->DrawDialogRenewalLocked(x, y, w, h, C_GLOBAL_RESOURCE::RENEWAL_TITLE_BAR_H);
 
-		m_pImage_Spk->BltLocked(x + 5, y + 26 + m_OustersOffset, C_VS_UI_QUEST_MANAGER::QUEST_TITLE_BG);
-		m_pImage_Spk->BltLocked(x + 5, y + 46 + m_OustersOffset, C_VS_UI_QUEST_MANAGER::QUEST_DETAIL_BG);
+		if (p_journal != NULL)
+		{
+			RECT badge = { x + s_quest_page_x, y + s_quest_badge_y, x + s_quest_page_x + s_quest_badge_w, y + s_quest_badge_y + s_quest_badge_h };
+			DrawAlphaBox(&badge, 4, 5, 6, 28);
+		}
+
+		// the rewards box and the item pictures in it
+		RECT box = { x + s_quest_page_x, y + reward_top, x + s_quest_page_x + page_w, y + reward_top + m_reward_h };
+		DrawAlphaBox(&box, 2, 3, 3, 28);
+		for (size_t i = 0; i < m_RewardItem.size() && i < m_RewardRect.size(); i++)
+		{
+			const Rect& cell = m_RewardRect[i];
+			const bool bFocused = (int)i == m_FocusedReward;
+			RECT cell_rect = { x + cell.x, y + cell.y, x + cell.x + cell.w, y + cell.y + cell.h };
+			if (bFocused)
+				DrawAlphaBox(&cell_rect, 6, 9, 9, 28);
+			else
+				DrawAlphaBox(&cell_rect, 4, 5, 6, 28);
+
+			MItem* p_item = m_RewardItem[i];
+			const TYPE_FRAMEID frame_id = p_item->GetInventoryFrameID();
+			const int item_x = x + cell.x + (cell.w - gpC_item->GetWidth(frame_id)) / 2;
+			const int item_y = y + cell.y + (cell.h - gpC_item->GetHeight(frame_id)) / 2;
+
+			if (p_item->IsQuestItem())
+				CIndexSprite::SetUsingColorSet(p_item->GetQuestItemColorset(), 0);
+			else if (p_item->IsUniqueItem())
+				CIndexSprite::SetUsingColorSet(p_item->GetUniqueItemColorset(), 0);
+			else
+				CIndexSprite::SetUsingColorSet(p_item->GetItemOptionColorSet(), 0);
+
+			if (bFocused)
+				gpC_item->BltLockedOutline(item_x, item_y, WHITE, frame_id);
+			else
+				gpC_item->BltLocked(item_x, item_y, frame_id);
+		}
+
+		// a mark before each objective, in its colour
+		for (int i = 0; i < objectives; i++)
+		{
+			const int mark_y = y + m_objective_y + s_quest_section_label_h + i * s_quest_objective_h + 7;
+			RECT mark = { x + s_quest_page_x + 4, mark_y, x + s_quest_page_x + 9, mark_y + 5 };
+			const COLORREF c = objective_color[i];
+			DrawAlphaBox(&mark, GetRValue(c) >> 3, GetGValue(c) >> 3, GetBValue(c) >> 3, 31);
+		}
 
 		m_pC_button_group->Show();
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 
-#if __CONTENTS(__QUEST_RENEWAL2)
-	m_desc_y_distance = 4;
-#endif //__QUEST_RENEWAL2
+	// each section's line, after its label
+	const int section_y[3] = { m_reward_y, m_desc_top - s_quest_section_label_h, m_objective_y };
+	const char* section_label[3] = { s_quest_section_rewards, s_quest_section_description, s_quest_section_objectives };
+	for (int i = 0; i < 3; i++)
+	{
+		if (i == 2 && objectives == 0)
+			continue;
+		const int label_w = g_GetStringWidth(section_label[i], gpC_base->m_small_pi.hfont);
+		gpC_base->m_p_DDSurface_back->HLine(x + s_quest_page_x + label_w + 8, y + section_y[i] + 7,
+			page_w - label_w - 8, s_quest_line_color);
+	}
 
-	m_pC_scroll_bar->Show(x, y);
+	if (g_QuestCanScroll(m_pC_scroll_bar))
+		m_pC_scroll_bar->Show(x, y);
 
+	// ShowDesc takes the scroll position back to the top while the text has
+	// fewer lines than this, and puts its own 18 back afterwards
+	m_desc_y_distance = GetDescCol();
 	SetDescScrollPos(m_pC_scroll_bar->GetScrollPos());
 	ShowDesc(x, y);
+
+	gpC_global_resource->DrawRenewalTitle(x, y, s_quest_title_detail);
+
+	C_VS_UI_EVENT_BUTTON* p_accept = m_pC_button_group->GetButton(ACCEPT_ID);
+	if (p_accept != NULL)
+	{
+		gpC_global_resource->DrawRenewalButtonLabel(x + p_accept->x, y + p_accept->y, p_accept->w, p_accept->h,
+			m_IsAbleRunQuest == 2 ? s_quest_abandon_label : s_quest_accept_label,
+			p_accept->GetFocusState() && p_accept->GetPressState(),
+			m_IsAbleRunQuest == 0 ? RGB(128, 128, 128) : RGB_WHITE);
+	}
+
 	if (g_FL2_GetDC())
 	{
-		char szString[64];
-		sprintf(szString, "%s", m_szTitle.c_str());
-		if (strlen(szString) > 40)
-			ReduceString2(szString, 38);
-		g_PrintColorStr(x + 9, y + 31 + m_OustersOffset, szString, gpC_base->m_user_id_pi, RGB_YELLOW);
+		const COLORREF header_color = RGB(160, 190, 190);
+		char szString[256];
+
+		// the level badge and the name
+		int name_x = x + s_quest_page_x;
+		if (p_journal != NULL)
+		{
+			sprintf(szString, "Lv. %d", max(1, p_journal->level_min));
+			g_PrintColorStr(x + s_quest_page_x + (s_quest_badge_w - g_GetStringWidth(szString, gpC_base->m_user_id_pi.hfont)) / 2,
+				y + s_quest_badge_y + 4, szString, gpC_base->m_user_id_pi, RGB_WHITE);
+			name_x += s_quest_badge_w + 10;
+		}
+		g_FitQuestString(szString, sizeof(szString), m_szTitle.c_str(), x + w - s_quest_page_x - name_x, gpC_base->m_desc_menu_pi.hfont);
+		g_PrintColorStr(name_x, y + s_quest_badge_y + 3, szString, gpC_base->m_desc_menu_pi, RGB_YELLOW);
+
+		for (int i = 0; i < 3; i++)
+		{
+			if (i == 2 && objectives == 0)
+				continue;
+			g_PrintColorStr(x + s_quest_page_x, y + section_y[i], section_label[i], gpC_base->m_small_pi, header_color);
+		}
+
+		// Rewards: EXP, money and advancement on a line, then the items
+		int line_y = y + reward_top + s_quest_reward_pad;
+		if (bLine)
+		{
+			int line_x = x + s_quest_page_x + s_quest_reward_pad + 2;
+			if (p_journal->exp > 0)
+			{
+				line_x = g_PrintColorStr(line_x, line_y + 3, s_quest_reward_exp, gpC_base->m_small_pi, header_color) + 6;
+				g_FormatQuestNumber(p_journal->exp, szString);
+				line_x = g_PrintColorStr(line_x, line_y + 1, szString, gpC_base->m_user_id_pi, RGB_WHITE) + 20;
+			}
+			if (p_journal->money > 0)
+			{
+				line_x = g_PrintColorStr(line_x, line_y + 3, s_quest_reward_money, gpC_base->m_small_pi, header_color) + 6;
+				g_FormatQuestNumber(p_journal->money, szString);
+				line_x = g_PrintColorStr(line_x, line_y + 1, szString, gpC_base->m_user_id_pi, RGB_WHITE) + 20;
+			}
+			if (p_journal->advance)
+				g_PrintColorStr(line_x, line_y + 1, s_quest_reward_advance, gpC_base->m_user_id_pi, RGB_YELLOW);
+			line_y += 20;
+		}
+		if (bRandom)
+			g_PrintColorStr(x + s_quest_page_x + s_quest_reward_pad + 2, line_y + 1, s_quest_reward_one_of, gpC_base->m_small_pi, RGB(170, 170, 170));
+		if (!bLine && m_RewardItem.empty())
+			g_PrintColorStr(x + s_quest_page_x + s_quest_reward_pad + 2, line_y + 2, s_quest_reward_none, gpC_base->m_chatting_pi, RGB(150, 150, 150));
+
+		// how many of each item, in the corner of its picture
+		for (size_t i = 0; i < m_RewardItem.size() && i < m_RewardRect.size() && i < shown.size(); i++)
+		{
+			if (shown[i]->num <= 1)
+				continue;
+			const Rect& cell = m_RewardRect[i];
+			sprintf(szString, "x%d", shown[i]->num);
+			g_PrintColorStr(x + cell.x + cell.w - 3 - g_GetStringWidth(szString, gpC_base->m_small_pi.hfont), y + cell.y + cell.h - 14,
+				szString, gpC_base->m_small_pi, RGB_WHITE);
+		}
+
+		// Objectives, a status word at the right of the finished ones
+		for (int i = 0; i < objectives; i++)
+		{
+			const int text_y = y + m_objective_y + s_quest_section_label_h + i * s_quest_objective_h + 2;
+			const int text_x = x + s_quest_page_x + 16;
+			int text_right = x + w - s_quest_page_x - 4;
+			if (objective_status[i] != NULL)
+			{
+				const int status_w = g_GetStringWidth(objective_status[i], gpC_base->m_chatting_pi.hfont);
+				g_PrintColorStr(text_right - status_w, text_y, objective_status[i], gpC_base->m_chatting_pi, objective_color[i]);
+				text_right -= status_w + 12;
+			}
+			g_FitQuestString(szString, sizeof(szString), objective_text[i].c_str(), text_right - text_x, gpC_base->m_chatting_pi.hfont);
+			g_PrintColorStr(text_x, text_y, szString, gpC_base->m_chatting_pi, objective_color[i]);
+		}
+
+		// who gives it, under the objectives
+		if (p_journal != NULL && !p_journal->sender.empty())
+		{
+			const int npc_y = y + m_objective_y + (objectives > 0 ? s_quest_section_label_h + objectives * s_quest_objective_h : 0) + 2;
+			g_FitQuestString(szString, sizeof(szString), p_journal->sender.c_str(), page_w, gpC_base->m_chatting_pi.hfont);
+			g_PrintColorStr(x + w - s_quest_page_x - 4 - g_GetStringWidth(szString, gpC_base->m_chatting_pi.hfont), npc_y,
+				szString, gpC_base->m_chatting_pi, RGB(150, 150, 150));
+		}
+
 		m_pC_button_group->ShowDescription();
 		g_FL2_ReleaseDC();
 	}
@@ -17381,7 +18101,7 @@ bool	C_VS_UI_QUEST_DETAIL::MouseControl(UINT message, int _x, int _y)
 	_x -= x; _y -= y;
 	bool re = m_pC_button_group->MouseControl(message, _x, _y);
 
-	if (NULL != m_pC_scroll_bar)
+	if (g_QuestCanScroll(m_pC_scroll_bar))
 		re &= m_pC_scroll_bar->MouseControl(message, _x, _y);
 
 	m_bl_focus = false;
@@ -17394,6 +18114,19 @@ bool	C_VS_UI_QUEST_DETAIL::MouseControl(UINT message, int _x, int _y)
 		if (rt.IsInRect(pt))
 		{
 			m_bl_focus = true;
+		}
+
+		// a reward picture shows its item's tooltip
+		m_FocusedReward = NOT_SELECTED;
+		for (size_t i = 0; i < m_RewardRect.size() && i < m_RewardItem.size(); i++)
+		{
+			const Rect& cell = m_RewardRect[i];
+			if (_x >= cell.x && _x < cell.x + cell.w && _y >= cell.y && _y < cell.y + cell.h)
+			{
+				m_FocusedReward = (int)i;
+				g_descriptor_manager.Set(DID_ITEM, x + cell.x, y + cell.y, (void*)m_RewardItem[i]);
+				break;
+			}
 		}
 	}
 	break;
@@ -17449,113 +18182,39 @@ bool	C_VS_UI_QUEST_DETAIL::IsPixel(int _x, int _y)
 
 void	C_VS_UI_QUEST_DETAIL::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	//	if(p_button->GetID() == TAB1_ID || p_button->GetID() == TAB2_ID)
-	//		return;
-	if (p_button->GetID() == ALPHA_ID)
-	{
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		if (GetAttributes()->alpha)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED_OLD);
-#else
-		if (GetAttributes()->alpha)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED);
-#endif //__080405_FIREST_UI_UPDATE
-	}
-	else
-		if (p_button->GetID() == PUSHPIN_ID)
-		{
-			if (GetAttributes()->autohide)
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN);
-			else
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN_PUSHED);
+	const bool focused = p_button->GetFocusState();
 
+	if (p_button->GetID() == CLOSE_ID)
+	{
+		gpC_global_resource->BltRenewalCloseLocked(x + p_button->x, y + p_button->y, focused, p_button->GetPressState());
+	}
+	else if (p_button->GetID() == ACCEPT_ID)
+	{
+		C_SPRITE_PACK* p_button_spk = gpC_global_resource->m_pC_assemble_box_button_renewal_spk;
+		if (m_IsAbleRunQuest == 0)
+		{
+			p_button_spk->BltLockedDarkness(x + p_button->x, y + p_button->y, C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN, 1);
 		}
 		else
-			if (p_button->GetID() == CLOSE_ID)
-			{
-				gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x - 5, y + p_button->y - 5, C_GLOBAL_RESOURCE::BUTTON_CLOSE_BACK);
-				if (p_button->GetFocusState())
-				{
-					if (p_button->GetPressState())
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 3);
-					else
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 2);
-				}
-				else
-				{
-					if (p_button->GetPressState())
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 1);
-					else
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
-				}
-
-			}
-			else
-				if (p_button->GetID() == ACCEPT_ID)
-				{
-					if (m_IsAbleRunQuest == 1)//����
-					{
-						if (p_button->GetFocusState())
-						{
-							if (p_button->GetPressState())
-								m_pImage_Spk->BltLocked(x + p_button->x, y + p_button->y, C_VS_UI_QUEST_MANAGER::BUTTON_ACCEPT + 2);
-							else
-								m_pImage_Spk->BltLocked(x + p_button->x, y + p_button->y, C_VS_UI_QUEST_MANAGER::BUTTON_ACCEPT + 1);
-						}
-						else
-						{
-							m_pImage_Spk->BltLocked(x + p_button->x, y + p_button->y, C_VS_UI_QUEST_MANAGER::BUTTON_ACCEPT);
-						}
-					}
-					else if (m_IsAbleRunQuest == 2) // ����
-					{
-						if (p_button->GetFocusState())
-						{
-							if (p_button->GetPressState())
-								m_pImage_Spk->BltLocked(x + p_button->x, y + p_button->y, C_VS_UI_QUEST_MANAGER::BUTTON_GIVEUP + 2);
-							else
-								m_pImage_Spk->BltLocked(x + p_button->x, y + p_button->y, C_VS_UI_QUEST_MANAGER::BUTTON_GIVEUP + 1);
-						}
-						else
-						{
-							m_pImage_Spk->BltLocked(x + p_button->x, y + p_button->y, C_VS_UI_QUEST_MANAGER::BUTTON_GIVEUP);
-						}
-
-					}
-					else
-						m_pImage_Spk->BltLockedDarkness(x + p_button->x, y + p_button->y, C_VS_UI_QUEST_MANAGER::BUTTON_ACCEPT, 1);
-				}
+		{
+			const int frame = m_IsAbleRunQuest == 2 ? C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_RED : C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN;
+			p_button_spk->BltLocked(x + p_button->x, y + p_button->y,
+				frame + (focused ? (p_button->GetPressState() ? C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET : C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET) : 0));
+		}
+	}
 #if __CONTENTS(__QUEST_RENEWAL2)
-				else if (p_button->GetID() == COMPENSATION_ID)
-				{
-					if (p_button->GetFocusState())
-					{
-						m_pImage_Spk->BltLocked(x + p_button->x, y + p_button->y, C_VS_UI_QUEST_MANAGER::BUTTON_QUEST_COMPENSATION_VIEW + 1);
-					}
-					else
-					{
-						m_pImage_Spk->BltLocked(x + p_button->x, y + p_button->y, C_VS_UI_QUEST_MANAGER::BUTTON_QUEST_COMPENSATION_VIEW);
-					}
-				}
+	else if (p_button->GetID() == COMPENSATION_ID)
+	{
+		if (p_button->GetFocusState())
+		{
+			m_pImage_Spk->BltLocked(x + p_button->x, y + p_button->y, C_VS_UI_QUEST_MANAGER::BUTTON_QUEST_COMPENSATION_VIEW + 1);
+		}
+		else
+		{
+			m_pImage_Spk->BltLocked(x + p_button->x, y + p_button->y, C_VS_UI_QUEST_MANAGER::BUTTON_QUEST_COMPENSATION_VIEW);
+		}
+	}
 #endif // __QUEST_RENEWAL2
-				else
-				{
-					if (p_button->GetFocusState())
-					{
-						if (p_button->GetPressState())
-							m_pImage_Spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 2);
-						else
-							m_pImage_Spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 1);
-					}
-					else
-					{
-						m_pImage_Spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
-					}
-				}
 }
 
 void	C_VS_UI_QUEST_DETAIL::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
@@ -17658,20 +18317,147 @@ void	C_VS_UI_QUEST_DETAIL::Process()
 	ProcessHide();
 }
 // ����Ʈ�� Ÿ��Ʋ�� ��ũ��Ʈ, �׸��� ���డ�� ���¸� ���� �Ѵ�.
+void	C_VS_UI_QUEST_DETAIL::ClearRewardItem()
+{
+	for (size_t i = 0; i < m_RewardItem.size(); i++)
+	{
+		// a tooltip may still point at it
+		g_descriptor_manager.Unset(m_RewardItem[i]);
+		delete m_RewardItem[i];
+	}
+	m_RewardItem.clear();
+	m_RewardRect.clear();
+	m_FocusedReward = NOT_SELECTED;
+}
+
+int		C_VS_UI_QUEST_DETAIL::ObjectiveCount() const
+{
+	if (!m_Mission.empty())
+		return min((int)m_Mission.size(), s_quest_objective_max);
+
+	const QUEST_JOURNAL* p_journal = g_FindQuestJournal(m_QuestID);
+	return p_journal != NULL ? min((int)p_journal->objectives.size(), s_quest_objective_max) : 0;
+}
+
+//-----------------------------------------------------------------------------
+// Layout
+//
+// Rewards take what their line and item pictures need, Objectives and the NPC
+// sit on the Accept row, and the Description gets the room between them.
+//-----------------------------------------------------------------------------
+void	C_VS_UI_QUEST_DETAIL::Layout()
+{
+	const QUEST_JOURNAL* p_journal = g_FindQuestJournal(m_QuestID);
+	const int page_w = w - s_quest_page_x * 2;
+	const int reward_top = s_quest_section_top + s_quest_section_label_h;
+	const bool bLine = p_journal != NULL && (p_journal->exp > 0 || p_journal->money > 0 || p_journal->advance);
+
+	bool bRandom = false;
+	if (p_journal != NULL)
+	{
+		std::vector<const QUEST_JOURNAL_ITEM*> shown;
+		g_QuestShownRewards(*p_journal, shown);
+		for (size_t i = 0; i < shown.size(); i++)
+			bRandom = bRandom || shown[i]->random;
+	}
+
+	int cy = reward_top + s_quest_reward_pad;
+	if (bLine)
+		cy += 20;
+	if (bRandom)
+		cy += 16;
+
+	// the item pictures, left to right, a new row when one is full
+	m_RewardRect.clear();
+	const int left = s_quest_page_x + s_quest_reward_pad;
+	const int right = s_quest_page_x + page_w - s_quest_reward_pad;
+	int cx = left, row_h = 0;
+	for (size_t i = 0; i < m_RewardItem.size(); i++)
+	{
+		const TYPE_FRAMEID frame_id = m_RewardItem[i]->GetInventoryFrameID();
+		const int cell_w = max(s_quest_reward_cell, gpC_item->GetWidth(frame_id) + 8);
+		const int cell_h = max(s_quest_reward_cell, gpC_item->GetHeight(frame_id) + 8);
+		if (cx + cell_w > right && cx > left)
+		{
+			cx = left;
+			cy += row_h + s_quest_reward_gap;
+			row_h = 0;
+		}
+		m_RewardRect.push_back(Rect(cx, cy, cell_w, cell_h));
+		cx += cell_w + s_quest_reward_gap;
+		row_h = max(row_h, cell_h);
+	}
+	cy += row_h;
+	if (!bLine && m_RewardItem.empty())
+		cy += 20;		// "None"
+
+	m_reward_y = s_quest_section_top;
+	m_reward_h = cy + s_quest_reward_pad - reward_top;
+
+	// Objectives and the NPC, up from the Accept row
+	const int bottom = h - s_quest_detail_bottom;
+	const int objectives = ObjectiveCount();
+	const int npc_h = (p_journal != NULL && !p_journal->sender.empty()) ? s_quest_npc_h : 0;
+	m_objective_y = bottom - npc_h - (objectives > 0 ? s_quest_section_label_h + objectives * s_quest_objective_h : 0);
+
+	// the Description between them
+	m_desc_top = reward_top + m_reward_h + s_quest_section_gap + s_quest_section_label_h;
+	m_desc_lines = max(2, (m_objective_y - s_quest_section_gap - m_desc_top) / s_quest_detail_line_h);
+
+	m_pC_scroll_bar->SetSize(Rect(w - s_quest_scroll_right, m_desc_top, -1, m_desc_lines * s_quest_detail_line_h));
+}
+
+//-----------------------------------------------------------------------------
+// SetQuestJournal
+//
+// The quest the page is about: its rewards made into items for their pictures
+// and tooltips, and its steps if it has been taken. Call it before
+// SetQuestDetailInfo, which wraps the description to the room this leaves.
+//-----------------------------------------------------------------------------
+void	C_VS_UI_QUEST_DETAIL::SetQuestJournal(DWORD qID, const std::vector<C_VS_UI_QUEST_MANAGER::_GMissionInfo*>& missions)
+{
+	ClearRewardItem();
+
+	m_QuestID = qID;
+
+	m_Mission.clear();
+	for (size_t i = 0; i < missions.size(); i++)
+	{
+		if (missions[i] != NULL)
+			m_Mission.push_back(*missions[i]);
+	}
+
+	const QUEST_JOURNAL* p_journal = g_FindQuestJournal(qID);
+	if (p_journal != NULL)
+	{
+		std::vector<const QUEST_JOURNAL_ITEM*> shown;
+		g_QuestShownRewards(*p_journal, shown);
+		for (size_t i = 0; i < shown.size(); i++)
+		{
+			MItem* p_item = g_NewQuestRewardItem(*shown[i]);
+			if (p_item != NULL)
+				m_RewardItem.push_back(p_item);
+		}
+	}
+
+	Layout();
+}
+
 void	C_VS_UI_QUEST_DETAIL::SetQuestDetailInfo(char* szTitle, char* szDescription, int Status)
 {
 	if (szDescription != NULL && strlen(szDescription) > 0)
 	{
-		if (LoadDescFromString(szDescription, 44, 4, false) == true)
-		{
-			SetDesc(7, 50 + m_OustersOffset, RGB_WHITE, gpC_base->m_chatting_pi);
-			m_pC_scroll_bar->SetPosMax(GetDescSize() - GetDescCol() + 1);
-			//			if(szTitle != NULL)
-			//			{
-			//				SetDescTitle(szTitle);
-			//				SetDescTitle(10, 31+m_OustersOffset, RGB_YELLOW, gpC_base->m_user_id_pi);
-			//			}
-		}
+		// the font first: the wrap measures with it
+		const int text_x = s_quest_page_x + 4;
+		SetDesc(text_x, m_desc_top, RGB(215, 215, 215), gpC_base->m_chatting_pi);
+
+		// the full width; narrower, beside the scroll bar, only when it has to scroll
+		const int cell = DescCellWidth();
+		LoadDescFromString(szDescription, (w - text_x * 2) / cell, m_desc_lines, false);
+		if (GetDescSize() > m_desc_lines)
+			LoadDescFromString(szDescription, (w - text_x - s_quest_row_right - 4) / cell, m_desc_lines, false);
+
+		m_pC_scroll_bar->SetPosMax(g_ScrollPosMax(GetDescSize(), m_desc_lines));
 	}
 	if (szTitle != NULL && strlen(szTitle) > 0)
 		m_szTitle = szTitle;
@@ -17781,59 +18567,31 @@ C_VS_UI_QUEST_MISSION::C_VS_UI_QUEST_MISSION(C_SPRITE_PACK* spr)
 	g_RegisterWindow(this);
 	AttrPin(true);
 
-	int window_w = 290;
-	int window_h = 160;
+	int window_w = s_quest_column_w;
+	int window_h = s_quest_mission_h;
 
 	m_bl_focus = false;
 	//Set(RESOLUTION_X/2-window_w/2, RESOLUTION_Y/2 - window_h/2, window_w, window_h);
 	Set(g_pUserInformation->iResolution_x / 2 - window_w / 2, g_pUserInformation->iResolution_y / 2 - window_h / 2, window_w, window_h);
 
-	AttrAlpha(gpC_vs_ui_window_manager->IsAlpha(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_MISSION));
-	AttrAutoHide(gpC_vs_ui_window_manager->GetAutoHide(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_MISSION));
+	AttrAlpha(false);
+	AttrAutoHide(ATTRIBUTES_HIDE_NOT);
 	Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_MISSION);
-	if (rect.w != -1)
+	if (g_QuestSavedRectFits(rect, w, h))
 	{
 		x = rect.x;
 		y = rect.y;
 	}
-	if (g_eRaceInterface == RACE_OUSTERS)
-		m_OustersOffset = 2;
-	else
-		m_OustersOffset = 0;
+	m_OustersOffset = 0;	// one layout for every race
 
 	m_pImage_Spk = spr;
 	m_SelectPos = NOT_SELECTED;
 
-	m_pC_scroll_bar = new C_VS_UI_SCROLL_BAR(0, Rect(w - 18, 45, -1, window_h - 68));
+	m_pC_scroll_bar = g_NewQuestScrollBar(w, s_quest_mission_rows_y, s_quest_mission_rows * s_quest_row_h);
 	m_pC_scroll_bar->SetPosMax(0);
 
-	int pin_x = 24, pin_y = h - 154 + m_OustersOffset;
-	int close_x = w - 20, close_y = h - 152 + m_OustersOffset;
-	int alpha_x = 6, alpha_y = h - 154 + m_OustersOffset;
-
-	//�����ư
 	m_pC_button_group = new ButtonGroup(this);
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pin_x, pin_y,
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN),
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN),
-		PUSHPIN_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN));
-
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(close_x, close_y,
-		gpC_global_resource->m_pC_info_spk->GetWidth(C_GLOBAL_RESOURCE::BUTTON_CLOSE),
-		gpC_global_resource->m_pC_info_spk->GetHeight(C_GLOBAL_RESOURCE::BUTTON_CLOSE),
-		CLOSE_ID, this, C_GLOBAL_RESOURCE::BUTTON_CLOSE));
-
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_x, alpha_y,
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD),
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD),
-		ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD));
-#else
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_x, alpha_y,
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA),
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA),
-		ALPHA_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA));
-#endif //__080405_FIREST_UI_UPDATE
+	g_AddQuestCloseButton(m_pC_button_group, this, w, CLOSE_ID);
 
 #ifndef _LIB
 	C_VS_UI_QUEST_MANAGER::_GMissionInfo* TempInfo = new C_VS_UI_QUEST_MANAGER::_GMissionInfo;
@@ -17864,18 +18622,18 @@ C_VS_UI_QUEST_MISSION::~C_VS_UI_QUEST_MISSION()
 
 void	C_VS_UI_QUEST_MISSION::Start()
 {
-	AttrAlpha(gpC_vs_ui_window_manager->IsAlpha(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_MISSION));
-	AttrAutoHide(gpC_vs_ui_window_manager->GetAutoHide(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_MISSION));
+	AttrAlpha(false);
+	AttrAutoHide(ATTRIBUTES_HIDE_NOT);
 	Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_MISSION);
-	if (rect.w != -1)
+	if (g_QuestSavedRectFits(rect, w, h))
 	{
 		x = rect.x;
 		y = rect.y;
 	}
 	else // default setting
 	{
-		x = 0;
-		y = 357;
+		x = s_quest_default_x;
+		y = s_quest_default_y + s_quest_list_h;
 	}
 	PI_Processor::Start();
 	gpC_window_manager->AppearWindow(this);
@@ -17896,26 +18654,23 @@ void	C_VS_UI_QUEST_MISSION::Finish()
 void	C_VS_UI_QUEST_MISSION::Show()
 {
 	static char szMissionPopupString[512];
+	const int ScrPos = m_pC_scroll_bar->GetScrollPos();
+	const int shown = max(0, min((int)m_QuestMissionInfo.size() - ScrPos, s_quest_mission_rows));
+	const int row_right = g_QuestRowRight(m_pC_scroll_bar);
+
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		gpC_global_resource->DrawDialogLocked4(x, y, w, h, GetAttributes()->alpha);
-		m_pImage_Spk->BltLocked(x + 110, y + 7 + m_OustersOffset, C_VS_UI_QUEST_MANAGER::QUEST_MISSION_TITLE);
-
+		gpC_global_resource->DrawDialogRenewalLocked(x, y, w, h, C_GLOBAL_RESOURCE::RENEWAL_TITLE_BAR_H);
 		m_pC_button_group->Show();
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
-	//	RECT rect = { x+10, y+30, x+270, y+150};
-	//	Rect rt( rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top );
-	//
-	//	if(!GetAttributes()->alpha)
-	//	{
-	//		gpC_base->m_p_DDSurface_back->FillRect(&rect, 0);
-	//	}
-	//
-	//	gpC_global_resource->DrawOutBox(rt);
 
-	m_pC_scroll_bar->Show(x, y);
-	int ScrPos = m_pC_scroll_bar->GetScrollPos();
+	g_ShowQuestRowLines(x, y, w, row_right, s_quest_mission_rows_y, shown);
+
+	if (g_QuestCanScroll(m_pC_scroll_bar))
+		m_pC_scroll_bar->Show(x, y);
+
+	gpC_global_resource->DrawRenewalTitle(x, y, s_quest_title_mission);
 
 	if (g_FL2_GetDC())
 	{
@@ -17928,51 +18683,52 @@ void	C_VS_UI_QUEST_MISSION::Show()
 		};
 		char szString[512];
 		char szString2[512];
-		for (int i = ScrPos; i < m_QuestMissionInfo.size(); i++)
+		for (int i = ScrPos; i < ScrPos + shown; i++)
 		{
-			if (i > ScrPos + 5)
-				break;
 			C_VS_UI_QUEST_MANAGER::_GMissionInfo* TempInfo = (C_VS_UI_QUEST_MANAGER::_GMissionInfo*)m_QuestMissionInfo[i];
-			if (TempInfo != NULL)
-			{
-				sprintf(szString, (*g_pGameStringTable)[UI_STRING_GQUEST_MISSION].GetString(), i + 1, TempInfo->szMissionTitle.c_str());
-				DWORD TempValue = TempInfo->m_NumArg;
-				if (TempInfo->dwTimeLimit)
-				{
-					DWORD CurrentTime = timeGetTime();
-					if (TempInfo->dwTimeLimit < CurrentTime)
-						TempValue = TempInfo->m_NumArg - ((CurrentTime - TempInfo->dwTimeLimit) / 60000);
-					else
-					{
-						TempValue = 0;
-					}
+			if (TempInfo == NULL)
+				continue;
 
-					if (TempInfo->bStatus == SUCCESS || TempInfo->bStatus == FAIL) // ���� Ȥ�� ���� �϶�
-					{
-						TempInfo->dwTimeLimit = 0;
-						TempInfo->m_NumArg = 0;
-					}
-				}
-				sprintf(szString2, szString, TempInfo->m_StrArg.c_str(), TempValue);
-				if (strlen(szString2) > 36)
+			const int text_y = y + s_quest_mission_rows_y + (i - ScrPos) * s_quest_row_h + s_quest_text_dy;
+
+			sprintf(szString, (*g_pGameStringTable)[UI_STRING_GQUEST_MISSION].GetString(), i + 1, TempInfo->szMissionTitle.c_str());
+			DWORD TempValue = TempInfo->m_NumArg;
+			if (TempInfo->dwTimeLimit)
+			{
+				DWORD CurrentTime = timeGetTime();
+				if (TempInfo->dwTimeLimit < CurrentTime)
+					TempValue = TempInfo->m_NumArg - ((CurrentTime - TempInfo->dwTimeLimit) / 60000);
+				else
 				{
-					if (i == m_SelectPos)
-					{
-						strcpy(szMissionPopupString, szString2);
-						if (m_bl_focus)
-						{
-							g_descriptor_manager.Set(DID_MULTILINE_INFO, x + 4, y + 38 + (m_SelectPos - ScrPos) * 17, (void*)szMissionPopupString, 0, 50);
-						}
-					}
-					ReduceString2(szString2, 36);
+					TempValue = 0;
 				}
-				g_PrintColorStr(x + 7, y + 42 + (i - ScrPos) * 17, szString2, gpC_base->m_chatting_pi, RGB_WHITE);
-				if (TempInfo->bStatus != 1 && TempInfo->bStatus < 3) // ������..�̰� �������� ����� �ؼ�.����
+
+				if (TempInfo->bStatus == SUCCESS || TempInfo->bStatus == FAIL)
 				{
-					sprintf(szString, "%s", szQuestStatus[TempInfo->bStatus]);
-					g_PrintColorStr(x + 235, y + 42 + (i - ScrPos) * 17, szString, gpC_base->m_chatting_pi, RGB_YELLOW);
+					TempInfo->dwTimeLimit = 0;
+					TempInfo->m_NumArg = 0;
 				}
 			}
+			sprintf(szString2, szString, TempInfo->m_StrArg.c_str(), TempValue);
+
+			// the status shows for done and failed missions, and takes room from the text
+			const bool bShowStatus = TempInfo->bStatus != 1 && TempInfo->bStatus < 3;
+			const int max_len = bShowStatus ? 30 : 36;
+			if (strlen(szString2) > max_len)
+			{
+				if (i == m_SelectPos)
+				{
+					strcpy(szMissionPopupString, szString2);
+					if (m_bl_focus)
+					{
+						g_descriptor_manager.Set(DID_MULTILINE_INFO, x + 4, text_y - 4, (void*)szMissionPopupString, 0, 50);
+					}
+				}
+				ReduceString2(szString2, max_len);
+			}
+			g_PrintColorStr(x + s_quest_text_x, text_y, szString2, gpC_base->m_chatting_pi, RGB_WHITE);
+			if (bShowStatus)
+				g_PrintQuestRight(x, w, row_right, text_y, szQuestStatus[TempInfo->bStatus], gpC_base->m_chatting_pi, RGB_YELLOW);
 		}
 		m_pC_button_group->ShowDescription();
 		g_FL2_ReleaseDC();
@@ -17987,7 +18743,7 @@ bool	C_VS_UI_QUEST_MISSION::MouseControl(UINT message, int _x, int _y)
 	_x -= x; _y -= y;
 	bool re = m_pC_button_group->MouseControl(message, _x, _y);
 
-	if (NULL != m_pC_scroll_bar)
+	if (g_QuestCanScroll(m_pC_scroll_bar))
 		re &= m_pC_scroll_bar->MouseControl(message, _x, _y);
 
 	m_bl_focus = false;
@@ -18002,10 +18758,10 @@ bool	C_VS_UI_QUEST_MISSION::MouseControl(UINT message, int _x, int _y)
 		{
 			m_bl_focus = true;
 		}
-		if (_x > 7 && _x < 260 && _y>40 && _y < 142)
+		if (_x >= s_quest_row_x && _x < w - g_QuestRowRight(m_pC_scroll_bar) && _y >= s_quest_mission_rows_y && _y < s_quest_mission_rows_y + s_quest_mission_rows * s_quest_row_h)
 		{
 			int ScrPos = m_pC_scroll_bar->GetScrollPos();
-			int TempPos = (_y - 40) / 17 + ScrPos;
+			int TempPos = (_y - s_quest_mission_rows_y) / s_quest_row_h + ScrPos;
 			if (TempPos < m_QuestMissionInfo.size())
 			{
 				m_SelectPos = TempPos;
@@ -18083,65 +18839,8 @@ bool	C_VS_UI_QUEST_MISSION::IsPixel(int _x, int _y)
 
 void	C_VS_UI_QUEST_MISSION::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	if (p_button->GetID() == TAB1_ID || p_button->GetID() == TAB2_ID)
-		return;
-	if (p_button->GetID() == ALPHA_ID)
-	{
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		if (GetAttributes()->alpha)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED_OLD);
-#else
-		if (GetAttributes()->alpha)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED);
-#endif //__080405_FIREST_UI_UPDATE
-	}
-	else
-		if (p_button->GetID() == PUSHPIN_ID)
-		{
-			if (GetAttributes()->autohide)
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN);
-			else
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN_PUSHED);
-
-		}
-		else
-			if (p_button->GetID() == CLOSE_ID)
-			{
-				gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x - 5, y + p_button->y - 5, C_GLOBAL_RESOURCE::BUTTON_CLOSE_BACK);
-				if (p_button->GetFocusState())
-				{
-					if (p_button->GetPressState())
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 3);
-					else
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 2);
-				}
-				else
-				{
-					if (p_button->GetPressState())
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 1);
-					else
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
-				}
-
-			}
-			else
-			{
-				if (p_button->GetFocusState())
-				{
-					if (p_button->GetPressState())
-						gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION_PUSHED);
-					else
-						gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION_HILIGHTED);
-				}
-				else
-				{
-					gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
-				}
-			}
+	if (p_button->GetID() == CLOSE_ID)
+		gpC_global_resource->BltRenewalCloseLocked(x + p_button->x, y + p_button->y, p_button->GetFocusState(), p_button->GetPressState());
 }
 
 void	C_VS_UI_QUEST_MISSION::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
@@ -18232,7 +18931,7 @@ void	C_VS_UI_QUEST_MISSION::SetQuestMissionInfo(std::vector<C_VS_UI_QUEST_MANAGE
 	//		
 	//		itr++;
 	//	}
-	m_pC_scroll_bar->SetPosMax(m_QuestMissionInfo.size());
+	m_pC_scroll_bar->SetPosMax(g_ScrollPosMax(m_QuestMissionInfo.size(), s_quest_mission_rows));
 }
 
 //-----------------------------------------------------------------------------
@@ -18254,38 +18953,23 @@ C_VS_UI_QUEST_ITEM::C_VS_UI_QUEST_ITEM(C_SPRITE_PACK* spr)
 	Set(g_pUserInformation->iResolution_x / 2 - window_w / 2, g_pUserInformation->iResolution_y / 2 - window_h / 2, window_w, window_h);
 	//
 	//	AttrAlpha(gpC_vs_ui_window_manager->IsAlpha(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_ITEM));
-	AttrAutoHide(gpC_vs_ui_window_manager->GetAutoHide(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_ITEM));
+	AttrAutoHide(ATTRIBUTES_HIDE_NOT);
 	Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_ITEM);
 	if (rect.w != -1)
 	{
 		x = rect.x;
 		y = rect.y;
 	}
-	if (g_eRaceInterface == RACE_OUSTERS)
-		m_OustersOffset = 2;
-	else
-		m_OustersOffset = 0;
+	m_OustersOffset = 0;	// one layout for every race
 
 	m_pImage_Spk = spr;
 	m_SelectPos = NOT_SELECTED;
-	m_pC_scroll_bar = new C_VS_UI_SCROLL_BAR(0, Rect(20, 230, 276, -1), false, NULL, 6, 6, 0, false);
+	m_pC_scroll_bar = new C_VS_UI_SCROLL_BAR(0, Rect(5, 232, 305, -1), false, NULL, 6, 6, 0, false);
+	m_pC_scroll_bar->SetRenewal();
 	m_pC_scroll_bar->SetPosMax(0);
 
-	int pin_x = 6, pin_y = h - 254 + m_OustersOffset;
-	int close_x = w - 20, close_y = h - 252 + m_OustersOffset;
-	int alpha_x = 24, alpha_y = h - 254 + m_OustersOffset;
-
-	//�����ư
 	m_pC_button_group = new ButtonGroup(this);
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(pin_x, pin_y,
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN),
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN),
-		PUSHPIN_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN));
-
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(close_x, close_y,
-		gpC_global_resource->m_pC_info_spk->GetWidth(C_GLOBAL_RESOURCE::BUTTON_CLOSE),
-		gpC_global_resource->m_pC_info_spk->GetHeight(C_GLOBAL_RESOURCE::BUTTON_CLOSE),
-		CLOSE_ID, this, C_GLOBAL_RESOURCE::BUTTON_CLOSE));
+	g_AddQuestCloseButton(m_pC_button_group, this, w, CLOSE_ID);
 
 	//	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(alpha_x, alpha_y,
 	//		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA),
@@ -18368,7 +19052,7 @@ C_VS_UI_QUEST_ITEM::~C_VS_UI_QUEST_ITEM()
 void	C_VS_UI_QUEST_ITEM::Start(std::vector<MItem*>& Info)
 {
 	//	AttrAlpha(gpC_vs_ui_window_manager->IsAlpha(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_ITEM));
-	AttrAutoHide(gpC_vs_ui_window_manager->GetAutoHide(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_ITEM));
+	AttrAutoHide(ATTRIBUTES_HIDE_NOT);
 	Rect& rect = gpC_vs_ui_window_manager->GetRect(C_VS_UI_WINDOW_MANAGER::QUEST_MANAGER_ITEM);
 	if (rect.w != -1)
 	{
@@ -18377,8 +19061,8 @@ void	C_VS_UI_QUEST_ITEM::Start(std::vector<MItem*>& Info)
 	}
 	else // default setting
 	{
-		x = 290;
-		y = 221;
+		x = s_quest_default_x + s_quest_journal_w + s_quest_detail_w;
+		y = s_quest_default_y;
 	}
 	PI_Processor::Start();
 	gpC_window_manager->AppearWindow(this);
@@ -18386,7 +19070,7 @@ void	C_VS_UI_QUEST_ITEM::Start(std::vector<MItem*>& Info)
 	AttrTopmost(false);
 
 	m_QuestItemInfo = Info;
-	m_pC_scroll_bar->SetPosMax(m_QuestItemInfo.size() / 2 + 1);
+	m_pC_scroll_bar->SetPosMax(g_ScrollPosMax((m_QuestItemInfo.size() + 1) / 2, SLOT_X_COUNT));
 }
 
 void	C_VS_UI_QUEST_ITEM::Finish()
@@ -18406,18 +19090,9 @@ void	C_VS_UI_QUEST_ITEM::Show()
 	//	int len = 0;
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		gpC_global_resource->DrawDialogLocked4(x, y, w, h, GetAttributes()->alpha);
-		m_pImage_Spk->BltLocked(x + 115, y + 7 + m_OustersOffset, C_VS_UI_QUEST_MANAGER::QUEST_ITEM_TITLE);
-		if (GetAttributes()->alpha)
-		{
-			//			m_pImage_Spk->BltLockedAlpha(x+5, y+35+m_OustersOffset, INVENTORY_SLOT,16);
-			//			m_pImage_Spk->BltLockedAlpha(x+5, y+135+m_OustersOffset, INVENTORY_SLOT,32);
-		}
-		else
-		{
-			m_pImage_Spk->BltLocked(x + 5, y + 35 + m_OustersOffset, C_VS_UI_QUEST_MANAGER::INVENTORY_SLOT);
-			m_pImage_Spk->BltLocked(x + 5, y + 135 + m_OustersOffset, C_VS_UI_QUEST_MANAGER::INVENTORY_SLOT);
-		}
+		gpC_global_resource->DrawDialogRenewalLocked(x, y, w, h, C_GLOBAL_RESOURCE::RENEWAL_TITLE_BAR_H);
+		gpC_global_resource->m_pC_renewal_widget_spk->BltLocked(x + 5, y + 35 + m_OustersOffset, C_GLOBAL_RESOURCE::RW_SHELF);
+		gpC_global_resource->m_pC_renewal_widget_spk->BltLocked(x + 5, y + 135 + m_OustersOffset, C_GLOBAL_RESOURCE::RW_SHELF);
 		//	m_pImage_Spk->BltLocked(x+5, y+210+m_OustersOffset, INVENTORY_SLOT);
 
 		int ScrPos = m_pC_scroll_bar->GetScrollPos();
@@ -18533,11 +19208,13 @@ void	C_VS_UI_QUEST_ITEM::Show()
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 
-	m_pC_scroll_bar->Show(x, y);
+	if (g_QuestCanScroll(m_pC_scroll_bar))
+		m_pC_scroll_bar->Show(x, y);
+
+	gpC_global_resource->DrawRenewalTitle(x, y, s_quest_title_item);
 
 	if (g_FL2_GetDC())
 	{
-
 		m_pC_button_group->ShowDescription();
 		g_FL2_ReleaseDC();
 	}
@@ -18551,7 +19228,7 @@ bool	C_VS_UI_QUEST_ITEM::MouseControl(UINT message, int _x, int _y)
 	_x -= x; _y -= y;
 	bool re = m_pC_button_group->MouseControl(message, _x, _y);
 
-	if (NULL != m_pC_scroll_bar)
+	if (g_QuestCanScroll(m_pC_scroll_bar))
 		re &= m_pC_scroll_bar->MouseControl(message, _x, _y);
 
 	m_bl_focus = false;
@@ -18746,65 +19423,8 @@ bool	C_VS_UI_QUEST_ITEM::IsPixel(int _x, int _y)
 
 void	C_VS_UI_QUEST_ITEM::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 {
-	//	if(p_button->GetID() == TAB1_ID || p_button->GetID() == TAB2_ID)
-	//		return;
-	if (p_button->GetID() == ALPHA_ID)
-	{
-#if __CONTENTS(__080405_FIREST_UI_UPDATE)
-		if (GetAttributes()->alpha)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_OLD);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED_OLD);
-#else
-		if (GetAttributes()->alpha)
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA);
-		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_ALPHA_PUSHED);
-#endif //__080405_FIREST_UI_UPDATE
-	}
-	else
-		if (p_button->GetID() == PUSHPIN_ID)
-		{
-			if (GetAttributes()->autohide)
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN);
-			else
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(p_button->x + x, p_button->y + y, C_GLOBAL_RESOURCE::AB_BUTTON_PUSHPIN_PUSHED);
-
-		}
-		else
-			if (p_button->GetID() == CLOSE_ID)
-			{
-				gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x - 5, y + p_button->y - 5, C_GLOBAL_RESOURCE::BUTTON_CLOSE_BACK);
-				if (p_button->GetFocusState())
-				{
-					if (p_button->GetPressState())
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 3);
-					else
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 2);
-				}
-				else
-				{
-					if (p_button->GetPressState())
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + 1);
-					else
-						gpC_global_resource->m_pC_info_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
-				}
-
-			}
-	//	else
-	//	{
-	//		if(p_button->GetFocusState())
-	//		{
-	//			if(p_button->GetPressState())
-	//				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x+p_button->x, y+p_button->y, C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION_PUSHED);
-	//			else
-	//				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x+p_button->x, y+p_button->y, C_GLOBAL_RESOURCE::AB_BUTTON_QUESTION_HILIGHTED);
-	//		}
-	//		else
-	//		{
-	//			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x+p_button->x, y+p_button->y, p_button->m_image_index);
-	//		}
-	//	}
+	if (p_button->GetID() == CLOSE_ID)
+		gpC_global_resource->BltRenewalCloseLocked(x + p_button->x, y + p_button->y, p_button->GetFocusState(), p_button->GetPressState());
 }
 
 void	C_VS_UI_QUEST_ITEM::ShowButtonDescription(C_VS_UI_EVENT_BUTTON* p_button)
@@ -18874,7 +19494,8 @@ void	C_VS_UI_QUEST_ITEM::Process()
 void	C_VS_UI_QUEST_ITEM::SetQuestItemInfo(std::vector<MItem*>& Info)
 {
 	m_QuestItemInfo = Info;
-	m_pC_scroll_bar->SetPosMax(m_QuestItemInfo.size() / 2 + 1);
+	// two items to a column, five columns shown
+	m_pC_scroll_bar->SetPosMax(g_ScrollPosMax((m_QuestItemInfo.size() + 1) / 2, SLOT_X_COUNT));
 }
 
 //-----------------------------------------------------------------------------
@@ -19274,28 +19895,32 @@ void	C_VS_UI_RANGER_CHAT::Process()
 //
 // ���λ����� ���� �޼��� 
 //------------------------------------------------------------------------------
+// The shop advertisement editor: the prompt under the title bar, a box of
+// four typed lines, and small green OK / red Cancel at the bottom right.
+static const int s_psm_w = 260, s_psm_h = 176;
+static const int s_psm_prompt_y = 29;
+static const int s_psm_box_x = 16, s_psm_box_y = 48, s_psm_box_w = 228, s_psm_box_h = 90;
+static const int s_psm_line_gap = 20;
+static const int s_psm_margin = 12, s_psm_button_gap = 6;
+static const char* s_psm_button_label[2] = { "OK", "Cancel" };
+
 C_VS_UI_PERSNALSHOP_MESSAGE::C_VS_UI_PERSNALSHOP_MESSAGE()
 {
-
-	//Set(RESOLUTION_X/2 - 340/2, RESOLUTION_Y/2 - 267/2, 340-80, 267-50);
-	Set(g_pUserInformation->iResolution_x / 2 - 340 / 2, g_pUserInformation->iResolution_y / 2 - 267 / 2, 340 - 80, 267 - 50);
-
-	int ok_x = 160, ok_y = h - 44;
-	int cancel_x = 236, cancel_y = h - 44;
-
+	Set(g_pUserInformation->iResolution_x / 2 - s_psm_w / 2, g_pUserInformation->iResolution_y / 2 - s_psm_h / 2, s_psm_w, s_psm_h);
 
 	m_pC_button_group = new ButtonGroup(this);
 
+	C_SPRITE_PACK* p_button_spk = gpC_global_resource->m_pC_assemble_box_button_renewal_spk;
+	const int button_w = p_button_spk->GetWidth(C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN);
+	const int button_h = p_button_spk->GetHeight(C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN);
+	const int cancel_x = w - s_psm_margin - button_w;
+	const int button_y = h - s_psm_margin - button_h;
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(ok_x - 70, ok_y,
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_OK),
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_OK),
-		OK_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_OK));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(cancel_x - s_psm_button_gap - button_w, button_y, button_w, button_h,
+		OK_ID, this, C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_GREEN));
 
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(cancel_x - 70, cancel_y,
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_CANCEL),
-		gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_CANCEL),
-		CANCEL_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_CANCEL));
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(cancel_x, button_y, button_w, button_h,
+		CANCEL_ID, this, C_GLOBAL_RESOURCE::ABR_BUTTON_WIDE_RED));
 
 	g_RegisterWindow(this);
 	AttrTopmost(true);
@@ -19303,11 +19928,13 @@ C_VS_UI_PERSNALSHOP_MESSAGE::C_VS_UI_PERSNALSHOP_MESSAGE()
 
 
 
+	// it wraps by a count of 'a'-wide characters, so the width leaves room
+	// for wider letters before the box's right edge
 	m_lev_content.SetPosition(x, y);
 	m_lev_content.SetPrintInfo(gpC_base->m_chatting_pi);
 	m_lev_content.SetByteLimit(80);
-	m_lev_content.SetEditorMode(20, 4);
-	m_lev_content.SetAbsWidth(125);
+	m_lev_content.SetEditorMode(s_psm_line_gap, 4);
+	m_lev_content.SetAbsWidth(170);
 
 	m_lev_content.SetInputStringColor(RGB_WHITE);
 	m_lev_content.SetCursorColor(RGB_WHITE);
@@ -19345,76 +19972,35 @@ void	C_VS_UI_PERSNALSHOP_MESSAGE::Finish()
 
 void	C_VS_UI_PERSNALSHOP_MESSAGE::Show()
 {
-	int box_x = 160 + x, box_y = 189 + y;
-	int name_x = 190 + x, name_y = 193 + y;
-
-	RECT rect = { x + 50, y + 90, x + 220, y + 200 };
-
-
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		gpC_global_resource->DrawDialogLocked(x, y, w, h, g_pUserOption->DefaultAlpha == TRUE);
-		gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + 30, y + 70, C_GLOBAL_RESOURCE::AB_MONEY_BAR);
-		gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + 30, y + 90, C_GLOBAL_RESOURCE::AB_MONEY_BAR);
-		gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + 30, y + 110, C_GLOBAL_RESOURCE::AB_MONEY_BAR);
-		gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + 30, y + 130, C_GLOBAL_RESOURCE::AB_MONEY_BAR);
+		gpC_global_resource->DrawDialogRenewalLocked(x, y, w, h, C_GLOBAL_RESOURCE::RENEWAL_TITLE_BAR_H);
+		gpC_global_resource->DrawOutBoxLocked(x + s_psm_box_x, y + s_psm_box_y, s_psm_box_w, s_psm_box_h);
 
 		m_pC_button_group->Show();
 
 		gpC_base->m_p_DDSurface_back->Unlock();
 	}
 
+	gpC_global_resource->DrawRenewalTitle(x, y, (*g_pGameStringTable)[UI_STRING_MESSAGE_PERSONAL_STORE].GetString());
+
 	if (g_FL2_GetDC())
 	{
-		g_PrintColorStr(x + 30, y + 30, (*g_pGameStringTable)[UI_STRING_MESSAGE_PERSNALSHOP_MESSAGE].GetString(), gpC_base->m_chatting_pi, RGB_WHITE);
-
-		std::string str;
-
-
-		int next = 0;
-		char sz_string[512];
-
-		int print_x = 30 + x, vx;
-		int py = 40 + y;
-		const int print_gap = 20;
-		const int char_width = g_GetStringWidth("a", gpC_base->m_chatting_pi.hfont);
-
-		vx = print_x;
-
-		while (str.size() > next)
-		{
-			strcpy(sz_string, str.c_str() + next);
-
-			char* sz_string2 = sz_string;
-
-			while (*sz_string2 == ' ')		// ���� ��������
-			{
-				sz_string2++;
-				next++;
-			}
-
-			int cut_pos = (x + w - 30 - vx) / char_width;
-
-			if (!g_PossibleStringCut(sz_string2, cut_pos))
-				cut_pos--;
-			sz_string2[cut_pos] = NULL;
-
-			char* return_char = NULL;
-			if ((return_char = strchr(sz_string2, '\n')) != NULL)	// return ó��
-			{
-				cut_pos = return_char - sz_string2 + 1;
-				sz_string2[cut_pos - 1] = NULL;
-			}
-
-			g_PrintColorStr(vx, py, sz_string2, gpC_base->m_chatting_pi, RGB_WHITE);
-			next += cut_pos;
-			vx = print_x;
-			py += print_gap;
-		}
+		g_PrintColorStr(x + s_psm_box_x, y + s_psm_prompt_y, (*g_pGameStringTable)[UI_STRING_MESSAGE_PERSNALSHOP_MESSAGE].GetString(), gpC_base->m_small_pi, RGB(200, 200, 200));
 		g_FL2_ReleaseDC();
 	}
 
-	m_lev_content.SetPosition(x + 33, y + 72);
+	for (int i = OK_ID; i <= CANCEL_ID; i++)
+	{
+		C_VS_UI_EVENT_BUTTON* p_button = m_pC_button_group->GetButton(i);
+		if (p_button != NULL)
+		{
+			gpC_global_resource->DrawRenewalButtonLabel(x + p_button->x, y + p_button->y, p_button->w, p_button->h,
+				s_psm_button_label[i], p_button->GetFocusState() && p_button->GetPressState());
+		}
+	}
+
+	m_lev_content.SetPosition(x + s_psm_box_x + 8, y + s_psm_box_y + 6);
 	m_lev_content.Show();
 
 
@@ -19481,17 +20067,16 @@ void	C_VS_UI_PERSNALSHOP_MESSAGE::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_butto
 {
 	if (p_button->GetID() == OK_ID || p_button->GetID() == CANCEL_ID)
 	{
-		//		if(m_Status == INPUT_STATUS_NORMAL)
-		//		{
+		C_SPRITE_PACK* p_button_spk = gpC_global_resource->m_pC_assemble_box_button_renewal_spk;
 		if (p_button->GetFocusState())
 		{
 			if (p_button->GetPressState())
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET);
+				p_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET);
 			else
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET);
+				p_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET);
 		}
 		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
+			p_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
 		//		} 
 		//		else
 		//		{

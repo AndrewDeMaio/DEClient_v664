@@ -1680,6 +1680,19 @@ private:
 
 	int							m_IsAbleRunQuest ; // 0 : disable 1 : 수행 2 : 포기
 	std::string					m_szTitle;
+
+	// the journal page: what the quest file says the quest gives and asks,
+	// and its steps once it is taken
+	DWORD						m_QuestID;
+	std::vector<MItem*>			m_RewardItem;		// made for their pictures and tooltips
+	std::vector<Rect>			m_RewardRect;
+	int							m_FocusedReward;
+	std::vector<C_VS_UI_QUEST_MANAGER::_GMissionInfo>	m_Mission;
+	int							m_reward_y, m_reward_h, m_desc_top, m_desc_lines, m_objective_y;
+
+	void	ClearRewardItem();
+	void	Layout();
+	int		ObjectiveCount() const;
 #if __CONTENTS(__QUEST_RENEWAL2)
 	WORD						m_wQeustCompesationLineSize;	//보상 설명 라인 수
 	char						m_arrchQeustCompesationList[10][255];		//보상 설명 리스트
@@ -1702,6 +1715,7 @@ public:
 	bool	MouseControl(UINT message, int _x, int _y);
 
 	void	SetQuestDetailInfo(char* szTitle, char* szDescription, int Status);
+	void	SetQuestJournal(DWORD qID, const std::vector<C_VS_UI_QUEST_MANAGER::_GMissionInfo*>& missions);
 
 #if __CONTENTS(__QUEST_RENEWAL2)
 	void	SetQuestCompensation(std::string str);	//퀘스트 보상 내용

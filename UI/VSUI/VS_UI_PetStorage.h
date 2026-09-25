@@ -113,7 +113,6 @@ public:
 
 
 private:
-	C_SPRITE_PACK				m_image_spk;
 	C_SPRITE_PACK				m_image_btn;
 
 	enum INFO_SPK

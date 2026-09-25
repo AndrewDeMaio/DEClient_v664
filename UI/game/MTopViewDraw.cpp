@@ -668,7 +668,7 @@ GetItemWeaponArtTier(int itemClass, int itemType)
 //----------------------------------------------------------------------
 // ACOusters has one body (1) and one chakram layer (0). advancedousters has two of
 // each - 0/1 chakram, 2/3 body, the odd one being the Osiris version - and lists its
-// actions in a different order, without MAGIC_ATTACK. It is only used while an
+// actions in a different order (MAGIC_ATTACK and SPECIAL share one). It is only used while an
 // Osiris item is worn, so every other advanced Ousters keeps the ACOusters look.
 static const int s_OsirisOustersAction[ACTION_ADVANCEMENT_OUSTERS_MAX - ADVANCEMENT_ACTION_START] =
 {
@@ -682,7 +682,7 @@ static const int s_OsirisOustersAction[ACTION_ADVANCEMENT_OUSTERS_MAX - ADVANCEM
 	15,	// SKILL_SLOW
 	16,	// SKILL_NORMAL
 	17,	// SKILL_FAST
-	2,	// MAGIC_ATTACK - no frames of its own, uses MAGIC
+	8,	// MAGIC_ATTACK - the arm-pointing cast, shared with SPECIAL
 	2,	// MAGIC
 	9,	// ABSORB_SOUL
 	4,	// DRAINED

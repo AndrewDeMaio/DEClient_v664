@@ -15,6 +15,9 @@
 #include "VS_UI_GlobalResource.h"
 #include "VS_UI_MOUSE_POINTER.h"
 #include "RarFile.h"
+
+// ClientFunction.h; the renewal scroll bar draws its track and thumb with it
+extern void		DrawAlphaBox(RECT* pRect, BYTE r, BYTE g, BYTE b, BYTE alpha);
 /*
 //----------------------------------------------------------------------------
 // Button Class
@@ -397,6 +400,26 @@ private:
 	bool			m_tag_pushed, m_up_button_focused, m_down_button_focused, m_up_button_pushed, m_down_button_pushed;
 	int				m_tag_height, m_button_height, m_button_width;
 	bool			m_bl_reverse, m_bHeight;
+	bool			m_bRenewal;	// SetRenewal: the renewal windows' look
+
+	// In the renewal look the rect is the whole bar, arrows included: take
+	// them off each end so the rect is the track the thumb moves along, as the
+	// old look has it (its buttons sit outside the rect).
+	void	ApplyRenewalSpan()
+	{
+		if(m_bHeight)
+		{
+			y += m_button_height;
+			h -= m_button_height * 2;
+			w = m_button_width;
+		}
+		else
+		{
+			x += m_button_width;
+			w -= m_button_width * 2;
+			h = m_button_height;
+		}
+	}
 
 
 public:
@@ -438,6 +461,7 @@ public:
 		m_tag_pushed = false;
 		m_bl_reverse = bl_reverse;
 		m_bHeight = bHeight;
+		m_bRenewal = false;
 
 		m_button_width = spk->GetWidth(C_GLOBAL_RESOURCE::SB_BUTTON);
 		m_button_height = spk->GetHeight(C_GLOBAL_RESOURCE::SB_BUTTON);
@@ -464,6 +488,7 @@ public:
 		m_tag_pushed = false;
 		m_bl_reverse = false;
 		m_bHeight = true;
+		m_bRenewal = false;
 
 		m_button_height = gpC_global_resource->m_pC_scroll_bar_spk->GetHeight(C_GLOBAL_RESOURCE::SB_BUTTON);
 		m_tag_height = gpC_global_resource->m_pC_scroll_bar_spk->GetHeight(C_GLOBAL_RESOURCE::SB_TAG);
@@ -487,6 +512,11 @@ public:
 			spk = gpC_global_resource->m_pC_scroll_bar_spk;
 
 		Set(scroll_rect.x, scroll_rect.y, scroll_rect.w, scroll_rect.h);
+		if(m_bRenewal)
+		{
+			ApplyRenewalSpan();
+			return;
+		}
 		if(m_bHeight)
 		{
 			if(scroll_rect.w == -1)
@@ -503,8 +533,90 @@ public:
 		}
 	}
 
+	//-------------------------------------------------------------------------
+	// SetRenewal
+	//
+	// The renewal windows' look: the widget pack's arrows at the two ends of
+	// the rect given to the constructor, a slim dark track between them and a
+	// teal thumb. Scrolling, dragging and the arrow hit tests are unchanged.
+	//-------------------------------------------------------------------------
+	void	SetRenewal()
+	{
+		C_SPRITE_PACK *p_spk = gpC_global_resource->m_pC_renewal_widget_spk;
+		if(m_bRenewal || p_spk == NULL || p_spk->GetSize() <= C_GLOBAL_RESOURCE::RW_SCROLL_RIGHT + 2)
+			return;
+
+		m_bRenewal = true;
+
+		const int arrow = m_bHeight ? C_GLOBAL_RESOURCE::RW_SCROLL_UP : C_GLOBAL_RESOURCE::RW_SCROLL_LEFT;
+		m_button_width = p_spk->GetWidth(arrow);
+		m_button_height = p_spk->GetHeight(arrow);
+		m_tag_height = 14;
+
+		ApplyRenewalSpan();
+	}
+
+	void	ShowRenewal(int _x, int _y)
+	{
+		C_SPRITE_PACK *p_spk = gpC_global_resource->m_pC_renewal_widget_spk;
+		const int left = _x + x, top = _y + y;
+		const int track_w = 4, thumb_w = 8;
+
+		if(!gpC_base->m_p_DDSurface_back->Lock())
+			return;
+
+		RECT track;
+		if(m_bHeight)
+			SetRect(&track, left + (w - track_w) / 2, top + 2, left + (w + track_w) / 2, top + h - 2);
+		else
+			SetRect(&track, left + 2, top + (h - track_w) / 2, left + w - 2, top + (h + track_w) / 2);
+		DrawAlphaBox(&track, 2, 3, 3, 31);
+
+		if(m_pos_max > 1)
+		{
+			const int length = m_bHeight ? h : w;
+			const int pos = m_bl_reverse ? (m_pos_max - 1) - m_pos : m_pos;
+			int start = pos * (length - m_tag_height) / (m_pos_max - 1);
+			if(m_tag_pushed)
+			{
+				const int mouse = m_bHeight ? gpC_mouse_pointer->GetY() - top : gpC_mouse_pointer->GetX() - left;
+				start = min(length - m_tag_height, max(0, mouse - m_tag_height / 2));
+			}
+
+			RECT thumb;
+			if(m_bHeight)
+				SetRect(&thumb, left + (w - thumb_w) / 2, top + start, left + (w + thumb_w) / 2, top + start + m_tag_height);
+			else
+				SetRect(&thumb, left + start, top + (h - thumb_w) / 2, left + start + m_tag_height, top + (h + thumb_w) / 2);
+			DrawAlphaBox(&thumb, 6, 9, 9, 31);
+		}
+
+		const int up = m_bHeight ? C_GLOBAL_RESOURCE::RW_SCROLL_UP : C_GLOBAL_RESOURCE::RW_SCROLL_LEFT;
+		const int down = m_bHeight ? C_GLOBAL_RESOURCE::RW_SCROLL_DOWN : C_GLOBAL_RESOURCE::RW_SCROLL_RIGHT;
+		const int up_state = m_up_button_pushed ? 2 : (m_up_button_focused ? 1 : 0);
+		const int down_state = m_down_button_pushed ? 2 : (m_down_button_focused ? 1 : 0);
+		if(m_bHeight)
+		{
+			p_spk->BltLocked(left, top - m_button_height, up + up_state);
+			p_spk->BltLocked(left, top + h, down + down_state);
+		}
+		else
+		{
+			p_spk->BltLocked(left - m_button_width, top, up + up_state);
+			p_spk->BltLocked(left + w, top, down + down_state);
+		}
+
+		gpC_base->m_p_DDSurface_back->Unlock();
+	}
+
 	void	Show(int _x, int _y)
 	{
+		if(m_bRenewal)
+		{
+			ShowRenewal(_x, _y);
+			return;
+		}
+
 		C_SPRITE_PACK *spk = m_spk;
 		if(spk == NULL)
 			spk = gpC_global_resource->m_pC_scroll_bar_spk;
@@ -919,6 +1031,11 @@ public:
 	int		GetScrollPos()
 	{
 		return m_pos;
+	}
+
+	int		GetPosMax()
+	{
+		return m_pos_max;
 	}
 
 	void	SetPosMax(int max)	//pos_max�� ��ũ�ѵ� �׸��� �����̴�. ���� �� ȭ�鿡 5���� �׸��� ������, �� 10���� �׸��� �ִٸ� ��ũ�Ѱ��� 0~5 ���� �����Ƿ� pos_max == 6 �̴�. 

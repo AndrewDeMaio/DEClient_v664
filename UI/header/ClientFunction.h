@@ -36,6 +36,9 @@ extern BOOL		IsPlayerInSafePosition();
 
 extern bool		IsPlayerInSafeZone();
 
+// In a sector the minimap paints green (see MPlayer::IsInSectorSafeZone).
+extern bool		IsPlayerInSectorSafeZone();
+
 struct tag_ThirdOptionData
 {
 	std::list<BYTE>* thirdOptionList;

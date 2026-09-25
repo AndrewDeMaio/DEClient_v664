@@ -160,6 +160,12 @@ UnInitSound()
 	{
 		return false;
 	}
+
+	bool
+	IsPlayerInSectorSafeZone()
+	{
+		return false;
+	}
 #else
 	//---------------------------------------------------------------------------
 	// Get Whisper ID
@@ -185,6 +191,15 @@ UnInitSound()
 	IsPlayerInSafeZone()
 	{
 		return g_bZoneSafe;
+	}
+
+	bool
+	IsPlayerInSectorSafeZone()
+	{
+		if (g_pPlayer != NULL)
+			return g_pPlayer->IsInSectorSafeZone();
+
+		return false;
 	}
 #endif
 

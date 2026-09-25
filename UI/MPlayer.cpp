@@ -14071,6 +14071,37 @@ MPlayer::IsInSafeSector() const
 	return FALSE;
 }
 
+//----------------------------------------------------------------------
+// Is In Sector Safe Zone
+//
+// The sectors the zone file flags safe for the player's race, or for
+// everyone - what the minimap paints green. A zone that is safe as a
+// whole (a town's Safety flag) does not count here, and neither does
+// any sector while a war is on in the zone.
+//----------------------------------------------------------------------
+bool
+MPlayer::IsInSectorSafeZone() const
+{
+	if (m_pZone == NULL)
+		return false;
+
+	if (g_pWarManager->IsExist(m_pZone->GetID()))
+		return false;
+
+	const MSector& sector = m_pZone->GetSector(m_X, m_Y);
+
+	if (IsSlayer())
+		return sector.IsSafeSlayer() != 0;
+
+	if (IsVampire())
+		return sector.IsSafeVampire() != 0;
+
+	if (IsOusters())
+		return sector.IsSafeOusters() != 0;
+
+	return false;
+}
+
 //-------------------------------------------------------------------------
 // Soul Chain File
 //-------------------------------------------------------------------------

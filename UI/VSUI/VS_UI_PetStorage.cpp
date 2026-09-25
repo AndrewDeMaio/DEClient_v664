@@ -789,87 +789,38 @@ C_VS_UI_PERSNALSHOP::C_VS_UI_PERSNALSHOP()
 
 	g_RegisterWindow(this);
 
-	int normal_tab_x_offset, special_tab_x_offset, mysterious_tab_x_offset;
-	int close_button_x, close_button_y;
-	int help_button_x, help_button_y;
-	int tab_y_offset;
+	// One layout for every race: the renewal frame, four shelves of five
+	// slots, the three store buttons under them and Close at the bottom right.
+	// The store buttons are the same art for every race.
+	m_image_btn.Open(SPK_PERSONAL_SHOP_RENEWAL);
 
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		m_image_spk.Open(SPK_SLAYER_SHOP_STORAGE);
-		break;
+	m_shelf_start_x_offset = 25;
+	m_shelf_start_y_offset[0] = 33;
+	m_shelf_start_y_offset[1] = 135;
+	m_shelf_start_y_offset[2] = 237;
+	m_shelf_start_y_offset[3] = 339;
 
-	case RACE_VAMPIRE:
-		m_image_spk.Open(SPK_VAMPIRE_SHOP_STORAGE);
-		break;
+	const int store_button_x[3] = { 24, 129, 233 };
+	const int store_button_y = 441;
+	const int close_button_x = 268, close_button_y = 476;
 
-	case RACE_OUSTERS:
-		m_image_spk.Open(SPK_OUSTERS_SHOP_STORAGE);
-		break;
-	}
-
-	m_shelf_start_x_offset = 15;
-	m_shelf_start_y_offset[0] = 23;
-	m_shelf_start_y_offset[1] = 125;
-	m_shelf_start_y_offset[2] = 227;
-	m_shelf_start_y_offset[3] = 329;
-	normal_tab_x_offset = 15;
-	special_tab_x_offset = 119;
-	mysterious_tab_x_offset = 224;
-	tab_y_offset = 422;
-	close_button_x = 258;
-	close_button_y = 452;
-	help_button_x = 193;
-	help_button_y = 452;
-
-	Set(10, 30, 332, 497);
-	if (g_eRaceInterface == RACE_OUSTERS)
-	{
-		w += 20;
-		h += 20;
-		m_shelf_start_x_offset += 10;
-		m_shelf_start_y_offset[0] += 10;
-		m_shelf_start_y_offset[1] += 10;
-		m_shelf_start_y_offset[2] += 10;
-		m_shelf_start_y_offset[3] += 10;
-		normal_tab_x_offset += 10;
-		special_tab_x_offset += 10;
-		mysterious_tab_x_offset += 10;
-		tab_y_offset += 10;
-		close_button_x += 10;
-		close_button_y += 10;
-		help_button_x += 10;
-		help_button_y += 10;
-	}
-
-
-	switch (g_eRaceInterface)
-	{
-	case RACE_SLAYER:
-		m_image_btn.Open(SPK_PERSNALSHOP_SLAYER);
-		break;
-
-	case RACE_VAMPIRE:
-		m_image_btn.Open(SPK_PERSNALSHOP_VAMPIRE);
-		break;
-
-	case RACE_OUSTERS:
-		m_image_btn.Open(SPK_PERSNALSHOP_OUSTERS);
-		break;
-	}
+	Set(10, 30, 352, 517);
 
 	// set button
 	m_pC_button_group = new ButtonGroup(this);
 
 	if (gC_vs_ui.inventory_mode != 2)
 	{
-		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(close_button_x - 250, close_button_y - 27, m_image_btn.GetWidth(INPUT_MESSAGE), m_image_btn.GetHeight(INPUT_MESSAGE), WRITE_MESSAGE, this, C_VS_UI_PERSNALSHOP::INPUT_MESSAGE));
-		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(close_button_x - 150, close_button_y - 27, m_image_btn.GetWidth(INPUT_MESSAGE), m_image_btn.GetHeight(INPUT_MESSAGE), OK_ID, this, C_VS_UI_PERSNALSHOP::SHOP_OPEN_MESSAGE));
+		const int button_w = m_image_btn.GetWidth(INPUT_MESSAGE);
+		const int button_h = m_image_btn.GetHeight(INPUT_MESSAGE);
 
-		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(close_button_x - 60, close_button_y - 27, m_image_btn.GetWidth(INPUT_MESSAGE), m_image_btn.GetHeight(INPUT_MESSAGE), SHOP_CLOSE_ID, this, C_VS_UI_PERSNALSHOP::SHOP_CLOSE_MESSAGE));
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(store_button_x[0], store_button_y, button_w, button_h, WRITE_MESSAGE, this, C_VS_UI_PERSNALSHOP::INPUT_MESSAGE));
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(store_button_x[1], store_button_y, button_w, button_h, OK_ID, this, C_VS_UI_PERSNALSHOP::SHOP_OPEN_MESSAGE));
+		m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(store_button_x[2], store_button_y, button_w, button_h, SHOP_CLOSE_ID, this, C_VS_UI_PERSNALSHOP::SHOP_CLOSE_MESSAGE));
 	}
-	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(close_button_x, close_button_y + 2, gpC_global_resource->m_pC_assemble_box_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE), gpC_global_resource->m_pC_assemble_box_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE), CANCEL_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE));
+
+	C_SPRITE_PACK* p_button_spk = gpC_global_resource->m_pC_assemble_box_button_renewal_spk;
+	m_pC_button_group->Add(new C_VS_UI_EVENT_BUTTON(close_button_x, close_button_y, p_button_spk->GetWidth(C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE), p_button_spk->GetHeight(C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE), CANCEL_ID, this, C_GLOBAL_RESOURCE::AB_BUTTON_CLOSE));
 
 	m_pC_dialog_remove_confirm = NULL;
 
@@ -1131,11 +1082,11 @@ void C_VS_UI_PERSNALSHOP::Show()
 
 	if (gpC_base->m_p_DDSurface_back->Lock())
 	{
-		gpC_global_resource->DrawDialogLocked(x, y, w, h);
-		m_image_spk.BltLocked(x + GetSlotX(0), y + GetSlotY(0), MAIN_WINDOW);
-		m_image_spk.BltLocked(x + GetSlotX(SLOT_X_COUNT), y + GetSlotY(SLOT_X_COUNT), MAIN_WINDOW);
-		m_image_spk.BltLocked(x + GetSlotX(SLOT_X_COUNT * 2), y + GetSlotY(SLOT_X_COUNT * 2), MAIN_WINDOW);
-		m_image_spk.BltLocked(x + GetSlotX(SLOT_X_COUNT * 3), y + GetSlotY(SLOT_X_COUNT * 3), MAIN_WINDOW);
+		gpC_global_resource->DrawDialogRenewalLocked(x, y, w, h, C_GLOBAL_RESOURCE::RENEWAL_TITLE_BAR_H);
+		for (int row = 0; row < SLOT_Y_COUNT; row++)
+		{
+			gpC_global_resource->m_pC_renewal_widget_spk->BltLocked(x + GetSlotX(row * SLOT_X_COUNT), y + GetSlotY(row * SLOT_X_COUNT), C_GLOBAL_RESOURCE::RW_SHELF);
+		}
 
 		//		gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x+m_money_button_offset_x+25, y+m_money_button_offset_y, C_GLOBAL_RESOURCE::AB_MONEY_BAR);
 		m_pPersnalShop->SetCurrent(0);
@@ -1289,6 +1240,8 @@ void C_VS_UI_PERSNALSHOP::Show()
 	char sz_temp[10];
 	g_FL2_GetDC();
 
+	gpC_global_resource->DrawRenewalTitle(x, y, (*g_pGameStringTable)[UI_STRING_MESSAGE_PERSONAL_STORE].GetString());
+
 	COLORREF markColor = RGB(220, 220, 220);//RGB(140, 140, 255);
 	for (int i = 0; i < len; i++)
 	{
@@ -1431,15 +1384,16 @@ void C_VS_UI_PERSNALSHOP::ShowButtonWidget(C_VS_UI_EVENT_BUTTON* p_button)
 
 	if (p_button->GetID() == CANCEL_ID)
 	{
+		C_SPRITE_PACK* p_button_spk = gpC_global_resource->m_pC_assemble_box_button_renewal_spk;
 		if (p_button->GetFocusState())
 		{
 			if (p_button->GetPressState())
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET);
+				p_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_PUSHED_OFFSET);
 			else
-				gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET);
+				p_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index + C_GLOBAL_RESOURCE::AB_BUTTON_HILIGHTED_OFFSET);
 		}
 		else
-			gpC_global_resource->m_pC_assemble_box_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
+			p_button_spk->BltLocked(x + p_button->x, y + p_button->y, p_button->m_image_index);
 	}
 	//	else if(p_button->GetID() < m_pPersnalShop->GetSize())
 	//	{

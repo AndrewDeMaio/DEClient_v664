@@ -381,6 +381,8 @@
 #define SPK_ASSEMBLE_BOX_BUTTON_OUSTERS	_ROOT"spk\\AssembleMessageBoxButtonOusters.spk"
 #define SPK_ASSEMBLE_BOX_RENEWAL		_ROOT"spk\\AssembleMessageBoxRenewal.spk"
 #define SPK_ASSEMBLE_BOX_BUTTON_RENEWAL	_ROOT"spk\\AssembleMessageBoxButtonRenewal.spk"
+#define SPK_RENEWAL_WIDGET				_ROOT"spk\\RenewalWidget.spk"
+#define SPK_PERSONAL_SHOP_RENEWAL		_ROOT"spk\\PersonalShopRenewal.spk"
 #define SPK_OUSTERS_GAMEMENU			_ROOT"spk\\GameMenuOusters.spk"
 #define SPK_OPTION_OUSTERS				_ROOT"spk\\OptionOusters.spk"
 #define SPK_OUSTERS_MAIN				_ROOT"spk\\MainOusters.spk"

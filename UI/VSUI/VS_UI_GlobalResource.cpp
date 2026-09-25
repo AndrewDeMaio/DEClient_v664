@@ -31,6 +31,7 @@ C_GLOBAL_RESOURCE::C_GLOBAL_RESOURCE()
 	m_pC_assemble_box_button_spk = NULL;
 	m_pC_assemble_box_renewal_spk = NULL;
 	m_pC_assemble_box_button_renewal_spk = NULL;
+	m_pC_renewal_widget_spk = NULL;
 //	m_pC_assemble_box_etc_spk = NULL;
 	m_pC_scroll_bar_spk = NULL;
 	m_pC_box_spk = NULL;
@@ -68,6 +69,7 @@ void C_GLOBAL_RESOURCE::LoadAssemble()
 	m_pC_common_button_spk	= new C_SPRITE_PACK(SPK_COMMON_BUTTON);
 	m_pC_assemble_box_renewal_spk = new C_SPRITE_PACK(SPK_ASSEMBLE_BOX_RENEWAL);
 	m_pC_assemble_box_button_renewal_spk = new C_SPRITE_PACK(SPK_ASSEMBLE_BOX_BUTTON_RENEWAL);
+	m_pC_renewal_widget_spk = new C_SPRITE_PACK(SPK_RENEWAL_WIDGET);
 
 	switch(g_eRaceInterface)
 	{
@@ -104,6 +106,7 @@ void C_GLOBAL_RESOURCE::FreeAssemble()
 	DeleteNew(m_pC_assemble_box_button_spk);
 	DeleteNew(m_pC_assemble_box_renewal_spk);
 	DeleteNew(m_pC_assemble_box_button_renewal_spk);
+	DeleteNew(m_pC_renewal_widget_spk);
 	DeleteNew(m_pC_info_spk);
 	DeleteNew(m_pC_common_button_spk);
 	
@@ -540,6 +543,32 @@ void C_GLOBAL_RESOURCE::DrawRenewalButtonLabel(int x, int y, int w, int h, const
 	sz_label, pi, color);
 	if (bGetDC)
 		g_FL2_ReleaseDC();
+}
+
+//-----------------------------------------------------------------------------
+// DrawRenewalTitle
+//
+// A renewal window's title, in its RENEWAL_TITLE_BAR_H bar. Outside a lock.
+//-----------------------------------------------------------------------------
+void C_GLOBAL_RESOURCE::DrawRenewalTitle(int x, int y, const char* sz_title)
+{
+	const int title_h = 16;
+	const bool bGetDC = g_FL2_GetDC();
+	g_PrintColorStr(x + 12, y + (RENEWAL_TITLE_BAR_H - title_h) / 2, sz_title, gpC_base->m_desc_menu_pi, RGB_WHITE);
+	if (bGetDC)
+		g_FL2_ReleaseDC();
+}
+
+//-----------------------------------------------------------------------------
+// BltRenewalCloseLocked
+//
+// The title bar X, in its button state.
+//-----------------------------------------------------------------------------
+void C_GLOBAL_RESOURCE::BltRenewalCloseLocked(int x, int y, bool focused, bool pushed)
+{
+	if (m_pC_renewal_widget_spk == NULL || m_pC_renewal_widget_spk->GetSize() <= RW_CLOSE + 2)
+		return;
+	m_pC_renewal_widget_spk->BltLocked(x, y, RW_CLOSE + (focused ? (pushed ? 2 : 1) : 0));
 }
 
 //

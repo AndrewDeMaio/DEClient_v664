@@ -332,6 +332,10 @@ class MPlayer : public MCreatureWear, public MRequestMode {
 		// 안전지대에 있나?
 		//----------------------------------------------------------
 		BOOL	IsInSafeSector() const;
+
+		// In a sector marked safe for this race - the minimap's green area.
+		// Unlike IsInSafeSector this ignores a zone that is safe throughout.
+		bool	IsInSectorSafeZone() const;
 		
 		//----------------------------------------------------------
 		// 살기/죽기
